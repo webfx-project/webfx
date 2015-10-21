@@ -1,12 +1,12 @@
 # Naga Core
 
-This is the main repository of the naga project and the core of the [naga stack][naga-stack-repo]. 
+This is the main repository of the Naga project and the core of the [Naga stack][naga-stack-repo]. 
 
-## The naga project
+## The Naga project
 
-The naga project is a set of components for building cross-platform backend and frontend applications in java (supported platforms: JavaSE, Web, Android and iOS for the client & Vert.x, Akka, Node.js or Servlet for the server). Its main focus is on the non UI part. It provides all the plumbing to bring the data from the database to the application and prepare its rendering for the platform user interface. For example, it can load the data and transform it into a set of JavaFX properties, ready to be displayed in a backend JavaFX table. Server push is supported, so applications can always display up-to-date data without the need to refresh (even for the web). Some helpers are provided to facilitate the data binding with some UI toolkits.
+The Naga project is a set of components for building cross-platform backend and frontend applications in java (supported platforms: JavaSE, Web, Android and iOS for the client & Vert.x, Akka, Node.js or Servlet for the server). Its main focus is on the non UI part. It provides all the plumbing to bring the data from the database to the application and prepare its rendering for the platform user interface. For example, it can load the data and transform it into a set of JavaFX properties, ready to be displayed in a backend JavaFX table. Server push is supported, so applications can always display up-to-date data without the need to refresh (even for the web). Some helpers are provided to facilitate the data binding with some UI toolkits.
 
-## The naga core 
+## The Naga core 
 
 This repository contains the java code of the core for both the client and the database microservice. SPI are provided to port it in different environments and platforms. 
 
@@ -14,29 +14,35 @@ The code has been carefully written in a way that it can be transpiled from Java
 
 ## Features
 
-The features have been chosen to build fast, safe, powerful, scalable and upgradable applications. 
+The features have been chosen to build fast, safe, powerful, upgradable, scalable & long-term applications. 
 
 * Speed & comfort
 	* Client query cache with differential server push (automatic refresh)
-	* LAN Proxy server for backend full speed access
-	* Archive/live database split
+	* Archive/live database split (for keeping a fast lightweight live database)
 	* In-memory microservice database cache
+	* LAN Proxy server for backend full speed access
 	* Offline client (embed database)
 * Safety
-	* Fine users/roles/pages/actions/scope security model
-	* Database history
+	* Fine users/roles/pages/actions/scopes security model
+	* Database history (event sourcing)
 	* Database undo
 	* Remote hot backup (database replication)
 * Power
 	* Dynamic filters
 	* Dynamic groups
 	* Dynamic alerts
-* Scalability
-	* reactive microservice architecture
 * Upgradability
 	* Hot model redeploy with automatic database schema update
 	* Hot model refactoring support
  	* Automatic update (for JavaSE applications)
+* Scalability
+	* Reactive microservice architecture
+* Long-term
+	* Clear separation bewteen what to display (non UI) and how to display (UI)
+	* Built-in features that don't rely on the UI toolkit
+		* i18n
+		* Data sorting
+	* Easy migration from one UI toolkit to another 
 
 For more information, please visit the [website][naga-website].
 
