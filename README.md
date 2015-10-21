@@ -1,14 +1,14 @@
 # Naga Core
 
-This is the main repository of the naga project (please visit the [naga stack][naga-stack-repo] if you want an overview of all other repositories). 
+This is the main repository of the naga project (please visit the [naga stack][naga-stack-repo] to have an overview of all other repositories). 
 
 ## The naga project
 
-The naga project is a set of components for building cross-platform backend and frontend applications in java (supported platforms: JavaSE, Web, Android and iOS for the client & Vert.x, Akka, Node.js or Servlet for the server). Its main focus is on the non UI part. It provides all the plumbing to bring the data from the database to the application and prepare its rendering for the user interface. For example, it can load the data and transform it into a set of JavaFX properties, ready to be displayed in a JavaFX table for the backend application. Server push is supported, so all applications can always display up-to-date data without the need to refresh. Some helpers are provided to facilitate the data binding with some UI toolkits.
+The naga project is a set of components for building cross-platform backend and frontend applications in java (supported platforms: JavaSE, Web, Android and iOS for the client & Vert.x, Akka, Node.js or Servlet for the server). Its main focus is on the non UI part. It provides all the plumbing to bring the data from the database to the application and prepare its rendering for the user interface. For example, it can load the data and transform it into a set of JavaFX properties, ready to be displayed in a JavaFX table for a backend application. Server push is supported, so all applications can always display up-to-date data without the need to refresh. Some helpers are provided to facilitate the data binding with some UI toolkits.
 
 ## The naga core 
 
-This repository contains the java code of the core for both the client application and the database microservice. Since it's a core, it can't be used as is but SPI are provided to port it in different environments and platforms. 
+This repository contains the java code of the core for both the client application and the database microservice. SPI are provided to port it in different environments and platforms. 
 
 The code has been carefully written in a way that it can be transpiled from Java to Javascript (through [GWT][gwt-website] or [TeaVM][teavm-website]) and Objective-C (through [J2ObjC][j2objc-website]).  So the client code can be used as is for JavaSE and Android ports or transpiled for web and iOS ports. In the same way the microservice code can be used as is for Java based servers ports or transpiled for Javascript based servers ports. You can see the different ports provided for both the client and the microservice as part of the [Naga stack][naga-stack-repo].  
 
@@ -18,12 +18,12 @@ The features have been chosen with the idea to build fast, safe, powerful, scala
 
 * Speed & comfort
 	* Client query cache with differential server push (automatic refresh)
-	* Proxy server for backend LAN speed access
+	* LAN Proxy server for backend full speed access
 	* Archive/live database split
-	* In-memory database cache
+	* In-memory microservice database cache
 	* Offline client (embed database)
 * Safety
-	* Fine users/roles/actions/scope security model
+	* Fine users/roles/pages/actions/scope security model
 	* Database history
 	* Database undo
 	* Remote hot backup (database replication)
@@ -32,10 +32,10 @@ The features have been chosen with the idea to build fast, safe, powerful, scala
 	* Dynamic groups
 	* Dynamic alerts
 * Scalability
-	* reactive microservice
+	* reactive microservice architecture
 * Upgradability
-	* Hot model  with automatic database schema update
-	* Model refactoring support
+	* Hot model redeploy with automatic database schema update
+	* Hot model refactoring support
  	* Automatic update (for JavaSE applications)
 
 For more information, please visit the [website][naga-website].
