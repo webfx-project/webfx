@@ -10,7 +10,7 @@ The Naga project is a set of components for building cross-platform backend and 
 
 This repository contains the java code of the core for both the client and the database microservice. SPI are provided to port it in different environments and platforms. 
 
-The code has been carefully written in a way that it can be transpiled from Java to Javascript (through [GWT][gwt-website] or [TeaVM][teavm-website]) and Objective-C (through [J2ObjC][j2objc-website]).  So the client code can be used as is for JavaSE and Android ports or transpiled for web and iOS ports. In the same way the microservice code can be used as is for Java based servers ports or transpiled for Javascript based servers ports. You can see the different ports provided for both the client and the microservice as part of the [Naga stack][naga-stack-repo].  
+The code has been carefully written in a way that it can be transpiled from Java to Javascript (through [GWT][gwt-website] or [TeaVM][teavm-website]) and Objective-C (through [J2ObjC][j2objc-website] or [XMLVM][xmlvm-website]).  So the client code can be used as is for JavaSE and Android ports or transpiled for web and iOS ports. In the same way the microservice code can be used as is for Java based servers ports or transpiled for Javascript based servers ports. You can see the different ports provided for both the client and the microservice as part of the [Naga stack][naga-stack-repo].  
 
 ## Features
 
@@ -52,6 +52,7 @@ For more information, please visit the [website][naga-website].
 [naga-browser-repo]: https://github.com/naga-project/naga-browser
 [naga-android-repo]: https://github.com/naga-project/naga-android
 [naga-ios-repo]: https://github.com/naga-project/naga-ios
+[naga-cn1-repo]: https://github.com/naga-project/naga-ios
 [naga-vertx-repo]: https://github.com/naga-project/naga-vertx
 [naga-akka-repo]: https://github.com/naga-project/naga-akka
 [naga-nodejs-repo]: https://github.com/naga-project/naga-nodejs
@@ -70,6 +71,8 @@ For more information, please visit the [website][naga-website].
 [gwt-website]: http://www.gwtproject.org
 [teavm-website]: http://teavm.org
 [j2objc-website]: http://j2objc.org
+[xmlvm-website]: http://xmlvm.org
+[codenameone-website]: https://www.codenameone.com
 [vertx-website]: http://vertx.io
 [akka-website]: http://akka.io
 [nodejs-website]: http://nodejs.org
