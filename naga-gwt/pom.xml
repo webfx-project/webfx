@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>naga</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>naga-gwt</artifactId>
+    <packaging>war</packaging>
+
+    <properties>
+        <gwt.version>2.7.0</gwt.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>naga</groupId>
+            <artifactId>naga-core</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <version>${gwt.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!--plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>naga</groupId>
+                            <artifactId>naga-core</artifactId>
+                            <version>0.1.0-SNAPSHOT</version>
+                            <type>jar</type>
+                            <overWrite>true</overWrite>
+                        </artifactItem>
+                    </artifactItems>
+                    <outputDirectory> ${project.build.outputDirectory}</outputDirectory>
+                    <overWriteReleases>true</overWriteReleases>
+                    <overWriteSnapshots>true</overWriteSnapshots>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin-->
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.version}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <module>naga-gwt</module>
+                            <compileSourcesArtifacts>
+                                <compileSourcesArtifact>naga:naga-core</compileSourcesArtifact>
+                            </compileSourcesArtifacts>
+                        </configuration>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

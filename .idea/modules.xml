@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/naga.iml" filepath="$PROJECT_DIR$/naga.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-core/naga-core.iml" filepath="$PROJECT_DIR$/naga-core/naga-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-gwt/naga-gwt.iml" filepath="$PROJECT_DIR$/naga-gwt/naga-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-j2objc/naga-j2objc.iml" filepath="$PROJECT_DIR$/naga-j2objc/naga-j2objc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-jre/naga-jre.iml" filepath="$PROJECT_DIR$/naga-jre/naga-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-teavm/naga-teavm.iml" filepath="$PROJECT_DIR$/naga-teavm/naga-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-vertx3/naga-vertx3.iml" filepath="$PROJECT_DIR$/naga-vertx3/naga-vertx3.iml" />
+    </modules>
+  </component>
+</project>

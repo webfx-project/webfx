@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>naga</groupId>
+        <artifactId>naga</artifactId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>naga-j2objc</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>naga</groupId>
+            <artifactId>naga-core</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <j2objc.version>0.9.8.2.1</j2objc.version>
+
+        <j2objc.parent>${project.build.directory}</j2objc.parent>
+        <j2objc.folderName>j2objc-${j2objc.version}</j2objc.folderName>
+        <j2objc.home>${j2objc.parent}/${j2objc.folderName}</j2objc.home>
+        <j2objc.jar>${j2objc.home}/lib/j2objc.jar</j2objc.jar>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>install-j2objc</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <file>
+                    <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
+                    <missing>target/j2objc-0.9.8.2.1/lib/j2objc.jar</missing>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.googlecode.maven-download-plugin</groupId>
+                        <artifactId>download-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>download-j2objc</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>wget</goal>
+                                </goals>
+                                <configuration>
+                                    <url>https://github.com/google/j2objc/releases/download/${j2objc.version}/j2objc-${j2objc.version}.zip</url>
+                                    <unpack>true</unpack>
+                                    <overwrite>false</overwrite>
+                                    <outputDirectory>${j2objc.parent}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+    <plugins>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+                <execution>
+                    <id>src-dependencies</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <!-- use copy-dependencies instead if you don't want to explode the sources -->
+                        <goal>unpack-dependencies</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>sources</classifier>
+                        <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                        <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.4.0</version>
+            <inherited>false</inherited>
+            <executions>
+                <execution>
+                    <id>run-j2objc</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>exec</goal>
+                    </goals>
+                    <configuration>
+                        <executable>java</executable>
+                        <arguments>
+                            <argument>-jar</argument>
+                            <argument>"${j2objc.jar}"</argument>
+                            <argument>"-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar"</argument>
+                            <argument>-sourcepath</argument>
+                            <argument>"${basedir}/src/main/java${path.separator}${project.build.directory}/sources"</argument>
+                            <argument>-d</argument>
+                            <argument>"${project.build.directory}/generated/objc"</argument>
+                            <argument>ObjCApplication.java</argument>
+                        </arguments>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!--plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.3</version>
+            <configuration>
+                <fork>true</fork>
+                <compilerId>j2objc</compilerId>
+                <executable>${J2OBJC_DISTRIBUTION}/j2objc</executable>
+                <compilerArguments>
+                    <use-arc/>
+                    <x>objective-c</x>
+                    <sourcepath>src/main/java</sourcepath>
+                </compilerArguments>
+            </configuration>
+            <dependencies>
+                <dependency>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-compiler-j2objc</artifactId>
+                    <version>2.6</version>
+                </dependency>
+            </dependencies>
+        </plugin-->
+
+    </plugins>
+    </build>
+</project>
