@@ -33,21 +33,21 @@ An overview of the different repositories and modules under the [naga-project][n
 
 [naga-home]: https://github.com/naga-project
 [naga-repo]: https://github.com/naga-project/naga
-[naga-jre-repo]: https://github.com/naga-project/naga/naga-jre
-[naga-teavm-repo]: https://github.com/naga-project/naga/naga-teavm
-[naga-gwt-repo]: https://github.com/naga-project/naga/naga-gwt
-[naga-android-repo]: https://github.com/naga-project/naga/naga-android
-[naga-j2objc-repo]: https://github.com/naga-project/naga/naga-j2objc
-[naga-cn1-repo]: https://github.com/naga-project/naga/naga-cn1
-[naga-vertx-repo]: https://github.com/naga-project/naga/naga-vertx
-[naga-akka-repo]: https://github.com/naga-project/naga/naga-akka
-[naga-nodejs-repo]: https://github.com/naga-project/naga/naga-nodejs
-[naga-ui-javafx-repo]: https://github.com/naga-project/naga/naga-ui-javafx
-[naga-ui-gwt-repo]: https://github.com/naga-project/naga/naga-ui-gwt
-[naga-ui-angular-repo]: https://github.com/naga-project/naga/naga-ui-angular
-[naga-ui-zebra-repo]: https://github.com/naga-project/naga/naga-ui-zebra
-[naga-project.github.io-repo]: https://github.com/naga-project/naga-project.github.io
-[naga-examples-repo]: https://github.com/naga-project/naga-examples
+[naga-jre-repo]: https://github.com/naga-project/naga/blob/master/naga-jre
+[naga-teavm-repo]: https://github.com/naga-project/naga/blob/master/naga-teavm
+[naga-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-gwt
+[naga-android-repo]: https://github.com/naga-project/naga/blob/master/naga-android
+[naga-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-j2objc
+[naga-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-cn1
+[naga-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-vertx
+[naga-akka-repo]: https://github.com/naga-project/naga/blob/master/naga-akka
+[naga-nodejs-repo]: https://github.com/naga-project/naga/blob/master/naga-nodejs
+[naga-ui-javafx-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-javafx
+[naga-ui-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-gwt
+[naga-ui-angular-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-angular
+[naga-ui-zebra-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-zebra
+[naga-project.github.io-repo]: https://github.com/naga-project/blob/master/naga-project.github.io
+[naga-examples-repo]: https://github.com/naga-project/naga/blob/master/naga-examples
 [naga-website]: http://naga-project.github.io
 
 [gwt-website]: http://www.gwtproject.org
