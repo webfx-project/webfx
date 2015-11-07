@@ -46,9 +46,10 @@ An overview of the different repositories and modules under the [naga-project][n
 [naga-ui-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-gwt
 [naga-ui-angular-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-angular
 [naga-ui-zebra-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-zebra
-[naga-project.github.io-repo]: https://github.com/naga-project/blob/master/naga-project.github.io
 [naga-examples-repo]: https://github.com/naga-project/naga/blob/master/naga-examples
+[naga-project.github.io-repo]: https://github.com/naga-project/naga-project.github.io
 [naga-website]: http://naga-project.github.io
+[naga-stack-md]: https://github.com/naga-project/naga/blob/master/STACK.md
 
 [gwt-website]: http://www.gwtproject.org
 [teavm-website]: http://teavm.org
