@@ -1,6 +1,6 @@
 # Naga Core
 
-This is the main repository of the Naga project and the core of the [Naga stack][naga-stack-repo]. 
+This is the main repository of the Naga project and the core of the [Naga stack][naga-stack-md]. 
 
 ## The Naga project
 
@@ -48,26 +48,24 @@ For more information, please visit the [website][naga-website].
 
 [naga-home]: https://github.com/naga-project
 [naga-repo]: https://github.com/naga-project/naga
-[naga-jre-repo]: https://github.com/naga-project/naga-jre
-[naga-browser-repo]: https://github.com/naga-project/naga-browser
-[naga-android-repo]: https://github.com/naga-project/naga-android
-[naga-ios-repo]: https://github.com/naga-project/naga-ios
-[naga-cn1-repo]: https://github.com/naga-project/naga-ios
-[naga-vertx-repo]: https://github.com/naga-project/naga-vertx
-[naga-akka-repo]: https://github.com/naga-project/naga-akka
-[naga-nodejs-repo]: https://github.com/naga-project/naga-nodejs
-[naga-ui-javafx-repo]: https://github.com/naga-project/naga-ui-javafx
-[naga-ui-gwt-repo]: https://github.com/naga-project/naga-ui-gwt
-[naga-ui-angular-repo]: https://github.com/naga-project/naga-ui-angular
-[naga-ui-zebra-repo]: https://github.com/naga-project/naga-ui-zebra
+[naga-jre-repo]: https://github.com/naga-project/naga/naga-jre
+[naga-teavm-repo]: https://github.com/naga-project/naga/naga-teavm
+[naga-gwt-repo]: https://github.com/naga-project/naga/naga-gwt
+[naga-android-repo]: https://github.com/naga-project/naga/naga-android
+[naga-j2objc-repo]: https://github.com/naga-project/naga/naga-j2objc
+[naga-cn1-repo]: https://github.com/naga-project/naga/naga-cn1
+[naga-vertx-repo]: https://github.com/naga-project/naga/naga-vertx
+[naga-akka-repo]: https://github.com/naga-project/naga/naga-akka
+[naga-nodejs-repo]: https://github.com/naga-project/naga/naga-nodejs
+[naga-ui-javafx-repo]: https://github.com/naga-project/naga/naga-ui-javafx
+[naga-ui-gwt-repo]: https://github.com/naga-project/naga/naga-ui-gwt
+[naga-ui-angular-repo]: https://github.com/naga-project/naga/naga-ui-angular
+[naga-ui-zebra-repo]: https://github.com/naga-project/naga/naga-ui-zebra
 [naga-project.github.io-repo]: https://github.com/naga-project/naga-project.github.io
-[naga-runtimes-repo]: https://github.com/naga-project/naga-runtimes
-[naga-bindings-repo]: https://github.com/naga-project/naga-bindings
 [naga-examples-repo]: https://github.com/naga-project/naga-examples
-[naga-tools-repo]: https://github.com/naga-project/naga-tools
-[naga-roadmap-repo]: https://github.com/naga-project/naga-roadmap
-[naga-stack-repo]: https://github.com/naga-project/naga-stack
 [naga-website]: http://naga-project.github.io
+[naga-stack-md]: https://github.com/naga-project/naga/STACK.md
+
 [gwt-website]: http://www.gwtproject.org
 [teavm-website]: http://teavm.org
 [j2objc-website]: http://j2objc.org

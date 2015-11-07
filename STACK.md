@@ -1,0 +1,60 @@
+# The Naga stack
+
+An overview of the different repositories and modules under the [naga-project][naga-home]:
+
+* [naga][naga-repo] - The naga core written in java
+* The naga client core ports 
+	* [naga-jre][naga-jre-repo] - The naga client core port for JavaSE
+	* Web ports - The naga client core ports for the browser 
+		* [naga-teavm][naga-teavm-repo] - transpiled to Javascript through [TeaVM][teavm-website] compiler 
+		* [naga-gwt][naga-gwt-repo] - transpiled to Javascript through [GWT][gwt-website] compiler
+	* Mobile ports 
+		* [naga-android][naga-android-repo] - The naga client core port for Android
+		* [naga-j2objc][naga-j2objc-repo] - The naga client core port for iOS (transpiled through [j2objc][j2objc-website] compiler)
+		* [naga-cn1][naga-cn1-repo] - The naga client core port for [Codename One][codenameone-website]
+* The naga microservice ports 
+	* [naga-vertx][naga-vertx-repo] - The naga miroservice port for Vert.x
+	* [naga-akka][naga-akka-repo] - The naga miroservice port for Akka
+	* [naga-nodejs][naga-nodejs-repo] - The naga miroservice port for Node.js
+* Data binding helpers for some UI toolkits
+	* JavaSE 
+		* [naga-ui-javafx][naga-ui-javafx-repo] - Bindings for JavaFX
+	* Browser
+		* [naga-ui-gwt][naga-ui-gwt-repo] - Bindings for GWT
+		* [naga-ui-angular][naga-ui-angular-repo] - Bindings for Angular
+		* [naga-ui-zebra][naga-ui-zebra-repo] - Bindings for Zebra
+* Tools for naga applications
+	* [naga-modeler]() - A schema modeler with export in the naga model json format
+	* [naga-designer]() - An activity designer to declare the queries and bindings with the user interface, also exported in json format.
+	* [naga-admin]() - A microservices & databases administration & monitoring tool
+- [naga-examples][naga-examples-repo] - Simple naga applications examples
+- [naga-project.github.io][naga-project.github.io-repo] - The naga project [website][naga-website] hosted on Github
+
+
+[naga-home]: https://github.com/naga-project
+[naga-repo]: https://github.com/naga-project/naga
+[naga-jre-repo]: https://github.com/naga-project/naga/naga-jre
+[naga-teavm-repo]: https://github.com/naga-project/naga/naga-teavm
+[naga-gwt-repo]: https://github.com/naga-project/naga/naga-gwt
+[naga-android-repo]: https://github.com/naga-project/naga/naga-android
+[naga-j2objc-repo]: https://github.com/naga-project/naga/naga-j2objc
+[naga-cn1-repo]: https://github.com/naga-project/naga/naga-cn1
+[naga-vertx-repo]: https://github.com/naga-project/naga/naga-vertx
+[naga-akka-repo]: https://github.com/naga-project/naga/naga-akka
+[naga-nodejs-repo]: https://github.com/naga-project/naga/naga-nodejs
+[naga-ui-javafx-repo]: https://github.com/naga-project/naga/naga-ui-javafx
+[naga-ui-gwt-repo]: https://github.com/naga-project/naga/naga-ui-gwt
+[naga-ui-angular-repo]: https://github.com/naga-project/naga/naga-ui-angular
+[naga-ui-zebra-repo]: https://github.com/naga-project/naga/naga-ui-zebra
+[naga-project.github.io-repo]: https://github.com/naga-project/naga-project.github.io
+[naga-examples-repo]: https://github.com/naga-project/naga-examples
+[naga-website]: http://naga-project.github.io
+
+[gwt-website]: http://www.gwtproject.org
+[teavm-website]: http://teavm.org
+[j2objc-website]: http://j2objc.org
+[xmlvm-website]: http://xmlvm.org
+[codenameone-website]: https://www.codenameone.com
+[vertx-website]: http://vertx.io
+[akka-website]: http://akka.io
+[nodejs-website]: http://nodejs.org
