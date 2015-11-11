@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/naga-j2objc/naga-j2objc.iml" filepath="$PROJECT_DIR$/naga-j2objc/naga-j2objc.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-jre/naga-jre.iml" filepath="$PROJECT_DIR$/naga-jre/naga-jre.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-teavm/naga-teavm.iml" filepath="$PROJECT_DIR$/naga-teavm/naga-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-vertx/naga-vertx.iml" filepath="$PROJECT_DIR$/naga-vertx/naga-vertx.iml" />
     </modules>
   </component>
 </project>

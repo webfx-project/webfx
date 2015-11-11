@@ -12,5 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.0" level="project" />
   </component>
 </module>

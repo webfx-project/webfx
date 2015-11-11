@@ -22,6 +22,7 @@
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
         <module>naga-examples</module>
+        <module>naga-vertx</module>
     </modules>
 
     <build>

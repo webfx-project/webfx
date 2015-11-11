@@ -113,6 +113,13 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
       </profile>
+      <profile default="false" name="Annotation profile for naga-vertx" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="naga-vertx" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="helloworld" target="1.8" />
@@ -133,6 +140,7 @@
       <module name="naga-teavm" target="1.8" />
       <module name="naga-teavm-compiled" target="1.8" />
       <module name="naga-teavm-source" target="1.5" />
+      <module name="naga-vertx" target="1.8" />
       <module name="naga-vertx3" target="1.5" />
       <module name="naga-xmlvm" target="1.5" />
     </bytecodeTargetLevel>
