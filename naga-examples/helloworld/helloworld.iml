@@ -4,10 +4,6 @@
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/../helloworld-toolchain/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../helloworld-toolchain/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../helloworld-toolchain/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/../helloworld-toolchain/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
