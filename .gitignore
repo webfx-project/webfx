@@ -54,3 +54,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### Vertx
+.vertx

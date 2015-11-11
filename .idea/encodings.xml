@@ -3,11 +3,18 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/helloworld" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-j2objc" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-jre" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-teavm" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-j2objc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-jre" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-teavm" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-vertx3" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-vertx" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

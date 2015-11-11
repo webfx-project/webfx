@@ -21,6 +21,7 @@
         <module>naga-teavm</module>
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
+        <module>naga-examples</module>
     </modules>
 
     <build>

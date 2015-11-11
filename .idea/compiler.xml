@@ -66,11 +66,68 @@
         <processorPath useClasspath="true" />
         <module name="naga-j2objc" />
       </profile>
+      <profile default="false" name="Annotation profile for naga-helloworld-toolchain" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Annotation profile for helloworld-jre" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="helloworld-jre" />
+      </profile>
+      <profile default="false" name="Annotation profile for helloworld-logic" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="helloworld-logic" />
+      </profile>
+      <profile default="false" name="Annotation profile for helloworld-teavm" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="helloworld-teavm" />
+      </profile>
+      <profile default="false" name="Annotation profile for helloworld-gwt" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="helloworld-gwt" />
+      </profile>
+      <profile default="false" name="Annotation profile for helloworld-j2objc" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="helloworld-j2objc" />
+      </profile>
+      <profile default="false" name="Annotation profile for helloworld-android" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="helloworld" target="1.8" />
+      <module name="helloworld-android" target="1.8" />
+      <module name="helloworld-gwt" target="1.8" />
+      <module name="helloworld-j2objc" target="1.8" />
+      <module name="helloworld-jre" target="1.8" />
+      <module name="helloworld-logic" target="1.8" />
+      <module name="helloworld-teavm" target="1.8" />
+      <module name="helloworld-toolchain" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-core" target="1.8" />
+      <module name="naga-examples" target="1.8" />
       <module name="naga-gwt" target="1.8" />
+      <module name="naga-helloworld-toolchain" target="1.8" />
       <module name="naga-j2objc" target="1.8" />
       <module name="naga-jre" target="1.8" />
       <module name="naga-teavm" target="1.8" />
