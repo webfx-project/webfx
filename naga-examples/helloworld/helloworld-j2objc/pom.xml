@@ -102,7 +102,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>java</executable>
+                            <executable>${env.JAVA_HOME}/bin/java</executable>
                             <arguments>
                                 <argument>-jar</argument>
                                 <argument>"${j2objc.jar}"</argument>
