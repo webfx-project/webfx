@@ -108,12 +108,12 @@
                         <executable>${env.JAVA_HOME}/bin/java</executable>
                         <arguments>
                             <argument>-jar</argument>
-                            <argument>"${j2objc.jar}"</argument>
-                            <argument>"-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar"</argument>
+                            <argument>${j2objc.jar}</argument>
+                            <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
                             <argument>-sourcepath</argument>
-                            <argument>"${basedir}/src/main/java${path.separator}${project.build.directory}/sources"</argument>
+                            <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
                             <argument>-d</argument>
-                            <argument>"${project.build.directory}/generated/objc"</argument>
+                            <argument>${project.build.directory}/generated/objc</argument>
                             <argument>ObjCApplication.java</argument>
                         </arguments>
                     </configuration>
