@@ -11,12 +11,29 @@
 
     <artifactId>naga-javaplat</artifactId>
 
+    <properties>
+        <jackson.version>2.6.1</jackson.version>
+    </properties>
+
+
     <dependencies>
 
         <dependency>
             <groupId>naga</groupId>
             <artifactId>naga-core</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.3.0</version>
         </dependency>
 
     </dependencies>

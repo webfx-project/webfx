@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * @author Bruno Salmon
  */
 
-public class GWTApplication implements EntryPoint {
+public class GwtApplication implements EntryPoint {
 
     public void onModuleLoad() {
         Logger logger = Logger.getLogger("NagaLogger");

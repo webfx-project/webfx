@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public class HelloWorldGWTApplication implements EntryPoint {
+public class HelloWorldGwtApplication implements EntryPoint {
 
     public void onModuleLoad() {
         // Calling the application logic

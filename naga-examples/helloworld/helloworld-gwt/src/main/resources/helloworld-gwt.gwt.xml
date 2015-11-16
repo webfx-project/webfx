@@ -19,7 +19,7 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
     <!-- Specify the app entry point class.                         -->
-    <entry-point class='helloworld.HelloWorldGWTApplication'/>
+    <entry-point class='helloworld.HelloWorldGwtApplication'/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path='helloworld'/>

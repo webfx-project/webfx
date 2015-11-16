@@ -21,7 +21,7 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
     <!-- Specify the app entry point class.                         -->
-    <entry-point class='naga.gwt.client.GWTApplication'/>
+    <entry-point class='naga.gwt.client.GwtApplication'/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path='naga'/>

@@ -70,7 +70,7 @@
                             <targetDirectory>${project.build.directory}/generated/js/teavm</targetDirectory>
 
                             <!-- Main class, containing static void main(String[]) -->
-                            <mainClass>naga.teavm.TeaVMApplication</mainClass>
+                            <mainClass>naga.teavm.TeaVmApplication</mainClass>
 
                             <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
                             <runtime>SEPARATE</runtime>

@@ -1,0 +1,78 @@
+/*
+ * Note: this code is a fork of Goodow realtime-channel project https://github.com/goodow/realtime-channel
+ */
+
+/*
+ * Copyright 2013 Goodow.com
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package naga.core.spi.bus;
+
+import naga.core.util.async.Handler;
+import com.google.gwt.core.client.js.JsNoExport;
+import com.google.gwt.core.client.js.JsType;
+
+/**
+ * Represents a message on the event bus.
+ *
+ * @author 田传武 (aka larrytin) - author of Goodow realtime-channel project
+ * @author Bruno Salmon - fork, refactor & update for the naga project
+ *         <p>
+ *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/Message.java">Original Goodow class</a>
+ */
+@JsType
+public interface Message<T> {
+    /**
+     * The body of the message
+     */
+    T body();
+
+    /**
+     * Signal that processing of this message failed. If the message was sent specifying a result
+     * handler the handler will be called with a failure corresponding to the failure code and message
+     * specified here
+     *
+     * @param failureCode A failure code to pass back to the sender
+     * @param msg         A message to pass back to the sender
+     */
+    void fail(int failureCode, String msg);
+
+    /**
+     * @return Whether this message originated in the local session.
+     */
+    boolean isLocal();
+
+    /**
+     * Reply to this message. If the message was sent specifying a reply handler, that handler will be
+     * called when it has received a reply. If the message wasn't sent specifying a receipt handler
+     * this method does nothing.
+     */
+    @JsNoExport
+    void reply(Object msg);
+
+    /**
+     * The same as {@code reply(Object msg)} but you can specify handler for the reply - i.e. to
+     * receive the reply to the reply.
+     */
+    @SuppressWarnings("hiding")
+    <T> void reply(Object msg, Handler<Message<T>> replyHandler);
+
+    /**
+     * The reply topic (if any)
+     */
+    String replyTopic();
+
+    /**
+     * The topic the message was sent to
+     */
+    String topic();
+}
