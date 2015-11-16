@@ -11,8 +11,21 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/naga-core/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-gwt/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-j2objc/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-jre/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-teavm/pom.xml" />
         <option value="$PROJECT_DIR$/naga-examples/naga-helloworld-toolchain/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-examples/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-gwt/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-j2objc/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-jre/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-teavm/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-vertx/pom.xml" />
         <option value="$PROJECT_DIR$/naga-xmlvm/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </set>
     </option>
   </component>

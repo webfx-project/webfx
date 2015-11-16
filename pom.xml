@@ -17,12 +17,14 @@
 
     <modules>
         <module>naga-core</module>
+        <module>naga-android</module>
         <module>naga-jre</module>
         <module>naga-teavm</module>
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
         <module>naga-examples</module>
         <module>naga-vertx</module>
+        <module>naga-javaplat</module>
     </modules>
 
     <build>
