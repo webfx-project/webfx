@@ -11,10 +11,6 @@
 
     <artifactId>naga-core</artifactId>
 
-    <dependencies>
-
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>

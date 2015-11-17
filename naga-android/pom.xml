@@ -11,10 +11,6 @@
 
     <artifactId>naga-android</artifactId>
 
-    <properties>
-        <android.platform.version>4.1.1.4</android.platform.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -33,8 +29,6 @@
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
-            <version>${android.platform.version}</version>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>

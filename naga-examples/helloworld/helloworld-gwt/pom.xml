@@ -12,22 +12,17 @@
     <artifactId>helloworld-gwt</artifactId>
     <packaging>war</packaging>
 
-    <properties>
-        <gwt.version>2.7.0</gwt.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
             <groupId>naga</groupId>
             <artifactId>helloworld-logic</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
         </dependency>
 
     </dependencies>
