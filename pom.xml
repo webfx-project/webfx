@@ -10,34 +10,58 @@
 
     <packaging>pom</packaging>
 
-    <properties>
-        <java.version>1.8</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <teavm.version>0.4.0</teavm.version>
-        <gwt.version>2.7.0</gwt.version>
-        <j2objc.version>0.9.8.2.1</j2objc.version>
-        <android.platform.version>4.1.1.4</android.platform.version>
-        <jackson.version>2.6.1</jackson.version>
-        <javawebsocket.version>1.3.0</javawebsocket.version>
-        <vertx.version>3.1.0</vertx.version>
-
-    </properties>
-
     <modules>
         <module>naga-core</module>
-        <module>naga-android</module>
+        <module>naga-javaplat</module>
         <module>naga-jre</module>
+        <module>naga-android</module>
         <module>naga-teavm</module>
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
-        <module>naga-examples</module>
         <module>naga-vertx</module>
-        <module>naga-javaplat</module>
+        <module>naga-examples</module>
     </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- java and libraries versions -->
+        <java.version>1.8</java.version>
+
+        <javawebsocket.version>1.3.0</javawebsocket.version>
+        <jackson.version>2.6.1</jackson.version>
+        <android.platform.version>4.1.1.4</android.platform.version>
+        <teavm.version>0.4.0</teavm.version>
+        <gwt.version>2.7.0</gwt.version>
+        <j2objc.version>0.9.8.2.1</j2objc.version>
+        <vertx.version>3.1.0</vertx.version>
+
+        <!-- To Be Defined properties that any module has to override when using a transpiler plugin pre-configured in the <pluginManagement> section -->
+        <teavm.mainClass>TBD</teavm.mainClass>
+        <gwt.module>TBD</gwt.module>
+        <gwt.compileSourcesArtifact>TBD</gwt.compileSourcesArtifact>
+
+        <!-- properties used for j2objc install and execution -->
+        <j2objc.parent>${env.TEMP}</j2objc.parent>
+        <j2objc.folderName>j2objc-${j2objc.version}</j2objc.folderName>
+        <j2objc.home>${j2objc.parent}/${j2objc.folderName}</j2objc.home>
+        <j2objc.jar>${j2objc.home}/lib/j2objc.jar</j2objc.jar>
+    </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <artifactId>naga-core</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>naga-javaplat</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Emulator of Java class library for TeaVM -->
             <dependency>
@@ -95,7 +119,10 @@
     </dependencyManagement>
 
     <build>
-        <plugins>
+
+        <plugins> <!-- plugins listed here are run each time for each module !-->
+
+            <!-- Setting up the java compiler -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -105,7 +132,218 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
+
         </plugins>
+
+        <pluginManagement>
+            <plugins> <!-- plugins listed here are just pre-configured for a possible use in a module -->
+
+                <!-- Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.4</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- GWT plugin configuration -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <version>${gwt.version}</version>
+                    <executions>
+                        <execution>
+                            <configuration>
+                                <module>${gwt.module}</module>
+                                <compileSourcesArtifacts>
+                                    <compileSourcesArtifact>${gwt.compileSourcesArtifact}</compileSourcesArtifact>
+                                </compileSourcesArtifacts>
+                            </configuration>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- TeaVM plugin configuration -->
+                <plugin>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-maven-plugin</artifactId>
+                    <version>${teavm.version}</version>
+                    <dependencies>
+                        <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
+                        <dependency>
+                            <groupId>org.teavm</groupId>
+                            <artifactId>teavm-classlib</artifactId>
+                            <version>${teavm.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <phase>process-classes</phase>
+                            <configuration>
+                                <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
+                                <targetDirectory>${project.build.directory}/generated/js/teavm</targetDirectory>
+
+                                <!-- Main class, containing static void main(String[]) -->
+                                <mainClass>${teavm.mainClass}</mainClass>
+
+                                <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
+                                <runtime>SEPARATE</runtime>
+                                <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
+                                <minifying>false</minifying>
+                                <mainPageIncluded>true</mainPageIncluded>
+                                <!-- Whether TeaVM should produce debug information for its built-in debugger -->
+                                <debugInformationGenerated>true</debugInformationGenerated>
+                                <!-- Whether TeaVM should produce source maps file -->
+                                <sourceMapsGenerated>true</sourceMapsGenerated>
+                                <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
+                                <sourceFilesCopied>false</sourceFilesCopied>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+
+                <!-- Plugin to unpack dependencies with their source. This is required before calling j2objc -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.10</version>
+                    <executions>
+                        <execution>
+                            <id>src-dependencies</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <!-- use copy-dependencies instead if you don't want to explode the sources -->
+                                <goal>unpack-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <classifier>sources</classifier>
+                                <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                                <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.8</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <configuration>
+                                <target>
+                                    <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
+                                        <arg value="-jar"/>
+                                        <arg value="${j2objc.jar}"/>
+                                        <arg value="-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar"/>
+                                        <arg value="-sourcepath"/>
+                                        <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
+                                        <arg value="-d"/>
+                                        <arg value="${project.build.directory}/generated/objc"/>
+                                        <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
+                                        <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
+                                    </apply>
+                                </target>
+                            </configuration>
+                            <goals>
+                              <goal>run</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Failed attempt of writing a Maven only plugin: don't know how to iterate over all java source files -->
+                <!-- plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.4.0</version>
+                    <executions>
+                        <execution>
+                            <id>run-j2objc</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>${env.JAVA_HOME}/bin/java</executable>
+                                <arguments>
+                                    <argument>-jar</argument>
+                                    <argument>${j2objc.jar}</argument>
+                                    <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
+                                    <argument>-sourcepath</argument>
+                                    <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
+                                    <argument>-d</argument>
+                                    <argument>${project.build.directory}/generated/objc</argument>
+                                    <argument>**/*.java</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin-->
+
+
+            </plugins>
+        </pluginManagement>
+
     </build>
+
+    <!-- Automatic j2objc install (zip download & unpack in the user temp directory) -->
+    <!-- Done just once, when this root pom is executed for the first time on the machine -->
+    <profiles>
+        <!-- using a maven profile in order to skip the install if already done -->
+        <profile>
+            <id>install-j2objc</id>
+            <activation>
+                <!-- the profile is activated only if j2objc.jar doesn't exist -->
+                <activeByDefault>false</activeByDefault>
+                <file>
+                    <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
+                    <missing>${env.TEMP}/j2objc-0.9.8.2.1/lib/j2objc.jar</missing> <!-- env properties are however supported -->
+                </file>
+                <!-- otherwise j2objc is considered already installed and the installation is skipped -->
+            </activation>
+            <build>
+                <plugins>
+                    <!-- j2objc download (big zip file) and unpack -->
+                    <plugin>
+                        <groupId>com.googlecode.maven-download-plugin</groupId>
+                        <artifactId>download-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <inherited>false</inherited> <!-- to not run it in children modules -->
+                        <executions>
+                            <execution>
+                                <id>download-j2objc</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>wget</goal>
+                                </goals>
+                                <configuration>
+                                    <url>https://github.com/google/j2objc/releases/download/${j2objc.version}/j2objc-${j2objc.version}.zip</url>
+                                    <unpack>true</unpack>
+                                    <overwrite>false</overwrite>
+                                    <outputDirectory>${j2objc.parent}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

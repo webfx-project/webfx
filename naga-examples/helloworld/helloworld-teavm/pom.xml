@@ -34,50 +34,17 @@
 
     </dependencies>
 
+    <properties>
+        <teavm.mainClass>helloworld.HelloWorldTeaVMApplication</teavm.mainClass>
+    </properties>
+
     <build>
         <plugins>
-            <!-- Configure TeaVM -->
+            <!-- Running TeaVM plugin for compiling the main class (and all subsequent code) -->
             <plugin>
                 <groupId>org.teavm</groupId>
                 <artifactId>teavm-maven-plugin</artifactId>
-                <version>${teavm.version}</version>
-                <dependencies>
-                    <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
-                    <dependency>
-                        <groupId>org.teavm</groupId>
-                        <artifactId>teavm-classlib</artifactId>
-                        <version>${teavm.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
-                            <targetDirectory>${project.build.directory}/generated/js/teavm</targetDirectory>
-
-                            <!-- Main class, containing static void main(String[]) -->
-                            <mainClass>helloworld.HelloWorldTeaVMApplication</mainClass>
-
-                            <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
-                            <runtime>SEPARATE</runtime>
-                            <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
-                            <minifying>false</minifying>
-                            <mainPageIncluded>true</mainPageIncluded>
-                            <!-- Whether TeaVM should produce debug information for its built-in debugger -->
-                            <debugInformationGenerated>true</debugInformationGenerated>
-                            <!-- Whether TeaVM should produce source maps file -->
-                            <sourceMapsGenerated>true</sourceMapsGenerated>
-                            <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
-                            <sourceFilesCopied>false</sourceFilesCopied>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
-
         </plugins>
     </build>
 

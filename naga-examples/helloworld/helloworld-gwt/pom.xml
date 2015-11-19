@@ -27,26 +27,18 @@
 
     </dependencies>
 
+    <properties>
+        <gwt.module>helloworld-gwt</gwt.module>
+        <gwt.compileSourcesArtifact>${project.groupId}:helloworld-logic</gwt.compileSourcesArtifact>
+    </properties>
+
     <build>
         <plugins>
 
+            <!-- Calling GWT to compile the gwt module into javascript -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwt.version}</version>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <module>helloworld-gwt</module>
-                            <compileSourcesArtifacts>
-                                <compileSourcesArtifact>naga:helloworld-logic</compileSourcesArtifact>
-                            </compileSourcesArtifacts>
-                        </configuration>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
