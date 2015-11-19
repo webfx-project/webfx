@@ -20,7 +20,7 @@ package naga.core.spi.json;
 /**
  * Represents the type of the underlying JsonValue.
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-json project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/JsonType.java">Original Goodow class</a>

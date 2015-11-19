@@ -23,7 +23,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 /**
  * JSO backed implementation of JsonValue.
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-json project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonValue.java">Original Goodow class</a>

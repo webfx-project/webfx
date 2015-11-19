@@ -23,35 +23,37 @@ import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.JsonObject;
 
 /*
- * @author 田传武 (aka larrytin) - author of Goodow realtime-json project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonFactory.java">Original Goodow class</a>
  */
 public class GwtJsonFactory implements JsonFactory {
-  // @formatter:off
-  private native static <T> T parse0(String jsonString) /*-{
+
+    // @formatter:off
+    private native static <T> T parse0(String jsonString) /*-{
     // assume Chrome, safe and non-broken JSON.parse impl
-    return $wnd.JSON.parse(jsonString);
+    var obj = $wnd.JSON.parse(jsonString);
+    return obj;
   }-*/;
-  // @formatter:on
+    // @formatter:on
 
-  @Override
-  public JsonArray createArray() {
-    return GwtJsonArray.create();
-  }
-
-  @Override
-  public JsonObject createObject() {
-    return GwtJsonObject.create();
-  }
-
-  @Override
-  public <T> T parse(String jsonString) throws JsonException {
-    try {
-      return parse0(jsonString);
-    } catch (Exception e) {
-      throw new JsonException("Can't parse JSON string: " + e.getMessage());
+    @Override
+    public JsonArray createArray() {
+        return GwtJsonArray.create();
     }
-  }
+
+    @Override
+    public JsonObject createObject() {
+        return GwtJsonObject.create();
+    }
+
+    @Override
+    public <T> T parse(String jsonString) throws JsonException {
+        try {
+            return parse0(jsonString);
+        } catch (Exception e) {
+            throw new JsonException("Can't parse JSON string: " + e.getMessage());
+        }
+    }
 }

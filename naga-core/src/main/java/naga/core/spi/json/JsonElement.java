@@ -20,7 +20,7 @@ package naga.core.spi.json;
 import java.io.Serializable;
 
 /*
- * @author 田传武 (aka larrytin) - author of Goodow realtime-json project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/JsonElement.java">Original Goodow class</a>

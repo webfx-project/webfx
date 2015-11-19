@@ -22,7 +22,7 @@ import naga.core.util.async.Handler;
 /**
  * A hook that you can use to receive various events on the Bus.
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-channel project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/BusHook.java">Original Goodow class</a>

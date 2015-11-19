@@ -33,7 +33,7 @@ import java.util.logging.Logger;
  * Converts a stream of possibly-missing, possibly-unordered, possibly-duplicated messages into a
  * stream of in-order, consecutive, no-dup messages.
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-channel project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/ReliableSubscribeBus.java">Original Goodow class</a>

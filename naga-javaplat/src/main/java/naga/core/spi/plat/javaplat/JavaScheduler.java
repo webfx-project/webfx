@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /*
- * @author 田传武 (aka larrytin) - author of Goodow realtime-android project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>

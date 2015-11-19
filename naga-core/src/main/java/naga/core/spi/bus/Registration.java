@@ -23,7 +23,7 @@ import com.google.gwt.core.client.js.JsType;
  * Registration objects returned when an event handler is bound (e.g. via
  * {@link Bus#subscribe}), used to deregister.
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-channel project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>

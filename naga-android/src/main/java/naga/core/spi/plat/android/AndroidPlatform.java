@@ -23,7 +23,7 @@ import naga.core.spi.plat.javaplat.JavaPlatform;
 import naga.core.spi.plat.Platform;
 
 /*
- * @author 田传武 (aka larrytin) - author of Goodow realtime-android project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/android/AndroidPlatform.java">Original Goodow class</a>

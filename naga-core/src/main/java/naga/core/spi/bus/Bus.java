@@ -42,7 +42,7 @@ import com.google.gwt.core.client.js.JsType;
  * Different event bus instances can be clustered together over a network, to give a single logical
  * event bus.<p>
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-channel project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/Bus.java">Original Goodow class</a>

@@ -21,7 +21,7 @@ package naga.core.util;
  * Simple fibonacci back off with fuzzing. This is important for reconnection so that everyone
  * doesn't retry at the same time.
  *
- * @author 田传武 (aka larrytin) - author of Goodow realtime-channel project
+ * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *         <p>
  *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/util/FuzzingBackOffGenerator.java">Original Goodow class</a>
