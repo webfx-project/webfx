@@ -17,7 +17,8 @@
  */
 package naga.core.spi.plat;
 
-import naga.core.spi.bus.State;
+import com.google.gwt.core.client.js.JsExport;
+import com.google.gwt.core.client.js.JsType;
 import naga.core.spi.json.JsonObject;
 
 /*
@@ -27,6 +28,14 @@ import naga.core.spi.json.JsonObject;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public interface WebSocket {
+
+    @JsExport
+    @JsType
+    enum State {
+        CONNECTING, OPEN, CLOSING, CLOSED;
+        public static final State values[] = State.values();
+    }
+
     /**
      * Listens for events on a {@link WebSocket}.
      */

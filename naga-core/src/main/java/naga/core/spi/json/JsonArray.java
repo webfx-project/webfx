@@ -22,8 +22,8 @@ package naga.core.spi.json;
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
- *         <p>
- *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/Json.java">Original Goodow class</a>
+ *
+ * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/Json.java">Original Goodow class</a>
  */
 public interface JsonArray extends JsonElement {
 

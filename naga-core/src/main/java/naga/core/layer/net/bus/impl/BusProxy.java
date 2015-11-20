@@ -15,14 +15,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.javaplat;
+package naga.core.layer.net.bus.impl;
 
-import naga.core.spi.bus.Bus;
-import naga.core.spi.bus.BusHook;
-import naga.core.spi.bus.Message;
-import naga.core.spi.bus.State;
+
+import naga.core.layer.net.bus.*;
+import naga.core.spi.plat.WebSocket;
 import naga.core.util.async.Handler;
-import naga.core.spi.bus.Registration;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
@@ -48,7 +46,7 @@ public abstract class BusProxy implements Bus {
     }
 
     @Override
-    public State getReadyState() {
+    public WebSocket.State getReadyState() {
         return delegate.getReadyState();
     }
 

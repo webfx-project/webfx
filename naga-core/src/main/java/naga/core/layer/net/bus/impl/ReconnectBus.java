@@ -15,11 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.javaplat;
+package naga.core.layer.net.bus.impl;
 
-import naga.core.spi.bus.Bus;
-import naga.core.spi.bus.BusHook;
-import naga.core.spi.bus.State;
+import naga.core.layer.net.bus.Bus;
+import naga.core.layer.net.bus.BusHook;
+import naga.core.spi.plat.WebSocket;
 import naga.core.util.FuzzingBackOffGenerator;
 import naga.core.util.async.Handler;
 import naga.core.spi.plat.Platform;
@@ -106,7 +106,7 @@ public class ReconnectBus extends WebSocketBus {
     }
 
     public void reconnect() {
-        if (getReadyState() == State.OPEN || getReadyState() == State.CONNECTING) {
+        if (getReadyState() == WebSocket.State.OPEN || getReadyState() == WebSocket.State.CONNECTING) {
             return;
         }
         if (webSocket != null) {
@@ -132,14 +132,14 @@ public class ReconnectBus extends WebSocketBus {
 
     @Override
     protected void send(JsonObject msg) {
-        if (getReadyState() == State.OPEN) {
+        if (getReadyState() == WebSocket.State.OPEN) {
             super.send(msg);
             return;
         }
         if (reconnect) {
             reconnect();
         }
-        String type = msg.getString(WebSocketBus.TYPE);
+        String type = msg.getString(TYPE);
         if ("ping".equals(type) || "register".equals(type)) {
             return;
         }

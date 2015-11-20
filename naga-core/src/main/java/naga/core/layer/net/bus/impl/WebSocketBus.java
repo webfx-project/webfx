@@ -15,11 +15,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.javaplat;
+package naga.core.layer.net.bus.impl;
 
-import naga.core.spi.bus.Bus;
-import naga.core.spi.bus.Message;
-import naga.core.spi.bus.State;
+import naga.core.layer.net.bus.Bus;
+import naga.core.layer.net.bus.Message;
 import naga.core.util.async.Handler;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.WebSocket;
@@ -61,7 +60,7 @@ public class WebSocketBus extends SimpleBus {
             @Override
             public void onClose(JsonObject reason) {
                 Platform.scheduler().cancelTimer(pingTimerID);
-                publishLocal(ON_CLOSE, reason);
+                publishLocal(Bus.ON_CLOSE, reason);
                 if (hook != null) {
                     hook.handlePostClose();
                 }
@@ -69,7 +68,7 @@ public class WebSocketBus extends SimpleBus {
 
             @Override
             public void onError(String error) {
-                publishLocal(ON_ERROR, Json.createObject().set("message", error));
+                publishLocal(Bus.ON_ERROR, Json.createObject().set("message", error));
             }
 
             @Override
@@ -96,7 +95,7 @@ public class WebSocketBus extends SimpleBus {
                 if (hook != null) {
                     hook.handleOpened();
                 }
-                publishLocal(ON_OPEN, null);
+                publishLocal(Bus.ON_OPEN, null);
             }
         };
 
@@ -118,7 +117,7 @@ public class WebSocketBus extends SimpleBus {
     }
 
     @Override
-    public State getReadyState() {
+    public WebSocket.State getReadyState() {
         return webSocket.getReadyState();
     }
 
@@ -190,7 +189,7 @@ public class WebSocketBus extends SimpleBus {
     }
 
     protected void send(JsonObject msg) {
-        if (getReadyState() != State.OPEN) {
+        if (getReadyState() != WebSocket.State.OPEN) {
             throw new IllegalStateException("INVALID_STATE_ERR");
         }
         webSocket.send(msg.toJsonString());

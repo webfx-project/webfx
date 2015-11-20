@@ -15,16 +15,16 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.javaplat;
+package naga.core.layer.net.bus.impl;
 
-import naga.core.spi.bus.Bus;
-import naga.core.spi.bus.BusHook;
-import naga.core.spi.bus.Message;
-import naga.core.spi.bus.State;
+import naga.core.layer.net.bus.Bus;
+import naga.core.layer.net.bus.BusHook;
+import naga.core.layer.net.bus.Message;
+import naga.core.spi.plat.WebSocket;
 import naga.core.util.IdGenerator;
 import naga.core.util.async.Handler;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.bus.Registration;
+import naga.core.layer.net.bus.Registration;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
@@ -67,8 +67,8 @@ public class SimpleBus implements Bus {
     }
 
     @Override
-    public State getReadyState() {
-        return handlerMap == null ? State.CLOSED : State.OPEN;
+    public WebSocket.State getReadyState() {
+        return handlerMap == null ? WebSocket.State.CLOSED : WebSocket.State.OPEN;
     }
 
     @Override

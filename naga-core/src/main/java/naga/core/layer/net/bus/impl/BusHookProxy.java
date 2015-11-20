@@ -15,10 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.javaplat;
+package naga.core.layer.net.bus.impl;
 
-import naga.core.spi.bus.BusHook;
-import naga.core.spi.bus.Message;
+
+import naga.core.layer.net.bus.BusHook;
+import naga.core.layer.net.bus.Message;
 import naga.core.util.async.Handler;
 
 /*

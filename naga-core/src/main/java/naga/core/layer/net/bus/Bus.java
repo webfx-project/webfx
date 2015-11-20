@@ -16,8 +16,9 @@
  * the License.
  */
 
-package naga.core.spi.bus;
+package naga.core.layer.net.bus;
 
+import naga.core.spi.plat.WebSocket;
 import naga.core.util.async.Handler;
 import com.google.gwt.core.client.js.JsType;
 
@@ -44,8 +45,8 @@ import com.google.gwt.core.client.js.JsType;
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
- *         <p>
- *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/Bus.java">Original Goodow class</a>
+ *
+ * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/Bus.java">Original Goodow class</a>
  */
 @JsType
 public interface Bus {
@@ -59,7 +60,7 @@ public interface Bus {
     void close();
 
     /* The state of the Bus. */
-    State getReadyState();
+    WebSocket.State getReadyState();
 
     /* Returns the session ID used by this bus. */
     String getSessionId();

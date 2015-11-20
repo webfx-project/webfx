@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus;
+package naga.core.layer.net.bus;
 
 import naga.core.util.async.Handler;
 
@@ -24,8 +24,8 @@ import naga.core.util.async.Handler;
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
- *         <p>
- *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/BusHook.java">Original Goodow class</a>
+ *
+ * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/BusHook.java">Original Goodow class</a>
  */
 public interface BusHook {
     /**

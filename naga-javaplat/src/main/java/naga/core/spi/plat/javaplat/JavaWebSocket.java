@@ -17,7 +17,6 @@
  */
 package naga.core.spi.plat.javaplat;
 
-import naga.core.spi.bus.State;
 import naga.core.spi.json.Json;
 import naga.core.spi.plat.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;

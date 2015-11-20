@@ -17,26 +17,6 @@
       <profile default="true" name="Default" enabled="false">
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-vertx3" />
-        <module name="naga-xmlvm" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-teavm-compiled" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-helloworld-toolchain" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-      </profile>
       <profile default="false" name="Annotation profile for helloworld-android" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
@@ -154,11 +134,7 @@
       <module name="naga-javaplat" target="1.8" />
       <module name="naga-jre" target="1.8" />
       <module name="naga-teavm" target="1.8" />
-      <module name="naga-teavm-compiled" target="1.8" />
-      <module name="naga-teavm-source" target="1.5" />
       <module name="naga-vertx" target="1.8" />
-      <module name="naga-vertx3" target="1.5" />
-      <module name="naga-xmlvm" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

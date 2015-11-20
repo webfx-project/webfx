@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright 2014 Goodow.com
+ * Copyright 2013 Goodow.com
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -15,20 +15,19 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus;
+package naga.core.layer.net.bus;
 
-import com.google.gwt.core.client.js.JsExport;
-import com.google.gwt.core.client.js.JsType;
+import naga.core.util.async.Handler;
 
-/*
+/**
+ * Handler for {@link Message}
+ *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
- * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/State.java">Original Goodow class</a>
+ * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/MessageHandler.java">Original Goodow class</a>
  */
-@JsExport
-@JsType
-public enum State {
-    CONNECTING, OPEN, CLOSING, CLOSED;
-    public static final State values[] = values();
+public interface MessageHandler<T> extends Handler<Message<T>> {
+    @Override
+    void handle(Message<T> message);
 }
