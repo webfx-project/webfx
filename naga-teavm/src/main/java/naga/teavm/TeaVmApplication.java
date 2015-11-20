@@ -12,6 +12,7 @@ public class TeaVmApplication {
 
     public static void main(String[] args) {
         String nagaVersion = new Naga().getVersion();
+        // Displaying naga version
         displayMessage(nagaVersion);
     }
 
