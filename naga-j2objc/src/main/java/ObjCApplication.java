@@ -2,9 +2,12 @@
  * @author Bruno Salmon
  */
 
+import naga.core.Naga;
+
 public class ObjCApplication {
 
     public static void main(String[] args) {
-        System.out.println(new naga.core.Naga().getMessage("appName"));
+        String nagaVersion = new Naga().getVersion();
+        System.out.println(nagaVersion);
     }
 }

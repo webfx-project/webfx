@@ -1,6 +1,9 @@
 package naga.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.user.client.ui.RootPanel;
 import naga.core.Naga;
 
 import java.util.logging.Level;
@@ -13,13 +16,19 @@ import java.util.logging.Logger;
 public class GwtApplication implements EntryPoint {
 
     public void onModuleLoad() {
-        Logger logger = Logger.getLogger("NagaLogger");
-        logger.log(Level.INFO, new Naga().getMessage("appName"));
+        String nagaVersion = new Naga().getVersion();
 
-        /*JsonFactory js = new GWTJsonFactory();
-        JsonObject p = js.parseJsonObject("{\"firstName\": \"Bruno\", \"lastName\": \"Salmon\", \"age\": 43}");
-        p.setValue("fullName", p.getString("firstName") + " " + p.getString("lastName"));
-        p.setInt("age", p.getInt("age") + 1);
-        logger.log(Level.INFO, p.toString());*/
+        displayMessage(nagaVersion);
+    }
+
+    private void displayMessage(String message) {
+        // Tracing the message in the console
+        Logger logger = Logger.getLogger("NagaLogger");
+        logger.log(Level.INFO,  message);
+
+        // Displaying the message in the DOM
+        SpanElement headingElement = Document.get().createSpanElement();
+        headingElement.setInnerText(message);
+        RootPanel.get().getElement().appendChild(headingElement);
     }
 }

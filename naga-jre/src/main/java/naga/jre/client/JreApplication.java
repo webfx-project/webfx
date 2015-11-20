@@ -9,6 +9,7 @@ import naga.core.Naga;
 public class JreApplication {
 
     public static void main(String[] args) {
-        System.out.println(new Naga().getMessage("appName"));
+        String nagaVersion = new Naga().getVersion();
+        System.out.println(nagaVersion);
     }
 }

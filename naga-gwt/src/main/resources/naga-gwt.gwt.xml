@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  When updating your version of GWT, you should also update this DTD reference,
-  so that your app can take advantage of the latest GWT module capabilities.
--->
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN"
-        "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module rename-to='naga'>
 
     <!-- Inherit the core Web Toolkit stuff.                        -->
     <inherits name='com.google.gwt.user.User'/>
 
     <!-- Other module inherits                                      -->
-
-    <!--inherits name='naga-core'/-->
 
     <inherits name="com.google.gwt.logging.Logging"/>
 
@@ -24,5 +16,6 @@
     <entry-point class='naga.gwt.client.GwtApplication'/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path='naga'/>
+    <source path="naga"/>
+
 </module>

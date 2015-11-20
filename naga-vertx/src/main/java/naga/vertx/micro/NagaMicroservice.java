@@ -10,6 +10,6 @@ public class NagaMicroservice extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        System.out.println("Starting " + new Naga().getMessage("appName"));
+        System.out.println("Starting " + new Naga().getVersion());
     }
 }
