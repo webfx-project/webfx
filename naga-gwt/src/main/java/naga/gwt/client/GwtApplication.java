@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * @author Bruno Salmon
  */
 
-public class GwApplication implements EntryPoint {
+public class GwtApplication implements EntryPoint {
 
     public void onModuleLoad() {
         String nagaVersion = new Naga().getVersion();
