@@ -6,7 +6,7 @@ import org.teavm.jso.dom.html.HTMLElement;
 /**
  * @author Bruno Salmon
  */
-public class HelloWorldTeaVMApplication {
+public class HelloWorldTeaVmApplication {
 
     public static void main(String[] args) {
         // Calling the application logic

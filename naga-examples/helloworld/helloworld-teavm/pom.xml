@@ -35,7 +35,7 @@
     </dependencies>
 
     <properties>
-        <teavm.mainClass>helloworld.HelloWorldTeaVMApplication</teavm.mainClass>
+        <teavm.mainClass>helloworld.HelloWorldTeaVmApplication</teavm.mainClass>
     </properties>
 
     <build>
