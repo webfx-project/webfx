@@ -34,7 +34,7 @@
     </dependencies>
 
     <properties>
-        <teavm.mainClass>naga.teavm.TeaVmApplication</teavm.mainClass>
+        <teavm.mainClass>naga.teavm.TeaApplication</teavm.mainClass>
     </properties>
 
     <build>
