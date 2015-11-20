@@ -42,7 +42,7 @@
         <gwt.compileSourcesArtifact>TBD</gwt.compileSourcesArtifact>
 
         <!-- properties used for j2objc install and execution -->
-        <j2objc.parent>${env.TEMP}</j2objc.parent>
+        <j2objc.parent>${user.home}</j2objc.parent>
         <j2objc.folderName>j2objc-${j2objc.version}</j2objc.folderName>
         <j2objc.home>${j2objc.parent}/${j2objc.folderName}</j2objc.home>
         <j2objc.jar>${j2objc.home}/lib/j2objc.jar</j2objc.jar>
@@ -302,8 +302,8 @@
 
     </build>
 
-    <!-- Automatic j2objc install (zip download & unpack in the user temp directory) -->
-    <!-- Done just once, when this root pom is executed for the first time on the machine -->
+    <!-- Automatic j2objc install (zip download & unpack in the user directory) -->
+    <!-- Done just once, when this root pom is executed for the first time on the build machine -->
     <profiles>
         <!-- using a maven profile in order to skip the install if already done -->
         <profile>
@@ -313,7 +313,7 @@
                 <activeByDefault>false</activeByDefault>
                 <file>
                     <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
-                    <missing>${env.TEMP}/j2objc-0.9.8.2.1/lib/j2objc.jar</missing> <!-- env properties are however supported -->
+                    <missing>${user.home}/j2objc-0.9.8.2.1/lib/j2objc.jar</missing> <!-- env properties are however supported -->
                 </file>
                 <!-- otherwise j2objc is considered already installed and the installation is skipped -->
             </activation>
