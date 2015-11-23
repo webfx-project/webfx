@@ -40,16 +40,10 @@ public interface WebSocket {
      * Listens for events on a {@link WebSocket}.
      */
     interface WebSocketHandler {
-
         /**
-         * Called when the socket is closed. When the socket is closed, it cannot be reopened.
+         * Called when the socket is ready to receive messages.
          */
-        void onClose(JsonObject reason);
-
-        /**
-         * Called when an error occurs on the socket.
-         */
-        void onError(String error);
+        void onOpen();
 
         /**
          * Called when the socket receives a message.
@@ -57,20 +51,25 @@ public interface WebSocket {
         void onMessage(String message);
 
         /**
-         * Called when the socket is ready to receive messages.
+         * Called when an error occurs on the socket.
          */
-        void onOpen();
-    }
+        void onError(String error);
 
-    /**
-     * Close the socket. The socket cannot be used again after calling close; the server must create a
-     * new socket.
-     */
-    void close();
+        /**
+         * Called when the socket is closed. When the socket is closed, it cannot be reopened.
+         */
+        void onClose(JsonObject reason);
+    }
 
     State getReadyState();
 
     void send(String data);
 
     void setListen(WebSocketHandler handler);
+
+    /**
+     * Close the socket. The socket cannot be used again after calling close; the server must create a
+     * new socket.
+     */
+    void close();
 }

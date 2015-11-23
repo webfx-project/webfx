@@ -29,14 +29,6 @@ import naga.core.util.async.Handler;
  */
 public interface Scheduler {
     /**
-     * Cancel the timer with the specified {@code id}. Returns {@code} true if the timer was
-     * successfully cancelled, or {@code false} if the timer does not exist.
-     */
-    boolean cancelTimer(int id);
-
-    void handle(Object handler, Object event);
-
-    /**
      * A deferred command is executed after the event loop returns.
      */
     void scheduleDeferred(Handler<Void> handler);
@@ -59,4 +51,10 @@ public interface Scheduler {
      * @return the unique ID of the timer
      */
     int schedulePeriodic(int delayMs, Handler<Void> handler);
+
+    /**
+     * Cancel the timer with the specified {@code id}. Returns {@code} true if the timer was
+     * successfully cancelled, or {@code false} if the timer does not exist.
+     */
+    boolean cancelTimer(int id);
 }

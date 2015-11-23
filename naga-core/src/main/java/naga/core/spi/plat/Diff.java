@@ -41,6 +41,5 @@ public interface Diff {
 
     void diff(String before, String after, ListTarget<String> target);
 
-    void diff(JsonArray before, JsonArray after, ListTarget<JsonArray> target,
-              Comparator<Object> comparator);
+    void diff(JsonArray before, JsonArray after, ListTarget<JsonArray> target, Comparator<Object> comparator);
 }

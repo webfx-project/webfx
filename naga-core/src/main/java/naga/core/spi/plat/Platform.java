@@ -3,7 +3,7 @@
  */
 
 /*
- * Copyright 2013 Goodow.com
+ * Copyright 2014 Goodow.com
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -17,59 +17,84 @@
  */
 package naga.core.spi.plat;
 
+import naga.core.spi.bus.Bus;
+import naga.core.spi.bus.BusFactory;
+import naga.core.spi.bus.BusOptions;
+import naga.core.spi.bus.crossplat.ReconnectBusFactory;
+import naga.core.spi.json.Json;
+import naga.core.spi.json.JsonFactory;
+import naga.core.spi.json.JsonObject;
+import naga.core.util.Holder;
+import naga.core.util.async.Handler;
+
 /**
- * The main Platform interface. The static methods in this class provide access to the various
- * available subsystems.
- * <p>
- * <p>
- * You must register a {@link Platform} before calling any of these methods. For example,
- * <code>JavaPlatform.register();</code>.
- * </p>
+ * Generic platform interface. New platforms are defined as implementations of this interface.
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
- * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Platform.java">Original Goodow class</a>
+ * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
-public class Platform {
+public interface Platform {
 
-    public enum Type {
-        JAVA, HTML, ANDROID, IOS, FLASH, STUB, VERTX
+    enum Type {
+        JAVA, ANDROID, GWT, TEAVM, VERTX
     }
 
-    private static PlatformFactory FACTORY;
+    Type type();
 
-    public static Diff diff() {
-        return get().diff();
+    Net net();
+
+    Scheduler scheduler();
+
+    JsonFactory jsonFactory();
+
+    default BusFactory busFactory() { return ReconnectBusFactory.SINGLETON; }
+
+    Diff diff();
+
+    Holder<Platform> PLATFORM_HOLDER = new Holder<>();
+
+    // Static access
+
+    static void register(Platform platform) {
+        PLATFORM_HOLDER.set(platform);
+        Json.registerFactory(platform.jsonFactory());
     }
 
-    public static Net net() {
-        return get().net();
+    static Platform get() {
+        Platform platform = PLATFORM_HOLDER.get();
+        assert platform != null : "You must register a platform first by invoke {Java|Android}Platform.register()";
+        return platform;
     }
 
-    public static Scheduler scheduler() {
-        return get().scheduler();
+    // Static helper methods
+
+    static Bus createBus() {
+        return createBus(new BusOptions());
     }
 
-    /**
-     * Configures the current {@link Platform}. Do not call this directly unless you're implementing a
-     * new platform.
-     */
-    public static void setFactory(PlatformFactory factory) {
-        FACTORY = factory;
+    static Bus createBus(BusOptions options) {
+        return get().busFactory().createBus(options);
     }
 
-    public static Platform.Type type() {
-        return get().type();
+    static int scheduleDelay(int delayMs, Handler<Void> handler) {
+        return get().scheduler().scheduleDelay(delayMs, handler);
     }
 
-    private static PlatformFactory get() {
-        assert FACTORY != null :
-                "You must register a platform first by invoke {Java|Android}Platform.register()";
-        return FACTORY;
+    static void scheduleDeferred(Handler<Void> handler) {
+        get().scheduler().scheduleDeferred(handler);
     }
 
-    // Non-instantiable
-    protected Platform() {
+    static int schedulePeriodic(int delayMs, Handler<Void> handler) {
+        return get().scheduler().schedulePeriodic(delayMs, handler);
+    }
+
+    static boolean cancelTimer(int id) {
+        return get().scheduler().cancelTimer(id);
+    }
+
+    static WebSocket createWebSocket(String url, JsonObject options) {
+        return get().net().createWebSocket(url, options);
     }
 }
