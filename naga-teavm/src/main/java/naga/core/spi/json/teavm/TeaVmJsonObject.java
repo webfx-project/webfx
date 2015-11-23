@@ -12,13 +12,15 @@ import org.teavm.jso.core.JSNumber;
  *
  * @author Bruno Salmon
  */
-final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObject {
+public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObject {
 
     public static TeaVmJsonObject create() {
         return new TeaVmJsonObject();
     }
 
     public static TeaVmJsonObject create(JSObject jso) {
+        if (jso == null || JSUtil.isUndefined(jso))
+            return null;
         return new TeaVmJsonObject(jso);
     }
 
@@ -47,12 +49,14 @@ final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObject {
 
 
     @Override
-    public TeaVmJsonElement get(String key) {
-        return JSUtil.js2Element(getJsValue(key));
+    public <T> T get(String key) {
+        return (T) JSUtil.js2j(getJsValue(key));
     }
 
     @Override
-    public native TeaVmJsonArray getArray(String key);
+    public TeaVmJsonArray getArray(String key) {
+        return TeaVmJsonArray.create(getJsValue(key).cast());
+    }
 
     @Override
     public native boolean getBoolean(String key);
@@ -82,11 +86,14 @@ final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObject {
 
     @Override
     public JsonArray keys() {
-        throw new UnsupportedOperationException();
+        return TeaVmJsonArray.create(JSUtil.getKeys(jsValue));
     }
 
     @Override
-    public native <T> T remove(String key) /*-{
+    public <T> T remove(String key) {
+        JSUtil.deleteJSValue(jsValue, key);
+        return null;
+    } /*-{
     toRtn = this[key];
     delete this[key];
     return toRtn;

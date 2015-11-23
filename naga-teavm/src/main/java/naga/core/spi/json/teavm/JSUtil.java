@@ -16,39 +16,58 @@ import org.teavm.jso.json.JSON;
 public class JSUtil {
 
     @JSBody(params = {}, script = "return {};")
-    static native JSObject newJSObject();
+    public static native JSObject newJSObject();
 
     @JSBody(params = {"jso", "key", "value"}, script = "jso[key] = value;")
-    static native void setJSValue(JSObject jso, String key, JSObject value);
+    public static native void setJSValue(JSObject jso, String key, JSObject value);
 
-    @JSBody(params = {"jso", "key"}, script = "return jso[key];")
-    static native JSObject getJSValue(JSObject jso, String key);
+    @JSBody(params = {"jso", "key"}, script = "return jso[key] || null;")
+    public static native JSObject getJSValue(JSObject jso, String key);
+
+    @JSBody(params = {"jso", "key"}, script = "delete jso[key];")
+    public static native JSObject deleteJSValue(JSObject jso, String key);
+
+    @JSBody(params = {"jso"}, script = "" +
+            "    var keys = [];\n" +
+            "    for(var key in this) {\n" +
+            "      if (Object.prototype.hasOwnProperty.call(this, key) && key != '$H') {\n" +
+            "        keys.push(key);\n" +
+            "      }\n" +
+            "    }\n" +
+            "    return keys;")
+    public static native JSArray<JSString> getKeys(JSObject jso);
 
     @JSBody(params = "value", script = "return value === null;")
-    private static native boolean isNull(Object value);
+    public static native boolean isNull(Object value);
 
     @JSBody(params = "object", script = "return typeof object === 'undefined';")
-    static native boolean isUndefined(JSObject object);
+    public static native boolean isUndefined(JSObject object);
 
     @JSBody(params = "object", script = "return typeof object;")
-    static native String getJsType(Object object);
+    public static native String getJsType(Object object);
 
-    @JSBody(params = "object", script = "return Object.prototype.toString.apply(obj) === '[object Array]';")
-    static native boolean isArray(Object obj);
+    @JSBody(params = "object", script = "return Object.prototype.toString.apply(object) === '[object Array]';")
+    public static native boolean isArray(Object object);
 
-    static JSObject parse(String jsonString) throws JsonException {
+    @JSBody(params = {"obj1", "obj2"}, script = "return obj1 === obj2;")
+    public static native boolean areEquals(JSObject obj1, JSObject obj2);
+
+    @JSBody(params = "object", script = "return object ? object : null")
+    public static native JSObject nullOr(JSObject object);
+
+    public static JSObject parse(String jsonString) throws JsonException {
         return JSON.parse(jsonString);
     }
 
-    static String stringify(JSObject jso) throws JsonException {
+    public static String stringify(JSObject jso) throws JsonException {
         return JSON.stringify(jso);
     }
 
-    static JSObject copy(JSObject jso) throws JsonException {
+    public static JSObject copy(JSObject jso) throws JsonException {
         return parse(stringify(jso));
     }
 
-    static JsonType getType(JSObject jso) {
+    public static JsonType getType(JSObject jso) {
         if (isNull(jso))
             return JsonType.NULL;
         String jsType = getJsType(jso);
@@ -64,7 +83,7 @@ public class JSUtil {
         return null;
     }
 
-    static JSObject j2js(Object value) {
+    public static JSObject j2js(Object value) {
         if (value == null)
             return null;
         if (value instanceof String)
@@ -82,19 +101,33 @@ public class JSUtil {
         return (JSObject) value;
     }
 
-    static Object js2j(JSObject jsv) {
+    public static Object js2j(JSObject jsv) {
         if (jsv == null)
             return null;
-        if (jsv instanceof JSString)
+        if (isString(jsv))
             return ((JSString) jsv).stringValue();
-        if (jsv instanceof JSNumber)
+        if (isNumber(jsv))
             return js2Number((JSNumber) jsv);
-        if (jsv instanceof JSBoolean)
+        if (isBoolean(jsv))
             return ((JSBoolean) jsv).booleanValue();
-        return jsv;
+        if (isArray(jsv))
+            return TeaVmJsonArray.create((JSArray) jsv);
+        return TeaVmJsonObject.create(jsv);
     }
 
-    static Number js2Number(JSNumber jsn) {
+    @JSBody(params = "obj", script = "return typeof obj === 'string';")
+    public static native boolean isString(JSObject obj);
+
+    @JSBody(params = "obj", script = "return typeof obj === 'boolean';")
+    public static native boolean isBoolean(JSObject obj);
+
+    @JSBody(params = "obj", script = "return typeof obj === 'number';")
+    public static native boolean isNumber(JSObject obj);
+
+    @JSBody(params = "obj", script = "return typeof obj === 'object';")
+    public static native boolean isObject(JSObject obj);
+
+    public static Number js2Number(JSNumber jsn) {
         // No distinction between numbers in javascript
         double d = jsn.doubleValue(); // So we convert into a java double by default
         if (d != Math.floor(d)) // if it has decimals (not a round integer value)
@@ -113,17 +146,17 @@ public class JSUtil {
         return jsv == null || isUndefined(jsv) ? 0 : js2Number((JSNumber) jsv);
     }
 
-    static int js2Int(JSObject jsv) {
+    public static int js2Int(JSObject jsv) {
         return jsv == null || isUndefined(jsv) ? 0 : ((JSNumber) jsv).intValue();
     }
 
-    static double js2Double(JSObject jsv) {
+    public static double js2Double(JSObject jsv) {
         return jsv == null || isUndefined(jsv) ? 0 : ((JSNumber) jsv).doubleValue();
     }
 
-    static TeaVmJsonElement js2Element(JSObject jsv) {
+    public static TeaVmJsonElement js2Element(JSObject jsv) {
         if (isArray(jsv))
-            return new TeaVmJsonArray((JSArray) jsv);
+            return TeaVmJsonArray.create((JSArray) jsv);
         return new TeaVmJsonObject(jsv);
     }
 

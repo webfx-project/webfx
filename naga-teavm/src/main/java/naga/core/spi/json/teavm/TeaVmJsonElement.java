@@ -45,12 +45,12 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements JsonElement {
         }
     }
 
-    private native TeaVmJsonArray clearArray() /*-{
+    private TeaVmJsonElement clearArray() {return this; } /*-{
     this.length = 0;
     return this;
   }-*/;
 
-    private native TeaVmJsonObject clearObject() /*-{
+    private TeaVmJsonElement clearObject() {return this; } /*-{
     for (var key in this) {
       if (Object.prototype.hasOwnProperty.call(this, key)) {
         delete this[key];

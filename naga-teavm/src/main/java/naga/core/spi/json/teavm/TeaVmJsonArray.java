@@ -2,7 +2,6 @@ package naga.core.spi.json.teavm;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonType;
-import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
@@ -13,18 +12,30 @@ import org.teavm.jso.core.JSArray;
  */
 final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
 
-    static JsonArray create() {
+    static TeaVmJsonArray create() {
         return new TeaVmJsonArray(JSArray.create());
     }
 
-    protected TeaVmJsonArray(JSArray jsArray) {
+    static TeaVmJsonArray create(JSArray jsArray) {
+        if (jsArray == null || JSUtil.isUndefined(jsArray))
+            return null;
+        return new TeaVmJsonArray(jsArray);
+    }
+
+    private TeaVmJsonArray(JSArray jsArray) {
         super(jsArray);
     }
 
     <T extends JSObject> JSArray<T> asArray() { return jsValue.cast(); }
 
     @Override
-    public native <T> void forEach(ListIterator<T> handler) /*-{
+    public <T> void forEach(ListIterator<T> handler) {
+        JSArray<JSObject> array = asArray();
+        int length = array.getLength();
+        System.out.println("forEach length = " + length);
+        for (int i = 0; i < length; i++)
+            handler.call(i, array.get(i).cast());
+    } /*-{
     if (Array.prototype.forEach) {
       Array.prototype.forEach.call(this, function(item, index, array) {
         handler.
@@ -71,7 +82,6 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
         return JSUtil.getType(get0(index));
     }
 
-    @JSBody(params = {"value"}, script = "return this.indexOf(value);")
     public native int indexOf(Object value);
 
     @Override
@@ -98,7 +108,10 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
   }-*/;
 
     @Override
-    public native JsonArray push(Object element) /*-{
+    public JsonArray push(Object element) {
+        asArray().push(JSUtil.j2js(element));
+        return this;
+    } /*-{
     this[this.length] = element;
     return this;
   }-*/;

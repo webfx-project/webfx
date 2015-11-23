@@ -8,7 +8,7 @@ import org.teavm.jso.JSObject;
  *
  * @author Bruno Salmon
  */
-class TeaVmJsonValue<T extends JSObject> {
+public class TeaVmJsonValue<T extends JSObject> {
 
     protected final T jsValue; // As opposed to GWT, TeaVM needs the value to be embed as a member field
 
@@ -22,5 +22,9 @@ class TeaVmJsonValue<T extends JSObject> {
 
     public final String toJson() {
         return JSUtil.stringify(jsValue);
+    }
+
+    public T getJsValue() {
+        return jsValue;
     }
 }
