@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.layer.net.bus;
+package naga.core.spi.bus;
 
 import naga.core.util.async.Handler;
 
@@ -72,8 +72,7 @@ public interface BusHook {
      * @param replyHandler Reply handler will be called when any reply from the recipient is received
      * @return true To allow the send/publish to occur, false otherwise
      */
-    <T> boolean handleSendOrPub(boolean send, String topic, Object msg,
-                                Handler<Message<T>> replyHandler);
+    <T> boolean handleSendOrPub(boolean send, String topic, Object msg, Handler<Message<T>> replyHandler);
 
     /**
      * Called when unregistering a handler

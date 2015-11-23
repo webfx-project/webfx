@@ -15,10 +15,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.layer.net.bus.impl;
+package naga.core.spi.bus.crossplat;
 
 
-import naga.core.layer.net.bus.*;
+import naga.core.spi.bus.Bus;
+import naga.core.spi.bus.BusHook;
+import naga.core.spi.bus.Message;
+import naga.core.spi.bus.Registration;
 import naga.core.spi.plat.WebSocket;
 import naga.core.util.async.Handler;
 
@@ -67,13 +70,13 @@ public abstract class BusProxy implements Bus {
 
     @SuppressWarnings("rawtypes")
     @Override
-    public Registration subscribe(String topic, Handler<? extends Message> handler) {
+    public <T> Registration subscribe(String topic, Handler<Message<T>> handler) {
         return delegate.subscribe(topic, handler);
     }
 
     @SuppressWarnings("rawtypes")
     @Override
-    public Registration subscribeLocal(String topic, Handler<? extends Message> handler) {
+    public <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler) {
         return delegate.subscribeLocal(topic, handler);
     }
 

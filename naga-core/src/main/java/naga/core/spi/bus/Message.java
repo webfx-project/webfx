@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.layer.net.bus;
+package naga.core.spi.bus;
 
 import naga.core.util.async.Handler;
 import com.google.gwt.core.client.js.JsNoExport;

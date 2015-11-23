@@ -15,19 +15,20 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.layer.net.bus.impl;
+package naga.core.spi.bus.crossplat;
 
-import naga.core.layer.net.bus.Bus;
-import naga.core.layer.net.bus.BusHook;
-import naga.core.spi.plat.WebSocket;
-import naga.core.util.FuzzingBackOffGenerator;
-import naga.core.util.async.Handler;
-import naga.core.spi.plat.Platform;
-import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
 import com.google.gwt.core.client.js.JsExport;
 import com.google.gwt.core.client.js.JsNamespace;
+import naga.core.spi.bus.BusHook;
+import naga.core.spi.bus.BusOptions;
+import naga.core.spi.json.JsonObject;
+import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.WebSocket;
+import naga.core.util.idgen.FuzzingBackOffGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
@@ -42,15 +43,15 @@ public class ReconnectBus extends WebSocketBus {
     private final FuzzingBackOffGenerator backOffGenerator;
     private BusHook hook;
     private boolean reconnect;
-    private final JsonArray queuedMessages = Json.createArray(); // ArrayList<JsonObject>()
-    private final JsonObject options;
+    private final List<JsonObject> queuedMessages = new ArrayList<>();
+    private final BusOptions options;
 
     @JsExport
-    public ReconnectBus(String serverUri, JsonObject options) {
-        super(serverUri, options);
+    public ReconnectBus(BusOptions options) {
+        super(options);
         this.options = options;
-        reconnect =
-                options == null || !options.has(AUTO_RECONNECT) ? true : options.getBoolean(AUTO_RECONNECT);
+        JsonObject socketOptions = options.getSocketOptions();
+        reconnect = socketOptions == null || !socketOptions.has(AUTO_RECONNECT) || socketOptions.getBoolean(AUTO_RECONNECT);
         backOffGenerator = new FuzzingBackOffGenerator(1 * 1000, 30 * 60 * 1000, 0.5);
 
         super.setHook(new BusHookProxy() {
@@ -58,26 +59,19 @@ public class ReconnectBus extends WebSocketBus {
             public void handleOpened() {
                 backOffGenerator.reset();
 
-                handlerCount.keys().forEach(new JsonArray.ListIterator<String>() {
-                    @Override
-                    public void call(int index, String topic) {
-                        assert handlerCount.getNumber(topic) > 0 : "Handlers registried on " + topic
-                                + " shouldn't be empty";
-                        sendUnsubscribe(topic);
-                        sendSubscribe(topic);
-                    }
-                });
+                for (Map.Entry<String, Integer> entry : handlerCount.entrySet()) {
+                    String topic = entry.getKey();
+                    assert entry.getValue() > 0 : "Handlers registered on " + topic + " shouldn't be empty";
+                    sendUnsubscribe(topic);
+                    sendSubscribe(topic);
+                }
 
-                if (queuedMessages.length() > 0) {
-                    JsonArray copy = queuedMessages.copy();
+                if (queuedMessages.size() > 0) {
+                    List<JsonObject> copy = new ArrayList<>(queuedMessages);
                     queuedMessages.clear();
                     // Drain any messages that came in while the channel was not open.
-                    copy.forEach(new JsonArray.ListIterator<JsonObject>() {
-                        @Override
-                        public void call(int index, JsonObject msg) {
-                            send(msg);
-                        }
-                    });
+                    for (JsonObject msg : copy) // copy.forEach does't compile with TeaVM
+                        send(msg);
                 }
                 super.handleOpened();
             }
@@ -85,14 +79,10 @@ public class ReconnectBus extends WebSocketBus {
             @Override
             public void handlePostClose() {
                 if (reconnect) {
-                    Platform.scheduler().scheduleDelay(backOffGenerator.next().targetDelay,
-                            new Handler<Void>() {
-                                @Override
-                                public void handle(Void event) {
-                                    if (reconnect) {
-                                        reconnect();
-                                    }
-                                }
+                    Platform.scheduleDelay(backOffGenerator.next().targetDelay,
+                            event -> {
+                                if (reconnect)
+                                    reconnect();
                             });
                 }
                 super.handlePostClose();
@@ -106,20 +96,11 @@ public class ReconnectBus extends WebSocketBus {
     }
 
     public void reconnect() {
-        if (getReadyState() == WebSocket.State.OPEN || getReadyState() == WebSocket.State.CONNECTING) {
+        if (getReadyState() == WebSocket.State.OPEN || getReadyState() == WebSocket.State.CONNECTING)
             return;
-        }
-        if (webSocket != null) {
+        if (webSocket != null)
             webSocket.close();
-        }
-
         connect(serverUri, options);
-    }
-
-    @Override
-    public Bus setHook(BusHook hook) {
-        this.hook = hook;
-        return this;
     }
 
     @Override
@@ -136,13 +117,11 @@ public class ReconnectBus extends WebSocketBus {
             super.send(msg);
             return;
         }
-        if (reconnect) {
+        if (reconnect)
             reconnect();
-        }
         String type = msg.getString(TYPE);
-        if ("ping".equals(type) || "register".equals(type)) {
+        if ("ping".equals(type) || "register".equals(type))
             return;
-        }
-        queuedMessages.push(msg);
+        queuedMessages.add(msg);
     }
 }

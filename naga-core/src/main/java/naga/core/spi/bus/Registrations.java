@@ -15,10 +15,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.layer.net.bus;
+package naga.core.spi.bus;
 
-import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonArray;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link Registration} that will call {@link Registration#unregister()} on
@@ -30,26 +30,21 @@ import naga.core.spi.json.JsonArray;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Registrations.java">Original Goodow class</a>
  */
 public class Registrations implements Registration {
-    private JsonArray registrations;
+    private List<Registration> registrations;
 
     public Registrations add(Registration registration) {
         assert registration != null : "registration shouldn't be null";
-        if (registrations == null) {
-            registrations = Json.createArray();
-        }
-        registrations.push(registration);
+        if (registrations == null)
+            registrations = new ArrayList<>();
+        registrations.add(registration);
         return this;
     }
 
     @Override
     public void unregister() {
         if (registrations != null) {
-            registrations.forEach(new JsonArray.ListIterator<Registration>() {
-                @Override
-                public void call(int index, Registration value) {
-                    value.unregister();
-                }
-            });
+            for (Registration registration : registrations)
+                registration.unregister();
             // make sure we remove the handlers to avoid potential leaks
             // if someone fails to null out their reference to us
             registrations.clear();
@@ -57,14 +52,11 @@ public class Registrations implements Registration {
         }
     }
 
-    public Registration wrap(final Registration registration) {
+    public Registration wrap(Registration registration) {
         add(registration);
-        return new Registration() {
-            @Override
-            public void unregister() {
-                registrations.removeValue(registration);
-                registration.unregister();
-            }
+        return () -> {
+            registrations.remove(registration);
+            registration.unregister();
         };
     }
 }

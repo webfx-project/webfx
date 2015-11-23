@@ -16,7 +16,7 @@
  * the License.
  */
 
-package naga.core.layer.net.bus;
+package naga.core.spi.bus;
 
 import naga.core.spi.plat.WebSocket;
 import naga.core.util.async.Handler;
@@ -114,7 +114,7 @@ public interface Bus {
      * @return the handler registration, can be stored in order to unregister the handler later
      */
     @SuppressWarnings("rawtypes")
-    Registration subscribe(String topic, Handler<? extends Message> handler);
+    <T> Registration subscribe(String topic,Handler<Message<T>> handler);
 
     /**
      * Registers a local handler against the specified topic. The handler info won't be propagated
@@ -124,5 +124,5 @@ public interface Bus {
      * @param handler The handler
      */
     @SuppressWarnings("rawtypes")
-    Registration subscribeLocal(String topic, Handler<? extends Message> handler);
+    <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler);
 }
