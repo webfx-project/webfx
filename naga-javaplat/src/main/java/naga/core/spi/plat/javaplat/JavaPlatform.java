@@ -17,9 +17,12 @@
  */
 package naga.core.spi.plat.javaplat;
 
-import naga.core.spi.json.Json;
-import naga.core.spi.plat.*;
+import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JreJsonFactory;
+import naga.core.spi.plat.Diff;
+import naga.core.spi.plat.Net;
+import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.Scheduler;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -27,22 +30,23 @@ import naga.core.spi.json.javaplat.JreJsonFactory;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public class JavaPlatform implements PlatformFactory {
+public class JavaPlatform implements Platform {
     /**
      * Registers the Java platform with a default configuration.
      */
     public static void register() {
-        Platform.setFactory(new JavaPlatform());
-        Json.setFactory(new JreJsonFactory());
+        Platform.register(new JavaPlatform());
     }
 
     protected final JavaNet net;
     protected final JavaScheduler scheduler;
+    protected final JsonFactory jsonFactory;
     private final JavaDiff diff;
 
     protected JavaPlatform(JavaScheduler scheduler) {
         net = new JavaNet();
         this.scheduler = scheduler;
+        this.jsonFactory = new JreJsonFactory();
         diff = new JavaDiff();
     }
 
@@ -51,8 +55,8 @@ public class JavaPlatform implements PlatformFactory {
     }
 
     @Override
-    public Diff diff() {
-        return diff;
+    public Platform.Type type() {
+        return Platform.Type.JAVA;
     }
 
     @Override
@@ -66,7 +70,13 @@ public class JavaPlatform implements PlatformFactory {
     }
 
     @Override
-    public Platform.Type type() {
-        return Platform.Type.JAVA;
+    public JsonFactory jsonFactory() {
+        return jsonFactory;
     }
+
+    @Override
+    public Diff diff() {
+        return diff;
+    }
+
 }

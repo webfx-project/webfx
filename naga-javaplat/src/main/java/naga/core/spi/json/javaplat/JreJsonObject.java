@@ -31,8 +31,8 @@ import java.util.Map;
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
- *         <p>
- *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
+ *
+ * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
 public class JreJsonObject extends JreJsonElement implements JsonObject {
     private static final long serialVersionUID = -2848796364089017455L;
@@ -48,9 +48,8 @@ public class JreJsonObject extends JreJsonElement implements JsonObject {
             } else if (obj instanceof List) {
                 List<Object> list = (List<Object>) obj;
                 converted.put(entry.getKey(), JreJsonArray.convertList(list));
-            } else {
+            } else
                 converted.put(entry.getKey(), obj);
-            }
         }
         return converted;
     }
@@ -58,7 +57,7 @@ public class JreJsonObject extends JreJsonElement implements JsonObject {
     protected Map<String, Object> map;
 
     public JreJsonObject() {
-        this.map = new LinkedHashMap<String, Object>();
+        this.map = new LinkedHashMap<>();
     }
 
     public JreJsonObject(Map<String, Object> map) {
@@ -75,11 +74,10 @@ public class JreJsonObject extends JreJsonElement implements JsonObject {
     @Override
     public JsonObject clear() {
         if (needsCopy) {
-            map = new LinkedHashMap<String, Object>();
+            map = new LinkedHashMap<>();
             needsCopy = false;
-        } else {
+        } else
             map.clear();
-        }
         return this;
     }
 
@@ -95,31 +93,24 @@ public class JreJsonObject extends JreJsonElement implements JsonObject {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o)
             return true;
-        }
 
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass())
             return false;
-        }
 
         JreJsonObject that = (JreJsonObject) o;
 
-        if (this.map.size() != that.map.size()) {
+        if (this.map.size() != that.map.size())
             return false;
-        }
 
         for (Map.Entry<String, Object> entry : this.map.entrySet()) {
             Object val = entry.getValue();
             if (val == null) {
-                if (that.map.get(entry.getKey()) != null) {
+                if (that.map.get(entry.getKey()) != null)
                     return false;
-                }
-            } else {
-                if (!entry.getValue().equals(that.map.get(entry.getKey()))) {
+            } else if (!entry.getValue().equals(that.map.get(entry.getKey())))
                     return false;
-                }
-            }
         }
         return true;
     }
@@ -127,20 +118,18 @@ public class JreJsonObject extends JreJsonElement implements JsonObject {
     @SuppressWarnings("unchecked")
     @Override
     public <T> void forEach(MapIterator<T> handler) {
-        for (String key : map.keySet()) {
-            handler.call(key, (T) get(key));
-        }
+        for (String key : map.keySet())
+            handler.call(key, get(key));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public <T> T get(String key) {
         Object value = map.get(key);
-        if (value instanceof Map) {
+        if (value instanceof Map)
             value = new JreJsonObject((Map) value);
-        } else if (value instanceof List) {
+        else if (value instanceof List)
             value = new JreJsonArray((List) value);
-        }
         return (T) value;
     }
 

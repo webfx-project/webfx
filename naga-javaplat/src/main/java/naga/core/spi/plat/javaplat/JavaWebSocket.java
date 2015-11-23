@@ -45,9 +45,8 @@ public class JavaWebSocket implements WebSocket {
     private static CharsetDecoder decoder = charset.newDecoder();
 
     private static String toString(ByteBuffer buffer) throws CharacterCodingException {
-        String data = null;
         int old_position = buffer.position();
-        data = decoder.decode(buffer).toString();
+        String data = decoder.decode(buffer).toString();
         // reset buffer's position to its original so it is not altered:
         buffer.position(old_position);
         return data;
@@ -57,7 +56,7 @@ public class JavaWebSocket implements WebSocket {
     private WebSocketHandler eventHandler;
 
     public JavaWebSocket(String uri) {
-        URI serverUri = null;
+        URI serverUri;
         try {
             serverUri = new URI(uri);
         } catch (URISyntaxException e) {
@@ -66,57 +65,45 @@ public class JavaWebSocket implements WebSocket {
 
         socket = new WebSocketClient(serverUri, new Draft_17()) {
             @Override
-            public void onClose(final int code, final String reason, final boolean remote) {
-                log.info("WebSocket closed, code=" + code + ", reason=" + reason + ", remote=" + remote);
-                if (eventHandler == null) {
-                    return;
-                }
-                eventHandler.onClose(Json.createObject().set("code", code).set("reason", reason).set(
-                        "remote", remote));
-            }
-
-            @Override
-            public void onError(final Exception e) {
-                log.log(Level.SEVERE, "Websocket Failed With Exception", e);
-                if (eventHandler == null) {
-                    return;
-                }
-                String message = e.getMessage();
-                eventHandler.onError(message == null ? e.getClass().getSimpleName() : message);
-            }
-
-            @Override
-            public void onMessage(final ByteBuffer buffer) {
-                final String msg;
-                try {
-                    msg = JavaWebSocket.toString(buffer);
-                } catch (CharacterCodingException e) {
-                    log.log(Level.SEVERE, "Websocket Failed when Charset Decoding", e);
-                    return;
-                }
-                log.finest("Websocket Received: " + msg);
-                if (eventHandler == null) {
-                    return;
-                }
-                eventHandler.onMessage(msg);
-            }
-
-            @Override
-            public void onMessage(final String msg) {
-                log.finest("Websocket received: " + msg);
-                if (eventHandler == null) {
-                    return;
-                }
-                eventHandler.onMessage(msg);
-            }
-
-            @Override
             public void onOpen(ServerHandshake handshake) {
                 log.info("Websocket Connected");
-                if (eventHandler == null) {
-                    return;
+                if (eventHandler != null)
+                    eventHandler.onOpen();
+            }
+
+            @Override
+            public void onMessage(String msg) {
+                log.finest("Websocket received: " + msg);
+                if (eventHandler != null)
+                    eventHandler.onMessage(msg);
+            }
+
+            @Override
+            public void onMessage(ByteBuffer buffer) {
+                try {
+                    String msg = JavaWebSocket.toString(buffer);
+                    log.finest("Websocket Received: " + msg);
+                    if (eventHandler != null)
+                        eventHandler.onMessage(msg);
+                } catch (CharacterCodingException e) {
+                    log.log(Level.SEVERE, "Websocket Failed when Charset Decoding", e);
                 }
-                eventHandler.onOpen();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                log.log(Level.SEVERE, "Websocket Failed With Exception", e);
+                if (eventHandler != null) {
+                    String message = e.getMessage();
+                    eventHandler.onError(message == null ? e.getClass().getSimpleName() : message);
+                }
+            }
+
+            @Override
+            public void onClose(int code, String reason, boolean remote) {
+                log.info("WebSocket closed, code=" + code + ", reason=" + reason + ", remote=" + remote);
+                if (eventHandler != null)
+                    eventHandler.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
             }
         };
 
@@ -124,15 +111,9 @@ public class JavaWebSocket implements WebSocket {
     }
 
     @Override
-    public void close() {
-        socket.close();
-    }
-
-    @Override
     public State getReadyState() {
         READYSTATE readyState = socket.getReadyState();
-        return readyState == READYSTATE.NOT_YET_CONNECTED ? State.CONNECTING : State.values[readyState
-                .ordinal() - 1];
+        return readyState == READYSTATE.NOT_YET_CONNECTED ? State.CONNECTING : State.values[readyState.ordinal() - 1];
     }
 
     @Override
@@ -148,5 +129,11 @@ public class JavaWebSocket implements WebSocket {
     @Override
     public void setListen(WebSocketHandler handler) {
         this.eventHandler = handler;
+    }
+
+
+    @Override
+    public void close() {
+        socket.close();
     }
 }

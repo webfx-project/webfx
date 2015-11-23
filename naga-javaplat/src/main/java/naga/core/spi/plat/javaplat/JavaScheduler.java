@@ -67,12 +67,6 @@ public class JavaScheduler implements Scheduler {
         return false;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void handle(Object handler, Object event) {
-        ((Handler<Object>) handler).handle(event);
-    }
-
     @Override
     public void scheduleDeferred(final Handler<Void> handler) {
         executor.execute(new Runnable() {
