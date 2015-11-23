@@ -68,7 +68,7 @@ public interface JsonObject extends JsonElement {
     double getNumber(String key);
 
     /**
-     * Return the element (uncoerced) as a JsonObject If the type is not an object,, this can result
+     * Return the element (uncoerced) as a JsonObject. If the type is not an object, this can result
      * in runtime errors.
      */
     JsonObject getObject(String key);

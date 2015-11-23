@@ -27,24 +27,26 @@ package naga.core.spi.json;
  */
 public class Json {
 
-    private static JsonFactory FACTORY; // = new JreJsonFactory();
-
     public static JsonArray createArray() {
-        return FACTORY.createArray();
+        return getFactory().createArray();
     }
 
     public static JsonObject createObject() {
-        return FACTORY.createObject();
+        return getFactory().createObject();
     }
 
     public static <T> T parse(String jsonString) {
-        return FACTORY.parse(jsonString);
+        return getFactory().parse(jsonString);
     }
 
-    public static void setFactory(JsonFactory factory) {
-        FACTORY = factory;
+    private static JsonFactory FACTORY;
+
+    public static void registerFactory(JsonFactory jsonFactory) {
+         FACTORY = jsonFactory;
     }
 
-    private Json() {
+    public static JsonFactory getFactory() {
+        assert FACTORY != null : "You must register a JSON factory first by invoke Json.registerFactory()";
+        return FACTORY;
     }
 }
