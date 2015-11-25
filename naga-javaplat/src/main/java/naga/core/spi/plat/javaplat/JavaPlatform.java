@@ -19,7 +19,6 @@ package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JreJsonFactory;
-import naga.core.spi.plat.Diff;
 import naga.core.spi.plat.Net;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
@@ -41,13 +40,11 @@ public class JavaPlatform implements Platform {
     protected final JavaNet net;
     protected final JavaScheduler scheduler;
     protected final JsonFactory jsonFactory;
-    private final JavaDiff diff;
 
     protected JavaPlatform(JavaScheduler scheduler) {
         net = new JavaNet();
         this.scheduler = scheduler;
         this.jsonFactory = new JreJsonFactory();
-        diff = new JavaDiff();
     }
 
     private JavaPlatform() {
@@ -72,11 +69,6 @@ public class JavaPlatform implements Platform {
     @Override
     public JsonFactory jsonFactory() {
         return jsonFactory;
-    }
-
-    @Override
-    public Diff diff() {
-        return diff;
     }
 
 }

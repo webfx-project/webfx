@@ -50,8 +50,4 @@ public class VertxPlatform implements Platform {
         return busFactory;
     }
 
-    @Override
-    public Diff diff() {
-        return null;
-    }
 }

@@ -17,10 +17,8 @@
  */
 package naga.core.spi.plat.android;
 
-import naga.core.spi.json.Json;
-import naga.core.spi.json.javaplat.JreJsonFactory;
-import naga.core.spi.plat.javaplat.JavaPlatform;
 import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.javaplat.JavaPlatform;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -31,8 +29,7 @@ import naga.core.spi.plat.Platform;
 public class AndroidPlatform extends JavaPlatform {
 
     public static void register() {
-        Platform.setFactory(new AndroidPlatform());
-        Json.setFactory(new JreJsonFactory());
+        Platform.register(new AndroidPlatform());
     }
 
     private AndroidPlatform() {

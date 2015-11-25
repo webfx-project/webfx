@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="library" name="Maven: naga:naga-core:0.1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="naga-javaplat" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.1" level="project" />

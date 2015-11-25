@@ -51,8 +51,6 @@ public interface Platform {
 
     default BusFactory busFactory() { return ReconnectBusFactory.SINGLETON; }
 
-    Diff diff();
-
     Holder<Platform> PLATFORM_HOLDER = new Holder<>();
 
     // Static access
@@ -64,7 +62,7 @@ public interface Platform {
 
     static Platform get() {
         Platform platform = PLATFORM_HOLDER.get();
-        assert platform != null : "You must register a platform first by invoke {Java|Android}Platform.register()";
+        //assert platform != null : "You must register a platform first by invoke {Java|Android}Platform.register()";
         return platform;
     }
 
