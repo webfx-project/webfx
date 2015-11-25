@@ -27,11 +27,6 @@ public class VertxPlatform implements Platform {
     }
 
     @Override
-    public Type type() {
-        return Type.VERTX;
-    }
-
-    @Override
     public Net net() {
         // never used as the vertx bus implementation is not using it
         throw new UnsupportedOperationException();

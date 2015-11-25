@@ -22,11 +22,6 @@ public class TeaVmPlatform implements Platform {
     private final Scheduler scheduler = new TeaVmScheduler();
 
     @Override
-    public Type type() {
-        return Type.TEAVM;
-    }
-
-    @Override
     public Net net() {
         return net;
     }

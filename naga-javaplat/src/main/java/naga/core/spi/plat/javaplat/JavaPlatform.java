@@ -54,11 +54,6 @@ public class JavaPlatform implements Platform {
     }
 
     @Override
-    public Platform.Type type() {
-        return Platform.Type.JAVA;
-    }
-
-    @Override
     public Net net() {
         return net;
     }

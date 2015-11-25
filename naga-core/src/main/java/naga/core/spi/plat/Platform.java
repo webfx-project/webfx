@@ -40,12 +40,6 @@ import java.util.logging.Logger;
  */
 public interface Platform {
 
-    enum Type {
-        JAVA, ANDROID, GWT, TEAVM, VERTX
-    }
-
-    Type type();
-
     Net net();
 
     Scheduler scheduler();

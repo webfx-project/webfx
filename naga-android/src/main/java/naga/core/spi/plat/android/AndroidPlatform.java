@@ -36,8 +36,4 @@ public class AndroidPlatform extends JavaPlatform {
         super(new AndroidScheduler());
     }
 
-    @Override
-    public Platform.Type type() {
-        return Platform.Type.ANDROID;
-    }
 }
