@@ -35,7 +35,6 @@ import java.util.Map;
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
 public class JavaJsonObject extends JavaJsonElement implements JsonObject {
-    private static final long serialVersionUID = -2848796364089017455L;
 
     @SuppressWarnings("unchecked")
     static Map<String, Object> convertMap(Map<String, Object> map) {

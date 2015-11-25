@@ -31,8 +31,6 @@ import java.util.Map;
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonElement.java">Original Goodow class</a>
  */
 public abstract class JavaJsonElement implements JsonElement {
-    private static final long serialVersionUID = 3661435771481171596L;
-
     protected boolean needsCopy;
 
     @Override

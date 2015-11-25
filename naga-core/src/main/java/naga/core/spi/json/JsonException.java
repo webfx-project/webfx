@@ -25,8 +25,6 @@ package naga.core.spi.json;
  */
 public class JsonException extends RuntimeException {
 
-    private static final long serialVersionUID = 5592603246082277358L;
-
     public JsonException() {
     }
 

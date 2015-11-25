@@ -32,8 +32,6 @@ import com.google.gwt.core.client.JsArrayString;
  */
 public final class GwtJsonObject extends GwtJsonElement implements JsonObject {
 
-    private static final long serialVersionUID = -5864296191395989510L;
-
     public static GwtJsonObject create() {
         return createObject().cast();
     }

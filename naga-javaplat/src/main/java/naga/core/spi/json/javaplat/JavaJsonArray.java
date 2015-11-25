@@ -33,7 +33,6 @@ import java.util.Map;
  *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonArray.java">Original Goodow class</a>
  */
 public class JavaJsonArray extends JavaJsonElement implements JsonArray {
-    private static final long serialVersionUID = -4799870976276999803L;
 
     @SuppressWarnings("unchecked")
     static List<Object> convertList(List<?> list) {

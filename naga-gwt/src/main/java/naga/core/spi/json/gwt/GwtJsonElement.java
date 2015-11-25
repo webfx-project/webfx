@@ -29,8 +29,6 @@ import naga.core.spi.json.JsonType;
  */
 abstract class GwtJsonElement extends GwtJsonValue implements JsonElement {
 
-    private static final long serialVersionUID = 2020864649803892593L;
-
     protected GwtJsonElement() {
     }
 

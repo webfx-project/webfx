@@ -30,8 +30,6 @@ import naga.core.spi.json.JsonType;
  */
 final class GwtJsonArray extends GwtJsonElement implements JsonArray {
 
-    private static final long serialVersionUID = -8395506929193541582L;
-
     public static JsonArray create() {
         return (GwtJsonArray) createArray();
     }
