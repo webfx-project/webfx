@@ -23,96 +23,24 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
       </profile>
-      <profile default="false" name="Annotation profile for naga-core" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-core" />
-      </profile>
-      <profile default="false" name="Annotation profile for helloworld-logic" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="helloworld-logic" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-vertx" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-vertx" />
-      </profile>
-      <profile default="false" name="Annotation profile for helloworld-gwt" enabled="true">
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="helloworld-gwt" />
-      </profile>
-      <profile default="false" name="Annotation profile for helloworld-j2objc" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="helloworld-j2objc" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-j2objc" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-j2objc" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-gwt" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-gwt" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-teavm" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-teavm" />
-      </profile>
-      <profile default="false" name="Annotation profile for helloworld-teavm" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="helloworld-teavm" />
-      </profile>
-      <profile default="false" name="Annotation profile for helloworld-jre" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="helloworld-jre" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-jre" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-jre" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-javaplat" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
-        <module name="naga-javaplat" />
-      </profile>
-      <profile default="false" name="Annotation profile for naga-android" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
+        <module name="helloworld-logic" />
+        <module name="helloworld-teavm" />
         <module name="naga-android" />
+        <module name="naga-core" />
+        <module name="naga-gwt" />
+        <module name="naga-j2objc" />
+        <module name="naga-javaplat" />
+        <module name="naga-jre" />
+        <module name="naga-teavm" />
+        <module name="naga-vertx" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -126,6 +54,7 @@
       <module name="helloworld-toolchain" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-android" target="1.8" />
+      <module name="naga-cn1" target="1.8" />
       <module name="naga-core" target="1.8" />
       <module name="naga-examples" target="1.8" />
       <module name="naga-gwt" target="1.8" />

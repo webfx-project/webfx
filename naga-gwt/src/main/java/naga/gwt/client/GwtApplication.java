@@ -2,12 +2,13 @@ package naga.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.user.client.ui.RootPanel;
-import naga.core.Naga;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import naga.core.spi.bus.BusOptions;
+import naga.core.spi.json.Json;
+import naga.core.spi.json.JsonObject;
+import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.gwt.GwtPlatform;
 
 /*
  * @author Bruno Salmon
@@ -15,20 +16,26 @@ import java.util.logging.Logger;
 
 public class GwtApplication implements EntryPoint {
 
-    public void onModuleLoad() {
-        String nagaVersion = new Naga().getVersion();
+    static {
+        GwtPlatform.register();
+    }
 
-        displayMessage(nagaVersion);
+    public void onModuleLoad() {
+        JsonObject p = Json.parse("{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 43}");
+        p.set("fullName", p.getString("firstName") + " " + p.getString("lastName"));
+        p.set("age", p.getNumber("age") + 1);
+        displayMessage(p.toJsonString());
+
+        Platform.createBus(new BusOptions().setProtocol("http")).send("version", "get", event -> displayMessage("" + event.body()));
     }
 
     private void displayMessage(String message) {
         // Tracing the message in the console
-        Logger logger = Logger.getLogger("NagaLogger");
-        logger.log(Level.INFO,  message);
+        Platform.log(message);
 
         // Displaying the message in the DOM
-        SpanElement headingElement = Document.get().createSpanElement();
-        headingElement.setInnerText(message);
-        RootPanel.get().getElement().appendChild(headingElement);
+        ParagraphElement p = Document.get().createPElement();
+        p.setInnerText(message);
+        RootPanel.get().getElement().appendChild(p);
     }
 }
