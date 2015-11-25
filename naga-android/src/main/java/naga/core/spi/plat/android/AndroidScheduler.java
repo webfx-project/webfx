@@ -37,11 +37,6 @@ class AndroidScheduler extends JavaScheduler {
 
     @Override
     public void scheduleDeferred(final Handler<Void> handler) {
-        this.handler.post(new Runnable() {
-            @Override
-            public void run() {
-                handler.handle(null);
-            }
-        });
+        this.handler.post(() -> handler.handle(null));
     }
 }

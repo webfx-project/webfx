@@ -6,7 +6,7 @@ import naga.core.util.async.Handler;
 /**
  * @author Bruno Salmon
  */
-public class VertxScheduler implements Scheduler {
+public class VertxScheduler implements Scheduler<Long> {
 
     private final Vertx vertx;
 
@@ -20,27 +20,17 @@ public class VertxScheduler implements Scheduler {
     }
 
     @Override
-    public int scheduleDelay(int delayMs, Handler<Void> handler) {
-        return (int) vertx.setTimer(delayMs, new io.vertx.core.Handler<Long>() {
-            @Override
-            public void handle(Long event) {
-                handler.handle(null);
-            }
-        });
+    public Long scheduleDelay(int delayMs, Handler<Void> handler) {
+        return vertx.setTimer(delayMs, event -> handler.handle(null));
     }
 
     @Override
-    public int schedulePeriodic(int delayMs, Handler<Void> handler) {
-        return (int) vertx.setPeriodic(delayMs, new io.vertx.core.Handler<Long>() {
-            @Override
-            public void handle(Long event) {
-                handler.handle(null);
-            }
-        });
+    public Long schedulePeriodic(int delayMs, Handler<Void> handler) {
+        return vertx.setPeriodic(delayMs, event -> handler.handle(null));
     }
 
     @Override
-    public boolean cancelTimer(int id) {
+    public boolean cancelTimer(Long id) {
         return vertx.cancelTimer(id);
     }
 }

@@ -27,7 +27,7 @@ import naga.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Scheduler.java">Original Goodow class</a>
  */
-public interface Scheduler {
+public interface Scheduler<T> {
     /**
      * A deferred command is executed after the event loop returns.
      */
@@ -39,7 +39,7 @@ public interface Scheduler {
      *
      * @return the unique ID of the timer
      */
-    int scheduleDelay(int delayMs, Handler<Void> handler);
+    T scheduleDelay(int delayMs, Handler<Void> handler);
 
     /**
      * Schedules a repeating handler that is scheduled with a constant periodicity. That is, the
@@ -50,11 +50,12 @@ public interface Scheduler {
      * @param handler the handler to execute
      * @return the unique ID of the timer
      */
-    int schedulePeriodic(int delayMs, Handler<Void> handler);
+    T schedulePeriodic(int delayMs, Handler<Void> handler);
 
     /**
      * Cancel the timer with the specified {@code id}. Returns {@code} true if the timer was
      * successfully cancelled, or {@code false} if the timer does not exist.
+     * @param id
      */
-    boolean cancelTimer(int id);
+    boolean cancelTimer(T id);
 }

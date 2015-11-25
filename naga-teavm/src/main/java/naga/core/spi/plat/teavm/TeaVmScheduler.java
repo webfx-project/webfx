@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class TeaVmScheduler implements Scheduler {
+public class TeaVmScheduler implements Scheduler<Integer> {
 
     private final Map<Integer, Integer> periodicIds = new HashMap<>();
 
@@ -22,12 +22,12 @@ public class TeaVmScheduler implements Scheduler {
     }
 
     @Override
-    public int scheduleDelay(int delayMs, Handler<Void> handler) {
+    public Integer scheduleDelay(int delayMs, Handler<Void> handler) {
         return Platform.schedule(() -> handler.handle(null), delayMs);
     }
 
     @Override
-    public int schedulePeriodic(int delayMs, Handler<Void> handler) {
+    public Integer schedulePeriodic(int delayMs, Handler<Void> handler) {
         Holder<Integer> timerIdHolder = new Holder<>();
         PlatformRunnable runnable = new PlatformRunnable() {
             @Override
@@ -44,7 +44,7 @@ public class TeaVmScheduler implements Scheduler {
     }
 
     @Override
-    public boolean cancelTimer(int id) {
+    public boolean cancelTimer(Integer id) {
         Platform.killSchedule(id);
         Integer periodicId = periodicIds.remove(id);
         if (periodicId != null)

@@ -35,16 +35,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public class JavaScheduler implements Scheduler {
-    private final ScheduledExecutorService executor;
-    private final AtomicInteger timerId;
-    private final Map<Integer, ScheduledFuture<?>> timers;
+public class JavaScheduler implements Scheduler<Integer> {
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private final AtomicInteger timerId = new AtomicInteger(0);
+    private final Map<Integer, ScheduledFuture<?>> timers = new HashMap<>();
 
     protected JavaScheduler() {
-        executor = Executors.newScheduledThreadPool(1);
-        timerId = new AtomicInteger(0);
-        timers = new HashMap<Integer, ScheduledFuture<?>>();
-
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
@@ -60,47 +56,29 @@ public class JavaScheduler implements Scheduler {
     }
 
     @Override
-    public boolean cancelTimer(int id) {
-        if (timers.containsKey(id)) {
-            return timers.remove(id).cancel(false);
-        }
-        return false;
+    public boolean cancelTimer(Integer id) {
+        return timers.containsKey(id) && timers.remove(id).cancel(false);
     }
 
     @Override
     public void scheduleDeferred(final Handler<Void> handler) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                handler.handle(null);
-            }
-        });
+        executor.execute(() -> handler.handle(null));
     }
 
     @Override
-    public int scheduleDelay(int delayMs, final Handler<Void> handler) {
-        final int id = timerId.getAndIncrement();
-        ScheduledFuture<?> future = executor.schedule(new Runnable() {
-            @Override
-            public void run() {
-                timers.remove(id);
-                handler.handle(null);
-            }
-        }, delayMs, TimeUnit.MILLISECONDS);
-        timers.put(id, future);
+    public Integer scheduleDelay(int delayMs, final Handler<Void> handler) {
+        int id = timerId.getAndIncrement();
+        timers.put(id, executor.schedule((Runnable) () -> {
+            timers.remove(id);
+            handler.handle(null);
+        }, delayMs, TimeUnit.MILLISECONDS));
         return id;
     }
 
     @Override
-    public int schedulePeriodic(int delayMs, final Handler<Void> handler) {
-        final int id = timerId.getAndIncrement();
-        ScheduledFuture<?> future = executor.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                handler.handle(null);
-            }
-        }, delayMs, delayMs, TimeUnit.MILLISECONDS);
-        timers.put(id, future);
+    public Integer schedulePeriodic(int delayMs, final Handler<Void> handler) {
+        int id = timerId.getAndIncrement();
+        timers.put(id, executor.scheduleAtFixedRate((Runnable) () -> handler.handle(null), delayMs, delayMs, TimeUnit.MILLISECONDS));
         return id;
     }
 }
