@@ -31,8 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
@@ -42,7 +40,6 @@ import java.util.logging.Logger;
  */
 @SuppressWarnings("rawtypes")
 public class SimpleBus implements Bus {
-    private static final Logger log = Logger.getLogger(SimpleBus.class.getName());
 
     static void checkNotNull(String paramName, Object param) {
         if (param == null)
@@ -202,7 +199,7 @@ public class SimpleBus implements Bus {
         try {
             handler.handle(message);
         } catch (Throwable e) {
-            log.log(Level.WARNING, "Failed to handle on topic: " + topic, e);
+            Platform.log("Failed to handle on topic: " + topic, e);
             publishLocal(Bus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
         }
     }

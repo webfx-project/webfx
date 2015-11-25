@@ -6,6 +6,8 @@ import naga.core.spi.bus.vertx.VertxBusFactory;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.vertx.VertxJsonFactory;
 
+import java.util.logging.Logger;
+
 /**
  * @author Bruno Salmon
  */
@@ -50,4 +52,8 @@ public class VertxPlatform implements Platform {
         return busFactory;
     }
 
+    @Override
+    public Logger logger() {
+        return Logger.getAnonymousLogger();
+    }
 }

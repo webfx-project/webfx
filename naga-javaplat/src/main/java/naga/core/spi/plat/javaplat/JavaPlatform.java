@@ -23,6 +23,8 @@ import naga.core.spi.plat.Net;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
 
+import java.util.logging.Logger;
+
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
  * @author Bruno Salmon - fork, refactor & update for the naga project
@@ -69,6 +71,11 @@ public class JavaPlatform implements Platform {
     @Override
     public JsonFactory jsonFactory() {
         return jsonFactory;
+    }
+
+    @Override
+    public Logger logger() {
+        return Logger.getAnonymousLogger();
     }
 
 }

@@ -12,6 +12,6 @@ public class JreApplication {
     public static void main(String[] args) {
         JavaPlatform.register();
 
-        Platform.createBus().send("version", null, event -> System.out.println(event.body()));
+        Platform.createBus().send("version", null, event -> Platform.log(event.body()));
     }
 }

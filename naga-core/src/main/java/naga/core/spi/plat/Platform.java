@@ -27,6 +27,9 @@ import naga.core.spi.json.JsonObject;
 import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * Generic platform interface. New platforms are defined as implementations of this interface.
  *
@@ -50,6 +53,15 @@ public interface Platform {
     JsonFactory jsonFactory();
 
     default BusFactory busFactory() { return ReconnectBusFactory.SINGLETON; }
+
+    default Logger logger() {
+        //return Logger.getAnonymousLogger(); // compilation error with GWT
+        return logger("");
+    }
+
+    default Logger logger(String name) {
+        return Logger.getLogger(name);
+    }
 
     Holder<Platform> PLATFORM_HOLDER = new Holder<>();
 
@@ -76,7 +88,7 @@ public interface Platform {
         return get().busFactory().createBus(options);
     }
 
-    static int scheduleDelay(int delayMs, Handler<Void> handler) {
+    static Object scheduleDelay(int delayMs, Handler<Void> handler) {
         return get().scheduler().scheduleDelay(delayMs, handler);
     }
 
@@ -84,15 +96,28 @@ public interface Platform {
         get().scheduler().scheduleDeferred(handler);
     }
 
-    static int schedulePeriodic(int delayMs, Handler<Void> handler) {
+    static Object schedulePeriodic(int delayMs, Handler<Void> handler) {
         return get().scheduler().schedulePeriodic(delayMs, handler);
     }
 
-    static boolean cancelTimer(int id) {
-        return get().scheduler().cancelTimer(id);
+    static boolean cancelTimer(Object timerId) {
+        return get().scheduler().cancelTimer(timerId);
     }
 
     static WebSocket createWebSocket(String url, JsonObject options) {
         return get().net().createWebSocket(url, options);
     }
+
+    static void log(Object message) {
+        log(message == null ? "null" : message.toString());
+    }
+
+    static void log(String message) {
+        get().logger().log(Level.INFO, message);
+    }
+
+    static void log(String message, Throwable error) {
+        get().logger().log(Level.SEVERE, message, error);
+    }
+
 }

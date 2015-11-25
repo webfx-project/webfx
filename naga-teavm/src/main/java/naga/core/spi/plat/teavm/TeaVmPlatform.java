@@ -6,6 +6,8 @@ import naga.core.spi.plat.Net;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
 
+import java.util.logging.Logger;
+
 /**
  * @author Bruno Salmon
  */
@@ -37,6 +39,11 @@ public class TeaVmPlatform implements Platform {
     @Override
     public JsonFactory jsonFactory() {
         return jsonFactory;
+    }
+
+    @Override
+    public Logger logger() {
+        return Logger.getAnonymousLogger();
     }
 
 }

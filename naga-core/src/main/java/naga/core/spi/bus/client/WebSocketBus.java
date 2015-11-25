@@ -50,7 +50,7 @@ public class WebSocketBus extends SimpleBus {
     String serverUri;
     WebSocket webSocket;
     private int pingInterval;
-    private int pingTimerID = -1;
+    private Object pingTimerID = null;
     private String sessionId;
     private String username;
     private String password;
@@ -63,7 +63,7 @@ public class WebSocketBus extends SimpleBus {
         webSocketHandler = new WebSocket.WebSocketHandler() {
             @Override
             public void onOpen() {
-                System.out.println("onOpen()");
+                Platform.log("onOpen()");
                 sendLogin();
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
@@ -76,7 +76,7 @@ public class WebSocketBus extends SimpleBus {
 
             @Override
             public void onMessage(String msg) {
-                //System.out.println("onMessage(), msg = " + msg);
+                //Platform.log("onMessage(), msg = " + msg);
                 JsonObject json = Json.<JsonObject>parse(msg);
                 @SuppressWarnings({"unchecked"})
                 MessageImpl message = new MessageImpl(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
@@ -85,13 +85,13 @@ public class WebSocketBus extends SimpleBus {
 
             @Override
             public void onError(String error) {
-                System.out.println("onError(), error = " + error);
+                Platform.log("onError(), error = " + error);
                 publishLocal(ON_ERROR, Json.createObject().set("message", error));
             }
 
             @Override
             public void onClose(JsonObject reason) {
-                System.out.println("onClose()");
+                Platform.log("onClose()");
                 cancelPingTimer();
                 publishLocal(ON_CLOSE, reason);
                 if (hook != null)
@@ -104,9 +104,9 @@ public class WebSocketBus extends SimpleBus {
 
 
     private void cancelPingTimer() {
-        if (pingTimerID != -1)
+        if (pingTimerID != null)
             Platform.cancelTimer(pingTimerID);
-        pingTimerID = -1;
+        pingTimerID = null;
     }
 
     public void connect(String serverUri, BusOptions options) {
