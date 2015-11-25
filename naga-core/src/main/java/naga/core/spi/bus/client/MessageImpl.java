@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.crossplat;
+package naga.core.spi.bus.client;
 
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.Message;
@@ -27,7 +27,7 @@ import naga.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/MessageImpl.java">Original Goodow class</a>
  */
-public class MessageImpl<U> implements Message<U> {
+class MessageImpl<U> implements Message<U> {
     protected U body;
     protected Bus bus;
     protected String topic;

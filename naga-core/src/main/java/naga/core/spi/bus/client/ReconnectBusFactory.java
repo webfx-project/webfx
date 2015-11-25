@@ -1,4 +1,4 @@
-package naga.core.spi.bus.crossplat;
+package naga.core.spi.bus.client;
 
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;

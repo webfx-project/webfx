@@ -20,7 +20,7 @@ package naga.core.spi.plat;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
-import naga.core.spi.bus.crossplat.ReconnectBusFactory;
+import naga.core.spi.bus.client.ReconnectBusFactory;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.JsonObject;
