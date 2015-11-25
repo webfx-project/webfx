@@ -1,10 +1,8 @@
 package naga.core.spi.bus.vertx;
 
-import io.vertx.core.AsyncResult;
-import io.vertx.core.eventbus.*;
+import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.eventbus.MessageConsumer;
 import naga.core.spi.bus.*;
-import naga.core.spi.bus.Message;
-import naga.core.spi.bus.crossplat.MessageImpl;
 import naga.core.spi.plat.WebSocket;
 import naga.core.util.async.Handler;
 
@@ -52,13 +50,13 @@ public class VertxBus implements Bus {
 
     @Override
     public <T> Bus send(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        eventBus.send(topic, msg, toVertxHandler(replyHandler, false, topic));
+        eventBus.send(topic, msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), false)));
         return this;
     }
 
     @Override
     public <T> Bus sendLocal(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        eventBus.send(topic, msg, toVertxHandler(replyHandler, true, topic));
+        eventBus.send(topic, msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), true)));
         return this;
     }
 
@@ -69,56 +67,95 @@ public class VertxBus implements Bus {
 
     @Override
     public <T> Registration subscribe(String topic, Handler<Message<T>> handler) {
-        MessageConsumer<Object> consumer = eventBus.consumer(topic);
-        consumer.handler( event ->
-                handler.handle(new Message<T>() {
-                    @Override
-                    public T body() {
-                        return (T) event.body();
-                    }
-
-                    @Override
-                    public void fail(int failureCode, String msg) {
-                        event.fail(failureCode, msg);
-                    }
-
-                    @Override
-                    public boolean isLocal() {
-                        return false;
-                    }
-
-                    @Override
-                    public void reply(Object msg) {
-                        event.reply(msg);
-                    }
-
-                    @Override
-                    public <T1> void reply(Object msg, Handler<Message<T1>> replyHandler) {
-                        event.reply(msg, toVertxHandler(replyHandler, true, null));
-                    }
-
-                    @Override
-                    public String replyTopic() {
-                        return event.replyAddress();
-                    }
-
-                    @Override
-                    public String topic() {
-                        return event.address();
-                    }
-                }));
+        MessageConsumer<T> consumer = eventBus.consumer(topic);
+        consumer.handler(message -> handler.handle(toVertxMessage(message, false)));
         return consumer::unregister;
     }
 
     @Override
     public <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler) {
-        return eventBus.localConsumer(topic)::unregister;
+        MessageConsumer<T> consumer = eventBus.consumer(topic);
+        consumer.handler(message -> handler.handle(toVertxMessage(message, true)));
+        return consumer::unregister;
     }
 
 
-    private <T> io.vertx.core.Handler<AsyncResult<io.vertx.core.eventbus.Message<T>>> toVertxHandler(Handler<Message<T>> handler, boolean local, String topic) {
-        return handler == null ? null : (io.vertx.core.Handler<AsyncResult<io.vertx.core.eventbus.Message<T>>>) event ->
-                handler.handle(new MessageImpl<>(local, true, VertxBus.this, topic, event.result().replyAddress(), event.result().body()));
+    private static <T> Message<T> toVertxMessage(io.vertx.core.eventbus.Message<T> message, boolean local) {
+        return new Message<T>() {
+            @Override
+            public T body() {
+                return (T) message.body();
+            }
+
+            @Override
+            public void fail(int failureCode, String msg) {
+                message.fail(failureCode, msg);
+            }
+
+            @Override
+            public boolean isLocal() {
+                return local;
+            }
+
+            @Override
+            public void reply(Object msg) {
+                message.reply(msg);
+            }
+
+            @Override
+            public <T1> void reply(Object msg, Handler<Message<T1>> replyHandler) {
+                message.reply(msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), false)));
+            }
+
+            @Override
+            public String replyTopic() {
+                return message.replyAddress();
+            }
+
+            @Override
+            public String topic() {
+                return message.address();
+            }
+        };
+    }
+
+    private static <T> Message<T> fromVertxMessage(io.vertx.core.eventbus.Message<Object> message, boolean local) {
+        return new Message<T>() {
+            @Override
+            public T body() {
+                return (T) message.body();
+            }
+
+            @Override
+            public void fail(int failureCode, String msg) {
+                message.fail(failureCode, msg);
+            }
+
+            @Override
+            public boolean isLocal() {
+                return local;
+            }
+
+            @Override
+            public void reply(Object msg) {
+                message.reply(msg);
+            }
+
+            @Override
+            public <T> void reply(Object msg, Handler<Message<T>> replyHandler) {
+                message.reply(msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), local)));
+            }
+
+            @Override
+            public String replyTopic() {
+                return message.replyAddress();
+            }
+
+            @Override
+            public String topic() {
+                return message.address();
+            }
+        };
     }
 
 }
