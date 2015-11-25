@@ -31,14 +31,7 @@ import java.util.logging.Logger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public class JavaPlatform implements Platform {
-    /**
-     * Registers the Java platform with a default configuration.
-     */
-    public static void register() {
-        Platform.register(new JavaPlatform());
-    }
-
+public abstract class JavaPlatform implements Platform {
     protected final JavaNet net;
     protected final JavaScheduler scheduler;
     protected final JsonFactory jsonFactory;
@@ -49,7 +42,7 @@ public class JavaPlatform implements Platform {
         this.jsonFactory = new JreJsonFactory();
     }
 
-    private JavaPlatform() {
+    protected JavaPlatform() {
         this(new JavaScheduler());
     }
 
