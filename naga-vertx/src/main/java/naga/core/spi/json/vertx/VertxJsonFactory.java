@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class VertxJsonFactory implements JsonFactory {
+public final class VertxJsonFactory implements JsonFactory {
 
     @Override
     public JsonArray createArray() {
@@ -26,12 +26,10 @@ public class VertxJsonFactory implements JsonFactory {
     @Override
     public <T> T parse(String jsonString) {
         Object value = Json.decodeValue(jsonString, Object.class);
-        if (value instanceof Map) {
+        if (value instanceof Map)
             return (T) VertxJsonObject.create(new io.vertx.core.json.JsonObject((Map<String, Object>) value));
-        } else if (value instanceof List) {
+        if (value instanceof List)
             return (T) VertxJsonArray.create(new io.vertx.core.json.JsonArray((List<Object>) value));
-        } else {
-            return (T) value;
-        }
+        return (T) value;
     }
 }

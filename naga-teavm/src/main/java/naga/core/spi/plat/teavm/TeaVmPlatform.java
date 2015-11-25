@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public class TeaVmPlatform implements Platform {
+public final class TeaVmPlatform implements Platform {
 
     public static void register() {
         Platform.register(new TeaVmPlatform());

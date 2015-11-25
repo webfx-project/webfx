@@ -27,7 +27,7 @@ import naga.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/android/AndroidScheduler.java">Original Goodow class</a>
  */
-class AndroidScheduler extends JavaScheduler {
+final class AndroidScheduler extends JavaScheduler {
 
     private final android.os.Handler handler;
 

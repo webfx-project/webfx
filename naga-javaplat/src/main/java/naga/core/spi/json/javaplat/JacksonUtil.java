@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JacksonUtil.java">Original Goodow class</a>
  */
-public class JacksonUtil {
+final class JacksonUtil {
 
     private final static ObjectMapper mapper = new ObjectMapper();
     private final static ObjectMapper prettyMapper = new ObjectMapper();

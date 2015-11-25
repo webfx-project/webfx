@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
-public class JavaJsonObject extends JavaJsonElement implements JsonObject {
+final class JavaJsonObject extends JavaJsonElement implements JsonObject {
 
     @SuppressWarnings("unchecked")
     static Map<String, Object> convertMap(Map<String, Object> map) {

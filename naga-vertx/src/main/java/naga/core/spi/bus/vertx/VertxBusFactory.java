@@ -8,7 +8,7 @@ import naga.core.spi.bus.BusOptions;
 /**
  * @author Bruno Salmon
  */
-public class VertxBusFactory implements BusFactory {
+public final class VertxBusFactory implements BusFactory {
 
     private final EventBus eventBus;
 

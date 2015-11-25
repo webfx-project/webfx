@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class TeaVmScheduler implements Scheduler<Integer> {
+final class TeaVmScheduler implements Scheduler<Integer> {
 
     private final Map<Integer, Integer> periodicIds = new HashMap<>();
 

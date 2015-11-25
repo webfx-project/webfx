@@ -10,7 +10,7 @@ import org.teavm.jso.JSObject;
 /**
  * @author Bruno Salmon
  */
-public class TeaVmWebSocket implements WebSocket {
+final class TeaVmWebSocket implements WebSocket {
 
     private final SockJS sockJS;
 

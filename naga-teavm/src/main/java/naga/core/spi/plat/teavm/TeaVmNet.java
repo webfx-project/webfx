@@ -7,7 +7,7 @@ import naga.core.spi.plat.WebSocket;
 /**
  * @author Bruno Salmon
  */
-class TeaVmNet implements Net {
+final class TeaVmNet implements Net {
     @Override
     public WebSocket createWebSocket(String url, JsonObject options) {
         return new TeaVmWebSocket(url, options);

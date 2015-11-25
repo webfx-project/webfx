@@ -6,7 +6,7 @@ import naga.core.spi.plat.javaplat.JavaPlatform;
 /**
  * @author Bruno Salmon
  */
-public class JrePlatform extends JavaPlatform {
+public final class JrePlatform extends JavaPlatform {
 
     /**
      * Registers the Java platform with a default configuration.

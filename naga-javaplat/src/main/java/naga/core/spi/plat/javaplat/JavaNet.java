@@ -27,7 +27,7 @@ import naga.core.spi.plat.WebSocket;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-class JavaNet implements Net {
+final class JavaNet implements Net {
 
     @Override
     public WebSocket createWebSocket(String url, JsonObject options) {

@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonFactory.java">Original Goodow class</a>
  */
-public class JavaJsonFactory implements JsonFactory {
+public final class JavaJsonFactory implements JsonFactory {
     @Override
     public JsonArray createArray() {
         return new JavaJsonArray();

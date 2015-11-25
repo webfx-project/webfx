@@ -26,7 +26,7 @@ import naga.core.spi.plat.javaplat.JavaPlatform;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/android/AndroidPlatform.java">Original Goodow class</a>
  */
-public class AndroidPlatform extends JavaPlatform {
+public final class AndroidPlatform extends JavaPlatform {
 
     public static void register() {
         Platform.register(new AndroidPlatform());

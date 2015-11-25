@@ -6,7 +6,7 @@ import naga.core.util.async.Handler;
 /**
  * @author Bruno Salmon
  */
-public class VertxScheduler implements Scheduler<Long> {
+final class VertxScheduler implements Scheduler<Long> {
 
     private final Vertx vertx;
 

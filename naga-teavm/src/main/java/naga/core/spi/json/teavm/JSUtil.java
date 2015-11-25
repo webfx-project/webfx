@@ -13,7 +13,7 @@ import org.teavm.jso.json.JSON;
 /**
  * @author Bruno Salmon
  */
-public class JSUtil {
+public final class JSUtil {
 
     @JSBody(params = {}, script = "return {};")
     public static native JSObject newJSObject();

@@ -8,7 +8,7 @@ import naga.core.util.async.Handler;
 /**
  * @author Bruno Salmon
  */
-class GwtScheduler implements Scheduler<Timer> {
+final class GwtScheduler implements Scheduler<Timer> {
 
     @Override
     public void scheduleDeferred(Handler<Void> handler) {

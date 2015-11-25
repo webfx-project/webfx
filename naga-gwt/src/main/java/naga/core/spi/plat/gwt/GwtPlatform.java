@@ -9,7 +9,7 @@ import naga.core.spi.plat.Scheduler;
 /**
  * @author Bruno Salmon
  */
-public class GwtPlatform implements Platform {
+public final class GwtPlatform implements Platform {
 
     public static void register() {
         Platform.register(new GwtPlatform());

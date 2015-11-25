@@ -9,7 +9,7 @@ import naga.core.util.async.Handler;
 /**
  * @author Bruno Salmon
  */
-public class VertxBus implements Bus {
+final class VertxBus implements Bus {
 
     private final EventBus eventBus;
     private WebSocket.State state = WebSocket.State.OPEN;

@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonElement.java">Original Goodow class</a>
  */
-public abstract class JavaJsonElement implements JsonElement {
+abstract class JavaJsonElement implements JsonElement {
     protected boolean needsCopy;
 
     @Override

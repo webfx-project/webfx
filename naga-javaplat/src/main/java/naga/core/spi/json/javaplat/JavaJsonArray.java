@@ -32,7 +32,7 @@ import java.util.Map;
  *         <p>
  *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonArray.java">Original Goodow class</a>
  */
-public class JavaJsonArray extends JavaJsonElement implements JsonArray {
+final class JavaJsonArray extends JavaJsonElement implements JsonArray {
 
     @SuppressWarnings("unchecked")
     static List<Object> convertList(List<?> list) {

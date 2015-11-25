@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public class VertxPlatform implements Platform {
+public final class VertxPlatform implements Platform {
 
     public static void register(Vertx vertx) {
         Platform.register(new VertxPlatform(vertx));

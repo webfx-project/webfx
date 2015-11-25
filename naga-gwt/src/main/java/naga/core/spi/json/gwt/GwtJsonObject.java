@@ -30,7 +30,7 @@ import com.google.gwt.core.client.JsArrayString;
  * 
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonObject.java">Original Goodow class</a>
  */
-public final class GwtJsonObject extends GwtJsonElement implements JsonObject {
+final class GwtJsonObject extends GwtJsonElement implements JsonObject {
 
     public static GwtJsonObject create() {
         return createObject().cast();

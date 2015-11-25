@@ -28,7 +28,7 @@ import naga.core.spi.json.JsonObject;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonFactory.java">Original Goodow class</a>
  */
-public class GwtJsonFactory implements JsonFactory {
+public final class GwtJsonFactory implements JsonFactory {
 
     // @formatter:off
     private native static <T> T parse0(String jsonString) /*-{

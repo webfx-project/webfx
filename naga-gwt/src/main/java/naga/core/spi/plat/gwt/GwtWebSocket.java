@@ -6,12 +6,12 @@ import naga.core.spi.plat.WebSocket;
 /**
  * @author Bruno Salmon
  */
-class GwtWebSocket extends JavaScriptObject implements WebSocket {
+final class GwtWebSocket extends JavaScriptObject implements WebSocket {
 
     protected GwtWebSocket() {}
 
     @Override
-    public final State getReadyState() {
+    public State getReadyState() {
         JavaScriptObject jsState = getSockJSState();
         if (jsState == OPEN())
             return State.OPEN;
@@ -25,10 +25,10 @@ class GwtWebSocket extends JavaScriptObject implements WebSocket {
     }
 
     @Override
-    public final native void send(String data) /*-{ this.send(data); }-*/;
+    public native void send(String data) /*-{ this.send(data); }-*/;
 
     @Override
-    public final native void setListen(WebSocketHandler handler) /*-{
+    public native void setListen(WebSocketHandler handler) /*-{
         this.onopen =    handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onOpen().bind(handler);
         this.onmessage = function(event) { handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
         this.onerror =   function(event) { handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
@@ -36,7 +36,7 @@ class GwtWebSocket extends JavaScriptObject implements WebSocket {
     }-*/;
 
     @Override
-    public final native void close() /*-{ this.close(); }-*/;
+    public native void close() /*-{ this.close(); }-*/;
 
     private native JavaScriptObject getSockJSState() /*-{ return this.readyState; }-*/;
     private static native JavaScriptObject OPEN() /*-{ return $wnd.SockJS.OPEN; }-*/;

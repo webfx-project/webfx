@@ -7,7 +7,7 @@ import org.teavm.jso.JSProperty;
 /**
  * @author Bruno Salmon
  */
-public interface SockJS extends JSObject {
+interface SockJS extends JSObject {
 
     @JSProperty("readyState")
     JSObject getReadyState();

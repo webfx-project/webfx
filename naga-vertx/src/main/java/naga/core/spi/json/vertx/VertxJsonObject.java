@@ -6,13 +6,11 @@ import naga.core.spi.json.JsonObject;
 import naga.core.spi.json.JsonType;
 
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
  */
-public class VertxJsonObject implements JsonObject {
+final class VertxJsonObject implements JsonObject {
 
     private final io.vertx.core.json.JsonObject vjo;
 
@@ -30,12 +28,7 @@ public class VertxJsonObject implements JsonObject {
 
     @Override
     public <T> void forEach(MapIterator<T> handler) {
-        vjo.forEach(new Consumer<Map.Entry<String, Object>>() {
-            @Override
-            public void accept(Map.Entry<String, Object> entry) {
-                handler.call(entry.getKey(), (T) entry.getValue());
-            }
-        });
+        vjo.forEach(entry -> handler.call(entry.getKey(), (T) entry.getValue()));
     }
 
     @Override

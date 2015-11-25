@@ -8,7 +8,7 @@ import naga.core.spi.json.JsonType;
 /**
  * @author Bruno Salmon
  */
-public class VertxJsonArray implements JsonArray {
+final class VertxJsonArray implements JsonArray {
 
     private final io.vertx.core.json.JsonArray vja;
 

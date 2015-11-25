@@ -39,7 +39,7 @@ import java.util.logging.Logger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public class JavaWebSocket implements WebSocket {
+final class JavaWebSocket implements WebSocket {
     private static final Logger log = Logger.getLogger(JavaWebSocket.class.getName());
     private static Charset charset = Charset.forName("UTF-8");
     private static CharsetDecoder decoder = charset.newDecoder();
