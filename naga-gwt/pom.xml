@@ -34,7 +34,7 @@
     <build>
         <plugins>
 
-            <!-- Calling GWT to compile the gwt module into javascript -->
+            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>

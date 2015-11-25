@@ -25,8 +25,8 @@ import com.google.gwt.core.client.JavaScriptObject;
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
- *         <p>
- *         <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonValue.java">Original Goodow class</a>
+ *
+ * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonValue.java">Original Goodow class</a>
  */
 class GwtJsonValue extends JavaScriptObject {
 
@@ -50,19 +50,17 @@ class GwtJsonValue extends JavaScriptObject {
     }
 
     public final JsonType getType() {
-        if (isNull(this)) {
+        if (isNull(this))
             return JsonType.NULL;
-        }
         String jsType = getJsType(this);
-        if ("string".equals(jsType)) {
+        if ("string".equals(jsType))
             return JsonType.STRING;
-        } else if ("number".equals(jsType)) {
+        else if ("number".equals(jsType))
             return JsonType.NUMBER;
-        } else if ("boolean".equals(jsType)) {
+        else if ("boolean".equals(jsType))
             return JsonType.BOOLEAN;
-        } else if ("object".equals(jsType)) {
+        else if ("object".equals(jsType))
             return isArray(this) ? JsonType.ARRAY : JsonType.OBJECT;
-        }
         assert false : "Unknown Json Type";
         return null;
     }

@@ -28,7 +28,7 @@ import naga.core.spi.json.JsonType;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonArray.java">Original Goodow class</a>
  */
-public final class GwtJsonArray extends GwtJsonElement implements JsonArray {
+final class GwtJsonArray extends GwtJsonElement implements JsonArray {
 
     private static final long serialVersionUID = -8395506929193541582L;
 

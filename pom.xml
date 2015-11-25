@@ -191,6 +191,7 @@
                         <execution>
                             <configuration>
                                 <module>${gwt.module}</module>
+                                <failOnError>true</failOnError>
                                 <compileSourcesArtifacts>
                                     <compileSourcesArtifact>${gwt.compileSourcesArtifact}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
