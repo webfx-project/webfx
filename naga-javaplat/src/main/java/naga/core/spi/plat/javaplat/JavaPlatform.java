@@ -18,7 +18,7 @@
 package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.javaplat.JreJsonFactory;
+import naga.core.spi.json.javaplat.JavaJsonFactory;
 import naga.core.spi.plat.Net;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
@@ -39,7 +39,7 @@ public abstract class JavaPlatform implements Platform {
     protected JavaPlatform(JavaScheduler scheduler) {
         net = new JavaNet();
         this.scheduler = scheduler;
-        this.jsonFactory = new JreJsonFactory();
+        this.jsonFactory = new JavaJsonFactory();
     }
 
     protected JavaPlatform() {

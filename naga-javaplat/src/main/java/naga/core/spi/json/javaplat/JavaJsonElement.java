@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonElement.java">Original Goodow class</a>
  */
-public abstract class JreJsonElement implements JsonElement {
+public abstract class JavaJsonElement implements JsonElement {
     private static final long serialVersionUID = 3661435771481171596L;
 
     protected boolean needsCopy;
@@ -42,7 +42,7 @@ public abstract class JreJsonElement implements JsonElement {
 
     @Override
     public boolean isObject() {
-        return this instanceof JreJsonObject;
+        return this instanceof JavaJsonObject;
     }
 
     public abstract <T> Object toNative();
@@ -53,19 +53,18 @@ public abstract class JreJsonElement implements JsonElement {
     }
 
     protected JsonType getType(Object value) {
-        if (value instanceof Map) {
+        if (value instanceof Map)
             return JsonType.OBJECT;
-        } else if (value instanceof List) {
+        else if (value instanceof List)
             return JsonType.ARRAY;
-        } else if (value instanceof String) {
+        else if (value instanceof String)
             return JsonType.STRING;
-        } else if (value instanceof Number) {
+        else if (value instanceof Number)
             return JsonType.NUMBER;
-        } else if (value instanceof Boolean) {
+        else if (value instanceof Boolean)
             return JsonType.BOOLEAN;
-        } else if (value == null) {
+        else if (value == null)
             return JsonType.NULL;
-        }
         throw new IllegalArgumentException("Invalid JSON type: " + value.getClass().getName());
     }
 }

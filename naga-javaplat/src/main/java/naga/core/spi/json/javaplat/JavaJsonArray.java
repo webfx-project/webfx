@@ -32,36 +32,35 @@ import java.util.Map;
  *         <p>
  *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonArray.java">Original Goodow class</a>
  */
-public class JreJsonArray extends JreJsonElement implements JsonArray {
+public class JavaJsonArray extends JavaJsonElement implements JsonArray {
     private static final long serialVersionUID = -4799870976276999803L;
 
     @SuppressWarnings("unchecked")
     static List<Object> convertList(List<?> list) {
         List<Object> arr = new ArrayList<Object>(list.size());
         for (Object obj : list) {
-            if (obj instanceof Map) {
-                arr.add(JreJsonObject.convertMap((Map<String, Object>) obj));
-            } else if (obj instanceof List) {
+            if (obj instanceof Map)
+                arr.add(JavaJsonObject.convertMap((Map<String, Object>) obj));
+            else if (obj instanceof List)
                 arr.add(convertList((List<?>) obj));
-            } else {
+            else
                 arr.add(obj);
-            }
         }
         return arr;
     }
 
     protected List<Object> list;
 
-    public JreJsonArray() {
-        this.list = new ArrayList<Object>();
+    public JavaJsonArray() {
+        this.list = new ArrayList<>();
     }
 
-    public JreJsonArray(List<Object> array) {
+    public JavaJsonArray(List<Object> array) {
         this.list = array;
     }
 
     /*
-    public JreJsonArray(String jsonString) {
+    public JavaJsonArray(String jsonString) {
       list = JacksonUtil.decodeValue(jsonString, List.class);
     }
     */
@@ -71,16 +70,15 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
         if (needsCopy) {
             list = new ArrayList<Object>();
             needsCopy = false;
-        } else {
+        } else
             list.clear();
-        }
         return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public JsonArray copy() {
-        JreJsonArray copy = new JreJsonArray(list);
+        JavaJsonArray copy = new JavaJsonArray(list);
         // We actually do the copy lazily if the object is subsequently mutated
         copy.needsCopy = true;
         needsCopy = true;
@@ -89,30 +87,25 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
+        if (this == o)
             return true;
-        }
 
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || getClass() != o.getClass())
             return false;
-        }
 
-        JreJsonArray that = (JreJsonArray) o;
+        JavaJsonArray that = (JavaJsonArray) o;
 
-        if (this.list.size() != that.list.size()) {
+        if (this.list.size() != that.list.size())
             return false;
-        }
 
         java.util.Iterator<?> iter = that.list.iterator();
         for (Object entry : this.list) {
             Object other = iter.next();
             if (entry == null) {
-                if (other != null) {
+                if (other != null)
                     return false;
-                }
-            } else if (!entry.equals(other)) {
+            } else if (!entry.equals(other))
                 return false;
-            }
         }
         return true;
     }
@@ -121,9 +114,8 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
     @Override
     public <T> void forEach(ListIterator<T> handler) {
         int i = 0;
-        for (Object value : list) {
+        for (Object value : list)
             handler.call(i++, (T) get(value));
-        }
     }
 
     @Override
@@ -132,10 +124,10 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
     }
 
     @Override
-    public JreJsonArray getArray(int index) {
+    public JavaJsonArray getArray(int index) {
         @SuppressWarnings("unchecked")
         List<Object> l = (List<Object>) list.get(index);
-        return l == null ? null : new JreJsonArray(l);
+        return l == null ? null : new JavaJsonArray(l);
     }
 
     @Override
@@ -149,10 +141,10 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
     }
 
     @Override
-    public JreJsonObject getObject(int index) {
+    public JavaJsonObject getObject(int index) {
         @SuppressWarnings("unchecked")
         Map<String, Object> m = (Map<String, Object>) list.get(index);
-        return m == null ? null : new JreJsonObject(m);
+        return m == null ? null : new JavaJsonObject(m);
     }
 
     @Override
@@ -173,11 +165,10 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
     @Override
     public JsonArray insert(int index, Object value) {
         checkCopy();
-        if (value instanceof JreJsonObject) {
-            value = ((JreJsonObject) value).map;
-        } else if (value instanceof JreJsonArray) {
-            value = ((JreJsonArray) value).list;
-        }
+        if (value instanceof JavaJsonObject)
+            value = ((JavaJsonObject) value).map;
+        else if (value instanceof JavaJsonArray)
+            value = ((JavaJsonArray) value).list;
         list.add(index, value);
         return this;
     }
@@ -204,11 +195,10 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
     @Override
     public JsonArray push(Object value) {
         checkCopy();
-        if (value instanceof JreJsonObject) {
-            value = ((JreJsonObject) value).map;
-        } else if (value instanceof JreJsonArray) {
-            value = ((JreJsonArray) value).list;
-        }
+        if (value instanceof JavaJsonObject)
+            value = ((JavaJsonObject) value).map;
+        else if (value instanceof JavaJsonArray)
+            value = ((JavaJsonArray) value).list;
         list.add(value);
         return this;
     }
@@ -251,11 +241,10 @@ public class JreJsonArray extends JreJsonElement implements JsonArray {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private <T> T get(Object value) {
-        if (value instanceof Map) {
-            value = new JreJsonObject((Map) value);
-        } else if (value instanceof List) {
-            value = new JreJsonArray((List) value);
-        }
+        if (value instanceof Map)
+            value = new JavaJsonObject((Map) value);
+        else if (value instanceof List)
+            value = new JavaJsonArray((List) value);
         return (T) value;
     }
 }

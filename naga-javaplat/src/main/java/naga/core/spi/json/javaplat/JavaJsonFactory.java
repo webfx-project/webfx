@@ -30,27 +30,25 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonFactory.java">Original Goodow class</a>
  */
-public class JreJsonFactory implements JsonFactory {
+public class JavaJsonFactory implements JsonFactory {
     @Override
     public JsonArray createArray() {
-        return new JreJsonArray();
+        return new JavaJsonArray();
     }
 
     @Override
     public JsonObject createObject() {
-        return new JreJsonObject();
+        return new JavaJsonObject();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T> T parse(String jsonString) {
         Object value = JacksonUtil.decodeValue(jsonString, Object.class);
-        if (value instanceof Map) {
-            return (T) new JreJsonObject((Map<String, Object>) value);
-        } else if (value instanceof List) {
-            return (T) new JreJsonArray((List<Object>) value);
-        } else {
-            return (T) value;
-        }
+        if (value instanceof Map)
+            return (T) new JavaJsonObject((Map<String, Object>) value);
+        if (value instanceof List)
+            return (T) new JavaJsonArray((List<Object>) value);
+        return (T) value;
     }
 }

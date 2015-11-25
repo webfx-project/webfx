@@ -47,11 +47,9 @@ public class JacksonUtil {
     @SuppressWarnings("unchecked")
     public static <T extends JsonElement> T convert(Object pojo) throws JsonException {
         try {
-            if (pojo instanceof List || pojo instanceof Object[]) {
-                return (T) new JreJsonArray(mapper.convertValue(pojo, List.class));
-            } else {
-                return (T) new JreJsonObject(mapper.convertValue(pojo, Map.class));
-            }
+            if (pojo instanceof List || pojo instanceof Object[])
+                return (T) new JavaJsonArray(mapper.convertValue(pojo, List.class));
+            return (T) new JavaJsonObject(mapper.convertValue(pojo, Map.class));
         } catch (Exception e) {
             throw new JsonException("Failed to convert: " + e.getMessage());
         }
