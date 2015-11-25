@@ -4,14 +4,13 @@ An overview of the different repositories and modules under the [naga-project][n
 
 * [naga][naga-repo] - The naga core written in java
 * The naga client core ports 
-	* [naga-jre][naga-jre-repo] - The naga client core port for JavaSE
-	* Web ports - The naga client core ports for the browser 
+	* [naga-jre][naga-jre-repo] - The naga client core port for JavaSE applications
+	* Web ports - The naga client core ports for web applications 
 		* [naga-teavm][naga-teavm-repo] - transpiled to Javascript through [TeaVM][teavm-website] compiler 
 		* [naga-gwt][naga-gwt-repo] - transpiled to Javascript through [GWT][gwt-website] compiler
 	* Mobile ports 
-		* [naga-android][naga-android-repo] - The naga client core port for Android
-		* [naga-j2objc][naga-j2objc-repo] - The naga client core port for iOS (transpiled through [J2objc][j2objc-website] compiler)
-		<!--* [naga-cn1][naga-cn1-repo] - The naga client core port for [Codename One][codenameone-website]-->
+		* [naga-android][naga-android-repo] - The naga client core port for Android applications
+		* [naga-j2objc][naga-j2objc-repo] - The naga client core port for iOS applications (transpiled through [J2ObjC][j2objc-website] compiler)
 	* [naga-javaplat][naga-javaplat-repo] (abstract) - The common code shared by java client platforms (ie [naga-jre][naga-jre-repo] and [naga-android][naga-android-repo])  
 * The naga microservice ports 
 	* [naga-vertx][naga-vertx-repo] - The naga miroservice port for Vert.x
