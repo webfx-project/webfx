@@ -63,7 +63,7 @@ public class WebSocketBus extends SimpleBus {
         webSocketHandler = new WebSocket.WebSocketHandler() {
             @Override
             public void onOpen() {
-                Platform.log("onOpen()");
+                Platform.log("Connection open");
                 sendLogin();
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
@@ -85,13 +85,13 @@ public class WebSocketBus extends SimpleBus {
 
             @Override
             public void onError(String error) {
-                Platform.log("onError(), error = " + error);
+                Platform.log("Connection error = " + error);
                 publishLocal(ON_ERROR, Json.createObject().set("message", error));
             }
 
             @Override
             public void onClose(JsonObject reason) {
-                Platform.log("onClose()");
+                Platform.log("Connection closed, reason = " + reason);
                 cancelPingTimer();
                 publishLocal(ON_CLOSE, reason);
                 if (hook != null)
@@ -118,15 +118,14 @@ public class WebSocketBus extends SimpleBus {
         username = options.getUsername();
         password = options.getPassword();
 
+        Platform.log("Connecting to " + serverUri);
         webSocket = Platform.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListen(webSocketHandler);
     }
 
     @Override
     public WebSocket.State getReadyState() {
-        WebSocket.State readyState = webSocket.getReadyState();
-        //System.out.println("State = " + readyState);
-        return readyState;
+        return webSocket.getReadyState();
     }
 
     @Override

@@ -18,6 +18,7 @@
 package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.json.Json;
+import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
@@ -30,8 +31,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -40,7 +39,6 @@ import java.util.logging.Logger;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 final class JavaWebSocket implements WebSocket {
-    private static final Logger log = Logger.getLogger(JavaWebSocket.class.getName());
     private static Charset charset = Charset.forName("UTF-8");
     private static CharsetDecoder decoder = charset.newDecoder();
 
@@ -66,14 +64,12 @@ final class JavaWebSocket implements WebSocket {
         socket = new WebSocketClient(serverUri, new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshake) {
-                log.info("Websocket Connected");
                 if (eventHandler != null)
                     eventHandler.onOpen();
             }
 
             @Override
             public void onMessage(String msg) {
-                log.finest("Websocket received: " + msg);
                 if (eventHandler != null)
                     eventHandler.onMessage(msg);
             }
@@ -81,18 +77,15 @@ final class JavaWebSocket implements WebSocket {
             @Override
             public void onMessage(ByteBuffer buffer) {
                 try {
-                    String msg = JavaWebSocket.toString(buffer);
-                    log.finest("Websocket Received: " + msg);
                     if (eventHandler != null)
-                        eventHandler.onMessage(msg);
+                        eventHandler.onMessage(JavaWebSocket.toString(buffer));
                 } catch (CharacterCodingException e) {
-                    log.log(Level.SEVERE, "Websocket Failed when Charset Decoding", e);
+                    Platform.log("Websocket Failed when Charset Decoding", e);
                 }
             }
 
             @Override
             public void onError(Exception e) {
-                log.log(Level.SEVERE, "Websocket Failed With Exception", e);
                 if (eventHandler != null) {
                     String message = e.getMessage();
                     eventHandler.onError(message == null ? e.getClass().getSimpleName() : message);
@@ -101,7 +94,6 @@ final class JavaWebSocket implements WebSocket {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                log.info("WebSocket closed, code=" + code + ", reason=" + reason + ", remote=" + remote);
                 if (eventHandler != null)
                     eventHandler.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
             }
@@ -119,7 +111,7 @@ final class JavaWebSocket implements WebSocket {
     @Override
     public void send(String data) {
         try {
-            log.finest("Websocket send: " + data);
+            //log.finest("Websocket send: " + data);
             socket.getConnection().send(data);
         } catch (Throwable e) {
             throw new RuntimeException(e);
