@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hellonaga</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hellonaga-j2objc</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>naga</groupId>
+            <artifactId>hellonaga-logic</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-j2objc</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <j2objc.javaSourceFiles>hellonaga.j2objc.HelloNagaJ2ObjCApplication.java</j2objc.javaSourceFiles>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- unpacking dependencies with their source before calling j2objc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+            <!-- Running j2objc to compile the main class -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

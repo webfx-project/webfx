@@ -56,3 +56,15 @@ $RECYCLE.BIN/
 
 ### Vertx
 .vertx
+
+
+### Web build tools
+# Grunt
+target-grunt/
+
+# Npm
+node_modules/
+
+# Bower
+bower_components/
+

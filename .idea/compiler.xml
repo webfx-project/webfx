@@ -28,6 +28,12 @@
         <sourceTestOutputDir name="target\generated-test-sources\test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="hello-naga" />
+        <module name="hellonaga-gwt" />
+        <module name="hellonaga-j2objc" />
+        <module name="hellonaga-jre" />
+        <module name="hellonaga-logic" />
+        <module name="hellonaga-teavm" />
         <module name="helloworld-gwt" />
         <module name="helloworld-j2objc" />
         <module name="helloworld-jre" />
@@ -44,6 +50,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="hello-naga" target="1.8" />
+      <module name="hellonaga" target="1.8" />
+      <module name="hellonaga-gwt" target="1.8" />
+      <module name="hellonaga-j2objc" target="1.8" />
+      <module name="hellonaga-jre" target="1.8" />
+      <module name="hellonaga-logic" target="1.8" />
+      <module name="hellonaga-teavm" target="1.8" />
       <module name="helloworld" target="1.8" />
       <module name="helloworld-android" target="1.8" />
       <module name="helloworld-gwt" target="1.8" />

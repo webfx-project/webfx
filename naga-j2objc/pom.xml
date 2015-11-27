@@ -21,24 +21,12 @@
 
     </dependencies>
 
-    <properties>
-        <j2objc.javaSourceFiles>ObjCApplication.java</j2objc.javaSourceFiles>
-    </properties>
-
     <build>
-    <plugins>
-
-        <!-- unpacking dependencies with their source before calling j2objc -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-dependency-plugin</artifactId>
-        </plugin>
-
-        <!-- Running j2objc to compile the main class -->
-        <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-        </plugin>
-
-    </plugins>
+        <plugins>
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
+
 </project>

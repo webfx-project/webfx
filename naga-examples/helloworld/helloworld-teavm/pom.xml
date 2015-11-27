@@ -15,8 +15,8 @@
     <dependencies>
 
         <dependency>
-            <groupId>naga</groupId>
             <artifactId>helloworld-logic</artifactId>
+            <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>
 
@@ -35,7 +35,7 @@
     </dependencies>
 
     <properties>
-        <teavm.mainClass>helloworld.HelloWorldTeaVmApplication</teavm.mainClass>
+        <teavm.mainClass>helloworld.teavm.HelloWorldTeaVmApplication</teavm.mainClass>
     </properties>
 
     <build>

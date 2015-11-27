@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>helloworld-j2objc</artifactId>
+
     <dependencies>
 
         <dependency>
@@ -21,7 +22,7 @@
     </dependencies>
 
     <properties>
-        <j2objc.javaSourceFiles>helloworld.HelloWorldObjCApplication.java</j2objc.javaSourceFiles>
+        <j2objc.javaSourceFiles>helloworld.j2objc.HelloWorldJ2ObjCApplication.java</j2objc.javaSourceFiles>
     </properties>
 
     <build>
@@ -40,6 +41,5 @@
 
         </plugins>
     </build>
-
 
 </project>

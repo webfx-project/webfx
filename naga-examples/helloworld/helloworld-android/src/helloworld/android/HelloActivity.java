@@ -3,7 +3,7 @@ package helloworld.android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
-import helloworld.HelloLogic;
+import helloworld.HelloWorldLogic;
 
 public class HelloActivity extends Activity {
     /**
@@ -15,7 +15,7 @@ public class HelloActivity extends Activity {
         setContentView(R.layout.main);
 
         // Calling the application logic
-        String helloMessage = HelloLogic.helloMessage();
+        String helloMessage = HelloWorldLogic.helloMessage();
 
         // Displaying the message
         TextView textView = (TextView) findViewById(R.id.helloTextView);

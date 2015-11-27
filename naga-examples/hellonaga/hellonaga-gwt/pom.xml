@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hellonaga</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hellonaga-gwt</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>hellonaga-logic</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-gwt</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <gwt.module>hellonaga-gwt</gwt.module>
+        <gwt.compileSourcesArtifact3>${project.groupId}:naga-core</gwt.compileSourcesArtifact3>
+        <gwt.compileSourcesArtifact2>${project.groupId}:naga-gwt</gwt.compileSourcesArtifact2>
+        <gwt.compileSourcesArtifact>${project.groupId}:hellonaga-logic</gwt.compileSourcesArtifact>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

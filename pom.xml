@@ -41,6 +41,8 @@
         <teavm.mainClass>TBD</teavm.mainClass>
         <gwt.module>TBD</gwt.module>
         <gwt.compileSourcesArtifact>TBD</gwt.compileSourcesArtifact>
+        <gwt.compileSourcesArtifact2></gwt.compileSourcesArtifact2>
+        <gwt.compileSourcesArtifact3></gwt.compileSourcesArtifact3>
 
         <!-- properties used for j2objc install and execution -->
         <j2objc.parent>${user.home}</j2objc.parent>
@@ -59,7 +61,7 @@
             <name>Google Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
             <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
+            <snapshots><enabled>false</enabled></snapshots>
         </repository>
     </repositories>
 
@@ -91,6 +93,12 @@
 
             <dependency>
                 <artifactId>naga-javaplat</artifactId>
+                <groupId>${project.groupId}</groupId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <artifactId>naga-teavm</artifactId>
                 <groupId>${project.groupId}</groupId>
                 <version>${project.version}</version>
             </dependency>
@@ -192,8 +200,11 @@
                             <configuration>
                                 <module>${gwt.module}</module>
                                 <failOnError>true</failOnError>
+                                <generateDirectory>${project.build.directory}/generated</generateDirectory>
                                 <compileSourcesArtifacts>
                                     <compileSourcesArtifact>${gwt.compileSourcesArtifact}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${gwt.compileSourcesArtifact2}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${gwt.compileSourcesArtifact3}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
                             </configuration>
                             <goals>
@@ -253,16 +264,28 @@
                     <version>2.10</version>
                     <executions>
                         <execution>
-                            <id>src-dependencies</id>
+                            <id>sources-dependencies</id>
                             <phase>validate</phase>
                             <goals>
-                                <!-- use copy-dependencies instead if you don't want to explode the sources -->
                                 <goal>unpack-dependencies</goal>
                             </goals>
                             <configuration>
                                 <classifier>sources</classifier>
                                 <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
                                 <outputDirectory>${project.build.directory}/sources</outputDirectory>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>classes-dependencies</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>unpack-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                                <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                <overWriteReleases>true</overWriteReleases>
+                                <overWriteSnapshots>true</overWriteSnapshots>
                             </configuration>
                         </execution>
                     </executions>
@@ -328,7 +351,6 @@
                         </execution>
                     </executions>
                 </plugin-->
-
 
             </plugins>
         </pluginManagement>

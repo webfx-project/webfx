@@ -2,6 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-gwt/hellonaga-gwt.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-gwt/hellonaga-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-j2objc/hellonaga-j2objc.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-j2objc/hellonaga-j2objc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre/hellonaga-jre.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre/hellonaga-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-logic/hellonaga-logic.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-logic/hellonaga-logic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-teavm/hellonaga-teavm.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-teavm/hellonaga-teavm.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-android/helloworld-android.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-android/helloworld-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-gwt/helloworld-gwt.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-gwt/helloworld-gwt.iml" />

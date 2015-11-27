@@ -9,7 +9,7 @@ import naga.core.spi.plat.javaplat.JavaPlatform;
 public final class JrePlatform extends JavaPlatform {
 
     /**
-     * Registers the Java platform with a default configuration.
+     * Registers the Jre platform.
      */
     public static void register() {
         Platform.register(new JrePlatform());

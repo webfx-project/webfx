@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>naga-gwt</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
 
@@ -26,20 +26,11 @@
 
     </dependencies>
 
-    <properties>
-        <gwt.module>naga-gwt</gwt.module>
-        <gwt.compileSourcesArtifact>${project.groupId}:naga-core</gwt.compileSourcesArtifact>
-    </properties>
-
     <build>
         <plugins>
-
-            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
+                <artifactId>maven-source-plugin</artifactId>
             </plugin>
-
         </plugins>
     </build>
 
