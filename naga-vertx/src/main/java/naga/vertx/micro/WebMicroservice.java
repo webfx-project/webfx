@@ -35,12 +35,6 @@ public class WebMicroservice extends AbstractVerticle {
         // Logging web requests
         router.route("/*").handler(LoggerHandler.create());
 
-        // Serving favicon
-        router.routeWithRegex(".*/favicon.ico").handler(FaviconHandler.create());
-
-        // Serving static files under the webroot folder
-        router.route("/*").handler(StaticHandler.create());
-
         // SockJS event bus bridge
         router.route("/eventbus/*").handler(SockJSHandler.create(vertx)
                 .bridge(new BridgeOptions()
@@ -48,6 +42,12 @@ public class WebMicroservice extends AbstractVerticle {
                         .addOutboundPermitted(new PermittedOptions(new JsonObject()))
                 )
         );
+
+        // Serving favicon
+        router.routeWithRegex(".*/favicon.ico").handler(FaviconHandler.create());
+
+        // Serving static files under the webroot folder
+        router.route("/*").handler(StaticHandler.create());
 
         // Binding the web port
         server.requestHandler(router::accept).listen();
