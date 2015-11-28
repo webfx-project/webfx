@@ -1,6 +1,6 @@
-package naga.core.spi.plat.teavm;
+package naga.core.spi.sched.teavm;
 
-import naga.core.spi.plat.Scheduler;
+import naga.core.spi.sched.Scheduler;
 import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 import org.teavm.platform.Platform;
@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-final class TeaVmScheduler implements Scheduler<Integer> {
+public final class TeaVmScheduler implements Scheduler<Integer> {
 
     private final Map<Integer, Integer> periodicIds = new HashMap<>();
 

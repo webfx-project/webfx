@@ -5,6 +5,8 @@ import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.vertx.VertxBusFactory;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.vertx.VertxJsonFactory;
+import naga.core.spi.sched.Scheduler;
+import naga.core.spi.sched.vertx.VertxScheduler;
 import naga.core.spi.sock.WebSocketFactory;
 
 import java.util.logging.Logger;

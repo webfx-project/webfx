@@ -1,14 +1,14 @@
-package naga.core.spi.plat.gwt;
+package naga.core.spi.sched.gwt;
 
 import com.google.gwt.user.client.Timer;
-import naga.core.spi.plat.Scheduler;
+import naga.core.spi.sched.Scheduler;
 import naga.core.util.async.Handler;
 
 
 /**
  * @author Bruno Salmon
  */
-final class GwtScheduler implements Scheduler<Timer> {
+public final class GwtScheduler implements Scheduler<Timer> {
 
     @Override
     public void scheduleDeferred(Handler<Void> handler) {

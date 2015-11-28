@@ -15,10 +15,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.plat.android;
+package naga.core.spi.sched.android;
 
 import android.os.Looper;
-import naga.core.spi.plat.javaplat.JavaScheduler;
+import naga.core.spi.sched.javaplat.JavaScheduler;
 import naga.core.util.async.Handler;
 
 /*
@@ -27,11 +27,11 @@ import naga.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/android/AndroidScheduler.java">Original Goodow class</a>
  */
-final class AndroidScheduler extends JavaScheduler {
+public final class AndroidScheduler extends JavaScheduler {
 
     private final android.os.Handler handler;
 
-    AndroidScheduler() {
+    public AndroidScheduler() {
         handler = new android.os.Handler(Looper.getMainLooper());
     }
 

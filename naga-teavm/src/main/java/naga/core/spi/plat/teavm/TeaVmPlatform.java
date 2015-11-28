@@ -2,9 +2,10 @@ package naga.core.spi.plat.teavm;
 
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.teavm.TeaVmJsonFactory;
+import naga.core.spi.sched.teavm.TeaVmScheduler;
 import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.Scheduler;
+import naga.core.spi.sched.Scheduler;
 import naga.core.spi.sock.teavm.TeaVmWebSocketFactory;
 
 import java.util.logging.Logger;

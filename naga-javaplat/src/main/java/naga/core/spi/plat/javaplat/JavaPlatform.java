@@ -19,10 +19,11 @@ package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JavaJsonFactory;
+import naga.core.spi.sched.javaplat.JavaScheduler;
 import naga.core.spi.sock.javaplat.JavaWebSocketFactory;
 import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.Scheduler;
+import naga.core.spi.sched.Scheduler;
 
 import java.util.logging.Logger;
 

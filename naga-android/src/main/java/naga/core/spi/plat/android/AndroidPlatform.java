@@ -19,6 +19,7 @@ package naga.core.spi.plat.android;
 
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.javaplat.JavaPlatform;
+import naga.core.spi.sched.android.AndroidScheduler;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project

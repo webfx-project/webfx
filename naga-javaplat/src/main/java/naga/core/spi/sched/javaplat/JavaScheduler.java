@@ -15,10 +15,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.plat.javaplat;
+package naga.core.spi.sched.javaplat;
 
 
-import naga.core.spi.plat.Scheduler;
+import naga.core.spi.sched.Scheduler;
 import naga.core.util.async.Handler;
 
 import java.util.HashMap;
@@ -40,7 +40,7 @@ public class JavaScheduler implements Scheduler<Integer> {
     private final AtomicInteger timerId = new AtomicInteger(0);
     private final Map<Integer, ScheduledFuture<?>> timers = new HashMap<>();
 
-    protected JavaScheduler() {
+    public JavaScheduler() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

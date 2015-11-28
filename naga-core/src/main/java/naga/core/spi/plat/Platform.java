@@ -24,6 +24,7 @@ import naga.core.spi.bus.client.ReconnectBusFactory;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.JsonObject;
+import naga.core.spi.sched.Scheduler;
 import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.sock.WebSocket;
 import naga.core.util.Holder;
