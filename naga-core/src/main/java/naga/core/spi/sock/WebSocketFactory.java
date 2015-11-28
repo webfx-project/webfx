@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.plat;
+package naga.core.spi.sock;
 
 import naga.core.spi.json.JsonObject;
 
@@ -25,7 +25,7 @@ import naga.core.spi.json.JsonObject;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Net.java">Original Goodow class</a>
  */
-public interface Net {
+public interface WebSocketFactory {
 
     WebSocket createWebSocket(String url, JsonObject options);
 

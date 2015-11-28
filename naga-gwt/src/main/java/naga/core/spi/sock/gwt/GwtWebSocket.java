@@ -1,7 +1,7 @@
-package naga.core.spi.plat.gwt;
+package naga.core.spi.sock.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocket;
 
 /**
  * @author Bruno Salmon

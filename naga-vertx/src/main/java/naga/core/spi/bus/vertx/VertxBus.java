@@ -3,7 +3,7 @@ package naga.core.spi.bus.vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import naga.core.spi.bus.*;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocket;
 import naga.core.util.async.Handler;
 
 /**

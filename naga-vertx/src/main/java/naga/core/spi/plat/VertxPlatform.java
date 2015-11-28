@@ -5,6 +5,7 @@ import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.vertx.VertxBusFactory;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.vertx.VertxJsonFactory;
+import naga.core.spi.sock.WebSocketFactory;
 
 import java.util.logging.Logger;
 
@@ -27,7 +28,7 @@ public final class VertxPlatform implements Platform {
     }
 
     @Override
-    public Net net() {
+    public WebSocketFactory webSocketFactory() {
         // never used as the vertx bus implementation is not using it
         throw new UnsupportedOperationException();
     }

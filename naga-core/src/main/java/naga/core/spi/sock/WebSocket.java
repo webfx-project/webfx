@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.plat;
+package naga.core.spi.sock;
 
 import com.google.gwt.core.client.js.JsExport;
 import com.google.gwt.core.client.js.JsType;

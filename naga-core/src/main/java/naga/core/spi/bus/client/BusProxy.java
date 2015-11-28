@@ -22,7 +22,7 @@ import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.bus.Message;
 import naga.core.spi.bus.Registration;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocket;
 import naga.core.util.async.Handler;
 
 /*

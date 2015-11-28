@@ -24,6 +24,8 @@ import naga.core.spi.bus.client.ReconnectBusFactory;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.JsonObject;
+import naga.core.spi.sock.WebSocketFactory;
+import naga.core.spi.sock.WebSocket;
 import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 
@@ -40,7 +42,7 @@ import java.util.logging.Logger;
  */
 public interface Platform {
 
-    Net net();
+    WebSocketFactory webSocketFactory();
 
     Scheduler scheduler();
 
@@ -99,7 +101,7 @@ public interface Platform {
     }
 
     static WebSocket createWebSocket(String url, JsonObject options) {
-        return get().net().createWebSocket(url, options);
+        return get().webSocketFactory().createWebSocket(url, options);
     }
 
     static void log(Object message) {

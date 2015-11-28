@@ -1,13 +1,13 @@
-package naga.core.spi.plat.teavm;
+package naga.core.spi.sock.teavm;
 
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.plat.Net;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocketFactory;
+import naga.core.spi.sock.WebSocket;
 
 /**
  * @author Bruno Salmon
  */
-final class TeaVmNet implements Net {
+public final class TeaVmWebSocketFactory implements WebSocketFactory {
     @Override
     public WebSocket createWebSocket(String url, JsonObject options) {
         return new TeaVmWebSocket(url, options);

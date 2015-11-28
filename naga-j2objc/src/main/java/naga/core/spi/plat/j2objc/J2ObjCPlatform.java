@@ -1,7 +1,7 @@
 package naga.core.spi.plat.j2objc;
 
 import naga.core.spi.json.JsonFactory;
-import naga.core.spi.plat.Net;
+import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
 
@@ -15,8 +15,8 @@ public class J2ObjCPlatform implements Platform {
     }
 
     @Override
-    public Net net() {
-        throw new UnsupportedOperationException("J2ObjCPlatform.net() is not yet implemented");
+    public WebSocketFactory webSocketFactory() {
+        throw new UnsupportedOperationException("J2ObjCPlatform.webSocketFactory() is not yet implemented");
     }
 
     @Override

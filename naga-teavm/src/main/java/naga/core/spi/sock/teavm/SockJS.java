@@ -1,4 +1,4 @@
-package naga.core.spi.plat.teavm;
+package naga.core.spi.sock.teavm;
 
 import org.teavm.jso.JSFunctor;
 import org.teavm.jso.JSObject;

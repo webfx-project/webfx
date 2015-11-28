@@ -1,12 +1,12 @@
-package naga.core.spi.plat.gwt;
+package naga.core.spi.sock.gwt;
 
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.plat.Net;
+import naga.core.spi.sock.WebSocketFactory;
 
 /**
  * @author Bruno Salmon
  */
-final class GwtNet implements Net {
+public final class GwtWebSocketFactory implements WebSocketFactory {
 
     @Override
     public native GwtWebSocket createWebSocket(String url, JsonObject options) /*-{

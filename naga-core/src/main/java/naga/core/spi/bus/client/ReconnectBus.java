@@ -23,7 +23,7 @@ import naga.core.spi.bus.BusHook;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocket;
 import naga.core.util.idgen.FuzzingBackOffGenerator;
 
 import java.util.ArrayList;

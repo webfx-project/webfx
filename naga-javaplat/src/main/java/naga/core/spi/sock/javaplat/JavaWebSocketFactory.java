@@ -15,11 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.plat.javaplat;
+package naga.core.spi.sock.javaplat;
 
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.plat.Net;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocketFactory;
+import naga.core.spi.sock.WebSocket;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -27,7 +27,7 @@ import naga.core.spi.plat.WebSocket;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-final class JavaNet implements Net {
+public final class JavaWebSocketFactory implements WebSocketFactory {
 
     @Override
     public WebSocket createWebSocket(String url, JsonObject options) {

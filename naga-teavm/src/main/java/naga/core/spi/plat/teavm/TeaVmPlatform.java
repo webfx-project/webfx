@@ -2,9 +2,10 @@ package naga.core.spi.plat.teavm;
 
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.teavm.TeaVmJsonFactory;
-import naga.core.spi.plat.Net;
+import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
+import naga.core.spi.sock.teavm.TeaVmWebSocketFactory;
 
 import java.util.logging.Logger;
 
@@ -17,13 +18,13 @@ public final class TeaVmPlatform implements Platform {
         Platform.register(new TeaVmPlatform());
     }
 
-    private final Net net = new TeaVmNet();
+    private final WebSocketFactory webSocketFactory = new TeaVmWebSocketFactory();
     private final JsonFactory jsonFactory = new TeaVmJsonFactory();
     private final Scheduler scheduler = new TeaVmScheduler();
 
     @Override
-    public Net net() {
-        return net;
+    public WebSocketFactory webSocketFactory() {
+        return webSocketFactory;
     }
 
     @Override

@@ -15,11 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.plat.javaplat;
+package naga.core.spi.sock.javaplat;
 
 import naga.core.spi.json.Json;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.WebSocket;
+import naga.core.spi.sock.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;

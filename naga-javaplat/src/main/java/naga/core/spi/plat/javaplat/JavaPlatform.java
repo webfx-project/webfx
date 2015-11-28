@@ -19,7 +19,8 @@ package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JavaJsonFactory;
-import naga.core.spi.plat.Net;
+import naga.core.spi.sock.javaplat.JavaWebSocketFactory;
+import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.Scheduler;
 
@@ -32,7 +33,7 @@ import java.util.logging.Logger;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public abstract class JavaPlatform implements Platform {
-    protected final JavaNet net = new JavaNet();
+    protected final JavaWebSocketFactory net = new JavaWebSocketFactory();
     protected final JsonFactory jsonFactory = new JavaJsonFactory();
     protected final JavaScheduler scheduler;
 
@@ -45,7 +46,7 @@ public abstract class JavaPlatform implements Platform {
     }
 
     @Override
-    public Net net() {
+    public WebSocketFactory webSocketFactory() {
         return net;
     }
 
