@@ -17,14 +17,9 @@ public final class GwtPlatform implements Platform {
         Platform.register(new GwtPlatform());
     }
 
-    private final WebSocketFactory webSocketFactory = new GwtWebSocketFactory();
-    private final JsonFactory jsonFactory = new GwtJsonFactory();
     private final Scheduler scheduler = new GwtScheduler();
-
-    @Override
-    public WebSocketFactory webSocketFactory() {
-        return webSocketFactory;
-    }
+    private final JsonFactory jsonFactory = new GwtJsonFactory();
+    private final WebSocketFactory webSocketFactory = new GwtWebSocketFactory();
 
     @Override
     public Scheduler scheduler() {
@@ -34,6 +29,11 @@ public final class GwtPlatform implements Platform {
     @Override
     public JsonFactory jsonFactory() {
         return jsonFactory;
+    }
+
+    @Override
+    public WebSocketFactory webSocketFactory() {
+        return webSocketFactory;
     }
 
 }

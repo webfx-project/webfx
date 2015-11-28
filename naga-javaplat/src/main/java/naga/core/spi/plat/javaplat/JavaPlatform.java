@@ -19,11 +19,11 @@ package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JavaJsonFactory;
-import naga.core.spi.sched.javaplat.JavaScheduler;
-import naga.core.spi.sock.javaplat.JavaWebSocketFactory;
-import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.sched.Scheduler;
+import naga.core.spi.sched.javaplat.JavaScheduler;
+import naga.core.spi.sock.WebSocketFactory;
+import naga.core.spi.sock.javaplat.JavaWebSocketFactory;
 
 import java.util.logging.Logger;
 
@@ -34,9 +34,9 @@ import java.util.logging.Logger;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public abstract class JavaPlatform implements Platform {
-    protected final JavaWebSocketFactory net = new JavaWebSocketFactory();
-    protected final JsonFactory jsonFactory = new JavaJsonFactory();
     protected final JavaScheduler scheduler;
+    protected final JsonFactory jsonFactory = new JavaJsonFactory();
+    protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
     protected JavaPlatform() {
         this(new JavaScheduler());
@@ -47,8 +47,8 @@ public abstract class JavaPlatform implements Platform {
     }
 
     @Override
-    public WebSocketFactory webSocketFactory() {
-        return net;
+    public Logger logger() {
+        return Logger.getAnonymousLogger();
     }
 
     @Override
@@ -62,8 +62,8 @@ public abstract class JavaPlatform implements Platform {
     }
 
     @Override
-    public Logger logger() {
-        return Logger.getAnonymousLogger();
+    public WebSocketFactory webSocketFactory() {
+        return webSocketFactory;
     }
 
 }

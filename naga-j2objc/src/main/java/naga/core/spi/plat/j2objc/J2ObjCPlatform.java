@@ -15,11 +15,6 @@ public class J2ObjCPlatform implements Platform {
     }
 
     @Override
-    public WebSocketFactory webSocketFactory() {
-        throw new UnsupportedOperationException("J2ObjCPlatform.webSocketFactory() is not yet implemented");
-    }
-
-    @Override
     public Scheduler scheduler() {
         throw new UnsupportedOperationException("J2ObjCPlatform.scheduler() is not yet implemented");
     }
@@ -27,5 +22,10 @@ public class J2ObjCPlatform implements Platform {
     @Override
     public JsonFactory jsonFactory() {
         throw new UnsupportedOperationException("J2ObjCPlatform.jsonFactory() is not yet implemented");
+    }
+
+    @Override
+    public WebSocketFactory webSocketFactory() {
+        throw new UnsupportedOperationException("J2ObjCPlatform.webSocketFactory() is not yet implemented");
     }
 }

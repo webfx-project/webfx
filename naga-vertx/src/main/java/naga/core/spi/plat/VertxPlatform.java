@@ -20,8 +20,8 @@ public final class VertxPlatform implements Platform {
         Platform.register(new VertxPlatform(vertx));
     }
 
-    private final JsonFactory jsonFactory = new VertxJsonFactory();
     private final Scheduler scheduler;
+    private final JsonFactory jsonFactory = new VertxJsonFactory();
     private final BusFactory busFactory;
 
     public VertxPlatform(Vertx vertx) {
@@ -30,9 +30,8 @@ public final class VertxPlatform implements Platform {
     }
 
     @Override
-    public WebSocketFactory webSocketFactory() {
-        // never used as the vertx bus implementation is not using it
-        throw new UnsupportedOperationException();
+    public Logger logger() {
+        return Logger.getAnonymousLogger();
     }
 
     @Override
@@ -46,12 +45,12 @@ public final class VertxPlatform implements Platform {
     }
 
     @Override
-    public BusFactory busFactory() {
-        return busFactory;
+    public WebSocketFactory webSocketFactory() {
+        throw new UnsupportedOperationException(); // never used as the vertx bus implementation is not using it
     }
 
     @Override
-    public Logger logger() {
-        return Logger.getAnonymousLogger();
+    public BusFactory busFactory() {
+        return busFactory;
     }
 }
