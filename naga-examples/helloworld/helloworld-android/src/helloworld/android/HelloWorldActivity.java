@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import helloworld.HelloWorldLogic;
 
-public class HelloActivity extends Activity {
+public class HelloWorldActivity extends Activity {
     /**
      * Called when the activity is first created.
      */
