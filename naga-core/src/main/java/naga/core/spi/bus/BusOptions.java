@@ -32,8 +32,9 @@ public class BusOptions {
         return this;
     }
 
-    public void setServerHost(String serverHost) {
+    public BusOptions setServerHost(String serverHost) {
         this.serverHost = serverHost;
+        return this;
     }
 
     public String getServerHost() {
