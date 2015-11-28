@@ -7,7 +7,9 @@ import naga.core.spi.json.JsonObject;
  */
 public class BusOptions {
 
-    private String protocol = "ws"; // "ws" or "http"
+    public enum Protocol { WS, HTTP }
+
+    private Protocol protocol = Protocol.WS;
     private boolean serverSSL = false;
     private String serverHost = "localhost";
     private int serverPort = 80;
@@ -23,11 +25,11 @@ public class BusOptions {
 
     private JsonObject socketOptions;
 
-    public String getProtocol() {
+    public Protocol getProtocol() {
         return protocol;
     }
 
-    public BusOptions setProtocol(String protocol) {
+    public BusOptions setProtocol(Protocol protocol) {
         this.protocol = protocol;
         return this;
     }

@@ -33,6 +33,6 @@ public class HelloNagaLogic {
         p.set("age", p.getNumber("age") + 1);
         messageDisplayer.displayMessage(p.toJsonString());
 
-        Platform.createBus(new BusOptions().setProtocol("http")).send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
+        Platform.createBus(new BusOptions().setProtocol(BusOptions.Protocol.HTTP)).send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
     }
 }

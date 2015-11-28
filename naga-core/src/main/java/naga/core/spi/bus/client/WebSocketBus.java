@@ -57,9 +57,13 @@ public class WebSocketBus extends SimpleBus {
     final Map<String, Integer> handlerCount = new HashMap<>();
 
     public WebSocketBus(BusOptions options) {
-        String serverUri = options.getProtocol() + (options.isServerSSL() ? "s://" : "://") + options.getServerHost() + ':' + options.getServerPort() + options.getBusPrefix();
-        if (options.getProtocol().equals("ws"))
-            serverUri += "/websocket";
+        String serverUri =
+                (options.getProtocol() == BusOptions.Protocol.WS ? "ws" : "http")
+                + (options.isServerSSL() ? "s://" : "://")
+                + options.getServerHost()
+                + ':' + options.getServerPort()
+                + options.getBusPrefix()
+                + (options.getProtocol() == BusOptions.Protocol.WS ? "/websocket" : "");
         webSocketHandler = new WebSocket.WebSocketHandler() {
             @Override
             public void onOpen() {
