@@ -14,6 +14,5 @@
     <orderEntry type="module" module-name="helloworld-logic" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
-    <orderEntry type="library" name="gwt-user-2.8.0-SNAPSHOT" level="project" />
   </component>
 </module>
