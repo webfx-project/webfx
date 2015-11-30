@@ -42,8 +42,8 @@
         <teavm.mainClass>TBD</teavm.mainClass>
         <gwt.module>TBD</gwt.module>
         <gwt.compileSourcesArtifact>TBD</gwt.compileSourcesArtifact>
-        <gwt.compileSourcesArtifact2></gwt.compileSourcesArtifact2>
-        <gwt.compileSourcesArtifact3></gwt.compileSourcesArtifact3>
+        <gwt.compileSourcesArtifact2>TBD</gwt.compileSourcesArtifact2>
+        <gwt.compileSourcesArtifact3>TBD</gwt.compileSourcesArtifact3>
 
         <!-- properties used for j2objc install and execution -->
         <j2objc.parent>${user.home}</j2objc.parent>
