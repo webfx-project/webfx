@@ -1,6 +1,5 @@
 package hellonaga;
 
-import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.plat.Platform;
@@ -33,6 +32,6 @@ public class HelloNagaLogic {
         p.set("age", p.getNumber("age") + 1);
         messageDisplayer.displayMessage(p.toJsonString());
 
-        Platform.createBus(new BusOptions().setProtocol(BusOptions.Protocol.HTTP)).send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
+        Platform.createBus().send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
     }
 }
