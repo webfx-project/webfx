@@ -13,6 +13,6 @@ public class HelloNagaTeaVmApplication {
     }
 
     public static void main(String[] args) {
-        new HelloNagaLogic().run();
+        new HelloNagaLogic(message -> System.out.println(message)).run();
     }
 }
