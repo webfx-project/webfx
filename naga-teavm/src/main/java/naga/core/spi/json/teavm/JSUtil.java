@@ -104,7 +104,7 @@ public final class JSUtil {
     public static Object js2j(JSObject jsv) {
         if (jsv == null)
             return null;
-        if (isString(jsv))
+        if (JSString.isInstance(jsv))
             return ((JSString) jsv).stringValue();
         if (isNumber(jsv))
             return js2Number((JSNumber) jsv);
@@ -114,9 +114,6 @@ public final class JSUtil {
             return TeaVmJsonArray.create((JSArray) jsv);
         return TeaVmJsonObject.create(jsv);
     }
-
-    @JSBody(params = "obj", script = "return typeof obj === 'string';")
-    public static native boolean isString(JSObject obj);
 
     @JSBody(params = "obj", script = "return typeof obj === 'boolean';")
     public static native boolean isBoolean(JSObject obj);
