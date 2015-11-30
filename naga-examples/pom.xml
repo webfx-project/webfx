@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>hellonaga</module>
         <module>helloworld</module>
+        <module>hellonaga</module>
     </modules>
 
 </project>
