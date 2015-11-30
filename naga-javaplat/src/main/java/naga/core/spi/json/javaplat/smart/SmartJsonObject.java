@@ -19,7 +19,7 @@ class SmartJsonObject implements JsonObject {
     private final Map<String, Object> jso;
 
     public SmartJsonObject() {
-        this(new JSONObject());
+        this(new HashMap<>());
     }
 
     public SmartJsonObject(Map jso) {
@@ -132,5 +132,10 @@ class SmartJsonObject implements JsonObject {
     @Override
     public String toJsonString() {
         return JSONObject.toJSONString(jso);
+    }
+
+    @Override
+    public String toString() {
+        return toJsonString();
     }
 }

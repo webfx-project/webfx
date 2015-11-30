@@ -140,4 +140,9 @@ class SmartJsonArray implements JsonArray {
     public String toJsonString() {
         return JSONArray.toJSONString(jsa);
     }
+
+    @Override
+    public String toString() {
+        return toJsonString();
+    }
 }
