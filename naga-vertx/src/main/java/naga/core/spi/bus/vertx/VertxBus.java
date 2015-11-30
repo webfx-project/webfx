@@ -3,7 +3,6 @@ package naga.core.spi.bus.vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import naga.core.spi.bus.*;
-import naga.core.spi.sock.WebSocket;
 import naga.core.util.async.Handler;
 
 /**
@@ -12,7 +11,6 @@ import naga.core.util.async.Handler;
 final class VertxBus implements Bus {
 
     private final EventBus eventBus;
-    private WebSocket.State state = WebSocket.State.OPEN;
     private BusOptions options;
 
     public VertxBus(EventBus eventBus, BusOptions options) {
@@ -22,18 +20,7 @@ final class VertxBus implements Bus {
 
     @Override
     public void close() {
-        state = WebSocket.State.CLOSING;
-        eventBus.close(event -> state = WebSocket.State.CLOSED);
-    }
-
-    @Override
-    public WebSocket.State getReadyState() {
-        return state;
-    }
-
-    @Override
-    public String getSessionId() {
-        return null;
+        eventBus.close(event -> {});
     }
 
     @Override

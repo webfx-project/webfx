@@ -3,8 +3,8 @@ package naga.core.spi.bus;
 /**
  * @author Bruno Salmon
  */
-public interface BusFactory {
+public interface BusFactory<O extends BusOptions> {
 
-    Bus createBus(BusOptions options);
+    Bus createBus(O options);
 
 }

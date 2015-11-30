@@ -22,7 +22,6 @@ import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.bus.Message;
 import naga.core.spi.bus.Registration;
-import naga.core.spi.sock.WebSocket;
 import naga.core.util.async.Handler;
 
 /*
@@ -39,23 +38,14 @@ public abstract class BusProxy implements Bus {
         this.delegate = delegate;
     }
 
-    @Override
-    public void close() {
-        delegate.close();
-    }
-
     public Bus getDelegate() {
         return delegate;
     }
 
     @Override
-    public WebSocket.State getReadyState() {
-        return delegate.getReadyState();
-    }
-
-    @Override
-    public String getSessionId() {
-        return delegate.getSessionId();
+    public Bus setHook(BusHook hook) {
+        this.hook = hook;
+        return this;
     }
 
     @Override
@@ -91,8 +81,7 @@ public abstract class BusProxy implements Bus {
     }
 
     @Override
-    public Bus setHook(BusHook hook) {
-        this.hook = hook;
-        return this;
+    public void close() {
+        delegate.close();
     }
 }

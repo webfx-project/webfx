@@ -17,11 +17,11 @@
  */
 package naga.core.spi.bus.client;
 
-import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.Message;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.client.ClientPlatform;
 import naga.core.spi.sock.WebSocket;
 import naga.core.util.async.Handler;
 
@@ -35,7 +35,11 @@ import java.util.Map;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/WebSocketBus.java">Original Goodow class</a>
  */
 @SuppressWarnings("rawtypes")
-public class WebSocketBus extends SimpleBus {
+public class WebSocketBus extends SimpleClientBus {
+    public static final String ON_OPEN = "@realtime/bus/onOpen";
+    public static final String ON_CLOSE = "@realtime/bus/onClose";
+    public static final String ON_ERROR = "@realtime/bus/onError";
+
     public static final String SESSION = "_session";
     public static final String USERNAME = "username";
     public static final String PASSWORD = "password";
@@ -56,15 +60,15 @@ public class WebSocketBus extends SimpleBus {
     private String password;
     final Map<String, Integer> handlerCount = new HashMap<>();
 
-    public WebSocketBus(BusOptions options) {
+    public WebSocketBus(WebSocketBusOptions options) {
         options.turnUnsetPropertiesToDefault(); // should be already done by the platform but just in case
         String serverUri =
-                (options.getProtocol() == BusOptions.Protocol.WS ? "ws" : "http")
+                (options.getProtocol() == WebSocketBusOptions.Protocol.WS ? "ws" : "http")
                 + (options.isServerSSL() ? "s://" : "://")
                 + options.getServerHost()
                 + ':' + options.getServerPort()
                 + '/' + options.getBusPrefix()
-                + (options.getProtocol() == BusOptions.Protocol.WS ? "/websocket" : "");
+                + (options.getProtocol() == WebSocketBusOptions.Protocol.WS ? "/websocket" : "");
         webSocketHandler = new WebSocket.WebSocketHandler() {
             @Override
             public void onOpen() {
@@ -84,7 +88,7 @@ public class WebSocketBus extends SimpleBus {
                 //Platform.log("onMessage(), msg = " + msg);
                 JsonObject json = Json.<JsonObject>parse(msg);
                 @SuppressWarnings({"unchecked"})
-                MessageImpl message = new MessageImpl(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
+                ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
                 internalHandleReceiveMessage(message);
             }
 
@@ -114,7 +118,7 @@ public class WebSocketBus extends SimpleBus {
         pingTimerId = null;
     }
 
-    public void connect(String serverUri, BusOptions options) {
+    public void connect(String serverUri, WebSocketBusOptions options) {
         this.serverUri = serverUri;
         pingInterval = options.getPingInterval();
         sessionId = options.getSessionId();
@@ -124,11 +128,10 @@ public class WebSocketBus extends SimpleBus {
         password = options.getPassword();
 
         Platform.log("Connecting to " + serverUri);
-        webSocket = Platform.createWebSocket(serverUri, options.getSocketOptions());
+        webSocket = ClientPlatform.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListen(webSocketHandler);
     }
 
-    @Override
     public WebSocket.State getReadyState() {
         return webSocket.getReadyState();
     }

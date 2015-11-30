@@ -3,6 +3,7 @@ package naga.core.spi.plat.teavm;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.teavm.TeaVmJsonFactory;
 import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.client.ClientPlatform;
 import naga.core.spi.sched.Scheduler;
 import naga.core.spi.sched.teavm.TeaVmScheduler;
 import naga.core.spi.sock.WebSocketFactory;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public final class TeaVmPlatform implements Platform {
+public final class TeaVmPlatform implements ClientPlatform {
 
     public static void register() {
         Platform.register(new TeaVmPlatform());

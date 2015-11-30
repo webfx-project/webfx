@@ -18,9 +18,10 @@
 package naga.core.spi.plat.javaplat;
 
 import naga.core.spi.bus.BusOptions;
+import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JavaJsonFactory;
-import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.client.ClientPlatform;
 import naga.core.spi.sched.Scheduler;
 import naga.core.spi.sched.javaplat.JavaScheduler;
 import naga.core.spi.sock.WebSocketFactory;
@@ -34,7 +35,7 @@ import java.util.logging.Logger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public abstract class JavaPlatform implements Platform {
+public abstract class JavaPlatform implements ClientPlatform {
     protected final JavaScheduler scheduler;
     protected final JsonFactory jsonFactory = new JavaJsonFactory();
     protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
@@ -69,9 +70,10 @@ public abstract class JavaPlatform implements Platform {
 
     @Override
     public void setPlatformBusOptions(BusOptions options) {
+        WebSocketBusOptions socketBusOptions = (WebSocketBusOptions) options;
         // Setting protocol to Web Socket (unless already explicitly set by the application)
-        if (options.getProtocol() == null)
-            options.setProtocol(BusOptions.Protocol.WS);
-        options.turnUnsetPropertiesToDefault();
+        if (socketBusOptions.getProtocol() == null)
+            socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.WS);
+        socketBusOptions.turnUnsetPropertiesToDefault();
     }
 }

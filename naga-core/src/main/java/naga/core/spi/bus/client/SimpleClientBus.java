@@ -23,7 +23,6 @@ import naga.core.spi.bus.Message;
 import naga.core.spi.bus.Registration;
 import naga.core.spi.json.Json;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.sock.WebSocket;
 import naga.core.util.async.Handler;
 import naga.core.util.idgen.IdGenerator;
 
@@ -39,7 +38,7 @@ import java.util.Map;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/SimpleBus.java">Original Goodow class</a>
  */
 @SuppressWarnings("rawtypes")
-public class SimpleBus implements Bus {
+public class SimpleClientBus implements Bus {
 
     static void checkNotNull(String paramName, Object param) {
         if (param == null)
@@ -51,7 +50,7 @@ public class SimpleBus implements Bus {
     final IdGenerator idGenerator = new IdGenerator();
     BusHook hook;
 
-    public SimpleBus() {
+    public SimpleClientBus() {
     }
 
     @Override
@@ -60,12 +59,6 @@ public class SimpleBus implements Bus {
             doClose();
     }
 
-    @Override
-    public WebSocket.State getReadyState() {
-        return handlerMap == null ? WebSocket.State.CLOSED : WebSocket.State.OPEN;
-    }
-
-    @Override
     public String getSessionId() {
         return "@";
     }
@@ -107,7 +100,7 @@ public class SimpleBus implements Bus {
     }
 
     protected void doClose() {
-        publishLocal(Bus.ON_CLOSE, null);
+        publishLocal(WebSocketBus.ON_CLOSE, null);
         clearHandlers();
         if (hook != null)
             hook.handlePostClose();
@@ -133,7 +126,7 @@ public class SimpleBus implements Bus {
             replyTopic = makeUUID();
             replyHandlers.put(replyTopic, (Handler) replyHandler);
         }
-        MessageImpl message = new MessageImpl(local, send, this, topic, replyTopic, msg);
+        ClientMessage message = new ClientMessage(local, send, this, topic, replyTopic, msg);
         if (!internalHandleReceiveMessage(message) && replyTopic != null)
             replyHandlers.remove(replyTopic);
     }
@@ -200,7 +193,7 @@ public class SimpleBus implements Bus {
             handler.handle(message);
         } catch (Throwable e) {
             Platform.log("Failed to handle on topic: " + topic, e);
-            publishLocal(Bus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
+            publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
         }
     }
 
@@ -209,7 +202,7 @@ public class SimpleBus implements Bus {
         if (message.isLocal())
             handle(topic, handler, message);
         else
-            Platform.scheduleDeferred(ignore -> SimpleBus.this.handle(topic, handler, message));
+            Platform.scheduleDeferred(ignore -> SimpleClientBus.this.handle(topic, handler, message));
     }
 
     private Registration subscribeImpl(boolean local, String topic, Handler<? extends Message> handler) {

@@ -20,7 +20,6 @@ package naga.core.spi.bus.client;
 import com.google.gwt.core.client.js.JsExport;
 import com.google.gwt.core.client.js.JsNamespace;
 import naga.core.spi.bus.BusHook;
-import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.sock.WebSocket;
@@ -44,10 +43,10 @@ public class ReconnectBus extends WebSocketBus {
     private BusHook hook;
     private boolean reconnect;
     private final List<JsonObject> queuedMessages = new ArrayList<>();
-    private final BusOptions options;
+    private final WebSocketBusOptions options;
 
     @JsExport
-    public ReconnectBus(BusOptions options) {
+    public ReconnectBus(WebSocketBusOptions options) {
         super(options);
         this.options = options;
         JsonObject socketOptions = options.getSocketOptions();

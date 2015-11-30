@@ -17,7 +17,7 @@ public class NagaMicroservice extends AbstractVerticle {
 
         Naga naga = new Naga();
 
-        Bus bus = Platform.createBus();
+        Bus bus = Platform.bus();
         bus.subscribe("version", event -> event.reply(naga.getVersion()));
 
         Platform.scheduleDelay(1000, ignore -> bus.send("version", "get", event -> Platform.log(event.body())));

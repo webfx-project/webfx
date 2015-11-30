@@ -20,13 +20,9 @@ package naga.core.spi.plat;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
-import naga.core.spi.bus.client.ReconnectBusFactory;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.JsonObject;
 import naga.core.spi.sched.Scheduler;
-import naga.core.spi.sock.WebSocket;
-import naga.core.spi.sock.WebSocketFactory;
 import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 
@@ -55,9 +51,9 @@ public interface Platform {
 
     JsonFactory jsonFactory();
 
-    WebSocketFactory webSocketFactory();
+    BusFactory busFactory();
 
-    default BusFactory busFactory() { return ReconnectBusFactory.SINGLETON; }
+    default BusOptions createBusOptions() { return new BusOptions();}
 
     default void setPlatformBusOptions(BusOptions options) {
         options.turnUnsetPropertiesToDefault();
@@ -112,16 +108,19 @@ public interface Platform {
         return get().scheduler().cancelTimer(timerId);
     }
 
-    // WebSocketFactory method
-
-    static WebSocket createWebSocket(String url, JsonObject options) {
-        return get().webSocketFactory().createWebSocket(url, options);
-    }
-
     // BusFactory methods
 
+    Holder<Bus> BUS_HOLDER = new Holder<>();
+
+    static Bus bus() {
+        Bus bus = BUS_HOLDER.get();
+        if (bus == null)
+            BUS_HOLDER.set(bus = createBus());
+        return bus;
+    }
+
     static Bus createBus() {
-        return createBus(new BusOptions());
+        return createBus(get().createBusOptions());
     }
 
     static Bus createBus(BusOptions options) {

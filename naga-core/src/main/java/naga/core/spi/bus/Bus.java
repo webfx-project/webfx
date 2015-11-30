@@ -18,9 +18,8 @@
 
 package naga.core.spi.bus;
 
-import naga.core.spi.sock.WebSocket;
-import naga.core.util.async.Handler;
 import com.google.gwt.core.client.js.JsType;
+import naga.core.util.async.Handler;
 
 /**
  * A distributed lightweight event bus which can encompass multiple machines. The event bus
@@ -50,20 +49,6 @@ import com.google.gwt.core.client.js.JsType;
  */
 @JsType
 public interface Bus {
-    String ON_OPEN = "@realtime/bus/onOpen";
-    String ON_CLOSE = "@realtime/bus/onClose";
-    String ON_ERROR = "@realtime/bus/onError";
-
-    /**
-     * Close the Bus and release all resources.
-     */
-    void close();
-
-    /* The state of the Bus. */
-    WebSocket.State getReadyState();
-
-    /* Returns the session ID used by this bus. */
-    String getSessionId();
 
     /**
      * Publish a message
@@ -125,4 +110,9 @@ public interface Bus {
      */
     @SuppressWarnings("rawtypes")
     <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler);
+
+    /**
+     * Close the Bus and release all resources.
+     */
+    void close();
 }

@@ -1,14 +1,15 @@
 package naga.core.spi.plat.j2objc;
 
 import naga.core.spi.json.JsonFactory;
-import naga.core.spi.sock.WebSocketFactory;
 import naga.core.spi.plat.Platform;
+import naga.core.spi.plat.client.ClientPlatform;
 import naga.core.spi.sched.Scheduler;
+import naga.core.spi.sock.WebSocketFactory;
 
 /**
  * @author Bruno Salmon
  */
-public class J2ObjCPlatform implements Platform {
+public class J2ObjCPlatform implements ClientPlatform {
 
     public static void register() {
         Platform.register(new J2ObjCPlatform());

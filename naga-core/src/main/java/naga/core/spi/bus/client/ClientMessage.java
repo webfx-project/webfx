@@ -27,7 +27,7 @@ import naga.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/MessageImpl.java">Original Goodow class</a>
  */
-class MessageImpl<U> implements Message<U> {
+class ClientMessage<U> implements Message<U> {
     protected U body;
     protected Bus bus;
     protected String topic;
@@ -35,7 +35,7 @@ class MessageImpl<U> implements Message<U> {
     protected boolean send; // Is it a send or a publish?
     protected boolean local;
 
-    public MessageImpl(boolean local, boolean send, Bus bus, String topic, String replyTopic, U body) {
+    public ClientMessage(boolean local, boolean send, Bus bus, String topic, String replyTopic, U body) {
         this.local = local;
         this.send = send;
         this.bus = bus;
