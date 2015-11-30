@@ -26,7 +26,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- java and libraries versions -->
-        <java.version>1.8</java.version>
+        <java.version>8</java.version>
+        <java.level>1.${java.version}</java.level>
 
         <javawebsocket.version>1.3.0</javawebsocket.version>
         <jackson.version>2.6.1</jackson.version>
@@ -50,8 +51,8 @@
         <j2objc.home>${j2objc.parent}/${j2objc.folderName}</j2objc.home>
         <j2objc.jar>${j2objc.home}/lib/j2objc.jar</j2objc.jar>
 
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>${java.level}</maven.compiler.source>
+        <maven.compiler.target>${java.level}</maven.compiler.target>
     </properties>
 
     <repositories>
@@ -309,7 +310,7 @@
                                         <arg value="-d"/>
                                         <arg value="${project.build.directory}/generated/objc"/>
                                         <arg value="-source"/>
-                                        <arg value="8"/>
+                                        <arg value="${java.version}"/>
                                         <arg value="-Xforce-incomplete-java8"/>
                                         <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
                                         <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
