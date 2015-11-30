@@ -13,6 +13,11 @@ public class HelloWorldTeaVmApplication {
         // Calling the application logic
         String helloMessage = HelloWorldLogic.helloMessage();
 
+        // Displaying the message
+        displayMessage(helloMessage);
+    }
+
+    private static void displayMessage(String helloMessage) {
         // Tracing the message in the console
         System.out.println(helloMessage);
 

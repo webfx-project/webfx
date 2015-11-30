@@ -18,13 +18,18 @@ public class HelloWorldGwtApplication implements EntryPoint {
         // Calling the application logic
         String helloMessage = HelloWorldLogic.helloMessage();
 
+        // Displaying the message
+        displayMessage(helloMessage);
+    }
+
+    private static void displayMessage(String message) {
         // Tracing the message in the console
         Logger logger = Logger.getLogger("HelloWorldLogger");
-        logger.log(Level.INFO, helloMessage);
+        logger.log(Level.INFO, message);
 
         // Displaying the message in the DOM
         HeadingElement headingElement = Document.get().createHElement(1);
-        headingElement.setInnerText(helloMessage);
+        headingElement.setInnerText(message);
         RootPanel.get().getElement().appendChild(headingElement);
     }
 }
