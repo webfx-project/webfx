@@ -20,7 +20,8 @@ package naga.core.spi.plat.javaplat;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.javaplat.JavaJsonFactory;
+import naga.core.spi.json.javaplat.jackson.JacksonJsonFactory;
+import naga.core.spi.json.javaplat.smart.SmartJsonFactory;
 import naga.core.spi.plat.client.ClientPlatform;
 import naga.core.spi.sched.Scheduler;
 import naga.core.spi.sched.javaplat.JavaScheduler;
@@ -37,7 +38,7 @@ import java.util.logging.Logger;
  */
 public abstract class JavaPlatform implements ClientPlatform {
     protected final JavaScheduler scheduler;
-    protected final JsonFactory jsonFactory = new JavaJsonFactory();
+    protected final JsonFactory jsonFactory;
     protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
     protected JavaPlatform() {
@@ -46,6 +47,16 @@ public abstract class JavaPlatform implements ClientPlatform {
 
     protected JavaPlatform(JavaScheduler scheduler) {
         this.scheduler = scheduler;
+        JsonFactory factory;
+        try {
+            // Using Jackson if provided (faster)
+            factory =  new JacksonJsonFactory();
+            factory.parse("{}"); // will throw a NoClassDefFoundError if Jackson is not provided
+        } catch (NoClassDefFoundError e) {
+            // Using Json-smart as second choice (much smaller)
+            factory =  new SmartJsonFactory();
+        }
+        jsonFactory = factory;
     }
 
     @Override

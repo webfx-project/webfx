@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat;
+package naga.core.spi.json.javaplat.jackson;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonFactory;
@@ -30,15 +30,15 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonFactory.java">Original Goodow class</a>
  */
-public final class JavaJsonFactory implements JsonFactory {
+public final class JacksonJsonFactory implements JsonFactory {
     @Override
     public JsonArray createArray() {
-        return new JavaJsonArray();
+        return new JacksonJsonArray();
     }
 
     @Override
     public JsonObject createObject() {
-        return new JavaJsonObject();
+        return new JacksonJsonObject();
     }
 
     @Override
@@ -46,9 +46,9 @@ public final class JavaJsonFactory implements JsonFactory {
     public <T> T parse(String jsonString) {
         Object value = JacksonUtil.decodeValue(jsonString, Object.class);
         if (value instanceof Map)
-            return (T) new JavaJsonObject((Map<String, Object>) value);
+            return (T) new JacksonJsonObject((Map<String, Object>) value);
         if (value instanceof List)
-            return (T) new JavaJsonArray((List<Object>) value);
+            return (T) new JacksonJsonArray((List<Object>) value);
         return (T) value;
     }
 }

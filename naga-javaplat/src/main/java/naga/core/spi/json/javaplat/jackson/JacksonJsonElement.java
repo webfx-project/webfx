@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat;
+package naga.core.spi.json.javaplat.jackson;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonElement;
@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonElement.java">Original Goodow class</a>
  */
-abstract class JavaJsonElement implements JsonElement {
+abstract class JacksonJsonElement implements JsonElement {
     protected boolean needsCopy;
 
     @Override
@@ -40,7 +40,7 @@ abstract class JavaJsonElement implements JsonElement {
 
     @Override
     public boolean isObject() {
-        return this instanceof JavaJsonObject;
+        return this instanceof JacksonJsonObject;
     }
 
     public abstract <T> Object toNative();

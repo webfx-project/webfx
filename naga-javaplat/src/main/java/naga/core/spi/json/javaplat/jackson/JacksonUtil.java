@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat;
+package naga.core.spi.json.javaplat.jackson;
 
 import naga.core.spi.json.JsonElement;
 import naga.core.spi.json.JsonException;
@@ -48,8 +48,8 @@ final class JacksonUtil {
     public static <T extends JsonElement> T convert(Object pojo) throws JsonException {
         try {
             if (pojo instanceof List || pojo instanceof Object[])
-                return (T) new JavaJsonArray(mapper.convertValue(pojo, List.class));
-            return (T) new JavaJsonObject(mapper.convertValue(pojo, Map.class));
+                return (T) new JacksonJsonArray(mapper.convertValue(pojo, List.class));
+            return (T) new JacksonJsonObject(mapper.convertValue(pojo, Map.class));
         } catch (Exception e) {
             throw new JsonException("Failed to convert: " + e.getMessage());
         }

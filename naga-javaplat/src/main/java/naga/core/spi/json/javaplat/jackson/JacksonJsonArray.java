@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat;
+package naga.core.spi.json.javaplat.jackson;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonType;
@@ -32,14 +32,14 @@ import java.util.Map;
  *         <p>
  *         <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonArray.java">Original Goodow class</a>
  */
-final class JavaJsonArray extends JavaJsonElement implements JsonArray {
+final class JacksonJsonArray extends JacksonJsonElement implements JsonArray {
 
     @SuppressWarnings("unchecked")
     static List<Object> convertList(List<?> list) {
         List<Object> arr = new ArrayList<Object>(list.size());
         for (Object obj : list) {
             if (obj instanceof Map)
-                arr.add(JavaJsonObject.convertMap((Map<String, Object>) obj));
+                arr.add(JacksonJsonObject.convertMap((Map<String, Object>) obj));
             else if (obj instanceof List)
                 arr.add(convertList((List<?>) obj));
             else
@@ -50,11 +50,11 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
 
     protected List<Object> list;
 
-    public JavaJsonArray() {
+    public JacksonJsonArray() {
         this.list = new ArrayList<>();
     }
 
-    public JavaJsonArray(List<Object> array) {
+    public JacksonJsonArray(List<Object> array) {
         this.list = array;
     }
 
@@ -77,7 +77,7 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
     @SuppressWarnings("unchecked")
     @Override
     public JsonArray copy() {
-        JavaJsonArray copy = new JavaJsonArray(list);
+        JacksonJsonArray copy = new JacksonJsonArray(list);
         // We actually do the copy lazily if the object is subsequently mutated
         copy.needsCopy = true;
         needsCopy = true;
@@ -92,7 +92,7 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        JavaJsonArray that = (JavaJsonArray) o;
+        JacksonJsonArray that = (JacksonJsonArray) o;
 
         if (this.list.size() != that.list.size())
             return false;
@@ -123,10 +123,10 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
     }
 
     @Override
-    public JavaJsonArray getArray(int index) {
+    public JacksonJsonArray getArray(int index) {
         @SuppressWarnings("unchecked")
         List<Object> l = (List<Object>) list.get(index);
-        return l == null ? null : new JavaJsonArray(l);
+        return l == null ? null : new JacksonJsonArray(l);
     }
 
     @Override
@@ -140,10 +140,10 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
     }
 
     @Override
-    public JavaJsonObject getObject(int index) {
+    public JacksonJsonObject getObject(int index) {
         @SuppressWarnings("unchecked")
         Map<String, Object> m = (Map<String, Object>) list.get(index);
-        return m == null ? null : new JavaJsonObject(m);
+        return m == null ? null : new JacksonJsonObject(m);
     }
 
     @Override
@@ -164,10 +164,10 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
     @Override
     public JsonArray insert(int index, Object value) {
         checkCopy();
-        if (value instanceof JavaJsonObject)
-            value = ((JavaJsonObject) value).map;
-        else if (value instanceof JavaJsonArray)
-            value = ((JavaJsonArray) value).list;
+        if (value instanceof JacksonJsonObject)
+            value = ((JacksonJsonObject) value).map;
+        else if (value instanceof JacksonJsonArray)
+            value = ((JacksonJsonArray) value).list;
         list.add(index, value);
         return this;
     }
@@ -194,10 +194,10 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
     @Override
     public JsonArray push(Object value) {
         checkCopy();
-        if (value instanceof JavaJsonObject)
-            value = ((JavaJsonObject) value).map;
-        else if (value instanceof JavaJsonArray)
-            value = ((JavaJsonArray) value).list;
+        if (value instanceof JacksonJsonObject)
+            value = ((JacksonJsonObject) value).map;
+        else if (value instanceof JacksonJsonArray)
+            value = ((JacksonJsonArray) value).list;
         list.add(value);
         return this;
     }
@@ -241,9 +241,9 @@ final class JavaJsonArray extends JavaJsonElement implements JsonArray {
     @SuppressWarnings({"unchecked", "rawtypes"})
     private <T> T get(Object value) {
         if (value instanceof Map)
-            value = new JavaJsonObject((Map) value);
+            value = new JacksonJsonObject((Map) value);
         else if (value instanceof List)
-            value = new JavaJsonArray((List) value);
+            value = new JacksonJsonArray((List) value);
         return (T) value;
     }
 }

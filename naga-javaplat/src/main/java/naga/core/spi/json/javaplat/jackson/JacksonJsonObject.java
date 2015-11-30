@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat;
+package naga.core.spi.json.javaplat.jackson;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
-final class JavaJsonObject extends JavaJsonElement implements JsonObject {
+final class JacksonJsonObject extends JacksonJsonElement implements JsonObject {
 
     @SuppressWarnings("unchecked")
     static Map<String, Object> convertMap(Map<String, Object> map) {
@@ -46,7 +46,7 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
                 converted.put(entry.getKey(), convertMap(jm));
             } else if (obj instanceof List) {
                 List<Object> list = (List<Object>) obj;
-                converted.put(entry.getKey(), JavaJsonArray.convertList(list));
+                converted.put(entry.getKey(), JacksonJsonArray.convertList(list));
             } else
                 converted.put(entry.getKey(), obj);
         }
@@ -55,11 +55,11 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
 
     protected Map<String, Object> map;
 
-    public JavaJsonObject() {
+    public JacksonJsonObject() {
         this.map = new LinkedHashMap<>();
     }
 
-    public JavaJsonObject(Map<String, Object> map) {
+    public JacksonJsonObject(Map<String, Object> map) {
         this.map = map;
     }
 
@@ -83,7 +83,7 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
     @SuppressWarnings("unchecked")
     @Override
     public JsonObject copy() {
-        JavaJsonObject copy = new JavaJsonObject(map);
+        JacksonJsonObject copy = new JacksonJsonObject(map);
         // We actually do the copy lazily if the object is subsequently mutated
         copy.needsCopy = true;
         needsCopy = true;
@@ -98,7 +98,7 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
         if (o == null || getClass() != o.getClass())
             return false;
 
-        JavaJsonObject that = (JavaJsonObject) o;
+        JacksonJsonObject that = (JacksonJsonObject) o;
 
         if (this.map.size() != that.map.size())
             return false;
@@ -126,17 +126,17 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
     public <T> T get(String key) {
         Object value = map.get(key);
         if (value instanceof Map)
-            value = new JavaJsonObject((Map) value);
+            value = new JacksonJsonObject((Map) value);
         else if (value instanceof List)
-            value = new JavaJsonArray((List) value);
+            value = new JacksonJsonArray((List) value);
         return (T) value;
     }
 
     @Override
-    public JavaJsonArray getArray(String key) {
+    public JacksonJsonArray getArray(String key) {
         @SuppressWarnings("unchecked")
         List<Object> l = (List<Object>) map.get(key);
-        return l == null ? null : new JavaJsonArray(l);
+        return l == null ? null : new JacksonJsonArray(l);
     }
 
     @Override
@@ -150,10 +150,10 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
     }
 
     @Override
-    public JavaJsonObject getObject(String key) {
+    public JacksonJsonObject getObject(String key) {
         @SuppressWarnings("unchecked")
         Map<String, Object> m = (Map<String, Object>) map.get(key);
-        return m == null ? null : new JavaJsonObject(m);
+        return m == null ? null : new JacksonJsonObject(m);
     }
 
     @Override
@@ -173,7 +173,7 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
 
     @Override
     public JsonArray keys() {
-        return new JavaJsonArray(Arrays.asList(map.keySet().toArray(new Object[map.size()])));
+        return new JacksonJsonArray(Arrays.asList(map.keySet().toArray(new Object[map.size()])));
     }
 
     @SuppressWarnings("unchecked")
@@ -200,10 +200,10 @@ final class JavaJsonObject extends JavaJsonElement implements JsonObject {
     @Override
     public JsonObject set(String key, Object value) {
         checkCopy();
-        if (value instanceof JavaJsonObject) {
-            value = ((JavaJsonObject) value).map;
-        } else if (value instanceof JavaJsonArray) {
-            value = ((JavaJsonArray) value).list;
+        if (value instanceof JacksonJsonObject) {
+            value = ((JacksonJsonObject) value).map;
+        } else if (value instanceof JacksonJsonArray) {
+            value = ((JacksonJsonArray) value).list;
         }
         map.put(key, value);
         return this;
