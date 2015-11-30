@@ -50,19 +50,20 @@ public class WebSocketBus extends SimpleBus {
     String serverUri;
     WebSocket webSocket;
     private int pingInterval;
-    private Object pingTimerID = null;
+    private Object pingTimerId;
     private String sessionId;
     private String username;
     private String password;
     final Map<String, Integer> handlerCount = new HashMap<>();
 
     public WebSocketBus(BusOptions options) {
+        options.turnUnsetPropertiesToDefault(); // should be already done by the platform but just in case
         String serverUri =
                 (options.getProtocol() == BusOptions.Protocol.WS ? "ws" : "http")
                 + (options.isServerSSL() ? "s://" : "://")
                 + options.getServerHost()
                 + ':' + options.getServerPort()
-                + options.getBusPrefix()
+                + '/' + options.getBusPrefix()
                 + (options.getProtocol() == BusOptions.Protocol.WS ? "/websocket" : "");
         webSocketHandler = new WebSocket.WebSocketHandler() {
             @Override
@@ -72,7 +73,7 @@ public class WebSocketBus extends SimpleBus {
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
                 cancelPingTimer();
-                pingTimerID = Platform.schedulePeriodic(pingInterval, ignore -> sendPing());
+                pingTimerId = Platform.schedulePeriodic(pingInterval, ignore -> sendPing());
                 if (hook != null)
                     hook.handleOpened();
                 publishLocal(ON_OPEN, null);
@@ -108,9 +109,9 @@ public class WebSocketBus extends SimpleBus {
 
 
     private void cancelPingTimer() {
-        if (pingTimerID != null)
-            Platform.cancelTimer(pingTimerID);
-        pingTimerID = null;
+        if (pingTimerId != null)
+            Platform.cancelTimer(pingTimerId);
+        pingTimerId = null;
     }
 
     public void connect(String serverUri, BusOptions options) {

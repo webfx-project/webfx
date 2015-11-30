@@ -7,23 +7,42 @@ import naga.core.spi.json.JsonObject;
  */
 public class BusOptions {
 
-    public enum Protocol { WS, HTTP }
+    public enum Protocol {
+        WS,   // Web Socket protocol, to be used by non web applications (Jre, Android, iOS)
+        HTTP  // HTTP protocol, to be used by web applications running in the browser (GWT, TeaVM)
+    }
 
-    private Protocol protocol = Protocol.WS;
-    private boolean serverSSL = false;
-    private String serverHost = "localhost";
-    private int serverPort = 80;
-    private String busPrefix = "/eventbus";
-    private String clientBusAddressPrefix = "json.client";
-    private String serverBusAddress = "json.server";
+    private Protocol protocol;
+    private Boolean serverSSL;
+    private String serverHost;
+    private Integer serverPort;
+    private String busPrefix;
+    private String clientBusAddressPrefix;
+    private String serverBusAddress;
 
-    private int pingInterval = 5 * 1000;
+    private Integer pingInterval;
     private String sessionId;
     private String username;
     private String password;
     private String loginTopic;
 
     private JsonObject socketOptions;
+
+    public BusOptions turnUnsetPropertiesToDefault() {
+        protocol = getValue(protocol, Protocol.HTTP);
+        serverSSL = getValue(serverSSL, Boolean.FALSE);
+        serverHost = getValue(serverHost, "localhost");
+        serverPort = getValue(serverPort, 80);
+        busPrefix = getValue(busPrefix, "eventbus");
+        clientBusAddressPrefix = getValue(clientBusAddressPrefix, "client");
+        serverBusAddress = getValue(serverBusAddress, "server");
+        pingInterval = getValue(pingInterval, 5 * 1000);
+        return this;
+    }
+
+    private static <T> T getValue(T currentValue, T defaultValue) {
+        return currentValue != null ? currentValue : defaultValue;
+    }
 
     public Protocol getProtocol() {
         return protocol;

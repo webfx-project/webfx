@@ -44,7 +44,7 @@ import java.util.logging.Logger;
 public interface Platform {
 
     default Logger logger() {
-        return logger(""); //return Logger.getAnonymousLogger(); // compilation error with GWT
+        return logger(""); // should be Logger.getAnonymousLogger() but produces a compilation error with GWT
     }
 
     default Logger logger(String name) {
@@ -58,6 +58,10 @@ public interface Platform {
     WebSocketFactory webSocketFactory();
 
     default BusFactory busFactory() { return ReconnectBusFactory.SINGLETON; }
+
+    default void setPlatformBusOptions(BusOptions options) {
+        options.turnUnsetPropertiesToDefault();
+    }
 
     /*** Static access ***/
 
@@ -121,7 +125,9 @@ public interface Platform {
     }
 
     static Bus createBus(BusOptions options) {
-        return get().busFactory().createBus(options);
+        Platform platform = get();
+        platform.setPlatformBusOptions(options);
+        return platform.busFactory().createBus(options);
     }
 
 }

@@ -17,6 +17,7 @@
  */
 package naga.core.spi.plat.android;
 
+import naga.core.spi.bus.BusOptions;
 import naga.core.spi.plat.Platform;
 import naga.core.spi.plat.javaplat.JavaPlatform;
 import naga.core.spi.sched.android.AndroidScheduler;
@@ -37,4 +38,11 @@ public final class AndroidPlatform extends JavaPlatform {
         super(new AndroidScheduler());
     }
 
+    @Override
+    public void setPlatformBusOptions(BusOptions options) {
+        super.setPlatformBusOptions(options);
+        // Changing localhost to 10.0.2.2 which is the way to access localhost from the android simulator
+        if ("localhost".equals(options.getServerHost()))
+                options.setServerHost("10.0.2.2");
+    }
 }

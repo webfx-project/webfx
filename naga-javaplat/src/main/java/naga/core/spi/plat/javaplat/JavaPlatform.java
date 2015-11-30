@@ -17,6 +17,7 @@
  */
 package naga.core.spi.plat.javaplat;
 
+import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.JavaJsonFactory;
 import naga.core.spi.plat.Platform;
@@ -66,4 +67,11 @@ public abstract class JavaPlatform implements Platform {
         return webSocketFactory;
     }
 
+    @Override
+    public void setPlatformBusOptions(BusOptions options) {
+        // Setting protocol to Web Socket (unless already explicitly set by the application)
+        if (options.getProtocol() == null)
+            options.setProtocol(BusOptions.Protocol.WS);
+        options.turnUnsetPropertiesToDefault();
+    }
 }
