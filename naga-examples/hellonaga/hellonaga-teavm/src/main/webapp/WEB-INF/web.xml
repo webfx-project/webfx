@@ -7,7 +7,7 @@
 
     <!-- Default page to serve -->
     <welcome-file-list>
-        <welcome-file>hellonaga-gwt.html</welcome-file>
+        <welcome-file>hellonaga-teavm.html</welcome-file>
     </welcome-file-list>
 
 </web-app>
