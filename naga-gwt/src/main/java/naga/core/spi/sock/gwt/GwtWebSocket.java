@@ -29,10 +29,10 @@ final class GwtWebSocket extends JavaScriptObject implements WebSocket {
 
     @Override
     public native void setListen(WebSocketHandler handler) /*-{
-        this.onopen =    handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onOpen().bind(handler);
-        this.onmessage = function(event) { handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
-        this.onerror =   function(event) { handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
-        this.onclose =   handler.@naga.core.spi.plat.WebSocket.WebSocketHandler::onClose(Lnaga/core/spi/json/JsonObject;).bind(handler);
+        this.onopen =    handler.@naga.core.spi.sock.WebSocket.WebSocketHandler::onOpen().bind(handler);
+        this.onmessage = function(event) { handler.@naga.core.spi.sock.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
+        this.onerror =   function(event) { handler.@naga.core.spi.sock.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
+        this.onclose =   handler.@naga.core.spi.sock.WebSocket.WebSocketHandler::onClose(Lnaga/core/spi/json/JsonObject;).bind(handler);
     }-*/;
 
     @Override
