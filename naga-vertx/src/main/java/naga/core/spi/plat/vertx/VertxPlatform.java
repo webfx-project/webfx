@@ -1,10 +1,11 @@
-package naga.core.spi.plat;
+package naga.core.spi.plat.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.vertx.VertxBusFactory;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.vertx.VertxJsonFactory;
+import naga.core.spi.plat.Platform;
 import naga.core.spi.sched.Scheduler;
 import naga.core.spi.sched.vertx.VertxScheduler;
 

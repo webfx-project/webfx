@@ -17,6 +17,8 @@
  */
 package naga.core.spi.json;
 
+import naga.core.spi.plat.Platform;
+
 /**
  * Vends out implementation of JsonFactory.
  *
@@ -46,7 +48,13 @@ public class Json {
     }
 
     public static JsonFactory getFactory() {
-        assert FACTORY != null : "You must register a JSON factory first by invoke Json.registerFactory()";
+        if (FACTORY == null) {
+            Platform platform = Platform.get();// Getting the platform should load the service provider and register the platform which should set the JSON factory
+            if (platform != null)
+                FACTORY = platform.jsonFactory();
+            if (FACTORY == null)
+                throw new IllegalStateException("You must register a JSON factory first by invoking Json.registerFactory()");
+        }
         return FACTORY;
     }
 }

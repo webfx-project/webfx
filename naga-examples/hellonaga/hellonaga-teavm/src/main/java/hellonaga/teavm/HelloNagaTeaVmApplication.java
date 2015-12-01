@@ -1,7 +1,6 @@
 package hellonaga.teavm;
 
 import hellonaga.HelloNagaLogic;
-import naga.core.spi.plat.teavm.TeaVmPlatform;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
 
@@ -10,9 +9,7 @@ import org.teavm.jso.dom.html.HTMLElement;
  */
 public class HelloNagaTeaVmApplication {
 
-    static {
-        TeaVmPlatform.register();
-    }
+    /* No need for TeaVmPlatform.register(); as the platform will be found by the ServiceLoader */
 
     public static void main(String[] args) {
         new HelloNagaLogic(HelloNagaTeaVmApplication::displayMessage).run();

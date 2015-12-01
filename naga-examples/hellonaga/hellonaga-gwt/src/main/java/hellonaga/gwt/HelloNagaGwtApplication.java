@@ -6,16 +6,13 @@ import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.user.client.ui.RootPanel;
 import hellonaga.HelloNagaLogic;
 import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.gwt.GwtPlatform;
 
 /**
  * @author Bruno Salmon
  */
 public class HelloNagaGwtApplication implements EntryPoint {
 
-    static {
-        GwtPlatform.register();
-    }
+    /* No need for GwtPlatform.register(); as the platform will be found by the customized ServiceLoader provided in the super-source */
 
     @Override
     public void onModuleLoad() {

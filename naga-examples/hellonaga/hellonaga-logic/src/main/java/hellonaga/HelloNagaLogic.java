@@ -32,6 +32,6 @@ public class HelloNagaLogic {
         p.set("age", p.getNumber("age") + 1);
         messageDisplayer.displayMessage(p.toJsonString());
 
-        Platform.createBus().send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
+        Platform.bus().send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
     }
 }

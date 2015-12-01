@@ -14,6 +14,12 @@ import naga.core.spi.sock.gwt.GwtWebSocketFactory;
  */
 public final class GwtPlatform implements ClientPlatform {
 
+    /**
+     * Providing GwtPlatform.register() method if needed but this explicit call is normally not necessary
+     * as this platform is recognized by the customized ServiceLoader provided in the super source located at
+     * resources/super/java/util/ServiceLoader.java. But this will work only if the gwt.xml module includes
+     * <super-source path="super"/>
+     */
     public static void register() {
         Platform.register(new GwtPlatform());
     }

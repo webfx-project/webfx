@@ -31,6 +31,13 @@ import naga.core.spi.sched.android.AndroidScheduler;
  */
 public final class AndroidPlatform extends JavaPlatform {
 
+    /**
+     * Providing AndroidPlatform.register() method if needed but this explicit call is normally not necessary
+     * as this platform is listed in META-INF/services and can therefore be found by the ServiceLoader.
+     * However there is currently an issue with the ServiceLoader on Android because META-INF/services is excluded from
+     * the final application archive (apk file). So the explicit call is finally required until this issue is fixed.
+     */
+
     public static void register() {
         Platform.register(new AndroidPlatform());
     }

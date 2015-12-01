@@ -20,12 +20,13 @@ package naga.core.spi.plat;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
-import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.sched.Scheduler;
 import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 
+import java.util.Iterator;
+import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,12 +66,20 @@ public interface Platform {
 
     static void register(Platform platform) {
         PLATFORM_HOLDER.set(platform);
-        Json.registerFactory(platform.jsonFactory());
     }
 
     static Platform get() {
         Platform platform = PLATFORM_HOLDER.get();
-        assert platform != null : "You must register a platform first by invoke {Java|Android}Platform.register()";
+        if (platform == null) {
+            ServiceLoader<Platform> platformServiceLoader = ServiceLoader.load(Platform.class);
+            if (platformServiceLoader != null) {
+                Iterator<Platform> it = platformServiceLoader.iterator();
+                if (it != null && it.hasNext())
+                    register(platform = it.next());
+            }
+            if (platform == null)
+                throw new IllegalStateException("No platform registered. You must register a platform by invoking {Java|Android}Platform.register()");
+        }
         return platform;
     }
 

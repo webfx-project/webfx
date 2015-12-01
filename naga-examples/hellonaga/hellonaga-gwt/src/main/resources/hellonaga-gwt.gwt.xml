@@ -17,6 +17,8 @@
     <entry-point class='hellonaga.gwt.HelloNagaGwtApplication'/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path='hellonaga'/>
-    <source path='naga'/>
+    <source path="hellonaga"/>    <!-- source path to the application logic -->
+    <source path="naga"/>         <!-- source path to naga-core and naga-gwt -->
+    <super-source path="super"/>  <!-- super-source path to the customized java.util.ServiceLoader -->
+
 </module>
