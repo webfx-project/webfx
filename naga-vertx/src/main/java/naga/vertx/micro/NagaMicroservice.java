@@ -3,8 +3,8 @@ package naga.vertx.micro;
 import io.vertx.core.AbstractVerticle;
 import naga.core.Naga;
 import naga.core.spi.bus.Bus;
-import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.vertx.VertxPlatform;
+import naga.core.spi.platform.Platform;
+import naga.core.spi.platform.vertx.VertxPlatform;
 
 /**
  * @author Bruno Salmon

@@ -5,7 +5,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.user.client.ui.RootPanel;
 import hellonaga.HelloNagaLogic;
-import naga.core.spi.plat.Platform;
+import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon

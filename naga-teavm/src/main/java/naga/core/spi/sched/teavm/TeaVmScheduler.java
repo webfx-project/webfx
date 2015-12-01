@@ -1,6 +1,6 @@
 package naga.core.spi.sched.teavm;
 
-import naga.core.spi.sched.Scheduler;
+import naga.core.spi.platform.Scheduler;
 import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 import org.teavm.platform.Platform;

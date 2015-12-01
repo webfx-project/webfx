@@ -21,8 +21,8 @@ import com.google.gwt.core.client.js.JsExport;
 import com.google.gwt.core.client.js.JsNamespace;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.plat.Platform;
-import naga.core.spi.sock.WebSocket;
+import naga.core.spi.platform.Platform;
+import naga.core.spi.platform.client.WebSocket;
 import naga.core.util.idgen.FuzzingBackOffGenerator;
 
 import java.util.ArrayList;

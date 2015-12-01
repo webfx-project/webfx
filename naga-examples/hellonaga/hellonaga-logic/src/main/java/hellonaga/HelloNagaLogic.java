@@ -2,7 +2,7 @@ package hellonaga;
 
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.plat.Platform;
+import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon

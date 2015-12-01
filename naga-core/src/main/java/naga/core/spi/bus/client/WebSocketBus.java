@@ -20,9 +20,9 @@ package naga.core.spi.bus.client;
 import naga.core.spi.bus.Message;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.plat.Platform;
-import naga.core.spi.plat.client.ClientPlatform;
-import naga.core.spi.sock.WebSocket;
+import naga.core.spi.platform.Platform;
+import naga.core.spi.platform.client.ClientPlatform;
+import naga.core.spi.platform.client.WebSocket;
 import naga.core.util.async.Handler;
 
 import java.util.HashMap;

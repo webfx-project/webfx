@@ -17,7 +17,7 @@
  */
 package naga.core.spi.json;
 
-import naga.core.spi.plat.Platform;
+import naga.core.spi.platform.Platform;
 
 /**
  * Vends out implementation of JsonFactory.

@@ -22,7 +22,7 @@ import naga.core.spi.bus.BusHook;
 import naga.core.spi.bus.Message;
 import naga.core.spi.bus.Registration;
 import naga.core.spi.json.Json;
-import naga.core.spi.plat.Platform;
+import naga.core.spi.platform.Platform;
 import naga.core.util.async.Handler;
 import naga.core.util.idgen.IdGenerator;
 

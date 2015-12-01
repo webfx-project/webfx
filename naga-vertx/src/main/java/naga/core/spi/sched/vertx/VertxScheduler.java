@@ -1,7 +1,7 @@
 package naga.core.spi.sched.vertx;
 
 import io.vertx.core.Vertx;
-import naga.core.spi.sched.Scheduler;
+import naga.core.spi.platform.Scheduler;
 import naga.core.util.async.Handler;
 
 /**

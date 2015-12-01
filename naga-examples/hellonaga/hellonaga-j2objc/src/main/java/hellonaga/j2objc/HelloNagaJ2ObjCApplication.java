@@ -1,7 +1,7 @@
 package hellonaga.j2objc;
 
 import hellonaga.HelloNagaLogic;
-import naga.core.spi.plat.j2objc.J2ObjCPlatform;
+import naga.core.spi.platform.client.j2objc.J2ObjCPlatform;
 
 /**
  * @author Bruno Salmon
