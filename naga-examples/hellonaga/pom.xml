@@ -17,6 +17,7 @@
         <module>hellonaga-teavm</module>
         <module>hellonaga-gwt</module>
         <module>hellonaga-j2objc</module>
+        <module>hellonaga-retrolambda</module>
     </modules>
 
 </project>
