@@ -38,7 +38,7 @@ public final class JacksonJsonFactory extends ListMapJsonFactory {
     }
 
     @Override
-    protected JsonArray createNonNullArray(List nativeArray) {
+    protected JsonArray createNewArray(List nativeArray) {
         return new JacksonJsonArray(nativeArray);
     }
 
@@ -48,7 +48,7 @@ public final class JacksonJsonFactory extends ListMapJsonFactory {
     }
 
     @Override
-    protected JsonObject createNonNullObject(Map<String, Object> nativeObject) {
+    protected JsonObject createNewObject(Map<String, Object> nativeObject) {
         return new JacksonJsonObject(nativeObject);
     }
 

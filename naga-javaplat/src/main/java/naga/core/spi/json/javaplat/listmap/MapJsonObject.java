@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class MapJsonObject extends MapBasedJsonObject {
+public abstract class MapJsonObject extends MapBasedJsonObject<Map<String, Object>> {
 
     protected Map<String, Object> map;
 
@@ -23,7 +23,7 @@ public abstract class MapJsonObject extends MapBasedJsonObject {
     }
 
     @Override
-    protected Object getNativeObject() {
+    protected Map<String, Object> getNativeObject() {
         return map;
     }
 

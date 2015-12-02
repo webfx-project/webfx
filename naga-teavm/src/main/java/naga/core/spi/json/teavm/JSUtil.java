@@ -110,8 +110,11 @@ public final class JSUtil {
             return js2Number((JSNumber) jsv);
         if (isBoolean(jsv))
             return ((JSBoolean) jsv).booleanValue();
-        if (isArray(jsv))
-            return TeaVmJsonArray.create((JSArray) jsv);
+        if (isArray(jsv)) {
+            if ((JSArray) jsv == null || isUndefined((JSArray) jsv))
+                return null;
+            return new TeaVmJsonArray((JSArray) jsv);
+        }
         return TeaVmJsonObject.create(jsv);
     }
 
@@ -152,8 +155,11 @@ public final class JSUtil {
     }
 
     public static TeaVmJsonElement js2Element(JSObject jsv) {
-        if (isArray(jsv))
-            return TeaVmJsonArray.create((JSArray) jsv);
+        if (isArray(jsv)) {
+            if ((JSArray) jsv == null || isUndefined((JSArray) jsv))
+                return null;
+            return new TeaVmJsonArray((JSArray) jsv);
+        }
         return new TeaVmJsonObject(jsv);
     }
 

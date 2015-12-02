@@ -4,6 +4,7 @@ import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.json.JsonType;
 import org.teavm.jso.JSObject;
+import org.teavm.jso.core.JSArray;
 import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSNumber;
 
@@ -13,10 +14,6 @@ import org.teavm.jso.core.JSNumber;
  * @author Bruno Salmon
  */
 public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObject {
-
-    public static TeaVmJsonObject create() {
-        return new TeaVmJsonObject();
-    }
 
     public static TeaVmJsonObject create(JSObject jso) {
         if (jso == null || JSUtil.isUndefined(jso))
@@ -55,7 +52,10 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObjec
 
     @Override
     public TeaVmJsonArray getArray(String key) {
-        return TeaVmJsonArray.create(getJsValue(key).cast());
+        JSArray jsArray = getJsValue(key).cast();
+        if (jsArray == null || JSUtil.isUndefined(jsArray))
+            return null;
+        return new TeaVmJsonArray(jsArray);
     }
 
     @Override
@@ -86,7 +86,10 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObjec
 
     @Override
     public JsonArray keys() {
-        return TeaVmJsonArray.create(JSUtil.getKeys(jsValue));
+        JSArray jsArray = JSUtil.getKeys(jsValue);
+        if (jsArray == null || JSUtil.isUndefined(jsArray))
+            return null;
+        return new TeaVmJsonArray(jsArray);
     }
 
     @Override

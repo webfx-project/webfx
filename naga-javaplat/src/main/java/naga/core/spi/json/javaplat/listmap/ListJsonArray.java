@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class ListJsonArray extends ListBasedJsonArray {
+public abstract class ListJsonArray extends ListBasedJsonArray<List> {
 
     protected List list;
 
@@ -23,7 +23,7 @@ public abstract class ListJsonArray extends ListBasedJsonArray {
     }
 
     @Override
-    protected Object getNativeArray() {
+    protected List getNativeArray() {
         return list;
     }
 

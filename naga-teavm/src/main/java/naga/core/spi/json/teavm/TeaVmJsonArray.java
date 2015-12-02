@@ -12,17 +12,7 @@ import org.teavm.jso.core.JSArray;
  */
 final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
 
-    static TeaVmJsonArray create() {
-        return new TeaVmJsonArray(JSArray.create());
-    }
-
-    static TeaVmJsonArray create(JSArray jsArray) {
-        if (jsArray == null || JSUtil.isUndefined(jsArray))
-            return null;
-        return new TeaVmJsonArray(jsArray);
-    }
-
-    private TeaVmJsonArray(JSArray jsArray) {
+    TeaVmJsonArray(JSArray jsArray) {
         super(jsArray);
     }
 

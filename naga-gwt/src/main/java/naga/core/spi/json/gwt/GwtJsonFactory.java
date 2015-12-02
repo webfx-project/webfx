@@ -17,6 +17,7 @@
  */
 package naga.core.spi.json.gwt;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import naga.core.spi.json.*;
 
 /*
@@ -25,42 +26,53 @@ import naga.core.spi.json.*;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonFactory.java">Original Goodow class</a>
  */
-public final class GwtJsonFactory implements JsonFactory<GwtJsonArray, GwtJsonObject> {
-
-    // @formatter:off
-    private native static <T> T parse0(String jsonString) /*-{
-    // assume Chrome, safe and non-broken JSON.parse impl
-    var obj = $wnd.JSON.parse(jsonString);
-    return obj;
-  }-*/;
-    // @formatter:on
+public final class GwtJsonFactory extends JsonFactory<GwtJsonArray, GwtJsonObject> {
 
     @Override
     public GwtJsonArray createArray() {
-        return GwtJsonArray.create();
+        return JavaScriptObject.createArray().cast();
     }
 
     @Override
-    public GwtJsonArray createArray(GwtJsonArray nativeArray) {
-        return nativeArray;
+    public GwtJsonArray createArray(GwtJsonArray gwtArray) {
+        return gwtArray;
+    }
+
+    @Override
+    protected GwtJsonArray createNewArray(GwtJsonArray gwtArray) {
+        return gwtArray;
     }
 
     @Override
     public GwtJsonObject createObject() {
-        return GwtJsonObject.create();
+        return JavaScriptObject.createObject().cast();
     }
 
     @Override
-    public GwtJsonObject createObject(GwtJsonObject nativeObject) {
-        return nativeObject;
+    public GwtJsonObject createObject(GwtJsonObject gwtObject) {
+        return gwtObject;
     }
 
     @Override
-    public <T extends JsonElement> T parse(String jsonString) {
-        try {
-            return parse0(jsonString);
-        } catch (Exception e) {
-            throw new JsonException("Can't parse JSON string: " + e.getMessage());
-        }
+    protected JsonObject createNewObject(GwtJsonObject gwtObject) {
+        return gwtObject;
+    }
+
+    @Override
+    protected Object parseNative(String jsonString) {
+        return parse0(jsonString);
+    }
+
+    // @formatter:off
+    private native static Object parse0(String jsonString) /*-{
+        // assume Chrome, safe and non-broken JSON.parse impl
+        return $wnd.JSON.parse(jsonString);
+    }-*/;
+    // @formatter:on
+
+
+    @Override
+    protected <T extends JsonElement> T nativeToJsonElement(Object gwtElement) {
+        return (T) gwtElement;
     }
 }

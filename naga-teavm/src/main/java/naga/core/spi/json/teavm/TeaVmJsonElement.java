@@ -4,6 +4,7 @@ import naga.core.spi.json.JsonElement;
 import naga.core.spi.json.JsonException;
 import naga.core.spi.json.JsonType;
 import org.teavm.jso.JSObject;
+import org.teavm.jso.core.JSArray;
 
 /*
  * @author Bruno Salmon
@@ -23,7 +24,7 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements JsonElement {
     @Override
     public final <T extends JsonElement> T copy() {
         JSObject copy = JSUtil.copy(jsValue);
-        return (T) (isObject() ? TeaVmJsonObject.create(copy) : TeaVmJsonArray.create());
+        return (T) (isObject() ? TeaVmJsonObject.create(copy) : new TeaVmJsonArray(JSArray.create()));
     }
 
     @Override

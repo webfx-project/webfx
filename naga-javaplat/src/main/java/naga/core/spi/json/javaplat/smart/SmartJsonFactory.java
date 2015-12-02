@@ -19,7 +19,7 @@ public final class SmartJsonFactory extends ListMapJsonFactory {
     }
 
     @Override
-    protected JsonArray createNonNullArray(List nativeArray) {
+    protected JsonArray createNewArray(List nativeArray) {
         return new SmartJsonArray(nativeArray);
     }
 
@@ -29,7 +29,7 @@ public final class SmartJsonFactory extends ListMapJsonFactory {
     }
 
     @Override
-    protected JsonObject createNonNullObject(Map<String, Object> nativeObject) {
+    protected JsonObject createNewObject(Map<String, Object> nativeObject) {
         return new SmartJsonObject(nativeObject);
     }
 
