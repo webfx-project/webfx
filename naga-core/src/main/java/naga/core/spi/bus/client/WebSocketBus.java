@@ -86,7 +86,7 @@ public class WebSocketBus extends SimpleClientBus {
             @Override
             public void onMessage(String msg) {
                 //Platform.log("onMessage(), msg = " + msg);
-                JsonObject json = Json.<JsonObject>parse(msg);
+                JsonObject json = Json.parse(msg);
                 @SuppressWarnings({"unchecked"})
                 ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
                 internalHandleReceiveMessage(message);

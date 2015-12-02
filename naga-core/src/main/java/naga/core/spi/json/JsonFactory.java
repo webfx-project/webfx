@@ -23,11 +23,16 @@ package naga.core.spi.json;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/JsonFactory.java">Original Goodow class</a>
  */
-public interface JsonFactory {
+public interface JsonFactory<NA, NO> {
 
     JsonArray createArray();
 
+    JsonArray createArray(NA nativeArray);
+
     JsonObject createObject();
 
-    <T> T parse(String jsonString);
+    JsonObject createObject(NO nativeObject);
+
+    <T extends JsonElement> T parse(String jsonString);
+
 }

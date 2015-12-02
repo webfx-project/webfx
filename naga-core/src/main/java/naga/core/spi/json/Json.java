@@ -33,12 +33,20 @@ public class Json {
         return getFactory().createArray();
     }
 
+    public static <NA> JsonArray createArray(NA nativeArray) {
+        return getFactory().createArray(nativeArray);
+    }
+
     public static JsonObject createObject() {
         return getFactory().createObject();
     }
 
-    public static <T> T parse(String jsonString) {
-        return getFactory().parse(jsonString);
+    public static <NO> JsonObject createObject(NO nativeObject) {
+        return getFactory().createObject(nativeObject);
+    }
+
+    public static <T extends JsonElement> T parse(String jsonString) {
+        return (T) getFactory().parse(jsonString);
     }
 
     private static JsonFactory FACTORY;

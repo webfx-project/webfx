@@ -18,8 +18,8 @@
 package naga.core.spi.json.javaplat.jackson;
 
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.JsonObject;
+import naga.core.spi.json.javaplat.listmap.ListMapJsonFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -30,10 +30,16 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonFactory.java">Original Goodow class</a>
  */
-public final class JacksonJsonFactory implements JsonFactory {
+public final class JacksonJsonFactory extends ListMapJsonFactory {
+
     @Override
     public JsonArray createArray() {
         return new JacksonJsonArray();
+    }
+
+    @Override
+    protected JsonArray createNonNullArray(List nativeArray) {
+        return new JacksonJsonArray(nativeArray);
     }
 
     @Override
@@ -42,13 +48,12 @@ public final class JacksonJsonFactory implements JsonFactory {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T parse(String jsonString) {
-        Object value = JacksonUtil.decodeValue(jsonString, Object.class);
-        if (value instanceof Map)
-            return (T) new JacksonJsonObject((Map<String, Object>) value);
-        if (value instanceof List)
-            return (T) new JacksonJsonArray((List<Object>) value);
-        return (T) value;
+    protected JsonObject createNonNullObject(Map<String, Object> nativeObject) {
+        return new JacksonJsonObject(nativeObject);
+    }
+
+    @Override
+    public Object parseNative(String jsonString) {
+        return JacksonUtil.decodeValue(jsonString, Object.class);
     }
 }

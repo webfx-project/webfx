@@ -14,7 +14,7 @@ final class VertxJsonObject implements JsonObject {
 
     private final io.vertx.core.json.JsonObject vjo;
 
-    private VertxJsonObject(io.vertx.core.json.JsonObject vjo) {
+    VertxJsonObject(io.vertx.core.json.JsonObject vjo) {
         this.vjo = vjo;
     }
 

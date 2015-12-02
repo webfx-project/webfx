@@ -17,10 +17,7 @@
  */
 package naga.core.spi.json.gwt;
 
-import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonException;
-import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.JsonObject;
+import naga.core.spi.json.*;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
@@ -28,7 +25,7 @@ import naga.core.spi.json.JsonObject;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonFactory.java">Original Goodow class</a>
  */
-public final class GwtJsonFactory implements JsonFactory {
+public final class GwtJsonFactory implements JsonFactory<GwtJsonArray, GwtJsonObject> {
 
     // @formatter:off
     private native static <T> T parse0(String jsonString) /*-{
@@ -39,17 +36,27 @@ public final class GwtJsonFactory implements JsonFactory {
     // @formatter:on
 
     @Override
-    public JsonArray createArray() {
+    public GwtJsonArray createArray() {
         return GwtJsonArray.create();
     }
 
     @Override
-    public JsonObject createObject() {
+    public GwtJsonArray createArray(GwtJsonArray nativeArray) {
+        return nativeArray;
+    }
+
+    @Override
+    public GwtJsonObject createObject() {
         return GwtJsonObject.create();
     }
 
     @Override
-    public <T> T parse(String jsonString) throws JsonException {
+    public GwtJsonObject createObject(GwtJsonObject nativeObject) {
+        return nativeObject;
+    }
+
+    @Override
+    public <T extends JsonElement> T parse(String jsonString) {
         try {
             return parse0(jsonString);
         } catch (Exception e) {

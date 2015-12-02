@@ -12,7 +12,7 @@ final class VertxJsonArray implements JsonArray {
 
     private final io.vertx.core.json.JsonArray vja;
 
-    private VertxJsonArray(io.vertx.core.json.JsonArray vja) {
+    VertxJsonArray(io.vertx.core.json.JsonArray vja) {
         this.vja = vja;
     }
 

@@ -17,13 +17,8 @@
  */
 package naga.core.spi.json.javaplat.jackson;
 
-import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.JsonType;
+import naga.core.spi.json.javaplat.listmap.MapJsonObject;
 
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,207 +29,17 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
-final class JacksonJsonObject extends JacksonJsonElement implements JsonObject {
+final class JacksonJsonObject extends MapJsonObject {
 
-    @SuppressWarnings("unchecked")
-    static Map<String, Object> convertMap(Map<String, Object> map) {
-        Map<String, Object> converted = new LinkedHashMap<String, Object>(map.size());
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            Object obj = entry.getValue();
-            if (obj instanceof Map) {
-                Map<String, Object> jm = (Map<String, Object>) obj;
-                converted.put(entry.getKey(), convertMap(jm));
-            } else if (obj instanceof List) {
-                List<Object> list = (List<Object>) obj;
-                converted.put(entry.getKey(), JacksonJsonArray.convertList(list));
-            } else
-                converted.put(entry.getKey(), obj);
-        }
-        return converted;
+    JacksonJsonObject() {
     }
 
-    protected Map<String, Object> map;
-
-    public JacksonJsonObject() {
-        this.map = new LinkedHashMap<>();
-    }
-
-    public JacksonJsonObject(Map<String, Object> map) {
-        this.map = map;
-    }
-
-  /*
-  public JreJsonObject(String jsonString) {
-    map = JacksonUtil.decodeValue(jsonString, Map.class);
-  }
-  */
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public JsonObject clear() {
-        if (needsCopy) {
-            map = new LinkedHashMap<>();
-            needsCopy = false;
-        } else
-            map.clear();
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public JsonObject copy() {
-        JacksonJsonObject copy = new JacksonJsonObject(map);
-        // We actually do the copy lazily if the object is subsequently mutated
-        copy.needsCopy = true;
-        needsCopy = true;
-        return copy;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        JacksonJsonObject that = (JacksonJsonObject) o;
-
-        if (this.map.size() != that.map.size())
-            return false;
-
-        for (Map.Entry<String, Object> entry : this.map.entrySet()) {
-            Object val = entry.getValue();
-            if (val == null) {
-                if (that.map.get(entry.getKey()) != null)
-                    return false;
-            } else if (!entry.getValue().equals(that.map.get(entry.getKey())))
-                    return false;
-        }
-        return true;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> void forEach(MapIterator<T> handler) {
-        for (String key : map.keySet())
-            handler.call(key, get(key));
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    @Override
-    public <T> T get(String key) {
-        Object value = map.get(key);
-        if (value instanceof Map)
-            value = new JacksonJsonObject((Map) value);
-        else if (value instanceof List)
-            value = new JacksonJsonArray((List) value);
-        return (T) value;
-    }
-
-    @Override
-    public JacksonJsonArray getArray(String key) {
-        @SuppressWarnings("unchecked")
-        List<Object> l = (List<Object>) map.get(key);
-        return l == null ? null : new JacksonJsonArray(l);
-    }
-
-    @Override
-    public boolean getBoolean(String key) {
-        return (Boolean) map.get(key);
-    }
-
-    @Override
-    public double getNumber(String key) {
-        return ((Number) map.get(key)).doubleValue();
-    }
-
-    @Override
-    public JacksonJsonObject getObject(String key) {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> m = (Map<String, Object>) map.get(key);
-        return m == null ? null : new JacksonJsonObject(m);
-    }
-
-    @Override
-    public String getString(String key) {
-        return (String) map.get(key);
-    }
-
-    @Override
-    public JsonType getType(String key) {
-        return super.getType(map.get(key));
-    }
-
-    @Override
-    public boolean has(String key) {
-        return map.containsKey(key);
-    }
-
-    @Override
-    public JsonArray keys() {
-        return new JacksonJsonArray(Arrays.asList(map.keySet().toArray(new Object[map.size()])));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> T remove(String key) {
-        checkCopy();
-        return (T) map.remove(key);
-    }
-
-    @Override
-    public JsonObject set(String key, boolean bool_) {
-        checkCopy();
-        map.put(key, bool_);
-        return this;
-    }
-
-    @Override
-    public JsonObject set(String key, double number) {
-        checkCopy();
-        map.put(key, number);
-        return this;
-    }
-
-    @Override
-    public JsonObject set(String key, Object value) {
-        checkCopy();
-        if (value instanceof JacksonJsonObject) {
-            value = ((JacksonJsonObject) value).map;
-        } else if (value instanceof JacksonJsonArray) {
-            value = ((JacksonJsonArray) value).list;
-        }
-        map.put(key, value);
-        return this;
-    }
-
-    @Override
-    public int size() {
-        return map.size();
+    JacksonJsonObject(Map map) {
+        super(map);
     }
 
     @Override
     public String toJsonString() {
         return JacksonUtil.encode(map);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <T> Map<String, T> toNative() {
-        return (Map<String, T>) map;
-    }
-
-    @Override
-    public String toString() {
-        return toJsonString();
-    }
-
-    private void checkCopy() {
-        if (needsCopy) {
-            // deep copy the map lazily if the object is mutated
-            map = convertMap(map);
-            needsCopy = false;
-        }
     }
 }
