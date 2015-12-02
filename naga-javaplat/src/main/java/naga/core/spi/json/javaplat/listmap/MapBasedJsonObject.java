@@ -12,7 +12,11 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 public abstract class MapBasedJsonObject<NO> implements JsonObject {
-    protected boolean needsCopy;
+    protected boolean isShallowCopy;
+
+    protected MapBasedJsonObject() {
+        recreateEmptyNativeObject();
+    }
 
     public abstract Map<String, Object> getMap();
 
@@ -20,13 +24,13 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     protected abstract void recreateEmptyNativeObject();
 
-    protected abstract void deepCloneNativeObject();
+    protected abstract void deepCopyNativeObject();
 
-    protected void checkCopy() {
-        if (needsCopy) {
+    protected void checkCopyBeforeUpdate() {
+        if (isShallowCopy) {
             // deep copy the list lazily if the object is mutated
-            deepCloneNativeObject();
-            needsCopy = false;
+            deepCopyNativeObject();
+            isShallowCopy = false;
         }
     }
 
@@ -35,43 +39,43 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
         getMap().forEach((s, o) -> handler.call(s, ListMapUtil.wrap(o)));
     }
 
-    protected <T> T get0(String key) {
+    protected <T> T getNative(String key) {
         return (T) getMap().get(key);
     }
 
     @Override
     public <T> T get(String key) {
-        return ListMapUtil.wrap(get0(key));
+        return ListMapUtil.wrap(getNative(key));
     }
 
     @Override
     public JsonArray getArray(String key) {
-        return Json.createArray(get0(key)) ;
+        return Json.createArray(getNative(key)) ;
     }
 
     @Override
     public boolean getBoolean(String key) {
-        return get0(key);
+        return getNative(key);
     }
 
     @Override
     public double getNumber(String key) {
-        return ((Number) get0(key)).doubleValue();
+        return ((Number) getNative(key)).doubleValue();
     }
 
     @Override
     public JsonObject getObject(String key) {
-        return Json.createObject(get0(key));
+        return Json.createObject(getNative(key));
     }
 
     @Override
     public String getString(String key) {
-        return get0(key);
+        return getNative(key);
     }
 
     @Override
     public JsonType getType(String key) {
-        return ListMapUtil.getType(get0(key));
+        return ListMapUtil.getType(getNative(key));
     }
 
     @Override
@@ -86,27 +90,27 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     @Override
     public <T> T remove(String key) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         return (T) getMap().remove(key);
     }
 
     @Override
     public JsonObject set(String key, boolean bool_) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         getMap().put(key, bool_);
         return this;
     }
 
     @Override
     public JsonObject set(String key, double number) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         getMap().put(key, number);
         return this;
     }
 
     @Override
     public JsonObject set(String key, Object value) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         value = ListMapUtil.unwrap(value);
         getMap().put(key, value);
         return this;
@@ -119,9 +123,9 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     @Override
     public MapBasedJsonObject clear() {
-        if (needsCopy) {
+        if (isShallowCopy) {
             recreateEmptyNativeObject();
-            needsCopy = false;
+            isShallowCopy = false;
         } else
             getMap().clear();
         return this;
@@ -131,8 +135,7 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
     public MapBasedJsonObject copy() {
         MapBasedJsonObject copy = (MapBasedJsonObject) Json.createArray(getNativeObject());
         // We actually do the copy lazily if the object is subsequently mutated
-        copy.needsCopy = true;
-        needsCopy = true;
+        copy.isShallowCopy = isShallowCopy = true;
         return copy;
     }
 

@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-core</artifactId>
+            <artifactId>naga-javaplat</artifactId>
             <groupId>${project.groupId}</groupId>
         </dependency>
 

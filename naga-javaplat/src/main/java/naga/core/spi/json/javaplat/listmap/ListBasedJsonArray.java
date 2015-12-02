@@ -11,7 +11,11 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class ListBasedJsonArray<NA> implements JsonArray {
-    protected boolean needsCopy;
+    protected boolean isShallowCopy;
+
+    protected ListBasedJsonArray() {
+        recreateEmptyNativeArray();
+    }
 
     public abstract List getList();
 
@@ -19,13 +23,13 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
 
     protected abstract void recreateEmptyNativeArray();
 
-    protected abstract void deepCloneNativeArray();
+    protected abstract void deepCopyNativeArray();
 
-    protected void checkCopy() {
-        if (needsCopy) {
+    protected void checkCopyBeforeUpdate() {
+        if (isShallowCopy) {
             // deep copy the list lazily if the object is mutated
-            deepCloneNativeArray();
-            needsCopy = false;
+            deepCopyNativeArray();
+            isShallowCopy = false;
         }
     }
 
@@ -36,43 +40,43 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
             handler.call(i++, ListMapUtil.wrap(o));
     }
 
-    protected <T> T get0(int index) {
+    protected <T> T getNative(int index) {
         return (T) getList().get(index);
     }
 
     @Override
     public <T> T get(int index) {
-        return ListMapUtil.wrap(get0(index));
+        return ListMapUtil.wrap(getNative(index));
     }
 
     @Override
     public JsonArray getArray(int index) {
-        return Json.createArray(get0(index));
+        return Json.createArray(getNative(index));
     }
 
     @Override
     public boolean getBoolean(int index) {
-        return get0(index);
+        return getNative(index);
     }
 
     @Override
     public double getNumber(int index) {
-        return ((Number) get0(index)).doubleValue();
+        return ((Number) getNative(index)).doubleValue();
     }
 
     @Override
     public JsonObject getObject(int index) {
-        return Json.createObject(get0(index));
+        return Json.createObject(getNative(index));
     }
 
     @Override
     public String getString(int index) {
-        return get0(index);
+        return getNative(index);
     }
 
     @Override
     public JsonType getType(int index) {
-        return ListMapUtil.getType(get0(index));
+        return ListMapUtil.getType(getNative(index));
     }
 
     @Override
@@ -82,7 +86,7 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
 
     @Override
     public ListBasedJsonArray insert(int index, Object value) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         value = ListMapUtil.unwrap(value);
         getList().add(index, value);
         return this;
@@ -95,21 +99,21 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
 
     @Override
     public ListBasedJsonArray push(boolean bool_) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         getList().add(bool_);
         return this;
     }
 
     @Override
     public ListBasedJsonArray push(double number) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         getList().add(number);
         return this;
     }
 
     @Override
     public ListBasedJsonArray push(Object value) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         value = ListMapUtil.unwrap(value);
         getList().add(value);
         return this;
@@ -117,21 +121,21 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
 
     @Override
     public <T> T remove(int index) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         return (T) getList().remove(index);
     }
 
     @Override
     public boolean removeValue(Object value) {
-        checkCopy();
+        checkCopyBeforeUpdate();
         return getList().remove(value);
     }
 
     @Override
     public ListBasedJsonArray clear() {
-        if (needsCopy) {
+        if (isShallowCopy) {
             recreateEmptyNativeArray();
-            needsCopy = false;
+            isShallowCopy = false;
         } else
             getList().clear();
         return this;
@@ -141,8 +145,7 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
     public ListBasedJsonArray copy() {
         ListBasedJsonArray copy = (ListBasedJsonArray) Json.createArray(getNativeArray());
         // We actually do the copy lazily if the object is subsequently mutated
-        copy.needsCopy = true;
-        needsCopy = true;
+        copy.isShallowCopy = isShallowCopy = true;
         return copy;
     }
 
@@ -155,9 +158,6 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
     public boolean isObject() {
         return false;
     }
-
-    @Override
-    public abstract String toJsonString();
 
     @Override
     public String toString() {

@@ -10,8 +10,7 @@ public abstract class ListJsonArray extends ListBasedJsonArray {
 
     protected List list;
 
-    protected ListJsonArray() {
-        this(new ArrayList<>());
+    protected ListJsonArray() { // super constructor will call recreateEmptyNativeArray() to initialize the list
     }
 
     protected ListJsonArray(List list) {
@@ -34,7 +33,7 @@ public abstract class ListJsonArray extends ListBasedJsonArray {
     }
 
     @Override
-    protected void deepCloneNativeArray() {
+    protected void deepCopyNativeArray() {
         list = ListMapUtil.convertList(list);
     }
 

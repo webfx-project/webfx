@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="module" module-name="naga-javaplat" />
     <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.1.0" level="project" />

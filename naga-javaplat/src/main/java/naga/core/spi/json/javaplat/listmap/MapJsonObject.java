@@ -10,11 +10,10 @@ public abstract class MapJsonObject extends MapBasedJsonObject {
 
     protected Map<String, Object> map;
 
-    public MapJsonObject() {
-        recreateEmptyNativeObject();
+    protected MapJsonObject() {  // super constructor will call recreateEmptyNativeObject() to initialize the map
     }
 
-    public MapJsonObject(Map map) {
+    protected MapJsonObject(Map map) {
         this.map = map;
     }
 
@@ -34,7 +33,7 @@ public abstract class MapJsonObject extends MapBasedJsonObject {
     }
 
     @Override
-    protected void deepCloneNativeObject() {
+    protected void deepCopyNativeObject() {
         map = ListMapUtil.convertMap(map);
     }
 }
