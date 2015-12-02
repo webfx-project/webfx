@@ -21,4 +21,26 @@
 
     </dependencies>
 
+    <!-- Packaging the final application jar file -->
+
+    <properties>
+        <jre.mainClass>helloworld.jre.HelloWorldJreApplication</jre.mainClass>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Setting the main class in the manifest file -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+            </plugin>
+
+            <!-- Unpacking all libraries to be included in the jar file -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
 </project>

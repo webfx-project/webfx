@@ -40,6 +40,7 @@
         <vertx.version>3.1.0</vertx.version>
 
         <!-- To Be Defined properties that any module has to override when using a transpiler plugin pre-configured in the <pluginManagement> section -->
+        <jre.mainClass>TBD</jre.mainClass>
         <teavm.mainClass>TBD</teavm.mainClass>
         <gwt.module>TBD</gwt.module>
         <gwt.compileSourcesArtifact>TBD</gwt.compileSourcesArtifact>
@@ -173,6 +174,19 @@
         <pluginManagement>
             <plugins> <!-- plugins listed here are just pre-configured for a possible use in a module -->
 
+                <!-- Plugin to set the main class in the manifest file when packaging an executable jre application -->
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.4</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>${jre.mainClass}</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
                 <!-- Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM) -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -270,11 +284,6 @@
                     <version>2.4</version>
                 </plugin>
 
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-
                 <!-- Plugin to unpack dependencies with their source. This is required before calling j2objc -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -302,6 +311,20 @@
                             <configuration>
                                 <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
                                 <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                <overWriteReleases>true</overWriteReleases>
+                                <overWriteSnapshots>true</overWriteSnapshots>
+                            </configuration>
+                        </execution>
+                        <!-- Also copying these libraries in a lib folder just for info -->
+                        <execution>
+                            <id>lib-dependencies</id>
+                            <phase>validate</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration >
+                                <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                                <outputDirectory>${project.build.directory}/lib-for-info</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
                             </configuration>
