@@ -33,6 +33,13 @@
             <!-- Setting the main class in the manifest file -->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${jre.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
 
             <!-- Unpacking all libraries to be included in the jar file -->

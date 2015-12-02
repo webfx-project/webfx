@@ -39,11 +39,24 @@
             <!-- Setting the main class in the manifest file -->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${jre.mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
 
             <!-- Unpacking all libraries to be included in the jar file -->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+            <!-- Minimizing and obfuscating the jar file with Proguard -->
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
             </plugin>
 
         </plugins>

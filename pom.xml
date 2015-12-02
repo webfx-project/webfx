@@ -149,6 +149,7 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
+                <optional>true</optional>
                 <scope>provided</scope>
             </dependency>
 
@@ -178,13 +179,6 @@
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.4</version>
-                    <configuration>
-                        <archive>
-                            <manifest>
-                                <mainClass>${jre.mainClass}</mainClass>
-                            </manifest>
-                        </archive>
-                    </configuration>
                 </plugin>
 
                 <!-- Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM) -->
@@ -392,6 +386,41 @@
                         </execution>
                     </executions>
                 </plugin-->
+
+                <!-- Plugin to Minimize and obfuscate the jar file with Proguard -->
+                <plugin>
+                    <groupId>com.github.wvengen</groupId>
+                    <artifactId>proguard-maven-plugin</artifactId>
+                    <version>2.0.11</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals><goal>proguard</goal></goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <outjar>${project.artifactId}-${project.version}-proguard.jar</outjar>
+                        <options>
+                            <option>-optimizationpasses 5</option>
+                            <option>-allowaccessmodification</option>
+                            <option>-keep public public class ${jre.mainClass} { public static void main(java.lang.String[]); }</option>
+                            <option>-keep public public class naga.core.spi.platform.Platform</option>
+                            <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
+                            <option>-dontwarn com.fasterxml.jackson.**</option>
+                        </options>
+                        <libs>
+                            <lib>${java.home}/lib/rt.jar</lib>
+                        </libs>
+                        <includeDependency>false</includeDependency>
+                        <!--includeDependencyInjar>true</includeDependencyInjar>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>com.fasterxml.jackson.core</groupId>
+                                <artifactId>*</artifactId>
+                            </exclusion>
+                        </exclusions-->
+                    </configuration>
+                </plugin>
 
             </plugins>
         </pluginManagement>
