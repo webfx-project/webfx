@@ -46,6 +46,11 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements JsonElement {
         }
     }
 
+    @Override
+    public String toString() {
+        return toJsonString();
+    }
+
     private TeaVmJsonElement clearArray() {return this; } /*-{
     this.length = 0;
     return this;
