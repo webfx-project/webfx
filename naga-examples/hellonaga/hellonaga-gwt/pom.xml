@@ -29,7 +29,7 @@
     </dependencies>
 
     <properties>
-        <gwt.module>hellonaga-gwt</gwt.module>
+        <gwt.module>hellonaga</gwt.module>
         <gwt.compileSourcesArtifact3>${project.groupId}:naga-core</gwt.compileSourcesArtifact3>
         <gwt.compileSourcesArtifact2>${project.groupId}:naga-gwt</gwt.compileSourcesArtifact2>
         <gwt.compileSourcesArtifact>${project.groupId}:hellonaga-logic</gwt.compileSourcesArtifact>
