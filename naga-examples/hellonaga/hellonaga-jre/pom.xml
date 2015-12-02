@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>naga-core</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>naga-jre</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
@@ -27,4 +33,49 @@
 
     </dependencies>
 
+    <!-- Packaging the final application jar file -->
+    <build>
+        <plugins>
+
+            <!-- Setting the main class and classpath in the manifest file -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>hellonaga.jre.HelloNagaJreApplication</mainClass>
+                            <!--addClasspath>true</addClasspath>
+                            <classpathPrefix>./</classpathPrefix-->
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Unpacking all libraries to be included in the jar file -->
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions >
+                    <!--execution>
+                        <id>classes-dependencies</id>
+                        <phase>none</phase>
+                    </execution-->
+                    <!-- Also copying these libraries in a lib folder just for info -->
+                    <execution>
+                        <id>lib-dependencies</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration >
+                            <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>
