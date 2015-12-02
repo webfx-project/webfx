@@ -10,7 +10,7 @@ import naga.core.spi.platform.client.WebSocketFactory;
 /**
  * @author Bruno Salmon
  */
-public final class GwtPlatform implements ClientPlatform {
+public final class GwtPlatform extends ClientPlatform {
 
     /**
      * Providing GwtPlatform.register() method if needed but this explicit call is normally not necessary

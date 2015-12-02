@@ -21,7 +21,6 @@ import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonFactory;
-import naga.core.util.Holder;
 import naga.core.util.async.Handler;
 
 import java.util.Iterator;
@@ -37,104 +36,101 @@ import java.util.logging.Logger;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
-public interface Platform {
+public abstract class Platform {
 
-    default Logger logger() {
+    public Logger logger() {
         return logger(""); // should be Logger.getAnonymousLogger() but produces a compilation error with GWT
     }
 
-    default Logger logger(String name) {
+    public Logger logger(String name) {
         return Logger.getLogger(name);
     }
 
-    Scheduler scheduler();
+    public abstract Scheduler scheduler();
 
-    JsonFactory jsonFactory();
+    public abstract JsonFactory jsonFactory();
 
-    BusFactory busFactory();
+    public abstract BusFactory busFactory();
 
-    default BusOptions createBusOptions() { return new BusOptions();}
+    public BusOptions createBusOptions() { return new BusOptions();}
 
-    default void setPlatformBusOptions(BusOptions options) {
+    public void setPlatformBusOptions(BusOptions options) {
         options.turnUnsetPropertiesToDefault();
     }
 
     /*** Static access ***/
 
-    Holder<Platform> PLATFORM_HOLDER = new Holder<>();
+    private static Platform PLATFORM;
 
-    static void register(Platform platform) {
-        PLATFORM_HOLDER.set(platform);
+    public static void register(Platform platform) {
+        PLATFORM = platform;
     }
 
-    static Platform get() {
-        Platform platform = PLATFORM_HOLDER.get();
-        if (platform == null) {
+    public static Platform get() {
+        if (PLATFORM == null) {
             ServiceLoader<Platform> platformServiceLoader = ServiceLoader.load(Platform.class);
             if (platformServiceLoader != null) {
                 Iterator<Platform> it = platformServiceLoader.iterator();
                 if (it != null && it.hasNext())
-                    register(platform = it.next());
+                    register(it.next());
             }
-            if (platform == null)
+            if (PLATFORM == null)
                 throw new IllegalStateException("No platform registered. You must register a platform by invoking {Java|Android}Platform.register()");
         }
-        return platform;
+        return PLATFORM;
     }
 
     /*** Static helper methods ***/
 
     // Logger methods
 
-    static void log(Object message) {
+    public static void log(Object message) {
         log(message == null ? "null" : message.toString());
     }
 
-    static void log(String message) {
+    public static void log(String message) {
         get().logger().log(Level.INFO, message);
     }
 
-    static void log(String message, Throwable error) {
+    public static void log(String message, Throwable error) {
         get().logger().log(Level.SEVERE, message, error);
     }
 
     // Scheduler methods
 
-    static void scheduleDeferred(Handler<Void> handler) {
+    public static void scheduleDeferred(Handler<Void> handler) {
         get().scheduler().scheduleDeferred(handler);
     }
 
-    static Object scheduleDelay(int delayMs, Handler<Void> handler) {
+    public static Object scheduleDelay(int delayMs, Handler<Void> handler) {
         return get().scheduler().scheduleDelay(delayMs, handler);
     }
 
-    static Object schedulePeriodic(int delayMs, Handler<Void> handler) {
+    public static Object schedulePeriodic(int delayMs, Handler<Void> handler) {
         return get().scheduler().schedulePeriodic(delayMs, handler);
     }
 
-    static boolean cancelTimer(Object timerId) {
+    public static boolean cancelTimer(Object timerId) {
         return get().scheduler().cancelTimer(timerId);
     }
 
     // BusFactory methods
 
-    Holder<Bus> BUS_HOLDER = new Holder<>();
+    private static Bus BUS;
 
-    static Bus bus() {
-        Bus bus = BUS_HOLDER.get();
-        if (bus == null)
-            BUS_HOLDER.set(bus = createBus());
-        return bus;
+    public static Bus bus() {
+        if (BUS == null)
+            BUS = createBus();
+        return BUS;
     }
 
-    static Bus createBus() {
+    public static Bus createBus() {
         return createBus(get().createBusOptions());
     }
 
-    static Bus createBus(BusOptions options) {
+    public static Bus createBus(BusOptions options) {
         Platform platform = get();
         platform.setPlatformBusOptions(options);
         return platform.busFactory().createBus(options);
     }
-
 }

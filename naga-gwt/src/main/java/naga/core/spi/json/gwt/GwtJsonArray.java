@@ -30,7 +30,7 @@ import naga.core.spi.json.JsonType;
  */
 final class GwtJsonArray extends GwtJsonElement implements JsonArray {
 
-    private GwtJsonArray() { // no constructor, must be a cast
+    protected GwtJsonArray() { // no public constructor, instances are always obtained from a cast
     }
 
     @Override

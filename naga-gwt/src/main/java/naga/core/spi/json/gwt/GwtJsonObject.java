@@ -32,7 +32,7 @@ import com.google.gwt.core.client.JsArrayString;
  */
 final class GwtJsonObject extends GwtJsonElement implements JsonObject {
 
-    private GwtJsonObject() { // no constructor, must be a cast
+    protected GwtJsonObject() { // no public constructor, instances are always obtained from a cast
     }
 
     @Override

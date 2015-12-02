@@ -9,7 +9,7 @@ import naga.core.spi.platform.client.WebSocketFactory;
 /**
  * @author Bruno Salmon
  */
-public class J2ObjCPlatform implements ClientPlatform {
+public class J2ObjCPlatform extends ClientPlatform {
 
     public static void register() {
         Platform.register(new J2ObjCPlatform());

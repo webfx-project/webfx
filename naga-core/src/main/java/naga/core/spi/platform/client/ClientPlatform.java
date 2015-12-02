@@ -9,29 +9,27 @@ import naga.core.spi.platform.Platform;
 /**
  * @author Bruno Salmon
  */
-public interface ClientPlatform extends Platform {
+public abstract class ClientPlatform extends Platform {
 
-    default BusFactory busFactory() { return ClientBusFactory.SINGLETON; }
+    public BusFactory busFactory() { return ClientBusFactory.SINGLETON; }
 
     @Override
-    default WebSocketBusOptions createBusOptions() {
+    public WebSocketBusOptions createBusOptions() {
         return new WebSocketBusOptions();
     }
 
-    WebSocketFactory webSocketFactory();
+    public abstract WebSocketFactory webSocketFactory();
 
     /*** Static access ***/
 
-    static ClientPlatform get() {
+    public static ClientPlatform get() {
         return (ClientPlatform) Platform.get();
     }
 
     /*** Static helper methods ***/
     // WebSocketFactory method
 
-    static WebSocket createWebSocket(String url, JsonObject options) {
+    public static WebSocket createWebSocket(String url, JsonObject options) {
         return get().webSocketFactory().createWebSocket(url, options);
     }
-
-
 }

@@ -22,6 +22,9 @@ import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.javaplat.jackson.JacksonJsonFactory;
 import naga.core.spi.json.javaplat.smart.SmartJsonFactory;
+import naga.core.spi.platform.Scheduler;
+import naga.core.spi.platform.client.ClientPlatform;
+import naga.core.spi.platform.client.WebSocketFactory;
 
 import java.util.logging.Logger;
 
@@ -31,7 +34,7 @@ import java.util.logging.Logger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public abstract class JavaClientPlatform implements naga.core.spi.platform.client.ClientPlatform {
+public abstract class JavaClientPlatform extends ClientPlatform {
     protected final JavaScheduler scheduler;
     protected final JsonFactory jsonFactory;
     protected final naga.core.spi.platform.client.WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
@@ -60,7 +63,7 @@ public abstract class JavaClientPlatform implements naga.core.spi.platform.clien
     }
 
     @Override
-    public naga.core.spi.platform.Scheduler scheduler() {
+    public Scheduler scheduler() {
         return scheduler;
     }
 
@@ -70,7 +73,7 @@ public abstract class JavaClientPlatform implements naga.core.spi.platform.clien
     }
 
     @Override
-    public naga.core.spi.platform.client.WebSocketFactory webSocketFactory() {
+    public WebSocketFactory webSocketFactory() {
         return webSocketFactory;
     }
 
