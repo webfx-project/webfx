@@ -14,10 +14,12 @@
     <modules>
         <module>hellonaga-logic</module>
         <module>hellonaga-jre</module>
+        <module>hellonaga-jre-fat</module>
+        <module>hellonaga-jre-min</module>
+        <module>hellonaga-retrolambda</module>
         <module>hellonaga-teavm</module>
         <module>hellonaga-gwt</module>
         <module>hellonaga-j2objc</module>
-        <module>hellonaga-retrolambda</module>
     </modules>
 
 </project>

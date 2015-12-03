@@ -309,7 +309,7 @@
                                 <overWriteSnapshots>true</overWriteSnapshots>
                             </configuration>
                         </execution>
-                        <!-- Also copying these libraries in a lib folder just for info -->
+                        <!-- Also copying these libraries in a lib folder for eventual reference in the classpath -->
                         <execution>
                             <id>lib-dependencies</id>
                             <phase>validate</phase>
@@ -318,7 +318,7 @@
                             </goals>
                             <configuration >
                                 <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
-                                <outputDirectory>${project.build.directory}/lib-for-info</outputDirectory>
+                                <outputDirectory>${project.build.directory}/lib</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
                             </configuration>
@@ -387,7 +387,38 @@
                     </executions>
                 </plugin-->
 
-                <!-- Plugin to Minimize and obfuscate the jar file with Proguard -->
+                <!-- Plugin de build an executable fat jar (with all dependencies included in it) -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.4.2</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <transformers>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        <mainClass>${jre.mainClass}</mainClass>
+                                    </transformer>
+                                </transformers>
+                                <filters>
+                                    <filter>
+                                        <artifact>*:*</artifact>
+                                        <excludes>
+                                            <exclude>META-INF/maven/**</exclude>
+                                        </excludes>
+                                    </filter>
+                                </filters>
+                                <createDependencyReducedPom>false</createDependencyReducedPom>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Plugin to minimize the jar file by obfuscation with Proguard -->
                 <plugin>
                     <groupId>com.github.wvengen</groupId>
                     <artifactId>proguard-maven-plugin</artifactId>
@@ -399,26 +430,37 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <outjar>${project.artifactId}-${project.version}-proguard.jar</outjar>
                         <options>
-                            <option>-optimizationpasses 5</option>
-                            <option>-allowaccessmodification</option>
+                            <!-- keeping the main class and its main static method -->
                             <option>-keep public public class ${jre.mainClass} { public static void main(java.lang.String[]); }</option>
+                            <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
                             <option>-keep public public class naga.core.spi.platform.Platform</option>
                             <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
+                            <!-- ignoring jackson missing warnings as it is an optional library -->
                             <option>-dontwarn com.fasterxml.jackson.**</option>
+                            <option>-allowaccessmodification</option>
+                            <option>-optimizationpasses 5</option>
+                            <!-- uncomment this if something goes wrong with json-smart as suggested in the warning -->
+                            <!--option>-keepattributes Signature</option-->
                         </options>
                         <libs>
                             <lib>${java.home}/lib/rt.jar</lib>
                         </libs>
-                        <includeDependency>false</includeDependency>
-                        <!--includeDependencyInjar>true</includeDependencyInjar>
+                        <includeDependency>true</includeDependency>
+                        <includeDependencyInjar>true</includeDependencyInjar>
                         <exclusions>
                             <exclusion>
                                 <groupId>com.fasterxml.jackson.core</groupId>
                                 <artifactId>*</artifactId>
                             </exclusion>
-                        </exclusions-->
+                        </exclusions>
+                        <inFilter>!META-INF/MANIFEST.MF</inFilter>
+                        <outFilter>!META-INF/maven/**</outFilter>
+                        <archive>
+                            <manifest>
+                                <mainClass>${jre.mainClass}</mainClass>
+                            </manifest>
+                        </archive>
                     </configuration>
                 </plugin>
 

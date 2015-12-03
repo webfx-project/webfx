@@ -11,6 +11,8 @@
     <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-gwt/src/main/webapp/js/sockjs-0.3.4.js" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-j2objc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre-fat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre-min" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-logic" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-retrolambda" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-teavm" charset="UTF-8" />

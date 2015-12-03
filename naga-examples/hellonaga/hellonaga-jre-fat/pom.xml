@@ -9,25 +9,19 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hellonaga-jre</artifactId>
+    <artifactId>hellonaga-jre-fat</artifactId>
 
     <dependencies>
 
         <dependency>
-            <artifactId>hellonaga-logic</artifactId>
-            <groupId>${project.groupId}</groupId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>naga-jre</artifactId>
+            <artifactId>hellonaga-jre</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>
 
     </dependencies>
 
-    <!-- Making the jar file executable with its associated lib directory -->
+    <!-- Making a fat standalone executable jar with all dependent libraries included inside -->
 
     <properties>
         <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
@@ -36,30 +30,36 @@
     <build>
         <plugins>
 
-            <!-- Setting the main class and classpath in the manifest file to make it executable (with java -jar) -->
+            <!-- Calling the shade plugin to do this job -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+
+            <!-- Alternative way of doing the same thing manually without the shade plugin:
+
+            <!- - Setting the main class and classpath in the manifest file - ->
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>
                             <mainClass>${jre.mainClass}</mainClass>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
+                        <addMavenDescriptor>false</addMavenDescriptor> <!- - to avoid META-INF/maven/** coming from hellonaga-jre dependency - ->
                     </archive>
+                    <excludes>
+                        <exclude>META-INF/maven/**</exclude> <!- - to avoid META-INF/maven/** coming from unpack - ->
+                    </excludes>
                 </configuration>
             </plugin>
 
-            <!-- Unpacking all dependent libraries in the lib folder -->
+            <!- - Unpacking all libraries in classes folder so they are included in the fat jar - ->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>classes-dependencies</id>
-                        <phase>none</phase> <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
-                    </execution>
-                </executions>
             </plugin>
+
+            <!-->
 
         </plugins>
     </build>
