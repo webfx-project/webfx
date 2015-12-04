@@ -22,7 +22,6 @@
         <option value="$PROJECT_DIR$/naga-j2objc/pom.xml" />
         <option value="$PROJECT_DIR$/naga-jre/pom.xml" />
         <option value="$PROJECT_DIR$/naga-teavm/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-vertx/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
       </set>
     </option>

@@ -22,24 +22,40 @@
     </dependencies>
 
     <properties>
-        <j2objc.javaSourceFiles>helloworld.j2objc.HelloWorldJ2ObjCApplication.java</j2objc.javaSourceFiles>
+        <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
+        <install.skip>true</install.skip>
     </properties>
 
-    <build>
-        <plugins>
+    <profiles>
+        <!-- profile to transpile the java code into javascript using GWT -->
+        <profile>
+            <id>j2objc</id>
 
-            <!-- unpacking dependencies with their source before calling j2objc -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
+            <properties>
+                <!-- Not skipping the artifact installation when the profile is activated -->
+                <install.skip>false</install.skip>
+                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+                <jar.addMavenDescriptor>false</jar.addMavenDescriptor>
+                <!-- Setting the J2objc plugin configuration parameters -->
+                <j2objc.javaSourceFiles>helloworld.j2objc.HelloWorldJ2ObjCApplication.java</j2objc.javaSourceFiles>
+            </properties>
 
-            <!-- Running j2objc to compile the main class -->
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-            </plugin>
+            <build>
+                <plugins>
 
-        </plugins>
-    </build>
+                    <!-- unpacking dependencies with their source before calling j2objc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                    </plugin>
+
+                    <!-- Running ant to call j2objc over each java file -->
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

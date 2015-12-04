@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>hellonaga-gwt</artifactId>
-    <packaging>war</packaging>
 
     <dependencies>
 
@@ -29,22 +28,37 @@
     </dependencies>
 
     <properties>
-        <gwt.module>hellonaga</gwt.module>
-        <gwt.compileSourcesArtifact3>${project.groupId}:naga-core</gwt.compileSourcesArtifact3>
-        <gwt.compileSourcesArtifact2>${project.groupId}:naga-gwt</gwt.compileSourcesArtifact2>
-        <gwt.compileSourcesArtifact>${project.groupId}:hellonaga-logic</gwt.compileSourcesArtifact>
+        <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
+        <install.skip>true</install.skip>
     </properties>
 
-    <build>
-        <plugins>
+    <profiles>
+        <!-- profile to transpile the java code into javascript using GWT -->
+        <profile>
+            <id>gwt</id>
 
-            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-            </plugin>
+            <properties>
+                <!-- Not skipping the artifact installation when the profile is activated -->
+                <install.skip>false</install.skip>
+                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+                <jar.addMavenDescriptor>false</jar.addMavenDescriptor>
+                <!-- Setting the GWT plugin configuration parameters -->
+                <gwt.module>hellonaga</gwt.module>
+                <gwt.compileSourcesArtifact3>${project.groupId}:naga-core</gwt.compileSourcesArtifact3>
+                <gwt.compileSourcesArtifact2>${project.groupId}:naga-gwt</gwt.compileSourcesArtifact2>
+                <gwt.compileSourcesArtifact>${project.groupId}:hellonaga-logic</gwt.compileSourcesArtifact>
+            </properties>
 
-        </plugins>
-    </build>
+            <build>
+                <plugins>
+                    <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>gwt-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

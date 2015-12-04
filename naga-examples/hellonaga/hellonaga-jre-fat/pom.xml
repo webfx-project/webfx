@@ -21,47 +21,36 @@
 
     </dependencies>
 
-    <!-- Making a fat standalone executable jar with all dependent libraries included inside -->
-
     <properties>
-        <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
+        <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
+        <install.skip>true</install.skip>
     </properties>
 
-    <build>
-        <plugins>
+    <profiles>
 
-            <!-- Calling the shade plugin to do this job -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
+        <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
+        <profile>
+            <id>shade</id>
 
-            <!-- Alternative way of doing the same thing manually without the shade plugin:
+            <properties>
+                <!-- Not skipping the artifact installation when the profile is activated -->
+                <install.skip>false</install.skip>
+                <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
+            </properties>
 
-            <!- - Setting the main class and classpath in the manifest file - ->
-            <plugin>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${jre.mainClass}</mainClass>
-                        </manifest>
-                        <addMavenDescriptor>false</addMavenDescriptor> <!- - to avoid META-INF/maven/** coming from hellonaga-jre dependency - ->
-                    </archive>
-                    <excludes>
-                        <exclude>META-INF/maven/**</exclude> <!- - to avoid META-INF/maven/** coming from unpack - ->
-                    </excludes>
-                </configuration>
-            </plugin>
+            <build>
+                <plugins>
 
-            <!- - Unpacking all libraries in classes folder so they are included in the fat jar - ->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
+                    <!-- Calling Shade with the configuration defined in the parent pom -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                    </plugin>
 
-            <!-->
+                </plugins>
+            </build>
+        </profile>
 
-        </plugins>
-    </build>
+    </profiles>
 
 </project>

@@ -21,22 +21,36 @@
 
     </dependencies>
 
-    <!-- Packaging the final application jar file -->
-
     <properties>
-        <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
+        <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
+        <install.skip>true</install.skip>
     </properties>
 
-    <build>
-        <plugins>
+    <profiles>
 
-            <!-- Minimizing and obfuscating the jar file with Proguard -->
-            <plugin>
-                <groupId>com.github.wvengen</groupId>
-                <artifactId>proguard-maven-plugin</artifactId>
-            </plugin>
+        <!-- Profile to minimize and obfuscate the jar file with Proguard -->
+        <profile>
+            <id>proguard</id>
 
-        </plugins>
-    </build>
+            <properties>
+                <!-- Not skipping the artifact installation when the profile is activated -->
+                <install.skip>false</install.skip>
+                <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
+            </properties>
+
+            <build>
+                <plugins>
+
+                    <!-- Calling Proguard with the configuration defined in the parent pom -->
+                    <plugin>
+                        <groupId>com.github.wvengen</groupId>
+                        <artifactId>proguard-maven-plugin</artifactId>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
 </project>

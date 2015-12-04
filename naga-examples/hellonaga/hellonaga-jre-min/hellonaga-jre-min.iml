@@ -11,6 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="module" module-name="naga-jre" />
     <orderEntry type="module" module-name="hellonaga-jre" />
     <orderEntry type="module" module-name="hellonaga-logic" />
     <orderEntry type="library" name="Maven: naga:naga-jre:0.1.0-SNAPSHOT" level="project" />

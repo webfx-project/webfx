@@ -55,6 +55,8 @@
 
         <maven.compiler.source>${java.level}</maven.compiler.source>
         <maven.compiler.target>${java.level}</maven.compiler.target>
+        <install.skip>false</install.skip>
+        <jar.addMavenDescriptor>true</jar.addMavenDescriptor>
     </properties>
 
     <repositories>
@@ -173,12 +175,27 @@
     <build>
 
         <pluginManagement>
-            <plugins> <!-- plugins listed here are just pre-configured for a possible use in a module -->
+            <!-- plugins listed here are just pre-configured for a possible use in a module -->
+            <plugins>
 
                 <!-- Plugin to set the main class in the manifest file when packaging an executable jre application -->
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>2.4</version>
+                    <configuration>
+                        <archive>
+                            <!-- Whether or not including META-INF/maven/** coming from dependencies -->
+                            <addMavenDescriptor>${jar.addMavenDescriptor}</addMavenDescriptor>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                    <configuration>
+                        <skip>${install.skip}</skip>
+                    </configuration>
                 </plugin>
 
                 <!-- Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM) -->
@@ -196,87 +213,7 @@
                     </executions>
                 </plugin>
 
-                <!-- GWT plugin configuration -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>gwt-maven-plugin</artifactId>
-                    <version>${gwt.plugin.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.google.gwt</groupId>
-                            <artifactId>gwt-user</artifactId>
-                            <version>${gwt.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>com.google.gwt</groupId>
-                            <artifactId>gwt-dev</artifactId>
-                            <version>${gwt.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <configuration>
-                                <module>${gwt.module}</module>
-                                <failOnError>true</failOnError>
-                                <compileSourcesArtifacts>
-                                    <compileSourcesArtifact>${gwt.compileSourcesArtifact}</compileSourcesArtifact>
-                                    <compileSourcesArtifact>${gwt.compileSourcesArtifact2}</compileSourcesArtifact>
-                                    <compileSourcesArtifact>${gwt.compileSourcesArtifact3}</compileSourcesArtifact>
-                                </compileSourcesArtifacts>
-                            </configuration>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
 
-                <!-- TeaVM plugin configuration -->
-                <plugin>
-                    <groupId>org.teavm</groupId>
-                    <artifactId>teavm-maven-plugin</artifactId>
-                    <version>${teavm.version}</version>
-                    <dependencies>
-                        <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
-                        <dependency>
-                            <groupId>org.teavm</groupId>
-                            <artifactId>teavm-classlib</artifactId>
-                            <version>${teavm.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>compile</goal>
-                            </goals>
-                            <phase>process-classes</phase>
-                            <configuration>
-                                <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
-                                <targetDirectory>${project.build.directory}/generated/js/teavm</targetDirectory>
-
-                                <!-- Main class, containing static void main(String[]) -->
-                                <mainClass>${teavm.mainClass}</mainClass>
-
-                                <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
-                                <runtime>SEPARATE</runtime>
-                                <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
-                                <minifying>false</minifying>
-                                <mainPageIncluded>true</mainPageIncluded>
-                                <!-- Whether TeaVM should produce debug information for its built-in debugger -->
-                                <debugInformationGenerated>true</debugInformationGenerated>
-                                <!-- Whether TeaVM should produce source maps file -->
-                                <sourceMapsGenerated>true</sourceMapsGenerated>
-                                <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
-                                <sourceFilesCopied>false</sourceFilesCopied>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
 
                 <!-- Plugin to unpack dependencies with their source. This is required before calling j2objc -->
                 <plugin>
@@ -326,158 +263,335 @@
                     </executions>
                 </plugin>
 
-                <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
-                <plugin>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>1.8</version>
-                    <executions>
-                        <execution>
-                            <phase>compile</phase>
-                            <configuration>
-                                <target>
-                                    <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
-                                        <arg value="-jar"/>
-                                        <arg value="${j2objc.jar}"/>
-                                        <arg value="-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar"/>
-                                        <arg value="-sourcepath"/>
-                                        <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
-                                        <arg value="-d"/>
-                                        <arg value="${project.build.directory}/generated/objc"/>
-                                        <arg value="-source"/>
-                                        <arg value="${java.version}"/>
-                                        <arg value="-Xforce-incomplete-java8"/>
-                                        <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
-                                        <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
-                                    </apply>
-                                </target>
-                            </configuration>
-                            <goals>
-                              <goal>run</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
 
-                <!-- Failed attempt of writing a Maven only plugin: don't know how to iterate over all java source files -->
-                <!-- plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.4.0</version>
-                    <executions>
-                        <execution>
-                            <id>run-j2objc</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>exec</goal>
-                            </goals>
-                            <configuration>
-                                <executable>${env.JAVA_HOME}/bin/java</executable>
-                                <arguments>
-                                    <argument>-jar</argument>
-                                    <argument>${j2objc.jar}</argument>
-                                    <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
-                                    <argument>-sourcepath</argument>
-                                    <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
-                                    <argument>-d</argument>
-                                    <argument>${project.build.directory}/generated/objc</argument>
-                                    <argument>**/*.java</argument>
-                                </arguments>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin-->
-
-                <!-- Plugin de build an executable fat jar (with all dependencies included in it) -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.4.2</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>shade</goal>
-                            </goals>
-                            <configuration>
-                                <transformers>
-                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                        <mainClass>${jre.mainClass}</mainClass>
-                                    </transformer>
-                                </transformers>
-                                <filters>
-                                    <filter>
-                                        <artifact>*:*</artifact>
-                                        <excludes>
-                                            <exclude>META-INF/maven/**</exclude>
-                                        </excludes>
-                                    </filter>
-                                </filters>
-                                <createDependencyReducedPom>false</createDependencyReducedPom>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Plugin to minimize the jar file by obfuscation with Proguard -->
-                <plugin>
-                    <groupId>com.github.wvengen</groupId>
-                    <artifactId>proguard-maven-plugin</artifactId>
-                    <version>2.0.11</version>
-                    <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals><goal>proguard</goal></goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <options>
-                            <!-- keeping the main class and its main static method -->
-                            <option>-keep public public class ${jre.mainClass} { public static void main(java.lang.String[]); }</option>
-                            <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
-                            <option>-keep public public class naga.core.spi.platform.Platform</option>
-                            <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
-                            <!-- ignoring jackson missing warnings as it is an optional library -->
-                            <option>-dontwarn com.fasterxml.jackson.**</option>
-                            <option>-allowaccessmodification</option>
-                            <option>-optimizationpasses 5</option>
-                            <!-- uncomment this if something goes wrong with json-smart as suggested in the warning -->
-                            <!--option>-keepattributes Signature</option-->
-                        </options>
-                        <libs>
-                            <lib>${java.home}/lib/rt.jar</lib>
-                        </libs>
-                        <includeDependency>true</includeDependency>
-                        <includeDependencyInjar>true</includeDependencyInjar>
-                        <exclusions>
-                            <exclusion>
-                                <groupId>com.fasterxml.jackson.core</groupId>
-                                <artifactId>*</artifactId>
-                            </exclusion>
-                        </exclusions>
-                        <inFilter>!META-INF/MANIFEST.MF</inFilter>
-                        <outFilter>!META-INF/maven/**</outFilter>
-                        <archive>
-                            <manifest>
-                                <mainClass>${jre.mainClass}</mainClass>
-                            </manifest>
-                        </archive>
-                    </configuration>
-                </plugin>
 
             </plugins>
         </pluginManagement>
 
     </build>
 
-    <!-- Automatic j2objc install (zip download & unpack in the user directory) -->
-    <!-- Done just once, when this root pom is executed for the first time on the build machine -->
     <profiles>
-        <!-- using a maven profile in order to skip the install if already done -->
+
+        <!--
+         *****************
+         * Shade profile *
+         *****************
+         Shade is a plugin to build fat jars (with all dependencies included in it)
+         -->
         <profile>
-            <id>install-j2objc</id>
+            <id>shade</id>
             <activation>
-                <!-- the profile is activated only if j2objc.jar doesn't exist -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-shade-plugin</artifactId>
+                            <version>2.4.2</version>
+                            <executions>
+                                <execution>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>shade</goal>
+                                    </goals>
+                                    <configuration>
+                                        <transformers>
+                                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                                <mainClass>${jre.mainClass}</mainClass>
+                                            </transformer>
+                                        </transformers>
+                                        <filters>
+                                            <filter>
+                                                <artifact>*:*</artifact>
+                                                <excludes>
+                                                    <exclude>META-INF/maven/**</exclude>
+                                                </excludes>
+                                            </filter>
+                                        </filters>
+                                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <!--
+         ********************
+         * Proguard profile *
+         ********************
+         Proguard is a plugin to minimize the jar file by obfuscation
+         -->
+        <profile>
+            <id>proguard</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.github.wvengen</groupId>
+                            <artifactId>proguard-maven-plugin</artifactId>
+                            <version>2.0.11</version>
+                            <executions>
+                                <execution>
+                                    <phase>package</phase>
+                                    <goals><goal>proguard</goal></goals>
+                                </execution>
+                            </executions>
+                            <configuration>
+                                <options>
+                                    <!-- keeping the main class and its main static method -->
+                                    <option>-keep public public class ${jre.mainClass} { public static void main(java.lang.String[]); }</option>
+                                    <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
+                                    <option>-keep public public class naga.core.spi.platform.Platform</option>
+                                    <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
+                                    <!-- ignoring jackson missing warnings as it is an optional library -->
+                                    <option>-dontwarn com.fasterxml.jackson.**</option>
+                                    <option>-allowaccessmodification</option>
+                                    <option>-optimizationpasses 5</option>
+                                    <!-- uncomment this if something goes wrong with json-smart as suggested in the warning -->
+                                    <!--option>-keepattributes Signature</option-->
+                                </options>
+                                <libs>
+                                    <lib>${java.home}/lib/rt.jar</lib>
+                                </libs>
+                                <includeDependency>true</includeDependency>
+                                <includeDependencyInjar>true</includeDependencyInjar>
+                                <exclusions>
+                                    <exclusion>
+                                        <groupId>com.fasterxml.jackson.core</groupId>
+                                        <artifactId>*</artifactId>
+                                    </exclusion>
+                                </exclusions>
+                                <inFilter>!META-INF/MANIFEST.MF</inFilter>
+                                <outFilter>!META-INF/maven/**</outFilter>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>${jre.mainClass}</mainClass>
+                                    </manifest>
+                                </archive>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <!--
+         *****************
+         * TeaVM profile *
+         *****************
+         -->
+        <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- TeaVM plugin configuration -->
+                        <plugin>
+                            <groupId>org.teavm</groupId>
+                            <artifactId>teavm-maven-plugin</artifactId>
+                            <version>${teavm.version}</version>
+                            <dependencies>
+                                <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
+                                <dependency>
+                                    <groupId>org.teavm</groupId>
+                                    <artifactId>teavm-classlib</artifactId>
+                                    <version>${teavm.version}</version>
+                                </dependency>
+                            </dependencies>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>compile</goal>
+                                    </goals>
+                                    <phase>process-classes</phase>
+                                    <configuration>
+                                        <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
+                                        <targetDirectory>${project.build.outputDirectory}/webroot/js/teavm</targetDirectory>
+
+                                        <!-- Main class, containing static void main(String[]) -->
+                                        <mainClass>${teavm.mainClass}</mainClass>
+
+                                        <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
+                                        <runtime>SEPARATE</runtime>
+                                        <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
+                                        <minifying>false</minifying>
+                                        <mainPageIncluded>true</mainPageIncluded>
+                                        <!-- Whether TeaVM should produce debug information for its built-in debugger -->
+                                        <debugInformationGenerated>true</debugInformationGenerated>
+                                        <!-- Whether TeaVM should produce source maps file -->
+                                        <sourceMapsGenerated>true</sourceMapsGenerated>
+                                        <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
+                                        <sourceFilesCopied>false</sourceFilesCopied>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <!--
+         ***************
+         * GWT profile *
+         ***************
+         -->
+        <profile>
+            <id>gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- GWT plugin configuration -->
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>gwt-maven-plugin</artifactId>
+                            <version>${gwt.plugin.version}</version>
+                            <dependencies>
+                                <dependency>
+                                    <groupId>com.google.gwt</groupId>
+                                    <artifactId>gwt-user</artifactId>
+                                    <version>${gwt.version}</version>
+                                </dependency>
+                                <dependency>
+                                    <groupId>com.google.gwt</groupId>
+                                    <artifactId>gwt-dev</artifactId>
+                                    <version>${gwt.version}</version>
+                                </dependency>
+                            </dependencies>
+                            <executions>
+                                <execution>
+                                    <configuration>
+                                        <module>${gwt.module}</module>
+                                        <failOnError>true</failOnError>
+                                        <compileSourcesArtifacts>
+                                            <compileSourcesArtifact>${gwt.compileSourcesArtifact}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${gwt.compileSourcesArtifact2}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${gwt.compileSourcesArtifact3}</compileSourcesArtifact>
+                                        </compileSourcesArtifacts>
+                                    </configuration>
+                                    <goals>
+                                        <goal>compile</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <!--
+         ******************
+         * J2objc profile *
+         ******************
+         -->
+        <profile>
+            <id>j2objc</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <j2objc-profile-activated>true</j2objc-profile-activated>
+            </properties>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
+                        <plugin>
+                            <artifactId>maven-antrun-plugin</artifactId>
+                            <version>1.8</version>
+                            <executions>
+                                <execution>
+                                    <phase>compile</phase>
+                                    <configuration>
+                                        <target>
+                                            <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
+                                                <arg value="-jar"/>
+                                                <arg value="${j2objc.jar}"/>
+                                                <arg value="-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar"/>
+                                                <arg value="-sourcepath"/>
+                                                <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
+                                                <arg value="-d"/>
+                                                <arg value="${project.build.directory}/generated/objc"/>
+                                                <arg value="-source"/>
+                                                <arg value="${java.version}"/>
+                                                <arg value="-Xforce-incomplete-java8"/>
+                                                <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
+                                                <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
+                                            </apply>
+                                        </target>
+                                    </configuration>
+                                    <goals>
+                                        <goal>run</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+
+                        <!-- Failed attempt of writing a Maven only plugin: don't know how to iterate over all java source files -->
+                        <!-- plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>exec-maven-plugin</artifactId>
+                            <version>1.4.0</version>
+                            <executions>
+                                <execution>
+                                    <id>run-j2objc</id>
+                                    <phase>compile</phase>
+                                    <goals>
+                                        <goal>exec</goal>
+                                    </goals>
+                                    <configuration>
+                                        <executable>${env.JAVA_HOME}/bin/java</executable>
+                                        <arguments>
+                                            <argument>-jar</argument>
+                                            <argument>${j2objc.jar}</argument>
+                                            <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
+                                            <argument>-sourcepath</argument>
+                                            <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
+                                            <argument>-d</argument>
+                                            <argument>${project.build.directory}/generated/objc</argument>
+                                            <argument>**/*.java</argument>
+                                        </arguments>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin-->
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <!--
+         **************************
+         * J2objc-download profile *
+         **************************
+         Automatic j2objc install (zip download & unpack in the user directory)
+         Done just once, when this root pom is executed for the first time on the build machine
+         using a maven profile in order to skip the install if already done
+         -->
+        <profile>
+            <id>j2objc-download</id>
+            <activation>
+                <!-- the profile is activated only if j2objc profile is activated and if j2objc.jar doesn't exist -->
                 <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>j2objc-profile-activated</name>
+                    <value>false</value>
+                </property>
                 <file>
                     <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
                     <missing>${user.home}/j2objc-0.9.8.2.1/lib/j2objc.jar</missing> <!-- env properties are however supported -->
@@ -494,7 +608,7 @@
                         <inherited>false</inherited> <!-- to not run it in children modules -->
                         <executions>
                             <execution>
-                                <id>download-j2objc</id>
+                                <id>j2objc-download</id>
                                 <phase>validate</phase>
                                 <goals>
                                     <goal>wget</goal>

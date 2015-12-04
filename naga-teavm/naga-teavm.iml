@@ -12,7 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" />
-    <orderEntry type="library" name="Maven: javax.json:javax.json-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.teavm:teavm-classlib:0.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.teavm:teavm-platform:0.4.1" level="project" />
     <orderEntry type="library" name="Maven: org.teavm:teavm-core:0.4.1" level="project" />
