@@ -30,7 +30,7 @@
     <!-- Making the jar file executable with its associated lib directory -->
 
     <properties>
-        <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
+        <param.jre.mainClass>hellonaga.jre.HelloNagaJreApplication</param.jre.mainClass>
     </properties>
 
     <build>
@@ -42,7 +42,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>${jre.mainClass}</mainClass>
+                            <mainClass>${param.jre.mainClass}</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>

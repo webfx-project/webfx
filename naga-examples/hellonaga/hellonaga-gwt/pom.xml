@@ -29,7 +29,7 @@
 
     <properties>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
-        <install.skip>true</install.skip>
+        <param.install.skip>true</param.install.skip>
     </properties>
 
     <profiles>
@@ -39,14 +39,14 @@
 
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
-                <install.skip>false</install.skip>
+                <param.install.skip>false</param.install.skip>
                 <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <jar.addMavenDescriptor>false</jar.addMavenDescriptor>
+                <param.jar.addMavenDescriptor>false</param.jar.addMavenDescriptor>
                 <!-- Setting the GWT plugin configuration parameters -->
-                <gwt.module>hellonaga</gwt.module>
-                <gwt.compileSourcesArtifact3>${project.groupId}:naga-core</gwt.compileSourcesArtifact3>
-                <gwt.compileSourcesArtifact2>${project.groupId}:naga-gwt</gwt.compileSourcesArtifact2>
-                <gwt.compileSourcesArtifact>${project.groupId}:hellonaga-logic</gwt.compileSourcesArtifact>
+                <param.gwt.module>hellonaga</param.gwt.module>
+                <param.gwt.compileSourcesArtifact1>${project.groupId}:hellonaga-logic</param.gwt.compileSourcesArtifact1>
+                <param.gwt.compileSourcesArtifact3>${project.groupId}:naga-core</param.gwt.compileSourcesArtifact3>
+                <param.gwt.compileSourcesArtifact2>${project.groupId}:naga-gwt</param.gwt.compileSourcesArtifact2>
             </properties>
 
             <build>

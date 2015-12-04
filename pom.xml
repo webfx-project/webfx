@@ -23,40 +23,54 @@
     </modules>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- java and libraries versions -->
+        <!-- java version -->
         <java.version>8</java.version>
         <java.level>1.${java.version}</java.level>
 
-        <javawebsocket.version>1.3.0</javawebsocket.version>
-        <json-smart.version>1.3.1</json-smart.version> <!-- version 2.2.1 doesn't work on android -->
-        <jackson.version>2.6.1</jackson.version> <!-- used only if provided -->
-        <android.platform.version>4.1.1.4</android.platform.version>
-        <teavm.version>0.4.1</teavm.version>
-        <gwt.version>2.8.0-SNAPSHOT</gwt.version>
-        <gwt.plugin.version>2.8.0-SNAPSHOT</gwt.plugin.version>
-        <j2objc.version>0.9.8.2.1</j2objc.version>
-        <vertx.version>3.1.0</vertx.version>
+        <!-- libraries versions -->
+        <lib.javawebsocket.version>1.3.0</lib.javawebsocket.version>
+        <lib.json-smart.version>1.3.1</lib.json-smart.version> <!-- version 2.2.1 doesn't work on android -->
+        <lib.jackson.version>2.6.1</lib.jackson.version> <!-- used only if provided -->
+        <lib.android.version>4.1.1.4</lib.android.version>
+        <lib.teavm.version>0.4.1</lib.teavm.version>
+        <lib.gwt.version>2.8.0-SNAPSHOT</lib.gwt.version>
+        <lib.vertx.version>3.1.0</lib.vertx.version>
 
-        <!-- To Be Defined properties that any module has to override when using a transpiler plugin pre-configured in the <pluginManagement> section -->
-        <jre.mainClass>TBD</jre.mainClass>
-        <teavm.mainClass>TBD</teavm.mainClass>
-        <gwt.module>TBD</gwt.module>
-        <gwt.compileSourcesArtifact>TBD</gwt.compileSourcesArtifact>
-        <gwt.compileSourcesArtifact2>TBD</gwt.compileSourcesArtifact2>
-        <gwt.compileSourcesArtifact3>TBD</gwt.compileSourcesArtifact3>
+        <!-- plugins versions -->
+        <plugin.jar.version>2.4</plugin.jar.version>
+        <plugin.install.version>2.5.2</plugin.install.version>
+        <plugin.source.version>2.4</plugin.source.version>
+        <plugin.dependency.version>2.10</plugin.dependency.version>
+        <plugin.shade.version>2.4.2</plugin.shade.version>
+        <plugin.proguard.version>2.0.11</plugin.proguard.version>
+        <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
+        <plugin.gwt.version>${lib.gwt.version}</plugin.gwt.version>
+        <plugin.antrun.version>1.8</plugin.antrun.version>
+        <plugin.download.version>1.2.1</plugin.download.version>
+
+        <!-- external tools versions -->
+        <tool.j2objc.version>0.9.8.2.1</tool.j2objc.version>
+
+        <!-- To Be Defined parameters that any module has to override when using a transpiler plugin pre-configured in the <pluginManagement> section -->
+        <param.jar.addMavenDescriptor>true</param.jar.addMavenDescriptor>
+        <param.install.skip>false</param.install.skip>
+        <param.jre.mainClass>TBD</param.jre.mainClass>
+        <param.teavm.mainClass>TBD</param.teavm.mainClass>
+        <param.gwt.module>TBD</param.gwt.module>
+        <param.gwt.compileSourcesArtifact1>TBD</param.gwt.compileSourcesArtifact1>
+        <param.gwt.compileSourcesArtifact2>TBD</param.gwt.compileSourcesArtifact2>
+        <param.gwt.compileSourcesArtifact3>TBD</param.gwt.compileSourcesArtifact3>
 
         <!-- properties used for j2objc install and execution -->
-        <j2objc.parent>${user.home}</j2objc.parent>
-        <j2objc.folderName>j2objc-${j2objc.version}</j2objc.folderName>
-        <j2objc.home>${j2objc.parent}/${j2objc.folderName}</j2objc.home>
-        <j2objc.jar>${j2objc.home}/lib/j2objc.jar</j2objc.jar>
+        <param.j2objc.parent>${user.home}</param.j2objc.parent>
+        <param.j2objc.folderName>j2objc-${tool.j2objc.version}</param.j2objc.folderName>
+        <param.j2objc.home>${param.j2objc.parent}/${param.j2objc.folderName}</param.j2objc.home>
+        <param.j2objc.jar>${param.j2objc.home}/lib/j2objc.jar</param.j2objc.jar>
 
+        <!-- Applying compiler settings -->
         <maven.compiler.source>${java.level}</maven.compiler.source>
         <maven.compiler.target>${java.level}</maven.compiler.target>
-        <install.skip>false</install.skip>
-        <jar.addMavenDescriptor>true</jar.addMavenDescriptor>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
@@ -112,7 +126,7 @@
             <dependency>
                 <groupId>org.teavm</groupId>
                 <artifactId>teavm-classlib</artifactId>
-                <version>${teavm.version}</version>
+                <version>${lib.teavm.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -120,7 +134,7 @@
             <dependency>
                 <groupId>org.teavm</groupId>
                 <artifactId>teavm-jso</artifactId>
-                <version>${teavm.version}</version>
+                <version>${lib.teavm.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -128,14 +142,14 @@
             <dependency>
                 <groupId>com.google.gwt</groupId>
                 <artifactId>gwt-user</artifactId>
-                <version>${gwt.version}</version>
+                <version>${lib.gwt.version}</version>
             </dependency>
 
             <!-- Android -->
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>android</artifactId>
-                <version>${android.platform.version}</version>
+                <version>${lib.android.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -143,14 +157,14 @@
             <dependency>
                 <groupId>net.minidev</groupId>
                 <artifactId>json-smart</artifactId>
-                <version>${json-smart.version}</version>
+                <version>${lib.json-smart.version}</version>
             </dependency>
 
             <!-- Jackson (another JSON library for java which will be used instead if provided) -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
+                <version>${lib.jackson.version}</version>
                 <optional>true</optional>
                 <scope>provided</scope>
             </dependency>
@@ -159,14 +173,14 @@
             <dependency>
                 <groupId>org.java-websocket</groupId>
                 <artifactId>Java-WebSocket</artifactId>
-                <version>${javawebsocket.version}</version>
+                <version>${lib.javawebsocket.version}</version>
             </dependency>
 
             <!-- Vert.x -->
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
-                <version>${vertx.version}</version>
+                <version>${lib.vertx.version}</version>
             </dependency>
 
         </dependencies>
@@ -181,20 +195,20 @@
                 <!-- Plugin to set the main class in the manifest file when packaging an executable jre application -->
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>${plugin.jar.version}</version>
                     <configuration>
                         <archive>
                             <!-- Whether or not including META-INF/maven/** coming from dependencies -->
-                            <addMavenDescriptor>${jar.addMavenDescriptor}</addMavenDescriptor>
+                            <addMavenDescriptor>${param.jar.addMavenDescriptor}</addMavenDescriptor>
                         </archive>
                     </configuration>
                 </plugin>
 
                 <plugin>
                     <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
+                    <version>${plugin.install.version}</version>
                     <configuration>
-                        <skip>${install.skip}</skip>
+                        <skip>${param.install.skip}</skip>
                     </configuration>
                 </plugin>
 
@@ -202,7 +216,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>2.4</version>
+                    <version>${plugin.source.version}</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -213,13 +227,11 @@
                     </executions>
                 </plugin>
 
-
-
                 <!-- Plugin to unpack dependencies with their source. This is required before calling j2objc -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>2.10</version>
+                    <version>${plugin.dependency.version}</version>
                     <executions>
                         <execution>
                             <id>sources-dependencies</id>
@@ -289,7 +301,7 @@
                         <plugin>
                             <groupId>org.apache.maven.plugins</groupId>
                             <artifactId>maven-shade-plugin</artifactId>
-                            <version>2.4.2</version>
+                            <version>${plugin.shade.version}</version>
                             <executions>
                                 <execution>
                                     <phase>package</phase>
@@ -299,7 +311,7 @@
                                     <configuration>
                                         <transformers>
                                             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                                <mainClass>${jre.mainClass}</mainClass>
+                                                <mainClass>${param.jre.mainClass}</mainClass>
                                             </transformer>
                                         </transformers>
                                         <filters>
@@ -337,7 +349,7 @@
                         <plugin>
                             <groupId>com.github.wvengen</groupId>
                             <artifactId>proguard-maven-plugin</artifactId>
-                            <version>2.0.11</version>
+                            <version>${plugin.proguard.version}</version>
                             <executions>
                                 <execution>
                                     <phase>package</phase>
@@ -347,7 +359,8 @@
                             <configuration>
                                 <options>
                                     <!-- keeping the main class and its main static method -->
-                                    <option>-keep public public class ${jre.mainClass} { public static void main(java.lang.String[]); }</option>
+                                    <option>-keep public public class ${param.jre.mainClass} { public static void
+                                        main(java.lang.String[]); }</option>
                                     <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
                                     <option>-keep public public class naga.core.spi.platform.Platform</option>
                                     <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
@@ -373,7 +386,7 @@
                                 <outFilter>!META-INF/maven/**</outFilter>
                                 <archive>
                                     <manifest>
-                                        <mainClass>${jre.mainClass}</mainClass>
+                                        <mainClass>${param.jre.mainClass}</mainClass>
                                     </manifest>
                                 </archive>
                             </configuration>
@@ -400,13 +413,13 @@
                         <plugin>
                             <groupId>org.teavm</groupId>
                             <artifactId>teavm-maven-plugin</artifactId>
-                            <version>${teavm.version}</version>
+                            <version>${plugin.teavm.version}</version>
                             <dependencies>
                                 <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
                                 <dependency>
                                     <groupId>org.teavm</groupId>
                                     <artifactId>teavm-classlib</artifactId>
-                                    <version>${teavm.version}</version>
+                                    <version>${lib.teavm.version}</version>
                                 </dependency>
                             </dependencies>
                             <executions>
@@ -420,7 +433,7 @@
                                         <targetDirectory>${project.build.outputDirectory}/webroot/js/teavm</targetDirectory>
 
                                         <!-- Main class, containing static void main(String[]) -->
-                                        <mainClass>${teavm.mainClass}</mainClass>
+                                        <mainClass>${param.teavm.mainClass}</mainClass>
 
                                         <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
                                         <runtime>SEPARATE</runtime>
@@ -459,28 +472,28 @@
                         <plugin>
                             <groupId>org.codehaus.mojo</groupId>
                             <artifactId>gwt-maven-plugin</artifactId>
-                            <version>${gwt.plugin.version}</version>
+                            <version>${plugin.gwt.version}</version>
                             <dependencies>
                                 <dependency>
                                     <groupId>com.google.gwt</groupId>
                                     <artifactId>gwt-user</artifactId>
-                                    <version>${gwt.version}</version>
+                                    <version>${lib.gwt.version}</version>
                                 </dependency>
                                 <dependency>
                                     <groupId>com.google.gwt</groupId>
                                     <artifactId>gwt-dev</artifactId>
-                                    <version>${gwt.version}</version>
+                                    <version>${lib.gwt.version}</version>
                                 </dependency>
                             </dependencies>
                             <executions>
                                 <execution>
                                     <configuration>
-                                        <module>${gwt.module}</module>
+                                        <module>${param.gwt.module}</module>
                                         <failOnError>true</failOnError>
                                         <compileSourcesArtifacts>
-                                            <compileSourcesArtifact>${gwt.compileSourcesArtifact}</compileSourcesArtifact>
-                                            <compileSourcesArtifact>${gwt.compileSourcesArtifact2}</compileSourcesArtifact>
-                                            <compileSourcesArtifact>${gwt.compileSourcesArtifact3}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${param.gwt.compileSourcesArtifact1}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${param.gwt.compileSourcesArtifact2}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${param.gwt.compileSourcesArtifact3}</compileSourcesArtifact>
                                         </compileSourcesArtifacts>
                                     </configuration>
                                     <goals>
@@ -513,7 +526,7 @@
                         <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
                         <plugin>
                             <artifactId>maven-antrun-plugin</artifactId>
-                            <version>1.8</version>
+                            <version>${plugin.antrun.version}</version>
                             <executions>
                                 <execution>
                                     <phase>compile</phase>
@@ -521,8 +534,8 @@
                                         <target>
                                             <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
                                                 <arg value="-jar"/>
-                                                <arg value="${j2objc.jar}"/>
-                                                <arg value="-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar"/>
+                                                <arg value="${param.j2objc.jar}"/>
+                                                <arg value="-Xbootclasspath:${param.j2objc.home}/lib/jre_emul.jar"/>
                                                 <arg value="-sourcepath"/>
                                                 <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
                                                 <arg value="-d"/>
@@ -604,7 +617,7 @@
                     <plugin>
                         <groupId>com.googlecode.maven-download-plugin</groupId>
                         <artifactId>download-maven-plugin</artifactId>
-                        <version>1.2.1</version>
+                        <version>${plugin.download.version}</version>
                         <inherited>false</inherited> <!-- to not run it in children modules -->
                         <executions>
                             <execution>
@@ -614,10 +627,10 @@
                                     <goal>wget</goal>
                                 </goals>
                                 <configuration>
-                                    <url>https://github.com/google/j2objc/releases/download/${j2objc.version}/j2objc-${j2objc.version}.zip</url>
+                                    <url>https://github.com/google/j2objc/releases/download/${tool.j2objc.version}/j2objc-${tool.j2objc.version}.zip</url>
                                     <unpack>true</unpack>
                                     <overwrite>false</overwrite>
-                                    <outputDirectory>${j2objc.parent}</outputDirectory>
+                                    <outputDirectory>${param.j2objc.parent}</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>

@@ -23,7 +23,7 @@
 
     <properties>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
-        <install.skip>true</install.skip>
+        <param.install.skip>true</param.install.skip>
     </properties>
 
     <profiles>
@@ -34,8 +34,8 @@
 
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
-                <install.skip>false</install.skip>
-                <jre.mainClass>hellonaga.jre.HelloNagaJreApplication</jre.mainClass>
+                <param.install.skip>false</param.install.skip>
+                <param.jre.mainClass>hellonaga.jre.HelloNagaJreApplication</param.jre.mainClass>
             </properties>
 
             <build>

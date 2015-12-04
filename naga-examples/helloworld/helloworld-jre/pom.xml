@@ -24,7 +24,7 @@
     <!-- Packaging the final application jar file -->
 
     <properties>
-        <jre.mainClass>helloworld.jre.HelloWorldJreApplication</jre.mainClass>
+        <param.jre.mainClass>helloworld.jre.HelloWorldJreApplication</param.jre.mainClass>
     </properties>
 
     <build>
@@ -36,7 +36,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>${jre.mainClass}</mainClass>
+                            <mainClass>${param.jre.mainClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
