@@ -516,9 +516,6 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>
-                <j2objc-profile-activated>true</j2objc-profile-activated>
-            </properties>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -598,12 +595,8 @@
         <profile>
             <id>j2objc-download</id>
             <activation>
-                <!-- the profile is activated only if j2objc profile is activated and if j2objc.jar doesn't exist -->
+                <!-- the profile is activated only if j2objc.jar doesn't exist -->
                 <activeByDefault>false</activeByDefault>
-                <property>
-                    <name>j2objc-profile-activated</name>
-                    <value>false</value>
-                </property>
                 <file>
                     <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
                     <missing>${user.home}/j2objc-0.9.8.2.1/lib/j2objc.jar</missing> <!-- env properties are however supported -->
