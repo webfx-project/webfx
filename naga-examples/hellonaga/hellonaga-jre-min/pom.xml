@@ -31,6 +31,9 @@
         <!-- Profile to minimize and obfuscate the jar file with Proguard -->
         <profile>
             <id>proguard</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
