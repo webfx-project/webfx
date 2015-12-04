@@ -43,6 +43,7 @@
         <plugin.dependency.version>2.10</plugin.dependency.version>
         <plugin.shade.version>2.4.2</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
+        <plugin.retrolambda.version>2.0.6</plugin.retrolambda.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
         <plugin.gwt.version>${lib.gwt.version}</plugin.gwt.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
@@ -275,6 +276,23 @@
                     </executions>
                 </plugin>
 
+                <!-- Retrolambda plugin -->
+                <plugin>
+                    <groupId>net.orfjackal.retrolambda</groupId>
+                    <artifactId>retrolambda-maven-plugin</artifactId>
+                    <version>${plugin.retrolambda.version}</version>
+                    <configuration>
+                        <defaultMethods>true</defaultMethods>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>process-main</goal>
+                                <goal>process-test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
 
             </plugins>

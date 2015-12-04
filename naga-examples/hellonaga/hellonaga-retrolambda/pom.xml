@@ -30,7 +30,7 @@
     <build>
         <plugins>
 
-            <!-- unpacking dependencies with their source before calling j2objc -->
+            <!-- Unpacking dependencies with their source before calling j2objc -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -39,21 +39,10 @@
                 </configuration>
             </plugin>
 
+            <!-- Calling retrolambda -->
             <plugin>
                 <groupId>net.orfjackal.retrolambda</groupId>
                 <artifactId>retrolambda-maven-plugin</artifactId>
-                <version>2.0.6</version>
-                <configuration>
-                    <defaultMethods>true</defaultMethods>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>process-main</goal>
-                            <goal>process-test</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
