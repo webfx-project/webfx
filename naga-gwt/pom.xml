@@ -17,6 +17,7 @@
         <dependency>
             <artifactId>naga-core</artifactId>
             <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

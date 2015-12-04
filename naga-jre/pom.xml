@@ -16,11 +16,13 @@
         <dependency>
             <artifactId>naga-core</artifactId>
             <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <artifactId>naga-javaplat</artifactId>
             <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
         </dependency>
 
     </dependencies>

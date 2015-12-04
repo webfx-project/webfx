@@ -105,24 +105,6 @@
     <dependencyManagement>
         <dependencies>
 
-            <dependency>
-                <artifactId>naga-core</artifactId>
-                <groupId>${project.groupId}</groupId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <artifactId>naga-javaplat</artifactId>
-                <groupId>${project.groupId}</groupId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <artifactId>naga-teavm</artifactId>
-                <groupId>${project.groupId}</groupId>
-                <version>${project.version}</version>
-            </dependency>
-
             <!-- Emulator of Java class library for TeaVM -->
             <dependency>
                 <groupId>org.teavm</groupId>
@@ -293,7 +275,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
 
             </plugins>
         </pluginManagement>
