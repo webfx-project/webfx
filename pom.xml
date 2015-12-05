@@ -197,6 +197,19 @@
                     </configuration>
                 </plugin>
 
+                <!-- Android plugin -->
+                <plugin>
+                    <groupId>com.simpligility.maven.plugins</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>${plugin.android.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <sdk>
+                            <platform>${param.android.sdk.platform}</platform>
+                        </sdk>
+                    </configuration>
+                </plugin>
+
                 <!-- Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM) -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -415,17 +428,7 @@
                         </plugin>
 
                         <!-- Android plugin -->
-                        <plugin>
-                            <groupId>com.simpligility.maven.plugins</groupId>
-                            <artifactId>android-maven-plugin</artifactId>
-                            <version>${plugin.android.version}</version>
-                            <extensions>true</extensions>
-                            <configuration>
-                                <sdk>
-                                    <platform>${param.android.sdk.platform}</platform>
-                                </sdk>
-                            </configuration>
-                        </plugin>
+                        <!-- Has been moved to non profile level as it is required for maven to understand apk packaging -->
 
                     </plugins>
                 </pluginManagement>
