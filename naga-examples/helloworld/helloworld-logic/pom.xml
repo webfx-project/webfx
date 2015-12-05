@@ -11,6 +11,11 @@
 
     <artifactId>helloworld-logic</artifactId>
 
+    <properties>
+        <!-- Using java 7 instead of java 8 for Android compatibility -->
+        <java.version>7</java.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>

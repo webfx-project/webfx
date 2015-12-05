@@ -17,6 +17,7 @@
         <module>hellonaga-jre-fat</module>
         <module>hellonaga-jre-min</module>
         <module>hellonaga-retrolambda</module>
+        <module>hellonaga-android</module>
         <module>hellonaga-teavm</module>
         <module>hellonaga-gwt</module>
         <module>hellonaga-j2objc</module>

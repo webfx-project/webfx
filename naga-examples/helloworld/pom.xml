@@ -15,6 +15,7 @@
     <modules>
         <module>helloworld-logic</module>
         <module>helloworld-jre</module>
+        <module>helloworld-android</module>
         <module>helloworld-teavm</module>
         <module>helloworld-gwt</module>
         <module>helloworld-j2objc</module>

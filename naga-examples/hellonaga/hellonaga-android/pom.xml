@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hellonaga</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hellonaga-android</artifactId>
+    <packaging>apk</packaging>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>hellonaga-retrolambda</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+            <exclusions>
+                <!-- doesn't work
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                -->
+                <!-- So excluding manually all transitive dependencies -->
+                <exclusion>
+                    <groupId>naga</groupId>
+                    <artifactId>hellonaga-logic</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>naga</groupId>
+                    <artifactId>naga-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>naga</groupId>
+                    <artifactId>naga-javaplat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>naga</groupId>
+                    <artifactId>naga-android</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.minidev</groupId>
+                    <artifactId>json-smart</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.java-websocket</groupId>
+                    <artifactId>Java-WebSocket</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Android -->
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <java.version>7</java.version>
+        <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
+        <param.install.skip>true</param.install.skip>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>android</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <properties>
+                <!-- Not skipping the artifact installation when the profile is activated -->
+                <param.install.skip>false</param.install.skip>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.simpligility.maven.plugins</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

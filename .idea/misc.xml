@@ -3,6 +3,10 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="android" url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-android" />
+    <file type="android" url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-android" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

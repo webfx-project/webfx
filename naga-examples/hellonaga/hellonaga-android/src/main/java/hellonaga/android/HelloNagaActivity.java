@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import hellonaga.HelloNagaLogic;
-import naga.core.spi.plat.android.AndroidPlatform;
+import naga.core.spi.platform.client.android.AndroidPlatform;
 
 public class HelloNagaActivity extends Activity {
 

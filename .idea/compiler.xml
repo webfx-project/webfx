@@ -23,6 +23,7 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="hello-naga" />
+        <module name="hellonaga-android" />
         <module name="hellonaga-gwt" />
         <module name="hellonaga-j2objc" />
         <module name="hellonaga-jre" />
@@ -50,20 +51,21 @@
     <bytecodeTargetLevel>
       <module name="hello-naga" target="1.8" />
       <module name="hellonaga" target="1.8" />
+      <module name="hellonaga-android" target="1.7" />
       <module name="hellonaga-gwt" target="1.8" />
       <module name="hellonaga-j2objc" target="1.8" />
       <module name="hellonaga-jre" target="1.8" />
       <module name="hellonaga-jre-fat" target="1.8" />
       <module name="hellonaga-jre-min" target="1.8" />
       <module name="hellonaga-logic" target="1.8" />
-      <module name="hellonaga-retrolambda" target="1.8" />
+      <module name="hellonaga-retrolambda" target="1.7" />
       <module name="hellonaga-teavm" target="1.8" />
       <module name="helloworld" target="1.8" />
-      <module name="helloworld-android" target="1.8" />
+      <module name="helloworld-android" target="1.7" />
       <module name="helloworld-gwt" target="1.8" />
       <module name="helloworld-j2objc" target="1.8" />
       <module name="helloworld-jre" target="1.8" />
-      <module name="helloworld-logic" target="1.8" />
+      <module name="helloworld-logic" target="1.7" />
       <module name="helloworld-teavm" target="1.8" />
       <module name="helloworld-toolchain" target="1.8" />
       <module name="naga" target="1.8" />

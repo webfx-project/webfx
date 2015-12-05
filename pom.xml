@@ -44,6 +44,7 @@
         <plugin.shade.version>2.4.2</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.0.6</plugin.retrolambda.version>
+        <plugin.android.version>4.3.0</plugin.android.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
         <plugin.gwt.version>${lib.gwt.version}</plugin.gwt.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
@@ -56,6 +57,7 @@
         <param.jar.addMavenDescriptor>true</param.jar.addMavenDescriptor>
         <param.install.skip>false</param.install.skip>
         <param.jre.mainClass>TBD</param.jre.mainClass>
+        <param.android.sdk.platform>23</param.android.sdk.platform>
         <param.teavm.mainClass>TBD</param.teavm.mainClass>
         <param.gwt.module>TBD</param.gwt.module>
         <param.gwt.compileSourcesArtifact1>TBD</param.gwt.compileSourcesArtifact1>
@@ -379,14 +381,21 @@
             </build>
         </profile>
 
+        <!--
+         ********************
+         * Android profile *
+         ********************
+         -->
         <profile>
             <id>android</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <!-- The profile is not active by default as it requires the Android SDK to be installed -->
+                <activeByDefault>false</activeByDefault>
             </activation>
             <build>
                 <pluginManagement>
                     <plugins>
+
                         <!-- Retrolambda plugin -->
                         <plugin>
                             <groupId>net.orfjackal.retrolambda</groupId>
@@ -404,6 +413,20 @@
                                 </execution>
                             </executions>
                         </plugin>
+
+                        <!-- Android plugin -->
+                        <plugin>
+                            <groupId>com.simpligility.maven.plugins</groupId>
+                            <artifactId>android-maven-plugin</artifactId>
+                            <version>${plugin.android.version}</version>
+                            <extensions>true</extensions>
+                            <configuration>
+                                <sdk>
+                                    <platform>${param.android.sdk.platform}</platform>
+                                </sdk>
+                            </configuration>
+                        </plugin>
+
                     </plugins>
                 </pluginManagement>
             </build>
