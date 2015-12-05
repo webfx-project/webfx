@@ -239,6 +239,8 @@
                                 <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
+                                <!-- Excluding maven dependencies metadata (can be big and is useless here) -->
+                                <excludes>META-INF/maven/**</excludes>
                             </configuration>
                         </execution>
                         <!-- Also copying these libraries in a lib folder for eventual reference in the classpath -->
@@ -254,24 +256,6 @@
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
                             </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Retrolambda plugin -->
-                <plugin>
-                    <groupId>net.orfjackal.retrolambda</groupId>
-                    <artifactId>retrolambda-maven-plugin</artifactId>
-                    <version>${plugin.retrolambda.version}</version>
-                    <configuration>
-                        <defaultMethods>true</defaultMethods>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>process-main</goal>
-                                <goal>process-test</goal>
-                            </goals>
                         </execution>
                     </executions>
                 </plugin>
@@ -389,6 +373,36 @@
                                     </manifest>
                                 </archive>
                             </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>android</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <!-- Retrolambda plugin -->
+                        <plugin>
+                            <groupId>net.orfjackal.retrolambda</groupId>
+                            <artifactId>retrolambda-maven-plugin</artifactId>
+                            <version>${plugin.retrolambda.version}</version>
+                            <configuration>
+                                <defaultMethods>true</defaultMethods>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <goals>
+                                        <goal>process-main</goal>
+                                        <goal>process-test</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
                         </plugin>
                     </plugins>
                 </pluginManagement>
