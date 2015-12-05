@@ -32,6 +32,11 @@
         <java.version>7</java.version>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
         <param.install.skip>true</param.install.skip>
+        <param.android.generate-sources.phase>none</param.android.generate-sources.phase>
+        <param.android.process-classes.phase>none</param.android.process-classes.phase>
+        <parem.android.prepare-package.phase>none</parem.android.prepare-package.phase>
+        <param.android.package.phase>none</param.android.package.phase>
+        <param.android.install.phase>none</param.android.install.phase>
     </properties>
 
     <profiles>
@@ -44,17 +49,23 @@
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
                 <param.install.skip>false</param.install.skip>
+                <param.android.generate-sources.phase>generate-sources</param.android.generate-sources.phase>
+                <param.android.process-classes.phase>process-classes</param.android.process-classes.phase>
+                <parem.android.prepare-package.phase>prepare-package</parem.android.prepare-package.phase>
+                <param.android.package.phase>package</param.android.package.phase>
+                <param.android.install.phase>install</param.android.install.phase>
             </properties>
 
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.simpligility.maven.plugins</groupId>
-                        <artifactId>android-maven-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.simpligility.maven.plugins</groupId>
+                <artifactId>android-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

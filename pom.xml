@@ -54,9 +54,17 @@
         <tool.j2objc.version>0.9.8.2.1</tool.j2objc.version>
 
         <!-- To Be Defined parameters that any module has to override when using a transpiler plugin pre-configured in the <pluginManagement> section -->
+        <param.compiler.phase>compile</param.compiler.phase>
         <param.jar.addMavenDescriptor>true</param.jar.addMavenDescriptor>
         <param.install.skip>false</param.install.skip>
         <param.jre.mainClass>TBD</param.jre.mainClass>
+        <param.android.generate-sources.phase>generate-sources</param.android.generate-sources.phase>
+        <param.android.process-classes.phase>process-classes</param.android.process-classes.phase>
+        <parem.android.prepare-package.phase>prepare-package</parem.android.prepare-package.phase>
+        <param.android.package.phase>package</param.android.package.phase>
+        <param.android.internal-pre-integration-test.phase>pre-integration-test</param.android.internal-pre-integration-test.phase>
+        <param.android.internal-integration-test.phase>integration-test</param.android.internal-integration-test.phase>
+        <param.android.install.phase>install</param.android.install.phase>
         <param.android.sdk.platform>23</param.android.sdk.platform>
         <param.teavm.mainClass>TBD</param.teavm.mainClass>
         <param.gwt.module>TBD</param.gwt.module>
@@ -177,6 +185,16 @@
             <!-- plugins listed here are just pre-configured for a possible use in a module -->
             <plugins>
 
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>default-compile</id>
+                            <phase>${param.compiler.phase}</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <!-- Plugin to set the main class in the manifest file when packaging an executable jre application -->
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -203,6 +221,40 @@
                     <artifactId>android-maven-plugin</artifactId>
                     <version>${plugin.android.version}</version>
                     <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <id>default-generate-sources</id>
+                            <phase>${param.android.generate-sources.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-emma</id>
+                            <phase>${param.android.process-classes.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-proguard</id>
+                            <phase>${param.android.process-classes.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-dex</id>
+                            <phase>${param.android.package.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-apk</id>
+                            <phase>${param.android.package.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-internal-pre-integration-test</id>
+                            <phase>${param.android.internal-pre-integration-test.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-internal-integration-test</id>
+                            <phase>${param.android.internal-integration-test.phase}</phase>
+                        </execution>
+                        <execution>
+                            <id>default-install</id>
+                            <phase>${param.android.install.phase}</phase>
+                        </execution>
+                    </executions>
                     <configuration>
                         <sdk>
                             <platform>${param.android.sdk.platform}</platform>
