@@ -14,8 +14,6 @@
     <modules>
         <module>hellonaga-logic</module>
         <module>hellonaga-jre</module>
-        <module>hellonaga-jre-fat</module>
-        <module>hellonaga-jre-min</module>
         <module>hellonaga-retrolambda</module>
         <module>hellonaga-android</module>
         <module>hellonaga-teavm</module>
