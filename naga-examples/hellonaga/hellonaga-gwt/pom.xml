@@ -68,6 +68,18 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
                     </plugin>
+                    <!-- Keeping only webroot (without WEB-INF) in the artifact -->
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>webroot/**</include>
+                            </includes>
+                            <excludes>
+                                <exclude>webroot/WEB-INF/**</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
         </profile>

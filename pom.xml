@@ -592,6 +592,8 @@
                                     <configuration>
                                         <module>${plugin.gwt.param.module}</module>
                                         <failOnError>true</failOnError>
+                                        <webappDirectory>${project.build.outputDirectory}/webroot</webappDirectory>
+                                        <persistentunitcache>false</persistentunitcache>
                                         <compileSourcesArtifacts>
                                             <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
                                             <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact2}</compileSourcesArtifact>
