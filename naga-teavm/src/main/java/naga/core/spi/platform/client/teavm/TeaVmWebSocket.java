@@ -1,4 +1,4 @@
-package naga.core.spi.sock.teavm;
+package naga.core.spi.platform.client.teavm;
 
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.json.teavm.JSUtil;
