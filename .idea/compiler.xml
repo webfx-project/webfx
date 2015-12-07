@@ -27,8 +27,6 @@
         <module name="hellonaga-gwt" />
         <module name="hellonaga-j2objc" />
         <module name="hellonaga-jre" />
-        <module name="hellonaga-jre-fat" />
-        <module name="hellonaga-jre-min" />
         <module name="hellonaga-logic" />
         <module name="hellonaga-retrolambda" />
         <module name="hellonaga-teavm" />
@@ -46,6 +44,7 @@
         <module name="naga-jre" />
         <module name="naga-teavm" />
         <module name="naga-vertx" />
+        <module name="naga-webplat" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -58,7 +57,7 @@
       <module name="hellonaga-jre-fat" target="1.8" />
       <module name="hellonaga-jre-min" target="1.8" />
       <module name="hellonaga-logic" target="1.8" />
-      <module name="hellonaga-retrolambda" target="1.7" />
+      <module name="hellonaga-retrolambda" target="1.8" />
       <module name="hellonaga-teavm" target="1.8" />
       <module name="helloworld" target="1.8" />
       <module name="helloworld-android" target="1.7" />
@@ -80,6 +79,7 @@
       <module name="naga-jre" target="1.8" />
       <module name="naga-teavm" target="1.8" />
       <module name="naga-vertx" target="1.8" />
+      <module name="naga-webplat" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

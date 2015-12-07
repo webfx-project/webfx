@@ -31,6 +31,8 @@
 
     <properties>
         <plugins.param.jre.mainClass>hellonaga.jre.HelloNagaJreApplication</plugins.param.jre.mainClass>
+        <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
     </properties>
 
     <build>
@@ -53,12 +55,6 @@
             <!-- Unpacking all dependent libraries in the lib folder -->
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>classes-dependencies</id>
-                        <phase>none</phase> <!-- disabling classes-dependencies unpack to avoid including them again in the jar -->
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>

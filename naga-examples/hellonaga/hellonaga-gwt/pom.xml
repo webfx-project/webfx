@@ -43,13 +43,17 @@
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
                 <plugin.install.param.skip>false</plugin.install.param.skip>
-                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
                 <!-- Setting the GWT plugin configuration parameters -->
                 <plugin.gwt.param.module>hellonaga</plugin.gwt.param.module>
                 <plugin.gwt.param.compileSourcesArtifact1>${project.groupId}:hellonaga-logic</plugin.gwt.param.compileSourcesArtifact1>
                 <plugin.gwt.param.compileSourcesArtifact2>${project.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact2>
                 <plugin.gwt.param.compileSourcesArtifact3>${project.groupId}:naga-gwt</plugin.gwt.param.compileSourcesArtifact3>
+                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+                <!-- But unpacking webroot resources coming from dependencies such as naga-webplat -->
+                <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+                <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
+                <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
             </properties>
 
             <build>
@@ -58,6 +62,11 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>gwt-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- Also unpacking webroot resources coming from dependencies such as naga-webplat -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>

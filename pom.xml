@@ -15,6 +15,7 @@
         <module>naga-javaplat</module>
         <module>naga-jre</module>
         <module>naga-android</module>
+        <module>naga-webplat</module>
         <module>naga-teavm</module>
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
@@ -56,6 +57,10 @@
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.compiler.param.phase>compile</plugin.compiler.param.phase>
         <plugin.jar.param.addMavenDescriptor>true</plugin.jar.param.addMavenDescriptor>
+        <plugin.dependency.param.unpack-sources.phase>validate</plugin.dependency.param.unpack-sources.phase>
+        <plugin.dependency.param.unpack-classes.phase>validate</plugin.dependency.param.unpack-classes.phase>
+        <plugin.dependency.param.unpack-classes.includes>**</plugin.dependency.param.unpack-classes.includes>
+        <plugin.dependency.param.copy-libs.phase>validate</plugin.dependency.param.copy-libs.phase>
         <plugin.install.param.skip>false</plugin.install.param.skip>
         <plugin.android.param.phase.generate-sources>generate-sources</plugin.android.param.phase.generate-sources>
         <plugin.android.param.phase.process-classes>process-classes</plugin.android.param.phase.process-classes>
@@ -284,8 +289,8 @@
                     <version>${plugin.dependency.version}</version>
                     <executions>
                         <execution>
-                            <id>sources-dependencies</id>
-                            <phase>validate</phase>
+                            <id>unpack-sources</id>
+                            <phase>${plugin.dependency.param.unpack-sources.phase}</phase>
                             <goals>
                                 <goal>unpack-dependencies</goal>
                             </goals>
@@ -296,8 +301,8 @@
                             </configuration>
                         </execution>
                         <execution>
-                            <id>classes-dependencies</id>
-                            <phase>validate</phase>
+                            <id>unpack-classes</id>
+                            <phase>${plugin.dependency.param.unpack-classes.phase}</phase>
                             <goals>
                                 <goal>unpack-dependencies</goal>
                             </goals>
@@ -306,14 +311,15 @@
                                 <outputDirectory>${project.build.outputDirectory}</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
+                                <includes>${plugin.dependency.param.unpack-classes.includes}</includes>
                                 <!-- Excluding maven dependencies metadata (can be big and is useless here) -->
                                 <excludes>META-INF/maven/**</excludes>
                             </configuration>
                         </execution>
                         <!-- Also copying these libraries in a lib folder for eventual reference in the classpath -->
                         <execution>
-                            <id>lib-dependencies</id>
-                            <phase>validate</phase>
+                            <id>copy-libs</id>
+                            <phase>${plugin.dependency.param.copy-libs.phase}</phase>
                             <goals>
                                 <goal>copy-dependencies</goal>
                             </goals>

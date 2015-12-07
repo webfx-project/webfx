@@ -64,10 +64,14 @@
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
                 <plugin.install.param.skip>false</plugin.install.param.skip>
-                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
                 <!-- Specifying the TeaVM compilation entry point -->
                 <plugin.teavm.param.mainClass>hellonaga.teavm.HelloNagaTeaVmApplication</plugin.teavm.param.mainClass>
+                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+                <!-- But unpacking webroot resources coming from dependencies such as naga-webplat -->
+                <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+                <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
+                <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
             </properties>
 
             <build>
@@ -76,6 +80,11 @@
                     <plugin>
                         <groupId>org.teavm</groupId>
                         <artifactId>teavm-maven-plugin</artifactId>
+                    </plugin>
+                    <!-- Also unpacking webroot resources coming from dependencies such as naga-webplat -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
                     </plugin>
                 </plugins>
             </build>
