@@ -18,37 +18,11 @@
             <artifactId>hellonaga-retrolambda</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
+            <!-- Removing all transitive dependencies declared in maven as they are actually already embed in the retrolambda artifact -->
             <exclusions>
-                <!-- doesn't work
                 <exclusion>
                     <groupId>*</groupId>
                     <artifactId>*</artifactId>
-                </exclusion>
-                -->
-                <!-- So excluding manually all transitive dependencies -->
-                <exclusion>
-                    <groupId>naga</groupId>
-                    <artifactId>hellonaga-logic</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>naga</groupId>
-                    <artifactId>naga-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>naga</groupId>
-                    <artifactId>naga-javaplat</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>naga</groupId>
-                    <artifactId>naga-android</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.minidev</groupId>
-                    <artifactId>json-smart</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.java-websocket</groupId>
-                    <artifactId>Java-WebSocket</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -62,6 +36,7 @@
     </dependencies>
 
     <properties>
+        <!-- Compiling the android code in java 7 (java 8 not supported) -->
         <java.version>7</java.version>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
         <plugin.compiler.param.phase>none</plugin.compiler.param.phase>

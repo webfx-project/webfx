@@ -32,7 +32,6 @@
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/r" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-status" />
-      <excludeFolder url="file://$MODULE_DIR$/target/ndk-libs" />
     </content>
     <orderEntry type="jdk" jdkName="Maven Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -28,7 +28,6 @@
     </dependencies>
 
     <properties>
-        <java.version>7</java.version>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
         <plugin.install.param.skip>true</plugin.install.param.skip>
     </properties>
@@ -43,6 +42,7 @@
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
                 <plugin.install.param.skip>false</plugin.install.param.skip>
+                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
             </properties>
 
             <build>
