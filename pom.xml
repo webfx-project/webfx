@@ -53,30 +53,30 @@
         <!-- external tools versions -->
         <tool.j2objc.version>0.9.8.2.1</tool.j2objc.version>
 
-        <!-- To Be Defined parameters that any module has to override when using a transpiler plugin pre-configured in the <pluginManagement> section -->
-        <param.compiler.phase>compile</param.compiler.phase>
-        <param.jar.addMavenDescriptor>true</param.jar.addMavenDescriptor>
-        <param.install.skip>false</param.install.skip>
-        <param.jre.mainClass>TBD</param.jre.mainClass>
-        <param.android.generate-sources.phase>generate-sources</param.android.generate-sources.phase>
-        <param.android.process-classes.phase>process-classes</param.android.process-classes.phase>
-        <parem.android.prepare-package.phase>prepare-package</parem.android.prepare-package.phase>
-        <param.android.package.phase>package</param.android.package.phase>
-        <param.android.internal-pre-integration-test.phase>pre-integration-test</param.android.internal-pre-integration-test.phase>
-        <param.android.internal-integration-test.phase>integration-test</param.android.internal-integration-test.phase>
-        <param.android.install.phase>install</param.android.install.phase>
-        <param.android.sdk.platform>23</param.android.sdk.platform>
-        <param.teavm.mainClass>TBD</param.teavm.mainClass>
-        <param.gwt.module>TBD</param.gwt.module>
-        <param.gwt.compileSourcesArtifact1>TBD</param.gwt.compileSourcesArtifact1>
-        <param.gwt.compileSourcesArtifact2>TBD</param.gwt.compileSourcesArtifact2>
-        <param.gwt.compileSourcesArtifact3>TBD</param.gwt.compileSourcesArtifact3>
+        <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
+        <plugin.compiler.param.phase>compile</plugin.compiler.param.phase>
+        <plugin.jar.param.addMavenDescriptor>true</plugin.jar.param.addMavenDescriptor>
+        <plugin.install.param.skip>false</plugin.install.param.skip>
+        <plugin.android.param.phase.generate-sources>generate-sources</plugin.android.param.phase.generate-sources>
+        <plugin.android.param.phase.process-classes>process-classes</plugin.android.param.phase.process-classes>
+        <plugin.android.param.phase.prepare-package>prepare-package</plugin.android.param.phase.prepare-package>
+        <plugin.android.param.phase.package>package</plugin.android.param.phase.package>
+        <plugin.android.param.phase.internal-pre-integration-test>pre-integration-test</plugin.android.param.phase.internal-pre-integration-test>
+        <plugin.android.param.phase.internal-integration-test>integration-test</plugin.android.param.phase.internal-integration-test>
+        <plugin.android.param.phase.install>install</plugin.android.param.phase.install>
+        <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
+        <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
+        <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
+        <plugin.gwt.param.compileSourcesArtifact1>TBD</plugin.gwt.param.compileSourcesArtifact1>
+        <plugin.gwt.param.compileSourcesArtifact2>TBD</plugin.gwt.param.compileSourcesArtifact2>
+        <plugin.gwt.param.compileSourcesArtifact3>TBD</plugin.gwt.param.compileSourcesArtifact3>
+        <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
 
         <!-- properties used for j2objc install and execution -->
-        <param.j2objc.parent>${user.home}</param.j2objc.parent>
-        <param.j2objc.folderName>j2objc-${tool.j2objc.version}</param.j2objc.folderName>
-        <param.j2objc.home>${param.j2objc.parent}/${param.j2objc.folderName}</param.j2objc.home>
-        <param.j2objc.jar>${param.j2objc.home}/lib/j2objc.jar</param.j2objc.jar>
+        <profile.j2objc.param.parent>${user.home}</profile.j2objc.param.parent>
+        <profile.j2objc.param.folderName>j2objc-${tool.j2objc.version}</profile.j2objc.param.folderName>
+        <profile.j2objc.param.home>${profile.j2objc.param.parent}/${profile.j2objc.param.folderName}</profile.j2objc.param.home>
+        <profile.j2objc.param.jar>${profile.j2objc.param.home}/lib/j2objc.jar</profile.j2objc.param.jar>
 
         <!-- Applying compiler settings -->
         <maven.compiler.source>${java.level}</maven.compiler.source>
@@ -190,7 +190,7 @@
                     <executions>
                         <execution>
                             <id>default-compile</id>
-                            <phase>${param.compiler.phase}</phase>
+                            <phase>${plugin.compiler.param.phase}</phase>
                         </execution>
                     </executions>
                 </plugin>
@@ -202,7 +202,7 @@
                     <configuration>
                         <archive>
                             <!-- Whether or not including META-INF/maven/** coming from dependencies -->
-                            <addMavenDescriptor>${param.jar.addMavenDescriptor}</addMavenDescriptor>
+                            <addMavenDescriptor>${plugin.jar.param.addMavenDescriptor}</addMavenDescriptor>
                         </archive>
                     </configuration>
                 </plugin>
@@ -211,7 +211,7 @@
                     <artifactId>maven-install-plugin</artifactId>
                     <version>${plugin.install.version}</version>
                     <configuration>
-                        <skip>${param.install.skip}</skip>
+                        <skip>${plugin.install.param.skip}</skip>
                     </configuration>
                 </plugin>
 
@@ -224,40 +224,40 @@
                     <executions>
                         <execution>
                             <id>default-generate-sources</id>
-                            <phase>${param.android.generate-sources.phase}</phase>
+                            <phase>${plugin.android.param.phase.generate-sources}</phase>
                         </execution>
                         <execution>
                             <id>default-emma</id>
-                            <phase>${param.android.process-classes.phase}</phase>
+                            <phase>${plugin.android.param.phase.process-classes}</phase>
                         </execution>
                         <execution>
                             <id>default-proguard</id>
-                            <phase>${param.android.process-classes.phase}</phase>
+                            <phase>${plugin.android.param.phase.process-classes}</phase>
                         </execution>
                         <execution>
                             <id>default-dex</id>
-                            <phase>${param.android.package.phase}</phase>
+                            <phase>${plugin.android.param.phase.package}</phase>
                         </execution>
                         <execution>
                             <id>default-apk</id>
-                            <phase>${param.android.package.phase}</phase>
+                            <phase>${plugin.android.param.phase.package}</phase>
                         </execution>
                         <execution>
                             <id>default-internal-pre-integration-test</id>
-                            <phase>${param.android.internal-pre-integration-test.phase}</phase>
+                            <phase>${plugin.android.param.phase.internal-pre-integration-test}</phase>
                         </execution>
                         <execution>
                             <id>default-internal-integration-test</id>
-                            <phase>${param.android.internal-integration-test.phase}</phase>
+                            <phase>${plugin.android.param.phase.internal-integration-test}</phase>
                         </execution>
                         <execution>
                             <id>default-install</id>
-                            <phase>${param.android.install.phase}</phase>
+                            <phase>${plugin.android.param.phase.install}</phase>
                         </execution>
                     </executions>
                     <configuration>
                         <sdk>
-                            <platform>${param.android.sdk.platform}</platform>
+                            <platform>${plugin.android.param.sdk.platform}</platform>
                         </sdk>
                     </configuration>
                 </plugin>
@@ -361,7 +361,7 @@
                                     <configuration>
                                         <transformers>
                                             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                                <mainClass>${param.jre.mainClass}</mainClass>
+                                                <mainClass>${plugins.param.jre.mainClass}</mainClass>
                                             </transformer>
                                         </transformers>
                                         <filters>
@@ -409,7 +409,8 @@
                             <configuration>
                                 <options>
                                     <!-- keeping the main class and its main static method -->
-                                    <option>-keep public public class ${param.jre.mainClass} { public static void
+                                    <option>-keep public public class ${plugins.param.jre.mainClass} { public static
+                                        void
                                         main(java.lang.String[]); }</option>
                                     <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
                                     <option>-keep public public class naga.core.spi.platform.Platform</option>
@@ -436,7 +437,7 @@
                                 <outFilter>!META-INF/maven/**</outFilter>
                                 <archive>
                                     <manifest>
-                                        <mainClass>${param.jre.mainClass}</mainClass>
+                                        <mainClass>${plugins.param.jre.mainClass}</mainClass>
                                     </manifest>
                                 </archive>
                             </configuration>
@@ -524,7 +525,7 @@
                                         <targetDirectory>${project.build.outputDirectory}/webroot/js/teavm</targetDirectory>
 
                                         <!-- Main class, containing static void main(String[]) -->
-                                        <mainClass>${param.teavm.mainClass}</mainClass>
+                                        <mainClass>${plugin.teavm.param.mainClass}</mainClass>
 
                                         <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
                                         <runtime>SEPARATE</runtime>
@@ -579,12 +580,12 @@
                             <executions>
                                 <execution>
                                     <configuration>
-                                        <module>${param.gwt.module}</module>
+                                        <module>${plugin.gwt.param.module}</module>
                                         <failOnError>true</failOnError>
                                         <compileSourcesArtifacts>
-                                            <compileSourcesArtifact>${param.gwt.compileSourcesArtifact1}</compileSourcesArtifact>
-                                            <compileSourcesArtifact>${param.gwt.compileSourcesArtifact2}</compileSourcesArtifact>
-                                            <compileSourcesArtifact>${param.gwt.compileSourcesArtifact3}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact2}</compileSourcesArtifact>
+                                            <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact3}</compileSourcesArtifact>
                                         </compileSourcesArtifacts>
                                     </configuration>
                                     <goals>
@@ -622,8 +623,8 @@
                                         <target>
                                             <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
                                                 <arg value="-jar"/>
-                                                <arg value="${param.j2objc.jar}"/>
-                                                <arg value="-Xbootclasspath:${param.j2objc.home}/lib/jre_emul.jar"/>
+                                                <arg value="${profile.j2objc.param.jar}"/>
+                                                <arg value="-Xbootclasspath:${profile.j2objc.param.home}/lib/jre_emul.jar"/>
                                                 <arg value="-sourcepath"/>
                                                 <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
                                                 <arg value="-d"/>
@@ -714,7 +715,7 @@
                                     <url>https://github.com/google/j2objc/releases/download/${tool.j2objc.version}/j2objc-${tool.j2objc.version}.zip</url>
                                     <unpack>true</unpack>
                                     <overwrite>false</overwrite>
-                                    <outputDirectory>${param.j2objc.parent}</outputDirectory>
+                                    <outputDirectory>${profile.j2objc.param.parent}</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>

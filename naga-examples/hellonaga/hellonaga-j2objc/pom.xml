@@ -29,7 +29,7 @@
 
     <properties>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
-        <param.install.skip>true</param.install.skip>
+        <plugin.install.param.skip>true</plugin.install.param.skip>
     </properties>
 
     <profiles>
@@ -42,11 +42,11 @@
 
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
-                <param.install.skip>false</param.install.skip>
+                <plugin.install.param.skip>false</plugin.install.param.skip>
                 <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <param.jar.addMavenDescriptor>false</param.jar.addMavenDescriptor>
+                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
                 <!-- Setting the J2objc plugin configuration parameters -->
-                <param.j2objc.javaSourceFiles>hellonaga.j2objc.HelloNagaJ2ObjCApplication.java</param.j2objc.javaSourceFiles>
+                <plugin.j2objc.param.javaSourceFiles>hellonaga.j2objc.HelloNagaJ2ObjCApplication.java</plugin.j2objc.param.javaSourceFiles>
             </properties>
 
             <build>

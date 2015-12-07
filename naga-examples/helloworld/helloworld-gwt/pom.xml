@@ -29,7 +29,7 @@
 
     <properties>
         <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
-        <param.install.skip>true</param.install.skip>
+        <plugin.install.param.skip>true</plugin.install.param.skip>
     </properties>
 
     <profiles>
@@ -42,12 +42,12 @@
 
             <properties>
                 <!-- Not skipping the artifact installation when the profile is activated -->
-                <param.install.skip>false</param.install.skip>
+                <plugin.install.param.skip>false</plugin.install.param.skip>
                 <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <param.jar.addMavenDescriptor>false</param.jar.addMavenDescriptor>
+                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
                 <!-- Setting the GWT plugin configuration parameters -->
-                <param.gwt.module>helloworld-gwt</param.gwt.module>
-                <param.gwt.compileSourcesArtifact1>${project.groupId}:helloworld-logic</param.gwt.compileSourcesArtifact1>
+                <plugin.gwt.param.module>helloworld-gwt</plugin.gwt.param.module>
+                <plugin.gwt.param.compileSourcesArtifact1>${project.groupId}:helloworld-logic</plugin.gwt.param.compileSourcesArtifact1>
             </properties>
 
             <build>
