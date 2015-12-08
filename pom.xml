@@ -79,29 +79,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <repositories>
-        <!-- Adding Google Snapshots repository which is required to get GWT 2.8.0-SNAPSHOT -->
-        <repository>
-            <id>google-snapshots</id>
-            <name>Google Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-    </repositories>
-
     <pluginRepositories>
         <!-- Adding Snapshots repository which is required to get the GWT 2.8.0-SNAPSHOT Maven plugin -->
         <pluginRepository>
             <id>snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>google-snapshots</id>
-            <name>Google Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
             <releases><enabled>false</enabled></releases>
             <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>
