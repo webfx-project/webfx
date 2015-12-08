@@ -11,14 +11,59 @@
 
     <artifactId>hellonaga</artifactId>
     <packaging>pom</packaging>
+
+
+    <profiles>
+        <profile>
+            <id>jre</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>hellonaga-jre</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>android</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>hellonaga-retrolambda</module>
+                <module>hellonaga-android</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>hellonaga-teavm</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>hellonaga-gwt</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>j2objc</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>hellonaga-j2objc</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <modules>
         <module>hellonaga-logic</module>
-        <module>hellonaga-jre</module>
-        <module>hellonaga-retrolambda</module>
-        <module>hellonaga-android</module>
-        <module>hellonaga-teavm</module>
-        <module>hellonaga-gwt</module>
-        <module>hellonaga-j2objc</module>
     </modules>
 
 </project>

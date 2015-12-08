@@ -12,13 +12,56 @@
     <artifactId>helloworld</artifactId>
     <packaging>pom</packaging>
 
+    <profiles>
+        <profile>
+            <id>jre</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>helloworld-jre</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>android</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>helloworld-android</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>helloworld-teavm</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>helloworld-gwt</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>j2objc</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>helloworld-j2objc</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <modules>
         <module>helloworld-logic</module>
-        <module>helloworld-jre</module>
-        <module>helloworld-android</module>
-        <module>helloworld-teavm</module>
-        <module>helloworld-gwt</module>
-        <module>helloworld-j2objc</module>
     </modules>
 
 </project>
