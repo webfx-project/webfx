@@ -92,35 +92,17 @@
     <dependencyManagement>
         <dependencies>
 
-            <!-- Emulator of Java class library for TeaVM -->
-            <dependency>
-                <groupId>org.teavm</groupId>
-                <artifactId>teavm-classlib</artifactId>
-                <version>${lib.teavm.version}</version>
-                <scope>provided</scope>
-            </dependency>
+            <!--
+             ************************************************************
+             * Libraries required for the Java Platform (naga-javaplat) *
+             ************************************************************
+             -->
 
-            <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
+            <!-- JavaWebsocket -->
             <dependency>
-                <groupId>org.teavm</groupId>
-                <artifactId>teavm-jso</artifactId>
-                <version>${lib.teavm.version}</version>
-                <scope>provided</scope>
-            </dependency>
-
-            <!-- Google Web Toolkit (GWT) -->
-            <dependency>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-user</artifactId>
-                <version>${lib.gwt.version}</version>
-            </dependency>
-
-            <!-- Android -->
-            <dependency>
-                <groupId>com.google.android</groupId>
-                <artifactId>android</artifactId>
-                <version>${lib.android.version}</version>
-                <scope>provided</scope>
+                <groupId>org.java-websocket</groupId>
+                <artifactId>Java-WebSocket</artifactId>
+                <version>${lib.javawebsocket.version}</version>
             </dependency>
 
             <!-- Json-smart (lightweight JSON library for java) -->
@@ -139,18 +121,70 @@
                 <scope>provided</scope>
             </dependency>
 
-            <!-- JavaWebsocket -->
+
+            <!--
+             **************************************************************
+             * Libraries required for the Android Platform (naga-android) *
+             **************************************************************
+             -->
+
+            <!-- Android library -->
             <dependency>
-                <groupId>org.java-websocket</groupId>
-                <artifactId>Java-WebSocket</artifactId>
-                <version>${lib.javawebsocket.version}</version>
+                <groupId>com.google.android</groupId>
+                <artifactId>android</artifactId>
+                <version>${lib.android.version}</version>
+                <scope>provided</scope>
             </dependency>
+
+
+            <!--
+             ***********************************************************
+             * Libraries required for the Vert.x Platform (naga-vertx) *
+             ***********************************************************
+             -->
 
             <!-- Vert.x -->
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-web</artifactId>
                 <version>${lib.vertx.version}</version>
+            </dependency>
+
+
+            <!--
+             **********************************************************
+             * Libraries required for the TeaVM Platform (naga-teavm) *
+             **********************************************************
+             -->
+
+            <!-- Emulator of Java class library for TeaVM -->
+            <dependency>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-classlib</artifactId>
+                <version>${lib.teavm.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
+            <dependency>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-jso</artifactId>
+                <version>${lib.teavm.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+
+            <!--
+             ******************************************************
+             * Libraries required for the GWT Platform (naga-gwt) *
+             ******************************************************
+             -->
+
+            <!-- Google Web Toolkit (GWT) -->
+            <dependency>
+                <groupId>com.google.gwt</groupId>
+                <artifactId>gwt-user</artifactId>
+                <version>${lib.gwt.version}</version>
             </dependency>
 
         </dependencies>
@@ -162,7 +196,11 @@
             <!-- plugins listed here are just pre-configured for a possible use in a module -->
             <plugins>
 
-                <!-- Plugin to set the main class in the manifest file when packaging an executable jre application -->
+                <!--
+                 **********************************
+                 * Maven jar plugin configuration *
+                 **********************************
+                 -->
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>${plugin.jar.version}</version>
@@ -174,7 +212,13 @@
                     </configuration>
                 </plugin>
 
-                <!-- Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM) -->
+
+                <!--
+                 **************************************
+                 * Maven sources plugin configuration *
+                 **************************************
+                 Plugin to generate the sources artifacts which will be used by GWT which is java source code transpiler (and not a bytecode transpiler like TeaVM)
+                 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -189,7 +233,13 @@
                     </executions>
                 </plugin>
 
-                <!-- Plugin to unpack dependencies with their source. This is required before calling j2objc -->
+
+                <!--
+                 *****************************************
+                 * Maven dependency plugin configuration *
+                 *****************************************
+                 Plugin to unpack dependencies with their source. This is required before calling j2objc
+                 -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -241,9 +291,9 @@
                 </plugin>
 
                 <!--
-                 *****************
-                 * Shade profile *
-                 *****************
+                 ******************************
+                 * Shade plugin configuration *
+                 ******************************
                  Shade is a plugin to build fat jars (with all dependencies included in it)
                  -->
                 <plugin>
@@ -278,10 +328,11 @@
                     </executions>
                 </plugin>
 
+
                 <!--
-                 ********************
-                 * Proguard profile *
-                 ********************
+                 *********************************
+                 * Proguard plugin configuration *
+                 *********************************
                  Proguard is a plugin to minimize the jar file by obfuscation
                  -->
                 <plugin>
@@ -333,7 +384,11 @@
                     </configuration>
                 </plugin>
 
-                <!-- Retrolambda plugin -->
+                <!--
+                 ************************************
+                 * Retrolambda plugin configuration *
+                 ************************************
+                -->
                 <plugin>
                     <groupId>net.orfjackal.retrolambda</groupId>
                     <artifactId>retrolambda-maven-plugin</artifactId>
@@ -351,12 +406,12 @@
                     </executions>
                 </plugin>
 
+
                 <!--
-                 ********************
-                 * Android profile *
-                 ********************
+                 ********************************
+                 * Android plugin configuration *
+                 ********************************
                  -->
-                <!-- Android plugin -->
                 <plugin>
                     <groupId>com.simpligility.maven.plugins</groupId>
                     <artifactId>android-maven-plugin</artifactId>
@@ -369,12 +424,12 @@
                     </configuration>
                 </plugin>
 
+
                 <!--
-                 *****************
-                 * TeaVM profile *
-                 *****************
+                 ******************************
+                 * TeaVM plugin configuration *
+                 ******************************
                  -->
-                <!-- TeaVM plugin configuration -->
                 <plugin>
                     <groupId>org.teavm</groupId>
                     <artifactId>teavm-maven-plugin</artifactId>
@@ -417,11 +472,10 @@
                 </plugin>
 
                 <!--
-                 ***************
-                 * GWT profile *
-                 ***************
+                 ****************************
+                 * GWT plugin configuration *
+                 ****************************
                  -->
-                <!-- GWT plugin configuration -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
@@ -459,9 +513,9 @@
                 </plugin>
 
                 <!--
-                 ******************
-                 * J2objc profile *
-                 ******************
+                 **********************************
+                 * J2objc tool call configuration *
+                 **********************************
                  -->
                 <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
                 <plugin>
