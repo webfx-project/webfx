@@ -38,41 +38,8 @@
     <properties>
         <!-- Compiling the android code in java 7 (java 8 not supported) -->
         <java.version>7</java.version>
-        <!-- Skipping the artifact installation by default (in case the profile is not activated) -->
-        <plugin.compiler.param.phase>none</plugin.compiler.param.phase>
-        <plugin.android.param.phase.generate-sources>none</plugin.android.param.phase.generate-sources>
-        <plugin.android.param.phase.process-classes>none</plugin.android.param.phase.process-classes>
-        <plugin.android.param.phase.prepare-package>none</plugin.android.param.phase.prepare-package>
-        <plugin.android.param.phase.package>none</plugin.android.param.phase.package>
-        <plugin.android.param.phase.internal-pre-integration-test>none</plugin.android.param.phase.internal-pre-integration-test>
-        <plugin.android.param.phase.internal-integration-test>none</plugin.android.param.phase.internal-integration-test>
-        <plugin.android.param.phase.install.phase>none</plugin.android.param.phase.install.phase>
-        <plugin.install.param.skip>true</plugin.install.param.skip>
     </properties>
-
-    <profiles>
-        <profile>
-            <id>android</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-
-            <properties>
-                <!-- Not skipping the artifact installation when the profile is activated -->
-                <plugin.compiler.param.phase>compile</plugin.compiler.param.phase>
-                <plugin.android.param.phase.generate-sources>generate-sources</plugin.android.param.phase.generate-sources>
-                <plugin.android.param.phase.process-classes>process-classes</plugin.android.param.phase.process-classes>
-                <plugin.android.param.phase.prepare-package>prepare-package</plugin.android.param.phase.prepare-package>
-                <plugin.android.param.phase.package>package</plugin.android.param.phase.package>
-                <plugin.android.param.phase.internal-pre-integration-test>pre-integration-test</plugin.android.param.phase.internal-pre-integration-test>
-                <plugin.android.param.phase.internal-integration-test>integration-test</plugin.android.param.phase.internal-integration-test>
-                <plugin.android.param.phase.install.phase>install</plugin.android.param.phase.install.phase>
-                <plugin.install.param.skip>false</plugin.install.param.skip>
-            </properties>
-
-        </profile>
-    </profiles>
-
+    
     <build>
         <plugins>
             <plugin>

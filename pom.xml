@@ -39,7 +39,6 @@
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
-        <plugin.install.version>2.5.2</plugin.install.version>
         <plugin.source.version>2.4</plugin.source.version>
         <plugin.dependency.version>2.10</plugin.dependency.version>
         <plugin.shade.version>2.4.2</plugin.shade.version>
@@ -55,20 +54,11 @@
         <tool.j2objc.version>0.9.8.2.1</tool.j2objc.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
-        <plugin.compiler.param.phase>compile</plugin.compiler.param.phase>
         <plugin.jar.param.addMavenDescriptor>true</plugin.jar.param.addMavenDescriptor>
         <plugin.dependency.param.unpack-sources.phase>validate</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>validate</plugin.dependency.param.unpack-classes.phase>
         <plugin.dependency.param.unpack-classes.includes>**</plugin.dependency.param.unpack-classes.includes>
         <plugin.dependency.param.copy-libs.phase>validate</plugin.dependency.param.copy-libs.phase>
-        <plugin.install.param.skip>false</plugin.install.param.skip>
-        <plugin.android.param.phase.generate-sources>generate-sources</plugin.android.param.phase.generate-sources>
-        <plugin.android.param.phase.process-classes>process-classes</plugin.android.param.phase.process-classes>
-        <plugin.android.param.phase.prepare-package>prepare-package</plugin.android.param.phase.prepare-package>
-        <plugin.android.param.phase.package>package</plugin.android.param.phase.package>
-        <plugin.android.param.phase.internal-pre-integration-test>pre-integration-test</plugin.android.param.phase.internal-pre-integration-test>
-        <plugin.android.param.phase.internal-integration-test>integration-test</plugin.android.param.phase.internal-integration-test>
-        <plugin.android.param.phase.install>install</plugin.android.param.phase.install>
         <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
@@ -190,16 +180,6 @@
             <!-- plugins listed here are just pre-configured for a possible use in a module -->
             <plugins>
 
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>default-compile</id>
-                            <phase>${plugin.compiler.param.phase}</phase>
-                        </execution>
-                    </executions>
-                </plugin>
-
                 <!-- Plugin to set the main class in the manifest file when packaging an executable jre application -->
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -209,61 +189,6 @@
                             <!-- Whether or not including META-INF/maven/** coming from dependencies -->
                             <addMavenDescriptor>${plugin.jar.param.addMavenDescriptor}</addMavenDescriptor>
                         </archive>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>${plugin.install.version}</version>
-                    <configuration>
-                        <skip>${plugin.install.param.skip}</skip>
-                    </configuration>
-                </plugin>
-
-                <!-- Android plugin -->
-                <plugin>
-                    <groupId>com.simpligility.maven.plugins</groupId>
-                    <artifactId>android-maven-plugin</artifactId>
-                    <version>${plugin.android.version}</version>
-                    <extensions>true</extensions>
-                    <executions>
-                        <execution>
-                            <id>default-generate-sources</id>
-                            <phase>${plugin.android.param.phase.generate-sources}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-emma</id>
-                            <phase>${plugin.android.param.phase.process-classes}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-proguard</id>
-                            <phase>${plugin.android.param.phase.process-classes}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-dex</id>
-                            <phase>${plugin.android.param.phase.package}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-apk</id>
-                            <phase>${plugin.android.param.phase.package}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-internal-pre-integration-test</id>
-                            <phase>${plugin.android.param.phase.internal-pre-integration-test}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-internal-integration-test</id>
-                            <phase>${plugin.android.param.phase.internal-integration-test}</phase>
-                        </execution>
-                        <execution>
-                            <id>default-install</id>
-                            <phase>${plugin.android.param.phase.install}</phase>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <sdk>
-                            <platform>${plugin.android.param.sdk.platform}</platform>
-                        </sdk>
                     </configuration>
                 </plugin>
 
@@ -333,362 +258,296 @@
                     </executions>
                 </plugin>
 
+                <!--
+                 *****************
+                 * Shade profile *
+                 *****************
+                 Shade is a plugin to build fat jars (with all dependencies included in it)
+                 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${plugin.shade.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <!-- the output will have the classifier "-shaded"  -->
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <transformers>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        <mainClass>${plugins.param.jre.mainClass}</mainClass>
+                                    </transformer>
+                                </transformers>
+                                <filters>
+                                    <filter>
+                                        <artifact>*:*</artifact>
+                                        <excludes>
+                                            <exclude>META-INF/maven/**</exclude>
+                                        </excludes>
+                                    </filter>
+                                </filters>
+                                <createDependencyReducedPom>false</createDependencyReducedPom>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 ********************
+                 * Proguard profile *
+                 ********************
+                 Proguard is a plugin to minimize the jar file by obfuscation
+                 -->
+                <plugin>
+                    <groupId>com.github.wvengen</groupId>
+                    <artifactId>proguard-maven-plugin</artifactId>
+                    <version>${plugin.proguard.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals><goal>proguard</goal></goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <!-- the output will have the classifier "-small"  -->
+                        <attach>true</attach>
+                        <options>
+                            <!-- keeping the main class and its main static method -->
+                            <option>-keep public public class ${plugins.param.jre.mainClass} { public static
+                                void
+                                main(java.lang.String[]); }</option>
+                            <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
+                            <option>-keep public public class naga.core.spi.platform.Platform</option>
+                            <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
+                            <!-- ignoring jackson missing warnings as it is an optional library -->
+                            <option>-dontwarn com.fasterxml.jackson.**</option>
+                            <option>-allowaccessmodification</option>
+                            <option>-optimizationpasses 5</option>
+                            <!-- uncomment this if something goes wrong with json-smart as suggested in the warning -->
+                            <!--option>-keepattributes Signature</option-->
+                        </options>
+                        <libs>
+                            <lib>${java.home}/lib/rt.jar</lib>
+                        </libs>
+                        <includeDependency>true</includeDependency>
+                        <includeDependencyInjar>true</includeDependencyInjar>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>com.fasterxml.jackson.core</groupId>
+                                <artifactId>*</artifactId>
+                            </exclusion>
+                        </exclusions>
+                        <inFilter>!META-INF/MANIFEST.MF</inFilter>
+                        <outFilter>!META-INF/maven/**</outFilter>
+                        <archive>
+                            <manifest>
+                                <mainClass>${plugins.param.jre.mainClass}</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+
+                <!-- Retrolambda plugin -->
+                <plugin>
+                    <groupId>net.orfjackal.retrolambda</groupId>
+                    <artifactId>retrolambda-maven-plugin</artifactId>
+                    <version>${plugin.retrolambda.version}</version>
+                    <configuration>
+                        <defaultMethods>true</defaultMethods>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>process-main</goal>
+                                <goal>process-test</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 ********************
+                 * Android profile *
+                 ********************
+                 -->
+                <!-- Android plugin -->
+                <plugin>
+                    <groupId>com.simpligility.maven.plugins</groupId>
+                    <artifactId>android-maven-plugin</artifactId>
+                    <version>${plugin.android.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <sdk>
+                            <platform>${plugin.android.param.sdk.platform}</platform>
+                        </sdk>
+                    </configuration>
+                </plugin>
+
+                <!--
+                 *****************
+                 * TeaVM profile *
+                 *****************
+                 -->
+                <!-- TeaVM plugin configuration -->
+                <plugin>
+                    <groupId>org.teavm</groupId>
+                    <artifactId>teavm-maven-plugin</artifactId>
+                    <version>${plugin.teavm.version}</version>
+                    <dependencies>
+                        <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
+                        <dependency>
+                            <groupId>org.teavm</groupId>
+                            <artifactId>teavm-classlib</artifactId>
+                            <version>${lib.teavm.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                            <phase>process-classes</phase>
+                            <configuration>
+                                <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
+                                <targetDirectory>${project.build.outputDirectory}/webroot/js/teavm</targetDirectory>
+
+                                <!-- Main class, containing static void main(String[]) -->
+                                <mainClass>${plugin.teavm.param.mainClass}</mainClass>
+
+                                <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
+                                <runtime>SEPARATE</runtime>
+                                <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
+                                <minifying>false</minifying>
+                                <mainPageIncluded>true</mainPageIncluded>
+                                <!-- Whether TeaVM should produce debug information for its built-in debugger -->
+                                <debugInformationGenerated>true</debugInformationGenerated>
+                                <!-- Whether TeaVM should produce source maps file -->
+                                <sourceMapsGenerated>true</sourceMapsGenerated>
+                                <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
+                                <sourceFilesCopied>false</sourceFilesCopied>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 ***************
+                 * GWT profile *
+                 ***************
+                 -->
+                <!-- GWT plugin configuration -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <version>${plugin.gwt.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.google.gwt</groupId>
+                            <artifactId>gwt-user</artifactId>
+                            <version>${lib.gwt.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>com.google.gwt</groupId>
+                            <artifactId>gwt-dev</artifactId>
+                            <version>${lib.gwt.version}</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <configuration>
+                                <module>${plugin.gwt.param.module}</module>
+                                <failOnError>true</failOnError>
+                                <webappDirectory>${project.build.outputDirectory}/webroot</webappDirectory>
+                                <persistentunitcache>false</persistentunitcache>
+                                <compileSourcesArtifacts>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact2}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact3}</compileSourcesArtifact>
+                                </compileSourcesArtifacts>
+                            </configuration>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 ******************
+                 * J2objc profile *
+                 ******************
+                 -->
+                <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${plugin.antrun.version}</version>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <configuration>
+                                <target>
+                                    <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
+                                        <arg value="-jar"/>
+                                        <arg value="${profile.j2objc.param.jar}"/>
+                                        <arg value="-Xbootclasspath:${profile.j2objc.param.home}/lib/jre_emul.jar"/>
+                                        <arg value="-sourcepath"/>
+                                        <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
+                                        <arg value="-d"/>
+                                        <arg value="${project.build.directory}/generated/objc"/>
+                                        <arg value="-source"/>
+                                        <arg value="${java.version}"/>
+                                        <arg value="-Xforce-incomplete-java8"/>
+                                        <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
+                                        <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
+                                    </apply>
+                                </target>
+                            </configuration>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Failed attempt of writing a Maven only plugin: don't know how to iterate over all java source files -->
+                <!-- plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.4.0</version>
+                    <executions>
+                        <execution>
+                            <id>run-j2objc</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>${env.JAVA_HOME}/bin/java</executable>
+                                <arguments>
+                                    <argument>-jar</argument>
+                                    <argument>${j2objc.jar}</argument>
+                                    <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
+                                    <argument>-sourcepath</argument>
+                                    <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
+                                    <argument>-d</argument>
+                                    <argument>${project.build.directory}/generated/objc</argument>
+                                    <argument>**/*.java</argument>
+                                </arguments>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin-->
+
             </plugins>
         </pluginManagement>
 
     </build>
 
     <profiles>
-
-        <!--
-         *****************
-         * Shade profile *
-         *****************
-         Shade is a plugin to build fat jars (with all dependencies included in it)
-         -->
-        <profile>
-            <id>shade</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-shade-plugin</artifactId>
-                            <version>${plugin.shade.version}</version>
-                            <executions>
-                                <execution>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>shade</goal>
-                                    </goals>
-                                    <configuration>
-                                        <!-- the output will have the classifier "-shaded"  -->
-                                        <shadedArtifactAttached>true</shadedArtifactAttached>
-                                        <transformers>
-                                            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                                <mainClass>${plugins.param.jre.mainClass}</mainClass>
-                                            </transformer>
-                                        </transformers>
-                                        <filters>
-                                            <filter>
-                                                <artifact>*:*</artifact>
-                                                <excludes>
-                                                    <exclude>META-INF/maven/**</exclude>
-                                                </excludes>
-                                            </filter>
-                                        </filters>
-                                        <createDependencyReducedPom>false</createDependencyReducedPom>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <!--
-         ********************
-         * Proguard profile *
-         ********************
-         Proguard is a plugin to minimize the jar file by obfuscation
-         -->
-        <profile>
-            <id>proguard</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.github.wvengen</groupId>
-                            <artifactId>proguard-maven-plugin</artifactId>
-                            <version>${plugin.proguard.version}</version>
-                            <executions>
-                                <execution>
-                                    <phase>package</phase>
-                                    <goals><goal>proguard</goal></goals>
-                                </execution>
-                            </executions>
-                            <configuration>
-                                <!-- the output will have the classifier "-small"  -->
-                                <attach>true</attach>
-                                <options>
-                                    <!-- keeping the main class and its main static method -->
-                                    <option>-keep public public class ${plugins.param.jre.mainClass} { public static
-                                        void
-                                        main(java.lang.String[]); }</option>
-                                    <!-- keeping Platform and subclasses as they are referenced in META-INF/services -->
-                                    <option>-keep public public class naga.core.spi.platform.Platform</option>
-                                    <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
-                                    <!-- ignoring jackson missing warnings as it is an optional library -->
-                                    <option>-dontwarn com.fasterxml.jackson.**</option>
-                                    <option>-allowaccessmodification</option>
-                                    <option>-optimizationpasses 5</option>
-                                    <!-- uncomment this if something goes wrong with json-smart as suggested in the warning -->
-                                    <!--option>-keepattributes Signature</option-->
-                                </options>
-                                <libs>
-                                    <lib>${java.home}/lib/rt.jar</lib>
-                                </libs>
-                                <includeDependency>true</includeDependency>
-                                <includeDependencyInjar>true</includeDependencyInjar>
-                                <exclusions>
-                                    <exclusion>
-                                        <groupId>com.fasterxml.jackson.core</groupId>
-                                        <artifactId>*</artifactId>
-                                    </exclusion>
-                                </exclusions>
-                                <inFilter>!META-INF/MANIFEST.MF</inFilter>
-                                <outFilter>!META-INF/maven/**</outFilter>
-                                <archive>
-                                    <manifest>
-                                        <mainClass>${plugins.param.jre.mainClass}</mainClass>
-                                    </manifest>
-                                </archive>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <!--
-         ********************
-         * Android profile *
-         ********************
-         -->
-        <profile>
-            <id>android</id>
-            <activation>
-                <!-- The profile is not active by default as it requires the Android SDK to be installed -->
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-
-                        <!-- Retrolambda plugin -->
-                        <plugin>
-                            <groupId>net.orfjackal.retrolambda</groupId>
-                            <artifactId>retrolambda-maven-plugin</artifactId>
-                            <version>${plugin.retrolambda.version}</version>
-                            <configuration>
-                                <defaultMethods>true</defaultMethods>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <goals>
-                                        <goal>process-main</goal>
-                                        <goal>process-test</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-
-                        <!-- Android plugin -->
-                        <!-- Has been moved to non profile level as it is required for maven to understand apk packaging -->
-
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <!--
-         *****************
-         * TeaVM profile *
-         *****************
-         -->
-        <profile>
-            <id>teavm</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <!-- TeaVM plugin configuration -->
-                        <plugin>
-                            <groupId>org.teavm</groupId>
-                            <artifactId>teavm-maven-plugin</artifactId>
-                            <version>${plugin.teavm.version}</version>
-                            <dependencies>
-                                <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
-                                <dependency>
-                                    <groupId>org.teavm</groupId>
-                                    <artifactId>teavm-classlib</artifactId>
-                                    <version>${lib.teavm.version}</version>
-                                </dependency>
-                            </dependencies>
-                            <executions>
-                                <execution>
-                                    <goals>
-                                        <goal>compile</goal>
-                                    </goals>
-                                    <phase>process-classes</phase>
-                                    <configuration>
-                                        <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
-                                        <targetDirectory>${project.build.outputDirectory}/webroot/js/teavm</targetDirectory>
-
-                                        <!-- Main class, containing static void main(String[]) -->
-                                        <mainClass>${plugin.teavm.param.mainClass}</mainClass>
-
-                                        <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
-                                        <runtime>SEPARATE</runtime>
-                                        <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
-                                        <minifying>false</minifying>
-                                        <mainPageIncluded>true</mainPageIncluded>
-                                        <!-- Whether TeaVM should produce debug information for its built-in debugger -->
-                                        <debugInformationGenerated>true</debugInformationGenerated>
-                                        <!-- Whether TeaVM should produce source maps file -->
-                                        <sourceMapsGenerated>true</sourceMapsGenerated>
-                                        <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
-                                        <sourceFilesCopied>false</sourceFilesCopied>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <!--
-         ***************
-         * GWT profile *
-         ***************
-         -->
-        <profile>
-            <id>gwt</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <!-- GWT plugin configuration -->
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>gwt-maven-plugin</artifactId>
-                            <version>${plugin.gwt.version}</version>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>com.google.gwt</groupId>
-                                    <artifactId>gwt-user</artifactId>
-                                    <version>${lib.gwt.version}</version>
-                                </dependency>
-                                <dependency>
-                                    <groupId>com.google.gwt</groupId>
-                                    <artifactId>gwt-dev</artifactId>
-                                    <version>${lib.gwt.version}</version>
-                                </dependency>
-                            </dependencies>
-                            <executions>
-                                <execution>
-                                    <configuration>
-                                        <module>${plugin.gwt.param.module}</module>
-                                        <failOnError>true</failOnError>
-                                        <webappDirectory>${project.build.outputDirectory}/webroot</webappDirectory>
-                                        <persistentunitcache>false</persistentunitcache>
-                                        <compileSourcesArtifacts>
-                                            <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
-                                            <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact2}</compileSourcesArtifact>
-                                            <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact3}</compileSourcesArtifact>
-                                        </compileSourcesArtifacts>
-                                    </configuration>
-                                    <goals>
-                                        <goal>compile</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
-        <!--
-         ******************
-         * J2objc profile *
-         ******************
-         -->
-        <profile>
-            <id>j2objc</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
-                        <plugin>
-                            <artifactId>maven-antrun-plugin</artifactId>
-                            <version>${plugin.antrun.version}</version>
-                            <executions>
-                                <execution>
-                                    <phase>compile</phase>
-                                    <configuration>
-                                        <target>
-                                            <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
-                                                <arg value="-jar"/>
-                                                <arg value="${profile.j2objc.param.jar}"/>
-                                                <arg value="-Xbootclasspath:${profile.j2objc.param.home}/lib/jre_emul.jar"/>
-                                                <arg value="-sourcepath"/>
-                                                <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
-                                                <arg value="-d"/>
-                                                <arg value="${project.build.directory}/generated/objc"/>
-                                                <arg value="-source"/>
-                                                <arg value="${java.version}"/>
-                                                <arg value="-Xforce-incomplete-java8"/>
-                                                <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
-                                                <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
-                                            </apply>
-                                        </target>
-                                    </configuration>
-                                    <goals>
-                                        <goal>run</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-
-                        <!-- Failed attempt of writing a Maven only plugin: don't know how to iterate over all java source files -->
-                        <!-- plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>exec-maven-plugin</artifactId>
-                            <version>1.4.0</version>
-                            <executions>
-                                <execution>
-                                    <id>run-j2objc</id>
-                                    <phase>compile</phase>
-                                    <goals>
-                                        <goal>exec</goal>
-                                    </goals>
-                                    <configuration>
-                                        <executable>${env.JAVA_HOME}/bin/java</executable>
-                                        <arguments>
-                                            <argument>-jar</argument>
-                                            <argument>${j2objc.jar}</argument>
-                                            <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
-                                            <argument>-sourcepath</argument>
-                                            <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
-                                            <argument>-d</argument>
-                                            <argument>${project.build.directory}/generated/objc</argument>
-                                            <argument>**/*.java</argument>
-                                        </arguments>
-                                    </configuration>
-                                </execution>
-                            </executions>
-                        </plugin-->
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
-
         <!--
          **************************
          * J2objc-download profile *
