@@ -67,11 +67,11 @@
         <plugin.gwt.param.compileSourcesArtifact3>TBD</plugin.gwt.param.compileSourcesArtifact3>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
 
-        <!-- properties used for j2objc install and execution -->
-        <profile.j2objc.param.parent>${user.home}</profile.j2objc.param.parent>
-        <profile.j2objc.param.folderName>j2objc-${tool.j2objc.version}</profile.j2objc.param.folderName>
-        <profile.j2objc.param.home>${profile.j2objc.param.parent}/${profile.j2objc.param.folderName}</profile.j2objc.param.home>
-        <profile.j2objc.param.jar>${profile.j2objc.param.home}/lib/j2objc.jar</profile.j2objc.param.jar>
+        <!-- properties used for j2objc tool (install and execution) -->
+        <tool.j2objc.param.parent>${user.home}</tool.j2objc.param.parent>
+        <tool.j2objc.param.folderName>j2objc-${tool.j2objc.version}</tool.j2objc.param.folderName>
+        <tool.j2objc.param.home>${tool.j2objc.param.parent}/${tool.j2objc.param.folderName}</tool.j2objc.param.home>
+        <tool.j2objc.param.jar>${tool.j2objc.param.home}/lib/j2objc.jar</tool.j2objc.param.jar>
 
         <!-- Applying compiler settings -->
         <maven.compiler.source>${java.level}</maven.compiler.source>
@@ -492,8 +492,8 @@
                                 <target>
                                     <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
                                         <arg value="-jar"/>
-                                        <arg value="${profile.j2objc.param.jar}"/>
-                                        <arg value="-Xbootclasspath:${profile.j2objc.param.home}/lib/jre_emul.jar"/>
+                                        <arg value="${tool.j2objc.param.jar}"/>
+                                        <arg value="-Xbootclasspath:${tool.j2objc.param.home}/lib/jre_emul.jar"/>
                                         <arg value="-sourcepath"/>
                                         <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
                                         <arg value="-d"/>
@@ -586,7 +586,7 @@
                                     <url>https://github.com/google/j2objc/releases/download/${tool.j2objc.version}/j2objc-${tool.j2objc.version}.zip</url>
                                     <unpack>true</unpack>
                                     <overwrite>false</overwrite>
-                                    <outputDirectory>${profile.j2objc.param.parent}</outputDirectory>
+                                    <outputDirectory>${tool.j2objc.param.parent}</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
