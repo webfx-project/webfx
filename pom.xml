@@ -34,7 +34,7 @@
         <lib.jackson.version>2.6.1</lib.jackson.version> <!-- used only if provided -->
         <lib.android.version>4.1.1.4</lib.android.version>
         <lib.teavm.version>0.4.1</lib.teavm.version>
-        <lib.gwt.version>2.8.0-SNAPSHOT</lib.gwt.version>
+        <lib.gwt.version>2.8.0-beta1</lib.gwt.version>
         <lib.vertx.version>3.1.0</lib.vertx.version>
 
         <!-- plugins versions -->
@@ -46,7 +46,7 @@
         <plugin.retrolambda.version>2.0.6</plugin.retrolambda.version>
         <plugin.android.version>4.3.0</plugin.android.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
-        <plugin.gwt.version>${lib.gwt.version}</plugin.gwt.version>
+        <plugin.gwt.version>2.8.0-SNAPSHOT</plugin.gwt.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
         <plugin.download.version>1.2.1</plugin.download.version>
 
