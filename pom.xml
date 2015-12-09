@@ -459,7 +459,7 @@
                             <phase>process-classes</phase>
                             <configuration>
                                 <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
-                                <targetDirectory>${project.build.outputDirectory}/webroot/js/teavm</targetDirectory>
+                                <targetDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/dev/js</targetDirectory>
 
                                 <!-- Main class, containing static void main(String[]) -->
                                 <mainClass>${plugin.teavm.param.mainClass}</mainClass>
@@ -506,7 +506,7 @@
                             <configuration>
                                 <module>${plugin.gwt.param.module}</module>
                                 <failOnError>true</failOnError>
-                                <webappDirectory>${project.build.outputDirectory}/webroot</webappDirectory>
+                                <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/dev/js</webappDirectory>
                                 <persistentunitcache>false</persistentunitcache>
                                 <compileSourcesArtifacts>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
