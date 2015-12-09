@@ -64,7 +64,7 @@
 
         <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
         <profile>
-            <id>shade</id>
+            <id>jre-fat</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -84,7 +84,7 @@
 
         <!-- Profile to minimize and obfuscate the jar file with Proguard -->
         <profile>
-            <id>proguard</id>
+            <id>jre-min</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
