@@ -21,8 +21,25 @@
 
         <dependency>
             <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
         </dependency>
+
+        <!--
+         Jackson is a transitive dependency of Vert.x core and shouldn't normally have to be listed here.
+         But since it has been declared optional and provided in the parent pom (for the java clients)
+         its scope needs to be set to runtime here otherwise it won't be present at runtime and json operations will fail
+         -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
