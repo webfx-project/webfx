@@ -66,6 +66,7 @@
         <plugin.gwt.param.compileSourcesArtifact2>TBD</plugin.gwt.param.compileSourcesArtifact2>
         <plugin.gwt.param.compileSourcesArtifact3>TBD</plugin.gwt.param.compileSourcesArtifact3>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
+        <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
         <!-- properties used for j2objc tool (install and execution) -->
         <tool.j2objc.param.parent>${user.home}</tool.j2objc.param.parent>
@@ -506,7 +507,7 @@
                             <configuration>
                                 <module>${plugin.gwt.param.module}</module>
                                 <failOnError>true</failOnError>
-                                <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/dev/js</webappDirectory>
+                                <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</webappDirectory>
                                 <persistentunitcache>false</persistentunitcache>
                                 <compileSourcesArtifacts>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
@@ -516,6 +517,37 @@
                             </configuration>
                             <goals>
                                 <goal>compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 ******************************
+                 * Grunt plugin configuration *
+                 ******************************
+                 -->
+                <plugin>
+                    <groupId>pl.allegro</groupId>
+                    <artifactId>grunt-maven-plugin</artifactId>
+                    <version>1.4.1</version>
+                    <configuration>
+                        <!--gruntBuildDirectory>${basedir}/target-grunt</gruntBuildDirectory>
+                        <sourceDirectory>${basedir}/src/main/webapp</sourceDirectory>
+                        <jsSourceDirectory>static</jsSourceDirectory-->
+                        <gruntOptions>
+                            <gruntOption>--verbose</gruntOption>
+                        </gruntOptions>
+                        <disabled>${plugin.grunt.disabled}</disabled>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <!--goal>create-resources</goal-->
+                                <goal>npm</goal>
+                                <!--goal>bower</goal-->
+                                <goal>grunt</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -638,6 +670,16 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>grunt</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <plugin.grunt.disabled>false</plugin.grunt.disabled>
+            </properties>
         </profile>
     </profiles>
 

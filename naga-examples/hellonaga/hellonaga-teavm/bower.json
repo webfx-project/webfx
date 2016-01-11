@@ -1,0 +1,11 @@
+{
+  "name": "hellonaga-teavm",
+  "version": "0.1.0",
+  "authors": [
+    "Bruno Salmon"
+  ],
+  "dependencies": {
+    "sockjs": "^0.3.4"
+  },
+  "ignore": ""
+}

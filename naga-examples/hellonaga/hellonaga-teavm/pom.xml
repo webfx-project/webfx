@@ -38,14 +38,6 @@
             <artifactId>teavm-jso</artifactId>
         </dependency>
 
-        <!-- Just to declare a dummy verticle for vert.x deployment -->
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <properties>
@@ -72,6 +64,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+            <!-- Calling grunt to generate the production index.html from the dev one -->
+            <plugin>
+                <groupId>pl.allegro</groupId>
+                <artifactId>grunt-maven-plugin</artifactId>
             </plugin>
 
         </plugins>
