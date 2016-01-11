@@ -6,11 +6,11 @@ import naga.vertx.util.VertxRunner;
 /**
  * @author Bruno Salmon
  */
-public class StackMicroservice extends AbstractVerticle {
+public class PrimaryMicroservice extends AbstractVerticle {
 
     // Convenient method to run the microservice directly in the IDE
     public static void main(String[] args) {
-        VertxRunner.runVerticle(StackMicroservice.class);
+        VertxRunner.runVerticle(PrimaryMicroservice.class);
     }
 
 

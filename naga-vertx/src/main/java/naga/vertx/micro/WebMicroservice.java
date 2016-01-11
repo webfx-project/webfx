@@ -5,7 +5,6 @@ import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
-import io.vertx.ext.web.handler.FaviconHandler;
 import io.vertx.ext.web.handler.LoggerHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 import io.vertx.ext.web.handler.sockjs.BridgeOptions;
@@ -44,7 +43,7 @@ public class WebMicroservice extends AbstractVerticle {
         );
 
         // Serving favicon
-        router.routeWithRegex(".*/favicon.ico").handler(FaviconHandler.create());
+        //router.routeWithRegex(".*/favicon.ico").handler(FaviconHandler.create());
 
         // Serving static files under the webroot folder
         router.route("/*").handler(StaticHandler.create());
