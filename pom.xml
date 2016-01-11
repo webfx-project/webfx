@@ -35,7 +35,7 @@
         <lib.android.version>4.1.1.4</lib.android.version>
         <lib.teavm.version>0.4.3</lib.teavm.version>
         <lib.gwt.version>2.8.0-beta1</lib.gwt.version>
-        <lib.vertx.version>3.1.0</lib.vertx.version>
+        <lib.vertx.version>3.2.0</lib.vertx.version>
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
