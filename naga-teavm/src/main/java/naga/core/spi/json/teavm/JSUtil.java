@@ -38,16 +38,16 @@ public final class JSUtil {
     public static native JSArray<JSString> getKeys(JSObject jso);
 
     @JSBody(params = "value", script = "return value === null;")
-    public static native boolean isNull(Object value);
+    public static native boolean isNull(JSObject value);
 
     @JSBody(params = "object", script = "return typeof object === 'undefined';")
     public static native boolean isUndefined(JSObject object);
 
     @JSBody(params = "object", script = "return typeof object;")
-    public static native String getJsType(Object object);
+    public static native String getJsType(JSObject object);
 
     @JSBody(params = "object", script = "return Object.prototype.toString.apply(object) === '[object Array]';")
-    public static native boolean isArray(Object object);
+    public static native boolean isArray(JSObject object);
 
     @JSBody(params = {"obj1", "obj2"}, script = "return obj1 === obj2;")
     public static native boolean areEquals(JSObject obj1, JSObject obj2);
