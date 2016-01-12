@@ -18,13 +18,13 @@
             <groupId>naga</groupId>
             <artifactId>helloworld-logic</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
     </dependencies>

@@ -17,14 +17,14 @@
             <artifactId>hellonaga-logic</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
         <dependency>
             <artifactId>naga-gwt</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
-            <scope>provided</scope>
+            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
     </dependencies>
