@@ -460,7 +460,7 @@
                             <phase>process-classes</phase>
                             <configuration>
                                 <!-- Directory where TeaVM should put generated files. This configuration conforms to the settings of the WAR plugin -->
-                                <targetDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/dev/js</targetDirectory>
+                                <targetDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</targetDirectory>
 
                                 <!-- Main class, containing static void main(String[]) -->
                                 <mainClass>${plugin.teavm.param.mainClass}</mainClass>

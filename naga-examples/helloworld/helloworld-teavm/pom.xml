@@ -31,14 +31,6 @@
             <artifactId>teavm-jso</artifactId>
         </dependency>
 
-        <!-- Just to declare a dummy verticle for vert.x deployment -->
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <properties>

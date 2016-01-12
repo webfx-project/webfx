@@ -5,10 +5,15 @@ module.exports = function (grunt) {
 
         names: {
             projectName: '<%= pkg.name %>',
-            webrootTarget: 'target/classes/webroot',
+            devPage: 'dev.html',
+            prodPage: 'index.html',
             gruntTarget: 'target/grunt',
+            webrootTarget: 'target/classes/webroot',
             gruntProjectTarget: '<%= names.gruntTarget %>/<%= names.projectName %>',
+            gruntDevPage: '<%= names.gruntProjectTarget %>/<%= names.devPage %>',
+            gruntProdPage: '<%= names.gruntProjectTarget %>/<%= names.prodPage %>',
             webrootProjectTarget: '<%= names.webrootTarget %>/<%= names.projectName %>',
+            webrootProdPage: '<%= names.webrootProjectTarget %>/<%= names.prodPage %>'
         },
 
         clean: ["<%= names.gruntTarget %>", '.tmp'],
@@ -21,13 +26,13 @@ module.exports = function (grunt) {
                 dest: '<%= names.gruntTarget %>'
             },
             final: {
-                src: '<%= names.gruntProjectTarget %>/index.html',
-                dest: '<%= names.webrootProjectTarget %>/index.html'
+                src: '<%= names.gruntProdPage %>',
+                dest: '<%= names.webrootProdPage %>'
             }
         },
 
         useminPrepare: {
-            html: '<%= names.gruntProjectTarget %>/dev/index.html'
+            html: '<%= names.gruntDevPage %>'
         },
 
         rev: {
@@ -37,7 +42,7 @@ module.exports = function (grunt) {
         },
 
         usemin: {
-            html: '<%= names.gruntProjectTarget %>/dev/index.html'
+            html: '<%= names.gruntDevPage %>'
         },
 
         uglify: {
@@ -52,14 +57,14 @@ module.exports = function (grunt) {
                     tag: '',
                     uglify: true
                 },
-                src: '<%= names.gruntProjectTarget %>/dev/index.html',
-                dest: '<%= names.gruntProjectTarget %>/index.html'
+                src: '<%= names.gruntDevPage %>',
+                dest: '<%= names.gruntProdPage %>'
             }
         },
 
         replace: {
           dist: {
-            src: ['<%= names.gruntProjectTarget %>/index.html'],
+            src: '<%= names.gruntProdPage %>',
             overwrite: true,
             replacements: [{
               from: '\'";</script>',
