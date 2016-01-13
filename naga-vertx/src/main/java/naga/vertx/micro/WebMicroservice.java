@@ -24,10 +24,15 @@ public class WebMicroservice extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
+        createHttpServer(80);   // standard web port
+        createHttpServer(9090); // (temporary): alternative secondary access in case the web port is already bound
+    }
+
+    private void createHttpServer(int port) {
         // Creating web server and its router
         HttpServerOptions httpServerOptions = new HttpServerOptions()
                 .setCompressionSupported(true) // enabling gzip and deflate compression
-                .setPort(80); // web port
+                .setPort(port); // web port
         HttpServer server = vertx.createHttpServer(httpServerOptions);
         Router router = Router.router(vertx);
 
