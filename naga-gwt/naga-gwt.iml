@@ -12,6 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="module" module-name="naga-webplat" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.0-SNAPSHOT" level="project" />

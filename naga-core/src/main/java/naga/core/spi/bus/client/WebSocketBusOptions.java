@@ -64,7 +64,7 @@ public class WebSocketBusOptions extends BusOptions {
         return this;
     }
 
-    public int getServerPort() {
+    public Integer getServerPort() {
         return serverPort;
     }
 

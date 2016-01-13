@@ -3,16 +3,17 @@ package naga.core.spi.platform.client.teavm;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.teavm.TeaVmJsonFactory;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.spi.platform.client.web.WebPlatform;
+import org.teavm.jso.browser.Location;
 
 import java.util.logging.Logger;
 
 /**
  * @author Bruno Salmon
  */
-public final class TeaVmPlatform extends ClientPlatform {
+public final class TeaVmPlatform extends WebPlatform {
 
     public static void register() {
         Platform.register(new TeaVmPlatform());
@@ -42,4 +43,13 @@ public final class TeaVmPlatform extends ClientPlatform {
         return webSocketFactory;
     }
 
+    @Override
+    public String getCurrentLocationServerHost() {
+        return Location.current().getHostName();
+    }
+
+    @Override
+    public Integer getCurrentLocationServerPort() {
+        return Integer.valueOf(Location.current().getPort());
+    }
 }

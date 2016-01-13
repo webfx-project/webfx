@@ -83,6 +83,6 @@ public abstract class JavaClientPlatform extends ClientPlatform {
         // Setting protocol to Web Socket (unless already explicitly set by the application)
         if (socketBusOptions.getProtocol() == null)
             socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.WS);
-        socketBusOptions.turnUnsetPropertiesToDefault();
+        super.setPlatformBusOptions(options);
     }
 }

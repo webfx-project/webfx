@@ -65,6 +65,7 @@
         <plugin.gwt.param.compileSourcesArtifact1>TBD</plugin.gwt.param.compileSourcesArtifact1>
         <plugin.gwt.param.compileSourcesArtifact2>TBD</plugin.gwt.param.compileSourcesArtifact2>
         <plugin.gwt.param.compileSourcesArtifact3>TBD</plugin.gwt.param.compileSourcesArtifact3>
+        <plugin.gwt.param.compileSourcesArtifact4>TBD</plugin.gwt.param.compileSourcesArtifact4>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
@@ -513,6 +514,7 @@
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact2}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact3}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact4}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
                             </configuration>
                             <goals>
