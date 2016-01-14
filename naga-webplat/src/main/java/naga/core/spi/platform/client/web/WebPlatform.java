@@ -13,14 +13,13 @@ public abstract class WebPlatform extends ClientPlatform {
     public void setPlatformBusOptions(BusOptions options) {
         WebSocketBusOptions socketBusOptions = (WebSocketBusOptions) options;
         // Setting protocol to Web Socket (unless already explicitly set by the application)
+        WebLocation webLocation = getCurrentLocation();
         if (socketBusOptions.getServerHost() == null)
-            socketBusOptions.setServerHost(getCurrentLocationServerHost());
+            socketBusOptions.setServerHost(webLocation.getHostName());
         if (socketBusOptions.getServerPort() == null)
-            socketBusOptions.setServerPort(getCurrentLocationServerPort());
+            socketBusOptions.setServerPort(webLocation.getPort());
         super.setPlatformBusOptions(options);
     }
 
-    public abstract String getCurrentLocationServerHost();
-
-    public abstract Integer getCurrentLocationServerPort();
+    public abstract WebLocation getCurrentLocation();
 }

@@ -5,8 +5,8 @@ import naga.core.spi.json.teavm.TeaVmJsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.spi.platform.client.web.WebLocation;
 import naga.core.spi.platform.client.web.WebPlatform;
-import org.teavm.jso.browser.Location;
 
 import java.util.logging.Logger;
 
@@ -44,12 +44,7 @@ public final class TeaVmPlatform extends WebPlatform {
     }
 
     @Override
-    public String getCurrentLocationServerHost() {
-        return Location.current().getHostName();
-    }
-
-    @Override
-    public Integer getCurrentLocationServerPort() {
-        return Integer.valueOf(Location.current().getPort());
+    public WebLocation getCurrentLocation() {
+        return TeaVmLocation.current();
     }
 }

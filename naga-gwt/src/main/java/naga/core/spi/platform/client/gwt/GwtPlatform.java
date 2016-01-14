@@ -1,11 +1,11 @@
 package naga.core.spi.platform.client.gwt;
 
-import com.google.gwt.user.client.Window;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.gwt.GwtJsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.spi.platform.client.web.WebLocation;
 import naga.core.spi.platform.client.web.WebPlatform;
 
 /**
@@ -43,12 +43,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     @Override
-    public String getCurrentLocationServerHost() {
-        return Window.Location.getHostName();
-    }
-
-    @Override
-    public Integer getCurrentLocationServerPort() {
-        return Integer.valueOf(Window.Location.getPort());
+    public WebLocation getCurrentLocation() {
+        return GwtLocation.current();
     }
 }

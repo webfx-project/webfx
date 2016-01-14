@@ -1,0 +1,31 @@
+package naga.core.spi.platform.client.teavm;
+
+
+import naga.core.spi.platform.client.web.WebLocation;
+import org.teavm.jso.browser.Location;
+
+/**
+ * @author Bruno Salmon
+ */
+class TeaVmLocation implements WebLocation {
+
+    private final Location jsoLocation;
+
+    public TeaVmLocation(org.teavm.jso.browser.Location jsoLocation) {
+        this.jsoLocation = jsoLocation;
+    }
+
+    @Override
+    public String getHostName() {
+        return jsoLocation.getHostName();
+    }
+
+    @Override
+    public Integer getPort() {
+        return Integer.valueOf(jsoLocation.getPort());
+    }
+
+    public static TeaVmLocation current() {
+        return new TeaVmLocation(org.teavm.jso.browser.Location.current());
+    }
+}
