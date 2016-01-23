@@ -51,7 +51,7 @@
         <plugin.download.version>1.2.1</plugin.download.version>
 
         <!-- external tools versions -->
-        <tool.j2objc.version>0.9.8.2.1</tool.j2objc.version>
+        <tool.j2objc.version>1.0.0</tool.j2objc.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.jar.param.addMavenDescriptor>true</plugin.jar.param.addMavenDescriptor>
@@ -642,7 +642,7 @@
                 <activeByDefault>false</activeByDefault>
                 <file>
                     <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
-                    <missing>${user.home}/j2objc-0.9.8.2.1/lib/j2objc.jar</missing> <!-- env properties are however supported -->
+                    <missing>${user.home}/j2objc-1.0.0/lib/j2objc.jar</missing> <!-- env properties are however supported -->
                 </file>
                 <!-- otherwise j2objc is considered already installed and the installation is skipped -->
             </activation>
