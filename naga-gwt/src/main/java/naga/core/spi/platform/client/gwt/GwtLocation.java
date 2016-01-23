@@ -18,7 +18,8 @@ class GwtLocation implements WebLocation {
 
     @Override
     public Integer getPort() {
-        return Integer.valueOf(Window.Location.getPort());
+        String port = Window.Location.getPort();
+        return port == null || port.isEmpty() ? null : Integer.valueOf(port);
     }
 
     static GwtLocation current() {
