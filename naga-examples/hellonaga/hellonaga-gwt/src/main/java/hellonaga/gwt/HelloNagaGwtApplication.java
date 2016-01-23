@@ -2,8 +2,8 @@ package hellonaga.gwt;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ParagraphElement;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.HeadingElement;
 import hellonaga.HelloNagaLogic;
 import naga.core.spi.platform.Platform;
 
@@ -24,9 +24,13 @@ public class HelloNagaGwtApplication implements EntryPoint {
         Platform.log(message);
 
         // Displaying the message in the DOM
-        ParagraphElement p = Document.get().createPElement();
+        Document document = Document.get();
+        HeadingElement p = document.createHElement(2);
         p.setInnerText(message);
-        RootPanel.get().getElement().appendChild(p);
+        replaceSplashScreen(p);
     }
+
+    private static native void replaceSplashScreen(Element e) /*-{ var preloader = $wnd.document.getElementById("preloader"); preloader.innerHTML = ""; preloader.appendChild(e); }-*/;
+
 
 }
