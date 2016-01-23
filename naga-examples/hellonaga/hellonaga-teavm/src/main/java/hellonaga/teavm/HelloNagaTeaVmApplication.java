@@ -21,9 +21,11 @@ public class HelloNagaTeaVmApplication {
 
         // Displaying the message in the DOM
         HTMLDocument document = HTMLDocument.current();
-        HTMLElement p = document.createElement("p");
+        HTMLElement preloader = document.getElementById("preloader");
+        preloader.clear();
+        HTMLElement p = document.createElement("h2");
         p.appendChild(document.createTextNode(helloMessage));
-        document.getBody().appendChild(p);
+        preloader.appendChild(p);
     }
 
 }

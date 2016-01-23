@@ -13,22 +13,28 @@ module.exports = function (grunt) {
             gruntDevPage: '<%= names.gruntProjectTarget %>/<%= names.devPage %>',
             gruntProdPage: '<%= names.gruntProjectTarget %>/<%= names.prodPage %>',
             webrootProjectTarget: '<%= names.webrootTarget %>/<%= names.projectName %>',
-            webrootProdPage: '<%= names.webrootProjectTarget %>/<%= names.prodPage %>'
+            webrootDevPage: '<%= names.webrootProjectTarget %>/<%= names.devPage %>',
+            webrootProdPage: '<%= names.webrootProjectTarget %>/<%= names.prodPage %>',
         },
 
         clean: ["<%= names.gruntTarget %>", '.tmp'],
 
         copy: {
+            dev: {
+                src: '<%= names.webrootProdPage %>',
+                dest: '<%= names.webrootDevPage %>'
+            },
             main: {
                 expand: true,
                 cwd: "<%= names.webrootTarget %>",
                 src: ['**'],
                 dest: '<%= names.gruntTarget %>'
             },
-            final: {
+            prod: {
                 src: '<%= names.gruntProdPage %>',
                 dest: '<%= names.webrootProdPage %>'
             }
+
         },
 
         useminPrepare: {
@@ -87,7 +93,7 @@ module.exports = function (grunt) {
     // Tell Grunt what to do when we type "grunt" into the terminal
     grunt.registerTask('default', [
         //'clean', 'copy', 'useminPrepare', 'concat:generated', 'uglify:generated', 'inline'
-        'clean', 'copy', 'inline', 'replace', 'copy:final'
+        'clean', 'copy:dev', 'copy', 'inline', 'replace', 'copy:prod'
         //'copy', 'useminPrepare', 'concat'/*, 'uglify', 'cssmin', 'rev'*/, 'usemin'
     ]);
 };
