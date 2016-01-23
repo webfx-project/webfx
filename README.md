@@ -8,15 +8,15 @@ The Naga project is a set of components for building cross-platform backend and 
 
 ## The Naga core 
 
-This repository contains the java code of the core for both the client and the database microservice. SPI are provided to port it in different environments and platforms. 
+This repository contains the java code of the core for both the client and the database microservice. SPI are provided to port it in different platforms. 
 
-The code has been carefully written in a way that it can be transpiled from Java to Javascript (through [GWT][gwt-website] or [TeaVM][teavm-website]) and Objective-C (through [J2ObjC][j2objc-website] or [XMLVM][xmlvm-website]).  So the client code can be used as is for JavaSE and Android ports or transpiled for web and iOS ports. In the same way the microservice code can be used as is for Java based servers ports or transpiled for Javascript based servers ports. You can see the different ports provided for both the client and the microservice as part of the [Naga stack][naga-stack-repo].  
+The code has been carefully written in a way that it can be transpiled from Java to Javascript (through [GWT][gwt-website] or [TeaVM][teavm-website]) and Objective-C (through [J2ObjC][j2objc-website] or [XMLVM][xmlvm-website]).  So the client code can be used as is for JavaSE and Android ports or transpiled for web and iOS ports. In the same way the microservice code can be used as is for Java based servers ports or transpiled for Javascript based servers ports. You can see the different ports provided for both the client and the microservice as part of the [Naga stack][naga-stack-md].  
 
 ## Features
 
-The features have been chosen to build fast, safe, powerful, upgradable, scalable & long-term applications. 
+The features have been chosen to build performant, safe, powerful, upgradable, scalable & long-term applications. 
 
-* Speed & comfort
+* Performance
 	* Client query cache with differential server push (automatic refresh)
 	* Archive/live database split (for keeping a fast lightweight live database)
 	* In-memory microservice database cache
@@ -42,6 +42,7 @@ The features have been chosen to build fast, safe, powerful, upgradable, scalabl
 	* Built-in features that don't rely on the UI toolkit
 		* i18n
 		* Data sorting
+		* Data formatting
 	* Easy migration from one UI toolkit to another 
 
 For more information, please visit the [website][naga-website].
