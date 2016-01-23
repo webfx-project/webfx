@@ -22,7 +22,11 @@ class TeaVmLocation implements WebLocation {
 
     @Override
     public Integer getPort() {
-        return Integer.valueOf(jsoLocation.getPort());
+        try {
+            return Integer.valueOf(jsoLocation.getPort());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static TeaVmLocation current() {
