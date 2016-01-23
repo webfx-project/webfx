@@ -18,8 +18,6 @@
 package naga.core.spi.bus;
 
 import naga.core.util.async.Handler;
-import com.google.gwt.core.client.js.JsNoExport;
-import com.google.gwt.core.client.js.JsType;
 
 /**
  * Represents a message on the event bus.
@@ -29,7 +27,7 @@ import com.google.gwt.core.client.js.JsType;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/Message.java">Original Goodow class</a>
  */
-@JsType
+
 public interface Message<T> {
     /**
      * The body of the message
@@ -56,7 +54,6 @@ public interface Message<T> {
      * called when it has received a reply. If the message wasn't sent specifying a receipt handler
      * this method does nothing.
      */
-    @JsNoExport
     void reply(Object msg);
 
     /**

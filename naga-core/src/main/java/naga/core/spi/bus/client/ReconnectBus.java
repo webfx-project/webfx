@@ -17,8 +17,6 @@
  */
 package naga.core.spi.bus.client;
 
-import com.google.gwt.core.client.js.JsExport;
-import com.google.gwt.core.client.js.JsNamespace;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
@@ -35,8 +33,6 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/ReconnectBus.java">Original Goodow class</a>
  */
-@JsNamespace("$wnd.realtime.channel")
-@JsExport
 public class ReconnectBus extends WebSocketBus {
     public static final String AUTO_RECONNECT = "reconnect";
     private final FuzzingBackOffGenerator backOffGenerator;
@@ -45,13 +41,12 @@ public class ReconnectBus extends WebSocketBus {
     private final List<JsonObject> queuedMessages = new ArrayList<>();
     private final WebSocketBusOptions options;
 
-    @JsExport
     public ReconnectBus(WebSocketBusOptions options) {
         super(options);
         this.options = options;
         JsonObject socketOptions = options.getSocketOptions();
         reconnect = socketOptions == null || !socketOptions.has(AUTO_RECONNECT) || socketOptions.getBoolean(AUTO_RECONNECT);
-        backOffGenerator = new FuzzingBackOffGenerator(1 * 1000, 30 * 60 * 1000, 0.5);
+        backOffGenerator = new FuzzingBackOffGenerator(1000, 30 * 60 * 1000, 0.5);
 
         super.setHook(new BusHookProxy() {
             @Override
@@ -60,7 +55,7 @@ public class ReconnectBus extends WebSocketBus {
 
                 for (Map.Entry<String, Integer> entry : handlerCount.entrySet()) {
                     String topic = entry.getKey();
-                    assert entry.getValue() > 0 : "Handlers registered on " + topic + " shouldn't be empty";
+                    //assert entry.getValue() > 0 : "Handlers registered on " + topic + " shouldn't be empty";
                     sendUnsubscribe(topic);
                     sendSubscribe(topic);
                 }

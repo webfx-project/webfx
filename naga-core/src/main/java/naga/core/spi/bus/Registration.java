@@ -17,8 +17,6 @@
  */
 package naga.core.spi.bus;
 
-import com.google.gwt.core.client.js.JsType;
-
 /**
  * Registration objects returned when an event handler is bound (e.g. via
  * {@link Bus#subscribe}), used to deregister.
@@ -28,13 +26,10 @@ import com.google.gwt.core.client.js.JsType;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
-@JsType
+
 public interface Registration {
 
-    Registration EMPTY = new Registration() {
-        @Override
-        public void unregister() {
-        }
+    Registration EMPTY = () -> {
     };
 
     /**

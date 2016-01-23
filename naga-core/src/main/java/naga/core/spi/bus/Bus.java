@@ -18,7 +18,6 @@
 
 package naga.core.spi.bus;
 
-import com.google.gwt.core.client.js.JsType;
 import naga.core.util.async.Handler;
 
 /**
@@ -47,7 +46,7 @@ import naga.core.util.async.Handler;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/Bus.java">Original Goodow class</a>
  */
-@JsType
+
 public interface Bus {
 
     /**

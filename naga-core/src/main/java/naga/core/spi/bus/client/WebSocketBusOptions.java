@@ -59,7 +59,7 @@ public class WebSocketBusOptions extends BusOptions {
         return this;
     }
 
-    public BusOptions setServerPort(int serverPort) {
+    public BusOptions setServerPort(Integer serverPort) {
         this.serverPort = serverPort;
         return this;
     }
@@ -76,7 +76,7 @@ public class WebSocketBusOptions extends BusOptions {
         return pingInterval;
     }
 
-    public BusOptions setPingInterval(int pingInterval) {
+    public BusOptions setPingInterval(Integer pingInterval) {
         this.pingInterval = pingInterval;
         return this;
     }

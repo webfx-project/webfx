@@ -17,8 +17,6 @@
  */
 package naga.core.spi.platform.client;
 
-import com.google.gwt.core.client.js.JsExport;
-import com.google.gwt.core.client.js.JsType;
 import naga.core.spi.json.JsonObject;
 
 /*
@@ -29,8 +27,6 @@ import naga.core.spi.json.JsonObject;
  */
 public interface WebSocket {
 
-    @JsExport
-    @JsType
     enum State {
         CONNECTING, OPEN, CLOSING, CLOSED;
         public static final State values[] = State.values();
