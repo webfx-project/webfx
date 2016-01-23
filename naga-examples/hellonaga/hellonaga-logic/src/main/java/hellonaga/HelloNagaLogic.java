@@ -1,7 +1,5 @@
 package hellonaga;
 
-import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 
 /**
@@ -27,11 +25,6 @@ public class HelloNagaLogic {
     }
 
     public void run() {
-        JsonObject p = Json.parse("{\"firstName\": \"John\", \"lastName\": \"Smith\", \"age\": 43}");
-        p.set("fullName", p.getString("firstName") + " " + p.getString("lastName"));
-        p.set("age", p.getNumber("age") + 1);
-        messageDisplayer.displayMessage(p.toJsonString());
-
         Platform.bus().send("version", "get", event -> messageDisplayer.displayMessage("" + event.body()));
     }
 }
