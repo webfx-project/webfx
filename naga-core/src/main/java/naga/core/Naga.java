@@ -7,6 +7,6 @@ package naga.core;
 public class Naga {
 
     public String getVersion() {
-        return "Naga core 0.1.0 prototype";
+        return "Naga prototype version 0.1.0-SNAPSHOT";
     }
 }
