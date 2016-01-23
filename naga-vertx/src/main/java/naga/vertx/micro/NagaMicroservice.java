@@ -2,7 +2,6 @@ package naga.vertx.micro;
 
 import io.vertx.core.AbstractVerticle;
 import naga.core.Naga;
-import naga.core.spi.bus.Bus;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.vertx.VertxPlatform;
 
@@ -17,11 +16,8 @@ public class NagaMicroservice extends AbstractVerticle {
         // because we need to pass the vertx instance (there is no default constructor for VertxPlatform)
         VertxPlatform.register(vertx); // So we use the explicit registration mechanism instead
 
-        Naga naga = new Naga();
+        Naga naga = new Naga(); // Getting an instance of Naga
 
-        Bus bus = Platform.bus();
-        bus.subscribe("version", event -> event.reply(naga.getVersion()));
-
-        Platform.scheduleDelay(1000, ignore -> bus.send("version", "get", event -> Platform.log(event.body())));
+        Platform.bus().subscribe("version", event -> event.reply(naga.getVersion()));
     }
 }

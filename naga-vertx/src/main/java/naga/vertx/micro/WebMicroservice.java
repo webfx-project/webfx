@@ -47,9 +47,6 @@ public class WebMicroservice extends AbstractVerticle {
                 )
         );
 
-        // Serving favicon
-        //router.routeWithRegex(".*/favicon.ico").handler(FaviconHandler.create());
-
         // Serving static files under the webroot folder
         router.route("/*").handler(StaticHandler.create());
 
