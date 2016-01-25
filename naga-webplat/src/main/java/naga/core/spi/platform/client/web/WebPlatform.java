@@ -16,8 +16,12 @@ public abstract class WebPlatform extends ClientPlatform {
         WebLocation webLocation = getCurrentLocation();
         if (socketBusOptions.getServerHost() == null)
             socketBusOptions.setServerHost(webLocation.getHostName());
-        if (socketBusOptions.getServerPort() == null)
-            socketBusOptions.setServerPort(webLocation.getPort());
+        if (socketBusOptions.getServerPort() == null) {
+            Integer port = webLocation.getPort();
+            if (port != null && port == 63342) // Port used by IntelliJ IDEA to serve web pages when testing directly in IDEA
+                port = 80; // But the actual naga server web port on the development local machine is 80 in this case
+            socketBusOptions.setServerPort(port);
+        }
         super.setPlatformBusOptions(options);
     }
 
