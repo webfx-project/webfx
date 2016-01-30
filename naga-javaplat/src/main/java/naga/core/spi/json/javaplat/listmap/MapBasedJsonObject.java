@@ -20,7 +20,7 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     public abstract Map<String, Object> getMap();
 
-    protected abstract NO getNativeObject();
+    public abstract NO getNativeObject();
 
     protected abstract void recreateEmptyNativeObject();
 
@@ -36,16 +36,25 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     @Override
     public <T> void forEach(MapIterator<T> handler) {
-        getMap().forEach((s, o) -> handler.call(s, ListMapUtil.wrap(o)));
+        getMap().forEach((s, o) -> handler.call(s, wrap(o)));
     }
 
     protected <T> T getNative(String key) {
         return (T) getMap().get(key);
     }
 
+    protected <T> T wrap(Object value) {
+        return ListMapUtil.wrap(value);
+    }
+
+    protected Object unwrap(Object value) {
+        return ListMapUtil.unwrap(value);
+    }
+
+
     @Override
     public <T> T get(String key) {
-        return ListMapUtil.wrap(getNative(key));
+        return wrap(getNative(key));
     }
 
     @Override
@@ -111,7 +120,7 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
     @Override
     public JsonObject set(String key, Object value) {
         checkCopyBeforeUpdate();
-        value = ListMapUtil.unwrap(value);
+        value = unwrap(value);
         getMap().put(key, value);
         return this;
     }

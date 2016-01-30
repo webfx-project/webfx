@@ -2,8 +2,11 @@ package naga.core.spi.bus.vertx;
 
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
+import io.vertx.core.json.JsonObject;
 import naga.core.spi.bus.*;
-import naga.core.util.async.Handler;
+import naga.core.spi.json.Json;
+import naga.core.spi.json.javaplat.listmap.MapBasedJsonObject;
+import naga.core.util.function.Handler;
 
 /**
  * @author Bruno Salmon
@@ -25,25 +28,25 @@ final class VertxBus implements Bus {
 
     @Override
     public Bus publish(String topic, Object msg) {
-        eventBus.publish(topic, msg);
+        eventBus.publish(topic, toVertxObject(msg));
         return this;
     }
 
     @Override
     public Bus publishLocal(String topic, Object msg) {
-        eventBus.publish(topic, msg);
+        eventBus.publish(topic, toVertxObject(msg));
         return this;
     }
 
     @Override
     public <T> Bus send(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        eventBus.send(topic, msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), false)));
+        eventBus.<T>send(topic, toVertxObject(msg), asyncResult -> replyHandler.handle(vertxToNagaMessage(asyncResult.result(), false)));
         return this;
     }
 
     @Override
     public <T> Bus sendLocal(String topic, Object msg, Handler<Message<T>> replyHandler) {
-        eventBus.send(topic, msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), true)));
+        eventBus.<T>send(topic, toVertxObject(msg), asyncResult -> replyHandler.handle(vertxToNagaMessage(asyncResult.result(), true)));
         return this;
     }
 
@@ -55,28 +58,40 @@ final class VertxBus implements Bus {
     @Override
     public <T> Registration subscribe(String topic, Handler<Message<T>> handler) {
         MessageConsumer<T> consumer = eventBus.consumer(topic);
-        consumer.handler(message -> handler.handle(toVertxMessage(message, false)));
+        consumer.handler(message -> handler.handle(vertxToNagaMessage(message, false)));
         return consumer::unregister;
     }
 
     @Override
     public <T> Registration subscribeLocal(String topic, Handler<Message<T>> handler) {
         MessageConsumer<T> consumer = eventBus.consumer(topic);
-        consumer.handler(message -> handler.handle(toVertxMessage(message, true)));
+        consumer.handler(message -> handler.handle(vertxToNagaMessage(message, true)));
         return consumer::unregister;
     }
 
+    private static Object toVertxObject(Object object) {
+        if (object instanceof MapBasedJsonObject)
+            object = ((MapBasedJsonObject) object).getNativeObject();
+        return object;
+    }
 
-    private static <T> Message<T> toVertxMessage(io.vertx.core.eventbus.Message<T> message, boolean local) {
+    private static Object toNagaObject(Object vertxObject) {
+        Object object = vertxObject;
+        if (object instanceof JsonObject)
+            object = Json.createObject(object);
+        return object;
+    }
+
+    private static <T> Message<T> vertxToNagaMessage(io.vertx.core.eventbus.Message<T> vertxMessage, boolean local) {
         return new Message<T>() {
             @Override
             public T body() {
-                return (T) message.body();
+                return (T) toNagaObject(vertxMessage.body());
             }
 
             @Override
             public void fail(int failureCode, String msg) {
-                message.fail(failureCode, msg);
+                vertxMessage.fail(failureCode, msg);
             }
 
             @Override
@@ -86,63 +101,23 @@ final class VertxBus implements Bus {
 
             @Override
             public void reply(Object msg) {
-                message.reply(msg);
+                vertxMessage.reply(toVertxObject(msg));
             }
 
             @Override
             public <T1> void reply(Object msg, Handler<Message<T1>> replyHandler) {
-                message.reply(msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), false)));
+                vertxMessage.<T1>reply(toVertxObject(msg), asyncResult -> replyHandler.handle(vertxToNagaMessage(asyncResult.result(), false)));
             }
 
             @Override
             public String replyTopic() {
-                return message.replyAddress();
+                return vertxMessage.replyAddress();
             }
 
             @Override
             public String topic() {
-                return message.address();
+                return vertxMessage.address();
             }
         };
     }
-
-    private static <T> Message<T> fromVertxMessage(io.vertx.core.eventbus.Message<Object> message, boolean local) {
-        return new Message<T>() {
-            @Override
-            public T body() {
-                return (T) message.body();
-            }
-
-            @Override
-            public void fail(int failureCode, String msg) {
-                message.fail(failureCode, msg);
-            }
-
-            @Override
-            public boolean isLocal() {
-                return local;
-            }
-
-            @Override
-            public void reply(Object msg) {
-                message.reply(msg);
-            }
-
-            @Override
-            public <T> void reply(Object msg, Handler<Message<T>> replyHandler) {
-                message.reply(msg, asyncResult -> replyHandler.handle(fromVertxMessage(asyncResult.result(), local)));
-            }
-
-            @Override
-            public String replyTopic() {
-                return message.replyAddress();
-            }
-
-            @Override
-            public String topic() {
-                return message.address();
-            }
-        };
-    }
-
 }

@@ -23,7 +23,7 @@ public abstract class MapJsonObject extends MapBasedJsonObject<Map<String, Objec
     }
 
     @Override
-    protected Map<String, Object> getNativeObject() {
+    public Map<String, Object> getNativeObject() {
         return map;
     }
 

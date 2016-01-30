@@ -19,12 +19,19 @@ final class VertxJsonObject extends MapBasedJsonObject {
     }
 
     @Override
+    protected Object wrap(Object value) {
+        if (value instanceof io.vertx.core.json.JsonObject)
+            return new VertxJsonObject((io.vertx.core.json.JsonObject) value);
+        return super.wrap(value);
+    }
+
+    @Override
     public Map<String, Object> getMap() {
         return vertxObject.getMap();
     }
 
     @Override
-    protected Object getNativeObject() {
+    public Object getNativeObject() {
         return vertxObject;
     }
 
