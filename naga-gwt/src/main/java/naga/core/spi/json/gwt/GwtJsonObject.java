@@ -122,11 +122,25 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
   }-*/;
 
     @Override
+    public JsonObject set(String key, Object element) {
+        if (element instanceof Boolean)
+            return set(key, ((Boolean) element).booleanValue());
+        if (element instanceof Number)
+            return set(key, ((Number) element).doubleValue());
+        return setObject(key, element);
+    }
+
     // TODO: We still have problem with "__proto__"
-    public native JsonObject set(String key, Object element) /*-{
+    private native JsonObject setObject(String key, Object element) /*-{
     this[key] = element;
     return this;
   }-*/;
+
+    private native JsonObject setString(String key, String element) /*-{
+    this[key] = element;
+    return this;
+  }-*/;
+
 
     /**
      * Returns the size of the map (the number of keys).
