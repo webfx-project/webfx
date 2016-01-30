@@ -4,6 +4,8 @@ import naga.core.buscall.BusCallService;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
+import naga.core.spi.sql.SqlArgument;
+import naga.core.spi.sql.SqlReadResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class JsonCodecManager {
     static {
         // Registering all required json codecs (especially for network calls)
         BusCallService.registerJsonCodecs();
+        SqlArgument.registerJsonCodec();
+        SqlReadResult.registerJsonCodec();
     }
 
     public static  <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> jsonCodec) {

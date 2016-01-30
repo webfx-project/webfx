@@ -1,0 +1,17 @@
+package naga.core.spi.platform;
+
+import java.util.ServiceLoader;
+
+/**
+ * @author Bruno Salmon
+ */
+public class ServiceLoaderHelper {
+
+    public static <T> T loadFactory(Class<T> clazz) {
+        ServiceLoader<T> factories = ServiceLoader.load(clazz);
+        if (factories != null && factories.iterator().hasNext())
+            return factories.iterator().next();
+        throw new IllegalStateException("Cannot find META-INF/services/" + clazz.getName() + " on classpath");
+    }
+
+}

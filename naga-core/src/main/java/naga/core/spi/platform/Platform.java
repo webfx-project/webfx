@@ -21,10 +21,9 @@ import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonFactory;
+import naga.core.spi.sql.SqlService;
 import naga.core.util.async.Handler;
 
-import java.util.Iterator;
-import java.util.ServiceLoader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +57,8 @@ public abstract class Platform {
         options.turnUnsetPropertiesToDefault();
     }
 
+    public abstract SqlService sqlService();
+
     /*** Static access ***/
 
     private static Platform PLATFORM;
@@ -67,16 +68,8 @@ public abstract class Platform {
     }
 
     public static Platform get() {
-        if (PLATFORM == null) {
-            ServiceLoader<Platform> platformServiceLoader = ServiceLoader.load(Platform.class);
-            if (platformServiceLoader != null) {
-                Iterator<Platform> it = platformServiceLoader.iterator();
-                if (it != null && it.hasNext())
-                    register(it.next());
-            }
-            if (PLATFORM == null)
-                throw new IllegalStateException("No platform registered. You must register a platform by invoking {Java|Android}Platform.register()");
-        }
+        if (PLATFORM == null)
+            register(ServiceLoaderHelper.loadFactory(Platform.class));
         return PLATFORM;
     }
 
@@ -132,5 +125,11 @@ public abstract class Platform {
         Platform platform = get();
         platform.setPlatformBusOptions(options);
         return platform.busFactory().createBus(options);
+    }
+
+    // SqlService methods
+
+    public static SqlService sql() {
+        return get().sqlService();
     }
 }
