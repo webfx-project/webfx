@@ -1,43 +1,38 @@
-/*
- * Note: this code is a fork of Goodow realtime-channel project https://github.com/goodow/realtime-channel
- */
-
-/*
- * Copyright 2014 Goodow.com
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package naga.core.util.async;
 
 /**
- * Represents a result that may not have occurred yet.
+ * Represents the result of an asynchronous operation. Normally AsyncResult is returned only once the asynchronous
+ * operation is finished and therefore it represents its final result (whatever it has succeeded or failed).
  *
- * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
- * @author Bruno Salmon - fork, refactor & update for the naga project
- *         <p>
- *         <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/AsyncResult.java">Original Goodow class</a>
+ * However when it is an instance of Future (a subclass), it is returned immediately when invoking the asynchronous
+ * operation (see AsyncFunction for example) so in this case the result is not yet known until the operation is finished
+ * and the result handler called (see Future.setHandler).
+ *
+ * @author Bruno Salmon
  */
+
 public interface AsyncResult<T> {
+    /**
+     * The result of the operation. This will be null if the operation failed.
+     */
+    T result();
+
     /**
      * An exception describing failure. This will be null if the operation succeeded.
      */
     Throwable cause();
 
     /**
-     * Did it fail?
+     * Did it succeed?
+     *
+     * @return true if it succeeded or false otherwise
      */
-    boolean failed();
+    boolean succeeded();
 
     /**
-     * The result of the operation. This will be null if the operation failed.
+     * Did it fail?
+     *
+     * @return true if it failed or false otherwise
      */
-    T result();
+    boolean failed();
 }
