@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import naga.core.spi.bus.*;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.javaplat.listmap.MapBasedJsonObject;
-import naga.core.util.function.Handler;
+import naga.core.util.async.Handler;
 
 /**
  * @author Bruno Salmon
