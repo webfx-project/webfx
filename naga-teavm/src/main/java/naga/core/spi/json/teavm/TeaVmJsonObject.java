@@ -67,7 +67,9 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObjec
     }
 
     @Override
-    public native TeaVmJsonObject getObject(String key);
+    public TeaVmJsonObject getObject(String key) {
+        return (TeaVmJsonObject) JSUtil.js2Element(getJsValue(key));
+    }
 
     @Override
     public String getString(String key) {

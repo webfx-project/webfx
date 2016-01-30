@@ -86,6 +86,8 @@ public final class JSUtil {
     public static JSObject j2js(Object value) {
         if (value == null)
             return null;
+        if (value instanceof TeaVmJsonElement)
+            return ((TeaVmJsonElement) value).getJsValue();
         if (value instanceof String)
             return JSString.valueOf((String) value);
         if (value instanceof Boolean)
@@ -110,12 +112,7 @@ public final class JSUtil {
             return js2Number((JSNumber) jsv);
         if (isBoolean(jsv))
             return ((JSBoolean) jsv).booleanValue();
-        if (isArray(jsv)) {
-            if ((JSArray) jsv == null || isUndefined((JSArray) jsv))
-                return null;
-            return new TeaVmJsonArray((JSArray) jsv);
-        }
-        return TeaVmJsonObject.create(jsv);
+        return js2Element(jsv);
     }
 
     @JSBody(params = "obj", script = "return typeof obj === 'boolean';")
@@ -155,11 +152,8 @@ public final class JSUtil {
     }
 
     public static TeaVmJsonElement js2Element(JSObject jsv) {
-        if (isArray(jsv)) {
-            if ((JSArray) jsv == null || isUndefined((JSArray) jsv))
-                return null;
+        if (isArray(jsv))
             return new TeaVmJsonArray((JSArray) jsv);
-        }
         return new TeaVmJsonObject(jsv);
     }
 

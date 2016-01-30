@@ -44,8 +44,8 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
 
     @SuppressWarnings("unchecked")
     @Override
-    public TeaVmJsonElement get(int index) {
-        return get0(index).cast();
+    public <T> T get(int index) {
+        return (T) JSUtil.js2j(get0(index));
     }
 
     @Override
@@ -65,7 +65,9 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
     }
 
     @Override
-    public native String getString(int index);
+    public String getString(int index) {
+        return JSUtil.js2String(get0(index));
+    }
 
     @Override
     public JsonType getType(int index) {
