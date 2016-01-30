@@ -198,7 +198,9 @@ public class WebSocketBus extends SimpleClientBus {
     protected void send(JsonObject msg) {
         if (getReadyState() != WebSocket.State.OPEN)
             throw new IllegalStateException("INVALID_STATE_ERR");
-        webSocket.send(msg.toJsonString());
+        String data = msg.toJsonString();
+        //Platform.log("Sending data: " + data);
+        webSocket.send(data);
     }
 
     protected void sendLogin() {

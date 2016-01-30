@@ -98,7 +98,7 @@ public interface Bus {
      * @return the handler registration, can be stored in order to unregister the handler later
      */
     @SuppressWarnings("rawtypes")
-    <T> Registration subscribe(String topic,Handler<Message<T>> handler);
+    <T> Registration subscribe(String topic, Handler<Message<T>> handler);
 
     /**
      * Registers a local handler against the specified topic. The handler info won't be propagated
