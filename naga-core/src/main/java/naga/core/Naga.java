@@ -26,7 +26,7 @@ public class Naga {
         return "Naga prototype version 0.1.0-SNAPSHOT";
     }
 
-    public void registerMicroserviceHandlers() {
+    public void startMicroservice() {
         BusCallService.registerCallable(VERSION_ADDRESS, this::getVersion);
         BusCallService.registerAsyncFunction(SQL_READ_ADDRESS, Platform.sql()::read);
         BusCallService.registerAsyncFunction(SQL_WRITE_ADDRESS, Platform.sql()::write);
