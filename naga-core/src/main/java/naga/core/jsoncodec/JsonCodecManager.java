@@ -1,5 +1,6 @@
 package naga.core.jsoncodec;
 
+import naga.core.buscall.BusCallService;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
@@ -17,6 +18,11 @@ public class JsonCodecManager {
 
     private static final Map<Class, JsonCodec> encoders = new HashMap<>();
     private static final Map<String, JsonCodec> decoders = new HashMap<>();
+
+    static {
+        // Registering all required json codecs (especially for network calls)
+        BusCallService.registerJsonCodecs();
+    }
 
     public static  <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> jsonCodec) {
         encoders.put(javaClass, jsonCodec);
