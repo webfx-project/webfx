@@ -369,6 +369,8 @@
                             <option>-keep public public class * extends naga.core.spi.platform.Platform</option>
                             <!-- ignoring jackson missing warnings as it is an optional library -->
                             <option>-dontwarn com.fasterxml.jackson.**</option>
+                            <!-- ignoring hikari missing warnings as it is an optional library -->
+                            <option>-dontwarn com.zaxxer.hikari.**</option>
                             <option>-allowaccessmodification</option>
                             <option>-optimizationpasses 5</option>
                             <!-- uncomment this if something goes wrong with json-smart as suggested in the warning -->
