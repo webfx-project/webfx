@@ -13,7 +13,6 @@ public class PrimaryMicroservice extends AbstractVerticle {
         VertxRunner.runVerticle(PrimaryMicroservice.class);
     }
 
-
     @Override
     public void start() throws Exception {
         vertx.deployVerticle(new WebMicroservice());
