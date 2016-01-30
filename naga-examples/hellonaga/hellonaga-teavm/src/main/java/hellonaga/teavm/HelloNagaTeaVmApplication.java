@@ -12,7 +12,7 @@ public class HelloNagaTeaVmApplication {
     /* No need for TeaVmPlatform.register(); as the platform will be found by the ServiceLoader */
 
     public static void main(String[] args) {
-        new HelloNagaLogic(HelloNagaTeaVmApplication::displayMessage).run();
+        new HelloNagaLogic(HelloNagaTeaVmApplication::displayMessage).runClient();
     }
 
     private static void displayMessage(String helloMessage) {

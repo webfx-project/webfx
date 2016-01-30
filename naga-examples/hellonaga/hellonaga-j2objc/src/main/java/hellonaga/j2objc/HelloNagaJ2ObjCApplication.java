@@ -13,6 +13,6 @@ public class HelloNagaJ2ObjCApplication {
     }
 
     public static void main(String[] args) {
-        new HelloNagaLogic().run();
+        new HelloNagaLogic().runClient();
     }
 }

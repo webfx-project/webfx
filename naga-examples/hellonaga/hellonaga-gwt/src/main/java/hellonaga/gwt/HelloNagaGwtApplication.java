@@ -16,7 +16,7 @@ public class HelloNagaGwtApplication implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        new HelloNagaLogic(HelloNagaGwtApplication::displayMessage).run();
+        new HelloNagaLogic(HelloNagaGwtApplication::displayMessage).runClient();
     }
 
     private static void displayMessage(String message) {
