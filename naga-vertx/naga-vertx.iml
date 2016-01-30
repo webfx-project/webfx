@@ -27,6 +27,20 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-mysql-postgresql-client:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-sql-common:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.github.mauricio:postgresql-async_2.11:0.2.18" level="project" />
+    <orderEntry type="library" name="Maven: com.github.mauricio:db-async-common_2.11:0.2.18" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.12" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.3" level="project" />
+    <orderEntry type="library" name="Maven: org.joda:joda-convert:1.5" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.29.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
+    <orderEntry type="library" name="Maven: com.github.mauricio:mysql-async_2.11:0.2.18" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-jdbc-client:3.2.0" level="project" />
+    <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.1" level="project" />
+    <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.10" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.6.0" level="project" />
   </component>

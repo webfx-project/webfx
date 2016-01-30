@@ -7,7 +7,8 @@ import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.vertx.VertxJsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
-import naga.core.spi.sched.vertx.VertxScheduler;
+import naga.core.spi.sql.SqlService;
+import naga.core.spi.sql.vertx.VertxSqlService;
 
 import java.util.logging.Logger;
 
@@ -23,10 +24,12 @@ public final class VertxPlatform extends Platform {
     private final Scheduler scheduler;
     private final JsonFactory jsonFactory = new VertxJsonFactory();
     private final BusFactory busFactory;
+    private final SqlService sqlService;
 
     public VertxPlatform(Vertx vertx) {
         scheduler = new VertxScheduler(vertx);
         busFactory = new VertxBusFactory(vertx.eventBus());
+        sqlService = new VertxSqlService(vertx);
     }
 
     @Override
@@ -47,5 +50,10 @@ public final class VertxPlatform extends Platform {
     @Override
     public BusFactory busFactory() {
         return busFactory;
+    }
+
+    @Override
+    public SqlService sqlService() {
+        return sqlService;
     }
 }

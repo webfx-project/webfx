@@ -1,4 +1,4 @@
-package naga.core.spi.sched.vertx;
+package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.spi.platform.Scheduler;
