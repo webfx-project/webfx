@@ -28,9 +28,9 @@ public class Naga {
 
     public void startMicroservice() {
         // Registering java services so they can be called through the BusCallService
-        BusCallService.registerJavaService(VERSION_ADDRESS, this::getVersion);
-        BusCallService.registerJavaService(SQL_READ_ADDRESS, Platform.sql()::read);
-        BusCallService.registerJavaService(SQL_WRITE_ADDRESS, Platform.sql()::write);
+        BusCallService.registerCallableJavaService(VERSION_ADDRESS, this::getVersion);
+        BusCallService.registerAsyncFunctionJavaService(SQL_READ_ADDRESS, Platform.sql()::read);
+        BusCallService.registerAsyncFunctionJavaService(SQL_WRITE_ADDRESS, Platform.sql()::write);
 
         // Starting the BusCallService by listening entry calls
         BusCallService.listenEntryCalls();

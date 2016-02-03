@@ -160,7 +160,7 @@ public class BusCallService {
      * @param <A> java class of the input argument of the asynchronous function
      * @param <R> java class of the output result of the asynchronous function
      */
-    public static <A, R> void registerJavaService(String address, AsyncFunction<A, R> javaAsyncFunction) {
+    public static <A, R> void registerAsyncFunctionJavaService(String address, AsyncFunction<A, R> javaAsyncFunction) {
         BusCallService.<A, R>registerJavaHandler(address, (javaArgument , callerMessage) -> {
             // Calling the java function each time a java object is received
             Future<R> future = javaAsyncFunction.apply(javaArgument); // the asynchronous java function returns a future
@@ -182,7 +182,7 @@ public class BusCallService {
      * @param <A> java class of the input argument of the synchronous function
      * @param <R> java class of the output result of the synchronous function
      */
-    public static <A, R> void registerJavaService(String address, Function<A, R> javaFunction) {
+    public static <A, R> void registerFunctionJavaService(String address, Function<A, R> javaFunction) {
         BusCallService.<A, R>registerJavaHandler(address, (javaArgument , callerMessage) ->
                 sendJavaReply(javaFunction.apply(javaArgument), callerMessage)
             , true); // locally on the bus so it is private and visible only on this machine (not visible for clients)
@@ -193,7 +193,7 @@ public class BusCallService {
      *
      * @param <R> java class of the output result of the callable
      */
-    public static <R> void registerJavaService(String address, Callable<R> callable) {
+    public static <R> void registerCallableJavaService(String address, Callable<R> callable) {
         BusCallService.<Object, R>registerJavaHandler(address, (ignoredJavaArgument , callerMessage) ->
                         sendJavaReply(callable.call(), callerMessage)
                 , true); // locally on the bus so it is private and visible only on this machine (not visible for clients)
