@@ -4,7 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.HeadingElement;
-import hellonaga.HelloNagaLogic;
+import hellonaga.logic.HelloNagaLogic;
 import naga.core.spi.platform.Platform;
 
 /**
@@ -17,7 +17,7 @@ public class HelloNagaGwtApplication implements EntryPoint {
     @Override
     public void onModuleLoad() {
         Platform.setWebLogger(HelloNagaGwtApplication::displayMessageInDOM);
-        new HelloNagaLogic().runClient();
+        HelloNagaLogic.runClient();
     }
 
     private static void displayMessageInDOM(String message) {

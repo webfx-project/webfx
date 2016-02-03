@@ -1,6 +1,6 @@
 package hellonaga.j2objc;
 
-import hellonaga.HelloNagaLogic;
+import hellonaga.logic.HelloNagaLogic;
 import naga.core.spi.platform.client.j2objc.J2ObjCPlatform;
 
 /**
@@ -13,6 +13,6 @@ public class HelloNagaJ2ObjCApplication {
     }
 
     public static void main(String[] args) {
-        new HelloNagaLogic().runClient();
+        HelloNagaLogic.runClient();
     }
 }

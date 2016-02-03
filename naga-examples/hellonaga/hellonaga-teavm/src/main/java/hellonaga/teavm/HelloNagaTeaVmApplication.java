@@ -1,6 +1,6 @@
 package hellonaga.teavm;
 
-import hellonaga.HelloNagaLogic;
+import hellonaga.logic.HelloNagaLogic;
 import naga.core.spi.platform.Platform;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
@@ -14,7 +14,7 @@ public class HelloNagaTeaVmApplication {
 
     public static void main(String[] args) {
         Platform.setWebLogger(HelloNagaTeaVmApplication::displayMessageInDom);
-        new HelloNagaLogic().runClient();
+        HelloNagaLogic.runClient();
     }
 
     private static void displayMessageInDom(String helloMessage) {
