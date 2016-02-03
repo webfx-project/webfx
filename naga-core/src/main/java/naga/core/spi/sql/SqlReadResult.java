@@ -42,7 +42,7 @@ public class SqlReadResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    private final static String CODEC_ID = "queryRes";
+    private final static String CODEC_ID = "SqlReadResult";
     private final static String COLUMN_NAMES_KEY = "names";
     private final static String COLUMN_TYPES_KEY = "types";
     private final static String VALUES_KEY = "values";
