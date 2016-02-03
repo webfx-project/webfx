@@ -24,8 +24,8 @@ public class BusCallService {
         // Making the actual call by sending the (wrapped) java argument over the event bus and providing a java reply handler
         BusCallService.<BusCallResult<T>> // specifying BusCallResult<T> parameterized type for the expected as java class result
             sendJavaObjectAndWaitJavaReply( // helper method that does the job to send the (wrapped) java argument
-                ENTRY_CALL_SERVICE_ADDRESS, // the addressee is the counter part BusCallService (assuming it is listening entry calls)
-                new BusCallArgument(address, javaArgument), // the java argument is wrapped into a BusCallArgument (as expected by the counter part BusCallService)
+                ENTRY_CALL_SERVICE_ADDRESS, // the addressee is the counterpart BusCallService (assuming it is listening entry calls)
+                new BusCallArgument(address, javaArgument), // the java argument is wrapped into a BusCallArgument (as expected by the counterpart BusCallService)
                 pendingBusCall::onBusCallResult // it just forwards the target result to the caller using the future
             );
         // We return the future immediately while we are waiting for the call result
@@ -40,10 +40,10 @@ public class BusCallService {
                     (busCallArgument, callerMessage) -> // great, a BusCallArgument has been received
                         // Forwarding the target argument to the target address (kind of local call) and waiting for the result
                         sendJavaObjectAndWaitJsonReply(busCallArgument.getTargetAddress(), busCallArgument.getJsonEncodedTargetArgument(), targetJsonReplyMessage -> {
-                            // Wrapping the result into a BusCallResult and sending it back to the initial BusCallService counter part
+                            // Wrapping the result into a BusCallResult and sending it back to the initial BusCallService counterpart
                             sendJavaReply(new BusCallResult(busCallArgument.getCallNumber(), targetJsonReplyMessage.body()), callerMessage);
                         }),
-                    false); // not local but public for the whole event bus
+                    false); // not local so it is public and visible for the whole event bus (including clients)
     }
 
 
@@ -154,14 +154,16 @@ public class BusCallService {
      **********************************************************************************************/
 
     /**
-     * Method to register an asynchronous java function that returns a Future.
+     * Method to register a java asynchronous function (which returns a Future) as a java service so it can be called
+     * through the BusCallService.
      *
-     * @param <J> expected java class as input for the asynchronous java function
+     * @param <A> java class of the input argument of the asynchronous function
+     * @param <R> java class of the output result of the asynchronous function
      */
-    public static <J, T> void registerAsyncFunction(String address, AsyncFunction<J, T> javaAsyncFunction) {
-        BusCallService.<J, T>registerJavaHandler(address, (javaArgument , callerMessage) -> {
+    public static <A, R> void registerJavaService(String address, AsyncFunction<A, R> javaAsyncFunction) {
+        BusCallService.<A, R>registerJavaHandler(address, (javaArgument , callerMessage) -> {
             // Calling the java function each time a java object is received
-            Future<T> future = javaAsyncFunction.apply(javaArgument); // the asynchronous java function returns a future
+            Future<R> future = javaAsyncFunction.apply(javaArgument); // the asynchronous java function returns a future
             // Setting a handler on this future for when the java result will be ready
             future.setHandler(javaAsyncResult -> // the java result of the asynchronous function is now ready
                     // Replying to the caller by sending this java async result to it
@@ -171,25 +173,30 @@ public class BusCallService {
                             callerMessage
                     )
             );
-        }, true); // locally on the bus ("private" local calls only)
+        }, true); // locally on the bus so it is private and visible only on this machine (not visible for clients)
     }
 
     /**
-     * Same but for synchronous java functions.
+     * Method to register a java synchronous function as a java service so it can be called through the BusCallService.
      *
-     * @param <J> expected java class as input for the synchronous java function
+     * @param <A> java class of the input argument of the synchronous function
+     * @param <R> java class of the output result of the synchronous function
      */
-    public static <J, T> void registerFunction(String address, Function<J, T> javaFunction) {
-        BusCallService.<J, T>registerJavaHandler(address, (javaArgument , callerMessage) ->
+    public static <A, R> void registerJavaService(String address, Function<A, R> javaFunction) {
+        BusCallService.<A, R>registerJavaHandler(address, (javaArgument , callerMessage) ->
                 sendJavaReply(javaFunction.apply(javaArgument), callerMessage)
-            , true); // locally on the bus ("private" local calls only)
+            , true); // locally on the bus so it is private and visible only on this machine (not visible for clients)
         }
 
-    public static <T> void registerCallable(String address, Callable<T> callable) {
-        BusCallService.<Object, T>registerJavaHandler(address, (ignoredJavaArgument , callerMessage) ->
+    /**
+     * Method to register a java callable (synchronous function with no input argument) as a java service so it can be called through the BusCallService.
+     *
+     * @param <R> java class of the output result of the callable
+     */
+    public static <R> void registerJavaService(String address, Callable<R> callable) {
+        BusCallService.<Object, R>registerJavaHandler(address, (ignoredJavaArgument , callerMessage) ->
                         sendJavaReply(callable.call(), callerMessage)
-                , true); // locally on the bus ("private" local calls only)
-        //BusCallService.<Void, T>registerFunction(address, ignoredArgument -> callable.call());
+                , true); // locally on the bus so it is private and visible only on this machine (not visible for clients)
     }
 
 
