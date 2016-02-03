@@ -14,9 +14,7 @@
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-gwt" />
     <orderEntry type="module" module-name="hellonaga-logic" scope="PROVIDED" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: naga:naga-gwt:0.1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="naga-webplat" scope="PROVIDED" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: naga:naga-core:0.1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />

@@ -16,14 +16,11 @@ public class HelloNagaGwtApplication implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        new HelloNagaLogic(HelloNagaGwtApplication::displayMessage).runClient();
+        Platform.setWebLogger(HelloNagaGwtApplication::displayMessageInDOM);
+        new HelloNagaLogic().runClient();
     }
 
-    private static void displayMessage(String message) {
-        // Tracing the message in the console
-        Platform.log(message);
-
-        // Displaying the message in the DOM
+    private static void displayMessageInDOM(String message) {
         Document document = Document.get();
         HeadingElement p = document.createHElement(2);
         p.setInnerText(message);

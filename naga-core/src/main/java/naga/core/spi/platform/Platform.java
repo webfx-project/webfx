@@ -23,6 +23,7 @@ import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.sql.SqlService;
 import naga.core.util.async.Handler;
+import naga.core.util.function.Consumer;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,10 +84,19 @@ public abstract class Platform {
 
     public static void log(String message) {
         get().logger().log(Level.INFO, message);
+        if (webLogger != null)
+            webLogger.accept(message);
     }
 
     public static void log(String message, Throwable error) {
         get().logger().log(Level.SEVERE, message, error);
+    }
+
+    // Temporary code to help displaying logs on the web page (and not only on the hidden web console)
+    // This will disappear when the user interface will become richer
+    private static Consumer<String> webLogger;
+    public static void setWebLogger(Consumer<String> webLogger) {
+        Platform.webLogger = webLogger;
     }
 
     // Scheduler methods
