@@ -1,12 +1,14 @@
-package naga.core.jsoncodec;
+package naga.core.buscall;
 
+import naga.core.jsoncodec.AbstractJsonCodec;
+import naga.core.jsoncodec.JsonCodecManager;
 import naga.core.spi.json.JsonObject;
 import naga.core.util.async.AsyncResult;
 
 /**
  * @author Bruno Salmon
  */
-public class SerializableAsyncResult<T> implements AsyncResult<T> {
+class SerializableAsyncResult<T> implements AsyncResult<T> {
 
     private final T result;
     private final Throwable cause;

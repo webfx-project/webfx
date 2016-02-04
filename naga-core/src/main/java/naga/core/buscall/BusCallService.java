@@ -1,7 +1,6 @@
 package naga.core.buscall;
 
 import naga.core.jsoncodec.JsonCodecManager;
-import naga.core.jsoncodec.SerializableAsyncResult;
 import naga.core.spi.bus.Message;
 import naga.core.spi.platform.Platform;
 import naga.core.util.async.AsyncFunction;
