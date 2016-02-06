@@ -1,4 +1,4 @@
-package naga.core.sql;
+package naga.core.orm.expressionsqlcompiler;
 
 /**
  * @author Bruno Salmon

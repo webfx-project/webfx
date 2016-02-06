@@ -91,7 +91,7 @@ public class JdbcSqlService extends SqlServiceImpl {
             for (int i = 0; i < parameters.length; i++) {
                 Object parameter = parameters[i];
                 /*if (parameter instanceof ParameterJoinValue)
-                    parameter = ((ParameterJoinValue) parameter).getId();
+                    parameter = ((ParameterJoinValue) parameter).getRowId();
                 while (parameter instanceof ID)
                     parameter = ((ID) parameter).getObjId();*/
                 if (parameter instanceof Date)

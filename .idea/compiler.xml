@@ -22,7 +22,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="hello-naga" />
         <module name="hellonaga-android" />
         <module name="hellonaga-gwt" />
         <module name="hellonaga-j2objc" />
@@ -48,14 +47,11 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="hello-naga" target="1.8" />
       <module name="hellonaga" target="1.8" />
       <module name="hellonaga-android" target="1.7" />
       <module name="hellonaga-gwt" target="1.8" />
       <module name="hellonaga-j2objc" target="1.8" />
       <module name="hellonaga-jre" target="1.8" />
-      <module name="hellonaga-jre-fat" target="1.8" />
-      <module name="hellonaga-jre-min" target="1.8" />
       <module name="hellonaga-logic" target="1.8" />
       <module name="hellonaga-retrolambda" target="1.8" />
       <module name="hellonaga-teavm" target="1.8" />
@@ -66,14 +62,11 @@
       <module name="helloworld-jre" target="1.8" />
       <module name="helloworld-logic" target="1.7" />
       <module name="helloworld-teavm" target="1.8" />
-      <module name="helloworld-toolchain" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-android" target="1.8" />
-      <module name="naga-cn1" target="1.8" />
       <module name="naga-core" target="1.8" />
       <module name="naga-examples" target="1.8" />
       <module name="naga-gwt" target="1.8" />
-      <module name="naga-helloworld-toolchain" target="1.8" />
       <module name="naga-j2objc" target="1.8" />
       <module name="naga-javaplat" target="1.8" />
       <module name="naga-jre" target="1.8" />

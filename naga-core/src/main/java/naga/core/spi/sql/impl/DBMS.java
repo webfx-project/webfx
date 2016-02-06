@@ -1,6 +1,6 @@
 package naga.core.spi.sql.impl;
 
-import naga.core.sql.SqlSyntaxOptions;
+import naga.core.orm.expressionsqlcompiler.SqlSyntaxOptions;
 
 /**
  * @author Bruno Salmon
