@@ -43,7 +43,7 @@ public class Select extends SqlOrder {
         return sb.append("select ")
                 .append(_if(distinct, "distinct "))
                 .append(_if(fields, " from ", sb))
-                .append(_(getDomainClass(), sb)).append(_if(" ", domainClassAlias, "", sb))
+                .append(_ifNotEmpty(getDomainClass(), sb)).append(_if(" ", domainClassAlias, "", sb))
                 .append(_if(" where ", where, sb))
                 .append(_if(" group by ", groupBy, sb))
                 .append(_if(" having ", having, sb))
@@ -51,7 +51,7 @@ public class Select extends SqlOrder {
                 .append(_if(" limit ", limit, sb));
     }
 
-    public static CharSequence _(CharSequence s) {
+    public static CharSequence _ifNotEmpty(CharSequence s) {
         return s != null ? s : "";
     }
 
@@ -70,23 +70,19 @@ public class Select extends SqlOrder {
         return "";
     }
 
-    public static String _(Object s, StringBuilder sb) {
+    private static String _ifNotEmpty(Object s, StringBuilder sb) {
         return _if(null, s, null, sb);
     }
 
-    public static String _if(Object s, StringBuilder sb) {
-        return _if(null, s, null, sb);
-    }
-
-    public static String _if(String before, Object s, StringBuilder sb) {
+    private static String _if(String before, Object s, StringBuilder sb) {
         return _if(before, s, null, sb);
     }
 
-    public static String _if(Object s, String after, StringBuilder sb) {
+    private static String _if(Object s, String after, StringBuilder sb) {
         return _if(null, s, after, sb);
     }
 
-    public static String _if(String before, Object s, String after, StringBuilder sb) {
+    private static String _if(String before, Object s, String after, StringBuilder sb) {
         if (s != null) {
             if (before != null)
                 sb.append(before);
@@ -99,5 +95,4 @@ public class Select extends SqlOrder {
         }
         return "";
     }
-
 }
