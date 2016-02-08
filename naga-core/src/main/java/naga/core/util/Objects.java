@@ -1,9 +1,8 @@
 package naga.core.util;
 
-/*
+/**
  * @author Bruno Salmon
  */
-
 public class Objects {
 
     private Objects() {
