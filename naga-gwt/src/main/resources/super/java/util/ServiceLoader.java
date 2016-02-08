@@ -1,6 +1,10 @@
 package java.util;
 
-/* Customized ServiceLoader that work to provide the GwtPlatform on automatic registration Platform.get() */
+/**
+ * ServiceLoader GWT implementation that just works to provide the GwtPlatform on automatic registration Platform.get()
+ *
+ * @author Bruno Salmon
+ */
 
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.gwt.GwtPlatform;
