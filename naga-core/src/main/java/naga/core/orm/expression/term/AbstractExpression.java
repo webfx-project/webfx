@@ -1,8 +1,6 @@
 package naga.core.orm.expression.term;
 
-import naga.core.orm.expression.Expressions;
-import naga.core.orm.expression.datalci.DataReader;
-import naga.core.orm.expression.datalci.DataWriter;
+import naga.core.orm.expression.Expression;
 
 import java.util.Collection;
 
@@ -23,22 +21,9 @@ public abstract class AbstractExpression implements Expression {
         return precedenceLevel;
     }
 
-    @Override
-    public String toString() {
-        return Expressions.toString(this);
-    }
 
     @Override
     public void collectPersistentTerms(Collection<Expression> persistentTerms) {
-    }
-
-
-    protected static DataReader getDataReader() {
-        return Expressions.getDataReader();
-    }
-
-    protected static DataWriter getDataWriter() {
-        return Expressions.getDataWriter();
     }
 
 }

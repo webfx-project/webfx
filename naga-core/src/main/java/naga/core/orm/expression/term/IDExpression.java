@@ -1,5 +1,6 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.PrimType;
 
 /**
@@ -14,8 +15,8 @@ public class IDExpression extends Symbol {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        return getDataReader().getDataId(data);
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        return dataReader.getDomainObjectId(domainObject);
     }
 
 }

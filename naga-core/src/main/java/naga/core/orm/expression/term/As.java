@@ -1,5 +1,8 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
+
 import java.util.Collection;
 
 /**
@@ -18,8 +21,8 @@ public class As extends UnaryExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        return getDataReader().getValue(data, this);
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        return dataReader.getDomainFieldValue(domainObject, this);
     }
 
     @Override

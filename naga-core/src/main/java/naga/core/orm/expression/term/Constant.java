@@ -1,5 +1,6 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.Type;
 import naga.core.type.Types;
 
@@ -47,7 +48,7 @@ public class Constant extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
+    public Object evaluate(Object domainObject, DataReader dataReader) {
         return constantValue;
     }
 

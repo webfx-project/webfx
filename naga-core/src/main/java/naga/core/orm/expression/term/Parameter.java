@@ -1,5 +1,8 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.datalci.DataWriter;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -32,8 +35,8 @@ public class Parameter extends AbstractExpression {
         return index;
     }
 
-    private Object getParameterValue() {
-        return getDataReader().getParameterValue(name);
+    private Object getParameterValue(DataReader dataReader) {
+        return dataReader.getParameterValue(name);
     }
 
     @Override
@@ -42,11 +45,11 @@ public class Parameter extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        Object value = getParameterValue();
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        Object value = getParameterValue(dataReader);
         if (rightDot != null) {
-            data = getDataReader().getData(value);
-            value = rightDot.evaluate(data);
+            domainObject = dataReader.getDomainObjectFromId(value);
+            value = rightDot.evaluate(domainObject, dataReader);
         }
         return value;
     }
@@ -57,8 +60,8 @@ public class Parameter extends AbstractExpression {
     }
 
     @Override
-    public void setValue(Object data, Object value) {
-        getDataWriter().setParameterValue(name, value);
+    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+        dataWriter.setParameterValue(name, value);
     }
 
     @Override

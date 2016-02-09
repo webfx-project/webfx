@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.Type;
 import naga.core.util.collection.HashList;
 
@@ -42,14 +44,14 @@ public class Dot extends BinaryExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        Object leftValue = left.evaluate(data);
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        Object leftValue = left.evaluate(domainObject, dataReader);
         if (leftValue == null)
             return null; // NoValue.singleton;
         /*if (leftValue instanceof SystemValue)
             return leftValue;*/
-        Object rightData = getDataReader().getData(leftValue);
-        return right == null ? null : right.evaluate(rightData);
+        Object rightData = dataReader.getDomainObjectFromId(leftValue);
+        return right == null ? null : right.evaluate(rightData, dataReader);
     }
 
     @Override
@@ -67,5 +69,4 @@ public class Dot extends BinaryExpression {
         else
             persistentTerms.add(new Dot(left, rightPersistentTerms.get(0), outerJoin));
     }
-
 }

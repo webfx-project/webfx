@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -37,11 +39,11 @@ public abstract class BinaryExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        Object leftValue = left.evaluate(data);
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        Object leftValue = left.evaluate(domainObject, dataReader);
         if (isShortcutValue(leftValue))
             return leftValue;
-        Object rightValue = right.evaluate(data);
+        Object rightValue = right.evaluate(domainObject, dataReader);
         if (isShortcutValue(rightValue))
             return rightValue;
         return evaluate(leftValue, rightValue);

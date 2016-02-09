@@ -1,5 +1,8 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataWriter;
+
 /**
  * @author Bruno Salmon
  */
@@ -18,9 +21,9 @@ public class And extends BooleanExpression {
     }
 
     @Override
-    public void setValue(Object data, Object value) {
-        left.setValue(data, value);
-        right.setValue(data, value);
+    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+        left.setValue(domainObject, value, dataWriter);
+        right.setValue(domainObject, value, dataWriter);
     }
 
     @Override

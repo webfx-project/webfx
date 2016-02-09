@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.orm.expression.datalci.DataWriter;
 import naga.core.type.Type;
 
@@ -47,28 +49,25 @@ public class Symbol extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
+    public Object evaluate(Object domainObject, DataReader dataReader) {
         if (getExpression() != null)
-            return getExpression().evaluate(data);
-        return getDataReader().getValue(data, name);
+            return getExpression().evaluate(domainObject, dataReader);
+        return dataReader.getDomainFieldValue(domainObject, name);
     }
 
     @Override
     public boolean isEditable() {
         if (getExpression() != null)
             return getExpression().isEditable();
-        return getDataWriter() != null;
+        return true;
     }
 
     @Override
-    public void setValue(Object data, Object value) {
+    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
         if (getExpression() != null)
-            getExpression().setValue(data, value);
-        else {
-            DataWriter dataWriter = getDataWriter();
-            if (dataWriter != null)
-                dataWriter.setValue(data, name, value);
-        }
+            getExpression().setValue(domainObject, value, dataWriter);
+        else
+            dataWriter.setDomainFieldValue(domainObject, name, value);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -27,7 +29,7 @@ public class SelectExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
+    public Object evaluate(Object domainObject, DataReader dataReader) {
         throw new UnsupportedOperationException();
     }
 

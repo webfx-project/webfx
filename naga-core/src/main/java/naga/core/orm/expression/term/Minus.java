@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
@@ -61,7 +63,7 @@ public class Minus extends ArithmeticExpression {
         }
         if (a instanceof Date && b instanceof Date)
             return ((Date) a).getTime() - ((Date) b).getTime();
-        Logger.getLogger("data").warning("Unsupported numeric type " + a.getClass().getName());
+        Logger.getLogger("expression").warning("Unsupported numeric type " + a.getClass().getName());
         return null; // MismatchErrorValue.singleton;
     }
 

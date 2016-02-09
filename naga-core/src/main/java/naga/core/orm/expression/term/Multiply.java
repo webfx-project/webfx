@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.logging.Logger;
@@ -64,7 +66,7 @@ public class Multiply extends ArithmeticExpression {
                 bdb = new BigDecimal(b.toString());
             return bda.multiply(bdb);
         }
-        Logger.getLogger("data").warning("Unsupported numeric type " + a.getClass().getName());
+        Logger.getLogger("expression").warning("Unsupported numeric type " + a.getClass().getName());
         return null; //MismatchErrorValue.singleton;
     }
 

@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.ArrayType;
 import naga.core.type.Type;
 import naga.core.type.Types;
@@ -40,10 +42,10 @@ public class ExpressionArray extends AbstractExpression implements ParentExpress
     }
 
     @Override
-    public Object[] evaluate(Object data) {
+    public Object[] evaluate(Object domainObject, DataReader dataReader) {
         Object[] values = new Object[expressions.length];
         for (int i = 0; i < expressions.length; i++)
-            values[i] = expressions[i].evaluate(data);
+            values[i] = expressions[i].evaluate(domainObject, dataReader);
         return values;
     }
 

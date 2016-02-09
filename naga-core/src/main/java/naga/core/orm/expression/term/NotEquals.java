@@ -1,5 +1,6 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
 import naga.core.type.PrimType;
 
 /**

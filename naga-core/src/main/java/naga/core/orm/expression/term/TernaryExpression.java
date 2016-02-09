@@ -1,5 +1,8 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.datalci.DataWriter;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -37,18 +40,18 @@ public class TernaryExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        Object questionValue = question.evaluate(data);
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        Object questionValue = question.evaluate(domainObject, dataReader);
         Expression answer = Boolean.TRUE.equals(questionValue) ? yes : no;
-        Object value = answer.evaluate(data);
+        Object value = answer.evaluate(domainObject, dataReader);
         return value;
     }
 
     @Override
-    public void setValue(Object data, Object value) {
-        Object questionValue = question.evaluate(data);
+    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+        Object questionValue = question.evaluate(domainObject, dataWriter);
         Expression answer = Boolean.TRUE.equals(questionValue) ? yes : no;
-        answer.setValue(data, value);
+        answer.setValue(domainObject, value, dataWriter);
     }
 
     @Override

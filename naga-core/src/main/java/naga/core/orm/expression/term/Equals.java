@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataWriter;
 import naga.core.type.PrimType;
 import naga.core.util.Booleans;
 
@@ -17,9 +19,9 @@ public class Equals extends BooleanExpression {
     }
 
     @Override
-    public void setValue(Object data, Object value) {
+    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
         if (Booleans.isTrue(value))
-            left.setValue(data, right.evaluate(data));
+            left.setValue(domainObject, right.evaluate(domainObject, dataWriter), dataWriter);
     }
 
 }

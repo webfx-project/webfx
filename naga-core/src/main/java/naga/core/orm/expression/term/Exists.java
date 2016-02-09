@@ -1,5 +1,6 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 
@@ -18,7 +19,7 @@ public class Exists extends SelectExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
+    public Object evaluate(Object domainObject, DataReader dataReader) {
         return null;
     }
 

@@ -1,5 +1,7 @@
-package naga.core.orm.expression.term;
+package naga.core.orm.expression;
 
+import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.datalci.DataWriter;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -18,14 +20,14 @@ public interface Expression {
     Type getType();
 
     /**
-     * The method that evaluates the expression on a data object. This method is normally called by Expressions.evaluate()
-     * that first set the dataReader that can access to the data object.
+     * The method that evaluates the expression on a data object.
      *
-     * @param data the data object on which the evaluation is computed
+     * @param domainObject the domain object on which the evaluation is computed
+     * @param dataReader
      * @return the result of the evaluation
      */
 
-    Object evaluate(Object data);
+    Object evaluate(Object domainObject, DataReader dataReader);
 
 
     /*****************************************************************************
@@ -40,12 +42,12 @@ public interface Expression {
 
     /**
      * Change the value of the expression (if the expression is editable)
-     *
-     * @param data
+     * @param domainObject
      * @param value
+     * @param dataWriter
      */
 
-    default void setValue(Object data, Object value) {}
+    default void setValue(Object domainObject, Object value, DataWriter dataWriter) {}
 
 
     /*********************
@@ -53,7 +55,7 @@ public interface Expression {
      ********************/
 
     /**
-     * Method called by Expressions.toString() to optimize the String construct by passing the StringBuilder.
+     * Method called by AbstractExpressions.toString() to optimize the String construct by passing the StringBuilder.
      * @param sb The StringBuilder to be used for the String construct
      * @return The StringBuilder so append() methods can be chained
      */
@@ -79,6 +81,5 @@ public interface Expression {
      */
 
     void collectPersistentTerms(Collection<Expression> persistentTerms);
-
 
 }

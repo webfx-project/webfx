@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 import naga.core.util.Booleans;
@@ -19,8 +21,8 @@ public class Not extends UnaryExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        return Booleans.isFalse(super.evaluate(data));
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        return Booleans.isFalse(super.evaluate(domainObject, dataReader));
     }
 
     @Override

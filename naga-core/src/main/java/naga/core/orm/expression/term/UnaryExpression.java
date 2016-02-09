@@ -1,5 +1,7 @@
 package naga.core.orm.expression.term;
 
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.datalci.DataReader;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -25,8 +27,8 @@ public abstract class UnaryExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object data) {
-        return operand.evaluate(data);
+    public Object evaluate(Object domainObject, DataReader dataReader) {
+        return operand.evaluate(domainObject, dataReader);
     }
 
     @Override
