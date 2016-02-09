@@ -1,4 +1,4 @@
-package naga.core.orm.mapping.sql;
+package naga.core.orm.mapping.query;
 
 import naga.core.spi.sql.SqlArgument;
 

@@ -1,4 +1,4 @@
-package naga.core.orm.mapping.sql;
+package naga.core.orm.mapping.query;
 
 /**
  * Mapping between the sql row and the entity
