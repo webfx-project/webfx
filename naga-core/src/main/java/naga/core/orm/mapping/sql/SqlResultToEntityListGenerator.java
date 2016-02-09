@@ -23,7 +23,7 @@ public class SqlResultToEntityListGenerator {
             for (SqlColumnToEntityFieldMapping columnMapping : rowMapping.getColumnMappings()) {
                 // The target entity (to affect the column value to) is normally the current entity
                 Entity targetEntity = entity;
-                // However if this column index is associated with a join, it actually refer to a foreign entity, so let's check this
+                // However if this column index is associated with a join, it actually refers to a foreign entity, so let's check this
                 SqlColumnToEntityFieldMapping joinMapping = columnMapping.getJoinMapping();
                 if (joinMapping != null) { // Yes it is a join
                     // So let's first get the row id of the database foreign record
@@ -36,9 +36,9 @@ public class SqlResultToEntityListGenerator {
                 }
                 // Now that we have the target entity, getting the value for the column index
                 Object value = entityQueryResult.getValue(rowIndex, columnMapping.getQueryColumnIndex());
-                // If this is a foreign key (when foreignClassId is filled), we transform it into an ID
+                // If this is a foreign key (when foreignClassId is filled), we transform the value into a link to the foreign entity
                 if (columnMapping.getForeignModelClassId() != null)
-                    value = store.getEntityID(columnMapping.getForeignModelClassId(), value);
+                    value = store.getOrCreateEntity(columnMapping.getForeignModelClassId(), value);
                 // Now everything is ready to set the field on the target entity
                 targetEntity.setFieldValue(columnMapping.getModelFieldId(), value);
                 //System.out.println(targetEntity.getId().toString() + '.' + columnMapping.getModelFieldId() + " = " + value);
