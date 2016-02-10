@@ -1,7 +1,7 @@
 package naga.core.orm.expression;
 
-import naga.core.orm.expression.datalci.DataReader;
-import naga.core.orm.expression.datalci.DataWriter;
+import naga.core.orm.expression.lci.DataReader;
+import naga.core.orm.expression.lci.DataWriter;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ import java.util.Collection;
  *
  * @author Bruno Salmon
  */
-public interface Expression {
+public interface Expression<T> {
 
     /**
      * @return the type of the expression
@@ -27,7 +27,7 @@ public interface Expression {
      * @return the result of the evaluation
      */
 
-    Object evaluate(Object domainObject, DataReader dataReader);
+    Object evaluate(T domainObject, DataReader<T> dataReader);
 
 
     /*****************************************************************************
@@ -47,7 +47,7 @@ public interface Expression {
      * @param dataWriter
      */
 
-    default void setValue(Object domainObject, Object value, DataWriter dataWriter) {}
+    default void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {}
 
 
     /*********************
@@ -80,6 +80,5 @@ public interface Expression {
      * @param persistentTerms the collection where persistent terms will be added.
      */
 
-    void collectPersistentTerms(Collection<Expression> persistentTerms);
-
+    void collectPersistentTerms(Collection<Expression<T>> persistentTerms);
 }

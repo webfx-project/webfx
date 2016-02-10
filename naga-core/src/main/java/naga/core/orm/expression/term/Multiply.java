@@ -9,11 +9,9 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public class Multiply extends ArithmeticExpression {
+public class Multiply<T> extends ArithmeticExpression<T> {
 
-    public static Multiply MULTIPLIER = new Multiply(null, null); // can be used to call evaluate()
-
-    public Multiply(Expression left, Expression right) {
+    public Multiply(Expression<T> left, Expression<T> right) {
         super(left, "*", right, 7);
     }
 

@@ -1,8 +1,8 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
-import naga.core.orm.expression.datalci.DataWriter;
+import naga.core.orm.expression.lci.DataReader;
+import naga.core.orm.expression.lci.DataWriter;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -10,14 +10,14 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class Parameter extends AbstractExpression {
+public class Parameter<T> extends AbstractExpression<T> {
 
     private final String name;
-    private final Expression rightDot;
+    private final Expression<T> rightDot;
 
     private int index = -1; // index of this parameter in a oqlOrder
 
-    public Parameter(String name, Expression rightDot) {
+    public Parameter(String name, Expression<T> rightDot) {
         super(9);
         this.name = name;
         this.rightDot = rightDot;
@@ -27,7 +27,7 @@ public class Parameter extends AbstractExpression {
         return name;
     }
 
-    public Expression getRightDot() {
+    public Expression<T> getRightDot() {
         return rightDot;
     }
 
@@ -35,7 +35,7 @@ public class Parameter extends AbstractExpression {
         return index;
     }
 
-    private Object getParameterValue(DataReader dataReader) {
+    private Object getParameterValue(DataReader<T> dataReader) {
         return dataReader.getParameterValue(name);
     }
 
@@ -45,7 +45,7 @@ public class Parameter extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         Object value = getParameterValue(dataReader);
         if (rightDot != null) {
             domainObject = dataReader.getDomainObjectFromId(value);
@@ -60,7 +60,7 @@ public class Parameter extends AbstractExpression {
     }
 
     @Override
-    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
         dataWriter.setParameterValue(name, value);
     }
 
@@ -80,7 +80,7 @@ public class Parameter extends AbstractExpression {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         persistentTerms.add(this);
     }
 

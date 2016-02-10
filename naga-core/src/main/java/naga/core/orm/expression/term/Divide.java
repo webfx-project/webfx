@@ -9,11 +9,9 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public class Divide extends ArithmeticExpression {
+public class Divide<T> extends ArithmeticExpression<T> {
 
-    public static Divide DIVIDER = new Divide(null, null); // can be used to call evaluate()
-
-    public Divide(Expression left, Expression right) {
+    public Divide(Expression<T> left, Expression<T> right) {
         super(left, "/", right, 7);
     }
 

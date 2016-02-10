@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.ArrayType;
 import naga.core.type.Type;
 import naga.core.type.Types;
@@ -11,25 +11,25 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class ExpressionArray extends AbstractExpression implements ParentExpression {
+public class ExpressionArray<T> extends AbstractExpression<T> implements ParentExpression<T> {
 
-    protected final Expression[] expressions;
+    protected final Expression<T>[] expressions;
 
     public ExpressionArray(Collection<Expression> expressions) {
         this(expressions.toArray(new Expression[expressions.size()]));
     }
 
-    public ExpressionArray(Expression... expressions) {
+    public ExpressionArray(Expression<T>... expressions) {
         super(1);
         this.expressions = expressions;
     }
 
-    public Expression[] getExpressions() {
+    public Expression<T>[] getExpressions() {
         return expressions;
     }
 
     @Override
-    public Expression[] getChildren() {
+    public Expression<T>[] getChildren() {
         return expressions;
     }
 
@@ -42,7 +42,7 @@ public class ExpressionArray extends AbstractExpression implements ParentExpress
     }
 
     @Override
-    public Object[] evaluate(Object domainObject, DataReader dataReader) {
+    public Object[] evaluate(T domainObject, DataReader<T> dataReader) {
         Object[] values = new Object[expressions.length];
         for (int i = 0; i < expressions.length; i++)
             values[i] = expressions[i].evaluate(domainObject, dataReader);
@@ -60,7 +60,7 @@ public class ExpressionArray extends AbstractExpression implements ParentExpress
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         for (Expression expression : expressions)
             expression.collectPersistentTerms(persistentTerms);
     }

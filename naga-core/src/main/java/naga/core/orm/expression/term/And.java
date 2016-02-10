@@ -1,14 +1,14 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataWriter;
+import naga.core.orm.expression.lci.DataWriter;
 
 /**
  * @author Bruno Salmon
  */
-public class And extends BooleanExpression {
+public class And<T> extends BooleanExpression<T> {
 
-    public And(Expression left, Expression right) {
+    public And(Expression<T> left, Expression<T> right) {
         super(left, " and ", right, 3);
     }
 
@@ -21,7 +21,7 @@ public class And extends BooleanExpression {
     }
 
     @Override
-    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
         left.setValue(domainObject, value, dataWriter);
         right.setValue(domainObject, value, dataWriter);
     }

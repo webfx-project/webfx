@@ -1,12 +1,12 @@
 package naga.core.orm.expression.term;
 
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 
 /**
  * @author Bruno Salmon
  */
-public class Alias extends AbstractExpression {
+public class Alias<T> extends AbstractExpression<T> {
 
     private final String name;
     private final Type type;
@@ -41,7 +41,7 @@ public class Alias extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         throw new UnsupportedOperationException();
     }
 
@@ -49,4 +49,5 @@ public class Alias extends AbstractExpression {
     public StringBuilder toString(StringBuilder sb) {
         return sb.append(name);
     }
+
 }

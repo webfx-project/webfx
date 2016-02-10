@@ -5,16 +5,16 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public abstract class SqlOrder {
+public abstract class SqlOrder<T> {
     protected final Object id;
     protected final Object domainClass;
     protected final String domainClassAlias;
 
     // object level definition
     protected String definition;
-    protected final Expression where;
-    protected final ExpressionArray orderBy;
-    protected final Expression limit;
+    protected final Expression<T> where;
+    protected final ExpressionArray<T> orderBy;
+    protected final Expression<T> limit;
     protected boolean cacheable;
 
     // sql level definition
@@ -23,7 +23,7 @@ public abstract class SqlOrder {
     // common
     protected Object[] parameterValues;
 
-    protected SqlOrder(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] parameterValues, Expression where, ExpressionArray orderBy, Expression limit) {
+    protected SqlOrder(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] parameterValues, Expression<T> where, ExpressionArray<T> orderBy, Expression<T> limit) {
         this.id = id;
         this.domainClass = domainClass;
         this.domainClassAlias = domainClassAlias;
@@ -53,15 +53,15 @@ public abstract class SqlOrder {
         return definition;
     }
 
-    public Expression getWhere() {
+    public Expression<T> getWhere() {
         return where;
     }
 
-    public ExpressionArray getOrderBy() {
+    public ExpressionArray<T> getOrderBy() {
         return orderBy;
     }
 
-    public Expression getLimit() {
+    public Expression<T> getLimit() {
         return limit;
     }
 

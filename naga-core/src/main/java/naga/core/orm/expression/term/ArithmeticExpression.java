@@ -11,9 +11,9 @@ import naga.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public abstract class ArithmeticExpression extends BinaryExpression {
+public abstract class ArithmeticExpression<T> extends BinaryExpression<T> {
 
-    public ArithmeticExpression(Expression left, String separator, Expression right, int precedenceLevel) {
+    public ArithmeticExpression(Expression<T> left, String separator, Expression<T> right, int precedenceLevel) {
         super(left, separator, right, precedenceLevel);
     }
 

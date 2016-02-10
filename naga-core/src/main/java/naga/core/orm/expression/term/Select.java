@@ -5,14 +5,14 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Select extends SqlOrder {
+public class Select<T> extends SqlOrder<T> {
     private final boolean distinct;
     private final boolean includeIdColumn;
-    private final ExpressionArray fields;
-    private final ExpressionArray groupBy;
-    private final Expression having;
+    private final ExpressionArray<T> fields;
+    private final ExpressionArray<T> groupBy;
+    private final Expression<T> having;
 
-    public Select(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] sqlParameters, boolean distinct, ExpressionArray fields, Expression where, ExpressionArray groupBy, Expression having, ExpressionArray orderBy, Expression limit, boolean includeIdColumn) {
+    public Select(Object id, Object domainClass, String domainClassAlias, String definition, String sqlDefinition, Object[] sqlParameters, boolean distinct, ExpressionArray<T> fields, Expression<T> where, ExpressionArray<T> groupBy, Expression<T> having, ExpressionArray<T> orderBy, Expression<T> limit, boolean includeIdColumn) {
         super(id, domainClass, domainClassAlias, definition, sqlDefinition, sqlParameters, where, orderBy, limit);
         this.distinct = distinct;
         this.includeIdColumn = includeIdColumn;
@@ -29,15 +29,15 @@ public class Select extends SqlOrder {
         return includeIdColumn;
     }
 
-    public ExpressionArray getFields() {
+    public ExpressionArray<T> getFields() {
         return fields;
     }
 
-    public ExpressionArray getGroupBy() {
+    public ExpressionArray<T> getGroupBy() {
         return groupBy;
     }
 
-    public Expression getHaving() {
+    public Expression<T> getHaving() {
         return having;
     }
 

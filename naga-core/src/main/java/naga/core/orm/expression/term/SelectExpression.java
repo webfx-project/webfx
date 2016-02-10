@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -9,15 +9,15 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class SelectExpression extends AbstractExpression {
-    protected final Select select;
+public class SelectExpression<T> extends AbstractExpression<T> {
+    protected final Select<T> select;
 
-    public SelectExpression(Select select) {
+    public SelectExpression(Select<T> select) {
         super(9);
         this.select = select;
     }
 
-    public Select getSelect() {
+    public Select<T> getSelect() {
         return select;
     }
 
@@ -29,7 +29,7 @@ public class SelectExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         throw new UnsupportedOperationException();
     }
 
@@ -41,7 +41,7 @@ public class SelectExpression extends AbstractExpression {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         persistentTerms.add(this);
     }
 

@@ -5,9 +5,9 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Or extends BooleanExpression {
+public class Or<T> extends BooleanExpression<T> {
 
-    public Or(Expression left, Expression right) {
+    public Or(Expression<T> left, Expression<T> right) {
         super(left, " or ", right, 2);
     }
 

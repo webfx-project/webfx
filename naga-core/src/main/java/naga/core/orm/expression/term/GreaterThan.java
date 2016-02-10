@@ -6,9 +6,9 @@ import naga.core.type.PrimType;
 /**
  * @author Bruno Salmon
  */
-public class GreaterThan extends BooleanExpression {
+public class GreaterThan<T> extends BooleanExpression<T> {
 
-    public GreaterThan(Expression left, Expression right) {
+    public GreaterThan(Expression<T> left, Expression<T> right) {
         super(left, ">", right, 5);
     }
 

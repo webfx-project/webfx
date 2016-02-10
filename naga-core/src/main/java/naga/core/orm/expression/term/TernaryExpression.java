@@ -1,8 +1,8 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
-import naga.core.orm.expression.datalci.DataWriter;
+import naga.core.orm.expression.lci.DataReader;
+import naga.core.orm.expression.lci.DataWriter;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -10,27 +10,27 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class TernaryExpression extends AbstractExpression {
-    private final Expression question;
-    private final Expression yes;
-    private final Expression no;
+public class TernaryExpression<T> extends AbstractExpression<T> {
+    private final Expression<T> question;
+    private final Expression<T> yes;
+    private final Expression<T> no;
 
-    public TernaryExpression(Expression question, Expression yes, Expression no) {
+    public TernaryExpression(Expression<T> question, Expression<T> yes, Expression<T> no) {
         super(1);
         this.question = question;
         this.yes = yes;
         this.no = no;
     }
 
-    public Expression getQuestion() {
+    public Expression<T> getQuestion() {
         return question;
     }
 
-    public Expression getYes() {
+    public Expression<T> getYes() {
         return yes;
     }
 
-    public Expression getNo() {
+    public Expression<T> getNo() {
         return no;
     }
 
@@ -40,17 +40,17 @@ public class TernaryExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         Object questionValue = question.evaluate(domainObject, dataReader);
-        Expression answer = Boolean.TRUE.equals(questionValue) ? yes : no;
+        Expression<T> answer = Boolean.TRUE.equals(questionValue) ? yes : no;
         Object value = answer.evaluate(domainObject, dataReader);
         return value;
     }
 
     @Override
-    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
         Object questionValue = question.evaluate(domainObject, dataWriter);
-        Expression answer = Boolean.TRUE.equals(questionValue) ? yes : no;
+        Expression<T> answer = Boolean.TRUE.equals(questionValue) ? yes : no;
         answer.setValue(domainObject, value, dataWriter);
     }
 
@@ -64,7 +64,7 @@ public class TernaryExpression extends AbstractExpression {
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         question.collectPersistentTerms(persistentTerms);
         yes.collectPersistentTerms(persistentTerms);
         no.collectPersistentTerms(persistentTerms);

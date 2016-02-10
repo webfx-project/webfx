@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public abstract class AbstractExpression implements Expression {
+public abstract class AbstractExpression<T> implements Expression<T> {
 
     private final int precedenceLevel;
 
@@ -23,7 +23,7 @@ public abstract class AbstractExpression implements Expression {
 
 
     @Override
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
     }
 
 }

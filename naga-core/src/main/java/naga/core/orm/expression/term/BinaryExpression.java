@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -9,23 +9,24 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public abstract class BinaryExpression extends AbstractExpression {
-    protected final Expression left;
-    protected final Expression right;
+public abstract class BinaryExpression<T> extends AbstractExpression<T> {
+
+    protected final Expression<T> left;
+    protected final Expression<T> right;
     protected final String separator;
 
-    public BinaryExpression(Expression left, String separator, Expression right, int precedenceLevel) {
+    public BinaryExpression(Expression<T> left, String separator, Expression<T> right, int precedenceLevel) {
         super(precedenceLevel);
         this.left = left;
         this.right = right;
         this.separator = separator;
     }
 
-    public Expression getLeft() {
+    public Expression<T> getLeft() {
         return left;
     }
 
-    public Expression getRight() {
+    public Expression<T> getRight() {
         return right;
     }
 
@@ -39,7 +40,7 @@ public abstract class BinaryExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         Object leftValue = left.evaluate(domainObject, dataReader);
         if (isShortcutValue(leftValue))
             return leftValue;
@@ -74,10 +75,9 @@ public abstract class BinaryExpression extends AbstractExpression {
         return sb;
     }
 
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         left.collectPersistentTerms(persistentTerms);
         right.collectPersistentTerms(persistentTerms);
     }
-
 
 }

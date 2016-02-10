@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 import naga.core.util.collection.HashList;
 
@@ -11,19 +11,20 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class Dot extends BinaryExpression {
+public class Dot<T> extends BinaryExpression<T> {
+
     private final boolean outerJoin;
     private final boolean readLeftKey;
 
-    public Dot(Expression left, Expression right) {
+    public Dot(Expression<T> left, Expression<T> right) {
         this(left, right, false);
     }
 
-    public Dot(Expression left, Expression right, boolean outerJoin) {
+    public Dot(Expression<T> left, Expression<T> right, boolean outerJoin) {
         this(left, right, outerJoin, true);
     }
 
-    public Dot(Expression left, Expression right, boolean outerJoin, boolean readLeftKey) {
+    public Dot(Expression<T> left, Expression<T> right, boolean outerJoin, boolean readLeftKey) {
         //super(left instanceof Dot ? ((Dot) left).getLeft() : left, outerJoin ? ".." : ".", left instanceof Dot ? new Dot(((Dot) left).getRight(), right, outerJoin, readLeftKey) : right, 8);
         super(left, outerJoin ? ".." : ".", right, 8);
         this.outerJoin = outerJoin;
@@ -44,13 +45,13 @@ public class Dot extends BinaryExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         Object leftValue = left.evaluate(domainObject, dataReader);
         if (leftValue == null)
             return null; // NoValue.singleton;
         /*if (leftValue instanceof SystemValue)
             return leftValue;*/
-        Object rightData = dataReader.getDomainObjectFromId(leftValue);
+        T rightData = dataReader.getDomainObjectFromId(leftValue);
         return right == null ? null : right.evaluate(rightData, dataReader);
     }
 
@@ -59,8 +60,8 @@ public class Dot extends BinaryExpression {
         return null; // never called due to above evaluate method override
     }
 
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
-        List<Expression> rightPersistentTerms = new HashList<>();
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
+        List<Expression<T>> rightPersistentTerms = new HashList<>();
         right.collectPersistentTerms(rightPersistentTerms);
         if (rightPersistentTerms.size() != 1)
             persistentTerms.add(new Dot(left, new ExpressionArray(rightPersistentTerms), outerJoin));

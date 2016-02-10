@@ -7,9 +7,9 @@ import naga.core.type.Type;
 /**
  * @author Bruno Salmon
  */
-public abstract class BooleanExpression extends BinaryExpression {
+public abstract class BooleanExpression<T> extends BinaryExpression<T> {
 
-    protected BooleanExpression(Expression left, String separator, Expression right, int precedenceLevel) {
+    protected BooleanExpression(Expression<T> left, String separator, Expression<T> right, int precedenceLevel) {
         super(left, separator, right, precedenceLevel);
     }
 

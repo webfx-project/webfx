@@ -5,9 +5,9 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class All extends BooleanExpression {
+public class All<T> extends BooleanExpression<T> {
 
-    public All(Expression left, String operator, Expression right) {
+    public All(Expression<T> left, String operator, Expression<T> right) {
         super(left, operator + " all ", right, 5);
     }
 

@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataWriter;
+import naga.core.orm.expression.lci.DataWriter;
 import naga.core.type.PrimType;
 import naga.core.util.Booleans;
 

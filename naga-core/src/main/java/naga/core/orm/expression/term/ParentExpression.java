@@ -5,8 +5,8 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public interface ParentExpression extends Expression {
+public interface ParentExpression<T> extends Expression<T> {
 
-    Expression[] getChildren();
+    Expression<T>[] getChildren();
 
 }

@@ -1,12 +1,12 @@
 package naga.core.orm.expression.term;
 
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.PrimType;
 
 /**
  * @author Bruno Salmon
  */
-public class IDExpression extends Symbol {
+public class IDExpression<T> extends Symbol<T> {
 
     public final static IDExpression singleton = new IDExpression();
 
@@ -15,7 +15,7 @@ public class IDExpression extends Symbol {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         return dataReader.getDomainObjectId(domainObject);
     }
 

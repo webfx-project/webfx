@@ -1,6 +1,6 @@
 package naga.core.orm.expression.term;
 
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 import naga.core.type.Types;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class Constant extends AbstractExpression {
+public class Constant<T> extends AbstractExpression<T> {
 
     private static final Map<Object, Constant> predefinedConstants = new HashMap<>();
     public static final Constant NULL;
@@ -48,7 +48,7 @@ public class Constant extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         return constantValue;
     }
 

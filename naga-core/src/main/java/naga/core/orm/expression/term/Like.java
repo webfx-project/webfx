@@ -5,9 +5,9 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Like extends BooleanExpression {
+public class Like<T> extends BooleanExpression<T> {
 
-    public Like(Expression left, Expression right) {
+    public Like(Expression<T> left, Expression<T> right) {
         super(left, " like ", right, 5);
     }
 

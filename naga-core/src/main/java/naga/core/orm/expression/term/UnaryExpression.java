@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 
 import java.util.Collection;
@@ -9,15 +9,15 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public abstract class UnaryExpression extends AbstractExpression {
-    protected final Expression operand;
+public abstract class UnaryExpression<T> extends AbstractExpression<T> {
+    protected final Expression<T> operand;
 
-    public UnaryExpression(Expression operand) {
+    public UnaryExpression(Expression<T> operand) {
         super(4);
         this.operand = operand;
     }
 
-    public Expression getOperand() {
+    public Expression<T> getOperand() {
         return operand;
     }
 
@@ -27,12 +27,12 @@ public abstract class UnaryExpression extends AbstractExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         return operand.evaluate(domainObject, dataReader);
     }
 
     @Override
-    public void collectPersistentTerms(Collection<Expression> persistentTerms) {
+    public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         operand.collectPersistentTerms(persistentTerms);
     }
 

@@ -1,7 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 import naga.core.util.Booleans;
@@ -9,13 +9,13 @@ import naga.core.util.Booleans;
 /**
  * @author Bruno Salmon
  */
-public class Ordered extends UnaryExpression {
+public class Ordered<T> extends UnaryExpression<T> {
     private final boolean ascending;
     private final boolean descending;
     private final boolean nullsFirst;
     private final boolean nullsLast;
 
-    public Ordered(Expression operand, boolean ascending, boolean descending, boolean nullsFirst, boolean nullsLast) {
+    public Ordered(Expression<T> operand, boolean ascending, boolean descending, boolean nullsFirst, boolean nullsLast) {
         super(operand);
         this.ascending = ascending;
         this.descending = descending;
@@ -40,7 +40,7 @@ public class Ordered extends UnaryExpression {
     }
 
     @Override
-    public Object evaluate(Object domainObject, DataReader dataReader) {
+    public Object evaluate(T domainObject, DataReader<T> dataReader) {
         return Booleans.isFalse(super.evaluate(domainObject, dataReader));
     }
 

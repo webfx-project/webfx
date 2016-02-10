@@ -1,6 +1,6 @@
 package naga.core.orm.expression.term;
 
-import naga.core.orm.expression.datalci.DataReader;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 

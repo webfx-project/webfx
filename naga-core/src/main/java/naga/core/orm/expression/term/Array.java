@@ -5,9 +5,9 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Array extends UnaryExpression {
+public class Array<T> extends UnaryExpression<T> {
 
-    public Array(Expression operand) {
+    public Array(Expression<T> operand) {
         super(operand);
     }
 

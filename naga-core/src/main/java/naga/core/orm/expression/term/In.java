@@ -7,9 +7,9 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class In extends BooleanExpression {
+public class In<T> extends BooleanExpression<T> {
 
-    public In(Expression left, Expression right) {
+    public In(Expression<T> left, Expression<T> right) {
         super(left, " in ", right, 5);
     }
 

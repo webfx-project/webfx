@@ -10,9 +10,9 @@ import java.util.logging.Logger;
 /**
  * @author Bruno Salmon
  */
-public class Minus extends ArithmeticExpression {
+public class Minus<T> extends ArithmeticExpression<T> {
 
-    public Minus(Expression left, Expression right) {
+    public Minus(Expression<T> left, Expression<T> right) {
         super(left, "-", right, 6);
     }
 

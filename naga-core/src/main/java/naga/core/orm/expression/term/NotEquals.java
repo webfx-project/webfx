@@ -6,9 +6,9 @@ import naga.core.type.PrimType;
 /**
  * @author Bruno Salmon
  */
-public class NotEquals extends BooleanExpression {
+public class NotEquals<T> extends BooleanExpression<T> {
 
-    public NotEquals(Expression left, Expression right) {
+    public NotEquals(Expression<T> left, Expression<T> right) {
         super(left, "!=", right, 5);
     }
 

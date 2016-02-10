@@ -6,9 +6,9 @@ import naga.core.type.PrimType;
 /**
  * @author Bruno Salmon
  */
-public class LessThanOrEquals extends BooleanExpression {
+public class LessThanOrEquals<T> extends BooleanExpression<T> {
 
-    public LessThanOrEquals(Expression left, Expression right) {
+    public LessThanOrEquals(Expression<T> left, Expression<T> right) {
         super(left, "<=", right, 5);
     }
 
