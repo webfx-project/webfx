@@ -7,14 +7,16 @@ import naga.core.type.Type;
 import java.util.Collection;
 
 /**
- * Base interface of any expression.
+ * Base interface for any expression and terms operating on domain objects.
+ *
+ * @param <T> The java class used for domain objects.
  *
  * @author Bruno Salmon
  */
 public interface Expression<T> {
 
     /**
-     * @return the type of the expression
+     * @return the type of the expression (for example PrimType.BOOLEAN in case of a boolean expression).
      */
 
     Type getType();
@@ -23,8 +25,8 @@ public interface Expression<T> {
      * The method that evaluates the expression on a data object.
      *
      * @param domainObject the domain object on which the evaluation is computed
-     * @param dataReader
-     * @return the result of the evaluation
+     * @param dataReader the loose coupling interface for reading data (domain fields and parameters)
+     * @return the result of the evaluation. Its java class should be compliant with the type returned by getType().
      */
 
     Object evaluate(T domainObject, DataReader<T> dataReader);
@@ -42,9 +44,10 @@ public interface Expression<T> {
 
     /**
      * Change the value of the expression (if the expression is editable)
-     * @param domainObject
-     * @param value
-     * @param dataWriter
+     *
+     * @param domainObject the domain object on which the evaluation is computed
+     * @param value the new value to set. Its java class should be compliant with the type returned by getType().
+     * @param dataWriter the loose coupling interface for writing data (domain fields and parameters)
      */
 
     default void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {}
