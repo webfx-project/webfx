@@ -1,11 +1,15 @@
-package naga.core.orm.expression.datalci;
+package naga.core.orm.expression.lci;
+
+import naga.core.orm.expression.lci.DataReader;
 
 /**
- * Loose coupling interface used by expressions to write into domain objects and parameters.
+ * Loose coupling interface used by expressions to write date (into domain objects and parameters).
+ *
+ * @param <T> The expected class for domain objects.
  *
  * @author Bruno Salmon
  */
-public interface DataWriter extends DataReader {
+public interface DataWriter<T> extends DataReader<T> {
 
     /**
      * Set the field value of a domain object.
@@ -14,7 +18,7 @@ public interface DataWriter extends DataReader {
      * @param fieldId the field identifier
      * @param fieldValue the new field value
      */
-    void setDomainFieldValue(Object domainObject, Object fieldId, Object fieldValue);
+    void setDomainFieldValue(T domainObject, Object fieldId, Object fieldValue);
 
     /**
      * Set the value of a parameter.
@@ -22,5 +26,4 @@ public interface DataWriter extends DataReader {
      * @param value the new parameter value
      */
     void setParameterValue(String name, Object value);
-
 }

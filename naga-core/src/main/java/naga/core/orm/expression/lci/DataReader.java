@@ -1,12 +1,13 @@
-package naga.core.orm.expression.datalci;
+package naga.core.orm.expression.lci;
 
 /**
- * Loose coupling interface used by expressions to read domain objects and parameters.
+ * Loose coupling interface used by expressions to read data (from domain objects and parameters).
+ *
+ * @param <T> The expected class for domain objects.
  *
  * @author Bruno Salmon
  */
-
-public interface DataReader {
+public interface DataReader<T> {
 
     /**
      * Get a domain object from its identifier.
@@ -14,7 +15,7 @@ public interface DataReader {
      * @param id the domain object identifier
      * @return the domain object
      */
-    Object getDomainObjectFromId(Object id);
+    T getDomainObjectFromId(Object id);
 
     /**
      * Get the identifier of the domain object.
@@ -22,7 +23,7 @@ public interface DataReader {
      * @param domainObject
      * @return
      */
-    Object getDomainObjectId(Object domainObject);
+    Object getDomainObjectId(T domainObject);
 
     /**
      * Get the field value of a domain object.
@@ -31,7 +32,7 @@ public interface DataReader {
      * @param fieldId the field identifier
      * @return the field value
      */
-    Object getDomainFieldValue(Object domainObject, Object fieldId);
+    Object getDomainFieldValue(T domainObject, Object fieldId);
 
     /**
      * Get the value of a parameter.
@@ -40,5 +41,4 @@ public interface DataReader {
      * @return the parameter value
      */
     Object getParameterValue(String name);
-
 }
