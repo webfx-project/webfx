@@ -36,14 +36,14 @@ public class Constant<T> extends AbstractExpression<T> {
         return constantValue;
     }
 
-    public static Constant newConstant(Object constantValue) {
+    public static <T> Constant<T> newConstant(Object constantValue) {
         return newConstant(constantValue, null);
     }
 
-    public static Constant newConstant(Object constantValue, String text) {
-        Constant constant = predefinedConstants.get(constantValue);
+    public static <T> Constant<T> newConstant(Object constantValue, String text) {
+        Constant<T> constant = predefinedConstants.get(constantValue);
         if (constant == null)
-            constant = new Constant(constantValue, text);
+            constant = new Constant<>(constantValue, text);
         return constant;
     }
 
