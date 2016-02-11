@@ -11,11 +11,48 @@
 
     <artifactId>naga-core</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <artifactId>java-cup-11b-runtime</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
+
     <build>
         <plugins>
+
+            <!-- Calling the Java CUP plugin to generate JavaCupParser.java and Symbols.java from the parser.cup grammar file -->
+            <plugin>
+                <groupId>com.github.vbmacher</groupId>
+                <artifactId>cup-maven-plugin</artifactId>
+                <configuration>
+                    <cupDefinition>src/main/java/naga/core/orm/expressionparser/javacup/parser.cup</cupDefinition>
+                    <outputDirectory>src/main/java/</outputDirectory>
+                    <className>JavaCupParser</className>
+                    <symbolsName>Symbols</symbolsName>
+                    <packageName>naga.core.orm.expressionparser.javacup</packageName>
+                </configuration>
+            </plugin>
+
+            <!-- Calling the JFlex plugin to generate Lexer.java from the parser.flex lexical file -->
+            <plugin>
+                <groupId>de.jflex</groupId>
+                <artifactId>jflex-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>src/main/java</outputDirectory>
+                    <lexDefinitions>
+                        <lexDefinition>src/main/java/naga/core/orm/expressionparser/jflex/parser.flex</lexDefinition>
+                    </lexDefinitions>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
+
         </plugins>
     </build>
 

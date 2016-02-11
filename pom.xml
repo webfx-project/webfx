@@ -11,8 +11,10 @@
     <packaging>pom</packaging>
 
     <modules>
+        <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
         <module>java-cup-11b-runtime</module>
 
+        <!-- Naga modules -->
         <module>naga-core</module>
         <module>naga-javaplat</module>
         <module>naga-jre</module>
@@ -43,6 +45,8 @@
         <plugin.jar.version>2.4</plugin.jar.version>
         <plugin.source.version>2.4</plugin.source.version>
         <plugin.dependency.version>2.10</plugin.dependency.version>
+        <plugin.javacup.version>1.0.1</plugin.javacup.version>
+        <plugin.jflex.version>1.6.1</plugin.jflex.version>
         <plugin.shade.version>2.4.2</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.0.6</plugin.retrolambda.version>
@@ -311,6 +315,44 @@
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
                             </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 *********************************
+                 * Java CUP plugin configuration *
+                 *********************************
+                 Java CUP is a parser generator, it produces the parser java code from a .cup grammar file
+                 -->
+                <plugin>
+                    <groupId>com.github.vbmacher</groupId>
+                    <artifactId>cup-maven-plugin</artifactId>
+                    <version>${plugin.javacup.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!--
+                 ******************************
+                 * JFlex plugin configuration *
+                 ******************************
+                 JFlex is a lexical analyzer generator, it produces the lexer java code from a .flex lexical file
+                 -->
+                <plugin>
+                    <groupId>de.jflex</groupId>
+                    <artifactId>jflex-maven-plugin</artifactId>
+                    <version>${plugin.jflex.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
                         </execution>
                     </executions>
                 </plugin>
