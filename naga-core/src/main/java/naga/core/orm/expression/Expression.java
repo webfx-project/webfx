@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Base interface for any expression and terms operating on domain objects.
  *
- * @param <T> The java class used for domain objects.
+ * @param <T> The expected java class for domain objects.
  *
  * @author Bruno Salmon
  */
@@ -22,7 +22,7 @@ public interface Expression<T> {
     Type getType();
 
     /**
-     * The method that evaluates the expression on a data object.
+     * The method that evaluates the expression on a domain object.
      *
      * @param domainObject the domain object on which the evaluation is computed
      * @param dataReader the loose coupling interface for reading data (domain fields and parameters)
@@ -43,7 +43,7 @@ public interface Expression<T> {
     default boolean isEditable() { return true; }
 
     /**
-     * Change the value of the expression (if the expression is editable)
+     * Change the value of the expression (assuming the expression is editable).
      *
      * @param domainObject the domain object on which the evaluation is computed
      * @param value the new value to set. Its java class should be compliant with the type returned by getType().

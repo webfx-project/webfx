@@ -3,7 +3,7 @@ package naga.core.orm.expression.lci;
 /**
  * Loose coupling interface used by expressions to read data (from domain objects and parameters).
  *
- * @param <T> The java class used for domain objects.
+ * @param <T> The expected java class for domain objects.
  *
  * @author Bruno Salmon
  */
