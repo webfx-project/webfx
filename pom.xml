@@ -702,7 +702,7 @@
                 <activeByDefault>false</activeByDefault>
                 <file>
                     <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
-                    <missing>${user.home}/j2objc-1.0.0/lib/j2objc.jar</missing> <!-- env properties are however supported -->
+                    <!-- <missing>${user.home}/j2objc-1.0.0/lib/j2objc.jar</missing> --> <!-- env properties are however supported -->
                 </file>
                 <!-- otherwise j2objc is considered already installed and the installation is skipped -->
             </activation>
