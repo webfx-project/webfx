@@ -10,6 +10,7 @@
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga"/>         <!-- source path to naga-core and naga-gwt -->
-    <super-source path="super"/>  <!-- super-source path to the customized java.util.ServiceLoader -->
+    <source path="java_cup"/>     <!-- source path to java-cup library -->
+    <super-source path="super"/>  <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
 
 </module>
