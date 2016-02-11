@@ -11,6 +11,8 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>java-cup-11b-runtime</module>
+
         <module>naga-core</module>
         <module>naga-javaplat</module>
         <module>naga-jre</module>

@@ -17,6 +17,7 @@
       <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-jre/helloworld-jre.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-jre/helloworld-jre.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/helloworld-logic.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/helloworld-logic.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-teavm/helloworld-teavm.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-teavm/helloworld-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/java-cup-11b-runtime/java-cup-11b-runtime.iml" filepath="$PROJECT_DIR$/java-cup-11b-runtime/java-cup-11b-runtime.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga.iml" filepath="$PROJECT_DIR$/naga.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-android/naga-android.iml" filepath="$PROJECT_DIR$/naga-android/naga-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-core/naga-core.iml" filepath="$PROJECT_DIR$/naga-core/naga-core.iml" />

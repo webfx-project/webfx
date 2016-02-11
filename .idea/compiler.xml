@@ -35,6 +35,7 @@
         <module name="helloworld-jre" />
         <module name="helloworld-logic" />
         <module name="helloworld-teavm" />
+        <module name="java-cup-11b-runtime" />
         <module name="naga-android" />
         <module name="naga-core" />
         <module name="naga-gwt" />
@@ -62,6 +63,7 @@
       <module name="helloworld-jre" target="1.8" />
       <module name="helloworld-logic" target="1.7" />
       <module name="helloworld-teavm" target="1.8" />
+      <module name="java-cup-11b-runtime" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-android" target="1.8" />
       <module name="naga-core" target="1.8" />
