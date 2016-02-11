@@ -8,9 +8,9 @@ import naga.core.util.Booleans;
 /**
  * @author Bruno Salmon
  */
-public class Equals extends BooleanExpression {
+public class Equals<T> extends BooleanExpression<T> {
 
-    public Equals(Expression left, Expression right) {
+    public Equals(Expression<T> left, Expression<T> right) {
         super(left, "=", right, 5);
     }
 
@@ -19,7 +19,7 @@ public class Equals extends BooleanExpression {
     }
 
     @Override
-    public void setValue(Object domainObject, Object value, DataWriter dataWriter) {
+    public void setValue(T domainObject, Object value, DataWriter<T> dataWriter) {
         if (Booleans.isTrue(value))
             left.setValue(domainObject, right.evaluate(domainObject, dataWriter), dataWriter);
     }
