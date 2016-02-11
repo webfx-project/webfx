@@ -15,6 +15,15 @@
 
     <profiles>
         <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>hellonaga-teavm</module>
+            </modules>
+        </profile>
+        <profile>
             <id>jre</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -31,15 +40,6 @@
             <modules>
                 <module>hellonaga-retrolambda</module>
                 <module>hellonaga-android</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>teavm</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>hellonaga-teavm</module>
             </modules>
         </profile>
         <profile>
