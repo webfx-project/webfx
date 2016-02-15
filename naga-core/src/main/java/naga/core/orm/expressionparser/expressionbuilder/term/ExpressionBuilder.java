@@ -2,7 +2,7 @@ package naga.core.orm.expressionparser.expressionbuilder.term;
 
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expressionparser.expressionbuilder.BuilderThreadContext;
-import naga.core.orm.expressionparser.lci.ParserModelReader;
+import naga.core.orm.expressionparser.lci.ParserDomainModelReader;
 
 /**
  * @author Bruno Salmon
@@ -16,10 +16,10 @@ public abstract class ExpressionBuilder {
 
     protected void propagateDomainClasses() {
         if (buildingClass == null && buildingClassName != null)
-            buildingClass = getModelReader().getDomainClass(buildingClassName);
+            buildingClass = getModelReader().getDomainClassByName(buildingClassName);
     }
 
-    protected static ParserModelReader getModelReader() {
+    protected static ParserDomainModelReader getModelReader() {
         return BuilderThreadContext.getInstance().getModelReader();
     }
 }

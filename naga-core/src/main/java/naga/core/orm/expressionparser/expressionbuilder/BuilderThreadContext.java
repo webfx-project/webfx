@@ -1,6 +1,6 @@
 package naga.core.orm.expressionparser.expressionbuilder;
 
-import naga.core.orm.expressionparser.lci.ParserModelReader;
+import naga.core.orm.expressionparser.lci.ParserDomainModelReader;
 import naga.core.util.function.Callable;
 
 /**
@@ -11,13 +11,13 @@ public class BuilderThreadContext implements AutoCloseable {
     private final static ThreadLocal<BuilderThreadContext> contexts = new ThreadLocal<>();
     private static BuilderThreadContext jsContext; // used in a javascript context only (since ThreadLocal doesn't work with TeaVM)
 
-    private ParserModelReader modelReader;
+    private ParserDomainModelReader modelReader;
 
-    public BuilderThreadContext(ParserModelReader modelReader) {
+    public BuilderThreadContext(ParserDomainModelReader modelReader) {
         this.modelReader = modelReader;
     }
 
-    public ParserModelReader getModelReader() {
+    public ParserDomainModelReader getModelReader() {
         return modelReader;
     }
 
@@ -29,7 +29,7 @@ public class BuilderThreadContext implements AutoCloseable {
         */
     }
 
-    public static BuilderThreadContext open(ParserModelReader dataReader) {
+    public static BuilderThreadContext open(ParserDomainModelReader dataReader) {
         BuilderThreadContext context = new BuilderThreadContext(dataReader);
         contexts.set(context);
         if (contexts.get() == null) // happens with TeaVM
@@ -42,7 +42,7 @@ public class BuilderThreadContext implements AutoCloseable {
         return context != null ? context : jsContext;
     }
 
-    public static <T> T run(Callable<T> callable, ParserModelReader dataReader) {
+    public static <T> T run(Callable<T> callable, ParserDomainModelReader dataReader) {
         try (BuilderThreadContext context = open(dataReader)) {
             return callable.call();
         }

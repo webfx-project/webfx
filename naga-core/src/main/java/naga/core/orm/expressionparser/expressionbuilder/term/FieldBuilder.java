@@ -26,7 +26,7 @@ public class FieldBuilder extends ExpressionBuilder {
                 field = getModelReader().getDomainFieldSymbol(buildingClass, name);
                 if (field == null) {
                     if ("a".equals(name)) { // temporary hack to make ceremony work on statistics screen
-                        Object attendance = getModelReader().getDomainClass("Attendance");
+                        Object attendance = getModelReader().getDomainClassByName("Attendance");
                         field = new Alias("a", attendance); //, attendance.getField("documentLine"), false) ;
                     } else
                         throw new IllegalArgumentException("Unable to resolve reference '" + name + "' on class " + buildingClass);

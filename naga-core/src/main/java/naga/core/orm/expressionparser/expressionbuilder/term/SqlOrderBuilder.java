@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.SqlOrder;
 import naga.core.orm.expressionparser.expressionbuilder.BuilderThreadContext;
 import naga.core.orm.expressionparser.expressionbuilder.ReferenceResolver;
 import naga.core.orm.expressionparser.expressionbuilder.ThreadLocalReferenceResolver;
-import naga.core.orm.expressionparser.lci.ParserModelReader;
+import naga.core.orm.expressionparser.lci.ParserDomainModelReader;
 
 /**
  * @author Bruno Salmon
@@ -31,7 +31,7 @@ public abstract class SqlOrderBuilder<S extends SqlOrder> implements ReferenceRe
 
     protected void propagateDomainClasses() {
         if (buildingClass == null && buildingClassName != null)
-            buildingClass = getModelReader().getDomainClass(buildingClassName);
+            buildingClass = getModelReader().getDomainClassByName(buildingClassName);
         if (where != null)
             where.buildingClass = buildingClass;
         if (limit != null)
@@ -39,7 +39,7 @@ public abstract class SqlOrderBuilder<S extends SqlOrder> implements ReferenceRe
 
     }
 
-    protected static ParserModelReader getModelReader() {
+    protected static ParserDomainModelReader getModelReader() {
         return BuilderThreadContext.getInstance().getModelReader();
     }
 

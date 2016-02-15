@@ -9,7 +9,7 @@ import naga.core.orm.expressionparser.expressionbuilder.term.ExpressionBuilder;
 import naga.core.orm.expressionparser.expressionbuilder.term.SelectBuilder;
 import naga.core.orm.expressionparser.javacup.JavaCupParser;
 import naga.core.orm.expressionparser.jflex.Lexer;
-import naga.core.orm.expressionparser.lci.ParserModelReader;
+import naga.core.orm.expressionparser.lci.ParserDomainModelReader;
 
 import java.io.StringReader;
 
@@ -18,11 +18,11 @@ import java.io.StringReader;
  */
 public class ExpressionParser {
 
-    public static Expression parseExpression(String definition, Object domainClass, ParserModelReader modelReader) {
+    public static Expression parseExpression(String definition, Object domainClass, ParserDomainModelReader modelReader) {
         return parseExpression(definition, domainClass, modelReader, false);
     }
 
-    public static Expression parseExpression(String definition, Object domainClass, ParserModelReader modelReader, boolean expectList) {
+    public static Expression parseExpression(String definition, Object domainClass, ParserDomainModelReader modelReader, boolean expectList) {
         try (BuilderThreadContext context = BuilderThreadContext.open(modelReader)) {
             Symbol symbol = parseWithJavaCup("expr:=" + definition);
             ExpressionBuilder expressionBuilder = (ExpressionBuilder) symbol.value;
@@ -40,7 +40,7 @@ public class ExpressionParser {
         }
     }
 
-    public static Select parseSelect(String definition, ParserModelReader modelReader) {
+    public static Select parseSelect(String definition, ParserDomainModelReader modelReader) {
         try (BuilderThreadContext context = BuilderThreadContext.open(modelReader)) {
             java_cup.runtime.Symbol symbol = parseWithJavaCup(definition);
             SelectBuilder selectBuilder = (SelectBuilder) symbol.value;

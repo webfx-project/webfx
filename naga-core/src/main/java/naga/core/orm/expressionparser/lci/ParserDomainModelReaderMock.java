@@ -9,17 +9,17 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class ParserModelReaderMock implements ParserModelReader {
+public class ParserDomainModelReaderMock implements ParserDomainModelReader {
 
     private final Map<String, String> fieldGroups = new HashMap<>();
 
-    public ParserModelReaderMock setFieldGroup(String name, String definition) {
+    public ParserDomainModelReaderMock setFieldGroup(String name, String definition) {
         fieldGroups.put(name, definition);
         return this; // fluent API
     }
 
     @Override
-    public Object getDomainClass(String name) {
+    public Object getDomainClassByName(String name) {
         return name; // Domain classes are just names in this dummy model (no existence check and no additional info about them)
     }
 
