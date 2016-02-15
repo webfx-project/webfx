@@ -39,6 +39,15 @@
             <artifactId>vertx-jdbc-client</artifactId>
         </dependency>
 
+        <!-- Required by vertx-mysql-postgresql-client -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.15</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
         <!--
          Jackson is a transitive dependency of Vert.x core and shouldn't normally have to be listed here.
          But since it has been declared optional and provided in the parent pom (for the java clients)
