@@ -53,9 +53,7 @@ public class Select<T> extends SqlOrder<T> {
                 .append(_if(" limit ", limit, sb));
     }
 
-    public static CharSequence _ifNotEmpty(CharSequence s) {
-        return s != null ? s : "";
-    }
+    // Some Strings static methods helpers
 
     public static CharSequence _if(boolean condition, CharSequence s) {
         return condition && s!= null ? s : "";
