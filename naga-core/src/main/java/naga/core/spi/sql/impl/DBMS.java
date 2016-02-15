@@ -1,7 +1,5 @@
 package naga.core.spi.sql.impl;
 
-import naga.core.orm.expressionsqlcompiler.SqlSyntaxOptions;
-
 /**
  * @author Bruno Salmon
  */
@@ -9,12 +7,10 @@ public class DBMS {
 
     private final String driverClass;
     private final String jdbcUrlPattern;
-    private final SqlSyntaxOptions sqlSyntaxOptions;
 
-    public DBMS(String driverClass, String jdbcUrlPattern, SqlSyntaxOptions sqlSyntaxOptions) {
+    public DBMS(String driverClass, String jdbcUrlPattern) {
         this.driverClass = driverClass;
         this.jdbcUrlPattern = jdbcUrlPattern;
-        this.sqlSyntaxOptions = sqlSyntaxOptions;
     }
 
     public String getJdbcDriverClass() {
@@ -29,12 +25,8 @@ public class DBMS {
                 .replaceAll("\\{database\\}", connectionDetails.getDatabaseName());
     }
 
-    public SqlSyntaxOptions getSqlSyntaxOptions() {
-        return sqlSyntaxOptions;
-    }
-
-    public static final DBMS POSTGRES = new DBMS("org.postgresql.Driver", "jdbc:postgresql://{host}:{port}/{database}", new SqlSyntaxOptions(true));
-    public static final DBMS MYSQL = new DBMS("org.postgresql.Driver", "jdbc:postgresql://{host}:{port}/{database}", new SqlSyntaxOptions(true));
-    public static final DBMS HSQL = new DBMS("org.hsqldb.jdbc.JDBCDriver", "jdbc:hsqldb:{file}/{database}", new SqlSyntaxOptions(false));
+    public static final DBMS POSTGRES = new DBMS("org.postgresql.Driver", "jdbc:postgresql://{host}:{port}/{database}");
+    public static final DBMS MYSQL = new DBMS("org.postgresql.Driver", "jdbc:postgresql://{host}:{port}/{database}");
+    public static final DBMS HSQL = new DBMS("org.hsqldb.jdbc.JDBCDriver", "jdbc:hsqldb:{file}/{database}");
 
 }
