@@ -33,13 +33,6 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
         }
     }
 
-    @Override
-    public <T> void forEach(ListIterator<T> handler) {
-        int i = 0;
-        for (Object o : getList())
-            handler.call(i++, ListMapUtil.wrap(o));
-    }
-
     protected <T> T getNative(int index) {
         return (T) getList().get(index);
     }

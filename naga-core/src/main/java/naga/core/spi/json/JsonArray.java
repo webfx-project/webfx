@@ -17,6 +17,8 @@
  */
 package naga.core.spi.json;
 
+import java.util.Iterator;
+
 /**
  * Represents a Json array.
  *
@@ -26,15 +28,6 @@ package naga.core.spi.json;
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/Json.java">Original Goodow class</a>
  */
 public interface JsonArray extends JsonElement {
-
-    interface ListIterator<T> {
-        void call(int index, T value);
-    }
-
-    /**
-     * Calls a function for each element in an array.
-     */
-    <T> void forEach(ListIterator<T> handler);
 
     /**
      * Return the ith element of the array.
@@ -117,4 +110,24 @@ public interface JsonArray extends JsonElement {
      * @return Whether the item was removed.
      */
     boolean removeValue(Object value);
+
+    default Iterator iterator() {
+        return new Iterator() {
+            private int currentIndex = -1;
+            @Override
+            public boolean hasNext() {
+                return currentIndex + 1 < length();
+            }
+
+            @Override
+            public Object next() {
+                return get(++currentIndex);
+            }
+
+            @Override
+            public void remove() {
+                JsonArray.this.remove(currentIndex--);
+            }
+        };
+    }
 }

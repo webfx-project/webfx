@@ -18,30 +18,6 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
 
     <T extends JSObject> JSArray<T> asArray() { return jsValue.cast(); }
 
-    @Override
-    public <T> void forEach(ListIterator<T> handler) {
-        JSArray<JSObject> array = asArray();
-        int length = array.getLength();
-        System.out.println("forEach length = " + length);
-        for (int i = 0; i < length; i++)
-            handler.call(i, array.get(i).cast());
-    } /*-{
-    if (Array.prototype.forEach) {
-      Array.prototype.forEach.call(this, function(item, index, array) {
-        handler.
-        @com.goodow.realtime.json.JsonArray.ListIterator::call(ILjava/lang/Object;)
-        (index, item);
-      });
-    } else {
-      var len = this.length;  // must be fixed during loop...
-      for (var i = 0; i < len; i++) {
-        handler.
-        @com.goodow.realtime.json.JsonArray.ListIterator::call(ILjava/lang/Object;)
-        (i, this[i]);
-      }
-    }
-  }-*/;
-
     @SuppressWarnings("unchecked")
     @Override
     public <T> T get(int index) {
