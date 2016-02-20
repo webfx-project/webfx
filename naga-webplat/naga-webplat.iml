@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: naga:naga-core:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="module" module-name="java-cup-11b-runtime" />
   </component>
 </module>
