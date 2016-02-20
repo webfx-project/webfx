@@ -1,5 +1,7 @@
 package naga.core.util;
 
+import naga.core.util.collection.Collections;
+
 import java.util.List;
 
 /*
@@ -19,7 +21,12 @@ public class Arrays {
         return java.util.Arrays.asList(a);
     }
 
-    public static boolean isEmpty(Object[] array) {
+    public static <T> boolean isEmpty(T[] array) {
         return array == null || array.length == 0;
     }
+
+    public static <T> String toString(T[] array) {
+        return Collections.toString(java.util.Arrays.asList(array).iterator());
+    }
+
 }
