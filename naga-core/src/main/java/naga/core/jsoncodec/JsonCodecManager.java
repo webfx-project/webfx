@@ -127,14 +127,6 @@ public class JsonCodecManager {
      *            Json Codec registration               *
      * *************************************************/
 
-    static {
-        // Registering all required json codecs (especially for network bus calls)
-        BusCallService.registerJsonCodecs();
-        SqlArgument.registerJsonCodec();
-        SqlReadResult.registerJsonCodec();
-        registerBatchJsonCodec();
-    }
-
     // Batch Json Serialization support
 
     private static String BATCH_CODEC_ID = "Batch";
@@ -155,4 +147,11 @@ public class JsonCodecManager {
         };
     }
 
+    static {
+        // Registering all required json codecs (especially for network bus calls)
+        BusCallService.registerJsonCodecs();
+        SqlArgument.registerJsonCodec();
+        SqlReadResult.registerJsonCodec();
+        registerBatchJsonCodec();
+    }
 }
