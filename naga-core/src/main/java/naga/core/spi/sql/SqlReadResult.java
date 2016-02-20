@@ -42,6 +42,34 @@ public class SqlReadResult {
         return (T) values[rowIndex][columnIndex];
     }
 
+    /*******************************************************************************************
+     * Secondary convenient methods to access values with column names instead of column index *
+     *******************************************************************************************/
+
+    public int getColumnIndex(String columnName) {
+        int n = getColumnCount();
+        String[] columnNames = getColumnNames();
+        for (int i = 0; i < n; i++) {
+            if (columnName.equalsIgnoreCase(columnNames[i]))
+                return i;
+        }
+        return -1;
+    }
+
+    public <T> T getValue(int rowIndex, String columnName) {
+        return getValue(rowIndex, getColumnIndex(columnName));
+    }
+
+    public <T> T getValue(int rowIndex, String columnName, T defaultValue) {
+        T value = getValue(rowIndex, getColumnIndex(columnName));
+        return value != null ? value : defaultValue;
+    }
+
+    // To be used with int to avoid GWT ClassCastException
+    public int getInt(int rowIndex, String columnName, int defaultValue) {
+        Object value = getValue(rowIndex, getColumnIndex(columnName));
+        return value instanceof Number ? ((Number) value).intValue() : defaultValue;
+    }
 
     /****************************************************
      *                    Json Codec                    *
