@@ -27,6 +27,8 @@ public class EntityStore {
     }
 
     public Entity getOrCreateEntity(Object domainClassId, Object primaryKey) {
+        if (primaryKey == null)
+            return null;
         return getOrCreateEntity(getEntityID(domainClassId, primaryKey));
     }
 
