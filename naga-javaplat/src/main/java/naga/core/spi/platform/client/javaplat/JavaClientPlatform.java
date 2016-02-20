@@ -25,6 +25,8 @@ import naga.core.spi.json.javaplat.smart.SmartJsonFactory;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.spi.platform.sql.jdbc.JdbcSqlService;
+import naga.core.spi.sql.SqlService;
 
 import java.util.logging.Logger;
 
@@ -75,6 +77,11 @@ public abstract class JavaClientPlatform extends ClientPlatform {
     @Override
     public WebSocketFactory webSocketFactory() {
         return webSocketFactory;
+    }
+
+    @Override
+    public SqlService sqlService() {
+        return JdbcSqlService.JDBC_SQL_SERVICE;
     }
 
     @Override
