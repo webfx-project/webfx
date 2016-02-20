@@ -1,5 +1,7 @@
 package naga.core.orm.mapping.query;
 
+import naga.core.util.Arrays;
+
 /**
  * Mapping between the sql row and the entity
  *
@@ -27,5 +29,10 @@ public class SqlRowToEntityMapping {
 
     public SqlColumnToEntityFieldMapping[] getColumnMappings() {
         return columnMappings;
+    }
+
+    @Override
+    public String toString() {
+        return "{DomainClass: " + domainClassId + ", primaryKeyColumnIndex: " + primaryKeyColumnIndex + ", columnMappings: " + Arrays.toString(columnMappings) + "}";
     }
 }

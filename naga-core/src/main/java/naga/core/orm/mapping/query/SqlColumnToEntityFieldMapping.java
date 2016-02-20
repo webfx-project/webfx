@@ -85,4 +85,9 @@ public class SqlColumnToEntityFieldMapping {
     public SqlColumnToEntityFieldMapping getForeignIdColumnMapping() {
         return foreignIdColumnMapping;
     }
+
+    @Override
+    public String toString() {
+        return "{columnIndex: " + columnIndex + ", domainField: " + domainFieldId + (foreignClassId == null ? "" : " -> " + foreignClassId) + (foreignIdColumnMapping == null ? "" : " of " + foreignIdColumnMapping.foreignClassId + " whose primary key is on column " + foreignIdColumnMapping.columnIndex) + "}";
+    }
 }
