@@ -5,8 +5,13 @@ import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.type.PrimType;
+import naga.core.util.pack.ValuesUnpacker;
+import naga.core.util.pack.ValuesPacker;
+import naga.core.util.pack.repeat.RepeatingValuesPacker;
+import naga.core.util.pack.repeat.RepeatingValuesUnpacker;
 
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * @author Bruno Salmon
@@ -33,8 +38,8 @@ public class SqlReadResult {
         return values.length;
     }
 
-    public Object getValue(int rowIndex, int columnIndex) {
-        return values[rowIndex][columnIndex];
+    public <T> T getValue(int rowIndex, int columnIndex) {
+        return (T) values[rowIndex][columnIndex];
     }
 
 
@@ -61,32 +66,33 @@ public class SqlReadResult {
                     json.set(COLUMN_NAMES_KEY, namesArray);
                     if (columnCount == -1)
                         columnCount = namesArray.length();
-                    // Values & types serialization
-                    Object[][] values = result.values;
-                    JsonArray rowsArray = Json.createArray();
+                    // types serialization & values compression
                     JsonArray typesArray = Json.createArray();
                     PrimType[] types = new PrimType[columnCount];
                     int rowCount = result.getRowCount();
-                    for (int i = 0; i < rowCount; i++) {
-                        Object[] row = values[i];
-                        JsonArray rowArray = Json.createArray();
-                        for (int j = 0; j < columnCount; j++) {
-                            Object value = row[j];
+                    ValuesPacker packer = new RepeatingValuesPacker();
+                    // Walking by column first as this increases the chance of value consecutive repetition (good for compression)
+                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                        PrimType type = types[columnIndex];
+                        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                            Object value = result.values[rowIndex][columnIndex];
                             if (value != null) {
-                                PrimType type = types[j];
                                 if (type == null)
-                                    types[j] = type = PrimType.fromObject(value);
+                                    types[columnIndex] = type = PrimType.fromObject(value);
                                 if (type == PrimType.DATE)
                                     value = ((Date) value).getTime();
                             }
-                            rowArray.push(value);
+                            packer.pushValue(value);
                         }
-                        rowsArray.push(rowArray);
                     }
                     for (PrimType type : types)
                         typesArray.push(type == null ? null : type.name());
                     json.set(COLUMN_TYPES_KEY, typesArray);
-                    json.set(VALUES_KEY, rowsArray);
+                    // values serialization
+                    JsonArray valuesArray = Json.createArray();
+                    for (Iterator it = packer.packedValues(); it.hasNext(); )
+                        valuesArray.push(it.next());
+                    json.set(VALUES_KEY, valuesArray);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -109,17 +115,18 @@ public class SqlReadResult {
                         types[i] = PrimType.valueOf(typeName);
                 }
                 // Values deserialization
-                JsonArray rowsArray = json.get(VALUES_KEY);
-                int rowCount = rowsArray.length();
-                Object[][] values = rowCount > 0 ? new Object[rowCount][columnCount] : null;
-                for (int i = 0; i < rowCount; i++) {
-                    JsonArray rowArray = rowsArray.getArray(i);
-                    int nextNonNullColumnIndex = 0;
-                    for (int j = 0; j < columnCount; j++) {
-                        Object value = rowArray.get(nextNonNullColumnIndex++);
-                        if (value != null && types[j] == PrimType.DATE)
+                JsonArray valuesArray = json.get(VALUES_KEY);
+                ValuesUnpacker compressed = new RepeatingValuesUnpacker(valuesArray.iterator());
+                Iterator uncompressedValuesIterator = compressed.unpackedValues();
+                int rowCount = compressed.unpackedSize() / columnCount;
+                Object[][] values = new Object[rowCount][columnCount];
+                // Walking by column first (same as encoder)
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                        Object value = uncompressedValuesIterator.next();
+                        if (value != null && types[columnIndex] == PrimType.DATE)
                             value = new Date(((Number) value).longValue());
-                        values[i][j] = value;
+                        values[rowIndex][columnIndex] = value;
                     }
                 }
                 // returning the result as a snapshot
