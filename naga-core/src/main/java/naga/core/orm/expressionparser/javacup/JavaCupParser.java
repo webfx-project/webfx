@@ -5,14 +5,14 @@
 
 package naga.core.orm.expressionparser.javacup;
 
-import java_cup.runtime.lr_parser;
+import java_cup.runtime.LrParser;
 import naga.core.orm.expressionparser.expressionbuilder.term.*;
 import naga.core.type.PrimType;
 
 /** CUP v0.11b 20150326 (SVN rev 63) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
-public class JavaCupParser extends lr_parser {
+public class JavaCupParser extends LrParser {
 
  public final Class getSymbolContainer() {
     return Symbols.class;
@@ -790,7 +790,7 @@ public class JavaCupParser extends lr_parser {
   /** Invoke a user supplied parse action. */
   public java_cup.runtime.Symbol do_action(
     int                        act_num,
-    lr_parser parser,
+    LrParser parser,
     java.util.Stack            stack,
     int                        top)
     throws java.lang.Exception
@@ -877,7 +877,7 @@ class CUP$JavaCupParser$actions {
   /** Method 0 with the actual generated action code for actions 0 to 300. */
   public final java_cup.runtime.Symbol CUP$JavaCupParser$do_action_part00000000(
     int                        CUP$JavaCupParser$act_num,
-    lr_parser CUP$JavaCupParser$parser,
+    LrParser CUP$JavaCupParser$parser,
     java.util.Stack            CUP$JavaCupParser$stack,
     int                        CUP$JavaCupParser$top)
     throws java.lang.Exception
@@ -2368,7 +2368,7 @@ class CUP$JavaCupParser$actions {
   /** Method splitting the generated action code into several parts. */
   public final java_cup.runtime.Symbol CUP$JavaCupParser$do_action(
     int                        CUP$JavaCupParser$act_num,
-    lr_parser CUP$JavaCupParser$parser,
+    LrParser CUP$JavaCupParser$parser,
     java.util.Stack            CUP$JavaCupParser$stack,
     int                        CUP$JavaCupParser$top)
     throws java.lang.Exception
