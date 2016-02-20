@@ -6,7 +6,9 @@ import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
+import naga.core.util.async.Batch;
 
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,13 +23,6 @@ public class JsonCodecManager {
     private static final Map<Class, JsonCodec> encoders = new HashMap<>();
     private static final Map<String, JsonCodec> decoders = new HashMap<>();
 
-    static {
-        // Registering all required json codecs (especially for network calls)
-        BusCallService.registerJsonCodecs();
-        SqlArgument.registerJsonCodec();
-        SqlReadResult.registerJsonCodec();
-    }
-
     public static  <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> jsonCodec) {
         encoders.put(javaClass, jsonCodec);
         decoders.put(jsonCodec.getCodecID(), jsonCodec);
@@ -39,7 +34,7 @@ public class JsonCodecManager {
 
     public static <J> JsonCodec<J> getJsonEncoder(Class<J> javaClass) {
         for (Class c = javaClass; c != null; c = c.getSuperclass()) {
-            JsonCodec jsonCodec = encoders.get(c);
+            JsonCodec<J> jsonCodec = encoders.get(c);
             if (jsonCodec != null)
                 return jsonCodec;
         }
@@ -74,12 +69,6 @@ public class JsonCodecManager {
         encoder.encodeToJson(javaObject, json);
     }
 
-    public static <J> J decodeFromJson(Object object) {
-        if (object instanceof JsonObject)
-            return decodeFromJsonObject((JsonObject) object);
-        return (J) object;
-    }
-
     public static <J> J decodeFromJsonObject(JsonObject json) {
         if (json == null)
             return null;
@@ -90,6 +79,11 @@ public class JsonCodecManager {
         return decoder.decodeFromJson(json);
     }
 
+    public static <J> J decodeFromJson(Object object) {
+        if (object instanceof JsonObject)
+            return decodeFromJsonObject((JsonObject) object);
+        return (J) object;
+    }
 
     public static JsonArray encodePrimitiveArrayToJsonArray(Object[] primArray) {
         if (primArray == null)
@@ -119,15 +113,46 @@ public class JsonCodecManager {
         return jsonArray;
     }
 
-    /* Doesn't compile with GWT
-    public static <A> A[] deserializeObjectsArray(JsonArray jsonArray, Class<A> expectedClass) {
+    public static <A> A[] decodeFromJsonArray(JsonArray jsonArray, Class<A> expectedClass) {
         if (jsonArray == null)
             return null;
         int n = jsonArray.length();
         A[] array = (A[]) Array.newInstance(expectedClass, n);
         for (int i = 0; i < n; i++)
-            array[i] = deserialize(jsonArray.getObject(i));
+            array[i] = decodeFromJson(jsonArray.getObject(i));
         return array;
     }
-    */
+
+    /****************************************************
+     *            Json Codec registration               *
+     * *************************************************/
+
+    static {
+        // Registering all required json codecs (especially for network bus calls)
+        BusCallService.registerJsonCodecs();
+        SqlArgument.registerJsonCodec();
+        SqlReadResult.registerJsonCodec();
+        registerBatchJsonCodec();
+    }
+
+    // Batch Json Serialization support
+
+    private static String BATCH_CODEC_ID = "Batch";
+    private static String BATCH_ARRAY_KEY = "array";
+
+    static void registerBatchJsonCodec() {
+        new AbstractJsonCodec<Batch>(Batch.class, BATCH_CODEC_ID) {
+
+            @Override
+            public void encodeToJson(Batch batch, JsonObject json) {
+                json.set(BATCH_ARRAY_KEY, encodeToJsonArray(batch.getArray()));
+            }
+
+            @Override
+            public Batch decodeFromJson(JsonObject json) {
+                return new Batch<>(decodeFromJsonArray(json.getArray(BATCH_ARRAY_KEY), SqlReadResult.class /* Temporary hardcoded TODO: guess the result class from the codecID */));
+            }
+        };
+    }
+
 }
