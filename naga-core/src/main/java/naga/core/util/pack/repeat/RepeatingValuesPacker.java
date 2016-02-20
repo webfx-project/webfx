@@ -25,10 +25,10 @@ public class RepeatingValuesPacker implements ValuesPacker {
 
     @Override
     public void pushValue(Object value) {
-        if (value != lastValue || lastRepeatValueIndexes == null) {
+        if (!Objects.equals(value, lastValue) || lastRepeatValueIndexes == null) {
             lastRepeatValueIndexes = repeatValues.get(value);
             if (lastRepeatValueIndexes == null) {
-                if (lastNonRepeatValue == value && lastNonRepeatGlobalIndex >= 0) {
+                if (Objects.equals(value, lastNonRepeatValue) && lastNonRepeatGlobalIndex >= 0) {
                     repeatValues.put(value, lastRepeatValueIndexes = new IncreasingIntegersTokenizer());
                     nonRepeatValues.remove(nonRepeatValues.size() - 1);
                     lastRepeatValueIndexes.pushInt(lastNonRepeatGlobalIndex);
