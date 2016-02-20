@@ -1,5 +1,7 @@
 package naga.core.orm.entity;
 
+import naga.core.util.collection.Collections;
+
 import java.util.ArrayList;
 
 /**
@@ -21,5 +23,10 @@ public class EntityList extends ArrayList<Entity> {
 
     public EntityStore getStore() {
         return store;
+    }
+
+    @Override
+    public String toString() {
+        return Collections.toString(iterator());
     }
 }
