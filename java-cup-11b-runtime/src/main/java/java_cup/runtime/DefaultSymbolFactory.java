@@ -29,13 +29,13 @@ public class DefaultSymbolFactory implements SymbolFactory{
     public DefaultSymbolFactory(){
     }
     public Symbol newSymbol(String name ,int id, Symbol left, Symbol right, Object value){
-        return new Symbol(id,left,right,value);
+        return new Symbol(id,left.left,right.right,value);
     }
     public Symbol newSymbol(String name ,int id, Symbol left, Object value){
         return new Symbol(id,left,value);
     }
     public Symbol newSymbol(String name, int id, Symbol left, Symbol right){
-        return new Symbol(id,left,right);
+        return new Symbol(id,left.left,right.right);
     }
     public Symbol newSymbol(String name, int id, int left, int right, Object value){
         return new Symbol(id,left,right,value);
