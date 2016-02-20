@@ -20,6 +20,11 @@ import java.util.List;
  */
 public class JdbcSqlService extends SqlServiceImpl {
 
+    public static JdbcSqlService JDBC_SQL_SERVICE = new JdbcSqlService();
+
+    private JdbcSqlService() {
+    }
+
     @Override
     protected SqlService createConnectedSqlService(ConnectionDetails connectionDetails) {
         return new JdbcConnectedSqlService(connectionDetails);
@@ -41,7 +46,6 @@ public class JdbcSqlService extends SqlServiceImpl {
         @Override
         public Future<SqlReadResult> read(SqlArgument arg) {
             Future<SqlReadResult> future = Future.future();
-
             try (
                     Connection connection = getConnection();
                     Statement statement = getStatement(arg, connection);
@@ -56,7 +60,7 @@ public class JdbcSqlService extends SqlServiceImpl {
                 while (resultSet.next()) {
                     Object[] columns = new Object[columnCount];
                     for (int i = 0; i < columnCount; i++)
-                        columns[i] = resultSet.getObject(i);
+                        columns[i] = resultSet.getObject(i + 1);
                     rows.add(columns);
                 }
                 int rowCount = rows.size();
