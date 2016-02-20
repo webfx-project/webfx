@@ -118,7 +118,7 @@ import java.util.Stack;
  * @author  Frank Flannery
  */
 
-public abstract class LrParser {
+public abstract class lr_parser {
     /*-----------------------------------------------------------*/
     /*--- Constructor(s) ----------------------------------------*/
     /*-----------------------------------------------------------*/
@@ -128,13 +128,13 @@ public abstract class LrParser {
      * deprecated; The use of a SymbolFactory, e.g. Complexsymbolfactory is advised  
      */
 	@Deprecated
-    public LrParser() {
+    public lr_parser() {
         this(new DefaultSymbolFactory());
     }
     /** 
      * Simple constructor.  
      */
-    public LrParser(SymbolFactory fac) {
+    public lr_parser(SymbolFactory fac) {
         symbolFactory = fac;
     }
     /** 
@@ -142,13 +142,13 @@ public abstract class LrParser {
      * deprecated; The use of a SymbolFactory, e.g. Complexsymbolfactory is advised 
      */
     @Deprecated
-    public LrParser(Scanner s) {
+    public lr_parser(Scanner s) {
         this(s,new DefaultSymbolFactory()); // TUM 20060327 old cup v10 Symbols as default
     }
     /** 
      * Constructor that sets the default scanner and a SymbolFactory
      */
-    public LrParser(Scanner s, SymbolFactory symfac) {
+    public lr_parser(Scanner s, SymbolFactory symfac) {
         this(); // in case default constructor someday does something
         symbolFactory = symfac;
         setScanner(s);
@@ -203,7 +203,7 @@ public abstract class LrParser {
    *  state shifted to).  Reduces are encoded as negative values (one less 
    *  than the production reduced by).  Error entries are denoted by zero. 
    * 
-   * @see LrParser#get_action
+   * @see lr_parser#get_action
    */
   public abstract short[][] action_table();
 
@@ -220,7 +220,7 @@ public abstract class LrParser {
    *  then indexed by that state and the LHS of the reducing production to 
    *  indicate where to "shift" to. 
    *
-   * @see LrParser#get_reduce
+   * @see lr_parser#get_reduce
    */
   public abstract short[][] reduce_table();
 
@@ -327,7 +327,7 @@ public abstract class LrParser {
    */
   public abstract Symbol do_action(
     int       act_num, 
-    LrParser parser,
+    lr_parser parser,
     Stack     stack, 
     int       top) 
     throws java.lang.Exception;
