@@ -27,7 +27,7 @@ import java.util.Iterator;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/Json.java">Original Goodow class</a>
  */
-public interface JsonArray extends JsonElement {
+public interface JsonArray extends JsonElement, Iterable {
 
     /**
      * Return the ith element of the array.
@@ -53,7 +53,7 @@ public interface JsonArray extends JsonElement {
     double getNumber(int index);
 
     /**
-     * Return the ith element of the array (uncoerced) as a JsonObject If the type is not an object,,
+     * Return the ith element of the array (uncoerced) as a JsonObject. If the type is not an object,
      * this can result in runtime errors.
      */
     JsonObject getObject(int index);
