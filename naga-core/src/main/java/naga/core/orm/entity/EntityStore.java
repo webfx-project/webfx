@@ -55,4 +55,19 @@ public class EntityStore {
             entityLists.put(listId, entityList = new EntityList(listId, this));
         return entityList;
     }
+
+    public String getEntityClassesCountReport() {
+        Map<Object, Integer> classesCount = new HashMap<>();
+        for (EntityID id : entities.keySet()) {
+            Integer count = classesCount.get(id.getDomainClassId());
+            classesCount.put(id.getDomainClassId(), count == null ? 1 : count + 1);
+        }
+        StringBuffer sb = new StringBuffer();
+        for (Map.Entry<Object, Integer> entry : classesCount.entrySet()) {
+            if (sb.length() > 0)
+                sb.append(", ");
+            sb.append(entry.getValue()).append(' ').append(entry.getKey());
+        }
+        return sb.toString();
+    }
 }

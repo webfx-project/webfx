@@ -135,6 +135,7 @@ public class DomainModelLoader {
             DomainFieldsGroupBuilder groupBuilder = classBuilder.newFieldsGroupBuilder(qr.getValue(row, "name"), true);
             groupBuilder.fieldsDefinition = qr.getValue(row, "fields");
         }
+        Platform.log("Domain model loaded: " + results[2].getRowCount() + " classes, " + results[3].getRowCount() + " fields, " + results[4].getRowCount() + " fields groups and " + results[0].getRowCount() + " labels");
         // Building and returning final domain model
         return dmb.build();
     }
