@@ -3,7 +3,6 @@ package naga.core.util.pack.repeat;
 import naga.core.util.pack.ValuesUnpacker;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -11,48 +10,29 @@ import java.util.List;
  */
 public class RepeatingValuesUnpacker implements ValuesUnpacker {
 
-    private final Iterator packedValues;
+    public final static RepeatingValuesUnpacker SINGLETON = new RepeatingValuesUnpacker();
 
-    private int uncompressedValuesSize = -1;
-
-    public RepeatingValuesUnpacker(Iterator packedValues) {
-        this.packedValues = packedValues;
+    private RepeatingValuesUnpacker() {
     }
 
     @Override
-    public int unpackedSize() {
-        if (uncompressedValuesSize == -1)
-            uncompressedValuesSize = ((Number) packedValues.next()).intValue(); // May be Double instead of Integer when coming from GWT json
-        return uncompressedValuesSize;
-    }
-
-    @Override
-    public Iterator unpackedValues() {
-        unpackedSize();
-        int repeatValuesSize = ((Number) packedValues.next()).intValue(); // May be Double instead of Integer when coming from GWT json
+    public Object[] unpackValues(Object[] packedValues) {
+        int packedIndex = 0;
+        int unpackLength = ((Number) packedValues[packedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
+        int repeatValuesSize = ((Number) packedValues[packedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
         List<RepeatingValue> repeatValues = new ArrayList<>(repeatValuesSize);
         for (int i = 0; i < repeatValuesSize; i++)
-            repeatValues.add(new RepeatingValue(packedValues.next(), (String) packedValues.next()));
-        return new Iterator() {
-            int index = -1;
-            @Override
-            public boolean hasNext() {
-                return index + 1 < uncompressedValuesSize;
-            }
+            repeatValues.add(new RepeatingValue(packedValues[packedIndex++], (String) packedValues[packedIndex++]));
 
-            @Override
-            public Object next() {
-                index++;
-                for (RepeatingValue repeatValue : repeatValues)
-                    if (repeatValue.isRepeatedAtIndex(index))
-                        return repeatValue.getValue();
-                return packedValues.next();
-            }
-
-            @Override
-            public void remove() { // GWT complains if not overridden
-                throw new UnsupportedOperationException("remove");
-            }
-        };
+        Object[] unpackedValues = new Object[unpackLength];
+        loop: for (int unpackedIndex = 0; unpackedIndex < unpackLength; unpackedIndex++) {
+            for (RepeatingValue repeatValue : repeatValues)
+                if (repeatValue.isRepeatedAtIndex(unpackedIndex)) {
+                    unpackedValues[unpackedIndex] = repeatValue.getValue();
+                    continue loop;
+                }
+            unpackedValues[unpackedIndex] = packedValues[packedIndex++];
+        }
+        return unpackedValues;
     }
 }

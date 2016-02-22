@@ -107,16 +107,15 @@ public class VertxSqlService extends SqlServiceImpl {
                             int columnCount = resultSet.getNumColumns();
                             int rowCount = resultSet.getNumRows();
                             String[] columnNames = resultSet.getColumnNames().toArray(new String[columnCount]);
-                            Object[][] values = new Object[rowCount][columnCount];
+                            Object[] inlineValues = new Object[rowCount * columnCount];
                             List<JsonArray> results = resultSet.getResults();
-                            for (int i = 0; i < rowCount; i++) {
-                                Object[] columns = values[i];
-                                JsonArray jsonArray = results.get(i);
-                                for (int j = 0; j < columnCount; j++)
-                                    columns[j] = jsonArray.getValue(j);
+                            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                                JsonArray jsonArray = results.get(rowIndex);
+                                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                                    inlineValues[rowIndex + columnIndex * rowCount] = jsonArray.getValue(columnIndex);
                             }
                             // Returning the final SqlReadResult
-                            future.complete(new SqlReadResult(columnNames, values));
+                            future.complete(new SqlReadResult(columnNames, inlineValues));
                         }
                         // Closing the connection so it can go back to the pool
                         connection.close();

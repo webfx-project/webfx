@@ -5,25 +5,59 @@ import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.type.PrimType;
-import naga.core.util.pack.ValuesUnpacker;
-import naga.core.util.pack.ValuesPacker;
 import naga.core.util.pack.repeat.RepeatingValuesPacker;
 import naga.core.util.pack.repeat.RepeatingValuesUnpacker;
-
-import java.util.Date;
-import java.util.Iterator;
 
 /**
  * @author Bruno Salmon
  */
 public class SqlReadResult {
 
+    /**
+     * Sql column names of the result set. This information is actually optional and useful only for debugging.
+     */
     private final String[] columnNames;
-    private final Object[][] values; // first index = row, second index = column
 
-    public SqlReadResult(String[] columnNames, Object[][] values) {
+    // 2 supported data structures to store values in memory:
+
+    /**
+     * 1) Values stored in a matrix (more natural for humans and some APIs).
+     * First index = rowIndex, second index = columnIndex
+     */
+    private Object[][] matrixValues;
+    /**
+     * 2) Values stored in an inline array (more efficient for compression algorithm).
+     * First column, then 2nd column, etc... So inlineIndex = rowIndex + columnIndex * rowCount.
+     * (better than 1st row, 2nd row, etc.. for compression algorithm)
+     */
+    private Object[] inlineValues;
+    private final int rowCount;
+    private final int columnCount;
+
+    /**
+     * Constructor accepting a matrix for values.
+     *
+     * @param columnNames
+     * @param matrixValues
+     */
+    public SqlReadResult(String[] columnNames, Object[][] matrixValues) {
         this.columnNames = columnNames;
-        this.values = values;
+        this.matrixValues = matrixValues;
+        columnCount = columnNames.length;
+        rowCount = matrixValues.length;
+    }
+
+    /**
+     * Constructor accepting an inline array for values.
+     *
+     * @param columnNames
+     * @param inlineValues
+     */
+    public SqlReadResult(String[] columnNames, Object[] inlineValues) {
+        this.columnNames = columnNames;
+        this.inlineValues = inlineValues;
+        columnCount = columnNames.length;
+        rowCount = inlineValues.length / columnCount;
     }
 
     public String[] getColumnNames() {
@@ -31,15 +65,26 @@ public class SqlReadResult {
     }
 
     public int getColumnCount() {
-        return columnNames.length;
+        return columnCount;
     }
 
     public int getRowCount() {
-        return values.length;
+        return rowCount;
     }
 
     public <T> T getValue(int rowIndex, int columnIndex) {
-        return (T) values[rowIndex][columnIndex];
+        return (T) (inlineValues != null ? inlineValues[rowIndex + columnIndex * rowCount] : matrixValues[rowIndex][columnIndex]);
+    }
+
+    private Object[] getInlineValues() {
+        if (inlineValues == null) { // When asked, turning from matrix to inline
+            inlineValues = new Object[rowCount * columnCount];
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                    inlineValues[rowIndex + columnIndex * rowCount] = matrixValues[rowIndex][columnIndex];
+            matrixValues = null; // releasing memory
+        }
+        return inlineValues;
     }
 
     /*******************************************************************************************
@@ -65,7 +110,7 @@ public class SqlReadResult {
         return value != null ? value : defaultValue;
     }
 
-    // To be used with int to avoid GWT ClassCastException
+    // To be used with int to avoid GWT ClassCastException as Integer coming from Json may actually be Double
     public int getInt(int rowIndex, String columnName, int defaultValue) {
         Object value = getValue(rowIndex, getColumnIndex(columnName));
         return value instanceof Number ? ((Number) value).intValue() : defaultValue;
@@ -98,29 +143,20 @@ public class SqlReadResult {
                     JsonArray typesArray = Json.createArray();
                     PrimType[] types = new PrimType[columnCount];
                     int rowCount = result.getRowCount();
-                    ValuesPacker packer = new RepeatingValuesPacker();
-                    // Walking by column first as this increases the chance of value consecutive repetition (good for compression)
-                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                        PrimType type = types[columnIndex];
+                    // Guessing types from values
+                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                            Object value = result.values[rowIndex][columnIndex];
+                            Object value = result.getValue(rowIndex, columnIndex);
                             if (value != null) {
-                                if (type == null)
-                                    types[columnIndex] = type = PrimType.fromObject(value);
-                                if (type == PrimType.DATE)
-                                    value = ((Date) value).getTime();
+                                types[columnIndex] = PrimType.fromObject(value);
+                                break;
                             }
-                            packer.pushValue(value);
                         }
-                    }
                     for (PrimType type : types)
                         typesArray.push(type == null ? null : type.name());
                     json.set(COLUMN_TYPES_KEY, typesArray);
-                    // values serialization
-                    JsonArray valuesArray = Json.createArray();
-                    for (Iterator it = packer.packedValues(); it.hasNext(); )
-                        valuesArray.push(it.next());
-                    json.set(VALUES_KEY, valuesArray);
+                    // values packing and serialization
+                    json.set(VALUES_KEY, Json.fromJavaArray(RepeatingValuesPacker.SINGLETON.packValues(result.getInlineValues())));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -144,21 +180,9 @@ public class SqlReadResult {
                 }
                 // Values deserialization
                 JsonArray valuesArray = json.get(VALUES_KEY);
-                ValuesUnpacker compressed = new RepeatingValuesUnpacker(valuesArray.iterator());
-                Iterator uncompressedValuesIterator = compressed.unpackedValues();
-                int rowCount = compressed.unpackedSize() / columnCount;
-                Object[][] values = new Object[rowCount][columnCount];
-                // Walking by column first (same as encoder)
-                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                        Object value = uncompressedValuesIterator.next();
-                        if (value != null && types[columnIndex] == PrimType.DATE)
-                            value = new Date(((Number) value).longValue());
-                        values[rowIndex][columnIndex] = value;
-                    }
-                }
+                Object[] inlineValues = RepeatingValuesUnpacker.SINGLETON.unpackValues(Json.toJavaArray(valuesArray));
                 // returning the result as a snapshot
-                return new SqlReadResult(names, values);
+                return new SqlReadResult(names, inlineValues);
             }
         };
     }

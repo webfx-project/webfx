@@ -51,24 +51,29 @@ public class JdbcSqlService extends SqlServiceImpl {
                     Statement statement = getStatement(arg, connection);
                     ResultSet resultSet = executeStatement(arg, statement)
             ) {
+                // Reading column names
                 ResultSetMetaData metaData = resultSet.getMetaData();
                 int columnCount = metaData.getColumnCount();
                 String[] columnNames = new String[columnCount];
-                for (int i = 0; i < columnCount; i++)
-                    columnNames[i] = metaData.getColumnName(i + 1);
-                List<Object[]> rows = new ArrayList<>();
+                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                    columnNames[columnIndex] = metaData.getColumnName(columnIndex + 1); // JDBC index starts with 1 (not 0)
+                // Reading data through iterating the result set into a temporary growing list of rows (as we don't know yet the rows count)
+                List<Object[]> rows = new ArrayList<>(100); // Default capacity = 100 (as default limit is 100 is Naga).
                 while (resultSet.next()) {
                     Object[] columns = new Object[columnCount];
-                    for (int i = 0; i < columnCount; i++)
-                        columns[i] = resultSet.getObject(i + 1);
+                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                        columns[columnIndex] = resultSet.getObject(columnIndex + 1); // JDBC index starts with 1 (not 0)
                     rows.add(columns);
                 }
+                // Now we have the rows count
                 int rowCount = rows.size();
-                Object[][] values = new Object[rowCount][columnCount];
-                for (int i = 0 ; i < rowCount; i++)
-                    for (int j = 0; j < columnCount; j++)
-                        values[i][j] = rows.get(i)[j];
-                future.complete(new SqlReadResult(columnNames, values));
+                // Moving the data into the final inline array values representation
+                Object[] inlineValues = new Object[rowCount * columnCount];
+                for (int rowIndex = 0 ; rowIndex < rowCount; rowIndex++)
+                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                        inlineValues[rowIndex + columnIndex * rowCount] = rows.get(rowIndex)[columnIndex];
+                // Returning the SQL result
+                future.complete(new SqlReadResult(columnNames, inlineValues));
             } catch (Throwable throwable) {
                 future.fail(throwable);
             }

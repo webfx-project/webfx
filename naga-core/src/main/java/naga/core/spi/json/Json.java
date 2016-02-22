@@ -29,6 +29,10 @@ import naga.core.spi.platform.Platform;
  */
 public class Json {
 
+    /***************************
+     * Factory methods helpers *
+     **************************/
+
     public static JsonArray createArray() {
         return getFactory().createArray();
     }
@@ -65,4 +69,24 @@ public class Json {
         }
         return FACTORY;
     }
+
+    /***********************************
+     * Java conversion methods helpers *
+     **********************************/
+
+    public static <T> JsonArray fromJavaArray(T[] javaArray) {
+        JsonArray valuesArray = createArray();
+        for (Object javaValue : javaArray)
+            valuesArray.push(javaValue);
+        return valuesArray;
+    }
+
+    public static Object[] toJavaArray(JsonArray jsonArray) {
+        int length = jsonArray.length();
+        Object[] javaArray = new Object[length];
+        for (int i = 0; i < length; i++)
+            javaArray[i] = jsonArray.get(i);
+        return javaArray;
+    }
+
 }

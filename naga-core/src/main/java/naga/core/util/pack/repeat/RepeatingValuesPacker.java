@@ -5,82 +5,61 @@ import naga.core.util.pack.ValuesPacker;
 import java.util.*;
 
 /**
+ * A values packer that
+ *
  * @author Bruno Salmon
  */
 public class RepeatingValuesPacker implements ValuesPacker {
 
-    private final List<Object> nonRepeatValues = new ArrayList<>();
-    private final Map<Object, IncreasingIntegersTokenizer> repeatValues = new HashMap<>();
+    public final static RepeatingValuesPacker SINGLETON = new RepeatingValuesPacker();
 
-    private int globalIndex = 0;
-
-    private Object lastValue;
-    private IncreasingIntegersTokenizer lastRepeatValueIndexes;
-
-    private Object lastNonRepeatValue;
-    private int lastNonRepeatGlobalIndex = -1;
-
-    public RepeatingValuesPacker() {
-    }
+    private RepeatingValuesPacker() {}
 
     @Override
-    public void pushValue(Object value) {
-        if (!Objects.equals(value, lastValue) || lastRepeatValueIndexes == null) {
-            lastRepeatValueIndexes = repeatValues.get(value);
-            if (lastRepeatValueIndexes == null) {
-                if (Objects.equals(value, lastNonRepeatValue) && lastNonRepeatGlobalIndex >= 0) {
-                    repeatValues.put(value, lastRepeatValueIndexes = new IncreasingIntegersTokenizer());
-                    nonRepeatValues.remove(nonRepeatValues.size() - 1);
-                    lastRepeatValueIndexes.pushInt(lastNonRepeatGlobalIndex);
+    public Object[] packValues(Object[] values) {
+        int length = values.length;
+        List<Object> nonRepeatValues = new ArrayList<>(length);
+        Map<Object, IncreasingIntegersTokenizer> repeatValues = new HashMap<>();
+
+        Object lastValue = null;
+        IncreasingIntegersTokenizer lastRepeatValueIndexes = null;
+
+        Object lastNonRepeatValue = null;
+        int lastNonRepeatGlobalIndex = -1;
+
+        // Packing algorithm
+        for (int index = 0; index < length; index++) {
+            Object value = values[index];
+            if (!Objects.equals(value, lastValue) || lastRepeatValueIndexes == null) {
+                lastRepeatValueIndexes = repeatValues.get(value);
+                if (lastRepeatValueIndexes == null) {
+                    if (Objects.equals(value, lastNonRepeatValue) && lastNonRepeatGlobalIndex >= 0) {
+                        repeatValues.put(value, lastRepeatValueIndexes = new IncreasingIntegersTokenizer());
+                        nonRepeatValues.remove(nonRepeatValues.size() - 1);
+                        lastRepeatValueIndexes.pushInt(lastNonRepeatGlobalIndex);
+                    }
                 }
             }
+            if (lastRepeatValueIndexes != null)
+                lastRepeatValueIndexes.pushInt(index);
+            else {
+                nonRepeatValues.add(lastNonRepeatValue = value);
+                lastNonRepeatGlobalIndex = index;
+            }
+            lastValue = value;
         }
-        if (lastRepeatValueIndexes != null)
-            lastRepeatValueIndexes.pushInt(globalIndex);
-        else {
-            nonRepeatValues.add(lastNonRepeatValue = value);
-            lastNonRepeatGlobalIndex = globalIndex;
+
+        // Generating output
+        Object[] packedValues = new Object[2 + 2 * repeatValues.size() + nonRepeatValues.size()];
+        int packedIndex = 0;
+        packedValues[packedIndex++] = length;
+        packedValues[packedIndex++] = repeatValues.size();
+        for (Map.Entry<Object, IncreasingIntegersTokenizer> repeatEntry : repeatValues.entrySet()) {
+            packedValues[packedIndex++] = repeatEntry.getKey();
+            packedValues[packedIndex++] = repeatEntry.getValue().token();
         }
-        lastValue = value;
-        globalIndex++;
+        for (Object nonRepeatValue : nonRepeatValues)
+            packedValues[packedIndex++] = nonRepeatValue;
+        return packedValues;
     }
-
-    public Iterator packedValues() {
-        return new Iterator() {
-
-            private int index = 0;
-            Iterator<Map.Entry<Object, IncreasingIntegersTokenizer>> repeatEntryIterator = repeatValues.entrySet().iterator();
-            Map.Entry<Object, IncreasingIntegersTokenizer> repeatEntry;
-            Iterator<Object> nonRepeatValuesIterator = nonRepeatValues.iterator();
-
-            @Override
-            public boolean hasNext() {
-                return index <= 1 || repeatEntry != null || repeatEntryIterator.hasNext() || nonRepeatValuesIterator.hasNext();
-            }
-
-            @Override
-            public Object next() {
-                switch (index++) {
-                    case 0: return globalIndex;
-                    case 1: return repeatValues.size();
-                }
-                if (repeatEntry == null && repeatEntryIterator.hasNext()) {
-                    repeatEntry = repeatEntryIterator.next();
-                    return repeatEntry.getKey();
-                }
-                if (repeatEntry != null) {
-                    IncreasingIntegersTokenizer indexes = repeatEntry.getValue();
-                    repeatEntry = null;
-                    return indexes.token();
-                }
-                return nonRepeatValuesIterator.next();
-            }
-
-            @Override
-            public void remove() { // GWT complains if not overridden
-                throw new UnsupportedOperationException("remove");
-            }
-        };
-    }
-
 }
