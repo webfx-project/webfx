@@ -54,7 +54,7 @@
         <profile>
             <id>j2objc</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
                 <module>hellonaga-j2objc</module>
