@@ -41,6 +41,11 @@ public class Select<T> extends SqlOrder<T> {
         return having;
     }
 
+    @Override
+    public String toString() {
+        return toString( new StringBuilder()).toString();
+    }
+
     public StringBuilder toString(StringBuilder sb) {
         return sb.append("select ")
                 .append(_if(distinct, "distinct "))
