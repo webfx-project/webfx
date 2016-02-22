@@ -15,13 +15,17 @@ public class HelloNagaTeaVmApplication {
     /* No need for TeaVmPlatform.register(); as the platform will be found by the ServiceLoader */
 
     public static void main(String[] args) {
-        // Testing the expression parser with TeaVM (produces a compilation error for now)
-        Select select = ExpressionParser.parseSelect("select event,<ident> from Document order by id desc limit 100",
-                new ParserDomainModelReaderMock());
-        Platform.log("expression: " + select);
-        /*
         Platform.setWebLogger(HelloNagaTeaVmApplication::displayMessageInDom);
-        HelloNagaLogic.runClient();*/
+        // Testing the expression parser with TeaVM
+        String eql = "select name,country.(name, continent) from Organization where !closed order by name";
+        Platform.log("Parsing expression: " + eql + " ...");
+        try {
+            Select select = ExpressionParser.parseSelect(eql, new ParserDomainModelReaderMock());
+            Platform.log("Expression successfully parsed: " + select);
+        } catch (Throwable e) {
+            Platform.log(e);
+        }
+        //HelloNagaLogic.runClient();
     }
 
     private static void displayMessageInDom(String helloMessage) {
