@@ -6,7 +6,6 @@ import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.type.PrimType;
 import naga.core.util.pack.repeat.RepeatingValuesPacker;
-import naga.core.util.pack.repeat.RepeatingValuesUnpacker;
 
 /**
  * @author Bruno Salmon
@@ -180,7 +179,7 @@ public class SqlReadResult {
                 }
                 // Values deserialization
                 JsonArray valuesArray = json.get(VALUES_KEY);
-                Object[] inlineValues = RepeatingValuesUnpacker.SINGLETON.unpackValues(Json.toJavaArray(valuesArray));
+                Object[] inlineValues = RepeatingValuesPacker.SINGLETON.unpackValues(Json.toJavaArray(valuesArray));
                 // returning the result as a snapshot
                 return new SqlReadResult(names, inlineValues);
             }

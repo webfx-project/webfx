@@ -7,4 +7,6 @@ public interface ValuesPacker {
 
     Object[] packValues(Object[] values);
 
+    Object[] unpackValues(Object[] packedValues);
+
 }
