@@ -35,10 +35,36 @@
 
     <build>
         <plugins>
+
+            <!-- Relocating the java_cup package to avoid a version conflict that makes TeaVM compilation fail (TeaVM has a dependency on xalan which includes an incompatible version of java_cup) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <relocations>
+                                <relocation>
+                                    <pattern>java_cup</pattern>
+                                    <shadedPattern>java_cub_11b</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
         </plugins>
+
     </build>
 
 </project>
