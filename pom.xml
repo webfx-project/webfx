@@ -11,9 +11,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
-        <module>java-cup-11b-runtime</module>
-
         <!-- Naga modules -->
         <module>naga-core</module>
         <module>naga-javaplat</module>
@@ -24,6 +21,7 @@
         <module>naga-teavm</module>
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
+        <module>naga-libs</module>
         <module>naga-examples</module>
     </modules>
 
