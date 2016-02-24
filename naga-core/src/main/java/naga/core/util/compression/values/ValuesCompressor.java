@@ -1,9 +1,9 @@
-package naga.core.util.pack;
+package naga.core.util.compression.values;
 
 /**
  * @author Bruno Salmon
  */
-public interface ValuesPacker {
+public interface ValuesCompressor {
 
     Object[] packValues(Object[] values);
 

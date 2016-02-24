@@ -1,6 +1,6 @@
-package naga.core.util.pack.repeat;
+package naga.core.util.compression.values.repeat;
 
-import naga.core.util.pack.ValuesPacker;
+import naga.core.util.compression.values.ValuesCompressor;
 
 import java.util.*;
 
@@ -9,20 +9,20 @@ import java.util.*;
  *
  * @author Bruno Salmon
  */
-public class RepeatingValuesPacker implements ValuesPacker {
+public class RepeatingValuesCompressor implements ValuesCompressor {
 
-    public final static RepeatingValuesPacker SINGLETON = new RepeatingValuesPacker();
+    public final static RepeatingValuesCompressor SINGLETON = new RepeatingValuesCompressor();
 
-    private RepeatingValuesPacker() {}
+    private RepeatingValuesCompressor() {}
 
     @Override
     public Object[] packValues(Object[] values) {
         int length = values.length;
         List<Object> nonRepeatValues = new ArrayList<>(length);
-        Map<Object, IncreasingIntegersTokenizer> repeatValues = new HashMap<>();
+        Map<Object, SortedIntegersTokenizer> repeatValues = new HashMap<>();
 
         Object lastValue = null;
-        IncreasingIntegersTokenizer lastRepeatValueIndexes = null;
+        SortedIntegersTokenizer lastRepeatValueIndexes = null;
 
         Object lastNonRepeatValue = null;
         int lastNonRepeatGlobalIndex = -1;
@@ -34,7 +34,7 @@ public class RepeatingValuesPacker implements ValuesPacker {
                 lastRepeatValueIndexes = repeatValues.get(value);
                 if (lastRepeatValueIndexes == null) {
                     if (Objects.equals(value, lastNonRepeatValue) && lastNonRepeatGlobalIndex >= 0) {
-                        repeatValues.put(value, lastRepeatValueIndexes = new IncreasingIntegersTokenizer());
+                        repeatValues.put(value, lastRepeatValueIndexes = new SortedIntegersTokenizer());
                         nonRepeatValues.remove(nonRepeatValues.size() - 1);
                         lastRepeatValueIndexes.pushInt(lastNonRepeatGlobalIndex);
                     }
@@ -54,7 +54,7 @@ public class RepeatingValuesPacker implements ValuesPacker {
         int packedIndex = 0;
         packedValues[packedIndex++] = length;
         packedValues[packedIndex++] = repeatValues.size();
-        for (Map.Entry<Object, IncreasingIntegersTokenizer> repeatEntry : repeatValues.entrySet()) {
+        for (Map.Entry<Object, SortedIntegersTokenizer> repeatEntry : repeatValues.entrySet()) {
             packedValues[packedIndex++] = repeatEntry.getKey();
             packedValues[packedIndex++] = repeatEntry.getValue().token();
         }

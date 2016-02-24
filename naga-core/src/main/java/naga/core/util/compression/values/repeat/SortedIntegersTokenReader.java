@@ -1,16 +1,16 @@
-package naga.core.util.pack.repeat;
+package naga.core.util.compression.values.repeat;
 
 /**
  * @author Bruno Salmon
  */
-class IncreasingIntegersTokenReader {
+class SortedIntegersTokenReader {
     final String token;
     int pos = 0;
     int lastSeqStart;
     int lastInt;
     int lastSeqEnd;
 
-    public IncreasingIntegersTokenReader(String token) {
+    public SortedIntegersTokenReader(String token) {
         this.token = token;
     }
 

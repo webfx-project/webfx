@@ -1,9 +1,9 @@
-package naga.core.util.pack.repeat;
+package naga.core.util.compression.values.repeat;
 
 /**
  * @author Bruno Salmon
  */
-class IncreasingIntegersTokenizer {
+class SortedIntegersTokenizer {
     StringBuffer sb;
     int lastSeqStart;
     int lastInt;
