@@ -9,16 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>javacup-runtime</artifactId>
+    <artifactId>naga-javalibs</artifactId>
+    <packaging>pom</packaging>
 
-    <build>
-        <plugins>
+    <modules>
+        <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
+        <module>javalib-javacup-runtime</module>
+    </modules>
 
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
-
-        </plugins>
-    </build>
 
 </project>
