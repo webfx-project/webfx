@@ -1,4 +1,4 @@
-package java.lang.reflect;
+package javaemul.lang.reflect;
 
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlReadResult;

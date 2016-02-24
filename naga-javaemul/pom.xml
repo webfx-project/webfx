@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>naga</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>naga-javaemul</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>javaemul-gwt</module>
+        <module>javaemul-teavm</module>
+    </modules>
+
+    <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Relocating the javaemul package to java for both classes and sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <shadedArtifactAttached>false</shadedArtifactAttached>
+                                <relocations>
+                                    <relocation>
+                                        <pattern>javaemul</pattern>
+                                        <shadedPattern>java</shadedPattern>
+                                    </relocation>
+                                </relocations>
+                                <createSourcesJar>true</createSourcesJar>
+                                <shadeSourcesContent>true</shadeSourcesContent>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

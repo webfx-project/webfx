@@ -1,4 +1,4 @@
-package org.teavm.classlib.java.util;
+package javaemul.util;
 /*
  * Copyright (c) 1994, 2008, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
@@ -33,13 +33,13 @@ package org.teavm.classlib.java.util;
  * @since   JDK1.0
  */
 public
-class TEmptyStackException extends RuntimeException {
+class EmptyStackException extends RuntimeException {
     private static final long serialVersionUID = 5084686378493302095L;
 
     /**
-     * Constructs a new <code>TEmptyStackException</code> with <tt>null</tt>
+     * Constructs a new <code>EmptyStackException</code> with <tt>null</tt>
      * as its error message string.
      */
-    public TEmptyStackException() {
+    public EmptyStackException() {
     }
 }

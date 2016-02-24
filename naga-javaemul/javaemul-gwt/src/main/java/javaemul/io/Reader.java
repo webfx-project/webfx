@@ -1,6 +1,7 @@
-package java.io;
+package javaemul.io;
 
 import java.io.Closeable;
+import java.io.IOException;
 
 /**
  * Minimal interface to work with Lexer.java

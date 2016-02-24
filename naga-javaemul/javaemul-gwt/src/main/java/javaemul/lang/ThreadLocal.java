@@ -1,4 +1,4 @@
-package java.lang;
+package javaemul.lang;
 
 /**
  * Minimalist ThreadLocal GWT implementation that works in the browser (javascript => single thread environment)

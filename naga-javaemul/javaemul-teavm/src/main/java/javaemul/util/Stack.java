@@ -1,4 +1,4 @@
-package org.teavm.classlib.java.util;
+package javaemul.util;
 
 /*
  * Copyright (c) 1994, 2010, Oracle and/or its affiliates. All rights reserved.
@@ -26,11 +26,10 @@ package org.teavm.classlib.java.util;
  */
 
 import java.util.Deque;
-import java.util.EmptyStackException;
 import java.util.Vector;
 
 /**
- * The <code>TStack</code> class represents a last-in-first-out
+ * The <code>Stack</code> class represents a last-in-first-out
  * (LIFO) stack of objects. It extends class <tt>Vector</tt> with five
  * operations that allow a vector to be treated as a stack. The usual
  * <tt>push</tt> and <tt>pop</tt> operations are provided, as well as a
@@ -50,11 +49,11 @@ import java.util.Vector;
  * @since   JDK1.0
  */
 public
-class TStack<E> extends Vector<E> {
+class Stack<E> extends Vector<E> {
     /**
-     * Creates an empty TStack.
+     * Creates an empty Stack.
      */
-    public TStack() {
+    public Stack() {
     }
 
     /**

@@ -1,5 +1,6 @@
-package java.io;
+package javaemul.io;
 
+import java.io.IOException;
 import java.io.Reader;
 
 /**
