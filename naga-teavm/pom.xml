@@ -31,7 +31,18 @@
             <artifactId>teavm-jso</artifactId>
         </dependency>
 
+        <dependency>
+            <artifactId>javaemul-teavm</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
+
+    <properties>
+        <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
+        <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>
+    </properties>
 
     <build>
         <plugins>
@@ -53,16 +64,21 @@
                                     <pattern>java_cup</pattern>
                                     <shadedPattern>java_cub_11b</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>java.util.Stack</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.TStack</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>java.util.EmptyStackException</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.TEmptyStackException</shadedPattern>
+                                </relocation>
                             </relocations>
+                            <createSourcesJar>true</createSourcesJar>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
         </plugins>
 
     </build>
