@@ -57,6 +57,12 @@
                                     <version>${project.version}</version>
                                     <classifier>sources</classifier>
                                 </artifactItem>
+                                <artifactItem>
+                                    <artifactId>javaemul-shared</artifactId>
+                                    <groupId>${project.groupId}</groupId>
+                                    <version>${project.version}</version>
+                                    <classifier>sources</classifier>
+                                </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.outputDirectory}/super</outputDirectory>
                         </configuration>
