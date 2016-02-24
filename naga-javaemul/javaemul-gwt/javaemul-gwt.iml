@@ -13,5 +13,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="javalib-javacup-runtime" scope="PROVIDED" />
+    <orderEntry type="module" module-name="javalib-javafastpfor" scope="PROVIDED" />
   </component>
 </module>
