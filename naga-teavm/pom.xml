@@ -37,6 +37,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>javaemul-shared</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -65,6 +71,10 @@
                                     <shadedPattern>java_cub_11b</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>java.util.Base64</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.TBase64</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>java.util.Stack</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TStack</shadedPattern>
                                 </relocation>
@@ -74,6 +84,7 @@
                                 </relocation>
                             </relocations>
                             <createSourcesJar>true</createSourcesJar>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
                 </executions>
