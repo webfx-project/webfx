@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>javacup-runtime</artifactId>
+            <artifactId>javalib-javacup-runtime</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>

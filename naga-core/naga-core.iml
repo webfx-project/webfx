@@ -11,6 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="java-cup-11b-runtime" />
+    <orderEntry type="module" module-name="javalib-javacup-runtime" />
   </component>
 </module>
