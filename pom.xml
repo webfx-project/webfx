@@ -535,12 +535,12 @@
                                 <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
                                 <runtime>SEPARATE</runtime>
                                 <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
-                                <minifying>false</minifying>
+                                <minifying>true</minifying>
                                 <mainPageIncluded>true</mainPageIncluded>
                                 <!-- Whether TeaVM should produce debug information for its built-in debugger -->
-                                <debugInformationGenerated>true</debugInformationGenerated>
+                                <debugInformationGenerated>false</debugInformationGenerated>
                                 <!-- Whether TeaVM should produce source maps file -->
-                                <sourceMapsGenerated>true</sourceMapsGenerated>
+                                <sourceMapsGenerated>false</sourceMapsGenerated>
                                 <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
                                 <sourceFilesCopied>false</sourceFilesCopied>
                             </configuration>
