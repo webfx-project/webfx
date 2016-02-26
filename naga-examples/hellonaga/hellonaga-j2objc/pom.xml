@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-j2objc</artifactId>
+            <artifactId>naga-plat-j2objc</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>

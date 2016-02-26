@@ -22,7 +22,7 @@
         <module>naga-javaemul</module>
         <module>naga-plat-teavm</module>
         <module>naga-plat-gwt</module>
-        <module>naga-j2objc</module>
+        <module>naga-plat-j2objc</module>
         <module>naga-examples</module>
     </modules>
 
