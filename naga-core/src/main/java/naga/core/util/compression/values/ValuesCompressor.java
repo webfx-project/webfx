@@ -5,8 +5,8 @@ package naga.core.util.compression.values;
  */
 public interface ValuesCompressor {
 
-    Object[] packValues(Object[] values);
+    Object[] compress(Object[] values);
 
-    Object[] unpackValues(Object[] packedValues);
+    Object[] uncompress(Object[] compressedValues);
 
 }

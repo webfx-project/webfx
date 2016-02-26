@@ -3,12 +3,12 @@ package naga.core.util.compression.values.repeat;
 /**
  * @author Bruno Salmon
  */
-class RepeatingValue {
+class RepeatedValue {
     private final Object value;
     private final SortedIntegersTokenReader indexes;
     private int nextIndex;
 
-    public RepeatingValue(Object value, String compressedRows) {
+    public RepeatedValue(Object value, String compressedRows) {
         this.value = value;
         indexes = new SortedIntegersTokenReader(compressedRows);
         nextIndex = indexes.nextInt();

@@ -5,18 +5,16 @@ import naga.core.util.compression.values.ValuesCompressor;
 import java.util.*;
 
 /**
- * A values packer that
- *
  * @author Bruno Salmon
  */
-public class RepeatingValuesCompressor implements ValuesCompressor {
+public class RepeatedValuesCompressor implements ValuesCompressor {
 
-    public final static RepeatingValuesCompressor SINGLETON = new RepeatingValuesCompressor();
+    public final static RepeatedValuesCompressor SINGLETON = new RepeatedValuesCompressor();
 
-    private RepeatingValuesCompressor() {}
+    private RepeatedValuesCompressor() {}
 
     @Override
-    public Object[] packValues(Object[] values) {
+    public Object[] compress(Object[] values) {
         int length = values.length;
         List<Object> nonRepeatValues = new ArrayList<>(length);
         Map<Object, SortedIntegersTokenizer> repeatValues = new HashMap<>();
@@ -27,7 +25,7 @@ public class RepeatingValuesCompressor implements ValuesCompressor {
         Object lastNonRepeatValue = null;
         int lastNonRepeatGlobalIndex = -1;
 
-        // Packing algorithm
+        // Compression algorithm
         for (int index = 0; index < length; index++) {
             Object value = values[index];
             if (!Objects.equals(value, lastValue) || lastRepeatValueIndexes == null) {
@@ -50,38 +48,38 @@ public class RepeatingValuesCompressor implements ValuesCompressor {
         }
 
         // Generating output
-        Object[] packedValues = new Object[2 + 2 * repeatValues.size() + nonRepeatValues.size()];
+        Object[] compressedValues = new Object[2 + 2 * repeatValues.size() + nonRepeatValues.size()];
         int packedIndex = 0;
-        packedValues[packedIndex++] = length;
-        packedValues[packedIndex++] = repeatValues.size();
+        compressedValues[packedIndex++] = length;
+        compressedValues[packedIndex++] = repeatValues.size();
         for (Map.Entry<Object, SortedIntegersTokenizer> repeatEntry : repeatValues.entrySet()) {
-            packedValues[packedIndex++] = repeatEntry.getKey();
-            packedValues[packedIndex++] = repeatEntry.getValue().token();
+            compressedValues[packedIndex++] = repeatEntry.getKey();
+            compressedValues[packedIndex++] = repeatEntry.getValue().token();
         }
         for (Object nonRepeatValue : nonRepeatValues)
-            packedValues[packedIndex++] = nonRepeatValue;
-        return packedValues;
+            compressedValues[packedIndex++] = nonRepeatValue;
+        return compressedValues;
     }
 
     @Override
-    public Object[] unpackValues(Object[] packedValues) {
-        int packedIndex = 0;
-        int unpackLength = ((Number) packedValues[packedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
-        int repeatValuesSize = ((Number) packedValues[packedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
-        List<RepeatingValue> repeatValues = new ArrayList<>(repeatValuesSize);
+    public Object[] uncompress(Object[] compressedValues) {
+        int compressedIndex = 0;
+        int uncompressedLength = ((Number) compressedValues[compressedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
+        int repeatValuesSize = ((Number) compressedValues[compressedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
+        List<RepeatedValue> repeatValues = new ArrayList<>(repeatValuesSize);
         for (int i = 0; i < repeatValuesSize; i++)
-            repeatValues.add(new RepeatingValue(packedValues[packedIndex++], (String) packedValues[packedIndex++]));
+            repeatValues.add(new RepeatedValue(compressedValues[compressedIndex++], (String) compressedValues[compressedIndex++]));
 
-        Object[] unpackedValues = new Object[unpackLength];
-        loop: for (int unpackedIndex = 0; unpackedIndex < unpackLength; unpackedIndex++) {
-            for (RepeatingValue repeatValue : repeatValues)
-                if (repeatValue.isRepeatedAtIndex(unpackedIndex)) {
-                    unpackedValues[unpackedIndex] = repeatValue.getValue();
+        Object[] uncompressedValues = new Object[uncompressedLength];
+        loop: for (int uncompressedIndex = 0; uncompressedIndex < uncompressedLength; uncompressedIndex++) {
+            for (RepeatedValue repeatValue : repeatValues)
+                if (repeatValue.isRepeatedAtIndex(uncompressedIndex)) {
+                    uncompressedValues[uncompressedIndex] = repeatValue.getValue();
                     continue loop;
                 }
-            unpackedValues[unpackedIndex] = packedValues[packedIndex++];
+            uncompressedValues[uncompressedIndex] = compressedValues[compressedIndex++];
         }
-        return unpackedValues;
+        return uncompressedValues;
     }
 
 }
