@@ -15,7 +15,7 @@
         <module>naga-javalibs</module>
         <module>naga-core</module>
         <module>naga-javaplat</module>
-        <module>naga-jre</module>
+        <module>naga-plat-jre</module>
         <module>naga-android</module>
         <module>naga-vertx</module>
         <module>naga-webplat</module>

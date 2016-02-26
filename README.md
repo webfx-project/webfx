@@ -49,7 +49,7 @@ For more information, please visit the [website][naga-website].
 
 [naga-home]: https://github.com/naga-project
 [naga-repo]: https://github.com/naga-project/naga
-[naga-jre-repo]: https://github.com/naga-project/naga/blob/master/naga-jre
+[naga-plat-jre-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-jre
 [naga-teavm-repo]: https://github.com/naga-project/naga/blob/master/naga-teavm
 [naga-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-gwt
 [naga-android-repo]: https://github.com/naga-project/naga/blob/master/naga-android
