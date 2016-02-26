@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>javaemul-gwt</module>
+        <module>naga-javaemul-gwt</module>
         <module>naga-javaemul-teavm</module>
         <module>naga-javaemul-shared</module>
     </modules>
