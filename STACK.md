@@ -7,13 +7,13 @@ An overview of the different repositories and modules under the [naga-project][n
 	* [naga-plat-jre][naga-plat-jre-repo] - The naga client core port for JavaSE applications
 	* Web ports - The naga client core ports for web applications 
 		* [naga-plat-teavm][naga-plat-teavm-repo] - transpiled to Javascript through [TeaVM][teavm-website] compiler
-		* [naga-gwt][naga-gwt-repo] - transpiled to Javascript through [GWT][gwt-website] compiler
+		* [naga-plat-gwt][naga-plat-gwt-repo] - transpiled to Javascript through [GWT][gwt-website] compiler
 	* Mobile ports 
 		* [naga-android][naga-android-repo] - The naga client core port for Android applications
 		* [naga-j2objc][naga-j2objc-repo] - The naga client core port for iOS applications (transpiled through [J2ObjC][j2objc-website] compiler)
 	* Abstract (intermediate) ports
 	    * [naga-abstractplat-java][naga-abstractplat-java-repo] - The common code shared by java client platforms (ie [naga-plat-jre][naga-plat-jre-repo] and [naga-android][naga-android-repo])  
-	    * [naga-abstractplat-web][naga-abstractplat-web-repo] - The common code shared by web client platforms (ie [naga-plat-teavm][naga-plat-teavm-repo] and [naga-gwt][naga-gwt-repo])
+	    * [naga-abstractplat-web][naga-abstractplat-web-repo] - The common code shared by web client platforms (ie [naga-plat-teavm][naga-plat-teavm-repo] and [naga-plat-gwt][naga-plat-gwt-repo])
 * The naga microservice ports 
 	* [naga-vertx][naga-vertx-repo] - The naga miroservice port for Vert.x
 	* [naga-akka][naga-akka-repo] - The naga miroservice port for Akka
@@ -39,7 +39,7 @@ An overview of the different repositories and modules under the [naga-project][n
 [naga-abstractplat-web-repo]: https://github.com/naga-project/naga/blob/master/naga-abstractplat-web
 [naga-plat-jre-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-jre
 [naga-plat-teavm-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-teavm
-[naga-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-gwt
+[naga-plat-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-gwt
 [naga-android-repo]: https://github.com/naga-project/naga/blob/master/naga-android
 [naga-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-j2objc
 [naga-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-cn1

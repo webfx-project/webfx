@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-gwt" />
+    <orderEntry type="module" module-name="naga-plat-gwt" />
     <orderEntry type="module" module-name="hellonaga-logic" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: naga:naga-gwt:0.1.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="naga-abstractplat-web" scope="PROVIDED" />

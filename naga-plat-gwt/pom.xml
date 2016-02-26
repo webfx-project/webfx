@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-gwt</artifactId>
+    <artifactId>naga-plat-gwt</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
