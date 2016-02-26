@@ -14,7 +14,7 @@
 
     <modules>
         <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
-        <module>javalib-javacup-runtime</module>
+        <module>naga-javalib-javacupruntime</module>
         <module>javalib-javafastpfor</module>
     </modules>
 

@@ -36,7 +36,7 @@
         <plugin.gwt.param.compileSourcesArtifact2>${project.groupId}:naga-plat-gwt</plugin.gwt.param.compileSourcesArtifact2>
         <plugin.gwt.param.compileSourcesArtifact3>${project.groupId}:naga-abstractplat-web</plugin.gwt.param.compileSourcesArtifact3>
         <plugin.gwt.param.compileSourcesArtifact4>${project.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact4>
-        <plugin.gwt.param.compileSourcesArtifact5>${project.groupId}:javalib-javacup-runtime</plugin.gwt.param.compileSourcesArtifact5>
+        <plugin.gwt.param.compileSourcesArtifact5>${project.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact5>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
         <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplat-web -->
