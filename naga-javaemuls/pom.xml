@@ -14,7 +14,7 @@
 
     <modules>
         <module>javaemul-gwt</module>
-        <module>javaemul-teavm</module>
+        <module>naga-javaemul-teavm</module>
         <module>naga-javaemul-shared</module>
     </modules>
 

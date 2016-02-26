@@ -32,7 +32,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>javaemul-teavm</artifactId>
+            <artifactId>naga-javaemul-teavm</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>
