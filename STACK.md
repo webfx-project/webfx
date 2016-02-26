@@ -15,7 +15,7 @@ An overview of the different repositories and modules under the [naga-project][n
 	    * [naga-abstractplat-java][naga-abstractplat-java-repo] - The common code shared by java client platforms (ie [naga-plat-jre][naga-plat-jre-repo] and [naga-plat-android][naga-plat-android-repo])
 	    * [naga-abstractplat-web][naga-abstractplat-web-repo] - The common code shared by web client platforms (ie [naga-plat-teavm][naga-plat-teavm-repo] and [naga-plat-gwt][naga-plat-gwt-repo])
 * The naga microservice ports 
-	* [naga-vertx][naga-vertx-repo] - The naga miroservice port for Vert.x
+	* [naga-plat-vertx][naga-plat-vertx-repo] - The naga miroservice port for Vert.x
 	* [naga-akka][naga-akka-repo] - The naga miroservice port for Akka
 	* [naga-nodejs][naga-nodejs-repo] - The naga miroservice port for Node.js
 * Data binding helpers for some UI toolkits
@@ -43,7 +43,7 @@ An overview of the different repositories and modules under the [naga-project][n
 [naga-plat-android-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-android
 [naga-plat-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-j2objc
 [naga-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-cn1
-[naga-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-vertx
+[naga-plat-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-vertx
 [naga-akka-repo]: https://github.com/naga-project/naga/blob/master/naga-akka
 [naga-nodejs-repo]: https://github.com/naga-project/naga/blob/master/naga-nodejs
 [naga-ui-javafx-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-javafx

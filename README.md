@@ -55,7 +55,7 @@ For more information, please visit the [website][naga-website].
 [naga-plat-android-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-android
 [naga-plat-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-j2objc
 [naga-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-cn1
-[naga-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-vertx
+[naga-plat-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-vertx
 [naga-akka-repo]: https://github.com/naga-project/naga/blob/master/naga-akka
 [naga-nodejs-repo]: https://github.com/naga-project/naga/blob/master/naga-nodejs
 [naga-ui-javafx-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-javafx

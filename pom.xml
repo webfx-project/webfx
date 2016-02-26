@@ -17,7 +17,7 @@
         <module>naga-abstractplat-java</module>
         <module>naga-plat-jre</module>
         <module>naga-plat-android</module>
-        <module>naga-vertx</module>
+        <module>naga-plat-vertx</module>
         <module>naga-abstractplat-web</module>
         <module>naga-javaemul</module>
         <module>naga-plat-teavm</module>
@@ -149,7 +149,7 @@
 
             <!--
              ***********************************************************
-             * Libraries required for the Vert.x Platform (naga-vertx) *
+             * Libraries required for the Vert.x Platform (naga-plat-vertx) *
              ***********************************************************
              -->
 
