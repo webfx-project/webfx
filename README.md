@@ -54,7 +54,7 @@ For more information, please visit the [website][naga-website].
 [naga-plat-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-gwt
 [naga-plat-android-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-android
 [naga-plat-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-j2objc
-[naga-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-cn1
+[naga-plat-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-cn1
 [naga-plat-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-vertx
 [naga-akka-repo]: https://github.com/naga-project/naga/blob/master/naga-akka
 [naga-nodejs-repo]: https://github.com/naga-project/naga/blob/master/naga-nodejs
@@ -62,7 +62,7 @@ For more information, please visit the [website][naga-website].
 [naga-ui-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-gwt
 [naga-ui-angular-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-angular
 [naga-ui-zebra-repo]: https://github.com/naga-project/naga/blob/master/naga-ui-zebra
-[naga-examples-repo]: https://github.com/naga-project/naga/blob/master/naga-examples
+[naga-application-examples-repo]: https://github.com/naga-project/naga/blob/master/naga-application-examples
 [naga-project.github.io-repo]: https://github.com/naga-project/naga-project.github.io
 [naga-website]: http://naga-project.github.io
 [naga-stack-md]: https://github.com/naga-project/naga/blob/master/STACK.md
