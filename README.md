@@ -52,8 +52,8 @@ For more information, please visit the [website][naga-website].
 [naga-plat-jre-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-jre
 [naga-plat-teavm-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-teavm
 [naga-plat-gwt-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-gwt
-[naga-android-repo]: https://github.com/naga-project/naga/blob/master/naga-android
-[naga-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-j2objc
+[naga-plat-android-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-android
+[naga-plat-j2objc-repo]: https://github.com/naga-project/naga/blob/master/naga-plat-j2objc
 [naga-cn1-repo]: https://github.com/naga-project/naga/blob/master/naga-cn1
 [naga-vertx-repo]: https://github.com/naga-project/naga/blob/master/naga-vertx
 [naga-akka-repo]: https://github.com/naga-project/naga/blob/master/naga-akka

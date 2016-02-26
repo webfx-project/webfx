@@ -16,7 +16,7 @@
         <module>naga-core</module>
         <module>naga-abstractplat-java</module>
         <module>naga-plat-jre</module>
-        <module>naga-android</module>
+        <module>naga-plat-android</module>
         <module>naga-vertx</module>
         <module>naga-abstractplat-web</module>
         <module>naga-javaemul</module>
@@ -133,9 +133,9 @@
 
 
             <!--
-             **************************************************************
-             * Libraries required for the Android Platform (naga-android) *
-             **************************************************************
+             *******************************************************************
+             * Libraries required for the Android Platform (naga-plat-android) *
+             *******************************************************************
              -->
 
             <!-- Android library -->
