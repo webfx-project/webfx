@@ -12,7 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" />
-    <orderEntry type="module" module-name="naga-webplat" />
+    <orderEntry type="module" module-name="naga-abstractplat-web" />
     <orderEntry type="library" name="Maven: org.teavm:teavm-classlib:0.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.teavm:teavm-platform:0.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.teavm:teavm-core:0.4.3" level="project" />

@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-webplat</artifactId>
+            <artifactId>naga-abstractplat-web</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>

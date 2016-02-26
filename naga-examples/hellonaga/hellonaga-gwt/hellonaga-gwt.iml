@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -14,9 +14,10 @@
     <orderEntry type="module" module-name="naga-gwt" />
     <orderEntry type="module" module-name="hellonaga-logic" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: naga:naga-gwt:0.1.0-SNAPSHOT" level="project" />
-    <orderEntry type="module" module-name="naga-webplat" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-abstractplat-web" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="javalib-javacup-runtime" scope="PROVIDED" />
+    <orderEntry type="module" module-name="javalib-javafastpfor" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />

@@ -18,7 +18,7 @@
         <module>naga-plat-jre</module>
         <module>naga-android</module>
         <module>naga-vertx</module>
-        <module>naga-webplat</module>
+        <module>naga-abstractplat-web</module>
         <module>naga-javaemul</module>
         <module>naga-teavm</module>
         <module>naga-gwt</module>
