@@ -13,54 +13,44 @@ import naga.core.util.compression.values.repeat.RepeatingValuesCompressor;
 public class SqlReadResult {
 
     /**
-     * Sql column names of the result set. This information is actually optional and useful only for debugging.
+     * The number of rows in this result set.
      */
-    private final String[] columnNames;
-
-    // 2 supported data structures to store values in memory:
+    private final int rowCount;
 
     /**
-     * 1) Values stored in a matrix (more natural for humans and some APIs).
-     * First index = rowIndex, second index = columnIndex
+     * The number of columns in this result set.
      */
-    private Object[][] matrixValues;
+    private final int columnCount;
+
     /**
-     * 2) Values stored in an inline array (more efficient for compression algorithm).
+     * The values of the result set stored in an inline array (more efficient for compression algorithm).
      * First column, then 2nd column, etc... So inlineIndex = rowIndex + columnIndex * rowCount.
      * (better than 1st row, 2nd row, etc.. for compression algorithm)
      */
     private Object[] inlineValues;
-    private final int rowCount;
-    private final int columnCount;
 
     /**
-     * Constructor accepting a matrix for values.
-     *
-     * @param columnNames
-     * @param matrixValues
+     * Sql column names of the result set. This information is actually optional and useful only for debugging or when
+     * using methods to access values with column names instead of column index (like in the DomainModelLoader)
      */
-    public SqlReadResult(String[] columnNames, Object[][] matrixValues) {
-        this.columnNames = columnNames;
-        this.matrixValues = matrixValues;
-        columnCount = columnNames.length;
-        rowCount = matrixValues.length;
-    }
+    private final String[] columnNames;
 
-    /**
-     * Constructor accepting an inline array for values.
-     *
-     * @param columnNames
-     * @param inlineValues
-     */
-    public SqlReadResult(String[] columnNames, Object[] inlineValues) {
+
+    public SqlReadResult(int rowCount, int columnCount, Object[] inlineValues, String[] columnNames) {
+        if (inlineValues.length != columnCount * rowCount || columnNames != null && columnNames.length != columnCount)
+            throw new IllegalArgumentException("Incoherent sizes in SqlReadResult initialization");
+        this.rowCount = rowCount;
+        this.columnCount = columnCount;
         this.columnNames = columnNames;
         this.inlineValues = inlineValues;
-        columnCount = columnNames.length;
-        rowCount = inlineValues.length / columnCount;
     }
 
-    public String[] getColumnNames() {
-        return columnNames;
+    public SqlReadResult(int columnCount, Object[] inlineValues) {
+        this(inlineValues.length / columnCount, columnCount, inlineValues, null);
+    }
+
+    public SqlReadResult(Object[] inlineValues, String[] columnNames) {
+        this(inlineValues.length / columnNames.length, columnNames.length, inlineValues, columnNames);
     }
 
     public int getColumnCount() {
@@ -71,19 +61,12 @@ public class SqlReadResult {
         return rowCount;
     }
 
-    public <T> T getValue(int rowIndex, int columnIndex) {
-        return (T) (inlineValues != null ? inlineValues[rowIndex + columnIndex * rowCount] : matrixValues[rowIndex][columnIndex]);
+    public String[] getColumnNames() {
+        return columnNames;
     }
 
-    private Object[] getInlineValues() {
-        if (inlineValues == null) { // When asked, turning from matrix to inline
-            inlineValues = new Object[rowCount * columnCount];
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
-                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                    inlineValues[rowIndex + columnIndex * rowCount] = matrixValues[rowIndex][columnIndex];
-            matrixValues = null; // releasing memory
-        }
-        return inlineValues;
+    public <T> T getValue(int rowIndex, int columnIndex) {
+        return (T) inlineValues[rowIndex + columnIndex * rowCount];
     }
 
     /*******************************************************************************************
@@ -155,7 +138,7 @@ public class SqlReadResult {
                         typesArray.push(type == null ? null : type.name());
                     json.set(COLUMN_TYPES_KEY, typesArray);
                     // values packing and serialization
-                    json.set(VALUES_KEY, Json.fromJavaArray(RepeatingValuesCompressor.SINGLETON.packValues(result.getInlineValues())));
+                    json.set(VALUES_KEY, Json.fromJavaArray(RepeatingValuesCompressor.SINGLETON.packValues(result.inlineValues)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -181,7 +164,7 @@ public class SqlReadResult {
                 JsonArray valuesArray = json.get(VALUES_KEY);
                 Object[] inlineValues = RepeatingValuesCompressor.SINGLETON.unpackValues(Json.toJavaArray(valuesArray));
                 // returning the result as a snapshot
-                return new SqlReadResult(names, inlineValues);
+                return new SqlReadResult(inlineValues, names);
             }
         };
     }
