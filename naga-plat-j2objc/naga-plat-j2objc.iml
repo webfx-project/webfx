@@ -12,6 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-core" />
-    <orderEntry type="module" module-name="javalib-javacup-runtime" />
+    <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
   </component>
 </module>
