@@ -14,7 +14,7 @@
         <!-- Naga modules -->
         <module>naga-javalibs</module>
         <module>naga-core</module>
-        <module>naga-javaplat</module>
+        <module>naga-abstractplat-java</module>
         <module>naga-plat-jre</module>
         <module>naga-android</module>
         <module>naga-vertx</module>
@@ -103,9 +103,9 @@
         <dependencies>
 
             <!--
-             ************************************************************
-             * Libraries required for the Java Platform (naga-javaplat) *
-             ************************************************************
+             *********************************************************************
+             * Libraries required for the Java Platform (naga-abstractplat-java) *
+             *********************************************************************
              -->
 
             <!-- JavaWebsocket -->

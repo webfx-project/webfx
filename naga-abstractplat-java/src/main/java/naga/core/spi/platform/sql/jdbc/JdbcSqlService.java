@@ -73,7 +73,7 @@ public class JdbcSqlService extends SqlServiceImpl {
                     for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                         inlineValues[rowIndex + columnIndex * rowCount] = rows.get(rowIndex)[columnIndex];
                 // Returning the SQL result
-                future.complete(new SqlReadResult(columnNames, inlineValues));
+                future.complete(new SqlReadResult(inlineValues, columnNames));
             } catch (Throwable throwable) {
                 future.fail(throwable);
             }

@@ -115,7 +115,7 @@ public class VertxSqlService extends SqlServiceImpl {
                                     inlineValues[rowIndex + columnIndex * rowCount] = jsonArray.getValue(columnIndex);
                             }
                             // Returning the final SqlReadResult
-                            future.complete(new SqlReadResult(columnNames, inlineValues));
+                            future.complete(new SqlReadResult(inlineValues, columnNames));
                         }
                         // Closing the connection so it can go back to the pool
                         connection.close();
