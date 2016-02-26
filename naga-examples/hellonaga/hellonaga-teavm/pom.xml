@@ -15,7 +15,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-teavm</artifactId>
+            <artifactId>naga-plat-teavm</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
         </dependency>
@@ -45,7 +45,7 @@
         <plugin.teavm.param.mainClass>hellonaga.teavm.HelloNagaTeaVmApplication</plugin.teavm.param.mainClass>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-        <!-- But unpacking webroot resources coming from dependencies such as naga-webplat -->
+        <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplat-web -->
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
@@ -60,7 +60,7 @@
                 <artifactId>teavm-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Also unpacking webroot resources coming from dependencies such as naga-webplat -->
+            <!-- Also unpacking webroot resources coming from dependencies such as naga-abstractplat-web -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

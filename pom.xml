@@ -20,7 +20,7 @@
         <module>naga-vertx</module>
         <module>naga-abstractplat-web</module>
         <module>naga-javaemul</module>
-        <module>naga-teavm</module>
+        <module>naga-plat-teavm</module>
         <module>naga-gwt</module>
         <module>naga-j2objc</module>
         <module>naga-examples</module>
@@ -183,9 +183,9 @@
 
 
             <!--
-             **********************************************************
-             * Libraries required for the TeaVM Platform (naga-teavm) *
-             **********************************************************
+             ***************************************************************
+             * Libraries required for the TeaVM Platform (naga-plat-teavm) *
+             ***************************************************************
              -->
 
             <!-- Emulator of Java class library for TeaVM -->
