@@ -13,7 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-abstractplat-web" />
     <orderEntry type="module" module-name="naga-core" />
-    <orderEntry type="module" module-name="javalib-javacup-runtime" />
+    <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-classlib:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-platform:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-core:0.4.3" level="project" />
@@ -28,6 +28,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: joda-time:joda-time:2.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso:0.4.3" level="project" />
     <orderEntry type="module" module-name="javaemul-teavm" />
-    <orderEntry type="module" module-name="javaemul-shared" />
+    <orderEntry type="module" module-name="naga-javaemul-shared" />
   </component>
 </module>
