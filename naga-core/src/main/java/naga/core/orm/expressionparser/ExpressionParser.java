@@ -22,6 +22,10 @@ public class ExpressionParser {
         return parseExpression(definition, domainClass, modelReader, false);
     }
 
+    public static ExpressionArray parseExpressionArray(String definition, Object domainClass, ParserDomainModelReader modelReader) {
+        return (ExpressionArray) parseExpression(definition, domainClass, modelReader, true);
+    }
+
     public static Expression parseExpression(String definition, Object domainClass, ParserDomainModelReader modelReader, boolean expectList) {
         try (BuilderThreadContext context = BuilderThreadContext.open(modelReader)) {
             Symbol symbol = parseWithJavaCup("expr:=" + definition);
