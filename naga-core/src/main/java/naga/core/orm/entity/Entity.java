@@ -1,5 +1,7 @@
 package naga.core.orm.entity;
 
+import naga.core.orm.expression.Expression;
+
 /**
  * Interface used to interact with an entity = a domain object which can persist in the database. Behind it can be a
  * POJO if a java class exists for that domain class or just a DynamicEntity which just acts as a flexible field values
@@ -35,6 +37,10 @@ public interface Entity {
 
     default Entity getForeignEntity(Object foreignFieldId) {
         return getStore().getEntity((EntityID) getFieldValue(foreignFieldId));
+    }
+
+    default Object evaluate(Expression expression) {
+        return getStore().evaluateEntityExpression(this, expression);
     }
 
 }

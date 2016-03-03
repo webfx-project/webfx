@@ -1,6 +1,9 @@
 package naga.core.orm.entity;
 
 
+import naga.core.orm.entity.lciimpl.EntityDataWriter;
+import naga.core.orm.expression.Expression;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +16,7 @@ public class EntityStore {
 
     private final Map<EntityID, Entity> entities = new HashMap<>();
     private final Map<Object, EntityList> entityLists = new HashMap<>();
+    private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
 
     // ID management
 
@@ -55,6 +59,14 @@ public class EntityStore {
             entityLists.put(listId, entityList = new EntityList(listId, this));
         return entityList;
     }
+
+    // Expression
+
+    public Object evaluateEntityExpression(Entity entity, Expression expression) {
+        return expression.evaluate(entity, entityDataWriter);
+    }
+
+    // String
 
     public String getEntityClassesCountReport() {
         Map<Object, Integer> classesCount = new HashMap<>();
