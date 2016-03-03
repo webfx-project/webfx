@@ -1,5 +1,6 @@
 package naga.core.orm.mapping.query;
 
+import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.entity.*;
 import naga.core.spi.sql.SqlReadResult;
 
@@ -40,7 +41,10 @@ public class SqlResultToEntityListGenerator {
                 if (columnMapping.getForeignClassId() != null)
                     value = store.getOrCreateEntity(columnMapping.getForeignClassId(), value);
                 // Now everything is ready to set the field on the target entity
-                targetEntity.setFieldValue(columnMapping.getDomainFieldId(), value);
+                Object fieldId = columnMapping.getDomainFieldId();
+                if (fieldId instanceof DomainField)
+                    fieldId = ((DomainField) fieldId).getId();
+                targetEntity.setFieldValue(fieldId, value);
                 //System.out.println(targetEntity.getId().toString() + '.' + columnMapping.getDomainFieldId() + " = " + value);
             }
             // And finally adding this entity to the list
