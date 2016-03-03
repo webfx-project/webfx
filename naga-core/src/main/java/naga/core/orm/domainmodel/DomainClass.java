@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainClass  {
-    private final DomainModel dataModel;
+public class DomainClass implements HasLabel {
+    private final DomainModel domainModel;
     private final Object id;
     private final Object modelId;
     private final String name;
@@ -31,12 +31,12 @@ public class DomainClass  {
 
     private Delete deleteWhereId;
 
-    public DomainClass(DomainModel dataModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, String rowStyleDefinition, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
-        this(dataModel, id, modelId, name, sqlTableName, idColumnName, label, foreignFieldsDefinition, searchCondition, css, fieldMap, sqlMap, fieldsGroupMap, fxmlForm);
+    public DomainClass(DomainModel domainModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, String rowStyleDefinition, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
+        this(domainModel, id, modelId, name, sqlTableName, idColumnName, label, foreignFieldsDefinition, searchCondition, css, fieldMap, sqlMap, fieldsGroupMap, fxmlForm);
     }
 
-    public DomainClass(DomainModel dataModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
-        this.dataModel = dataModel;
+    public DomainClass(DomainModel domainModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
+        this.domainModel = domainModel;
         this.id = id;
         this.modelId = modelId;
         this.name = name;
@@ -52,8 +52,8 @@ public class DomainClass  {
         this.fxmlForm = fxmlForm;
     }
 
-    public DomainModel getDataModel() {
-        return dataModel;
+    public DomainModel getDomainModel() {
+        return domainModel;
     }
 
     public Object getId() {
@@ -128,11 +128,11 @@ public class DomainClass  {
     }
 
     public Expression parseExpression(String definition) {
-        return definition == null ? null : ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(dataModel), false);
+        return definition == null ? null : ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(domainModel), false);
     }
 
     public ExpressionArray parseExpressionArray(String definition) {
-        return definition == null ? null : (ExpressionArray) ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(dataModel), true);
+        return definition == null ? null : (ExpressionArray) ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(domainModel), true);
     }
 
     public final static Expression WHERE_ID_EQUALS_PARAM = new Equals(IDExpression.singleton, Parameter.UNNAMED_PARAMETER);

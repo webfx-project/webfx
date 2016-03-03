@@ -1,5 +1,8 @@
 package naga.core.orm.domainmodel;
 
+import naga.core.orm.expression.term.As;
+import naga.core.orm.expression.term.Symbol;
+
 /**
  * @author Bruno Salmon
  */
@@ -31,7 +34,13 @@ public class Label {
         return iconPath;
     }
 
-    /*public static Label from(Object o) {
-        return o instanceof HasLabel ? ((HasLabel) o).getLabel() : null;
-    }*/
+    public static Label from(Object o) {
+        if (o instanceof HasLabel)
+            return ((HasLabel) o).getLabel();
+        if (o instanceof Symbol)
+            return new Label(((Symbol) o).getName());
+        if (o instanceof As)
+            return new Label(((As) o).getAlias());
+        return emptyLabel;
+    }
 }

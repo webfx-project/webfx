@@ -9,7 +9,7 @@ import naga.core.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class DomainField extends Symbol {
+public class DomainField extends Symbol implements HasLabel {
     private final DomainClass domainClass;
     private final Object modelId;
     private final Object id;

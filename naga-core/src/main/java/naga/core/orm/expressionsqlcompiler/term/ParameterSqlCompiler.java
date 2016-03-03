@@ -32,7 +32,7 @@ public class ParameterSqlCompiler extends AbstractTermSqlCompiler<Parameter> {
                 ParameterJoinValue value = (ParameterJoinValue) parameterValue;
                 Object previousCompilingClass = o.build.getCompilingClass();
                 String previousTableAlias = o.build.getCompilingTableAlias();
-                Object parameterClass = previousCompilingClass.getDataModel().getClass(value.getId().getClassId());
+                Object parameterClass = previousCompilingClass.getDomainModel().getClass(value.getId().getClassId());
                 String tableAlias = o.build.getNewTableAlias(o.modelReader.getDomainClassSqlTableName(parameterClass), null, false);
                 Expression right = Parser.parseExpression(value.getRightDot(), parameterClass);
                 o.build.setCompilingClass(parameterClass);

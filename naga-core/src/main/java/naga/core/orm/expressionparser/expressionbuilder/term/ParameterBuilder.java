@@ -30,9 +30,9 @@ public class ParameterBuilder extends ExpressionBuilder {
         Expression rd = null;
         /*
         if (rightDot != null) {
-            rightDot.buildingClass = buildingClass.getDataModel().getParameterClass(name);
+            rightDot.buildingClass = buildingClass.getDomainModel().getParameterClass(name);
             if (rightDot.buildingClass == null && name.startsWith("this"))
-                rightDot.buildingClass = buildingClass.getDataModel().getClass(name.substring(4));
+                rightDot.buildingClass = buildingClass.getDomainModel().getClass(name.substring(4));
             if (rightDot.buildingClass != null)
                 rd = rightDot.build();
             else // might happen on server side, but we don't need rightDot in that case since we have the value

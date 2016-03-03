@@ -52,8 +52,8 @@ public class Function<T> {
         register(new Function("interpret_brackets", PrimType.STRING));
         register(new Function("compute_dates"));
 
-        //register(new InlineFunction("searchMatchesDocument", "d", new Type[]{new Type(DataSource.getDataSource(3L).getDataModel().getClass("Document"))}, "d..ref=?searchInteger or d..person_abcNames like ?abcSearchLike or d..person_email like ?searchEmailLike"));
-        //register(new InlineFunction("searchMatchesPerson", "p", new Type[]{new Type(DataSource.getDataSource(3L).getDataModel().getClass("Person"))}, "abcNames(p..firstName + ' ' + p..lastName) like ?abcSearchLike or p..email like ?searchEmailLike"));
+        //register(new InlineFunction("searchMatchesDocument", "d", new Type[]{new Type(DataSource.getDataSource(3L).getDomainModel().getClass("Document"))}, "d..ref=?searchInteger or d..person_abcNames like ?abcSearchLike or d..person_email like ?searchEmailLike"));
+        //register(new InlineFunction("searchMatchesPerson", "p", new Type[]{new Type(DataSource.getDataSource(3L).getDomainModel().getClass("Person"))}, "abcNames(p..firstName + ' ' + p..lastName) like ?abcSearchLike or p..email like ?searchEmailLike"));
     }
 
     protected static void register(Function function) {
