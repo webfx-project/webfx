@@ -2,6 +2,8 @@ package naga.core.orm.domainmodel;
 
 import naga.core.orm.domainmodel.lciimpl.CompilerDomainModelReaderImpl;
 import naga.core.orm.domainmodel.lciimpl.ParserDomainModelReaderImpl;
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.term.ExpressionArray;
 import naga.core.orm.expression.term.Select;
 import naga.core.orm.expressionparser.ExpressionParser;
 import naga.core.orm.expressionsqlcompiler.ExpressionSqlCompiler;
@@ -30,6 +32,14 @@ public class DomainModel {
         /* FROM KBS 2.0 if (classId instanceof ID)
             classId = ((ID) classId).getObjId(); */
         return classMap.get(classId);
+    }
+
+    public Expression parseExpression(String definition, Object classId) {
+        return ExpressionParser.parseExpression(definition, classId, new ParserDomainModelReaderImpl(this));
+    }
+
+    public ExpressionArray parseExpressionArray(String definition, Object classId) {
+        return ExpressionParser.parseExpressionArray(definition, classId, new ParserDomainModelReaderImpl(this));
     }
 
     public Select parseSelect(String definition) {
