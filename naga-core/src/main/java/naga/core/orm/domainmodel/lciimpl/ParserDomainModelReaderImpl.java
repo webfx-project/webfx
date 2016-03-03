@@ -23,13 +23,14 @@ public class ParserDomainModelReaderImpl implements ParserDomainModelReader {
     }
 
     private DomainClass toDomainClass(Object domainClass) {
-        return (DomainClass) domainClass;
+        if (domainClass instanceof DomainClass)
+            return (DomainClass) domainClass;
+        return domainModel.getClass(domainClass);
     }
 
     @Override
     public Symbol getDomainFieldSymbol(Object domainClass, String fieldName) {
-        DomainClass domainClass1 = toDomainClass(domainClass);
-        return domainClass1.getField(fieldName);
+        return toDomainClass(domainClass).getField(fieldName);
     }
 
     @Override
