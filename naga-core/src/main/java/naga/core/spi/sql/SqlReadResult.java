@@ -27,7 +27,7 @@ public class SqlReadResult {
      * First column, then 2nd column, etc... So inlineIndex = rowIndex + columnIndex * rowCount.
      * (better than 1st row, 2nd row, etc.. for compression algorithm)
      */
-    private Object[] inlineValues;
+    private Object[] values;
 
     /**
      * Sql column names of the result set. This information is actually optional and useful only for debugging or when
@@ -36,21 +36,21 @@ public class SqlReadResult {
     private final String[] columnNames;
 
 
-    public SqlReadResult(int rowCount, int columnCount, Object[] inlineValues, String[] columnNames) {
-        if (inlineValues.length != columnCount * rowCount || columnNames != null && columnNames.length != columnCount)
+    public SqlReadResult(int rowCount, int columnCount, Object[] values, String[] columnNames) {
+        if (values.length != columnCount * rowCount || columnNames != null && columnNames.length != columnCount)
             throw new IllegalArgumentException("Incoherent sizes in SqlReadResult initialization");
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.columnNames = columnNames;
-        this.inlineValues = inlineValues;
+        this.values = values;
     }
 
-    public SqlReadResult(int columnCount, Object[] inlineValues) {
-        this(inlineValues.length / columnCount, columnCount, inlineValues, null);
+    public SqlReadResult(int columnCount, Object[] values) {
+        this(values.length / columnCount, columnCount, values, null);
     }
 
-    public SqlReadResult(Object[] inlineValues, String[] columnNames) {
-        this(inlineValues.length / columnNames.length, columnNames.length, inlineValues, columnNames);
+    public SqlReadResult(Object[] values, String[] columnNames) {
+        this(values.length / columnNames.length, columnNames.length, values, columnNames);
     }
 
     public int getColumnCount() {
@@ -66,7 +66,7 @@ public class SqlReadResult {
     }
 
     public <T> T getValue(int rowIndex, int columnIndex) {
-        return (T) inlineValues[rowIndex + columnIndex * rowCount];
+        return (T) values[rowIndex + columnIndex * rowCount];
     }
 
     /*******************************************************************************************
@@ -138,7 +138,7 @@ public class SqlReadResult {
                         typesArray.push(type == null ? null : type.name());
                     json.set(COLUMN_TYPES_KEY, typesArray);
                     // values packing and serialization
-                    json.set(VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.inlineValues)));
+                    json.set(VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
