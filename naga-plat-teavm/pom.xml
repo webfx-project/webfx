@@ -19,18 +19,6 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!-- Emulator of Java class library for TeaVM -->
-        <dependency>
-            <groupId>org.teavm</groupId>
-            <artifactId>teavm-classlib</artifactId>
-        </dependency>
-
-        <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
-        <dependency>
-            <groupId>org.teavm</groupId>
-            <artifactId>teavm-jso</artifactId>
-        </dependency>
-
         <dependency>
             <artifactId>naga-javaemul-teavm</artifactId>
             <groupId>${project.groupId}</groupId>
@@ -41,6 +29,18 @@
             <artifactId>naga-javaemul-shared</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- Emulator of Java class library for TeaVM -->
+        <dependency>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-classlib</artifactId>
+        </dependency>
+
+        <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
+        <dependency>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-jso</artifactId>
         </dependency>
 
     </dependencies>
@@ -65,15 +65,26 @@
                         </goals>
                         <configuration>
                             <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <createSourcesJar>true</createSourcesJar>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
+                                <!-- 1) TeaVM has a dependency on xalan that uses an incompatible version of java_cup
+                                        so we relocate our version to avoid a compilation error -->
                                 <relocation>
                                     <pattern>java_cup</pattern>
                                     <shadedPattern>java_cub_11b</shadedPattern>
                                 </relocation>
+
+                                <!-- 2) Relocating java emulated classes from naga-javaemul-teavm and naga-javaemul-shared
+                                        under org.teavm.classlib and prefix them with a T -->
+
+                                <!-- Emulated java classes required for naga-core TeaVM compilation -->
                                 <relocation>
                                     <pattern>java.util.Base64</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TBase64</shadedPattern>
                                 </relocation>
+
+                                <!-- Emulated java classes required for java_cup TeaVM compilation -->
                                 <relocation>
                                     <pattern>java.util.Stack</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TStack</shadedPattern>
@@ -82,9 +93,25 @@
                                     <pattern>java.util.EmptyStackException</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TEmptyStackException</shadedPattern>
                                 </relocation>
+
+                                <!-- Emulated java classes required for naga-javalib-rxjava TeaVM compilation -->
+                                <relocation>
+                                    <pattern>java.util.concurrent.atomic.AtomicReference</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicReference</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>java.lang.StackOverflowError</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.lang.TStackOverflowError</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>java.lang.ThreadDeath</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.lang.TThreadDeath</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>java.lang.LinkageError</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.lang.TLinkageError</shadedPattern>
+                                </relocation>
                             </relocations>
-                            <createSourcesJar>true</createSourcesJar>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
                     </execution>
                 </executions>
