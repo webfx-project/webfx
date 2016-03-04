@@ -3,21 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga</artifactId>
+        <artifactId>naga-javalibs</artifactId>
         <groupId>naga</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-javalibs</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>naga-javalib-rxjava</artifactId>
 
-    <modules>
-        <!-- Java CUP parser runtime module (forked to make it compilable with transpilers) -->
-        <module>naga-javalib-javacupruntime</module>
-        <module>naga-javalib-javafastpfor</module>
-        <module>naga-javalib-rxjava</module>
-    </modules>
-
+    <build>
+        <plugins>
+            <!-- Generating the source artifact for GWT compilation -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
