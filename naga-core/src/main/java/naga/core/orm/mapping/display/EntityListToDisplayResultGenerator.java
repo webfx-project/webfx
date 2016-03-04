@@ -1,5 +1,6 @@
 package naga.core.orm.mapping.display;
 
+import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
 import naga.core.orm.entity.Entity;

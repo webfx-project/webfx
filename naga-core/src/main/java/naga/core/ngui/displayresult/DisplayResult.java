@@ -1,4 +1,4 @@
-package naga.core.orm.mapping.display;
+package naga.core.ngui.displayresult;
 
 import naga.core.type.Type;
 
