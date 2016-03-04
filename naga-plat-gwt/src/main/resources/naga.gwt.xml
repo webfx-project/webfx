@@ -9,8 +9,9 @@
     <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga"/>                         <!-- source path to naga-core and naga-plat-gwt -->
-    <source path="java_cup/runtime"/>             <!-- source path to javacup-runtime library -->
-    <super-source path="super"/>  <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
+    <source path="naga"/>               <!-- source path to naga-core and naga-plat-gwt -->
+    <source path="java_cup/runtime"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
+    <source path="rx"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
+    <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
 
 </module>
