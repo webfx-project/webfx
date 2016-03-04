@@ -51,7 +51,7 @@
         <plugin.retrolambda.version>2.0.6</plugin.retrolambda.version>
         <plugin.android.version>4.3.0</plugin.android.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
-        <plugin.gwt.version>2.8.0-SNAPSHOT</plugin.gwt.version>
+        <plugin.gwt.version>${lib.gwt.version}</plugin.gwt.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
         <plugin.download.version>1.2.1</plugin.download.version>
 
