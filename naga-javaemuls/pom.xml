@@ -13,9 +13,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>naga-javaemul-gwt</module>
-        <module>naga-javaemul-teavm</module>
         <module>naga-javaemul-shared</module>
+        <module>naga-javaemul-teavm</module>
+        <module>naga-javaemul-gwt</module>
     </modules>
 
     <properties>

@@ -16,8 +16,8 @@
 
         <dependency>
             <artifactId>naga-abstractplat-web</artifactId>
-            <groupId>${project.groupId}</groupId>
-            <version>${project.version}</version>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
         </dependency>
 
         <dependency>
@@ -53,14 +53,14 @@
                                 <!-- Some java classes under java package to be put in the GWT super source directory to extend the JRE emulation (required by the naga core or third party libraries) -->
                                 <artifactItem>
                                     <artifactId>naga-javaemul-gwt</artifactId>
-                                    <groupId>${project.groupId}</groupId>
-                                    <version>${project.version}</version>
+                                    <groupId>${naga.groupId}</groupId>
+                                    <version>${naga.version}</version>
                                     <classifier>sources</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <artifactId>naga-javaemul-shared</artifactId>
-                                    <groupId>${project.groupId}</groupId>
-                                    <version>${project.version}</version>
+                                    <groupId>${naga.groupId}</groupId>
+                                    <version>${naga.version}</version>
                                     <classifier>sources</classifier>
                                 </artifactItem>
                             </artifactItems>

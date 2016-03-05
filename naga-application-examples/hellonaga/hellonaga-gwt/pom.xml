@@ -22,8 +22,8 @@
 
         <dependency>
             <artifactId>naga-plat-gwt</artifactId>
-            <groupId>${project.groupId}</groupId>
-            <version>${project.version}</version>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
             <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
@@ -33,10 +33,10 @@
         <!-- Setting the GWT plugin configuration parameters -->
         <plugin.gwt.param.module>hellonaga</plugin.gwt.param.module>
         <plugin.gwt.param.compileSourcesArtifact1>${project.groupId}:hellonaga-logic</plugin.gwt.param.compileSourcesArtifact1>
-        <plugin.gwt.param.compileSourcesArtifact2>${project.groupId}:naga-plat-gwt</plugin.gwt.param.compileSourcesArtifact2>
-        <plugin.gwt.param.compileSourcesArtifact3>${project.groupId}:naga-abstractplat-web</plugin.gwt.param.compileSourcesArtifact3>
-        <plugin.gwt.param.compileSourcesArtifact4>${project.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact4>
-        <plugin.gwt.param.compileSourcesArtifact5>${project.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact5>
+        <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-plat-gwt</plugin.gwt.param.compileSourcesArtifact2>
+        <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-abstractplat-web</plugin.gwt.param.compileSourcesArtifact3>
+        <plugin.gwt.param.compileSourcesArtifact4>${naga.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact4>
+        <plugin.gwt.param.compileSourcesArtifact5>${naga.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact5>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
         <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplat-web -->
