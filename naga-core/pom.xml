@@ -14,10 +14,28 @@
     <dependencies>
 
         <dependency>
+            <artifactId>java-cup-runtime</artifactId>
+            <groupId>com.github.vbmacher</groupId>
+        </dependency>
+
+        <dependency>
+            <artifactId>rxjava</artifactId>
+            <groupId>io.reactivex</groupId>
+        </dependency>
+
+        <!--
+        <dependency>
             <artifactId>naga-javalib-javacupruntime</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-rxjava</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+        -->
 
     </dependencies>
 
