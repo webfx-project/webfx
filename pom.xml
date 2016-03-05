@@ -516,6 +516,12 @@
                     <artifactId>teavm-maven-plugin</artifactId>
                     <version>${plugin.teavm.version}</version>
                     <dependencies>
+                        <!-- Adding naga-javaemul-teavm before teavm-classlib so it can override TeaVM classes to extend them (see naga-javaemul-teavm pom case 2) -->
+                        <dependency>
+                            <artifactId>naga-javaemul-teavm</artifactId>
+                            <groupId>${naga.groupId}</groupId>
+                            <version>${naga.version}</version>
+                        </dependency>
                         <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
                         <dependency>
                             <groupId>org.teavm</groupId>
