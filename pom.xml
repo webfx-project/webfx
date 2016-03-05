@@ -637,7 +637,7 @@
                             <phase>compile</phase>
                             <configuration>
                                 <target>
-                                    <apply executable="${env.JAVA_HOME}/bin/java" dir="${project.basedir}" failonerror="true">
+                                    <apply executable="java" dir="${project.basedir}" failonerror="true">
                                         <arg value="-jar"/>
                                         <arg value="${tool.j2objc.param.jar}"/>
                                         <arg value="-Xbootclasspath:${tool.j2objc.param.home}/lib/jre_emul.jar"/>
