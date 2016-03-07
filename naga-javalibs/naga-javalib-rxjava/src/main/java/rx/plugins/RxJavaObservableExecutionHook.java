@@ -17,7 +17,7 @@ package rx.plugins;
 
 import rx.Observable;
 import rx.Observable.OnSubscribe;
-//import rx.Observable.Operator;
+import rx.Observable.Operator;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Func1;
@@ -115,7 +115,7 @@ public abstract class RxJavaObservableExecutionHook {
      * @return {@link Operator}{@code <R, T>} function that can be modified, decorated, replaced or just
      *         returned as a pass-thru
      */
-    /*public <T, R> Operator<? extends R, ? super T> onLift(final Operator<? extends R, ? super T> lift) {
+    public <T, R> Operator<? extends R, ? super T> onLift(final Operator<? extends R, ? super T> lift) {
         return lift;
-    }*/
+    }
 }

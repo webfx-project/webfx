@@ -37,8 +37,8 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
      */
     static final boolean STRONG_MODE;
     static {
-        String wp = System.getProperty("rx.just.strong-mode", "false");
-        STRONG_MODE = Boolean.valueOf(wp);
+        // NAGA String wp = System.getProperty("rx.just.strong-mode", "false");
+        STRONG_MODE = false; // NAGA Boolean.valueOf(wp);
     }
 
     /**

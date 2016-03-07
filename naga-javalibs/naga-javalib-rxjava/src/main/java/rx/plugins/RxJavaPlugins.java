@@ -49,7 +49,7 @@ public class RxJavaPlugins {
 
     private final AtomicReference<RxJavaErrorHandler> errorHandler = new AtomicReference<RxJavaErrorHandler>();
     private final AtomicReference<RxJavaObservableExecutionHook> observableExecutionHook = new AtomicReference<RxJavaObservableExecutionHook>();
-    private final AtomicReference<RxJavaSchedulersHook> schedulersHook = new AtomicReference<RxJavaSchedulersHook>();
+    // NAGA private final AtomicReference<RxJavaSchedulersHook> schedulersHook = new AtomicReference<RxJavaSchedulersHook>();
 
     /**
      * Retrieves the single {@code RxJavaPlugins} instance.
@@ -67,7 +67,7 @@ public class RxJavaPlugins {
     /* package accessible for unit tests */void reset() {
         INSTANCE.errorHandler.set(null);
         INSTANCE.observableExecutionHook.set(null);
-        INSTANCE.schedulersHook.set(null);
+        // NAGA INSTANCE.schedulersHook.set(null);
     }
 
     static final RxJavaErrorHandler DEFAULT_ERROR_HANDLER = new RxJavaErrorHandler() {
@@ -225,7 +225,7 @@ public class RxJavaPlugins {
      *
      * @return the {@link RxJavaSchedulersHook} implementation in use
      */
-    public RxJavaSchedulersHook getSchedulersHook() {
+    /* NAGA public RxJavaSchedulersHook getSchedulersHook() {
         if (schedulersHook.get() == null) {
             // check for an implementation from System.getProperty first
             Object impl = null; // NAGA // getPluginImplementationViaProperty(RxJavaSchedulersHook.class, System.getProperties());
@@ -239,7 +239,7 @@ public class RxJavaPlugins {
             }
         }
         return schedulersHook.get();
-    }
+    }*/
 
     /**
      * Registers an {@link RxJavaSchedulersHook} implementation as a global override of any injected or
@@ -251,9 +251,9 @@ public class RxJavaPlugins {
      *             if called more than once or after the default was initialized (if usage occurs before trying
      *             to register)
      */
-    public void registerSchedulersHook(RxJavaSchedulersHook impl) {
+    /* NAGA public void registerSchedulersHook(RxJavaSchedulersHook impl) {
         if (!schedulersHook.compareAndSet(null, impl)) {
             throw new IllegalStateException("Another strategy was already registered: " + schedulersHook.get());
         }
-    }
+    }*/
 }
