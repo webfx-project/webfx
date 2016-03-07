@@ -73,6 +73,8 @@
         <plugin.shade.param.fat.phase>package</plugin.shade.param.fat.phase>
         <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
+        <plugin.teavm.minifying>true</plugin.teavm.minifying>
+        <plugin.teavm.debug>false</plugin.teavm.debug>
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugin.gwt.param.compileSourcesArtifact1>TBD</plugin.gwt.param.compileSourcesArtifact1>
         <plugin.gwt.param.compileSourcesArtifact2>TBD</plugin.gwt.param.compileSourcesArtifact2>
@@ -566,14 +568,14 @@
                                 <!-- How to attach runtime.js. Possible values are: SEPARATE, MERGED and NONE -->
                                 <runtime>SEPARATE</runtime>
                                 <!-- Whether TeaVM should produce minified JavaScript. Can reduce JavaScript file size more than two times -->
-                                <minifying>true</minifying>
+                                <minifying>${plugin.teavm.minifying}</minifying>
                                 <mainPageIncluded>true</mainPageIncluded>
                                 <!-- Whether TeaVM should produce debug information for its built-in debugger -->
-                                <debugInformationGenerated>false</debugInformationGenerated>
+                                <debugInformationGenerated>${plugin.teavm.debug}</debugInformationGenerated>
                                 <!-- Whether TeaVM should produce source maps file -->
-                                <sourceMapsGenerated>false</sourceMapsGenerated>
+                                <sourceMapsGenerated>${plugin.teavm.debug}</sourceMapsGenerated>
                                 <!-- Whether TeaVM should also put source files into output directory, for compatibility with source maps -->
-                                <sourceFilesCopied>false</sourceFilesCopied>
+                                <sourceFilesCopied>${plugin.teavm.debug}</sourceFilesCopied>
                             </configuration>
                         </execution>
                     </executions>
