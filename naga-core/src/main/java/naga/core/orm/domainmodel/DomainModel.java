@@ -46,6 +46,14 @@ public class DomainModel {
         return ExpressionParser.parseSelect(definition, new ParserDomainModelReaderImpl(this));
     }
 
+    public SqlCompiled compileSelect(String stringSelect) {
+        return compileSelect(stringSelect, null);
+    }
+
+    public SqlCompiled compileSelect(String stringSelect, Object[] parameterValues) {
+        return compileSelect(parseSelect(stringSelect), parameterValues);
+    }
+
     public SqlCompiled compileSelect(Select select) {
         return compileSelect(select, null);
     }
