@@ -12,20 +12,29 @@
  */
 package rx;
 
-import java.util.*;
-import java.util.concurrent.*;
-
-import rx.annotations.*;
-import rx.exceptions.*;
+import rx.annotations.Beta;
+import rx.annotations.Experimental;
+import rx.exceptions.Exceptions;
+import rx.exceptions.OnErrorNotImplementedException;
 import rx.functions.*;
 import rx.internal.operators.*;
+import rx.internal.util.ScalarSynchronousObservable;
+import rx.internal.util.UtilityFunctions;
+import rx.plugins.RxJavaObservableExecutionHook;
+import rx.plugins.RxJavaPlugins;
+import rx.subscriptions.Subscriptions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 //import rx.internal.producers.SingleProducer;
-import rx.internal.util.*;
 //import rx.observables.*;
 //import rx.observers.SafeSubscriber;
-import rx.plugins.*;
 //import rx.schedulers.*;
-import rx.subscriptions.Subscriptions;
 
 /**
  * The Observable class that implements the Reactive Pattern.
@@ -43,6 +52,7 @@ import rx.subscriptions.Subscriptions;
  * @param <T>
  *            the type of the items emitted by the Observable
  */
+@SuppressWarnings("JavadocReference")
 public class Observable<T> {
 
     final OnSubscribe<T> onSubscribe;
@@ -4509,9 +4519,9 @@ public class Observable<T> {
      *         immediate predecessors
      * @see <a href="http://reactivex.io/documentation/operators/distinct.html">ReactiveX operators documentation: Distinct</a>
      */
-    /* public final Observable<T> distinctUntilChanged() {
+    public final Observable<T> distinctUntilChanged() {
         return lift(OperatorDistinctUntilChanged.<T> instance());
-    }*/
+    }
 
     /**
      * Returns an Observable that emits all items emitted by the source Observable that are distinct from their
@@ -4530,9 +4540,9 @@ public class Observable<T> {
      *         those of their immediate predecessors
      * @see <a href="http://reactivex.io/documentation/operators/distinct.html">ReactiveX operators documentation: Distinct</a>
      */
-    /* public final <U> Observable<T> distinctUntilChanged(Func1<? super T, ? extends U> keySelector) {
+    public final <U> Observable<T> distinctUntilChanged(Func1<? super T, ? extends U> keySelector) {
         return lift(new OperatorDistinctUntilChanged<T, U>(keySelector));
-    }*/
+    }
 
     /**
      * Modifies the source Observable so that it invokes an action when it calls {@code onCompleted}.
