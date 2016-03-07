@@ -34,9 +34,8 @@
  */
 
 package javaemul.util.concurrent.atomic;
-import java.util.Objects;
-import java.util.function.BinaryOperator;
-import java.util.function.UnaryOperator;
+
+/* Used by rx.internal.operators.MergeOperator */
 
 /**
  * An object reference that may be updated atomically. See the {@link
@@ -44,10 +43,9 @@ import java.util.function.UnaryOperator;
  * of the properties of atomic variables.
  * @since 1.5
  * @author Doug Lea
- * @param <V> The type of object referred to by this reference
  */
-public class AtomicReference<V> implements java.io.Serializable {
-    private static final long serialVersionUID = -1848883965231344442L;
+public class AtomicInteger implements java.io.Serializable {
+    //private static final long serialVersionUID = -1848883965231344442L;
 
     //private static final Unsafe unsafe = Unsafe.getUnsafe();
     //private static final long valueOffset;
@@ -59,21 +57,21 @@ public class AtomicReference<V> implements java.io.Serializable {
         } catch (Exception ex) { throw new Error(ex); }
     }*/
 
-    private volatile V value;
+    private volatile int value;
 
     /**
      * Creates a new AtomicReference with the given initial value.
      *
      * @param initialValue the initial value
      */
-    public AtomicReference(V initialValue) {
+    public AtomicInteger(int initialValue) {
         value = initialValue;
     }
 
     /**
      * Creates a new AtomicReference with null initial value.
      */
-    public AtomicReference() {
+    public AtomicInteger() {
     }
 
     /**
@@ -81,7 +79,7 @@ public class AtomicReference<V> implements java.io.Serializable {
      *
      * @return the current value
      */
-    public final V get() {
+    public final int get() {
         return value;
     }
 
@@ -90,7 +88,7 @@ public class AtomicReference<V> implements java.io.Serializable {
      *
      * @param newValue the new value
      */
-    public final void set(V newValue) {
+    public final void set(int newValue) {
         value = newValue;
     }
 
@@ -100,9 +98,21 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @param newValue the new value
      * @since 1.6
      */
-    public final void lazySet(V newValue) {
+    public final void lazySet(int newValue) {
         //unsafe.putOrderedObject(this, valueOffset, newValue);
         set(newValue);
+    }
+
+    /**
+     * Atomically sets to the given value and returns the old value.
+     *
+     * @param newValue the new value
+     * @return the previous value
+     */
+    public final synchronized long getAndSet(int newValue) {
+        int oldValue = value;
+        value = newValue;
+        return oldValue;
     }
 
     /**
@@ -113,9 +123,9 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @return {@code true} if successful. False return indicates that
      * the actual value was not equal to the expected value.
      */
-    public final synchronized boolean compareAndSet(V expect, V update) {
+    public final synchronized boolean compareAndSet(int expect, int update) {
         //return unsafe.compareAndSwapObject(this, valueOffset, expect, update);
-        if (!Objects.equals(value, expect))
+        if (value != expect)
             return false;
         value = update;
         return true;
@@ -133,23 +143,67 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @param update the new value
      * @return {@code true} if successful
      */
-    public final boolean weakCompareAndSet(V expect, V update) {
+    public final boolean weakCompareAndSet(int expect, int update) {
         //return unsafe.compareAndSwapObject(this, valueOffset, expect, update);
         return compareAndSet(expect, update);
     }
 
     /**
-     * Atomically sets to the given value and returns the old value.
+     * Atomically increments by one the current value.
      *
-     * @param newValue the new value
      * @return the previous value
      */
-    @SuppressWarnings("unchecked")
-    public final synchronized V getAndSet(V newValue) {
-        //return (V)unsafe.getAndSetObject(this, valueOffset, newValue);
-        V oldValue = value;
-        value = newValue;
+    public final synchronized int getAndIncrement() {
+        return value++;
+    }
+
+    /**
+     * Atomically decrements by one the current value.
+     *
+     * @return the previous value
+     */
+    public final synchronized int getAndDecrement() {
+        return value--;
+    }
+
+    /**
+     * Atomically adds the given value to the current value.
+     *
+     * @param delta the value to add
+     * @return the previous value
+     */
+    public final synchronized int getAndAdd(int delta) {
+        int oldValue = value;
+        value += delta;
         return oldValue;
+    }
+
+    /**
+     * Atomically increments by one the current value.
+     *
+     * @return the updated value
+     */
+    public final synchronized int incrementAndGet() {
+        return ++value;
+    }
+
+    /**
+     * Atomically decrements by one the current value.
+     *
+     * @return the updated value
+     */
+    public final  synchronized int decrementAndGet() {
+        return --value;
+    }
+
+    /**
+     * Atomically adds the given value to the current value.
+     *
+     * @param delta the value to add
+     * @return the updated value
+     */
+    public final synchronized int addAndGet(int delta) {
+        return value += delta;
     }
 
     /**
@@ -162,14 +216,14 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @return the previous value
      * @since 1.8
      */
-    public final V getAndUpdate(UnaryOperator<V> updateFunction) {
-        V prev, next;
+    /* public final long getAndUpdate(IntUnaryOperator updateFunction) {
+        int prev, next;
         do {
             prev = get();
-            next = updateFunction.apply(prev);
+            next = updateFunction.applyAsInt(prev);
         } while (!compareAndSet(prev, next));
         return prev;
-    }
+    }*/
 
     /**
      * Atomically updates the current value with the results of
@@ -181,14 +235,14 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @return the updated value
      * @since 1.8
      */
-    public final V updateAndGet(UnaryOperator<V> updateFunction) {
-        V prev, next;
+    /* public final long updateAndGet(IntUnaryOperator updateFunction) {
+        int prev, next;
         do {
             prev = get();
-            next = updateFunction.apply(prev);
+            next = updateFunction.applyAsInt(prev);
         } while (!compareAndSet(prev, next));
         return next;
-    }
+    }*/
 
     /**
      * Atomically updates the current value with the results of
@@ -204,15 +258,15 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @return the previous value
      * @since 1.8
      */
-    public final V getAndAccumulate(V x,
-                                    BinaryOperator<V> accumulatorFunction) {
-        V prev, next;
+    /* public final long getAndAccumulate(int x,
+                                       IntBinaryOperator accumulatorFunction) {
+        int prev, next;
         do {
             prev = get();
-            next = accumulatorFunction.apply(prev, x);
+            next = accumulatorFunction.applyAsInt(prev, x);
         } while (!compareAndSet(prev, next));
         return prev;
-    }
+    }*/
 
     /**
      * Atomically updates the current value with the results of
@@ -228,22 +282,56 @@ public class AtomicReference<V> implements java.io.Serializable {
      * @return the updated value
      * @since 1.8
      */
-    public final V accumulateAndGet(V x,
-                                    BinaryOperator<V> accumulatorFunction) {
-        V prev, next;
+    /* public final long accumulateAndGet(int x,
+                                       IntBinaryOperator accumulatorFunction) {
+        int prev, next;
         do {
             prev = get();
-            next = accumulatorFunction.apply(prev, x);
+            next = accumulatorFunction.applyAsInt(prev, x);
         } while (!compareAndSet(prev, next));
         return next;
-    }
+    }*/
 
     /**
      * Returns the String representation of the current value.
      * @return the String representation of the current value
      */
     public String toString() {
-        return String.valueOf(get());
+        return Integer.toString(get());
+    }
+
+    /**
+     * Returns the value of this {@code AtomicLong} as an {@code int}
+     * after a narrowing primitive conversion.
+     * @jls 5.1.3 Narrowing Primitive Conversions
+     */
+    public int intValue() {
+        return get();
+    }
+
+    /**
+     * Returns the value of this {@code AtomicLong} as a {@code long}.
+     */
+    public long longValue() {
+        return get();
+    }
+
+    /**
+     * Returns the value of this {@code AtomicLong} as a {@code float}
+     * after a widening primitive conversion.
+     * @jls 5.1.2 Widening Primitive Conversions
+     */
+    public float floatValue() {
+        return (float)get();
+    }
+
+    /**
+     * Returns the value of this {@code AtomicLong} as a {@code double}
+     * after a widening primitive conversion.
+     * @jls 5.1.2 Widening Primitive Conversions
+     */
+    public double doubleValue() {
+        return (double)get();
     }
 
 }
