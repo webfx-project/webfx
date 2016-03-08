@@ -67,7 +67,7 @@ public class JavaScheduler implements naga.core.spi.platform.Scheduler<Integer> 
     @Override
     public Integer scheduleDelay(int delayMs, final Handler<Void> handler) {
         int id = timerId.getAndIncrement();
-        timers.put(id, executor.schedule((Runnable) () -> {
+        timers.put(id, executor.schedule(() -> {
             timers.remove(id);
             handler.handle(null);
         }, delayMs, TimeUnit.MILLISECONDS));
@@ -77,7 +77,7 @@ public class JavaScheduler implements naga.core.spi.platform.Scheduler<Integer> 
     @Override
     public Integer schedulePeriodic(int delayMs, final Handler<Void> handler) {
         int id = timerId.getAndIncrement();
-        timers.put(id, executor.scheduleAtFixedRate((Runnable) () -> handler.handle(null), delayMs, delayMs, TimeUnit.MILLISECONDS));
+        timers.put(id, executor.scheduleAtFixedRate(() -> handler.handle(null), delayMs, delayMs, TimeUnit.MILLISECONDS));
         return id;
     }
 }

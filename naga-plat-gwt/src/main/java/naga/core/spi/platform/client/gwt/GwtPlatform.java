@@ -4,6 +4,7 @@ import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.gwt.GwtJsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
+import naga.core.spi.platform.client.ResourceService;
 import naga.core.spi.platform.client.WebSocketFactory;
 import naga.core.spi.platform.client.web.WebLocation;
 import naga.core.spi.platform.client.web.WebPlatform;
@@ -43,7 +44,16 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     @Override
+    public ResourceService resourceService() {
+        return GwtResourceService.SINGLETON;
+    }
+
+    @Override
     public WebLocation getCurrentLocation() {
         return GwtLocation.current();
+    }
+
+    public static void registerBundle(GwtBundle bundle) {
+        GwtResourceService.SINGLETON.register(bundle);
     }
 }

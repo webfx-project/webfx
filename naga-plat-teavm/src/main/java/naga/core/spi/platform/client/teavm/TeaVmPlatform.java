@@ -4,6 +4,7 @@ import naga.core.spi.json.JsonFactory;
 import naga.core.spi.json.teavm.TeaVmJsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
+import naga.core.spi.platform.client.ResourceService;
 import naga.core.spi.platform.client.WebSocketFactory;
 import naga.core.spi.platform.client.web.WebLocation;
 import naga.core.spi.platform.client.web.WebPlatform;
@@ -41,6 +42,11 @@ public final class TeaVmPlatform extends WebPlatform {
     @Override
     public WebSocketFactory webSocketFactory() {
         return webSocketFactory;
+    }
+
+    @Override
+    public ResourceService resourceService() {
+        return TeaVmResourceService.SINGLETON;
     }
 
     @Override

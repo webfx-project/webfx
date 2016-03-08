@@ -27,16 +27,23 @@ public abstract class ClientPlatform extends Platform {
 
     public abstract WebSocketFactory webSocketFactory();
 
+    public abstract ResourceService resourceService();
+
     /*** Static access ***/
 
     public static ClientPlatform get() {
         return (ClientPlatform) Platform.get();
     }
 
-    /*** Static helper methods ***/
+    /*** Static shortcut methods ***/
+
     // WebSocketFactory method
 
     public static WebSocket createWebSocket(String url, JsonObject options) {
         return get().webSocketFactory().createWebSocket(url, options);
+    }
+
+    public static ResourceService res() {
+        return get().resourceService();
     }
 }

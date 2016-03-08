@@ -74,7 +74,7 @@ public abstract class Platform {
         return PLATFORM;
     }
 
-    /*** Static helper methods ***/
+    /*** Static shortcut methods ***/
 
     // Logger methods
 

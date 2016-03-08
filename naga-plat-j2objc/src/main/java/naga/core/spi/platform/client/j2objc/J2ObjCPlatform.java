@@ -4,6 +4,7 @@ import naga.core.spi.json.JsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.Scheduler;
+import naga.core.spi.platform.client.ResourceService;
 import naga.core.spi.platform.client.WebSocketFactory;
 
 /**
@@ -28,5 +29,10 @@ public class J2ObjCPlatform extends ClientPlatform {
     @Override
     public WebSocketFactory webSocketFactory() {
         throw new UnsupportedOperationException("J2ObjCPlatform.webSocketFactory() is not yet implemented");
+    }
+
+    @Override
+    public ResourceService resourceService() {
+        throw new UnsupportedOperationException("J2ObjCPlatform.resources() is not yet implemented");
     }
 }

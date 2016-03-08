@@ -24,6 +24,7 @@ import naga.core.spi.json.javaplat.jackson.JacksonJsonFactory;
 import naga.core.spi.json.javaplat.smart.SmartJsonFactory;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
+import naga.core.spi.platform.client.ResourceService;
 import naga.core.spi.platform.client.WebSocketFactory;
 import naga.core.spi.platform.sql.jdbc.JdbcSqlService;
 import naga.core.spi.sql.SqlService;
@@ -39,7 +40,7 @@ import java.util.logging.Logger;
 public abstract class JavaClientPlatform extends ClientPlatform {
     protected final JavaScheduler scheduler;
     protected final JsonFactory jsonFactory;
-    protected final naga.core.spi.platform.client.WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
+    protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
     protected JavaClientPlatform() {
         this(new JavaScheduler());
@@ -82,6 +83,11 @@ public abstract class JavaClientPlatform extends ClientPlatform {
     @Override
     public SqlService sqlService() {
         return JdbcSqlService.JDBC_SQL_SERVICE;
+    }
+
+    @Override
+    public ResourceService resourceService() {
+        return JavaResourceService.SINGLETON;
     }
 
     @Override
