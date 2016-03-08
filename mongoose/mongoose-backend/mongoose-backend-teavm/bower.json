@@ -1,0 +1,10 @@
+{
+  "name": "mongoose-backend-teavm",
+  "version": "0.1.0",
+  "authors": [
+    "Bruno Salmon"
+  ],
+  "dependencies": {
+  },
+  "ignore": ""
+}

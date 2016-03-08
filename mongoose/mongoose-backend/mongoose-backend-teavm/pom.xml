@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mongoose-backend</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-backend-teavm</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>mongoose-logic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-plat-teavm</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <!-- Emulator of Java class library for TeaVM -->
+        <dependency>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-classlib</artifactId>
+        </dependency>
+
+        <!-- JavaScriptObjects (JSO) - a JavaScript binding for TeaVM -->
+        <dependency>
+            <groupId>org.teavm</groupId>
+            <artifactId>teavm-jso</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <!-- Specifying the TeaVM compilation entry point -->
+        <plugin.teavm.param.mainClass>mongoose.backend.teavm.MongooseBackendTeaVmApplication</plugin.teavm.param.mainClass>
+        <plugin.teavm.debug>true</plugin.teavm.debug>
+        <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+        <!-- But unpacking webroot resources coming from dependencies such as naga-webplat -->
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+        <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
+        <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+    </properties>
+
+    <build>
+        <plugins>
+
+            <!-- Calling TeaVM to compile the main class and all subsequent code -->
+            <plugin>
+                <groupId>org.teavm</groupId>
+                <artifactId>teavm-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Also unpacking webroot resources coming from dependencies such as naga-webplat -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+
+            <!-- Calling grunt to generate the production index.html from the dev one -->
+            <plugin>
+                <groupId>pl.allegro</groupId>
+                <artifactId>grunt-maven-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

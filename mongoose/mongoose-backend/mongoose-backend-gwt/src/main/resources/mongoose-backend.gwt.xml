@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module rename-to='mongoose_backend'>
+
+    <!-- Inherit the naga module (nage-core + naga-gwt stuff)       -->
+    <inherits name="naga"/> <!-- refers to naga.gwt.xml in naga-gwt -->
+
+    <inherits name="com.google.gwt.resources.Resources" />
+
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='mongoose.backend.gwt.MongooseBackendGwtApplication'/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="mongoose"/>   <!-- code is under mongoose package -->
+    <resource path="mongoose"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.lzb64json -->
+</module>
