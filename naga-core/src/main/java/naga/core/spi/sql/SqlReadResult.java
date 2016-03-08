@@ -106,6 +106,9 @@ public class SqlReadResult {
     private final static String COLUMN_NAMES_KEY = "names";
     private final static String COLUMN_TYPES_KEY = "types";
     private final static String VALUES_KEY = "values";
+    private final static String COMPRESSED_VALUES_KEY = "cvalues";
+
+    private final static boolean COMPRESSION = true;
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<SqlReadResult>(SqlReadResult.class, CODEC_ID) {
@@ -138,7 +141,10 @@ public class SqlReadResult {
                         typesArray.push(type == null ? null : type.name());
                     json.set(COLUMN_TYPES_KEY, typesArray);
                     // values packing and serialization
-                    json.set(VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
+                    if (COMPRESSION)
+                        json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
+                    else
+                        json.set(VALUES_KEY, result.values);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -161,8 +167,12 @@ public class SqlReadResult {
                         types[i] = PrimType.valueOf(typeName);
                 }
                 // Values deserialization
+                Object[] inlineValues;
                 JsonArray valuesArray = json.get(VALUES_KEY);
-                Object[] inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(valuesArray));
+                if (valuesArray != null)
+                    inlineValues = Json.toJavaArray(valuesArray);
+                else
+                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.get(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
                 return new SqlReadResult(inlineValues, names);
             }
