@@ -133,7 +133,7 @@ public abstract class Platform {
     public static Bus createBus(BusOptions options) {
         Platform platform = get();
         platform.setPlatformBusOptions(options);
-        return platform.busFactory().createBus(options);
+        return BUS = platform.busFactory().createBus(options);
     }
 
     // SqlService methods
