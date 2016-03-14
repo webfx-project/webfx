@@ -18,8 +18,6 @@
 package naga.core.spi.platform.client.javaplat;
 
 
-import naga.core.util.async.Handler;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -60,24 +58,29 @@ public class JavaScheduler implements naga.core.spi.platform.Scheduler<Integer> 
     }
 
     @Override
-    public void scheduleDeferred(final Handler<Void> handler) {
-        executor.execute(() -> handler.handle(null));
+    public void scheduleDeferred(Runnable runnable) {
+        executor.execute(runnable);
     }
 
     @Override
-    public Integer scheduleDelay(int delayMs, final Handler<Void> handler) {
+    public Integer scheduleDelay(long delayMs, Runnable runnable) {
         int id = timerId.getAndIncrement();
         timers.put(id, executor.schedule(() -> {
             timers.remove(id);
-            handler.handle(null);
+            runnable.run();
         }, delayMs, TimeUnit.MILLISECONDS));
         return id;
     }
 
     @Override
-    public Integer schedulePeriodic(int delayMs, final Handler<Void> handler) {
+    public Integer schedulePeriodic(long delayMs, Runnable runnable) {
         int id = timerId.getAndIncrement();
-        timers.put(id, executor.scheduleAtFixedRate(() -> handler.handle(null), delayMs, delayMs, TimeUnit.MILLISECONDS));
+        timers.put(id, executor.scheduleAtFixedRate(runnable, delayMs, delayMs, TimeUnit.MILLISECONDS));
         return id;
+    }
+
+    @Override
+    public boolean isUiThread() {
+        return false;
     }
 }

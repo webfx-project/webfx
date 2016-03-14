@@ -77,7 +77,7 @@ public class WebSocketBus extends SimpleClientBus {
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
                 cancelPingTimer();
-                pingTimerId = Platform.schedulePeriodic(pingInterval, ignore -> sendPing());
+                pingTimerId = Platform.schedulePeriodic(pingInterval, WebSocketBus.this::sendPing);
                 if (hook != null)
                     hook.handleOpened();
                 publishLocal(ON_OPEN, null);

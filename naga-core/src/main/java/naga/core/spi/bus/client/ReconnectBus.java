@@ -74,7 +74,7 @@ public class ReconnectBus extends WebSocketBus {
             public void handlePostClose() {
                 if (reconnect) {
                     Platform.scheduleDelay(backOffGenerator.next().targetDelay,
-                            event -> {
+                            () -> {
                                 if (reconnect)
                                     reconnect();
                             });

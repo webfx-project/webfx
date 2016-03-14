@@ -2,7 +2,6 @@ package naga.core.spi.platform.client.gwt;
 
 import com.google.gwt.user.client.Timer;
 import naga.core.spi.platform.Scheduler;
-import naga.core.util.async.Handler;
 
 
 /**
@@ -11,21 +10,21 @@ import naga.core.util.async.Handler;
 final class GwtScheduler implements Scheduler<Timer> {
 
     @Override
-    public void scheduleDeferred(Handler<Void> handler) {
-        scheduleDelay(0, handler);
+    public void scheduleDeferred(Runnable runnable) {
+        scheduleDelay(0, runnable);
     }
 
     @Override
-    public Timer scheduleDelay(int delayMs, Handler<Void> handler) {
-        Timer timer = createTimer(handler);
-        timer.schedule(delayMs);
+    public Timer scheduleDelay(long delayMs, Runnable runnable) {
+        Timer timer = createTimer(runnable);
+        timer.schedule((int) delayMs);
         return timer;
     }
 
     @Override
-    public Timer schedulePeriodic(int delayMs, Handler<Void> handler) {
-        Timer timer = createTimer(handler);
-        timer.scheduleRepeating(delayMs);
+    public Timer schedulePeriodic(long delayMs, Runnable runnable) {
+        Timer timer = createTimer(runnable);
+        timer.scheduleRepeating((int) delayMs);
         return timer;
     }
 
@@ -35,13 +34,17 @@ final class GwtScheduler implements Scheduler<Timer> {
         return true;
     }
 
-    private static Timer createTimer(Handler<Void> handler) {
+    private static Timer createTimer(Runnable runnable) {
         return new Timer() {
             @Override
             public void run() {
-                handler.handle(null);
+                runnable.run();
             }
         };
     }
 
+    @Override
+    public boolean isUiThread() {
+        return true;
+    }
 }

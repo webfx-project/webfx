@@ -2,7 +2,6 @@ package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.spi.platform.Scheduler;
-import naga.core.util.async.Handler;
 
 /**
  * @author Bruno Salmon
@@ -16,22 +15,27 @@ public final class VertxScheduler implements Scheduler<Long> {
     }
 
     @Override
-    public void scheduleDeferred(Handler<Void> handler) {
-        scheduleDelay(1, handler);
+    public void scheduleDeferred(Runnable runnable) {
+        scheduleDelay(1, runnable);
     }
 
     @Override
-    public Long scheduleDelay(int delayMs, Handler<Void> handler) {
-        return vertx.setTimer(delayMs, event -> handler.handle(null));
+    public Long scheduleDelay(long delayMs, Runnable runnable) {
+        return vertx.setTimer(delayMs, event -> runnable.run());
     }
 
     @Override
-    public Long schedulePeriodic(int delayMs, Handler<Void> handler) {
-        return vertx.setPeriodic(delayMs, event -> handler.handle(null));
+    public Long schedulePeriodic(long delayMs, Runnable runnable) {
+        return vertx.setPeriodic(delayMs, event -> runnable.run());
     }
 
     @Override
     public boolean cancelTimer(Long id) {
         return vertx.cancelTimer(id);
+    }
+
+    @Override
+    public boolean isUiThread() {
+        return false;
     }
 }

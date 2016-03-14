@@ -202,7 +202,7 @@ public class SimpleClientBus implements Bus {
         if (message.isLocal())
             handle(topic, handler, message);
         else
-            Platform.scheduleDeferred(ignore -> SimpleClientBus.this.handle(topic, handler, message));
+            Platform.scheduleDeferred(() -> SimpleClientBus.this.handle(topic, handler, message));
     }
 
     private Registration subscribeImpl(boolean local, String topic, Handler<? extends Message> handler) {

@@ -17,8 +17,6 @@
  */
 package naga.core.spi.platform;
 
-import naga.core.util.async.Handler;
-
 /**
  * This class provides low-level task scheduling primitives.
  *
@@ -31,7 +29,7 @@ public interface Scheduler<T> {
     /**
      * A deferred command is executed after the event loop returns.
      */
-    void scheduleDeferred(Handler<Void> handler);
+    void scheduleDeferred(Runnable runnable);
 
     /**
      * Set a one-shot timer to fire after {@code delayMs} milliseconds, at which point {@code handler}
@@ -39,7 +37,7 @@ public interface Scheduler<T> {
      *
      * @return the unique ID of the timer
      */
-    T scheduleDelay(int delayMs, Handler<Void> handler);
+    T scheduleDelay(long delayMs, Runnable runnable);
 
     /**
      * Schedules a repeating handler that is scheduled with a constant periodicity. That is, the
@@ -47,10 +45,10 @@ public interface Scheduler<T> {
      * previous invocation took to complete.
      *
      * @param delayMs the period with which the handler is executed
-     * @param handler the handler to execute
+     * @param runnable the handler to execute
      * @return the unique ID of the timer
      */
-    T schedulePeriodic(int delayMs, Handler<Void> handler);
+    T schedulePeriodic(long delayMs, Runnable runnable);
 
     /**
      * Cancel the timer with the specified {@code id}. Returns {@code} true if the timer was
@@ -58,4 +56,6 @@ public interface Scheduler<T> {
      * @param id
      */
     boolean cancelTimer(T id);
+
+    boolean isUiThread();
 }

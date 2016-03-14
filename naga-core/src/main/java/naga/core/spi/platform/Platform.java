@@ -22,7 +22,6 @@ import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.json.JsonFactory;
 import naga.core.spi.sql.SqlService;
-import naga.core.util.async.Handler;
 import naga.core.util.function.Consumer;
 
 import java.util.logging.Level;
@@ -101,16 +100,16 @@ public abstract class Platform {
 
     // Scheduler methods
 
-    public static void scheduleDeferred(Handler<Void> handler) {
-        get().scheduler().scheduleDeferred(handler);
+    public static void scheduleDeferred(Runnable runnable) {
+        get().scheduler().scheduleDeferred(runnable);
     }
 
-    public static Object scheduleDelay(int delayMs, Handler<Void> handler) {
-        return get().scheduler().scheduleDelay(delayMs, handler);
+    public static Object scheduleDelay(int delayMs, Runnable runnable) {
+        return get().scheduler().scheduleDelay(delayMs, runnable);
     }
 
-    public static Object schedulePeriodic(int delayMs, Handler<Void> handler) {
-        return get().scheduler().schedulePeriodic(delayMs, handler);
+    public static Object schedulePeriodic(int delayMs, Runnable runnable) {
+        return get().scheduler().schedulePeriodic(delayMs, runnable);
     }
 
     public static boolean cancelTimer(Object timerId) {

@@ -19,7 +19,6 @@ package naga.core.spi.platform.client.android;
 
 import android.os.Looper;
 import naga.core.spi.platform.client.javaplat.JavaScheduler;
-import naga.core.util.async.Handler;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -36,7 +35,12 @@ final class AndroidScheduler extends JavaScheduler {
     }
 
     @Override
-    public void scheduleDeferred(final Handler<Void> handler) {
-        this.handler.post(() -> handler.handle(null));
+    public void scheduleDeferred(Runnable runnable) {
+        this.handler.post(runnable);
+    }
+
+    @Override
+    public boolean isUiThread() {
+        return Looper.myLooper() == Looper.getMainLooper();
     }
 }
