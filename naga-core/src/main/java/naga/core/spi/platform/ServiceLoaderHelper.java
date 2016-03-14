@@ -7,7 +7,7 @@ import java.util.ServiceLoader;
  */
 public class ServiceLoaderHelper {
 
-    public static <T> T loadFactory(Class<T> clazz) {
+    public static <T> T loadService(Class<T> clazz) {
         ServiceLoader<T> factories = ServiceLoader.load(clazz);
         if (factories != null && factories.iterator().hasNext())
             return factories.iterator().next();

@@ -70,7 +70,7 @@ public abstract class Platform {
 
     public static Platform get() {
         if (PLATFORM == null)
-            register(ServiceLoaderHelper.loadFactory(Platform.class));
+            register(ServiceLoaderHelper.loadService(Platform.class));
         return PLATFORM;
     }
 
