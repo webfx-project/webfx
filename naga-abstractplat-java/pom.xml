@@ -24,24 +24,23 @@
             <groupId>com.github.vbmacher</groupId>
         </dependency>
 
+        <!--dependency>
+            <artifactId>naga-javalib-javacupruntime</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency-->
+
         <dependency>
             <artifactId>rxjava</artifactId>
             <groupId>io.reactivex</groupId>
         </dependency>
 
-        <!--
-        <dependency>
-            <artifactId>naga-javalib-javacupruntime</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-        </dependency>
 
-        <dependency>
+        <!--dependency>
             <artifactId>naga-javalib-rxjava</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-        </dependency>
-        -->
+        </dependency-->
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

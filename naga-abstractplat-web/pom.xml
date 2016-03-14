@@ -22,18 +22,16 @@
             <artifactId>naga-core</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <exclusions>
-                <!-- java-cup-runtime library exclusion -->
+            <!--exclusions>
                 <exclusion>
                     <artifactId>java-cup-runtime</artifactId>
                     <groupId>com.github.vbmacher</groupId>
                 </exclusion>
-                <!-- rxjava library exclusion -->
                 <exclusion>
                     <artifactId>rxjava</artifactId>
                     <groupId>io.reactivex</groupId>
                 </exclusion>
-            </exclusions>
+            </exclusions-->
         </dependency>
 
         <!-- naga-javalib-javacupruntime that replaces java-cup-runtime library -->
