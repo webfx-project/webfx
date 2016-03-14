@@ -2823,9 +2823,9 @@ public class Observable<T> {
      *         Observable
      * @see <a href="http://reactivex.io/documentation/operators/switch.html">ReactiveX operators documentation: Switch</a>
      */
-    /* public static <T> Observable<T> switchOnNext(Observable<? extends Observable<? extends T>> sequenceOfSequences) {
+    public static <T> Observable<T> switchOnNext(Observable<? extends Observable<? extends T>> sequenceOfSequences) {
         return sequenceOfSequences.lift(OperatorSwitch.<T>instance());
-    }*/
+    }
 
     /**
      * Returns an Observable that emits a {@code 0L} after the {@code initialDelay} and ever increasing numbers
@@ -8637,9 +8637,9 @@ public class Observable<T> {
      * @return an Observable that emits the items emitted by the Observable returned from applying {@code func} to the most recently emitted item emitted by the source Observable
      * @see <a href="http://reactivex.io/documentation/operators/flatmap.html">ReactiveX operators documentation: FlatMap</a>
      */
-    /* public final <R> Observable<R> switchMap(Func1<? super T, ? extends Observable<? extends R>> func) {
+    public final <R> Observable<R> switchMap(Func1<? super T, ? extends Observable<? extends R>> func) {
         return switchOnNext(map(func));
-    }*/
+    }
 
     /**
      * Returns an Observable that emits only the first {@code count} items emitted by the source Observable. If the source emits fewer than
