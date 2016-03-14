@@ -30,6 +30,8 @@ public class BuilderThreadContext implements AutoCloseable {
     }
 
     public static BuilderThreadContext open(ParserDomainModelReader dataReader) {
+        if (dataReader == null) // This happens only with InlineFunction.parseBody()
+            return null; // retuning null context to keep the last dataReader
         BuilderThreadContext context = new BuilderThreadContext(dataReader);
         contexts.set(context);
         if (contexts.get() == null) // happens with TeaVM
