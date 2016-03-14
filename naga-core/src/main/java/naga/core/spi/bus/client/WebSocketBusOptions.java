@@ -40,12 +40,12 @@ public class WebSocketBusOptions extends BusOptions {
         return protocol;
     }
 
-    public BusOptions setProtocol(Protocol protocol) {
+    public WebSocketBusOptions setProtocol(Protocol protocol) {
         this.protocol = protocol;
         return this;
     }
 
-    public BusOptions setServerHost(String serverHost) {
+    public WebSocketBusOptions setServerHost(String serverHost) {
         this.serverHost = serverHost;
         return this;
     }
@@ -54,12 +54,12 @@ public class WebSocketBusOptions extends BusOptions {
         return serverHost;
     }
 
-    public BusOptions setServerSSL(boolean serverSSL) {
+    public WebSocketBusOptions setServerSSL(boolean serverSSL) {
         this.serverSSL = serverSSL;
         return this;
     }
 
-    public BusOptions setServerPort(Integer serverPort) {
+    public WebSocketBusOptions setServerPort(Integer serverPort) {
         this.serverPort = serverPort;
         return this;
     }
@@ -76,7 +76,7 @@ public class WebSocketBusOptions extends BusOptions {
         return pingInterval;
     }
 
-    public BusOptions setPingInterval(Integer pingInterval) {
+    public WebSocketBusOptions setPingInterval(Integer pingInterval) {
         this.pingInterval = pingInterval;
         return this;
     }
@@ -85,7 +85,7 @@ public class WebSocketBusOptions extends BusOptions {
         return sessionId;
     }
 
-    public BusOptions setSessionId(String sessionId) {
+    public WebSocketBusOptions setSessionId(String sessionId) {
         this.sessionId = sessionId;
         return this;
     }
@@ -94,7 +94,7 @@ public class WebSocketBusOptions extends BusOptions {
         return username;
     }
 
-    public BusOptions setUsername(String username) {
+    public WebSocketBusOptions setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -103,7 +103,7 @@ public class WebSocketBusOptions extends BusOptions {
         return password;
     }
 
-    public BusOptions setPassword(String password) {
+    public WebSocketBusOptions setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -112,7 +112,7 @@ public class WebSocketBusOptions extends BusOptions {
         return loginTopic;
     }
 
-    public BusOptions setLoginTopic(String loginTopic) {
+    public WebSocketBusOptions setLoginTopic(String loginTopic) {
         this.loginTopic = loginTopic;
         return this;
     }
@@ -121,7 +121,7 @@ public class WebSocketBusOptions extends BusOptions {
         return socketOptions;
     }
 
-    public BusOptions setSocketOptions(JsonObject socketOptions) {
+    public WebSocketBusOptions setSocketOptions(JsonObject socketOptions) {
         this.socketOptions = socketOptions;
         return this;
     }
