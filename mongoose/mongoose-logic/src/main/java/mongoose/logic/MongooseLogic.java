@@ -23,15 +23,20 @@ import naga.core.orm.mapping.display.EntityListToDisplayResultGenerator;
 import naga.core.orm.mapping.query.SqlColumnToEntityFieldMapping;
 import naga.core.orm.mapping.query.SqlResultToEntityListGenerator;
 import naga.core.orm.mapping.query.SqlRowToEntityMapping;
+import naga.core.rx.FutureSource;
+import naga.core.rx.PropertySource;
+import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.gui.node.BorderPane;
+import naga.core.spi.gui.node.SearchBox;
+import naga.core.spi.gui.node.Table;
+import naga.core.spi.gui.node.ToggleButton;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
 import naga.core.util.async.Future;
 import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * @author Bruno Salmon
@@ -41,20 +46,58 @@ public class MongooseLogic {
     public static void runBackendApplication() {
         //testBase64();
         //testJavaFastPFOR();
-        runExpressionDomainModelDemo();
-        //runFilterDemo();
+        //runExpressionDomainModelDemo();
+        runFilterGuiDemo();
     }
 
-    private static void runFilterDemo() {
+    private static void runFilterGuiDemo() {
+        GuiToolkit toolkit = GuiToolkit.get();
+        Table table = toolkit.createNode(Table.class);
+        ToggleButton limitCheckBox = toolkit.createNode(ToggleButton.class);
+        limitCheckBox.setText("Limit to 100");
+        limitCheckBox.setSelected(true);
+        SearchBox searchBox = toolkit.createNode(SearchBox.class);
+
+        BorderPane borderPane = toolkit.createNode(BorderPane.class);
+        borderPane.setTop(searchBox);
+        borderPane.setCenter(table);
+        borderPane.setBottom(limitCheckBox);
+
+        toolkit.setRootNode(borderPane);
+
+        //new Thread(()->{
+            toolkit.observeAndDisplay(MongooseLogic.getFilterDemoDisplayResultObservable(PropertySource.fromObervableValue(searchBox.getUserInputProperty()), PropertySource.fromObervableValue(limitCheckBox.getUserInputProperty())), table);
+        //}).start();
+        searchBox.requestFocus();
+    }
+
+    /*private static void runFilterDemo() {
         Platform.log("***********************");
         Platform.log("***** RxJava TEST *****");
         Platform.log("***********************");
         Platform.log("");
+        Observable<DisplayResult> displayResultObservable = getFilterDemoDisplayResultObservable();
+
+        displayResultObservable.subscribe(Platform::log);
+
+    }*/
+
+    /*public static Observable<DisplayResult> getFilterDemoDisplayResultObservable() {
+        BehaviorSubject<Boolean> limitCheckedObservable = BehaviorSubject.create(false); // Observable.interval(0, 1, TimeUnit.SECONDS).flatMap(time -> Observable.just(time % 2 == 0));
+        Random random = new Random();
+        Platform.schedulePeriodic(1_000, event -> {
+            boolean checkbox = random.nextBoolean();
+            Platform.log("Simulating limit checkbox: " + checkbox);
+            limitCheckedObservable.onNext(checkbox);
+        });
+        return getFilterDemoDisplayResultObservable(limitCheckedObservable);
+    }*/
+
+    public static Observable<DisplayResult> getFilterDemoDisplayResultObservable(Observable<String> searchTextObservable, Observable<Boolean> limitCheckedObservable) {
         DomainModel domainModel = DomainModelSnapshotLoader.loadDomainModelFromSnapshot();
         EntityStore store = new EntityStore();
         Object listId = "test";
 
-        BehaviorSubject<Boolean> limitCheckedObservable = BehaviorSubject.create(false); // Observable.interval(0, 1, TimeUnit.SECONDS).flatMap(time -> Observable.just(time % 2 == 0));
 
         Observable<StringFilter> baseFilterObservable = Observable.just(new StringFilterBuilder("Organization")
                 .setOrderBy("name")
@@ -62,41 +105,36 @@ public class MongooseLogic {
                 .build()
         );
         Observable<StringFilter> fieldsObservable = Observable.just(new StringFilterBuilder("Organization")
-                .setDisplayFields("name, country.(name + ' (' + continent.name + ')')")
+                .setDisplayFields("name,type.name, country.(name + ' (' + continent.name + ')')")
                 .build()
         );
         Observable<StringFilter> conditionObservable = Observable.just(new StringFilterBuilder("Organization")
                 .setCondition("!closed")
                 .build()
         );
+        Observable<StringFilter> searchObservable = searchTextObservable.map(s -> s == null || s.isEmpty() ? null : new StringFilterBuilder("Organization").setCondition("lower(name) like '%" + s.toLowerCase() + "%'").build());
+
         Observable<StringFilter> limitObservable = Observable.combineLatest(limitCheckedObservable,
                 Observable.just(new StringFilterBuilder("Organization")
-                        .setLimit("10")
+                        .setLimit("100")
                         .build()
                 ), (limitChecked, limitFilter) -> limitChecked ? limitFilter : null);
 
         Observable<StringFilter> stringFilterObservable = Observable.combineLatest(
-                Arrays.asList(baseFilterObservable, fieldsObservable, conditionObservable, limitObservable),
+                Arrays.asList(baseFilterObservable, fieldsObservable, conditionObservable, searchObservable, limitObservable),
                 StringFilterBuilder::mergeStringFilters)
                 .distinctUntilChanged();
 
         Observable<DisplayResult> displayResultObservable = stringFilterToDisplayResultObservable(stringFilterObservable, domainModel, store, listId);
 
-        displayResultObservable.subscribe(Platform::log);
-
-        Random random = new Random();
-        Platform.schedulePeriodic(10_000, event -> {
-            boolean checkbox = random.nextBoolean();
-            Platform.log("Simulating limit checkbox: " + checkbox);
-            limitCheckedObservable.onNext(checkbox);
-        });
+        return displayResultObservable;
     }
 
     private static Observable<DisplayResult> stringFilterToDisplayResultObservable(Observable<StringFilter> stringFilterObservable, DomainModel domainModel, EntityStore store, Object listId) {
-        return stringFilterObservable.flatMap(stringFilter -> {
+        return stringFilterObservable.switchMap(stringFilter -> {
             SqlCompiled sqlCompiled = domainModel.compileSelect(stringFilter.toStringSelect());
             Platform.log(sqlCompiled.getSql());
-            return Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), 3)).toObservable()
+            return FutureSource.fromFuture(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), 3)))
                     .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                     .map(entities -> EntityListToDisplayResultGenerator.createDisplayResult(entities, stringFilter.getDisplayFields(), domainModel, stringFilter.getDomainClassId()));
         });
@@ -138,9 +176,9 @@ public class MongooseLogic {
             Platform.log("***** WARM TESTS *****");
             Platform.log("**********************");
             Platform.log("");
-            testExpressionDomainModel().setHandler(
+            /*testExpressionDomainModel().setHandler(
                     event1 -> runFilterDemo()
-            );
+            );*/
         });
     }
 
@@ -469,7 +507,6 @@ public class MongooseLogic {
         if(!Arrays.equals(uncompressed1,recovered1)) throw new RuntimeException("First array does not match.");
         if(!Arrays.equals(uncompressed2,recovered2)) throw new RuntimeException("Second array does not match.");
         Platform.log("The arrays match, your code is probably ok.");
-
     }
     */
 }
