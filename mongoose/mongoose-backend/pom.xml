@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>mongoose-backend-jre</module>
         <module>mongoose-backend-teavm</module>
         <module>mongoose-backend-gwt</module>
         <module>mongoose-backend-javafx</module>

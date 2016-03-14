@@ -51,7 +51,6 @@
         <module name="jreport-niobuffer" />
         <module name="mongoose-backend-gwt" />
         <module name="mongoose-backend-javafx" />
-        <module name="mongoose-backend-jre" />
         <module name="mongoose-backend-teavm" />
         <module name="mongoose-logic" />
         <module name="naga-abstractplat-java" />
