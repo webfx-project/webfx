@@ -43,6 +43,10 @@
                                         <pattern>javaemul</pattern>
                                         <shadedPattern>java</shadedPattern>
                                     </relocation>
+                                    <relocation>
+                                        <pattern>javafxemul</pattern>
+                                        <shadedPattern>javafx</shadedPattern>
+                                    </relocation>
                                 </relocations>
                                 <createSourcesJar>true</createSourcesJar>
                                 <shadeSourcesContent>true</shadeSourcesContent>
