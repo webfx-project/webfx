@@ -4,17 +4,20 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="android" url="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-android" />
-    <file type="android" url="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-android" />
+    <file type="android" url="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-android" />
+    <file type="android" url="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-android" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/mongoose/mongoose-jre/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-classlibs/classlib-niobuffer/pom.xml" />
         <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/pom.xml" />
         <option value="$PROJECT_DIR$/naga-examples/pom.xml" />
         <option value="$PROJECT_DIR$/naga-gwt/pom.xml" />

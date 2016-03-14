@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
-    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
   </component>
 </module>

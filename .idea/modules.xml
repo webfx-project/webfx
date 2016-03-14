@@ -2,33 +2,49 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-android/hellonaga-android.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-android/hellonaga-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-gwt/hellonaga-gwt.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-gwt/hellonaga-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-j2objc/hellonaga-j2objc.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-j2objc/hellonaga-j2objc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre/hellonaga-jre.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-jre/hellonaga-jre.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-logic/hellonaga-logic.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-logic/hellonaga-logic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-retrolambda/hellonaga-retrolambda.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-retrolambda/hellonaga-retrolambda.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-teavm/hellonaga-teavm.iml" filepath="$PROJECT_DIR$/naga-examples/hellonaga/hellonaga-teavm/hellonaga-teavm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-android/helloworld-android.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-android/helloworld-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-gwt/helloworld-gwt.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-gwt/helloworld-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-j2objc/helloworld-j2objc.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-j2objc/helloworld-j2objc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-jre/helloworld-jre.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-jre/helloworld-jre.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/helloworld-logic.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/helloworld-logic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/helloworld/helloworld-teavm/helloworld-teavm.iml" filepath="$PROJECT_DIR$/naga-examples/helloworld/helloworld-teavm/helloworld-teavm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/java-cup-11b-runtime/java-cup-11b-runtime.iml" filepath="$PROJECT_DIR$/java-cup-11b-runtime/java-cup-11b-runtime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-android/hellonaga-android.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-android/hellonaga-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-gwt/hellonaga-gwt.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-gwt/hellonaga-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-j2objc/hellonaga-j2objc.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-j2objc/hellonaga-j2objc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-jre/hellonaga-jre.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-jre/hellonaga-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-logic/hellonaga-logic.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-logic/hellonaga-logic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-retrolambda/hellonaga-retrolambda.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-retrolambda/hellonaga-retrolambda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-teavm/hellonaga-teavm.iml" filepath="$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-teavm/hellonaga-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-android/helloworld-android.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-android/helloworld-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-gwt/helloworld-gwt.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-gwt/helloworld-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-j2objc/helloworld-j2objc.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-j2objc/helloworld-j2objc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-jre/helloworld-jre.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-jre/helloworld-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-logic/helloworld-logic.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-logic/helloworld-logic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-teavm/helloworld-teavm.iml" filepath="$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-teavm/helloworld-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose.iml" filepath="$PROJECT_DIR$/mongoose/mongoose.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-gwt/mongoose-backend-gwt.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-gwt/mongoose-backend-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/mongoose-backend-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/mongoose-backend-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-jre/mongoose-backend-jre.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-jre/mongoose-backend-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-teavm/mongoose-backend-teavm.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-teavm/mongoose-backend-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga.iml" filepath="$PROJECT_DIR$/naga.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-android/naga-android.iml" filepath="$PROJECT_DIR$/naga-android/naga-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-abstractplat-java/naga-abstractplat-java.iml" filepath="$PROJECT_DIR$/naga-abstractplat-java/naga-abstractplat-java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-abstractplat-web/naga-abstractplat-web.iml" filepath="$PROJECT_DIR$/naga-abstractplat-web/naga-abstractplat-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-application-examples/naga-application-examples.iml" filepath="$PROJECT_DIR$/naga-application-examples/naga-application-examples.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-core/naga-core.iml" filepath="$PROJECT_DIR$/naga-core/naga-core.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-examples/naga-examples.iml" filepath="$PROJECT_DIR$/naga-examples/naga-examples.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-gwt/naga-gwt.iml" filepath="$PROJECT_DIR$/naga-gwt/naga-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-j2objc/naga-j2objc.iml" filepath="$PROJECT_DIR$/naga-j2objc/naga-j2objc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaplat/naga-javaplat.iml" filepath="$PROJECT_DIR$/naga-javaplat/naga-javaplat.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-jre/naga-jre.iml" filepath="$PROJECT_DIR$/naga-jre/naga-jre.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-teavm/naga-teavm.iml" filepath="$PROJECT_DIR$/naga-teavm/naga-teavm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-vertx/naga-vertx.iml" filepath="$PROJECT_DIR$/naga-vertx/naga-vertx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-webplat/naga-webplat.iml" filepath="$PROJECT_DIR$/naga-webplat/naga-webplat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-gui-javafx/naga-gui-javafx.iml" filepath="$PROJECT_DIR$/naga-gui-javafx/naga-gui-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-gui-jfoenix/naga-gui-jfoenix.iml" filepath="$PROJECT_DIR$/naga-gui-jfoenix/naga-gui-jfoenix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-shared/naga-javaemul-shared.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-shared/naga-javaemul-shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm/naga-javaemul-teavm.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm/naga-javaemul-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemuls.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemuls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/naga-javalib-javacupruntime.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/naga-javalib-javacupruntime.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor/naga-javalib-javafastpfor.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor/naga-javalib-javafastpfor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/naga-javalib-rxjava.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/naga-javalib-rxjava.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalibs.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-plat-android/naga-plat-android.iml" filepath="$PROJECT_DIR$/naga-plat-android/naga-plat-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-plat-gwt/naga-plat-gwt.iml" filepath="$PROJECT_DIR$/naga-plat-gwt/naga-plat-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-plat-j2objc/naga-plat-j2objc.iml" filepath="$PROJECT_DIR$/naga-plat-j2objc/naga-plat-j2objc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-plat-jre/naga-plat-jre.iml" filepath="$PROJECT_DIR$/naga-plat-jre/naga-plat-jre.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-plat-teavm/naga-plat-teavm.iml" filepath="$PROJECT_DIR$/naga-plat-teavm/naga-plat-teavm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-plat-vertx/naga-plat-vertx.iml" filepath="$PROJECT_DIR$/naga-plat-vertx/naga-plat-vertx.iml" />
     </modules>
   </component>
 </project>
