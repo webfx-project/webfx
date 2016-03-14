@@ -1,0 +1,70 @@
+package naga.core.spi.gui.javafx;
+
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.rx.RxScheduler;
+import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.gui.javafx.node.*;
+import naga.core.spi.gui.node.*;
+import naga.core.spi.platform.Scheduler;
+import rx.Observable;
+
+/**
+ * @author Bruno Salmon
+ */
+public class JavaFxToolkit extends GuiToolkit {
+
+    protected Stage primaryStage;
+
+    public JavaFxToolkit() {
+        registerNodeFactory(Table.class, FxTable::new);
+        registerNodeFactory(CheckBox.class, FxCheckBox::new);
+        registerNodeFactory(ToggleButton.class, FxToggleButton::new);
+        registerNodeFactory(BorderPane.class, FxBorderPane::new);
+        registerNodeFactory(TextField.class, FxTextField::new);
+        registerNodeFactory(SearchBox.class, FxSearchBox::new);
+    }
+
+    public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
+    }
+
+    @Override
+    public void setRootNode(Node rootNode) {
+        Scene scene = createScene((Parent) rootNode.unwrapToToolkitNode(), 800, 600);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    protected Scene createScene(Parent root, double width, double height) {
+        return new Scene(root, width, height);
+    }
+
+    public static JavaFxToolkit get() {
+        return (JavaFxToolkit) GuiToolkit.get();
+    }
+
+    @Override
+    public Scheduler scheduler() {
+        return FxScheduler.SINGLETON;
+    }
+
+    @Override
+    public <T> Observable<T> observeOnUiThread(Observable<T> observable) {
+        return observable.observeOn(RxScheduler.UI_SCHEDULER);
+    }
+
+    @Override
+    protected DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
+        Object[] values = displayResult.getValues();
+        ObjectProperty[] fxProperties = new ObjectProperty[values.length];
+        for (int i = 0; i < values.length; i++)
+            fxProperties[i] = new SimpleObjectProperty<>(values[i]);
+        return new DisplayResult(displayResult.getRowCount(), fxProperties, displayResult.getColumnTypes(), displayResult.getHeaderValues(), displayResult.getHeaderType());
+    }
+}
