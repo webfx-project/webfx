@@ -58,4 +58,8 @@ public interface Scheduler<T> {
     boolean cancelTimer(T id);
 
     boolean isUiThread();
+
+    default void runInBackground(Runnable runnable) {
+        scheduleDeferred(runnable);
+    }
 }

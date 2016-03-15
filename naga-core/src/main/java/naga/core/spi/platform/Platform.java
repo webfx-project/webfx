@@ -116,6 +116,9 @@ public abstract class Platform {
         return get().scheduler().cancelTimer(timerId);
     }
 
+    public static void runInBackground(Runnable runnable) {
+        get().scheduler().runInBackground(runnable);
+    }
     // BusFactory methods
 
     private static Bus BUS;

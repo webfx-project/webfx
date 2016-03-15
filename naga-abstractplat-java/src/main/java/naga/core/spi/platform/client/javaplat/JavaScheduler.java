@@ -83,4 +83,9 @@ public class JavaScheduler implements naga.core.spi.platform.Scheduler<Integer> 
     public boolean isUiThread() {
         return false;
     }
+
+    @Override
+    public void runInBackground(Runnable runnable) {
+        executor.execute(runnable);
+    }
 }
