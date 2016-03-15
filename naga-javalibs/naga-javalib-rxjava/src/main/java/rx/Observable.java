@@ -6188,12 +6188,12 @@ public class Observable<T> {
      * @see #subscribeOn
      * @see #observeOn(Scheduler, boolean)
      */
-    /* public final Observable<T> observeOn(Scheduler scheduler) {
+    public final Observable<T> observeOn(Scheduler scheduler) {
         if (this instanceof ScalarSynchronousObservable) {
             return ((ScalarSynchronousObservable<T>)this).scalarScheduleOn(scheduler);
         }
         return lift(new OperatorObserveOn<T>(scheduler, false));
-    }*/
+    }
 
     /**
      * Modifies an Observable to perform its emissions and notifications on a specified {@link Scheduler},
@@ -6218,12 +6218,12 @@ public class Observable<T> {
      * @see #subscribeOn
      * @see #observeOn(Scheduler)
      */
-    /* public final Observable<T> observeOn(Scheduler scheduler, boolean delayError) {
+    public final Observable<T> observeOn(Scheduler scheduler, boolean delayError) {
         if (this instanceof ScalarSynchronousObservable) {
             return ((ScalarSynchronousObservable<T>)this).scalarScheduleOn(scheduler);
         }
         return lift(new OperatorObserveOn<T>(scheduler, delayError));
-    }*/
+    }
 
     /**
      * Filters the items emitted by an Observable, only emitting those of the specified type.

@@ -1,12 +1,12 @@
 /**
  * Copyright 2014 Netflix, Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,16 @@
  */
 package rx.internal.util;
 
-import rx.Observable;
-import rx.Producer;
-import rx.Subscriber;
+import rx.*;
 import rx.exceptions.Exceptions;
+import rx.functions.Action0;
 import rx.functions.Func1;
+import rx.observers.Subscribers;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
+//import rx.internal.producers.SingleProducer;
+//import rx.internal.schedulers.EventLoopsScheduler;
 
 /**
  * An Observable that emits a single constant scalar value to Subscribers.
@@ -37,8 +42,8 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
      */
     static final boolean STRONG_MODE;
     static {
-        // NAGA String wp = System.getProperty("rx.just.strong-mode", "false");
-        STRONG_MODE = false; // NAGA Boolean.valueOf(wp);
+        String wp = System.getProperty("rx.just.strong-mode", "false");
+        STRONG_MODE = Boolean.valueOf(wp);
     }
 
     /**
@@ -54,7 +59,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
         }*/
         return new WeakSingleProducer<T>(s, v);
     }
-    
+
     /**
      * Constructs a ScalarSynchronousObservable with the given constant value.
      * @param <T> the value type
@@ -87,17 +92,17 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
     public T get() {
         return t;
     }
-    
-    
+
+
     /**
      * Customized observeOn/subscribeOn implementation which emits the scalar
      * value directly or with less overhead on the specified scheduler.
      * @param scheduler the target scheduler
      * @return the new observable
      */
-    /* NAGA public Observable<T> scalarScheduleOn(final Scheduler scheduler) {
+    public Observable<T> scalarScheduleOn(final Scheduler scheduler) {
         final Func1<Action0, Subscription> onSchedule;
-        if (scheduler instanceof EventLoopsScheduler) {
+        /* NAGA if (scheduler instanceof EventLoopsScheduler) {
             final EventLoopsScheduler els = (EventLoopsScheduler) scheduler;
             onSchedule = new Func1<Action0, Subscription>() {
                 @Override
@@ -105,7 +110,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
                     return els.scheduleDirect(a);
                 }
             };
-        } else {
+        } else */ {
             onSchedule = new Func1<Action0, Subscription>() {
                 @Override
                 public Subscription call(final Action0 a) {
@@ -123,18 +128,18 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
                     return w;
                 }
             };
-        //}
-        
+        }
+
         return create(new ScalarAsyncOnSubscribe<T>(t, onSchedule));
-    }*/
-    
+    }
+
     /**
      * The OnSubscribe implementation that creates the ScalarAsyncProducer for each
      * incoming subscriber.
      *
      * @param <T> the value type
      */
-    /* NAGA static final class ScalarAsyncOnSubscribe<T> implements OnSubscribe<T> {
+    static final class ScalarAsyncOnSubscribe<T> implements OnSubscribe<T> {
         final T value;
         final Func1<Action0, Subscription> onSchedule;
 
@@ -147,7 +152,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
         public void call(Subscriber<? super T> s) {
             s.setProducer(new ScalarAsyncProducer<T>(s, value, onSchedule));
         }
-    }*/
+    }
 
     /**
      * Represents a producer which schedules the emission of a scalar value on
@@ -155,13 +160,13 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
      *
      * @param <T> the value type
      */
-    /* NAGA static final class ScalarAsyncProducer<T> extends AtomicBoolean implements Producer, Action0 {
-        //////
+    static final class ScalarAsyncProducer<T> extends AtomicBoolean implements Producer, Action0 {
+        /** */
         private static final long serialVersionUID = -2466317989629281651L;
         final Subscriber<? super T> actual;
         final T value;
         final Func1<Action0, Subscription> onSchedule;
-        
+
         public ScalarAsyncProducer(Subscriber<? super T> actual, T value, Func1<Action0, Subscription> onSchedule) {
             this.actual = actual;
             this.value = value;
@@ -177,7 +182,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
                 actual.add(onSchedule.call(this));
             }
         }
-        
+
         @Override
         public void call() {
             Subscriber<? super T> a = actual;
@@ -196,13 +201,13 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
             }
             a.onCompleted();
         }
-        
+
         @Override
         public String toString() {
             return "ScalarAsyncProducer[" + value + ", " + get() + "]";
         }
-    }*/
-    
+    }
+
     /**
      * Given this scalar source as input to a flatMap, avoid one step of subscription
      * and subscribes to the single Observable returned by the function.
@@ -218,15 +223,15 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
             @Override
             public void call(final Subscriber<? super R> child) {
                 Observable<? extends R> o = func.call(t);
-                // NAGA if (o instanceof ScalarSynchronousObservable) {
+                if (o instanceof ScalarSynchronousObservable) {
                     child.setProducer(createProducer(child, ((ScalarSynchronousObservable<? extends R>)o).t));
-                /*} else {
+                } else {
                     o.unsafeSubscribe(Subscribers.wrap(child));
-                }*/
+                }
             }
         });
     }
-    
+
     /**
      * This is the weak version of SingleProducer that uses plain fields
      * to avoid reentrancy and as such is not threadsafe for concurrent
@@ -238,12 +243,12 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
         final Subscriber<? super T> actual;
         final T value;
         boolean once;
-        
+
         public WeakSingleProducer(Subscriber<? super T> actual, T value) {
             this.actual = actual;
             this.value = value;
         }
-        
+
         @Override
         public void request(long n) {
             if (once) {
@@ -265,7 +270,7 @@ public final class ScalarSynchronousObservable<T> extends Observable<T> {
                     Exceptions.throwOrReport(e, a, v);
                     return;
                 }
-                
+
                 if (a.isUnsubscribed()) {
                     return;
                 }
