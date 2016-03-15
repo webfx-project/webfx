@@ -1,14 +1,12 @@
 package naga.core.spi.gui;
 
 import naga.core.ngui.displayresult.DisplayResult;
-import naga.core.spi.gui.node.DisplayNode;
 import naga.core.spi.gui.node.Node;
 import naga.core.spi.gui.node.NodeFactory;
 import naga.core.spi.gui.node.ToolkitNodeWrapper;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.ServiceLoaderHelper;
-import rx.Observable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,13 +40,9 @@ public abstract class GuiToolkit {
         return nodeWrappers.get(toolkitNode.getClass()).convert(toolkitNode);
     }
 
-    public abstract void setRootNode(Node rootNode);
+    public abstract void displayRootNode(Node rootNode);
 
-    public void observeAndDisplay(Observable<DisplayResult> displayResultObservable, DisplayNode displayNode) {
-        observeOnUiThread(displayResultObservable.map(this::transformDisplayResultForGui)).subscribe(displayNode.getDisplayResultSubscriber());
-    }
-
-    protected DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
+    public DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
         return displayResult;
     }
 
@@ -59,8 +53,6 @@ public abstract class GuiToolkit {
     public static boolean isUiThread() {
         return get().scheduler().isUiThread();
     }
-
-    public abstract <T> Observable<T> observeOnUiThread(Observable<T> observable);
 
     private static GuiToolkit TOOLKIT;
 

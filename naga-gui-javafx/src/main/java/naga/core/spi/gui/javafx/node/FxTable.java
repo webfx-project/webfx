@@ -7,7 +7,6 @@ import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.spi.gui.node.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
-import rx.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class FxTable extends FxNode<TableView<Integer>> implements Table<TableView<Integer>> {
+public class FxTable extends FxDisplayNode<TableView<Integer>> implements Table<TableView<Integer>> {
 
     public FxTable() {
         this(new TableView<>());
@@ -26,21 +25,11 @@ public class FxTable extends FxNode<TableView<Integer>> implements Table<TableVi
         super(tableView);
     }
 
+
     @Override
-    public Subscriber<DisplayResult> getDisplayResultSubscriber() {
-        return new Subscriber<DisplayResult>() {
-            @Override
-            public void onCompleted() { }
-
-            @Override
-            public void onError(Throwable e) { }
-
-            @Override
-            public void onNext(DisplayResult displayResult) {
-                updateColumns(displayResult);
-                node.getItems().setAll(new IdentityList(displayResult.getRowCount()));
-            }
-        };
+    protected void onNextDisplayResult(DisplayResult displayResult) {
+        updateColumns(displayResult);
+        node.getItems().setAll(new IdentityList(displayResult.getRowCount()));
     }
 
     private void updateColumns(DisplayResult displayResult) {

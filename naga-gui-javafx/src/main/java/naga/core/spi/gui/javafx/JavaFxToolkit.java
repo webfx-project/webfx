@@ -6,12 +6,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.core.ngui.displayresult.DisplayResult;
-import naga.core.rx.RxScheduler;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.javafx.node.*;
 import naga.core.spi.gui.node.*;
 import naga.core.spi.platform.Scheduler;
-import rx.Observable;
 
 /**
  * @author Bruno Salmon
@@ -35,7 +33,7 @@ public class JavaFxToolkit extends GuiToolkit {
     }
 
     @Override
-    public void setRootNode(Node rootNode) {
+    public void displayRootNode(Node rootNode) {
         Scene scene = createScene((Parent) rootNode.unwrapToToolkitNode(), 800, 600);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -54,13 +52,9 @@ public class JavaFxToolkit extends GuiToolkit {
         return FxScheduler.SINGLETON;
     }
 
-    @Override
-    public <T> Observable<T> observeOnUiThread(Observable<T> observable) {
-        return observable.observeOn(RxScheduler.UI_SCHEDULER);
-    }
 
     @Override
-    protected DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
+    public DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
         Object[] values = displayResult.getValues();
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
         for (int i = 0; i < values.length; i++)
