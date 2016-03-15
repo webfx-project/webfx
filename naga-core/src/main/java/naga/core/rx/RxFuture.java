@@ -10,9 +10,9 @@ import rx.subscriptions.Subscriptions;
 /**
  * @author Bruno Salmon
  */
-public class FutureSource {
+public class RxFuture {
 
-    public static <T> Observable<T> fromFuture(Future<T> future) {
+    public static <T> Observable<T> from(Future<T> future) {
         return Observable.create(OnSubscribeToObservableFuture.toObservableFuture(future));
     }
 
