@@ -1,7 +1,5 @@
 package naga.core.orm.filter;
 
-import java.util.Objects;
-
 /**
  * @author Bruno Salmon
  */
@@ -16,6 +14,10 @@ public class StringFilterBuilder {
     private String orderBy;
     private String limit;
 
+    public StringFilterBuilder() {
+        domainClassId = null;
+    }
+
     public StringFilterBuilder(Object domainClassId) {
         this.domainClassId = domainClassId;
     }
@@ -25,8 +27,17 @@ public class StringFilterBuilder {
         applyStringFilter(sf);
     }
 
+    private boolean isApplyable(StringFilter sf) {
+        boolean applyable = sf.getDomainClassId() == null || domainClassId != null && domainClassId.equals(sf.getDomainClassId());
+        if (!applyable)
+            System.out.println("Not applyable!!!");
+        return applyable;
+    }
+
     public StringFilterBuilder applyStringFilter(StringFilter sf) {
-        if (!Objects.equals(domainClassId, sf.getDomainClassId()))
+        if (sf == null)
+            return this;
+        if (!isApplyable(sf))
             throw new IllegalArgumentException();
         alias = sf.getAlias();
         displayFields = sf.getDisplayFields();
@@ -42,7 +53,7 @@ public class StringFilterBuilder {
     public void merge(StringFilter sf) {
         if (sf == null)
             return;
-        if (!Objects.equals(domainClassId, sf.getDomainClassId()))
+        if (!isApplyable(sf))
             throw new IllegalArgumentException("Trying to merge filters of different classes (" + domainClassId + " / " + sf.getDomainClassId() + ")");
         if (sf.getAlias() != null)
             setAlias(sf.getAlias());

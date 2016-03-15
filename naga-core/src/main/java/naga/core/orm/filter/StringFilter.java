@@ -89,7 +89,8 @@ public final class StringFilter {
 
         StringFilter that = (StringFilter) o;
 
-        if (!domainClassId.equals(that.domainClassId)) return false;
+        if (domainClassId != null ? !domainClassId.equals(that.domainClassId) : that.domainClassId != null)
+            return false;
         if (alias != null ? !alias.equals(that.alias) : that.alias != null) return false;
         if (displayFields != null ? !displayFields.equals(that.displayFields) : that.displayFields != null)
             return false;
@@ -104,7 +105,7 @@ public final class StringFilter {
 
     @Override
     public int hashCode() {
-        int result = domainClassId.hashCode();
+        int result = domainClassId != null ? domainClassId.hashCode() : 0;
         result = 31 * result + (alias != null ? alias.hashCode() : 0);
         result = 31 * result + (displayFields != null ? displayFields.hashCode() : 0);
         result = 31 * result + (logicFields != null ? logicFields.hashCode() : 0);
