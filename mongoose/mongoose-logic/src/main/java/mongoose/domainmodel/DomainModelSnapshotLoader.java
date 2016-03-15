@@ -16,6 +16,14 @@ import naga.core.util.compression.string.LZString;
  */
 public class DomainModelSnapshotLoader {
 
+    private static DomainModel domainModel;
+
+    public static DomainModel getOrLoadDomainModel() {
+        if (domainModel == null)
+            domainModel = loadDomainModelFromSnapshot();
+        return domainModel;
+    }
+
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
             Future<String> text = ClientPlatform.res().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
