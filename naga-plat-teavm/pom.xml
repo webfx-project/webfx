@@ -100,12 +100,20 @@
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicReference</shadedPattern>
                                 </relocation>
                                 <relocation>
+                                    <pattern>java.util.concurrent.atomic.AtomicReferenceArray</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicReferenceArray</shadedPattern>
+                                </relocation>
+                                <relocation>
                                     <pattern>java.util.concurrent.atomic.AtomicInteger</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicInteger</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>java.util.concurrent.atomic.AtomicLong</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicLong</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>java.util.concurrent.TimeUnit</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.concurrent.TTimeUnit</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>java.lang.StackOverflowError</pattern>
