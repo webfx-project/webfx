@@ -9,15 +9,15 @@ import javafx.beans.property.Property;
 public interface BorderPane<BP, N> extends Node<BP> {
 
     Property<Node<N>> topProperty();
-    default void setTop(Node<N> node) { topProperty().setValue(node); }
+    default BorderPane setTop(Node node) { topProperty().setValue(node); return this;}
     default Node<N> getTop() { return topProperty().getValue(); }
 
     Property<Node<N>> centerProperty();
-    default void setCenter(Node<N> node) { centerProperty().setValue(node); }
+    default BorderPane setCenter(Node node) { centerProperty().setValue(node); return this; }
     default Node<N> getCenter() { return centerProperty().getValue(); }
 
     Property<Node<N>> bottomProperty();
-    default void setBottom(Node<N> node) { bottomProperty().setValue(node); }
+    default BorderPane setBottom(Node node) { bottomProperty().setValue(node); return this; }
     default Node<N> getBottom() { return bottomProperty().getValue(); }
 
 }
