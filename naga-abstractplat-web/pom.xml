@@ -48,6 +48,12 @@
             <version>${naga.version}</version>
         </dependency>
 
+        <dependency>
+            <artifactId>naga-javalib-javafxproperties</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
