@@ -42,7 +42,7 @@
     <properties>
         <!-- Specifying the TeaVM compilation entry point -->
         <plugin.teavm.param.mainClass>mongoose.backend.teavm.MongooseBackendTeaVmApplication</plugin.teavm.param.mainClass>
-        <plugin.teavm.debug>true</plugin.teavm.debug>
+        <plugin.teavm.debug>false</plugin.teavm.debug>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
         <!-- But unpacking webroot resources coming from dependencies such as naga-webplat -->
