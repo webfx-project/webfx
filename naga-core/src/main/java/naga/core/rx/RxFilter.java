@@ -1,5 +1,6 @@
 package naga.core.rx;
 
+import javafx.beans.property.Property;
 import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.entity.EntityStore;
@@ -8,8 +9,6 @@ import naga.core.orm.filter.StringFilter;
 import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.orm.mapping.display.EntityListToDisplayResultGenerator;
 import naga.core.orm.mapping.query.SqlResultToEntityListGenerator;
-import naga.core.spi.gui.node.DisplayNode;
-import naga.core.spi.gui.node.UserInputNode;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.util.function.Converter;
@@ -62,24 +61,27 @@ public class RxFilter {
         return this;
     }
 
-    public RxFilter combine(UserInputNode<String, ?> searchBox, Converter<String, String> inputToConditionConverter) {
-        return combine(RxUi.observe(searchBox)
-                .map(s -> s == null || s.isEmpty() ? null :
+    public RxFilter combine(Property<String> textProperty, Converter<String, String> inputTextToConditionConverter) {
+        return combine(RxUi.observe(textProperty)
+                .map(text -> text == null || text.isEmpty() ? null :
                         new StringFilterBuilder()
-                        .setCondition(inputToConditionConverter.convert(s))
-                        .build()
+                                .setCondition(inputTextToConditionConverter.convert(text))
+                                .build()
                 ));
     }
-
-    public RxFilter combine(UserInputNode<Boolean, ?> checkBox, StringFilterBuilder stringFilterBuilder) {
-        return combine(RxUi.observeIf(Observable.just(stringFilterBuilder.build()), checkBox));
+    public RxFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
+        return combine(RxUi.observeIf(Observable.just(stringFilterBuilder.build()), ifProperty));
     }
 
-    public void displayResultInto(DisplayNode displayNode) {
+    private void checkFields() {
         if (store == null)
             store = new EntityStore();
         if (listId == null)
-            listId = "test";
+            listId = "default";
+    }
+
+    public void displayResultInto(Property<DisplayResult> displayResultProperty) {
+        checkFields();
         Observable<DisplayResult> displayResultObservable = combineStringFilters(stringFilterObservables).switchMap(stringFilter -> {
             SqlCompiled sqlCompiled = domainModel.compileSelect(stringFilter.toStringSelect());
             Platform.log(sqlCompiled.getSql());
@@ -87,7 +89,7 @@ public class RxFilter {
                     .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                     .map(entities -> EntityListToDisplayResultGenerator.createDisplayResult(entities, stringFilter.getDisplayFields(), domainModel, stringFilter.getDomainClassId()));
         });
-        RxUi.displayObservable(displayResultObservable, displayNode);
+        RxUi.displayObservable(displayResultObservable, displayResultProperty);
     }
 
     private static Observable<StringFilter> combineStringFilters(List<Observable<StringFilter>> stringFilterObservables) {

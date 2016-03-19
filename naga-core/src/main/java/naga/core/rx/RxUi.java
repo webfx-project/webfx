@@ -5,14 +5,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.node.DisplayNode;
 import naga.core.spi.gui.node.UserInputNode;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.exceptions.OnErrorNotImplementedException;
 import rx.functions.Action0;
-import rx.observers.Subscribers;
+import rx.functions.Action1;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -38,7 +38,7 @@ public class RxUi {
     }
 
     public static <T> Observable<T> observeIf(Observable<T> observable, Observable<Boolean> conditionObservable) {
-        return Observable.combineLatest(observable, conditionObservable, (value, condition) -> condition ? value : null);
+        return Observable.combineLatest(observable, conditionObservable, (value, condition) -> condition == Boolean.TRUE ? value : null);
     }
 
     public static <T> Observable<T> observeIf(Observable<T> observable, Property<Boolean> conditionProperty) {
@@ -81,17 +81,30 @@ public class RxUi {
         });
     }
 
-    public static void displayObservable(Observable<DisplayResult> displayResultObservable, DisplayNode displayNode) {
-        displayResultObservable.map(GuiToolkit.get()::transformDisplayResultForGui).observeOn(RxScheduler.UI_SCHEDULER).subscribe(getDisplayResultSubscriber(displayNode));
+    public static void displayObservable(Observable<DisplayResult> displayResultObservable, Property<DisplayResult> displayResultProperty) {
+        displayResultObservable.map(GuiToolkit.get()::transformDisplayResultForGui).observeOn(RxScheduler.UI_SCHEDULER).subscribe(getPropertySubscriber(displayResultProperty));
     }
 
-
-    public static Subscriber<DisplayResult> getDisplayResultSubscriber(DisplayNode<?> displayNode) {
-        return getPropertySubscriber(displayNode.displayResultProperty());
-    }
 
     public static <T> Subscriber<T> getPropertySubscriber(Property<T> property) {
-        return Subscribers.create(value -> property.setValue(value));
+        return new Subscriber<T>() {
+
+            @Override
+            public final void onCompleted() {
+                System.out.println("Completed!!!");
+            }
+
+            @Override
+            public final void onError(Throwable e) {
+                throw new OnErrorNotImplementedException(e);
+            }
+
+            @Override
+            public final void onNext(T args) {
+                property.setValue(args);
+            }
+
+        };
     }
 }
 
