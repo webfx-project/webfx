@@ -14,5 +14,6 @@
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
+    <orderEntry type="module" module-name="naga-javalib-javafxproperties" />
   </component>
 </module>
