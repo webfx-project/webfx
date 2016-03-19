@@ -50,6 +50,7 @@
         <lib.vertx.version>3.2.1</lib.vertx.version>
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
+        <lib.gwt-material.version>1.5.0-SNAPSHOT</lib.gwt-material.version>
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
@@ -87,6 +88,7 @@
         <plugin.gwt.param.compileSourcesArtifact4>TBD</plugin.gwt.param.compileSourcesArtifact4>
         <plugin.gwt.param.compileSourcesArtifact5>TBD</plugin.gwt.param.compileSourcesArtifact5>
         <plugin.gwt.param.compileSourcesArtifact6>TBD</plugin.gwt.param.compileSourcesArtifact6>
+        <plugin.gwt.param.compileSourcesArtifact7>TBD</plugin.gwt.param.compileSourcesArtifact7>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
@@ -563,6 +565,11 @@
                             <groupId>${naga.groupId}</groupId>
                             <version>${naga.version}</version>
                         </dependency>
+                        <dependency>
+                            <artifactId>naga-javalib-javafxproperties</artifactId>
+                            <groupId>${naga.groupId}</groupId>
+                            <version>${naga.version}</version>
+                        </dependency>
                         <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
                         <dependency>
                             <groupId>org.teavm</groupId>
@@ -625,7 +632,9 @@
                             <configuration>
                                 <module>${plugin.gwt.param.module}</module>
                                 <failOnError>true</failOnError>
-                                <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</webappDirectory>
+                                <closureCompiler>false</closureCompiler>
+                                <draftCompile>false</draftCompile>
+                                <incremental>false</incremental>
                                 <persistentunitcache>false</persistentunitcache>
                                 <compileSourcesArtifacts>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
@@ -634,7 +643,9 @@
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact4}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact5}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact6}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact7}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
+                                <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</webappDirectory>
                             </configuration>
                             <goals>
                                 <goal>compile</goal>
