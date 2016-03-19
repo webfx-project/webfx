@@ -17,8 +17,12 @@
     <orderEntry type="module" module-name="naga-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-javalib-javafxproperties" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
+    <orderEntry type="library" name="Maven: com.github.gwtmaterialdesign:gwt-material:1.5.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.github.gwtmaterialdesign:gwt-material-themes:1.5.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.github.gwtmaterialdesign:gwt-material-addins:1.5.0-SNAPSHOT" level="project" />
   </component>
 </module>

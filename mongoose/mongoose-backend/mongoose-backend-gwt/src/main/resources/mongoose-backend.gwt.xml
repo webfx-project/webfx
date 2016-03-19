@@ -3,9 +3,12 @@
 <module rename-to='mongoose_backend'>
 
     <!-- Inherit the naga module (nage-core + naga-gwt stuff)       -->
-    <inherits name="naga"/> <!-- refers to naga.gwt.xml in naga-gwt -->
+    <inherits name="naga"/> <!-- refers to naga.gwt.xml in naga-plat-gwt -->
 
     <inherits name="com.google.gwt.resources.Resources" />
+
+    <!-- GWT Material -->
+    <inherits name="gwt.material.design.GwtMaterialWithJQuery"/>
 
     <!-- Specify the app entry point class.                         -->
     <entry-point class='mongoose.backend.gwt.MongooseBackendGwtApplication'/>

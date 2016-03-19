@@ -27,6 +27,23 @@
             <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
+        <!-- GwtMaterial -->
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material</artifactId>
+            <version>${lib.gwt-material.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-themes</artifactId>
+            <version>${lib.gwt-material.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gwtmaterialdesign</groupId>
+            <artifactId>gwt-material-addins</artifactId>
+            <version>${lib.gwt-material.version}</version>
+        </dependency>
+
     </dependencies>
 
     <properties>
@@ -38,6 +55,7 @@
         <plugin.gwt.param.compileSourcesArtifact4>${naga.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact4>
         <plugin.gwt.param.compileSourcesArtifact5>${naga.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact5>
         <plugin.gwt.param.compileSourcesArtifact6>${naga.groupId}:naga-javalib-rxjava</plugin.gwt.param.compileSourcesArtifact6>
+        <plugin.gwt.param.compileSourcesArtifact7>${naga.groupId}:naga-javalib-javafxproperties</plugin.gwt.param.compileSourcesArtifact7>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
         <!-- But unpacking webroot resources coming from dependencies such as naga-webplat -->
