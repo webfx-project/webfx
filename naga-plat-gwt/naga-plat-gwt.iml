@@ -15,6 +15,7 @@
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
+    <orderEntry type="module" module-name="naga-javalib-javafxproperties" />
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
