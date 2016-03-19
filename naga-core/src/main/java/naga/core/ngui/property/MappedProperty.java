@@ -11,6 +11,7 @@ import naga.core.util.function.Converter;
  */
 public class MappedProperty<A, B> implements Property<A> {
 
+    private A dontGarbageA; // to avoid garbage collection
     private final Property<B> property;
     private final Converter<A,B> aToBConverter;
     private final Converter<B,A> bToAConverter;
@@ -23,7 +24,7 @@ public class MappedProperty<A, B> implements Property<A> {
 
     @Override
     public void bind(ObservableValue<? extends A> observable) {
-
+        System.out.println("bind!!!");
     }
 
     @Override
@@ -87,6 +88,7 @@ public class MappedProperty<A, B> implements Property<A> {
 
     @Override
     public void setValue(A value) {
+        dontGarbageA = value;
         property.setValue(aToBConverter.convert(value));
     }
 }
