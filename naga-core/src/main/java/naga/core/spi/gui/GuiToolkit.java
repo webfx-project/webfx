@@ -56,6 +56,10 @@ public abstract class GuiToolkit {
 
     private static GuiToolkit TOOLKIT;
 
+    public static void register(GuiToolkit toolkit) {
+        TOOLKIT = toolkit;
+    }
+
     public static GuiToolkit get() {
         if (TOOLKIT == null)
             TOOLKIT = ServiceLoaderHelper.loadService(GuiToolkit.class);
