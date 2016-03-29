@@ -5,7 +5,7 @@ import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiRouter;
 import naga.core.ngui.routing.UiState;
 import naga.core.orm.filter.StringFilterBuilder;
-import naga.core.rx.RxFilter;
+import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.SearchBox;

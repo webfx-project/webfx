@@ -1,4 +1,4 @@
-package naga.core.rx;
+package naga.core.ngui.rx;
 
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.platform.Platform;

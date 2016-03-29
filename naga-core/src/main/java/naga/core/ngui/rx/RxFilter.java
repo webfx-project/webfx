@@ -1,4 +1,4 @@
-package naga.core.rx;
+package naga.core.ngui.rx;
 
 import javafx.beans.property.Property;
 import naga.core.ngui.displayresult.DisplayResult;

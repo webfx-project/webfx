@@ -1,4 +1,4 @@
-package naga.core.rx;
+package naga.core.ngui.rx;
 
 import naga.core.util.async.Future;
 import rx.Observable;
