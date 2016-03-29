@@ -1,4 +1,4 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +10,8 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Region;
-import naga.core.spi.gui.node.SearchBox;
+import naga.core.spi.gui.javafx.FxNode;
+import naga.core.spi.gui.nodes.SearchBox;
 import naga.core.spi.platform.Platform;
 
 public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
@@ -68,9 +69,5 @@ public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
         return fxTextField.textProperty();
     }
 
-    @Override
-    public Property<String> getUserInputProperty() {
-        return fxTextField.getUserInputProperty();
-    }
 }
 

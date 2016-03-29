@@ -1,14 +1,17 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
+import javafx.scene.Node;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
-import naga.core.ngui.property.NodeProperty;
-import naga.core.spi.gui.node.Node;
+import naga.core.spi.gui.property.NodeProperty;
+import naga.core.spi.gui.GuiNode;
+import naga.core.spi.gui.javafx.FxNode;
 
 /**
  * @author Bruno Salmon
  */
-public class FxBorderPane extends FxNode<BorderPane> implements naga.core.spi.gui.node.BorderPane<BorderPane, javafx.scene.Node> {
+public class FxBorderPane extends FxNode<BorderPane> implements naga.core.spi.gui.nodes.BorderPane<BorderPane, javafx.scene.Node> {
 
     public FxBorderPane() {
         this(new BorderPane());
@@ -16,25 +19,26 @@ public class FxBorderPane extends FxNode<BorderPane> implements naga.core.spi.gu
 
     public FxBorderPane(BorderPane borderPane) {
         super(borderPane);
+        borderPane.setBackground(Background.EMPTY);
     }
 
     private NodeProperty topProperty;
     @Override
-    public Property<Node<javafx.scene.Node>> topProperty() {
+    public Property<GuiNode<Node>> topProperty() {
         if (topProperty == null) topProperty = new NodeProperty(node.topProperty());
         return topProperty;
     }
 
     private NodeProperty centerProperty;
     @Override
-    public Property<Node<javafx.scene.Node>> centerProperty() {
+    public Property<GuiNode<Node>> centerProperty() {
         if (centerProperty == null) centerProperty = new NodeProperty(node.centerProperty());
         return centerProperty;
     }
 
     private NodeProperty bottomProperty;
     @Override
-    public Property<Node<javafx.scene.Node>> bottomProperty() {
+    public Property<GuiNode<Node>> bottomProperty() {
         if (bottomProperty == null) bottomProperty = new NodeProperty(node.bottomProperty());
         return bottomProperty;
     }

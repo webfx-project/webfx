@@ -1,4 +1,4 @@
-package naga.core.spi.gui.node;
+package naga.core.spi.gui.hasproperties;
 
 
 import javafx.beans.property.Property;
@@ -6,7 +6,7 @@ import javafx.beans.property.Property;
 /**
  * @author Bruno Salmon
  */
-public interface SelectedProperty {
+public interface HasSelectedProperty {
 
     Property<Boolean> selectedProperty();
     default void setSelected(boolean selected) { selectedProperty().setValue(selected); }

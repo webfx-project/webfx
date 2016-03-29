@@ -1,4 +1,4 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.TextField;
@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 /**
  * @author Bruno Salmon
  */
-public class FxTextField implements naga.core.spi.gui.node.TextField<TextField> {
+public class FxTextField implements naga.core.spi.gui.nodes.TextField<TextField> {
 
     private TextField textField;
 
@@ -33,8 +33,4 @@ public class FxTextField implements naga.core.spi.gui.node.TextField<TextField> 
         return textField.textProperty();
     }
 
-    @Override
-    public Property<String> getUserInputProperty() {
-        return textProperty();
-    }
 }

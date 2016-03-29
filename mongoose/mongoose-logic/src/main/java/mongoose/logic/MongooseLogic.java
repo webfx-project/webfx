@@ -7,10 +7,10 @@ import naga.core.ngui.routing.UiState;
 import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.node.BorderPane;
-import naga.core.spi.gui.node.SearchBox;
-import naga.core.spi.gui.node.Table;
-import naga.core.spi.gui.node.ToggleButton;
+import naga.core.spi.gui.nodes.BorderPane;
+import naga.core.spi.gui.nodes.SearchBox;
+import naga.core.spi.gui.nodes.Table;
+import naga.core.spi.gui.nodes.ToggleSwitch;
 
 /**
  * @author Bruno Salmon
@@ -31,23 +31,23 @@ public class MongooseLogic {
     private static void buildOrganizationsUi(UiState uiState) {
         // Building the UI components (involved in the reactive filter)
         GuiToolkit toolkit = GuiToolkit.get();
-        SearchBox<?> searchBox = toolkit.createNode(SearchBox.class);
+        SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
-        ToggleButton<?> limitCheckBox = toolkit.createNode(ToggleButton.class);
-        limitCheckBox.setText("Limit to 100");
-        limitCheckBox.setSelected(true);
+        ToggleSwitch limitSwitch = toolkit.createNode(ToggleSwitch.class);
+        limitSwitch.setText("Limit to 100");
+        limitSwitch.setSelected(true);
 
         // Displaying the UI (Showing the first window can take a few seconds)
         toolkit.displayRootNode(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
-                .setBottom(limitCheckBox));
+                .setBottom(limitSwitch));
         // Requesting the focus on the search box
         searchBox.requestFocus();
 
         OrganizationsPresentationModel pm = (OrganizationsPresentationModel) uiState.presentationModel();
         pm.searchTextProperty().bind(searchBox.textProperty());
-        pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        pm.limitProperty().bind(limitSwitch.selectedProperty());
         table.displayResultProperty().bind(pm.organizationDisplayResultProperty());
     }
 

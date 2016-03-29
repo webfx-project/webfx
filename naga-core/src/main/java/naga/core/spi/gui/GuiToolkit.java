@@ -1,9 +1,6 @@
 package naga.core.spi.gui;
 
 import naga.core.ngui.displayresult.DisplayResult;
-import naga.core.spi.gui.node.Node;
-import naga.core.spi.gui.node.NodeFactory;
-import naga.core.spi.gui.node.ToolkitNodeWrapper;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.ServiceLoaderHelper;
@@ -16,31 +13,31 @@ import java.util.Map;
  */
 public abstract class GuiToolkit {
 
-    private Map<Class<? extends Node>, NodeFactory> nodeFactories = new HashMap<>();
+    private Map<Class<? extends GuiNode>, GuiNodeFactory> nodeFactories = new HashMap<>();
     private Map<Class, ToolkitNodeWrapper> nodeWrappers = new HashMap<>();
-    private Map<Class<? extends Node>, ToolkitNodeWrapper> reversedNodeWrappers = new HashMap<>();
+    private Map<Class<? extends GuiNode>, ToolkitNodeWrapper> reversedNodeWrappers = new HashMap<>();
 
-    protected <T extends Node> void registerNodeFactory(Class<T> nodeInterface, NodeFactory nodeFactory) {
+    protected <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, GuiNodeFactory nodeFactory) {
         nodeFactories.put(nodeInterface, nodeFactory);
     }
 
-    public <T extends Node> T createNode(Class<T> nodeInterface) {
+    public <T extends GuiNode> T createNode(Class<T> nodeInterface) {
         return (T) nodeFactories.get(nodeInterface).createNode();
     }
 
-    public void registerToolkitNodeWrapper(ToolkitNodeWrapper wrapper, Class tookitNodeClass, Class<? extends Node> nagaNodeClass) {
+    public void registerToolkitNodeWrapper(ToolkitNodeWrapper wrapper, Class tookitNodeClass, Class<? extends GuiNode> nagaNodeClass) {
         nodeWrappers.put(tookitNodeClass, wrapper);
     }
 
-    public <T extends Node> T wrapFromToolkitNode(Object toolkitNode, Class<T> nodeInterface) {
+    public <T extends GuiNode> T wrapFromToolkitNode(Object toolkitNode, Class<T> nodeInterface) {
         return (T) wrapFromToolkitNode(toolkitNode);
     }
 
-    public Node wrapFromToolkitNode(Object toolkitNode) {
+    public GuiNode wrapFromToolkitNode(Object toolkitNode) {
         return nodeWrappers.get(toolkitNode.getClass()).convert(toolkitNode);
     }
 
-    public abstract void displayRootNode(Node rootNode);
+    public abstract void displayRootNode(GuiNode rootNode);
 
     public DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
         return displayResult;

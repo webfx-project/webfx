@@ -1,4 +1,4 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.CheckBox;
@@ -6,7 +6,7 @@ import javafx.scene.control.CheckBox;
 /**
  * @author Bruno Salmon
  */
-public class FxCheckBox extends FxButtonBase<CheckBox> implements naga.core.spi.gui.node.CheckBox<CheckBox> {
+public class FxCheckBox extends FxButtonBase<CheckBox> implements naga.core.spi.gui.nodes.CheckBox<CheckBox> {
 
     public FxCheckBox() {
         this(new CheckBox());

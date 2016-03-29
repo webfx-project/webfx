@@ -2,20 +2,17 @@ package naga.core.spi.gui.jfoenix;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDecorator;
-import com.jfoenix.controls.JFXToggleButton;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import naga.core.spi.gui.javafx.JavaFxToolkit;
-import naga.core.spi.gui.javafx.node.FxCheckBox;
-import naga.core.spi.gui.javafx.node.FxToggleButton;
-import naga.core.spi.gui.node.CheckBox;
-import naga.core.spi.gui.node.ToggleButton;
+import naga.core.spi.gui.javafx.FxToolkit;
+import naga.core.spi.gui.javafx.nodes.FxCheckBox;
+import naga.core.spi.gui.nodes.CheckBox;
 import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
  */
-public class JFoenixToolkit extends JavaFxToolkit {
+public class JFoenixToolkit extends FxToolkit {
 
     /*static {
         new Thread(()->{
@@ -30,7 +27,7 @@ public class JFoenixToolkit extends JavaFxToolkit {
 
     public JFoenixToolkit() {
         registerNodeFactory(CheckBox.class, () -> new FxCheckBox(new JFXCheckBox()));
-        registerNodeFactory(ToggleButton.class, () -> new FxToggleButton(new JFXToggleButton()));
+        //registerNodeFactory(ToggleSwitch.class, () -> new FxToggleSwitch(new JFXToggleButton()));
     }
 
     @Override

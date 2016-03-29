@@ -1,9 +1,9 @@
-package naga.core.spi.gui.node;
+package naga.core.spi.gui;
 
 /**
  * @author Bruno Salmon
  */
-public interface Node<N> {
+public interface GuiNode<N> {
 
     N unwrapToToolkitNode();
 

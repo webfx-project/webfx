@@ -1,11 +1,12 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx;
 
 import javafx.scene.Node;
+import naga.core.spi.gui.GuiNode;
 
 /**
  * @author Bruno Salmon
  */
-public class FxNode<N extends Node> implements naga.core.spi.gui.node.Node<N> {
+public class FxNode<N extends Node> implements GuiNode<N> {
 
     protected final N node;
 

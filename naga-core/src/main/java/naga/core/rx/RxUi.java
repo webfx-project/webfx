@@ -5,14 +5,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.node.UserInputNode;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.exceptions.OnErrorNotImplementedException;
 import rx.functions.Action0;
-import rx.functions.Action1;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -33,20 +31,12 @@ public class RxUi {
         });
     }
 
-    public static <T> Observable<T> observe(UserInputNode<T, ?> userInputNode) {
-        return observe(userInputNode.getUserInputProperty());
-    }
-
     public static <T> Observable<T> observeIf(Observable<T> observable, Observable<Boolean> conditionObservable) {
         return Observable.combineLatest(observable, conditionObservable, (value, condition) -> condition == Boolean.TRUE ? value : null);
     }
 
     public static <T> Observable<T> observeIf(Observable<T> observable, Property<Boolean> conditionProperty) {
         return observeIf(observable, observe(conditionProperty));
-    }
-
-    public static <T> Observable<T> observeIf(Observable<T> observable, UserInputNode<Boolean, ?> userInputNode) {
-        return observeIf(observable, userInputNode.getUserInputProperty());
     }
 
     /*public static <T> Observable<Change<T>> fromObservableValueChanges(final ObservableValue<T> fxObservable) {

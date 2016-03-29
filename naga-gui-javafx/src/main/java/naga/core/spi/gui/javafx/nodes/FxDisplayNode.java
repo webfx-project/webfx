@@ -1,10 +1,11 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import naga.core.ngui.displayresult.DisplayResult;
-import naga.core.spi.gui.node.DisplayNode;
+import naga.core.spi.gui.javafx.FxNode;
+import naga.core.spi.gui.nodes.DisplayNode;
 
 /**
  * @author Bruno Salmon

@@ -1,10 +1,10 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import naga.core.ngui.displayresult.DisplayResult;
-import naga.core.spi.gui.node.Table;
+import naga.core.spi.gui.nodes.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
 

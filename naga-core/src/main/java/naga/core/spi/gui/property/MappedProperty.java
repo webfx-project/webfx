@@ -1,4 +1,4 @@
-package naga.core.ngui.property;
+package naga.core.spi.gui.property;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;

@@ -1,12 +1,13 @@
-package naga.core.spi.gui.javafx.node;
+package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.ButtonBase;
+import naga.core.spi.gui.javafx.FxNode;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class FxButtonBase<N extends ButtonBase> extends FxNode<N> implements naga.core.spi.gui.node.ToggleButton<N> {
+public abstract class FxButtonBase<N extends ButtonBase> extends FxNode<N> implements naga.core.spi.gui.nodes.ButtonBase<N> {
 
     public FxButtonBase(N button) {
         super(button);
@@ -15,11 +16,6 @@ public abstract class FxButtonBase<N extends ButtonBase> extends FxNode<N> imple
     @Override
     public Property<String> textProperty() {
         return node.textProperty();
-    }
-
-    @Override
-    public Property<Boolean> getUserInputProperty() {
-        return selectedProperty();
     }
 
 }

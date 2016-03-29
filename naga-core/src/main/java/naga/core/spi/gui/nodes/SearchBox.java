@@ -1,4 +1,4 @@
-package naga.core.spi.gui.node;
+package naga.core.spi.gui.nodes;
 
 /**
  * @author Bruno Salmon

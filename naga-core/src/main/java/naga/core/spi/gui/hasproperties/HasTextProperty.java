@@ -1,4 +1,4 @@
-package naga.core.spi.gui.properties;
+package naga.core.spi.gui.hasproperties;
 
 
 import javafx.beans.property.Property;
