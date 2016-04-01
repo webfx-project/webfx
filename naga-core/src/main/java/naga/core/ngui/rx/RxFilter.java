@@ -4,11 +4,14 @@ import javafx.beans.property.Property;
 import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.entity.EntityStore;
+import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.term.ExpressionArray;
 import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
 import naga.core.orm.filter.StringFilter;
 import naga.core.orm.filter.StringFilterBuilder;
-import naga.core.orm.mapping.display.EntityListToDisplayResultGenerator;
-import naga.core.orm.mapping.query.SqlResultToEntityListGenerator;
+import naga.core.ngui.displayresult.DisplayColumn;
+import naga.core.ngui.displayresult.EntityListToDisplayResultGenerator;
+import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.util.function.Converter;
@@ -23,6 +26,8 @@ import java.util.List;
 public class RxFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
+    private Object domainClassId;
+    private DisplayColumn[] displayColumns;
     private DomainModel domainModel;
     private Object dataSourceId;
     private EntityStore store;
@@ -48,11 +53,18 @@ public class RxFilter {
         return this;
     }
 
+    public RxFilter setDisplayColumns(DisplayColumn... displayColumns) {
+        this.displayColumns = displayColumns;
+        return this;
+    }
+
     public RxFilter combine(StringFilterBuilder stringFilterBuilder) {
         return combine(stringFilterBuilder.build());
     }
 
     public RxFilter combine(StringFilter stringFilter) {
+        if (domainClassId == null)
+            domainClassId = stringFilter.getDomainClassId();
         return combine(Observable.just(stringFilter));
     }
 
@@ -69,6 +81,7 @@ public class RxFilter {
                                 .build()
                 ));
     }
+
     public RxFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
         return combine(RxUi.observeIf(Observable.just(stringFilterBuilder.build()), ifProperty));
     }
@@ -78,24 +91,28 @@ public class RxFilter {
             store = new EntityStore();
         if (listId == null)
             listId = "default";
+        List<Expression> displayPersistentTerms = new ArrayList<>();
+        for (DisplayColumn displayColumn : displayColumns) {
+            displayColumn.parseIfNecessary(domainModel, domainClassId);
+            displayColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
+        }
+        if (!displayPersistentTerms.isEmpty())
+            combine(new StringFilterBuilder().setLogicFields(new ExpressionArray<>(displayPersistentTerms).toString()));
     }
 
     public void displayResultInto(Property<DisplayResult> displayResultProperty) {
         checkFields();
-        Observable<DisplayResult> displayResultObservable = combineStringFilters(stringFilterObservables).switchMap(stringFilter -> {
-            SqlCompiled sqlCompiled = domainModel.compileSelect(stringFilter.toStringSelect());
-            Platform.log(sqlCompiled.getSql());
-            return RxFuture.from(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), dataSourceId)))
-                    .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
-                    .map(entities -> EntityListToDisplayResultGenerator.createDisplayResult(entities, stringFilter.getDisplayFields(), domainModel, stringFilter.getDomainClassId()));
-        });
+        Observable<DisplayResult> displayResultObservable = Observable
+                .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
+                .distinctUntilChanged()
+                .switchMap(stringFilter -> {
+                    SqlCompiled sqlCompiled = domainModel.compileSelect(stringFilter.toStringSelect());
+                    Platform.log(sqlCompiled.getSql());
+                    return RxFuture.from(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), dataSourceId)))
+                            .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
+                            .map(entities -> EntityListToDisplayResultGenerator.createDisplayResult(entities, displayColumns));
+                });
         RxUi.displayObservable(displayResultObservable, displayResultProperty);
-    }
-
-    private static Observable<StringFilter> combineStringFilters(List<Observable<StringFilter>> stringFilterObservables) {
-        return Observable.combineLatest(stringFilterObservables,
-                StringFilterBuilder::mergeStringFilters)
-                .distinctUntilChanged();
     }
 
 }
