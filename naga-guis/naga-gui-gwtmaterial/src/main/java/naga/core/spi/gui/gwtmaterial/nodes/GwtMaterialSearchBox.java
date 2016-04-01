@@ -19,11 +19,18 @@ public class GwtMaterialSearchBox extends GwtNode<MaterialSearch> implements Sea
         super(search);
         search.addValueChangeHandler(event -> textProperty.setValue(search.getValue()));
         search.addKeyUpHandler(event -> textProperty.setValue(search.getValue()));
+        placeholderProperty.addListener((observable, oldValue, newValue) -> node.setPlaceholder(newValue));
     }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();
     @Override
     public Property<String> textProperty() {
         return textProperty;
+    }
+
+    private final Property<String> placeholderProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<String> placeholderProperty() {
+        return placeholderProperty;
     }
 }

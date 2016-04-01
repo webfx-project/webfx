@@ -33,4 +33,8 @@ public class FxTextField implements naga.core.spi.gui.nodes.TextField<TextField>
         return textField.textProperty();
     }
 
+    @Override
+    public Property<String> placeholderProperty() {
+        return textField.promptTextProperty();
+    }
 }

@@ -69,5 +69,9 @@ public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
         return fxTextField.textProperty();
     }
 
+    @Override
+    public Property<String> placeholderProperty() {
+        return fxTextField.placeholderProperty();
+    }
 }
 
