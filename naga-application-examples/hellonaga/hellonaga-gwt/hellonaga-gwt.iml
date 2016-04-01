@@ -12,8 +12,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="hellonaga-logic" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-plat-gwt" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-abstractplat-web" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-platform-gwt" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-abstractplatform-web" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />

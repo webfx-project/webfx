@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-plat-teavm</artifactId>
+            <artifactId>naga-platform-teavm</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

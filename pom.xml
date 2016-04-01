@@ -126,7 +126,7 @@
              * Libraries required for the Naga Core (naga-core) *
              ****************************************************
              Note that java-cup-runtime and rxjava can't be transpiled as is, so they are replaced with forked and
-             minimized versions (naga-javalib-javacupruntime and naga-javalib-rxjava) in naga-abstractplat-web (see pom).
+             minimized versions (naga-javalib-javacupruntime and naga-javalib-rxjava) in naga-abstractplatform-web (see pom).
              -->
             <dependency>
                 <artifactId>java-cup-runtime</artifactId>

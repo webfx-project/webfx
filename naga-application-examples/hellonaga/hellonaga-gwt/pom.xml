@@ -40,7 +40,7 @@
         <plugin.gwt.param.compileSourcesArtifact6>${naga.groupId}:naga-javalib-rxjava</plugin.gwt.param.compileSourcesArtifact6>
         <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
         <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-        <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplat-web -->
+        <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
@@ -55,7 +55,7 @@
                 <artifactId>gwt-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Also unpacking webroot resources coming from dependencies such as naga-abstractplat-web -->
+            <!-- Also unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

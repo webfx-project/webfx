@@ -13,10 +13,8 @@ import gwt.material.design.client.ui.MaterialSearch;
 import mongoose.logic.MongooseLogic;
 import mongoose.logic.OrganizationsPresentationModel;
 import naga.core.ngui.routing.UiState;
-import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.toolkit.web.WebToolkit;
-import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.gwt.GwtPlatform;
 import naga.core.util.collection.IdentityList;
 
