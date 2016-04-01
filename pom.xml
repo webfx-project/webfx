@@ -16,12 +16,11 @@
         <module>naga-core</module>
         <module>naga-javaemuls</module>
         <module>naga-platforms</module>
-
-        <module>mongoose</module>
+        <module>naga-guis</module>
 
         <module>naga-application-examples</module>
-        <module>naga-gui-javafx</module>
-        <module>naga-gui-jfoenix</module>
+
+        <module>mongoose</module>
     </modules>
 
     <properties>
