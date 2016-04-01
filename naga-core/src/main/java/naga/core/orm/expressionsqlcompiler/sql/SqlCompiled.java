@@ -1,7 +1,7 @@
 package naga.core.orm.expressionsqlcompiler.sql;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.mapping.query.SqlRowToEntityMapping;
+import naga.core.orm.mapping.SqlRowToEntityMapping;
 
 import java.util.ArrayList;
 

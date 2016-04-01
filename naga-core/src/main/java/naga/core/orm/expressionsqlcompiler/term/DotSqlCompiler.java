@@ -7,7 +7,7 @@ import naga.core.orm.expression.term.Dot;
 import naga.core.orm.expression.term.Symbol;
 import naga.core.orm.expression.term.function.ArgumentAlias;
 import naga.core.orm.expressionsqlcompiler.sql.SqlClause;
-import naga.core.orm.mapping.query.SqlColumnToEntityFieldMapping;
+import naga.core.orm.mapping.SqlColumnToEntityFieldMapping;
 
 /**
  * @author Bruno Salmon

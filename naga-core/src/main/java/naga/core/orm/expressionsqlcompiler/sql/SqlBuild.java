@@ -3,8 +3,8 @@ package naga.core.orm.expressionsqlcompiler.sql;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expressionsqlcompiler.lci.CompilerDomainModelReader;
 import naga.core.orm.expressionsqlcompiler.term.Options;
-import naga.core.orm.mapping.query.SqlColumnToEntityFieldMapping;
-import naga.core.orm.mapping.query.SqlRowToEntityMapping;
+import naga.core.orm.mapping.SqlColumnToEntityFieldMapping;
+import naga.core.orm.mapping.SqlRowToEntityMapping;
 
 import java.util.ArrayList;
 import java.util.HashMap;
