@@ -35,12 +35,16 @@ public class Label {
     }
 
     public static Label from(Object o) {
+        if (o instanceof Label)
+            return (Label) o;
         if (o instanceof HasLabel)
             return ((HasLabel) o).getLabel();
         if (o instanceof Symbol)
             return new Label(((Symbol) o).getName());
         if (o instanceof As)
             return new Label(((As) o).getAlias());
+        if (o instanceof String)
+            return new Label((String) o);
         return emptyLabel;
     }
 }
