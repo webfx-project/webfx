@@ -97,7 +97,7 @@ public class RxFilter {
             displayColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
         }
         if (!displayPersistentTerms.isEmpty())
-            combine(new StringFilterBuilder().setLogicFields(new ExpressionArray<>(displayPersistentTerms).toString()));
+            combine(new StringFilterBuilder().setFields(new ExpressionArray<>(displayPersistentTerms).toString()));
     }
 
     public void displayResultInto(Property<DisplayResult> displayResultProperty) {

@@ -6,19 +6,17 @@ package naga.core.orm.filter;
 public final class StringFilter {
     private final Object domainClassId;
     private final String alias;
-    private final String displayFields;
-    private final String logicFields;
+    private final String fields;
     private final String condition;
     private final String groupBy;
     private final String having;
     private final String orderBy;
     private final String limit;
 
-    public StringFilter(Object domainClassId, String alias, String displayFields, String logicFields, String condition, String groupBy, String having, String orderBy, String limit) {
+    public StringFilter(Object domainClassId, String alias, String fields, String condition, String groupBy, String having, String orderBy, String limit) {
         this.domainClassId = domainClassId;
         this.alias = alias;
-        this.displayFields = displayFields;
-        this.logicFields = logicFields;
+        this.fields = fields;
         this.condition = condition;
         this.groupBy = groupBy;
         this.having = having;
@@ -34,16 +32,8 @@ public final class StringFilter {
         return alias;
     }
 
-    public String getDisplayFields() {
-        return displayFields;
-    }
-
-    public String getLogicFields() {
-        return logicFields;
-    }
-
-    public String getAllFields() {
-        return StringFilterBuilder.mergeFields(displayFields, logicFields);
+    public String getFields() {
+        return fields;
     }
 
     public String getCondition() {
@@ -67,12 +57,8 @@ public final class StringFilter {
     }
 
     public String toStringSelect() {
-        return toStringSelect(getAllFields());
-    }
-
-    public String toStringSelect(String allFields) {
         return "select " +
-                (allFields == null ? "" : allFields + " from ") +
+                (fields == null ? "" : fields + " from ") +
                 domainClassId +
                 (alias == null ? "" : ' ' + alias) +
                 (condition == null ? "" : " where " + condition) +
@@ -92,9 +78,7 @@ public final class StringFilter {
         if (domainClassId != null ? !domainClassId.equals(that.domainClassId) : that.domainClassId != null)
             return false;
         if (alias != null ? !alias.equals(that.alias) : that.alias != null) return false;
-        if (displayFields != null ? !displayFields.equals(that.displayFields) : that.displayFields != null)
-            return false;
-        if (logicFields != null ? !logicFields.equals(that.logicFields) : that.logicFields != null) return false;
+        if (fields != null ? !fields.equals(that.fields) : that.fields != null) return false;
         if (condition != null ? !condition.equals(that.condition) : that.condition != null) return false;
         if (groupBy != null ? !groupBy.equals(that.groupBy) : that.groupBy != null) return false;
         if (having != null ? !having.equals(that.having) : that.having != null) return false;
@@ -107,8 +91,7 @@ public final class StringFilter {
     public int hashCode() {
         int result = domainClassId != null ? domainClassId.hashCode() : 0;
         result = 31 * result + (alias != null ? alias.hashCode() : 0);
-        result = 31 * result + (displayFields != null ? displayFields.hashCode() : 0);
-        result = 31 * result + (logicFields != null ? logicFields.hashCode() : 0);
+        result = 31 * result + (fields != null ? fields.hashCode() : 0);
         result = 31 * result + (condition != null ? condition.hashCode() : 0);
         result = 31 * result + (groupBy != null ? groupBy.hashCode() : 0);
         result = 31 * result + (having != null ? having.hashCode() : 0);

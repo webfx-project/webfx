@@ -6,8 +6,7 @@ package naga.core.orm.filter;
 public class StringFilterBuilder {
     private final Object domainClassId;
     private String alias;
-    private String displayFields;
-    private String logicFields;
+    private String fields;
     private String condition;
     private String groupBy;
     private String having;
@@ -40,8 +39,7 @@ public class StringFilterBuilder {
         if (!isApplicable(sf))
             throw new IllegalArgumentException();
         alias = sf.getAlias();
-        displayFields = sf.getDisplayFields();
-        logicFields = sf.getLogicFields();
+        fields = sf.getFields();
         condition = sf.getCondition();
         groupBy = sf.getGroupBy();
         having = sf.getHaving();
@@ -57,10 +55,8 @@ public class StringFilterBuilder {
             throw new IllegalArgumentException("Trying to merge filters of different classes (" + domainClassId + " / " + sf.getDomainClassId() + ")");
         if (sf.getAlias() != null)
             setAlias(sf.getAlias());
-        if (sf.getDisplayFields() != null)
-            setDisplayFields(sf.getDisplayFields());
-        if (sf.getLogicFields() != null)
-            setLogicFields(mergeFields(logicFields, sf.getLogicFields()));
+        if (sf.getFields() != null)
+            setFields(mergeFields(fields, sf.getFields()));
         if (sf.getCondition() != null)
             setCondition(condition == null ? sf.getCondition() : "(" + condition + ") and (" + sf.getCondition() + ")");
         if (sf.getGroupBy() != null)
@@ -94,18 +90,13 @@ public class StringFilterBuilder {
         return this;
     }
 
-    public StringFilterBuilder setDisplayFields(String displayFields) {
-        this.displayFields = displayFields;
-        return this;
-    }
-
     public StringFilterBuilder setCondition(String condition) {
         this.condition = condition;
         return this;
     }
 
-    public StringFilterBuilder setLogicFields(String logicFields) {
-        this.logicFields = logicFields;
+    public StringFilterBuilder setFields(String fields) {
+        this.fields = fields;
         return this;
     }
 
@@ -130,6 +121,6 @@ public class StringFilterBuilder {
     }
 
     public StringFilter build() {
-        return new StringFilter(domainClassId, alias, displayFields, logicFields, condition, groupBy, having, orderBy, limit);
+        return new StringFilter(domainClassId, alias, fields, condition, groupBy, having, orderBy, limit);
     }
 }
