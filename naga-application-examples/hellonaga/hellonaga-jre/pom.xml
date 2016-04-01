@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-plat-jre</artifactId>
+            <artifactId>naga-platform-jre</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

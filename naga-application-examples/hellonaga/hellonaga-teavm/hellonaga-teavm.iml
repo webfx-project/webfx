@@ -11,11 +11,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-plat-teavm" />
-    <orderEntry type="module" module-name="naga-abstractplat-web" />
+    <orderEntry type="module" module-name="naga-platform-teavm" />
+    <orderEntry type="module" module-name="naga-abstractplatform-web" />
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
+    <orderEntry type="module" module-name="naga-javalib-javafxproperties" />
     <orderEntry type="module" module-name="naga-javaemul-teavm" />
     <orderEntry type="module" module-name="naga-javaemul-shared" />
     <orderEntry type="module" module-name="hellonaga-logic" />

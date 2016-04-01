@@ -21,7 +21,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-plat-gwt</artifactId>
+            <artifactId>naga-platform-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
@@ -33,8 +33,8 @@
         <!-- Setting the GWT plugin configuration parameters -->
         <plugin.gwt.param.module>hellonaga</plugin.gwt.param.module>
         <plugin.gwt.param.compileSourcesArtifact1>${project.groupId}:hellonaga-logic</plugin.gwt.param.compileSourcesArtifact1>
-        <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-plat-gwt</plugin.gwt.param.compileSourcesArtifact2>
-        <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-abstractplat-web</plugin.gwt.param.compileSourcesArtifact3>
+        <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-platform-gwt</plugin.gwt.param.compileSourcesArtifact2>
+        <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-abstractplatform-web</plugin.gwt.param.compileSourcesArtifact3>
         <plugin.gwt.param.compileSourcesArtifact4>${naga.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact4>
         <plugin.gwt.param.compileSourcesArtifact5>${naga.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact5>
         <plugin.gwt.param.compileSourcesArtifact6>${naga.groupId}:naga-javalib-rxjava</plugin.gwt.param.compileSourcesArtifact6>
