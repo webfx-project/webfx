@@ -33,6 +33,7 @@ public class MongooseLogic {
         // Building the UI components (involved in the reactive filter)
         GuiToolkit toolkit = GuiToolkit.get();
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
+        searchBox.setPlaceholder("Enter your centre name to narrow the list");
         Table table = toolkit.createNode(Table.class);
         ToggleSwitch limitSwitch = toolkit.createNode(ToggleSwitch.class);
         limitSwitch.setText("Limit to 100");
