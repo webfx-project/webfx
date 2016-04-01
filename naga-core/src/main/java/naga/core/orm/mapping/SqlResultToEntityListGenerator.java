@@ -1,4 +1,4 @@
-package naga.core.orm.mapping.query;
+package naga.core.orm.mapping;
 
 import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.entity.*;

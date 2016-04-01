@@ -1,4 +1,4 @@
-package naga.core.orm.mapping.query;
+package naga.core.orm.mapping;
 
 import naga.core.util.Arrays;
 
