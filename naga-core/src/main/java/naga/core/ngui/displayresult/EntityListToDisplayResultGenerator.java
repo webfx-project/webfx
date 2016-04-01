@@ -16,25 +16,25 @@ public class EntityListToDisplayResultGenerator {
     }
 
     public static DisplayResult createDisplayResult(EntityList entityList, Expression[] columnExpressions) {
-        DisplayColumn[] columnMappings = new DisplayColumn[columnExpressions.length];
+        DisplayColumn[] displayColumns = new DisplayColumn[columnExpressions.length];
         int columnIndex = 0;
         for (Expression columnExpression : columnExpressions)
-            columnMappings[columnIndex++] = new DisplayColumn(columnExpression, columnExpression);
-        return createDisplayResult(entityList, columnMappings);
+            displayColumns[columnIndex++] = new DisplayColumn(columnExpression, columnExpression);
+        return createDisplayResult(entityList, displayColumns);
     }
 
-    public static DisplayResult createDisplayResult(EntityList entityList, DisplayColumn[] columnMappings) {
+    public static DisplayResult createDisplayResult(EntityList entityList, DisplayColumn[] displayColumns) {
         int rowCount = entityList.size();
-        int columnCount = columnMappings.length;
+        int columnCount = displayColumns.length;
         Type[] columnTypes = new Type[columnCount];
         Object[] headerValues = new Object[columnCount];
         Object[] values = new Object[rowCount * columnCount];
         int columnIndex = 0;
         int index = 0;
-        for (DisplayColumn columnMapping : columnMappings) {
-            Expression expression = columnMapping.getExpression();
+        for (DisplayColumn displayColumn : displayColumns) {
+            Expression expression = displayColumn.getExpression();
             columnTypes[columnIndex] = expression.getType();
-            headerValues[columnIndex++] = columnMapping.getLabel().getText();
+            headerValues[columnIndex++] = displayColumn.getLabel().getText();
             for (Entity entity : entityList)
                 values[index++] = entity.evaluate(expression);
         }
