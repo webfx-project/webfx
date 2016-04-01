@@ -13,14 +13,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>naga-abstractplat-java</module>
-        <module>naga-plat-jre</module>
-        <module>naga-plat-android</module>
-        <module>naga-plat-vertx</module>
-        <module>naga-abstractplat-web</module>
-        <module>naga-plat-teavm</module>
-        <module>naga-plat-gwt</module>
-        <module>naga-plat-j2objc</module>
+        <module>naga-abstractplatform-java</module>
+        <module>naga-platform-jre</module>
+        <module>naga-platform-android</module>
+        <module>naga-platform-vertx</module>
+        <module>naga-abstractplatform-web</module>
+        <module>naga-platform-teavm</module>
+        <module>naga-platform-gwt</module>
+        <module>naga-platform-j2objc</module>
     </modules>
 
 </project>
