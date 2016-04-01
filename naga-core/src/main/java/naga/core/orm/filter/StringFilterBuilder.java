@@ -27,17 +27,17 @@ public class StringFilterBuilder {
         applyStringFilter(sf);
     }
 
-    private boolean isApplyable(StringFilter sf) {
-        boolean applyable = sf.getDomainClassId() == null || domainClassId != null && domainClassId.equals(sf.getDomainClassId());
-        if (!applyable)
-            System.out.println("Not applyable!!!");
-        return applyable;
+    private boolean isApplicable(StringFilter sf) {
+        boolean applicable = sf.getDomainClassId() == null || domainClassId != null && domainClassId.equals(sf.getDomainClassId());
+        if (!applicable)
+            System.out.println("Not applicable!!!");
+        return applicable;
     }
 
     public StringFilterBuilder applyStringFilter(StringFilter sf) {
         if (sf == null)
             return this;
-        if (!isApplyable(sf))
+        if (!isApplicable(sf))
             throw new IllegalArgumentException();
         alias = sf.getAlias();
         displayFields = sf.getDisplayFields();
@@ -53,7 +53,7 @@ public class StringFilterBuilder {
     public void merge(StringFilter sf) {
         if (sf == null)
             return;
-        if (!isApplyable(sf))
+        if (!isApplicable(sf))
             throw new IllegalArgumentException("Trying to merge filters of different classes (" + domainClassId + " / " + sf.getDomainClassId() + ")");
         if (sf.getAlias() != null)
             setAlias(sf.getAlias());
