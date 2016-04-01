@@ -12,11 +12,35 @@
     <artifactId>mongoose-backend</artifactId>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>mongoose-backend-teavm</module>
-        <module>mongoose-backend-gwt</module>
-        <module>mongoose-backend-javafx</module>
-    </modules>
+    <profiles>
+        <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-teavm</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>javafx</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-javafx</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-gwt</module>
+            </modules>
+        </profile>
+    </profiles>
 
 
 </project>
