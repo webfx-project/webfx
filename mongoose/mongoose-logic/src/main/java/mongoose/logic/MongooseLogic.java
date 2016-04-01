@@ -4,8 +4,9 @@ import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiRouter;
 import naga.core.ngui.routing.UiState;
-import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.ngui.rx.RxFilter;
+import naga.core.orm.filter.StringFilterBuilder;
+import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.SearchBox;
@@ -58,19 +59,19 @@ public class MongooseLogic {
                 .setDataSourceId(3)
                 // Base filter
                 .combine(new StringFilterBuilder("Organization")
-                        .setLogicFields("country.(code,continent.code)")
                         .setOrderBy("name"))
                 // Condition
                 .combine(new StringFilterBuilder()
                         .setCondition("!closed"))
-                // Fields to display
-                .combine(new StringFilterBuilder()
-                        .setDisplayFields("name,type.name, country.(name + ' (' + continent.name + ')')"))
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> "lower(name) like '%" + s.toLowerCase() + "%'")
                 // Limit condition
                 .combine(pm.limitProperty(), new StringFilterBuilder()
                         .setLimit("100"))
+                .setDisplayColumns(
+                        new DisplayColumn("Name", "name + ' (' + type.name + ')'"),
+                        //new DisplayColumn("Type", "type.name"),
+                        new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
                 .displayResultInto(pm.organizationDisplayResultProperty());
     }
 
