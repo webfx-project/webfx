@@ -21,27 +21,10 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-platform-gwt</artifactId>
+            <artifactId>naga-gui-gwtmaterial</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
-        </dependency>
-
-        <!-- GwtMaterial -->
-        <dependency>
-            <groupId>com.github.gwtmaterialdesign</groupId>
-            <artifactId>gwt-material</artifactId>
-            <version>${lib.gwt-material.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.gwtmaterialdesign</groupId>
-            <artifactId>gwt-material-themes</artifactId>
-            <version>${lib.gwt-material.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.gwtmaterialdesign</groupId>
-            <artifactId>gwt-material-addins</artifactId>
-            <version>${lib.gwt-material.version}</version>
+            <scope>compile</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
     </dependencies>
@@ -50,8 +33,9 @@
         <!-- Setting the GWT plugin configuration parameters -->
         <plugin.gwt.param.module>mongoose-backend</plugin.gwt.param.module>
         <plugin.gwt.param.compileSourcesArtifact1>${mongoose.groupId}:mongoose-logic</plugin.gwt.param.compileSourcesArtifact1>
-        <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-plat-gwt</plugin.gwt.param.compileSourcesArtifact2>
-        <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-abstractplat-web</plugin.gwt.param.compileSourcesArtifact3>
+        <plugin.gwt.param.compileSourcesArtifact8>${naga.groupId}:naga-gui-gwtmaterial</plugin.gwt.param.compileSourcesArtifact8>
+        <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-platform-gwt</plugin.gwt.param.compileSourcesArtifact2>
+        <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-abstractplatform-web</plugin.gwt.param.compileSourcesArtifact3>
         <plugin.gwt.param.compileSourcesArtifact4>${naga.groupId}:naga-core</plugin.gwt.param.compileSourcesArtifact4>
         <plugin.gwt.param.compileSourcesArtifact5>${naga.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact5>
         <plugin.gwt.param.compileSourcesArtifact6>${naga.groupId}:naga-javalib-rxjava</plugin.gwt.param.compileSourcesArtifact6>
