@@ -15,6 +15,7 @@
     <modules>
         <module>naga-gui-javafx</module>
         <module>naga-gui-jfoenix</module>
+        <module>naga-gui-gwtmaterial</module>
     </modules>
 
 </project>

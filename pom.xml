@@ -18,9 +18,9 @@
         <module>naga-platforms</module>
         <module>naga-guis</module>
 
-        <module>naga-application-examples</module>
-
         <module>mongoose</module>
+
+        <module>naga-application-examples</module>
     </modules>
 
     <properties>
@@ -81,6 +81,7 @@
         <plugin.gwt.param.compileSourcesArtifact5>TBD</plugin.gwt.param.compileSourcesArtifact5>
         <plugin.gwt.param.compileSourcesArtifact6>TBD</plugin.gwt.param.compileSourcesArtifact6>
         <plugin.gwt.param.compileSourcesArtifact7>TBD</plugin.gwt.param.compileSourcesArtifact7>
+        <plugin.gwt.param.compileSourcesArtifact8>TBD</plugin.gwt.param.compileSourcesArtifact8>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
@@ -636,6 +637,7 @@
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact5}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact6}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact7}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact8}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
                                 <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</webappDirectory>
                             </configuration>
