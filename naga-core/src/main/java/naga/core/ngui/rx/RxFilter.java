@@ -3,6 +3,7 @@ package naga.core.ngui.rx;
 import javafx.beans.property.Property;
 import naga.core.ngui.displayresult.DisplayResult;
 import naga.core.orm.domainmodel.DomainModel;
+import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.ExpressionArray;
@@ -12,6 +13,7 @@ import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.ngui.displayresult.EntityListToDisplayResultGenerator;
 import naga.core.orm.mapping.SqlResultToEntityListGenerator;
+import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.util.function.Converter;
@@ -102,6 +104,9 @@ public class RxFilter {
 
     public void displayResultInto(Property<DisplayResult> displayResultProperty) {
         checkFields();
+        // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
+        if (displayResultProperty.getValue() == null && displayColumns != null)
+            GuiToolkit.get().scheduler().runInUiThread(() -> displayResultProperty.setValue(EntityListToDisplayResultGenerator.createDisplayResult(new EntityList(listId, store), displayColumns)));
         Observable<DisplayResult> displayResultObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
                 .distinctUntilChanged()

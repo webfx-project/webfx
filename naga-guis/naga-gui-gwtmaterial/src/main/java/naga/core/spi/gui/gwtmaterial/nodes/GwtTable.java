@@ -31,10 +31,13 @@ public class GwtTable extends GwtDisplayNode<DataGrid<Integer>> implements Table
                 node.addColumn(column = new GwtColumn(columnIndex), Strings.toString(displayResult.getHeaderValues()[columnIndex]));
             column.displayResult = displayResult;
         }
-        node.setRowCount(0, true);
-        node.setRowData(new IdentityList(displayResult.getRowCount()));
-        node.setRowCount(displayResult.getRowCount(), true);
-        node.redraw(); // otherwise the change on setRowData() is not considered
+        int rowCount = displayResult.getRowCount();
+        if (node.getRowCount() != rowCount) {
+            node.setRowCount(0, true);
+            node.setRowData(new IdentityList(rowCount));
+            node.setRowCount(rowCount, true);
+            node.redraw(); // otherwise the change on setRowData() is not considered
+        }
     }
 
     private static class GwtColumn extends TextColumn<Integer> {

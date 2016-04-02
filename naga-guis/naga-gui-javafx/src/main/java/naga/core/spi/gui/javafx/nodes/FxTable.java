@@ -33,6 +33,9 @@ public class FxTable extends FxDisplayNode<TableView<Integer>> implements Table<
     }
 
     private void updateColumns(DisplayResult displayResult) {
+        // Clearing the columns to completely rebuild them when table was empty (as the columns widths were not considering the content)
+        if (node.getItems().isEmpty() && displayResult.getRowCount() > 0)
+            node.getColumns().clear();
         List<TableColumn> currentColumns = ((TableView) node).getColumns();
         List<TableColumn<Integer, Object>> newColumns = new ArrayList<>();
         for (int columnIndex = 0; columnIndex < displayResult.getColumnCount(); columnIndex++) {
