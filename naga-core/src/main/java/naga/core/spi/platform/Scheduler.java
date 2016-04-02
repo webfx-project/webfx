@@ -27,7 +27,7 @@ package naga.core.spi.platform;
  */
 public interface Scheduler<T> {
     /**
-     * A deferred command is executed after the event loop returns.
+     * A deferred command is executed not now but as soon as possible (ex: after the event loop returns).
      */
     void scheduleDeferred(Runnable runnable);
 
@@ -57,9 +57,16 @@ public interface Scheduler<T> {
      */
     boolean cancelTimer(T id);
 
-    boolean isUiThread();
-
     default void runInBackground(Runnable runnable) {
         scheduleDeferred(runnable);
     }
+
+    default void runInUiThread(Runnable runnable) {
+        if (isUiThread())
+            runnable.run();
+        else
+            scheduleDeferred(runnable);
+    }
+
+    boolean isUiThread();
 }
