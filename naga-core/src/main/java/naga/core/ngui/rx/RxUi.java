@@ -9,8 +9,8 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.exceptions.OnErrorNotImplementedException;
 import rx.functions.Action0;
+import rx.observers.Subscribers;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -39,18 +39,6 @@ public class RxUi {
         return observeIf(observable, observe(conditionProperty));
     }
 
-    /*public static <T> Observable<Change<T>> fromObservableValueChanges(final ObservableValue<T> fxObservable) {
-        return Observable.create(new Observable.OnSubscribe<Change<T>>() {
-            @Override
-            public void call(final Subscriber<? super Change<T>> subscriber) {
-                final ChangeListener<T> listener = (observableValue, prev, current) -> subscriber.onNext(new Change<>(prev,current));
-                fxObservable.addListener(listener);
-                subscriber.add(unsubscribeInUiThread(() -> fxObservable.removeListener(listener)));
-
-            }
-        });
-    }*/
-
     /**
      * Create an Subscription that always runs <code>unsubscribe</code> in the event dispatch thread.
      *
@@ -72,29 +60,15 @@ public class RxUi {
     }
 
     public static void displayObservable(Observable<DisplayResult> displayResultObservable, Property<DisplayResult> displayResultProperty) {
-        displayResultObservable.map(GuiToolkit.get()::transformDisplayResultForGui).observeOn(RxScheduler.UI_SCHEDULER).subscribe(getPropertySubscriber(displayResultProperty));
+        displayResultObservable
+                .map(GuiToolkit.get()::transformDisplayResultForGui)
+                .observeOn(RxScheduler.UI_SCHEDULER)
+                .subscribe(getPropertySubscriber(displayResultProperty));
     }
 
 
     public static <T> Subscriber<T> getPropertySubscriber(Property<T> property) {
-        return new Subscriber<T>() {
-
-            @Override
-            public final void onCompleted() {
-                System.out.println("Completed!!!");
-            }
-
-            @Override
-            public final void onError(Throwable e) {
-                throw new OnErrorNotImplementedException(e);
-            }
-
-            @Override
-            public final void onNext(T args) {
-                property.setValue(args);
-            }
-
-        };
+        return Subscribers.create(value -> property.setValue(value));
     }
 }
 
