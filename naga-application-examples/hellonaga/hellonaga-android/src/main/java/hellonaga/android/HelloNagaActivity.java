@@ -3,8 +3,10 @@ package hellonaga.android;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
-import hellonaga.HelloNagaLogic;
+import hellonaga.logic.HelloNagaLogic;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.android.AndroidPlatform;
+import naga.core.util.function.Consumer;
 
 public class HelloNagaActivity extends Activity {
 
@@ -19,12 +21,13 @@ public class HelloNagaActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        new HelloNagaLogic(new HelloNagaLogic.MessageDisplayer() {
+        Platform.setWebLogger(new Consumer<String>() {
             @Override
-            public void displayMessage(String message) {
+            public void accept(String message) {
                 HelloNagaActivity.this.displayMessage(message);
             }
-        }).run();
+        });
+        HelloNagaLogic.runClient();
     }
 
     private void displayMessage(String message) {
