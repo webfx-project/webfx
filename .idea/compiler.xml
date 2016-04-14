@@ -24,15 +24,11 @@
         <processorPath useClasspath="true" />
         <module name="hellonaga-android" />
         <module name="hellonaga-gwt" />
-        <module name="hellonaga-j2objc" />
-        <module name="hellonaga-jre" />
         <module name="hellonaga-logic" />
         <module name="hellonaga-retrolambda" />
         <module name="hellonaga-teavm" />
         <module name="helloworld-android" />
         <module name="helloworld-gwt" />
-        <module name="helloworld-j2objc" />
-        <module name="helloworld-jre" />
         <module name="helloworld-logic" />
         <module name="helloworld-teavm" />
         <module name="java-cup-11b-runtime" />
@@ -49,25 +45,37 @@
         <module name="javaport-niobuffer" />
         <module name="jreport-base64" />
         <module name="jreport-niobuffer" />
+        <module name="mongoose-backend-cn1" />
         <module name="mongoose-backend-gwt" />
-        <module name="mongoose-backend-javafx" />
+        <module name="mongoose-backend-swing" />
         <module name="mongoose-backend-teavm" />
         <module name="mongoose-logic" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
+        <module name="naga-abstractplatform-java" />
+        <module name="naga-abstractplatform-web" />
         <module name="naga-abstrplat-java" />
         <module name="naga-android" />
         <module name="naga-core" />
+        <module name="naga-gui-gwtmaterial" />
         <module name="naga-gui-javafx" />
         <module name="naga-gui-javafx-jfoenix" />
         <module name="naga-gui-jfoenix" />
+        <module name="naga-gui-swing" />
         <module name="naga-gwt" />
         <module name="naga-j2objc" />
+        <module name="naga-javaemul-cldc" />
+        <module name="naga-javaemul-cn1" />
         <module name="naga-javaemul-gwt" />
+        <module name="naga-javaemul-gwt-cldc" />
+        <module name="naga-javaemul-gwt-cn1" />
         <module name="naga-javaemul-shared" />
         <module name="naga-javaemul-teavm" />
+        <module name="naga-javaemul-teavm-gwt-cldc" />
+        <module name="naga-javaemul-teavm-gwt-cn1" />
         <module name="naga-javalib-javacupruntime" />
         <module name="naga-javalib-javafastpfor" />
+        <module name="naga-javalib-javafxproperties" />
         <module name="naga-javalib-rxjava" />
         <module name="naga-javaplat" />
         <module name="naga-jre" />
@@ -77,6 +85,14 @@
         <module name="naga-plat-jre" />
         <module name="naga-plat-teavm" />
         <module name="naga-plat-vertx" />
+        <module name="naga-platform-android" />
+        <module name="naga-platform-cn1" />
+        <module name="naga-platform-codenameone" />
+        <module name="naga-platform-gwt" />
+        <module name="naga-platform-j2objc" />
+        <module name="naga-platform-jre" />
+        <module name="naga-platform-teavm" />
+        <module name="naga-platform-vertx" />
         <module name="naga-teavm" />
         <module name="naga-vertx" />
         <module name="naga-webplat" />
@@ -100,26 +116,43 @@
       <module name="helloworld-teavm" target="1.8" />
       <module name="mongoose" target="1.8" />
       <module name="mongoose-backend" target="1.8" />
+      <module name="mongoose-backend-cn1" target="1.8" />
+      <module name="mongoose-backend-codenameone" target="1.8" />
       <module name="mongoose-backend-gwt" target="1.8" />
       <module name="mongoose-backend-javafx" target="1.8" />
       <module name="mongoose-backend-jre" target="1.8" />
+      <module name="mongoose-backend-swing" target="1.8" />
       <module name="mongoose-backend-teavm" target="1.8" />
       <module name="mongoose-jre" target="1.8" />
       <module name="mongoose-logic" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-abstractplat-java" target="1.8" />
       <module name="naga-abstractplat-web" target="1.8" />
+      <module name="naga-abstractplatform-java" target="1.8" />
+      <module name="naga-abstractplatform-web" target="1.8" />
       <module name="naga-application-examples" target="1.8" />
       <module name="naga-core" target="1.8" />
+      <module name="naga-gui-gwt" target="1.8" />
+      <module name="naga-gui-gwtmaterial" target="1.8" />
       <module name="naga-gui-javafx" target="1.8" />
       <module name="naga-gui-javafx-jfoenix" target="1.8" />
       <module name="naga-gui-jfoenix" target="1.8" />
+      <module name="naga-gui-swing" target="1.8" />
+      <module name="naga-guis" target="1.8" />
+      <module name="naga-javaemul-cldc" target="1.8" />
+      <module name="naga-javaemul-cn1" target="1.8" />
       <module name="naga-javaemul-gwt" target="1.8" />
+      <module name="naga-javaemul-gwt-cldc" target="1.8" />
+      <module name="naga-javaemul-gwt-cn1" target="1.8" />
       <module name="naga-javaemul-shared" target="1.8" />
       <module name="naga-javaemul-teavm" target="1.8" />
+      <module name="naga-javaemul-teavm-gwt-cldc" target="1.8" />
+      <module name="naga-javaemul-teavm-gwt-cn1" target="1.8" />
       <module name="naga-javaemuls" target="1.8" />
+      <module name="naga-javaemuls-teavm-gwt-cn1" target="1.8" />
       <module name="naga-javalib-javacupruntime" target="1.8" />
       <module name="naga-javalib-javafastpfor" target="1.8" />
+      <module name="naga-javalib-javafxproperties" target="1.8" />
       <module name="naga-javalib-rxjava" target="1.8" />
       <module name="naga-javalibs" target="1.8" />
       <module name="naga-plat-android" target="1.8" />
@@ -128,6 +161,15 @@
       <module name="naga-plat-jre" target="1.8" />
       <module name="naga-plat-teavm" target="1.8" />
       <module name="naga-plat-vertx" target="1.8" />
+      <module name="naga-platform-android" target="1.8" />
+      <module name="naga-platform-cn1" target="1.8" />
+      <module name="naga-platform-codenameone" target="1.8" />
+      <module name="naga-platform-gwt" target="1.8" />
+      <module name="naga-platform-j2objc" target="1.8" />
+      <module name="naga-platform-jre" target="1.8" />
+      <module name="naga-platform-teavm" target="1.8" />
+      <module name="naga-platform-vertx" target="1.8" />
+      <module name="naga-platforms" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

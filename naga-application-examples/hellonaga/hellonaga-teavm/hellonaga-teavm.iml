@@ -19,6 +19,7 @@
     <orderEntry type="module" module-name="naga-javalib-javafxproperties" />
     <orderEntry type="module" module-name="naga-javaemul-teavm" />
     <orderEntry type="module" module-name="naga-javaemul-shared" />
+    <orderEntry type="module" module-name="naga-javaemul-teavm-gwt-cldc" />
     <orderEntry type="module" module-name="hellonaga-logic" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-classlib:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-platform:0.4.3" level="project" />

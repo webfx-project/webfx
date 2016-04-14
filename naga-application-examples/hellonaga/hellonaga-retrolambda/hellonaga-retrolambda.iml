@@ -12,10 +12,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-plat-android" />
+    <orderEntry type="module" module-name="naga-platform-android" />
     <orderEntry type="module" module-name="naga-core" />
-    <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
-    <orderEntry type="module" module-name="naga-abstractplat-java" />
+    <orderEntry type="module" module-name="naga-abstractplatform-java" />
+    <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
+    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: net.minidev:json-smart:1.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
     <orderEntry type="module" module-name="hellonaga-logic" />
