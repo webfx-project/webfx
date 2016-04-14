@@ -17,6 +17,7 @@
         <module>naga-platform-jre</module>
         <module>naga-platform-android</module>
         <module>naga-platform-vertx</module>
+        <module>naga-platform-cn1</module>
         <module>naga-abstractplatform-web</module>
         <module>naga-platform-teavm</module>
         <module>naga-platform-gwt</module>
