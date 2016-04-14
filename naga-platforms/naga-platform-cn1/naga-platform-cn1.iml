@@ -15,7 +15,7 @@
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
-    <orderEntry type="module" module-name="naga-javalib-javafxproperties" />
+    <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
     <orderEntry type="module" module-name="naga-javaemul-cldc" />
     <orderEntry type="module" module-name="naga-javaemul-gwt-cldc" />
     <orderEntry type="module" module-name="naga-javaemul-teavm-gwt-cldc" />

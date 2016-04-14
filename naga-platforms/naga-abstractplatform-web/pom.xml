@@ -49,7 +49,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-javalib-javafxproperties</artifactId>
+            <artifactId>naga-javalib-javafxbindings</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
