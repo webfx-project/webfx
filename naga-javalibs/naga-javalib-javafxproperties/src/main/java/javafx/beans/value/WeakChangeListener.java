@@ -55,7 +55,7 @@ import java.lang.ref.WeakReference;
  */
 public final class WeakChangeListener<T> implements ChangeListener<T>, WeakListener {
 
-    private final WeakReference<ChangeListener<T>> ref;
+    private final WeakReference/* J2ME CLDC <ChangeListener<T>>*/ ref;
 
     /**
      * The constructor of {@code WeakChangeListener}.
@@ -67,7 +67,7 @@ public final class WeakChangeListener<T> implements ChangeListener<T>, WeakListe
         if (listener == null) {
             throw new NullPointerException("Listener must be specified.");
         }
-        this.ref = new WeakReference<ChangeListener<T>>(listener);
+        this.ref = new WeakReference(listener);
     }
 
     /**
@@ -84,7 +84,7 @@ public final class WeakChangeListener<T> implements ChangeListener<T>, WeakListe
     @Override
     public void changed(ObservableValue<? extends T> observable, T oldValue,
             T newValue) {
-        ChangeListener<T> listener = ref.get();
+        ChangeListener<T> listener = (ChangeListener<T>) ref.get();
         if (listener != null) {
             listener.changed(observable, oldValue, newValue);
         } else {

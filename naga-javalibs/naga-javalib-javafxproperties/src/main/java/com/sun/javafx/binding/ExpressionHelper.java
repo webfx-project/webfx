@@ -29,8 +29,6 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-import java.util.Arrays;
-
 /**
  * A convenience class for creating implementations of {@link ObservableValue}.
  * It contains all of the infrastructure support for value invalidation- and
@@ -226,18 +224,27 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
                 final int oldCapacity = invalidationListeners.length;
                 if (locked) {
                     final int newCapacity = (invalidationSize < oldCapacity)? oldCapacity : (oldCapacity * 3)/2 + 1;
-                    invalidationListeners = Arrays.copyOf(invalidationListeners, newCapacity);
+                    invalidationListeners = copyOf(invalidationListeners, newCapacity);
                 } else if (invalidationSize == oldCapacity) {
                     invalidationSize = trim(invalidationSize, invalidationListeners);
                     if (invalidationSize == oldCapacity) {
                         final int newCapacity = (oldCapacity * 3)/2 + 1;
-                        invalidationListeners = Arrays.copyOf(invalidationListeners, newCapacity);
+                        invalidationListeners = copyOf(invalidationListeners, newCapacity);
                     }
                 }
                 invalidationListeners[invalidationSize++] = listener;
             }
             return this;
         }
+
+        // Arrays.copy() replacer for Codenameone
+        public static InvalidationListener[] copyOf(InvalidationListener[] original, int newLength) {
+            InvalidationListener[] copy = new InvalidationListener[newLength];
+            System.arraycopy(original, 0, copy, 0,
+                             Math.min(original.length, newLength));
+            return copy;
+        }
+
 
         @Override
         protected ExpressionHelper<T> removeListener(InvalidationListener listener) {
@@ -283,12 +290,12 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
                 final int oldCapacity = changeListeners.length;
                 if (locked) {
                     final int newCapacity = (changeSize < oldCapacity)? oldCapacity : (oldCapacity * 3)/2 + 1;
-                    changeListeners = Arrays.copyOf(changeListeners, newCapacity);
+                    changeListeners = copyOf(changeListeners, newCapacity);
                 } else if (changeSize == oldCapacity) {
                     changeSize = trim(changeSize, changeListeners);
                     if (changeSize == oldCapacity) {
                         final int newCapacity = (oldCapacity * 3)/2 + 1;
-                        changeListeners = Arrays.copyOf(changeListeners, newCapacity);
+                        changeListeners = copyOf(changeListeners, newCapacity);
                     }
                 }
                 changeListeners[changeSize++] = listener;
@@ -298,6 +305,15 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
             }
             return this;
         }
+
+        // Arrays.copy() replacer for Codenameone
+        public static ChangeListener[] copyOf(ChangeListener[] original, int newLength) {
+            ChangeListener[] copy = new ChangeListener[newLength];
+            System.arraycopy(original, 0, copy, 0,
+                    Math.min(original.length, newLength));
+            return copy;
+        }
+
 
         @Override
         protected ExpressionHelper<T> removeListener(ChangeListener<? super T> listener) {

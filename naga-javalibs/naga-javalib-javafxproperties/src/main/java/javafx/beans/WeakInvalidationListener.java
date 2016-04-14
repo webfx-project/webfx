@@ -49,7 +49,7 @@ import java.lang.ref.WeakReference;
  */
 public final class WeakInvalidationListener implements InvalidationListener, WeakListener {
 
-    private final WeakReference<InvalidationListener> ref;
+    private final WeakReference/* J2ME CLDC <InvalidationListener>*/ ref;
 
     /**
      * The constructor of {@code WeakInvalidationListener}.
@@ -61,7 +61,7 @@ public final class WeakInvalidationListener implements InvalidationListener, Wea
         if (listener == null) {
             throw new NullPointerException("Listener must be specified.");
         }
-        this.ref = new WeakReference<InvalidationListener>(listener);
+        this.ref = new WeakReference(listener);
     }
 
     /**
@@ -77,7 +77,7 @@ public final class WeakInvalidationListener implements InvalidationListener, Wea
      */
     @Override
     public void invalidated(Observable observable) {
-        InvalidationListener listener = ref.get();
+        InvalidationListener listener = (InvalidationListener) ref.get();
         if (listener != null) {
             listener.invalidated(observable);
         } else {

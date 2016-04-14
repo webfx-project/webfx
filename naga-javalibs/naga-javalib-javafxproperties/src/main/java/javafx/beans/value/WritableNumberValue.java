@@ -38,6 +38,6 @@ package javafx.beans.value;
  *
  * @since JavaFX 2.0
  */
-public interface WritableNumberValue extends WritableValue<Number> {
+public interface WritableNumberValue extends WritableValue</* J2ME CLDC Number*/ Object> {
 
 }

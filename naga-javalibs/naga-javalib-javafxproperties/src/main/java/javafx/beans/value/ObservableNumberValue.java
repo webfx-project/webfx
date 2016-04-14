@@ -41,7 +41,7 @@ package javafx.beans.value;
  *
  * @since JavaFX 2.0
  */
-public interface ObservableNumberValue extends ObservableValue<Number> {
+public interface ObservableNumberValue extends ObservableValue</* J2ME CLDC Number*/ Object> {
 
     /**
      * Returns the value of this {@code ObservableNumberValue} as an {@code int}

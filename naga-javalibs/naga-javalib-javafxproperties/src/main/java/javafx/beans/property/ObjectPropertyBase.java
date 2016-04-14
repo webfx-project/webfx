@@ -218,15 +218,15 @@ public abstract class ObjectPropertyBase<T> extends ObjectProperty<T> {
 
     private static class Listener implements InvalidationListener {
 
-        private final WeakReference<ObjectPropertyBase<?>> wref;
+        private final WeakReference/* J2ME CLDC <ObjectPropertyBase<?>>*/ wref;
 
         public Listener(ObjectPropertyBase<?> ref) {
-            this.wref = new WeakReference<ObjectPropertyBase<?>>(ref);
+            this.wref = new WeakReference(ref);
         }
 
         @Override
         public void invalidated(Observable observable) {
-            ObjectPropertyBase<?> ref = wref.get();
+            ObjectPropertyBase<?> ref = (ObjectPropertyBase<?>) wref.get();
             if (ref == null) {
                 observable.removeListener(this);
             } else {

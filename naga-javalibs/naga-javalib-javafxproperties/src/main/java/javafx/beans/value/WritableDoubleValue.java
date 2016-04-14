@@ -66,5 +66,5 @@ public interface WritableDoubleValue extends WritableNumberValue {
      *            The new value
      */
     @Override
-    void setValue(Number value);
+    void setValue(Object value);
 }
