@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.Equals;
 /**
  * @author Bruno Salmon
  */
-public class EqualsBuilder extends BooleanExpressionBuilder {
+public class EqualsBuilder extends BinaryBooleanExpressionBuilder {
 
     public EqualsBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

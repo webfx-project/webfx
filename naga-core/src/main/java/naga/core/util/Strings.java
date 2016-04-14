@@ -1,5 +1,8 @@
 package naga.core.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Bruno Salmon
  */
@@ -16,4 +19,38 @@ public class Strings {
     public static String stringValue(Object value) {
         return value == null ? null : value.toString();
     }
+
+    public static String replaceAll(String s, String match, String replacement) {
+        if (s == null)
+            return null;
+        int pos = s.indexOf(match);
+        if (pos == -1)
+            return s;
+        StringBuilder sb = new StringBuilder();
+        int lastPos = 0;
+        while (pos != -1) {
+            sb.append(s.substring(lastPos, pos)).append(replacement);
+            lastPos = pos + match.length();
+            pos = s.indexOf(match, lastPos);
+        }
+        sb.append(s.substring(lastPos));
+        return sb.toString();
+    }
+
+    public static String[] split(String s, String separator) {
+        List<String> tokens = new ArrayList<String>();
+        int p0 = 0;
+        if (s != null)
+            while (true) {
+                int p1 = s.indexOf(separator, p0);
+                if (p1 == -1) {
+                    tokens.add(s.substring(p0));
+                    break;
+                }
+                tokens.add(s.substring(p0, p1));
+                p0 = p1 + separator.length();
+            }
+        return tokens.toArray(new String[tokens.size()]);
+    }
+
 }

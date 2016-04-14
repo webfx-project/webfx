@@ -60,11 +60,11 @@ public class Select<T> extends SqlOrder<T> {
 
     // Some Strings static methods helpers
 
-    public static CharSequence _if(boolean condition, CharSequence s) {
+    public static String _if(boolean condition, String s) {
         return condition && s!= null ? s : "";
     }
 
-    public static CharSequence _if(String before, CharSequence s, String after, StringBuilder sb) {
+    public static String _if(String before, StringBuilder s, String after, StringBuilder sb) {
         if (s != null && s.length() > 0) {
             if (before != null)
                 sb.append(before);

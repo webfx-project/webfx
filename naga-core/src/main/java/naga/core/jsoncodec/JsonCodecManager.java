@@ -6,6 +6,7 @@ import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
+import naga.core.util.Numbers;
 import naga.core.util.async.Batch;
 
 import java.lang.reflect.Array;
@@ -28,17 +29,21 @@ public class JsonCodecManager {
         decoders.put(jsonCodec.getCodecID(), jsonCodec);
     }
 
+    /* Not supported in J2ME CLDC
     public static void useSameJsonCodecAs(Class javaClass1, Class javaClass2) {
         registerJsonCodec(javaClass1, getJsonEncoder(javaClass2));
-    }
+    } */
 
     public static <J> JsonCodec<J> getJsonEncoder(Class<J> javaClass) {
+        return encoders.get(javaClass);
+        /* getSuperclass() is not supported in J2ME CLDC
         for (Class c = javaClass; c != null; c = c.getSuperclass()) {
             JsonCodec<J> jsonCodec = encoders.get(c);
             if (jsonCodec != null)
                 return jsonCodec;
         }
         return null;
+        */
     }
 
     public static <J> JsonCodec<J> getJsonDecoder(String jsonUID) {
@@ -46,7 +51,7 @@ public class JsonCodecManager {
     }
 
     public static Object encodeToJson(Object object) {
-        if (object == null || object instanceof String || object instanceof Number)
+        if (object == null || object instanceof String || Numbers.isNumber(object))
             return object;
         return encodeToJsonObject(object);
     }

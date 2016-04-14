@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.GreaterThan;
 /**
  * @author Bruno Salmon
  */
-public class GreaterThanBuilder extends BooleanExpressionBuilder {
+public class GreaterThanBuilder extends BinaryBooleanExpressionBuilder {
 
     public GreaterThanBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

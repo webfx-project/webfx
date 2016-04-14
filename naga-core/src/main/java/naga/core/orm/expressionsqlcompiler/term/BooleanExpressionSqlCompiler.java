@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.*;
 /**
  * @author Bruno Salmon
  */
-public class BooleanExpressionSqlCompiler extends BinaryExpressionSqlCompiler<BooleanExpression> {
+public class BooleanExpressionSqlCompiler extends BinaryExpressionSqlCompiler<BinaryBooleanExpression> {
 
     public BooleanExpressionSqlCompiler() {
         super(And.class, Equals.class, GreaterThan.class, GreaterThanOrEquals.class,
@@ -15,7 +15,7 @@ public class BooleanExpressionSqlCompiler extends BinaryExpressionSqlCompiler<Bo
     }
 
     @Override
-    public void compileExpressionToSql(BooleanExpression e, Options o) {
+    public void compileExpressionToSql(BinaryBooleanExpression e, Options o) {
         if (e.getRight() == Constant.NULL) {
             String right = e instanceof Equals ? " is null" : e instanceof NotEquals ? " is not null" : null;
             if (right != null) { // check left Parameter case in kbs 2.0

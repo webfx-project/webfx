@@ -7,6 +7,7 @@ import naga.core.orm.expressionparser.ExpressionParser;
 import naga.core.orm.expressionparser.expressionbuilder.ReferenceResolver;
 import naga.core.orm.expressionparser.expressionbuilder.ThreadLocalReferenceResolver;
 import naga.core.type.Type;
+import naga.core.util.Strings;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ public class InlineFunction<T> extends Function<T> {
     private final Expression body;
 
     public InlineFunction(String name, String signature, Type[] argTypes, String body) {
-        this(name, signature.split(","), argTypes, body);
+        this(name, Strings.split(signature, ","), argTypes, body);
     }
 
     public InlineFunction(String name, String[] argNames, Type[] argTypes, String body) {

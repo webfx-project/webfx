@@ -36,4 +36,17 @@ public class Objects {
         return o1.equals(o2);
     }
 
+    public static boolean areEquivalent(Object o1, Object o2) {
+        if (o1 == o2)
+            return true;
+        if (o1 == null || o2 == null)
+            return false;
+        if (o1.equals(o2))
+            return true;
+        boolean o1IsNumber = Numbers.isNumber(o1);
+        boolean o2IsNumber = Numbers.isNumber(o2);
+        if (o1IsNumber && o2IsNumber)
+            return Numbers.areNumberEquivalent(o1, o2);
+        return areEquals(o1.toString(), o2.toString());
+    }
 }

@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.Like;
 /**
  * @author Bruno Salmon
  */
-public class LikeBuilder extends BooleanExpressionBuilder {
+public class LikeBuilder extends BinaryBooleanExpressionBuilder {
 
     public LikeBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

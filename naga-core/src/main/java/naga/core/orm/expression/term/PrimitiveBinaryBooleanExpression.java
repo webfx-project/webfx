@@ -8,18 +8,20 @@ import naga.core.util.Booleans;
 import naga.core.util.Numbers;
 import naga.core.util.Strings;
 
+import java.util.Date;
+
 /**
  * @author Bruno Salmon
  */
-public abstract class ArithmeticExpression<T> extends BinaryExpression<T> {
+public abstract class PrimitiveBinaryBooleanExpression<T> extends BinaryBooleanExpression<T> {
 
-    public ArithmeticExpression(Expression<T> left, String separator, Expression<T> right, int precedenceLevel) {
+    public PrimitiveBinaryBooleanExpression(Expression left, String separator, Expression right, int precedenceLevel) {
         super(left, separator, right, precedenceLevel);
     }
 
     @Override
-    public Object evaluate(Object leftValue, Object rightValue) {
-        Type type = left != null ? getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
+    public boolean evaluateCondition(Object leftValue, Object rightValue) {
+        Type type = getLeft() != null ? getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
         PrimType primType = Types.getPrimType(type);
         if (primType != null)
             switch (primType) {
@@ -29,15 +31,19 @@ public abstract class ArithmeticExpression<T> extends BinaryExpression<T> {
                 case FLOAT:   return evaluateFloat(Numbers.floatValue(leftValue), Numbers.floatValue(rightValue));
                 case DOUBLE:  return evaluateDouble(Numbers.doubleValue(leftValue), Numbers.doubleValue(rightValue));
                 case STRING:  return evaluateString(Strings.stringValue(leftValue), Strings.stringValue(rightValue));
+                case DATE:    return evaluateDate((Date) leftValue, (Date) rightValue);
             }
         return evaluateObject(leftValue, rightValue);
     }
 
-    abstract int evaluateInteger(int a, int b);
-    abstract long evaluateLong(long a, long b);
-    abstract float evaluateFloat(float a, float b);
-    abstract double evaluateDouble(double a, double b);
+    abstract boolean evaluateInteger(int a, int b);
+    abstract boolean evaluateLong(long a, long b);
+    abstract boolean evaluateFloat(float a, float b);
+    abstract boolean evaluateDouble(double a, double b);
     abstract boolean evaluateBoolean(boolean a, boolean b);
-    String evaluateString(String a, String b) { return (String) evaluateObject(a, b);}
-    abstract Object evaluateObject(Object a, Object b);
+    boolean evaluateString(String a, String b) { return evaluateObject(a, b);}
+    boolean evaluateDate(Date a, Date b) { return evaluateLong(a.getTime(), b.getTime());}
+    abstract boolean evaluateObject(Object a, Object b);
+
+
 }

@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.LessThan;
 /**
  * @author Bruno Salmon
  */
-public class LessThanBuilder extends BooleanExpressionBuilder {
+public class LessThanBuilder extends BinaryBooleanExpressionBuilder {
 
     public LessThanBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

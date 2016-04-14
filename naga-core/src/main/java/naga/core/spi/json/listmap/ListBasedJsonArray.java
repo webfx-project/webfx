@@ -1,9 +1,10 @@
-package naga.core.spi.json.javaplat.listmap;
+package naga.core.spi.json.listmap;
 
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.json.JsonType;
+import naga.core.util.Numbers;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
 
     @Override
     public double getNumber(int index) {
-        return ((Number) getNative(index)).doubleValue();
+        return Numbers.doubleValue(getNative(index));
     }
 
     @Override

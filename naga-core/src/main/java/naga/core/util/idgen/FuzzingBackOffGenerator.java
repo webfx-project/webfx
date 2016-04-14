@@ -93,7 +93,7 @@ public class FuzzingBackOffGenerator {
         }
         backOffTime = ret;
 
-        int randomizeTime = (int) (backOffTime * (1.0 + (Math.random() * randomizationFactor)));
+        int randomizeTime = (int) (backOffTime * (1.0 + (/* J2ME CLDC Math.random() * */ randomizationFactor)));
         int minAllowedTime = (int) Math.round(randomizeTime - backOffTime * randomizationFactor);
 
         return new BackOffParameters(randomizeTime, minAllowedTime);

@@ -1,7 +1,7 @@
 package naga.core.orm.expressionparser.javacup;
 
 import naga.core.orm.expressionparser.expressionbuilder.term.*;
-import naga.core.type.PrimType;
+import naga.core.util.Numbers;
 
 /* ----------------------Preliminary Declarations Section--------------------*/
    
@@ -71,7 +71,7 @@ terminal          OBJ_STATE, IMAGE;
 terminal          LPAREN, RPAREN, LBRACK, RBRACK, COLON, COMMA, DOT;
 terminal          PLUS, MINUS, MULT, DIV, EQ, GT, LT, NOT, QUESTION, EQEQ, LTEQ, GTEQ, NOTEQ, AND, OR;
 terminal          NULL;
-terminal Number   NUMBER;
+terminal Object   NUMBER;
 terminal Boolean  BOOLEAN;
 terminal String   STRING, IDENTIFIER;
 
@@ -299,7 +299,7 @@ parameter ::= QUESTION
 constant ::= NUMBER:n
               {: RESULT = new ConstantBuilder(n); :}
             | MINUS NUMBER:n
-              {: RESULT = new ConstantBuilder(PrimType.negate(n)); :}
+              {: RESULT = new ConstantBuilder(Numbers.negate(n)); :}
             | STRING:s
               {: RESULT = new ConstantBuilder(s); :}
             | BOOLEAN:b

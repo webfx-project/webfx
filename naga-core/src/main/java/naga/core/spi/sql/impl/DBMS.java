@@ -1,5 +1,7 @@
 package naga.core.spi.sql.impl;
 
+import naga.core.util.Strings;
+
 /**
  * @author Bruno Salmon
  */
@@ -18,11 +20,11 @@ public class DBMS {
     }
 
     public String generateJdbcUrl(ConnectionDetails connectionDetails) {
-        return jdbcUrlPattern
-                .replaceAll("\\{host\\}", connectionDetails.getHost())
-                .replaceAll("\\{port\\}", Integer.toString(connectionDetails.getPort()))
-                .replaceAll("\\{file\\}", connectionDetails.getFilePath())
-                .replaceAll("\\{database\\}", connectionDetails.getDatabaseName());
+        String s = Strings.replaceAll(jdbcUrlPattern, "\\{host\\}", connectionDetails.getHost());
+        s = Strings.replaceAll(s, "\\{port\\}", Integer.toString(connectionDetails.getPort()));
+        s = Strings.replaceAll(s, "\\{file\\}", connectionDetails.getFilePath());
+        s = Strings.replaceAll(s, "\\{database\\}", connectionDetails.getDatabaseName());
+        return s;
     }
 
     public static final DBMS POSTGRES = new DBMS("org.postgresql.Driver", "jdbc:postgresql://{host}:{port}/{database}");

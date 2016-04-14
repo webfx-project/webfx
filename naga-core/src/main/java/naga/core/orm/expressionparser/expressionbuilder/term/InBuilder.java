@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.In;
 /**
  * @author Bruno Salmon
  */
-public class InBuilder extends BooleanExpressionBuilder {
+public class InBuilder extends BinaryBooleanExpressionBuilder {
 
     public InBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

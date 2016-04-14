@@ -2,14 +2,10 @@ package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.logging.Logger;
-
 /**
  * @author Bruno Salmon
  */
-public class Divide<T> extends ArithmeticExpression<T> {
+public class Divide<T> extends PrimitiveBinaryExpression<T> {
 
     public Divide(Expression<T> left, Expression<T> right) {
         super(left, "/", right, 7);
@@ -44,6 +40,7 @@ public class Divide<T> extends ArithmeticExpression<T> {
     public Object evaluateObject(Object a, Object b) {
         if (a == null)
             return null;
+        /* Unsupported by Codenameone
         if (a instanceof BigInteger) {
             BigInteger bia = (BigInteger) a;
             BigInteger bib;
@@ -63,9 +60,8 @@ public class Divide<T> extends ArithmeticExpression<T> {
             else
                 bdb = new BigDecimal(b.toString());
             return bda.divide(bdb, BigDecimal.ROUND_UP);
-        }
-        Logger.getLogger("expression").warning("Unsupported numeric type " + a.getClass().getName());
-        return null;
+        }*/
+        throw new IllegalArgumentException("Unsupported numeric type " + a.getClass().getName());
     }
 
 }

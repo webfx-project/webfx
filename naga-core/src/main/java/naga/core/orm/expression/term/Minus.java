@@ -2,15 +2,12 @@ package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
-import java.util.logging.Logger;
 
 /**
  * @author Bruno Salmon
  */
-public class Minus<T> extends ArithmeticExpression<T> {
+public class Minus<T> extends PrimitiveBinaryExpression<T> {
 
     public Minus(Expression<T> left, Expression<T> right) {
         super(left, "-", right, 6);
@@ -41,6 +38,7 @@ public class Minus<T> extends ArithmeticExpression<T> {
             return null;
         //if (a == null || b == null)
         //    return MismatchErrorValue.singleton;
+        /* Unsupported by Codenameone (based on CLDC)
         if (a instanceof BigInteger) {
             BigInteger bia = (BigInteger) a;
             BigInteger bib;
@@ -60,11 +58,10 @@ public class Minus<T> extends ArithmeticExpression<T> {
             else
                 bdb = new BigDecimal(b.toString());
             return bda.subtract(bdb);
-        }
+        }*/
         if (a instanceof Date && b instanceof Date)
             return ((Date) a).getTime() - ((Date) b).getTime();
-        Logger.getLogger("expression").warning("Unsupported numeric type " + a.getClass().getName());
-        return null; // MismatchErrorValue.singleton;
+        throw new IllegalArgumentException("Unsupported numeric type " + a.getClass().getName());
     }
 
 }

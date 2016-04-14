@@ -1,6 +1,7 @@
 package naga.core.orm.expressionsqlcompiler.term;
 
 import naga.core.orm.expression.term.Constant;
+import naga.core.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -24,7 +25,7 @@ public class ConstantSqlCompiler extends AbstractTermSqlCompiler<Constant> {
     }
 
     private static String toSqlQuotedString(String s) {
-        return "'" + s.replace("'", "''") + "'";
+        return "'" + Strings.replaceAll(s, "'", "''") + "'";
     }
 
 }

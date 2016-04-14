@@ -1,15 +1,12 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.logging.Logger;
+import naga.core.util.Numbers;
 
 /**
  * @author Bruno Salmon
  */
-public class Multiply<T> extends ArithmeticExpression<T> {
+public class Multiply<T> extends PrimitiveBinaryExpression<T> {
 
     public Multiply(Expression<T> left, Expression<T> right) {
         super(left, "*", right, 7);
@@ -44,6 +41,7 @@ public class Multiply<T> extends ArithmeticExpression<T> {
     public Object evaluateObject(Object a, Object b) {
         if (a == null || b == null)
             return null;
+        /* Unsupported by Codenameone (based on CLDC)
         if (a instanceof BigInteger) {
             BigInteger bia = (BigInteger) a;
             BigInteger bib;
@@ -63,13 +61,12 @@ public class Multiply<T> extends ArithmeticExpression<T> {
             else
                 bdb = new BigDecimal(b.toString());
             return bda.multiply(bdb);
-        }
-        Logger.getLogger("expression").warning("Unsupported numeric type " + a.getClass().getName());
-        return null; //MismatchErrorValue.singleton;
+        }*/
+        throw new IllegalArgumentException("Unsupported numeric type " + a.getClass().getName());
     }
 
     public boolean isShortcutValue(Object value) {
-        return value instanceof Number && ((Number) value).longValue() == 0;
+        return Numbers.isZero(value);
     }
 
 }

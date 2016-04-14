@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.Any;
 /**
  * @author Bruno Salmon
  */
-public class AnyBuilder extends BooleanExpressionBuilder {
+public class AnyBuilder extends BinaryBooleanExpressionBuilder {
     String operator;
 
     public AnyBuilder(ExpressionBuilder left, String operator, ExpressionBuilder right) {

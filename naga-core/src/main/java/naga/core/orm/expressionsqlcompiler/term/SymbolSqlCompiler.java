@@ -1,5 +1,6 @@
 package naga.core.orm.expressionsqlcompiler.term;
 
+import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.Dot;
 import naga.core.orm.expression.term.Symbol;
@@ -12,7 +13,7 @@ import naga.core.type.Types;
 public class SymbolSqlCompiler extends AbstractTermSqlCompiler<Symbol> {
 
     public SymbolSqlCompiler() {
-        super(Symbol.class);
+        super(Symbol.class, DomainField.class);
     }
 
     @Override

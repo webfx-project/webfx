@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.NotEquals;
 /**
  * @author Bruno Salmon
  */
-public class NotEqualsBuilder extends BooleanExpressionBuilder {
+public class NotEqualsBuilder extends BinaryBooleanExpressionBuilder {
 
     public NotEqualsBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

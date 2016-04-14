@@ -1,9 +1,10 @@
-package naga.core.spi.json.javaplat.listmap;
+package naga.core.spi.json.listmap;
 
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.json.JsonType;
+import naga.core.util.Numbers;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -36,7 +37,10 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     @Override
     public <T> void forEach(MapIterator<T> handler) {
-        getMap().forEach((s, o) -> handler.call(s, wrap(o)));
+        //getMap().forEach((s, o) -> handler.call(s, wrap(o))); // J2ME CLDC
+        for (Map.Entry<String, Object> entry : getMap().entrySet()) {
+            handler.call(entry.getKey(), wrap(entry.getValue()));
+        }
     }
 
     protected <T> T getNative(String key) {
@@ -69,7 +73,7 @@ public abstract class MapBasedJsonObject<NO> implements JsonObject {
 
     @Override
     public double getNumber(String key) {
-        return ((Number) getNative(key)).doubleValue();
+        return Numbers.doubleValue(getNative(key));
     }
 
     @Override

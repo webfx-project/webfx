@@ -28,9 +28,7 @@ public class As<T> extends UnaryExpression<T> {
 
     @Override
     public StringBuilder toString(StringBuilder sb) {
-        operand.toString(sb);
-        sb.append(" as ").append(alias);
-        return sb;
+        return operand.toString(sb).append(" as ").append(alias);
     }
 
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {

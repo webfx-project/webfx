@@ -87,7 +87,7 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
     "expr:="                       { return symbol(EXPR_START); }
 
 
-    {IntegerLiteral}               { return symbol(NUMBER, Integer.decode(yytext())); }
+    {IntegerLiteral}               { return symbol(NUMBER, Integer.valueOf(yytext())); }
 
   /* boolean literals */
     "true"                         { return symbol(BOOLEAN, Boolean.TRUE); }

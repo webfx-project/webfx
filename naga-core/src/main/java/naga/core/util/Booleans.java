@@ -13,6 +13,10 @@ public class Booleans {
         return Boolean.FALSE.equals(value);
     }
 
+    public static boolean isNotFalse(Object value) {
+        return !Boolean.FALSE.equals(value);
+    }
+
     public static boolean booleanValue(Object value) {
         if (value == null)
             return false;

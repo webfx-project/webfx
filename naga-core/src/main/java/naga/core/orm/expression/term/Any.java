@@ -5,7 +5,7 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Any<T> extends BooleanExpression<T> {
+public class Any<T> extends BinaryBooleanExpression<T> {
 
     public Any(Expression<T> left, String operator, Expression<T> right) {
         super(left, operator + " any ", right, 5);

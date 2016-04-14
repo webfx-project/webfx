@@ -2,22 +2,19 @@ package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.lci.DataWriter;
+import naga.core.util.Numbers;
 
 /**
  * @author Bruno Salmon
  */
-public class And<T> extends BooleanExpression<T> {
+public class And<T> extends BinaryBooleanExpression<T> {
 
     public And(Expression<T> left, Expression<T> right) {
         super(left, " and ", right, 3);
     }
 
     public boolean isShortcutValue(Object value) {
-        if (Boolean.FALSE.equals(value))
-            return true;
-        if (value instanceof Number)
-            return ((Number) value).longValue() == 0;
-        return value == null;
+        return value == null || value.equals(Boolean.FALSE) || Numbers.isZero(value);
     }
 
     @Override

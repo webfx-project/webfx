@@ -5,6 +5,7 @@ import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.type.PrimType;
+import naga.core.util.Numbers;
 import naga.core.util.compression.values.repeat.RepeatedValuesCompressor;
 
 /**
@@ -95,7 +96,13 @@ public class SqlReadResult {
     // To be used with int to avoid GWT ClassCastException as Integer coming from Json may actually be Double
     public int getInt(int rowIndex, String columnName, int defaultValue) {
         Object value = getValue(rowIndex, getColumnIndex(columnName));
-        return value instanceof Number ? ((Number) value).intValue() : defaultValue;
+        return Numbers.isNumber(value) ? Numbers.intValue(value) : defaultValue;
+    }
+
+    // To be used with Codenameone because generic one raise an error when value is a string
+    public boolean getBoolean(int rowIndex, String columnName, boolean defaultValue) {
+        Object value = getValue(rowIndex, getColumnIndex(columnName));
+        return value == null ? defaultValue : value instanceof Boolean ? (Boolean) value : Boolean.valueOf(value.toString());
     }
 
     /****************************************************

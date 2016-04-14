@@ -6,7 +6,7 @@ import naga.core.orm.expression.term.NotLike;
 /**
  * @author Bruno Salmon
  */
-public class NotLikeBuilder extends BooleanExpressionBuilder {
+public class NotLikeBuilder extends BinaryBooleanExpressionBuilder {
 
     public NotLikeBuilder(ExpressionBuilder left, ExpressionBuilder right) {
         super(left, right);

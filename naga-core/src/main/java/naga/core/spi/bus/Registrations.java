@@ -33,7 +33,7 @@ public class Registrations implements Registration {
     private List<Registration> registrations;
 
     public Registrations add(Registration registration) {
-        assert registration != null : "registration shouldn't be null";
+        //assert registration != null : "registration shouldn't be null";
         if (registrations == null)
             registrations = new ArrayList<>();
         registrations.add(registration);

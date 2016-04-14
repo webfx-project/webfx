@@ -25,8 +25,7 @@ public class Exists extends SelectExpression {
 
     @Override
     public StringBuilder toString(StringBuilder sb) {
-        sb.append("exists");
-        return super.toString(sb);
+        return super.toString(sb.append("exists"));
     }
 
 }

@@ -1,5 +1,6 @@
 package naga.core.util.compression.values.repeat;
 
+import naga.core.util.Numbers;
 import naga.core.util.compression.values.ValuesCompressor;
 
 import java.util.*;
@@ -64,8 +65,8 @@ public class RepeatedValuesCompressor implements ValuesCompressor {
     @Override
     public Object[] uncompress(Object[] compressedValues) {
         int compressedIndex = 0;
-        int uncompressedLength = ((Number) compressedValues[compressedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
-        int repeatValuesSize = ((Number) compressedValues[compressedIndex++]).intValue(); // May be Double instead of Integer when coming from GWT json
+        int uncompressedLength = Numbers.intValue(compressedValues[compressedIndex++]); // May be Double instead of Integer when coming from GWT json
+        int repeatValuesSize = Numbers.intValue(compressedValues[compressedIndex++]);   // May be Double instead of Integer when coming from GWT json
         List<RepeatedValue> repeatValues = new ArrayList<>(repeatValuesSize);
         for (int i = 0; i < repeatValuesSize; i++)
             repeatValues.add(new RepeatedValue(compressedValues[compressedIndex++], (String) compressedValues[compressedIndex++]));

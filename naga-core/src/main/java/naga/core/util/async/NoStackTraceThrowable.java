@@ -6,6 +6,6 @@ package naga.core.util.async;
 public class NoStackTraceThrowable extends Throwable {
 
     public NoStackTraceThrowable(String message) {
-        super(message, null, false, false);
+        super(message); // J2ME CLDC , null, false, false);
     }
 }

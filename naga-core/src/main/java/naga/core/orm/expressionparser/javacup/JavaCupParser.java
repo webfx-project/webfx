@@ -5,14 +5,13 @@
 
 package naga.core.orm.expressionparser.javacup;
 
-import java_cup.runtime.lr_parser;
 import naga.core.orm.expressionparser.expressionbuilder.term.*;
-import naga.core.type.PrimType;
+import naga.core.util.Numbers;
 
 /** CUP v0.11b 20150326 (SVN rev 63) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
-public class JavaCupParser extends lr_parser {
+public class JavaCupParser extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
     return Symbols.class;
@@ -790,7 +789,7 @@ public class JavaCupParser extends lr_parser {
   /** Invoke a user supplied parse action. */
   public java_cup.runtime.Symbol do_action(
     int                        act_num,
-    lr_parser parser,
+    java_cup.runtime.lr_parser parser,
     java.util.Stack            stack,
     int                        top)
     throws java.lang.Exception
@@ -877,7 +876,7 @@ class CUP$JavaCupParser$actions {
   /** Method 0 with the actual generated action code for actions 0 to 300. */
   public final java_cup.runtime.Symbol CUP$JavaCupParser$do_action_part00000000(
     int                        CUP$JavaCupParser$act_num,
-    lr_parser CUP$JavaCupParser$parser,
+    java_cup.runtime.lr_parser CUP$JavaCupParser$parser,
     java.util.Stack            CUP$JavaCupParser$stack,
     int                        CUP$JavaCupParser$top)
     throws java.lang.Exception
@@ -1964,7 +1963,7 @@ class CUP$JavaCupParser$actions {
               ExpressionBuilder RESULT =null;
 		int nleft = ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()).right;
-		Number n = (Number)((java_cup.runtime.Symbol) CUP$JavaCupParser$stack.peek()).value;
+		Object n = (Object)((java_cup.runtime.Symbol) CUP$JavaCupParser$stack.peek()).value;
 		 RESULT = new ConstantBuilder(n); 
               CUP$JavaCupParser$result = parser.getSymbolFactory().newSymbol("constant",22, ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()), RESULT);
             }
@@ -1976,8 +1975,8 @@ class CUP$JavaCupParser$actions {
               ExpressionBuilder RESULT =null;
 		int nleft = ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()).left;
 		int nright = ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()).right;
-		Number n = (Number)((java_cup.runtime.Symbol) CUP$JavaCupParser$stack.peek()).value;
-		 RESULT = new ConstantBuilder(PrimType.negate(n)); 
+		Object n = (Object)((java_cup.runtime.Symbol) CUP$JavaCupParser$stack.peek()).value;
+		 RESULT = new ConstantBuilder(Numbers.negate(n)); 
               CUP$JavaCupParser$result = parser.getSymbolFactory().newSymbol("constant",22, ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.elementAt(CUP$JavaCupParser$top-1)), ((java_cup.runtime.Symbol)CUP$JavaCupParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupParser$result;
@@ -2368,7 +2367,7 @@ class CUP$JavaCupParser$actions {
   /** Method splitting the generated action code into several parts. */
   public final java_cup.runtime.Symbol CUP$JavaCupParser$do_action(
     int                        CUP$JavaCupParser$act_num,
-    lr_parser CUP$JavaCupParser$parser,
+    java_cup.runtime.lr_parser CUP$JavaCupParser$parser,
     java.util.Stack            CUP$JavaCupParser$stack,
     int                        CUP$JavaCupParser$top)
     throws java.lang.Exception

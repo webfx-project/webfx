@@ -3,6 +3,7 @@ package naga.core.orm.expression.term;
 import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.Type;
 import naga.core.type.Types;
+import naga.core.util.Strings;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class Constant<T> extends AbstractExpression<T> {
     }
 
     private static String toQuotedString(String s, boolean sql) {
-        return sql ? "'" + s.replace("'", "''") + "'" : "\"" + s.replace("\"", "\\\"") + "\"" ;
+        return sql ? "'" + Strings.replaceAll(s, "'", "''") + "'" : "\"" + Strings.replaceAll(s, "\"", "\\\"") + "\"" ;
     }
 
 }

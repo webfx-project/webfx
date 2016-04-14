@@ -66,7 +66,7 @@ public class ExpressionArray<T> extends AbstractExpression<T> implements ParentE
 
     @Override
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        for (Expression expression : expressions)
+        for (Expression<T> expression : expressions)
             expression.collectPersistentTerms(persistentTerms);
     }
 

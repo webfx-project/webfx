@@ -1,4 +1,4 @@
-package naga.core.spi.json.javaplat.listmap;
+package naga.core.spi.json.listmap;
 
 import java.util.ArrayList;
 import java.util.List;

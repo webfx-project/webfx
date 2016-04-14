@@ -114,7 +114,7 @@ public class DomainModelLoader {
             fieldBuilder.prefWidth = qr.getInt(row, "pref_width", 0);
             fieldBuilder.expressionDefinition = qr.getValue(row, "expression");
             fieldBuilder.applicableConditionDefinition = qr.getValue(row, "applicable_condition");
-            fieldBuilder.persistent = qr.getValue(row, "persistent", false);
+            fieldBuilder.persistent = qr.getBoolean(row, "persistent", false);
             fieldBuilder.foreignAlias = qr.getValue(row, "foreign_alias");
             fieldBuilder.foreignCondition = qr.getValue(row, "foreign_condition");
             fieldBuilder.foreignOrderBy = qr.getValue(row, "foreign_order_by");

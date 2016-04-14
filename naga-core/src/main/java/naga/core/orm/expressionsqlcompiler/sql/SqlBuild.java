@@ -392,7 +392,7 @@ public class SqlBuild {
                     StringBuilder sb2 = new StringBuilder();
                     join.appendTo(sb2);
                     String s2 = sb2.toString();
-                    if (!sb.toString().contains(s2))
+                    if (sb.toString().indexOf(s2) == -1) // J2ME CLDC doesn't support contains()
                         sb.append(s2);
                 }
         }
@@ -425,11 +425,11 @@ public class SqlBuild {
 
     // Some Strings static method helpers
 
-    private static CharSequence _if(boolean condition, CharSequence s) {
-        return condition && s!= null ? s : "";
+    private static String _if(boolean condition, String s) {
+        return condition && s != null ? s : "";
     }
 
-    private static CharSequence _if(String before, CharSequence s, String after, StringBuilder sb) {
+    private static String _if(String before, StringBuilder s, String after, StringBuilder sb) {
         if (s != null && s.length() > 0) {
             if (before != null)
                 sb.append(before);
@@ -439,5 +439,4 @@ public class SqlBuild {
         }
         return "";
     }
-
 }

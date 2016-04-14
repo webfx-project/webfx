@@ -24,9 +24,6 @@ import naga.core.spi.json.JsonFactory;
 import naga.core.spi.sql.SqlService;
 import naga.core.util.function.Consumer;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Generic platform interface. New platforms are defined as implementations of this interface.
  *
@@ -36,14 +33,6 @@ import java.util.logging.Logger;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
 public abstract class Platform {
-
-    public Logger logger() {
-        return logger(""); // should be Logger.getAnonymousLogger() but produces a compilation error with GWT
-    }
-
-    public Logger logger(String name) {
-        return Logger.getLogger(name);
-    }
 
     public abstract Scheduler scheduler();
 
@@ -82,13 +71,14 @@ public abstract class Platform {
     }
 
     public static void log(String message) {
-        get().logger().log(Level.INFO, message);
+        System.out.println(message);
         if (webLogger != null)
             webLogger.accept(message);
     }
 
     public static void log(String message, Throwable error) {
-        get().logger().log(Level.SEVERE, message, error);
+        System.out.println(message);
+        error.printStackTrace();
     }
 
     // Temporary code to help displaying logs on the web page (and not only on the hidden web console)

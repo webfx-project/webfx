@@ -5,23 +5,16 @@ import naga.core.orm.expression.Expression;
 /**
  * @author Bruno Salmon
  */
-public class Like<T> extends BooleanExpression<T> {
+public class Like<T> extends BinaryBooleanExpression<T> {
 
     public Like(Expression<T> left, Expression<T> right) {
         super(left, " like ", right, 5);
     }
 
     public boolean evaluateCondition(Object a, Object b) {
-        if (b instanceof String)
-            return new LikeImpl((String) b).compare(a);
-        return false;
+        return b instanceof String && new LikeImpl((String) b).compare(a);
     }
-    /*
-    @Override
-    protected String getSqlSeparator(RDBMS rdbms) {
-        return rdbms.getDriverClass().contains("postgres") ? " ilike " : super.getSqlSeparator(rdbms);  // temporary hack to make like insensitive with postgres (see how to use collation instead)
-    }
-    */
+
 // From HSQLDB Like.java
 
     static class LikeImpl {
@@ -30,17 +23,17 @@ public class Like<T> extends BooleanExpression<T> {
         private int[] wildCardType;
         private int iLen;
         private boolean isIgnoreCase;
-        private Character escapeChar;
+        private Character escapeChar = null;
         private static final int UNDERSCORE_CHAR = 1;
         private static final int PERCENT_CHAR = 2;
 
-    /*
-    Like(Character escape) {
-        escapeChar = escape;
-    }
-    */
+        /*
+        Like(Character escape) {
+            escapeChar = escape;
+        }
+        */
 
-        public LikeImpl(String s) {
+        LikeImpl(String s) {
             setParams(s, true);
         }
 
@@ -102,11 +95,8 @@ public class Like<T> extends BooleanExpression<T> {
                 }
             }
 
-            if (j != jLen) {
-                return false;
-            }
+            return j == jLen;
 
-            return true;
         }
 
         private void normalize(String pattern, boolean b) {

@@ -1,7 +1,8 @@
-package naga.core.spi.json.javaplat.listmap;
+package naga.core.spi.json.listmap;
 
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonType;
+import naga.core.util.Numbers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -20,7 +21,7 @@ final class ListMapUtil {
             return JsonType.ARRAY;
         else if (value instanceof String)
             return JsonType.STRING;
-        else if (value instanceof Number)
+        else if (Numbers.isNumber(value))
             return JsonType.NUMBER;
         else if (value instanceof Boolean)
             return JsonType.BOOLEAN;

@@ -13,8 +13,6 @@ public class Array<T> extends UnaryExpression<T> {
 
     @Override
     public StringBuilder toString(StringBuilder sb) {
-        sb.append("[");
-        operand.toString(sb);
-        return sb.append(']');
+        return operand.toString(sb.append('[')).append(']');
     }
 }

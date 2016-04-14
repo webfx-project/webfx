@@ -227,7 +227,7 @@ public class WebSocketBus extends SimpleClientBus {
      * First handler for this topic so we should register the connection
      */
     protected void sendSubscribe(String topic) {
-        assert topic != null : "topic shouldn't be null";
+        //assert topic != null : "topic shouldn't be null";
         send(Json.createObject().set(TYPE, "register").set(TOPIC, topic));
     }
 

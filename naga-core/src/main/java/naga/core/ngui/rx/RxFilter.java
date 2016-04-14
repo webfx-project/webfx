@@ -77,7 +77,7 @@ public class RxFilter {
 
     public RxFilter combine(Property<String> textProperty, Converter<String, String> inputTextToConditionConverter) {
         return combine(RxUi.observe(textProperty)
-                .map(text -> text == null || text.isEmpty() ? null :
+                .map(text -> text == null || text.length() == 0 ? null :
                         new StringFilterBuilder()
                                 .setCondition(inputTextToConditionConverter.convert(text))
                                 .build()

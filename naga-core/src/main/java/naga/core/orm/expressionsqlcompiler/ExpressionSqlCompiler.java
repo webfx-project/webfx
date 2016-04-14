@@ -90,6 +90,7 @@ public class ExpressionSqlCompiler {
         Class<? extends Expression> expressionClass = expression.getClass();
         AbstractTermSqlCompiler termSqlCompiler = termCompilers.get(expressionClass);
         if (termSqlCompiler == null) {
+            /* J2ME CLDC
             // trying to find the compiler of a super class (ex: DomainField compiler is actually a Term compiler)
             for (Class superClass = expressionClass.getSuperclass(); superClass != null; superClass = superClass.getSuperclass()) {
                 termSqlCompiler = termCompilers.get(superClass);
@@ -98,7 +99,7 @@ public class ExpressionSqlCompiler {
                     break;
                 }
             }
-            if (termSqlCompiler == null)
+            if (termSqlCompiler == null) */
                 throw new IllegalArgumentException("Sql not compilable: " + expression);
         }
         termSqlCompiler.compileExpressionToSql(expression, options);
