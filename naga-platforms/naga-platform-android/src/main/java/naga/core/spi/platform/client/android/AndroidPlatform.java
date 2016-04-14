@@ -20,7 +20,7 @@ package naga.core.spi.platform.client.android;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.javaplat.JavaClientPlatform;
+import naga.core.spi.platform.client.java.JavaClientPlatform;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project

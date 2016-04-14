@@ -10,8 +10,6 @@ import naga.core.spi.platform.Scheduler;
 import naga.core.spi.sql.SqlService;
 import naga.core.spi.sql.vertx.VertxSqlService;
 
-import java.util.logging.Logger;
-
 /**
  * @author Bruno Salmon
  */
@@ -30,11 +28,6 @@ public final class VertxPlatform extends Platform {
         scheduler = new VertxScheduler(vertx);
         busFactory = new VertxBusFactory(vertx.eventBus());
         sqlService = new VertxSqlService(vertx);
-    }
-
-    @Override
-    public Logger logger() {
-        return Logger.getAnonymousLogger();
     }
 
     @Override

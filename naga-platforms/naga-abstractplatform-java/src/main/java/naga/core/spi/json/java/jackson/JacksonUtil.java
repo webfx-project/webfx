@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat.jackson;
+package naga.core.spi.json.java.jackson;
 
 import naga.core.spi.json.JsonElement;
 import naga.core.spi.json.JsonException;

@@ -15,11 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat.jackson;
+package naga.core.spi.json.java.jackson;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.javaplat.listmap.ListMapJsonFactory;
+import naga.core.spi.json.listmap.ListMapJsonFactory;
 
 import java.util.List;
 import java.util.Map;

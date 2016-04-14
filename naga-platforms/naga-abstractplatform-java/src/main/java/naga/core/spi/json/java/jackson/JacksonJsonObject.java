@@ -15,31 +15,31 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.javaplat.jackson;
+package naga.core.spi.json.java.jackson;
 
-import naga.core.spi.json.javaplat.listmap.ListJsonArray;
+import naga.core.spi.json.listmap.MapJsonObject;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * Server-side implementation of JsonArray.
+ * Server-side implementation of JsonObject.
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
  * @author Bruno Salmon - fork, refactor & update for the naga project
  *
- * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonArray.java">Original Goodow class</a>
+ * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
-final class JacksonJsonArray extends ListJsonArray {
+final class JacksonJsonObject extends MapJsonObject {
 
-    JacksonJsonArray() {
+    JacksonJsonObject() {
     }
 
-    JacksonJsonArray(List array) {
-        super(array);
+    JacksonJsonObject(Map map) {
+        super(map);
     }
 
     @Override
     public String toJsonString() {
-        return JacksonUtil.encode(list);
+        return JacksonUtil.encode(map);
     }
 }

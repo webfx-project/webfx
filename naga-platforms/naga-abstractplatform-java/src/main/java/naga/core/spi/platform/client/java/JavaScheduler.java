@@ -15,8 +15,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.platform.client.javaplat;
+package naga.core.spi.platform.client.java;
 
+
+import naga.core.spi.platform.Scheduler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public class JavaScheduler implements naga.core.spi.platform.Scheduler<Integer> {
+public class JavaScheduler implements Scheduler<Integer> {
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private final AtomicInteger timerId = new AtomicInteger(0);
     private final Map<Integer, ScheduledFuture<?>> timers = new HashMap<>();

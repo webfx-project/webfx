@@ -1,6 +1,6 @@
 package naga.core.spi.json.vertx;
 
-import naga.core.spi.json.javaplat.listmap.ListBasedJsonArray;
+import naga.core.spi.json.listmap.ListBasedJsonArray;
 
 import java.util.List;
 

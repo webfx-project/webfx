@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.platform.client.javaplat;
+package naga.core.spi.platform.client.java;
 
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.client.WebSocketFactory;

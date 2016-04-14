@@ -1,6 +1,6 @@
 package naga.core.spi.json.vertx;
 
-import naga.core.spi.json.javaplat.listmap.MapBasedJsonObject;
+import naga.core.spi.json.listmap.MapBasedJsonObject;
 
 import java.util.Map;
 

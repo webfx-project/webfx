@@ -9,8 +9,6 @@ import naga.core.spi.platform.client.WebSocketFactory;
 import naga.core.spi.platform.client.web.WebLocation;
 import naga.core.spi.platform.client.web.WebPlatform;
 
-import java.util.logging.Logger;
-
 /**
  * @author Bruno Salmon
  */
@@ -23,11 +21,6 @@ public final class TeaVmPlatform extends WebPlatform {
     private final Scheduler scheduler = new TeaVmScheduler();
     private final JsonFactory jsonFactory = new TeaVmJsonFactory();
     private final WebSocketFactory webSocketFactory = new TeaVmWebSocketFactory();
-
-    @Override
-    public Logger logger() {
-        return Logger.getAnonymousLogger();
-    }
 
     @Override
     public Scheduler scheduler() {

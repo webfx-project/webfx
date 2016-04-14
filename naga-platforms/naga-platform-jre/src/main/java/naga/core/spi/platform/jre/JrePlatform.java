@@ -1,7 +1,7 @@
 package naga.core.spi.platform.jre;
 
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.javaplat.JavaClientPlatform;
+import naga.core.spi.platform.client.java.JavaClientPlatform;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
-package naga.core.spi.json.javaplat.smart;
+package naga.core.spi.json.java.smart;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.javaplat.listmap.ListMapJsonFactory;
+import naga.core.spi.json.listmap.ListMapJsonFactory;
 import net.minidev.json.JSONValue;
 
 import java.util.List;

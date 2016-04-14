@@ -15,21 +15,19 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.platform.client.javaplat;
+package naga.core.spi.platform.client.java;
 
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.javaplat.jackson.JacksonJsonFactory;
-import naga.core.spi.json.javaplat.smart.SmartJsonFactory;
+import naga.core.spi.json.java.jackson.JacksonJsonFactory;
+import naga.core.spi.json.java.smart.SmartJsonFactory;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.ResourceService;
 import naga.core.spi.platform.client.WebSocketFactory;
 import naga.core.spi.platform.sql.jdbc.JdbcSqlService;
 import naga.core.spi.sql.SqlService;
-
-import java.util.logging.Logger;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -58,11 +56,6 @@ public abstract class JavaClientPlatform extends ClientPlatform {
             factory =  new SmartJsonFactory();
         }
         jsonFactory = factory;
-    }
-
-    @Override
-    public Logger logger() {
-        return Logger.getAnonymousLogger();
     }
 
     @Override

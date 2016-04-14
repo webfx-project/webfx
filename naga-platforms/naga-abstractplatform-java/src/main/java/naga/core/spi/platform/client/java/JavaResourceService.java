@@ -1,4 +1,4 @@
-package naga.core.spi.platform.client.javaplat;
+package naga.core.spi.platform.client.java;
 
 import naga.core.spi.platform.client.ResourceService;
 import naga.core.util.async.Future;

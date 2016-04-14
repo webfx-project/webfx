@@ -1,6 +1,6 @@
-package naga.core.spi.json.javaplat.smart;
+package naga.core.spi.json.java.smart;
 
-import naga.core.spi.json.javaplat.listmap.ListJsonArray;
+import naga.core.spi.json.listmap.ListJsonArray;
 import net.minidev.json.JSONArray;
 
 import java.util.List;

@@ -18,7 +18,7 @@
 package naga.core.spi.platform.client.android;
 
 import android.os.Looper;
-import naga.core.spi.platform.client.javaplat.JavaScheduler;
+import naga.core.spi.platform.client.java.JavaScheduler;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
