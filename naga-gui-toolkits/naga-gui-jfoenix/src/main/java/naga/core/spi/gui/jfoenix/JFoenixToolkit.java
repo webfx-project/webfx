@@ -4,7 +4,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDecorator;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import naga.core.spi.gui.javafx.FxToolkit;
+import naga.core.spi.gui.javafx.JavaFxToolkit;
 import naga.core.spi.gui.javafx.nodes.FxCheckBox;
 import naga.core.spi.gui.nodes.CheckBox;
 import naga.core.spi.platform.Platform;
@@ -12,7 +12,7 @@ import naga.core.spi.platform.Platform;
 /**
  * @author Bruno Salmon
  */
-public class JFoenixToolkit extends FxToolkit {
+public class JFoenixToolkit extends JavaFxToolkit {
 
     /*static {
         new Thread(()->{

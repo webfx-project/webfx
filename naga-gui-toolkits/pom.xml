@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-guis</artifactId>
+    <artifactId>naga-gui-toolkits</artifactId>
     <packaging>pom</packaging>
 
     <modules>
