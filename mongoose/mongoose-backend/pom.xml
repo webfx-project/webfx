@@ -41,6 +41,9 @@
             </modules>
         </profile>
     </profiles>
+    <modules>
+        <module>mongoose-backend-swing</module>
+    </modules>
 
 
 </project>
