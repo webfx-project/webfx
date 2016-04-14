@@ -25,7 +25,7 @@ hs_err_pid*
 .idea/tasks.xml
 .idea/dictionaries
 
-.idea/libraries
+.idea/libraries/
 
 
 ## File-based project format:
@@ -100,3 +100,11 @@ node_modules/
 # Bower
 bower_components/
 
+### Codename One
+**/cn1/build/
+**/cn1/dist/README.txt
+**/cn1/lib/impl/
+**/cn1/native/
+**/naga-platform-cn1/cn1/src/
+**/mongoose-backend-cn1/cn1/dist/
+**/mongoose-backend-cn1/cn1/lib/*.cn1lib
