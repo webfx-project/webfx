@@ -67,9 +67,9 @@ abstract public class VirtualMachineError extends Error {
      *         unknown.)
      * @since  1.8
      */
-    public VirtualMachineError(String message, Throwable cause) {
+    /* CN1 public VirtualMachineError(String message, Throwable cause) {
         super(message, cause);
-    }
+    }*/
 
     /**
      * Constructs an a {@code VirtualMachineError} with the specified
@@ -83,7 +83,7 @@ abstract public class VirtualMachineError extends Error {
      *         unknown.)
      * @since  1.8
      */
-    public VirtualMachineError(Throwable cause) {
+    /* CN1 public VirtualMachineError(Throwable cause) {
         super(cause);
-    }
+    }*/
 }

@@ -35,6 +35,8 @@
 
 package javaemul.util.concurrent;
 
+//import java.util.concurrent.BlockingQueue;
+
 /**
  * A {@code TimeUnit} represents time durations at a given unit of
  * granularity and provides utility methods to convert across units,
@@ -49,8 +51,7 @@ package javaemul.util.concurrent;
  *
  * <p>A {@code TimeUnit} is mainly used to inform time-based methods
  * how a given timing parameter should be interpreted. For example,
- * the following code will timeout in 50 milliseconds if the {@link
- * java.util.concurrent.locks.Lock lock} is not available:
+ * the following code will timeout in 50 milliseconds if the lock} is not available:
  *
  *  <pre> {@code
  * Lock lock = ...;
@@ -74,42 +75,42 @@ public enum TimeUnit {
      */
     NANOSECONDS {
         public long toNanos(long d)   { return d; }
-        public long toMicros(long d)  { return d/(C1/C0); }
-        public long toMillis(long d)  { return d/(C2/C0); }
-        public long toSeconds(long d) { return d/(C3/C0); }
-        public long toMinutes(long d) { return d/(C4/C0); }
-        public long toHours(long d)   { return d/(C5/C0); }
-        public long toDays(long d)    { return d/(C6/C0); }
+        public long toMicros(long d)  { return d/(TimeUnit.C1/ TimeUnit.C0); }
+        public long toMillis(long d)  { return d/(TimeUnit.C2/ TimeUnit.C0); }
+        public long toSeconds(long d) { return d/(TimeUnit.C3/ TimeUnit.C0); }
+        public long toMinutes(long d) { return d/(TimeUnit.C4/ TimeUnit.C0); }
+        public long toHours(long d)   { return d/(TimeUnit.C5/ TimeUnit.C0); }
+        public long toDays(long d)    { return d/(TimeUnit.C6/ TimeUnit.C0); }
         public long convert(long d, TimeUnit u) { return u.toNanos(d); }
-        int excessNanos(long d, long m) { return (int)(d - (m*C2)); }
+        int excessNanos(long d, long m) { return (int)(d - (m* TimeUnit.C2)); }
     },
 
     /**
      * Time unit representing one thousandth of a millisecond
      */
     MICROSECONDS {
-        public long toNanos(long d)   { return x(d, C1/C0, MAX/(C1/C0)); }
+        public long toNanos(long d)   { return TimeUnit.x(d, TimeUnit.C1/ TimeUnit.C0, TimeUnit.MAX/(TimeUnit.C1/ TimeUnit.C0)); }
         public long toMicros(long d)  { return d; }
-        public long toMillis(long d)  { return d/(C2/C1); }
-        public long toSeconds(long d) { return d/(C3/C1); }
-        public long toMinutes(long d) { return d/(C4/C1); }
-        public long toHours(long d)   { return d/(C5/C1); }
-        public long toDays(long d)    { return d/(C6/C1); }
+        public long toMillis(long d)  { return d/(TimeUnit.C2/ TimeUnit.C1); }
+        public long toSeconds(long d) { return d/(TimeUnit.C3/ TimeUnit.C1); }
+        public long toMinutes(long d) { return d/(TimeUnit.C4/ TimeUnit.C1); }
+        public long toHours(long d)   { return d/(TimeUnit.C5/ TimeUnit.C1); }
+        public long toDays(long d)    { return d/(TimeUnit.C6/ TimeUnit.C1); }
         public long convert(long d, TimeUnit u) { return u.toMicros(d); }
-        int excessNanos(long d, long m) { return (int)((d*C1) - (m*C2)); }
+        int excessNanos(long d, long m) { return (int)((d* TimeUnit.C1) - (m* TimeUnit.C2)); }
     },
 
     /**
      * Time unit representing one thousandth of a second
      */
     MILLISECONDS {
-        public long toNanos(long d)   { return x(d, C2/C0, MAX/(C2/C0)); }
-        public long toMicros(long d)  { return x(d, C2/C1, MAX/(C2/C1)); }
+        public long toNanos(long d)   { return TimeUnit.x(d, TimeUnit.C2/ TimeUnit.C0, TimeUnit.MAX/(TimeUnit.C2/ TimeUnit.C0)); }
+        public long toMicros(long d)  { return TimeUnit.x(d, TimeUnit.C2/ TimeUnit.C1, TimeUnit.MAX/(TimeUnit.C2/ TimeUnit.C1)); }
         public long toMillis(long d)  { return d; }
-        public long toSeconds(long d) { return d/(C3/C2); }
-        public long toMinutes(long d) { return d/(C4/C2); }
-        public long toHours(long d)   { return d/(C5/C2); }
-        public long toDays(long d)    { return d/(C6/C2); }
+        public long toSeconds(long d) { return d/(TimeUnit.C3/ TimeUnit.C2); }
+        public long toMinutes(long d) { return d/(TimeUnit.C4/ TimeUnit.C2); }
+        public long toHours(long d)   { return d/(TimeUnit.C5/ TimeUnit.C2); }
+        public long toDays(long d)    { return d/(TimeUnit.C6/ TimeUnit.C2); }
         public long convert(long d, TimeUnit u) { return u.toMillis(d); }
         int excessNanos(long d, long m) { return 0; }
     },
@@ -118,13 +119,13 @@ public enum TimeUnit {
      * Time unit representing one second
      */
     SECONDS {
-        public long toNanos(long d)   { return x(d, C3/C0, MAX/(C3/C0)); }
-        public long toMicros(long d)  { return x(d, C3/C1, MAX/(C3/C1)); }
-        public long toMillis(long d)  { return x(d, C3/C2, MAX/(C3/C2)); }
+        public long toNanos(long d)   { return TimeUnit.x(d, TimeUnit.C3/ TimeUnit.C0, TimeUnit.MAX/(TimeUnit.C3/ TimeUnit.C0)); }
+        public long toMicros(long d)  { return TimeUnit.x(d, TimeUnit.C3/ TimeUnit.C1, TimeUnit.MAX/(TimeUnit.C3/ TimeUnit.C1)); }
+        public long toMillis(long d)  { return TimeUnit.x(d, TimeUnit.C3/ TimeUnit.C2, TimeUnit.MAX/(TimeUnit.C3/ TimeUnit.C2)); }
         public long toSeconds(long d) { return d; }
-        public long toMinutes(long d) { return d/(C4/C3); }
-        public long toHours(long d)   { return d/(C5/C3); }
-        public long toDays(long d)    { return d/(C6/C3); }
+        public long toMinutes(long d) { return d/(TimeUnit.C4/ TimeUnit.C3); }
+        public long toHours(long d)   { return d/(TimeUnit.C5/ TimeUnit.C3); }
+        public long toDays(long d)    { return d/(TimeUnit.C6/ TimeUnit.C3); }
         public long convert(long d, TimeUnit u) { return u.toSeconds(d); }
         int excessNanos(long d, long m) { return 0; }
     },
@@ -133,13 +134,13 @@ public enum TimeUnit {
      * Time unit representing sixty seconds
      */
     MINUTES {
-        public long toNanos(long d)   { return x(d, C4/C0, MAX/(C4/C0)); }
-        public long toMicros(long d)  { return x(d, C4/C1, MAX/(C4/C1)); }
-        public long toMillis(long d)  { return x(d, C4/C2, MAX/(C4/C2)); }
-        public long toSeconds(long d) { return x(d, C4/C3, MAX/(C4/C3)); }
+        public long toNanos(long d)   { return TimeUnit.x(d, TimeUnit.C4/ TimeUnit.C0, TimeUnit.MAX/(TimeUnit.C4/ TimeUnit.C0)); }
+        public long toMicros(long d)  { return TimeUnit.x(d, TimeUnit.C4/ TimeUnit.C1, TimeUnit.MAX/(TimeUnit.C4/ TimeUnit.C1)); }
+        public long toMillis(long d)  { return TimeUnit.x(d, TimeUnit.C4/ TimeUnit.C2, TimeUnit.MAX/(TimeUnit.C4/ TimeUnit.C2)); }
+        public long toSeconds(long d) { return TimeUnit.x(d, TimeUnit.C4/ TimeUnit.C3, TimeUnit.MAX/(TimeUnit.C4/ TimeUnit.C3)); }
         public long toMinutes(long d) { return d; }
-        public long toHours(long d)   { return d/(C5/C4); }
-        public long toDays(long d)    { return d/(C6/C4); }
+        public long toHours(long d)   { return d/(TimeUnit.C5/ TimeUnit.C4); }
+        public long toDays(long d)    { return d/(TimeUnit.C6/ TimeUnit.C4); }
         public long convert(long d, TimeUnit u) { return u.toMinutes(d); }
         int excessNanos(long d, long m) { return 0; }
     },
@@ -148,13 +149,13 @@ public enum TimeUnit {
      * Time unit representing sixty minutes
      */
     HOURS {
-        public long toNanos(long d)   { return x(d, C5/C0, MAX/(C5/C0)); }
-        public long toMicros(long d)  { return x(d, C5/C1, MAX/(C5/C1)); }
-        public long toMillis(long d)  { return x(d, C5/C2, MAX/(C5/C2)); }
-        public long toSeconds(long d) { return x(d, C5/C3, MAX/(C5/C3)); }
-        public long toMinutes(long d) { return x(d, C5/C4, MAX/(C5/C4)); }
+        public long toNanos(long d)   { return TimeUnit.x(d, TimeUnit.C5/ TimeUnit.C0, TimeUnit.MAX/(TimeUnit.C5/ TimeUnit.C0)); }
+        public long toMicros(long d)  { return TimeUnit.x(d, TimeUnit.C5/ TimeUnit.C1, TimeUnit.MAX/(TimeUnit.C5/ TimeUnit.C1)); }
+        public long toMillis(long d)  { return TimeUnit.x(d, TimeUnit.C5/ TimeUnit.C2, TimeUnit.MAX/(TimeUnit.C5/ TimeUnit.C2)); }
+        public long toSeconds(long d) { return TimeUnit.x(d, TimeUnit.C5/ TimeUnit.C3, TimeUnit.MAX/(TimeUnit.C5/ TimeUnit.C3)); }
+        public long toMinutes(long d) { return TimeUnit.x(d, TimeUnit.C5/ TimeUnit.C4, TimeUnit.MAX/(TimeUnit.C5/ TimeUnit.C4)); }
         public long toHours(long d)   { return d; }
-        public long toDays(long d)    { return d/(C6/C5); }
+        public long toDays(long d)    { return d/(TimeUnit.C6/ TimeUnit.C5); }
         public long convert(long d, TimeUnit u) { return u.toHours(d); }
         int excessNanos(long d, long m) { return 0; }
     },
@@ -163,12 +164,12 @@ public enum TimeUnit {
      * Time unit representing twenty four hours
      */
     DAYS {
-        public long toNanos(long d)   { return x(d, C6/C0, MAX/(C6/C0)); }
-        public long toMicros(long d)  { return x(d, C6/C1, MAX/(C6/C1)); }
-        public long toMillis(long d)  { return x(d, C6/C2, MAX/(C6/C2)); }
-        public long toSeconds(long d) { return x(d, C6/C3, MAX/(C6/C3)); }
-        public long toMinutes(long d) { return x(d, C6/C4, MAX/(C6/C4)); }
-        public long toHours(long d)   { return x(d, C6/C5, MAX/(C6/C5)); }
+        public long toNanos(long d)   { return TimeUnit.x(d, TimeUnit.C6/ TimeUnit.C0, TimeUnit.MAX/(TimeUnit.C6/ TimeUnit.C0)); }
+        public long toMicros(long d)  { return TimeUnit.x(d, TimeUnit.C6/ TimeUnit.C1, TimeUnit.MAX/(TimeUnit.C6/ TimeUnit.C1)); }
+        public long toMillis(long d)  { return TimeUnit.x(d, TimeUnit.C6/ TimeUnit.C2, TimeUnit.MAX/(TimeUnit.C6/ TimeUnit.C2)); }
+        public long toSeconds(long d) { return TimeUnit.x(d, TimeUnit.C6/ TimeUnit.C3, TimeUnit.MAX/(TimeUnit.C6/ TimeUnit.C3)); }
+        public long toMinutes(long d) { return TimeUnit.x(d, TimeUnit.C6/ TimeUnit.C4, TimeUnit.MAX/(TimeUnit.C6/ TimeUnit.C4)); }
+        public long toHours(long d)   { return TimeUnit.x(d, TimeUnit.C6/ TimeUnit.C5, TimeUnit.MAX/(TimeUnit.C6/ TimeUnit.C5)); }
         public long toDays(long d)    { return d; }
         public long convert(long d, TimeUnit u) { return u.toDays(d); }
         int excessNanos(long d, long m) { return 0; }
@@ -307,7 +308,7 @@ public enum TimeUnit {
      * into the form required by the {@code Object.wait} method.
      *
      * <p>For example, you could implement a blocking {@code poll}
-     * method (see {@link BlockingQueue#poll BlockingQueue.poll})
+     * method (see  BlockingQueue.poll)
      * using:
      *
      *  <pre> {@code

@@ -46,10 +46,6 @@ package javaemul.util.concurrent;
  * {@code Runnable}, however, does not return a result and cannot
  * throw a checked exception.
  *
- * <p>The {@link Executors} class contains utility methods to
- * convert from other common forms to {@code Callable} classes.
- *
- * @see Executor
  * @since 1.5
  * @author Doug Lea
  * @param <V> the result type of method {@code call}

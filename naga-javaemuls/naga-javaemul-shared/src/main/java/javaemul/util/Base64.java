@@ -25,12 +25,12 @@
 
 package javaemul.util;
 
-import java.io.FilterOutputStream;
+//import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
+//import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -264,8 +264,15 @@ public class Base64 {
             byte[] dst = new byte[len];
             int ret = encode0(src, 0, src.length, dst);
             if (ret != dst.length)
-                return Arrays.copyOf(dst, ret);
+                return copyOf(dst, ret);
             return dst;
+        }
+
+        public static byte[] copyOf(byte[] original, int newLength) { // Copied from Array.copyOf() since not supported by Codenameone
+            byte[] copy = new byte[newLength];
+            System.arraycopy(original, 0, copy, 0,
+                    Math.min(original.length, newLength));
+            return copy;
         }
 
         /**
@@ -364,7 +371,7 @@ public class Base64 {
                 ret = encode0(src, 0, src.length, dst);
             }
             if (ret != dst.length)
-                dst = Arrays.copyOf(dst, ret);
+                dst = copyOf(dst, ret);
             return ByteBuffer.wrap(dst);
         }
 
@@ -382,11 +389,11 @@ public class Base64 {
          * @return  the output stream for encoding the byte data into the
          *          specified Base64 encoded format
          */
-        public OutputStream wrap(OutputStream os) {
+        /* public OutputStream wrap(OutputStream os) {
             Objects.requireNonNull(os);
             return new EncOutputStream(os, isURL ? toBase64URL : toBase64,
                     newline, linemax, doPadding);
-        }
+        }*/
 
         /**
          * Returns an encoder instance that encodes equivalently to this one,
@@ -543,9 +550,16 @@ public class Base64 {
             byte[] dst = new byte[outLength(src, 0, src.length)];
             int ret = decode0(src, 0, src.length, dst);
             if (ret != dst.length) {
-                dst = Arrays.copyOf(dst, ret);
+                dst = copyOf(dst, ret);
             }
             return dst;
+        }
+
+        public static byte[] copyOf(byte[] original, int newLength) {
+            byte[] copy = new byte[newLength];
+            System.arraycopy(original, 0, copy, 0,
+                    Math.min(original.length, newLength));
+            return copy;
         }
 
         /**
@@ -564,7 +578,11 @@ public class Base64 {
          *          if {@code src} is not in valid Base64 scheme
          */
         public byte[] decode(String src) {
-            return decode(src.getBytes(Charset.forName("UTF-8"))); // Code changed to fix a TeaVM compilation error
+            try {
+                return decode(src.getBytes("UTF-8")); // Code changed to fix a TeaVM compilation error
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException();
+            }
         }
 
         /**
@@ -767,7 +785,7 @@ public class Base64 {
     /*
      * An output stream for encoding bytes into the Base64.
      */
-    private static class EncOutputStream extends FilterOutputStream {
+    /* private static class EncOutputStream extends FilterOutputStream { // FilterOutputStream is not supported by Codenameone
 
         private int leftover = 0;
         private int b0, b1, b2;
@@ -874,7 +892,7 @@ public class Base64 {
                 out.close();
             }
         }
-    }
+    } */
 
     /*
      * An input stream for decoding Base64 bytes

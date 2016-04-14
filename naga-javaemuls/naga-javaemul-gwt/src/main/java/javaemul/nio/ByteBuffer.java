@@ -200,12 +200,16 @@ public abstract class ByteBuffer extends Buffer implements Comparable<ByteBuffer
         int a = position + start;
         int b = other.position + other.start;
         for (int i = 0; i < sz; ++i) {
-            int r = Byte.compare(array[a++], other.array[b++]);
+            byte x = array[a++];
+            byte y = other.array[b++];
+            int r = x - y;
             if (r != 0) {
                 return r;
             }
         }
-        return Integer.compare(remaining(), other.remaining());
+        int x = remaining();
+        int y = other.remaining();
+        return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 
     public final ByteOrder order() {

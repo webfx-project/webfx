@@ -16,6 +16,9 @@
         <module>naga-javaemul-shared</module>
         <module>naga-javaemul-teavm</module>
         <module>naga-javaemul-gwt</module>
+        <module>naga-javaemul-cldc</module>
+        <module>naga-javaemul-gwt-cldc</module>
+        <module>naga-javaemul-teavm-gwt-cldc</module>
     </modules>
 
     <properties>

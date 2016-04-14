@@ -10,9 +10,21 @@ public class AtomicReferenceArray<E> implements java.io.Serializable {
         array = new Object[length];
     }
 
-    public AtomicReferenceArray(E[] array) {
-        this.array = Arrays.copyOf(array, array.length);
+    /* public AtomicReferenceArray(E[] array) {
+        this.array = copyOf(array, array.length);
     }
+    // CN1 Array.copyOf()
+    public static <T> T[] copyOf(T[] original, int newLength) {
+        Class<? extends Object[]> newType = original.getClass();
+        @SuppressWarnings("unchecked")
+        Object[] copy = ((Object)newType == (Object)Object[].class)
+            ? (Object[]) new Object[newLength]
+            : (Object[]) Array.newInstance(newType.getComponentType(), newLength);
+        System.arraycopy(original, 0, copy, 0,
+                         Math.min(original.length, newLength));
+        return (T[]) copy;
+    } */
+
 
     public final int length() {
         return array.length;

@@ -205,12 +205,16 @@ public abstract class IntBuffer extends Buffer implements Comparable<IntBuffer> 
         int a = position;
         int b = other.position;
         for (int i = 0; i < sz; ++i) {
-            int r = Integer.compare(getElement(a++), other.getElement(b++));
+            int x = getElement(a++);
+            int y = other.getElement(b++);
+            int r = (x < y) ? -1 : ((x == y) ? 0 : 1);
             if (r != 0) {
                 return r;
             }
         }
-        return Integer.compare(remaining(), other.remaining());
+        int x = remaining();
+        int y = other.remaining();
+        return (x < y) ? -1 : ((x == y) ? 0 : 1);
     }
 
     public abstract ByteOrder order();
