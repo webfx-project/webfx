@@ -18,9 +18,7 @@ package rx.exceptions;
 import rx.Observer;
 import rx.annotations.Experimental;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Utility class with methods to wrap checked exceptions and
@@ -53,7 +51,7 @@ public final class Exceptions {
         } else if (t instanceof Error) {
             throw (Error) t;
         } else {
-            throw new RuntimeException(t);
+            throw new RuntimeException(t.getMessage()); // J2ME CLDC new RuntimeException(t);
         }
     }
     /**
@@ -106,6 +104,7 @@ public final class Exceptions {
      *         the {@code Throwable} you want to add as a cause of the chain
      */
     public static void addCause(Throwable e, Throwable cause) {
+        /* J2ME CLDC
         Set<Throwable> seenCauses = new HashSet<Throwable>();
 
         int i = 0;
@@ -128,7 +127,7 @@ public final class Exceptions {
             // ignore
             // the javadocs say that some Throwables (depending on how they're made) will never
             // let me call initCause without blowing up even if it returns null
-        }
+        } */
     }
 
     /**
@@ -140,14 +139,14 @@ public final class Exceptions {
      *         final cause" {@code RuntimeException} if the chain is too long to traverse)
      */
     public static Throwable getFinalCause(Throwable e) {
-        int i = 0;
+        /* J2ME CLDC int i = 0;
         while (e.getCause() != null) {
             if (i++ >= MAX_DEPTH) {
                 // stack too deep to get final cause
                 return new RuntimeException("Stack too deep to get final cause");
             }
             e = e.getCause();
-        }
+        }*/
         return e;
     }
     /**
@@ -169,7 +168,7 @@ public final class Exceptions {
                 } else if (t instanceof Error) {
                     throw (Error) t;
                 } else {
-                    throw new RuntimeException(t);
+                    throw new RuntimeException(t.getMessage()); // J2ME CLDC new RuntimeException(t);
                 }
             }
             throw new CompositeException(

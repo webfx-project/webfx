@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.Future;
+//import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 //import rx.internal.producers.SingleProducer;
@@ -1520,7 +1520,7 @@ public class Observable<T> {
      * To convert any object into an Observable that emits that object, pass that object into the {@code just}
      * method.
      * <p>
-     * This is similar to the {@link #from(java.lang.Object[])} method, except that {@code from} will convert
+     * This is similar to the {@link #from(Object[])} method, except that {@code from} will convert
      * an {@link Iterable} object into an Observable that emits each of the items in the Iterable, one at a
      * time, while the {@code just} method converts an Iterable into an Observable that emits the entire
      * Iterable as a single item.
@@ -3763,7 +3763,7 @@ public class Observable<T> {
      *            the boundary Observable
      * @return an Observable that emits buffered items from the source Observable when the boundary Observable
      *         emits an item
-     * @see #buffer(rx.Observable, int)
+     * @see #buffer(Observable, int)
      * @see <a href="http://reactivex.io/documentation/operators/buffer.html">ReactiveX operators documentation: Buffer</a>
      */
     /* public final <B> Observable<List<T>> buffer(Observable<B> boundary) {
@@ -3796,7 +3796,7 @@ public class Observable<T> {
      * @return an Observable that emits buffered items from the source Observable when the boundary Observable
      *         emits an item
      * @see <a href="http://reactivex.io/documentation/operators/buffer.html">ReactiveX operators documentation: Buffer</a>
-     * @see #buffer(rx.Observable, int)
+     * @see #buffer(Observable, int)
      */
     /* public final <B> Observable<List<T>> buffer(Observable<B> boundary, int initialCapacity) {
         return lift(new OperatorBufferWithSingleObservable<T, B>(boundary, initialCapacity));
@@ -6468,10 +6468,10 @@ public class Observable<T> {
 
     /**
      * Instructs an Observable to pass control to another Observable rather than invoking
-     * {@link Observer#onError onError} if it encounters an {@link java.lang.Exception}.
+     * {@link Observer#onError onError} if it encounters an {@link Exception}.
      * <p>
-     * This differs from {@link #onErrorResumeNext} in that this one does not handle {@link java.lang.Throwable}
-     * or {@link java.lang.Error} but lets those continue through.
+     * This differs from {@link #onErrorResumeNext} in that this one does not handle {@link Throwable}
+     * or {@link Error} but lets those continue through.
      * <p>
      * <img width="640" height="310" src="https://raw.github.com/wiki/ReactiveX/RxJava/images/rx-operators/onExceptionResumeNextViaObservable.png" alt="">
      * <p>
@@ -8493,7 +8493,7 @@ public class Observable<T> {
                 Exceptions.throwIfFatal(e2);
                 // if this happens it means the onError itself failed (perhaps an invalid function implementation)
                 // so we are unable to propagate the error correctly and will just throw
-                RuntimeException r = new RuntimeException("Error occurred attempting to subscribe [" + e.getMessage() + "] and then again while trying to pass to onError.", e2);
+                RuntimeException r = new RuntimeException("Error occurred attempting to subscribe [" + e.getMessage() + "] and then again while trying to pass to onError."); // J2ME CLDC , e2);
                 // TODO could the hook be the cause of the error in the on error handling.
                 hook.onSubscribeError(r);
                 // TODO why aren't we throwing the hook's return value.
@@ -8586,7 +8586,7 @@ public class Observable<T> {
                 Exceptions.throwIfFatal(e2);
                 // if this happens it means the onError itself failed (perhaps an invalid function implementation)
                 // so we are unable to propagate the error correctly and will just throw
-                RuntimeException r = new RuntimeException("Error occurred attempting to subscribe [" + e.getMessage() + "] and then again while trying to pass to onError.", e2);
+                RuntimeException r = new RuntimeException("Error occurred attempting to subscribe [" + e.getMessage() + "] and then again while trying to pass to onError."); // J2ME CLDC, e2);
                 // TODO could the hook be the cause of the error in the on error handling.
                 hook.onSubscribeError(r);
                 // TODO why aren't we throwing the hook's return value.

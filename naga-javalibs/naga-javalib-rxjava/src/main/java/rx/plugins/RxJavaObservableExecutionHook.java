@@ -56,7 +56,7 @@ public abstract class RxJavaObservableExecutionHook {
     }
 
     /**
-     * Invoked before {@link Observable#subscribe(rx.Subscriber)} is about to be executed.
+     * Invoked before {@link Observable#subscribe(Subscriber)} is about to be executed.
      * <p>
      * This can be used to decorate or replace the <code>onSubscribe</code> function or just perform extra
      * logging, metrics and other such things and pass-thru the function.
@@ -72,7 +72,7 @@ public abstract class RxJavaObservableExecutionHook {
     }
 
     /**
-     * Invoked after successful execution of {@link Observable#subscribe(rx.Subscriber)} with returned
+     * Invoked after successful execution of {@link Observable#subscribe(Subscriber)} with returned
      * {@link Subscription}.
      * <p>
      * This can be used to decorate or replace the {@link Subscription} instance or just perform extra logging,

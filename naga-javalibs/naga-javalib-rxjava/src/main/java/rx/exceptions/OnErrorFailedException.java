@@ -34,9 +34,9 @@ public class OnErrorFailedException extends RuntimeException {
      * @param e
      *          the {@code Throwable} to re-throw; if null, a NullPointerException is constructed
      */
-    public OnErrorFailedException(String message, Throwable e) {
+    /* J2ME CLDC public OnErrorFailedException(String message, Throwable e) {
         super(message, e != null ? e : new NullPointerException());
-    }
+    }*/
 
     /**
      * Wraps the {@code Throwable} before it is to be re-thrown as an {@code OnErrorFailedException}.
@@ -44,7 +44,7 @@ public class OnErrorFailedException extends RuntimeException {
      * @param e
      *          the {@code Throwable} to re-throw; if null, a NullPointerException is constructed
      */
-    public OnErrorFailedException(Throwable e) {
+    /* J2ME CLDC public OnErrorFailedException(Throwable e) {
         super(e != null ? e.getMessage() : null, e != null ? e : new NullPointerException());
-    }
+    }*/
 }

@@ -23,7 +23,6 @@ import rx.functions.Action1;
 import rx.internal.operators.NotificationLite;
 import rx.subjects.SubjectSubscriptionManager.SubjectObserver;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,7 +236,7 @@ public final class BehaviorSubject<T> extends Subject<T, T> {
      * @param a the array to fill in
      * @return the array {@code a} if it had enough capacity or a new array containing the available values 
      */
-    @Beta
+    /* J2ME CLDC @Beta
     @SuppressWarnings("unchecked")
     public T[] getValues(T[] a) {
         Object o = state.getLatest();
@@ -254,7 +253,7 @@ public final class BehaviorSubject<T> extends Subject<T, T> {
             a[0] = null;
         }
         return a;
-    }
+    }*/
     
     /** An empty array to trigger getValues() to return a new array. */
     private static final Object[] EMPTY_ARRAY = new Object[0];
@@ -266,7 +265,7 @@ public final class BehaviorSubject<T> extends Subject<T, T> {
      * @return a snapshot of the currently buffered non-terminal events.
      * @since (If this graduates from being an Experimental class method, replace this parenthetical with the release number)
      */
-    @SuppressWarnings("unchecked")
+    /* J2ME CLDC @SuppressWarnings("unchecked")
     @Beta
     public Object[] getValues() {
         T[] r = getValues((T[])EMPTY_ARRAY);
@@ -274,5 +273,5 @@ public final class BehaviorSubject<T> extends Subject<T, T> {
             return new Object[0]; // don't leak the default empty array.
         }
         return r;
-    }
+    }*/
 }

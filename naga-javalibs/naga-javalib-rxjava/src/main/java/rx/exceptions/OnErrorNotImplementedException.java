@@ -43,7 +43,7 @@ public class OnErrorNotImplementedException extends RuntimeException {
      *          the {@code Throwable} to re-throw; if null, a NullPointerException is constructed
      */
     public OnErrorNotImplementedException(String message, Throwable e) {
-        super(message, e != null ? e : new NullPointerException());
+        super(message); // J2ME CLDC super(message, e != null ? e : new NullPointerException());
     }
 
     /**
@@ -53,6 +53,6 @@ public class OnErrorNotImplementedException extends RuntimeException {
      *          the {@code Throwable} to re-throw; if null, a NullPointerException is constructed
      */
     public OnErrorNotImplementedException(Throwable e) {
-        super(e != null ? e.getMessage() : null, e != null ? e : new NullPointerException());
+        super(e != null ? e.getMessage() : null); // J2ME CLDC super(e != null ? e.getMessage() : null, e != null ? e : new NullPointerException());
     }
 }

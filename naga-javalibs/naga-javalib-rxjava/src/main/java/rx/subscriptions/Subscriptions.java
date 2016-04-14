@@ -18,7 +18,7 @@ package rx.subscriptions;
 import rx.Subscription;
 import rx.functions.Action0;
 
-import java.util.concurrent.Future;
+//import java.util.concurrent.Future;
 
 /**
  * Helper methods and utilities for creating and working with {@link Subscription} objects

@@ -35,13 +35,13 @@ public final class OnErrorThrowable extends RuntimeException {
     private final Object value;
 
     private OnErrorThrowable(Throwable exception) {
-        super(exception);
+        super(exception.getMessage()); // J2ME CLDC super(exception);
         hasValue = false;
         this.value = null;
     }
 
     private OnErrorThrowable(Throwable exception, Object value) {
-        super(exception);
+        super(exception.getMessage()); // J2ME CLDC super(exception);
         hasValue = true;
         this.value = value;
     }
@@ -77,7 +77,7 @@ public final class OnErrorThrowable extends RuntimeException {
             t = new NullPointerException();
         }
         Throwable cause = Exceptions.getFinalCause(t);
-        if (cause instanceof OnErrorThrowable.OnNextValue) {
+        if (cause instanceof OnNextValue) {
             return new OnErrorThrowable(t, ((OnNextValue) cause).getValue());
         }
         return new OnErrorThrowable(t);

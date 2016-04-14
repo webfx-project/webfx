@@ -55,11 +55,11 @@ public abstract class Scheduler {
     }
 
     /**
-     * Retrieves or creates a new {@link Scheduler.Worker} that represents serial execution of actions.
+     * Retrieves or creates a new {@link Worker} that represents serial execution of actions.
      * <p>
-     * When work is completed it should be unsubscribed using {@link Scheduler.Worker#unsubscribe()}.
+     * When work is completed it should be unsubscribed using {@link Worker#unsubscribe()}.
      * <p>
-     * Work on a {@link Scheduler.Worker} is guaranteed to be sequential.
+     * Work on a {@link Worker} is guaranteed to be sequential.
      *
      * @return a Worker representing a serial queue of actions to be executed
      */
@@ -85,7 +85,7 @@ public abstract class Scheduler {
          * Schedules an Action for execution at some point in the future.
          * <p>
          * Note to implementors: non-positive {@code delayTime} should be regarded as undelayed schedule, i.e.,
-         * as if the {@link #schedule(rx.functions.Action0)} was called.
+         * as if the {@link #schedule(Action0)} was called.
          *
          * @param action
          *            the Action to schedule

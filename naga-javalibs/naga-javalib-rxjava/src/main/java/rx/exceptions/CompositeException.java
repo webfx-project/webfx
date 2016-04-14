@@ -82,7 +82,7 @@ public final class CompositeException extends RuntimeException {
 
     private Throwable cause = null;
 
-    @Override
+    /* J2ME CLDC @Override
     public synchronized Throwable getCause() {
         if (cause == null) {
             // we lazily generate this causal chain if this is called
@@ -122,7 +122,7 @@ public final class CompositeException extends RuntimeException {
             cause = _cause;
         }
         return cause;
-    }
+    }*/
 
     /**
      * All of the following {@code printStackTrace} functionality is derived from JDK {@link Throwable}
@@ -134,15 +134,15 @@ public final class CompositeException extends RuntimeException {
      * <li>explicit knowledge about the exceptions {@link List} that this loops through</li>
      * </ul>
      */
-    @Override
+    /* J2ME CLDC @Override
     public void printStackTrace() {
         printStackTrace(System.err);
-    }
+    }*/
 
-    @Override
+    /* J2ME CLDC @Override
     public void printStackTrace(PrintStream s) {
         printStackTrace(new WrappedPrintStream(s));
-    }
+    } */
 
     /* NAGA @Override
     public void printStackTrace(PrintWriter s) {
@@ -156,7 +156,7 @@ public final class CompositeException extends RuntimeException {
      * @param s
      *            stream to print to
      */
-    private void printStackTrace(PrintStreamOrWriter s) {
+    /* J2ME CLDC private void printStackTrace(PrintStreamOrWriter s) {
         StringBuilder bldr = new StringBuilder();
         bldr.append(this).append("\n");
         for (StackTraceElement myStackElement : getStackTrace()) {
@@ -171,9 +171,9 @@ public final class CompositeException extends RuntimeException {
         synchronized (s.lock()) {
             s.println(bldr.toString());
         }
-    }
+    }*/
 
-    private void appendStackTrace(StringBuilder bldr, Throwable ex, String prefix) {
+    /* J2ME CLDC private void appendStackTrace(StringBuilder bldr, Throwable ex, String prefix) {
         bldr.append(prefix).append(ex).append("\n");
         for (StackTraceElement stackElement : ex.getStackTrace()) {
             bldr.append("\t\tat ").append(stackElement).append("\n");
@@ -182,7 +182,7 @@ public final class CompositeException extends RuntimeException {
             bldr.append("\tCaused by: ");
             appendStackTrace(bldr, ex.getCause(), "");
         }
-    }
+    }*/
 
     private abstract static class PrintStreamOrWriter {
         /** Returns the object to be locked when using this StreamOrWriter */
@@ -241,7 +241,7 @@ public final class CompositeException extends RuntimeException {
         }
     }
 
-    private List<Throwable> getListOfCauses(Throwable ex) {
+    /* J2ME CLDC private List<Throwable> getListOfCauses(Throwable ex) {
         List<Throwable> list = new ArrayList<Throwable>();
         Throwable root = ex.getCause();
         if (root == null) {
@@ -256,5 +256,5 @@ public final class CompositeException extends RuntimeException {
                 }
             }
         }
-    }
+    }*/
 }

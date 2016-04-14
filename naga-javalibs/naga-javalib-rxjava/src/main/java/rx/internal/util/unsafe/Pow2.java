@@ -29,8 +29,22 @@ public final class Pow2 {
      * @return the next positive power of 2 or this value if it is a power of 2.
      */
     public static int roundToPowerOfTwo(final int value) {
-        return 1 << (32 - Integer.numberOfLeadingZeros(value - 1));
+        return 1 << (32 - numberOfLeadingZeros(value - 1));
     }
+
+    public static int numberOfLeadingZeros(int i) { // From Integer.numberOfLeadingZeros() for J2ME CLDC
+        // HD, Figure 5-6
+        if (i == 0)
+            return 32;
+        int n = 1;
+        if (i >>> 16 == 0) { n += 16; i <<= 16; }
+        if (i >>> 24 == 0) { n +=  8; i <<=  8; }
+        if (i >>> 28 == 0) { n +=  4; i <<=  4; }
+        if (i >>> 30 == 0) { n +=  2; i <<=  2; }
+        n -= i >>> 31;
+        return n;
+    }
+
 
     /**
      * Is this value a power of two.
