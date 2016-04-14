@@ -3,20 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>naga</artifactId>
+        <artifactId>naga-guis</artifactId>
         <groupId>naga</groupId>
         <version>0.1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-guis</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>naga-gui-swing</artifactId>
 
-    <modules>
-        <module>naga-gui-javafx</module>
-        <module>naga-gui-jfoenix</module>
-        <module>naga-gui-swing</module>
-        <module>naga-gui-gwtmaterial</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <artifactId>naga-platform-jre</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
