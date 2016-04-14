@@ -16,7 +16,7 @@
         <module>naga-core</module>
         <module>naga-javaemuls</module>
         <module>naga-platforms</module>
-        <module>naga-guis</module>
+        <module>naga-gui-toolkits</module>
 
         <module>mongoose</module>
 
@@ -60,7 +60,7 @@
         <plugin.download.version>1.2.1</plugin.download.version>
 
         <!-- external tools versions -->
-        <tool.j2objc.version>1.0.0</tool.j2objc.version>
+        <tool.j2objc.version>1.0.2</tool.j2objc.version>
 
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
         <plugin.jar.param.addMavenDescriptor>true</plugin.jar.param.addMavenDescriptor>
