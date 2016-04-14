@@ -43,6 +43,7 @@
     </profiles>
     <modules>
         <module>mongoose-backend-swing</module>
+        <module>mongoose-backend-cn1</module>
     </modules>
 
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>mongoose-backend</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>mongoose-backend-cn1</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>naga-platform-cn1</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <scope>provided</scope> <!-- not included in the fat jar -->
+        </dependency>
+
+        <dependency>
+            <artifactId>mongoose-logic</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <plugins>
+
+            <!-- Creating a fat jar that contains all mongoose-logic classes and resources (the domain model) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <createSourcesJar>true</createSourcesJar>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- providing all cn1lib files required for the CN1 project (in subdirectory cn1) -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <!-- Copying cn1lib dependencies from the naga-platform-cn1 module -->
+                                <copy todir="${project.basedir}/cn1/lib/">
+                                    <!-- Copying the resulting cn1 artifact (naga-platform-cn1.cn1lib) from the dist directory -->
+                                    <fileset dir="${project.basedir}/../../../naga-platforms/naga-platform-cn1/cn1/dist/" includes="*.cn1lib"/>
+                                    <!-- Copying the dependant library (cn1-websockets.cn1lib) from the lib directory -->
+                                    <fileset dir="${project.basedir}/../../../naga-platforms/naga-platform-cn1/cn1/lib/" includes="*.cn1lib"/>
+                                </copy>
+                                <!-- Crating the cn1lib file for this module by renaming the fat jar to main.zip and embedding it into the cn1lib file -->
+                                <!-- Also the domain model resource file needs to be renamed and moved to the root level because CN1 doesn't support nested levels -->
+                                <!-- Creating the temporary main.zip file -->
+                                <zip destfile="${project.build.directory}/main.zip">
+                                    <!-- Putting all classes (not the domain model) of the fat jar into it -->
+                                    <zipfileset src="${project.build.directory}/${project.artifactId}-${project.version}-fat.jar" includes="**/*.class"/>
+                                    <!-- Putting the domain model file into it at root level -->
+                                    <mappedresources>
+                                        <zipfileset src="${project.build.directory}/${project.artifactId}-${project.version}-fat.jar" includes="**/*.lzb64json"/>
+                                        <globmapper from="*" to="mongoose_domainmodel_DomainModelSnapshot.lzb64json"/>
+                                    </mappedresources>
+                                </zip>
+                                <!-- Embedding the main.zip file into the final cn1lib file located in CN1 project -->
+                                <zip destfile="${project.basedir}/cn1/lib/${project.artifactId}.cn1lib">
+                                    <fileset dir="${project.build.directory}" includes="main.zip"/>
+                                </zip>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
