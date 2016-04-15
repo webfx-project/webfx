@@ -69,6 +69,7 @@
         <plugin.dependency.param.unpack-classes.includes>**</plugin.dependency.param.unpack-classes.includes>
         <plugin.dependency.param.copy-libs.phase>validate</plugin.dependency.param.copy-libs.phase>
         <plugin.shade.param.fat.phase>package</plugin.shade.param.fat.phase>
+        <plugin.antrun.param.j2objc.phase>compile</plugin.antrun.param.j2objc.phase>
         <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.teavm.minifying>true</plugin.teavm.minifying>
@@ -690,7 +691,11 @@
                     <version>${plugin.antrun.version}</version>
                     <executions>
                         <execution>
-                            <phase>compile</phase>
+                            <id>j2objc</id>
+                            <phase>${plugin.antrun.param.j2objc.phase}</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
                             <configuration>
                                 <target>
                                     <apply executable="java" dir="${project.basedir}" failonerror="true">
@@ -709,9 +714,6 @@
                                     </apply>
                                 </target>
                             </configuration>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
                         </execution>
                     </executions>
                 </plugin>

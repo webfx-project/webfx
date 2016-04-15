@@ -89,6 +89,8 @@
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+        <!-- deactivating j2objc task in default parent pom antrun configuration -->
+        <plugin.antrun.param.j2objc.phase>none</plugin.antrun.param.j2objc.phase>
     </properties>
 
     <build>
@@ -99,7 +101,7 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- Calling Shade with the configuration defined in the parent pom -->
+            <!-- Creating a fat jar with sources (this module + all dependencies) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
@@ -118,6 +120,7 @@
                 </executions>
             </plugin>
 
+            <!-- Providing all sources for the CN1 project by unpacking them in the src folder -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -142,8 +145,56 @@
                             </artifactItems>
                             <includes>**/*.java</includes>
                             <outputDirectory>${project.basedir}/cn1/src</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>true</overWriteSnapshots>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Next steps are manuals... -->
+            <!-- 1) Add an emul package in the CN1 project sources -->
+            <!-- 2) Use IDEA to refactor the java package and move it under the emul package (otherwise it will be ignored by the CN1 build server) -->
+            <!-- 3) Open the CN1 project and compile the library, this will produce/update the dist/naga-platform-cn1.cn1lib file -->
+
+            <!-- Now assuming the above is done, let's make an artifact with cn1lib classifier that will include the cn1 libraries (this one + the websocket) -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy toDir="${project.build.outputDirectory}">
+                                    <fileset dir="${project.basedir}/cn1/dist">
+                                        <include name="*.cn1lib"/>
+                                    </fileset>
+                                    <fileset dir="${project.basedir}/cn1/lib">
+                                        <include name="*.cn1lib"/>
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Making the cn1lib artifact (cn1lib classifier) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>cn1lib</classifier>
+                            <includes>
+                                <include>*.cn1lib</include>
+                            </includes>
                         </configuration>
                     </execution>
                 </executions>

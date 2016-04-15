@@ -29,6 +29,11 @@
 
     </dependencies>
 
+    <properties>
+        <!-- deactivating j2objc task in default parent pom antrun configuration -->
+        <plugin.antrun.param.j2objc.phase>none</plugin.antrun.param.j2objc.phase>
+    </properties>
+
     <build>
 
         <plugins>
@@ -52,22 +57,47 @@
                 </executions>
             </plugin>
 
-            <!-- providing all cn1lib files required for the CN1 project (in subdirectory cn1) -->
+            <!-- Providing the 2 naga-platform-cn1 cn1lib files for the CN1 project (in subdirectory cn1) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <artifactId>naga-platform-cn1</artifactId>
+                                    <groupId>${naga.groupId}</groupId>
+                                    <version>${naga.version}</version>
+                                    <classifier>cn1lib</classifier>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>*.cn1lib</includes>
+                            <outputDirectory>${project.basedir}/cn1/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Also providing the cn1lib file for this module -->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                         <configuration>
-                            <tasks>
-                                <!-- Copying cn1lib dependencies from the naga-platform-cn1 module -->
-                                <copy todir="${project.basedir}/cn1/lib/">
-                                    <!-- Copying the resulting cn1 artifact (naga-platform-cn1.cn1lib) from the dist directory -->
-                                    <fileset dir="${project.basedir}/../../../naga-platforms/naga-platform-cn1/cn1/dist/" includes="*.cn1lib"/>
-                                    <!-- Copying the dependant library (cn1-websockets.cn1lib) from the lib directory -->
-                                    <fileset dir="${project.basedir}/../../../naga-platforms/naga-platform-cn1/cn1/lib/" includes="*.cn1lib"/>
-                                </copy>
-                                <!-- Crating the cn1lib file for this module by renaming the fat jar to main.zip and embedding it into the cn1lib file -->
+                            <target>
+                                <!-- Creating the cn1lib file for this module by renaming the fat jar to main.zip and embedding it into the cn1lib file -->
                                 <!-- Also the domain model resource file needs to be renamed and moved to the root level because CN1 doesn't support nested levels -->
                                 <!-- Creating the temporary main.zip file -->
                                 <zip destfile="${project.build.directory}/main.zip">
@@ -83,11 +113,29 @@
                                 <zip destfile="${project.basedir}/cn1/lib/${project.artifactId}.cn1lib">
                                     <fileset dir="${project.build.directory}" includes="main.zip"/>
                                 </zip>
-                            </tasks>
+                            </target>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Making the cn1lib artifact (cn1lib classifier) with the 3 cn1lib files (1 for this module + 2 from naga-platform-cn1) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <classifier>cn1lib</classifier>
+                            <classesDirectory>${project.basedir}/cn1/lib</classesDirectory>
+                            <includes>
+                                <include>*.cn1lib</include>
+                            </includes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
