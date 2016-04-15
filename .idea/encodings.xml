@@ -27,11 +27,11 @@
     <file url="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-logic" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-teavm" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-guis" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-guis/naga-gui-gwtmaterial" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-guis/naga-gui-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-guis/naga-gui-jfoenix" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-guis/naga-gui-swing" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-gui-toolkits" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-gwtmaterial" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-jfoenix" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-swing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt" charset="UTF-8" />
@@ -43,7 +43,7 @@
     <file url="file://$PROJECT_DIR$/naga-javalibs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafxproperties" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafxbindings" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java" charset="UTF-8" />

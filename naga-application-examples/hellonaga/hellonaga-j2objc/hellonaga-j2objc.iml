@@ -14,5 +14,8 @@
     <orderEntry type="module" module-name="hellonaga-logic" />
     <orderEntry type="module" module-name="naga-platform-j2objc" />
     <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
+    <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
+    <orderEntry type="module" module-name="naga-javalib-rxjava" />
   </component>
 </module>

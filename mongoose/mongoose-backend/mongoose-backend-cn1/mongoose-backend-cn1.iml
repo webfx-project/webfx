@@ -13,7 +13,7 @@
     <orderEntry type="module" module-name="naga-core" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-javalib-javafxproperties" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-javalib-javafxbindings" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javaemul-cldc" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javaemul-gwt-cldc" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javaemul-teavm-gwt-cldc" scope="PROVIDED" />
