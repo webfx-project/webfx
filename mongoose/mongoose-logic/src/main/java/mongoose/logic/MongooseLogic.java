@@ -1,17 +1,14 @@
 package mongoose.logic;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
+import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiRouter;
 import naga.core.ngui.routing.UiState;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.orm.filter.StringFilterBuilder;
-import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.nodes.BorderPane;
-import naga.core.spi.gui.nodes.SearchBox;
-import naga.core.spi.gui.nodes.Table;
-import naga.core.spi.gui.nodes.ToggleSwitch;
+import naga.core.spi.gui.nodes.*;
 
 /**
  * @author Bruno Salmon
@@ -30,26 +27,32 @@ public class MongooseLogic {
     }
 
     private static void buildOrganizationsUi(UiState uiState) {
-        // Building the UI components (involved in the reactive filter)
+        // Building the UI components
         GuiToolkit toolkit = GuiToolkit.get();
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         searchBox.setPlaceholder("Enter your centre name to narrow the list");
         Table table = toolkit.createNode(Table.class);
-        ToggleSwitch limitSwitch = toolkit.createNode(ToggleSwitch.class);
-        limitSwitch.setText("Limit to 100");
-        limitSwitch.setSelected(true);
+        CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
+        limitCheckBox.setText("Limit to 100");
 
-        // Displaying the UI (Showing the first window can take a few seconds)
+        // Displaying the UI
         toolkit.displayRootNode(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
-                .setBottom(limitSwitch));
+                .setBottom(limitCheckBox));
         // Requesting the focus on the search box
         searchBox.requestFocus();
 
+        // Initializing the UI state from the presentation model current state
         OrganizationsPresentationModel pm = (OrganizationsPresentationModel) uiState.presentationModel();
+        searchBox.setText(pm.searchTextProperty().getValue());
+        limitCheckBox.setSelected(pm.limitProperty().getValue());
+
+        // Binding the UI with the presentation model for further state changes
+        // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
-        pm.limitProperty().bind(limitSwitch.selectedProperty());
+        pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        // User outputs: the presentation model changes are transferred in the UI
         table.displayResultProperty().bind(pm.organizationDisplayResultProperty());
     }
 
@@ -71,7 +74,6 @@ public class MongooseLogic {
                         .setLimit("100"))
                 .setDisplayColumns(
                         new DisplayColumn("Name", "name + ' (' + type.name + ')'"),
-                        //new DisplayColumn("Type", "type.name"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
                 .displayResultInto(pm.organizationDisplayResultProperty());
     }
