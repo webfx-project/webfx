@@ -13,15 +13,7 @@
     <packaging>pom</packaging>
 
     <profiles>
-        <profile>
-            <id>teavm</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-backend-teavm</module>
-            </modules>
-        </profile>
+        <!-- JRE profiles (JavaFx, Swing, Pivot) -->
         <profile>
             <id>javafx</id>
             <activation>
@@ -32,6 +24,26 @@
             </modules>
         </profile>
         <profile>
+            <id>swing</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-swing</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>pivot</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-pivot</module>
+            </modules>
+        </profile>
+
+        <!-- Web profiles (GWT, TeaVM) -->
+        <profile>
             <id>gwt</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -40,11 +52,27 @@
                 <module>mongoose-backend-gwt</module>
             </modules>
         </profile>
+        <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-teavm</module>
+            </modules>
+        </profile>
+
+        <!-- Mobile profiles (CodenameOne) -->
+        <profile>
+            <id>cn1</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-cn1</module>
+            </modules>
+        </profile>
     </profiles>
-    <modules>
-        <module>mongoose-backend-swing</module>
-        <module>mongoose-backend-cn1</module>
-    </modules>
 
 
 </project>
