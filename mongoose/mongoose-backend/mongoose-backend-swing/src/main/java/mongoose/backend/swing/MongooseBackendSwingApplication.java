@@ -10,7 +10,6 @@ import naga.core.spi.platform.Platform;
 public class MongooseBackendSwingApplication {
 
     public static void main(String[] args) {
-        Platform.createBus(new WebSocketBusOptions().setServerHost("kadampabookings.org").setServerPort(9090));
         MongooseLogic.runBackendApplication();
     }
 }
