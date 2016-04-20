@@ -42,7 +42,7 @@ public final class AndroidPlatform extends JavaClientPlatform {
     }
 
     private AndroidPlatform() {
-        super(new AndroidScheduler());
+        super(new AndroidBackgroundScheduler());
     }
 
     @Override

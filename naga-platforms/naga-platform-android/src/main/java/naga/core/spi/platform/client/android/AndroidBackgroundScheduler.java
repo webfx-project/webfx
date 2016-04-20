@@ -26,18 +26,7 @@ import naga.core.spi.platform.client.java.JavaScheduler;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/android/AndroidScheduler.java">Original Goodow class</a>
  */
-final class AndroidScheduler extends JavaScheduler {
-
-    private final android.os.Handler handler;
-
-    public AndroidScheduler() {
-        handler = new android.os.Handler(Looper.getMainLooper());
-    }
-
-    @Override
-    public void scheduleDeferred(Runnable runnable) {
-        this.handler.post(runnable);
-    }
+final class AndroidBackgroundScheduler extends JavaScheduler {
 
     @Override
     public boolean isUiThread() {
