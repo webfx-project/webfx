@@ -23,7 +23,7 @@ public class RxUi {
             @Override
             public void call(final Subscriber<? super T> subscriber) {
                 subscriber.onNext(observableValue.getValue());
-                ChangeListener<T> listener = (observableValue, prev, current) -> subscriber.onNext(current);
+                ChangeListener<T> listener = (value, prev, current) -> subscriber.onNext(current);
                 observableValue.addListener(listener);
                 subscriber.add(unsubscribeInUiThread(() -> observableValue.removeListener(listener)));
 

@@ -54,6 +54,10 @@ public class UiRouteHandler implements Handler<UiRoutingContext> {
         }
     }
 
+    public void onUiDestroy() {
+        uiState.setUiBuilt(false);
+    }
+
     protected void buildUi() {
         if (uiBuilder != null)
             uiBuilder.handle(uiState);

@@ -15,6 +15,8 @@ public class UiState {
 
     public UiState setUiBuilt(boolean built) {
         this.built = built;
+        if (!built)
+            setUiBoundToPresentationModel(false);
         return this;
     }
 
