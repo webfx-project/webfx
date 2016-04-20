@@ -15,16 +15,15 @@
     <dependencies>
 
         <dependency>
-            <artifactId>hellonaga-retrolambda</artifactId>
+            <artifactId>naga-platform-android</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>hellonaga-logic</artifactId>
             <groupId>${project.groupId}</groupId>
             <version>${project.version}</version>
-            <!-- Removing all transitive dependencies declared in maven as they are actually already embed in the retrolambda artifact -->
-            <exclusions>
-                <exclusion>
-                    <groupId>*</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- Android -->
@@ -36,12 +35,28 @@
     </dependencies>
 
     <properties>
-        <!-- Compiling the android code in java 7 (java 8 not supported) -->
-        <java.version>7</java.version>
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
     </properties>
     
     <build>
         <plugins>
+
+            <!-- Unpacking dependencies before calling retrolambda -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <includeScope>runtime</includeScope> <!-- to avoid unpacking android dependency -->
+                </configuration>
+            </plugin>
+
+            <!-- Calling retrolambda -->
+            <plugin>
+                <groupId>net.orfjackal.retrolambda</groupId>
+                <artifactId>retrolambda-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Calling the android plugin to generate the apk application file -->
             <plugin>
                 <groupId>com.simpligility.maven.plugins</groupId>
                 <artifactId>android-maven-plugin</artifactId>
