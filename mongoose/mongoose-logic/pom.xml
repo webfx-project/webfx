@@ -28,12 +28,34 @@
 
     </dependencies>
 
+    <properties>
+        <!-- Not skipping the artifact installation when the profile is activated -->
+        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
+
+            <!-- Unpacking dependencies before calling retrolambda -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <configuration>
+                    <includeScope>runtime</includeScope> <!-- to avoid unpacking android dependency -->
+                </configuration>
+            </plugin>
+
+            <!-- Calling retrolambda -->
+            <plugin>
+                <groupId>net.orfjackal.retrolambda</groupId>
+                <artifactId>retrolambda-maven-plugin</artifactId>
+            </plugin>
+
         </plugins>
     </build>
 
