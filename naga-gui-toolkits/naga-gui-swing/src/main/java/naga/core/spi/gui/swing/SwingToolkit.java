@@ -24,9 +24,12 @@ public class SwingToolkit  extends GuiToolkit {
         registerNodeFactory(ToggleSwitch.class, SwingCheckBox::new);
         registerNodeFactory(SearchBox.class, SwingSearchBox::new);
     }
+
+    private GuiNode dontGarbageRootNode; // keeping reference to avoid garbage collection
     private JFrame appFrame;
     @Override
     public void displayRootNode(GuiNode rootNode) {
+        dontGarbageRootNode = rootNode;
         if (appFrame == null) {
             try {
                 UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
