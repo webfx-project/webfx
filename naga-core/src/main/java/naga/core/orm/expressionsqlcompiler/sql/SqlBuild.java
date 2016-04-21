@@ -248,7 +248,7 @@ public class SqlBuild {
         StringBuilder clauseBuilder = sqlClauseBuilders.get(clause);
         if (clauseBuilder == null)
             sqlClauseBuilders.put(clause, clauseBuilder = new StringBuilder());
-        if (Strings.isNotEmpty(separator) && !endsWith(clauseBuilder, separator) && !endsWith(clauseBuilder, "(") && !endsWith(clauseBuilder, "["))
+        if (Strings.isNotEmpty(separator) && Strings.isNotEmpty(clauseBuilder) && !endsWith(clauseBuilder, separator) && !endsWith(clauseBuilder, "(") && !endsWith(clauseBuilder, "["))
             clauseBuilder.append(separator);
         return clauseBuilder;
     }
