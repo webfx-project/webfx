@@ -1,9 +1,11 @@
 package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
@@ -23,34 +25,38 @@ public class FxTable extends FxDisplayNode<TableView<Integer>> implements Table<
 
     public FxTable(TableView<Integer> tableView) {
         super(tableView);
+        node.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
-
 
     @Override
     protected void onNextDisplayResult(DisplayResult displayResult) {
         updateColumns(displayResult);
         node.getItems().setAll(new IdentityList(displayResult.getRowCount()));
+        if (displayResult.getRowCount() > 0) { // Workaround for the JavaFx wrong resized columns problem when vertical scrollbar appears
+            node.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+            GuiToolkit.get().scheduler().scheduleDelay(100, () -> node.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
+        }
     }
 
     private void updateColumns(DisplayResult displayResult) {
+        ObservableList<TableColumn<Integer, ?>> currentColumns = node.getColumns();
         // Clearing the columns to completely rebuild them when table was empty (as the columns widths were not considering the content)
         if (node.getItems().isEmpty() && displayResult.getRowCount() > 0)
-            node.getColumns().clear();
-        List<TableColumn> currentColumns = ((TableView) node).getColumns();
-        List<TableColumn<Integer, Object>> newColumns = new ArrayList<>();
+            currentColumns.clear();
+        List<TableColumn<Integer, ?>> newColumns = new ArrayList<>();
         for (int columnIndex = 0; columnIndex < displayResult.getColumnCount(); columnIndex++) {
-            TableColumn<Integer, Object> tableColumn = columnIndex < currentColumns.size() ? currentColumns.get(columnIndex) : new TableColumn<>();
+            TableColumn<Integer, ?> tableColumn = columnIndex < currentColumns.size() ? currentColumns.get(columnIndex) : new TableColumn<>();
             setUpTableColumn(tableColumn, columnIndex, displayResult);
             newColumns.add(tableColumn);
         }
         node.getColumns().setAll(newColumns);
     }
 
-    private TableColumn<Integer, ?> setUpTableColumn(TableColumn<Integer, Object> tableColumn, int columnIndex, DisplayResult displayResult) {
+    private TableColumn<Integer, ?> setUpTableColumn(TableColumn<Integer, ?> tableColumn, int columnIndex, DisplayResult displayResult) {
         tableColumn.setText(Strings.toString(displayResult.getHeaderValues()[columnIndex]));
         tableColumn.setGraphic(null);
         //tableColumn.setCellFactory(ignored -> new FxTableCell(column));
-        tableColumn.setCellValueFactory(cdf -> (ObservableValue<Object>) displayResult.getValue(cdf.getValue(), columnIndex));
+        tableColumn.setCellValueFactory(cdf -> (ObservableValue) displayResult.getValue(cdf.getValue(), columnIndex));
         return tableColumn;
     }
 
