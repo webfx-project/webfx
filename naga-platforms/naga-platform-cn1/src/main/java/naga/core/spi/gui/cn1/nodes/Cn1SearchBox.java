@@ -19,7 +19,7 @@ public class Cn1SearchBox extends Cn1Node<TextField> implements SearchBox<TextFi
     public Cn1SearchBox(TextField search) {
         super(search);
         search.addDataChangeListener((type, index) -> textProperty.setValue(search.getText()));
-        //placeholderProperty.addListener((observable, oldValue, newValue) -> node.setPlaceholder(newValue));
+        placeholderProperty.addListener((observable, oldValue, newValue) -> node.setHint(newValue));
     }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();
