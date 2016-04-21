@@ -6,13 +6,13 @@ package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Region;
 import naga.core.spi.gui.javafx.FxNode;
 import naga.core.spi.gui.nodes.SearchBox;
 import naga.core.spi.platform.Platform;
+import naga.core.util.Strings;
 
 public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
 
@@ -23,8 +23,8 @@ public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
             {
                 getChildren().addAll(new TextField(), new Button());
                 setMinHeight(24);
-                setPrefSize(200, 24);
-                setMaxSize(Control.USE_PREF_SIZE, Control.USE_PREF_SIZE);
+                //setPrefSize(200, 24);
+                setMaxSize(Double.MAX_VALUE, 24);
                 try {
                     getStylesheets().add(getClass().getResource("/css/search-box.css").toExternalForm());
                     getStyleClass().add("search-box");
@@ -45,7 +45,7 @@ public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
 
         clearButton.setOnAction(actionEvent -> clear());
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            clearButton.setVisible(textField.getText().length() != 0);
+            clearButton.setVisible(Strings.isNotEmpty(textField.getText()));
         });
         textField.setOnKeyReleased(t -> {
             if (t.getCode() == KeyCode.ESCAPE)
