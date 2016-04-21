@@ -16,6 +16,7 @@ import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
+import naga.core.util.Strings;
 import naga.core.util.function.Converter;
 import rx.Observable;
 
@@ -77,7 +78,7 @@ public class RxFilter {
 
     public RxFilter combine(Property<String> textProperty, Converter<String, String> inputTextToConditionConverter) {
         return combine(RxUi.observe(textProperty)
-                .map(text -> text == null || text.length() == 0 ? null :
+                .map(text -> Strings.isEmpty(text) ? null :
                         new StringFilterBuilder()
                                 .setCondition(inputTextToConditionConverter.convert(text))
                                 .build()

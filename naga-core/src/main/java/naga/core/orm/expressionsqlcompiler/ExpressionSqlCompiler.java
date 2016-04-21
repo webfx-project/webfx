@@ -108,7 +108,7 @@ public class ExpressionSqlCompiler {
     /*** Helper methods ***/
 
     public static String toSqlString(String name) {
-        if (name == null || name.length() == 1)
+        if (name == null || name.length() < 2)
             return name;
         StringBuilder sb = new StringBuilder();
         boolean underscoreAllowed = false;

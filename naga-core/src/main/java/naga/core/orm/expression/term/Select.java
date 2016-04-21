@@ -64,17 +64,6 @@ public class Select<T> extends SqlOrder<T> {
         return condition && s!= null ? s : "";
     }
 
-    public static String _if(String before, StringBuilder s, String after, StringBuilder sb) {
-        if (s != null && s.length() > 0) {
-            if (before != null)
-                sb.append(before);
-            sb.append(s);
-            if (after != null)
-                sb.append(after);
-        }
-        return "";
-    }
-
     private static String _ifNotEmpty(Object s, StringBuilder sb) {
         return _if(null, s, null, sb);
     }

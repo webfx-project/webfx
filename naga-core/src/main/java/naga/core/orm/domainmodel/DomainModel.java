@@ -63,7 +63,7 @@ public class DomainModel {
     }
 
     public static String toSqlString(String logicalName) {
-        if (logicalName == null || logicalName.length() == 1)
+        if (logicalName == null || logicalName.length() < 2)
             return logicalName;
         StringBuilder sb = new StringBuilder();
         boolean underscoreAllowed = false;

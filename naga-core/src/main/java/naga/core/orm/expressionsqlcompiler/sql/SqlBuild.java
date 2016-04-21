@@ -5,6 +5,8 @@ import naga.core.orm.expressionsqlcompiler.lci.CompilerDomainModelReader;
 import naga.core.orm.expressionsqlcompiler.term.Options;
 import naga.core.orm.mapping.SqlColumnToEntityFieldMapping;
 import naga.core.orm.mapping.SqlRowToEntityMapping;
+import naga.core.util.Numbers;
+import naga.core.util.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -232,7 +234,7 @@ public class SqlBuild {
 
     public int evaluateLimit() {
         StringBuilder limit = getClauseBuilder(SqlClause.LIMIT);
-        return limit == null || limit.length() == 0 ? -1 : Integer.parseInt(limit.toString());
+        return Strings.isEmpty(limit) ? -1 : Numbers.intValue(limit);
     }
 
 
@@ -246,7 +248,7 @@ public class SqlBuild {
         StringBuilder clauseBuilder = sqlClauseBuilders.get(clause);
         if (clauseBuilder == null)
             sqlClauseBuilders.put(clause, clauseBuilder = new StringBuilder());
-        if (separator != null && clauseBuilder.length() > 0 && !endsWith(clauseBuilder, separator) && !endsWith(clauseBuilder, "(") && !endsWith(clauseBuilder, "["))
+        if (Strings.isNotEmpty(separator) && !endsWith(clauseBuilder, separator) && !endsWith(clauseBuilder, "(") && !endsWith(clauseBuilder, "["))
             clauseBuilder.append(separator);
         return clauseBuilder;
     }
@@ -430,7 +432,7 @@ public class SqlBuild {
     }
 
     private static String _if(String before, StringBuilder s, String after, StringBuilder sb) {
-        if (s != null && s.length() > 0) {
+        if (Strings.isNotEmpty(s)) {
             if (before != null)
                 sb.append(before);
             sb.append(s);

@@ -20,6 +20,22 @@ public class Strings {
         return value == null ? null : value.toString();
     }
 
+    public static boolean isEmpty(String s) {
+        return s == null || s.length() == 0;
+    }
+
+    public static boolean isNotEmpty(String s) {
+        return !isEmpty(s);
+    }
+
+    public static boolean isEmpty(StringBuilder s) {
+        return s == null || s.length() == 0;
+    }
+
+    public static boolean isNotEmpty(StringBuilder s) {
+        return !isEmpty(s);
+    }
+
     public static String replaceAll(String s, String match, String replacement) {
         if (s == null)
             return null;

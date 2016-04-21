@@ -1,5 +1,7 @@
 package naga.core.orm.filter;
 
+import naga.core.util.Strings;
+
 /**
  * @author Bruno Salmon
  */
@@ -70,7 +72,7 @@ public class StringFilterBuilder {
     }
 
     public static String mergeFields(String fields1, String fields2) {
-        return fields1 == null || fields1.length() == 0 ? fields2 : fields2 == null || fields2.length() == 0 ? fields1 : fields1 + ',' + fields2;
+        return Strings.isEmpty(fields1) ? fields2 : Strings.isEmpty(fields2) ? fields1 : fields1 + ',' + fields2;
     }
 
     public static StringFilter mergeStringFilters(Object... args) {
