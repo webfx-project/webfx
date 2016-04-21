@@ -73,7 +73,7 @@ public class MongooseLogic {
                 .combine(pm.limitProperty(), new StringFilterBuilder()
                         .setLimit("100"))
                 .setDisplayColumns(
-                        new DisplayColumn("Name", "name + ' (' + type.name + ')'"),
+                        new DisplayColumn("Name", "name + ' (' + type.code + ')'"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
                 .displayResultInto(pm.organizationDisplayResultProperty());
     }
