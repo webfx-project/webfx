@@ -32,7 +32,18 @@ public class UiRoute {
     }
 
     boolean matches(UiRoutingContext context) {
-        return path.equals(context.path());
+        int i = path.indexOf("/:"); // parameter
+        if (i != -1 && context.path().startsWith(path.substring(0, i + 1))) {
+            // Capturing parameter (draft implementation assuming only 1 parameter)
+            context.getParams().put(path.substring(i + 2), context.path().substring(i + 1));
+            return true;
+        }
+        return removeTrailing(path).equals(removeTrailing(context.path()));
+    }
+
+    private static String removeTrailing(String path) {
+        int i = path.length();
+        return (path.charAt(i - 1) == '/') ?  path.substring(0, i - 1) : path;
     }
 
     void handleContext(UiRoutingContext context) {

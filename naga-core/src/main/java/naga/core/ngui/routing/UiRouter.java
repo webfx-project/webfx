@@ -1,5 +1,7 @@
 package naga.core.ngui.routing;
 
+import naga.core.util.async.Handler;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,11 @@ public class UiRouter {
 
     public UiRoute route(String path) {
         return new UiRoute(this).path(path);
+    }
+
+    public UiRouter route(String path, Handler<UiRoutingContext> handler) {
+        new UiRoute(this).path(path).handler(handler);
+        return this;
     }
 
     void addRoute(UiRoute route) {

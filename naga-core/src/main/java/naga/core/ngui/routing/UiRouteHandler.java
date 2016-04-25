@@ -11,6 +11,7 @@ import naga.core.util.async.Handler;
 public class UiRouteHandler implements Handler<UiRoutingContext> {
 
     private PresentationModelFactory presentationModelFactory;
+    private Handler<UiState> presentationModelInitializer;
     private Handler<UiState> uiBuilder;
     private Handler<UiState> uiToPresentationModelBinder;
     private Handler<PresentationModel> logicToPresentationModelBinder;
@@ -18,6 +19,11 @@ public class UiRouteHandler implements Handler<UiRoutingContext> {
 
     public UiRouteHandler setPresentationModelFactory(PresentationModelFactory presentationModelFactory) {
         this.presentationModelFactory = presentationModelFactory;
+        return this;
+    }
+
+    public UiRouteHandler setPresentationModelInitializer(Handler<UiState> presentationModelInitializer) {
+        this.presentationModelInitializer = presentationModelInitializer;
         return this;
     }
 
@@ -38,8 +44,11 @@ public class UiRouteHandler implements Handler<UiRoutingContext> {
 
     @Override
     public void handle(UiRoutingContext context) {
+        uiState.setParams(context.getParams());
         if (uiState.presentationModel() == null && presentationModelFactory != null)
             uiState.setPresentationModel(presentationModelFactory.createPresentationModel());
+        if (presentationModelInitializer != null)
+            presentationModelInitializer.handle(uiState);
         if (!uiState.isLogicBoundToPresentationModel()) {
             bindLogicToPresentationModel(uiState.presentationModel());
             uiState.setLogicBoundToPresentationModel(true);

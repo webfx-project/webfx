@@ -1,7 +1,9 @@
 package naga.core.ngui.routing;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -12,6 +14,7 @@ public class UiRoutingContext {
     //private final Collection<UiRoute> routes;
     private final Iterator<UiRoute> iterator;
     private UiRoute currentRoute;
+    private Map<String, String> params;
 
     public UiRoutingContext(String path, Collection<UiRoute> routes) {
         this.path = path;
@@ -35,6 +38,12 @@ public class UiRoutingContext {
                 route.handleContext(this);
             }
         }
+    }
+
+    public Map<String, String> getParams() {
+        if (params == null)
+            params = new HashMap<>();
+        return params;
     }
 
     /*

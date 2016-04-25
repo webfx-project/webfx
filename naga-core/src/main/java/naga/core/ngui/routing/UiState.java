@@ -2,6 +2,8 @@ package naga.core.ngui.routing;
 
 import naga.core.ngui.presentationmodel.PresentationModel;
 
+import java.util.Map;
+
 /**
  * @author Bruno Salmon
  */
@@ -11,7 +13,17 @@ public class UiState {
     private PresentationModel presentationModel;
     private boolean uiBoundToPresentationModel;
     private boolean logicBoundToPresentationModel;
+    private Map<String, String> params;
     //private final Map<String, Object> data = new HashMap<>();
+
+
+    public Map<String, String> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, String> params) {
+        this.params = params;
+    }
 
     public UiState setUiBuilt(boolean built) {
         this.built = built;
