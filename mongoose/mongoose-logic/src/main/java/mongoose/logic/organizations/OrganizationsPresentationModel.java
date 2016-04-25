@@ -1,4 +1,4 @@
-package mongoose.logic;
+package mongoose.logic.organizations;
 
 import javafx.beans.property.*;
 import naga.core.ngui.displayresult.DisplayResult;
