@@ -42,7 +42,7 @@
         <lib.vertx.version>3.2.1</lib.vertx.version>
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
-        <lib.gwt-material.version>1.5.0-SNAPSHOT</lib.gwt-material.version>
+        <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
@@ -52,8 +52,8 @@
         <plugin.jflex.version>1.6.1</plugin.jflex.version>
         <plugin.shade.version>2.4.3</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
-        <plugin.retrolambda.version>2.0.6</plugin.retrolambda.version>
-        <plugin.android.version>4.3.0</plugin.android.version>
+        <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
+        <plugin.android.version>4.4.1</plugin.android.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
         <plugin.gwt.version>${lib.gwt.version}</plugin.gwt.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
@@ -173,9 +173,9 @@
 
 
             <!--
-             *******************************************************************
-             * Libraries required for the Android Platform (naga-plat-android) *
-             *******************************************************************
+             ***********************************************************************
+             * Libraries required for the Android Platform (naga-platform-android) *
+             ***********************************************************************
              -->
 
             <!-- Android library -->
@@ -188,9 +188,9 @@
 
 
             <!--
-             ***********************************************************
-             * Libraries required for the Vert.x Platform (naga-plat-vertx) *
-             ***********************************************************
+             ********************************************************************
+             * Libraries required for the Vert.x Platform (naga-platform-vertx) *
+             ********************************************************************
              -->
 
             <!-- Vert.x core -->
@@ -223,9 +223,9 @@
 
 
             <!--
-             ***************************************************************
-             * Libraries required for the TeaVM Platform (naga-plat-teavm) *
-             ***************************************************************
+             *******************************************************************
+             * Libraries required for the TeaVM Platform (naga-platform-teavm) *
+             *******************************************************************
              -->
 
             <!-- Emulator of Java class library for TeaVM -->
@@ -246,9 +246,9 @@
 
 
             <!--
-             ***********************************************************
-             * Libraries required for the GWT Platform (naga-plat-gwt) *
-             ***********************************************************
+             ***************************************************************
+             * Libraries required for the GWT Platform (naga-platform-gwt) *
+             ***************************************************************
              -->
 
             <!-- Google Web Toolkit (GWT) -->
@@ -511,6 +511,13 @@
                     <groupId>net.orfjackal.retrolambda</groupId>
                     <artifactId>retrolambda-maven-plugin</artifactId>
                     <version>${plugin.retrolambda.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.google.android</groupId>
+                            <artifactId>android</artifactId>
+                            <version>${lib.android.version}</version>
+                        </dependency>
+                    </dependencies>
                     <configuration>
                         <defaultMethods>true</defaultMethods>
                     </configuration>
@@ -539,6 +546,7 @@
                         <sdk>
                             <platform>${plugin.android.param.sdk.platform}</platform>
                         </sdk>
+                        <skipDependencies>true</skipDependencies>
                     </configuration>
                 </plugin>
 
