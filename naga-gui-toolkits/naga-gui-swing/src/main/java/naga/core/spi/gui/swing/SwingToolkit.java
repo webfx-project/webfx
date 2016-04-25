@@ -36,7 +36,7 @@ public class SwingToolkit  extends GuiToolkit {
             } catch(Exception ignored) {}
             appFrame = new JFrame();
             appFrame.setSize(800, 600);
-            appFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
         appFrame.getContentPane().add((Component) rootNode.unwrapToToolkitNode());
         appFrame.setLocationRelativeTo(null);
