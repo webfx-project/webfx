@@ -2,9 +2,7 @@ package mongoose.logic;
 
 import mongoose.logic.cart.CartLogic;
 import mongoose.logic.organizations.OrganizationsLogic;
-import naga.core.ngui.routing.UiRouter;
-import naga.core.spi.bus.client.WebSocketBusOptions;
-import naga.core.spi.platform.Platform;
+import naga.core.routing.Router;
 
 /**
  * @author Bruno Salmon
@@ -22,8 +20,8 @@ public class MongooseLogic {
     public static void setUpWebSocketConnection() { // Client side setting up
     }
 
-    private static UiRouter setUpRouter() {
-        return UiRouter.get()
+    private static Router setUpRouter() {
+        return new Router()
                 .route("/organizations", OrganizationsLogic.organizationsUiRouterHandler)
                 .route("/cart/:cartUuid", CartLogic.cartUiRouterHandler);
     }

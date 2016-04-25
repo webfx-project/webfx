@@ -1,4 +1,4 @@
-package naga.core.ngui.routing;
+package naga.core.routing;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,15 +8,15 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class UiRoutingContext {
+public class RoutingContext {
 
     private final String path;
-    //private final Collection<UiRoute> routes;
-    private final Iterator<UiRoute> iterator;
-    private UiRoute currentRoute;
+    //private final Collection<Route> routes;
+    private final Iterator<Route> iterator;
+    private Route currentRoute;
     private Map<String, String> params;
 
-    public UiRoutingContext(String path, Collection<UiRoute> routes) {
+    public RoutingContext(String path, Collection<Route> routes) {
         this.path = path;
         //this.routes = routes;
         iterator = routes.iterator();
@@ -26,13 +26,13 @@ public class UiRoutingContext {
         return path;
     }
 
-    public UiRoute currentRoute() {
+    public Route currentRoute() {
         return currentRoute;
     }
 
     void next() {
         while (iterator.hasNext()) {
-            UiRoute route = iterator.next();
+            Route route = iterator.next();
             if (route.matches(this)) {
                 currentRoute = route;
                 route.handleContext(this);
@@ -52,7 +52,7 @@ public class UiRoutingContext {
 
     Cookie getCookie(String name);
 
-    UiRoutingContext addCookie(Cookie cookie);
+    RoutingContext addCookie(Cookie cookie);
 
     Cookie removeCookie(String name);
 

@@ -2,13 +2,14 @@ package naga.core.ngui.routing;
 
 import naga.core.ngui.presentationmodel.PresentationModel;
 import naga.core.ngui.presentationmodel.PresentationModelFactory;
+import naga.core.routing.RoutingContext;
 import naga.core.spi.platform.Platform;
 import naga.core.util.async.Handler;
 
 /**
  * @author Bruno Salmon
  */
-public class UiRouteHandler implements Handler<UiRoutingContext> {
+public class UiRouteHandler implements Handler<RoutingContext> {
 
     private PresentationModelFactory presentationModelFactory;
     private Handler<UiState> presentationModelInitializer;
@@ -43,7 +44,7 @@ public class UiRouteHandler implements Handler<UiRoutingContext> {
     }
 
     @Override
-    public void handle(UiRoutingContext context) {
+    public void handle(RoutingContext context) {
         uiState.setParams(context.getParams());
         if (uiState.presentationModel() == null && presentationModelFactory != null)
             uiState.setPresentationModel(presentationModelFactory.createPresentationModel());
