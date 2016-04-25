@@ -1,13 +1,15 @@
 package mongoose.backend.swing;
 
 import mongoose.logic.MongooseLogic;
-import naga.core.spi.bus.client.WebSocketBusOptions;
-import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
  */
 public class MongooseBackendSwingApplication {
+
+    static {
+        MongooseLogic.setUpWebSocketConnection();
+    }
 
     public static void main(String[] args) {
         MongooseLogic.runBackendApplication();

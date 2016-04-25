@@ -10,6 +10,10 @@ import naga.core.spi.gui.javafx.JavaFxToolkit;
  */
 public class MongooseBackendJavaFxApplication extends Application {
 
+    static {
+        MongooseLogic.setUpWebSocketConnection();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         JavaFxToolkit.get().start(primaryStage);

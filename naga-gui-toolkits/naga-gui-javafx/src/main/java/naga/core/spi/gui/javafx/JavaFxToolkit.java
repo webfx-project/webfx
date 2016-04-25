@@ -36,7 +36,7 @@ public class JavaFxToolkit extends GuiToolkit {
     private GuiNode dontGarbageRootNode; // keeping reference to avoid garbage collection
     @Override
     public void displayRootNode(GuiNode rootNode) {
-        this.dontGarbageRootNode = rootNode;
+        dontGarbageRootNode = rootNode;
         Scene scene = createScene((Parent) rootNode.unwrapToToolkitNode(), 800, 600);
 
         primaryStage.setScene(scene);

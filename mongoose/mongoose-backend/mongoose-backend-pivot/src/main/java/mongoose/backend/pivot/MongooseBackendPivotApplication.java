@@ -7,6 +7,10 @@ import mongoose.logic.MongooseLogic;
  */
 public class MongooseBackendPivotApplication {
 
+    static {
+        MongooseLogic.setUpWebSocketConnection();
+    }
+
     public static void main(String[] args) {
         MongooseLogic.runBackendApplication();
     }

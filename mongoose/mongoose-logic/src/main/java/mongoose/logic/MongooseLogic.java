@@ -8,14 +8,17 @@ import naga.core.ngui.routing.UiState;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.nodes.*;
+import naga.core.spi.gui.nodes.BorderPane;
+import naga.core.spi.gui.nodes.CheckBox;
+import naga.core.spi.gui.nodes.SearchBox;
+import naga.core.spi.gui.nodes.Table;
 
 /**
  * @author Bruno Salmon
  */
 public class MongooseLogic {
 
-    public static UiRouteHandler organizationsUiRouterHandler = new UiRouteHandler()
+    private static UiRouteHandler organizationsUiRouterHandler = new UiRouteHandler()
             .setPresentationModelFactory(OrganizationsPresentationModel::new)
             .setUiBuilder(MongooseLogic::buildOrganizationsUi)
             .setPresentationModelLogicBinder(MongooseLogic::doOrganizationsPresentationModelLogicBinding);
@@ -76,6 +79,9 @@ public class MongooseLogic {
                         new DisplayColumn("Name", "name + ' (' + type.code + ')'"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
                 .displayResultInto(pm.organizationDisplayResultProperty());
+    }
+
+    public static void setUpWebSocketConnection() { // Client side setting up
     }
 
 }
