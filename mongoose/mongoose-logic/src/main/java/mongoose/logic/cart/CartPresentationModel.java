@@ -1,0 +1,27 @@
+package mongoose.logic.cart;
+
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.presentationmodel.PresentationModel;
+
+/**
+ * @author Bruno Salmon
+ */
+class CartPresentationModel implements PresentationModel {
+
+    private final Property<String> cartUuidProperty = new SimpleObjectProperty<>("a58faba5-5b0b-4573-b547-361e10c788dc");
+    Property<String> cartUuidProperty() { return cartUuidProperty; }
+
+    // Display output
+
+    private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
+    Property<DisplayResult> documentDisplayResultProperty() { return documentDisplayResultProperty; }
+
+    private final Property<DisplayResult> documentLineDisplayResultProperty = new SimpleObjectProperty<>();
+    Property<DisplayResult> documentLineDisplayResultProperty() { return documentLineDisplayResultProperty; }
+
+    private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();
+    Property<DisplayResult> paymentDisplayResultProperty() { return paymentDisplayResultProperty; }
+
+}
