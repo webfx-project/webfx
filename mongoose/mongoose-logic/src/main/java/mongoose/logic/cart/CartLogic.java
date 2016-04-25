@@ -17,8 +17,14 @@ public class CartLogic {
 
     public static UiRouteHandler cartUiRouterHandler = new UiRouteHandler()
             .setPresentationModelFactory(CartPresentationModel::new)
+            .setPresentationModelInitializer(CartLogic::initializeCartPresentationModel)
             .setUiBuilder(CartLogic::buildCartUi)
             .setPresentationModelLogicBinder(CartLogic::doCartPresentationModelLogicBinding);
+
+    private static void initializeCartPresentationModel(UiState uiState) {
+        CartPresentationModel pm = (CartPresentationModel) uiState.presentationModel();
+        pm.cartUuidProperty().setValue(uiState.getParams().get("cartUuid"));
+    }
 
     private static void buildCartUi(UiState uiState) {
         // Building the UI components

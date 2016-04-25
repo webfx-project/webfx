@@ -10,7 +10,7 @@ import naga.core.ngui.presentationmodel.PresentationModel;
  */
 class CartPresentationModel implements PresentationModel {
 
-    private final Property<String> cartUuidProperty = new SimpleObjectProperty<>("a58faba5-5b0b-4573-b547-361e10c788dc");
+    private final Property<String> cartUuidProperty = new SimpleObjectProperty<>();
     Property<String> cartUuidProperty() { return cartUuidProperty; }
 
     // Display output

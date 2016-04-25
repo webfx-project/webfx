@@ -12,22 +12,20 @@ import naga.core.spi.platform.Platform;
 public class MongooseLogic {
 
     public static void runFrontendApplication() {
-        setUpRoutes();
-        UiRouter.get().defaultPath("/cart").start();
+        setUpRouter().defaultPath("/cart/a58faba5-5b0b-4573-b547-361e10c788dc").start();
     }
 
     public static void runBackendApplication() {
-        setUpRoutes();
-        UiRouter.get().defaultPath("/organizations").start();
+        setUpRouter().defaultPath("/organizations").start();
     }
 
     public static void setUpWebSocketConnection() { // Client side setting up
     }
 
-    private static void setUpRoutes() {
-        UiRouter uiRouter = UiRouter.get();
-        uiRouter.route("/organizations").handler(OrganizationsLogic.organizationsUiRouterHandler);
-        uiRouter.route("/cart").handler(CartLogic.cartUiRouterHandler);
+    private static UiRouter setUpRouter() {
+        return UiRouter.get()
+                .route("/organizations", OrganizationsLogic.organizationsUiRouterHandler)
+                .route("/cart/:cartUuid", CartLogic.cartUiRouterHandler);
     }
 
 }
