@@ -31,7 +31,7 @@ public class OrganizationsLogic {
         limitCheckBox.setText("Limit to 100");
 
         // Displaying the UI
-        toolkit.displayRootNode(toolkit.createNode(BorderPane.class)
+        toolkit.getApplicationWindow().setNode(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
                 .setBottom(limitCheckBox));

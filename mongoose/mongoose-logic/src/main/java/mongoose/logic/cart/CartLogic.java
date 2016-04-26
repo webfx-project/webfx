@@ -33,7 +33,7 @@ public class CartLogic {
         Table paymentTable = toolkit.createNode(Table.class);
 
         // Displaying the UI
-        toolkit.displayRootNode(toolkit.createNode(BorderPane.class)
+        toolkit.getApplicationWindow().setNode(toolkit.createNode(BorderPane.class)
                 .setTop(documentTable)
                 .setCenter(documentLineTable)
                 .setBottom(paymentTable));

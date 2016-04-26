@@ -1,19 +1,14 @@
 package mongoose.frontend.javafx;
 
-import javafx.application.Application;
-import javafx.stage.Stage;
-import mongoose.logic.MongooseBackendApplication;
-import naga.core.spi.gui.javafx.JavaFxToolkit;
+import mongoose.logic.MongooseFrontendApplication;
 
 /**
  * @author Bruno Salmon
  */
-public class MongooseFrontendJavaFxApplication extends Application {
+public class MongooseFrontendJavaFxApplication {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        JavaFxToolkit.get().start(primaryStage);
-        MongooseBackendApplication.main(null);
+    public static void main(String[] args) {
+        MongooseFrontendApplication.main(args);
     }
 
 }
