@@ -11,7 +11,7 @@ public class StringFilterBuilder {
     private final Object domainClassId;
     private String alias;
     private String fields;
-    private String condition;
+    private String where;
     private String groupBy;
     private String having;
     private String orderBy;
@@ -60,7 +60,7 @@ public class StringFilterBuilder {
             throw new IllegalArgumentException();
         alias = sf.getAlias();
         fields = sf.getFields();
-        condition = sf.getCondition();
+        where = sf.getWhere();
         groupBy = sf.getGroupBy();
         having = sf.getHaving();
         orderBy = sf.getOrderBy();
@@ -75,7 +75,7 @@ public class StringFilterBuilder {
             throw new IllegalArgumentException();
         alias = json.getString("alias");
         fields = json.getString("fields");
-        condition = json.getString("where");
+        where = json.getString("where");
         groupBy = json.getString("groupBy");
         having = json.getString("having");
         orderBy = json.getString("orderBy");
@@ -92,8 +92,8 @@ public class StringFilterBuilder {
             setAlias(sf.getAlias());
         if (sf.getFields() != null)
             setFields(mergeFields(fields, sf.getFields()));
-        if (sf.getCondition() != null)
-            setCondition(condition == null ? sf.getCondition() : "(" + condition + ") and (" + sf.getCondition() + ")");
+        if (sf.getWhere() != null)
+            setWhere(where == null ? sf.getWhere() : "(" + where + ") and (" + sf.getWhere() + ")");
         if (sf.getGroupBy() != null)
             setGroupBy(sf.getGroupBy());
         if (sf.getHaving() != null)
@@ -125,8 +125,8 @@ public class StringFilterBuilder {
         return this;
     }
 
-    public StringFilterBuilder setCondition(String condition) {
-        this.condition = condition;
+    public StringFilterBuilder setWhere(String where) {
+        this.where = where;
         return this;
     }
 
@@ -156,6 +156,6 @@ public class StringFilterBuilder {
     }
 
     public StringFilter build() {
-        return new StringFilter(domainClassId, alias, fields, condition, groupBy, having, orderBy, limit);
+        return new StringFilter(domainClassId, alias, fields, where, groupBy, having, orderBy, limit);
     }
 }
