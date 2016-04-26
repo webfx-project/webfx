@@ -1,12 +1,10 @@
 package naga.core.spi.gui.javafx;
 
+import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.core.ngui.displayresultset.DisplayResultSet;
-import naga.core.spi.gui.GuiNode;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.javafx.nodes.*;
 import naga.core.spi.gui.nodes.*;
@@ -17,9 +15,8 @@ import naga.core.spi.platform.Scheduler;
  */
 public class JavaFxToolkit extends GuiToolkit {
 
-    protected Stage primaryStage;
-
     public JavaFxToolkit() {
+        new Thread(() -> Application.launch(FxApplication.class)).start();
         registerNodeFactory(Table.class, FxTable::new);
         registerNodeFactory(CheckBox.class, FxCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, FxToggleSwitch::new);
@@ -28,34 +25,18 @@ public class JavaFxToolkit extends GuiToolkit {
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
     }
 
-    public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-        primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
-    }
-
-    private GuiNode dontGarbageRootNode; // keeping reference to avoid garbage collection
+    private FxWindow applicationWindow;
     @Override
-    public void displayRootNode(GuiNode rootNode) {
-        dontGarbageRootNode = rootNode;
-        Scene scene = createScene((Parent) rootNode.unwrapToToolkitNode(), 800, 600);
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
-
-    protected Scene createScene(Parent root, double width, double height) {
-        return new Scene(root, width, height); //, Color.valueOf("#2F343A"));
-    }
-
-    public static JavaFxToolkit get() {
-        return (JavaFxToolkit) GuiToolkit.get();
+    public Window getApplicationWindow() {
+        if (applicationWindow == null)
+            applicationWindow = FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage);
+        return applicationWindow;
     }
 
     @Override
     public Scheduler scheduler() {
         return FxScheduler.SINGLETON;
     }
-
 
     @Override
     public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
@@ -65,4 +46,17 @@ public class JavaFxToolkit extends GuiToolkit {
             fxProperties[i] = new SimpleObjectProperty<>(values[i]);
         return new DisplayResultSet(displayResultSet.getRowCount(), fxProperties, displayResultSet.getColumnTypes(), displayResultSet.getHeaderValues(), displayResultSet.getHeaderType());
     }
+
+    public static class FxApplication extends Application {
+        static Stage primaryStage;
+        static FxWindow applicationWindow;
+        @Override
+        public void start(Stage primaryStage) throws Exception {
+            FxApplication.primaryStage = primaryStage;
+            primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
+            if (applicationWindow != null)
+                applicationWindow.setStage(primaryStage);
+        }
+    }
+
 }

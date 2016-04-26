@@ -1,14 +1,7 @@
 package naga.core.spi.gui.cn1;
 
-import com.codename1.ui.Component;
-import com.codename1.ui.Form;
-import com.codename1.ui.layouts.BorderLayout;
-import naga.core.spi.gui.GuiNode;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.cn1.nodes.Cn1BorderPane;
-import naga.core.spi.gui.cn1.nodes.Cn1CheckBox;
-import naga.core.spi.gui.cn1.nodes.Cn1SearchBox;
-import naga.core.spi.gui.cn1.nodes.Cn1Table;
+import naga.core.spi.gui.cn1.nodes.*;
 import naga.core.spi.gui.nodes.*;
 import naga.core.spi.platform.Scheduler;
 
@@ -30,13 +23,12 @@ public class CodenameOneToolkit extends GuiToolkit {
         registerNodeFactory(SearchBox.class, Cn1SearchBox::new);
     }
 
-    private GuiNode dontGarbageRootNode; // keeping reference to avoid garbage collection
+    private Cn1Window applicationWindow;
     @Override
-    public void displayRootNode(GuiNode rootNode) {
-        dontGarbageRootNode = rootNode;
-        Form form = new Form(new BorderLayout());
-        form.add(BorderLayout.CENTER, (Component) rootNode.unwrapToToolkitNode());
-        form.show();
+    public Window getApplicationWindow() {
+        if (applicationWindow == null)
+            applicationWindow = new Cn1Window();
+        return applicationWindow;
     }
 
     @Override

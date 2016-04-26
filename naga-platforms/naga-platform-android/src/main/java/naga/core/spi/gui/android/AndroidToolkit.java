@@ -1,15 +1,11 @@
 package naga.core.spi.gui.android;
 
 import android.app.Activity;
-import android.app.Application;
 import android.view.View;
 import naga.core.spi.gui.GuiNode;
 import naga.core.spi.gui.GuiNodeFactory;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.android.nodes.AndroidBorderPane;
-import naga.core.spi.gui.android.nodes.AndroidCheckBox;
-import naga.core.spi.gui.android.nodes.AndroidSearchBox;
-import naga.core.spi.gui.android.nodes.AndroidTable;
+import naga.core.spi.gui.android.nodes.*;
 import naga.core.spi.gui.nodes.*;
 import naga.core.spi.platform.Scheduler;
 
@@ -49,16 +45,17 @@ public class AndroidToolkit extends GuiToolkit {
         return node;
     }
 
+    private AndroidWindow applicationWindow;
+    @Override
+    public Window getApplicationWindow() {
+        if (applicationWindow == null)
+            applicationWindow = new AndroidWindow(currentActivity);
+        return applicationWindow;
+    }
+
     @Override
     public Scheduler scheduler() {
         return AndroidGuiScheduler.SINGLETON;
-    }
-
-    private GuiNode dontGarbageRootNode; // keeping reference to avoid garbage collection
-    @Override
-    public void displayRootNode(GuiNode rootNode) {
-        dontGarbageRootNode = rootNode;
-        currentActivity.setContentView((View) rootNode.unwrapToToolkitNode());
     }
 
 }
