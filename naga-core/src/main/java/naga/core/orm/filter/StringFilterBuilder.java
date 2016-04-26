@@ -21,23 +21,20 @@ public class StringFilterBuilder {
         domainClassId = null;
     }
 
-    public StringFilterBuilder(Object domainClassId) {
-        this.domainClassId = domainClassId;
+    public StringFilterBuilder(Object jsonOrClass) {
+        String s = jsonOrClass instanceof String ? (String) jsonOrClass : null;
+        if (s == null || s.indexOf('{') == -1)
+            this.domainClassId = jsonOrClass;
+        else {
+            JsonObject json = Json.parse(s);
+            this.domainClassId = json.get("class");
+            applyJson(json);
+        }
     }
 
     public StringFilterBuilder(JsonObject json) {
         this.domainClassId = json.get("class");
         applyJson(json);
-    }
-
-    public StringFilterBuilder(String jsonOrClass) {
-        if (jsonOrClass.indexOf('{') == -1)
-            this.domainClassId = jsonOrClass;
-        else {
-            JsonObject json = Json.parse(jsonOrClass);
-            this.domainClassId = json.get("class");
-            applyJson(json);
-        }
     }
 
     public StringFilterBuilder(StringFilter sf) {

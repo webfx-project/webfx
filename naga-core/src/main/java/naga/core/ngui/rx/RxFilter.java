@@ -37,6 +37,13 @@ public class RxFilter {
     private EntityStore store;
     private Object listId;
 
+    public RxFilter() {
+    }
+
+    public RxFilter(Object jsonOrClass) {
+        combine(new StringFilterBuilder(jsonOrClass));
+    }
+
     public RxFilter setDomainModel(DomainModel domainModel) {
         this.domainModel = domainModel;
         return this;
