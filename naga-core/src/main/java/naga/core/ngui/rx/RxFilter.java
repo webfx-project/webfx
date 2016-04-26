@@ -14,6 +14,8 @@ import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.ngui.displayresult.EntityListToDisplayResultGenerator;
 import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.json.Json;
+import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
@@ -61,6 +63,18 @@ public class RxFilter {
 
     public RxFilter setListId(Object listId) {
         this.listId = listId;
+        return this;
+    }
+
+    public RxFilter setDisplayColumns(String jsonArrayDisplayColumns) {
+        return setDisplayColumns((JsonArray) Json.parse(jsonArrayDisplayColumns));
+    }
+
+    public RxFilter setDisplayColumns(JsonArray array) {
+        int n = array.length();
+        this.displayColumns = new DisplayColumn[n];
+        for (int i = 0; i < n; i++)
+            this.displayColumns[i] = new DisplayColumn(array.getObject(i));
         return this;
     }
 

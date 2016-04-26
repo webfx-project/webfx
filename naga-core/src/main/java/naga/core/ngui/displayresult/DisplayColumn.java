@@ -3,6 +3,8 @@ package naga.core.ngui.displayresult;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
+import naga.core.spi.json.Json;
+import naga.core.spi.json.JsonObject;
 
 /**
  * @author Bruno Salmon
@@ -12,6 +14,14 @@ public class DisplayColumn {
     private final Label label;
     private final String expressionDefinition;
     private Expression  expression;
+
+    public DisplayColumn(String json) {
+        this((JsonObject) Json.parse(json));
+    }
+
+    public DisplayColumn(JsonObject json) {
+        this(json.get("label"), json.getString("expression"));
+    }
 
     public DisplayColumn(Object label, String expressionDefinition) {
         this.expressionDefinition = expressionDefinition;
