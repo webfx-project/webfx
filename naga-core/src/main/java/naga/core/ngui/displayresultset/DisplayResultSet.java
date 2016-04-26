@@ -1,11 +1,11 @@
-package naga.core.ngui.displayresult;
+package naga.core.ngui.displayresultset;
 
 import naga.core.type.Type;
 
 /**
  * @author Bruno Salmon
  */
-public class DisplayResult {
+public class DisplayResultSet {
 
     /**
      * The number of rows in this display result.
@@ -35,11 +35,11 @@ public class DisplayResult {
 
     private final Type headerType;
 
-    public DisplayResult(int rowCount, Object[] values, Type[] columnTypes) {
+    public DisplayResultSet(int rowCount, Object[] values, Type[] columnTypes) {
         this(rowCount, values, columnTypes, null, null);
     }
 
-    public DisplayResult(int rowCount, Object[] values, Type[] columnTypes, Object[] headerValues, Type headerType) {
+    public DisplayResultSet(int rowCount, Object[] values, Type[] columnTypes, Object[] headerValues, Type headerType) {
         this.rowCount = rowCount;
         this.values = values;
         this.columnTypes = columnTypes;

@@ -1,6 +1,6 @@
 package naga.core.spi.gui.swing.nodes;
 
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.nodes.Table;
 import naga.core.util.Strings;
 
@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingTable extends SwingDisplayNode<JScrollPane> implements Table<JScrollPane> {
+public class SwingTable extends SwingDisplayResultSetNode<JScrollPane> implements Table<JScrollPane> {
 
     private final JTable table;
     private final DisplayTableModel tableModel = new DisplayTableModel();
@@ -46,11 +46,11 @@ public class SwingTable extends SwingDisplayNode<JScrollPane> implements Table<J
 
 
     @Override
-    protected void onNextDisplayResult(DisplayResult displayResult) {
-        tableModel.setDisplayResult(displayResult);
+    protected void onNextDisplayResult(DisplayResultSet displayResultSet) {
+        tableModel.setDisplayResultSet(displayResultSet);
         tableModel.fireTableStructureChanged();
-        for (int columnIndex = 0; columnIndex < displayResult.getColumnCount(); columnIndex++)
-            table.getColumnModel().getColumn(columnIndex).setHeaderValue(Strings.toString(displayResult.getHeaderValues()[columnIndex]));
+        for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++)
+            table.getColumnModel().getColumn(columnIndex).setHeaderValue(Strings.toString(displayResultSet.getHeaderValues()[columnIndex]));
         //tableModel.fireTableDataChanged();
         table.doLayout();
     }
@@ -60,25 +60,25 @@ public class SwingTable extends SwingDisplayNode<JScrollPane> implements Table<J
      */
     public static class DisplayTableModel extends AbstractTableModel {
 
-        private DisplayResult displayResult;
+        private DisplayResultSet displayResultSet;
 
-        public void setDisplayResult(DisplayResult displayResult) {
-            this.displayResult = displayResult;
+        public void setDisplayResultSet(DisplayResultSet displayResultSet) {
+            this.displayResultSet = displayResultSet;
         }
 
         @Override
         public int getRowCount() {
-            return displayResult == null ? 0 : displayResult.getRowCount();
+            return displayResultSet == null ? 0 : displayResultSet.getRowCount();
         }
 
         @Override
         public int getColumnCount() {
-            return displayResult == null ? 0 :displayResult.getColumnCount();
+            return displayResultSet == null ? 0 : displayResultSet.getColumnCount();
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            return displayResult == null ? null : displayResult.getValue(rowIndex, columnIndex);
+            return displayResultSet == null ? null : displayResultSet.getValue(rowIndex, columnIndex);
         }
     }
 }

@@ -7,7 +7,7 @@ import android.widget.TextView;
 import de.codecrafters.tableview.TableDataAdapter;
 import de.codecrafters.tableview.TableHeaderAdapter;
 import de.codecrafters.tableview.TableView;
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.android.AndroidToolkit;
 import naga.core.spi.gui.nodes.Table;
 import naga.core.util.Strings;
@@ -16,7 +16,7 @@ import naga.core.util.collection.IdentityList;
 /**
  * @author Bruno Salmon
  */
-public class AndroidTable extends AndroidDisplayNode<TableView<Integer>> implements Table<TableView<Integer>> {
+public class AndroidTable extends AndroidDisplayResultSetNode<TableView<Integer>> implements Table<TableView<Integer>> {
 
     public AndroidTable() {
         super(new TableView<>(AndroidToolkit.currentActivity));
@@ -24,42 +24,42 @@ public class AndroidTable extends AndroidDisplayNode<TableView<Integer>> impleme
     }
 
     @Override
-    protected void onNextDisplayResult(DisplayResult displayResult) {
-        node.setColumnCount(displayResult.getColumnCount());
-        node.setHeaderAdapter(new DisplayResultTableHeaderAdapter(node.getContext(), displayResult));
-        node.setDataAdapter(new DisplayResultTableDataAdapter(node.getContext(), displayResult));
+    protected void onNextDisplayResult(DisplayResultSet displayResultSet) {
+        node.setColumnCount(displayResultSet.getColumnCount());
+        node.setHeaderAdapter(new DisplayResultTableHeaderAdapter(node.getContext(), displayResultSet));
+        node.setDataAdapter(new DisplayResultTableDataAdapter(node.getContext(), displayResultSet));
     }
 
     private static class DisplayResultTableDataAdapter extends TableDataAdapter<Integer> {
 
-        private final DisplayResult displayResult;
+        private final DisplayResultSet displayResultSet;
 
-        DisplayResultTableDataAdapter(Context context, DisplayResult displayResult) {
-            super(context, new IdentityList(displayResult.getRowCount()));
-            this.displayResult = displayResult;
+        DisplayResultTableDataAdapter(Context context, DisplayResultSet displayResultSet) {
+            super(context, new IdentityList(displayResultSet.getRowCount()));
+            this.displayResultSet = displayResultSet;
         }
 
         @Override
         public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
             TextView textView = new TextView(getContext());
-            textView.setText(Strings.toString(displayResult.getValue(rowIndex, columnIndex)));
+            textView.setText(Strings.toString(displayResultSet.getValue(rowIndex, columnIndex)));
             return textView;
         }
     }
 
     private static class DisplayResultTableHeaderAdapter extends TableHeaderAdapter {
 
-        private final DisplayResult displayResult;
+        private final DisplayResultSet displayResultSet;
 
-        DisplayResultTableHeaderAdapter(Context context, DisplayResult displayResult) {
-            super(context, displayResult.getColumnCount());
-            this.displayResult = displayResult;
+        DisplayResultTableHeaderAdapter(Context context, DisplayResultSet displayResultSet) {
+            super(context, displayResultSet.getColumnCount());
+            this.displayResultSet = displayResultSet;
         }
 
         @Override
         public View getHeaderView(int i, ViewGroup viewGroup) {
             TextView textView = new TextView(getContext());
-            textView.setText(Strings.toString(displayResult.getHeaderValues()[i]));
+            textView.setText(Strings.toString(displayResultSet.getHeaderValues()[i]));
             return textView;
         }
     }

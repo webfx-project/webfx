@@ -1,7 +1,7 @@
 package mongoose.logic.organizations;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
-import naga.core.ngui.displayresult.DisplayColumn;
+import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiState;
 import naga.core.ngui.rx.RxFilter;
@@ -48,7 +48,7 @@ public class OrganizationsLogic {
         pm.searchTextProperty().bind(searchBox.textProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         // User outputs: the presentation model changes are transferred in the UI
-        table.displayResultProperty().bind(pm.organizationDisplayResultProperty());
+        table.displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
     }
 
     private static void doOrganizationsPresentationModelLogicBinding(OrganizationsPresentationModel pm) {
@@ -63,6 +63,6 @@ public class OrganizationsLogic {
                 .setDisplayColumns(
                         new DisplayColumn("Name", "name + ' (' + type.code + ')'"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
-                .displayResultInto(pm.organizationDisplayResultProperty());
+                .displayResultSetInto(pm.organizationDisplayResultSetProperty());
     }
 }

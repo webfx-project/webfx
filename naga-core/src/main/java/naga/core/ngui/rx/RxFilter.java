@@ -1,7 +1,7 @@
 package naga.core.ngui.rx;
 
 import javafx.beans.property.Property;
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
@@ -10,8 +10,8 @@ import naga.core.orm.expression.term.ExpressionArray;
 import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
 import naga.core.orm.filter.StringFilter;
 import naga.core.orm.filter.StringFilterBuilder;
-import naga.core.ngui.displayresult.DisplayColumn;
-import naga.core.ngui.displayresult.EntityListToDisplayResultGenerator;
+import naga.core.ngui.displayresultset.DisplayColumn;
+import naga.core.ngui.displayresultset.EntityListToDisplayResultSetGenerator;
 import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.json.Json;
@@ -138,12 +138,12 @@ public class RxFilter {
             combine(new StringFilterBuilder().setFields(new ExpressionArray<>(displayPersistentTerms).toString()));
     }
 
-    public void displayResultInto(Property<DisplayResult> displayResultProperty) {
+    public void displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
         checkFields();
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
-        if (displayResultProperty.getValue() == null && displayColumns != null)
-            GuiToolkit.get().scheduler().runInUiThread(() -> displayResultProperty.setValue(EntityListToDisplayResultGenerator.createDisplayResult(new EntityList(listId, store), displayColumns)));
-        Observable<DisplayResult> displayResultObservable = Observable
+        if (displayResultSetProperty.getValue() == null && displayColumns != null)
+            GuiToolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), displayColumns)));
+        Observable<DisplayResultSet> displayResultObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
                 .distinctUntilChanged()
                 .switchMap(stringFilter -> {
@@ -151,9 +151,9 @@ public class RxFilter {
                     Platform.log(sqlCompiled.getSql());
                     return RxFuture.from(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), dataSourceId)))
                             .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
-                            .map(entities -> EntityListToDisplayResultGenerator.createDisplayResult(entities, displayColumns));
+                            .map(entities -> EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns));
                 });
-        RxUi.displayObservable(displayResultObservable, displayResultProperty);
+        RxUi.displayObservable(displayResultObservable, displayResultSetProperty);
     }
 
 }

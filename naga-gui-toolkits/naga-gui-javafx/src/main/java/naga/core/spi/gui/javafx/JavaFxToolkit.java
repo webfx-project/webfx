@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.GuiNode;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.javafx.nodes.*;
@@ -58,11 +58,11 @@ public class JavaFxToolkit extends GuiToolkit {
 
 
     @Override
-    public DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
-        Object[] values = displayResult.getValues();
+    public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
+        Object[] values = displayResultSet.getValues();
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
         for (int i = 0; i < values.length; i++)
             fxProperties[i] = new SimpleObjectProperty<>(values[i]);
-        return new DisplayResult(displayResult.getRowCount(), fxProperties, displayResult.getColumnTypes(), displayResult.getHeaderValues(), displayResult.getHeaderType());
+        return new DisplayResultSet(displayResultSet.getRowCount(), fxProperties, displayResultSet.getColumnTypes(), displayResultSet.getHeaderValues(), displayResultSet.getHeaderType());
     }
 }

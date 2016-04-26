@@ -1,7 +1,7 @@
 package mongoose.logic.cart;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
-import naga.core.ngui.displayresult.DisplayColumn;
+import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiState;
 import naga.core.ngui.rx.RxFilter;
@@ -43,9 +43,9 @@ public class CartLogic {
 
         // Binding the UI with the presentation model for further state changes
         // User outputs: the presentation model changes are transferred in the UI
-        documentTable.displayResultProperty().bind(pm.documentDisplayResultProperty());
-        documentLineTable.displayResultProperty().bind(pm.documentLineDisplayResultProperty());
-        paymentTable.displayResultProperty().bind(pm.paymentDisplayResultProperty());
+        documentTable.displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
+        documentLineTable.displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
+        paymentTable.displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
     }
 
     private static void doCartPresentationModelLogicBinding(CartPresentationModel pm) {
@@ -55,6 +55,9 @@ public class CartLogic {
                 .setDataSourceId(3)
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
+                //.registerParameter(new Parameter("cartUuid", "constant"))
+                //.registerParameter(new Parameter("cartUuid", pm.cartUuidProperty()))
+                //.combine("{where: 'cart.uuid=?cartUuid'}")
                 .setDisplayColumns(
                         new DisplayColumn("Ref", "ref"),
                         new DisplayColumn("First name", "person_firstName"),
@@ -63,7 +66,7 @@ public class CartLogic {
                         new DisplayColumn("Deposit", "price_deposit"),
                         new DisplayColumn("Balance", "price_balance")
                 )
-                .displayResultInto(pm.documentDisplayResultProperty());
+                .displayResultSetInto(pm.documentDisplayResultSetProperty());
 
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: 'DocumentLine', orderBy: 'creationDate'}")
@@ -71,13 +74,14 @@ public class CartLogic {
                 .setDataSourceId(3)
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
+                //.combine("{where: 'document.cart.uuid=?cartUuid'}")
                 .setDisplayColumns(
                         new DisplayColumn("Site", "site.name"),
                         new DisplayColumn("Item", "item.name"),
                         new DisplayColumn("Dates", "dates"),
                         new DisplayColumn("Fees", "price_net")
                 )
-                .displayResultInto(pm.documentLineDisplayResultProperty());
+                .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
 
         // Loading the domain model and setting up the reactive filter
@@ -86,12 +90,13 @@ public class CartLogic {
                 .setDataSourceId(3)
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
+                //.combine("{where: 'document.cart.uuid=?cartUuid'}")
                 .setDisplayColumns(
                         new DisplayColumn("Date", "date"),
                         new DisplayColumn("Booking ref", "document.ref"),
                         new DisplayColumn("Amount", "amount"),
                         new DisplayColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
                 )
-                .displayResultInto(pm.paymentDisplayResultProperty());
+                .displayResultSetInto(pm.paymentDisplayResultSetProperty());
     }
 }

@@ -3,7 +3,7 @@ package naga.core.ngui.rx;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.GuiToolkit;
 import rx.Observable;
 import rx.Scheduler;
@@ -59,7 +59,7 @@ public class RxUi {
         });
     }
 
-    public static void displayObservable(Observable<DisplayResult> displayResultObservable, Property<DisplayResult> displayResultProperty) {
+    public static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty) {
         displayResultObservable
                 .map(GuiToolkit.get()::transformDisplayResultForGui)
                 .observeOn(RxScheduler.UI_SCHEDULER)

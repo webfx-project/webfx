@@ -1,6 +1,6 @@
 package naga.core.spi.gui;
 
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.ServiceLoaderHelper;
@@ -39,8 +39,8 @@ public abstract class GuiToolkit {
 
     public abstract void displayRootNode(GuiNode rootNode);
 
-    public DisplayResult transformDisplayResultForGui(DisplayResult displayResult) {
-        return displayResult;
+    public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
+        return displayResultSet;
     }
 
     public Scheduler scheduler() {

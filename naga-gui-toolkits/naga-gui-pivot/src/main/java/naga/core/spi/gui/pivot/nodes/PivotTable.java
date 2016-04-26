@@ -1,6 +1,6 @@
 package naga.core.spi.gui.pivot.nodes;
 
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.nodes.Table;
 import naga.core.util.Strings;
 import org.apache.pivot.collections.ArrayList;
@@ -11,7 +11,7 @@ import org.apache.pivot.wtk.*;
 /**
  * @author Bruno Salmon
  */
-public class PivotTable extends PivotDisplayNode<ScrollPane> implements Table<ScrollPane> {
+public class PivotTable extends PivotDisplayResultSetNode<ScrollPane> implements Table<ScrollPane> {
 
     private TableView tableView;
 
@@ -33,29 +33,29 @@ public class PivotTable extends PivotDisplayNode<ScrollPane> implements Table<Sc
     }
 
     @Override
-    protected void onNextDisplayResult(DisplayResult displayResult) {
-        int rowCount = displayResult.getRowCount();
-        int columnCount = displayResult.getColumnCount();
+    protected void onNextDisplayResult(DisplayResultSet displayResultSet) {
+        int rowCount = displayResultSet.getRowCount();
+        int columnCount = displayResultSet.getColumnCount();
         TableView.ColumnSequence columns = tableView.getColumns();
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
             if (columnIndex < columns.getLength())
-                setUpTableColumn(columns.get(columnIndex), columnIndex, displayResult);
+                setUpTableColumn(columns.get(columnIndex), columnIndex, displayResultSet);
             else
-                columns.add(setUpTableColumn(new TableView.Column(Strings.toString(displayResult.getHeaderValues()[columnIndex])), columnIndex, displayResult));
+                columns.add(setUpTableColumn(new TableView.Column(Strings.toString(displayResultSet.getHeaderValues()[columnIndex])), columnIndex, displayResultSet));
         }
         ArrayList tableData = new ArrayList(rowCount);
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             HashMap row = new HashMap();
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                row.put(Integer.toString(columnIndex), displayResult.getValue(rowIndex, columnIndex));
+                row.put(Integer.toString(columnIndex), displayResultSet.getValue(rowIndex, columnIndex));
             tableData.add(row);
         }
         tableView.setTableData(tableData);
     }
 
-    private TableView.Column setUpTableColumn(TableView.Column tableColumn, int columnIndex, DisplayResult displayResult) {
+    private TableView.Column setUpTableColumn(TableView.Column tableColumn, int columnIndex, DisplayResultSet displayResultSet) {
         tableColumn.setName(Integer.toString(columnIndex));
-        tableColumn.setHeaderData(Strings.toString(displayResult.getHeaderValues()[columnIndex]));
+        tableColumn.setHeaderData(Strings.toString(displayResultSet.getHeaderValues()[columnIndex]));
         tableColumn.setWidth(400);
         return tableColumn;
     }

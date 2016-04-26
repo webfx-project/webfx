@@ -1,4 +1,4 @@
-package naga.core.ngui.displayresult;
+package naga.core.ngui.displayresultset;
 
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;

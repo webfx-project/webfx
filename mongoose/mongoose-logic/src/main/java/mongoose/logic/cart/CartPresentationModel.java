@@ -2,7 +2,7 @@ package mongoose.logic.cart;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.ngui.displayresult.DisplayResult;
+import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.presentationmodel.PresentationModel;
 
 /**
@@ -15,13 +15,13 @@ class CartPresentationModel implements PresentationModel {
 
     // Display output
 
-    private final Property<DisplayResult> documentDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> documentDisplayResultProperty() { return documentDisplayResultProperty; }
+    private final Property<DisplayResultSet> documentDisplayResultSetProperty = new SimpleObjectProperty<>();
+    Property<DisplayResultSet> documentDisplayResultSetProperty() { return documentDisplayResultSetProperty; }
 
-    private final Property<DisplayResult> documentLineDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> documentLineDisplayResultProperty() { return documentLineDisplayResultProperty; }
+    private final Property<DisplayResultSet> documentLineDisplayResultSetProperty = new SimpleObjectProperty<>();
+    Property<DisplayResultSet> documentLineDisplayResultSetProperty() { return documentLineDisplayResultSetProperty; }
 
-    private final Property<DisplayResult> paymentDisplayResultProperty = new SimpleObjectProperty<>();
-    Property<DisplayResult> paymentDisplayResultProperty() { return paymentDisplayResultProperty; }
+    private final Property<DisplayResultSet> paymentDisplayResultSetProperty = new SimpleObjectProperty<>();
+    Property<DisplayResultSet> paymentDisplayResultSetProperty() { return paymentDisplayResultSetProperty; }
 
 }

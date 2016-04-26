@@ -1,4 +1,4 @@
-package naga.core.ngui.displayresult;
+package naga.core.ngui.displayresultset;
 
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.entity.Entity;
@@ -9,21 +9,21 @@ import naga.core.type.Type;
 /**
  * @author Bruno Salmon
  */
-public class EntityListToDisplayResultGenerator {
+public class EntityListToDisplayResultSetGenerator {
 
-    public static DisplayResult createDisplayResult(EntityList entityList, String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
-        return createDisplayResult(entityList, domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
+    public static DisplayResultSet createDisplayResultSet(EntityList entityList, String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
+        return createDisplayResultSet(entityList, domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
     }
 
-    public static DisplayResult createDisplayResult(EntityList entityList, Expression[] columnExpressions) {
+    public static DisplayResultSet createDisplayResultSet(EntityList entityList, Expression[] columnExpressions) {
         DisplayColumn[] displayColumns = new DisplayColumn[columnExpressions.length];
         int columnIndex = 0;
         for (Expression columnExpression : columnExpressions)
             displayColumns[columnIndex++] = new DisplayColumn(columnExpression, columnExpression);
-        return createDisplayResult(entityList, displayColumns);
+        return createDisplayResultSet(entityList, displayColumns);
     }
 
-    public static DisplayResult createDisplayResult(EntityList entityList, DisplayColumn[] displayColumns) {
+    public static DisplayResultSet createDisplayResultSet(EntityList entityList, DisplayColumn[] displayColumns) {
         int rowCount = entityList.size();
         int columnCount = displayColumns.length;
         Type[] columnTypes = new Type[columnCount];
@@ -38,6 +38,6 @@ public class EntityListToDisplayResultGenerator {
             for (Entity entity : entityList)
                 values[index++] = entity.evaluate(expression);
         }
-        return new DisplayResult(rowCount, values, columnTypes, headerValues, null);
+        return new DisplayResultSet(rowCount, values, columnTypes, headerValues, null);
     }
 }
