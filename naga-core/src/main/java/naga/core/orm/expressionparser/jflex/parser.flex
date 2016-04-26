@@ -45,6 +45,7 @@ IntegerLiteral = 0 | [1-9][0-9]*
 Identifier = [A-Za-z_][A-Za-z_0-9]*
 StringSingleQuoteCharacter = [^\r\n'\\]
 StringDoubleQuoteCharacter = [^\r\n\"\\]
+StringGraveAccentCharacter = [^\r\n`\\]
 Comment = {TraditionalComment} | {EndOfLineComment}
 TraditionalComment = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 EndOfLineComment = "//" {InputCharacter}* {LineTerminator}?
@@ -52,7 +53,7 @@ OctDigit = [0-7]
 GroupBy = [Gg][Rr][Oo][Uu][Pp]{WhiteSpace}+[Bb][Yy]
 OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
 
-%state STRING_SINGLE_QUOTE STRING_DOUBLE_QUOTE
+%state STRING_SINGLE_QUOTE STRING_DOUBLE_QUOTE STRING_GRAVE_ACCENT
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -111,6 +112,7 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
   /* string literal */
     "'"                            { yybegin(STRING_SINGLE_QUOTE); string.setLength(0); }
     \"                             { yybegin(STRING_DOUBLE_QUOTE); string.setLength(0); }
+    "`"                            { yybegin(STRING_GRAVE_ACCENT); string.setLength(0); }
 
   /* operators */
     "+"                            { return symbol(PLUS); }
@@ -169,6 +171,28 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
   \"                             { yybegin(YYINITIAL); return symbol(STRING, string.toString()); }
 
   {StringDoubleQuoteCharacter}+  { string.append( yytext() ); }
+
+  /* escape sequences */
+  "\\b"                          { string.append( '\b' ); }
+  "\\t"                          { string.append( '\t' ); }
+  "\\n"                          { string.append( '\n' ); }
+  "\\f"                          { string.append( '\f' ); }
+  "\\r"                          { string.append( '\r' ); }
+  "\\\""                         { string.append( '\"' ); }
+  "\\'"                          { string.append( '\'' ); }
+  "\\\\"                         { string.append( '\\' ); }
+  \\[0-3]?{OctDigit}?{OctDigit}  { char val = (char) Integer.parseInt(yytext().substring(1),8);
+                        				   string.append( val ); }
+
+  /* error cases */
+  \\.                            { throw new RuntimeException("Illegal escape sequence \""+yytext()+"\""); }
+  {LineTerminator}               { throw new RuntimeException("Unterminated string at end of line"); }
+}
+
+<STRING_GRAVE_ACCENT> {
+  "`"                            { yybegin(YYINITIAL); return symbol(STRING, string.toString()); }
+
+  {StringGraveAccentCharacter}+  { string.append( yytext() ); }
 
   /* escape sequences */
   "\\b"                          { string.append( '\b' ); }
