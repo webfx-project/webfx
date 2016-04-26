@@ -3,7 +3,7 @@ package mongoose.backend.gwt;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import mongoose.logic.MongooseLogic;
+import mongoose.logic.MongooseBackendApplication;
 import naga.core.spi.platform.client.gwt.GwtPlatform;
 
 /**
@@ -17,7 +17,7 @@ public class MongooseBackendGwtApplication implements EntryPoint {
     public void onModuleLoad() {
         replaceSplashScreen(Document.get().createBRElement());
         registerResourceBundles();
-        MongooseLogic.runBackendApplication();
+        MongooseBackendApplication.main(null);
     }
 
     private static void registerResourceBundles() {

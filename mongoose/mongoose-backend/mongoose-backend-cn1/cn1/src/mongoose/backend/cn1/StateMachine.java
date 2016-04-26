@@ -10,7 +10,7 @@ package mongoose.backend.cn1;
 import com.codename1.ui.Form;
 import com.codename1.ui.util.Resources;
 import generated.StateMachineBase;
-import mongoose.logic.MongooseLogic;
+import mongoose.logic.MongooseBackendApplication;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.Platform;
 
@@ -39,7 +39,7 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
-        MongooseLogic.runBackendApplication();
+        MongooseBackendApplication.main(null);
     }
 
 }

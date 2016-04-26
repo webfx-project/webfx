@@ -2,7 +2,7 @@ package mongoose.frontend.javafx;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import mongoose.logic.MongooseLogic;
+import mongoose.logic.MongooseBackendApplication;
 import naga.core.spi.gui.javafx.JavaFxToolkit;
 
 /**
@@ -10,15 +10,10 @@ import naga.core.spi.gui.javafx.JavaFxToolkit;
  */
 public class MongooseFrontendJavaFxApplication extends Application {
 
-    static {
-        MongooseLogic.setUpWebSocketConnection();
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         JavaFxToolkit.get().start(primaryStage);
-
-        MongooseLogic.runFrontendApplication();
+        MongooseBackendApplication.main(null);
     }
 
 }

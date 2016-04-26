@@ -1,6 +1,6 @@
 package mongoose.backend.teavm;
 
-import mongoose.logic.MongooseLogic;
+import mongoose.logic.MongooseBackendApplication;
 import naga.core.spi.platform.Platform;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
@@ -14,7 +14,7 @@ public class MongooseBackendTeaVmApplication {
 
     public static void main(String[] args) {
         Platform.setWebLogger(MongooseBackendTeaVmApplication::displayMessageInDOM);
-        MongooseLogic.runBackendApplication();
+        MongooseBackendApplication.main(args);
     }
 
     private static void displayMessageInDOM(String message) {

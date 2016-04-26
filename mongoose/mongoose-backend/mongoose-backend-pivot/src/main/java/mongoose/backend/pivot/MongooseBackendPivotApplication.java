@@ -1,17 +1,13 @@
 package mongoose.backend.pivot;
 
-import mongoose.logic.MongooseLogic;
+import mongoose.logic.MongooseBackendApplication;
 
 /**
  * @author Bruno Salmon
  */
 public class MongooseBackendPivotApplication {
 
-    static {
-        MongooseLogic.setUpWebSocketConnection();
-    }
-
     public static void main(String[] args) {
-        MongooseLogic.runBackendApplication();
+        MongooseBackendApplication.main(args);
     }
 }
