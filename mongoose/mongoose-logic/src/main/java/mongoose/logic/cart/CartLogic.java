@@ -50,11 +50,9 @@ public class CartLogic {
 
     private static void doCartPresentationModelLogicBinding(CartPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        new RxFilter()
+        new RxFilter("{class: Document, orderBy: 'creationDate desc'}")
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
-                // Base filter
-                .combine("{class: Document, orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 .setDisplayColumns(
@@ -68,11 +66,9 @@ public class CartLogic {
                 .displayResultInto(pm.documentDisplayResultProperty());
 
         // Loading the domain model and setting up the reactive filter
-        new RxFilter()
+        new RxFilter("{class: 'DocumentLine', orderBy: 'creationDate'}")
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
-                // Base filter
-                .combine("{class: 'DocumentLine', orderBy: 'creationDate'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 .setDisplayColumns(
@@ -85,11 +81,9 @@ public class CartLogic {
 
 
         // Loading the domain model and setting up the reactive filter
-        new RxFilter()
+        new RxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
-                // Base filter
-                .combine("{class: 'MoneyTransfer', orderBy: 'date'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 .setDisplayColumns(

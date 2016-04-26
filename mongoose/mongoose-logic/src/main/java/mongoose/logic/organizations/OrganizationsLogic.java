@@ -53,13 +53,9 @@ public class OrganizationsLogic {
 
     private static void doOrganizationsPresentationModelLogicBinding(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        new RxFilter()
+        new RxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
-                // Base filter
-                .combine("{class: 'Organization', orderBy: 'name'}")
-                // Condition
-                .combine("{where: '!closed'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
