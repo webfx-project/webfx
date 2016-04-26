@@ -14,6 +14,7 @@ import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.ngui.displayresult.EntityListToDisplayResultGenerator;
 import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.util.Strings;
@@ -61,6 +62,14 @@ public class RxFilter {
         return this;
     }
 
+    public RxFilter combine(String json) {
+        return combine(new StringFilter(json));
+    }
+
+    public RxFilter combine(JsonObject json) {
+        return combine(new StringFilter(json));
+    }
+
     public RxFilter combine(StringFilterBuilder stringFilterBuilder) {
         return combine(stringFilterBuilder.build());
     }
@@ -86,7 +95,15 @@ public class RxFilter {
     }
 
     public RxFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
-        return combine(RxUi.observeIf(Observable.just(stringFilterBuilder.build()), ifProperty));
+        return combine(ifProperty, stringFilterBuilder.build());
+    }
+
+    public RxFilter combine(Property<Boolean> ifProperty, String json) {
+        return combine(ifProperty, new StringFilter(json));
+    }
+
+    public RxFilter combine(Property<Boolean> ifProperty, StringFilter stringFilte) {
+        return combine(RxUi.observeIf(Observable.just(stringFilte), ifProperty));
     }
 
     private void checkFields() {

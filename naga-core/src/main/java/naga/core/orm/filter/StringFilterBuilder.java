@@ -1,5 +1,7 @@
 package naga.core.orm.filter;
 
+import naga.core.spi.json.Json;
+import naga.core.spi.json.JsonObject;
 import naga.core.util.Strings;
 
 /**
@@ -23,13 +25,32 @@ public class StringFilterBuilder {
         this.domainClassId = domainClassId;
     }
 
+    public StringFilterBuilder(JsonObject json) {
+        this.domainClassId = json.get("class");
+        applyJson(json);
+    }
+
+    public StringFilterBuilder(String jsonOrClass) {
+        if (jsonOrClass.indexOf('{') == -1)
+            this.domainClassId = jsonOrClass;
+        else {
+            JsonObject json = Json.parse(jsonOrClass);
+            this.domainClassId = json.get("class");
+            applyJson(json);
+        }
+    }
+
     public StringFilterBuilder(StringFilter sf) {
         domainClassId = sf.getDomainClassId();
         applyStringFilter(sf);
     }
 
     private boolean isApplicable(StringFilter sf) {
-        boolean applicable = sf.getDomainClassId() == null || domainClassId != null && domainClassId.equals(sf.getDomainClassId());
+        return isApplicable(sf.getDomainClassId());
+    }
+
+    private boolean isApplicable(Object domainClassId) {
+        boolean applicable = domainClassId == null || this.domainClassId != null && this.domainClassId.equals(domainClassId);
         if (!applicable)
             System.out.println("Not applicable!!!");
         return applicable;
@@ -47,6 +68,21 @@ public class StringFilterBuilder {
         having = sf.getHaving();
         orderBy = sf.getOrderBy();
         limit = sf.getLimit();
+        return this;
+    }
+
+    public StringFilterBuilder applyJson(JsonObject json) {
+        if (json == null)
+            return this;
+        if (!isApplicable(json.getString("class")))
+            throw new IllegalArgumentException();
+        alias = json.getString("alias");
+        fields = json.getString("fields");
+        condition = json.getString("where");
+        groupBy = json.getString("groupBy");
+        having = json.getString("having");
+        orderBy = json.getString("orderBy");
+        limit = json.getString("limit");
         return this;
     }
 
