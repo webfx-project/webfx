@@ -5,7 +5,6 @@ import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiState;
 import naga.core.ngui.rx.RxFilter;
-import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.CheckBox;
@@ -58,16 +57,13 @@ public class OrganizationsLogic {
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
                 // Base filter
-                .combine(new StringFilterBuilder("Organization")
-                        .setOrderBy("name"))
+                .combine("{class: 'Organization', orderBy: 'name'}")
                 // Condition
-                .combine(new StringFilterBuilder()
-                        .setCondition("!closed"))
+                .combine("{where: '!closed'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> "lower(name) like '%" + s.toLowerCase() + "%'")
                 // Limit condition
-                .combine(pm.limitProperty(), new StringFilterBuilder()
-                        .setLimit("100"))
+                .combine(pm.limitProperty(), "{limit: '100'}")
                 .setDisplayColumns(
                         new DisplayColumn("Name", "name + ' (' + type.code + ')'"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))

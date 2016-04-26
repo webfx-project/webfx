@@ -5,7 +5,6 @@ import naga.core.ngui.displayresult.DisplayColumn;
 import naga.core.ngui.routing.UiRouteHandler;
 import naga.core.ngui.routing.UiState;
 import naga.core.ngui.rx.RxFilter;
-import naga.core.orm.filter.StringFilterBuilder;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.Table;
@@ -55,8 +54,7 @@ public class CartLogic {
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
                 // Base filter
-                .combine(new StringFilterBuilder("Document")
-                        .setOrderBy("creationDate desc"))
+                .combine("{class: Document, orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "cart.uuid='" + s + "'")
                 .setDisplayColumns(
@@ -74,8 +72,7 @@ public class CartLogic {
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
                 // Base filter
-                .combine(new StringFilterBuilder("DocumentLine")
-                        .setOrderBy("creationDate"))
+                .combine("{class: 'DocumentLine', orderBy: 'creationDate'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "document.cart.uuid='" + s + "'")
                 .setDisplayColumns(
@@ -92,8 +89,7 @@ public class CartLogic {
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
                 .setDataSourceId(3)
                 // Base filter
-                .combine(new StringFilterBuilder("MoneyTransfer")
-                        .setOrderBy("date"))
+                .combine("{class: 'MoneyTransfer', orderBy: 'date'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "document.cart.uuid='" + s + "'")
                 .setDisplayColumns(
