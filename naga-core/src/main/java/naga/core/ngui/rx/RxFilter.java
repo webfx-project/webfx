@@ -85,12 +85,9 @@ public class RxFilter {
         return this;
     }
 
-    public RxFilter combine(Property<String> textProperty, Converter<String, String> inputTextToConditionConverter) {
+    public RxFilter combine(Property<String> textProperty, Converter<String, String> textToJsonFilterConverter) {
         return combine(RxUi.observe(textProperty)
-                .map(text -> Strings.isEmpty(text) ? null :
-                        new StringFilterBuilder()
-                                .setCondition(inputTextToConditionConverter.convert(text))
-                                .build()
+                .map(text -> Strings.isEmpty(text) ? null : new StringFilter(textToJsonFilterConverter.convert(text))
                 ));
     }
 
