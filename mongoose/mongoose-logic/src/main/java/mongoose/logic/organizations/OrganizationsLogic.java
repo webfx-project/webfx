@@ -61,7 +61,7 @@ public class OrganizationsLogic {
                 // Condition
                 .combine("{where: '!closed'}")
                 // Search box condition
-                .combine(pm.searchTextProperty(), s -> "lower(name) like '%" + s.toLowerCase() + "%'")
+                .combine(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setDisplayColumns(

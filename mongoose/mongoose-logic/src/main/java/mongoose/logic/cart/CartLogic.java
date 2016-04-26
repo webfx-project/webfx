@@ -56,7 +56,7 @@ public class CartLogic {
                 // Base filter
                 .combine("{class: Document, orderBy: 'creationDate desc'}")
                 // Condition
-                .combine(pm.cartUuidProperty(), s -> "cart.uuid='" + s + "'")
+                .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 .setDisplayColumns(
                         new DisplayColumn("Ref", "ref"),
                         new DisplayColumn("First name", "person_firstName"),
@@ -74,7 +74,7 @@ public class CartLogic {
                 // Base filter
                 .combine("{class: 'DocumentLine', orderBy: 'creationDate'}")
                 // Condition
-                .combine(pm.cartUuidProperty(), s -> "document.cart.uuid='" + s + "'")
+                .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 .setDisplayColumns(
                         new DisplayColumn("Site", "site.name"),
                         new DisplayColumn("Item", "item.name"),
@@ -91,7 +91,7 @@ public class CartLogic {
                 // Base filter
                 .combine("{class: 'MoneyTransfer', orderBy: 'date'}")
                 // Condition
-                .combine(pm.cartUuidProperty(), s -> "document.cart.uuid='" + s + "'")
+                .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 .setDisplayColumns(
                         new DisplayColumn("Date", "date"),
                         new DisplayColumn("Booking ref", "document.ref"),
