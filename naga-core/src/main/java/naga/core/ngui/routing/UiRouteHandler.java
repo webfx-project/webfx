@@ -3,6 +3,7 @@ package naga.core.ngui.routing;
 import naga.core.ngui.presentationmodel.PresentationModel;
 import naga.core.ngui.presentationmodel.PresentationModelFactory;
 import naga.core.routing.RoutingContext;
+import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.platform.Platform;
 import naga.core.util.async.Handler;
 
@@ -70,7 +71,7 @@ public class UiRouteHandler implements Handler<RoutingContext> {
 
     protected void buildUi() {
         if (uiBuilder != null)
-            uiBuilder.handle(uiState);
+            GuiToolkit.get().scheduler().runInUiThread(() -> uiBuilder.handle(uiState));
     }
 
     protected void bindUiToPresentationModel() {
