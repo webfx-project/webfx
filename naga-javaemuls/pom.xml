@@ -29,7 +29,7 @@
     <build>
         <pluginManagement>
             <plugins>
-                <!-- Relocating the javaemul package to java for both classes and sources -->
+                <!-- Relocating the emul.java package to java for both classes and sources -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-shade-plugin</artifactId>
@@ -43,12 +43,8 @@
                                 <shadedArtifactAttached>false</shadedArtifactAttached>
                                 <relocations>
                                     <relocation>
-                                        <pattern>javaemul</pattern>
+                                        <pattern>emul.java</pattern>
                                         <shadedPattern>java</shadedPattern>
-                                    </relocation>
-                                    <relocation>
-                                        <pattern>javafxemul</pattern>
-                                        <shadedPattern>javafx</shadedPattern>
                                     </relocation>
                                 </relocations>
                                 <createSourcesJar>true</createSourcesJar>
