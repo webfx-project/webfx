@@ -130,11 +130,11 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
 
         @Override
         protected void fireValueChangedEvent() {
-            try {
+            //try {
                 listener.invalidated(observable);
-            } catch (Exception e) {
+            //} catch (Exception e) {
                 // NAGA Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-            }
+            //}
         }
     }
 
@@ -175,11 +175,11 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
             currentValue = observable.getValue();
             final boolean changed = (currentValue == null)? (oldValue != null) : !currentValue.equals(oldValue);
             if (changed) {
-                try {
+                // try {
                     listener.changed(observable, oldValue, currentValue);
-                } catch (Exception e) {
+                //} catch (Exception e) {
                     // NAGA Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                }
+                //}
             }
         }
     }
@@ -360,11 +360,11 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
             try {
                 locked = true;
                 for (int i = 0; i < curInvalidationSize; i++) {
-                    try {
+                    //try {
                         curInvalidationList[i].invalidated(observable);
-                    } catch (Exception e) {
+                    //} catch (Exception e) {
                         // NAGA Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                    }
+                    //}
                 }
                 if (curChangeSize > 0) {
                     final T oldValue = currentValue;
@@ -372,11 +372,11 @@ public abstract class ExpressionHelper<T> extends ExpressionHelperBase {
                     final boolean changed = (currentValue == null)? (oldValue != null) : !currentValue.equals(oldValue);
                     if (changed) {
                         for (int i = 0; i < curChangeSize; i++) {
-                            try {
+                            //try {
                                 curChangeList[i].changed(observable, oldValue, currentValue);
-                            } catch (Exception e) {
+                            //} catch (Exception e) {
                                 // NAGA Thread.currentThread().getUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
-                            }
+                            //}
                         }
                     }
                 }
