@@ -28,6 +28,12 @@ public final class GwtPlatform extends WebPlatform {
     private final JsonFactory jsonFactory = new GwtJsonFactory();
     private final WebSocketFactory webSocketFactory = new GwtWebSocketFactory();
 
+    public GwtPlatform() {
+        setWebLogger(GwtPlatform::logConsole);
+    }
+
+    private static native void logConsole(String message) /*-{ console.log(message); }-*/;
+
     @Override
     public Scheduler scheduler() {
         return scheduler;

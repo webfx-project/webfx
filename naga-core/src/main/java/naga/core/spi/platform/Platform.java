@@ -77,7 +77,7 @@ public abstract class Platform {
     }
 
     public static void log(String message, Throwable error) {
-        System.out.println(message);
+        log(message);
         error.printStackTrace();
     }
 
