@@ -20,7 +20,7 @@ public class AndroidToolkit extends GuiToolkit {
     }
 
     private AndroidToolkit() {
-        super(AndroidGuiScheduler.SINGLETON);
+        super(AndroidGuiScheduler.SINGLETON, () -> new AndroidWindow(currentActivity));
         registerNodeFactory(BorderPane.class, AndroidBorderPane::new);
         registerNodeFactory(CheckBox.class, AndroidCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, AndroidCheckBox::new);
@@ -44,13 +44,4 @@ public class AndroidToolkit extends GuiToolkit {
         }
         return node;
     }
-
-    private AndroidWindow applicationWindow;
-    @Override
-    public Window getApplicationWindow() {
-        if (applicationWindow == null)
-            applicationWindow = new AndroidWindow(currentActivity);
-        return applicationWindow;
-    }
-
 }

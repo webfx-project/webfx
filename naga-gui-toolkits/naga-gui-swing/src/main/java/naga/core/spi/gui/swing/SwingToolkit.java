@@ -18,19 +18,11 @@ public class SwingToolkit  extends GuiToolkit {
     }
 
     public SwingToolkit() {
-        super(SwingScheduler.SINGLETON);
+        super(SwingScheduler.SINGLETON, SwingWindow::new);
         registerNodeFactory(BorderPane.class, SwingBorderPane::new);
         registerNodeFactory(Table.class, SwingTable::new);
         registerNodeFactory(CheckBox.class, SwingCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, SwingCheckBox::new);
         registerNodeFactory(SearchBox.class, SwingSearchBox::new);
-    }
-
-    private SwingWindow applicationWindow;
-    @Override
-    public Window getApplicationWindow() {
-        if (applicationWindow == null)
-            applicationWindow = new SwingWindow();
-        return applicationWindow;
     }
 }

@@ -2,9 +2,9 @@ package naga.core.spi.gui;
 
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.nodes.Window;
-import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.ServiceLoaderHelper;
+import naga.core.util.function.Callable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +18,12 @@ public abstract class GuiToolkit {
     private Map<Class, ToolkitNodeWrapper> nodeWrappers = new HashMap<>();
     private Map<Class<? extends GuiNode>, ToolkitNodeWrapper> reversedNodeWrappers = new HashMap<>();
     private final Scheduler uiScheduler;
+    private final Callable<Window> windowFactory;
+    private Window applicationWindow;
 
-    public GuiToolkit() {
-        this(Platform.get().scheduler());
-    }
-
-    public GuiToolkit(Scheduler uiScheduler) {
+    public GuiToolkit(Scheduler uiScheduler, Callable<Window> windowFactory) {
         this.uiScheduler = uiScheduler;
+        this.windowFactory = windowFactory;
     }
 
     protected <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, GuiNodeFactory nodeFactory) {
@@ -47,7 +46,11 @@ public abstract class GuiToolkit {
         return nodeWrappers.get(toolkitNode.getClass()).convert(toolkitNode);
     }
 
-    public abstract Window getApplicationWindow();
+    public Window getApplicationWindow() {
+        if (applicationWindow == null)
+            applicationWindow = windowFactory.call();
+        return applicationWindow;
+    }
 
     public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
         return displayResultSet;

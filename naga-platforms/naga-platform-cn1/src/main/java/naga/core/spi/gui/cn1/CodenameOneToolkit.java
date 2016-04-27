@@ -15,19 +15,11 @@ public class CodenameOneToolkit extends GuiToolkit {
     }
 
     public CodenameOneToolkit() {
-        super(Cn1Scheduler.SINGLETON);
+        super(Cn1Scheduler.SINGLETON, Cn1Window::new);
         registerNodeFactory(BorderPane.class, Cn1BorderPane::new);
         registerNodeFactory(Table.class, Cn1Table::new);
         registerNodeFactory(CheckBox.class, Cn1CheckBox::new);
         registerNodeFactory(ToggleSwitch.class, Cn1CheckBox::new);
         registerNodeFactory(SearchBox.class, Cn1SearchBox::new);
-    }
-
-    private Cn1Window applicationWindow;
-    @Override
-    public Window getApplicationWindow() {
-        if (applicationWindow == null)
-            applicationWindow = new Cn1Window();
-        return applicationWindow;
     }
 }

@@ -2,7 +2,6 @@ package naga.core.spi.gui.javafx.nodes;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -12,13 +11,9 @@ import naga.core.spi.gui.nodes.Window;
 /**
  * @author Bruno Salmon
  */
-public class FxWindow implements Window<Node> {
+public class FxWindow implements Window<Parent> {
 
-    private Stage stage;
-
-    public FxWindow() {
-        this(new Stage());
-    }
+    protected Stage stage;
 
     public FxWindow(Stage stage) {
         setStage(stage);
@@ -34,15 +29,18 @@ public class FxWindow implements Window<Node> {
         }
     }
 
-    private void setWindowContent(Node rootComponent) {
-        Scene scene = new Scene((Parent) rootComponent, 800, 600);
-        stage.setScene(scene);
+    private void setWindowContent(Parent rootComponent) {
+        stage.setScene(createScene(rootComponent, 800, 600));
         stage.show();
     }
 
-    private final Property<GuiNode<Node>> nodeProperty = new SimpleObjectProperty<>();
+    protected Scene createScene(Parent rootComponent, double width, double height) {
+        return new Scene(rootComponent, 800, 600);
+    }
+
+    private final Property<GuiNode<Parent>> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Node>> nodeProperty() {
+    public Property<GuiNode<Parent>> nodeProperty() {
         return nodeProperty;
     }
 

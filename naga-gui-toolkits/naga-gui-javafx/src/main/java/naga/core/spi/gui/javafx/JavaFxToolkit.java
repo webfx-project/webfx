@@ -8,6 +8,7 @@ import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.javafx.nodes.*;
 import naga.core.spi.gui.nodes.*;
+import naga.core.util.function.Callable;
 
 /**
  * @author Bruno Salmon
@@ -15,7 +16,11 @@ import naga.core.spi.gui.nodes.*;
 public class JavaFxToolkit extends GuiToolkit {
 
     public JavaFxToolkit() {
-        super(FxScheduler.SINGLETON);
+        this(() -> FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage));
+    }
+
+    protected JavaFxToolkit(Callable<Window> windowFactory) {
+        super(FxScheduler.SINGLETON, windowFactory);
         new Thread(() -> Application.launch(FxApplication.class)).start();
         registerNodeFactory(Table.class, FxTable::new);
         registerNodeFactory(CheckBox.class, FxCheckBox::new);
@@ -23,14 +28,6 @@ public class JavaFxToolkit extends GuiToolkit {
         registerNodeFactory(BorderPane.class, FxBorderPane::new);
         registerNodeFactory(TextField.class, FxTextField::new);
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
-    }
-
-    private FxWindow applicationWindow;
-    @Override
-    public Window getApplicationWindow() {
-        if (applicationWindow == null)
-            applicationWindow = FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage);
-        return applicationWindow;
     }
 
     @Override
@@ -43,8 +40,8 @@ public class JavaFxToolkit extends GuiToolkit {
     }
 
     public static class FxApplication extends Application {
-        static Stage primaryStage;
-        static FxWindow applicationWindow;
+        public static Stage primaryStage;
+        public static FxWindow applicationWindow;
         @Override
         public void start(Stage primaryStage) throws Exception {
             FxApplication.primaryStage = primaryStage;

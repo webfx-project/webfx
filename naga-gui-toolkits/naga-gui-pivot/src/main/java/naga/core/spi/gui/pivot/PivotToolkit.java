@@ -11,7 +11,7 @@ import naga.core.spi.gui.pivot.nodes.*;
 public class PivotToolkit extends GuiToolkit {
 
     public PivotToolkit() {
-        super(PivotScheduler.SINGLETON);
+        super(PivotScheduler.SINGLETON, PivotWindow::new);
         registerNodeFactory(BorderPane.class, PivotBorderPane::new);
         registerNodeFactory(Table.class, PivotTable::new);
         registerNodeFactory(CheckBox.class, PivotCheckBox::new);
@@ -19,11 +19,4 @@ public class PivotToolkit extends GuiToolkit {
         registerNodeFactory(SearchBox.class, PivotSearchBox::new);
     }
 
-    private PivotWindow applicationWindow;
-    @Override
-    public Window getApplicationWindow() {
-        if (applicationWindow == null)
-            applicationWindow = new PivotWindow();
-        return applicationWindow;
-    }
 }
