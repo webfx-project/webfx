@@ -16,6 +16,7 @@
     <modules>
         <module>mongoose-logic</module>
         <module>mongoose-backend</module>
+        <module>mongoose-frontend</module>
     </modules>
 
     <properties>
