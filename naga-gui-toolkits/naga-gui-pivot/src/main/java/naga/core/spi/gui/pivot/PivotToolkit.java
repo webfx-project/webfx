@@ -3,7 +3,6 @@ package naga.core.spi.gui.pivot;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.*;
 import naga.core.spi.gui.pivot.nodes.*;
-import naga.core.spi.platform.Scheduler;
 
 
 /**
@@ -12,6 +11,7 @@ import naga.core.spi.platform.Scheduler;
 public class PivotToolkit extends GuiToolkit {
 
     public PivotToolkit() {
+        super(PivotScheduler.SINGLETON);
         registerNodeFactory(BorderPane.class, PivotBorderPane::new);
         registerNodeFactory(Table.class, PivotTable::new);
         registerNodeFactory(CheckBox.class, PivotCheckBox::new);
@@ -25,10 +25,5 @@ public class PivotToolkit extends GuiToolkit {
         if (applicationWindow == null)
             applicationWindow = new PivotWindow();
         return applicationWindow;
-    }
-
-    @Override
-    public Scheduler scheduler() {
-        return PivotScheduler.SINGLETON;
     }
 }

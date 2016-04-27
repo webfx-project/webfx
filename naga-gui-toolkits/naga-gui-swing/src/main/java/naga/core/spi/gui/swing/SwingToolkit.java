@@ -3,7 +3,6 @@ package naga.core.spi.gui.swing;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.*;
 import naga.core.spi.gui.swing.nodes.*;
-import naga.core.spi.platform.Scheduler;
 
 import javax.swing.*;
 
@@ -19,6 +18,7 @@ public class SwingToolkit  extends GuiToolkit {
     }
 
     public SwingToolkit() {
+        super(SwingScheduler.SINGLETON);
         registerNodeFactory(BorderPane.class, SwingBorderPane::new);
         registerNodeFactory(Table.class, SwingTable::new);
         registerNodeFactory(CheckBox.class, SwingCheckBox::new);
@@ -32,10 +32,5 @@ public class SwingToolkit  extends GuiToolkit {
         if (applicationWindow == null)
             applicationWindow = new SwingWindow();
         return applicationWindow;
-    }
-
-    @Override
-    public Scheduler scheduler() {
-        return SwingScheduler.SINGLETON;
     }
 }

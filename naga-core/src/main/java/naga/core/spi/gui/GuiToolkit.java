@@ -17,6 +17,15 @@ public abstract class GuiToolkit {
     private Map<Class<? extends GuiNode>, GuiNodeFactory> nodeFactories = new HashMap<>();
     private Map<Class, ToolkitNodeWrapper> nodeWrappers = new HashMap<>();
     private Map<Class<? extends GuiNode>, ToolkitNodeWrapper> reversedNodeWrappers = new HashMap<>();
+    private final Scheduler uiScheduler;
+
+    public GuiToolkit() {
+        this(Platform.get().scheduler());
+    }
+
+    public GuiToolkit(Scheduler uiScheduler) {
+        this.uiScheduler = uiScheduler;
+    }
 
     protected <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, GuiNodeFactory nodeFactory) {
         nodeFactories.put(nodeInterface, nodeFactory);
@@ -45,7 +54,7 @@ public abstract class GuiToolkit {
     }
 
     public Scheduler scheduler() {
-        return Platform.get().scheduler();
+        return uiScheduler;
     }
 
     public static boolean isUiThread() {

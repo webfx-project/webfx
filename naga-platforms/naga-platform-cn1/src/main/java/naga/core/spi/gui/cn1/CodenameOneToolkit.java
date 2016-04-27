@@ -3,7 +3,6 @@ package naga.core.spi.gui.cn1;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.cn1.nodes.*;
 import naga.core.spi.gui.nodes.*;
-import naga.core.spi.platform.Scheduler;
 
 
 /**
@@ -16,6 +15,7 @@ public class CodenameOneToolkit extends GuiToolkit {
     }
 
     public CodenameOneToolkit() {
+        super(Cn1Scheduler.SINGLETON);
         registerNodeFactory(BorderPane.class, Cn1BorderPane::new);
         registerNodeFactory(Table.class, Cn1Table::new);
         registerNodeFactory(CheckBox.class, Cn1CheckBox::new);
@@ -29,10 +29,5 @@ public class CodenameOneToolkit extends GuiToolkit {
         if (applicationWindow == null)
             applicationWindow = new Cn1Window();
         return applicationWindow;
-    }
-
-    @Override
-    public Scheduler scheduler() {
-        return Cn1Scheduler.SINGLETON;
     }
 }

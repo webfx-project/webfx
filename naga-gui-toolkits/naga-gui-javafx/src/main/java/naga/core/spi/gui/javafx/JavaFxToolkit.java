@@ -8,7 +8,6 @@ import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.javafx.nodes.*;
 import naga.core.spi.gui.nodes.*;
-import naga.core.spi.platform.Scheduler;
 
 /**
  * @author Bruno Salmon
@@ -16,6 +15,7 @@ import naga.core.spi.platform.Scheduler;
 public class JavaFxToolkit extends GuiToolkit {
 
     public JavaFxToolkit() {
+        super(FxScheduler.SINGLETON);
         new Thread(() -> Application.launch(FxApplication.class)).start();
         registerNodeFactory(Table.class, FxTable::new);
         registerNodeFactory(CheckBox.class, FxCheckBox::new);
@@ -31,11 +31,6 @@ public class JavaFxToolkit extends GuiToolkit {
         if (applicationWindow == null)
             applicationWindow = FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage);
         return applicationWindow;
-    }
-
-    @Override
-    public Scheduler scheduler() {
-        return FxScheduler.SINGLETON;
     }
 
     @Override

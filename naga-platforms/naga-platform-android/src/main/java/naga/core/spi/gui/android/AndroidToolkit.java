@@ -7,7 +7,6 @@ import naga.core.spi.gui.GuiNodeFactory;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.android.nodes.*;
 import naga.core.spi.gui.nodes.*;
-import naga.core.spi.platform.Scheduler;
 
 /**
  * @author Bruno Salmon
@@ -21,6 +20,7 @@ public class AndroidToolkit extends GuiToolkit {
     }
 
     private AndroidToolkit() {
+        super(AndroidGuiScheduler.SINGLETON);
         registerNodeFactory(BorderPane.class, AndroidBorderPane::new);
         registerNodeFactory(CheckBox.class, AndroidCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, AndroidCheckBox::new);
@@ -51,11 +51,6 @@ public class AndroidToolkit extends GuiToolkit {
         if (applicationWindow == null)
             applicationWindow = new AndroidWindow(currentActivity);
         return applicationWindow;
-    }
-
-    @Override
-    public Scheduler scheduler() {
-        return AndroidGuiScheduler.SINGLETON;
     }
 
 }
