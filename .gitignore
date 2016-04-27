@@ -108,3 +108,4 @@ bower_components/
 **/naga-platform-cn1/cn1/src/
 **/mongoose-backend-cn1/cn1/dist/
 **/mongoose-backend-cn1/cn1/lib/*.cn1lib
+/naga-platforms/naga-platform-cn1/cn1/dist/

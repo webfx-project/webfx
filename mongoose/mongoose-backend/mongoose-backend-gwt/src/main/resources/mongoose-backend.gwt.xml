@@ -2,7 +2,7 @@
 
 <module rename-to='mongoose_backend'>
 
-    <!-- Inherit the naga module (nage-core + naga-gwt stuff)       -->
+    <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
     <inherits name="naga-gui-gwtmaterial"/> <!-- refers to naga.gwt.xml in naga-plat-gwt -->
 
     <inherits name="com.google.gwt.resources.Resources" />

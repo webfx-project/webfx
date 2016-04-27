@@ -4,8 +4,10 @@
     <entry_points version="2.0" />
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="android" url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-android" />
     <file type="android" url="file://$PROJECT_DIR$/naga-application-examples/hellonaga/hellonaga-android" />
     <file type="android" url="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-android" />
+    <file type="android" url="file://$PROJECT_DIR$/naga-platforms/naga-platform-android" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -16,16 +18,32 @@
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/mongoose/mongoose-jre/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-classlibs/classlib-niobuffer/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-examples/helloworld/helloworld-logic/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-examples/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-gwt/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-j2objc/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-jre/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-teavm/pom.xml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-retrolambda/pom.xml" />
       </set>
+    </option>
+  </component>
+  <component name="NullableNotNullManager">
+    <option name="myDefaultNullable" value="android.support.annotation.Nullable" />
+    <option name="myDefaultNotNull" value="android.support.annotation.NonNull" />
+    <option name="myNullables">
+      <value>
+        <list size="4">
+          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+          <item index="3" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
+        </list>
+      </value>
+    </option>
+    <option name="myNotNulls">
+      <value>
+        <list size="4">
+          <item index="0" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
+          <item index="1" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
+          <item index="2" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
+          <item index="3" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
+        </list>
+      </value>
     </option>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">

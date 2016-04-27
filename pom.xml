@@ -83,6 +83,7 @@
         <plugin.gwt.param.compileSourcesArtifact6>TBD</plugin.gwt.param.compileSourcesArtifact6>
         <plugin.gwt.param.compileSourcesArtifact7>TBD</plugin.gwt.param.compileSourcesArtifact7>
         <plugin.gwt.param.compileSourcesArtifact8>TBD</plugin.gwt.param.compileSourcesArtifact8>
+        <plugin.gwt.param.compileSourcesArtifact9>TBD</plugin.gwt.param.compileSourcesArtifact9>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
@@ -647,6 +648,7 @@
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact6}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact7}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact8}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact9}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
                                 <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</webappDirectory>
                             </configuration>

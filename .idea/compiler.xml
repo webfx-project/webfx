@@ -26,7 +26,6 @@
         <module name="hellonaga-gwt" />
         <module name="hellonaga-j2objc" />
         <module name="hellonaga-logic" />
-        <module name="hellonaga-retrolambda" />
         <module name="hellonaga-teavm" />
         <module name="helloworld-android" />
         <module name="helloworld-gwt" />
@@ -47,11 +46,14 @@
         <module name="javaport-niobuffer" />
         <module name="jreport-base64" />
         <module name="jreport-niobuffer" />
+        <module name="mongoose-backend-android" />
         <module name="mongoose-backend-cn1" />
         <module name="mongoose-backend-gwt" />
         <module name="mongoose-backend-javafx" />
+        <module name="mongoose-backend-pivot" />
         <module name="mongoose-backend-swing" />
         <module name="mongoose-backend-teavm" />
+        <module name="mongoose-frontend-javafx" />
         <module name="mongoose-logic" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
@@ -60,10 +62,12 @@
         <module name="naga-abstrplat-java" />
         <module name="naga-android" />
         <module name="naga-core" />
+        <module name="naga-gui-gwt" />
         <module name="naga-gui-gwtmaterial" />
         <module name="naga-gui-javafx" />
         <module name="naga-gui-javafx-jfoenix" />
         <module name="naga-gui-jfoenix" />
+        <module name="naga-gui-pivot" />
         <module name="naga-gui-swing" />
         <module name="naga-gwt" />
         <module name="naga-j2objc" />
@@ -104,7 +108,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="hellonaga" target="1.8" />
-      <module name="hellonaga-android" target="1.7" />
+      <module name="hellonaga-android" target="1.8" />
       <module name="hellonaga-gwt" target="1.8" />
       <module name="hellonaga-j2objc" target="1.8" />
       <module name="hellonaga-jre" target="1.8" />
@@ -120,13 +124,18 @@
       <module name="helloworld-teavm" target="1.8" />
       <module name="mongoose" target="1.8" />
       <module name="mongoose-backend" target="1.8" />
+      <module name="mongoose-backend-android" target="1.8" />
       <module name="mongoose-backend-cn1" target="1.8" />
       <module name="mongoose-backend-codenameone" target="1.8" />
       <module name="mongoose-backend-gwt" target="1.8" />
       <module name="mongoose-backend-javafx" target="1.8" />
       <module name="mongoose-backend-jre" target="1.8" />
+      <module name="mongoose-backend-pivot" target="1.8" />
+      <module name="mongoose-backend-retrolambda" target="1.8" />
       <module name="mongoose-backend-swing" target="1.8" />
       <module name="mongoose-backend-teavm" target="1.8" />
+      <module name="mongoose-frontend" target="1.8" />
+      <module name="mongoose-frontend-javafx" target="1.8" />
       <module name="mongoose-jre" target="1.8" />
       <module name="mongoose-logic" target="1.8" />
       <module name="naga" target="1.8" />
@@ -141,6 +150,7 @@
       <module name="naga-gui-javafx" target="1.8" />
       <module name="naga-gui-javafx-jfoenix" target="1.8" />
       <module name="naga-gui-jfoenix" target="1.8" />
+      <module name="naga-gui-pivot" target="1.8" />
       <module name="naga-gui-swing" target="1.8" />
       <module name="naga-gui-toolkits" target="1.8" />
       <module name="naga-guis" target="1.8" />
