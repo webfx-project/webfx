@@ -65,8 +65,25 @@ public final class GwtJsonFactory extends JsonFactory<GwtJsonArray, GwtJsonObjec
 
     // @formatter:off
     private native static Object parse0(String jsonString) /*-{
-        // assume Chrome, safe and non-broken JSON.parse impl
-        return $wnd.JSON.parse(jsonString);
+        try { // First attempt without any transformation (only pure json will be accepted)
+            return $wnd.JSON.parse(jsonString);
+        } catch (e) { // Second attempt with transformation to allow relaxed json (single quotes strings and unquoted keys)
+            // Converting single-quoted strings to double-quoted strings for Json compliance
+            // Code borrowed from https://github.com/sindresorhus/to-double-quotes/blob/master/index.js
+            jsonString = jsonString.replace(/(?:\\*)?'([^'\\]*\\.)*[^']*'/g, function (match) {
+                return match
+                    // unescape single-quotes
+                    .replace(/\\'/g, '\'')
+                    // escape escapes
+                    .replace(/(^|[^\\])(\\+)"/g, '$1$2\\\"')
+                    // escape double-quotes
+                    .replace(/([^\\])"/g, '$1\\\"')
+                    // convert
+                    .replace(/^'|'$/g, '"')});
+            // Also unquoted keys are converted to double-quotes keys for Json compliance
+            jsonString = jsonString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+            return $wnd.JSON.parse(jsonString);
+        }
     }-*/;
     // @formatter:on
 
