@@ -1,10 +1,10 @@
-package naga.core.spi.gui.gwtmaterial.nodes;
+package naga.core.spi.gui.gwt.nodes;
 
 import com.google.gwt.user.client.ui.ButtonBase;
 import com.google.gwt.user.client.ui.HasValue;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.spi.gui.gwtmaterial.GwtNode;
+import naga.core.spi.gui.gwt.GwtNode;
 
 /**
  * @author Bruno Salmon

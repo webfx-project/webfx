@@ -1,6 +1,7 @@
 package naga.core.spi.gui.gwtmaterial.nodes;
 
 import gwt.material.design.client.ui.MaterialCheckBox;
+import naga.core.spi.gui.gwt.nodes.GwtButtonBase;
 import naga.core.spi.gui.nodes.CheckBox;
 import naga.core.spi.gui.nodes.ToggleSwitch;
 

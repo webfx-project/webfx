@@ -1,10 +1,10 @@
-package naga.core.spi.gui.gwtmaterial.nodes;
+package naga.core.spi.gui.gwt.nodes;
 
 import com.google.gwt.user.client.ui.UIObject;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.ngui.displayresultset.DisplayResultSet;
-import naga.core.spi.gui.gwtmaterial.GwtNode;
+import naga.core.spi.gui.gwt.GwtNode;
 import naga.core.spi.gui.nodes.DisplayResultSetNode;
 
 /**

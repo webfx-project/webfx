@@ -1,4 +1,4 @@
-package naga.core.spi.gui.gwtmaterial.nodes;
+package naga.core.spi.gui.gwt.nodes;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -7,7 +7,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import naga.core.spi.gui.GuiNode;
-import naga.core.spi.gui.gwtmaterial.GwtNode;
+import naga.core.spi.gui.gwt.GwtNode;
 import naga.core.spi.gui.nodes.BorderPane;
 
 /**

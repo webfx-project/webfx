@@ -1,6 +1,6 @@
-package naga.core.spi.gui.gwtmaterial.nodes;
+package naga.core.spi.gui.gwt.nodes;
 
-import gwt.material.design.client.ui.MaterialSearch;
+import com.google.gwt.user.client.ui.TextBox;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.gui.gwt.GwtNode;
@@ -9,17 +9,17 @@ import naga.core.spi.gui.nodes.SearchBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtMaterialSearchBox extends GwtNode<MaterialSearch> implements SearchBox<MaterialSearch> {
+public class GwtSearchBox extends GwtNode<TextBox> implements SearchBox<TextBox> {
 
-    public GwtMaterialSearchBox() {
-        this(new MaterialSearch());
+    public GwtSearchBox() {
+        this(new TextBox());
     }
 
-    public GwtMaterialSearchBox(MaterialSearch search) {
+    public GwtSearchBox(TextBox search) {
         super(search);
         search.addValueChangeHandler(event -> textProperty.setValue(search.getValue()));
         search.addKeyUpHandler(event -> textProperty.setValue(search.getValue()));
-        placeholderProperty.addListener((observable, oldValue, newValue) -> node.setPlaceholder(newValue));
+        //placeholderProperty.addListener((observable, oldValue, newValue) -> node.setPlaceholder(newValue));
     }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();

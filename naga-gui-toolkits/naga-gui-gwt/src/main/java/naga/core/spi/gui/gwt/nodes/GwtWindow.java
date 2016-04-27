@@ -1,4 +1,4 @@
-package naga.core.spi.gui.gwtmaterial.nodes;
+package naga.core.spi.gui.gwt.nodes;
 
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,7 +25,8 @@ public class GwtWindow implements Window<Widget> {
     }
 
     private void setWindowContent(Widget rootComponent) {
-        while (rootLayoutPanel.remove(0));
+        while (rootLayoutPanel.getWidgetCount() != 0)
+            rootLayoutPanel.remove(0);
         rootLayoutPanel.add(rootComponent);
     }
 

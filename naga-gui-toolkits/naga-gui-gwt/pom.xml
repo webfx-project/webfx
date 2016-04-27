@@ -9,32 +9,22 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-gui-gwtmaterial</artifactId>
+    <artifactId>naga-gui-gwt</artifactId>
 
     <dependencies>
 
         <dependency>
-            <artifactId>naga-gui-gwt</artifactId>
+            <artifactId>naga-core</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
 
-        <!-- GwtMaterial -->
         <dependency>
-            <groupId>com.github.gwtmaterialdesign</groupId>
-            <artifactId>gwt-material</artifactId>
-            <version>${lib.gwt-material.version}</version>
+            <artifactId>naga-platform-gwt</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.gwtmaterialdesign</groupId>
-            <artifactId>gwt-material-themes</artifactId>
-            <version>${lib.gwt-material.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.gwtmaterialdesign</groupId>
-            <artifactId>gwt-material-addins</artifactId>
-            <version>${lib.gwt-material.version}</version>
-        </dependency>
+
 
     </dependencies>
 

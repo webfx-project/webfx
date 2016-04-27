@@ -1,4 +1,4 @@
-package naga.core.spi.gui.gwtmaterial;
+package naga.core.spi.gui.gwt;
 
 import com.google.gwt.user.client.ui.Focusable;
 import com.google.gwt.user.client.ui.UIObject;

@@ -11,7 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-gui-gwt" />
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-platform-gwt" />
     <orderEntry type="module" module-name="naga-abstractplatform-web" />
@@ -21,8 +20,5 @@
     <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
-    <orderEntry type="library" name="Maven: com.github.gwtmaterialdesign:gwt-material:1.5.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.gwtmaterialdesign:gwt-material-themes:1.5.0" level="project" />
-    <orderEntry type="library" name="Maven: com.github.gwtmaterialdesign:gwt-material-addins:1.5.0" level="project" />
   </component>
 </module>

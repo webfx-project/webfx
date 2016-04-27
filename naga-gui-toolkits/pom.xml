@@ -17,6 +17,7 @@
         <module>naga-gui-jfoenix</module>
         <module>naga-gui-swing</module>
         <module>naga-gui-pivot</module>
+        <module>naga-gui-gwt</module>
         <module>naga-gui-gwtmaterial</module>
     </modules>
 

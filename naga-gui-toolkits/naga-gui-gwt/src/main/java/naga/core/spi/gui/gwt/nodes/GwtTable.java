@@ -1,4 +1,4 @@
-package naga.core.spi.gui.gwtmaterial.nodes;
+package naga.core.spi.gui.gwt.nodes;
 
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -18,7 +18,6 @@ public class GwtTable extends GwtDisplayResultSetNode<DataGrid<Integer>> impleme
 
     public GwtTable(DataGrid<Integer> node) {
         super(node);
-        node.addStyleName("bordered");
     }
 
     @Override
