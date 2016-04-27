@@ -24,7 +24,20 @@
             <artifactId>naga-gui-gwtmaterial</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <scope>compile</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
+            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-codeserver</artifactId>
+            <version>${lib.gwt.version}</version>
+            <scope>runtime</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
         </dependency>
 
     </dependencies>
