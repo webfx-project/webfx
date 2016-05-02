@@ -1,35 +1,29 @@
 package mongoose.logic;
 
-import mongoose.logic.cart.CartLogic;
-import mongoose.logic.organizations.OrganizationsLogic;
-import naga.core.ngui.lifecycle.Application;
-import naga.core.ngui.lifecycle.ApplicationContext;
+import mongoose.logic.cart.CartActivity;
+import mongoose.logic.organizations.OrganizationsActivity;
+import naga.core.activity.Activity;
+import naga.core.activity.ActivityContext;
+import naga.core.activity.ActivityRouterHelper;
 import naga.core.routing.Router;
 
 /**
  * @author Bruno Salmon
  */
-abstract class MongooseApplication implements Application {
+abstract class MongooseApplication implements Activity {
 
-    private Router router;
+    protected final Router router = new Router();
 
     @Override
-    public void onCreate(ApplicationContext context) {
-        setUpWebSocketConnection();
-        router = setUpRouter();
-    }
-
-    protected void setUpWebSocketConnection() { // Client side setting up
-    }
-
-    protected Router setUpRouter() {
-        return new Router()
-                .route("/organizations", OrganizationsLogic.organizationsUiRouterHandler)
-                .route("/cart/:cartUuid", CartLogic.cartUiRouterHandler);
+    public void onCreate(ActivityContext context) {
+        new ActivityRouterHelper(router)
+                .route("/organizations", OrganizationsActivity::new)
+                .route("/cart/:cartUuid", CartActivity::new);
     }
 
     @Override
     public void onStart() {
         router.start();
     }
+
 }

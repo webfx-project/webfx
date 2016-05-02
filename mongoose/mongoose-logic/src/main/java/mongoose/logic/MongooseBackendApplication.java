@@ -1,7 +1,6 @@
 package mongoose.logic;
 
-import naga.core.ngui.lifecycle.ApplicationController;
-import naga.core.routing.Router;
+import naga.core.activity.ActivityManager;
 
 /**
  * @author Bruno Salmon
@@ -9,12 +8,13 @@ import naga.core.routing.Router;
 public class MongooseBackendApplication extends MongooseApplication {
 
     @Override
-    protected Router setUpRouter() {
-        return super.setUpRouter().defaultPath("/organizations");
+    public void onStart() {
+        router.defaultPath("/organizations");
+        super.onStart();
     }
 
     public static void main(String[] args) {
-        ApplicationController.startApplication(new MongooseBackendApplication(), args);
+        ActivityManager.launchApplication(new MongooseBackendApplication(), args);
     }
 
 }
