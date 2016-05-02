@@ -1,7 +1,7 @@
 package naga.core.spi.platform.client;
 
 import naga.core.spi.bus.BusFactory;
-import naga.core.spi.bus.client.ClientBusFactory;
+import naga.core.spi.bus.client.ReconnectBus;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
@@ -13,7 +13,7 @@ import naga.core.spi.sql.impl.SqlServiceImpl;
  */
 public abstract class ClientPlatform extends Platform {
 
-    public BusFactory busFactory() { return ClientBusFactory.SINGLETON; }
+    public BusFactory<WebSocketBusOptions> busFactory() { return ReconnectBus::new; }
 
     @Override
     public SqlService sqlService() {
