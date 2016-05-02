@@ -3,7 +3,7 @@ package mongoose.logic.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.ngui.displayresultset.DisplayResultSet;
-import naga.core.ngui.presentationmodel.PresentationModel;
+import naga.core.ngui.presentation.PresentationModel;
 
 /**
  * @author Bruno Salmon

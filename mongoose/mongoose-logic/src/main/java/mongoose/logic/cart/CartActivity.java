@@ -2,30 +2,27 @@ package mongoose.logic.cart;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
-import naga.core.ngui.routing.UiRouteHandler;
-import naga.core.ngui.routing.UiState;
+import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.Table;
+import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
-public class CartLogic {
+public class CartActivity extends PresentationActivity<CartUiModel, CartPresentationModel> {
 
-    public static UiRouteHandler cartUiRouterHandler = new UiRouteHandler()
-            .setPresentationModelFactory(CartPresentationModel::new)
-            .setPresentationModelInitializer(CartLogic::initializeCartPresentationModel)
-            .setUiBuilder(CartLogic::buildCartUi)
-            .setPresentationModelLogicBinder(CartLogic::doCartPresentationModelLogicBinding);
+    public static Factory<CartUiModel> uiBuilder;
 
-    private static void initializeCartPresentationModel(UiState uiState) {
-        CartPresentationModel pm = (CartPresentationModel) uiState.presentationModel();
-        pm.cartUuidProperty().setValue(uiState.getParams().get("cartUuid"));
+    public CartActivity() {
+        setPresentationModelFactory(CartPresentationModel::new);
+        setUiBuilder(uiBuilder);
     }
 
-    private static void buildCartUi(UiState uiState) {
+    @Override
+    protected CartUiModel buildUiModel() {
         // Building the UI components
         GuiToolkit toolkit = GuiToolkit.get();
         Table documentTable = toolkit.createNode(Table.class);
@@ -33,22 +30,29 @@ public class CartLogic {
         Table paymentTable = toolkit.createNode(Table.class);
 
         // Displaying the UI
-        toolkit.getApplicationWindow().setNode(toolkit.createNode(BorderPane.class)
+        return new CartUiModel(toolkit.createNode(BorderPane.class)
                 .setTop(documentTable)
                 .setCenter(documentLineTable)
-                .setBottom(paymentTable));
-
-        // Initializing the UI state from the presentation model current state
-        CartPresentationModel pm = (CartPresentationModel) uiState.presentationModel();
-
-        // Binding the UI with the presentation model for further state changes
-        // User outputs: the presentation model changes are transferred in the UI
-        documentTable.displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
-        documentLineTable.displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
-        paymentTable.displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
+                .setBottom(paymentTable),
+                documentTable, documentLineTable, paymentTable);
     }
 
-    private static void doCartPresentationModelLogicBinding(CartPresentationModel pm) {
+    @Override
+    protected void bindUiModelWithPresentationModel(CartUiModel um, CartPresentationModel pm) {
+        // Binding the UI with the presentation model for further state changes
+        // User outputs: the presentation model changes are transferred in the UI
+        um.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
+        um.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
+        um.getPaymentTable().displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
+    }
+
+    @Override
+    protected void initializePresentationModel(CartPresentationModel pm) {
+        pm.cartUuidProperty().setValue(getActivityContext().getParams().get("cartUuid"));
+    }
+
+    @Override
+    protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: Document, orderBy: 'creationDate desc'}")
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
