@@ -1,4 +1,4 @@
-package naga.core.ngui.presentationmodel;
+package naga.core.ngui.presentation;
 
 /**
  * @author Bruno Salmon
