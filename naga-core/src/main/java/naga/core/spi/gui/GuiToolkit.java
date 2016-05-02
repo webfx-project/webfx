@@ -5,6 +5,7 @@ import naga.core.spi.gui.nodes.Window;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.ServiceLoaderHelper;
 import naga.core.util.function.Callable;
+import naga.core.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,7 @@ import java.util.Map;
  */
 public abstract class GuiToolkit {
 
-    private Map<Class<? extends GuiNode>, GuiNodeFactory> nodeFactories = new HashMap<>();
+    private Map<Class<? extends GuiNode>, Factory<GuiNode>> nodeFactories = new HashMap<>();
     private Map<Class, ToolkitNodeWrapper> nodeWrappers = new HashMap<>();
     private Map<Class<? extends GuiNode>, ToolkitNodeWrapper> reversedNodeWrappers = new HashMap<>();
     private final Scheduler uiScheduler;
@@ -26,16 +27,16 @@ public abstract class GuiToolkit {
         this.windowFactory = windowFactory;
     }
 
-    protected <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, GuiNodeFactory nodeFactory) {
+    protected <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, Factory<GuiNode> nodeFactory) {
         nodeFactories.put(nodeInterface, nodeFactory);
     }
 
     public <T extends GuiNode> T createNode(Class<T> nodeInterface) {
-        return (T) nodeFactories.get(nodeInterface).createNode();
+        return (T) nodeFactories.get(nodeInterface).create();
     }
 
-    public void registerToolkitNodeWrapper(ToolkitNodeWrapper wrapper, Class tookitNodeClass, Class<? extends GuiNode> nagaNodeClass) {
-        nodeWrappers.put(tookitNodeClass, wrapper);
+    public void registerToolkitNodeWrapper(ToolkitNodeWrapper wrapper, Class toolkitNodeClass, Class<? extends GuiNode> nagaNodeClass) {
+        nodeWrappers.put(toolkitNodeClass, wrapper);
     }
 
     public <T extends GuiNode> T wrapFromToolkitNode(Object toolkitNode, Class<T> nodeInterface) {

@@ -3,10 +3,10 @@ package naga.core.spi.gui.android;
 import android.app.Activity;
 import android.view.View;
 import naga.core.spi.gui.GuiNode;
-import naga.core.spi.gui.GuiNodeFactory;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.android.nodes.*;
 import naga.core.spi.gui.nodes.*;
+import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -25,9 +25,9 @@ public class AndroidToolkit extends GuiToolkit {
         registerNodeFactory(CheckBox.class, AndroidCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, AndroidCheckBox::new);
         registerNodeFactory(SearchBox.class, AndroidSearchBox::new);
-        registerNodeFactory(Table.class, new GuiNodeFactory() {
+        registerNodeFactory(Table.class, new Factory<GuiNode>() { // For any reason AndroidTable::new produces a runtime error
             @Override
-            public GuiNode createNode() {
+            public GuiNode create() {
                 return new AndroidTable();
             }
         });
