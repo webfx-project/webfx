@@ -2,44 +2,49 @@ package mongoose.logic.organizations;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
-import naga.core.ngui.routing.UiRouteHandler;
-import naga.core.ngui.routing.UiState;
+import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.CheckBox;
 import naga.core.spi.gui.nodes.SearchBox;
 import naga.core.spi.gui.nodes.Table;
+import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsLogic {
+public class OrganizationsActivity extends PresentationActivity<OrganizationUiModel, OrganizationsPresentationModel> {
 
-    public static UiRouteHandler organizationsUiRouterHandler = new UiRouteHandler()
-            .setPresentationModelFactory(OrganizationsPresentationModel::new)
-            .setUiBuilder(OrganizationsLogic::buildOrganizationsUi)
-            .setPresentationModelLogicBinder(OrganizationsLogic::doOrganizationsPresentationModelLogicBinding);
+    public static Factory<OrganizationUiModel> uiBuilder;
 
-    private static void buildOrganizationsUi(UiState uiState) {
+    public OrganizationsActivity() {
+        setPresentationModelFactory(OrganizationsPresentationModel::new);
+        setUiBuilder(uiBuilder);
+    }
+
+    protected OrganizationUiModel buildUiModel() {
         // Building the UI components
         GuiToolkit toolkit = GuiToolkit.get();
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
-        searchBox.setPlaceholder("Enter your centre name to narrow the list");
         Table table = toolkit.createNode(Table.class);
         CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
-        limitCheckBox.setText("Limit to 100");
-
-        // Displaying the UI
-        toolkit.getApplicationWindow().setNode(toolkit.createNode(BorderPane.class)
+        return new OrganizationUiModel(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
-                .setBottom(limitCheckBox));
-        // Requesting the focus on the search box
-        searchBox.requestFocus();
+                .setBottom(limitCheckBox)
+                , searchBox, table, limitCheckBox);
+    }
 
-        // Initializing the UI state from the presentation model current state
-        OrganizationsPresentationModel pm = (OrganizationsPresentationModel) uiState.presentationModel();
+    protected void bindUiModelWithPresentationModel(OrganizationUiModel um, OrganizationsPresentationModel pm) {
+        // Hard coded initialization
+        SearchBox searchBox = um.getSearchBox();
+        CheckBox limitCheckBox = um.getLimitCheckBox();
+        searchBox.setPlaceholder("Enter your centre name to narrow the list");
+        searchBox.requestFocus();
+        limitCheckBox.setText("Limit to 100");
+
+        // Initialization from the presentation model current state
         searchBox.setText(pm.searchTextProperty().getValue());
         limitCheckBox.setSelected(pm.limitProperty().getValue());
 
@@ -48,10 +53,14 @@ public class OrganizationsLogic {
         pm.searchTextProperty().bind(searchBox.textProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         // User outputs: the presentation model changes are transferred in the UI
-        table.displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
+        um.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
     }
 
-    private static void doOrganizationsPresentationModelLogicBinding(OrganizationsPresentationModel pm) {
+    protected OrganizationsPresentationModel buildPresentationModel() {
+        return new OrganizationsPresentationModel();
+    }
+
+    protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
                 .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())

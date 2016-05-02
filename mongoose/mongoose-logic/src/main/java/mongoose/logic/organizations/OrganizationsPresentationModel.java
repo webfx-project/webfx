@@ -2,7 +2,7 @@ package mongoose.logic.organizations;
 
 import javafx.beans.property.*;
 import naga.core.ngui.displayresultset.DisplayResultSet;
-import naga.core.ngui.presentationmodel.PresentationModel;
+import naga.core.ngui.presentation.PresentationModel;
 
 /**
  * @author Bruno Salmon
