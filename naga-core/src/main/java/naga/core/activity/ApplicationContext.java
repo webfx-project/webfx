@@ -1,9 +1,9 @@
-package naga.core.ngui.lifecycle;
+package naga.core.activity;
 
 /**
  * @author Bruno Salmon
  */
-public class ApplicationContext implements CyclicalContext {
+public class ApplicationContext extends ActivityContext {
 
     private String[] mainArgs;
 

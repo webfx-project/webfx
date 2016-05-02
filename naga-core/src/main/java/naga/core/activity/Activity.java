@@ -1,11 +1,11 @@
-package naga.core.ngui.lifecycle;
+package naga.core.activity;
 
 /**
  * @author Bruno Salmon
  */
-public interface Cyclical<C extends CyclicalContext> {
+public interface Activity {
 
-    default void onCreate(C context) {}
+    default void onCreate(ActivityContext context) {}
 
     default void onStart() {}
 
