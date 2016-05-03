@@ -28,9 +28,12 @@ public class ActivityManager {
         create(context);
     }
 
+    private static ActivityManager applicationActivityManager; // keeping static reference to avoid garbage collection
     public void create(ActivityContext context) {
         this.context = context;
         transitTo(State.CREATED);
+        if (context instanceof ApplicationContext)
+            applicationActivityManager = this;
     }
 
     public void start() {
@@ -119,13 +122,13 @@ public class ActivityManager {
         return () -> new ActivityManager(activityFactory);
     }
 
-    public static Factory<ActivityManager> factory(Activity activity) {
+    /* unused at the moment
+     public static Factory<ActivityManager> factory(Activity activity) {
         return () -> new ActivityManager(activity);
     }
 
     public static Factory<ActivityManager> factory(Activity activity, ActivityContext context) {
         return () -> from(activity, context);
-    }
-
+    } */
 
 }
