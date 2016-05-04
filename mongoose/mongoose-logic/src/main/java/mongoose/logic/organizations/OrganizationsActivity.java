@@ -3,29 +3,28 @@ package mongoose.logic.organizations;
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
+import naga.core.ngui.presentation.UiBuilder;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.CheckBox;
 import naga.core.spi.gui.nodes.SearchBox;
 import naga.core.spi.gui.nodes.Table;
-import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
 public class OrganizationsActivity extends PresentationActivity<OrganizationUiModel, OrganizationsPresentationModel> {
 
-    public static Factory<OrganizationUiModel> uiBuilder;
+    public static UiBuilder<OrganizationUiModel> uiBuilder;
 
     public OrganizationsActivity() {
         setPresentationModelFactory(OrganizationsPresentationModel::new);
         setUiBuilder(uiBuilder);
     }
 
-    protected OrganizationUiModel buildUiModel() {
+    protected OrganizationUiModel buildUiModel(GuiToolkit toolkit) {
         // Building the UI components
-        GuiToolkit toolkit = GuiToolkit.get();
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
         CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
@@ -54,10 +53,6 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationUiMo
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         // User outputs: the presentation model changes are transferred in the UI
         um.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
-    }
-
-    protected OrganizationsPresentationModel buildPresentationModel() {
-        return new OrganizationsPresentationModel();
     }
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {

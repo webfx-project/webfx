@@ -12,7 +12,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
-    private Factory<UM> uiBuilder;
+    private UiBuilder<UM> uiBuilder;
     private UM uiModel;
     private ActivityContext activityContext;
 
@@ -23,7 +23,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
         this.presentationModelFactory = presentationModelFactory;
     }
 
-    protected void setUiBuilder(Factory<UM> uiBuilder) {
+    protected void setUiBuilder(UiBuilder<UM> uiBuilder) {
         this.uiBuilder = uiBuilder;
     }
 
@@ -49,13 +49,14 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     @Override
     public void onResume() {
+        GuiToolkit toolkit = GuiToolkit.get();
         if (uiModel == null)
-            uiModel = uiBuilder != null ? uiBuilder.create() : buildUiModel();
+            uiModel = uiBuilder != null ? uiBuilder.buildUiModel(toolkit) : buildUiModel(toolkit);
         if (!uiBoundToPresentationModel) {
             bindUiModelWithPresentationModel(uiModel, presentationModel);
             uiBoundToPresentationModel = true;
         }
-        GuiToolkit.get().scheduler().runInUiThread(() -> activityContext.setNode(uiModel.getContentNode()));
+        toolkit.scheduler().runInUiThread(() -> activityContext.setNode(uiModel.getContentNode()));
     }
 
     @Override
@@ -70,7 +71,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     protected abstract void bindPresentationModelWithLogic(PM pm);
 
-    protected abstract UM buildUiModel();
+    protected abstract UM buildUiModel(GuiToolkit toolkit);
 
     protected abstract void bindUiModelWithPresentationModel(UM um, PM pm);
 

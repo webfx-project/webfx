@@ -3,18 +3,18 @@ package mongoose.logic.cart;
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
+import naga.core.ngui.presentation.UiBuilder;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.Table;
-import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
 public class CartActivity extends PresentationActivity<CartUiModel, CartPresentationModel> {
 
-    public static Factory<CartUiModel> uiBuilder;
+    public static UiBuilder<CartUiModel> uiBuilder;
 
     public CartActivity() {
         setPresentationModelFactory(CartPresentationModel::new);
@@ -22,9 +22,8 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
     }
 
     @Override
-    protected CartUiModel buildUiModel() {
+    protected CartUiModel buildUiModel(GuiToolkit toolkit) {
         // Building the UI components
-        GuiToolkit toolkit = GuiToolkit.get();
         Table documentTable = toolkit.createNode(Table.class);
         Table documentLineTable = toolkit.createNode(Table.class);
         Table paymentTable = toolkit.createNode(Table.class);
