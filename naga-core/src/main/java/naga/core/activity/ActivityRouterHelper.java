@@ -46,19 +46,6 @@ public class ActivityRouterHelper {
         return this;
     }
 
-    private static ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
-        ActivityContext activityContext = new ActivityContext();
-        activityContext.setParams(routingContext.getParams());
-        activityContext.nodeProperty().addListener(new ChangeListener<GuiNode>() {
-            @Override
-            public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
-                observable.removeListener(this);
-                GuiToolkit.get().getApplicationWindow().nodeProperty().bind(observable);
-            }
-        });
-        return activityContext;
-    }
-
     private static class ActivityRoutingHandler implements Handler<RoutingContext> {
 
         private final Converter<RoutingContext, ActivityContext> contextConverter;
@@ -78,4 +65,18 @@ public class ActivityRouterHelper {
             activityManager.run(activityContext);
         }
     }
+
+    private static ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
+        ActivityContext activityContext = new ActivityContext();
+        activityContext.setParams(routingContext.getParams());
+        activityContext.nodeProperty().addListener(new ChangeListener<GuiNode>() {
+            @Override
+            public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
+                observable.removeListener(this);
+                GuiToolkit.get().getApplicationWindow().nodeProperty().bind(observable);
+            }
+        });
+        return activityContext;
+    }
+
 }

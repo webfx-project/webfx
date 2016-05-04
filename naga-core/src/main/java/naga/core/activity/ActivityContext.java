@@ -12,8 +12,6 @@ import java.util.Map;
  */
 public class ActivityContext implements HasNodeProperty {
 
-    private Map<String, String> params;
-
     private Property<GuiNode> nodeProperty;
     @Override
     public Property<GuiNode> nodeProperty() {
@@ -22,11 +20,22 @@ public class ActivityContext implements HasNodeProperty {
         return nodeProperty;
     }
 
+    private Map<String, String> params;
+    private ActivityManager activityManager;
+
     public Map<String, String> getParams() {
         return params;
     }
 
     public void setParams(Map<String, String> params) {
         this.params = params;
+    }
+
+    public ActivityManager getActivityManager() {
+        return activityManager;
+    }
+
+    void setActivityManager(ActivityManager activityManager) {
+        this.activityManager = activityManager;
     }
 }
