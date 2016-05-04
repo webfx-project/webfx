@@ -1,11 +1,7 @@
 package naga.core.activity;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import naga.core.routing.Router;
 import naga.core.routing.RoutingContext;
-import naga.core.spi.gui.GuiNode;
-import naga.core.spi.gui.GuiToolkit;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Converter;
 import naga.core.util.function.Factory;
@@ -16,14 +12,15 @@ import naga.core.util.function.Factory;
 public class ActivityRouterHelper {
 
     private final Router router;
-    private final Converter<RoutingContext, ActivityContext> defaultContextConverter;
+    private final ActivityContext parentContext;
+    private Converter<RoutingContext, ActivityContext> defaultContextConverter = this::convertRoutingContextToActivityContext;
 
-    public ActivityRouterHelper(Router router) {
-        this(router, ActivityRouterHelper::convertRoutingContextToActivityContext);
+    public ActivityRouterHelper(Router router, ActivityContext parentContext) {
+        this.router = router;
+        this.parentContext = parentContext;
     }
 
-    public ActivityRouterHelper(Router router, Converter<RoutingContext, ActivityContext> defaultContextConverter) {
-        this.router = router;
+    public void setDefaultContextConverter(Converter<RoutingContext, ActivityContext> defaultContextConverter) {
         this.defaultContextConverter = defaultContextConverter;
     }
 
@@ -66,16 +63,10 @@ public class ActivityRouterHelper {
         }
     }
 
-    private static ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
-        ActivityContext activityContext = new ActivityContext();
+    private ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
+        ActivityContext activityContext = new ActivityContext(parentContext);
         activityContext.setParams(routingContext.getParams());
-        activityContext.nodeProperty().addListener(new ChangeListener<GuiNode>() {
-            @Override
-            public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
-                observable.removeListener(this);
-                GuiToolkit.get().getApplicationWindow().nodeProperty().bind(observable);
-            }
-        });
+        parentContext.nodeProperty().bind(activityContext.nodeProperty());
         return activityContext;
     }
 

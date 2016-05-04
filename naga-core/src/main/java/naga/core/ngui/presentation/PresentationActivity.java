@@ -2,6 +2,7 @@ package naga.core.ngui.presentation;
 
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
+import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.util.function.Factory;
 
@@ -75,4 +76,17 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     protected abstract void bindUiModelWithPresentationModel(UM um, PM pm);
 
+    /** Helpers **/
+
+    protected RxFilter createRxFilter() {
+        return initializeRxFilter(new RxFilter());
+    }
+
+    protected RxFilter createRxFilter(Object jsonOrClass) {
+        return initializeRxFilter(new RxFilter(jsonOrClass));
+    }
+
+    private RxFilter initializeRxFilter(RxFilter rxFilter) {
+        return rxFilter.setDataSourceModel(activityContext.getDataSourceModel());
+    }
 }

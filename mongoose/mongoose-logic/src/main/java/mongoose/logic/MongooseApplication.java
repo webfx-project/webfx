@@ -6,6 +6,8 @@ import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityRouterHelper;
 import naga.core.routing.Router;
+import naga.core.spi.bus.client.WebSocketBusOptions;
+import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
@@ -16,7 +18,7 @@ abstract class MongooseApplication implements Activity {
 
     @Override
     public void onCreate(ActivityContext context) {
-        new ActivityRouterHelper(router)
+        new ActivityRouterHelper(router, context)
                 .route("/organizations", OrganizationsActivity::new)
                 .route("/cart/:cartUuid", CartActivity::new);
     }

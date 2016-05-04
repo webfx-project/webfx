@@ -1,5 +1,6 @@
 package mongoose.logic;
 
+import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.activity.ActivityManager;
 
 /**
@@ -14,7 +15,7 @@ public class MongooseFrontendApplication extends MongooseApplication {
     }
 
     public static void main(String[] args) {
-        ActivityManager.launchApplication(new MongooseFrontendApplication(), args);
+        ActivityManager.launchApplication(new MongooseFrontendApplication(), args, DomainModelSnapshotLoader.getDataSourceModel());
     }
 
 

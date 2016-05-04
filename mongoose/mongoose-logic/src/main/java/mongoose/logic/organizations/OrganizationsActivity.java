@@ -4,7 +4,6 @@ import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.UiBuilder;
-import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.CheckBox;
@@ -57,7 +56,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationUiMo
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        new RxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
+        createRxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
                 .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")

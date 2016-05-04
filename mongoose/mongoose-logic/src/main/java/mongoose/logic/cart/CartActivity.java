@@ -1,10 +1,8 @@
 package mongoose.logic.cart;
 
-import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.UiBuilder;
-import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.Table;
@@ -53,8 +51,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
     @Override
     protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        new RxFilter("{class: Document, orderBy: 'creationDate desc'}")
-                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
+        createRxFilter("{class: Document, orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 //.registerParameter(new Parameter("cartUuid", "constant"))
@@ -71,8 +68,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
                 .displayResultSetInto(pm.documentDisplayResultSetProperty());
 
         // Loading the domain model and setting up the reactive filter
-        new RxFilter("{class: 'DocumentLine', orderBy: 'creationDate'}")
-                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
+        createRxFilter("{class: 'DocumentLine', orderBy: 'creationDate'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
@@ -86,8 +82,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
 
 
         // Loading the domain model and setting up the reactive filter
-        new RxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
-                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
+        createRxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")

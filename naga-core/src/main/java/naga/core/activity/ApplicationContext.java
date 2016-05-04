@@ -1,5 +1,11 @@
 package naga.core.activity;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.spi.gui.GuiNode;
+import naga.core.spi.gui.GuiToolkit;
+
 /**
  * @author Bruno Salmon
  */
@@ -17,8 +23,18 @@ public class ApplicationContext extends ActivityContext {
 
     private String[] mainArgs;
 
-    ApplicationContext(String[] mainArgs) {
+    ApplicationContext(String[] mainArgs, DataSourceModel dataSourceModel) {
+        super(null);
         this.mainArgs = mainArgs;
+        setDataSourceModel(dataSourceModel);
+        nodeProperty().addListener(new ChangeListener<GuiNode>() {
+            @Override
+            public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
+                observable.removeListener(this);
+                GuiToolkit.get().getApplicationWindow().nodeProperty().bind(observable);
+            }
+        });
+
         instance = this;
     }
 

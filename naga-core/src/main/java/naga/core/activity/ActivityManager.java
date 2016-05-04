@@ -1,5 +1,6 @@
 package naga.core.activity;
 
+import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.util.function.Factory;
 
 /**
@@ -105,7 +106,11 @@ public class ActivityManager {
     }
 
     public static void launchApplication(Activity application, String[] args) {
-        ActivityManager.launchActivity(application, new ApplicationContext(args));
+        launchApplication(application, args, null);
+    }
+
+    public static void launchApplication(Activity application, String[] args, DataSourceModel dataSourceModel) {
+        launchActivity(application, new ApplicationContext(args, dataSourceModel));
     }
 
     public static void launchActivity(Activity activity, ActivityContext context) {
