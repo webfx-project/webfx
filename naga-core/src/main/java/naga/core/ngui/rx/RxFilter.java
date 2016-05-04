@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.displayresultset.EntityListToDisplayResultSetGenerator;
-import naga.core.orm.domainmodel.DomainModel;
+import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.Expression;
@@ -35,8 +35,7 @@ public class RxFilter {
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private Object domainClassId;
     private DisplayColumn[] displayColumns;
-    private DomainModel domainModel;
-    private Object dataSourceId;
+    private DataSourceModel dataSourceModel;
     private EntityStore store;
     private Object listId;
 
@@ -47,13 +46,8 @@ public class RxFilter {
         combine(new StringFilterBuilder(jsonOrClass));
     }
 
-    public RxFilter setDomainModel(DomainModel domainModel) {
-        this.domainModel = domainModel;
-        return this;
-    }
-
-    public RxFilter setDataSourceId(Object dataSourceId) {
-        this.dataSourceId = dataSourceId;
+    public RxFilter setDataSourceModel(DataSourceModel dataSourceModel) {
+        this.dataSourceModel = dataSourceModel;
         return this;
     }
 
@@ -132,7 +126,7 @@ public class RxFilter {
             listId = "default";
         List<Expression> displayPersistentTerms = new ArrayList<>();
         for (DisplayColumn displayColumn : displayColumns) {
-            displayColumn.parseIfNecessary(domainModel, domainClassId);
+            displayColumn.parseIfNecessary(dataSourceModel.getDomainModel(), domainClassId);
             displayColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
         }
         if (!displayPersistentTerms.isEmpty())
@@ -148,9 +142,9 @@ public class RxFilter {
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
                 .distinctUntilChanged()
                 .switchMap(stringFilter -> {
-                    SqlCompiled sqlCompiled = domainModel.compileSelect(stringFilter.toStringSelect());
+                    SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                     Platform.log(sqlCompiled.getSql());
-                    return RxFuture.from(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), dataSourceId)))
+                    return RxFuture.from(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
                             .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                             .map(entities -> EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns));
                 });

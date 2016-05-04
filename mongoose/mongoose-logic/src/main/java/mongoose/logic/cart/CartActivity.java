@@ -54,8 +54,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
     protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: Document, orderBy: 'creationDate desc'}")
-                .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
-                .setDataSourceId(3)
+                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 //.registerParameter(new Parameter("cartUuid", "constant"))
@@ -73,8 +72,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
 
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: 'DocumentLine', orderBy: 'creationDate'}")
-                .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
-                .setDataSourceId(3)
+                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
@@ -89,8 +87,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
 
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
-                .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
-                .setDataSourceId(3)
+                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")

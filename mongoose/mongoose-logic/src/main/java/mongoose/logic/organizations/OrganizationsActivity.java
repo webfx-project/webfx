@@ -58,8 +58,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationUiMo
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         new RxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
-                .setDomainModel(DomainModelSnapshotLoader.getOrLoadDomainModel())
-                .setDataSourceId(3)
+                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition

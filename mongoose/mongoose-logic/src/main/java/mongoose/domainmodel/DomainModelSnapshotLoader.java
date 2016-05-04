@@ -1,6 +1,7 @@
 package mongoose.domainmodel;
 
 import naga.core.jsoncodec.JsonCodecManager;
+import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodelloader.DomainModelLoader;
 import naga.core.spi.json.Json;
@@ -17,6 +18,17 @@ import naga.core.util.compression.string.LZString;
 public class DomainModelSnapshotLoader {
 
     private static DomainModel domainModel;
+    private final static DataSourceModel dataSourceModel = new DataSourceModel() {
+        @Override
+        public Object getId() {
+            return 3;
+        }
+
+        @Override
+        public DomainModel getDomainModel() {
+            return getOrLoadDomainModel();
+        }
+    };
 
     public static DomainModel getOrLoadDomainModel() {
         if (domainModel == null)
@@ -35,5 +47,9 @@ public class DomainModelSnapshotLoader {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static DataSourceModel getDataSourceModel() {
+        return dataSourceModel;
     }
 }
