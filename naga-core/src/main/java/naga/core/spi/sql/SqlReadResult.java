@@ -130,7 +130,7 @@ public class SqlReadResult {
                         namesArray.push(name);
                     json.set(COLUMN_NAMES_KEY, namesArray);
                     if (columnCount == -1)
-                        columnCount = namesArray.length();
+                        columnCount = namesArray.size();
                     // types serialization & values compression
                     JsonArray typesArray = Json.createArray();
                     PrimType[] types = new PrimType[columnCount];
@@ -160,13 +160,13 @@ public class SqlReadResult {
             @Override
             public SqlReadResult decodeFromJson(JsonObject json) {
                 // Column names deserialization
-                JsonArray namesArray = json.get(COLUMN_NAMES_KEY);
-                int columnCount = namesArray.length();
+                JsonArray namesArray = (JsonArray) json.getArray(COLUMN_NAMES_KEY);
+                int columnCount = namesArray.size();
                 String[] names = new String[columnCount];
                 for (int i = 0; i < columnCount; i++)
                     names[i] = namesArray.getString(i);
                 // Types deserialization
-                JsonArray typesArray = json.get(COLUMN_TYPES_KEY);
+                JsonArray typesArray = (JsonArray) json.getArray(COLUMN_TYPES_KEY);
                 PrimType[] types = new PrimType[columnCount];
                 for (int i = 0; i < columnCount; i++) {
                     String typeName = typesArray.getString(i);
@@ -175,11 +175,11 @@ public class SqlReadResult {
                 }
                 // Values deserialization
                 Object[] inlineValues;
-                JsonArray valuesArray = json.get(VALUES_KEY);
+                JsonArray valuesArray = (JsonArray) json.getArray(VALUES_KEY);
                 if (valuesArray != null)
                     inlineValues = Json.toJavaArray(valuesArray);
                 else
-                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.get(COMPRESSED_VALUES_KEY)));
+                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray((JsonArray) json.getArray(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
                 return new SqlReadResult(inlineValues, names);
             }

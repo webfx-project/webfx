@@ -1,7 +1,6 @@
 package naga.core.spi.json.teavm;
 
 import naga.core.spi.json.JsonException;
-import naga.core.spi.json.JsonType;
 import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
@@ -67,27 +66,21 @@ public final class JSUtil {
         return parse(stringify(jso));
     }
 
-    public static JsonType getType(JSObject jso) {
-        if (isNull(jso))
-            return JsonType.NULL;
-        String jsType = getJsType(jso);
-        if ("string".equals(jsType))
-            return JsonType.STRING;
-        else if ("number".equals(jsType))
-            return JsonType.NUMBER;
-        else if ("boolean".equals(jsType))
-            return JsonType.BOOLEAN;
-        else if ("object".equals(jsType))
-            return isArray(jso) ? JsonType.ARRAY : JsonType.OBJECT;
-        assert false : "Unknown Json Type";
-        return null;
-    }
-
     public static JSObject j2js(Object value) {
         if (value == null)
             return null;
         if (value instanceof TeaVmJsonElement)
-            return ((TeaVmJsonElement) value).getJsValue();
+            return j2jsElement(value);
+        return j2jsScalar(value);
+    }
+
+    public static JSObject j2jsElement(Object element) {
+        if (element == null)
+            return null;
+        return ((TeaVmJsonElement) element).getJsValue();
+    }
+
+    public static JSObject j2jsScalar(Object value) {
         if (value instanceof String)
             return JSString.valueOf((String) value);
         if (value instanceof Boolean)
@@ -103,16 +96,31 @@ public final class JSUtil {
         return (JSObject) value;
     }
 
-    public static Object js2j(JSObject jsv) {
+    /*public static Object js2j(JSObject jsv) {
         if (jsv == null)
             return null;
-        if (JSString.isInstance(jsv))
-            return ((JSString) jsv).stringValue();
-        if (isNumber(jsv))
-            return js2Number((JSNumber) jsv);
-        if (isBoolean(jsv))
-            return ((JSBoolean) jsv).booleanValue();
+        Object scalar = js2jScalar(jsv);
+        if (scalar != null)
+            return scalar;
         return js2Element(jsv);
+    }
+
+    public static TeaVmJsonElement js2Element(JSObject jsv) {
+        if (isArray(jsv))
+            return new TeaVmJsonArray((JSArray) jsv);
+        if (isObject(jsv))
+            return new TeaVmJsonObject(jsv);
+        return (TeaVmJsonElement) jsv;
+    }*/
+
+    public static <T> T js2jScalar(JSObject jsv) {
+        if (JSString.isInstance(jsv))
+            return (T) ((JSString) jsv).stringValue();
+        if (isNumber(jsv))
+            return (T) js2Number((JSNumber) jsv);
+        if (isBoolean(jsv))
+            return (T) (Object) ((JSBoolean) jsv).booleanValue();
+        return (T) jsv;
     }
 
     @JSBody(params = "obj", script = "return typeof obj === 'boolean';")
@@ -149,12 +157,6 @@ public final class JSUtil {
 
     public static double js2Double(JSObject jsv) {
         return jsv == null || isUndefined(jsv) ? 0 : ((JSNumber) jsv).doubleValue();
-    }
-
-    public static TeaVmJsonElement js2Element(JSObject jsv) {
-        if (isArray(jsv))
-            return new TeaVmJsonArray((JSArray) jsv);
-        return new TeaVmJsonObject(jsv);
     }
 
 }

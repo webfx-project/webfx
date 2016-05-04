@@ -102,7 +102,7 @@ public class JsonCodecManager {
     public static Object[] decodePrimitiveArrayFromJsonArray(JsonArray jsonArray) {
         if (jsonArray == null)
             return null;
-        int n = jsonArray.length();
+        int n = jsonArray.size();
         Object[] array = new Object[n];
         for (int i = 0; i < n; i++)
             array[i] = jsonArray.get(i);
@@ -121,7 +121,7 @@ public class JsonCodecManager {
     public static <A> A[] decodeFromJsonArray(JsonArray jsonArray, Class<A> expectedClass) {
         if (jsonArray == null)
             return null;
-        int n = jsonArray.length();
+        int n = jsonArray.size();
         A[] array = (A[]) Array.newInstance(expectedClass, n);
         for (int i = 0; i < n; i++)
             array[i] = decodeFromJson(jsonArray.getObject(i));

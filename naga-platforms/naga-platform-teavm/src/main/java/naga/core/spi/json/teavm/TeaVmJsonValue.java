@@ -1,6 +1,5 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.spi.json.JsonType;
 import org.teavm.jso.JSObject;
 
 /**
@@ -14,10 +13,6 @@ class TeaVmJsonValue<T extends JSObject> {
 
     protected TeaVmJsonValue(T jsValue) {
         this.jsValue = jsValue;
-    }
-
-    public final JsonType getType() {
-        return JSUtil.getType(jsValue);
     }
 
     public final String toJson() {

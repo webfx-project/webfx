@@ -86,7 +86,7 @@ class BusCallResult<T> {
             @Override
             public BusCallResult decodeFromJson(JsonObject json) {
                 return new BusCallResult(
-                        (int) json.getNumber(CALL_NUMBER_KEY),
+                        (int) json.getDouble(CALL_NUMBER_KEY),
                         json.get(TARGET_RESULT_KEY)
                 );
             }

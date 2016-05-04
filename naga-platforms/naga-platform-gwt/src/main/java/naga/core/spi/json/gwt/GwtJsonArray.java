@@ -18,7 +18,8 @@
 package naga.core.spi.json.gwt;
 
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonType;
+
+import java.util.Collection;
 
 /**
  * Client-side implementation of JsonArray.
@@ -34,103 +35,83 @@ final class GwtJsonArray extends GwtJsonElement implements JsonArray {
     }
 
     @Override
+    public native int size() /*-{
+        return this.length;
+      }-*/;
+
+    @Override
+    public native int indexOfRaw(Object value) /*-{
+        return this.indexOf(value);
+    }-*/;
+
+    @Override
+    public native GwtJsonValue getRaw(int index) /*-{
+        return this[index];
+      }-*/;
+
+    @Override
+    public native void setRaw(int index, Object value) /*-{
+        this[index] = value;
+    }-*/;
+
+    @Override
+    public native void pushRaw(Object value) /*-{
+        this[this.length] = value;
+    }-*/;
+
+
+    @Override
     public native <T> T get(int index) /*-{
         return this[index];
     }-*/;
 
     @Override
-    public GwtJsonArray getArray(int index) {
-        return (GwtJsonArray) getElement(index);
-    }
-
-    @SuppressWarnings("unchecked")
-    public GwtJsonElement getElement(int index) {
-        return get0(index).cast();
+    public GwtJsonObject getObject(int index) {
+        return getRaw(index).cast();
     }
 
     @Override
-    // @formatter:off
+    public GwtJsonArray getArray(int index) {
+        return getRaw(index).cast();
+    }
+
+    @Override
     public native boolean getBoolean(int index) /*-{
         return this[index];
     }-*/;
 
     @Override
-    public native double getNumber(int index) /*-{
+    public native double getDouble(int index) /*-{
         return this[index];
     }-*/;
-    // @formatter:on
 
     @Override
-    public GwtJsonObject getObject(int index) {
-        return (GwtJsonObject) getElement(index);
-    }
-
-    @Override
-    // @formatter:off
     public native String getString(int index) /*-{
         return this[index];
     }-*/;
-    // @formatter:on
 
     @Override
-    public JsonType getType(int index) {
-        return get0(index).getType();
-    }
-
-    @Override
-    // @formatter:off
-    public native int indexOf(Object value) /*-{
-        return this.indexOf(value);
-    }-*/;
-
-    @Override
-    public native JsonArray insert(int index, Object element) /*-{
-        this.splice(index, 0, element);
-        return this;
-      }-*/;
-
-    @Override
-    public native int length() /*-{
-        return this.length;
-      }-*/;
-
-    @Override
-    public native JsonArray push(boolean bool_) /*-{
+    public native void push(boolean bool_) /*-{
         this[this.length] = bool_;
-        return this;
       }-*/;
 
     @Override
-    public native JsonArray push(double number) /*-{
+    public native void push(double number) /*-{
         this[this.length] = number;
-        return this;
       }-*/;
 
     @Override
-    public native JsonArray push(Object element) /*-{
+    public native void push(Object element) /*-{
         this[this.length] = element;
-        return this;
       }-*/;
 
     @Override
     public native <T> T remove(int index) /*-{
         return this.splice(index, 1)[0];
       }-*/;
-    // @formatter:on
 
     @Override
-    public boolean removeValue(Object value) {
-        int idx = indexOf(value);
-        if (idx == -1)
-            return false;
-        remove(idx);
-        return true;
+    public Collection values() {
+        return null; // TODO
     }
-
-    // @formatter:off
-    private native GwtJsonValue get0(int index) /*-{
-        return this[index];
-      }-*/;
-    // @formatter:on
-
 }

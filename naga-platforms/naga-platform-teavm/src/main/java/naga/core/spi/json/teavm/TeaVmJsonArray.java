@@ -1,9 +1,10 @@
 package naga.core.spi.json.teavm;
 
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonType;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
+
+import java.util.Collection;
 
 /**
  * Client-side implementation of JsonArray.
@@ -12,94 +13,44 @@ import org.teavm.jso.core.JSArray;
  */
 final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
 
+    public static TeaVmJsonArray create(JSArray jsArray) {
+        if (jsArray == null || JSUtil.isUndefined(jsArray))
+            return null;
+        return new TeaVmJsonArray(jsArray);
+    }
+
     TeaVmJsonArray(JSArray jsArray) {
         super(jsArray);
     }
 
     <T extends JSObject> JSArray<T> asArray() { return jsValue.cast(); }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> T get(int index) {
-        return (T) JSUtil.js2j(get0(index));
+    public JSObject getRaw(int index) {
+        return asArray().get(index);
     }
 
     @Override
-    public TeaVmJsonArray getArray(int index) {
-        return (TeaVmJsonArray) get(index);
-    }
+    public native void setRaw(int index, Object value);
 
     @Override
-    public native boolean getBoolean(int index);
+    public native Collection values();
+
+    public native int indexOfRaw(Object value);
 
     @Override
-    public native double getNumber(int index);
-
-    @Override
-    public TeaVmJsonObject getObject(int index) {
-        return (TeaVmJsonObject) get(index);
-    }
-
-    @Override
-    public String getString(int index) {
-        return JSUtil.js2String(get0(index));
-    }
-
-    @Override
-    public JsonType getType(int index) {
-        return JSUtil.getType(get0(index));
-    }
-
-    public native int indexOf(Object value);
-
-    @Override
-    public native JsonArray insert(int index, Object element) /*-{
-    this.splice(index, 0, element);
-    return this;
-  }-*/;
-
-    @Override
-    public int length() {
+    public int size() {
         return asArray().getLength();
     }
 
     @Override
-    public native JsonArray push(boolean bool_) /*-{
-    this[this.length] = bool_;
-    return this;
-  }-*/;
-
-    @Override
-    public native JsonArray push(double number) /*-{
-    this[this.length] = number;
-    return this;
-  }-*/;
-
-    @Override
-    public JsonArray push(Object element) {
-        asArray().push(JSUtil.j2js(element));
-        return this;
-    } /*-{
-    this[this.length] = element;
-    return this;
-  }-*/;
+    public void pushRaw(Object value) {
+        asArray().push((JSObject) value);
+    }
 
     @Override
     public native <T> T remove(int index) /*-{
-    return this.splice(index, 1)[0];
-  }-*/;
+        return this.splice(index, 1)[0];
+    }-*/;
 
-    @Override
-    public boolean removeValue(Object value) {
-        int idx = indexOf(value);
-        if (idx == -1) {
-            return false;
-        }
-        remove(idx);
-        return true;
-    }
-
-    private JSObject get0(int index) {
-        return asArray().get(index);
-    };
 }

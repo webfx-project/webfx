@@ -70,7 +70,7 @@ class BusCallArgument {
                 return new BusCallArgument(
                         json.getString(TARGET_ADDRESS_KEY),
                         JsonCodecManager.decodeFromJson(json.get(TARGET_ARGUMENT_KEY)),
-                        (int) json.getNumber(CALL_NUMBER_KEY)
+                        (int) json.getDouble(CALL_NUMBER_KEY)
                 );
             }
         };

@@ -1,6 +1,7 @@
 package naga.core.spi.json.vertx;
 
 import naga.core.spi.json.listmap.MapBasedJsonObject;
+import naga.core.valuesobject.RawType;
 
 import java.util.Map;
 
@@ -19,10 +20,17 @@ final class VertxJsonObject extends MapBasedJsonObject {
     }
 
     @Override
-    protected Object wrap(Object value) {
-        if (value instanceof io.vertx.core.json.JsonObject)
-            return new VertxJsonObject((io.vertx.core.json.JsonObject) value);
-        return super.wrap(value);
+    public RawType getRawType(Object rawValue) {
+        if (rawValue instanceof io.vertx.core.json.JsonObject)
+            return RawType.RAW_VALUES_OBJECT;
+        return super.getRawType(rawValue);
+    }
+
+    @Override
+    public MapBasedJsonObject wrapValuesObject(Object rawObject) {
+        if (rawObject instanceof io.vertx.core.json.JsonObject)
+            return new VertxJsonObject((io.vertx.core.json.JsonObject) rawObject);
+        return super.wrapValuesObject(rawObject);
     }
 
     @Override

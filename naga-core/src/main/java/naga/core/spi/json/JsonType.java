@@ -26,5 +26,5 @@ package naga.core.spi.json;
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/JsonType.java">Original Goodow class</a>
  */
 public enum JsonType {
-    OBJECT, ARRAY, STRING, NUMBER, BOOLEAN, NULL
+    OBJECT, ARRAY, STRING, NUMBER, BOOLEAN, NULL, UNDEFINED
 }

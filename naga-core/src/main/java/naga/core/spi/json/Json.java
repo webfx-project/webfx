@@ -82,7 +82,7 @@ public class Json {
     }
 
     public static Object[] toJavaArray(JsonArray jsonArray) {
-        int length = jsonArray.length();
+        int length = jsonArray.size();
         Object[] javaArray = new Object[length];
         for (int i = 0; i < length; i++)
             javaArray[i] = jsonArray.get(i);

@@ -4,7 +4,7 @@ import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
 import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonObject;
+import naga.core.valuesobject.ValuesObject;
 
 /**
  * @author Bruno Salmon
@@ -16,10 +16,10 @@ public class DisplayColumn {
     private Expression  expression;
 
     public DisplayColumn(String json) {
-        this((JsonObject) Json.parse(json));
+        this((ValuesObject) Json.parse(json));
     }
 
-    public DisplayColumn(JsonObject json) {
+    public DisplayColumn(ValuesObject json) {
         this(json.get("label"), json.getString("expression"));
     }
 

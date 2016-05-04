@@ -42,9 +42,9 @@ public class Numbers {
         /* J2ME CLDC if (value instanceof Number)
             return ((Number) value).intValue(); */
         try {
+            return (int) value;
+        } catch (Exception e) {
             return Integer.parseInt(value.toString());
-        } catch (NumberFormatException e) {
-            return 0;
         }
     }
 
@@ -53,9 +53,8 @@ public class Numbers {
             return 0;
         /* J2ME CLDC if (value instanceof Number)
             return ((Number) value).longValue(); */
-        String s = value.toString();
         try {
-            return Long.parseLong(s);
+            return Long.parseLong(value.toString());
         } catch (Exception e) {
             return 0;
         }

@@ -2,6 +2,7 @@ package naga.core.spi.sql;
 
 import naga.core.jsoncodec.AbstractJsonCodec;
 import naga.core.jsoncodec.JsonCodecManager;
+import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
 import naga.core.util.Arrays;
 
@@ -60,7 +61,7 @@ public class SqlArgument {
             public SqlArgument decodeFromJson(JsonObject json) {
                 return new SqlArgument(
                         json.getString(SQL_KEY),
-                        JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.get(PARAMETERS_KEY)),
+                        JsonCodecManager.decodePrimitiveArrayFromJsonArray((JsonArray) json.getArray(PARAMETERS_KEY)),
                         json.get(DATA_SOURCE_ID_KEY)
                 );
             }

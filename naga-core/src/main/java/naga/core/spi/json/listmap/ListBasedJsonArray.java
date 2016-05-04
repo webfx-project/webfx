@@ -2,23 +2,21 @@ package naga.core.spi.json.listmap;
 
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.JsonType;
-import naga.core.util.Numbers;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class ListBasedJsonArray<NA> implements JsonArray {
+public abstract class ListBasedJsonArray<NA> extends ListMapJsonElement implements JsonArray {
     protected boolean isShallowCopy;
 
     protected ListBasedJsonArray() {
         recreateEmptyNativeArray();
     }
 
-    public abstract List getList();
+    public abstract List<Object> getList();
 
     protected abstract NA getNativeArray();
 
@@ -34,83 +32,35 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
         }
     }
 
-    protected <T> T getNative(int index) {
-        return (T) getList().get(index);
+
+    @Override
+    public Object getRaw(int index) {
+        return getList().get(index);
     }
 
     @Override
-    public <T> T get(int index) {
-        return ListMapUtil.wrap(getNative(index));
-    }
-
-    @Override
-    public JsonArray getArray(int index) {
-        return Json.createArray(getNative(index));
-    }
-
-    @Override
-    public boolean getBoolean(int index) {
-        return getNative(index);
-    }
-
-    @Override
-    public double getNumber(int index) {
-        return Numbers.doubleValue(getNative(index));
-    }
-
-    @Override
-    public JsonObject getObject(int index) {
-        return Json.createObject(getNative(index));
-    }
-
-    @Override
-    public String getString(int index) {
-        return getNative(index);
-    }
-
-    @Override
-    public JsonType getType(int index) {
-        return ListMapUtil.getType(getNative(index));
-    }
-
-    @Override
-    public int indexOf(Object value) {
+    public int indexOfRaw(Object value) {
         return getList().indexOf(value);
     }
 
     @Override
-    public ListBasedJsonArray insert(int index, Object value) {
-        checkCopyBeforeUpdate();
-        value = ListMapUtil.unwrap(value);
-        getList().add(index, value);
-        return this;
-    }
-
-    @Override
-    public int length() {
+    public int size() {
         return getList().size();
     }
 
     @Override
-    public ListBasedJsonArray push(boolean bool_) {
-        checkCopyBeforeUpdate();
-        getList().add(bool_);
-        return this;
-    }
-
-    @Override
-    public ListBasedJsonArray push(double number) {
-        checkCopyBeforeUpdate();
-        getList().add(number);
-        return this;
-    }
-
-    @Override
-    public ListBasedJsonArray push(Object value) {
-        checkCopyBeforeUpdate();
-        value = ListMapUtil.unwrap(value);
+    public void pushRaw(Object value) {
         getList().add(value);
-        return this;
+    }
+
+    @Override
+    public void setRaw(int index, Object value) {
+        getList().set(index, value);
+    }
+
+    @Override
+    public Collection values() {
+        return getList();
     }
 
     @Override
@@ -120,19 +70,12 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
     }
 
     @Override
-    public boolean removeValue(Object value) {
-        checkCopyBeforeUpdate();
-        return getList().remove(value);
-    }
-
-    @Override
-    public ListBasedJsonArray clear() {
+    public void clear() {
         if (isShallowCopy) {
             recreateEmptyNativeArray();
             isShallowCopy = false;
         } else
             getList().clear();
-        return this;
     }
 
     @Override
@@ -141,16 +84,6 @@ public abstract class ListBasedJsonArray<NA> implements JsonArray {
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;
-    }
-
-    @Override
-    public boolean isArray() {
-        return true;
-    }
-
-    @Override
-    public boolean isObject() {
-        return false;
     }
 
     @Override

@@ -17,10 +17,11 @@
  */
 package naga.core.spi.json.gwt;
 
+import com.google.gwt.core.client.JsArrayString;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.JsonType;
-import com.google.gwt.core.client.JsArrayString;
+
+import java.util.Collection;
 
 /**
  * Client-side implementation of JsonObject interface.
@@ -36,110 +37,64 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
     }
 
     @Override
-    // @formatter:off
-    public native <T> void forEach(MapIterator<T> handler) /*-{
-    for (key in this) {
-      if (Object.prototype.hasOwnProperty.call(this, key)) {
-        handler.
-        @naga.core.spi.json.JsonObject.MapIterator::call(Ljava/lang/String;Ljava/lang/Object;)
-        (key, this[key]);
-      }
-    }
-  }-*/;
-    // @formatter:on
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public GwtJsonElement get(String key) {
-        return get0(key).cast();
-    }
+    public native GwtJsonValue getRaw(String key) /*-{
+        return this[key];
+    }-*/;
 
     @Override
-    public GwtJsonArray getArray(String key) {
-        return (GwtJsonArray) get(key);
-    }
-
-    @Override
-    // @formatter:off
-    public native boolean getBoolean(String key) /*-{
-    return this[key];
-  }-*/;
-
-    @Override
-    public native double getNumber(String key) /*-{
-    return this[key];
-  }-*/;
-    // @formatter:on
-
-    @Override
-    public GwtJsonObject getObject(String key) {
-        return (GwtJsonObject) get0(key);
-    }
-
-    @Override
-    // @formatter:off
-    public native String getString(String key) /*-{
-    return this[key];
-  }-*/;
-    // @formatter:on
-
-    @Override
-    public JsonType getType(String key) {
-        return get0(key).getType();
-    }
-
-    @Override
-    // @formatter:off
     public native boolean has(String key) /*-{
-    return key in this;
-  }-*/;
-    // @formatter:on
+        return key in this;
+    }-*/;
 
     @Override
-    public JsonArray keys() {
-        JsArrayString str = keys0();
-        return reinterpretCast(str);
+    public Collection<String> keys() {
+        return null; // TODO
+        /*JsArrayString str = keys0();
+        return reinterpretCast(str);*/
     }
 
     @Override
-    // @formatter:off
+    public Collection values() {
+        return null; // TODO
+    }
+
+    @Override
     public native <T> T remove(String key) /*-{
-    toRtn = this[key];
-    delete this[key];
-    return toRtn;
-  }-*/;
+        toRtn = this[key];
+        delete this[key];
+        return toRtn;
+    }-*/;
 
     @Override
-    public native JsonObject set(String key, boolean bool_) /*-{
-    this[key] = bool_;
-    return this;
-  }-*/;
+    public native void setRaw(String key, Object value) /*-{
+        this[key] = value;
+    }-*/;
 
     @Override
-    public native JsonObject set(String key, double number) /*-{
-    this[key] = number;
-    return this;
-  }-*/;
+    public native void set(String key, double number) /*-{
+        this[key] = number;
+    }-*/;
 
     @Override
-    public JsonObject set(String key, Object element) {
+    public void set(String key, Object element) {
         if (element instanceof Boolean)
-            return set(key, ((Boolean) element).booleanValue());
-        if (element instanceof Number)
-            return set(key, ((Number) element).doubleValue());
-        return setObject(key, element);
+            set(key, ((Boolean) element).booleanValue());
+        else if (element instanceof Number)
+            set(key, ((Number) element).doubleValue());
+        else
+            setObject(key, element);
     }
 
     // TODO: We still have problem with "__proto__"
-    private native JsonObject setObject(String key, Object element) /*-{
-    this[key] = element;
-    return this;
-  }-*/;
+    private native GwtJsonObject setObject(String key, Object element) /*-{
+        this[key] = element;
+        return this;
+    }-*/;
 
-    private native JsonObject setString(String key, String element) /*-{
-    this[key] = element;
-    return this;
-  }-*/;
+    private native GwtJsonObject setString(String key, String element) /*-{
+        this[key] = element;
+        return this;
+    }-*/;
 
 
     /**
@@ -151,31 +106,23 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
      */
     @Override
     public final native int size() /*-{
-    size = 0;
-    for (key in this) {
-      if (Object.prototype.hasOwnProperty.call(this, key)) {
-        size++;
-      }
-    }
-    return size;
-  }-*/;
+        size = 0;
+        for (key in this)
+          if (Object.prototype.hasOwnProperty.call(this, key))
+            size++;
+        return size;
+    }-*/;
 
-    private native GwtJsonValue get0(String key) /*-{
-    return this[key];
-  }-*/;
 
     private native JsArrayString keys0() /*-{
-    var keys = [];
-    for(var key in this) {
-      if (Object.prototype.hasOwnProperty.call(this, key) && key != '$H') {
-        keys.push(key);
-      }
-    }
-    return keys;
-  }-*/;
+        var keys = [];
+        for(var key in this)
+          if (Object.prototype.hasOwnProperty.call(this, key) && key != '$H')
+            keys.push(key);
+        return keys;
+    }-*/;
 
     private native JsonArray reinterpretCast(JsArrayString arrayString) /*-{
-    return arrayString;
-  }-*/;
-    // @formatter:on
+        return arrayString;
+    }-*/;
 }

@@ -17,7 +17,6 @@
  */
 package naga.core.spi.json.gwt;
 
-import naga.core.spi.json.JsonType;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -30,50 +29,18 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 class GwtJsonValue extends JavaScriptObject {
 
-    // @formatter:off
-    private static native String getJsType(Object obj) /*-{
-    return typeof obj;
-  }-*/;
-
-    private static native boolean isArray(Object obj) /*-{
-     // ensure that array detection works cross-frame
-    return Object.prototype.toString.apply(obj) === '[object Array]';
-  }-*/;
-
-    private static native boolean isNull(GwtJsonValue gwtJsonValue) /*-{
-    // TODO(cromwellian): if this moves to GWT, we may have to support more leniency
-    return jsJsonValue === null;
-  }-*/;
-    // @formatter:on
 
     protected GwtJsonValue() {
     }
 
-    public final JsonType getType() {
-        if (isNull(this))
-            return JsonType.NULL;
-        String jsType = getJsType(this);
-        if ("string".equals(jsType))
-            return JsonType.STRING;
-        else if ("number".equals(jsType))
-            return JsonType.NUMBER;
-        else if ("boolean".equals(jsType))
-            return JsonType.BOOLEAN;
-        else if ("object".equals(jsType))
-            return isArray(this) ? JsonType.ARRAY : JsonType.OBJECT;
-        assert false : "Unknown Json Type";
-        return null;
-    }
-
     // @formatter:off
     public final native String toJson() /*-{
-    // skip hashCode field
-    return $wnd.JSON.stringify(this, function(keyName, value) {
-        if (keyName == "$H") {
-          return undefined; // skip hashCode property
-        }
-        return value;
-      }, 0);
-  }-*/;
-    // @formatter:on
+        // skip hashCode field
+        return $wnd.JSON.stringify(this, function(keyName, value) {
+            if (keyName == "$H") {
+              return undefined; // skip hashCode property
+            }
+            return value;
+          }, 0);
+    }-*/;
 }

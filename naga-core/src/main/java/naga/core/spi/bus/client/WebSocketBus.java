@@ -95,7 +95,9 @@ public class WebSocketBus extends SimpleClientBus {
             @Override
             public void onError(String error) {
                 Platform.log("Connection error = " + error);
-                publishLocal(ON_ERROR, Json.createObject().set("message", error));
+                JsonObject json = Json.createObject();
+                json.set("message", error);
+                publishLocal(ON_ERROR, json);
             }
 
             @Override
@@ -171,8 +173,10 @@ public class WebSocketBus extends SimpleClientBus {
             super.doSendOrPub(local, send, topic, msg, replyHandler);
             return;
         }
-        JsonObject envelope = Json.createObject().set(TYPE, send ? "send" : "publish");
-        envelope.set(TOPIC, topic).set(BODY, msg);
+        JsonObject envelope = Json.createObject();
+        envelope.set(TYPE, send ? "send" : "publish");
+        envelope.set(TOPIC, topic);
+        envelope.set(BODY, msg);
         if (replyHandler != null) {
             String replyTopic = makeUUID();
             envelope.set(REPLY_TOPIC, replyTopic);
@@ -204,7 +208,8 @@ public class WebSocketBus extends SimpleClientBus {
     }
 
     protected void sendLogin() {
-        JsonObject msg = Json.createObject().set(SESSION, sessionId);
+        JsonObject msg = Json.createObject();
+        msg.set(SESSION, sessionId);
         if (username != null) {
             msg.set(USERNAME, username);
             if (password != null)
@@ -213,14 +218,16 @@ public class WebSocketBus extends SimpleClientBus {
         send(TOPIC_LOGIN, msg, new Handler<Message<JsonObject>>() {
             @Override
             public void handle(Message<JsonObject> message) {
-                if (message.body() != null && message.body().getNumber("code") != 0)
+                if (message.body() != null && message.body().getDouble("code") != 0)
                     throw new RuntimeException(message.body().toJsonString());
             }
         });
     }
 
     protected void sendPing() {
-        send(Json.createObject().set(TYPE, "ping"));
+        JsonObject msg = Json.createObject();
+        msg.set(TYPE, "ping");
+        send(msg);
     }
 
     /*
@@ -228,13 +235,19 @@ public class WebSocketBus extends SimpleClientBus {
      */
     protected void sendSubscribe(String topic) {
         //assert topic != null : "topic shouldn't be null";
-        send(Json.createObject().set(TYPE, "register").set(TOPIC, topic));
+        JsonObject msg = Json.createObject();
+        msg.set(TYPE, "register");
+        msg.set(TOPIC, topic);
+        send(msg);
     }
 
     /*
      * No more handlers so we should unregister the connection
      */
     protected void sendUnsubscribe(String topic) {
-        send(Json.createObject().set(TYPE, "unregister").set(TOPIC, topic));
+        JsonObject msg = Json.createObject();
+        msg.set(TYPE, "unregister");
+        msg.set(TOPIC, topic);
+        send(msg);
     }
 }

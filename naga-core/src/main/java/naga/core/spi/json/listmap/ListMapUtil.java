@@ -1,8 +1,6 @@
 package naga.core.spi.json.listmap;
 
 import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonType;
-import naga.core.util.Numbers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -14,22 +12,6 @@ import java.util.Map;
  */
 final class ListMapUtil {
 
-    static JsonType getType(Object value) {
-        if (value instanceof Map)
-            return JsonType.OBJECT;
-        else if (value instanceof List)
-            return JsonType.ARRAY;
-        else if (value instanceof String)
-            return JsonType.STRING;
-        else if (Numbers.isNumber(value))
-            return JsonType.NUMBER;
-        else if (value instanceof Boolean)
-            return JsonType.BOOLEAN;
-        else if (value == null)
-            return JsonType.NULL;
-        throw new IllegalArgumentException("Invalid JSON type: " + value.getClass().getName());
-    }
-
     @SuppressWarnings({"unchecked", "rawtypes"})
     static <T> T wrap(Object value) {
         if (value instanceof Map)
@@ -37,14 +19,6 @@ final class ListMapUtil {
         else if (value instanceof List)
             value = Json.createArray(value);
         return (T) value;
-    }
-
-    static Object unwrap(Object value) {
-        if (value instanceof MapBasedJsonObject)
-            value = ((MapBasedJsonObject) value).getNativeObject();
-        else if (value instanceof ListBasedJsonArray)
-            value = ((ListBasedJsonArray) value).getNativeArray();
-        return value;
     }
 
     @SuppressWarnings("unchecked")
