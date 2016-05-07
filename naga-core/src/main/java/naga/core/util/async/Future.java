@@ -1,5 +1,7 @@
 package naga.core.util.async;
 
+import naga.core.util.function.Consumer;
+
 /**
  * Represents the result of an asynchronous operation that may, or may not, have finished yet.
  *
@@ -63,6 +65,38 @@ public class Future<T> implements AsyncResult<T> {
      */
     public static <T> Future<T> failedFuture(String failureMessage) {
         return new Future<>(failureMessage, true);
+    }
+
+    /**
+     * Wrap a runnable into a future that complete immediately or fail if an exception is thrown.
+     *
+     * @param runnable  the runnable
+     * @return  the future
+     */
+    public static Future<Void> runAsync(Runnable runnable) {
+        try {
+            runnable.run();
+            return succeededFuture();
+        } catch (Throwable t) {
+            return failedFuture(t);
+        }
+    }
+
+    /**
+     * Wrap a consumer into a future that complete immediately or fail if an exception is thrown.
+     *
+     * @param consumer  the consumer
+     * @param arg  the argument to pass to the consumer
+     * @param <T>  the argument type
+     * @return  the future
+     */
+    public static <T> Future<Void> consumeAsync(Consumer<T> consumer, T arg) {
+        try {
+            consumer.accept(arg);
+            return succeededFuture();
+        } catch (Throwable t) {
+            return failedFuture(t);
+        }
     }
 
     /**

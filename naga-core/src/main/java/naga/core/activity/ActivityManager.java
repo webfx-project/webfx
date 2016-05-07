@@ -1,6 +1,9 @@
 package naga.core.activity;
 
 import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.util.async.AsyncResult;
+import naga.core.util.async.Future;
+import naga.core.util.async.Handler;
 import naga.core.util.function.Factory;
 
 /**
@@ -29,80 +32,91 @@ public class ActivityManager {
         create(context);
     }
 
-    public void create(ActivityContext context) {
+    public Future<Void> create(ActivityContext context) {
         context.setActivityManager(this);
         this.context = context;
-        transitTo(State.CREATED);
+        return transitTo(State.CREATED);
     }
 
-    public void start() {
-        transitTo(State.STARTED);
+    public Future<Void> start() {
+        return transitTo(State.STARTED);
     }
 
-    public void run(ActivityContext context) {
+    public Future<Void> run(ActivityContext context) {
         create(context);
-        run();
+        return run();
     }
 
-    public void run() {
-        resume();
+    public Future<Void> run() {
+        return resume();
     }
 
-    public void resume() {
-        transitTo(State.RESUMED);
+    public Future<Void> resume() {
+        return transitTo(State.RESUMED);
     }
 
-    public void pause() {
-        transitTo(State.PAUSED);
+    public Future<Void> pause() {
+        return transitTo(State.PAUSED);
     }
 
-    public void stop() {
-        transitTo(State.STOPPED);
+    public Future<Void> stop() {
+        return transitTo(State.STOPPED);
     }
 
-    public void restart() {
-        transitTo(State.STARTED);
+    public Future<Void> restart() {
+        return transitTo(State.STARTED);
     }
 
-    public void destroy() {
-        transitTo(State.DESTROYED);
+    public Future<Void> destroy() {
+        return transitTo(State.DESTROYED);
     }
 
-    public void transitTo(State intentState) {
-        State nextState = currentState;
-        while (nextState != intentState) {
-            nextState = null;
-            if (intentState.compareTo(currentState) > 0)
-                nextState = State.values()[currentState.ordinal() + 1];
-            else if (currentState == State.PAUSED && intentState == State.RESUMED
-                || currentState == State.STOPPED && intentState == State.STARTED)
-                nextState = intentState;
-            if (nextState == null)
-                throw new IllegalStateException();
-            onStateChanged(nextState);
-        }
+    public Future<Void> transitTo(State intentState) {
+        if (intentState == currentState)
+            return Future.succeededFuture();
+        State nextState;
+        if (intentState.compareTo(currentState) > 0)
+            nextState = State.values()[currentState.ordinal() + 1];
+        else if (currentState == State.PAUSED && intentState == State.RESUMED
+            || currentState == State.STOPPED && intentState == State.STARTED)
+            nextState = intentState;
+        else
+            return Future.failedFuture("Illegal state transition");
+        Future<Void> future = Future.future();
+        onStateChanged(nextState).setHandler(new Handler<AsyncResult<Void>>() {
+            @Override
+            public void handle(AsyncResult<Void> result) {
+                if (result.failed())
+                    future.fail(result.cause());
+                else if (intentState == currentState)
+                    future.complete();
+                else
+                    transitTo(intentState).setHandler(this);
+            }
+        });
+        return future;
     }
 
-    private void onStateChanged(State newState) {
-        currentState = newState;
-        switch (currentState) {
+    private Future<Void> onStateChanged(State newState) {
+        switch (currentState = newState) {
             case CREATED:
                 if (context == null)
-                    throw new IllegalStateException("Activity context is not set");
+                    return Future.failedFuture("Activity context is not set");
                 if (activity == null)
                     activity = activityFactory.create();
-                activity.onCreate(context);
-                break;
-            case STARTED: activity.onStart(); break;
-            case RESUMED: activity.onResume(); break;
-            case PAUSED: activity.onPause(); break;
-            case STOPPED: activity.onStop(); break;
+                return activity.onCreateAsync(context);
+            case STARTED: return activity.onStartAsync();
+            case RESUMED: return activity.onResumeAsync();
+            case PAUSED: return activity.onPauseAsync();
+            case STOPPED: return activity.onStopAsync();
             case DESTROYED: {
-                activity.onDestroy();
-                activity = null;
-                break;
+                Future<Void> future = activity.onDestroyAsync();
+                if (future.succeeded())
+                    activity = null;
+                return future;
             }
         }
+        return Future.failedFuture("Unknown state"); // Should never occur
     }
 
     public static void launchApplication(Activity application, String[] args) {
