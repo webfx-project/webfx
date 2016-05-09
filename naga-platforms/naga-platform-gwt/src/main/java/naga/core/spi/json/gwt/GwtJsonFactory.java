@@ -63,7 +63,6 @@ public final class GwtJsonFactory extends JsonFactory<GwtJsonArray, GwtJsonObjec
         return parse0(jsonString);
     }
 
-    // @formatter:off
     private native static Object parse0(String jsonString) /*-{
         try { // First attempt without any transformation (only pure json will be accepted)
             return $wnd.JSON.parse(jsonString);
@@ -85,8 +84,6 @@ public final class GwtJsonFactory extends JsonFactory<GwtJsonArray, GwtJsonObjec
             return $wnd.JSON.parse(jsonString);
         }
     }-*/;
-    // @formatter:on
-
 
     @Override
     protected <T extends JsonElement> T nativeToJsonElement(Object gwtElement) {

@@ -17,6 +17,9 @@ public final class JSUtil {
     @JSBody(params = {}, script = "return {};")
     public static native JSObject newJSObject();
 
+    @JSBody(params = {}, script = "return [];")
+    public static native JSObject newJSArray();
+
     @JSBody(params = {"jso", "key", "value"}, script = "jso[key] = value;")
     public static native void setJSValue(JSObject jso, String key, JSObject value);
 

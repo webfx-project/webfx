@@ -20,8 +20,8 @@ import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.util.Strings;
 import naga.core.util.function.Converter;
-import naga.core.valuesobject.ValuesArray;
-import naga.core.valuesobject.ValuesObject;
+import naga.core.composite.CompositeArray;
+import naga.core.composite.CompositeObject;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class RxFilter {
         return setDisplayColumns((JsonArray) Json.parse(jsonArrayDisplayColumns));
     }
 
-    public RxFilter setDisplayColumns(ValuesArray array) {
+    public RxFilter setDisplayColumns(CompositeArray array) {
         int n = array.size();
         this.displayColumns = new DisplayColumn[n];
         for (int i = 0; i < n; i++)
@@ -82,7 +82,7 @@ public class RxFilter {
         return combine(new StringFilter(json));
     }
 
-    public RxFilter combine(ValuesObject json) {
+    public RxFilter combine(CompositeObject json) {
         return combine(new StringFilter(json));
     }
 

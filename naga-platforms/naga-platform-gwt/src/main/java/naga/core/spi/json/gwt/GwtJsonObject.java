@@ -37,7 +37,7 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
     }
 
     @Override
-    public native GwtJsonValue getRaw(String key) /*-{
+    public native GwtJsonValue getNativeElement(String key) /*-{
         return this[key];
     }-*/;
 
@@ -54,11 +54,6 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
     }
 
     @Override
-    public Collection values() {
-        return null; // TODO
-    }
-
-    @Override
     public native <T> T remove(String key) /*-{
         toRtn = this[key];
         delete this[key];
@@ -66,7 +61,7 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
     }-*/;
 
     @Override
-    public native void setRaw(String key, Object value) /*-{
+    public native void setNativeElement(String key, Object element) /*-{
         this[key] = value;
     }-*/;
 

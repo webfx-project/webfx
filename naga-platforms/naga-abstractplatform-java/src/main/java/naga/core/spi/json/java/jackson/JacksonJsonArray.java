@@ -17,7 +17,8 @@
  */
 package naga.core.spi.json.java.jackson;
 
-import naga.core.spi.json.listmap.ListJsonArray;
+import naga.core.spi.json.JsonArray;
+import naga.core.spi.json.listmap.ListCompositeArray;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ import java.util.List;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonArray.java">Original Goodow class</a>
  */
-final class JacksonJsonArray extends ListJsonArray {
+final class JacksonJsonArray extends ListCompositeArray implements JacksonJsonElement, JsonArray {
 
     JacksonJsonArray() {
     }

@@ -1,6 +1,7 @@
 package naga.core.jsoncodec;
 
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.CompositeObject;
+import naga.core.composite.WritableCompositeObject;
 
 /*
  * @author Bruno Salmon
@@ -10,8 +11,8 @@ public interface JsonCodec<T> {
 
     String getCodecID();
 
-    void encodeToJson(T javaObject, JsonObject json);
+    void encodeToJson(T javaObject, WritableCompositeObject json);
 
-    T decodeFromJson(JsonObject json);
+    T decodeFromJson(CompositeObject json);
 
 }

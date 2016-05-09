@@ -85,7 +85,7 @@ public class Json {
         int length = jsonArray.size();
         Object[] javaArray = new Object[length];
         for (int i = 0; i < length; i++)
-            javaArray[i] = jsonArray.get(i);
+            javaArray[i] = jsonArray.getElement(i);
         return javaArray;
     }
 

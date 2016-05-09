@@ -29,11 +29,9 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 class GwtJsonValue extends JavaScriptObject {
 
-
     protected GwtJsonValue() {
     }
 
-    // @formatter:off
     public final native String toJson() /*-{
         // skip hashCode field
         return $wnd.JSON.stringify(this, function(keyName, value) {

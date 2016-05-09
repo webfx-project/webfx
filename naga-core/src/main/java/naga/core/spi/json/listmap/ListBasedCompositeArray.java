@@ -1,28 +1,35 @@
 package naga.core.spi.json.listmap;
 
+import naga.core.composite.WritableCompositeArray;
 import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonArray;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class ListBasedJsonArray<NA> extends ListMapJsonElement implements JsonArray {
+public abstract class ListBasedCompositeArray implements WritableCompositeArray, ListMapCompositeElement {
     protected boolean isShallowCopy;
 
-    protected ListBasedJsonArray() {
+    protected ListBasedCompositeArray() {
         recreateEmptyNativeArray();
+    }
+
+    protected ListBasedCompositeArray(List<Object> list) {
+        setList(list);
     }
 
     public abstract List<Object> getList();
 
-    protected abstract NA getNativeArray();
+    protected abstract void setList(List<Object> list);
 
-    protected abstract void recreateEmptyNativeArray();
+    protected void recreateEmptyNativeArray() {
+        setList((List) createNativeArray());
+    }
 
-    protected abstract void deepCopyNativeArray();
+    protected void deepCopyNativeArray() {
+        setList(ListMapUtil.convertList(getList()));
+    }
 
     protected void checkCopyBeforeUpdate() {
         if (isShallowCopy) {
@@ -32,15 +39,14 @@ public abstract class ListBasedJsonArray<NA> extends ListMapJsonElement implemen
         }
     }
 
-
     @Override
-    public Object getRaw(int index) {
+    public Object getNativeElement(int index) {
         return getList().get(index);
     }
 
     @Override
-    public int indexOfRaw(Object value) {
-        return getList().indexOf(value);
+    public int indexOfNativeElement(Object element) {
+        return getList().indexOf(element);
     }
 
     @Override
@@ -49,18 +55,13 @@ public abstract class ListBasedJsonArray<NA> extends ListMapJsonElement implemen
     }
 
     @Override
-    public void pushRaw(Object value) {
-        getList().add(value);
+    public void pushNativeElement(Object element) {
+        getList().add(element);
     }
 
     @Override
-    public void setRaw(int index, Object value) {
+    public void setNativeElement(int index, Object value) {
         getList().set(index, value);
-    }
-
-    @Override
-    public Collection values() {
-        return getList();
     }
 
     @Override
@@ -79,17 +80,17 @@ public abstract class ListBasedJsonArray<NA> extends ListMapJsonElement implemen
     }
 
     @Override
-    public ListBasedJsonArray copy() {
-        ListBasedJsonArray copy = (ListBasedJsonArray) Json.createArray(getNativeArray());
+    public ListBasedCompositeArray copy() {
+        ListBasedCompositeArray copy = (ListBasedCompositeArray) Json.createArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return toJsonString();
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -99,7 +100,7 @@ public abstract class ListBasedJsonArray<NA> extends ListMapJsonElement implemen
         if (o == null || getClass() != o.getClass())
             return false;
 
-        ListBasedJsonArray that = (ListBasedJsonArray) o;
+        ListBasedCompositeArray that = (ListBasedCompositeArray) o;
 
         List thisList = this.getList();
         List thatList = that.getList();

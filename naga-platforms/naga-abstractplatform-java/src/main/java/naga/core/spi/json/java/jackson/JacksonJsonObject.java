@@ -17,7 +17,8 @@
  */
 package naga.core.spi.json.java.jackson;
 
-import naga.core.spi.json.listmap.MapJsonObject;
+import naga.core.spi.json.JsonObject;
+import naga.core.spi.json.listmap.MapCompositeObject;
 
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import java.util.Map;
  *
  * <a href="https://github.com/goodow/realtime-json/blob/master/src/main/java/com/goodow/json/impl/JreJsonObject.java">Original Goodow class</a>
  */
-final class JacksonJsonObject extends MapJsonObject {
+final class JacksonJsonObject extends MapCompositeObject implements JacksonJsonElement, JsonObject {
 
     JacksonJsonObject() {
     }

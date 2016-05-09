@@ -1,8 +1,9 @@
 package naga.core.buscall;
 
+import naga.core.composite.CompositeObject;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.jsoncodec.AbstractJsonCodec;
 import naga.core.jsoncodec.JsonCodecManager;
-import naga.core.spi.json.JsonObject;
 import naga.core.util.async.AsyncResult;
 
 /**
@@ -61,7 +62,7 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
         new AbstractJsonCodec<SerializableAsyncResult>(SerializableAsyncResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(SerializableAsyncResult result, JsonObject json) {
+            public void encodeToJson(SerializableAsyncResult result, WritableCompositeObject json) {
                 if (result.cause() != null)
                     json.set(ERROR_KEY, result.cause().getMessage());
                 if (result.result() != null)
@@ -69,7 +70,7 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
             }
 
             @Override
-            public SerializableAsyncResult decodeFromJson(JsonObject json) {
+            public SerializableAsyncResult decodeFromJson(CompositeObject json) {
                 String errorMessage = json.getString(ERROR_KEY);
                 Exception error = errorMessage == null ? null : new Exception(errorMessage);
                 return new SerializableAsyncResult<>(

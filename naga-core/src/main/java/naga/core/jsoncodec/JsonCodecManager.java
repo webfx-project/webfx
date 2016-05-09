@@ -1,9 +1,11 @@
 package naga.core.jsoncodec;
 
 import naga.core.buscall.BusCallService;
+import naga.core.composite.CompositeArray;
+import naga.core.composite.CompositeObject;
+import naga.core.composite.WritableCompositeArray;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
 import naga.core.util.Numbers;
@@ -56,17 +58,17 @@ public class JsonCodecManager {
         return encodeToJsonObject(object);
     }
 
-    public static JsonObject encodeToJsonObject(Object object) {
+    public static CompositeObject encodeToJsonObject(Object object) {
         if (object == null)
             return null;
-        if (object instanceof JsonObject)
-            return (JsonObject) object;
-        JsonObject json = Json.createObject();
+        if (object instanceof CompositeObject)
+            return (CompositeObject) object;
+        WritableCompositeObject json = Json.createObject();
         encodeJavaObjectToJsonObject(object, json);
         return json;
     }
 
-    public static void encodeJavaObjectToJsonObject(Object javaObject, JsonObject json) {
+    public static void encodeJavaObjectToJsonObject(Object javaObject, WritableCompositeObject json) {
         JsonCodec encoder = getJsonEncoder(javaObject.getClass());
         if (encoder == null)
             throw new IllegalArgumentException("No JsonCodec for type: " + javaObject.getClass());
@@ -74,7 +76,7 @@ public class JsonCodecManager {
         encoder.encodeToJson(javaObject, json);
     }
 
-    public static <J> J decodeFromJsonObject(JsonObject json) {
+    public static <J> J decodeFromJsonObject(CompositeObject json) {
         if (json == null)
             return null;
         String codecID = json.getString(CODEC_ID_KEY);
@@ -85,40 +87,40 @@ public class JsonCodecManager {
     }
 
     public static <J> J decodeFromJson(Object object) {
-        if (object instanceof JsonObject)
-            return decodeFromJsonObject((JsonObject) object);
+        if (object instanceof CompositeObject)
+            return decodeFromJsonObject((CompositeObject) object);
         return (J) object;
     }
 
-    public static JsonArray encodePrimitiveArrayToJsonArray(Object[] primArray) {
+    public static CompositeArray encodePrimitiveArrayToJsonArray(Object[] primArray) {
         if (primArray == null)
             return null;
-        JsonArray jsonArray = Json.createArray();
+        WritableCompositeArray jsonArray = Json.createArray();
         for (Object value : primArray)
             jsonArray.push(value);
         return jsonArray;
     }
 
-    public static Object[] decodePrimitiveArrayFromJsonArray(JsonArray jsonArray) {
+    public static Object[] decodePrimitiveArrayFromJsonArray(CompositeArray jsonArray) {
         if (jsonArray == null)
             return null;
         int n = jsonArray.size();
         Object[] array = new Object[n];
         for (int i = 0; i < n; i++)
-            array[i] = jsonArray.get(i);
+            array[i] = jsonArray.getElement(i);
         return array;
     }
 
-    public static JsonArray encodeToJsonArray(Object[] array) {
+    public static CompositeArray encodeToJsonArray(Object[] array) {
         if (array == null)
             return null;
-        JsonArray jsonArray = Json.createArray();
+        WritableCompositeArray jsonArray = Json.createArray();
         for (Object object : array)
             jsonArray.push(encodeToJsonObject(object));
         return jsonArray;
     }
 
-    public static <A> A[] decodeFromJsonArray(JsonArray jsonArray, Class<A> expectedClass) {
+    public static <A> A[] decodeFromJsonArray(CompositeArray jsonArray, Class<A> expectedClass) {
         if (jsonArray == null)
             return null;
         int n = jsonArray.size();
@@ -141,12 +143,12 @@ public class JsonCodecManager {
         new AbstractJsonCodec<Batch>(Batch.class, BATCH_CODEC_ID) {
 
             @Override
-            public void encodeToJson(Batch batch, JsonObject json) {
+            public void encodeToJson(Batch batch, WritableCompositeObject json) {
                 json.set(BATCH_ARRAY_KEY, encodeToJsonArray(batch.getArray()));
             }
 
             @Override
-            public Batch decodeFromJson(JsonObject json) {
+            public Batch decodeFromJson(CompositeObject json) {
                 return new Batch<>(decodeFromJsonArray(json.getArray(BATCH_ARRAY_KEY), SqlReadResult.class /* Temporary hardcoded TODO: guess the result class from the codecID */));
             }
         };

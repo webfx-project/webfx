@@ -1,10 +1,10 @@
 package naga.core.ngui.displayresultset;
 
+import naga.core.composite.CompositeObject;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
 import naga.core.spi.json.Json;
-import naga.core.valuesobject.ValuesObject;
 
 /**
  * @author Bruno Salmon
@@ -16,10 +16,10 @@ public class DisplayColumn {
     private Expression  expression;
 
     public DisplayColumn(String json) {
-        this((ValuesObject) Json.parse(json));
+        this((CompositeObject) Json.parse(json));
     }
 
-    public DisplayColumn(ValuesObject json) {
+    public DisplayColumn(CompositeObject json) {
         this(json.get("label"), json.getString("expression"));
     }
 

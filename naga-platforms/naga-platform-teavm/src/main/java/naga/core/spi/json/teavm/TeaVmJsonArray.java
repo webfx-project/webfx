@@ -4,8 +4,6 @@ import naga.core.spi.json.JsonArray;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
-import java.util.Collection;
-
 /**
  * Client-side implementation of JsonArray.
  *
@@ -26,17 +24,15 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
     <T extends JSObject> JSArray<T> asArray() { return jsValue.cast(); }
 
     @Override
-    public JSObject getRaw(int index) {
+    public JSObject getNativeElement(int index) {
         return asArray().get(index);
     }
 
     @Override
-    public native void setRaw(int index, Object value);
+    public native void setNativeElement(int index, Object value);
 
-    @Override
-    public native Collection values();
 
-    public native int indexOfRaw(Object value);
+    public native int indexOfNativeElement(Object element);
 
     @Override
     public int size() {
@@ -44,8 +40,8 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements JsonArray {
     }
 
     @Override
-    public void pushRaw(Object value) {
-        asArray().push((JSObject) value);
+    public void pushNativeElement(Object element) {
+        asArray().push((JSObject) element);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package naga.core.spi.json;
 
-import naga.core.valuesobject.WritableValuesObject;
+import naga.core.composite.WritableCompositeObject;
 
 /**
  * Represents a Json object.
@@ -8,6 +8,6 @@ import naga.core.valuesobject.WritableValuesObject;
  * @author Bruno Salmon
  *
  */
-public interface JsonObject extends WritableValuesObject, JsonElement {
+public interface JsonObject extends WritableCompositeObject, JsonElement {
 
 }

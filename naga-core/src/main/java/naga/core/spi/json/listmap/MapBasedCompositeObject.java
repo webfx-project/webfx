@@ -1,7 +1,7 @@
 package naga.core.spi.json.listmap;
 
+import naga.core.composite.WritableCompositeObject;
 import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonObject;
 
 import java.util.Collection;
 import java.util.Map;
@@ -9,20 +9,28 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class MapBasedJsonObject<NO> extends ListMapJsonElement implements JsonObject {
+public abstract class MapBasedCompositeObject implements WritableCompositeObject, ListMapCompositeElement {
     protected boolean isShallowCopy;
 
-    protected MapBasedJsonObject() {
+    protected MapBasedCompositeObject() {
         recreateEmptyNativeObject();
+    }
+
+    protected MapBasedCompositeObject(Map<String, Object> map) {
+        setMap(map);
     }
 
     public abstract Map<String, Object> getMap();
 
-    public abstract NO getNativeObject();
+    protected abstract void setMap(Map<String, Object> map);
 
-    protected abstract void recreateEmptyNativeObject();
+    protected void recreateEmptyNativeObject() {
+        setMap((Map) createNativeObject());
+    }
 
-    protected abstract void deepCopyNativeObject();
+    protected void deepCopyNativeObject() {
+        setMap(ListMapUtil.convertMap(getMap()));
+    }
 
     @Override
     public int size() {
@@ -39,15 +47,9 @@ public abstract class MapBasedJsonObject<NO> extends ListMapJsonElement implemen
         return getMap().keySet();
     }
 
-    @Override
-    public Collection values() {
-        return getMap().values();
-    }
-
-    public Object getRaw(String key) {
+    public Object getNativeElement(String key) {
         return getMap().get(key);
     }
-
 
     @Override
     public <T> T remove(String key) {
@@ -56,9 +58,9 @@ public abstract class MapBasedJsonObject<NO> extends ListMapJsonElement implemen
     }
 
     @Override
-    public void setRaw(String key, Object value) {
+    public void setNativeElement(String key, Object element) {
         checkCopyBeforeUpdate();
-        getMap().put(key, value);
+        getMap().put(key, element);
     }
 
     protected void checkCopyBeforeUpdate() {
@@ -79,17 +81,17 @@ public abstract class MapBasedJsonObject<NO> extends ListMapJsonElement implemen
     }
 
     @Override
-    public MapBasedJsonObject copy() {
-        MapBasedJsonObject copy = (MapBasedJsonObject) Json.createArray(getNativeObject());
+    public MapBasedCompositeObject copy() {
+        MapBasedCompositeObject copy = (MapBasedCompositeObject) Json.createArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return toJsonString();
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -99,7 +101,7 @@ public abstract class MapBasedJsonObject<NO> extends ListMapJsonElement implemen
         if (o == null || getClass() != o.getClass())
             return false;
 
-        MapBasedJsonObject that = (MapBasedJsonObject) o;
+        MapBasedCompositeObject that = (MapBasedCompositeObject) o;
 
         Map<String, Object> thisMap = getMap();
         Map<String, Object> thatMap = that.getMap();

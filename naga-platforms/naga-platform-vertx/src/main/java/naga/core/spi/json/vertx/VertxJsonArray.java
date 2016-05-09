@@ -1,36 +1,41 @@
 package naga.core.spi.json.vertx;
 
-import naga.core.spi.json.listmap.ListBasedJsonArray;
+import io.vertx.core.json.JsonArray;
+import naga.core.spi.json.listmap.ListBasedCompositeArray;
 
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-final class VertxJsonArray extends ListBasedJsonArray<io.vertx.core.json.JsonArray> {
+final class VertxJsonArray extends ListBasedCompositeArray implements VertxJsonElement, naga.core.spi.json.JsonArray {
 
-    private io.vertx.core.json.JsonArray vertxArray;
+    private JsonArray vertxArray;
 
     VertxJsonArray() {  // super constructor will call recreateEmptyNativeArray() to initialize the array
     }
 
-    VertxJsonArray(io.vertx.core.json.JsonArray vertxArray) {
+    VertxJsonArray(List<Object> list) {
+        super(list);
+    }
+
+    VertxJsonArray(JsonArray vertxArray) {
         this.vertxArray = vertxArray;
     }
 
     @Override
-    public List getList() {
+    public List<Object> getList() {
         return vertxArray.getList();
     }
 
     @Override
-    protected io.vertx.core.json.JsonArray getNativeArray() {
-        return vertxArray;
+    protected void setList(List<Object> list) {
+        vertxArray = new JsonArray(list);
     }
 
     @Override
-    protected void recreateEmptyNativeArray() {
-        vertxArray = new io.vertx.core.json.JsonArray();
+    public JsonArray getNativeElement() {
+        return vertxArray;
     }
 
     @Override

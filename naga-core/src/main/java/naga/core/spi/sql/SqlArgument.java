@@ -1,9 +1,9 @@
 package naga.core.spi.sql;
 
+import naga.core.composite.CompositeObject;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.jsoncodec.AbstractJsonCodec;
 import naga.core.jsoncodec.JsonCodecManager;
-import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
 import naga.core.util.Arrays;
 
 /**
@@ -50,7 +50,7 @@ public class SqlArgument {
         new AbstractJsonCodec<SqlArgument>(SqlArgument.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(SqlArgument arg, JsonObject json) {
+            public void encodeToJson(SqlArgument arg, WritableCompositeObject json) {
                 json.set(SQL_KEY, arg.getSql());
                 if (!Arrays.isEmpty(arg.getParameters()))
                     json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
@@ -58,10 +58,10 @@ public class SqlArgument {
             }
 
             @Override
-            public SqlArgument decodeFromJson(JsonObject json) {
+            public SqlArgument decodeFromJson(CompositeObject json) {
                 return new SqlArgument(
                         json.getString(SQL_KEY),
-                        JsonCodecManager.decodePrimitiveArrayFromJsonArray((JsonArray) json.getArray(PARAMETERS_KEY)),
+                        JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
                         json.get(DATA_SOURCE_ID_KEY)
                 );
             }

@@ -1,36 +1,26 @@
 package naga.core.spi.json.vertx;
 
-import naga.core.spi.json.listmap.MapBasedJsonObject;
-import naga.core.valuesobject.RawType;
+import io.vertx.core.json.JsonObject;
+import naga.core.spi.json.listmap.MapBasedCompositeObject;
 
 import java.util.Map;
 
 /**
  * @author Bruno Salmon
  */
-final class VertxJsonObject extends MapBasedJsonObject {
+final class VertxJsonObject extends MapBasedCompositeObject implements VertxJsonElement, naga.core.spi.json.JsonObject {
 
-    private io.vertx.core.json.JsonObject vertxObject;
+    private JsonObject vertxObject;
 
     VertxJsonObject() { // super constructor will call recreateEmptyNativeObject() to initialize the map
     }
 
-    VertxJsonObject(io.vertx.core.json.JsonObject vertxObject) {
+    VertxJsonObject(Map<String, Object> map) {
+        super(map);
+    }
+
+    VertxJsonObject(JsonObject vertxObject) {
         this.vertxObject = vertxObject;
-    }
-
-    @Override
-    public RawType getRawType(Object rawValue) {
-        if (rawValue instanceof io.vertx.core.json.JsonObject)
-            return RawType.RAW_VALUES_OBJECT;
-        return super.getRawType(rawValue);
-    }
-
-    @Override
-    public MapBasedJsonObject wrapValuesObject(Object rawObject) {
-        if (rawObject instanceof io.vertx.core.json.JsonObject)
-            return new VertxJsonObject((io.vertx.core.json.JsonObject) rawObject);
-        return super.wrapValuesObject(rawObject);
     }
 
     @Override
@@ -39,13 +29,13 @@ final class VertxJsonObject extends MapBasedJsonObject {
     }
 
     @Override
-    public Object getNativeObject() {
-        return vertxObject;
+    protected void setMap(Map<String, Object> map) {
+        vertxObject = new JsonObject(map);
     }
 
     @Override
-    protected void recreateEmptyNativeObject() {
-        vertxObject = new io.vertx.core.json.JsonObject();
+    public JsonObject getNativeElement() {
+        return vertxObject;
     }
 
     @Override

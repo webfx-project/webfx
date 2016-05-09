@@ -1,9 +1,10 @@
 package naga.core.spi.sql;
 
+import naga.core.composite.CompositeObject;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.jsoncodec.AbstractJsonCodec;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
 import naga.core.type.PrimType;
 import naga.core.util.Numbers;
 import naga.core.util.compression.values.repeat.RepeatedValuesCompressor;
@@ -121,7 +122,7 @@ public class SqlReadResult {
         new AbstractJsonCodec<SqlReadResult>(SqlReadResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(SqlReadResult result, JsonObject json) {
+            public void encodeToJson(SqlReadResult result, WritableCompositeObject json) {
                 try {
                     int columnCount = result.getColumnCount();
                     // Column names serialization
@@ -158,7 +159,7 @@ public class SqlReadResult {
             }
 
             @Override
-            public SqlReadResult decodeFromJson(JsonObject json) {
+            public SqlReadResult decodeFromJson(CompositeObject json) {
                 // Column names deserialization
                 JsonArray namesArray = (JsonArray) json.getArray(COLUMN_NAMES_KEY);
                 int columnCount = namesArray.size();

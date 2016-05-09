@@ -1,12 +1,12 @@
 
 package naga.core.spi.json;
 
-import naga.core.valuesobject.WritableValuesElement;
+import naga.core.composite.WritableCompositeElement;
 
 /**
  * @author Bruno Salmon
  */
-public interface JsonElement extends WritableValuesElement {
+public interface JsonElement extends WritableCompositeElement {
 
     /**
      * Returns a serialized JSON string representing this value.

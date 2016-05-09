@@ -2,10 +2,9 @@ package naga.core.spi.json.teavm;
 
 import naga.core.spi.json.JsonElement;
 import naga.core.spi.json.JsonException;
-import naga.core.valuesobject.RawType;
-import naga.core.valuesobject.ValuesArray;
-import naga.core.valuesobject.ValuesElement;
-import naga.core.valuesobject.ValuesObject;
+import naga.core.composite.*;
+import naga.core.composite.CompositeElement;
+import naga.core.composite.CompositeObject;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
@@ -39,62 +38,70 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements JsonElement {
     }-*/;
 
     @Override
-    public <SC extends ValuesElement> SC copy() {
+    public <SC extends CompositeElement> SC copy() {
         JSObject copy = JSUtil.copy(jsValue);
         return (SC) (isObject() ? TeaVmJsonObject.create(copy) : new TeaVmJsonArray(JSArray.create()));
     }
 
     @Override
-    public final boolean isArray() {
-        return getRawType(jsValue) == RawType.RAW_VALUES_ARRAY;
+    public JSObject createNativeObject() {
+        return JSUtil.newJSObject();
     }
 
     @Override
-    public final boolean isObject() {
-        return getRawType(jsValue) == RawType.RAW_VALUES_OBJECT;
+    public JSObject createNativeArray() {
+        return JSUtil.newJSArray();
     }
 
     @Override
-    public RawType getRawType(Object rawValue) {
-        JSObject jso = (JSObject) rawValue;
+    public JSObject parseNativeObject(String text) {
+        return JSUtil.parse(text);
+    }
+
+    @Override
+    public JSObject parseNativeArray(String text) {
+        return JSUtil.parse(text);
+    }
+
+    @Override
+    public JSObject getNativeElement() {
+        return jsValue;
+    }
+
+    @Override
+    public ElementType getNativeElementType(Object nativeElement) {
+        JSObject jso = (JSObject) nativeElement;
         switch(JSUtil.getJsType(jso)) {
-            case "object": return JSUtil.isArray(jso) ? RawType.RAW_VALUES_ARRAY : RawType.RAW_VALUES_OBJECT;
+            case "object": return JSUtil.isArray(jso) ? ElementType.ARRAY : ElementType.OBJECT;
             case "string":
             case "number":
-            case "boolean": return RawType.RAW_SCALAR;
+            case "boolean": return ElementType.SCALAR;
         }
-        return RawType.OTHER;
+        return ElementType.UNKNOWN;
     }
 
     @Override
-    public <T> T wrapScalar(Object rawScalar) {
-        return JSUtil.js2jScalar((JSObject) rawScalar);
+    public <T> T nativeToCompositeScalar(Object nativeScalar) {
+        return JSUtil.js2jScalar((JSObject) nativeScalar);
     }
 
     @Override
-    public TeaVmJsonArray wrapValuesArray(Object rawArray) {
-        return TeaVmJsonArray.create((JSArray) rawArray);
+    public TeaVmJsonArray nativeToCompositeArray(Object nativeArray) {
+        return TeaVmJsonArray.create((JSArray) nativeArray);
     }
 
     @Override
-    public TeaVmJsonObject wrapValuesObject(Object rawObject) {
-        return TeaVmJsonObject.create((JSObject) rawObject);
+    public TeaVmJsonObject nativeToCompositeObject(Object nativeObject) {
+        return TeaVmJsonObject.create((JSObject) nativeObject);
     }
 
     @Override
-    public JSObject unwrapScalar(Object scalar) {
+    public JSObject compositeToNativeScalar(Object scalar) {
         return JSUtil.j2jsScalar(scalar);
     }
 
     @Override
-    public JSObject unwrapArray(ValuesArray array) {
-        if (array == null)
-            return null;
-        return ((TeaVmJsonElement) array).getJsValue();
-    }
-
-    @Override
-    public JSObject unwrapObject(ValuesObject object) {
+    public JSObject compositeToNativeObject(CompositeObject object) {
         if (object == null)
             return null;
         return ((TeaVmJsonElement) object).getJsValue();

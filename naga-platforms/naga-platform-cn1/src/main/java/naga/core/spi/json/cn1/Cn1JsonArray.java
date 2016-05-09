@@ -1,13 +1,14 @@
 package naga.core.spi.json.cn1;
 
-import naga.core.spi.json.listmap.ListJsonArray;
+import naga.core.spi.json.JsonArray;
+import naga.core.spi.json.listmap.ListCompositeArray;
 
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-final class Cn1JsonArray extends ListJsonArray {
+final class Cn1JsonArray extends ListCompositeArray implements Cn1JsonElement, JsonArray {
 
     public Cn1JsonArray() {}
 
@@ -28,7 +29,7 @@ final class Cn1JsonArray extends ListJsonArray {
      */
     @Override
     public String toJsonString() {
-        return toJsonString(getNativeArray());
+        return toJsonString(getNativeElement());
     }
 
     static String toJsonString(List list) {

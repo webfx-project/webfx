@@ -19,8 +19,6 @@ package naga.core.spi.json.gwt;
 
 import naga.core.spi.json.JsonArray;
 
-import java.util.Collection;
-
 /**
  * Client-side implementation of JsonArray.
  *
@@ -40,39 +38,39 @@ final class GwtJsonArray extends GwtJsonElement implements JsonArray {
       }-*/;
 
     @Override
-    public native int indexOfRaw(Object value) /*-{
+    public native int indexOfNativeElement(Object element) /*-{
         return this.indexOf(value);
     }-*/;
 
     @Override
-    public native GwtJsonValue getRaw(int index) /*-{
+    public native GwtJsonValue getNativeElement(int index) /*-{
         return this[index];
       }-*/;
 
     @Override
-    public native void setRaw(int index, Object value) /*-{
+    public native void setNativeElement(int index, Object value) /*-{
         this[index] = value;
     }-*/;
 
     @Override
-    public native void pushRaw(Object value) /*-{
+    public native void pushNativeElement(Object element) /*-{
         this[this.length] = value;
     }-*/;
 
 
     @Override
-    public native <T> T get(int index) /*-{
+    public native <T> T getElement(int index) /*-{
         return this[index];
     }-*/;
 
     @Override
     public GwtJsonObject getObject(int index) {
-        return getRaw(index).cast();
+        return getNativeElement(index).cast();
     }
 
     @Override
     public GwtJsonArray getArray(int index) {
-        return getRaw(index).cast();
+        return getNativeElement(index).cast();
     }
 
     @Override
@@ -109,9 +107,4 @@ final class GwtJsonArray extends GwtJsonElement implements JsonArray {
     public native <T> T remove(int index) /*-{
         return this.splice(index, 1)[0];
       }-*/;
-
-    @Override
-    public Collection values() {
-        return null; // TODO
-    }
 }

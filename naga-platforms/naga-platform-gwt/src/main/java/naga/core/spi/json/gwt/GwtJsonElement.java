@@ -17,9 +17,10 @@
  */
 package naga.core.spi.json.gwt;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import naga.core.spi.json.JsonElement;
 import naga.core.spi.json.JsonException;
-import naga.core.valuesobject.RawType;
+import naga.core.composite.ElementType;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
@@ -31,6 +32,12 @@ abstract class GwtJsonElement extends GwtJsonValue implements JsonElement {
 
     protected GwtJsonElement() {
     }
+
+    @Override
+    public final native GwtJsonElement getNativeElement() /*-{
+        return this;
+      }-*/;
+
 
     @Override
     public final native GwtJsonElement copy() /*-{
@@ -58,14 +65,56 @@ abstract class GwtJsonElement extends GwtJsonValue implements JsonElement {
     }-*/;
 
     @Override
-    public final RawType getRawType(Object rawValue) {
-        switch(getJsType(rawValue)) {
-            case "object": return isArray(rawValue) ? RawType.RAW_VALUES_ARRAY : RawType.RAW_VALUES_OBJECT;
+    public final GwtJsonElement createNativeObject() {
+        return JavaScriptObject.createObject().cast();
+    }
+
+    @Override
+    public final GwtJsonElement createNativeArray() {
+        return JavaScriptObject.createArray().cast();
+    }
+
+    @Override
+    public final Object parseNativeObject(String text) {
+        return parse0(text);
+    }
+
+    @Override
+    public final Object parseNativeArray(String text) {
+        return parse0(text);
+    }
+
+    private native static Object parse0(String jsonString) /*-{
+        try { // First attempt without any transformation (only pure json will be accepted)
+            return $wnd.JSON.parse(jsonString);
+        } catch (e) { // Second attempt with transformation to allow relaxed json (single quotes strings and unquoted keys)
+            // Converting single-quoted strings to double-quoted strings for Json compliance
+            // Code borrowed from https://github.com/sindresorhus/to-double-quotes/blob/master/index.js
+            jsonString = jsonString.replace(/(?:\\*)?'([^'\\]*\\.)*[^']*'/g, function (match) {
+                return match
+                    // unescape single-quotes
+                    .replace(/\\'/g, '\'')
+                    // escape escapes
+                    .replace(/(^|[^\\])(\\+)"/g, '$1$2\\\"')
+                    // escape double-quotes
+                    .replace(/([^\\])"/g, '$1\\\"')
+                    // convert
+                    .replace(/^'|'$/g, '"')});
+            // Also unquoted keys are converted to double-quotes keys for Json compliance
+            jsonString = jsonString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+            return $wnd.JSON.parse(jsonString);
+        }
+    }-*/;
+
+    @Override
+    public final ElementType getNativeElementType(Object nativeElement) {
+        switch(getJsType(nativeElement)) {
+            case "object": return isArray(nativeElement) ? ElementType.ARRAY : ElementType.OBJECT;
             case "string":
             case "number":
-            case "boolean": return RawType.RAW_SCALAR;
+            case "boolean": return ElementType.SCALAR;
         }
-        return RawType.OTHER;
+        return ElementType.UNKNOWN;
     }
 
     private static native String getJsType(Object obj) /*-{

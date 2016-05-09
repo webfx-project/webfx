@@ -5,7 +5,7 @@ import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import naga.core.spi.bus.*;
 import naga.core.spi.json.Json;
-import naga.core.spi.json.listmap.MapBasedJsonObject;
+import naga.core.spi.json.listmap.MapBasedCompositeObject;
 import naga.core.util.async.Handler;
 
 /**
@@ -70,8 +70,8 @@ final class VertxBus implements Bus {
     }
 
     private static Object toVertxObject(Object object) {
-        if (object instanceof MapBasedJsonObject)
-            object = ((MapBasedJsonObject) object).getNativeObject();
+        if (object instanceof MapBasedCompositeObject)
+            object = ((MapBasedCompositeObject) object).getNativeElement();
         return object;
     }
 

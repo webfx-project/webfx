@@ -1,5 +1,7 @@
 package naga.core.buscall;
 
+import naga.core.composite.CompositeObject;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.jsoncodec.AbstractJsonCodec;
 import naga.core.jsoncodec.JsonCodecManager;
 import naga.core.spi.json.JsonObject;
@@ -78,13 +80,13 @@ class BusCallResult<T> {
         new AbstractJsonCodec<BusCallResult>(BusCallResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(BusCallResult result, JsonObject json) {
+            public void encodeToJson(BusCallResult result, WritableCompositeObject json) {
                 json.set(CALL_NUMBER_KEY, result.getCallNumber());
                 json.set(TARGET_RESULT_KEY, result.getSerializedTargetResult());
             }
 
             @Override
-            public BusCallResult decodeFromJson(JsonObject json) {
+            public BusCallResult decodeFromJson(CompositeObject json) {
                 return new BusCallResult(
                         (int) json.getDouble(CALL_NUMBER_KEY),
                         json.get(TARGET_RESULT_KEY)

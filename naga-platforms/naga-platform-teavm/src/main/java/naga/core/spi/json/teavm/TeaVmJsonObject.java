@@ -30,19 +30,19 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObjec
 
 
     @Override
-    public JSObject getRaw(String key) {
+    public JSObject getNativeElement(String key) {
         return JSUtil.getJSValue(jsValue, key);
     }
 
     @Override
     public double getDouble(String key) {
-        return JSUtil.js2Double(getRaw(key));
+        return JSUtil.js2Double(getNativeElement(key));
     }
 
 
     @Override
     public String getString(String key) {
-        return JSUtil.js2String(getRaw(key));
+        return JSUtil.js2String(getNativeElement(key));
     }
 
     @Override
@@ -69,23 +69,23 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObjec
     }-*/;
 
     @Override
-    public void setRaw(String key, Object value) {
-        JSUtil.setJSValue(jsValue, key, (JSObject) value);
+    public void setNativeElement(String key, Object element) {
+        JSUtil.setJSValue(jsValue, key, (JSObject) element);
     }
 
     @Override
     public void set(String key, boolean bool) {
-        setRaw(key, JSBoolean.valueOf(bool));
+        setNativeElement(key, JSBoolean.valueOf(bool));
     }
 
     @Override
     public void set(String key, double number) {
-        setRaw(key, JSNumber.valueOf(number));
+        setNativeElement(key, JSNumber.valueOf(number));
     }
 
     @Override
     public void set(String key, Object element) {
-        setRaw(key, JSUtil.j2js(element));
+        setNativeElement(key, JSUtil.j2js(element));
     }
 
     /**
@@ -105,7 +105,4 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObjec
         }
         return size;
     }-*/;
-
-    @Override
-    public native Collection values();
 }
