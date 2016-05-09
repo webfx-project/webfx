@@ -1,9 +1,9 @@
 package naga.core.spi.sql;
 
-import naga.core.codec.AbstractCompositeCodec;
+import naga.core.composite.codec.AbstractCompositeCodec;
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeObject;
-import naga.core.codec.CompositeCodecManager;
+import naga.core.composite.codec.CompositeCodecManager;
 import naga.core.util.Arrays;
 
 /**

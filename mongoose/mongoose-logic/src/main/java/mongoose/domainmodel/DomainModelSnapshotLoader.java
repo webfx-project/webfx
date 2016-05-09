@@ -1,6 +1,6 @@
 package mongoose.domainmodel;
 
-import naga.core.codec.CompositeCodecManager;
+import naga.core.composite.codec.CompositeCodecManager;
 import naga.core.composite.CompositeElement;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.domainmodel.DomainModel;

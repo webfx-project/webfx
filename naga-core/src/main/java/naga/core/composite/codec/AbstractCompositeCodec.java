@@ -1,4 +1,4 @@
-package naga.core.codec;
+package naga.core.composite.codec;
 
 /*
  * @author Bruno Salmon

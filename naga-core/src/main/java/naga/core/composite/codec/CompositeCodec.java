@@ -1,4 +1,4 @@
-package naga.core.codec;
+package naga.core.composite.codec;
 
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeObject;

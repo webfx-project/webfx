@@ -1,6 +1,6 @@
 package naga.core.buscall;
 
-import naga.core.codec.CompositeCodecManager;
+import naga.core.composite.codec.CompositeCodecManager;
 import naga.core.spi.bus.Message;
 import naga.core.spi.platform.Platform;
 import naga.core.util.async.AsyncFunction;
