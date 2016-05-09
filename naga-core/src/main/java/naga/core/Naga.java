@@ -4,7 +4,7 @@ package naga.core;
  * @author Bruno Salmon
  */
 
-import naga.core.buscall.BusCallService;
+import naga.core.composite.buscall.BusCallService;
 import naga.core.spi.platform.Platform;
 
 public class Naga {

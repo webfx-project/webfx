@@ -1,4 +1,4 @@
-package naga.core.buscall;
+package naga.core.composite.buscall;
 
 import naga.core.util.async.AsyncResult;
 import naga.core.util.async.Future;

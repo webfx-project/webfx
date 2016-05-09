@@ -1,7 +1,7 @@
 package naga.core.spi.sql.impl;
 
 import naga.core.Naga;
-import naga.core.buscall.BusCallService;
+import naga.core.composite.buscall.BusCallService;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
 import naga.core.spi.sql.SqlService;
