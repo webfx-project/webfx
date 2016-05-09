@@ -1,4 +1,4 @@
-package naga.core.orm.filter;
+package naga.core.orm.stringfilter;
 
 import naga.core.spi.json.Json;
 import naga.core.composite.CompositeObject;
