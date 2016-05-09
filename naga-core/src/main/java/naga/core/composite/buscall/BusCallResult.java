@@ -1,4 +1,4 @@
-package naga.core.buscall;
+package naga.core.composite.buscall;
 
 import naga.core.composite.codec.AbstractCompositeCodec;
 import naga.core.composite.codec.CompositeCodecManager;

@@ -1,4 +1,4 @@
-package naga.core.buscall;
+package naga.core.composite.buscall;
 
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeObject;

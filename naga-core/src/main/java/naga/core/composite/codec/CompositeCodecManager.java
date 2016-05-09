@@ -1,6 +1,6 @@
 package naga.core.composite.codec;
 
-import naga.core.buscall.BusCallService;
+import naga.core.composite.buscall.BusCallService;
 import naga.core.composite.CompositeArray;
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeArray;

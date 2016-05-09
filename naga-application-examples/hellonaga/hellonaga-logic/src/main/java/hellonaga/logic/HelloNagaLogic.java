@@ -1,7 +1,7 @@
 package hellonaga.logic;
 
 import naga.core.Naga;
-import naga.core.buscall.BusCallService;
+import naga.core.composite.buscall.BusCallService;
 import naga.core.spi.platform.Platform;
 
 /**
