@@ -1,8 +1,8 @@
 package naga.core.spi.sql;
 
+import naga.core.codec.AbstractCompositeCodec;
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeObject;
-import naga.core.jsoncodec.AbstractJsonCodec;
 import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.type.PrimType;
@@ -107,7 +107,7 @@ public class SqlReadResult {
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                 Composite Codec                  *
      * *************************************************/
 
     private final static String CODEC_ID = "SqlReadResult";
@@ -118,18 +118,18 @@ public class SqlReadResult {
 
     private final static boolean COMPRESSION = true;
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<SqlReadResult>(SqlReadResult.class, CODEC_ID) {
+    public static void registerCompositeCodec() {
+        new AbstractCompositeCodec<SqlReadResult>(SqlReadResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(SqlReadResult result, WritableCompositeObject json) {
+            public void encodeToComposite(SqlReadResult result, WritableCompositeObject co) {
                 try {
                     int columnCount = result.getColumnCount();
                     // Column names serialization
                     JsonArray namesArray = Json.createArray();
                     for (String name : result.getColumnNames())
                         namesArray.push(name);
-                    json.set(COLUMN_NAMES_KEY, namesArray);
+                    co.set(COLUMN_NAMES_KEY, namesArray);
                     if (columnCount == -1)
                         columnCount = namesArray.size();
                     // types serialization & values compression
@@ -147,27 +147,27 @@ public class SqlReadResult {
                         }
                     for (PrimType type : types)
                         typesArray.push(type == null ? null : type.name());
-                    json.set(COLUMN_TYPES_KEY, typesArray);
+                    co.set(COLUMN_TYPES_KEY, typesArray);
                     // values packing and serialization
                     if (COMPRESSION)
-                        json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
+                        co.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
                     else
-                        json.set(VALUES_KEY, result.values);
+                        co.set(VALUES_KEY, result.values);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public SqlReadResult decodeFromJson(CompositeObject json) {
+            public SqlReadResult decodeFromComposite(CompositeObject co) {
                 // Column names deserialization
-                JsonArray namesArray = (JsonArray) json.getArray(COLUMN_NAMES_KEY);
+                JsonArray namesArray = (JsonArray) co.getArray(COLUMN_NAMES_KEY);
                 int columnCount = namesArray.size();
                 String[] names = new String[columnCount];
                 for (int i = 0; i < columnCount; i++)
                     names[i] = namesArray.getString(i);
                 // Types deserialization
-                JsonArray typesArray = (JsonArray) json.getArray(COLUMN_TYPES_KEY);
+                JsonArray typesArray = (JsonArray) co.getArray(COLUMN_TYPES_KEY);
                 PrimType[] types = new PrimType[columnCount];
                 for (int i = 0; i < columnCount; i++) {
                     String typeName = typesArray.getString(i);
@@ -176,11 +176,11 @@ public class SqlReadResult {
                 }
                 // Values deserialization
                 Object[] inlineValues;
-                JsonArray valuesArray = (JsonArray) json.getArray(VALUES_KEY);
+                JsonArray valuesArray = (JsonArray) co.getArray(VALUES_KEY);
                 if (valuesArray != null)
                     inlineValues = Json.toJavaArray(valuesArray);
                 else
-                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray((JsonArray) json.getArray(COMPRESSED_VALUES_KEY)));
+                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray((JsonArray) co.getArray(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
                 return new SqlReadResult(inlineValues, names);
             }

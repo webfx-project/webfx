@@ -2,8 +2,8 @@ package naga.core.buscall;
 
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeObject;
-import naga.core.jsoncodec.AbstractJsonCodec;
-import naga.core.jsoncodec.JsonCodecManager;
+import naga.core.codec.AbstractCompositeCodec;
+import naga.core.codec.CompositeCodecManager;
 
 
 /*
@@ -17,7 +17,7 @@ class BusCallArgument {
     private final Object targetArgument;
     private final int callNumber;
 
-    private Object jsonEncodedTargetArgument; // can be a JsonObject or simply a String or Number
+    private Object compositeEncodedTargetArgument; // can be a CompositeObject or simply a scalar
 
     public BusCallArgument(String targetAddress, Object targetArgument) {
         this(targetAddress, targetArgument, ++SEQ);
@@ -41,14 +41,14 @@ class BusCallArgument {
         return callNumber;
     }
 
-    Object getJsonEncodedTargetArgument() {
-        if (jsonEncodedTargetArgument == null && targetArgument != null)
-            jsonEncodedTargetArgument = JsonCodecManager.encodeToJson(targetArgument);
-        return jsonEncodedTargetArgument;
+    Object getCompositeEncodedTargetArgument() {
+        if (compositeEncodedTargetArgument == null && targetArgument != null)
+            compositeEncodedTargetArgument = CompositeCodecManager.encodeToComposite(targetArgument);
+        return compositeEncodedTargetArgument;
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                 Composite Codec                  *
      * *************************************************/
 
     private static String CODEC_ID = "call";
@@ -56,22 +56,22 @@ class BusCallArgument {
     private static String TARGET_ADDRESS_KEY = "addr";
     private static String TARGET_ARGUMENT_KEY = "arg";
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<BusCallArgument>(BusCallArgument.class, CODEC_ID) {
+    public static void registerCompositeCodec() {
+        new AbstractCompositeCodec<BusCallArgument>(BusCallArgument.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(BusCallArgument call, WritableCompositeObject json) {
-                json.set(CALL_NUMBER_KEY, call.callNumber);
-                json.set(TARGET_ADDRESS_KEY, call.getTargetAddress());
-                json.set(TARGET_ARGUMENT_KEY, call.getJsonEncodedTargetArgument());
+            public void encodeToComposite(BusCallArgument call, WritableCompositeObject co) {
+                co.set(CALL_NUMBER_KEY, call.callNumber);
+                co.set(TARGET_ADDRESS_KEY, call.getTargetAddress());
+                co.set(TARGET_ARGUMENT_KEY, call.getCompositeEncodedTargetArgument());
             }
 
             @Override
-            public BusCallArgument decodeFromJson(CompositeObject json) {
+            public BusCallArgument decodeFromComposite(CompositeObject co) {
                 return new BusCallArgument(
-                        json.getString(TARGET_ADDRESS_KEY),
-                        JsonCodecManager.decodeFromJson(json.get(TARGET_ARGUMENT_KEY)),
-                        (int) json.getDouble(CALL_NUMBER_KEY)
+                        co.getString(TARGET_ADDRESS_KEY),
+                        CompositeCodecManager.decodeFromComposite(co.get(TARGET_ARGUMENT_KEY)),
+                        (int) co.getDouble(CALL_NUMBER_KEY)
                 );
             }
         };

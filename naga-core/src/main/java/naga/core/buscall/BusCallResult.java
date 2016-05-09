@@ -1,10 +1,9 @@
 package naga.core.buscall;
 
+import naga.core.codec.AbstractCompositeCodec;
+import naga.core.codec.CompositeCodecManager;
 import naga.core.composite.CompositeObject;
 import naga.core.composite.WritableCompositeObject;
-import naga.core.jsoncodec.AbstractJsonCodec;
-import naga.core.jsoncodec.JsonCodecManager;
-import naga.core.spi.json.JsonObject;
 
 /*
  * @author Bruno Salmon
@@ -14,7 +13,7 @@ class BusCallResult<T> {
     private final int callNumber;
     private T targetResult;
 
-    private Object serializedTargetResult; // JsonObject or String, Number
+    private Object serializedTargetResult; // CompositeObject or scalar
 
     /**
      * Standard constructor accepting a java representation (T) of the target result.
@@ -25,23 +24,23 @@ class BusCallResult<T> {
      */
 
     /**
-     * Alternative constructor accepting a json representation (JsonObject) of the target result.
+     * Alternative constructor accepting a composite representation (CompositeObject) of the target result.
      * This is particularly useful when forwarding a result over the json bus. In this case the result has indeed already
      * been serialized into json format (because coming from the json bus) so it wouldn't be optimized to deserialize it
      * when the only usage of it will finally be to serialize it again (sending it again on the json bus). Using this
      * constructor will avoid this useless serialization/deserialization and offer an optimized performance.
-    public BusCallResult(int callNumber, JsonObject serializedTargetResult) {
+    public BusCallResult(int callNumber, CompositeObject serializedTargetResult) {
         this.callNumber = callNumber;
         this.serializedTargetResult = serializedTargetResult;
     }
      */
 
     /**
-     * Convenient alternative constructor accepting both representations (AsyncResult or JsonObject) of the target result.
+     * Convenient alternative constructor accepting both representations (AsyncResult or CompositeObject) of the target result.
      */
     public BusCallResult(int callNumber, Object object) {
         this.callNumber = callNumber;
-        if (object instanceof JsonObject)
+        if (object instanceof CompositeObject)
             this.serializedTargetResult = object;
         else
             this.targetResult = (T) object;
@@ -54,7 +53,7 @@ class BusCallResult<T> {
 
     public T getTargetResult() {
         if (targetResult == null && serializedTargetResult != null)
-            targetResult = JsonCodecManager.decodeFromJson(serializedTargetResult);
+            targetResult = CompositeCodecManager.decodeFromComposite(serializedTargetResult);
         return targetResult;
     }
 
@@ -63,33 +62,33 @@ class BusCallResult<T> {
             // Transforming the target result into a serializable object before serializing it
             //SerializableAsyncResult serializableTargetResult = SerializableAsyncResult.getSerializableAsyncResult(targetResult);
             // Now that we are sure it can be serialized, we do it
-            serializedTargetResult = JsonCodecManager.encodeToJson(targetResult);
+            serializedTargetResult = CompositeCodecManager.encodeToComposite(targetResult);
         }
         return serializedTargetResult;
     }
 
     /****************************************************
-     *                    Json Codec                    *
+     *                 Composite Codec                  *
      * *************************************************/
 
     private static String CODEC_ID = "callRes";
     private static String CALL_NUMBER_KEY = "seq";
     private static String TARGET_RESULT_KEY = "res";
 
-    public static void registerJsonCodec() {
-        new AbstractJsonCodec<BusCallResult>(BusCallResult.class, CODEC_ID) {
+    public static void registerCompositeCodec() {
+        new AbstractCompositeCodec<BusCallResult>(BusCallResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(BusCallResult result, WritableCompositeObject json) {
-                json.set(CALL_NUMBER_KEY, result.getCallNumber());
-                json.set(TARGET_RESULT_KEY, result.getSerializedTargetResult());
+            public void encodeToComposite(BusCallResult result, WritableCompositeObject co) {
+                co.set(CALL_NUMBER_KEY, result.getCallNumber());
+                co.set(TARGET_RESULT_KEY, result.getSerializedTargetResult());
             }
 
             @Override
-            public BusCallResult decodeFromJson(CompositeObject json) {
+            public BusCallResult decodeFromComposite(CompositeObject co) {
                 return new BusCallResult(
-                        (int) json.getDouble(CALL_NUMBER_KEY),
-                        json.get(TARGET_RESULT_KEY)
+                        (int) co.getDouble(CALL_NUMBER_KEY),
+                        co.get(TARGET_RESULT_KEY)
                 );
             }
         };
