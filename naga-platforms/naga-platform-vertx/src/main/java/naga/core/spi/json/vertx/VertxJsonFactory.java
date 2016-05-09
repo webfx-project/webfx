@@ -3,7 +3,7 @@ package naga.core.spi.json.vertx;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import naga.core.spi.json.listmap.ListMapBasedJsonFactory;
+import naga.core.composite.listmap.ListMapBasedJsonFactory;
 
 /**
  * @author Bruno Salmon

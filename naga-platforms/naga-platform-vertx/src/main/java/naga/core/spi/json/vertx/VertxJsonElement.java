@@ -7,8 +7,8 @@ import naga.core.composite.CompositeArray;
 import naga.core.composite.CompositeObject;
 import naga.core.composite.ElementType;
 import naga.core.composite.WritableCompositeArray;
-import naga.core.spi.json.listmap.ListMapCompositeElement;
-import naga.core.spi.json.listmap.MapBasedCompositeObject;
+import naga.core.composite.listmap.ListMapCompositeElement;
+import naga.core.composite.listmap.MapBasedCompositeObject;
 
 import java.util.List;
 import java.util.Map;

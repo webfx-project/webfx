@@ -2,7 +2,7 @@ package naga.core.spi.json.cn1;
 
 import naga.core.spi.json.JsonElement;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.listmap.MapCompositeObject;
+import naga.core.composite.listmap.MapCompositeObject;
 import naga.core.util.Numbers;
 
 import java.util.Iterator;

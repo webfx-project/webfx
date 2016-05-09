@@ -1,7 +1,7 @@
 package naga.core.spi.json.cn1;
 
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.listmap.ListCompositeArray;
+import naga.core.composite.listmap.ListCompositeArray;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package naga.core.spi.json.listmap;
+package naga.core.composite.listmap;
 
 import naga.core.composite.CompositeArray;
 import naga.core.composite.CompositeObject;

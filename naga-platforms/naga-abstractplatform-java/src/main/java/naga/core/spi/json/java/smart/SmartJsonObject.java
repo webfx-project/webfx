@@ -1,7 +1,7 @@
 package naga.core.spi.json.java.smart;
 
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.listmap.MapCompositeObject;
+import naga.core.composite.listmap.MapCompositeObject;
 import net.minidev.json.JSONObject;
 
 import java.util.Map;

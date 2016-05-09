@@ -18,7 +18,7 @@
 package naga.core.spi.json.java.jackson;
 
 import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.listmap.ListCompositeArray;
+import naga.core.composite.listmap.ListCompositeArray;
 
 import java.util.List;
 

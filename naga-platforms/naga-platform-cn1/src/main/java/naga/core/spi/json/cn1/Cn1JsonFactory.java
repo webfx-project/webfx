@@ -3,7 +3,7 @@ package naga.core.spi.json.cn1;
 import com.codename1.io.JSONParser;
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.listmap.ListMapJsonFactory;
+import naga.core.composite.listmap.ListMapJsonFactory;
 
 import java.io.IOException;
 import java.io.StringReader;

@@ -19,7 +19,7 @@ package naga.core.spi.json.java.jackson;
 
 import naga.core.spi.json.JsonArray;
 import naga.core.spi.json.JsonObject;
-import naga.core.spi.json.listmap.ListMapJsonFactory;
+import naga.core.composite.listmap.ListMapJsonFactory;
 
 import java.util.List;
 import java.util.Map;

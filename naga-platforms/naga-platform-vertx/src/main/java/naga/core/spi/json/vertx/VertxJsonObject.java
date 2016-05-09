@@ -1,7 +1,7 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.JsonObject;
-import naga.core.spi.json.listmap.MapBasedCompositeObject;
+import naga.core.composite.listmap.MapBasedCompositeObject;
 
 import java.util.Map;
 

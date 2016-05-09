@@ -2,7 +2,7 @@ package naga.core.spi.json.java.smart;
 
 import naga.core.composite.WritableCompositeArray;
 import naga.core.composite.WritableCompositeObject;
-import naga.core.spi.json.listmap.ListMapCompositeElement;
+import naga.core.composite.listmap.ListMapCompositeElement;
 import net.minidev.json.JSONValue;
 
 import java.util.List;

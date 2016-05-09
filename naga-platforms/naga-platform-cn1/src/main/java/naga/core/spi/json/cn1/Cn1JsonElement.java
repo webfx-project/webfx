@@ -3,7 +3,7 @@ package naga.core.spi.json.cn1;
 import com.codename1.io.JSONParser;
 import naga.core.composite.WritableCompositeArray;
 import naga.core.composite.WritableCompositeObject;
-import naga.core.spi.json.listmap.ListMapCompositeElement;
+import naga.core.composite.listmap.ListMapCompositeElement;
 
 import java.io.IOException;
 import java.io.StringReader;

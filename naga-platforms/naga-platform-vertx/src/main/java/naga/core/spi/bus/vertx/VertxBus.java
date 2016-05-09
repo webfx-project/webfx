@@ -5,7 +5,7 @@ import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import naga.core.spi.bus.*;
 import naga.core.spi.json.Json;
-import naga.core.spi.json.listmap.MapBasedCompositeObject;
+import naga.core.composite.listmap.MapBasedCompositeObject;
 import naga.core.util.async.Handler;
 
 /**

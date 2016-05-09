@@ -1,7 +1,7 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.JsonArray;
-import naga.core.spi.json.listmap.ListBasedCompositeArray;
+import naga.core.composite.listmap.ListBasedCompositeArray;
 
 import java.util.List;
 
