@@ -1,6 +1,6 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.WritableCompositeObject;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSNumber;
@@ -12,7 +12,7 @@ import java.util.Collection;
  *
  * @author Bruno Salmon
  */
-public final class TeaVmJsonObject extends TeaVmJsonElement implements JsonObject {
+public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableCompositeObject {
 
     public static TeaVmJsonObject create(JSObject jso) {
         if (jso == null || JSUtil.isUndefined(jso))

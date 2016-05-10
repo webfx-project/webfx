@@ -1,6 +1,7 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.JsonArray;
+import naga.core.composite.WritableCompositeArray;
 import naga.core.composite.listmap.ListBasedCompositeArray;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-final class VertxJsonArray extends ListBasedCompositeArray implements VertxJsonElement, naga.core.spi.json.JsonArray {
+final class VertxJsonArray extends ListBasedCompositeArray implements VertxJsonElement, WritableCompositeArray {
 
     private JsonArray vertxArray;
 
@@ -16,7 +17,7 @@ final class VertxJsonArray extends ListBasedCompositeArray implements VertxJsonE
     }
 
     VertxJsonArray(List<Object> list) {
-        super(list);
+        setList(list);
     }
 
     VertxJsonArray(JsonArray vertxArray) {

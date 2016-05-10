@@ -1,7 +1,6 @@
 package naga.core.spi.json.cn1;
 
-import naga.core.spi.json.JsonElement;
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.CompositeElement;
 import naga.core.composite.listmap.MapCompositeObject;
 import naga.core.util.Numbers;
 
@@ -12,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class Cn1JsonObject extends MapCompositeObject implements Cn1JsonElement, JsonObject {
+public final class Cn1JsonObject extends MapCompositeObject implements Cn1JsonElement {
 
     public Cn1JsonObject() {
     }
@@ -79,8 +78,8 @@ public final class Cn1JsonObject extends MapCompositeObject implements Cn1JsonEl
             return "null";
         if (value instanceof String)
             return quote((String)value);
-        if (value instanceof JsonElement)
-            return ((JsonElement) value).toJsonString();
+        if (value instanceof CompositeElement)
+            return ((CompositeElement) value).toJsonString();
         if (Numbers.isNumber(value))
             return numberToString(value);
         if (value instanceof Boolean)

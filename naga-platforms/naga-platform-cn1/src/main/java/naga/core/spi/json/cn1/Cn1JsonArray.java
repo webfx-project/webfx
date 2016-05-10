@@ -1,6 +1,6 @@
 package naga.core.spi.json.cn1;
 
-import naga.core.spi.json.JsonArray;
+import naga.core.composite.WritableCompositeArray;
 import naga.core.composite.listmap.ListCompositeArray;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-final class Cn1JsonArray extends ListCompositeArray implements Cn1JsonElement, JsonArray {
+final class Cn1JsonArray extends ListCompositeArray implements Cn1JsonElement, WritableCompositeArray {
 
     public Cn1JsonArray() {}
 

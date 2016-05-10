@@ -1,7 +1,5 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.spi.json.JsonElement;
-import naga.core.spi.json.JsonException;
 import naga.core.composite.*;
 import naga.core.composite.CompositeElement;
 import naga.core.composite.CompositeObject;
@@ -11,7 +9,7 @@ import org.teavm.jso.core.JSArray;
 /*
  * @author Bruno Salmon
  */
-abstract class TeaVmJsonElement extends TeaVmJsonValue implements JsonElement {
+abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableCompositeElement {
 
     public TeaVmJsonElement(JSObject jsValue) {
         super(jsValue);
@@ -112,7 +110,7 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements JsonElement {
         try {
             return super.toJson();
         } catch (Exception e) {
-            throw new JsonException("Failed to encode as JSON: " + e.getMessage());
+            throw new RuntimeException("Failed to encode as JSON: " + e.getMessage());
         }
     }
 

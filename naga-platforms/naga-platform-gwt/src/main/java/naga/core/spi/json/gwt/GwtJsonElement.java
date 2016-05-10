@@ -18,8 +18,7 @@
 package naga.core.spi.json.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import naga.core.spi.json.JsonElement;
-import naga.core.spi.json.JsonException;
+import naga.core.composite.WritableCompositeElement;
 import naga.core.composite.ElementType;
 
 /*
@@ -28,7 +27,7 @@ import naga.core.composite.ElementType;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonElement.java">Original Goodow class</a>
  */
-abstract class GwtJsonElement extends GwtJsonValue implements JsonElement {
+abstract class GwtJsonElement extends GwtJsonValue implements WritableCompositeElement {
 
     protected GwtJsonElement() {
     }
@@ -132,7 +131,7 @@ abstract class GwtJsonElement extends GwtJsonValue implements JsonElement {
         try {
             return super.toJson();
         } catch (Exception e) {
-            throw new JsonException("Failed to encode as JSON: " + e.getMessage());
+            throw new RuntimeException("Failed to encode as JSON: " + e.getMessage());
         }
     }
 }

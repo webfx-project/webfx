@@ -18,8 +18,8 @@
 package naga.core.spi.json.gwt;
 
 import com.google.gwt.core.client.JsArrayString;
-import naga.core.spi.json.JsonArray;
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.CompositeArray;
+import naga.core.composite.WritableCompositeObject;
 
 import java.util.Collection;
 
@@ -31,7 +31,7 @@ import java.util.Collection;
  * 
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonObject.java">Original Goodow class</a>
  */
-final class GwtJsonObject extends GwtJsonElement implements JsonObject {
+final class GwtJsonObject extends GwtJsonElement implements WritableCompositeObject {
 
     protected GwtJsonObject() { // no public constructor, instances are always obtained from a cast
     }
@@ -117,7 +117,7 @@ final class GwtJsonObject extends GwtJsonElement implements JsonObject {
         return keys;
     }-*/;
 
-    private native JsonArray reinterpretCast(JsArrayString arrayString) /*-{
+    private native CompositeArray reinterpretCast(JsArrayString arrayString) /*-{
         return arrayString;
     }-*/;
 }

@@ -17,7 +17,7 @@
  */
 package naga.core.spi.platform.client;
 
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.CompositeObject;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
@@ -27,6 +27,6 @@ import naga.core.spi.json.JsonObject;
  */
 public interface WebSocketFactory {
 
-    WebSocket createWebSocket(String url, JsonObject options);
+    WebSocket createWebSocket(String url, CompositeObject options);
 
 }

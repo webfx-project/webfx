@@ -1,9 +1,9 @@
 package naga.core.spi.platform.client;
 
+import naga.core.composite.CompositeObject;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.client.ReconnectBus;
 import naga.core.spi.bus.client.WebSocketBusOptions;
-import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlService;
 import naga.core.spi.sql.impl.SqlServiceImpl;
@@ -39,7 +39,7 @@ public abstract class ClientPlatform extends Platform {
 
     // WebSocketFactory method
 
-    public static WebSocket createWebSocket(String url, JsonObject options) {
+    public static WebSocket createWebSocket(String url, CompositeObject options) {
         return get().webSocketFactory().createWebSocket(url, options);
     }
 

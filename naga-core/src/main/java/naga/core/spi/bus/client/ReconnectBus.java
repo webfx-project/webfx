@@ -19,7 +19,6 @@ package naga.core.spi.bus.client;
 
 import naga.core.composite.CompositeObject;
 import naga.core.spi.bus.BusHook;
-import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.WebSocket;
 import naga.core.util.idgen.FuzzingBackOffGenerator;
@@ -45,7 +44,7 @@ public class ReconnectBus extends WebSocketBus {
     public ReconnectBus(WebSocketBusOptions options) {
         super(options);
         this.options = options;
-        JsonObject socketOptions = options.getSocketOptions();
+        CompositeObject socketOptions = options.getSocketOptions();
         reconnect = socketOptions == null || !socketOptions.has(AUTO_RECONNECT) || socketOptions.getBoolean(AUTO_RECONNECT);
         backOffGenerator = new FuzzingBackOffGenerator(1000, 30 * 60 * 1000, 0.5);
 

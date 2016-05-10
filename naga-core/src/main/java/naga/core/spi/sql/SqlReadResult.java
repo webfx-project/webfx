@@ -2,7 +2,6 @@ package naga.core.spi.sql;
 
 import naga.core.composite.*;
 import naga.core.composite.codec.AbstractCompositeCodec;
-import naga.core.spi.json.JsonArray;
 import naga.core.type.PrimType;
 import naga.core.util.Numbers;
 import naga.core.util.compression.values.repeat.RepeatedValuesCompressor;
@@ -159,7 +158,7 @@ public class SqlReadResult {
             @Override
             public SqlReadResult decodeFromComposite(CompositeObject co) {
                 // Column names deserialization
-                JsonArray namesArray = (JsonArray) co.getArray(COLUMN_NAMES_KEY);
+                CompositeArray namesArray = co.getArray(COLUMN_NAMES_KEY);
                 int columnCount = namesArray.size();
                 String[] names = new String[columnCount];
                 for (int i = 0; i < columnCount; i++)

@@ -1,6 +1,6 @@
 package naga.core.spi.json.java.smart;
 
-import naga.core.spi.json.JsonArray;
+import naga.core.composite.WritableCompositeArray;
 import naga.core.composite.listmap.ListCompositeArray;
 import net.minidev.json.JSONArray;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-final class SmartJsonArray extends ListCompositeArray implements SmartJsonElement, JsonArray {
+final class SmartJsonArray extends ListCompositeArray implements SmartJsonElement, WritableCompositeArray {
 
     public SmartJsonArray() {}
 

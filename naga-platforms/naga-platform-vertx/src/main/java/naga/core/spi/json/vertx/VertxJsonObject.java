@@ -1,6 +1,7 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.JsonObject;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.composite.listmap.MapBasedCompositeObject;
 
 import java.util.Map;
@@ -8,7 +9,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class VertxJsonObject extends MapBasedCompositeObject implements VertxJsonElement, naga.core.spi.json.JsonObject {
+public final class VertxJsonObject extends MapBasedCompositeObject implements VertxJsonElement, WritableCompositeObject {
 
     private JsonObject vertxObject;
 
@@ -16,7 +17,7 @@ public final class VertxJsonObject extends MapBasedCompositeObject implements Ve
     }
 
     VertxJsonObject(Map<String, Object> map) {
-        super(map);
+        setMap(map);
     }
 
     VertxJsonObject(JsonObject vertxObject) {

@@ -44,4 +44,8 @@ public interface ListMapCompositeElement extends WritableCompositeElement {
         return ElementType.SCALAR;
     }
 
+    @Override
+    default String toJsonString() {
+        throw new UnsupportedOperationException();
+    }
 }

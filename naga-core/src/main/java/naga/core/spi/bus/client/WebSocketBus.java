@@ -21,7 +21,6 @@ import naga.core.composite.CompositeObject;
 import naga.core.composite.Composites;
 import naga.core.composite.WritableCompositeObject;
 import naga.core.spi.bus.Message;
-import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.WebSocket;
@@ -204,7 +203,7 @@ public class WebSocketBus extends SimpleClientBus {
     protected void send(CompositeObject msg) {
         if (getReadyState() != WebSocket.State.OPEN)
             throw new IllegalStateException("INVALID_STATE_ERR");
-        String data = ((JsonObject) msg).toJsonString();
+        String data = msg.toJsonString();
         //Platform.log("Sending data: " + data);
         webSocket.send(data);
     }
@@ -217,9 +216,9 @@ public class WebSocketBus extends SimpleClientBus {
             if (password != null)
                 msg.set(PASSWORD, password);
         }
-        send(TOPIC_LOGIN, msg, new Handler<Message<JsonObject>>() {
+        send(TOPIC_LOGIN, msg, new Handler<Message<CompositeObject>>() {
             @Override
-            public void handle(Message<JsonObject> message) {
+            public void handle(Message<CompositeObject> message) {
                 if (message.body() != null && message.body().getDouble("code") != 0)
                     throw new RuntimeException(message.body().toJsonString());
             }

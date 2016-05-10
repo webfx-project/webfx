@@ -1,6 +1,5 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.spi.json.JsonException;
 import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
@@ -57,15 +56,15 @@ public final class JSUtil {
     @JSBody(params = "object", script = "return object ? object : null")
     public static native JSObject nullOr(JSObject object);
 
-    public static JSObject parse(String jsonString) throws JsonException {
+    public static JSObject parse(String jsonString) {
         return JSON.parse(jsonString);
     }
 
-    public static String stringify(JSObject jso) throws JsonException {
+    public static String stringify(JSObject jso) {
         return JSON.stringify(jso);
     }
 
-    public static JSObject copy(JSObject jso) throws JsonException {
+    public static JSObject copy(JSObject jso) {
         return parse(stringify(jso));
     }
 

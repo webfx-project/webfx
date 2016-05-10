@@ -27,4 +27,9 @@ public interface CompositeElement extends CompositesFactory {
      */
     <SC extends CompositeElement> SC copy();
 
+    /**
+     * Returns a serialized JSON string representing this value.
+     */
+    String toJsonString();
+
 }
