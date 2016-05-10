@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-final class SmartJsonObject extends MapCompositeObject implements SmartJsonElement, JsonObject {
+public final class SmartJsonObject extends MapCompositeObject implements SmartJsonElement, JsonObject {
 
     public SmartJsonObject() {
     }

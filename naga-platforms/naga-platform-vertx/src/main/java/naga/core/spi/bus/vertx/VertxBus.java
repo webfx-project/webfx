@@ -3,9 +3,9 @@ package naga.core.spi.bus.vertx;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
-import naga.core.spi.bus.*;
-import naga.core.spi.json.Json;
+import naga.core.composite.Composites;
 import naga.core.composite.listmap.MapBasedCompositeObject;
+import naga.core.spi.bus.*;
 import naga.core.util.async.Handler;
 
 /**
@@ -78,7 +78,7 @@ final class VertxBus implements Bus {
     private static Object toNagaObject(Object vertxObject) {
         Object object = vertxObject;
         if (object instanceof JsonObject)
-            object = Json.createObject(object);
+            object = Composites.createObject(object);
         return object;
     }
 

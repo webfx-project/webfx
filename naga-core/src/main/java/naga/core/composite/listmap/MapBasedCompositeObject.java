@@ -1,7 +1,6 @@
 package naga.core.composite.listmap;
 
 import naga.core.composite.WritableCompositeObject;
-import naga.core.spi.json.Json;
 
 import java.util.Collection;
 import java.util.Map;
@@ -82,7 +81,7 @@ public abstract class MapBasedCompositeObject implements WritableCompositeObject
 
     @Override
     public MapBasedCompositeObject copy() {
-        MapBasedCompositeObject copy = (MapBasedCompositeObject) Json.createArray(getNativeElement());
+        MapBasedCompositeObject copy = (MapBasedCompositeObject) nativeToCompositeArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;

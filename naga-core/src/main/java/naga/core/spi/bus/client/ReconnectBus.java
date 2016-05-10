@@ -17,6 +17,7 @@
  */
 package naga.core.spi.bus.client;
 
+import naga.core.composite.CompositeObject;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
@@ -38,7 +39,7 @@ public class ReconnectBus extends WebSocketBus {
     private final FuzzingBackOffGenerator backOffGenerator;
     private BusHook hook;
     private boolean reconnect;
-    private final List<JsonObject> queuedMessages = new ArrayList<>();
+    private final List<CompositeObject> queuedMessages = new ArrayList<>();
     private final WebSocketBusOptions options;
 
     public ReconnectBus(WebSocketBusOptions options) {
@@ -61,10 +62,10 @@ public class ReconnectBus extends WebSocketBus {
                 }
 
                 if (queuedMessages.size() > 0) {
-                    List<JsonObject> copy = new ArrayList<>(queuedMessages);
+                    List<CompositeObject> copy = new ArrayList<>(queuedMessages);
                     queuedMessages.clear();
                     // Drain any messages that came in while the channel was not open.
-                    for (JsonObject msg : copy) // copy.forEach does't compile with TeaVM
+                    for (CompositeObject msg : copy) // copy.forEach does't compile with TeaVM
                         send(msg);
                 }
                 super.handleOpened();
@@ -106,7 +107,7 @@ public class ReconnectBus extends WebSocketBus {
     }
 
     @Override
-    protected void send(JsonObject msg) {
+    protected void send(CompositeObject msg) {
         if (getReadyState() == WebSocket.State.OPEN) {
             super.send(msg);
             return;

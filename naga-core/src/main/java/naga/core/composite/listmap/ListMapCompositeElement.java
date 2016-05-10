@@ -27,12 +27,12 @@ public interface ListMapCompositeElement extends WritableCompositeElement {
 
     @Override
     default Object parseNativeObject(String text) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     default Object parseNativeArray(String text) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

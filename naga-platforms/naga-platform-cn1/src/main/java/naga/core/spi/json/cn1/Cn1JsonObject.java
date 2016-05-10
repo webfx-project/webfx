@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-final class Cn1JsonObject extends MapCompositeObject implements Cn1JsonElement, JsonObject {
+public final class Cn1JsonObject extends MapCompositeObject implements Cn1JsonElement, JsonObject {
 
     public Cn1JsonObject() {
     }

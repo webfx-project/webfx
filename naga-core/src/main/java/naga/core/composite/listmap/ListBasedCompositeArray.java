@@ -1,7 +1,6 @@
 package naga.core.composite.listmap;
 
 import naga.core.composite.WritableCompositeArray;
-import naga.core.spi.json.Json;
 
 import java.util.List;
 
@@ -81,7 +80,7 @@ public abstract class ListBasedCompositeArray implements WritableCompositeArray,
 
     @Override
     public ListBasedCompositeArray copy() {
-        ListBasedCompositeArray copy = (ListBasedCompositeArray) Json.createArray(getNativeElement());
+        ListBasedCompositeArray copy = (ListBasedCompositeArray) nativeToCompositeArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;

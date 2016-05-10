@@ -1,6 +1,9 @@
 package naga.core.ngui.rx;
 
 import javafx.beans.property.Property;
+import naga.core.composite.CompositeArray;
+import naga.core.composite.CompositeObject;
+import naga.core.composite.Composites;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.displayresultset.EntityListToDisplayResultSetGenerator;
@@ -10,18 +13,14 @@ import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.ExpressionArray;
 import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
+import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
-import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonArray;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.util.Strings;
 import naga.core.util.function.Converter;
-import naga.core.composite.CompositeArray;
-import naga.core.composite.CompositeObject;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class RxFilter {
     }
 
     public RxFilter setDisplayColumns(String jsonArrayDisplayColumns) {
-        return setDisplayColumns((JsonArray) Json.parse(jsonArrayDisplayColumns));
+        return setDisplayColumns(Composites.parseArray(jsonArrayDisplayColumns));
     }
 
     public RxFilter setDisplayColumns(CompositeArray array) {

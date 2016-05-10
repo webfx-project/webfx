@@ -17,8 +17,10 @@
  */
 package naga.core.spi.bus.client;
 
+import naga.core.composite.CompositeObject;
+import naga.core.composite.Composites;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.spi.bus.Message;
-import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.ClientPlatform;
@@ -86,7 +88,7 @@ public class WebSocketBus extends SimpleClientBus {
             @Override
             public void onMessage(String msg) {
                 //Platform.log("onMessage(), msg = " + msg);
-                JsonObject json = Json.parse(msg);
+                CompositeObject json = Composites.parseObject(msg);
                 @SuppressWarnings({"unchecked"})
                 ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
                 internalHandleReceiveMessage(message);
@@ -95,13 +97,13 @@ public class WebSocketBus extends SimpleClientBus {
             @Override
             public void onError(String error) {
                 Platform.log("Connection error = " + error);
-                JsonObject json = Json.createObject();
+                WritableCompositeObject json = Composites.createObject();
                 json.set("message", error);
                 publishLocal(ON_ERROR, json);
             }
 
             @Override
-            public void onClose(JsonObject reason) {
+            public void onClose(CompositeObject reason) {
                 Platform.log("Connection closed, reason = " + reason);
                 cancelPingTimer();
                 publishLocal(ON_CLOSE, reason);
@@ -173,7 +175,7 @@ public class WebSocketBus extends SimpleClientBus {
             super.doSendOrPub(local, send, topic, msg, replyHandler);
             return;
         }
-        JsonObject envelope = Json.createObject();
+        WritableCompositeObject envelope = Composites.createObject();
         envelope.set(TYPE, send ? "send" : "publish");
         envelope.set(TOPIC, topic);
         envelope.set(BODY, msg);
@@ -199,16 +201,16 @@ public class WebSocketBus extends SimpleClientBus {
         return false;
     }
 
-    protected void send(JsonObject msg) {
+    protected void send(CompositeObject msg) {
         if (getReadyState() != WebSocket.State.OPEN)
             throw new IllegalStateException("INVALID_STATE_ERR");
-        String data = msg.toJsonString();
+        String data = ((JsonObject) msg).toJsonString();
         //Platform.log("Sending data: " + data);
         webSocket.send(data);
     }
 
     protected void sendLogin() {
-        JsonObject msg = Json.createObject();
+        WritableCompositeObject msg = Composites.createObject();
         msg.set(SESSION, sessionId);
         if (username != null) {
             msg.set(USERNAME, username);
@@ -225,7 +227,7 @@ public class WebSocketBus extends SimpleClientBus {
     }
 
     protected void sendPing() {
-        JsonObject msg = Json.createObject();
+        WritableCompositeObject msg = Composites.createObject();
         msg.set(TYPE, "ping");
         send(msg);
     }
@@ -235,7 +237,7 @@ public class WebSocketBus extends SimpleClientBus {
      */
     protected void sendSubscribe(String topic) {
         //assert topic != null : "topic shouldn't be null";
-        JsonObject msg = Json.createObject();
+        WritableCompositeObject msg = Composites.createObject();
         msg.set(TYPE, "register");
         msg.set(TOPIC, topic);
         send(msg);
@@ -245,7 +247,7 @@ public class WebSocketBus extends SimpleClientBus {
      * No more handlers so we should unregister the connection
      */
     protected void sendUnsubscribe(String topic) {
-        JsonObject msg = Json.createObject();
+        WritableCompositeObject msg = Composites.createObject();
         msg.set(TYPE, "unregister");
         msg.set(TOPIC, topic);
         send(msg);

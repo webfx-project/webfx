@@ -1,9 +1,7 @@
 package naga.core.spi.sql;
 
+import naga.core.composite.*;
 import naga.core.composite.codec.AbstractCompositeCodec;
-import naga.core.composite.CompositeObject;
-import naga.core.composite.WritableCompositeObject;
-import naga.core.spi.json.Json;
 import naga.core.spi.json.JsonArray;
 import naga.core.type.PrimType;
 import naga.core.util.Numbers;
@@ -126,14 +124,14 @@ public class SqlReadResult {
                 try {
                     int columnCount = result.getColumnCount();
                     // Column names serialization
-                    JsonArray namesArray = Json.createArray();
+                    WritableCompositeArray namesArray = co.createCompositeArray();
                     for (String name : result.getColumnNames())
                         namesArray.push(name);
                     co.set(COLUMN_NAMES_KEY, namesArray);
                     if (columnCount == -1)
                         columnCount = namesArray.size();
                     // types serialization & values compression
-                    JsonArray typesArray = Json.createArray();
+                    WritableCompositeArray typesArray = co.createCompositeArray();
                     PrimType[] types = new PrimType[columnCount];
                     int rowCount = result.getRowCount();
                     // Guessing types from values
@@ -150,7 +148,7 @@ public class SqlReadResult {
                     co.set(COLUMN_TYPES_KEY, typesArray);
                     // values packing and serialization
                     if (COMPRESSION)
-                        co.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
+                        co.set(COMPRESSED_VALUES_KEY, Composites.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
                     else
                         co.set(VALUES_KEY, result.values);
                 } catch (Exception e) {
@@ -167,7 +165,7 @@ public class SqlReadResult {
                 for (int i = 0; i < columnCount; i++)
                     names[i] = namesArray.getString(i);
                 // Types deserialization
-                JsonArray typesArray = (JsonArray) co.getArray(COLUMN_TYPES_KEY);
+                CompositeArray typesArray = co.getArray(COLUMN_TYPES_KEY);
                 PrimType[] types = new PrimType[columnCount];
                 for (int i = 0; i < columnCount; i++) {
                     String typeName = typesArray.getString(i);
@@ -176,11 +174,11 @@ public class SqlReadResult {
                 }
                 // Values deserialization
                 Object[] inlineValues;
-                JsonArray valuesArray = (JsonArray) co.getArray(VALUES_KEY);
+                CompositeArray valuesArray = co.getArray(VALUES_KEY);
                 if (valuesArray != null)
-                    inlineValues = Json.toJavaArray(valuesArray);
+                    inlineValues = Composites.toJavaArray(valuesArray);
                 else
-                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray((JsonArray) co.getArray(COMPRESSED_VALUES_KEY)));
+                    inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Composites.toJavaArray(co.getArray(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
                 return new SqlReadResult(inlineValues, names);
             }

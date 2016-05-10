@@ -1,7 +1,5 @@
 package naga.core.composite.listmap;
 
-import naga.core.spi.json.Json;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,15 +9,6 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 final class ListMapUtil {
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static <T> T wrap(Object value) {
-        if (value instanceof Map)
-            value = Json.createObject(value);
-        else if (value instanceof List)
-            value = Json.createArray(value);
-        return (T) value;
-    }
 
     @SuppressWarnings("unchecked")
     static List<Object> convertList(List<?> list) {

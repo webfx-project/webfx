@@ -1,11 +1,7 @@
 package naga.core.composite.codec;
 
+import naga.core.composite.*;
 import naga.core.composite.buscall.BusCallService;
-import naga.core.composite.CompositeArray;
-import naga.core.composite.CompositeObject;
-import naga.core.composite.WritableCompositeArray;
-import naga.core.composite.WritableCompositeObject;
-import naga.core.spi.json.Json;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
 import naga.core.util.Numbers;
@@ -63,7 +59,7 @@ public class CompositeCodecManager {
             return null;
         if (object instanceof CompositeObject)
             return (CompositeObject) object;
-        return encodeJavaObjectToCompositeObject(object, Json.createObject());
+        return encodeJavaObjectToCompositeObject(object, Composites.createObject());
     }
 
     public static WritableCompositeObject encodeJavaObjectToCompositeObject(Object javaObject, WritableCompositeObject co) {
@@ -94,7 +90,7 @@ public class CompositeCodecManager {
     public static CompositeArray encodePrimitiveArrayToCompositeArray(Object[] primArray) {
         if (primArray == null)
             return null;
-        WritableCompositeArray ca = Json.createArray();
+        WritableCompositeArray ca = Composites.createArray();
         for (Object value : primArray)
             ca.push(value);
         return ca;
@@ -113,7 +109,7 @@ public class CompositeCodecManager {
     public static CompositeArray encodeToCompositeArray(Object[] array) {
         if (array == null)
             return null;
-        WritableCompositeArray ca = Json.createArray();
+        WritableCompositeArray ca = Composites.createArray();
         for (Object object : array)
             ca.push(encodeToCompositeObject(object));
         return ca;

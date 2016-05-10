@@ -1,5 +1,7 @@
 package naga.core.composite;
 
+import naga.core.spi.platform.Platform;
+
 /**
  * @author Bruno Salmon
  */
@@ -40,13 +42,13 @@ public class Composites {
     }
 
     public static CompositesFactory getFactory() {
-        /*if (FACTORY == null) {
+        if (FACTORY == null) {
             Platform platform = Platform.get();// Getting the platform should load the service provider and register the platform which should set the JSON factory
             if (platform != null)
                 registerFactory(platform.jsonFactory());
             if (FACTORY == null)
                 throw new IllegalStateException("You must register a JSON factory first by invoking Json.registerFactory()");
-        }*/
+        }
         return FACTORY;
     }
 

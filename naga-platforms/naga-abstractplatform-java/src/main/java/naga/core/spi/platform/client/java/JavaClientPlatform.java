@@ -17,11 +17,10 @@
  */
 package naga.core.spi.platform.client.java;
 
+import naga.core.composite.CompositesFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
-import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.java.jackson.JacksonJsonFactory;
-import naga.core.spi.json.java.smart.SmartJsonFactory;
+import naga.core.spi.json.java.smart.SmartJsonObject;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.ResourceService;
@@ -37,7 +36,7 @@ import naga.core.spi.sql.SqlService;
  */
 public abstract class JavaClientPlatform extends ClientPlatform {
     protected final JavaScheduler scheduler;
-    protected final JsonFactory jsonFactory;
+    protected final CompositesFactory jsonFactory = new SmartJsonObject();
     protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
     protected JavaClientPlatform() {
@@ -46,16 +45,6 @@ public abstract class JavaClientPlatform extends ClientPlatform {
 
     protected JavaClientPlatform(JavaScheduler scheduler) {
         this.scheduler = scheduler;
-        JsonFactory factory;
-        try {
-            // Using Jackson if provided (faster)
-            factory =  new JacksonJsonFactory();
-            factory.parse("{}"); // will throw a NoClassDefFoundError if Jackson is not provided
-        } catch (NoClassDefFoundError e) {
-            // Using Json-smart as second choice (much smaller)
-            factory =  new SmartJsonFactory();
-        }
-        jsonFactory = factory;
     }
 
     @Override
@@ -64,7 +53,7 @@ public abstract class JavaClientPlatform extends ClientPlatform {
     }
 
     @Override
-    public JsonFactory jsonFactory() {
+    public CompositesFactory jsonFactory() {
         return jsonFactory;
     }
 

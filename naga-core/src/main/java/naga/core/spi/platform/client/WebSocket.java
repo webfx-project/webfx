@@ -17,7 +17,7 @@
  */
 package naga.core.spi.platform.client;
 
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.CompositeObject;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
@@ -54,7 +54,7 @@ public interface WebSocket {
         /**
          * Called when the socket is closed. When the socket is closed, it cannot be reopened.
          */
-        void onClose(JsonObject reason);
+        void onClose(CompositeObject reason);
     }
 
     State getReadyState();

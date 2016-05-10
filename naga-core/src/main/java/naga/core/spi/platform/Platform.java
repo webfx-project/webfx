@@ -17,10 +17,10 @@
  */
 package naga.core.spi.platform;
 
+import naga.core.composite.CompositesFactory;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
-import naga.core.spi.json.JsonFactory;
 import naga.core.spi.sql.SqlService;
 import naga.core.util.function.Consumer;
 
@@ -36,7 +36,7 @@ public abstract class Platform {
 
     public abstract Scheduler scheduler();
 
-    public abstract JsonFactory jsonFactory();
+    public abstract CompositesFactory jsonFactory();
 
     public abstract BusFactory busFactory();
 

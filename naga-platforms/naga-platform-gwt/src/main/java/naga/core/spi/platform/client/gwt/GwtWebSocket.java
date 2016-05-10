@@ -32,7 +32,7 @@ final class GwtWebSocket extends JavaScriptObject implements WebSocket {
         this.onopen =    handler.@naga.core.spi.platform.client.WebSocket.WebSocketHandler::onOpen().bind(handler);
         this.onmessage = function(event) { handler.@naga.core.spi.platform.client.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
         this.onerror =   function(event) { handler.@naga.core.spi.platform.client.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
-        this.onclose =   handler.@naga.core.spi.platform.client.WebSocket.WebSocketHandler::onClose(Lnaga/core/spi/json/JsonObject;).bind(handler);
+        this.onclose =   handler.@naga.core.spi.platform.client.WebSocket.WebSocketHandler::onClose(Lnaga/core/composite/CompositeObject;).bind(handler);
     }-*/;
 
     @Override

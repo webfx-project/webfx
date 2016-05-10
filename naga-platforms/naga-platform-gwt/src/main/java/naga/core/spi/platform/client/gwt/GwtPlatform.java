@@ -1,7 +1,7 @@
 package naga.core.spi.platform.client.gwt;
 
-import naga.core.spi.json.JsonFactory;
-import naga.core.spi.json.gwt.GwtJsonFactory;
+import com.google.gwt.core.client.JavaScriptObject;
+import naga.core.composite.CompositesFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ResourceService;
@@ -25,7 +25,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     private final Scheduler scheduler = new GwtScheduler();
-    private final JsonFactory jsonFactory = new GwtJsonFactory();
+    private final CompositesFactory jsonFactory = JavaScriptObject.createObject().cast();
     private final WebSocketFactory webSocketFactory = new GwtWebSocketFactory();
 
     public GwtPlatform() {
@@ -40,7 +40,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     @Override
-    public JsonFactory jsonFactory() {
+    public CompositesFactory jsonFactory() {
         return jsonFactory;
     }
 

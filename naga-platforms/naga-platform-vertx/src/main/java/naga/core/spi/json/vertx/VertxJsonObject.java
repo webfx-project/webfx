@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-final class VertxJsonObject extends MapBasedCompositeObject implements VertxJsonElement, naga.core.spi.json.JsonObject {
+public final class VertxJsonObject extends MapBasedCompositeObject implements VertxJsonElement, naga.core.spi.json.JsonObject {
 
     private JsonObject vertxObject;
 
-    VertxJsonObject() { // super constructor will call recreateEmptyNativeObject() to initialize the map
+    public VertxJsonObject() { // super constructor will call recreateEmptyNativeObject() to initialize the map
     }
 
     VertxJsonObject(Map<String, Object> map) {

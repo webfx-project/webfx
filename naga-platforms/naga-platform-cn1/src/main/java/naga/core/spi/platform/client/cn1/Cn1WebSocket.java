@@ -1,7 +1,7 @@
 package naga.core.spi.platform.client.cn1;
 
-import naga.core.spi.json.Json;
-import naga.core.spi.json.JsonObject;
+import naga.core.composite.Composites;
+import naga.core.composite.WritableCompositeObject;
 import naga.core.spi.platform.client.WebSocket;
 
 import java.io.UnsupportedEncodingException;
@@ -46,7 +46,7 @@ final class Cn1WebSocket implements WebSocket {
             @Override
             protected void onClose(int code, String reason) {
                 if (eventHandler != null) {
-                    JsonObject msg = Json.createObject();
+                    WritableCompositeObject msg = Composites.createObject();
                     msg.set("code", code);
                     msg.set("reason", reason);
                     eventHandler.onClose(msg);
