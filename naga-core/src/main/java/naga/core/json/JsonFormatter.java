@@ -96,14 +96,14 @@ public interface JsonFormatter extends JsonWrapper {
             return sb.append("null");
         ElementType type = parent.getNativeElementType(element);
         if (type == ElementType.OBJECT)
-            return appendJsonObject(parent.nativeToCompositeObject(element), sb);
+            return appendJsonObject(parent.nativeToJavaJsonObject(element), sb);
         if (type == ElementType.ARRAY)
-            return appendJsonArray(parent.nativeToCompositeArray(element), sb);
+            return appendJsonArray(parent.nativeToJavaJsonArray(element), sb);
         if (type == ElementType.NUMBER)
-            return sb.append(numberToString(parent.nativeToCompositeScalar(element)));
+            return sb.append(numberToString(parent.nativeToJavaScalar(element)));
         if (type == ElementType.BOOLEAN)
-            return sb.append((Boolean) parent.nativeToCompositeScalar(element));
-        return appendQuoted(parent.nativeToCompositeScalar(element), sb);
+            return sb.append((Boolean) parent.nativeToJavaScalar(element));
+        return appendQuoted(parent.nativeToJavaScalar(element), sb);
     }
 
     /**

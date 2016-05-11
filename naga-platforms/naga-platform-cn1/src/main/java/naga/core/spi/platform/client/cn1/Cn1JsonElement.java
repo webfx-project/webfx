@@ -32,15 +32,13 @@ interface Cn1JsonElement extends ListMapJsonElement {
         return null;
     }
 
-    @Override
-    default WritableJsonObject nativeToCompositeObject(Object nativeObject) {
+    default WritableJsonObject nativeToJavaJsonObject(Object nativeObject) {
         if (nativeObject == null || nativeObject instanceof WritableJsonObject)
             return (WritableJsonObject) nativeObject;
         return new Cn1JsonObject((Map) nativeObject);
     }
 
-    @Override
-    default WritableJsonArray nativeToCompositeArray(Object nativeArray) {
+    default WritableJsonArray nativeToJavaJsonArray(Object nativeArray) {
         if (nativeArray == null || nativeArray instanceof WritableJsonArray)
             return (WritableJsonArray) nativeArray;
         return new Cn1JsonArray((List) nativeArray);

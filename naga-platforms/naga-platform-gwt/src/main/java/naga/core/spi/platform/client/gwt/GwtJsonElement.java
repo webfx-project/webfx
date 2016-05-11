@@ -95,27 +95,27 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableJsonElemen
 
 
     @Override
-    public final native GwtJsonArray nativeToCompositeArray(Object nativeArray) /*-{
+    public final native GwtJsonArray nativeToJavaJsonArray(Object nativeArray) /*-{
         return nativeArray;
     }-*/;
 
     @Override
-    public final native GwtJsonObject nativeToCompositeObject(Object nativeObject) /*-{
+    public final native GwtJsonObject nativeToJavaJsonObject(Object nativeObject) /*-{
         return nativeObject;
     }-*/;
 
     @Override
-    public final native <T> T nativeToCompositeScalar(Object nativeScalar) /*-{
+    public final native <T> T nativeToJavaScalar(Object nativeScalar) /*-{
         return nativeScalar;
     }-*/;
 
     @Override
-    public final Object anyCompositeToNative(Object value) {
-        return compositeToNativeScalar(value);
+    public final Object anyJavaToNative(Object value) {
+        return javaToNativeScalar(value);
     }
 
     @Override
-    public final Object compositeToNativeScalar(Object value) {
+    public final Object javaToNativeScalar(Object value) {
         if (value == null)
             return null;
         if (value instanceof Boolean)

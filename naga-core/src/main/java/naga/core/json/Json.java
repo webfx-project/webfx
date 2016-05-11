@@ -16,7 +16,7 @@ public class Json {
     }
 
     public static <NO> WritableJsonObject createObject(NO nativeObject) {
-        return getFactory().nativeToCompositeObject(nativeObject);
+        return getFactory().nativeToJavaJsonObject(nativeObject);
     }
 
     public static WritableJsonArray createArray() {
@@ -24,7 +24,7 @@ public class Json {
     }
 
     public static <NA> WritableJsonArray createArray(NA nativeArray) {
-        return getFactory().nativeToCompositeArray(nativeArray);
+        return getFactory().nativeToJavaJsonArray(nativeArray);
     }
 
     public static WritableJsonObject parseObject(String text) {

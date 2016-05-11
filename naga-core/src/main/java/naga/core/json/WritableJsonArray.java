@@ -19,23 +19,23 @@ public interface WritableJsonArray extends JsonArray, WritableJsonElement {
      * Pushes the given element onto the end of the array. Most consuming call.
      */
     default void push(Object element) {
-        pushNativeElement(anyCompositeToNative(element));
+        pushNativeElement(anyJavaToNative(element));
     }
 
     /**
      * Set a given index to the given object.
      */
-    default void push(JsonObject object) { pushNativeElement(compositeToNativeObject(object)); }
+    default void push(JsonObject object) { pushNativeElement(javaToNativeJsonObject(object)); }
 
     /**
      * Set a given index to the given array.
      */
-    default void push(JsonArray array) { pushNativeElement(compositeToNativeArray(array)); }
+    default void push(JsonArray array) { pushNativeElement(javaToNativeJsonArray(array)); }
 
     /**
      * Set a given index to the given element.
      */
-    default void pushScalar(Object scalar) { pushNativeElement(compositeToNativeScalar(scalar)); }
+    default void pushScalar(Object scalar) { pushNativeElement(javaToNativeScalar(scalar)); }
 
     /**
      * Pushes the given boolean string onto the end of the array.
@@ -61,28 +61,28 @@ public interface WritableJsonArray extends JsonArray, WritableJsonElement {
      * Set a given index to the given value. Most consuming call.
      */
     default void set(int index, Object value) {
-        setNativeElement(index, anyCompositeToNative(value));
+        setNativeElement(index, anyJavaToNative(value));
     }
 
     /**
      * Set a given index to the given object.
      */
     default void set(int index, JsonObject object) {
-        setNativeElement(index, compositeToNativeObject(object));
+        setNativeElement(index, javaToNativeJsonObject(object));
     }
 
     /**
      * Set a given index to the given array.
      */
     default void set(int index, JsonArray array) {
-        setNativeElement(index, compositeToNativeArray(array));
+        setNativeElement(index, javaToNativeJsonArray(array));
     }
 
     /**
      * Set a given index to the given scalar.
      */
     default void setScalar(int index, Object scalar) {
-        setNativeElement(index, compositeToNativeScalar(scalar));
+        setNativeElement(index, javaToNativeScalar(scalar));
     }
 
     /**

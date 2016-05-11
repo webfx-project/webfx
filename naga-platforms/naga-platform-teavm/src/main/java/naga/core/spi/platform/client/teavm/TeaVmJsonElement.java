@@ -73,27 +73,27 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableJsonEl
     }
 
     @Override
-    public <T> T nativeToCompositeScalar(Object nativeScalar) {
+    public <T> T nativeToJavaScalar(Object nativeScalar) {
         return JSUtil.js2jScalar((JSObject) nativeScalar);
     }
 
     @Override
-    public TeaVmJsonArray nativeToCompositeArray(Object nativeArray) {
+    public TeaVmJsonArray nativeToJavaJsonArray(Object nativeArray) {
         return TeaVmJsonArray.create((JSArray) nativeArray);
     }
 
     @Override
-    public TeaVmJsonObject nativeToCompositeObject(Object nativeObject) {
+    public TeaVmJsonObject nativeToJavaJsonObject(Object nativeObject) {
         return TeaVmJsonObject.create((JSObject) nativeObject);
     }
 
     @Override
-    public JSObject compositeToNativeScalar(Object scalar) {
+    public JSObject javaToNativeScalar(Object scalar) {
         return JSUtil.j2jsScalar(scalar);
     }
 
     @Override
-    public JSObject compositeToNativeObject(JsonObject object) {
+    public JSObject javaToNativeJsonObject(JsonObject object) {
         if (object == null)
             return null;
         return ((TeaVmJsonElement) object).getJsValue();

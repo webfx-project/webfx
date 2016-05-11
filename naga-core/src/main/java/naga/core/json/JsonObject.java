@@ -40,21 +40,21 @@ public interface JsonObject extends JsonElement {
     /**
      * Return the element as a value or wrapped object/array.
      */
-    default <T> T get(String key) { return anyNativeToComposite(getNativeElement(key)); }
+    default <T> T get(String key) { return anyNativeToJava(getNativeElement(key)); }
 
 
     /**
      * Return the element as a JsonObject. If the type is not an object, this can result in runtime errors.
      */
-    default JsonObject getObject(String key) { return nativeToCompositeObject(getNativeElement(key)); }
+    default JsonObject getObject(String key) { return nativeToJavaJsonObject(getNativeElement(key)); }
 
     /**
      * Return the element as a JsonArray. If the type is not an array, this can result in runtime errors.
      */
-    default JsonArray getArray(String key) { return nativeToCompositeArray(getNativeElement(key)); }
+    default JsonArray getArray(String key) { return nativeToJavaJsonArray(getNativeElement(key)); }
 
     default <T> T getScalar(String key) {
-        return nativeToCompositeScalar(getNativeElement(key));
+        return nativeToJavaScalar(getNativeElement(key));
     }
 
     default <T> T getScalar(String key, T defaultValue) {
@@ -69,7 +69,7 @@ public interface JsonObject extends JsonElement {
     /**
      * Return the element as a boolean. If the type is not a boolean, this can result in runtime errors.
      */
-    default boolean getBoolean(String key, boolean defaultValue) { return Booleans.booleanValue(getScalar(key, anyCompositeToNative(defaultValue))); }
+    default boolean getBoolean(String key, boolean defaultValue) { return Booleans.booleanValue(getScalar(key, anyJavaToNative(defaultValue))); }
 
     /**
      * Return the element as a String. If the type is not a String, this can result in runtime errors.

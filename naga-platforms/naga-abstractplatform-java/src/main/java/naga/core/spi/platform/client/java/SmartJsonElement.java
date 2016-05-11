@@ -24,14 +24,14 @@ interface SmartJsonElement extends ListMapJsonElement {
     }
 
     @Override
-    default WritableJsonObject nativeToCompositeObject(Object nativeObject) {
+    default WritableJsonObject nativeToJavaJsonObject(Object nativeObject) {
         if (nativeObject == null || nativeObject instanceof WritableJsonObject)
             return (WritableJsonObject) nativeObject;
         return new SmartJsonObject((Map) nativeObject);
     }
 
     @Override
-    default WritableJsonArray nativeToCompositeArray(Object nativeArray) {
+    default WritableJsonArray nativeToJavaJsonArray(Object nativeArray) {
         if (nativeArray == null || nativeArray instanceof WritableJsonArray)
             return (WritableJsonArray) nativeArray;
         return new SmartJsonArray((List) nativeArray);

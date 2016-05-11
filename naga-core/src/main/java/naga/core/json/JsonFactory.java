@@ -22,7 +22,7 @@ public interface JsonFactory extends JsonParser, JsonFormatter {
      * @return a new empty json object
      */
     default WritableJsonObject createJsonObject() {
-        return nativeToCompositeObject(createNativeObject());
+        return nativeToJavaJsonObject(createNativeObject());
     }
 
     /**
@@ -30,7 +30,7 @@ public interface JsonFactory extends JsonParser, JsonFormatter {
      * @return a new empty json array
      */
     default WritableJsonArray createJsonArray() {
-        return nativeToCompositeArray(createNativeArray());
+        return nativeToJavaJsonArray(createNativeArray());
     }
 
 }

@@ -42,7 +42,7 @@ interface VertxJsonElement extends ListMapJsonElement {
     }
 
     @Override
-    default MapBasedJsonObject nativeToCompositeObject(Object nativeObject) {
+    default MapBasedJsonObject nativeToJavaJsonObject(Object nativeObject) {
         if (nativeObject == null || nativeObject instanceof MapBasedJsonObject)
             return (MapBasedJsonObject) nativeObject;
         if (nativeObject instanceof io.vertx.core.json.JsonObject)
@@ -51,7 +51,7 @@ interface VertxJsonElement extends ListMapJsonElement {
     }
 
     @Override
-    default WritableJsonArray nativeToCompositeArray(Object nativeArray) {
+    default WritableJsonArray nativeToJavaJsonArray(Object nativeArray) {
         if (nativeArray == null || nativeArray instanceof WritableJsonArray)
             return (WritableJsonArray) nativeArray;
         if (nativeArray instanceof io.vertx.core.json.JsonArray)

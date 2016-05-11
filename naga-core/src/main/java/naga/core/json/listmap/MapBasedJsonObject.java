@@ -44,7 +44,7 @@ public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapJ
 
     @Override
     public JsonArray keys() {
-        return nativeToCompositeArray(new ArrayList(getMap().keySet()));
+        return nativeToJavaJsonArray(new ArrayList(getMap().keySet()));
     }
 
     public Object getNativeElement(String key) {
@@ -82,7 +82,7 @@ public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapJ
 
     @Override
     public MapBasedJsonObject copy() {
-        MapBasedJsonObject copy = (MapBasedJsonObject) nativeToCompositeArray(getNativeElement());
+        MapBasedJsonObject copy = (MapBasedJsonObject) nativeToJavaJsonArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;

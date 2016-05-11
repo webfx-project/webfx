@@ -80,7 +80,7 @@ public abstract class ListBasedJsonArray implements WritableJsonArray, ListMapJs
 
     @Override
     public ListBasedJsonArray copy() {
-        ListBasedJsonArray copy = (ListBasedJsonArray) nativeToCompositeArray(getNativeElement());
+        ListBasedJsonArray copy = (ListBasedJsonArray) nativeToJavaJsonArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;

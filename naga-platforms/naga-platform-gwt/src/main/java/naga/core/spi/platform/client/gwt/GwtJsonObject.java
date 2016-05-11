@@ -52,7 +52,7 @@ final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
 
     @Override
     public GwtJsonArray keys() {
-        return nativeToCompositeArray(keys0());
+        return nativeToJavaJsonArray(keys0());
     }
 
     private native JsArrayString keys0() /*-{
