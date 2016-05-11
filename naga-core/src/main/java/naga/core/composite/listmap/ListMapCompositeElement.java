@@ -4,6 +4,7 @@ import naga.core.composite.CompositeArray;
 import naga.core.composite.CompositeObject;
 import naga.core.composite.ElementType;
 import naga.core.composite.WritableCompositeElement;
+import naga.core.util.Numbers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -41,11 +42,12 @@ public interface ListMapCompositeElement extends WritableCompositeElement {
             return ElementType.OBJECT;
         if (nativeElement instanceof List || nativeElement instanceof CompositeArray)
             return ElementType.ARRAY;
-        return ElementType.SCALAR;
-    }
-
-    @Override
-    default String toJsonString() {
-        throw new UnsupportedOperationException();
+        if (nativeElement instanceof Boolean)
+            return ElementType.NUMBER;
+        if (nativeElement instanceof String)
+            return ElementType.STRING;
+        if (Numbers.isNumber(nativeElement))
+            return ElementType.NUMBER;
+        return ElementType.UNKNOWN;
     }
 }

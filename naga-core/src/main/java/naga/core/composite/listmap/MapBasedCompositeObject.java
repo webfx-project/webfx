@@ -1,8 +1,9 @@
 package naga.core.composite.listmap;
 
+import naga.core.composite.CompositeArray;
 import naga.core.composite.WritableCompositeObject;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -42,8 +43,8 @@ public abstract class MapBasedCompositeObject implements WritableCompositeObject
     }
 
     @Override
-    public Collection<String> keys() {
-        return getMap().keySet();
+    public CompositeArray keys() {
+        return nativeToCompositeArray(new ArrayList(getMap().keySet()));
     }
 
     public Object getNativeElement(String key) {
@@ -87,10 +88,10 @@ public abstract class MapBasedCompositeObject implements WritableCompositeObject
         return copy;
     }
 
-    /*@Override
+    @Override
     public String toString() {
         return toJsonString();
-    }*/
+    }
 
     @Override
     public boolean equals(Object o) {

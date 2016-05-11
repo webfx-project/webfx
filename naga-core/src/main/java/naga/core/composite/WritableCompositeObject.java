@@ -18,7 +18,7 @@ public interface WritableCompositeObject extends CompositeObject {
     /**
      * Set a given key to the given value.
      */
-    default <V> void set(String key, V value) {
+    default void set(String key, Object value) {
         setNativeElement(key, anyCompositeToNative(value));
     }
 
@@ -38,6 +38,8 @@ public interface WritableCompositeObject extends CompositeObject {
     default void setScalar(String key, Object scalar) { setNativeElement(key, compositeToNativeScalar(scalar)); }
 
     default void set(String key, boolean value) { setScalar(key, value); }
+
+    default void set(String key, int value) { setScalar(key, value); }
 
     default void set(String key, double value) { setScalar(key, value); }
 

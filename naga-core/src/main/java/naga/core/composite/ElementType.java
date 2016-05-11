@@ -5,6 +5,6 @@ package naga.core.composite;
  */
 public enum ElementType {
 
-    SCALAR, OBJECT, ARRAY, UNKNOWN
+    STRING, NUMBER, BOOLEAN, OBJECT, ARRAY, UNKNOWN
 
 }

@@ -33,11 +33,6 @@ final class GwtJsonArray extends GwtJsonElement implements WritableCompositeArra
     }
 
     @Override
-    public native int size() /*-{
-        return this.length;
-      }-*/;
-
-    @Override
     public native int indexOfNativeElement(Object element) /*-{
         return this.indexOf(value);
     }-*/;

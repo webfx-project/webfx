@@ -1,11 +1,10 @@
 package naga.core.spi.json.teavm;
 
+import naga.core.composite.CompositeArray;
 import naga.core.composite.WritableCompositeObject;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSNumber;
-
-import java.util.Collection;
 
 /**
  * Client-side implementation of JsonObject interface.
@@ -51,12 +50,9 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableC
     }-*/;
 
     @Override
-    public native Collection keys(); /* {
-        JSArray jsArray = JSUtil.getKeys(jsValue);
-        if (jsArray == null || JSUtil.isUndefined(jsArray))
-            return null;
-        return new TeaVmJsonArray(jsArray);
-    }*/
+    public CompositeArray keys() {
+        return TeaVmJsonArray.create(JSUtil.getKeys(jsValue));
+    }
 
     @Override
     public <T> T remove(String key) {
@@ -81,11 +77,6 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableC
     @Override
     public void set(String key, double number) {
         setNativeElement(key, JSNumber.valueOf(number));
-    }
-
-    @Override
-    public void set(String key, Object element) {
-        setNativeElement(key, JSUtil.j2js(element));
     }
 
     /**

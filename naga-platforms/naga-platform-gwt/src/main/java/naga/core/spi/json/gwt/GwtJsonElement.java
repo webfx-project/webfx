@@ -18,8 +18,9 @@
 package naga.core.spi.json.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import naga.core.composite.WritableCompositeElement;
 import naga.core.composite.ElementType;
+import naga.core.composite.WritableCompositeElement;
+import naga.core.util.Numbers;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
@@ -33,15 +34,34 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableCompositeE
     }
 
     @Override
-    public final native GwtJsonElement getNativeElement() /*-{
-        return this;
-      }-*/;
-
+    public final GwtJsonElement getNativeElement() {
+        return cast();
+    }
 
     @Override
-    public final native GwtJsonElement copy() /*-{
-        return $wnd.JSON.parse($wnd.JSON.stringify(this));
+    public final int size() {
+        return isObject() ? sizeObject() : sizeArray();
+    }
+
+    private final native int sizeArray() /*-{
+        return this.length;
     }-*/;
+
+    /**
+     * Returns the size of the map (the number of keys).
+     * <p>
+     * <p>NB: This method is currently O(N) because it iterates over all keys.
+     *
+     * @return the size of the map.
+     */
+    private final native int sizeObject() /*-{
+        size = 0;
+        for (key in this)
+          if (Object.prototype.hasOwnProperty.call(this, key))
+            size++;
+        return size;
+    }-*/;
+
 
     @Override
     public final void clear() {
@@ -64,26 +84,66 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableCompositeE
     }-*/;
 
     @Override
-    public final GwtJsonElement createNativeObject() {
+    public final GwtJsonObject createNativeObject() {
         return JavaScriptObject.createObject().cast();
     }
 
     @Override
-    public final GwtJsonElement createNativeArray() {
+    public final GwtJsonArray createNativeArray() {
         return JavaScriptObject.createArray().cast();
     }
 
+
     @Override
-    public final Object parseNativeObject(String text) {
-        return parse0(text);
+    public final native GwtJsonArray nativeToCompositeArray(Object nativeArray) /*-{
+        return nativeArray;
+    }-*/;
+
+    @Override
+    public final native GwtJsonObject nativeToCompositeObject(Object nativeObject) /*-{
+        return nativeObject;
+    }-*/;
+
+    @Override
+    public final native <T> T nativeToCompositeScalar(Object nativeScalar) /*-{
+        return nativeScalar;
+    }-*/;
+
+    @Override
+    public final Object anyCompositeToNative(Object value) {
+        return compositeToNativeScalar(value);
     }
 
     @Override
-    public final Object parseNativeArray(String text) {
-        return parse0(text);
+    public final Object compositeToNativeScalar(Object value) {
+        if (value == null)
+            return null;
+        if (value instanceof Boolean)
+            return toJsBoolean((Boolean) value);
+        if (Numbers.isNumber(value))
+            return toJsDouble(Numbers.doubleValue(value));
+        return value;
     }
 
-    private native static Object parse0(String jsonString) /*-{
+    private static native JavaScriptObject toJsBoolean(boolean value) /*-{
+        return value;
+    }-*/;
+
+    private static native JavaScriptObject toJsDouble(double value) /*-{
+        return value;
+    }-*/;
+
+    @Override
+    public final GwtJsonObject parseNativeObject(String text) {
+        return parse0(text).cast();
+    }
+
+    @Override
+    public final GwtJsonArray parseNativeArray(String text) {
+        return parse0(text).cast();
+    }
+
+    private native static JavaScriptObject parse0(String jsonString) /*-{
         try { // First attempt without any transformation (only pure json will be accepted)
             return $wnd.JSON.parse(jsonString);
         } catch (e) { // Second attempt with transformation to allow relaxed json (single quotes strings and unquoted keys)
@@ -109,9 +169,9 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableCompositeE
     public final ElementType getNativeElementType(Object nativeElement) {
         switch(getJsType(nativeElement)) {
             case "object": return isArray(nativeElement) ? ElementType.ARRAY : ElementType.OBJECT;
-            case "string":
-            case "number":
-            case "boolean": return ElementType.SCALAR;
+            case "string": return ElementType.STRING;
+            case "number": return ElementType.NUMBER;
+            case "boolean": return ElementType.BOOLEAN;
         }
         return ElementType.UNKNOWN;
     }
@@ -126,12 +186,12 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableCompositeE
    }-*/;
 
 
-    @Override
+    /*@Override
     public final String toJsonString() {
         try {
             return super.toJson();
         } catch (Exception e) {
             throw new RuntimeException("Failed to encode as JSON: " + e.getMessage());
         }
-    }
+    }*/
 }

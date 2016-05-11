@@ -25,11 +25,8 @@ public interface CompositeElement extends CompositesFactory {
     /**
      * Make a copy of this object or array.
      */
-    <SC extends CompositeElement> SC copy();
-
-    /**
-     * Returns a serialized JSON string representing this value.
-     */
-    String toJsonString();
+    default <SC extends CompositeElement> SC copy() {
+        return isArray() ? (SC) parseArray(toJsonString()) : (SC) parseObject(toJsonString());
+    }
 
 }

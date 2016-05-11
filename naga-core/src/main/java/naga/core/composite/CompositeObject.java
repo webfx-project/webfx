@@ -5,8 +5,6 @@ import naga.core.util.Numbers;
 import naga.core.util.Objects;
 import naga.core.util.Strings;
 
-import java.util.Collection;
-
 /**
  * @author Bruno Salmon
  */
@@ -32,7 +30,7 @@ public interface CompositeObject extends CompositeElement {
     /**
      * All keys of the object.
      */
-    Collection<String> keys();
+    CompositeArray keys();
 
     /**
      * Return the element as it is stored (unwrapped) in the underlying structure (so either a value or an unwrapped object/array).

@@ -18,10 +18,7 @@
 package naga.core.spi.json.gwt;
 
 import com.google.gwt.core.client.JsArrayString;
-import naga.core.composite.CompositeArray;
 import naga.core.composite.WritableCompositeObject;
-
-import java.util.Collection;
 
 /**
  * Client-side implementation of JsonObject interface.
@@ -31,10 +28,17 @@ import java.util.Collection;
  * 
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonObject.java">Original Goodow class</a>
  */
-final class GwtJsonObject extends GwtJsonElement implements WritableCompositeObject {
+public final class GwtJsonObject extends GwtJsonElement implements WritableCompositeObject {
 
     protected GwtJsonObject() { // no public constructor, instances are always obtained from a cast
     }
+
+
+    @Override
+    public native boolean has(String key) /*-{
+        return key in this;
+    }-*/;
+
 
     @Override
     public native GwtJsonValue getNativeElement(String key) /*-{
@@ -42,72 +46,14 @@ final class GwtJsonObject extends GwtJsonElement implements WritableCompositeObj
     }-*/;
 
     @Override
-    public native boolean has(String key) /*-{
-        return key in this;
-    }-*/;
-
-    @Override
-    public Collection<String> keys() {
-        return null; // TODO
-        /*JsArrayString str = keys0();
-        return reinterpretCast(str);*/
-    }
-
-    @Override
-    public native <T> T remove(String key) /*-{
-        toRtn = this[key];
-        delete this[key];
-        return toRtn;
-    }-*/;
-
-    @Override
     public native void setNativeElement(String key, Object element) /*-{
-        this[key] = value;
+        this[key] = element;
     }-*/;
 
     @Override
-    public native void set(String key, double number) /*-{
-        this[key] = number;
-    }-*/;
-
-    @Override
-    public void set(String key, Object element) {
-        if (element instanceof Boolean)
-            set(key, ((Boolean) element).booleanValue());
-        else if (element instanceof Number)
-            set(key, ((Number) element).doubleValue());
-        else
-            setObject(key, element);
+    public GwtJsonArray keys() {
+        return nativeToCompositeArray(keys0());
     }
-
-    // TODO: We still have problem with "__proto__"
-    private native GwtJsonObject setObject(String key, Object element) /*-{
-        this[key] = element;
-        return this;
-    }-*/;
-
-    private native GwtJsonObject setString(String key, String element) /*-{
-        this[key] = element;
-        return this;
-    }-*/;
-
-
-    /**
-     * Returns the size of the map (the number of keys).
-     * <p>
-     * <p>NB: This method is currently O(N) because it iterates over all keys.
-     *
-     * @return the size of the map.
-     */
-    @Override
-    public final native int size() /*-{
-        size = 0;
-        for (key in this)
-          if (Object.prototype.hasOwnProperty.call(this, key))
-            size++;
-        return size;
-    }-*/;
-
 
     private native JsArrayString keys0() /*-{
         var keys = [];
@@ -117,7 +63,10 @@ final class GwtJsonObject extends GwtJsonElement implements WritableCompositeObj
         return keys;
     }-*/;
 
-    private native CompositeArray reinterpretCast(JsArrayString arrayString) /*-{
-        return arrayString;
+    @Override
+    public native <T> T remove(String key) /*-{
+        var old = this[key];
+        delete this[key];
+        return old;
     }-*/;
 }

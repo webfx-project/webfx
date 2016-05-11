@@ -3,7 +3,7 @@ package naga.core.composite;
 /**
  * @author Bruno Salmon
  */
-public interface CompositesFactory extends CompositesParser {
+public interface CompositesFactory extends CompositesParser, CompositesFormat {
 
     /**
      * Create an empty native object.

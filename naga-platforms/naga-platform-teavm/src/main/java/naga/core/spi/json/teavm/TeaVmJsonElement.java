@@ -1,8 +1,8 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.composite.*;
-import naga.core.composite.CompositeElement;
 import naga.core.composite.CompositeObject;
+import naga.core.composite.ElementType;
+import naga.core.composite.WritableCompositeElement;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
@@ -36,12 +36,6 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableCompos
     }-*/;
 
     @Override
-    public <SC extends CompositeElement> SC copy() {
-        JSObject copy = JSUtil.copy(jsValue);
-        return (SC) (isObject() ? TeaVmJsonObject.create(copy) : new TeaVmJsonArray(JSArray.create()));
-    }
-
-    @Override
     public JSObject createNativeObject() {
         return JSUtil.newJSObject();
     }
@@ -71,9 +65,9 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableCompos
         JSObject jso = (JSObject) nativeElement;
         switch(JSUtil.getJsType(jso)) {
             case "object": return JSUtil.isArray(jso) ? ElementType.ARRAY : ElementType.OBJECT;
-            case "string":
-            case "number":
-            case "boolean": return ElementType.SCALAR;
+            case "string": return ElementType.STRING;
+            case "number": return ElementType.NUMBER;
+            case "boolean": return ElementType.BOOLEAN;
         }
         return ElementType.UNKNOWN;
     }
@@ -105,14 +99,14 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableCompos
         return ((TeaVmJsonElement) object).getJsValue();
     }
 
-    @Override
+    /*@Override
     public final String toJsonString() {
         try {
             return super.toJson();
         } catch (Exception e) {
             throw new RuntimeException("Failed to encode as JSON: " + e.getMessage());
         }
-    }
+    }*/
 
     @Override
     public String toString() {

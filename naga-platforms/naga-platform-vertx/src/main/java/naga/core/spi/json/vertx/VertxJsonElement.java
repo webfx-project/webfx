@@ -9,6 +9,7 @@ import naga.core.composite.ElementType;
 import naga.core.composite.WritableCompositeArray;
 import naga.core.composite.listmap.ListMapCompositeElement;
 import naga.core.composite.listmap.MapBasedCompositeObject;
+import naga.core.util.Numbers;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,13 @@ public interface VertxJsonElement extends ListMapCompositeElement {
             return ElementType.OBJECT;
         if (nativeElement instanceof List || nativeElement instanceof CompositeArray || nativeElement instanceof JsonArray)
             return ElementType.ARRAY;
-        return ElementType.SCALAR;
+        if (nativeElement instanceof Boolean)
+            return ElementType.NUMBER;
+        if (nativeElement instanceof String)
+            return ElementType.STRING;
+        if (Numbers.isNumber(nativeElement))
+            return ElementType.NUMBER;
+        return ElementType.UNKNOWN;
     }
 
     @Override

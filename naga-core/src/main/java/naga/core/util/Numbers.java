@@ -44,7 +44,11 @@ public class Numbers {
         try {
             return (int) value;
         } catch (Exception e) {
-            return Integer.parseInt(value.toString());
+            try {
+                return Integer.parseInt(value.toString());
+            } catch (NumberFormatException e1) {
+                return (int) doubleValue(value);
+            }
         }
     }
 

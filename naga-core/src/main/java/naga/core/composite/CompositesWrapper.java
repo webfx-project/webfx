@@ -11,7 +11,10 @@ public interface CompositesWrapper {
         if (nativeElement == null)
             return null;
         switch (getNativeElementType(nativeElement)) {
-            case SCALAR: return nativeToCompositeScalar(nativeElement);
+            case STRING:
+            case BOOLEAN:
+            case NUMBER:
+                return nativeToCompositeScalar(nativeElement);
             case ARRAY: return (T) nativeToCompositeArray(nativeElement);
             case OBJECT: return (T) nativeToCompositeObject(nativeElement);
         }
