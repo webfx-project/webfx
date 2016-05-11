@@ -4,18 +4,18 @@
 package naga.core.orm.expressionparser.jflex;
 
 import java_cup.runtime.*;
-import naga.core.orm.expressionparser.javacup.Symbols;
-import static naga.core.orm.expressionparser.javacup.Symbols.*;
+import naga.core.orm.expressionparser.javacup.ExpressionSymbols;
+import static naga.core.orm.expressionparser.javacup.ExpressionSymbols.*;
 
 %%
    
 /* -----------------Options and Declarations Section----------------- */
 
 %public
-%class Lexer
+%class ExpressionLexer
 %line
 %column
-%cupsym Symbols
+%cupsym ExpressionSymbols
 %cup
 
 /*

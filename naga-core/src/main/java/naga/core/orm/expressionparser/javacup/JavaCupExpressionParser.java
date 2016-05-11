@@ -11,22 +11,22 @@ import naga.core.util.Numbers;
 /** CUP v0.11b 20150326 (SVN rev 63) generated parser.
   */
 @SuppressWarnings({"rawtypes"})
-public class JavaCupParser extends java_cup.runtime.lr_parser {
+public class JavaCupExpressionParser extends java_cup.runtime.lr_parser {
 
  public final Class getSymbolContainer() {
-    return Symbols.class;
+    return ExpressionSymbols.class;
 }
 
   /** Default constructor. */
   @Deprecated
-  public JavaCupParser() {super();}
+  public JavaCupExpressionParser() {super();}
 
   /** Constructor which sets the default scanner. */
   @Deprecated
-  public JavaCupParser(java_cup.runtime.Scanner s) {super(s);}
+  public JavaCupExpressionParser(java_cup.runtime.Scanner s) {super(s);}
 
   /** Constructor which sets the default scanner. */
-  public JavaCupParser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
+  public JavaCupExpressionParser(java_cup.runtime.Scanner s, java_cup.runtime.SymbolFactory sf) {super(s,sf);}
 
   /** Production table. */
   protected static final short _production_table[][] = 
@@ -866,10 +866,10 @@ public class JavaCupParser extends java_cup.runtime.lr_parser {
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$JavaCupParser$actions {
-  private final JavaCupParser parser;
+  private final JavaCupExpressionParser parser;
 
   /** Constructor */
-  CUP$JavaCupParser$actions(JavaCupParser parser) {
+  CUP$JavaCupParser$actions(JavaCupExpressionParser parser) {
     this.parser = parser;
   }
 

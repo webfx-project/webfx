@@ -6,7 +6,7 @@
 package naga.core.orm.expressionparser.javacup;
 
 /** CUP generated interface containing symbol constants. */
-public interface Symbols {
+public interface ExpressionSymbols {
   /* terminals */
   public static final int GTEQ = 43;
   public static final int NULLS = 12;

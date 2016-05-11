@@ -7,8 +7,8 @@ import naga.core.orm.expression.term.Select;
 import naga.core.orm.expressionparser.expressionbuilder.BuilderThreadContext;
 import naga.core.orm.expressionparser.expressionbuilder.term.ExpressionBuilder;
 import naga.core.orm.expressionparser.expressionbuilder.term.SelectBuilder;
-import naga.core.orm.expressionparser.javacup.JavaCupParser;
-import naga.core.orm.expressionparser.jflex.Lexer;
+import naga.core.orm.expressionparser.javacup.JavaCupExpressionParser;
+import naga.core.orm.expressionparser.jflex.ExpressionLexer;
 import naga.core.orm.expressionparser.lci.ParserDomainModelReader;
 
 import java.io.StringReader;
@@ -57,8 +57,8 @@ public class ExpressionParser {
     }
 
     public static Symbol parseWithJavaCup(String definition) throws Exception {
-        JavaCupParser javaCupParser = new JavaCupParser(new Lexer(new StringReader(definition)));
-        return javaCupParser.parse();
+        JavaCupExpressionParser javaCupExpressionParser = new JavaCupExpressionParser(new ExpressionLexer(new StringReader(definition)));
+        return javaCupExpressionParser.parse();
     }
 
 }
