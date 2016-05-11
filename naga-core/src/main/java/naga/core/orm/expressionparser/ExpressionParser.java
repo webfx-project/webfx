@@ -56,7 +56,7 @@ public class ExpressionParser {
         }
     }
 
-    public static Symbol parseWithJavaCup(String definition) throws Exception {
+    private static Symbol parseWithJavaCup(String definition) throws Exception {
         JavaCupExpressionParser javaCupExpressionParser = new JavaCupExpressionParser(new ExpressionLexer(new StringReader(definition)));
         return javaCupExpressionParser.parse();
     }
