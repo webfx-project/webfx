@@ -1,4 +1,4 @@
-package naga.core.spi.json.vertx;
+package naga.core.spi.platform.vertx;
 
 import io.vertx.core.json.JsonArray;
 import naga.core.json.WritableJsonArray;

@@ -1,4 +1,4 @@
-package naga.core.spi.json.teavm;
+package naga.core.spi.platform.client.teavm;
 
 import naga.core.json.WritableJsonArray;
 import org.teavm.jso.JSObject;

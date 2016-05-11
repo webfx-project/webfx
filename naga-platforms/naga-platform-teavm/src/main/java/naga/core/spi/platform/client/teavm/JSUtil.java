@@ -1,4 +1,4 @@
-package naga.core.spi.json.teavm;
+package naga.core.spi.platform.client.teavm;
 
 import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
@@ -11,7 +11,7 @@ import org.teavm.jso.json.JSON;
 /**
  * @author Bruno Salmon
  */
-public final class JSUtil {
+final class JSUtil {
 
     @JSBody(params = {}, script = "return {};")
     public static native JSObject newJSObject();

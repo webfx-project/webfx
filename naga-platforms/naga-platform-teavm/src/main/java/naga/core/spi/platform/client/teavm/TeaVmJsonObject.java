@@ -1,4 +1,4 @@
-package naga.core.spi.json.teavm;
+package naga.core.spi.platform.client.teavm;
 
 import naga.core.json.JsonArray;
 import naga.core.json.WritableJsonObject;
@@ -11,7 +11,7 @@ import org.teavm.jso.core.JSNumber;
  *
  * @author Bruno Salmon
  */
-public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObject {
+final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObject {
 
     public static TeaVmJsonObject create(JSObject jso) {
         if (jso == null || JSUtil.isUndefined(jso))
@@ -19,11 +19,11 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJ
         return new TeaVmJsonObject(jso);
     }
 
-    public TeaVmJsonObject() {
+    TeaVmJsonObject() {
         this(JSUtil.newJSObject());
     }
 
-    public TeaVmJsonObject(JSObject jso) {
+    TeaVmJsonObject(JSObject jso) {
         super(jso);
     }
 

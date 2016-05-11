@@ -1,4 +1,4 @@
-package naga.core.spi.json.java.smart;
+package naga.core.spi.platform.client.java;
 
 import naga.core.json.WritableJsonArray;
 import naga.core.json.WritableJsonObject;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface SmartJsonElement extends ListMapJsonElement {
+interface SmartJsonElement extends ListMapJsonElement {
 
     @Override
     default Object parseNativeObject(String text) {

@@ -20,7 +20,6 @@ package naga.core.spi.platform.client.java;
 import naga.core.json.JsonFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
-import naga.core.spi.json.java.smart.SmartJsonObject;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.ResourceService;

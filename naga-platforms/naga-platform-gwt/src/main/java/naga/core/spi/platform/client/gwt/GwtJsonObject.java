@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.json.gwt;
+package naga.core.spi.platform.client.gwt;
 
 import com.google.gwt.core.client.JsArrayString;
 import naga.core.json.WritableJsonObject;
@@ -28,7 +28,7 @@ import naga.core.json.WritableJsonObject;
  * 
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonObject.java">Original Goodow class</a>
  */
-public final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
+final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
 
     protected GwtJsonObject() { // no public constructor, instances are always obtained from a cast
     }

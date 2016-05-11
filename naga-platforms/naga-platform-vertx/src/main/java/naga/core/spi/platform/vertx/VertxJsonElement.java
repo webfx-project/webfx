@@ -1,4 +1,4 @@
-package naga.core.spi.json.vertx;
+package naga.core.spi.platform.vertx;
 
 import io.vertx.core.json.Json;
 import naga.core.json.*;
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface VertxJsonElement extends ListMapJsonElement {
+interface VertxJsonElement extends ListMapJsonElement {
 
     @Override
     default io.vertx.core.json.JsonObject parseNativeObject(String text) {

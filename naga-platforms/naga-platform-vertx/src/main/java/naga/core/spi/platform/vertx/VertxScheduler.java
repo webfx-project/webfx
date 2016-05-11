@@ -6,7 +6,7 @@ import naga.core.spi.platform.Scheduler;
 /**
  * @author Bruno Salmon
  */
-public final class VertxScheduler implements Scheduler<Long> {
+final class VertxScheduler implements Scheduler<Long> {
 
     private final Vertx vertx;
 

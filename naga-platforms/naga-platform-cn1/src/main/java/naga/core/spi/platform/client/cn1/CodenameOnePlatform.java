@@ -1,7 +1,6 @@
 package naga.core.spi.platform.client.cn1;
 
 import naga.core.json.JsonFactory;
-import naga.core.spi.json.cn1.Cn1JsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;

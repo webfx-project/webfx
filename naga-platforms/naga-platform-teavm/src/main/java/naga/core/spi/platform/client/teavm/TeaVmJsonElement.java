@@ -1,4 +1,4 @@
-package naga.core.spi.json.teavm;
+package naga.core.spi.platform.client.teavm;
 
 import naga.core.json.JsonObject;
 import naga.core.json.ElementType;
@@ -11,7 +11,7 @@ import org.teavm.jso.core.JSArray;
  */
 abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableJsonElement {
 
-    public TeaVmJsonElement(JSObject jsValue) {
+    TeaVmJsonElement(JSObject jsValue) {
         super(jsValue);
     }
 

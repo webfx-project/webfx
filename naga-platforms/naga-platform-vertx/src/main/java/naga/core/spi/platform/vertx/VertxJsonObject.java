@@ -1,4 +1,4 @@
-package naga.core.spi.json.vertx;
+package naga.core.spi.platform.vertx;
 
 import io.vertx.core.json.JsonObject;
 import naga.core.json.WritableJsonObject;
@@ -9,11 +9,11 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class VertxJsonObject extends MapBasedJsonObject implements VertxJsonElement, WritableJsonObject {
+final class VertxJsonObject extends MapBasedJsonObject implements VertxJsonElement, WritableJsonObject {
 
     private JsonObject vertxObject;
 
-    public VertxJsonObject() { // super constructor will call recreateEmptyNativeObject() to initialize the map
+    VertxJsonObject() { // super constructor will call recreateEmptyNativeObject() to initialize the map
     }
 
     VertxJsonObject(Map<String, Object> map) {

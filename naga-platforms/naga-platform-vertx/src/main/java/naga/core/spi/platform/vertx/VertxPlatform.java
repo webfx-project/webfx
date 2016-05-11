@@ -4,7 +4,6 @@ import io.vertx.core.Vertx;
 import naga.core.json.JsonFactory;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.vertx.VertxBusFactory;
-import naga.core.spi.json.vertx.VertxJsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.sql.SqlService;

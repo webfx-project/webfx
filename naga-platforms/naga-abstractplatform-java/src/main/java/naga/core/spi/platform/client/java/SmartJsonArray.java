@@ -1,4 +1,4 @@
-package naga.core.spi.json.java.smart;
+package naga.core.spi.platform.client.java;
 
 import naga.core.json.WritableJsonArray;
 import naga.core.json.listmap.ListJsonArray;

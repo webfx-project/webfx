@@ -1,4 +1,4 @@
-package naga.core.spi.json.cn1;
+package naga.core.spi.platform.client.cn1;
 
 import naga.core.json.WritableJsonArray;
 import naga.core.json.listmap.ListJsonArray;

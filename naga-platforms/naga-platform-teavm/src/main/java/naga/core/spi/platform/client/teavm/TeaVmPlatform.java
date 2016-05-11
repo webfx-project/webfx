@@ -1,7 +1,6 @@
 package naga.core.spi.platform.client.teavm;
 
 import naga.core.json.JsonFactory;
-import naga.core.spi.json.teavm.TeaVmJsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ResourceService;

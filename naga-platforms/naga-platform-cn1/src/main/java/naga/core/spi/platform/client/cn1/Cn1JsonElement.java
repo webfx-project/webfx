@@ -1,4 +1,4 @@
-package naga.core.spi.json.cn1;
+package naga.core.spi.platform.client.cn1;
 
 import com.codename1.io.JSONParser;
 import naga.core.json.WritableJsonArray;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface Cn1JsonElement extends ListMapJsonElement {
+interface Cn1JsonElement extends ListMapJsonElement {
 
     JSONParser cn1Parser = new JSONParser();
 
