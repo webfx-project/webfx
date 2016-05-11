@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class ListBasedJsonArray implements WritableJsonArray, ListMapJsonElement {
+public abstract class ListBasedJsonArray implements WritableJsonArray, ListMapBasedJsonElement {
     protected boolean isShallowCopy;
 
     protected ListBasedJsonArray() {

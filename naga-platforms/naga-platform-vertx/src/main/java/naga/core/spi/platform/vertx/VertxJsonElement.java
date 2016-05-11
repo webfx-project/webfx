@@ -4,7 +4,7 @@ import io.vertx.core.json.Json;
 import naga.core.json.*;
 import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
-import naga.core.json.listmap.ListMapJsonElement;
+import naga.core.json.listmap.ListMapBasedJsonElement;
 import naga.core.json.listmap.MapBasedJsonObject;
 import naga.core.util.Numbers;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-interface VertxJsonElement extends ListMapJsonElement {
+interface VertxJsonElement extends ListMapBasedJsonElement {
 
     @Override
     default io.vertx.core.json.JsonObject parseNativeObject(String text) {

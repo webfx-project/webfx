@@ -3,7 +3,7 @@ package naga.core.spi.platform.client.cn1;
 import com.codename1.io.JSONParser;
 import naga.core.json.WritableJsonArray;
 import naga.core.json.WritableJsonObject;
-import naga.core.json.listmap.ListMapJsonElement;
+import naga.core.json.listmap.ListMapBasedJsonElement;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-interface Cn1JsonElement extends ListMapJsonElement {
+interface Cn1JsonElement extends ListMapBasedJsonElement {
 
     JSONParser cn1Parser = new JSONParser();
 

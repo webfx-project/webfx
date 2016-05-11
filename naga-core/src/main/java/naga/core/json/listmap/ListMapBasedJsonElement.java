@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface ListMapJsonElement extends WritableJsonElement {
+public interface ListMapBasedJsonElement extends WritableJsonElement {
 
     @Override
     default Object createNativeObject() {

@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapJsonElement {
+public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapBasedJsonElement {
     protected boolean isShallowCopy;
 
     protected MapBasedJsonObject() {
