@@ -1,7 +1,7 @@
 package naga.core.spi.platform.client.teavm;
 
 import naga.core.spi.platform.Scheduler;
-import naga.core.util.Holder;
+import naga.core.util.tuples.Unit;
 import org.teavm.platform.Platform;
 import org.teavm.platform.PlatformRunnable;
 
@@ -27,17 +27,17 @@ final class TeaVmScheduler implements Scheduler<Integer> {
 
     @Override
     public Integer schedulePeriodic(long delayMs, Runnable runnable) {
-        Holder<Integer> timerIdHolder = new Holder<>();
+        Unit<Integer> timerIdUnit = new Unit<>();
         int timerId = Platform.schedule(new PlatformRunnable() {
             @Override
             public void run() {
                 runnable.run();
                 int timer2Id = Platform.schedule(this, (int) delayMs);
-                periodicIds.put(timerIdHolder.get(), timer2Id);
+                periodicIds.put(timerIdUnit.get(), timer2Id);
             }
         }, (int) delayMs);
         periodicIds.put(timerId, timerId);
-        timerIdHolder.set(timerId);
+        timerIdUnit.set(timerId);
         return timerId;
     }
 

@@ -1,6 +1,6 @@
 package naga.core.util.async;
 
-import naga.core.util.Holder;
+import naga.core.util.tuples.Unit;
 
 import java.lang.reflect.Array;
 
@@ -23,7 +23,7 @@ public class Batch<A> {
         Future<Batch<R>> future = Future.future();
         int n = array.length, i = 0;
         R[] results = (R[]) Array.newInstance(expectedResultClass, n);
-        Holder<Integer> responseCounter = new Holder<>(0);
+        Unit<Integer> responseCounter = new Unit<>(0);
         for (A argument : getArray()) {
             int index = i++;
             asyncFunction.apply(argument).setHandler(asyncResult -> {
