@@ -1,9 +1,7 @@
 package naga.core.json.listmap;
 
-import naga.core.json.JsonArray;
-import naga.core.json.JsonObject;
-import naga.core.json.ElementType;
-import naga.core.json.WritableJsonElement;
+import naga.core.json.*;
+import naga.core.json.parser.BuiltInJsonParser;
 import naga.core.util.Numbers;
 
 import java.util.ArrayList;
@@ -28,12 +26,26 @@ public interface ListMapBasedJsonElement extends WritableJsonElement {
 
     @Override
     default Object parseNativeObject(String text) {
-        throw new UnsupportedOperationException();
+        return BuiltInJsonParser.parseJsonObject(text);
     }
 
     @Override
     default Object parseNativeArray(String text) {
-        throw new UnsupportedOperationException();
+        return BuiltInJsonParser.parseJsonArray(text);
+    }
+
+    @Override
+    default WritableJsonObject nativeToJavaJsonObject(Object nativeObject) {
+        if (nativeObject == null || nativeObject instanceof WritableJsonObject)
+            return (WritableJsonObject) nativeObject;
+        return new MapJsonObject((Map) nativeObject);
+    }
+
+    @Override
+    default WritableJsonArray nativeToJavaJsonArray(Object nativeArray) {
+        if (nativeArray == null || nativeArray instanceof WritableJsonArray)
+            return (WritableJsonArray) nativeArray;
+        return new ListJsonArray((List) nativeArray);
     }
 
     @Override

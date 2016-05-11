@@ -9,7 +9,7 @@ public class MapJsonObject extends MapBasedJsonObject {
 
     protected Map<String, Object> map;
 
-    protected MapJsonObject() {  // super constructor will call recreateEmptyNativeObject() to initialize the map
+    public MapJsonObject() {  // super constructor will call recreateEmptyNativeObject() to initialize the map
     }
 
     protected MapJsonObject(Map map) {
