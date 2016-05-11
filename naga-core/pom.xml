@@ -44,27 +44,49 @@
     <build>
         <plugins>
 
-            <!-- Calling the Java CUP plugin to generate JavaCupParser.java and Symbols.java from the parser.cup grammar file -->
+            <!-- Calling the Java CUP plugin to generate JavaCupExpressionParser.java and ExpressionSymbols.java from the ExpressionParser.cup grammar file -->
             <plugin>
                 <groupId>com.github.vbmacher</groupId>
                 <artifactId>cup-maven-plugin</artifactId>
-                <configuration>
-                    <cupDefinition>src/main/java/naga/core/orm/expressionparser/javacup/parser.cup</cupDefinition>
-                    <outputDirectory>src/main/java/</outputDirectory>
-                    <className>JavaCupParser</className>
-                    <symbolsName>Symbols</symbolsName>
-                    <packageName>naga.core.orm.expressionparser.javacup</packageName>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>expression-parser</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <cupDefinition>src/main/java/naga/core/orm/expressionparser/javacup/ExpressionParser.cup</cupDefinition>
+                            <outputDirectory>src/main/java/</outputDirectory>
+                            <className>JavaCupExpressionParser</className>
+                            <symbolsName>ExpressionSymbols</symbolsName>
+                            <packageName>naga.core.orm.expressionparser.javacup</packageName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>json-parser</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <cupDefinition>src/main/java/naga/core/json/parser/javacup/JsonParser.cup</cupDefinition>
+                            <outputDirectory>src/main/java/</outputDirectory>
+                            <className>JavaCupJsonParser</className>
+                            <symbolsName>JsonSymbols</symbolsName>
+                            <packageName>naga.core.json.parser.javacup</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
-            <!-- Calling the JFlex plugin to generate Lexer.java from the parser.flex lexical file -->
+            <!-- Calling the JFlex plugin to generate ExpressionLexer.java from the ExpressionLexer.flex lexical file -->
             <plugin>
                 <groupId>de.jflex</groupId>
                 <artifactId>jflex-maven-plugin</artifactId>
                 <configuration>
                     <outputDirectory>src/main/java</outputDirectory>
                     <lexDefinitions>
-                        <lexDefinition>src/main/java/naga/core/orm/expressionparser/jflex/parser.flex</lexDefinition>
+                        <lexDefinition>src/main/java/naga/core/orm/expressionparser/jflex/ExpressionLexer.flex</lexDefinition>
+                        <lexDefinition>src/main/java/naga/core/json/parser/jflex/JsonLexer.flex</lexDefinition>
                     </lexDefinitions>
                 </configuration>
             </plugin>

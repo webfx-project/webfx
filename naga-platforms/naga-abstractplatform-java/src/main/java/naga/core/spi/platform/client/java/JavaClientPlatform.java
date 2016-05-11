@@ -18,6 +18,7 @@
 package naga.core.spi.platform.client.java;
 
 import naga.core.json.JsonFactory;
+import naga.core.json.listmap.MapJsonObject;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.Scheduler;
@@ -35,7 +36,7 @@ import naga.core.spi.sql.SqlService;
  */
 public abstract class JavaClientPlatform extends ClientPlatform {
     protected final JavaScheduler scheduler;
-    protected final JsonFactory jsonFactory = new SmartJsonObject();
+    protected final JsonFactory jsonFactory = new MapJsonObject();
     protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
     protected JavaClientPlatform() {
