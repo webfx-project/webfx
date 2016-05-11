@@ -47,7 +47,7 @@
         <plugin.jar.version>2.4</plugin.jar.version>
         <plugin.source.version>2.4</plugin.source.version>
         <plugin.dependency.version>2.10</plugin.dependency.version>
-        <plugin.javacup.version>1.0.1</plugin.javacup.version>
+        <plugin.javacup.version>11b-20151001</plugin.javacup.version>
         <plugin.jflex.version>1.6.1</plugin.jflex.version>
         <plugin.shade.version>2.4.3</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
@@ -112,6 +112,19 @@
     </pluginRepositories>
 
     <repositories>
+        <!-- Adding Snapshots repository which is required to get the GWT 2.8.0-SNAPSHOT libraries -->
+        <!-- Not used anymore, now using GWT plugin version 2.8.0-beta1
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/google-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        -->
         <!-- For JFoenix -->
         <repository>
             <id>snapshots</id>
@@ -363,13 +376,6 @@
                     <groupId>com.github.vbmacher</groupId>
                     <artifactId>cup-maven-plugin</artifactId>
                     <version>${plugin.javacup.version}</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>generate</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
 
                 <!--
