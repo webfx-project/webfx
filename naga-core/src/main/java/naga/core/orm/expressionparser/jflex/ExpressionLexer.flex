@@ -53,7 +53,7 @@ OctDigit = [0-7]
 GroupBy = [Gg][Rr][Oo][Uu][Pp]{WhiteSpace}+[Bb][Yy]
 OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
 
-%state STRING_SINGLE_QUOTE STRING_DOUBLE_QUOTE STRING_GRAVE_ACCENT
+%state STRING_SINGLE_QUOTE, STRING_DOUBLE_QUOTE, STRING_GRAVE_ACCENT
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
