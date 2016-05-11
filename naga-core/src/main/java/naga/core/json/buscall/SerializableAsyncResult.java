@@ -1,9 +1,9 @@
-package naga.core.composite.buscall;
+package naga.core.json.buscall;
 
-import naga.core.composite.CompositeObject;
-import naga.core.composite.WritableCompositeObject;
-import naga.core.composite.codec.AbstractCompositeCodec;
-import naga.core.composite.codec.CompositeCodecManager;
+import naga.core.json.JsonObject;
+import naga.core.json.WritableJsonObject;
+import naga.core.json.codec.AbstractJsonCodec;
+import naga.core.json.codec.JsonCodecManager;
 import naga.core.util.async.AsyncResult;
 
 /**
@@ -50,31 +50,31 @@ class SerializableAsyncResult<T> implements AsyncResult<T> {
     }
 
     /****************************************************
-     *                 Composite Codec                  *
-     *                 Composite Codec                  *
+     *                    Json Codec                    *
+     *                    Json Codec                    *
      * *************************************************/
 
     private static String CODEC_ID = "asyncRes";
     private static String RESULT_KEY = "res";
     private static String ERROR_KEY = "err";
 
-    public static void registerCompositeCodec() {
-        new AbstractCompositeCodec<SerializableAsyncResult>(SerializableAsyncResult.class, CODEC_ID) {
+    public static void registerJsonCodec() {
+        new AbstractJsonCodec<SerializableAsyncResult>(SerializableAsyncResult.class, CODEC_ID) {
 
             @Override
-            public void encodeToComposite(SerializableAsyncResult result, WritableCompositeObject co) {
+            public void encodeToJson(SerializableAsyncResult result, WritableJsonObject json) {
                 if (result.cause() != null)
-                    co.set(ERROR_KEY, result.cause().getMessage());
+                    json.set(ERROR_KEY, result.cause().getMessage());
                 if (result.result() != null)
-                    co.set(RESULT_KEY, CompositeCodecManager.encodeToCompositeObject(result.result()));
+                    json.set(RESULT_KEY, JsonCodecManager.encodeToJsonObject(result.result()));
             }
 
             @Override
-            public SerializableAsyncResult decodeFromComposite(CompositeObject co) {
-                String errorMessage = co.getString(ERROR_KEY);
+            public SerializableAsyncResult decodeFromJson(JsonObject json) {
+                String errorMessage = json.getString(ERROR_KEY);
                 Exception error = errorMessage == null ? null : new Exception(errorMessage);
                 return new SerializableAsyncResult<>(
-                        CompositeCodecManager.decodeFromCompositeObject(co.getObject(RESULT_KEY)),
+                        JsonCodecManager.decodeFromJsonObject(json.getObject(RESULT_KEY)),
                         error
                 );
             }

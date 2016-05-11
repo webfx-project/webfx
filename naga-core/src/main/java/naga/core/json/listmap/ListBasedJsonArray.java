@@ -1,20 +1,20 @@
-package naga.core.composite.listmap;
+package naga.core.json.listmap;
 
-import naga.core.composite.WritableCompositeArray;
+import naga.core.json.WritableJsonArray;
 
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class ListBasedCompositeArray implements WritableCompositeArray, ListMapCompositeElement {
+public abstract class ListBasedJsonArray implements WritableJsonArray, ListMapJsonElement {
     protected boolean isShallowCopy;
 
-    protected ListBasedCompositeArray() {
+    protected ListBasedJsonArray() {
         recreateEmptyNativeArray();
     }
 
-    protected ListBasedCompositeArray(List<Object> list) {
+    protected ListBasedJsonArray(List<Object> list) {
         setList(list);
     }
 
@@ -79,8 +79,8 @@ public abstract class ListBasedCompositeArray implements WritableCompositeArray,
     }
 
     @Override
-    public ListBasedCompositeArray copy() {
-        ListBasedCompositeArray copy = (ListBasedCompositeArray) nativeToCompositeArray(getNativeElement());
+    public ListBasedJsonArray copy() {
+        ListBasedJsonArray copy = (ListBasedJsonArray) nativeToCompositeArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;
@@ -99,7 +99,7 @@ public abstract class ListBasedCompositeArray implements WritableCompositeArray,
         if (o == null || getClass() != o.getClass())
             return false;
 
-        ListBasedCompositeArray that = (ListBasedCompositeArray) o;
+        ListBasedJsonArray that = (ListBasedJsonArray) o;
 
         List thisList = this.getList();
         List thatList = that.getList();

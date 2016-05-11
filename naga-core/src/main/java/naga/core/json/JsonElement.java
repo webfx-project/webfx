@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface CompositeElement extends CompositesFactory {
+public interface JsonElement extends JsonFactory {
 
     Object getNativeElement();
 
@@ -25,7 +25,7 @@ public interface CompositeElement extends CompositesFactory {
     /**
      * Make a copy of this object or array.
      */
-    default <SC extends CompositeElement> SC copy() {
+    default <SC extends JsonElement> SC copy() {
         return isArray() ? (SC) parseArray(toJsonString()) : (SC) parseObject(toJsonString());
     }
 

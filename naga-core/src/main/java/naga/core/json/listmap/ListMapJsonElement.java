@@ -1,9 +1,9 @@
-package naga.core.composite.listmap;
+package naga.core.json.listmap;
 
-import naga.core.composite.CompositeArray;
-import naga.core.composite.CompositeObject;
-import naga.core.composite.ElementType;
-import naga.core.composite.WritableCompositeElement;
+import naga.core.json.JsonArray;
+import naga.core.json.JsonObject;
+import naga.core.json.ElementType;
+import naga.core.json.WritableJsonElement;
 import naga.core.util.Numbers;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface ListMapCompositeElement extends WritableCompositeElement {
+public interface ListMapJsonElement extends WritableJsonElement {
 
     @Override
     default Object createNativeObject() {
@@ -38,9 +38,9 @@ public interface ListMapCompositeElement extends WritableCompositeElement {
 
     @Override
     default ElementType getNativeElementType(Object nativeElement) {
-        if (nativeElement instanceof Map || nativeElement instanceof CompositeObject)
+        if (nativeElement instanceof Map || nativeElement instanceof JsonObject)
             return ElementType.OBJECT;
-        if (nativeElement instanceof List || nativeElement instanceof CompositeArray)
+        if (nativeElement instanceof List || nativeElement instanceof JsonArray)
             return ElementType.ARRAY;
         if (nativeElement instanceof Boolean)
             return ElementType.NUMBER;

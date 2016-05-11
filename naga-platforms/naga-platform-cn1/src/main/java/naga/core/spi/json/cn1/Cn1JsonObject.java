@@ -1,13 +1,13 @@
 package naga.core.spi.json.cn1;
 
-import naga.core.composite.listmap.MapCompositeObject;
+import naga.core.json.listmap.MapJsonObject;
 
 import java.util.Map;
 
 /**
  * @author Bruno Salmon
  */
-public final class Cn1JsonObject extends MapCompositeObject implements Cn1JsonElement {
+public final class Cn1JsonObject extends MapJsonObject implements Cn1JsonElement {
 
     public Cn1JsonObject() {
     }

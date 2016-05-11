@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface WritableCompositeArray extends CompositeArray, WritableCompositeElement {
+public interface WritableJsonArray extends JsonArray, WritableJsonElement {
 
     /**
      * Remove a given index and associated value from the object.
@@ -25,12 +25,12 @@ public interface WritableCompositeArray extends CompositeArray, WritableComposit
     /**
      * Set a given index to the given object.
      */
-    default void push(CompositeObject object) { pushNativeElement(compositeToNativeObject(object)); }
+    default void push(JsonObject object) { pushNativeElement(compositeToNativeObject(object)); }
 
     /**
      * Set a given index to the given array.
      */
-    default void push(CompositeArray array) { pushNativeElement(compositeToNativeArray(array)); }
+    default void push(JsonArray array) { pushNativeElement(compositeToNativeArray(array)); }
 
     /**
      * Set a given index to the given element.
@@ -67,14 +67,14 @@ public interface WritableCompositeArray extends CompositeArray, WritableComposit
     /**
      * Set a given index to the given object.
      */
-    default void set(int index, CompositeObject object) {
+    default void set(int index, JsonObject object) {
         setNativeElement(index, compositeToNativeObject(object));
     }
 
     /**
      * Set a given index to the given array.
      */
-    default void set(int index, CompositeArray array) {
+    default void set(int index, JsonArray array) {
         setNativeElement(index, compositeToNativeArray(array));
     }
 

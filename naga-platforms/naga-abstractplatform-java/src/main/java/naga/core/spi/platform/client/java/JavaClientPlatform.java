@@ -17,7 +17,7 @@
  */
 package naga.core.spi.platform.client.java;
 
-import naga.core.composite.CompositesFactory;
+import naga.core.json.JsonFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.json.java.smart.SmartJsonObject;
@@ -36,7 +36,7 @@ import naga.core.spi.sql.SqlService;
  */
 public abstract class JavaClientPlatform extends ClientPlatform {
     protected final JavaScheduler scheduler;
-    protected final CompositesFactory jsonFactory = new SmartJsonObject();
+    protected final JsonFactory jsonFactory = new SmartJsonObject();
     protected final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
     protected JavaClientPlatform() {
@@ -53,7 +53,7 @@ public abstract class JavaClientPlatform extends ClientPlatform {
     }
 
     @Override
-    public CompositesFactory jsonFactory() {
+    public JsonFactory jsonFactory() {
         return jsonFactory;
     }
 

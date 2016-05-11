@@ -1,4 +1,4 @@
-package naga.core.composite.listmap;
+package naga.core.json.listmap;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

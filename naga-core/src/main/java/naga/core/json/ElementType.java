@@ -1,4 +1,4 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon

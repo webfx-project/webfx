@@ -17,8 +17,8 @@
  */
 package naga.core.spi.bus.client;
 
-import naga.core.composite.Composites;
-import naga.core.composite.WritableCompositeObject;
+import naga.core.json.Json;
+import naga.core.json.WritableJsonObject;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.bus.Message;
@@ -194,7 +194,7 @@ public class SimpleClientBus implements Bus {
             handler.handle(message);
         } catch (Throwable e) {
             Platform.log("Failed to handle on topic: " + topic, e);
-            WritableCompositeObject json = Composites.createObject();
+            WritableJsonObject json = Json.createObject();
             json.set("topic", topic);
             json.set("message", message);
             json.set("cause", e);

@@ -1,6 +1,6 @@
 package naga.core.spi.platform.client.teavm;
 
-import naga.core.composite.CompositesFactory;
+import naga.core.json.JsonFactory;
 import naga.core.spi.json.teavm.TeaVmJsonObject;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
@@ -19,7 +19,7 @@ public final class TeaVmPlatform extends WebPlatform {
     }
 
     private final Scheduler scheduler = new TeaVmScheduler();
-    private final CompositesFactory jsonFactory = new TeaVmJsonObject();
+    private final JsonFactory jsonFactory = new TeaVmJsonObject();
     private final WebSocketFactory webSocketFactory = new TeaVmWebSocketFactory();
 
     @Override
@@ -28,7 +28,7 @@ public final class TeaVmPlatform extends WebPlatform {
     }
 
     @Override
-    public CompositesFactory jsonFactory() {
+    public JsonFactory jsonFactory() {
         return jsonFactory;
     }
 

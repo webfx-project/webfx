@@ -1,11 +1,11 @@
-package naga.core.composite;
+package naga.core.json;
 
 import naga.core.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
-public interface CompositesFormat extends CompositesWrapper {
+public interface JsonFormatter extends JsonWrapper {
 
     Object getNativeElement();
 
@@ -17,7 +17,7 @@ public interface CompositesFormat extends CompositesWrapper {
     }
 
     /**
-     * Make a JSON text of a CompositeObject. For compactness, no whitespace
+     * Make a JSON text of a JsonObject. For compactness, no whitespace
      * is added. If this would not result in a syntactically correct JSON text,
      * then null will be returned instead.
      * <p>
@@ -29,14 +29,14 @@ public interface CompositesFormat extends CompositesWrapper {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>.
      */
 
-    static String toJsonString(CompositeObject co) {
-        return appendJsonObject(co, new StringBuilder()).toString();
+    static String toJsonString(JsonObject json) {
+        return appendJsonObject(json, new StringBuilder()).toString();
     }
 
-    static StringBuilder appendJsonObject(CompositeObject co, StringBuilder sb) {
+    static StringBuilder appendJsonObject(JsonObject json, StringBuilder sb) {
         sb.append('{');
         boolean first = true;
-        CompositeArray keys = co.keys();
+        JsonArray keys = json.keys();
         int size = keys.size();
         for (int i = 0; i < size; i++) {
             String key = keys.getString(i);
@@ -44,17 +44,17 @@ public interface CompositesFormat extends CompositesWrapper {
                 sb.append(',');
             appendQuoted(key, sb);
             sb.append(':');
-            appendNativeElement(co.getNativeElement(key), co, sb);
+            appendNativeElement(json.getNativeElement(key), json, sb);
             first = false;
         }
         return sb.append('}');
     }
 
-    static String toJsonString(CompositeArray ca) {
+    static String toJsonString(JsonArray ca) {
         return appendJsonArray(ca, new StringBuilder()).toString();
     }
 
-    static StringBuilder appendJsonArray(CompositeArray ca, StringBuilder sb) {
+    static StringBuilder appendJsonArray(JsonArray ca, StringBuilder sb) {
         return join(ca, ",", sb.append('[')).append(']');
     }
     /**
@@ -65,7 +65,7 @@ public interface CompositesFormat extends CompositesWrapper {
      * @return a string.
      * @throws IllegalArgumentException If the array contains an invalid number.
      */
-    static StringBuilder join(CompositeArray ca, String separator, StringBuilder sb) {
+    static StringBuilder join(JsonArray ca, String separator, StringBuilder sb) {
         int len = ca.size();
         for (int i = 0; i < len; i += 1) {
             if (i > 0)
@@ -91,7 +91,7 @@ public interface CompositesFormat extends CompositesWrapper {
      *  with <code>}</code>&nbsp;<small>(right brace)</small>.
      * @throws IllegalArgumentException If the element is or contains an invalid number.
      */
-    static StringBuilder appendNativeElement(Object element, CompositesWrapper parent, StringBuilder sb) {
+    static StringBuilder appendNativeElement(Object element, JsonWrapper parent, StringBuilder sb) {
         if (element == null )
             return sb.append("null");
         ElementType type = parent.getNativeElementType(element);

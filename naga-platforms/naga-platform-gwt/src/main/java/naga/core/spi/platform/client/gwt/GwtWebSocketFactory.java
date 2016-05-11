@@ -1,6 +1,6 @@
 package naga.core.spi.platform.client.gwt;
 
-import naga.core.composite.CompositeObject;
+import naga.core.json.JsonObject;
 import naga.core.spi.platform.client.WebSocketFactory;
 
 /**
@@ -9,7 +9,7 @@ import naga.core.spi.platform.client.WebSocketFactory;
 final class GwtWebSocketFactory implements WebSocketFactory {
 
     @Override
-    public native GwtWebSocket createWebSocket(String url, CompositeObject options) /*-{
+    public native GwtWebSocket createWebSocket(String url, JsonObject options) /*-{
         return new $wnd.SockJS(url, undefined, options);
     }-*/;
 

@@ -17,8 +17,8 @@
  */
 package naga.core.spi.platform.client.java;
 
-import naga.core.composite.Composites;
-import naga.core.composite.WritableCompositeObject;
+import naga.core.json.Json;
+import naga.core.json.WritableJsonObject;
 import naga.core.spi.platform.client.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
@@ -95,7 +95,7 @@ final class JavaWebSocket implements WebSocket {
             @Override
             public void onClose(int code, String reason, boolean remote) {
                 if (eventHandler != null) {
-                    WritableCompositeObject msg = Composites.createObject();
+                    WritableJsonObject msg = Json.createObject();
                     msg.set("code", code);
                     msg.set("reason", reason);
                     msg.set("remote", remote);

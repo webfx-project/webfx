@@ -1,9 +1,9 @@
 package naga.core.spi.sql;
 
-import naga.core.composite.codec.AbstractCompositeCodec;
-import naga.core.composite.CompositeObject;
-import naga.core.composite.WritableCompositeObject;
-import naga.core.composite.codec.CompositeCodecManager;
+import naga.core.json.JsonObject;
+import naga.core.json.codec.AbstractJsonCodec;
+import naga.core.json.WritableJsonObject;
+import naga.core.json.codec.JsonCodecManager;
 import naga.core.util.Arrays;
 
 /**
@@ -38,7 +38,7 @@ public class SqlArgument {
     }
 
     /****************************************************
-     *                 Composite Codec                  *
+     *                    Json Codec                    *
      * *************************************************/
 
     private static String CODEC_ID = "sqlArg";
@@ -46,23 +46,23 @@ public class SqlArgument {
     private static String PARAMETERS_KEY = "params";
     private static String DATA_SOURCE_ID_KEY = "dsId";
 
-    public static void registerCompositeCodec() {
-        new AbstractCompositeCodec<SqlArgument>(SqlArgument.class, CODEC_ID) {
+    public static void registerJsonCodec() {
+        new AbstractJsonCodec<SqlArgument>(SqlArgument.class, CODEC_ID) {
 
             @Override
-            public void encodeToComposite(SqlArgument arg, WritableCompositeObject co) {
-                co.set(SQL_KEY, arg.getSql());
+            public void encodeToJson(SqlArgument arg, WritableJsonObject json) {
+                json.set(SQL_KEY, arg.getSql());
                 if (!Arrays.isEmpty(arg.getParameters()))
-                    co.set(PARAMETERS_KEY, CompositeCodecManager.encodePrimitiveArrayToCompositeArray(arg.getParameters()));
-                co.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
+                    json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
+                json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
             }
 
             @Override
-            public SqlArgument decodeFromComposite(CompositeObject co) {
+            public SqlArgument decodeFromJson(JsonObject json) {
                 return new SqlArgument(
-                        co.getString(SQL_KEY),
-                        CompositeCodecManager.decodePrimitiveArrayFromCompositeArray(co.getArray(PARAMETERS_KEY)),
-                        co.get(DATA_SOURCE_ID_KEY)
+                        json.getString(SQL_KEY),
+                        JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
+                        json.get(DATA_SOURCE_ID_KEY)
                 );
             }
         };

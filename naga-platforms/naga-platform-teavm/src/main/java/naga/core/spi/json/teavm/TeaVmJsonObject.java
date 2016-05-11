@@ -1,7 +1,7 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.composite.CompositeArray;
-import naga.core.composite.WritableCompositeObject;
+import naga.core.json.JsonArray;
+import naga.core.json.WritableJsonObject;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSNumber;
@@ -11,7 +11,7 @@ import org.teavm.jso.core.JSNumber;
  *
  * @author Bruno Salmon
  */
-public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableCompositeObject {
+public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObject {
 
     public static TeaVmJsonObject create(JSObject jso) {
         if (jso == null || JSUtil.isUndefined(jso))
@@ -50,7 +50,7 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableC
     }-*/;
 
     @Override
-    public CompositeArray keys() {
+    public JsonArray keys() {
         return TeaVmJsonArray.create(JSUtil.getKeys(jsValue));
     }
 

@@ -1,9 +1,9 @@
 package naga.core.ngui.rx;
 
 import javafx.beans.property.Property;
-import naga.core.composite.CompositeArray;
-import naga.core.composite.CompositeObject;
-import naga.core.composite.Composites;
+import naga.core.json.JsonArray;
+import naga.core.json.JsonObject;
+import naga.core.json.Json;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.displayresultset.EntityListToDisplayResultSetGenerator;
@@ -61,10 +61,10 @@ public class RxFilter {
     }
 
     public RxFilter setDisplayColumns(String jsonArrayDisplayColumns) {
-        return setDisplayColumns(Composites.parseArray(jsonArrayDisplayColumns));
+        return setDisplayColumns(Json.parseArray(jsonArrayDisplayColumns));
     }
 
-    public RxFilter setDisplayColumns(CompositeArray array) {
+    public RxFilter setDisplayColumns(JsonArray array) {
         int n = array.size();
         this.displayColumns = new DisplayColumn[n];
         for (int i = 0; i < n; i++)
@@ -81,7 +81,7 @@ public class RxFilter {
         return combine(new StringFilter(json));
     }
 
-    public RxFilter combine(CompositeObject json) {
+    public RxFilter combine(JsonObject json) {
         return combine(new StringFilter(json));
     }
 

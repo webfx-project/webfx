@@ -1,4 +1,4 @@
-package naga.core.composite;
+package naga.core.json;
 
 import naga.core.util.Booleans;
 import naga.core.util.Numbers;
@@ -8,7 +8,7 @@ import naga.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public interface CompositeObject extends CompositeElement {
+public interface JsonObject extends JsonElement {
 
     /**
      * Return true if it is an array.
@@ -30,7 +30,7 @@ public interface CompositeObject extends CompositeElement {
     /**
      * All keys of the object.
      */
-    CompositeArray keys();
+    JsonArray keys();
 
     /**
      * Return the element as it is stored (unwrapped) in the underlying structure (so either a value or an unwrapped object/array).
@@ -44,14 +44,14 @@ public interface CompositeObject extends CompositeElement {
 
 
     /**
-     * Return the element as a CompositeObject. If the type is not an object, this can result in runtime errors.
+     * Return the element as a JsonObject. If the type is not an object, this can result in runtime errors.
      */
-    default CompositeObject getObject(String key) { return nativeToCompositeObject(getNativeElement(key)); }
+    default JsonObject getObject(String key) { return nativeToCompositeObject(getNativeElement(key)); }
 
     /**
-     * Return the element as a CompositeArray. If the type is not an array, this can result in runtime errors.
+     * Return the element as a JsonArray. If the type is not an array, this can result in runtime errors.
      */
-    default CompositeArray getArray(String key) { return nativeToCompositeArray(getNativeElement(key)); }
+    default JsonArray getArray(String key) { return nativeToCompositeArray(getNativeElement(key)); }
 
     default <T> T getScalar(String key) {
         return nativeToCompositeScalar(getNativeElement(key));

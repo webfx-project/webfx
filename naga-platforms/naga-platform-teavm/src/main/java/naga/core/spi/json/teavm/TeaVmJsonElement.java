@@ -1,15 +1,15 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.composite.CompositeObject;
-import naga.core.composite.ElementType;
-import naga.core.composite.WritableCompositeElement;
+import naga.core.json.JsonObject;
+import naga.core.json.ElementType;
+import naga.core.json.WritableJsonElement;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
 /*
  * @author Bruno Salmon
  */
-abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableCompositeElement {
+abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableJsonElement {
 
     public TeaVmJsonElement(JSObject jsValue) {
         super(jsValue);
@@ -93,7 +93,7 @@ abstract class TeaVmJsonElement extends TeaVmJsonValue implements WritableCompos
     }
 
     @Override
-    public JSObject compositeToNativeObject(CompositeObject object) {
+    public JSObject compositeToNativeObject(JsonObject object) {
         if (object == null)
             return null;
         return ((TeaVmJsonElement) object).getJsValue();

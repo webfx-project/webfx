@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface CompositesParser extends CompositesWrapper {
+public interface JsonParser extends JsonWrapper {
 
     /**
      * Parse a text into a native object.
@@ -20,20 +20,20 @@ public interface CompositesParser extends CompositesWrapper {
     Object parseNativeArray(String text);
 
     /**
-     * Parse a text into a composite object.
+     * Parse a text into a json object.
      * @param text the text to parse
-     * @return the composite object
+     * @return the json object
      */
-    default WritableCompositeObject parseObject(String text) {
+    default WritableJsonObject parseObject(String text) {
         return nativeToCompositeObject(parseNativeObject(text));
     }
 
     /**
-     * Parse a text into a composite array.
+     * Parse a text into a json array.
      * @param text the text to parse
-     * @return the composite array
+     * @return the json array
      */
-    default WritableCompositeArray parseArray(String text) {
+    default WritableJsonArray parseArray(String text) {
         return nativeToCompositeArray(parseNativeArray(text));
     }
 }

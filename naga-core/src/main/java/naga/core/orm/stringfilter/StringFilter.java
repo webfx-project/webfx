@@ -1,7 +1,7 @@
 package naga.core.orm.stringfilter;
 
-import naga.core.composite.CompositeObject;
-import naga.core.composite.Composites;
+import naga.core.json.JsonObject;
+import naga.core.json.Json;
 
 /**
  * @author Bruno Salmon
@@ -27,7 +27,7 @@ public final class StringFilter {
         this.limit = limit;
     }
 
-    public StringFilter(CompositeObject json) {
+    public StringFilter(JsonObject json) {
         domainClassId = json.get("class");
         alias = json.getString("alias");
         fields = json.getString("fields");
@@ -39,7 +39,7 @@ public final class StringFilter {
     }
 
     public StringFilter(String json) {
-        this(Composites.parseObject(json));
+        this(Json.parseObject(json));
     }
 
     public Object getDomainClassId() {

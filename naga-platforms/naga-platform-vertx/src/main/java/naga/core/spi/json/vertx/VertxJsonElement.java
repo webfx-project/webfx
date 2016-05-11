@@ -1,14 +1,11 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-import naga.core.composite.CompositeArray;
-import naga.core.composite.CompositeObject;
-import naga.core.composite.ElementType;
-import naga.core.composite.WritableCompositeArray;
-import naga.core.composite.listmap.ListMapCompositeElement;
-import naga.core.composite.listmap.MapBasedCompositeObject;
+import naga.core.json.*;
+import naga.core.json.JsonArray;
+import naga.core.json.JsonObject;
+import naga.core.json.listmap.ListMapJsonElement;
+import naga.core.json.listmap.MapBasedJsonObject;
 import naga.core.util.Numbers;
 
 import java.util.List;
@@ -17,23 +14,23 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface VertxJsonElement extends ListMapCompositeElement {
+public interface VertxJsonElement extends ListMapJsonElement {
 
     @Override
-    default JsonObject parseNativeObject(String text) {
-        return Json.decodeValue(text, JsonObject.class);
+    default io.vertx.core.json.JsonObject parseNativeObject(String text) {
+        return Json.decodeValue(text, io.vertx.core.json.JsonObject.class);
     }
 
     @Override
-    default JsonArray parseNativeArray(String text) {
-        return Json.decodeValue(text, JsonArray.class);
+    default io.vertx.core.json.JsonArray parseNativeArray(String text) {
+        return Json.decodeValue(text, io.vertx.core.json.JsonArray.class);
     }
 
     @Override
     default ElementType getNativeElementType(Object nativeElement) {
-        if (nativeElement instanceof Map || nativeElement instanceof CompositeObject || nativeElement instanceof JsonObject)
+        if (nativeElement instanceof Map || nativeElement instanceof JsonObject || nativeElement instanceof io.vertx.core.json.JsonObject)
             return ElementType.OBJECT;
-        if (nativeElement instanceof List || nativeElement instanceof CompositeArray || nativeElement instanceof JsonArray)
+        if (nativeElement instanceof List || nativeElement instanceof JsonArray || nativeElement instanceof io.vertx.core.json.JsonArray)
             return ElementType.ARRAY;
         if (nativeElement instanceof Boolean)
             return ElementType.NUMBER;
@@ -45,20 +42,20 @@ public interface VertxJsonElement extends ListMapCompositeElement {
     }
 
     @Override
-    default MapBasedCompositeObject nativeToCompositeObject(Object nativeObject) {
-        if (nativeObject == null || nativeObject instanceof MapBasedCompositeObject)
-            return (MapBasedCompositeObject) nativeObject;
-        if (nativeObject instanceof JsonObject)
-            return new VertxJsonObject((JsonObject) nativeObject);
+    default MapBasedJsonObject nativeToCompositeObject(Object nativeObject) {
+        if (nativeObject == null || nativeObject instanceof MapBasedJsonObject)
+            return (MapBasedJsonObject) nativeObject;
+        if (nativeObject instanceof io.vertx.core.json.JsonObject)
+            return new VertxJsonObject((io.vertx.core.json.JsonObject) nativeObject);
         return new VertxJsonObject((Map) nativeObject);
     }
 
     @Override
-    default WritableCompositeArray nativeToCompositeArray(Object nativeArray) {
-        if (nativeArray == null || nativeArray instanceof WritableCompositeArray)
-            return (WritableCompositeArray) nativeArray;
-        if (nativeArray instanceof JsonArray)
-            return new VertxJsonArray((JsonArray) nativeArray);
+    default WritableJsonArray nativeToCompositeArray(Object nativeArray) {
+        if (nativeArray == null || nativeArray instanceof WritableJsonArray)
+            return (WritableJsonArray) nativeArray;
+        if (nativeArray instanceof io.vertx.core.json.JsonArray)
+            return new VertxJsonArray((io.vertx.core.json.JsonArray) nativeArray);
         return new VertxJsonArray((List) nativeArray);
     }
 }

@@ -1,6 +1,6 @@
-package naga.core.composite.buscall;
+package naga.core.json.buscall;
 
-import naga.core.composite.codec.CompositeCodecManager;
+import naga.core.json.codec.JsonCodecManager;
 import naga.core.spi.bus.Message;
 import naga.core.spi.platform.Platform;
 import naga.core.util.async.AsyncFunction;
@@ -38,7 +38,7 @@ public class BusCallService {
                     ENTRY_CALL_SERVICE_ADDRESS, // the address that receives the BusCallArgument objects
                     (busCallArgument, callerMessage) -> // great, a BusCallArgument has been received
                         // Forwarding the target argument to the target address (kind of local call) and waiting for the result
-                        sendJavaObjectAndWaitJsonReply(busCallArgument.getTargetAddress(), busCallArgument.getCompositeEncodedTargetArgument(), targetJsonReplyMessage -> {
+                        sendJavaObjectAndWaitJsonReply(busCallArgument.getTargetAddress(), busCallArgument.getJsonEncodedTargetArgument(), targetJsonReplyMessage -> {
                             // Wrapping the result into a BusCallResult and sending it back to the initial BusCallService counterpart
                             sendJavaReply(new BusCallResult(busCallArgument.getCallNumber(), targetJsonReplyMessage.body()), callerMessage);
                         }),
@@ -69,7 +69,7 @@ public class BusCallService {
      */
     private static <T> void sendJavaObjectAndWaitJsonReply(String address, Object javaObject, Handler<Message<T>> jsonReplyMessageHandler) {
         // Serializing the java object into json format (a json object most of the time but may also be a simple string or number)
-        Object jsonObject = CompositeCodecManager.encodeToComposite(javaObject);
+        Object jsonObject = JsonCodecManager.encodeToJson(javaObject);
         // Sending that json object over the json event bus
         Platform.bus().send(address, jsonObject, jsonReplyMessageHandler);
     }
@@ -80,7 +80,7 @@ public class BusCallService {
      */
     private static <T> void sendJavaReply(Object javaReply, Message<T> callerMessage) {
         // Serializing the java reply into json format (a json object most of the time but may also be a simple string or number)
-        Object jsonReply = CompositeCodecManager.encodeToComposite(javaReply);
+        Object jsonReply = JsonCodecManager.encodeToJson(javaReply);
         // Sending that json reply to the caller over the json event bus
         callerMessage.reply(jsonReply);
     }
@@ -95,7 +95,7 @@ public class BusCallService {
         // Getting the message body in json format
         Object jsonBody = message.body();
         // Converting it into a java object through json deserialization
-        return CompositeCodecManager.decodeFromComposite(jsonBody);
+        return JsonCodecManager.decodeFromJson(jsonBody);
     }
 
     /**
@@ -200,12 +200,12 @@ public class BusCallService {
 
 
     /****************************************************
-     *                 Composite Codec                  *
+     *                    Json Codec                    *
      * *************************************************/
 
-    public static void registerCompositeCodecs() {
-        BusCallArgument.registerCompositeCodec();
-        BusCallResult.registerCompositeCodec();
-        SerializableAsyncResult.registerCompositeCodec();
+    public static void registerJsonCodecs() {
+        BusCallArgument.registerJsonCodec();
+        BusCallResult.registerJsonCodec();
+        SerializableAsyncResult.registerJsonCodec();
     }
 }

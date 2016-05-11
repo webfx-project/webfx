@@ -1,7 +1,7 @@
-package naga.core.composite.listmap;
+package naga.core.json.listmap;
 
-import naga.core.composite.CompositeArray;
-import naga.core.composite.WritableCompositeObject;
+import naga.core.json.JsonArray;
+import naga.core.json.WritableJsonObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -9,14 +9,14 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class MapBasedCompositeObject implements WritableCompositeObject, ListMapCompositeElement {
+public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapJsonElement {
     protected boolean isShallowCopy;
 
-    protected MapBasedCompositeObject() {
+    protected MapBasedJsonObject() {
         recreateEmptyNativeObject();
     }
 
-    protected MapBasedCompositeObject(Map<String, Object> map) {
+    protected MapBasedJsonObject(Map<String, Object> map) {
         setMap(map);
     }
 
@@ -43,7 +43,7 @@ public abstract class MapBasedCompositeObject implements WritableCompositeObject
     }
 
     @Override
-    public CompositeArray keys() {
+    public JsonArray keys() {
         return nativeToCompositeArray(new ArrayList(getMap().keySet()));
     }
 
@@ -81,8 +81,8 @@ public abstract class MapBasedCompositeObject implements WritableCompositeObject
     }
 
     @Override
-    public MapBasedCompositeObject copy() {
-        MapBasedCompositeObject copy = (MapBasedCompositeObject) nativeToCompositeArray(getNativeElement());
+    public MapBasedJsonObject copy() {
+        MapBasedJsonObject copy = (MapBasedJsonObject) nativeToCompositeArray(getNativeElement());
         // We actually do the copy lazily if the object is subsequently mutated
         copy.isShallowCopy = isShallowCopy = true;
         return copy;
@@ -101,7 +101,7 @@ public abstract class MapBasedCompositeObject implements WritableCompositeObject
         if (o == null || getClass() != o.getClass())
             return false;
 
-        MapBasedCompositeObject that = (MapBasedCompositeObject) o;
+        MapBasedJsonObject that = (MapBasedJsonObject) o;
 
         Map<String, Object> thisMap = getMap();
         Map<String, Object> thatMap = that.getMap();

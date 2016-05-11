@@ -1,4 +1,4 @@
-package naga.core.composite;
+package naga.core.json;
 
 import naga.core.util.Booleans;
 import naga.core.util.Numbers;
@@ -8,7 +8,7 @@ import naga.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public interface CompositeArray extends CompositeElement {
+public interface JsonArray extends JsonElement {
 
     /**
      * Return true if it is an array.
@@ -45,14 +45,14 @@ public interface CompositeArray extends CompositeElement {
     }
 
     /**
-     * Return the ith element of the array as a CompositeObject. If the type is not an object, this can result in runtime errors.
+     * Return the ith element of the array as a JsonObject. If the type is not an object, this can result in runtime errors.
      */
-    default CompositeObject getObject(int index) { return nativeToCompositeObject(getNativeElement(index)); }
+    default JsonObject getObject(int index) { return nativeToCompositeObject(getNativeElement(index)); }
 
     /**
      * Return the ith element of the array as a JsonArray. If the type is not an array, this can result in runtime errors.
      */
-    default CompositeArray getArray(int index) { return nativeToCompositeArray(getNativeElement(index)); }
+    default JsonArray getArray(int index) { return nativeToCompositeArray(getNativeElement(index)); }
 
     default <T> T getScalar(int index) {
         return nativeToCompositeScalar(getNativeElement(index));

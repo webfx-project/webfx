@@ -1,9 +1,9 @@
 package naga.core.spi.json.cn1;
 
 import com.codename1.io.JSONParser;
-import naga.core.composite.WritableCompositeArray;
-import naga.core.composite.WritableCompositeObject;
-import naga.core.composite.listmap.ListMapCompositeElement;
+import naga.core.json.WritableJsonArray;
+import naga.core.json.WritableJsonObject;
+import naga.core.json.listmap.ListMapJsonElement;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public interface Cn1JsonElement extends ListMapCompositeElement {
+public interface Cn1JsonElement extends ListMapJsonElement {
 
     JSONParser cn1Parser = new JSONParser();
 
@@ -33,16 +33,16 @@ public interface Cn1JsonElement extends ListMapCompositeElement {
     }
 
     @Override
-    default WritableCompositeObject nativeToCompositeObject(Object nativeObject) {
-        if (nativeObject == null || nativeObject instanceof WritableCompositeObject)
-            return (WritableCompositeObject) nativeObject;
+    default WritableJsonObject nativeToCompositeObject(Object nativeObject) {
+        if (nativeObject == null || nativeObject instanceof WritableJsonObject)
+            return (WritableJsonObject) nativeObject;
         return new Cn1JsonObject((Map) nativeObject);
     }
 
     @Override
-    default WritableCompositeArray nativeToCompositeArray(Object nativeArray) {
-        if (nativeArray == null || nativeArray instanceof WritableCompositeArray)
-            return (WritableCompositeArray) nativeArray;
+    default WritableJsonArray nativeToCompositeArray(Object nativeArray) {
+        if (nativeArray == null || nativeArray instanceof WritableJsonArray)
+            return (WritableJsonArray) nativeArray;
         return new Cn1JsonArray((List) nativeArray);
     }
 

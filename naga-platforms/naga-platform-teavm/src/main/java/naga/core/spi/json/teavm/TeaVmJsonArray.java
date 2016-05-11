@@ -1,6 +1,6 @@
 package naga.core.spi.json.teavm;
 
-import naga.core.composite.WritableCompositeArray;
+import naga.core.json.WritableJsonArray;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
@@ -9,7 +9,7 @@ import org.teavm.jso.core.JSArray;
  *
  * @author Bruno Salmon
  */
-final class TeaVmJsonArray extends TeaVmJsonElement implements WritableCompositeArray {
+final class TeaVmJsonArray extends TeaVmJsonElement implements WritableJsonArray {
 
     public static TeaVmJsonArray create(JSArray jsArray) {
         if (jsArray == null || JSUtil.isUndefined(jsArray))

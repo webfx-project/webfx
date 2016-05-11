@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface WritableCompositeObject extends CompositeObject {
+public interface WritableJsonObject extends JsonObject {
 
     /**
      * Remove a given key and associated value from the object.
@@ -25,12 +25,12 @@ public interface WritableCompositeObject extends CompositeObject {
     /**
      * Set a given key to the given object.
      */
-    default void setObject(String key, CompositeObject object) { setNativeElement(key, compositeToNativeObject(object)); }
+    default void setObject(String key, JsonObject object) { setNativeElement(key, compositeToNativeObject(object)); }
 
     /**
      * Set a given key to the given array.
      */
-    default void setArray(String key, CompositeArray array) { setNativeElement(key, compositeToNativeArray(array)); }
+    default void setArray(String key, JsonArray array) { setNativeElement(key, compositeToNativeArray(array)); }
 
     /**
      * Set a given key to the given element.

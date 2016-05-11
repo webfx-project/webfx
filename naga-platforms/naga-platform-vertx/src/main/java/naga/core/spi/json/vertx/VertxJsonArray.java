@@ -1,15 +1,15 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.JsonArray;
-import naga.core.composite.WritableCompositeArray;
-import naga.core.composite.listmap.ListBasedCompositeArray;
+import naga.core.json.WritableJsonArray;
+import naga.core.json.listmap.ListBasedJsonArray;
 
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-final class VertxJsonArray extends ListBasedCompositeArray implements VertxJsonElement, WritableCompositeArray {
+final class VertxJsonArray extends ListBasedJsonArray implements VertxJsonElement, WritableJsonArray {
 
     private JsonArray vertxArray;
 

@@ -1,6 +1,6 @@
 package naga.core.spi.bus.client;
 
-import naga.core.composite.CompositeObject;
+import naga.core.json.JsonObject;
 import naga.core.spi.bus.BusOptions;
 
 /**
@@ -24,7 +24,7 @@ public class WebSocketBusOptions extends BusOptions {
     private String password;
     private String loginTopic;
 
-    private CompositeObject socketOptions;
+    private JsonObject socketOptions;
 
     @Override
     public BusOptions turnUnsetPropertiesToDefault() {
@@ -117,11 +117,11 @@ public class WebSocketBusOptions extends BusOptions {
         return this;
     }
 
-    public CompositeObject getSocketOptions() {
+    public JsonObject getSocketOptions() {
         return socketOptions;
     }
 
-    public WebSocketBusOptions setSocketOptions(CompositeObject socketOptions) {
+    public WebSocketBusOptions setSocketOptions(JsonObject socketOptions) {
         this.socketOptions = socketOptions;
         return this;
     }

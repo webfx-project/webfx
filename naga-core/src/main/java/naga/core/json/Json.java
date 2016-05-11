@@ -1,47 +1,47 @@
-package naga.core.composite;
+package naga.core.json;
 
 import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
  */
-public class Composites {
+public class Json {
 
     /***************************
      * Factory methods helpers *
      **************************/
 
-    public static WritableCompositeObject createObject() {
-        return getFactory().createCompositeObject();
+    public static WritableJsonObject createObject() {
+        return getFactory().createJsonObject();
     }
 
-    public static <NO> WritableCompositeObject createObject(NO nativeObject) {
+    public static <NO> WritableJsonObject createObject(NO nativeObject) {
         return getFactory().nativeToCompositeObject(nativeObject);
     }
 
-    public static WritableCompositeArray createArray() {
-        return getFactory().createCompositeArray();
+    public static WritableJsonArray createArray() {
+        return getFactory().createJsonArray();
     }
 
-    public static <NA> WritableCompositeArray createArray(NA nativeArray) {
+    public static <NA> WritableJsonArray createArray(NA nativeArray) {
         return getFactory().nativeToCompositeArray(nativeArray);
     }
 
-    public static WritableCompositeObject parseObject(String text) {
+    public static WritableJsonObject parseObject(String text) {
         return getFactory().parseObject(text);
     }
 
-    public static WritableCompositeArray parseArray(String text) {
+    public static WritableJsonArray parseArray(String text) {
         return getFactory().parseArray(text);
     }
 
-    private static CompositesFactory FACTORY;
+    private static JsonFactory FACTORY;
 
-    public static void registerFactory(CompositesFactory factory) {
+    public static void registerFactory(JsonFactory factory) {
         FACTORY = factory;
     }
 
-    public static CompositesFactory getFactory() {
+    public static JsonFactory getFactory() {
         if (FACTORY == null) {
             Platform platform = Platform.get();// Getting the platform should load the service provider and register the platform which should set the JSON factory
             if (platform != null)
@@ -56,14 +56,18 @@ public class Composites {
      * Java conversion methods helpers *
      **********************************/
 
-    public static <T> WritableCompositeArray fromJavaArray(T[] javaArray) {
-        WritableCompositeArray valuesArray = createArray();
+    public static <T> WritableJsonArray fromJavaArray(T[] javaArray) {
+        if (javaArray == null)
+            return null;
+        WritableJsonArray valuesArray = createArray();
         for (Object javaValue : javaArray)
             valuesArray.push(javaValue);
         return valuesArray;
     }
 
-    public static Object[] toJavaArray(CompositeArray jsonArray) {
+    public static Object[] toJavaArray(JsonArray jsonArray) {
+        if (jsonArray == null)
+            return null;
         int length = jsonArray.size();
         Object[] javaArray = new Object[length];
         for (int i = 0; i < length; i++)

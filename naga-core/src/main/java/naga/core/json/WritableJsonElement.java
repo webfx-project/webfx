@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface WritableCompositeElement extends CompositeElement {
+public interface WritableJsonElement extends JsonElement {
 
     /**
      * Removes all entries.

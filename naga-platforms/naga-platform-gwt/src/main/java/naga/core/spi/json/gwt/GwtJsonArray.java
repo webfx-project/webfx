@@ -17,7 +17,7 @@
  */
 package naga.core.spi.json.gwt;
 
-import naga.core.composite.WritableCompositeArray;
+import naga.core.json.WritableJsonArray;
 
 /**
  * Client-side implementation of JsonArray.
@@ -27,7 +27,7 @@ import naga.core.composite.WritableCompositeArray;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonArray.java">Original Goodow class</a>
  */
-final class GwtJsonArray extends GwtJsonElement implements WritableCompositeArray {
+final class GwtJsonArray extends GwtJsonElement implements WritableJsonArray {
 
     protected GwtJsonArray() { // no public constructor, instances are always obtained from a cast
     }

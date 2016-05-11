@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface CompositesFactory extends CompositesParser, CompositesFormat {
+public interface JsonFactory extends JsonParser, JsonFormatter {
 
     /**
      * Create an empty native object.
@@ -18,18 +18,18 @@ public interface CompositesFactory extends CompositesParser, CompositesFormat {
     Object createNativeArray();
 
     /**
-     * Create an empty composite object.
-     * @return a new empty composite object
+     * Create an empty json object.
+     * @return a new empty json object
      */
-    default WritableCompositeObject createCompositeObject() {
+    default WritableJsonObject createJsonObject() {
         return nativeToCompositeObject(createNativeObject());
     }
 
     /**
-     * Create an empty composite array.
-     * @return a new empty composite array
+     * Create an empty json array.
+     * @return a new empty json array
      */
-    default WritableCompositeArray createCompositeArray() {
+    default WritableJsonArray createJsonArray() {
         return nativeToCompositeArray(createNativeArray());
     }
 

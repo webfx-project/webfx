@@ -18,8 +18,8 @@
 package naga.core.spi.json.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import naga.core.composite.ElementType;
-import naga.core.composite.WritableCompositeElement;
+import naga.core.json.ElementType;
+import naga.core.json.WritableJsonElement;
 import naga.core.util.Numbers;
 
 /*
@@ -28,7 +28,7 @@ import naga.core.util.Numbers;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonElement.java">Original Goodow class</a>
  */
-abstract class GwtJsonElement extends GwtJsonValue implements WritableCompositeElement {
+abstract class GwtJsonElement extends GwtJsonValue implements WritableJsonElement {
 
     protected GwtJsonElement() {
     }

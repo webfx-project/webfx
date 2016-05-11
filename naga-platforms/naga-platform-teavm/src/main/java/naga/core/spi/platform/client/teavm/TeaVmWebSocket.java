@@ -1,6 +1,6 @@
 package naga.core.spi.platform.client.teavm;
 
-import naga.core.composite.CompositeObject;
+import naga.core.json.JsonObject;
 import naga.core.spi.json.teavm.JSUtil;
 import naga.core.spi.json.teavm.TeaVmJsonObject;
 import naga.core.spi.platform.client.WebSocket;
@@ -14,7 +14,7 @@ final class TeaVmWebSocket implements WebSocket {
 
     private final SockJS sockJS;
 
-    public TeaVmWebSocket(String url, CompositeObject options) {
+    public TeaVmWebSocket(String url, JsonObject options) {
         sockJS = createSockJS(url, options == null ? null : ((TeaVmJsonObject) options).getJsValue());
     }
 

@@ -1,18 +1,18 @@
-package naga.core.composite.listmap;
+package naga.core.json.listmap;
 
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-public class ListCompositeArray extends ListBasedCompositeArray {
+public class ListJsonArray extends ListBasedJsonArray {
 
     protected List<Object> list;
 
-    protected ListCompositeArray() { // super constructor will call recreateEmptyNativeArray() to initialize the list
+    protected ListJsonArray() { // super constructor will call recreateEmptyNativeArray() to initialize the list
     }
 
-    protected ListCompositeArray(List<Object> list) {
+    protected ListJsonArray(List<Object> list) {
         super(list);
     }
 

@@ -1,7 +1,7 @@
 package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
-import naga.core.composite.CompositesFactory;
+import naga.core.json.JsonFactory;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.vertx.VertxBusFactory;
 import naga.core.spi.json.vertx.VertxJsonObject;
@@ -20,7 +20,7 @@ public final class VertxPlatform extends Platform {
     }
 
     private final Scheduler scheduler;
-    private final CompositesFactory jsonFactory = new VertxJsonObject();
+    private final JsonFactory jsonFactory = new VertxJsonObject();
     private final BusFactory busFactory;
     private final SqlService sqlService;
 
@@ -36,7 +36,7 @@ public final class VertxPlatform extends Platform {
     }
 
     @Override
-    public CompositesFactory jsonFactory() {
+    public JsonFactory jsonFactory() {
         return jsonFactory;
     }
 

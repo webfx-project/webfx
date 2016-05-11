@@ -1,6 +1,6 @@
 package naga.core.spi.platform.client.j2objc;
 
-import naga.core.composite.CompositesFactory;
+import naga.core.json.JsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
@@ -22,7 +22,7 @@ public class J2ObjCPlatform extends ClientPlatform {
     }
 
     @Override
-    public CompositesFactory jsonFactory() {
+    public JsonFactory jsonFactory() {
         throw new UnsupportedOperationException("J2ObjCPlatform.jsonFactory() is not yet implemented");
     }
 

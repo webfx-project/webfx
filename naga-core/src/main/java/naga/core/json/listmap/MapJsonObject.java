@@ -1,18 +1,18 @@
-package naga.core.composite.listmap;
+package naga.core.json.listmap;
 
 import java.util.Map;
 
 /**
  * @author Bruno Salmon
  */
-public class MapCompositeObject extends MapBasedCompositeObject {
+public class MapJsonObject extends MapBasedJsonObject {
 
     protected Map<String, Object> map;
 
-    protected MapCompositeObject() {  // super constructor will call recreateEmptyNativeObject() to initialize the map
+    protected MapJsonObject() {  // super constructor will call recreateEmptyNativeObject() to initialize the map
     }
 
-    protected MapCompositeObject(Map map) {
+    protected MapJsonObject(Map map) {
         super(map);
     }
 

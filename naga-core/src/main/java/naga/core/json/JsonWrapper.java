@@ -1,9 +1,9 @@
-package naga.core.composite;
+package naga.core.json;
 
 /**
  * @author Bruno Salmon
  */
-public interface CompositesWrapper {
+public interface JsonWrapper {
 
     ElementType getNativeElementType(Object nativeElement);
 
@@ -23,24 +23,24 @@ public interface CompositesWrapper {
 
     default <T> T nativeToCompositeScalar(Object nativeScalar) { return (T) nativeScalar; }
 
-    default WritableCompositeArray nativeToCompositeArray(Object nativeArray) { return  (WritableCompositeArray) nativeArray; }
+    default WritableJsonArray nativeToCompositeArray(Object nativeArray) { return  (WritableJsonArray) nativeArray; }
 
-    default WritableCompositeObject nativeToCompositeObject(Object nativeObject) { return (WritableCompositeObject) nativeObject; }
+    default WritableJsonObject nativeToCompositeObject(Object nativeObject) { return (WritableJsonObject) nativeObject; }
 
     default Object anyCompositeToNative(Object value) {
         if (value == null)
             return null;
-        if (value instanceof CompositeArray)
-            return compositeToNativeArray((CompositeArray) value);
-        if (value instanceof CompositeObject)
-            return compositeToNativeObject((CompositeObject) value);
+        if (value instanceof JsonArray)
+            return compositeToNativeArray((JsonArray) value);
+        if (value instanceof JsonObject)
+            return compositeToNativeObject((JsonObject) value);
         return compositeToNativeScalar(value);
     }
 
     default Object compositeToNativeScalar(Object scalar) { return scalar; }
 
-    default Object compositeToNativeArray(CompositeArray array) { return array.getNativeElement(); }
+    default Object compositeToNativeArray(JsonArray array) { return array.getNativeElement(); }
 
-    default Object compositeToNativeObject(CompositeObject object) { return object.getNativeElement(); }
+    default Object compositeToNativeObject(JsonObject object) { return object.getNativeElement(); }
 
 }

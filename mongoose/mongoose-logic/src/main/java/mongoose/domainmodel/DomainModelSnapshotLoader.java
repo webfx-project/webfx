@@ -1,8 +1,8 @@
 package mongoose.domainmodel;
 
-import naga.core.composite.CompositeElement;
-import naga.core.composite.Composites;
-import naga.core.composite.codec.CompositeCodecManager;
+import naga.core.json.JsonElement;
+import naga.core.json.Json;
+import naga.core.json.codec.JsonCodecManager;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodelloader.DomainModelLoader;
@@ -40,8 +40,8 @@ public class DomainModelSnapshotLoader {
         try {
             Future<String> text = ClientPlatform.res().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
             String jsonString = LZString.decompressFromBase64(text.result());
-            CompositeElement co = Composites.parseObject(jsonString);
-            Batch<SqlReadResult> snapshotBatch = CompositeCodecManager.decodeFromComposite(co);
+            JsonElement json = Json.parseObject(jsonString);
+            Batch<SqlReadResult> snapshotBatch = JsonCodecManager.decodeFromJson(json);
             return new DomainModelLoader(1).generateDomainModel(snapshotBatch);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,15 +1,15 @@
 package naga.core.spi.json.vertx;
 
 import io.vertx.core.json.JsonObject;
-import naga.core.composite.WritableCompositeObject;
-import naga.core.composite.listmap.MapBasedCompositeObject;
+import naga.core.json.WritableJsonObject;
+import naga.core.json.listmap.MapBasedJsonObject;
 
 import java.util.Map;
 
 /**
  * @author Bruno Salmon
  */
-public final class VertxJsonObject extends MapBasedCompositeObject implements VertxJsonElement, WritableCompositeObject {
+public final class VertxJsonObject extends MapBasedJsonObject implements VertxJsonElement, WritableJsonObject {
 
     private JsonObject vertxObject;
 

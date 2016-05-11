@@ -17,7 +17,7 @@
  */
 package naga.core.spi.platform.client.cn1;
 
-import naga.core.composite.CompositeObject;
+import naga.core.json.JsonObject;
 import naga.core.spi.platform.client.WebSocket;
 import naga.core.spi.platform.client.WebSocketFactory;
 
@@ -30,7 +30,7 @@ import naga.core.spi.platform.client.WebSocketFactory;
 final class Cn1WebSocketFactory implements WebSocketFactory {
 
     @Override
-    public WebSocket createWebSocket(String url, CompositeObject options) {
+    public WebSocket createWebSocket(String url, JsonObject options) {
         return new Cn1WebSocket(url);
     }
 }

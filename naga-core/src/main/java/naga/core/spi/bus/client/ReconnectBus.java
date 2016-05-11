@@ -17,7 +17,7 @@
  */
 package naga.core.spi.bus.client;
 
-import naga.core.composite.CompositeObject;
+import naga.core.json.JsonObject;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.WebSocket;
@@ -38,13 +38,13 @@ public class ReconnectBus extends WebSocketBus {
     private final FuzzingBackOffGenerator backOffGenerator;
     private BusHook hook;
     private boolean reconnect;
-    private final List<CompositeObject> queuedMessages = new ArrayList<>();
+    private final List<JsonObject> queuedMessages = new ArrayList<>();
     private final WebSocketBusOptions options;
 
     public ReconnectBus(WebSocketBusOptions options) {
         super(options);
         this.options = options;
-        CompositeObject socketOptions = options.getSocketOptions();
+        JsonObject socketOptions = options.getSocketOptions();
         reconnect = socketOptions == null || !socketOptions.has(AUTO_RECONNECT) || socketOptions.getBoolean(AUTO_RECONNECT);
         backOffGenerator = new FuzzingBackOffGenerator(1000, 30 * 60 * 1000, 0.5);
 
@@ -61,10 +61,10 @@ public class ReconnectBus extends WebSocketBus {
                 }
 
                 if (queuedMessages.size() > 0) {
-                    List<CompositeObject> copy = new ArrayList<>(queuedMessages);
+                    List<JsonObject> copy = new ArrayList<>(queuedMessages);
                     queuedMessages.clear();
                     // Drain any messages that came in while the channel was not open.
-                    for (CompositeObject msg : copy) // copy.forEach does't compile with TeaVM
+                    for (JsonObject msg : copy) // copy.forEach does't compile with TeaVM
                         send(msg);
                 }
                 super.handleOpened();
@@ -106,7 +106,7 @@ public class ReconnectBus extends WebSocketBus {
     }
 
     @Override
-    protected void send(CompositeObject msg) {
+    protected void send(JsonObject msg) {
         if (getReadyState() == WebSocket.State.OPEN) {
             super.send(msg);
             return;
