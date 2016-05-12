@@ -1,5 +1,7 @@
 package naga.core.json;
 
+import naga.core.json.parser.BuiltInJsonParser;
+
 /**
  * @author Bruno Salmon
  */
@@ -10,14 +12,18 @@ public interface JsonParser extends JsonWrapper {
      * @param text the text to parse
      * @return the native object
      */
-    Object parseNativeObject(String text);
+    default Object parseNativeObject(String text) {
+        return BuiltInJsonParser.parseJsonObject(text);
+    }
 
     /**
      * Parse a text into a native array.
      * @param text the text to parse
      * @return the native array
      */
-    Object parseNativeArray(String text);
+    default Object parseNativeArray(String text) {
+        return BuiltInJsonParser.parseJsonArray(text);
+    }
 
     /**
      * Parse a text into a json object.

@@ -1,7 +1,6 @@
 package naga.core.json.listmap;
 
 import naga.core.json.*;
-import naga.core.json.parser.BuiltInJsonParser;
 import naga.core.util.Numbers;
 
 import java.util.ArrayList;
@@ -22,16 +21,6 @@ public interface ListMapBasedJsonElement extends WritableJsonElement {
     @Override
     default Object createNativeArray() {
         return new ArrayList();
-    }
-
-    @Override
-    default Object parseNativeObject(String text) {
-        return BuiltInJsonParser.parseJsonObject(text);
-    }
-
-    @Override
-    default Object parseNativeArray(String text) {
-        return BuiltInJsonParser.parseJsonArray(text);
     }
 
     @Override
