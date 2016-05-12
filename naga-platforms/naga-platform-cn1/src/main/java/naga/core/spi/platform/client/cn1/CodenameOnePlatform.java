@@ -1,6 +1,5 @@
 package naga.core.spi.platform.client.cn1;
 
-import naga.core.json.JsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
@@ -37,8 +36,4 @@ public class CodenameOnePlatform extends ClientPlatform {
         return Cn1Scheduler.SINGLETON;
     }
 
-    @Override
-    public JsonFactory jsonFactory() {
-        return new Cn1JsonObject();
-    }
 }
