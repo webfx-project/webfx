@@ -17,8 +17,6 @@
  */
 package naga.core.spi.platform.client.java;
 
-import naga.core.spi.bus.BusOptions;
-import naga.core.spi.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.ResourceService;
@@ -64,12 +62,4 @@ public abstract class JavaClientPlatform extends ClientPlatform {
         return JavaResourceService.SINGLETON;
     }
 
-    @Override
-    public void setPlatformBusOptions(BusOptions options) {
-        WebSocketBusOptions socketBusOptions = (WebSocketBusOptions) options;
-        // Setting protocol to Web Socket (unless already explicitly set by the application)
-        if (socketBusOptions.getProtocol() == null)
-            socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.WS);
-        super.setPlatformBusOptions(options);
-    }
 }

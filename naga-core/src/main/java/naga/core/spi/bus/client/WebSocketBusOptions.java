@@ -28,7 +28,7 @@ public class WebSocketBusOptions extends BusOptions {
 
     @Override
     public BusOptions turnUnsetPropertiesToDefault() {
-        protocol = getValue(protocol, Protocol.HTTP);
+        protocol = getValue(protocol, Protocol.WS);
         serverSSL = getValue(serverSSL, Boolean.FALSE);
         serverHost = getValue(serverHost, "localhost");
         serverPort = getValue(serverPort, 80);

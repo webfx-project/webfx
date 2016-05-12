@@ -12,6 +12,9 @@ public abstract class WebPlatform extends ClientPlatform {
     @Override
     public void setPlatformBusOptions(BusOptions options) {
         WebSocketBusOptions socketBusOptions = (WebSocketBusOptions) options;
+        // Setting protocol to HTTP (unless already explicitly set by the application)
+        if (socketBusOptions.getProtocol() == null)
+            socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.HTTP);
         // Setting protocol to Web Socket (unless already explicitly set by the application)
         WebLocation webLocation = getCurrentLocation();
         if (socketBusOptions.getServerHost() == null)
