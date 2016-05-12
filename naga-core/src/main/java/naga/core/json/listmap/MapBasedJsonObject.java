@@ -58,9 +58,10 @@ public abstract class MapBasedJsonObject implements WritableJsonObject, ListMapB
     }
 
     @Override
-    public void setNativeElement(String key, Object element) {
+    public MapBasedJsonObject setNativeElement(String key, Object element) {
         checkCopyBeforeUpdate();
         getMap().put(key, element);
+        return this;
     }
 
     protected void checkCopyBeforeUpdate() {

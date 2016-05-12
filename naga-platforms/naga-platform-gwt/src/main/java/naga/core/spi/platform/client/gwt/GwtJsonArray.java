@@ -48,15 +48,16 @@ final class GwtJsonArray extends GwtJsonElement implements WritableJsonArray {
       }-*/;
 
     @Override
-    public native void setNativeElement(int index, Object value) /*-{
+    public native GwtJsonArray setNativeElement(int index, Object value) /*-{
         this[index] = value;
+        return this;
     }-*/;
 
     @Override
-    public native void pushNativeElement(Object element) /*-{
+    public native GwtJsonArray pushNativeElement(Object element) /*-{
         this[this.length] = value;
+        return this;
     }-*/;
-
 
     @Override
     public native <T> T getElement(int index) /*-{
@@ -89,22 +90,25 @@ final class GwtJsonArray extends GwtJsonElement implements WritableJsonArray {
     }-*/;
 
     @Override
-    public native void push(boolean bool_) /*-{
-        this[this.length] = bool_;
+    public native GwtJsonArray push(boolean value) /*-{
+        this[this.length] = value;
+        return this;
       }-*/;
 
     @Override
-    public native void push(double number) /*-{
-        this[this.length] = number;
+    public native GwtJsonArray push(double value) /*-{
+        this[this.length] = value;
+        return this;
       }-*/;
 
     @Override
-    public native void push(Object element) /*-{
-        this[this.length] = element;
-      }-*/;
+    public native GwtJsonArray push(Object value) /*-{
+        this[this.length] = value;
+        return this;
+     }-*/;
 
     @Override
     public native <T> T remove(int index) /*-{
         return this.splice(index, 1)[0];
-      }-*/;
+     }-*/;
 }

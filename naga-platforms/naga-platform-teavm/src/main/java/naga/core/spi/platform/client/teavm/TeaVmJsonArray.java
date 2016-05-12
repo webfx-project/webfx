@@ -5,7 +5,7 @@ import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSArray;
 
 /**
- * Client-side implementation of JsonArray.
+ * TeaVM implementation of JsonArray.
  *
  * @author Bruno Salmon
  */
@@ -29,8 +29,10 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements WritableJsonArray
     }
 
     @Override
-    public native void setNativeElement(int index, Object value);
-
+    public TeaVmJsonArray setNativeElement(int index, Object value) {
+        asArray().set(index, (JSObject) value);
+        return this;
+    }
 
     public native int indexOfNativeElement(Object element);
 
@@ -40,8 +42,9 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements WritableJsonArray
     }
 
     @Override
-    public void pushNativeElement(Object element) {
+    public TeaVmJsonArray pushNativeElement(Object element) {
         asArray().push((JSObject) element);
+        return this;
     }
 
     @Override

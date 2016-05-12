@@ -54,13 +54,15 @@ public abstract class ListBasedJsonArray implements WritableJsonArray, ListMapBa
     }
 
     @Override
-    public void pushNativeElement(Object element) {
+    public ListBasedJsonArray pushNativeElement(Object element) {
         getList().add(element);
+        return this;
     }
 
     @Override
-    public void setNativeElement(int index, Object value) {
+    public ListBasedJsonArray setNativeElement(int index, Object value) {
         getList().set(index, value);
+        return this;
     }
 
     @Override

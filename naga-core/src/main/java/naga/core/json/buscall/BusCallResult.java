@@ -80,8 +80,8 @@ class BusCallResult<T> {
 
             @Override
             public void encodeToJson(BusCallResult result, WritableJsonObject json) {
-                json.set(CALL_NUMBER_KEY, result.getCallNumber());
-                json.set(TARGET_RESULT_KEY, result.getSerializedTargetResult());
+                json.set(CALL_NUMBER_KEY, result.getCallNumber())
+                    .set(TARGET_RESULT_KEY, result.getSerializedTargetResult());
             }
 
             @Override

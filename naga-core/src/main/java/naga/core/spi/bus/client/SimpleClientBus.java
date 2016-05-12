@@ -18,7 +18,6 @@
 package naga.core.spi.bus.client;
 
 import naga.core.json.Json;
-import naga.core.json.WritableJsonObject;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.bus.Message;
@@ -194,11 +193,7 @@ public class SimpleClientBus implements Bus {
             handler.handle(message);
         } catch (Throwable e) {
             Platform.log("Failed to handle on topic: " + topic, e);
-            WritableJsonObject json = Json.createObject();
-            json.set("topic", topic);
-            json.set("message", message);
-            json.set("cause", e);
-            publishLocal(WebSocketBus.ON_ERROR, json);
+            publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
         }
     }
 

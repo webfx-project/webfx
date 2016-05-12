@@ -7,7 +7,7 @@ import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSNumber;
 
 /**
- * Client-side implementation of JsonObject interface.
+ * TeaVM implementation of JsonObject interface.
  *
  * @author Bruno Salmon
  */
@@ -58,25 +58,22 @@ final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObje
     public <T> T remove(String key) {
         JSUtil.deleteJSValue(jsValue, key);
         return null;
-    } /*-{
-        toRtn = this[key];
-        delete this[key];
-        return toRtn;
-    }-*/;
+    }
 
     @Override
-    public void setNativeElement(String key, Object element) {
+    public TeaVmJsonObject setNativeElement(String key, Object element) {
         JSUtil.setJSValue(jsValue, key, (JSObject) element);
+        return this;
     }
 
     @Override
-    public void set(String key, boolean bool) {
-        setNativeElement(key, JSBoolean.valueOf(bool));
+    public TeaVmJsonObject set(String key, boolean bool) {
+        return setNativeElement(key, JSBoolean.valueOf(bool));
     }
 
     @Override
-    public void set(String key, double number) {
-        setNativeElement(key, JSNumber.valueOf(number));
+    public TeaVmJsonObject set(String key, double number) {
+        return setNativeElement(key, JSNumber.valueOf(number));
     }
 
     /**

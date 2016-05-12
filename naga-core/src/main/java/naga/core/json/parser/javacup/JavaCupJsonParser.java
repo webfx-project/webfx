@@ -10,6 +10,7 @@ import naga.core.json.WritableJsonArray;
 import naga.core.json.WritableJsonObject;
 import naga.core.util.Numbers;
 import naga.core.util.tuples.Pair;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */
@@ -348,7 +349,7 @@ class CUP$JavaCupJsonParser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$JavaCupJsonParser$stack.peek()).value;
-		 RESULT = a; RESULT.push(e); 
+		 RESULT = a.push(e); 
               CUP$JavaCupJsonParser$result = parser.getSymbolFactory().newSymbol("json_array_body",3, ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.elementAt(CUP$JavaCupJsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupJsonParser$result;
@@ -360,7 +361,7 @@ class CUP$JavaCupJsonParser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$JavaCupJsonParser$stack.peek()).value;
-		 RESULT = Json.createArray(); RESULT.push(e); 
+		 RESULT = Json.createArray().push(e); 
               CUP$JavaCupJsonParser$result = parser.getSymbolFactory().newSymbol("json_array_body",3, ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupJsonParser$result;
@@ -396,7 +397,7 @@ class CUP$JavaCupJsonParser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).right;
 		Pair<String,Object> e = (Pair<String,Object>)((java_cup.runtime.Symbol) CUP$JavaCupJsonParser$stack.peek()).value;
-		 RESULT = o; RESULT.set(e.get1(), e.get2()); 
+		 RESULT = o.set(e.get1(), e.get2()); 
               CUP$JavaCupJsonParser$result = parser.getSymbolFactory().newSymbol("json_object_body",5, ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.elementAt(CUP$JavaCupJsonParser$top-2)), ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupJsonParser$result;
@@ -408,7 +409,7 @@ class CUP$JavaCupJsonParser$actions {
 		int eleft = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).left;
 		int eright = ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()).right;
 		Pair<String,Object> e = (Pair<String,Object>)((java_cup.runtime.Symbol) CUP$JavaCupJsonParser$stack.peek()).value;
-		 RESULT = Json.createObject(); RESULT.set(e.get1(), e.get2()); 
+		 RESULT = Json.createObject().set(e.get1(), e.get2()); 
               CUP$JavaCupJsonParser$result = parser.getSymbolFactory().newSymbol("json_object_body",5, ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()), ((java_cup.runtime.Symbol)CUP$JavaCupJsonParser$stack.peek()), RESULT);
             }
           return CUP$JavaCupJsonParser$result;

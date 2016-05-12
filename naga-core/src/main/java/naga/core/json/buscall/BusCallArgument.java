@@ -61,9 +61,9 @@ class BusCallArgument {
 
             @Override
             public void encodeToJson(BusCallArgument call, WritableJsonObject json) {
-                json.set(CALL_NUMBER_KEY, call.callNumber);
-                json.set(TARGET_ADDRESS_KEY, call.getTargetAddress());
-                json.set(TARGET_ARGUMENT_KEY, call.getJsonEncodedTargetArgument());
+                json.set(CALL_NUMBER_KEY, call.callNumber)
+                    .set(TARGET_ADDRESS_KEY, call.getTargetAddress())
+                    .set(TARGET_ARGUMENT_KEY, call.getJsonEncodedTargetArgument());
             }
 
             @Override

@@ -116,9 +116,9 @@ json_array  ::= LBRACK json_array_body:a RBRACK
             ;
 
 json_array_body ::= json_array_body:a COMMA json_element:e
-              {: RESULT = a; RESULT.push(e); :}
+              {: RESULT = a.push(e); :}
             | json_element:e
-              {: RESULT = Json.createArray(); RESULT.push(e); :}
+              {: RESULT = Json.createArray().push(e); :}
             ;
 
 json_object ::= LCURLY json_object_body:o RCURLY
@@ -128,9 +128,9 @@ json_object ::= LCURLY json_object_body:o RCURLY
             ;
 
 json_object_body ::= json_object_body:o COMMA json_object_entry:e
-              {: RESULT = o; RESULT.set(e.get1(), e.get2()); :}
+              {: RESULT = o.set(e.get1(), e.get2()); :}
             | json_object_entry:e
-              {: RESULT = Json.createObject(); RESULT.set(e.get1(), e.get2()); :}
+              {: RESULT = Json.createObject().set(e.get1(), e.get2()); :}
             ;
 
 json_object_entry ::= STRING:id COLON json_element:e

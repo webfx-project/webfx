@@ -50,8 +50,9 @@ final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
     }-*/;
 
     @Override
-    public native void setNativeElement(String key, Object element) /*-{
+    public native GwtJsonObject setNativeElement(String key, Object element) /*-{
         this[key] = element;
+        return this;
     }-*/;
 
     @Override

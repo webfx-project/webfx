@@ -18,7 +18,6 @@
 package naga.core.spi.platform.client.java;
 
 import naga.core.json.Json;
-import naga.core.json.WritableJsonObject;
 import naga.core.spi.platform.client.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
@@ -94,13 +93,8 @@ final class JavaWebSocket implements WebSocket {
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                if (eventHandler != null) {
-                    WritableJsonObject msg = Json.createObject();
-                    msg.set("code", code);
-                    msg.set("reason", reason);
-                    msg.set("remote", remote);
-                    eventHandler.onClose(msg);
-                }
+                if (eventHandler != null)
+                    eventHandler.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
             }
         };
 
