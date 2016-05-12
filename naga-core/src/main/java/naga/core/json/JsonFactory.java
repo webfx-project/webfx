@@ -1,5 +1,7 @@
 package naga.core.json;
 
+import naga.core.json.listmap.MapJsonObject;
+
 /**
  * @author Bruno Salmon
  */
@@ -33,4 +35,5 @@ public interface JsonFactory extends JsonParser, JsonFormatter {
         return nativeToJavaJsonArray(createNativeArray());
     }
 
+    JsonFactory builtInFactory = new MapJsonObject();
 }

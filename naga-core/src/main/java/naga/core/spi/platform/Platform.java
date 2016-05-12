@@ -36,7 +36,9 @@ public abstract class Platform {
 
     public abstract Scheduler scheduler();
 
-    public abstract JsonFactory jsonFactory();
+    public JsonFactory jsonFactory() {
+        return JsonFactory.builtInFactory;
+    }
 
     public abstract BusFactory busFactory();
 
