@@ -13,7 +13,7 @@ final class TeaVmWebSocket implements WebSocket {
     private final SockJS sockJS;
 
     public TeaVmWebSocket(String url, JsonObject options) {
-        sockJS = createSockJS(url, options == null ? null : ((TeaVmJsonObject) options).getJsValue());
+        sockJS = createSockJS(url, options == null ? null : ((TeaVmJsonObject) options).getNativeElement());
     }
 
     @Override
@@ -39,8 +39,8 @@ final class TeaVmWebSocket implements WebSocket {
     public void setListen(WebSocketHandler handler) {
         sockJS.setOnopen(handler::onOpen);
         sockJS.setOnclose(jsReason -> handler.onClose(TeaVmJsonObject.create(jsReason)));
-        sockJS.setOnmessage(jsMessage -> handler.onMessage(JSUtil.js2String(JSUtil.getJSValue(jsMessage, "data"))));
-        sockJS.setOnerror(jsError -> handler.onError(JSUtil.js2String(JSUtil.getJSValue(jsError, "data"))));
+        sockJS.setOnmessage(jsMessage -> handler.onMessage(TeaVmJsonElement.js2String(TeaVmJsonElement.getJSValue(jsMessage, "data"))));
+        sockJS.setOnerror(jsError -> handler.onError(TeaVmJsonElement.js2String(TeaVmJsonElement.getJSValue(jsError, "data"))));
     }
 
     @Override

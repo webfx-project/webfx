@@ -1,10 +1,10 @@
 package naga.core.spi.platform.client.teavm;
 
-import naga.core.json.JsonArray;
 import naga.core.json.WritableJsonObject;
 import org.teavm.jso.JSObject;
 import org.teavm.jso.core.JSBoolean;
 import org.teavm.jso.core.JSNumber;
+import org.teavm.jso.core.JSString;
 
 /**
  * TeaVM implementation of JsonObject interface.
@@ -14,13 +14,13 @@ import org.teavm.jso.core.JSNumber;
 final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObject {
 
     public static TeaVmJsonObject create(JSObject jso) {
-        if (jso == null || JSUtil.isUndefined(jso))
+        if (jso == null || isUndefined(jso))
             return null;
         return new TeaVmJsonObject(jso);
     }
 
     TeaVmJsonObject() {
-        this(JSUtil.newJSObject());
+        this(newJSObject());
     }
 
     TeaVmJsonObject(JSObject jso) {
@@ -30,18 +30,18 @@ final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObje
 
     @Override
     public JSObject getNativeElement(String key) {
-        return JSUtil.getJSValue(jsValue, key);
+        return getJSValue(nativeElement, key);
     }
 
     @Override
     public double getDouble(String key) {
-        return JSUtil.js2Double(getNativeElement(key));
+        return js2Double(getNativeElement(key));
     }
 
 
     @Override
     public String getString(String key) {
-        return JSUtil.js2String(getNativeElement(key));
+        return js2String(getNativeElement(key));
     }
 
     @Override
@@ -50,30 +50,35 @@ final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJsonObje
     }-*/;
 
     @Override
-    public JsonArray keys() {
-        return TeaVmJsonArray.create(JSUtil.getKeys(jsValue));
+    public TeaVmJsonArray keys() {
+        return TeaVmJsonArray.create(getKeys(nativeElement));
     }
 
     @Override
     public <T> T remove(String key) {
-        JSUtil.deleteJSValue(jsValue, key);
+        deleteJSValue(nativeElement, key);
         return null;
     }
 
     @Override
     public TeaVmJsonObject setNativeElement(String key, Object element) {
-        JSUtil.setJSValue(jsValue, key, (JSObject) element);
+        setJSValue(nativeElement, key, (JSObject) element);
         return this;
     }
 
     @Override
-    public TeaVmJsonObject set(String key, boolean bool) {
-        return setNativeElement(key, JSBoolean.valueOf(bool));
+    public TeaVmJsonObject set(String key, boolean value) {
+        return setNativeElement(key, JSBoolean.valueOf(value));
     }
 
     @Override
-    public TeaVmJsonObject set(String key, double number) {
-        return setNativeElement(key, JSNumber.valueOf(number));
+    public TeaVmJsonObject set(String key, double value) {
+        return setNativeElement(key, JSNumber.valueOf(value));
+    }
+
+    @Override
+    public TeaVmJsonObject set(String key, String value) {
+        return setNativeElement(key, JSString.valueOf(value));
     }
 
     /**

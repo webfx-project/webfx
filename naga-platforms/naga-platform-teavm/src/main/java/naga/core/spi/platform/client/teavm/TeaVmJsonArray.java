@@ -12,7 +12,7 @@ import org.teavm.jso.core.JSArray;
 final class TeaVmJsonArray extends TeaVmJsonElement implements WritableJsonArray {
 
     public static TeaVmJsonArray create(JSArray jsArray) {
-        if (jsArray == null || JSUtil.isUndefined(jsArray))
+        if (jsArray == null || TeaVmJsonElement.isUndefined(jsArray))
             return null;
         return new TeaVmJsonArray(jsArray);
     }
@@ -21,7 +21,7 @@ final class TeaVmJsonArray extends TeaVmJsonElement implements WritableJsonArray
         super(jsArray);
     }
 
-    <T extends JSObject> JSArray<T> asArray() { return jsValue.cast(); }
+    <T extends JSObject> JSArray<T> asArray() { return nativeElement.cast(); }
 
     @Override
     public JSObject getNativeElement(int index) {
