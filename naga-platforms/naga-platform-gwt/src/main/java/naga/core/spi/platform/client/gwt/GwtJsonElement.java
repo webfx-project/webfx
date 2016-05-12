@@ -28,15 +28,35 @@ import naga.core.util.Numbers;
  *
  * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonElement.java">Original Goodow class</a>
  */
-abstract class GwtJsonElement extends GwtJsonValue implements WritableJsonElement {
+abstract class GwtJsonElement extends JavaScriptObject implements WritableJsonElement {
 
-    protected GwtJsonElement() {
-    }
+    // GWT: Constructors must be 'protected' in subclasses of JavaScriptObject
+    protected GwtJsonElement() {} // instances are actually always obtained from a javascript cast
 
     @Override
     public final GwtJsonElement getNativeElement() {
         return cast();
     }
+
+    @Override
+    public final ElementType getNativeElementType(Object nativeElement) {
+        switch(typeof(nativeElement)) {
+            case "object":  return isArray(nativeElement) ? ElementType.ARRAY : ElementType.OBJECT;
+            case "string":  return ElementType.STRING;
+            case "number":  return ElementType.NUMBER;
+            case "boolean": return ElementType.BOOLEAN;
+        }
+        return ElementType.UNKNOWN;
+    }
+
+    private static native String typeof(Object obj) /*-{
+        return typeof obj;
+    }-*/;
+
+    private static native boolean isArray(Object obj) /*-{
+        // ensure that array detection works cross-frame
+        return Object.prototype.toString.apply(obj) === '[object Array]';
+    }-*/;
 
     @Override
     public final int size() {
@@ -62,7 +82,6 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableJsonElemen
         return size;
     }-*/;
 
-
     @Override
     public final void clear() {
         if (isObject())
@@ -85,12 +104,12 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableJsonElemen
 
     @Override
     public final GwtJsonObject createNativeObject() {
-        return JavaScriptObject.createObject().cast();
+        return GwtJsonObject.create();
     }
 
     @Override
     public final GwtJsonArray createNativeArray() {
-        return JavaScriptObject.createArray().cast();
+        return GwtJsonArray.create();
     }
 
 
@@ -133,65 +152,4 @@ abstract class GwtJsonElement extends GwtJsonValue implements WritableJsonElemen
         return value;
     }-*/;
 
-    @Override
-    public final GwtJsonObject parseNativeObject(String text) {
-        return parse0(text).cast();
-    }
-
-    @Override
-    public final GwtJsonArray parseNativeArray(String text) {
-        return parse0(text).cast();
-    }
-
-    private native static JavaScriptObject parse0(String jsonString) /*-{
-        try { // First attempt without any transformation (only pure json will be accepted)
-            return $wnd.JSON.parse(jsonString);
-        } catch (e) { // Second attempt with transformation to allow relaxed json (single quotes strings and unquoted keys)
-            // Converting single-quoted strings to double-quoted strings for Json compliance
-            // Code borrowed from https://github.com/sindresorhus/to-double-quotes/blob/master/index.js
-            jsonString = jsonString.replace(/(?:\\*)?'([^'\\]*\\.)*[^']*'/g, function (match) {
-                return match
-                    // unescape single-quotes
-                    .replace(/\\'/g, '\'')
-                    // escape escapes
-                    .replace(/(^|[^\\])(\\+)"/g, '$1$2\\\"')
-                    // escape double-quotes
-                    .replace(/([^\\])"/g, '$1\\\"')
-                    // convert
-                    .replace(/^'|'$/g, '"')});
-            // Also unquoted keys are converted to double-quotes keys for Json compliance
-            jsonString = jsonString.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
-            return $wnd.JSON.parse(jsonString);
-        }
-    }-*/;
-
-    @Override
-    public final ElementType getNativeElementType(Object nativeElement) {
-        switch(getJsType(nativeElement)) {
-            case "object": return isArray(nativeElement) ? ElementType.ARRAY : ElementType.OBJECT;
-            case "string": return ElementType.STRING;
-            case "number": return ElementType.NUMBER;
-            case "boolean": return ElementType.BOOLEAN;
-        }
-        return ElementType.UNKNOWN;
-    }
-
-    private static native String getJsType(Object obj) /*-{
-        return typeof obj;
-    }-*/;
-
-    private static native boolean isArray(Object obj) /*-{
-        // ensure that array detection works cross-frame
-        return Object.prototype.toString.apply(obj) === '[object Array]';
-   }-*/;
-
-
-    /*@Override
-    public final String toJsonString() {
-        try {
-            return super.toJson();
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to encode as JSON: " + e.getMessage());
-        }
-    }*/
 }

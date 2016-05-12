@@ -17,6 +17,7 @@
  */
 package naga.core.spi.platform.client.gwt;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import naga.core.json.WritableJsonArray;
 
 /**
@@ -29,7 +30,11 @@ import naga.core.json.WritableJsonArray;
  */
 final class GwtJsonArray extends GwtJsonElement implements WritableJsonArray {
 
-    protected GwtJsonArray() { // no public constructor, instances are always obtained from a cast
+    // GWT: Constructors must be 'protected' in subclasses of JavaScriptObject
+    protected GwtJsonArray() {} // instances are actually always obtained from a javascript array cast
+
+    static GwtJsonArray create() {
+        return JavaScriptObject.createArray().cast();
     }
 
     @Override
@@ -38,7 +43,7 @@ final class GwtJsonArray extends GwtJsonElement implements WritableJsonArray {
     }-*/;
 
     @Override
-    public native GwtJsonValue getNativeElement(int index) /*-{
+    public native GwtJsonElement getNativeElement(int index) /*-{
         return this[index];
       }-*/;
 

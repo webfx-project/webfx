@@ -1,6 +1,5 @@
 package naga.core.spi.platform.client.gwt;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import naga.core.json.JsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
@@ -25,7 +24,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     private final Scheduler scheduler = new GwtScheduler();
-    private final GwtJsonObject jsonFactory = JavaScriptObject.createObject().cast();
+    private final GwtJsonObject jsonFactory = GwtJsonObject.create();
     private final WebSocketFactory webSocketFactory = new GwtWebSocketFactory();
 
     public GwtPlatform() {

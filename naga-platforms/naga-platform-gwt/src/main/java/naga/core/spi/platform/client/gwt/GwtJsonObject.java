@@ -17,6 +17,7 @@
  */
 package naga.core.spi.platform.client.gwt;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import naga.core.json.WritableJsonObject;
 
@@ -30,9 +31,12 @@ import naga.core.json.WritableJsonObject;
  */
 final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
 
-    protected GwtJsonObject() { // no public constructor, instances are always obtained from a cast
-    }
+    // GWT: Constructors must be 'protected' in subclasses of JavaScriptObject
+    protected GwtJsonObject() {} // instances are actually always obtained from a javascript object cast
 
+    static GwtJsonObject create() {
+        return JavaScriptObject.createObject().cast();
+    }
 
     @Override
     public native boolean has(String key) /*-{
@@ -41,7 +45,7 @@ final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
 
 
     @Override
-    public native GwtJsonValue getNativeElement(String key) /*-{
+    public native GwtJsonElement getNativeElement(String key) /*-{
         return this[key];
     }-*/;
 
@@ -52,10 +56,10 @@ final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
 
     @Override
     public GwtJsonArray keys() {
-        return nativeToJavaJsonArray(keys0());
+        return nativeToJavaJsonArray(nativeKeys());
     }
 
-    private native JsArrayString keys0() /*-{
+    private native JsArrayString nativeKeys() /*-{
         var keys = [];
         for(var key in this)
           if (Object.prototype.hasOwnProperty.call(this, key) && key != '$H')
