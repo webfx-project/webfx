@@ -43,4 +43,6 @@ public interface WritableJsonObject extends JsonObject {
 
     default WritableJsonObject set(String key, double value) { return setScalar(key, value); }
 
+    default WritableJsonObject set(String key, String value) { return setScalar(key, value); }
+
 }
