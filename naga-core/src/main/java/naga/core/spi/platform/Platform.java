@@ -25,7 +25,7 @@ import naga.core.spi.sql.SqlService;
 import naga.core.util.function.Consumer;
 
 /**
- * Generic platform interface. New platforms are defined as implementations of this interface.
+ * Generic platform class. New platforms are defined as extension of this abstract class.
  *
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
@@ -37,6 +37,8 @@ public abstract class Platform {
     public abstract Scheduler scheduler();
 
     public JsonFactory jsonFactory() {
+        // Using the built-in json factory by default.
+        // Platforms must override this if json interoperability with the target platform is required
         return JsonFactory.builtInFactory;
     }
 
