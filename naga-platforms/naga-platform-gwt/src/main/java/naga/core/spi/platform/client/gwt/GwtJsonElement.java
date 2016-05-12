@@ -20,7 +20,6 @@ package naga.core.spi.platform.client.gwt;
 import com.google.gwt.core.client.JavaScriptObject;
 import naga.core.json.ElementType;
 import naga.core.json.WritableJsonElement;
-import naga.core.util.Numbers;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
@@ -40,13 +39,15 @@ abstract class GwtJsonElement extends JavaScriptObject implements WritableJsonEl
 
     @Override
     public final ElementType getNativeElementType(Object nativeElement) {
+        if (nativeElement == null)
+            return ElementType.NULL;
         switch(typeof(nativeElement)) {
             case "object":  return isArray(nativeElement) ? ElementType.ARRAY : ElementType.OBJECT;
             case "string":  return ElementType.STRING;
             case "number":  return ElementType.NUMBER;
             case "boolean": return ElementType.BOOLEAN;
+            default:        return ElementType.UNDEFINED;
         }
-        return ElementType.UNKNOWN;
     }
 
     private static native String typeof(Object obj) /*-{
@@ -139,8 +140,8 @@ abstract class GwtJsonElement extends JavaScriptObject implements WritableJsonEl
             return null;
         if (value instanceof Boolean)
             return toJsBoolean((Boolean) value);
-        if (Numbers.isNumber(value))
-            return toJsDouble(Numbers.doubleValue(value));
+        if (value instanceof Number)
+            return toJsDouble(((Number) value).doubleValue());
         return value;
     }
 

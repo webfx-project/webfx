@@ -8,17 +8,14 @@ public interface JsonWrapper {
     ElementType getNativeElementType(Object nativeElement);
 
     default <T> T anyNativeToJava(Object nativeElement) {
-        if (nativeElement == null)
-            return null;
         switch (getNativeElementType(nativeElement)) {
             case STRING:
             case BOOLEAN:
-            case NUMBER:
-                return nativeToJavaScalar(nativeElement);
-            case ARRAY: return (T) nativeToJavaJsonArray(nativeElement);
+            case NUMBER: return nativeToJavaScalar(nativeElement);
+            case ARRAY:  return (T) nativeToJavaJsonArray(nativeElement);
             case OBJECT: return (T) nativeToJavaJsonObject(nativeElement);
+            default:     return null;
         }
-        return null;
     }
 
     default <T> T nativeToJavaScalar(Object nativeScalar) { return (T) nativeScalar; }

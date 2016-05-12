@@ -28,6 +28,8 @@ interface VertxJsonElement extends ListMapBasedJsonElement {
 
     @Override
     default ElementType getNativeElementType(Object nativeElement) {
+        if (nativeElement == null)
+            return ElementType.NULL;
         if (nativeElement instanceof Map || nativeElement instanceof JsonObject || nativeElement instanceof io.vertx.core.json.JsonObject)
             return ElementType.OBJECT;
         if (nativeElement instanceof List || nativeElement instanceof JsonArray || nativeElement instanceof io.vertx.core.json.JsonArray)
@@ -38,7 +40,7 @@ interface VertxJsonElement extends ListMapBasedJsonElement {
             return ElementType.STRING;
         if (Numbers.isNumber(nativeElement))
             return ElementType.NUMBER;
-        return ElementType.UNKNOWN;
+        return ElementType.UNDEFINED;
     }
 
     @Override

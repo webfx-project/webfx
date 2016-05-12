@@ -39,6 +39,8 @@ public interface ListMapBasedJsonElement extends WritableJsonElement {
 
     @Override
     default ElementType getNativeElementType(Object nativeElement) {
+        if (nativeElement == null)
+            return ElementType.NULL;
         if (nativeElement instanceof Map || nativeElement instanceof JsonObject)
             return ElementType.OBJECT;
         if (nativeElement instanceof List || nativeElement instanceof JsonArray)
@@ -49,6 +51,6 @@ public interface ListMapBasedJsonElement extends WritableJsonElement {
             return ElementType.STRING;
         if (Numbers.isNumber(nativeElement))
             return ElementType.NUMBER;
-        return ElementType.UNKNOWN;
+        return ElementType.UNDEFINED;
     }
 }

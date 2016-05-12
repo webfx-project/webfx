@@ -92,18 +92,15 @@ public interface JsonFormatter extends JsonWrapper {
      * @throws IllegalArgumentException If the element is or contains an invalid number.
      */
     static StringBuilder appendNativeElement(Object element, JsonWrapper parent, StringBuilder sb) {
-        if (element == null )
-            return sb.append("null");
-        ElementType type = parent.getNativeElementType(element);
-        if (type == ElementType.OBJECT)
-            return appendJsonObject(parent.nativeToJavaJsonObject(element), sb);
-        if (type == ElementType.ARRAY)
-            return appendJsonArray(parent.nativeToJavaJsonArray(element), sb);
-        if (type == ElementType.NUMBER)
-            return sb.append(numberToString(parent.nativeToJavaScalar(element)));
-        if (type == ElementType.BOOLEAN)
-            return sb.append((Boolean) parent.nativeToJavaScalar(element));
-        return appendQuoted(parent.nativeToJavaScalar(element), sb);
+        switch (parent.getNativeElementType(element)) {
+            case NULL:    return sb.append("null");
+            case OBJECT:  return appendJsonObject(parent.nativeToJavaJsonObject(element), sb);
+            case ARRAY:   return appendJsonArray(parent.nativeToJavaJsonArray(element), sb);
+            case NUMBER:  return sb.append(numberToString(parent.nativeToJavaScalar(element)));
+            case BOOLEAN: return sb.append((Boolean) parent.nativeToJavaScalar(element));
+            case STRING:  return appendQuoted(parent.nativeToJavaScalar(element), sb);
+            default:      return sb; // ignored when undefined
+        }
     }
 
     /**
@@ -111,12 +108,10 @@ public interface JsonFormatter extends JsonWrapper {
      */
     static String trimNumber(String s) {
         if (s.indexOf('.') > 0 && s.indexOf('e') < 0 && s.indexOf('E') < 0) {
-            while (s.endsWith("0")) {
+            while (s.endsWith("0"))
                 s = s.substring(0, s.length() - 1);
-            }
-            if (s.endsWith(".")) {
+            if (s.endsWith("."))
                 s = s.substring(0, s.length() - 1);
-            }
         }
         return s;
     }

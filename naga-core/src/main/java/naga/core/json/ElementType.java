@@ -5,6 +5,6 @@ package naga.core.json;
  */
 public enum ElementType {
 
-    STRING, NUMBER, BOOLEAN, OBJECT, ARRAY, UNKNOWN
+    STRING, NUMBER, BOOLEAN, OBJECT, ARRAY, NULL, UNDEFINED
 
 }
