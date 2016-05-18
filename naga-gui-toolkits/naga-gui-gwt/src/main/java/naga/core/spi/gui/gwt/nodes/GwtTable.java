@@ -1,6 +1,7 @@
 package naga.core.spi.gui.gwt.nodes;
 
-import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.cellview.client.AbstractCellTable;
+import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.nodes.Table;
@@ -10,24 +11,25 @@ import naga.core.util.collection.IdentityList;
 /**
  * @author Bruno Salmon
  */
-public class GwtTable extends GwtDisplayResultSetNode<DataGrid<Integer>> implements Table<DataGrid<Integer>> {
+public class GwtTable extends GwtDisplayResultSetNode<AbstractCellTable<Integer>> implements Table<AbstractCellTable<Integer>> {
 
     public GwtTable() {
-        this(new DataGrid<>());
+        this(new CellTable<>());
     }
 
-    public GwtTable(DataGrid<Integer> node) {
+    public GwtTable(AbstractCellTable<Integer> node) {
         super(node);
     }
 
     @Override
     protected void onNextDisplayResult(DisplayResultSet displayResultSet) {
+        //Platform.log("Updating GwtTable: " + displayResultSet.getRowCount() + " rows & " + displayResultSet.getColumnCount() + " columns");
         for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++) {
             GwtColumn column;
             if (columnIndex < node.getColumnCount())
                 column = (GwtColumn) node.getColumn(columnIndex);
             else
-                node.addColumn(column = new GwtColumn(columnIndex), Strings.toString(displayResultSet.getHeaderValues()[columnIndex]));
+                node.addColumn(column = new GwtColumn(columnIndex), Strings.stringValue(displayResultSet.getHeaderValues()[columnIndex]));
             column.displayResultSet = displayResultSet;
         }
         int rowCount = displayResultSet.getRowCount();
@@ -37,6 +39,7 @@ public class GwtTable extends GwtDisplayResultSetNode<DataGrid<Integer>> impleme
             node.setRowCount(rowCount, true);
             node.redraw(); // otherwise the change on setRowData() is not considered
         }
+        //Platform.log("GwtTable updated");
     }
 
     private static class GwtColumn extends TextColumn<Integer> {
