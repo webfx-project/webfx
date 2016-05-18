@@ -35,6 +35,11 @@ public class Json {
         return getFactory().parseArray(text);
     }
 
+    public static Object javaToNativeScalar(Object scalar) {
+        return getFactory().javaToNativeScalar(scalar);
+    }
+
+
     private static JsonFactory FACTORY;
 
     public static void registerFactory(JsonFactory factory) {

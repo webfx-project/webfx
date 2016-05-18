@@ -76,7 +76,7 @@ terminal String   STRING, IDENTIFIER;
 
 /* Non terminals used in the grammar section.*/
 non terminal Object                     json_element;
-non terminal Object                     json_scalar;
+non terminal Object                     json_native_scalar, json_java_scalar;
 non terminal WritableJsonArray          json_array;
 non terminal WritableJsonArray          json_array_body;
 non terminal WritableJsonObject         json_object;
@@ -93,11 +93,17 @@ json_element ::= json_object:o
               {: RESULT = o; :}
             | json_array:a
               {: RESULT = a; :}
-            | json_scalar:s
+            | json_native_scalar:s
               {: RESULT = s; :}
             ;
 
-json_scalar ::= NUMBER:n
+json_native_scalar
+            ::= json_java_scalar:s
+              {: RESULT = Json.javaToNativeScalar(s); :}
+            ;
+
+json_java_scalar
+            ::= NUMBER:n
               {: RESULT = n; :}
             | MINUS NUMBER:n
               {: RESULT = Numbers.negate(n); :}
