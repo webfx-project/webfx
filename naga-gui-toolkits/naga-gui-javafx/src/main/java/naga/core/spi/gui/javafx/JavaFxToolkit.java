@@ -3,12 +3,13 @@ package naga.core.spi.gui.javafx;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.javafx.nodes.*;
 import naga.core.spi.gui.nodes.*;
-import naga.core.util.function.Callable;
+import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -19,15 +20,16 @@ public class JavaFxToolkit extends GuiToolkit {
         this(() -> FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage));
     }
 
-    protected JavaFxToolkit(Callable<Window> windowFactory) {
+    protected JavaFxToolkit(Factory<Window> windowFactory) {
         super(FxScheduler.SINGLETON, windowFactory);
         new Thread(() -> Application.launch(FxApplication.class)).start();
-        registerNodeFactory(Table.class, FxTable::new);
-        registerNodeFactory(CheckBox.class, FxCheckBox::new);
-        registerNodeFactory(ToggleSwitch.class, FxToggleSwitch::new);
-        registerNodeFactory(BorderPane.class, FxBorderPane::new);
-        registerNodeFactory(TextField.class, FxTextField::new);
+        registerNodeFactoryAndWrapper(Table.class, FxTable::new, TableView.class, FxTable::new);
+        registerNodeFactoryAndWrapper(CheckBox.class, FxCheckBox::new, javafx.scene.control.CheckBox.class, FxCheckBox::new);
+        registerNodeFactoryAndWrapper(ToggleSwitch.class, FxToggleSwitch::new, naga.core.spi.gui.javafx.controlsfx.ToggleSwitch.class, FxToggleSwitch::new);
+        registerNodeFactoryAndWrapper(TextField.class, FxTextField::new, javafx.scene.control.TextField.class, FxTextField::new);
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
+        registerNodeFactory(BorderPane.class, FxBorderPane::new);
+        registerNodeFactory(VBox.class, FxVBox::new);
     }
 
     @Override
