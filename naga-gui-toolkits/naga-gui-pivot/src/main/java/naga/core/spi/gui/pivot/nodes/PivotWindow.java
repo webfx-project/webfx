@@ -21,7 +21,7 @@ public class PivotWindow implements Window<Component> {
 
     public PivotWindow(org.apache.pivot.wtk.Window pWindow) {
         this.pWindow = pWindow;
-        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToToolkitNode()));
+        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToNativeNode()));
         titleProperty().addListener((observable, oldValue, newValue) -> pWindow.setTitle(newValue));
     }
 

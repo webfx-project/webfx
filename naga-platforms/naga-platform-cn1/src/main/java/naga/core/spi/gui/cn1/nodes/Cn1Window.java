@@ -21,7 +21,7 @@ public class Cn1Window implements Window<Component> {
 
     public Cn1Window(Form form) {
         this.form = form;
-        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToToolkitNode()));
+        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToNativeNode()));
         titleProperty().addListener((observable, oldValue, newValue) -> form.setTitle(newValue));
     }
 

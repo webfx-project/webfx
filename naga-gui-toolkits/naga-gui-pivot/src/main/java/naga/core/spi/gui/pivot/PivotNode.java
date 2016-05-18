@@ -15,7 +15,7 @@ public class PivotNode<N extends Component> implements GuiNode<N> {
     }
 
     @Override
-    public N unwrapToToolkitNode() {
+    public N unwrapToNativeNode() {
         return node;
     }
 

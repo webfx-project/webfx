@@ -21,18 +21,18 @@ public class PivotBorderPane extends PivotNode<BoxPane> implements BorderPane<Bo
         node.getStyles().put("fill", true);
         topProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                node.remove(oldValue.unwrapToToolkitNode());
-            node.add(newValue.unwrapToToolkitNode());
+                node.remove(oldValue.unwrapToNativeNode());
+            node.add(newValue.unwrapToNativeNode());
         });
         centerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                node.remove(oldValue.unwrapToToolkitNode());
-            node.add(newValue.unwrapToToolkitNode());
+                node.remove(oldValue.unwrapToNativeNode());
+            node.add(newValue.unwrapToNativeNode());
         });
         bottomProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                node.remove(oldValue.unwrapToToolkitNode());
-            node.add(newValue.unwrapToToolkitNode());
+                node.remove(oldValue.unwrapToNativeNode());
+            node.add(newValue.unwrapToNativeNode());
         });
     }
 

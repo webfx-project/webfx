@@ -5,7 +5,7 @@ package naga.core.spi.gui;
  */
 public interface GuiNode<N> {
 
-    N unwrapToToolkitNode();
+    N unwrapToNativeNode();
 
     void requestFocus();
 

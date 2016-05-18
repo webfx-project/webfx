@@ -15,7 +15,7 @@ public class AndroidNode<N extends View> implements GuiNode<N> {
     }
 
     @Override
-    public N unwrapToToolkitNode() {
+    public N unwrapToNativeNode() {
         return node;
     }
 

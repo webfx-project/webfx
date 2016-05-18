@@ -15,7 +15,7 @@ public class FxNode<N extends Node> implements GuiNode<N> {
     }
 
     @Override
-    public N unwrapToToolkitNode() {
+    public N unwrapToNativeNode() {
         return node;
     }
 

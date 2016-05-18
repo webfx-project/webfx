@@ -19,18 +19,18 @@ public class Cn1BorderPane extends Cn1Node<Container> implements BorderPane<Cont
         super(new Container(new BorderLayout()));
         topProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                oldValue.unwrapToToolkitNode().remove();
-            node.add(BorderLayout.NORTH, newValue.unwrapToToolkitNode());
+                oldValue.unwrapToNativeNode().remove();
+            node.add(BorderLayout.NORTH, newValue.unwrapToNativeNode());
         });
         centerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                oldValue.unwrapToToolkitNode().remove();
-            node.add(BorderLayout.CENTER, newValue.unwrapToToolkitNode());
+                oldValue.unwrapToNativeNode().remove();
+            node.add(BorderLayout.CENTER, newValue.unwrapToNativeNode());
         });
         bottomProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                oldValue.unwrapToToolkitNode().remove();
-            node.add(BorderLayout.SOUTH, newValue.unwrapToToolkitNode());
+                oldValue.unwrapToNativeNode().remove();
+            node.add(BorderLayout.SOUTH, newValue.unwrapToNativeNode());
         });
     }
 

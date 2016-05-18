@@ -16,7 +16,7 @@ public class AndroidWindow implements Window<View> {
 
     public AndroidWindow(Activity activity) {
         this.activity = activity;
-        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToToolkitNode()));
+        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToNativeNode()));
         titleProperty().addListener((observable, oldValue, newValue) -> activity.setTitle(newValue));
     }
 

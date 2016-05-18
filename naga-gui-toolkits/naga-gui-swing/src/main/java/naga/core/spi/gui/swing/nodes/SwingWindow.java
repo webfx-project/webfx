@@ -21,7 +21,7 @@ public class SwingWindow implements Window<Component> {
 
     public SwingWindow(JFrame frame) {
         this.frame = frame;
-        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToToolkitNode()));
+        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToNativeNode()));
         titleProperty().addListener((observable, oldValue, newValue) -> frame.setTitle(newValue));
     }
 

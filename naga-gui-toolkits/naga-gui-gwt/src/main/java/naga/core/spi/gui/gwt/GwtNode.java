@@ -16,7 +16,7 @@ public class GwtNode <N extends UIObject> implements GuiNode<N> {
     }
 
     @Override
-    public N unwrapToToolkitNode() {
+    public N unwrapToNativeNode() {
         return node;
     }
 

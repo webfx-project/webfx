@@ -20,7 +20,7 @@ public class GwtWindow implements Window<Widget> {
 
     public GwtWindow(RootLayoutPanel rootLayoutPanel) {
         this.rootLayoutPanel = rootLayoutPanel;
-        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToToolkitNode()));
+        nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToNativeNode()));
         titleProperty().addListener((observable, oldValue, newValue) -> rootLayoutPanel.setTitle(newValue));
     }
 

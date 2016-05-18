@@ -19,7 +19,7 @@ public class FxTextField implements naga.core.spi.gui.nodes.TextField<TextField>
     }
 
     @Override
-    public TextField unwrapToToolkitNode() {
+    public TextField unwrapToNativeNode() {
         return textField;
     }
 

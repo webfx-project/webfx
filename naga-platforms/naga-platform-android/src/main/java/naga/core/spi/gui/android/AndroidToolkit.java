@@ -39,7 +39,7 @@ public class AndroidToolkit extends GuiToolkit {
     public <T extends GuiNode> T createNode(Class<T> nodeInterface) {
         T node = super.createNode(nodeInterface);
         if (node != null) {
-            View view = (View) node.unwrapToToolkitNode();
+            View view = (View) node.unwrapToNativeNode();
             view.setId(idSeq++);
         }
         return node;

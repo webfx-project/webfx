@@ -30,13 +30,13 @@ public class GwtBorderPane extends GwtNode<DockLayoutPanel> implements BorderPan
         node.clear();
         GuiNode<Widget> topPropertyValue = topProperty.getValue();
         if (topPropertyValue != null)
-            node.addNorth(topPropertyValue.unwrapToToolkitNode(), 5);
+            node.addNorth(topPropertyValue.unwrapToNativeNode(), 5);
         GuiNode<Widget> bottomPropertyValue = bottomProperty.getValue();
         if (bottomPropertyValue != null)
-            node.addSouth(bottomPropertyValue.unwrapToToolkitNode(), 2.5);
+            node.addSouth(bottomPropertyValue.unwrapToNativeNode(), 2.5);
         GuiNode<Widget> centerPropertyValue = centerProperty.getValue();
         if (centerPropertyValue != null) {
-            Widget centerWidget = centerPropertyValue.unwrapToToolkitNode();
+            Widget centerWidget = centerPropertyValue.unwrapToNativeNode();
             centerWidget.setWidth("100%");
             centerWidget.setHeight("100%");
             node.add(centerWidget);
