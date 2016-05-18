@@ -52,7 +52,9 @@ public class GwtTable extends GwtDisplayResultSetNode<AbstractCellTable<Integer>
 
         @Override
         public String getValue(Integer rowIndex) {
-            return (String) displayResultSet.getValue(rowIndex, columnIndex);
+            // Returning a null value causes an uncaught JavaScript exception (hard to debug)
+            Object value = displayResultSet.getValue(rowIndex, columnIndex);
+            return value == null ? "" : value.toString();
         }
     }
 }
