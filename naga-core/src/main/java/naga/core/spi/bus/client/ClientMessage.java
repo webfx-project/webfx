@@ -17,6 +17,7 @@
  */
 package naga.core.spi.bus.client;
 
+import naga.core.json.JsonObject;
 import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.Message;
 import naga.core.util.async.Handler;
@@ -81,7 +82,7 @@ class ClientMessage<U> implements Message<U> {
 
     @Override
     public String toString() {
-        return body == null ? "null" : body.toString();
+        return body == null ? "null" : body instanceof JsonObject ? ((JsonObject) body).toJsonString() : body.toString();
     }
 
     private <T> void sendReply(Object msg, Handler<Message<T>> replyHandler) {
