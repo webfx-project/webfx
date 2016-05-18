@@ -151,7 +151,7 @@ public class DomainModelLoader {
         if (id == null)
             return null;
         switch (Numbers.intValue(id)) { // Keeping compatibility with KBS2.0 types
-            case 0: return PrimType.BOOLEAN;
+            case 0: return PrimType.INTEGER;
             case 1: return PrimType.LONG;
             case 2: return PrimType.FLOAT;
             case 3: return PrimType.DOUBLE;
