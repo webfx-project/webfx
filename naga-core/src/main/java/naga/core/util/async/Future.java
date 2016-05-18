@@ -78,6 +78,7 @@ public class Future<T> implements AsyncResult<T> {
             runnable.run();
             return succeededFuture();
         } catch (Throwable t) {
+            t.printStackTrace(); // temporary while exception handling mechanism is finished
             return failedFuture(t);
         }
     }
@@ -95,6 +96,7 @@ public class Future<T> implements AsyncResult<T> {
             consumer.accept(arg);
             return succeededFuture();
         } catch (Throwable t) {
+            t.printStackTrace(); // temporary while exception handling mechanism is finished
             return failedFuture(t);
         }
     }
@@ -110,11 +112,10 @@ public class Future<T> implements AsyncResult<T> {
      * @param t The Throwable or null if succeeded
      */
     private Future(Throwable t) {
-        if (t == null) {
+        if (t == null)
             complete(null);
-        } else {
+        else
             fail(t);
-        }
     }
 
     private Future(String failureMessage, boolean failed) {
