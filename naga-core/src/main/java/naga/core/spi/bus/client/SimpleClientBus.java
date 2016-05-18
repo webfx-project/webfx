@@ -188,7 +188,7 @@ public class SimpleClientBus implements Bus {
     }
 
     private void handle(String topic, Handler<Message> handler, Message message) {
-        //System.out.println("handle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
+        //Platform.log("handle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
         try {
             handler.handle(message);
         } catch (Throwable e) {
@@ -198,7 +198,7 @@ public class SimpleClientBus implements Bus {
     }
 
     private void scheduleHandle(String topic, Handler<Message> handler, Message message) {
-        //System.out.println("scheduleHandle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
+        //Platform.log("scheduleHandle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
         if (message.isLocal())
             handle(topic, handler, message);
         else

@@ -24,6 +24,7 @@ public class EntityListToDisplayResultSetGenerator {
     }
 
     public static DisplayResultSet createDisplayResultSet(EntityList entityList, DisplayColumn[] displayColumns) {
+        //Platform.log("createDisplayResultSet()");
         int rowCount = entityList.size();
         int columnCount = displayColumns.length;
         Type[] columnTypes = new Type[columnCount];
@@ -38,6 +39,8 @@ public class EntityListToDisplayResultSetGenerator {
             for (Entity entity : entityList)
                 values[index++] = entity.evaluate(expression);
         }
-        return new DisplayResultSet(rowCount, values, columnTypes, headerValues, null);
+        DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columnTypes, headerValues, null);
+        //Platform.log("Ok: " + displayResultSet);
+        return displayResultSet;
     }
 }

@@ -1,7 +1,9 @@
 package naga.core.orm.mapping;
 
 import naga.core.orm.domainmodel.DomainField;
-import naga.core.orm.entity.*;
+import naga.core.orm.entity.Entity;
+import naga.core.orm.entity.EntityList;
+import naga.core.orm.entity.EntityStore;
 import naga.core.spi.sql.SqlReadResult;
 
 /**
@@ -10,6 +12,7 @@ import naga.core.spi.sql.SqlReadResult;
 public class SqlResultToEntityListGenerator {
 
     public static EntityList createEntityList(SqlReadResult entityQueryResult, SqlRowToEntityMapping rowMapping, EntityStore store, Object listId) {
+        //Platform.log("createEntityList()");
         // Creating an empty entity list in the store
         EntityList entityList = store.getOrCreateEntityList(listId);
         entityList.clear();
@@ -50,6 +53,7 @@ public class SqlResultToEntityListGenerator {
             // And finally adding this entity to the list
             entityList.add(entity);
         }
+        //Platform.log("Ok : " + entityList);
         return entityList;
     }
 

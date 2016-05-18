@@ -17,7 +17,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
     private UM uiModel;
     private ActivityContext activityContext;
 
-    private boolean uiBoundToPresentationModel;
+    private boolean uiBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
 
     protected void setPresentationModelFactory(Factory<PM> presentationModelFactory) {
@@ -51,11 +51,14 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
     @Override
     public void onResume() {
         GuiToolkit toolkit = GuiToolkit.get();
-        if (uiModel == null)
+        if (uiModel == null) {
+            //Platform.log("Building UI model on resuming " + this.getClass());
             uiModel = uiBuilder != null ? uiBuilder.buildUiModel(toolkit) : buildUiModel(toolkit);
-        if (!uiBoundToPresentationModel) {
+        }
+        if (!uiBoundWithPresentationModel) {
+            //Platform.log("Binding UI model with presentation model");
             bindUiModelWithPresentationModel(uiModel, presentationModel);
-            uiBoundToPresentationModel = true;
+            uiBoundWithPresentationModel = true;
         }
         toolkit.scheduler().runInUiThread(() -> activityContext.setNode(uiModel.getContentNode()));
     }
@@ -63,7 +66,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
     @Override
     public void onDestroy() {
         uiModel = null;
-        uiBoundToPresentationModel = false;
+        uiBoundWithPresentationModel = false;
     }
 
     protected PM buildPresentationModel() { throw new RuntimeException();}

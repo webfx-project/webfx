@@ -1,9 +1,9 @@
 package naga.core.json.buscall;
 
 import naga.core.json.JsonObject;
+import naga.core.json.WritableJsonObject;
 import naga.core.json.codec.AbstractJsonCodec;
 import naga.core.json.codec.JsonCodecManager;
-import naga.core.json.WritableJsonObject;
 
 /*
  * @author Bruno Salmon
@@ -40,6 +40,7 @@ class BusCallResult<T> {
      */
     public BusCallResult(int callNumber, Object object) {
         this.callNumber = callNumber;
+        //Platform.log("BusCallResult constructor, class of object = " + object.getClass());
         if (object instanceof JsonObject)
             this.serializedTargetResult = object;
         else
@@ -54,6 +55,7 @@ class BusCallResult<T> {
     public T getTargetResult() {
         if (targetResult == null && serializedTargetResult != null)
             targetResult = JsonCodecManager.decodeFromJson(serializedTargetResult);
+        //Platform.log("BusCallResult getTargetResult(), class of targetResult = " + targetResult.getClass());
         return targetResult;
     }
 
@@ -86,6 +88,7 @@ class BusCallResult<T> {
 
             @Override
             public BusCallResult decodeFromJson(JsonObject json) {
+                //Platform.log("Decoding " + json.toJsonString());
                 return new BusCallResult(
                         json.getInt(CALL_NUMBER_KEY),
                         json.get(TARGET_RESULT_KEY)

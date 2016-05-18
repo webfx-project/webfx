@@ -31,6 +31,7 @@ public class ApplicationContext extends ActivityContext {
             @Override
             public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
                 observable.removeListener(this);
+                //Platform.log("Binding application window node property");
                 GuiToolkit.get().getApplicationWindow().nodeProperty().bind(observable);
             }
         });
