@@ -12,7 +12,7 @@ import java.util.Collection;
  */
 public class Parameter<T> extends AbstractExpression<T> {
 
-    public final static Parameter UNNAMED_PARAMETER = new Parameter(null, null);
+    public final static Parameter UNNAMED_PARAMETER = new Parameter<>(null, null);
 
     private final String name;
     private final Expression<T> rightDot;
