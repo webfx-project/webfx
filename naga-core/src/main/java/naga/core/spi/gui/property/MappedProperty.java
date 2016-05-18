@@ -23,6 +23,27 @@ public class MappedProperty<A, B> implements Property<A> {
     }
 
     @Override
+    public void setValue(A value) {
+        dontGarbageA = value;
+        property.setValue(aToBConverter.convert(value));
+    }
+
+    @Override
+    public A getValue() {
+        return bToAConverter.convert(property.getValue());
+    }
+
+    @Override
+    public Object getBean() {
+        return property.getBean();
+    }
+
+    @Override
+    public String getName() {
+        return property.getName();
+    }
+
+    @Override
     public void bind(ObservableValue<? extends A> observable) {
         System.out.println("bind!!!");
     }
@@ -48,16 +69,6 @@ public class MappedProperty<A, B> implements Property<A> {
     }
 
     @Override
-    public Object getBean() {
-        return property.getBean();
-    }
-
-    @Override
-    public String getName() {
-        return property.getName();
-    }
-
-    @Override
     public void addListener(ChangeListener<? super A> listener) {
         property.addListener((observable, oldValue, newValue) -> {
             listener.changed(MappedProperty.this, bToAConverter.convert(oldValue), bToAConverter.convert(newValue));
@@ -70,11 +81,6 @@ public class MappedProperty<A, B> implements Property<A> {
     }
 
     @Override
-    public A getValue() {
-        return bToAConverter.convert(property.getValue());
-    }
-
-    @Override
     public void addListener(InvalidationListener listener) {
         property.addListener(observable -> {
             listener.invalidated(MappedProperty.this);
@@ -84,11 +90,5 @@ public class MappedProperty<A, B> implements Property<A> {
     @Override
     public void removeListener(InvalidationListener listener) {
         //TODO
-    }
-
-    @Override
-    public void setValue(A value) {
-        dontGarbageA = value;
-        property.setValue(aToBConverter.convert(value));
     }
 }
