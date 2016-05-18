@@ -4,8 +4,8 @@ import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.UiBuilder;
 import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.nodes.BorderPane;
 import naga.core.spi.gui.nodes.Table;
+import naga.core.spi.gui.nodes.VBox;
 
 /**
  * @author Bruno Salmon
@@ -27,11 +27,9 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
         Table paymentTable = toolkit.createNode(Table.class);
 
         // Displaying the UI
-        return new CartUiModel(toolkit.createNode(BorderPane.class)
-                .setTop(documentTable)
-                .setCenter(documentLineTable)
-                .setBottom(paymentTable),
-                documentTable, documentLineTable, paymentTable);
+        VBox vBox = toolkit.createNode(VBox.class);
+        vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable);
+        return new CartUiModel(vBox, documentTable, documentLineTable, paymentTable);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
     @Override
     protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createRxFilter("{class: Document, orderBy: 'creationDate desc'}")
+        createRxFilter("{class: 'Document', orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 //.registerParameter(new Parameter("cartUuid", "constant"))
