@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -18,7 +18,6 @@
     <orderEntry type="module" module-name="naga-abstractplatform-java" />
     <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
     <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: net.minidev:json-smart:1.3.1" level="project" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
   </component>
 </module>

@@ -53,6 +53,7 @@
         <module name="mongoose-backend-pivot" />
         <module name="mongoose-backend-swing" />
         <module name="mongoose-backend-teavm" />
+        <module name="mongoose-frontend-gwt" />
         <module name="mongoose-frontend-javafx" />
         <module name="mongoose-logic" />
         <module name="naga-abstractplat-java" />
@@ -135,6 +136,7 @@
       <module name="mongoose-backend-swing" target="1.8" />
       <module name="mongoose-backend-teavm" target="1.8" />
       <module name="mongoose-frontend" target="1.8" />
+      <module name="mongoose-frontend-gwt" target="1.8" />
       <module name="mongoose-frontend-javafx" target="1.8" />
       <module name="mongoose-jre" target="1.8" />
       <module name="mongoose-logic" target="1.8" />

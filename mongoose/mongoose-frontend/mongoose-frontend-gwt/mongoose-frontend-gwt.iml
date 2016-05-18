@@ -43,7 +43,7 @@
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" scope="PROVIDED" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.google.gwt:gwt-codeserver:2.8.0-beta1" level="project" />

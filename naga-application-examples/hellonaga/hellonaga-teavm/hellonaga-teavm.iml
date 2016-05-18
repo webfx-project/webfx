@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -19,7 +19,7 @@
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
     <orderEntry type="module" module-name="naga-javaemul-teavm" />
     <orderEntry type="module" module-name="naga-javaemul-shared" />
-    <orderEntry type="library" name="Maven: naga:naga-javaemul-teavm-gwt-cldc:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="naga-javaemul-teavm-gwt-cldc" />
     <orderEntry type="module" module-name="hellonaga-logic" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-classlib:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-platform:0.4.3" level="project" />
