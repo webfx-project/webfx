@@ -20,10 +20,10 @@ public class DBMS {
     }
 
     public String generateJdbcUrl(ConnectionDetails connectionDetails) {
-        String s = Strings.replaceAll(jdbcUrlPattern, "\\{host\\}", connectionDetails.getHost());
-        s = Strings.replaceAll(s, "\\{port\\}", Integer.toString(connectionDetails.getPort()));
-        s = Strings.replaceAll(s, "\\{file\\}", connectionDetails.getFilePath());
-        s = Strings.replaceAll(s, "\\{database\\}", connectionDetails.getDatabaseName());
+        String s = Strings.replaceAll(jdbcUrlPattern, "{host}", connectionDetails.getHost());
+        s = Strings.replaceAll(s, "{port}", Integer.toString(connectionDetails.getPort()));
+        s = Strings.replaceAll(s, "{file}", connectionDetails.getFilePath());
+        s = Strings.replaceAll(s, "{database}", connectionDetails.getDatabaseName());
         return s;
     }
 
