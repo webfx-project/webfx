@@ -66,7 +66,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
                 .displayResultSetInto(pm.documentDisplayResultSetProperty());
 
         // Loading the domain model and setting up the reactive filter
-        createRxFilter("{class: 'DocumentLine', orderBy: 'creationDate'}")
+        createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'creationDate'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
