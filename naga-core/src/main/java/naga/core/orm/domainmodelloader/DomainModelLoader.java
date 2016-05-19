@@ -37,7 +37,7 @@ public class DomainModelLoader {
 
     public Future<DomainModel> loadDomainModel() {
         Future<DomainModel> future = Future.future();
-        Platform.query().readBatch(generateDomainModelSqlBatch()).setHandler(asyncResult -> {
+        Platform.query().readBatch(generateDomainModelQueryBatch()).setHandler(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
             else
@@ -46,8 +46,8 @@ public class DomainModelLoader {
         return future;
     }
 
-    public Batch<QueryArgument> generateDomainModelSqlBatch() {
-        return toSqlBatch(
+    public Batch<QueryArgument> generateDomainModelQueryBatch() {
+        return toQueryBatch(
                 // 1) Labels loading
                 "select id,text,icon from label where data_model_version_id=? or data_model_version_id is null",
                 // 2) Types loading
@@ -60,15 +60,15 @@ public class DomainModelLoader {
                 "select name,class_id,fields from fields_group fg join class c on fg.class_id=c.id where c.data_model_version_id=?");
     }
 
-    private Batch<QueryArgument> toSqlBatch(String... sqls) {
-        QueryArgument[] args = new QueryArgument[sqls.length];
-        for (int i = 0; i < sqls.length; i++)
-            args[i] = toSqlArgument(sqls[i]);
+    private Batch<QueryArgument> toQueryBatch(String... queryStrings) {
+        QueryArgument[] args = new QueryArgument[queryStrings.length];
+        for (int i = 0; i < queryStrings.length; i++)
+            args[i] = toQueryArgument(queryStrings[i]);
         return new Batch<>(args);
     }
 
-    private QueryArgument toSqlArgument(String sql) {
-        return new QueryArgument(sql, new Object[]{id}, dataSourceId);
+    private QueryArgument toQueryArgument(String queryString) {
+        return new QueryArgument(queryString, new Object[]{id}, dataSourceId);
     }
 
     public DomainModel generateDomainModel(Batch<QueryResultSet> batchResult) {
