@@ -1,13 +1,13 @@
-package naga.core.sql;
+package naga.core.queryservice;
 
 /**
  * @author Bruno Salmon
  */
-public class SqlWriteResult {
+public class WriteResult {
 
     private final int rowCount;
 
-    public SqlWriteResult(int rowCount) {
+    public WriteResult(int rowCount) {
         this.rowCount = rowCount;
     }
 

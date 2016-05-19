@@ -4,23 +4,23 @@ import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
-import naga.core.sql.SqlReadResult;
+import naga.core.queryservice.QueryResultSet;
 
 /**
  * @author Bruno Salmon
  */
 public class SqlResultToEntityListGenerator {
 
-    public static EntityList createEntityList(SqlReadResult entityQueryResult, SqlRowToEntityMapping rowMapping, EntityStore store, Object listId) {
+    public static EntityList createEntityList(QueryResultSet entityQueryResultSet, SqlRowToEntityMapping rowMapping, EntityStore store, Object listId) {
         //Platform.log("createEntityList()");
         // Creating an empty entity list in the store
         EntityList entityList = store.getOrCreateEntityList(listId);
         entityList.clear();
         // Now iterating along the query result to create one entity per record
-        int rowCount = entityQueryResult.getRowCount();
+        int rowCount = entityQueryResultSet.getRowCount();
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
             // Retrieving the primary key of this record
-            Object primaryKey = entityQueryResult.getValue(rowIndex, rowMapping.getPrimaryKeyColumnIndex());
+            Object primaryKey = entityQueryResultSet.getValue(rowIndex, rowMapping.getPrimaryKeyColumnIndex());
             // Creating the entity (empty for now)
             Entity entity = store.getOrCreateEntity(rowMapping.getDomainClassId(), primaryKey);
             // Now populating the entity values by iterating along the other column indexes (though column mappings)
@@ -31,7 +31,7 @@ public class SqlResultToEntityListGenerator {
                 SqlColumnToEntityFieldMapping joinMapping = columnMapping.getForeignIdColumnMapping();
                 if (joinMapping != null) { // Yes it is a join
                     // So let's first get the row id of the database foreign record
-                    Object foreignKey = entityQueryResult.getValue(rowIndex, joinMapping.getColumnIndex());
+                    Object foreignKey = entityQueryResultSet.getValue(rowIndex, joinMapping.getColumnIndex());
                     // If it is null, there is nothing to do (finally no target entity)
                     if (foreignKey == null)
                         continue;
@@ -39,7 +39,7 @@ public class SqlResultToEntityListGenerator {
                     targetEntity = store.getOrCreateEntity(joinMapping.getForeignClassId(), foreignKey); // And finally using is as the target entity
                 }
                 // Now that we have the target entity, getting the value for the column index
-                Object value = entityQueryResult.getValue(rowIndex, columnMapping.getColumnIndex());
+                Object value = entityQueryResultSet.getValue(rowIndex, columnMapping.getColumnIndex());
                 // If this is a foreign key (when foreignClassId is filled), we transform the value into a link to the foreign entity
                 if (columnMapping.getForeignClassId() != null)
                     value = store.getOrCreateEntity(columnMapping.getForeignClassId(), value);

@@ -2,10 +2,10 @@ package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.json.JsonFactory;
+import naga.core.queryservice.QueryService;
 import naga.core.spi.platform.BusFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.java.JavaPlatform;
-import naga.core.sql.SqlService;
 
 /**
  * @author Bruno Salmon
@@ -18,12 +18,12 @@ public final class VertxPlatform extends JavaPlatform {
 
     private final JsonFactory jsonFactory = new VertxJsonObject();
     private final BusFactory busFactory;
-    private final SqlService sqlService;
+    private final QueryService queryService;
 
     public VertxPlatform(Vertx vertx) {
         super(new VertxScheduler(vertx));
         busFactory = new VertxBusFactory(vertx.eventBus());
-        sqlService = new VertxSqlService(vertx);
+        queryService = new VertxQueryService(vertx);
     }
 
     @Override
@@ -37,7 +37,7 @@ public final class VertxPlatform extends JavaPlatform {
     }
 
     @Override
-    public SqlService sqlService() {
-        return sqlService;
+    public QueryService queryService() {
+        return queryService;
     }
 }

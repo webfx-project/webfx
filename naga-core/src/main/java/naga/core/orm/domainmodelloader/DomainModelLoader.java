@@ -6,9 +6,9 @@ import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainClassBuilder;
 import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainFieldBuilder;
 import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainFieldsGroupBuilder;
 import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainModelBuilder;
+import naga.core.queryservice.QueryResultSet;
 import naga.core.spi.platform.Platform;
-import naga.core.sql.SqlArgument;
-import naga.core.sql.SqlReadResult;
+import naga.core.queryservice.QueryArgument;
 import naga.core.type.DerivedType;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
@@ -37,7 +37,7 @@ public class DomainModelLoader {
 
     public Future<DomainModel> loadDomainModel() {
         Future<DomainModel> future = Future.future();
-        Platform.sql().readBatch(generateDomainModelSqlBatch()).setHandler(asyncResult -> {
+        Platform.query().readBatch(generateDomainModelSqlBatch()).setHandler(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
             else
@@ -46,7 +46,7 @@ public class DomainModelLoader {
         return future;
     }
 
-    public Batch<SqlArgument> generateDomainModelSqlBatch() {
+    public Batch<QueryArgument> generateDomainModelSqlBatch() {
         return toSqlBatch(
                 // 1) Labels loading
                 "select id,text,icon from label where data_model_version_id=? or data_model_version_id is null",
@@ -60,21 +60,21 @@ public class DomainModelLoader {
                 "select name,class_id,fields from fields_group fg join class c on fg.class_id=c.id where c.data_model_version_id=?");
     }
 
-    private Batch<SqlArgument> toSqlBatch(String... sqls) {
-        SqlArgument[] args = new SqlArgument[sqls.length];
+    private Batch<QueryArgument> toSqlBatch(String... sqls) {
+        QueryArgument[] args = new QueryArgument[sqls.length];
         for (int i = 0; i < sqls.length; i++)
             args[i] = toSqlArgument(sqls[i]);
         return new Batch<>(args);
     }
 
-    private SqlArgument toSqlArgument(String sql) {
-        return new SqlArgument(sql, new Object[]{id}, dataSourceId);
+    private QueryArgument toSqlArgument(String sql) {
+        return new QueryArgument(sql, new Object[]{id}, dataSourceId);
     }
 
-    public DomainModel generateDomainModel(Batch<SqlReadResult> batchResult) {
-        SqlReadResult[] results = batchResult.getArray();
+    public DomainModel generateDomainModel(Batch<QueryResultSet> batchResult) {
+        QueryResultSet[] results = batchResult.getArray();
         // 1) Building labels
-        SqlReadResult qr = results[0];
+        QueryResultSet qr = results[0];
         for (int row = 0; row < qr.getRowCount(); row++)
             labelMap.put(qr.getValue(row, "id"), new Label(qr.getValue(row, "text"), qr.getValue(row, "icon")));
         // 2) Building types

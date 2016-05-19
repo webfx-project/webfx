@@ -1,6 +1,6 @@
-package naga.core.sql.impl;
+package naga.core.queryservice.impl;
 
-import naga.core.sql.SqlService;
+import naga.core.queryservice.QueryService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,21 +11,21 @@ import java.util.Map;
 public class LocalDataSourceRegistry {
 
     private static final Map<Object, ConnectionDetails> dataSourceConnectionDetails = new HashMap<>();
-    private static final Map<Object, SqlService> dataSourceConnectedSqlServices = new HashMap<>();
+    private static final Map<Object, QueryService> dataSourceConnectedSqlServices = new HashMap<>();
 
     public static void registerLocalDataSource(Object dataSourceId, ConnectionDetails connectionDetails) {
         dataSourceConnectionDetails.put(dataSourceId, connectionDetails);
     }
 
-    public static void registerConnectedSqlService(Object dataSourceId, SqlService localSqlService) {
-        dataSourceConnectedSqlServices.put(dataSourceId, localSqlService);
+    public static void registerConnectedSqlService(Object dataSourceId, QueryService localQueryService) {
+        dataSourceConnectedSqlServices.put(dataSourceId, localQueryService);
     }
 
     public static ConnectionDetails getLocalDataSourceConnectionDetails(Object dataSourceId) {
         return dataSourceConnectionDetails.get(dataSourceId);
     }
 
-    public static SqlService getConnectedSqlService(Object dataSourceId) {
+    public static QueryService getConnectedSqlService(Object dataSourceId) {
         return dataSourceConnectedSqlServices.get(dataSourceId);
     }
 }

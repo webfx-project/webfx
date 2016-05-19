@@ -20,8 +20,8 @@ package naga.core.spi.platform;
 import naga.core.json.JsonFactory;
 import naga.core.bus.Bus;
 import naga.core.bus.BusOptions;
-import naga.core.sql.SqlService;
-import naga.core.sql.impl.SqlServiceImpl;
+import naga.core.queryservice.QueryService;
+import naga.core.queryservice.impl.RemoteQueryService;
 import naga.core.util.function.Consumer;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
 
@@ -61,8 +61,8 @@ public abstract class Platform {
 
     public abstract ResourceService resourceService();
 
-    public SqlService sqlService() {
-        return SqlServiceImpl.REMOTE_ONLY_SQL_SERVICE;
+    public QueryService queryService() {
+        return RemoteQueryService.REMOTE_ONLY_QUERY_SERVICE;
     }
 
     /*** Static access ***/
@@ -153,9 +153,9 @@ public abstract class Platform {
         return get().resourceService();
     }
 
-    // SqlService methods
+    // QueryService methods
 
-    public static SqlService sql() {
-        return get().sqlService();
+    public static QueryService query() {
+        return get().queryService();
     }
 }

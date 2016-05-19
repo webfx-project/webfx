@@ -18,7 +18,7 @@ import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.platform.Platform;
-import naga.core.sql.SqlArgument;
+import naga.core.queryservice.QueryArgument;
 import naga.core.util.Strings;
 import naga.core.util.function.Converter;
 import rx.Observable;
@@ -143,7 +143,7 @@ public class RxFilter {
                 .switchMap(stringFilter -> {
                     SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                     Platform.log(sqlCompiled.getSql());
-                    return RxFuture.from(Platform.sql().read(new SqlArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
+                    return RxFuture.from(Platform.query().read(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
                             .map(sqlReadResult -> SqlResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                             .map(entities -> EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns));
                 });

@@ -11,13 +11,13 @@ import io.vertx.ext.asyncsql.PostgreSQLClient;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLConnection;
-import naga.core.sql.SqlArgument;
-import naga.core.sql.SqlReadResult;
-import naga.core.sql.SqlService;
-import naga.core.sql.SqlWriteResult;
-import naga.core.sql.impl.ConnectionDetails;
-import naga.core.sql.impl.DBMS;
-import naga.core.sql.impl.SqlServiceImpl;
+import naga.core.queryservice.QueryArgument;
+import naga.core.queryservice.QueryResultSet;
+import naga.core.queryservice.QueryService;
+import naga.core.queryservice.WriteResult;
+import naga.core.queryservice.impl.ConnectionDetails;
+import naga.core.queryservice.impl.DBMS;
+import naga.core.queryservice.impl.RemoteQueryService;
 import naga.core.util.Arrays;
 import naga.core.util.async.Future;
 
@@ -26,24 +26,24 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class VertxSqlService extends SqlServiceImpl {
+public class VertxQueryService extends RemoteQueryService {
 
     private final Vertx vertx;
 
-    public VertxSqlService(Vertx vertx) {
+    public VertxQueryService(Vertx vertx) {
         this.vertx = vertx;
     }
 
     @Override
-    protected SqlService createConnectedSqlService(ConnectionDetails connectionDetails) {
-        return new VertxConnectedSqlService(connectionDetails);
+    protected QueryService createConnectedSqlService(ConnectionDetails connectionDetails) {
+        return new VertxConnectedQueryService(connectionDetails);
     }
 
-    class VertxConnectedSqlService implements SqlService {
+    class VertxConnectedQueryService implements QueryService {
 
         private final AsyncSQLClient sqlClient;
 
-        public VertxConnectedSqlService(ConnectionDetails connectionDetails) {
+        public VertxConnectedQueryService(ConnectionDetails connectionDetails) {
             // Generating the Vertx Sql config from the connection details
             JsonObject sqlConfig = new JsonObject()
                     // common config with JDBCClient
@@ -89,8 +89,8 @@ public class VertxSqlService extends SqlServiceImpl {
         }
 
         @Override
-        public Future<SqlReadResult> read(SqlArgument arg) {
-            Future<SqlReadResult> future = Future.future();
+        public Future<QueryResultSet> read(QueryArgument arg) {
+            Future<QueryResultSet> future = Future.future();
 
             sqlClient.getConnection(con -> {
                 if (con.failed()) // Connection failed
@@ -114,8 +114,8 @@ public class VertxSqlService extends SqlServiceImpl {
                                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
                                     inlineValues[rowIndex + columnIndex * rowCount] = jsonArray.getValue(columnIndex);
                             }
-                            // Returning the final SqlReadResult
-                            future.complete(new SqlReadResult(inlineValues, columnNames));
+                            // Returning the final QueryResultSet
+                            future.complete(new QueryResultSet(inlineValues, columnNames));
                         }
                         // Closing the connection so it can go back to the pool
                         connection.close();
@@ -123,12 +123,12 @@ public class VertxSqlService extends SqlServiceImpl {
                     // Calling query or queryWithParams depending if parameters are provided or not
                     Object[] parameters = arg.getParameters();
                     if (Arrays.isEmpty(parameters))
-                        connection.query(arg.getSql(), resultHandler);
+                        connection.query(arg.getQueryString(), resultHandler);
                     else {
                         JsonArray array = new JsonArray();
                         for (Object value : parameters)
                             array.add(value);
-                        connection.queryWithParams(arg.getSql(), array, resultHandler);
+                        connection.queryWithParams(arg.getQueryString(), array, resultHandler);
                     }
                 }
             });
@@ -137,7 +137,7 @@ public class VertxSqlService extends SqlServiceImpl {
         }
 
         @Override
-        public Future<SqlWriteResult> write(SqlArgument argument) {
+        public Future<WriteResult> write(QueryArgument argument) {
             throw new UnsupportedOperationException("Not yet implemented");
         }
     }

@@ -2,8 +2,8 @@ package naga.core.json.codec;
 
 import naga.core.json.*;
 import naga.core.bus.call.BusCallService;
-import naga.core.sql.SqlArgument;
-import naga.core.sql.SqlReadResult;
+import naga.core.queryservice.QueryArgument;
+import naga.core.queryservice.QueryResultSet;
 import naga.core.util.Numbers;
 import naga.core.util.async.Batch;
 
@@ -144,7 +144,7 @@ public class JsonCodecManager {
 
             @Override
             public Batch decodeFromJson(JsonObject json) {
-                return new Batch<>(decodeFromJsonArray(json.getArray(BATCH_ARRAY_KEY), SqlReadResult.class /* Temporary hardcoded TODO: guess the result class from the codecID */));
+                return new Batch<>(decodeFromJsonArray(json.getArray(BATCH_ARRAY_KEY), QueryResultSet.class /* Temporary hardcoded TODO: guess the result class from the codecID */));
             }
         };
     }
@@ -152,8 +152,8 @@ public class JsonCodecManager {
     static {
         // Registering all required json codecs (especially for network bus calls)
         BusCallService.registerJsonCodecs();
-        SqlArgument.registerJsonCodec();
-        SqlReadResult.registerJsonCodec();
+        QueryArgument.registerJsonCodec();
+        QueryResultSet.registerJsonCodec();
         registerBatchJsonCodec();
     }
 }

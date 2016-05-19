@@ -1,4 +1,4 @@
-package naga.core.sql;
+package naga.core.queryservice;
 
 import naga.core.json.JsonObject;
 import naga.core.json.codec.AbstractJsonCodec;
@@ -9,24 +9,24 @@ import naga.core.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-public class SqlArgument {
+public class QueryArgument {
 
-    private final String sql;
+    private final String queryString;
     private final Object[] parameters;
     private final Object dataSourceId;
 
-    public SqlArgument(String sql, Object dataSourceId) {
-        this(sql, null, dataSourceId);
+    public QueryArgument(String queryString, Object dataSourceId) {
+        this(queryString, null, dataSourceId);
     }
 
-    public SqlArgument(String sql, Object[] parameters, Object dataSourceId) {
-        this.sql = sql;
+    public QueryArgument(String queryString, Object[] parameters, Object dataSourceId) {
+        this.queryString = queryString;
         this.parameters = parameters;
         this.dataSourceId = dataSourceId;
     }
 
-    public String getSql() {
-        return sql;
+    public String getQueryString() {
+        return queryString;
     }
 
     public Object[] getParameters() {
@@ -47,19 +47,19 @@ public class SqlArgument {
     private static String DATA_SOURCE_ID_KEY = "dsId";
 
     public static void registerJsonCodec() {
-        new AbstractJsonCodec<SqlArgument>(SqlArgument.class, CODEC_ID) {
+        new AbstractJsonCodec<QueryArgument>(QueryArgument.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(SqlArgument arg, WritableJsonObject json) {
-                json.set(SQL_KEY, arg.getSql());
+            public void encodeToJson(QueryArgument arg, WritableJsonObject json) {
+                json.set(SQL_KEY, arg.getQueryString());
                 if (!Arrays.isEmpty(arg.getParameters()))
                     json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
                 json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
             }
 
             @Override
-            public SqlArgument decodeFromJson(JsonObject json) {
-                return new SqlArgument(
+            public QueryArgument decodeFromJson(JsonObject json) {
+                return new QueryArgument(
                         json.getString(SQL_KEY),
                         JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
                         json.get(DATA_SOURCE_ID_KEY)

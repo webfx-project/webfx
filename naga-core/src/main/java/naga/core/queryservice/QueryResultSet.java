@@ -1,4 +1,4 @@
-package naga.core.sql;
+package naga.core.queryservice;
 
 import naga.core.json.*;
 import naga.core.json.codec.AbstractJsonCodec;
@@ -9,7 +9,7 @@ import naga.core.util.compression.values.repeat.RepeatedValuesCompressor;
 /**
  * @author Bruno Salmon
  */
-public class SqlReadResult {
+public class QueryResultSet {
 
     /**
      * The number of rows in this result set.
@@ -35,20 +35,20 @@ public class SqlReadResult {
     private final String[] columnNames;
 
 
-    public SqlReadResult(int rowCount, int columnCount, Object[] values, String[] columnNames) {
+    public QueryResultSet(int rowCount, int columnCount, Object[] values, String[] columnNames) {
         if (values.length != columnCount * rowCount || columnNames != null && columnNames.length != columnCount)
-            throw new IllegalArgumentException("Incoherent sizes in SqlReadResult initialization");
+            throw new IllegalArgumentException("Incoherent sizes in QueryResultSet initialization");
         this.rowCount = rowCount;
         this.columnCount = columnCount;
         this.columnNames = columnNames;
         this.values = values;
     }
 
-    public SqlReadResult(int columnCount, Object[] values) {
+    public QueryResultSet(int columnCount, Object[] values) {
         this(values.length / columnCount, columnCount, values, null);
     }
 
-    public SqlReadResult(Object[] values, String[] columnNames) {
+    public QueryResultSet(Object[] values, String[] columnNames) {
         this(values.length / columnNames.length, columnNames.length, values, columnNames);
     }
 
@@ -116,10 +116,10 @@ public class SqlReadResult {
     private final static boolean COMPRESSION = true;
 
     public static void registerJsonCodec() {
-        new AbstractJsonCodec<SqlReadResult>(SqlReadResult.class, CODEC_ID) {
+        new AbstractJsonCodec<QueryResultSet>(QueryResultSet.class, CODEC_ID) {
 
             @Override
-            public void encodeToJson(SqlReadResult result, WritableJsonObject json) {
+            public void encodeToJson(QueryResultSet result, WritableJsonObject json) {
                 try {
                     int columnCount = result.getColumnCount();
                     // Column names serialization
@@ -156,7 +156,7 @@ public class SqlReadResult {
             }
 
             @Override
-            public SqlReadResult decodeFromJson(JsonObject json) {
+            public QueryResultSet decodeFromJson(JsonObject json) {
                 // Column names deserialization
                 JsonArray namesArray = json.getArray(COLUMN_NAMES_KEY);
                 int columnCount = namesArray.size();
@@ -179,7 +179,7 @@ public class SqlReadResult {
                 else
                     inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.getArray(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
-                return new SqlReadResult(inlineValues, names);
+                return new QueryResultSet(inlineValues, names);
             }
         };
     }

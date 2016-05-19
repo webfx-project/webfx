@@ -1,4 +1,4 @@
-package naga.core.sql.impl;
+package naga.core.queryservice.impl;
 
 import naga.core.util.Strings;
 
