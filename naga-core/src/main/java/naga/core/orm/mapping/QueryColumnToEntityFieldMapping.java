@@ -13,8 +13,8 @@ package naga.core.orm.mapping;
 public class QueryColumnToEntityFieldMapping {
 
     /**
-     * The query result column index (first = 0) that we are talking about. This column contains a sql value that needs
-     * to be mapped into an entity field.
+     * The query result column index (first = 0) that we are talking about. The column contains value that needs to be
+     * mapped into an entity field.
      */
     private final int columnIndex;
     /**

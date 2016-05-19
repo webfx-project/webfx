@@ -41,8 +41,8 @@ public class QueryArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "sqlArg";
-    private static String SQL_KEY = "sql";
+    private static String CODEC_ID = "QueryArg";
+    private static String QUERY_KEY = "query";
     private static String PARAMETERS_KEY = "params";
     private static String DATA_SOURCE_ID_KEY = "dsId";
 
@@ -51,7 +51,7 @@ public class QueryArgument {
 
             @Override
             public void encodeToJson(QueryArgument arg, WritableJsonObject json) {
-                json.set(SQL_KEY, arg.getQueryString());
+                json.set(QUERY_KEY, arg.getQueryString());
                 if (!Arrays.isEmpty(arg.getParameters()))
                     json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
                 json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
@@ -60,7 +60,7 @@ public class QueryArgument {
             @Override
             public QueryArgument decodeFromJson(JsonObject json) {
                 return new QueryArgument(
-                        json.getString(SQL_KEY),
+                        json.getString(QUERY_KEY),
                         JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
                         json.get(DATA_SOURCE_ID_KEY)
                 );

@@ -17,35 +17,35 @@ public class RemoteQueryService implements QueryService {
 
     @Override
     public Future<QueryResultSet> read(QueryArgument argument) {
-        QueryService localQueryService = getConnectedLocalSqlService(argument.getDataSourceId());
+        QueryService localQueryService = getConnectedLocalQueryService(argument.getDataSourceId());
         if (localQueryService != null)
             return localQueryService.read(argument);
-        return executeRemote(argument, true);
+        return executeRemoteQuery(argument, true);
     }
 
     @Override
     public Future<WriteResult> write(QueryArgument argument) {
-        QueryService localQueryService = getConnectedLocalSqlService(argument.getDataSourceId());
+        QueryService localQueryService = getConnectedLocalQueryService(argument.getDataSourceId());
         if (localQueryService != null)
             return localQueryService.write(argument);
-        return executeRemote(argument, false);
+        return executeRemoteQuery(argument, false);
     }
 
-    protected QueryService getConnectedLocalSqlService(Object dataSourceId) {
+    protected QueryService getConnectedLocalQueryService(Object dataSourceId) {
         QueryService connectedQueryService = LocalDataSourceRegistry.getConnectedSqlService(dataSourceId);
         if (connectedQueryService == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
             if (connectionDetails != null)
-                connectedQueryService = createConnectedSqlService(connectionDetails);
+                connectedQueryService = createConnectedQueryService(connectionDetails);
         }
         return connectedQueryService;
     }
 
-    protected QueryService createConnectedSqlService(ConnectionDetails connectionDetails) {
-        throw new UnsupportedOperationException("This platform doesn't support local sql service");
+    protected QueryService createConnectedQueryService(ConnectionDetails connectionDetails) {
+        throw new UnsupportedOperationException("This platform doesn't support local query service");
     }
 
-    protected <T> Future<T> executeRemote(QueryArgument argument, boolean read) {
-        return BusCallService.call(read ? Naga.SQL_READ_ADDRESS : Naga.SQL_WRITE_ADDRESS, argument);
+    protected <T> Future<T> executeRemoteQuery(QueryArgument argument, boolean read) {
+        return BusCallService.call(read ? Naga.QUERY_READ_ADDRESS : Naga.QUERY_WRITE_ADDRESS, argument);
     }
 }

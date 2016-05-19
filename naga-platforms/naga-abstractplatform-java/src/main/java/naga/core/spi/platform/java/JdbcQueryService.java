@@ -26,7 +26,7 @@ public class JdbcQueryService extends RemoteQueryService {
     }
 
     @Override
-    protected QueryService createConnectedSqlService(ConnectionDetails connectionDetails) {
+    protected QueryService createConnectedQueryService(ConnectionDetails connectionDetails) {
         return new JdbcConnectedQueryService(connectionDetails);
     }
 

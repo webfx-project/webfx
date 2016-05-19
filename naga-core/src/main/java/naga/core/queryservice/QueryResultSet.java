@@ -29,7 +29,7 @@ public class QueryResultSet {
     private Object[] values;
 
     /**
-     * Sql column names of the result set. This information is actually optional and useful only for debugging or when
+     * Column names of the result set. This information is actually optional and useful only for debugging or when
      * using methods to access values with column names instead of column index (like in the DomainModelLoader)
      */
     private final String[] columnNames;
@@ -107,7 +107,7 @@ public class QueryResultSet {
      *                    Json Codec                    *
      * *************************************************/
 
-    private final static String CODEC_ID = "SqlReadResult";
+    private final static String CODEC_ID = "QueryResultSet";
     private final static String COLUMN_NAMES_KEY = "names";
     private final static String COLUMN_TYPES_KEY = "types";
     private final static String VALUES_KEY = "values";

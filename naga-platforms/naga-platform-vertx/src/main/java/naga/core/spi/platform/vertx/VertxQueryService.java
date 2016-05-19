@@ -35,7 +35,7 @@ public class VertxQueryService extends RemoteQueryService {
     }
 
     @Override
-    protected QueryService createConnectedSqlService(ConnectionDetails connectionDetails) {
+    protected QueryService createConnectedQueryService(ConnectionDetails connectionDetails) {
         return new VertxConnectedQueryService(connectionDetails);
     }
 
