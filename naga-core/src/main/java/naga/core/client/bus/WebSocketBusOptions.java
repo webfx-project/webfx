@@ -1,4 +1,4 @@
-package naga.core.spi.bus.client;
+package naga.core.client.bus;
 
 import naga.core.json.JsonObject;
 import naga.core.spi.bus.BusOptions;

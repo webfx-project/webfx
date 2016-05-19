@@ -18,8 +18,8 @@
 package naga.core.spi.platform.client.cn1;
 
 import naga.core.json.JsonObject;
-import naga.core.spi.platform.client.WebSocket;
-import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.client.bus.WebSocket;
+import naga.core.client.bus.WebSocketFactory;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project

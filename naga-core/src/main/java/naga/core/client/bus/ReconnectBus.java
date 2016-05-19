@@ -15,12 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.client;
+package naga.core.client.bus;
 
 import naga.core.json.JsonObject;
 import naga.core.spi.bus.BusHook;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.WebSocket;
 import naga.core.util.idgen.FuzzingBackOffGenerator;
 
 import java.util.ArrayList;

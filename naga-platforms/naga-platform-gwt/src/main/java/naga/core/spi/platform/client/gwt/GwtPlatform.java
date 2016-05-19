@@ -4,7 +4,7 @@ import naga.core.json.JsonFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ResourceService;
-import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.client.bus.WebSocketFactory;
 import naga.core.spi.platform.client.web.WebLocation;
 import naga.core.spi.platform.client.web.WebPlatform;
 

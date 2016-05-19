@@ -1,9 +1,11 @@
 package naga.core.spi.platform.client;
 
+import naga.core.client.bus.WebSocket;
+import naga.core.client.bus.WebSocketFactory;
 import naga.core.json.JsonObject;
 import naga.core.spi.bus.BusFactory;
-import naga.core.spi.bus.client.ReconnectBus;
-import naga.core.spi.bus.client.WebSocketBusOptions;
+import naga.core.client.bus.ReconnectBus;
+import naga.core.client.bus.WebSocketBusOptions;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlService;
 import naga.core.spi.sql.impl.SqlServiceImpl;

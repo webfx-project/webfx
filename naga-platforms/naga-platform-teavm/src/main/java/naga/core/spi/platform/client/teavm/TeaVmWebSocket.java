@@ -1,7 +1,7 @@
 package naga.core.spi.platform.client.teavm;
 
 import naga.core.json.JsonObject;
-import naga.core.spi.platform.client.WebSocket;
+import naga.core.client.bus.WebSocket;
 import org.teavm.jso.JSBody;
 import org.teavm.jso.JSObject;
 

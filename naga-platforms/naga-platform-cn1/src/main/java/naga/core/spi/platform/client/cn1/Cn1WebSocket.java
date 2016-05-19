@@ -1,7 +1,7 @@
 package naga.core.spi.platform.client.cn1;
 
 import naga.core.json.Json;
-import naga.core.spi.platform.client.WebSocket;
+import naga.core.client.bus.WebSocket;
 
 import java.io.UnsupportedEncodingException;
 

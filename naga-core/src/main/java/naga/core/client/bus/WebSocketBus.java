@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus.client;
+package naga.core.client.bus;
 
 import naga.core.json.JsonObject;
 import naga.core.json.Json;
@@ -23,7 +23,6 @@ import naga.core.json.WritableJsonObject;
 import naga.core.spi.bus.Message;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.client.ClientPlatform;
-import naga.core.spi.platform.client.WebSocket;
 import naga.core.util.async.Handler;
 
 import java.util.HashMap;

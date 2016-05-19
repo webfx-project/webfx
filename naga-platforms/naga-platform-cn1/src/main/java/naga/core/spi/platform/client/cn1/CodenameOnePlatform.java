@@ -4,7 +4,7 @@ import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.platform.client.ClientPlatform;
 import naga.core.spi.platform.client.ResourceService;
-import naga.core.spi.platform.client.WebSocketFactory;
+import naga.core.client.bus.WebSocketFactory;
 
 /**
  * @author Bruno Salmon
