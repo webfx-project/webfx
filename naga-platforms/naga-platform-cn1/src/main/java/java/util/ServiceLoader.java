@@ -1,7 +1,7 @@
 package java.util;
 
-import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.cn1.CodenameOneToolkit;
+import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.cn1.CodenameOneToolkit;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.cn1.CodenameOnePlatform;
 
@@ -16,7 +16,7 @@ public class ServiceLoader<S> {
     public static <S> ServiceLoader<S> load(Class<S> service) {
         if (service.equals(Platform.class))
             return new ServiceLoader<>(new CodenameOnePlatform());
-        if (service.equals(GuiToolkit.class))
+        if (service.equals(Toolkit.class))
             return new ServiceLoader<>(new CodenameOneToolkit());
         return null;
     }

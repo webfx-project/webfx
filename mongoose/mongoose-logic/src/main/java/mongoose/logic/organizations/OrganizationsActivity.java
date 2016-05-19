@@ -4,11 +4,11 @@ import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.UiBuilder;
-import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.nodes.BorderPane;
-import naga.core.spi.gui.nodes.CheckBox;
-import naga.core.spi.gui.nodes.SearchBox;
-import naga.core.spi.gui.nodes.Table;
+import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.CheckBox;
+import naga.core.spi.toolkit.nodes.SearchBox;
+import naga.core.spi.toolkit.nodes.Table;
 
 /**
  * @author Bruno Salmon
@@ -22,7 +22,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationUiMo
         setUiBuilder(uiBuilder);
     }
 
-    protected OrganizationUiModel buildUiModel(GuiToolkit toolkit) {
+    protected OrganizationUiModel buildUiModel(Toolkit toolkit) {
         // Building the UI components
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);

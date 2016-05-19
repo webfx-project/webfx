@@ -3,7 +3,7 @@ package naga.core.ngui.presentation;
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.ngui.rx.RxFilter;
-import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.toolkit.Toolkit;
 import naga.core.util.function.Factory;
 
 /**
@@ -50,7 +50,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     @Override
     public void onResume() {
-        GuiToolkit toolkit = GuiToolkit.get();
+        Toolkit toolkit = Toolkit.get();
         if (uiModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
             uiModel = uiBuilder != null ? uiBuilder.buildUiModel(toolkit) : buildUiModel(toolkit);
@@ -75,7 +75,7 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     protected abstract void bindPresentationModelWithLogic(PM pm);
 
-    protected abstract UM buildUiModel(GuiToolkit toolkit);
+    protected abstract UM buildUiModel(Toolkit toolkit);
 
     protected abstract void bindUiModelWithPresentationModel(UM um, PM pm);
 

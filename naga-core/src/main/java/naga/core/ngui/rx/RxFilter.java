@@ -16,7 +16,7 @@ import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
 import naga.core.orm.mapping.SqlResultToEntityListGenerator;
 import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
-import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.platform.Platform;
 import naga.core.sql.SqlArgument;
 import naga.core.util.Strings;
@@ -136,7 +136,7 @@ public class RxFilter {
         checkFields();
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
         if (displayResultSetProperty.getValue() == null && displayColumns != null)
-            GuiToolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), displayColumns)));
+            Toolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), displayColumns)));
         Observable<DisplayResultSet> displayResultObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
                 .distinctUntilChanged()

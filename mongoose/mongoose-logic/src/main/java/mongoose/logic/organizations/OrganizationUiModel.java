@@ -1,10 +1,10 @@
 package mongoose.logic.organizations;
 
 import naga.core.ngui.presentation.UiModel;
-import naga.core.spi.gui.GuiNode;
-import naga.core.spi.gui.nodes.CheckBox;
-import naga.core.spi.gui.nodes.SearchBox;
-import naga.core.spi.gui.nodes.Table;
+import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.nodes.CheckBox;
+import naga.core.spi.toolkit.nodes.SearchBox;
+import naga.core.spi.toolkit.nodes.Table;
 
 /**
  * @author Bruno Salmon

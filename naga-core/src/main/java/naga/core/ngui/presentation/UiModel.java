@@ -1,6 +1,6 @@
 package naga.core.ngui.presentation;
 
-import naga.core.spi.gui.GuiNode;
+import naga.core.spi.toolkit.GuiNode;
 
 /**
  * @author Bruno Salmon

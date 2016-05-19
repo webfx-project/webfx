@@ -1,6 +1,6 @@
 package naga.core.ngui.rx;
 
-import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.platform.Platform;
 import rx.Scheduler;
 import rx.Subscription;
@@ -20,7 +20,7 @@ import static java.lang.Math.max;
 public final class RxScheduler extends Scheduler {
 
     public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(Platform.get().scheduler());
-    public static RxScheduler UI_SCHEDULER = new RxScheduler(GuiToolkit.get().scheduler());
+    public static RxScheduler UI_SCHEDULER = new RxScheduler(Toolkit.get().scheduler());
 
     private final naga.core.spi.platform.Scheduler nagaScheduler;
 

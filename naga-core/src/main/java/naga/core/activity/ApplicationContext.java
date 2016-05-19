@@ -3,8 +3,8 @@ package naga.core.activity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.core.orm.domainmodel.DataSourceModel;
-import naga.core.spi.gui.GuiNode;
-import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -32,7 +32,7 @@ public class ApplicationContext extends ActivityContext {
             public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
                 observable.removeListener(this);
                 //Platform.log("Binding application window node property");
-                GuiToolkit.get().getApplicationWindow().nodeProperty().bind(observable);
+                Toolkit.get().getApplicationWindow().nodeProperty().bind(observable);
             }
         });
 

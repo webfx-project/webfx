@@ -3,9 +3,9 @@ package mongoose.logic.cart;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.UiBuilder;
-import naga.core.spi.gui.GuiToolkit;
-import naga.core.spi.gui.nodes.Table;
-import naga.core.spi.gui.nodes.VBox;
+import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.nodes.Table;
+import naga.core.spi.toolkit.nodes.VBox;
 
 /**
  * @author Bruno Salmon
@@ -20,7 +20,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
     }
 
     @Override
-    protected CartUiModel buildUiModel(GuiToolkit toolkit) {
+    protected CartUiModel buildUiModel(Toolkit toolkit) {
         // Building the UI components
         Table documentTable = toolkit.createNode(Table.class);
         Table documentLineTable = toolkit.createNode(Table.class);

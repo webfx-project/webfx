@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.core.ngui.displayresultset.DisplayResultSet;
-import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.toolkit.Toolkit;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
@@ -47,7 +47,7 @@ class RxUi {
      */
     static Subscription unsubscribeInUiThread(Action0 unsubscribe) {
         return Subscriptions.create(() -> {
-            if (GuiToolkit.isUiThread())
+            if (Toolkit.isUiThread())
                 unsubscribe.call();
             else {
                 Scheduler.Worker worker = RxScheduler.UI_SCHEDULER.createWorker();
@@ -61,7 +61,7 @@ class RxUi {
 
     static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty) {
         displayResultObservable
-                .map(GuiToolkit.get()::transformDisplayResultForGui)
+                .map(Toolkit.get()::transformDisplayResultForGui)
                 .observeOn(RxScheduler.UI_SCHEDULER)
                 .subscribe(getPropertySubscriber(displayResultProperty));
     }

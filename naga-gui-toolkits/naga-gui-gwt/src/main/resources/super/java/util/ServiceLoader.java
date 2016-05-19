@@ -6,17 +6,17 @@ package java.util;
  * @author Bruno Salmon
  */
 
-import naga.core.spi.gui.GuiToolkit;
+import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.gwt.GwtPlatform;
-import naga.core.spi.gui.gwt.GwtToolkit;
+import naga.core.spi.toolkit.gwt.GwtToolkit;
 
 public class ServiceLoader<S> {
 
     public static <S> ServiceLoader<S> load(Class<S> service) {
         if (service.equals(Platform.class))
             return new ServiceLoader<>(new GwtPlatform());
-        if (service.equals(GuiToolkit.class))
+        if (service.equals(Toolkit.class))
             return new ServiceLoader<>(new GwtToolkit());
         return null;
     }
