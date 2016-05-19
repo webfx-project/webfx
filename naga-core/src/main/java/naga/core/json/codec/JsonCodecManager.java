@@ -77,7 +77,7 @@ public class JsonCodecManager {
         String codecId = json.getString(CODEC_ID_KEY);
         JsonCodec<J> decoder = getJsonDecoder(codecId);
         if (decoder == null)
-            throw new IllegalArgumentException("No JsonCodec for id: '" + codecId + "'");
+            throw new IllegalArgumentException("No JsonCodec found for id: '" + codecId + "' when trying to decode " + json.toJsonString());
         return decoder.decodeFromJson(json);
     }
 
