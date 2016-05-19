@@ -5,7 +5,7 @@ import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.gui.nodes.Window;
 import naga.core.spi.gui.property.MappedObservableList;
 import naga.core.spi.platform.Scheduler;
-import naga.core.spi.platform.ServiceLoaderHelper;
+import naga.core.util.serviceloader.ServiceLoaderHelper;
 import naga.core.util.function.Converter;
 import naga.core.util.function.Factory;
 

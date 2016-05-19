@@ -24,6 +24,7 @@ import naga.core.spi.bus.BusOptions;
 import naga.core.spi.sql.SqlService;
 import naga.core.spi.sql.impl.SqlServiceImpl;
 import naga.core.util.function.Consumer;
+import naga.core.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * Generic platform class. New platforms are defined as extension of this abstract class.
