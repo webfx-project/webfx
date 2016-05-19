@@ -2,9 +2,9 @@ package naga.core.spi.platform.web;
 
 import naga.core.bus.client.ReconnectBus;
 import naga.core.bus.client.WebSocketBusOptions;
-import naga.core.bus.client.WebSocketFactory;
+import naga.core.spi.platform.WebSocketFactory;
 import naga.core.json.JsonFactory;
-import naga.core.bus.BusFactory;
+import naga.core.spi.platform.BusFactory;
 import naga.core.bus.BusOptions;
 import naga.core.spi.platform.ClientPlatform;
 import naga.core.spi.platform.Platform;

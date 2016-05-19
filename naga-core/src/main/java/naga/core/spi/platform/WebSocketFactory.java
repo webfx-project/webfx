@@ -15,8 +15,9 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.bus.client;
+package naga.core.spi.platform;
 
+import naga.core.bus.client.WebSocket;
 import naga.core.json.JsonObject;
 
 /*

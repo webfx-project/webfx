@@ -2,7 +2,7 @@ package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.json.JsonFactory;
-import naga.core.bus.BusFactory;
+import naga.core.spi.platform.BusFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.java.JavaPlatform;
 import naga.core.spi.sql.SqlService;
