@@ -6,7 +6,7 @@ import naga.core.json.codec.JsonCodecManager;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodelloader.DomainModelLoader;
-import naga.core.spi.platform.client.ClientPlatform;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.sql.SqlReadResult;
 import naga.core.util.async.Batch;
 import naga.core.util.async.Future;
@@ -38,7 +38,7 @@ public class DomainModelSnapshotLoader {
 
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
-            Future<String> text = ClientPlatform.res().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
+            Future<String> text = Platform.res().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
             String jsonString = LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
             Batch<SqlReadResult> snapshotBatch = JsonCodecManager.decodeFromJson(json);

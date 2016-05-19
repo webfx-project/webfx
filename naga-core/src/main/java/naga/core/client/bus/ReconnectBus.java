@@ -19,6 +19,7 @@ package naga.core.client.bus;
 
 import naga.core.json.JsonObject;
 import naga.core.spi.bus.BusHook;
+import naga.core.spi.bus.BusOptions;
 import naga.core.spi.platform.Platform;
 import naga.core.util.idgen.FuzzingBackOffGenerator;
 
@@ -33,14 +34,18 @@ import java.util.Map;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/channel/impl/ReconnectBus.java">Original Goodow class</a>
  */
 public class ReconnectBus extends WebSocketBus {
-    public static final String AUTO_RECONNECT = "reconnect";
+    private static final String AUTO_RECONNECT = "reconnect";
     private final FuzzingBackOffGenerator backOffGenerator;
     private BusHook hook;
     private boolean reconnect;
     private final List<JsonObject> queuedMessages = new ArrayList<>();
     private final WebSocketBusOptions options;
 
-    public ReconnectBus(WebSocketBusOptions options) {
+    public ReconnectBus(BusOptions options) {
+        this((WebSocketBusOptions) options);
+    }
+
+    private ReconnectBus(WebSocketBusOptions options) {
         super(options);
         this.options = options;
         JsonObject socketOptions = options.getSocketOptions();
@@ -88,7 +93,7 @@ public class ReconnectBus extends WebSocketBus {
         });
     }
 
-    public void reconnect() {
+    private void reconnect() {
         if (getReadyState() == WebSocket.State.OPEN || getReadyState() == WebSocket.State.CONNECTING)
             return;
         if (webSocket != null)

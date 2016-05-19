@@ -22,7 +22,7 @@ import naga.core.json.Json;
 import naga.core.json.WritableJsonObject;
 import naga.core.spi.bus.Message;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.ClientPlatform;
+import naga.core.spi.platform.ClientPlatform;
 import naga.core.util.async.Handler;
 
 import java.util.HashMap;

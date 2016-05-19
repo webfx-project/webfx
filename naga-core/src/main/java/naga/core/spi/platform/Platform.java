@@ -22,6 +22,7 @@ import naga.core.spi.bus.Bus;
 import naga.core.spi.bus.BusFactory;
 import naga.core.spi.bus.BusOptions;
 import naga.core.spi.sql.SqlService;
+import naga.core.spi.sql.impl.SqlServiceImpl;
 import naga.core.util.function.Consumer;
 
 /**
@@ -34,7 +35,15 @@ import naga.core.util.function.Consumer;
  */
 public abstract class Platform {
 
-    public abstract Scheduler scheduler();
+    protected final Scheduler scheduler;
+
+    public Platform(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public Scheduler scheduler() {
+        return scheduler;
+    }
 
     public JsonFactory jsonFactory() {
         // Using the built-in json factory by default.
@@ -50,7 +59,11 @@ public abstract class Platform {
         options.turnUnsetPropertiesToDefault();
     }
 
-    public abstract SqlService sqlService();
+    public abstract ResourceService resourceService();
+
+    public SqlService sqlService() {
+        return SqlServiceImpl.REMOTE_ONLY_SQL_SERVICE;
+    }
 
     /*** Static access ***/
 
@@ -113,6 +126,7 @@ public abstract class Platform {
     public static void runInBackground(Runnable runnable) {
         get().scheduler().runInBackground(runnable);
     }
+
     // BusFactory methods
 
     private static Bus BUS;
@@ -131,6 +145,12 @@ public abstract class Platform {
         Platform platform = get();
         platform.setPlatformBusOptions(options);
         return BUS = platform.busFactory().createBus(options);
+    }
+
+    // ResourceService methods
+
+    public static ResourceService res() {
+        return get().resourceService();
     }
 
     // SqlService methods

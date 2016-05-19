@@ -7,7 +7,7 @@ package java.util;
  */
 
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.gwt.GwtPlatform;
+import naga.core.spi.platform.gwt.GwtPlatform;
 
 public class ServiceLoader<S> {
 

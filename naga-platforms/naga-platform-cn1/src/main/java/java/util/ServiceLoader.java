@@ -3,7 +3,7 @@ package java.util;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.gui.cn1.CodenameOneToolkit;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.client.cn1.CodenameOnePlatform;
+import naga.core.spi.platform.cn1.CodenameOnePlatform;
 
 /**
  * ServiceLoader CN1 implementation that just works to provide the CN1 Platform and Toolkit
