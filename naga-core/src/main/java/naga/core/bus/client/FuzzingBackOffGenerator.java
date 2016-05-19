@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.client.bus;
+package naga.core.bus.client;
 
 /**
  * Simple fibonacci back off with fuzzing. This is important for reconnection so that everyone

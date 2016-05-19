@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.spi.bus;
+package naga.core.bus;
 
 import java.util.ArrayList;
 import java.util.List;

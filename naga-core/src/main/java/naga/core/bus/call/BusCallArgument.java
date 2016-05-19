@@ -1,4 +1,4 @@
-package naga.core.json.buscall;
+package naga.core.bus.call;
 
 import naga.core.json.JsonObject;
 import naga.core.json.WritableJsonObject;

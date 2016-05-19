@@ -1,11 +1,11 @@
 package naga.core.spi.platform.web;
 
-import naga.core.client.bus.ReconnectBus;
-import naga.core.client.bus.WebSocketBusOptions;
-import naga.core.client.bus.WebSocketFactory;
+import naga.core.bus.client.ReconnectBus;
+import naga.core.bus.client.WebSocketBusOptions;
+import naga.core.bus.client.WebSocketFactory;
 import naga.core.json.JsonFactory;
-import naga.core.spi.bus.BusFactory;
-import naga.core.spi.bus.BusOptions;
+import naga.core.bus.BusFactory;
+import naga.core.bus.BusOptions;
 import naga.core.spi.platform.ClientPlatform;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.ResourceService;

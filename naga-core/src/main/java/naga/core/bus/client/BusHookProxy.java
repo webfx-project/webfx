@@ -15,11 +15,11 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.core.client.bus;
+package naga.core.bus.client;
 
 
-import naga.core.spi.bus.BusHook;
-import naga.core.spi.bus.Message;
+import naga.core.bus.BusHook;
+import naga.core.bus.Message;
 import naga.core.util.async.Handler;
 
 /*

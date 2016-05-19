@@ -17,8 +17,8 @@
  */
 package naga.core.spi.platform.android;
 
-import naga.core.spi.bus.BusOptions;
-import naga.core.client.bus.WebSocketBusOptions;
+import naga.core.bus.BusOptions;
+import naga.core.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.java.JavaClientPlatform;
 

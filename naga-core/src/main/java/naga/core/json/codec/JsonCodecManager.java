@@ -1,7 +1,7 @@
 package naga.core.json.codec;
 
 import naga.core.json.*;
-import naga.core.json.buscall.BusCallService;
+import naga.core.bus.call.BusCallService;
 import naga.core.spi.sql.SqlArgument;
 import naga.core.spi.sql.SqlReadResult;
 import naga.core.util.Numbers;

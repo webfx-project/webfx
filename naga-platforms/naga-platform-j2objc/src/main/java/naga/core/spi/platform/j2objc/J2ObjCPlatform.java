@@ -1,8 +1,8 @@
 package naga.core.spi.platform.j2objc;
 
-import naga.core.client.bus.ReconnectBus;
-import naga.core.client.bus.WebSocketFactory;
-import naga.core.spi.bus.BusFactory;
+import naga.core.bus.client.ReconnectBus;
+import naga.core.bus.client.WebSocketFactory;
+import naga.core.bus.BusFactory;
 import naga.core.spi.platform.ClientPlatform;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.ResourceService;

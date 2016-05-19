@@ -1,7 +1,7 @@
 package naga.core.spi.platform.gwt;
 
 import naga.core.json.JsonObject;
-import naga.core.client.bus.WebSocketFactory;
+import naga.core.bus.client.WebSocketFactory;
 
 /**
  * @author Bruno Salmon

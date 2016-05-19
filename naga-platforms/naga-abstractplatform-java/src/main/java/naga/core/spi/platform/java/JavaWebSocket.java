@@ -18,7 +18,7 @@
 package naga.core.spi.platform.java;
 
 import naga.core.json.Json;
-import naga.core.client.bus.WebSocket;
+import naga.core.bus.client.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;

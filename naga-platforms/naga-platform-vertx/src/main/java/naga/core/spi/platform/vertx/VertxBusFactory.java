@@ -1,9 +1,9 @@
-package naga.core.spi.bus.vertx;
+package naga.core.spi.platform.vertx;
 
 import io.vertx.core.eventbus.EventBus;
-import naga.core.spi.bus.Bus;
-import naga.core.spi.bus.BusFactory;
-import naga.core.spi.bus.BusOptions;
+import naga.core.bus.Bus;
+import naga.core.bus.BusFactory;
+import naga.core.bus.BusOptions;
 
 /**
  * @author Bruno Salmon

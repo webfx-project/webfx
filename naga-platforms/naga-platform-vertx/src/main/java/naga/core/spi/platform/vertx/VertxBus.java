@@ -1,11 +1,11 @@
-package naga.core.spi.bus.vertx;
+package naga.core.spi.platform.vertx;
 
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.eventbus.MessageConsumer;
 import io.vertx.core.json.JsonObject;
 import naga.core.json.Json;
 import naga.core.json.listmap.MapBasedJsonObject;
-import naga.core.spi.bus.*;
+import naga.core.bus.*;
 import naga.core.util.async.Handler;
 
 /**

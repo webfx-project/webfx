@@ -1,7 +1,7 @@
-package naga.core.client.bus;
+package naga.core.bus.client;
 
 import naga.core.json.JsonObject;
-import naga.core.spi.bus.BusOptions;
+import naga.core.bus.BusOptions;
 
 /**
  * @author Bruno Salmon

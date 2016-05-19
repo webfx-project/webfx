@@ -16,7 +16,7 @@
  * the License.
  */
 
-package naga.core.spi.bus;
+package naga.core.bus;
 
 import naga.core.util.async.Handler;
 

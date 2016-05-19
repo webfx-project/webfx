@@ -1,7 +1,7 @@
 package naga.core.spi.platform.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import naga.core.client.bus.WebSocket;
+import naga.core.bus.client.WebSocket;
 
 /**
  * @author Bruno Salmon
@@ -29,10 +29,10 @@ final class GwtWebSocket extends JavaScriptObject implements WebSocket {
 
     @Override
     public native void setListen(WebSocketHandler handler) /*-{
-        this.onopen =    handler.@naga.core.client.bus.WebSocket.WebSocketHandler::onOpen().bind(handler);
-        this.onmessage = function(event) { handler.@naga.core.client.bus.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
-        this.onerror =   function(event) { handler.@naga.core.client.bus.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
-        this.onclose =   handler.@naga.core.client.bus.WebSocket.WebSocketHandler::onClose(Lnaga/core/json/JsonObject;).bind(handler);
+        this.onopen =    handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onOpen().bind(handler);
+        this.onmessage = function(event) { handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
+        this.onerror =   function(event) { handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
+        this.onclose =   handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onClose(Lnaga/core/json/JsonObject;).bind(handler);
     }-*/;
 
     @Override

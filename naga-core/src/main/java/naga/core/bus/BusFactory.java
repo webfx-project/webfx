@@ -1,4 +1,4 @@
-package naga.core.spi.bus;
+package naga.core.bus;
 
 /**
  * @author Bruno Salmon
