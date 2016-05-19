@@ -24,7 +24,6 @@ import naga.core.spi.bus.Message;
 import naga.core.spi.bus.Registration;
 import naga.core.spi.platform.Platform;
 import naga.core.util.async.Handler;
-import naga.core.util.idgen.IdGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
