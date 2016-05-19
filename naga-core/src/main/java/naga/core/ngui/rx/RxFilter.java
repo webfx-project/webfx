@@ -13,7 +13,7 @@ import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.ExpressionArray;
 import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
-import naga.core.orm.mapping.QueryResultToEntityListGenerator;
+import naga.core.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
 import naga.core.spi.toolkit.Toolkit;
@@ -144,7 +144,7 @@ public class RxFilter {
                     SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                     Platform.log(sqlCompiled.getSql());
                     return RxFuture.from(Platform.query().read(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
-                            .map(sqlReadResult -> QueryResultToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
+                            .map(sqlReadResult -> QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                             .map(entities -> EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns));
                 });
         RxUi.displayObservable(displayResultObservable, displayResultSetProperty);
