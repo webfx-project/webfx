@@ -7,7 +7,7 @@ import naga.core.orm.expression.term.Dot;
 import naga.core.orm.expression.term.Symbol;
 import naga.core.orm.expression.term.function.ArgumentAlias;
 import naga.core.orm.expressionsqlcompiler.sql.SqlClause;
-import naga.core.orm.mapping.SqlColumnToEntityFieldMapping;
+import naga.core.orm.mapping.QueryColumnToEntityFieldMapping;
 
 /**
  * @author Bruno Salmon
@@ -43,12 +43,12 @@ public class DotSqlCompiler extends AbstractTermSqlCompiler<Dot> {
             rightTableAlias = ((Alias) left).getName();
         } else // should never occur
             leftSql = rightTableAlias = null;
-        SqlColumnToEntityFieldMapping leftJoinMapping = null;
+        QueryColumnToEntityFieldMapping leftJoinMapping = null;
         if (o.clause == SqlClause.SELECT && leftSql != null && e.isReadLeftKey() && o.readForeignFields) // lecture de la clé étrangère pour pouvoir faire la jointure en mémoire
             leftJoinMapping = o.build.addColumnInClause(leftTableAlias, leftSql, left, rightClass, o.clause, o.separator, o.grouped, false, o.generateQueryMapping);
         o.build.setCompilingClass(rightClass);
         o.build.setCompilingTableAlias(rightTableAlias);
-        SqlColumnToEntityFieldMapping oldLeftJoinMapping = o.build.getLeftJoinMapping();
+        QueryColumnToEntityFieldMapping oldLeftJoinMapping = o.build.getLeftJoinMapping();
         o.build.setLeftJoinMapping(leftJoinMapping);
         Expression right = e.getRight();
         if (o.clause == SqlClause.SELECT && (!(right instanceof Symbol) || ((Symbol) right).getExpression() != null))

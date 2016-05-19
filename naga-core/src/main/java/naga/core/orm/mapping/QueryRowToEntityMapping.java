@@ -3,17 +3,17 @@ package naga.core.orm.mapping;
 import naga.core.util.Arrays;
 
 /**
- * Mapping between the sql row and the entity
+ * Mapping between the query row and an entity
  *
  * @author Bruno Salmon
  */
-public class SqlRowToEntityMapping {
+public class QueryRowToEntityMapping {
 
     private final int primaryKeyColumnIndex; // the column index that contains the primary key
     private final Object domainClassId; // the domain class id for the entity
-    private final SqlColumnToEntityFieldMapping[] columnMappings; // column mappings (other than for the component id)
+    private final QueryColumnToEntityFieldMapping[] columnMappings; // column mappings (other than for the component id)
 
-    public SqlRowToEntityMapping(int primaryKeyColumnIndex, Object domainClassId, SqlColumnToEntityFieldMapping[] columnMappings) {
+    public QueryRowToEntityMapping(int primaryKeyColumnIndex, Object domainClassId, QueryColumnToEntityFieldMapping[] columnMappings) {
         this.primaryKeyColumnIndex = primaryKeyColumnIndex;
         this.domainClassId = domainClassId;
         this.columnMappings = columnMappings;
@@ -27,7 +27,7 @@ public class SqlRowToEntityMapping {
         return domainClassId;
     }
 
-    public SqlColumnToEntityFieldMapping[] getColumnMappings() {
+    public QueryColumnToEntityFieldMapping[] getColumnMappings() {
         return columnMappings;
     }
 

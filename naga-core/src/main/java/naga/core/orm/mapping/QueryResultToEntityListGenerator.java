@@ -9,9 +9,9 @@ import naga.core.queryservice.QueryResultSet;
 /**
  * @author Bruno Salmon
  */
-public class SqlResultToEntityListGenerator {
+public class QueryResultToEntityListGenerator {
 
-    public static EntityList createEntityList(QueryResultSet entityQueryResultSet, SqlRowToEntityMapping rowMapping, EntityStore store, Object listId) {
+    public static EntityList createEntityList(QueryResultSet entityQueryResultSet, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
         //Platform.log("createEntityList()");
         // Creating an empty entity list in the store
         EntityList entityList = store.getOrCreateEntityList(listId);
@@ -24,11 +24,11 @@ public class SqlResultToEntityListGenerator {
             // Creating the entity (empty for now)
             Entity entity = store.getOrCreateEntity(rowMapping.getDomainClassId(), primaryKey);
             // Now populating the entity values by iterating along the other column indexes (though column mappings)
-            for (SqlColumnToEntityFieldMapping columnMapping : rowMapping.getColumnMappings()) {
+            for (QueryColumnToEntityFieldMapping columnMapping : rowMapping.getColumnMappings()) {
                 // The target entity (to affect the column value to) is normally the current entity
                 Entity targetEntity = entity;
                 // However if this column index is associated with a join, it actually refers to a foreign entity, so let's check this
-                SqlColumnToEntityFieldMapping joinMapping = columnMapping.getForeignIdColumnMapping();
+                QueryColumnToEntityFieldMapping joinMapping = columnMapping.getForeignIdColumnMapping();
                 if (joinMapping != null) { // Yes it is a join
                     // So let's first get the row id of the database foreign record
                     Object foreignKey = entityQueryResultSet.getValue(rowIndex, joinMapping.getColumnIndex());
