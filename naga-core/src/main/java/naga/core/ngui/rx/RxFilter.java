@@ -18,7 +18,7 @@ import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
 import naga.core.spi.gui.GuiToolkit;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.sql.SqlArgument;
+import naga.core.sql.SqlArgument;
 import naga.core.util.Strings;
 import naga.core.util.function.Converter;
 import rx.Observable;

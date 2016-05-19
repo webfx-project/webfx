@@ -1,4 +1,4 @@
-package naga.core.spi.sql;
+package naga.core.sql;
 
 import naga.core.util.async.Batch;
 import naga.core.util.async.Future;

@@ -5,8 +5,7 @@ import naga.core.json.JsonFactory;
 import naga.core.spi.platform.BusFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.java.JavaPlatform;
-import naga.core.spi.sql.SqlService;
-import naga.core.spi.sql.vertx.VertxSqlService;
+import naga.core.sql.SqlService;
 
 /**
  * @author Bruno Salmon

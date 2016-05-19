@@ -4,7 +4,7 @@ import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
-import naga.core.spi.sql.SqlReadResult;
+import naga.core.sql.SqlReadResult;
 
 /**
  * @author Bruno Salmon

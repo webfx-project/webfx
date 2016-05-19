@@ -1,11 +1,11 @@
-package naga.core.spi.sql.impl;
+package naga.core.sql.impl;
 
 import naga.core.Naga;
 import naga.core.bus.call.BusCallService;
-import naga.core.spi.sql.SqlArgument;
-import naga.core.spi.sql.SqlReadResult;
-import naga.core.spi.sql.SqlService;
-import naga.core.spi.sql.SqlWriteResult;
+import naga.core.sql.SqlArgument;
+import naga.core.sql.SqlReadResult;
+import naga.core.sql.SqlService;
+import naga.core.sql.SqlWriteResult;
 import naga.core.util.async.Future;
 
 /**

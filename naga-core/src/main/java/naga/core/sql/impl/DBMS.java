@@ -1,4 +1,4 @@
-package naga.core.spi.sql.impl;
+package naga.core.sql.impl;
 
 import naga.core.util.Strings;
 

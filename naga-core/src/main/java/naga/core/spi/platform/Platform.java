@@ -20,8 +20,8 @@ package naga.core.spi.platform;
 import naga.core.json.JsonFactory;
 import naga.core.bus.Bus;
 import naga.core.bus.BusOptions;
-import naga.core.spi.sql.SqlService;
-import naga.core.spi.sql.impl.SqlServiceImpl;
+import naga.core.sql.SqlService;
+import naga.core.sql.impl.SqlServiceImpl;
 import naga.core.util.function.Consumer;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
 

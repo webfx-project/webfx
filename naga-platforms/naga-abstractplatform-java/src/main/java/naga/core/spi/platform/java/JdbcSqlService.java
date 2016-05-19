@@ -1,12 +1,12 @@
-package naga.core.spi.platform.sql.jdbc;
+package naga.core.spi.platform.java;
 
 import com.zaxxer.hikari.HikariDataSource;
-import naga.core.spi.sql.SqlArgument;
-import naga.core.spi.sql.SqlReadResult;
-import naga.core.spi.sql.SqlService;
-import naga.core.spi.sql.SqlWriteResult;
-import naga.core.spi.sql.impl.ConnectionDetails;
-import naga.core.spi.sql.impl.SqlServiceImpl;
+import naga.core.sql.SqlArgument;
+import naga.core.sql.SqlReadResult;
+import naga.core.sql.SqlService;
+import naga.core.sql.SqlWriteResult;
+import naga.core.sql.impl.ConnectionDetails;
+import naga.core.sql.impl.SqlServiceImpl;
 import naga.core.util.Arrays;
 import naga.core.util.async.Future;
 

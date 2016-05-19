@@ -1,7 +1,7 @@
 package emul.java.lang.reflect;
 
 import naga.core.spi.platform.Platform;
-import naga.core.spi.sql.SqlReadResult;
+import naga.core.sql.SqlReadResult;
 
 public final class Array {
 

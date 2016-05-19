@@ -1,4 +1,4 @@
-package naga.core.spi.sql;
+package naga.core.sql;
 
 import naga.core.json.*;
 import naga.core.json.codec.AbstractJsonCodec;

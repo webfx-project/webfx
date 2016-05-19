@@ -1,6 +1,6 @@
-package naga.core.spi.sql.impl;
+package naga.core.sql.impl;
 
-import naga.core.spi.sql.SqlService;
+import naga.core.sql.SqlService;
 
 import java.util.HashMap;
 import java.util.Map;

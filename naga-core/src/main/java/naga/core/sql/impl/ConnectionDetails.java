@@ -1,4 +1,4 @@
-package naga.core.spi.sql.impl;
+package naga.core.sql.impl;
 
 /**
  * @author Bruno Salmon
