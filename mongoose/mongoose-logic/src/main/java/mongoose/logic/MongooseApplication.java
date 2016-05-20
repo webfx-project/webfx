@@ -6,8 +6,6 @@ import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityRouterHelper;
 import naga.core.routing.Router;
-import naga.core.spi.bus.client.WebSocketBusOptions;
-import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
