@@ -33,12 +33,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     }
 
     @Override
-    protected void bindUiModelWithPresentationModel(CartViewModel um, CartPresentationModel pm) {
+    protected void bindUiModelWithPresentationModel(CartViewModel vm, CartPresentationModel pm) {
         // Binding the UI with the presentation model for further state changes
         // User outputs: the presentation model changes are transferred in the UI
-        um.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
-        um.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
-        um.getPaymentTable().displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
+        vm.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
+        vm.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
+        vm.getPaymentTable().displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
     }
 
     @Override

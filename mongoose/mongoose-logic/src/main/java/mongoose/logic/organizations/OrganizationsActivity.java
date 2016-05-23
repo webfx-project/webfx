@@ -4,7 +4,6 @@ import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.ViewBuilder;
-import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
@@ -35,10 +34,10 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationView
                 , searchBox, table, limitCheckBox);
     }
 
-    protected void bindUiModelWithPresentationModel(OrganizationViewModel um, OrganizationsPresentationModel pm) {
+    protected void bindUiModelWithPresentationModel(OrganizationViewModel vm, OrganizationsPresentationModel pm) {
         // Hard coded initialization
-        SearchBox searchBox = um.getSearchBox();
-        CheckBox limitCheckBox = um.getLimitCheckBox();
+        SearchBox searchBox = vm.getSearchBox();
+        CheckBox limitCheckBox = vm.getLimitCheckBox();
         searchBox.setPlaceholder("Enter your centre name to narrow the list");
         searchBox.requestFocus();
         limitCheckBox.setText("Limit to 100");
@@ -52,7 +51,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationView
         pm.searchTextProperty().bind(searchBox.textProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         // User outputs: the presentation model changes are transferred in the UI
-        um.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
+        vm.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
     }
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
