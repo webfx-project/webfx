@@ -2,8 +2,8 @@
 
 <module rename-to='mongoose_backend'>
 
-    <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
-    <inherits name="naga-gui-gwtmaterial"/> <!-- refers to naga.gwt.xml in naga-plat-gwt -->
+    <!-- Selecting Polymer as the GUI toolkit (this includes the naga gwt & core modules) -->
+    <inherits name="naga-gui-gwtpolymer"/>
 
     <inherits name="com.google.gwt.resources.Resources" />
 
