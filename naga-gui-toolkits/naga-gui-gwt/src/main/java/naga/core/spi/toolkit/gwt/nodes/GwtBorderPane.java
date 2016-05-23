@@ -29,17 +29,21 @@ public class GwtBorderPane extends GwtNode<DockLayoutPanel> implements BorderPan
     private void onNodePropertyChange(ObservableValue<? extends GuiNode<Widget>> observable, GuiNode<Widget> oldValue, GuiNode<Widget> newValue) {
         node.clear();
         GuiNode<Widget> topPropertyValue = topProperty.getValue();
-        if (topPropertyValue != null)
-            node.addNorth(topPropertyValue.unwrapToNativeNode(), 5);
+        if (topPropertyValue != null) {
+            Widget widget = topPropertyValue.unwrapToNativeNode();
+            node.addNorth(widget, widget.getOffsetHeight());
+        }
         GuiNode<Widget> bottomPropertyValue = bottomProperty.getValue();
-        if (bottomPropertyValue != null)
-            node.addSouth(bottomPropertyValue.unwrapToNativeNode(), 2.5);
+        if (bottomPropertyValue != null) {
+            Widget widget = bottomPropertyValue.unwrapToNativeNode();
+            node.addSouth(widget, widget.getOffsetHeight());
+        }
         GuiNode<Widget> centerPropertyValue = centerProperty.getValue();
         if (centerPropertyValue != null) {
-            Widget centerWidget = centerPropertyValue.unwrapToNativeNode();
-            centerWidget.setWidth("100%");
-            centerWidget.setHeight("100%");
-            node.add(centerWidget);
+            Widget widget = centerPropertyValue.unwrapToNativeNode();
+            widget.setWidth("100%");
+            widget.setHeight("100%");
+            node.add(widget);
         }
     }
 
