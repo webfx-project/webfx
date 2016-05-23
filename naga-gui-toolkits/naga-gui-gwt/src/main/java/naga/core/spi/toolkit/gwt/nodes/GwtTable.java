@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.gwt.nodes;
 
 import com.google.gwt.user.cellview.client.AbstractCellTable;
-import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.nodes.Table;
@@ -14,7 +14,7 @@ import naga.core.util.collection.IdentityList;
 public class GwtTable extends GwtDisplayResultSetNode<AbstractCellTable<Integer>> implements Table<AbstractCellTable<Integer>> {
 
     public GwtTable() {
-        this(new CellTable<>());
+        this(new DataGrid<>()); // CellTable for height automatically set to the number of rows, DataGrid for fixed height with scroll bar
     }
 
     public GwtTable(AbstractCellTable<Integer> node) {
@@ -46,7 +46,7 @@ public class GwtTable extends GwtDisplayResultSetNode<AbstractCellTable<Integer>
         private final int columnIndex;
         private DisplayResultSet displayResultSet;
 
-        public GwtColumn(int columnIndex) {
+        GwtColumn(int columnIndex) {
             this.columnIndex = columnIndex;
         }
 
