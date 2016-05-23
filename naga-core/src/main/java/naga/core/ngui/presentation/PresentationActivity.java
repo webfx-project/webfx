@@ -9,23 +9,23 @@ import naga.core.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public abstract class PresentationActivity<UM extends UiModel, PM extends PresentationModel> implements Activity {
+public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> implements Activity {
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
-    private UiBuilder<UM> uiBuilder;
-    private UM uiModel;
+    private ViewBuilder<VM> viewBuilder;
+    private VM viewModel;
     private ActivityContext activityContext;
 
-    private boolean uiBoundWithPresentationModel;
+    private boolean viewBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
 
     protected void setPresentationModelFactory(Factory<PM> presentationModelFactory) {
         this.presentationModelFactory = presentationModelFactory;
     }
 
-    protected void setUiBuilder(UiBuilder<UM> uiBuilder) {
-        this.uiBuilder = uiBuilder;
+    protected void setViewBuilder(ViewBuilder<VM> viewBuilder) {
+        this.viewBuilder = viewBuilder;
     }
 
     protected ActivityContext getActivityContext() {
@@ -51,22 +51,22 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
     @Override
     public void onResume() {
         Toolkit toolkit = Toolkit.get();
-        if (uiModel == null) {
+        if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
-            uiModel = uiBuilder != null ? uiBuilder.buildUiModel(toolkit) : buildUiModel(toolkit);
+            viewModel = viewBuilder != null ? viewBuilder.buildUiModel(toolkit) : buildUiModel(toolkit);
         }
-        if (!uiBoundWithPresentationModel) {
+        if (!viewBoundWithPresentationModel) {
             //Platform.log("Binding UI model with presentation model");
-            bindUiModelWithPresentationModel(uiModel, presentationModel);
-            uiBoundWithPresentationModel = true;
+            bindUiModelWithPresentationModel(viewModel, presentationModel);
+            viewBoundWithPresentationModel = true;
         }
-        toolkit.scheduler().runInUiThread(() -> activityContext.setNode(uiModel.getContentNode()));
+        toolkit.scheduler().runInUiThread(() -> activityContext.setNode(viewModel.getContentNode()));
     }
 
     @Override
     public void onDestroy() {
-        uiModel = null;
-        uiBoundWithPresentationModel = false;
+        viewModel = null;
+        viewBoundWithPresentationModel = false;
     }
 
     protected PM buildPresentationModel() { throw new RuntimeException();}
@@ -75,9 +75,9 @@ public abstract class PresentationActivity<UM extends UiModel, PM extends Presen
 
     protected abstract void bindPresentationModelWithLogic(PM pm);
 
-    protected abstract UM buildUiModel(Toolkit toolkit);
+    protected abstract VM buildUiModel(Toolkit toolkit);
 
-    protected abstract void bindUiModelWithPresentationModel(UM um, PM pm);
+    protected abstract void bindUiModelWithPresentationModel(VM VM, PM pm);
 
     /** Helpers **/
 

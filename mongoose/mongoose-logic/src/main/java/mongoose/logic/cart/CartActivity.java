@@ -2,7 +2,7 @@ package mongoose.logic.cart;
 
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
-import naga.core.ngui.presentation.UiBuilder;
+import naga.core.ngui.presentation.ViewBuilder;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
@@ -10,17 +10,17 @@ import naga.core.spi.toolkit.nodes.VBox;
 /**
  * @author Bruno Salmon
  */
-public class CartActivity extends PresentationActivity<CartUiModel, CartPresentationModel> {
+public class CartActivity extends PresentationActivity<CartViewModel, CartPresentationModel> {
 
-    public static UiBuilder<CartUiModel> uiBuilder;
+    public static ViewBuilder<CartViewModel> viewBuilder;
 
     public CartActivity() {
         setPresentationModelFactory(CartPresentationModel::new);
-        setUiBuilder(uiBuilder);
+        setViewBuilder(viewBuilder);
     }
 
     @Override
-    protected CartUiModel buildUiModel(Toolkit toolkit) {
+    protected CartViewModel buildUiModel(Toolkit toolkit) {
         // Building the UI components
         Table documentTable = toolkit.createNode(Table.class);
         Table documentLineTable = toolkit.createNode(Table.class);
@@ -29,11 +29,11 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
         // Displaying the UI
         VBox vBox = toolkit.createNode(VBox.class);
         vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable);
-        return new CartUiModel(vBox, documentTable, documentLineTable, paymentTable);
+        return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable);
     }
 
     @Override
-    protected void bindUiModelWithPresentationModel(CartUiModel um, CartPresentationModel pm) {
+    protected void bindUiModelWithPresentationModel(CartViewModel um, CartPresentationModel pm) {
         // Binding the UI with the presentation model for further state changes
         // User outputs: the presentation model changes are transferred in the UI
         um.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
@@ -69,7 +69,7 @@ public class CartActivity extends PresentationActivity<CartUiModel, CartPresenta
         createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'creationDate'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
-                //.combine("{where: 'document.cart.uuid=?cartUuid'}")
+                //.combine("{where: 'document=?documentDisplaySelection'}")
                 .setDisplayColumns(
                         new DisplayColumn("Site", "site.name"),
                         new DisplayColumn("Item", "item.name"),

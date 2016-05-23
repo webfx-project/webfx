@@ -3,7 +3,8 @@ package mongoose.logic.organizations;
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
-import naga.core.ngui.presentation.UiBuilder;
+import naga.core.ngui.presentation.ViewBuilder;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
@@ -13,28 +14,28 @@ import naga.core.spi.toolkit.nodes.Table;
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsActivity extends PresentationActivity<OrganizationUiModel, OrganizationsPresentationModel> {
+public class OrganizationsActivity extends PresentationActivity<OrganizationViewModel, OrganizationsPresentationModel> {
 
-    public static UiBuilder<OrganizationUiModel> uiBuilder;
+    public static ViewBuilder<OrganizationViewModel> viewBuilder;
 
     public OrganizationsActivity() {
         setPresentationModelFactory(OrganizationsPresentationModel::new);
-        setUiBuilder(uiBuilder);
+        setViewBuilder(viewBuilder);
     }
 
-    protected OrganizationUiModel buildUiModel(Toolkit toolkit) {
+    protected OrganizationViewModel buildUiModel(Toolkit toolkit) {
         // Building the UI components
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
         CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
-        return new OrganizationUiModel(toolkit.createNode(BorderPane.class)
+        return new OrganizationViewModel(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
                 .setBottom(limitCheckBox)
                 , searchBox, table, limitCheckBox);
     }
 
-    protected void bindUiModelWithPresentationModel(OrganizationUiModel um, OrganizationsPresentationModel pm) {
+    protected void bindUiModelWithPresentationModel(OrganizationViewModel um, OrganizationsPresentationModel pm) {
         // Hard coded initialization
         SearchBox searchBox = um.getSearchBox();
         CheckBox limitCheckBox = um.getLimitCheckBox();

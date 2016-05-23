@@ -5,7 +5,7 @@ import naga.core.spi.toolkit.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface UiModel {
+public interface ViewModel {
 
     GuiNode getContentNode();
 
