@@ -1,13 +1,15 @@
 package naga.core.ngui.rx;
 
 import javafx.beans.property.Property;
+import naga.core.json.Json;
 import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
-import naga.core.json.Json;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.displayresultset.EntityListToDisplayResultSetGenerator;
+import naga.core.ngui.displayselection.DisplaySelection;
 import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.Expression;
@@ -16,10 +18,9 @@ import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
 import naga.core.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.platform.Platform;
 import naga.core.queryservice.QueryArgument;
-import naga.core.util.Strings;
+import naga.core.spi.platform.Platform;
+import naga.core.spi.toolkit.Toolkit;
 import naga.core.util.function.Converter;
 import rx.Observable;
 
@@ -37,6 +38,8 @@ public class RxFilter {
     private DataSourceModel dataSourceModel;
     private EntityStore store;
     private Object listId;
+    private Property<DisplaySelection> displaySelectionProperty;
+    private boolean selectFirstRowOnFirstDisplay;
 
     public RxFilter() {
     }
@@ -58,6 +61,36 @@ public class RxFilter {
     public RxFilter setListId(Object listId) {
         this.listId = listId;
         return this;
+    }
+
+    public Property<DisplaySelection> getDisplaySelectionProperty() {
+        return displaySelectionProperty;
+    }
+
+    public RxFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
+        this.displaySelectionProperty = displaySelectionProperty;
+        return this;
+    }
+
+    public RxFilter selectFirstRowOnFirstDisplay() {
+        this.selectFirstRowOnFirstDisplay = true;
+        return this;
+    }
+
+    public Entity getSelectedEntity() {
+        return getSelectedEntity(displaySelectionProperty.getValue());
+    }
+
+    public Entity getSelectedEntity(DisplaySelection selection) {
+        Entity selectedEntity = null;
+        int selectedRow = selection == null ? -1 : selection.getSelectedRow();
+        if (selectedRow >= 0)
+            selectedEntity = getCurrentEntityList().get(selectedRow);
+        return selectedEntity;
+    }
+
+    public EntityList getCurrentEntityList() {
+        return store.getEntityList(listId);
     }
 
     public RxFilter setDisplayColumns(String jsonArrayDisplayColumns) {
@@ -100,10 +133,12 @@ public class RxFilter {
         return this;
     }
 
-    public RxFilter combine(Property<String> textProperty, Converter<String, String> textToJsonFilterConverter) {
-        return combine(RxUi.observe(textProperty)
-                .map(text -> Strings.isEmpty(text) ? null : new StringFilter(textToJsonFilterConverter.convert(text))
-                ));
+    public <T> RxFilter combine(Property<T> property, Converter<T, String> toJsonFilterConverter) {
+        return combine(RxUi.observe(property)
+                .map(t -> {
+                    String json = toJsonFilterConverter.convert(t);
+                    return json == null ? null : new StringFilter(json);
+                }));
     }
 
     public RxFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
@@ -114,8 +149,8 @@ public class RxFilter {
         return combine(ifProperty, new StringFilter(json));
     }
 
-    public RxFilter combine(Property<Boolean> ifProperty, StringFilter stringFilte) {
-        return combine(RxUi.observeIf(Observable.just(stringFilte), ifProperty));
+    public RxFilter combine(Property<Boolean> ifProperty, StringFilter stringFilter) {
+        return combine(RxUi.observeIf(Observable.just(stringFilter), ifProperty));
     }
 
     private void checkFields() {
@@ -132,7 +167,7 @@ public class RxFilter {
             combine(new StringFilterBuilder().setFields(new ExpressionArray<>(displayPersistentTerms).toString()));
     }
 
-    public void displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
+    public RxFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
         checkFields();
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
         if (displayResultSetProperty.getValue() == null && displayColumns != null)
@@ -145,9 +180,16 @@ public class RxFilter {
                     Platform.log(sqlCompiled.getSql());
                     return RxFuture.from(Platform.query().read(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
                             .map(sqlReadResult -> QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
-                            .map(entities -> EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns));
+                            .map(entities -> {
+                                if (selectFirstRowOnFirstDisplay && entities.size() > 0) {
+                                    selectFirstRowOnFirstDisplay = false;
+                                    displaySelectionProperty.setValue(new DisplaySelection(new int[]{0})); // Temporary implementation
+                                }
+                                return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns);
+                            });
                 });
         RxUi.displayObservable(displayResultObservable, displayResultSetProperty);
+        return this;
     }
 
 }
