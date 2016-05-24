@@ -55,6 +55,7 @@ public class GwtPolymerTable extends GwtDisplayResultSetNode<VaadinGrid> impleme
             // Setting items to an unfilled (but correctly sized) javascript array as data fetching is actually done in the column renderer
             node.setItems(JavaScriptObject.createArray(rowCount));
             node.setSize(rowCount);
+            node.setVisibleRows(rowCount); // This makes the grid height fit with the number of rows (no scroll bar)
             node.refreshItems();
             //Platform.log("GwtPolymerTable updated");
             return null;
