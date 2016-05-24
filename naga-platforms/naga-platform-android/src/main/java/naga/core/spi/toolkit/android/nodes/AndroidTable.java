@@ -9,6 +9,7 @@ import de.codecrafters.tableview.TableHeaderAdapter;
 import de.codecrafters.tableview.TableView;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.android.AndroidToolkit;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
@@ -16,11 +17,16 @@ import naga.core.util.collection.IdentityList;
 /**
  * @author Bruno Salmon
  */
-public class AndroidTable extends AndroidDisplayResultSetNode<TableView<Integer>> implements Table<TableView<Integer>> {
+public class AndroidTable extends AndroidSelectableDisplayResultSetNode<TableView<Integer>> implements Table<TableView<Integer>> {
 
     public AndroidTable() {
         super(new TableView<>(AndroidToolkit.currentActivity));
         node.setColumnCount(2);
+    }
+
+    @Override
+    protected void onNextSelectionMode(SelectionMode selectionMode) {
+
     }
 
     @Override

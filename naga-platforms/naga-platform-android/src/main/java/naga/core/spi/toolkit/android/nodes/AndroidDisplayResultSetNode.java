@@ -10,14 +10,14 @@ import naga.core.spi.toolkit.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class AndroidDisplayResultSetNode<N extends View> extends AndroidNode<N> implements DisplayResultSetNode<N> {
+abstract class AndroidDisplayResultSetNode<N extends View> extends AndroidNode<N> implements DisplayResultSetNode<N> {
 
-    protected final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
-
-    public AndroidDisplayResultSetNode(N node) {
+    AndroidDisplayResultSetNode(N node) {
         super(node);
         displayResultProperty.addListener((observable, oldValue, newValue) -> onNextDisplayResult(newValue));
     }
+
+    private final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
 
     @Override
     public Property<DisplayResultSet> displayResultSetProperty() {
