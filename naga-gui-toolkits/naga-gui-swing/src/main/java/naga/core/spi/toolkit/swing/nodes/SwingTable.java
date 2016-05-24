@@ -1,6 +1,7 @@
 package naga.core.spi.toolkit.swing.nodes;
 
 import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;
 
@@ -11,7 +12,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingTable extends SwingDisplayResultSetNode<JScrollPane> implements Table<JScrollPane> {
+public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane> implements Table<JScrollPane> {
 
     private final JTable table;
     private final DisplayTableModel tableModel = new DisplayTableModel();
@@ -24,6 +25,11 @@ public class SwingTable extends SwingDisplayResultSetNode<JScrollPane> implement
         super(tableScrollPane);
         table = (JTable) tableScrollPane.getViewport().getView();
         table.setModel(tableModel);
+    }
+
+    @Override
+    protected void onNextSelectionMode(SelectionMode selectionMode) {
+
     }
 
     private static JTable createTable() {

@@ -11,15 +11,14 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<N> implements DisplayResultSetNode<N> {
+abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<N> implements DisplayResultSetNode<N> {
 
-    protected final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
-
-    public SwingDisplayResultSetNode(N node) {
+    SwingDisplayResultSetNode(N node) {
         super(node);
         displayResultProperty.addListener((observable, oldValue, newValue) -> onNextDisplayResult(newValue));
     }
 
+    private final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
     @Override
     public Property<DisplayResultSet> displayResultSetProperty() {
         return displayResultProperty;
