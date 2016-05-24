@@ -3,6 +3,8 @@ package mongoose.logic.cart;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.ViewBuilder;
+import naga.core.ngui.rx.RxFilter;
+import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
@@ -20,7 +22,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     }
 
     @Override
-    protected CartViewModel buildUiModel(Toolkit toolkit) {
+    protected CartViewModel buildView(Toolkit toolkit) {
         // Building the UI components
         Table documentTable = toolkit.createNode(Table.class);
         Table documentLineTable = toolkit.createNode(Table.class);
@@ -33,8 +35,10 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     }
 
     @Override
-    protected void bindUiModelWithPresentationModel(CartViewModel vm, CartPresentationModel pm) {
+    protected void bindViewModelWithPresentationModel(CartViewModel vm, CartPresentationModel pm) {
         // Binding the UI with the presentation model for further state changes
+        // User inputs: the UI state changes are transferred in the presentation model
+        vm.getDocumentTable().displaySelectionProperty().bindBidirectional(pm.documentDisplaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         vm.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
         vm.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
@@ -49,7 +53,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     @Override
     protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createRxFilter("{class: 'Document', orderBy: 'creationDate desc'}")
+        RxFilter documentFilter = createRxFilter("{class: 'Document', orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 //.registerParameter(new Parameter("cartUuid", "constant"))
@@ -63,12 +67,18 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         new DisplayColumn("Deposit", "price_deposit"),
                         new DisplayColumn("Balance", "price_balance")
                 )
+                .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
+                .selectFirstRowOnFirstDisplay()
                 .displayResultSetInto(pm.documentDisplayResultSetProperty());
 
         // Loading the domain model and setting up the reactive filter
-        createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'creationDate'}")
+        createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
+                .combine(documentFilter.getDisplaySelectionProperty(), displaySelection -> {
+                    Entity selectedEntity = documentFilter.getSelectedEntity();
+                    return selectedEntity == null ? "{where: 'false'}" : "{where: 'document=" + selectedEntity.getId().getPrimaryKey() + "'}";
+                })
                 //.combine("{where: 'document=?documentDisplaySelection'}")
                 .setDisplayColumns(
                         new DisplayColumn("Site", "site.name"),

@@ -4,6 +4,8 @@ import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.ViewBuilder;
+import naga.core.ngui.rx.RxFilter;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
@@ -22,7 +24,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationView
         setViewBuilder(viewBuilder);
     }
 
-    protected OrganizationViewModel buildUiModel(Toolkit toolkit) {
+    protected OrganizationViewModel buildView(Toolkit toolkit) {
         // Building the UI components
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
@@ -34,7 +36,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationView
                 , searchBox, table, limitCheckBox);
     }
 
-    protected void bindUiModelWithPresentationModel(OrganizationViewModel vm, OrganizationsPresentationModel pm) {
+    protected void bindViewModelWithPresentationModel(OrganizationViewModel vm, OrganizationsPresentationModel pm) {
         // Hard coded initialization
         SearchBox searchBox = vm.getSearchBox();
         CheckBox limitCheckBox = vm.getLimitCheckBox();
@@ -50,21 +52,30 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationView
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        pm.organizationsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         vm.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
     }
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createRxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
+        RxFilter rxFilter = createRxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
                 .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Search box condition
-                .combine(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setDisplayColumns(
                         new DisplayColumn("Name", "name + ' (' + type.code + ')'"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
                 .displayResultSetInto(pm.organizationDisplayResultSetProperty());
+
+        pm.organizationsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {
+            int selectedRow = newValue.getSelectedRow();
+            Platform.log("Selected row: " + selectedRow);
+            if (selectedRow >= 0)
+                Platform.log("Selected entity: " + rxFilter.getCurrentEntityList().get(selectedRow));
+        });
+
     }
 }

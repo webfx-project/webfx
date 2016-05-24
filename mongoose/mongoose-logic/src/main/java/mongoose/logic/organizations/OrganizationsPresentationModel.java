@@ -2,6 +2,7 @@ package mongoose.logic.organizations;
 
 import javafx.beans.property.*;
 import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ngui.displayselection.DisplaySelection;
 import naga.core.ngui.presentation.PresentationModel;
 
 /**
@@ -17,9 +18,13 @@ class OrganizationsPresentationModel implements PresentationModel {
     private final Property<Boolean> limitProperty = new SimpleObjectProperty<>(true); // Limit initially set to true
     Property<Boolean> limitProperty() { return limitProperty; }
 
+
+    private final Property<DisplaySelection> organizationsDisplaySelectionProperty = new SimpleObjectProperty<>();
+    Property<DisplaySelection> organizationsDisplaySelectionProperty() { return organizationsDisplaySelectionProperty; }
+
     // Display output
 
-    private final Property<DisplayResultSet> organizationDisplayResultSetProperty = new SimpleObjectProperty<>();
-    Property<DisplayResultSet> organizationDisplayResultSetProperty() { return organizationDisplayResultSetProperty; }
+    private final Property<DisplayResultSet> organizationsDisplayResultSetProperty = new SimpleObjectProperty<>();
+    Property<DisplayResultSet> organizationDisplayResultSetProperty() { return organizationsDisplayResultSetProperty; }
 
 }

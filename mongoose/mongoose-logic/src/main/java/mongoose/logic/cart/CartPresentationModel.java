@@ -3,6 +3,7 @@ package mongoose.logic.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ngui.displayselection.DisplaySelection;
 import naga.core.ngui.presentation.PresentationModel;
 
 /**
@@ -17,6 +18,9 @@ class CartPresentationModel implements PresentationModel {
 
     private final Property<DisplayResultSet> documentDisplayResultSetProperty = new SimpleObjectProperty<>();
     Property<DisplayResultSet> documentDisplayResultSetProperty() { return documentDisplayResultSetProperty; }
+
+    private final Property<DisplaySelection> documentDisplaySelectionProperty = new SimpleObjectProperty<>();
+    Property<DisplaySelection> documentDisplaySelectionProperty() { return documentDisplaySelectionProperty; }
 
     private final Property<DisplayResultSet> documentLineDisplayResultSetProperty = new SimpleObjectProperty<>();
     Property<DisplayResultSet> documentLineDisplayResultSetProperty() { return documentLineDisplayResultSetProperty; }
