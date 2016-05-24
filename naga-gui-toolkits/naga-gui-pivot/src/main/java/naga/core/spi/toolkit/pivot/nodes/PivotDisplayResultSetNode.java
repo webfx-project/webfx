@@ -11,15 +11,14 @@ import org.apache.pivot.wtk.Component;
 /**
  * @author Bruno Salmon
  */
-public abstract class PivotDisplayResultSetNode<N extends Component> extends PivotNode<N> implements DisplayResultSetNode<N> {
+abstract class PivotDisplayResultSetNode<N extends Component> extends PivotNode<N> implements DisplayResultSetNode<N> {
 
-    protected final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
-
-    public PivotDisplayResultSetNode(N node) {
+    PivotDisplayResultSetNode(N node) {
         super(node);
         displayResultProperty.addListener((observable, oldValue, newValue) -> onNextDisplayResult(newValue));
     }
 
+    private final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
     @Override
     public Property<DisplayResultSet> displayResultSetProperty() {
         return displayResultProperty;

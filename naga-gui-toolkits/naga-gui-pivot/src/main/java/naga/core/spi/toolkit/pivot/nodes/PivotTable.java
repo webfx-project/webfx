@@ -1,6 +1,7 @@
 package naga.core.spi.toolkit.pivot.nodes;
 
 import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;
 import org.apache.pivot.collections.ArrayList;
@@ -11,7 +12,7 @@ import org.apache.pivot.wtk.*;
 /**
  * @author Bruno Salmon
  */
-public class PivotTable extends PivotDisplayResultSetNode<ScrollPane> implements Table<ScrollPane> {
+public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> implements Table<ScrollPane> {
 
     private TableView tableView;
 
@@ -22,6 +23,11 @@ public class PivotTable extends PivotDisplayResultSetNode<ScrollPane> implements
     public PivotTable(ScrollPane scrollPane) {
         super(scrollPane);
         tableView = (TableView) node.getView();
+    }
+
+    @Override
+    protected void onNextSelectionMode(SelectionMode selectionMode) {
+
     }
 
     private static ScrollPane createScrollPane() {
