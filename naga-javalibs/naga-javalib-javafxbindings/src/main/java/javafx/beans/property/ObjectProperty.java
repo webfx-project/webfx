@@ -26,6 +26,8 @@
 package javafx.beans.property;
 
 // NAGA import javafx.beans.binding.Bindings;
+
+import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WritableObjectValue;
 
@@ -74,7 +76,7 @@ public abstract class ObjectProperty<T> extends ReadOnlyObjectProperty<T>
      */
     @Override
     public void bindBidirectional(Property<T> other) {
-        // NAGA Bindings.bindBidirectional(this, other);
+        Bindings.bindBidirectional(this, other);
     }
 
     /**
@@ -82,7 +84,7 @@ public abstract class ObjectProperty<T> extends ReadOnlyObjectProperty<T>
      */
     @Override
     public void unbindBidirectional(Property<T> other) {
-        // NAGA Bindings.unbindBidirectional(this, other);
+        Bindings.unbindBidirectional(this, other);
     }
 
     /**
