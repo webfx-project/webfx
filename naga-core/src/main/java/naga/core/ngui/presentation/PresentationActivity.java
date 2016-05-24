@@ -53,11 +53,11 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         Toolkit toolkit = Toolkit.get();
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
-            viewModel = viewBuilder != null ? viewBuilder.buildUiModel(toolkit) : buildUiModel(toolkit);
+            viewModel = viewBuilder != null ? viewBuilder.buildUiModel(toolkit) : buildView(toolkit);
         }
         if (!viewBoundWithPresentationModel) {
             //Platform.log("Binding UI model with presentation model");
-            bindUiModelWithPresentationModel(viewModel, presentationModel);
+            bindViewModelWithPresentationModel(viewModel, presentationModel);
             viewBoundWithPresentationModel = true;
         }
         toolkit.scheduler().runInUiThread(() -> activityContext.setNode(viewModel.getContentNode()));
@@ -75,9 +75,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     protected abstract void bindPresentationModelWithLogic(PM pm);
 
-    protected abstract VM buildUiModel(Toolkit toolkit);
+    protected abstract VM buildView(Toolkit toolkit);
 
-    protected abstract void bindUiModelWithPresentationModel(VM VM, PM pm);
+    protected abstract void bindViewModelWithPresentationModel(VM vm, PM pm);
 
     /** Helpers **/
 
