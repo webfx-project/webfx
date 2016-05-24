@@ -4,6 +4,7 @@ import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
@@ -11,7 +12,7 @@ import naga.core.util.collection.IdentityList;
 /**
  * @author Bruno Salmon
  */
-public class GwtTable extends GwtDisplayResultSetNode<AbstractCellTable<Integer>> implements Table<AbstractCellTable<Integer>> {
+public class GwtTable extends GwtSelectableDisplayResultSetNode<AbstractCellTable<Integer>> implements Table<AbstractCellTable<Integer>> {
 
     public GwtTable() {
         this(new DataGrid<>()); // CellTable for height automatically set to the number of rows, DataGrid for fixed height with scroll bar
@@ -22,7 +23,12 @@ public class GwtTable extends GwtDisplayResultSetNode<AbstractCellTable<Integer>
     }
 
     @Override
-    protected void onNextDisplayResult(DisplayResultSet displayResultSet) {
+    protected void syncVisualSelectionMode(SelectionMode selectionMode) {
+
+    }
+
+    @Override
+    protected void syncVisualDisplayResult(DisplayResultSet displayResultSet) {
         //Platform.log("Updating GwtTable: " + displayResultSet.getRowCount() + " rows & " + displayResultSet.getColumnCount() + " columns");
         for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++) {
             GwtColumn column;

@@ -13,23 +13,22 @@ import naga.core.spi.toolkit.nodes.DisplayResultSetNode;
  */
 public abstract class GwtDisplayResultSetNode<N extends UIObject> extends GwtNode<N> implements DisplayResultSetNode<N> {
 
-    protected final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
-
     public GwtDisplayResultSetNode(N node) {
         super(node);
         displayResultProperty.addListener((observable, oldValue, newValue) -> {
             try {
-                onNextDisplayResult(newValue);
+                syncVisualDisplayResult(newValue);
             } catch (Throwable e) {
-                Platform.log("Exception while calling GwtDisplayResultSetNode.onNextDisplayResult(): " + e.getClass(), e);
+                Platform.log("Exception while calling GwtDisplayResultSetNode.syncVisualDisplayResult(): " + e.getClass(), e);
             }
         });
     }
 
+    private final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
     @Override
     public Property<DisplayResultSet> displayResultSetProperty() {
         return displayResultProperty;
     }
 
-    protected abstract void onNextDisplayResult(DisplayResultSet displayResultSet);
+    protected abstract void syncVisualDisplayResult(DisplayResultSet displayResultSet);
 }
