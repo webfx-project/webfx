@@ -5,6 +5,7 @@ import com.codename1.ui.table.TableLayout;
 import com.codename1.ui.table.TableModel;
 import com.codename1.ui.util.EventDispatcher;
 import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;
 
@@ -12,7 +13,7 @@ import naga.core.util.Strings;
 /**
  * @author Bruno Salmon
  */
-public class Cn1Table extends Cn1DisplayResultSetNode<com.codename1.ui.table.Table> implements Table<com.codename1.ui.table.Table> {
+public class Cn1Table extends Cn1SelectableDisplayResultSetNode<com.codename1.ui.table.Table> implements Table<com.codename1.ui.table.Table> {
 
     private final DisplayTableModel tableModel = new DisplayTableModel();
 
@@ -23,6 +24,11 @@ public class Cn1Table extends Cn1DisplayResultSetNode<com.codename1.ui.table.Tab
     public Cn1Table(com.codename1.ui.table.Table table) {
         super(table);
         table.setModel(tableModel);
+    }
+
+    @Override
+    protected void onNextSelectionMode(SelectionMode selectionMode) {
+
     }
 
     private static com.codename1.ui.table.Table createTable() {
