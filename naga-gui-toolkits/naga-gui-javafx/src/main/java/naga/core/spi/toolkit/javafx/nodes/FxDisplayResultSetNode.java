@@ -10,19 +10,18 @@ import naga.core.spi.toolkit.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class FxDisplayResultSetNode<N extends Node> extends FxNode<N> implements DisplayResultSetNode<N> {
+abstract class FxDisplayResultSetNode<N extends Node> extends FxNode<N> implements DisplayResultSetNode<N> {
 
-    protected final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
-
-    public FxDisplayResultSetNode(N node) {
+    FxDisplayResultSetNode(N node) {
         super(node);
-        displayResultProperty.addListener((observable, oldValue, newValue) -> onNextDisplayResult(newValue));
+        displayResultProperty.addListener((observable, oldValue, newValue) -> syncVisualDisplayResult(newValue));
     }
 
+    private final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
     @Override
     public Property<DisplayResultSet> displayResultSetProperty() {
         return displayResultProperty;
     }
 
-    protected abstract void onNextDisplayResult(DisplayResultSet displayResultSet);
+    protected abstract void syncVisualDisplayResult(DisplayResultSet displayResultSet);
 }
