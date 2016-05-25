@@ -1,6 +1,5 @@
 package naga.core.spi.toolkit.javafx.nodes;
 
-import javafx.beans.property.Property;
 import javafx.scene.control.Button;
 import naga.core.spi.toolkit.event.ActionEvent;
 import naga.core.spi.toolkit.javafx.event.FxActionEvent;
@@ -21,11 +20,6 @@ public class FxActionButton extends FxButtonBase<Button> implements ActionButton
     public FxActionButton(Button button) {
         super(button);
         button.setOnAction(event -> actionEventObservable.onNext(new FxActionEvent(event)));
-    }
-
-    @Override
-    public Property<Boolean> selectedProperty() { // relevant?
-        return null; // temporary
     }
 
     private final BehaviorSubject<ActionEvent> actionEventObservable = BehaviorSubject.create();

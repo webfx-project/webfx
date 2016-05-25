@@ -36,11 +36,6 @@ public class GwtPolymerActionButton extends GwtNode<PaperButton> implements Acti
         return actionEventObservable;
     }
 
-    @Override
-    public Property<Boolean> selectedProperty() { // relevant?
-        return null; // temporary
-    }
-
     private final Property<String> textProperty = new SimpleObjectProperty<>();
     @Override
     public Property<String> textProperty() {

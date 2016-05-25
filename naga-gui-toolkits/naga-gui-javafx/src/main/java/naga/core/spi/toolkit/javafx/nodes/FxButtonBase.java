@@ -7,9 +7,9 @@ import naga.core.spi.toolkit.javafx.FxNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class FxButtonBase<N extends ButtonBase> extends FxNode<N> implements naga.core.spi.toolkit.nodes.ButtonBase<N> {
+abstract class FxButtonBase<N extends ButtonBase> extends FxNode<N> implements naga.core.spi.toolkit.nodes.ButtonBase<N> {
 
-    public FxButtonBase(N button) {
+    FxButtonBase(N button) {
         super(button);
     }
 
