@@ -9,14 +9,14 @@ import naga.core.spi.toolkit.nodes.Table;
 /**
  * @author Bruno Salmon
  */
-class OrganizationViewModel implements ViewModel {
+class OrganizationsViewModel implements ViewModel {
 
     private final GuiNode contentNode;
     private final SearchBox searchBox;
     private final Table table;
     private final CheckBox limitCheckBox;
 
-    OrganizationViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
+    OrganizationsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
         this.contentNode = contentNode;
         this.searchBox = searchBox;
         this.table = table;
@@ -32,7 +32,7 @@ class OrganizationViewModel implements ViewModel {
         return searchBox;
     }
 
-    public Table getTable() {
+    Table getTable() {
         return table;
     }
 

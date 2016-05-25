@@ -15,28 +15,28 @@ import naga.core.spi.toolkit.nodes.Table;
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsActivity extends PresentationActivity<OrganizationViewModel, OrganizationsPresentationModel> {
+public class OrganizationsActivity extends PresentationActivity<OrganizationsViewModel, OrganizationsPresentationModel> {
 
-    public static ViewBuilder<OrganizationViewModel> viewBuilder;
+    public static ViewBuilder<OrganizationsViewModel> viewBuilder;
 
     public OrganizationsActivity() {
         setPresentationModelFactory(OrganizationsPresentationModel::new);
         setViewBuilder(viewBuilder);
     }
 
-    protected OrganizationViewModel buildView(Toolkit toolkit) {
+    protected OrganizationsViewModel buildView(Toolkit toolkit) {
         // Building the UI components
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
         CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
-        return new OrganizationViewModel(toolkit.createNode(BorderPane.class)
+        return new OrganizationsViewModel(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
                 .setBottom(limitCheckBox)
                 , searchBox, table, limitCheckBox);
     }
 
-    protected void bindViewModelWithPresentationModel(OrganizationViewModel vm, OrganizationsPresentationModel pm) {
+    protected void bindViewModelWithPresentationModel(OrganizationsViewModel vm, OrganizationsPresentationModel pm) {
         // Hard coded initialization
         SearchBox searchBox = vm.getSearchBox();
         CheckBox limitCheckBox = vm.getLimitCheckBox();
