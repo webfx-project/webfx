@@ -4,14 +4,14 @@ import com.codename1.ui.Button;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.cn1.Cn1Node;
-import naga.core.spi.toolkit.nodes.ButtonBase;
+import naga.core.spi.toolkit.nodes.SelectableButton;
 
 /**
  * @author Bruno Salmon
  */
-public class Cn1ButtonBase<N extends Button> extends Cn1Node<N> implements ButtonBase<N> {
+class Cn1ButtonBase<N extends Button> extends Cn1Node<N> implements SelectableButton<N> {
 
-    public Cn1ButtonBase(N button) {
+    Cn1ButtonBase(N button) {
         super(button);
         textProperty.setValue(button.getText());
         textProperty.addListener((observable, oldValue, newValue) -> button.setText(newValue));
