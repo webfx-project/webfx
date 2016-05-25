@@ -17,6 +17,7 @@ public class GwtToolkit extends Toolkit {
         registerNodeFactory(VBox.class, GwtVBox::new);
         registerNodeFactoryAndWrapper(Table.class, GwtTable::new, CellTable.class, GwtTable::new);
         registerNodeFactory(CheckBox.class, GwtCheckBox::new);
+        registerNodeFactory(ActionButton.class, GwtActionButton::new);
         registerNodeFactory(ToggleSwitch.class, GwtCheckBox::new);
         registerNodeFactory(SearchBox.class, GwtSearchBox::new);
     }

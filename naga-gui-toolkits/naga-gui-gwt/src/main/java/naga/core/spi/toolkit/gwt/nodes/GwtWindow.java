@@ -27,7 +27,9 @@ public class GwtWindow implements Window<Widget> {
     private void setWindowContent(Widget rootComponent) {
         while (rootLayoutPanel.getWidgetCount() != 0)
             rootLayoutPanel.remove(0);
+        //Platform.log("Setting window root " + rootComponent);
         rootLayoutPanel.add(rootComponent);
+        //Platform.log("Ok");
     }
 
     private final Property<GuiNode<Widget>> nodeProperty = new SimpleObjectProperty<>();
