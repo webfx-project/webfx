@@ -2,12 +2,15 @@ package naga.core.spi.toolkit.gwtpolymer;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.StyleElement;
+import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import naga.core.spi.toolkit.gwt.GwtToolkit;
+import naga.core.spi.toolkit.gwtpolymer.nodes.GwtPolymerActionButton;
 import naga.core.spi.toolkit.gwtpolymer.nodes.GwtPolymerCheckBox;
 import naga.core.spi.toolkit.gwtpolymer.nodes.GwtPolymerSearchBox;
 import naga.core.spi.toolkit.gwtpolymer.nodes.GwtPolymerTable;
+import naga.core.spi.toolkit.nodes.ActionButton;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
@@ -26,6 +29,7 @@ public class GwtPolymerToolkit extends GwtToolkit {
                 "    line-height: 24px;\n";
         addStyleElement("vaadin-grid, .vaadin-grid-header.vaadin-grid th.vaadin-grid {\n" + sharedCss + "}\n");
         addStyleElement("paper-checkbox {\n" + sharedCss + "}\n");
+        addStyleElement("paper-button {\n" + sharedCss + "}\n");
     }
 
     private static void addStyleElement(String content) {
@@ -38,6 +42,7 @@ public class GwtPolymerToolkit extends GwtToolkit {
     public GwtPolymerToolkit() {
         registerNodeFactoryAndWrapper(Table.class, GwtPolymerTable::new, VaadinGrid.class, GwtPolymerTable::new);
         registerNodeFactoryAndWrapper(CheckBox.class, GwtPolymerCheckBox::new, PaperCheckbox.class, GwtPolymerCheckBox::new);
+        registerNodeFactoryAndWrapper(ActionButton.class, GwtPolymerActionButton::new, PaperButton.class, GwtPolymerActionButton::new);
         registerNodeFactory(SearchBox.class, GwtPolymerSearchBox::new);
     }
 }
