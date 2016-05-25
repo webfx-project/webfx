@@ -5,7 +5,9 @@ import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.ViewBuilder;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.orm.entity.Entity;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.nodes.ActionButton;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
 
@@ -27,11 +29,13 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         Table documentTable = toolkit.createNode(Table.class);
         Table documentLineTable = toolkit.createNode(Table.class);
         Table paymentTable = toolkit.createNode(Table.class);
+        ActionButton testButton = toolkit.createNode(ActionButton.class);
+        testButton.setText("Test");
 
         // Displaying the UI
         VBox vBox = toolkit.createNode(VBox.class);
-        vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable);
-        return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable);
+        vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable, testButton);
+        return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable, testButton);
     }
 
     @Override
@@ -43,6 +47,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         vm.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
         vm.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
         vm.getPaymentTable().displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
+        vm.getTestButton().actionEventObservable().subscribe(actionEvent -> pm.testButtonActionEventObservable().onNext(actionEvent));
     }
 
     @Override
@@ -101,5 +106,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         new DisplayColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
+
+        pm.testButtonActionEventObservable().subscribe(actionEvent -> Platform.log("You pressed the test button!!!"));
     }
 }
