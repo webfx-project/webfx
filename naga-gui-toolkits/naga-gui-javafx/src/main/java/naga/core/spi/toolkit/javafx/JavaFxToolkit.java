@@ -3,6 +3,7 @@ package naga.core.spi.toolkit.javafx;
 import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import naga.core.ngui.displayresultset.DisplayResultSet;
@@ -27,6 +28,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(CheckBox.class, FxCheckBox::new, javafx.scene.control.CheckBox.class, FxCheckBox::new);
         registerNodeFactoryAndWrapper(ToggleSwitch.class, FxToggleSwitch::new, naga.core.spi.toolkit.javafx.controlsfx.ToggleSwitch.class, FxToggleSwitch::new);
         registerNodeFactoryAndWrapper(TextField.class, FxTextField::new, javafx.scene.control.TextField.class, FxTextField::new);
+        registerNodeFactoryAndWrapper(ActionButton.class, FxActionButton::new, Button.class, FxActionButton::new);
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
         registerNodeFactory(BorderPane.class, FxBorderPane::new);
         registerNodeFactory(VBox.class, FxVBox::new);
