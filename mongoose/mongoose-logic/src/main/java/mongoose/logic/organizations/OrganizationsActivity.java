@@ -7,10 +7,7 @@ import naga.core.ngui.presentation.ViewBuilder;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.BorderPane;
-import naga.core.spi.toolkit.nodes.CheckBox;
-import naga.core.spi.toolkit.nodes.SearchBox;
-import naga.core.spi.toolkit.nodes.Table;
+import naga.core.spi.toolkit.nodes.*;
 
 /**
  * @author Bruno Salmon
@@ -29,11 +26,16 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
         CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
+        ActionButton testButton = toolkit.createNode(ActionButton.class);
+        testButton.setText("Cart");
+        VBox vbox = toolkit.createNode(VBox.class);
+        vbox.getChildren().setAll(limitCheckBox, testButton);
+
         return new OrganizationsViewModel(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
-                .setBottom(limitCheckBox)
-                , searchBox, table, limitCheckBox);
+                .setBottom(vbox)
+                , searchBox, table, limitCheckBox, testButton);
     }
 
     protected void bindViewModelWithPresentationModel(OrganizationsViewModel vm, OrganizationsPresentationModel pm) {
@@ -53,6 +55,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
         pm.searchTextProperty().bind(searchBox.textProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.organizationsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
+        vm.getTestButton().actionEventObservable().subscribe(actionEvent -> pm.testButtonActionEventObservable().onNext(actionEvent));
         // User outputs: the presentation model changes are transferred in the UI
         vm.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
     }
@@ -77,5 +80,6 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 Platform.log("Selected entity: " + rxFilter.getCurrentEntityList().get(selectedRow));
         });
 
+        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().findRouter().accept("/cart/a58faba5-5b0b-4573-b547-361e10c788dc"));
     }
 }

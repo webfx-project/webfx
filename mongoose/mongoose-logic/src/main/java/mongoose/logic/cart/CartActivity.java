@@ -5,7 +5,6 @@ import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.ViewBuilder;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.orm.entity.Entity;
-import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.ActionButton;
 import naga.core.spi.toolkit.nodes.Table;
@@ -30,7 +29,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         Table documentLineTable = toolkit.createNode(Table.class);
         Table paymentTable = toolkit.createNode(Table.class);
         ActionButton testButton = toolkit.createNode(ActionButton.class);
-        testButton.setText("Test");
+        testButton.setText("Organizations");
 
         // Displaying the UI
         VBox vBox = toolkit.createNode(VBox.class);
@@ -43,11 +42,11 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         vm.getDocumentTable().displaySelectionProperty().bindBidirectional(pm.documentDisplaySelectionProperty());
+        vm.getTestButton().actionEventObservable().subscribe(actionEvent -> pm.testButtonActionEventObservable().onNext(actionEvent));
         // User outputs: the presentation model changes are transferred in the UI
         vm.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
         vm.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
         vm.getPaymentTable().displayResultSetProperty().bind(pm.paymentDisplayResultSetProperty());
-        vm.getTestButton().actionEventObservable().subscribe(actionEvent -> pm.testButtonActionEventObservable().onNext(actionEvent));
     }
 
     @Override
@@ -107,6 +106,6 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
 
-        pm.testButtonActionEventObservable().subscribe(actionEvent -> Platform.log("You pressed the test button!!!"));
+        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().findRouter().accept("/organizations"));
     }
 }

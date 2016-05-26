@@ -16,7 +16,7 @@ class CartViewModel implements ViewModel {
     private final Table paymentTable;
     private final ActionButton testButton;
 
-    public CartViewModel(GuiNode contentNode, Table documentTable, Table documentLineTable, Table paymentTable, ActionButton testButton) {
+    CartViewModel(GuiNode contentNode, Table documentTable, Table documentLineTable, Table paymentTable, ActionButton testButton) {
         this.contentNode = contentNode;
         this.documentTable = documentTable;
         this.documentLineTable = documentLineTable;
@@ -41,7 +41,7 @@ class CartViewModel implements ViewModel {
         return paymentTable;
     }
 
-    public ActionButton getTestButton() {
+    ActionButton getTestButton() {
         return testButton;
     }
 }
