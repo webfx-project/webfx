@@ -6,6 +6,9 @@ import naga.core.util.async.Handler;
 import naga.core.util.function.Converter;
 import naga.core.util.function.Factory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Bruno Salmon
  */
@@ -63,8 +66,13 @@ public class ActivityRouterHelper {
         }
     }
 
+    private final Map<String, ActivityContext> history = new HashMap<>();
+
     private ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
-        ActivityContext activityContext = new ActivityContext(parentContext);
+        ActivityContext activityContext = history.get(routingContext.path());
+        if (activityContext == null)
+            history.put(routingContext.path(), activityContext = new ActivityContext(parentContext));
+        activityContext.setRouter(router);
         activityContext.setParams(routingContext.getParams());
         parentContext.nodeProperty().bind(activityContext.nodeProperty());
         return activityContext;
