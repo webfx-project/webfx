@@ -69,9 +69,10 @@ public class ActivityRouterHelper {
     private final Map<String, ActivityContext> history = new HashMap<>();
 
     private ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
-        ActivityContext activityContext = history.get(routingContext.path());
+        String routePath = routingContext.currentRoute().getPath();
+        ActivityContext activityContext = history.get(routePath);
         if (activityContext == null)
-            history.put(routingContext.path(), activityContext = new ActivityContext(parentContext));
+            history.put(routePath, activityContext = new ActivityContext(parentContext));
         activityContext.setRouter(router);
         activityContext.setParams(routingContext.getParams());
         parentContext.nodeProperty().bind(activityContext.nodeProperty());
