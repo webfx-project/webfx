@@ -1,65 +1,31 @@
 package naga.core.routing;
 
+import naga.core.routing.impl.RouterImpl;
 import naga.core.util.async.Handler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-public class Router {
+public interface Router {
 
-    private String currentPath;
-    private String defaultPath;
-    private List<Route> routes = new ArrayList<>();
+    static Router create() { return new RouterImpl(); }
 
-    public Route route(String path) {
-        return new Route(this).path(path);
-    }
+    Route route(String path);
 
-    public Router route(String path, Handler<RoutingContext> handler) {
-        new Route(this).path(path).handler(handler);
-        return this;
-    }
+    Router route(String path, Handler<RoutingContext> handler);
 
-    void addRoute(Route route) {
-        routes.add(route);
-    }
+    Router defaultPath(String defaultPath);
 
-    public Router defaultPath(String defaultPath) {
-        this.defaultPath = defaultPath;
-        return this;
-    }
+    Router start();
 
-    public Router start() {
-        if (currentPath == null)
-            currentPath = defaultPath;
-        if (currentPath == null && !routes.isEmpty())
-            currentPath = routes.get(0).path();
-        accept(currentPath);
-        return this;
-    }
+    void accept(String path);
 
-    public void accept(String path) {
-        this.currentPath = path;
-        new RoutingContext(path, routes).next();
-    }
+    Router mountSubRouter(String mountPoint, Router subRouter);
 
+    Router exceptionHandler(Handler<Throwable> exceptionHandler);
 
-    /*
-    Router stop();
+    void handleContext(RoutingContext ctx);
 
-    Router goTo(Route route);
+    void handleFailure(RoutingContext ctx);
 
-    Router goTo(String routeName);
-
-    Router go(int delta);
-
-    default Router back() { return go(-1); }
-
-    default Router forward() { return go(1); }
-
-    int historyLength();
-    */
 }

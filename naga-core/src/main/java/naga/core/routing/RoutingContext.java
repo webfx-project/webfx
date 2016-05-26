@@ -1,50 +1,31 @@
 package naga.core.routing;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
  * @author Bruno Salmon
  */
-public class RoutingContext {
+public interface RoutingContext {
 
-    private final String path;
-    //private final Collection<Route> routes;
-    private final Iterator<Route> iterator;
-    private Route currentRoute;
-    private Map<String, String> params;
+    String path();
 
-    public RoutingContext(String path, Collection<Route> routes) {
-        this.path = path;
-        //this.routes = routes;
-        iterator = routes.iterator();
-    }
+    void next();
 
-    public String path() {
-        return path;
-    }
+    Map<String, String> getParams();
 
-    public Route currentRoute() {
-        return currentRoute;
-    }
+    void fail(int statusCode);
 
-    void next() {
-        while (iterator.hasNext()) {
-            Route route = iterator.next();
-            if (route.matches(this)) {
-                currentRoute = route;
-                route.handleContext(this);
-            }
-        }
-    }
+    void fail(Throwable throwable);
 
-    public Map<String, String> getParams() {
-        if (params == null)
-            params = new HashMap<>();
-        return params;
-    }
+    String mountPoint();
+
+    Route currentRoute();
+
+    int statusCode();
+
+    boolean failed();
+
+    Throwable failure();
 
     /*
 
