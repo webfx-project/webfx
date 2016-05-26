@@ -5,12 +5,12 @@ import android.widget.CheckBox;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.android.AndroidNode;
-import naga.core.spi.toolkit.nodes.ButtonBase;
+import naga.core.spi.toolkit.nodes.SelectableButton;
 
 /**
  * @author Bruno Salmon
  */
-public class AndroidButtonBase<N extends Button> extends AndroidNode<N> implements ButtonBase<N> {
+public class AndroidButtonBase<N extends Button> extends AndroidNode<N> implements SelectableButton<N> {
 
     public AndroidButtonBase(N button) {
         super(button);
