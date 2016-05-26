@@ -171,11 +171,13 @@ public class RxFilter {
         checkFields();
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
         if (displayResultSetProperty.getValue() == null && displayColumns != null)
-            Toolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), displayColumns)));
+            Toolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(emptyDisplayResultSet()));
         Observable<DisplayResultSet> displayResultObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
                 .distinctUntilChanged()
                 .switchMap(stringFilter -> {
+                    if ("false".equals(stringFilter.getWhere()))
+                        return Observable.just(emptyDisplayResultSet());
                     SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                     Platform.log(sqlCompiled.getSql());
                     return RxFuture.from(Platform.query().read(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
@@ -190,6 +192,10 @@ public class RxFilter {
                 });
         RxUi.displayObservable(displayResultObservable, displayResultSetProperty);
         return this;
+    }
+
+    DisplayResultSet emptyDisplayResultSet() {
+        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), displayColumns);
     }
 
 }

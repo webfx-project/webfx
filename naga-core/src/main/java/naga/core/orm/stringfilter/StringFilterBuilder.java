@@ -92,8 +92,9 @@ public class StringFilterBuilder {
             setAlias(sf.getAlias());
         if (sf.getFields() != null)
             setFields(mergeFields(fields, sf.getFields()));
-        if (sf.getWhere() != null)
-            setWhere(where == null ? sf.getWhere() : "(" + where + ") and (" + sf.getWhere() + ")");
+        String where = sf.getWhere();
+        if (where != null && !"true".equals(where) && !"false".equals(this.where))
+            setWhere(this.where == null || "true".equals(this.where) || "false".equals(where) ? where : "(" + this.where + ") and (" + where + ")");
         if (sf.getGroupBy() != null)
             setGroupBy(sf.getGroupBy());
         if (sf.getHaving() != null)
