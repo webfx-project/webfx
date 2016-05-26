@@ -24,13 +24,17 @@ public class FxWindow implements Window<Parent> {
         if (stage != null) {
             if (nodeProperty.getValue() != null)
                 setWindowContent(nodeProperty.getValue().unwrapToNativeNode());
-            nodeProperty.addListener((observable, oldValue, newValue) -> setWindowContent(newValue.unwrapToNativeNode()));
+            nodeProperty.addListener((observable, oldValue, newValue) -> { if (newValue != null) setWindowContent(newValue.unwrapToNativeNode()); });
             titleProperty().addListener((observable, oldValue, newValue) -> stage.setTitle(newValue));
         }
     }
 
     private void setWindowContent(Parent rootComponent) {
-        stage.setScene(createScene(rootComponent, 800, 600));
+        Scene scene = stage.getScene();
+        if (scene == null)
+            stage.setScene(createScene(rootComponent, 800, 600));
+        else
+            scene.setRoot(rootComponent);
         stage.show();
     }
 
