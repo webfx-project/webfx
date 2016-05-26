@@ -2,7 +2,7 @@ package naga.core.spi.toolkit.pivot.nodes;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.spi.toolkit.nodes.ButtonBase;
+import naga.core.spi.toolkit.nodes.SelectableButton;
 import naga.core.spi.toolkit.pivot.PivotNode;
 import org.apache.pivot.wtk.Button;
 import org.apache.pivot.wtk.content.ButtonData;
@@ -10,7 +10,7 @@ import org.apache.pivot.wtk.content.ButtonData;
 /**
  * @author Bruno Salmon
  */
-public class PivotButtonBase<N extends Button> extends PivotNode<N> implements ButtonBase<N> {
+public class PivotButtonBase<N extends Button> extends PivotNode<N> implements SelectableButton<N> {
 
     public PivotButtonBase(N button) {
         super(button);
