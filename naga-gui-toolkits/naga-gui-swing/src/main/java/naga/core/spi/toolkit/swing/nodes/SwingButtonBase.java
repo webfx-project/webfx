@@ -2,7 +2,7 @@ package naga.core.spi.toolkit.swing.nodes;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.spi.toolkit.nodes.ButtonBase;
+import naga.core.spi.toolkit.nodes.SelectableButton;
 import naga.core.spi.toolkit.swing.SwingNode;
 
 import javax.swing.*;
@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingButtonBase<N extends AbstractButton> extends SwingNode<N> implements ButtonBase<N> {
+public class SwingButtonBase<N extends AbstractButton> extends SwingNode<N> implements SelectableButton<N> {
 
     public SwingButtonBase(N button) {
         super(button);
