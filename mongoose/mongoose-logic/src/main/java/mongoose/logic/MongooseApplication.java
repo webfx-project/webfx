@@ -5,14 +5,14 @@ import mongoose.logic.organizations.OrganizationsActivity;
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityRouterHelper;
-import naga.core.routing.Router;
+import naga.core.routing.router.Router;
 
 /**
  * @author Bruno Salmon
  */
 abstract class MongooseApplication implements Activity {
 
-    protected final Router router = new Router();
+    protected final Router router = Router.create();
 
     @Override
     public void onCreate(ActivityContext context) {

@@ -1,8 +1,8 @@
-package naga.core.routing.impl;
+package naga.core.routing.router.impl;
 
-import naga.core.routing.Route;
-import naga.core.routing.Router;
-import naga.core.routing.RoutingContext;
+import naga.core.routing.router.Route;
+import naga.core.routing.router.Router;
+import naga.core.routing.router.RoutingContext;
 import naga.core.util.async.Handler;
 
 import java.util.ArrayList;
@@ -90,20 +90,4 @@ public class RouterImpl implements Router {
     Iterator<RouteImpl> iterator() {
         return routes.iterator();
     }
-
-    /*
-    Router stop();
-
-    Router goTo(Route route);
-
-    Router goTo(String routeName);
-
-    Router go(int delta);
-
-    default Router back() { return go(-1); }
-
-    default Router forward() { return go(1); }
-
-    int historyLength();
-    */
 }

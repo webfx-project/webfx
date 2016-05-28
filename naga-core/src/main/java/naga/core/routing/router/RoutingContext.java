@@ -1,4 +1,4 @@
-package naga.core.routing;
+package naga.core.routing.router;
 
 import java.util.Map;
 

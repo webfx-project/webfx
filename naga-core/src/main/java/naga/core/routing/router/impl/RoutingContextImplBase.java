@@ -1,7 +1,7 @@
-package naga.core.routing.impl;
+package naga.core.routing.router.impl;
 
-import naga.core.routing.Route;
-import naga.core.routing.RoutingContext;
+import naga.core.routing.router.Route;
+import naga.core.routing.router.RoutingContext;
 import naga.core.spi.platform.Platform;
 
 import java.util.Collection;

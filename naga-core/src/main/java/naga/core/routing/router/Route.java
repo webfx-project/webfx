@@ -1,4 +1,4 @@
-package naga.core.routing;
+package naga.core.routing.router;
 
 import naga.core.util.async.Handler;
 

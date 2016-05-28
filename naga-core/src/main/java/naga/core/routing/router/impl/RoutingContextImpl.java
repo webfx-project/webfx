@@ -1,4 +1,4 @@
-package naga.core.routing.impl;
+package naga.core.routing.router.impl;
 
 import java.util.Collection;
 

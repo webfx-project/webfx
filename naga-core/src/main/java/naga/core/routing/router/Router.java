@@ -1,6 +1,6 @@
-package naga.core.routing;
+package naga.core.routing.router;
 
-import naga.core.routing.impl.RouterImpl;
+import naga.core.routing.router.impl.RouterImpl;
 import naga.core.util.async.Handler;
 
 /**
@@ -27,5 +27,19 @@ public interface Router {
     void handleContext(RoutingContext ctx);
 
     void handleFailure(RoutingContext ctx);
+
+    /*
+    Router goTo(Route route);
+
+    Router goTo(String routeName);
+
+    Router go(int delta);
+
+    default Router back() { return go(-1); }
+
+    default Router forward() { return go(1); }
+
+    int historyLength();
+    */
 
 }
