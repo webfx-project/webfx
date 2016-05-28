@@ -1,6 +1,7 @@
 package naga.core.routing.history.impl;
 
 import naga.core.routing.history.*;
+import naga.core.util.Strings;
 import naga.core.util.async.Future;
 import naga.core.util.function.Function;
 
@@ -38,9 +39,9 @@ public abstract class HistoryBase implements History {
         checkBeforeAsync(newLocation).setHandler(asyncResult -> {
             if (asyncResult.succeeded() && asyncResult.result())
                 switch (event) {
-                    case PUSHED: doAcceptedPush(newLocation); break;
-                    case REPLACED: doAcceptedReplace(newLocation); break;
-                    case POPPED: doAcceptedPop(newLocation); break;
+                    case PUSHED:    doAcceptedPush(newLocation);    break;
+                    case REPLACED:  doAcceptedReplace(newLocation); break;
+                    case POPPED:    doAcceptedPop(newLocation);     break;
                 }
             future.complete(newLocation);
             fireLocationChanged(newLocation);
@@ -79,7 +80,7 @@ public abstract class HistoryBase implements History {
 
     @Override
     public String createPath(LocationDescriptor location) {
-        return location.getPathName() + location.getSearch(); // + Hash?
+        return Strings.concat(location.getPathName(), location.getSearch()); // + Hash?
     }
 
 }

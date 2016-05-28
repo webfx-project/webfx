@@ -47,13 +47,12 @@ public class MemoryHistory extends HistoryBase {
         }
     }
 
-
     @Override
     protected void doAcceptedPush(LocationImpl location) {
         if (backDelta > 0)
             do
                 locationStack.pop();
-            while (++backDelta != 0);
+            while (--backDelta != 0);
         locationStack.push(location);
     }
 
