@@ -1,5 +1,7 @@
 package naga.core.activity;
 
+import naga.core.routing.HistoryRouter;
+import naga.core.routing.history.History;
 import naga.core.routing.router.Router;
 import naga.core.routing.router.RoutingContext;
 import naga.core.spi.toolkit.Toolkit;
@@ -13,14 +15,22 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class ActivityRouterHelper {
+public class ActivityRouter extends HistoryRouter {
 
-    private final Router router;
     private final ActivityContext parentContext;
     private Converter<RoutingContext, ActivityContext> defaultContextConverter = this::convertRoutingContextToActivityContext;
 
-    public ActivityRouterHelper(Router router, ActivityContext parentContext) {
-        this.router = router;
+    public ActivityRouter(ActivityContext parentContext) {
+        this.parentContext = parentContext;
+    }
+
+    public ActivityRouter(Router router, ActivityContext parentContext) {
+        super(router);
+        this.parentContext = parentContext;
+    }
+
+    public ActivityRouter(Router router, History history, ActivityContext parentContext) {
+        super(router, history);
         this.parentContext = parentContext;
     }
 
@@ -28,19 +38,19 @@ public class ActivityRouterHelper {
         this.defaultContextConverter = defaultContextConverter;
     }
 
-    /* GWT public <CT> ActivityRouterHelper route(String path, Class<? extends Activity<CT>> activityClass) {
+    /* GWT public <CT> ActivityRouter route(String path, Class<? extends Activity<CT>> activityClass) {
         return route(path, activityClass, null);
     }
 
-    public <CT> ActivityRouterHelper route(String path, Class<? extends Activity<CT>> activityClass, Converter<RoutingContext, CT> contextConverter) {
+    public <CT> ActivityRouter route(String path, Class<? extends Activity<CT>> activityClass, Converter<RoutingContext, CT> contextConverter) {
         return route(path, Factory.fromDefaultConstructor(activityClass), contextConverter);
     }*/
 
-    public ActivityRouterHelper route(String path, Factory<Activity> activityFactory) {
+    public ActivityRouter route(String path, Factory<Activity> activityFactory) {
         return route(path, activityFactory, null);
     }
 
-    public ActivityRouterHelper route(String path, Factory<Activity> activityFactory, Converter<RoutingContext, ActivityContext> contextConverter) {
+    public ActivityRouter route(String path, Factory<Activity> activityFactory, Converter<RoutingContext, ActivityContext> contextConverter) {
         if (contextConverter == null)
             contextConverter = defaultContextConverter;
         router.route(path, new ActivityRoutingHandler(ActivityManager.factory(activityFactory), contextConverter));
@@ -80,14 +90,14 @@ public class ActivityRouterHelper {
         }
     }
 
-    private final Map<String, ActivityContext> history = new HashMap<>();
+    private final Map<String, ActivityContext> activityContextHistory = new HashMap<>();
 
     private ActivityContext convertRoutingContextToActivityContext(RoutingContext routingContext) {
-        String routePath = routingContext.currentRoute().getPath();
-        ActivityContext activityContext = history.get(routePath);
+        String contextKey = routingContext.currentRoute().getPath();
+        ActivityContext activityContext = activityContextHistory.get(contextKey);
         if (activityContext == null)
-            history.put(routePath, activityContext = new ActivityContext(parentContext));
-        activityContext.setRouter(router);
+            activityContextHistory.put(contextKey, activityContext = new ActivityContext(parentContext));
+        activityContext.setActivityRouter(this);
         activityContext.setParams(routingContext.getParams());
         return activityContext;
     }

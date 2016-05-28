@@ -10,7 +10,7 @@ public class MongooseBackendApplication extends MongooseApplication {
 
     @Override
     public void onStart() {
-        router.defaultPath("/organizations");
+        activityRouter.getHistory().push("/organizations");
         super.onStart();
     }
 

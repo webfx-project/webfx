@@ -106,6 +106,6 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
 
-        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().findRouter().accept("/organizations"));
+        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getActivityRouter().getHistory().push("/organizations"));
     }
 }

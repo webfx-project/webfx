@@ -80,6 +80,6 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 Platform.log("Selected entity: " + rxFilter.getCurrentEntityList().get(selectedRow));
         });
 
-        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().findRouter().accept("/cart/a58faba5-5b0b-4573-b547-361e10c788dc"));
+        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getActivityRouter().getHistory().push("/cart/.570d0151724b2."));
     }
 }

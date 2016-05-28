@@ -3,7 +3,6 @@ package naga.core.activity;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.orm.domainmodel.DataSourceModel;
-import naga.core.routing.router.Router;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.hasproperties.HasNodeProperty;
 
@@ -18,7 +17,7 @@ public class ActivityContext implements HasNodeProperty {
     private Map<String, String> params;
     private ActivityManager activityManager;
     private DataSourceModel dataSourceModel;
-    private Router router;
+    private ActivityRouter activityRouter;
 
     public ActivityContext(ActivityContext parentContext) {
         this.parentContext = parentContext;
@@ -48,16 +47,12 @@ public class ActivityContext implements HasNodeProperty {
         this.dataSourceModel = dataSourceModel;
     }
 
-    public Router getRouter() {
-        return router;
+    public void setActivityRouter(ActivityRouter activityRouter) {
+        this.activityRouter = activityRouter;
     }
 
-    public void setRouter(Router router) {
-        this.router = router;
-    }
-
-    public Router findRouter() {
-        return router != null || parentContext == null ? router : parentContext.findRouter();
+    public ActivityRouter getActivityRouter() {
+        return activityRouter != null || parentContext == null ? activityRouter : parentContext.getActivityRouter();
     }
 
     private Property<GuiNode> nodeProperty;
