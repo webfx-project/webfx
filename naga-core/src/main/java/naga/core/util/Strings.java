@@ -69,4 +69,17 @@ public class Strings {
         return tokens.toArray(new String[tokens.size()]);
     }
 
+    public static String concat(String... strings) {
+        int length = strings.length;
+        if (length == 0)
+            return null;
+        if (length == 1)
+            return strings[0];
+        StringBuffer sb = new StringBuffer();
+        for (String s : strings)
+            if (s != null)
+                sb.append(s);
+        return sb.toString();
+    }
+
 }
