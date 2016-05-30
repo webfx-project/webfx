@@ -1,6 +1,6 @@
 package naga.core.spi.platform.web;
 
-import naga.core.routing.history.impl.LocationImpl;
+import naga.core.routing.history.impl.HistoryLocationImpl;
 import naga.core.routing.history.impl.MemoryHistory;
 
 /**
@@ -17,21 +17,21 @@ public class BrowserHistory extends MemoryHistory {
     }
 
     @Override
-    protected void doAcceptedPush(LocationImpl location) {
+    protected void doAcceptedPush(HistoryLocationImpl location) {
         super.doAcceptedPush(location);
         windowHistory.pushState(location.getState(), null, createPath(location));
     }
 
     @Override
-    protected void doAcceptedReplace(LocationImpl location) {
+    protected void doAcceptedReplace(HistoryLocationImpl location) {
         super.doAcceptedReplace(location);
         windowHistory.replaceState(location.getState(), null, createPath(location));
     }
 
     /*@Override
-    public LocationImpl getCurrentLocation() {
+    public HistoryLocationImpl getCurrentLocation() {
         WindowLocation loc = ((WebPlatform) Platform.get()).getCurrentLocation();
-        return new LocationImpl(loc.getPathName(), loc.getSearch(),  windowHistory.state(), HistoryEvent.POPPED, null);
+        return new HistoryLocationImpl(loc.getPathName(), loc.getSearch(),  windowHistory.state(), HistoryEvent.POPPED, null);
     }*/
 
     @Override

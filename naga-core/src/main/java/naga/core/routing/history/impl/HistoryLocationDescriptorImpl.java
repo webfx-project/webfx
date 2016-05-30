@@ -1,27 +1,27 @@
 package naga.core.routing.history.impl;
 
 import naga.core.json.JsonObject;
-import naga.core.routing.history.LocationDescriptor;
+import naga.core.routing.history.HistoryLocationDescriptor;
 
 /**
  * @author Bruno Salmon
  */
-public class LocationDescriptorImpl implements LocationDescriptor {
+public class HistoryLocationDescriptorImpl implements HistoryLocationDescriptor {
 
     private final String pathName;
     private final String search;
     private final String hash;
     private final JsonObject state;
 
-    public LocationDescriptorImpl(String path) {
+    public HistoryLocationDescriptorImpl(String path) {
         this(path, null, null, null);
     }
 
-    public LocationDescriptorImpl(LocationDescriptor location) {
+    public HistoryLocationDescriptorImpl(HistoryLocationDescriptor location) {
         this(location.getPathName(), location.getSearch(), location.getHash(), location.getState());
     }
 
-    public LocationDescriptorImpl(String pathName, String search, String hash, JsonObject state) {
+    public HistoryLocationDescriptorImpl(String pathName, String search, String hash, JsonObject state) {
         this.pathName = pathName;
         this.search = search;
         this.hash = hash;

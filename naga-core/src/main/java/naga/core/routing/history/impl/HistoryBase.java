@@ -12,29 +12,29 @@ public abstract class HistoryBase implements History {
 
     @Override
     public void push(String path) {
-        push(new LocationDescriptorImpl(path));
+        push(new HistoryLocationDescriptorImpl(path));
     }
 
     @Override
-    public void push(LocationDescriptor location) {
+    public void push(HistoryLocationDescriptor location) {
         checkAndTransit(location, HistoryEvent.PUSHED);
     }
 
     @Override
     public void replace(String path) {
-        replace(new LocationDescriptorImpl(path));
+        replace(new HistoryLocationDescriptorImpl(path));
     }
 
     @Override
-    public void replace(LocationDescriptor location) {
+    public void replace(HistoryLocationDescriptor location) {
         checkAndTransit(location, HistoryEvent.REPLACED);
     }
 
-    protected Future<LocationImpl> checkAndTransit(LocationDescriptor location, HistoryEvent event) {
+    protected Future<HistoryLocationImpl> checkAndTransit(HistoryLocationDescriptor location, HistoryEvent event) {
         if (!checkBeforeUnload(getCurrentLocation()))
             return Future.failedFuture("Location refused to unload");
-        Future<LocationImpl> future = Future.future();
-        LocationImpl newLocation = location instanceof LocationImpl ? (LocationImpl) location : new LocationImpl(location, event, createLocationKey());
+        Future<HistoryLocationImpl> future = Future.future();
+        HistoryLocationImpl newLocation = location instanceof HistoryLocationImpl ? (HistoryLocationImpl) location : new HistoryLocationImpl(location, event, createLocationKey());
         newLocation.setEvent(event);
         checkBeforeAsync(newLocation).setHandler(asyncResult -> {
             if (asyncResult.succeeded() && asyncResult.result())
@@ -49,11 +49,11 @@ public abstract class HistoryBase implements History {
         return future;
     }
 
-    protected abstract void doAcceptedPush(LocationImpl location);
+    protected abstract void doAcceptedPush(HistoryLocationImpl location);
 
-    protected abstract void doAcceptedReplace(LocationImpl location);
+    protected abstract void doAcceptedReplace(HistoryLocationImpl location);
 
-    protected void doAcceptedPop(LocationImpl location) {} // normally unnecessary
+    protected void doAcceptedPop(HistoryLocationImpl location) {} // normally unnecessary
 
 
     private int keySeq;
@@ -61,24 +61,24 @@ public abstract class HistoryBase implements History {
         return Integer.toString(++keySeq);
     }
 
-    protected abstract void fireLocationChanged(Location location);
+    protected abstract void fireLocationChanged(HistoryLocation location);
 
     @Override
-    public void listenBefore(Function<Location, Boolean> transitionHook) {
+    public void listenBefore(Function<HistoryLocation, Boolean> transitionHook) {
         listenBeforeAsync(location -> Future.succeededFuture(transitionHook.apply(location)));
     }
 
-    protected abstract boolean checkBeforeUnload(Location location);
+    protected abstract boolean checkBeforeUnload(HistoryLocation location);
 
-    protected abstract Future<Boolean> checkBeforeAsync(Location location);
+    protected abstract Future<Boolean> checkBeforeAsync(HistoryLocation location);
 
     @Override
-    public String createHref(LocationDescriptor location) {
+    public String createHref(HistoryLocationDescriptor location) {
         return createPath(location); // It seems a HashHistory will override this method to prepend it with '#'
     }
 
     @Override
-    public String createPath(LocationDescriptor location) {
+    public String createPath(HistoryLocationDescriptor location) {
         return Strings.concat(location.getPathName(), location.getSearch(), location.getHash());
     }
 

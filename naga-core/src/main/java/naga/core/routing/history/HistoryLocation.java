@@ -16,7 +16,7 @@ package naga.core.routing.history;
  *
  * @author Bruno Salmon
  */
-public interface Location extends LocationDescriptor {
+public interface HistoryLocation extends HistoryLocationDescriptor {
 
     /**
      * Returns an history event that describes the type of change that has been done to the URL to get there.

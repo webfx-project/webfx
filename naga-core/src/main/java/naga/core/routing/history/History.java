@@ -22,13 +22,13 @@ public interface History {
      *
      * @return the current location
      */
-    Location getCurrentLocation();
+    HistoryLocation getCurrentLocation();
 
     /**
      * Push a new entry onto the history stack.
      * @param location A location descriptor object that uses a combination of pathname, search, hash, and state properties
      */
-    void push(LocationDescriptor location);
+    void push(HistoryLocationDescriptor location);
 
     /**
      * Push a new entry onto the history stack.
@@ -40,7 +40,7 @@ public interface History {
      * Replace the current entry on the history stack.
      * @param location A location descriptor object that uses a combination of pathname, search, hash, and state properties
      */
-    void replace(LocationDescriptor location);
+    void replace(HistoryLocationDescriptor location);
 
     /**
      * Replace the current entry on the history stack.
@@ -48,7 +48,7 @@ public interface History {
      */
     void replace(String path);
 
-    void transitionTo(Location location);
+    void transitionTo(HistoryLocation location);
 
     /**
      * Differential navigation method.
@@ -80,7 +80,7 @@ public interface History {
     /**
      * Listen for changes to the current location.
      */
-    void listen(Handler<Location> listener);
+    void listen(Handler<HistoryLocation> listener);
 
     /**
      * Sometimes you may want to prevent the user from going to a different page.
@@ -90,7 +90,7 @@ public interface History {
      * @param transitionHook a hook function that takes the location and returns a boolean that tells if the transition
      *                       is accepted (true) or prevented (false)
      */
-    void listenBefore(Function<Location, Boolean> transitionHook);
+    void listenBefore(Function<HistoryLocation, Boolean> transitionHook);
 
     /**
      * If your transition hook needs to execute asynchronously, you can return a future boolean.
@@ -101,7 +101,7 @@ public interface History {
      * @param transitionHook a hook asynchronous function that takes the location and returns a future boolean that will
      *                       tell if the transition  accepted (true) or prevented (false)
      */
-    void listenBeforeAsync(Function<Location, Future<Boolean>> transitionHook);
+    void listenBeforeAsync(Function<HistoryLocation, Future<Boolean>> transitionHook);
 
     /**
      * A before unload hook is a function that is used in web browsers to prevent the user from navigating away from
@@ -112,7 +112,7 @@ public interface History {
      *
      * @param transitionHook
      */
-    void listenBeforeUnload(Function<Location, Boolean> transitionHook);
+    void listenBeforeUnload(Function<HistoryLocation, Boolean> transitionHook);
 
     /********************************************* Creating URLs *******************************************************
      *
@@ -123,9 +123,9 @@ public interface History {
      *
      ******************************************************************************************************************/
 
-    String createHref(LocationDescriptor location);
+    String createHref(HistoryLocationDescriptor location);
 
-    String createPath(LocationDescriptor location); // Path = Pathname + Search + Hash;
+    String createPath(HistoryLocationDescriptor location); // Path = Pathname + Search + Hash;
 
 
     /*

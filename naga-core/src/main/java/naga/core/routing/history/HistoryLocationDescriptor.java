@@ -13,7 +13,7 @@ import naga.core.json.JsonObject;
  * @author Bruno Salmon
  */
 
-public interface LocationDescriptor {
+public interface HistoryLocationDescriptor {
 
     /**
      * A pathname is the portion of a URL that describes a hierarchical path, including the preceding /.

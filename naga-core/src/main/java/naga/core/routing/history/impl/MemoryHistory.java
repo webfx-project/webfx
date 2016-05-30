@@ -1,7 +1,7 @@
 package naga.core.routing.history.impl;
 
 import naga.core.routing.history.HistoryEvent;
-import naga.core.routing.history.Location;
+import naga.core.routing.history.HistoryLocation;
 import naga.core.util.async.Future;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
@@ -13,7 +13,7 @@ import java.util.Stack;
  */
 public class MemoryHistory extends HistoryBase {
 
-    private final Stack<LocationImpl> locationStack = new Stack<>();
+    private final Stack<HistoryLocationImpl> locationStack = new Stack<>();
     private int backDelta = 0; // pointer that becomes > 0 during differential navigation to specify the current location from the top of the history stack
 
     private int getCurrentLocationIndex() {
@@ -21,13 +21,13 @@ public class MemoryHistory extends HistoryBase {
     }
 
     @Override
-    public LocationImpl getCurrentLocation() {
+    public HistoryLocationImpl getCurrentLocation() {
         int index = getCurrentLocationIndex();
         return index >= 0 && index < locationStack.size() ? locationStack.get(index) : null;
     }
 
     @Override
-    public void transitionTo(Location location) {
+    public void transitionTo(HistoryLocation location) {
         int index = locationStack.indexOf(location);
         if (index > 0)
             go(index - getCurrentLocationIndex());
@@ -39,7 +39,7 @@ public class MemoryHistory extends HistoryBase {
         if (offset != 0 && requestedBackDelta >= 0) {
             int previousBackDelta = backDelta;
             backDelta = requestedBackDelta;
-            LocationImpl newLocation = getCurrentLocation();
+            HistoryLocationImpl newLocation = getCurrentLocation();
             checkAndTransit(newLocation, HistoryEvent.POPPED).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     backDelta = previousBackDelta;
@@ -48,7 +48,7 @@ public class MemoryHistory extends HistoryBase {
     }
 
     @Override
-    protected void doAcceptedPush(LocationImpl location) {
+    protected void doAcceptedPush(HistoryLocationImpl location) {
         if (backDelta > 0)
             do
                 locationStack.pop();
@@ -56,40 +56,40 @@ public class MemoryHistory extends HistoryBase {
         locationStack.push(location);
     }
 
-    protected void doAcceptedReplace(LocationImpl location) {
+    protected void doAcceptedReplace(HistoryLocationImpl location) {
         locationStack.set(getCurrentLocationIndex(), location);
     }
 
-    private Handler<Location> listener;
+    private Handler<HistoryLocation> listener;
     @Override
-    public void listen(Handler<Location> listener) {
+    public void listen(Handler<HistoryLocation> listener) {
         this.listener = listener;
     }
 
-    private Function<Location, Future<Boolean>> beforeTransitionHook;
+    private Function<HistoryLocation, Future<Boolean>> beforeTransitionHook;
     @Override
-    public void listenBeforeAsync(Function<Location, Future<Boolean>> transitionHook) {
+    public void listenBeforeAsync(Function<HistoryLocation, Future<Boolean>> transitionHook) {
         beforeTransitionHook = transitionHook;
     }
 
-    private Function<Location, Boolean> beforeUnloadTransitionHook;
+    private Function<HistoryLocation, Boolean> beforeUnloadTransitionHook;
     @Override
-    public void listenBeforeUnload(Function<Location, Boolean> transitionHook) {
+    public void listenBeforeUnload(Function<HistoryLocation, Boolean> transitionHook) {
         beforeUnloadTransitionHook = transitionHook;
     }
 
     @Override
-    protected boolean checkBeforeUnload(Location location) {
+    protected boolean checkBeforeUnload(HistoryLocation location) {
         return beforeUnloadTransitionHook == null || !Boolean.FALSE.equals(beforeUnloadTransitionHook.apply(location));
     }
 
     @Override
-    protected Future<Boolean> checkBeforeAsync(Location location) {
+    protected Future<Boolean> checkBeforeAsync(HistoryLocation location) {
         return beforeTransitionHook == null ? Future.succeededFuture(Boolean.TRUE) : beforeTransitionHook.apply(location);
     }
 
     @Override
-    protected void fireLocationChanged(Location location) {
+    protected void fireLocationChanged(HistoryLocation location) {
         if (listener != null)
             listener.handle(location);
     }

@@ -1,7 +1,7 @@
 package naga.core.routing;
 
 import naga.core.routing.history.History;
-import naga.core.routing.history.Location;
+import naga.core.routing.history.HistoryLocation;
 import naga.core.routing.router.Router;
 import naga.core.spi.platform.Platform;
 
@@ -36,12 +36,12 @@ public class HistoryRouter {
 
     public void start() {
         history.listen(this::onNewHistoryLocation);
-        Location currentLocation = history.getCurrentLocation();
+        HistoryLocation currentLocation = history.getCurrentLocation();
         if (currentLocation != null)
             onNewHistoryLocation(currentLocation);
     }
 
-    protected void onNewHistoryLocation(Location location) {
+    protected void onNewHistoryLocation(HistoryLocation location) {
         router.accept(history.createPath(location));
     }
 
