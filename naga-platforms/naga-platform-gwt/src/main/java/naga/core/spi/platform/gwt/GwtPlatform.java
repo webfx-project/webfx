@@ -19,7 +19,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     public GwtPlatform() {
-        super(new GwtScheduler(), /* json factory: */ GwtJsonObject.create(), new GwtWebSocketFactory(), GwtResourceService.SINGLETON, GwtLocation.current());
+        super(new GwtScheduler(), /* json factory: */ GwtJsonObject.create(), new GwtWebSocketFactory(), GwtResourceService.SINGLETON, GwtWindowLocation.current(), GwtWindowHistory.SINGLETON);
         setWebLogger(GwtPlatform::logConsole);
     }
 

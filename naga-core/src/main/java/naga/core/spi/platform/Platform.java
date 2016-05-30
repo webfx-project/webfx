@@ -17,11 +17,13 @@
  */
 package naga.core.spi.platform;
 
-import naga.core.json.JsonFactory;
 import naga.core.bus.Bus;
 import naga.core.bus.BusOptions;
+import naga.core.json.JsonFactory;
 import naga.core.queryservice.QueryService;
 import naga.core.queryservice.impl.RemoteQueryService;
+import naga.core.routing.history.History;
+import naga.core.routing.history.impl.MemoryHistory;
 import naga.core.util.function.Consumer;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
 
@@ -63,6 +65,10 @@ public abstract class Platform {
 
     public QueryService queryService() {
         return RemoteQueryService.REMOTE_ONLY_QUERY_SERVICE;
+    }
+
+    public History getBrowserHistory() {
+        return new MemoryHistory();
     }
 
     /*** Static access ***/

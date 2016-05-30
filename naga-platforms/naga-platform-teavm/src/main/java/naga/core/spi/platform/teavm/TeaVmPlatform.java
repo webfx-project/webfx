@@ -13,6 +13,6 @@ public final class TeaVmPlatform extends WebPlatform {
     }
 
     public TeaVmPlatform() {
-        super(new TeaVmScheduler(), new TeaVmJsonObject(), new TeaVmWebSocketFactory(), TeaVmResourceService.SINGLETON, TeaVmLocation.current());
+        super(new TeaVmScheduler(), new TeaVmJsonObject(), new TeaVmWebSocketFactory(), TeaVmResourceService.SINGLETON, TeaVmWindowLocation.current(), TeaVmWindowHistory.current());
     }
 }

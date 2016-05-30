@@ -2,6 +2,7 @@ package naga.core.spi.platform.web;
 
 import naga.core.bus.client.ReconnectBus;
 import naga.core.bus.client.WebSocketBusOptions;
+import naga.core.routing.history.History;
 import naga.core.spi.platform.WebSocketFactory;
 import naga.core.json.JsonFactory;
 import naga.core.spi.platform.BusFactory;
@@ -19,14 +20,16 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
     private final JsonFactory jsonFactory;
     private final WebSocketFactory webSocketFactory;
     private final ResourceService resourceService;
-    private final WebLocation webLocation;
+    private final WindowLocation windowLocation;
+    private final BrowserHistory browserHistory;
 
-    public WebPlatform(Scheduler scheduler, JsonFactory jsonFactory, WebSocketFactory webSocketFactory, ResourceService resourceService, WebLocation webLocation) {
+    public WebPlatform(Scheduler scheduler, JsonFactory jsonFactory, WebSocketFactory webSocketFactory, ResourceService resourceService, WindowLocation windowLocation, WindowHistory windowHistory) {
         super(scheduler);
         this.jsonFactory = jsonFactory;
         this.webSocketFactory = webSocketFactory;
         this.resourceService = resourceService;
-        this.webLocation = webLocation;
+        this.windowLocation = windowLocation;
+        this.browserHistory = new BrowserHistory(windowHistory);
     }
 
     @Override
@@ -49,8 +52,13 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         return resourceService;
     }
 
-    public WebLocation getCurrentLocation() {
-        return webLocation;
+    public WindowLocation getCurrentLocation() {
+        return windowLocation;
+    }
+
+    @Override
+    public History getBrowserHistory() {
+        return browserHistory;
     }
 
     @Override
@@ -60,13 +68,13 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         if (socketBusOptions.getProtocol() == null)
             socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.HTTP);
         // Setting protocol to Web Socket (unless already explicitly set by the application)
-        WebLocation webLocation = getCurrentLocation();
+        WindowLocation windowLocation = getCurrentLocation();
         if (socketBusOptions.getServerHost() == null)
-            socketBusOptions.setServerHost(webLocation.getHostName());
+            socketBusOptions.setServerHost(windowLocation.getHostName());
         if (socketBusOptions.getServerPort() == null) {
-            Integer port = webLocation.getPort();
-            if (port != null && port == 63342) // Port used by IntelliJ IDEA to serve web pages when testing directly in IDEA
-                port = 80; // But the actual naga server web port on the development local machine is 80 in this case
+            String port = windowLocation.getPort();
+            if ("63342".equals(port)) // Port used by IntelliJ IDEA to serve web pages when testing directly in IDEA
+                port = "80"; // But the actual naga server web port on the development local machine is 80 in this case
             socketBusOptions.setServerPort(port);
         }
         super.setPlatformBusOptions(options);
