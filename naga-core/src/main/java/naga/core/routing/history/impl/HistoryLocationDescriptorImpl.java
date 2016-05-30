@@ -13,10 +13,6 @@ public class HistoryLocationDescriptorImpl implements HistoryLocationDescriptor 
     private final String hash;
     private final JsonObject state;
 
-    public HistoryLocationDescriptorImpl(String path) {
-        this(path, null, null, null);
-    }
-
     public HistoryLocationDescriptorImpl(HistoryLocationDescriptor location) {
         this(location.getPathName(), location.getSearch(), location.getHash(), location.getState());
     }

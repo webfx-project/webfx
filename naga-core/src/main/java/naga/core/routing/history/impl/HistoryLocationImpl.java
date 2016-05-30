@@ -1,6 +1,5 @@
 package naga.core.routing.history.impl;
 
-import naga.core.json.JsonObject;
 import naga.core.routing.history.HistoryEvent;
 import naga.core.routing.history.HistoryLocation;
 import naga.core.routing.history.HistoryLocationDescriptor;
@@ -13,16 +12,8 @@ public class HistoryLocationImpl extends HistoryLocationDescriptorImpl implement
     private HistoryEvent event;
     private final String key;
 
-    public HistoryLocationImpl(String path, HistoryEvent event, String key) {
-        this(path, null, null, null, event, key);
-    }
-
     public HistoryLocationImpl(HistoryLocationDescriptor location, HistoryEvent event, String key) {
-        this(location.getPathName(), location.getSearch(), location.getHash(), location.getState(), event, key);
-    }
-
-    public HistoryLocationImpl(String pathName, String search, String hash, JsonObject state, HistoryEvent event, String key) {
-        super(pathName, search, hash, state);
+        super(location);
         this.event = event;
         this.key = key;
     }

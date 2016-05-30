@@ -1,5 +1,6 @@
 package naga.core.routing.history;
 
+import naga.core.json.JsonObject;
 import naga.core.util.async.Future;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
@@ -127,6 +128,9 @@ public interface History {
 
     String createPath(HistoryLocationDescriptor location); // Path = Pathname + Search + Hash;
 
+    HistoryLocationDescriptor createLocationDescriptor(String path, JsonObject state);
+
+    HistoryLocation createLocation(String path, JsonObject state);
 
     /*
 
