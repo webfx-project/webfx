@@ -27,27 +27,41 @@ public interface History {
 
     /**
      * Push a new entry onto the history stack.
+     * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
+     */
+    default void push(String path) { push(path, null); }
+
+    /**
+     * Push a new entry onto the history stack.
+     * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
+     * @param state A state object associated with this history entry
+     */
+    default void push(String path, JsonObject state) { push(createLocationDescriptor(path, state)); }
+
+    /**
+     * Push a new entry onto the history stack.
      * @param location A location descriptor object that uses a combination of pathname, search, hash, and state properties
      */
     void push(HistoryLocationDescriptor location);
 
     /**
-     * Push a new entry onto the history stack.
+     * Replace the current entry on the history stack.
      * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
      */
-    void push(String path);
+    default void replace(String path) { replace(path, null); }
+
+    /**
+     * Replace the current entry on the history stack.
+     * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
+     * @param state A state object associated with this history entry
+     */
+    default void replace(String path, JsonObject state) { replace(createLocationDescriptor(path, state)); }
 
     /**
      * Replace the current entry on the history stack.
      * @param location A location descriptor object that uses a combination of pathname, search, hash, and state properties
      */
     void replace(HistoryLocationDescriptor location);
-
-    /**
-     * Replace the current entry on the history stack.
-     * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
-     */
-    void replace(String path);
 
     void transitionTo(HistoryLocation location);
 

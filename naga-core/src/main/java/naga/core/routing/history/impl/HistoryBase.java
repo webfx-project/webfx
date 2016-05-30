@@ -12,18 +12,8 @@ import naga.core.util.function.Function;
 public abstract class HistoryBase implements History {
 
     @Override
-    public void push(String path) {
-        push(createLocationDescriptor(path, null));
-    }
-
-    @Override
     public void push(HistoryLocationDescriptor location) {
         checkAndTransit(location, HistoryEvent.PUSHED);
-    }
-
-    @Override
-    public void replace(String path) {
-        replace(createLocationDescriptor(path, null));
     }
 
     @Override
