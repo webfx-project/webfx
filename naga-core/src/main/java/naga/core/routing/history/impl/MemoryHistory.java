@@ -34,15 +34,15 @@ public class MemoryHistory extends HistoryBase {
     }
 
     @Override
-    public void go(int delta) {
-        int requestedTopDelta = backDelta + delta;
-        if (delta != 0 && requestedTopDelta >= 0) {
-            int rollBackTopDelta = backDelta;
-            backDelta = requestedTopDelta;
+    public void go(int offset) {
+        int requestedBackDelta = backDelta + offset;
+        if (offset != 0 && requestedBackDelta >= 0) {
+            int previousBackDelta = backDelta;
+            backDelta = requestedBackDelta;
             LocationImpl newLocation = getCurrentLocation();
             checkAndTransit(newLocation, HistoryEvent.POPPED).setHandler(asyncResult -> {
                 if (asyncResult.failed())
-                    backDelta = rollBackTopDelta;
+                    backDelta = previousBackDelta;
             });
         }
     }

@@ -52,9 +52,9 @@ public interface History {
 
     /**
      * Differential navigation method.
-     * @param delta the differential step from the current location.
+     * @param offset the differential step from the current location.
      */
-    void go(int delta);
+    void go(int offset);
 
     /**
      * Go back to the previous history entry. Same as go(-1).
