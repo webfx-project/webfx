@@ -2,8 +2,8 @@ package naga.core.routing;
 
 import naga.core.routing.history.History;
 import naga.core.routing.history.Location;
-import naga.core.routing.history.impl.MemoryHistory;
 import naga.core.routing.router.Router;
+import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
@@ -14,16 +14,16 @@ public class HistoryRouter {
     protected final History history;
 
     public HistoryRouter() {
-        this(Router.create());
+        this(null);
     }
 
     public HistoryRouter(Router router) {
-        this(router, new MemoryHistory());
+        this(router, null);
     }
 
     public HistoryRouter(Router router, History history) {
-        this.router = router;
-        this.history = history;
+        this.router = router != null ? router : Router.create();
+        this.history = history != null ? history : Platform.get().getBrowserHistory();
     }
 
     public Router getRouter() {

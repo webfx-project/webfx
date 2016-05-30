@@ -21,12 +21,11 @@ public class ActivityRouter extends HistoryRouter {
     private Converter<RoutingContext, ActivityContext> defaultContextConverter = this::convertRoutingContextToActivityContext;
 
     public ActivityRouter(ActivityContext parentContext) {
-        this.parentContext = parentContext;
+        this(null, parentContext);
     }
 
     public ActivityRouter(Router router, ActivityContext parentContext) {
-        super(router);
-        this.parentContext = parentContext;
+        this(router, null, parentContext);
     }
 
     public ActivityRouter(Router router, History history, ActivityContext parentContext) {
@@ -51,8 +50,6 @@ public class ActivityRouter extends HistoryRouter {
     }
 
     public ActivityRouter route(String path, Factory<Activity> activityFactory, Converter<RoutingContext, ActivityContext> contextConverter) {
-        if (contextConverter == null)
-            contextConverter = defaultContextConverter;
         router.route(path, new ActivityRoutingHandler(ActivityManager.factory(activityFactory), contextConverter));
         return this;
     }
@@ -64,7 +61,7 @@ public class ActivityRouter extends HistoryRouter {
         private ActivityManager activityManager;
 
         ActivityRoutingHandler(Factory<ActivityManager> activityManagerFactory, Converter<RoutingContext, ActivityContext> contextConverter) {
-            this.contextConverter = contextConverter;
+            this.contextConverter = contextConverter != null ? contextConverter : defaultContextConverter;
             this.activityManagerFactory = activityManagerFactory;
         }
 
