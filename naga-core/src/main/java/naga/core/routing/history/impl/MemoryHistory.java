@@ -14,10 +14,10 @@ import java.util.Stack;
 public class MemoryHistory extends HistoryBase {
 
     private final Stack<HistoryLocationImpl> locationStack = new Stack<>();
-    private int backDelta = 0; // pointer that becomes > 0 during differential navigation to specify the current location from the top of the history stack
+    private int backOffset = 0; // offset that becomes > 0 during back navigation to indicate the current location from the top of the history stack
 
     private int getCurrentLocationIndex() {
-        return locationStack.size() - 1 - backDelta;
+        return locationStack.size() - 1 - backOffset;
     }
 
     @Override
@@ -35,24 +35,24 @@ public class MemoryHistory extends HistoryBase {
 
     @Override
     public void go(int offset) {
-        int requestedBackDelta = backDelta + offset;
-        if (offset != 0 && requestedBackDelta >= 0) {
-            int previousBackDelta = backDelta;
-            backDelta = requestedBackDelta;
+        int requestedBackOffset = backOffset + offset;
+        if (offset != 0 && requestedBackOffset >= 0) {
+            int previousBackOffset = backOffset;
+            backOffset = requestedBackOffset;
             HistoryLocationImpl newLocation = getCurrentLocation();
             checkAndTransit(newLocation, HistoryEvent.POPPED).setHandler(asyncResult -> {
                 if (asyncResult.failed())
-                    backDelta = previousBackDelta;
+                    backOffset = previousBackOffset;
             });
         }
     }
 
     @Override
     protected void doAcceptedPush(HistoryLocationImpl location) {
-        if (backDelta > 0)
+        if (backOffset > 0)
             do
                 locationStack.pop();
-            while (--backDelta != 0);
+            while (--backOffset != 0);
         locationStack.push(location);
     }
 
