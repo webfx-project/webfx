@@ -16,7 +16,7 @@ public class WebSocketBusOptions extends BusOptions {
     private Protocol protocol;
     private Boolean serverSSL;
     private String serverHost;
-    private Integer serverPort;
+    private String serverPort;
 
     private Integer pingInterval;
     private String sessionId;
@@ -31,7 +31,7 @@ public class WebSocketBusOptions extends BusOptions {
         protocol = getValue(protocol, Protocol.WS);
         serverSSL = getValue(serverSSL, Boolean.FALSE);
         serverHost = getValue(serverHost, "localhost");
-        serverPort = getValue(serverPort, 80);
+        serverPort = getValue(serverPort, "80");
         pingInterval = getValue(pingInterval, 5 * 1000);
         return super.turnUnsetPropertiesToDefault();
     }
@@ -59,12 +59,12 @@ public class WebSocketBusOptions extends BusOptions {
         return this;
     }
 
-    public WebSocketBusOptions setServerPort(Integer serverPort) {
+    public WebSocketBusOptions setServerPort(String serverPort) {
         this.serverPort = serverPort;
         return this;
     }
 
-    public Integer getServerPort() {
+    public String getServerPort() {
         return serverPort;
     }
 
