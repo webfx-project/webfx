@@ -10,19 +10,21 @@ public class LocationDescriptorImpl implements LocationDescriptor {
 
     private final String pathName;
     private final String search;
+    private final String hash;
     private final JsonObject state;
 
     public LocationDescriptorImpl(String path) {
-        this(path, null, null);
+        this(path, null, null, null);
     }
 
     public LocationDescriptorImpl(LocationDescriptor location) {
-        this(location.getPathName(), location.getSearch(), location.getState());
+        this(location.getPathName(), location.getSearch(), location.getHash(), location.getState());
     }
 
-    public LocationDescriptorImpl(String pathName, String search, JsonObject state) {
+    public LocationDescriptorImpl(String pathName, String search, String hash, JsonObject state) {
         this.pathName = pathName;
         this.search = search;
+        this.hash = hash;
         this.state = state;
     }
 
@@ -34,6 +36,11 @@ public class LocationDescriptorImpl implements LocationDescriptor {
     @Override
     public String getSearch() {
         return search;
+    }
+
+    @Override
+    public String getHash() {
+        return hash;
     }
 
     @Override

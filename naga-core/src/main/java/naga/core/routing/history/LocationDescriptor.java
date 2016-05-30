@@ -17,7 +17,7 @@ public interface LocationDescriptor {
 
     /**
      * A pathname is the portion of a URL that describes a hierarchical path, including the preceding /.
-     * For example, in http://example.com/the/path?the=query, /the/path is the pathname.
+     * For example, in http://example.com/the/path?the=query#thehash, /the/path is the pathname.
      * It is synonymous with window.location.pathname in web browsers.
      *
      * @return the pathname
@@ -26,12 +26,19 @@ public interface LocationDescriptor {
 
     /**
      * A search is the portion of the URL that follows the pathname, including any preceding ?.
-     * For example, in http://example.com/the/path?the=query, ?the=query is the search.
+     * For example, in http://example.com/the/path?the=query#thehash, ?the=query is the search.
      * It is synonymous with window.location.search in web browsers.
      *
      * @return the search
      */
     String getSearch();
+
+    /**
+     * A hash is the portion of the URL that follows the pathname, including any preceding ?.
+     * For example, in http://example.com/the/path?the=query#thehash, #thehash is the hash.
+     * @return A String containing a '#' followed by the fragment identifier of the URL.
+     */
+    String getHash();
 
     /**
      * A location state is an arbitrary object of data associated with a particular location.

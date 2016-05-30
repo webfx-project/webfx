@@ -14,15 +14,15 @@ public class LocationImpl extends LocationDescriptorImpl implements Location {
     private final String key;
 
     public LocationImpl(String path, HistoryEvent event, String key) {
-        this(path, null, null, event, key);
+        this(path, null, null, null, event, key);
     }
 
     public LocationImpl(LocationDescriptor location, HistoryEvent event, String key) {
-        this(location.getPathName(), location.getSearch(), location.getState(), event, key);
+        this(location.getPathName(), location.getSearch(), location.getHash(), location.getState(), event, key);
     }
 
-    public LocationImpl(String pathName, String search, JsonObject state, HistoryEvent event, String key) {
-        super(pathName, search, state);
+    public LocationImpl(String pathName, String search, String hash, JsonObject state, HistoryEvent event, String key) {
+        super(pathName, search, hash, state);
         this.event = event;
         this.key = key;
     }

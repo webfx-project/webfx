@@ -72,15 +72,14 @@ public abstract class HistoryBase implements History {
 
     protected abstract Future<Boolean> checkBeforeAsync(Location location);
 
-
     @Override
     public String createHref(LocationDescriptor location) {
-        return "#" + createPath(location); // Sure?
+        return createPath(location); // It seems a HashHistory will override this method to prepend it with '#'
     }
 
     @Override
     public String createPath(LocationDescriptor location) {
-        return Strings.concat(location.getPathName(), location.getSearch()); // + Hash?
+        return Strings.concat(location.getPathName(), location.getSearch(), location.getHash());
     }
 
 }
