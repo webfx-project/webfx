@@ -4,6 +4,7 @@ import naga.core.json.JsonObject;
 import naga.core.routing.history.*;
 import naga.core.util.Strings;
 import naga.core.util.async.Future;
+import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
 
 /**
@@ -52,17 +53,6 @@ public abstract class HistoryBase implements History {
         return Integer.toString(++keySeq);
     }
 
-    protected abstract void fireLocationChanged(HistoryLocation location);
-
-    @Override
-    public void listenBefore(Function<HistoryLocation, Boolean> transitionHook) {
-        listenBeforeAsync(location -> Future.succeededFuture(transitionHook.apply(location)));
-    }
-
-    protected abstract boolean checkBeforeUnload(HistoryLocation location);
-
-    protected abstract Future<Boolean> checkBeforeAsync(HistoryLocation location);
-
     @Override
     public String createHref(HistoryLocationDescriptor location) {
         return createPath(location); // It seems a HashHistory will override this method to prepend it with '#'
@@ -98,5 +88,47 @@ public abstract class HistoryBase implements History {
 
     public HistoryLocationImpl createLocation(HistoryLocationDescriptor locationDescriptor, HistoryEvent event) {
         return new HistoryLocationImpl(locationDescriptor, event, createLocationKey());
+    }
+
+
+    /**************************************** Transitions management ***************************************************
+     *
+     *  A transition is the process of notifying listeners when the location changes.
+     *  It is not an API; rather, it is a concept. Transitions may be interrupted by transition hooks
+     *  Note: A transition does not refer to the exact moment the URL actually changes. For example, in web browsers
+     *  the user may click the back button or otherwise directly manipulate the URL by typing into the address bar.
+     *  This is not a transition, but a history object will start a transition as a result of the URL changing.
+     *
+     ******************************************************************************************************************/
+
+    private Handler<HistoryLocation> listener;
+    @Override
+    public void listen(Handler<HistoryLocation> listener) {
+        this.listener = listener;
+    }
+
+    private Function<HistoryLocation, Future<Boolean>> beforeTransitionHook;
+    @Override
+    public void listenBeforeAsync(Function<HistoryLocation, Future<Boolean>> transitionHook) {
+        beforeTransitionHook = transitionHook;
+    }
+
+    private Function<HistoryLocation, Boolean> beforeUnloadTransitionHook;
+    @Override
+    public void listenBeforeUnload(Function<HistoryLocation, Boolean> transitionHook) {
+        beforeUnloadTransitionHook = transitionHook;
+    }
+
+    protected boolean checkBeforeUnload(HistoryLocation location) {
+        return beforeUnloadTransitionHook == null || !Boolean.FALSE.equals(beforeUnloadTransitionHook.apply(location));
+    }
+
+    protected Future<Boolean> checkBeforeAsync(HistoryLocation location) {
+        return beforeTransitionHook == null ? Future.succeededFuture(Boolean.TRUE) : beforeTransitionHook.apply(location);
+    }
+
+    protected void fireLocationChanged(HistoryLocation location) {
+        if (listener != null)
+            listener.handle(location);
     }
 }

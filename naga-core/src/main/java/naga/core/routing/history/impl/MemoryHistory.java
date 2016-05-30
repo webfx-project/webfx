@@ -2,9 +2,6 @@ package naga.core.routing.history.impl;
 
 import naga.core.routing.history.HistoryEvent;
 import naga.core.routing.history.HistoryLocation;
-import naga.core.util.async.Future;
-import naga.core.util.async.Handler;
-import naga.core.util.function.Function;
 
 import java.util.Stack;
 
@@ -58,40 +55,6 @@ public class MemoryHistory extends HistoryBase {
 
     protected void doAcceptedReplace(HistoryLocationImpl location) {
         locationStack.set(getCurrentLocationIndex(), location);
-    }
-
-    private Handler<HistoryLocation> listener;
-    @Override
-    public void listen(Handler<HistoryLocation> listener) {
-        this.listener = listener;
-    }
-
-    private Function<HistoryLocation, Future<Boolean>> beforeTransitionHook;
-    @Override
-    public void listenBeforeAsync(Function<HistoryLocation, Future<Boolean>> transitionHook) {
-        beforeTransitionHook = transitionHook;
-    }
-
-    private Function<HistoryLocation, Boolean> beforeUnloadTransitionHook;
-    @Override
-    public void listenBeforeUnload(Function<HistoryLocation, Boolean> transitionHook) {
-        beforeUnloadTransitionHook = transitionHook;
-    }
-
-    @Override
-    protected boolean checkBeforeUnload(HistoryLocation location) {
-        return beforeUnloadTransitionHook == null || !Boolean.FALSE.equals(beforeUnloadTransitionHook.apply(location));
-    }
-
-    @Override
-    protected Future<Boolean> checkBeforeAsync(HistoryLocation location) {
-        return beforeTransitionHook == null ? Future.succeededFuture(Boolean.TRUE) : beforeTransitionHook.apply(location);
-    }
-
-    @Override
-    protected void fireLocationChanged(HistoryLocation location) {
-        if (listener != null)
-            listener.handle(location);
     }
 
 }

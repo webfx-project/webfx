@@ -105,7 +105,7 @@ public interface History {
      * @param transitionHook a hook function that takes the location and returns a boolean that tells if the transition
      *                       is accepted (true) or prevented (false)
      */
-    void listenBefore(Function<HistoryLocation, Boolean> transitionHook);
+    default void listenBefore(Function<HistoryLocation, Boolean> transitionHook) { listenBeforeAsync(location -> Future.succeededFuture(transitionHook.apply(location))); }
 
     /**
      * If your transition hook needs to execute asynchronously, you can return a future boolean.
