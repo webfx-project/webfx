@@ -1,8 +1,7 @@
 package naga.core.routing.history.impl;
 
+import naga.core.json.JsonObject;
 import naga.core.routing.history.LocationDescriptor;
-
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +10,7 @@ public class LocationDescriptorImpl implements LocationDescriptor {
 
     private final String pathName;
     private final String search;
-    private final Map state;
+    private final JsonObject state;
 
     public LocationDescriptorImpl(String path) {
         this(path, null, null);
@@ -21,7 +20,7 @@ public class LocationDescriptorImpl implements LocationDescriptor {
         this(location.getPathName(), location.getSearch(), location.getState());
     }
 
-    public LocationDescriptorImpl(String pathName, String search, Map state) {
+    public LocationDescriptorImpl(String pathName, String search, JsonObject state) {
         this.pathName = pathName;
         this.search = search;
         this.state = state;
@@ -38,7 +37,7 @@ public class LocationDescriptorImpl implements LocationDescriptor {
     }
 
     @Override
-    public Map getState() {
+    public JsonObject getState() {
         return state;
     }
 }

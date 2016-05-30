@@ -1,10 +1,9 @@
 package naga.core.routing.history.impl;
 
+import naga.core.json.JsonObject;
 import naga.core.routing.history.HistoryEvent;
 import naga.core.routing.history.Location;
 import naga.core.routing.history.LocationDescriptor;
-
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -22,7 +21,7 @@ public class LocationImpl extends LocationDescriptorImpl implements Location {
         this(location.getPathName(), location.getSearch(), location.getState(), event, key);
     }
 
-    public LocationImpl(String pathName, String search, Map state, HistoryEvent event, String key) {
+    public LocationImpl(String pathName, String search, JsonObject state, HistoryEvent event, String key) {
         super(pathName, search, state);
         this.event = event;
         this.key = key;

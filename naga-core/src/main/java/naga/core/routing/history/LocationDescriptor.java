@@ -1,6 +1,6 @@
 package naga.core.routing.history;
 
-import java.util.Map;
+import naga.core.json.JsonObject;
 
 /**
  * A location descriptor is the pushable analogue of a location.
@@ -38,8 +38,8 @@ public interface LocationDescriptor {
      * This is basically a way to tie extra state to a location that is not contained in the URL.
      * This type gets its name from the first argument to HTML5's pushState and replaceState methods.
      *
-     * @return a map representing the location state
+     * @return a json object representing the location state
      */
-    Map getState();
+    JsonObject getState();
 
 }
