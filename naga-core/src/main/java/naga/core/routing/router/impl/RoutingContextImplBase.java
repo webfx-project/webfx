@@ -1,13 +1,13 @@
 package naga.core.routing.router.impl;
 
+import naga.core.json.Json;
+import naga.core.json.WritableJsonObject;
 import naga.core.routing.router.Route;
 import naga.core.routing.router.RoutingContext;
 import naga.core.spi.platform.Platform;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -19,7 +19,7 @@ abstract class RoutingContextImplBase implements RoutingContext {
     protected final Collection<RouteImpl> routes;
     protected Iterator<RouteImpl> iter;
     protected Route currentRoute;
-    private Map<String, String> params;
+    private WritableJsonObject params;
 
     RoutingContextImplBase(String mountPoint, String path, Collection<RouteImpl> routes) {
         this.mountPoint = mountPoint;
@@ -102,9 +102,9 @@ abstract class RoutingContextImplBase implements RoutingContext {
     }
 
     @Override
-    public Map<String, String> getParams() {
+    public WritableJsonObject getParams() {
         if (params == null)
-            params = new HashMap<>();
+            params = Json.createObject();
         return params;
     }
 }

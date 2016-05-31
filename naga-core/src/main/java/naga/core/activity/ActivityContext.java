@@ -2,11 +2,10 @@ package naga.core.activity;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.hasproperties.HasNodeProperty;
-
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -14,7 +13,7 @@ import java.util.Map;
 public class ActivityContext implements HasNodeProperty {
 
     private final ActivityContext parentContext;
-    private Map<String, String> params;
+    private JsonObject params;
     private ActivityManager activityManager;
     private DataSourceModel dataSourceModel;
     private ActivityRouter activityRouter;
@@ -23,11 +22,11 @@ public class ActivityContext implements HasNodeProperty {
         this.parentContext = parentContext;
     }
 
-    public Map<String, String> getParams() {
+    public JsonObject getParams() {
         return params;
     }
 
-    public void setParams(Map<String, String> params) {
+    public void setParams(JsonObject params) {
         this.params = params;
     }
 

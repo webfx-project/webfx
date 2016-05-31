@@ -1,6 +1,6 @@
 package naga.core.routing.router;
 
-import java.util.Map;
+import naga.core.json.WritableJsonObject;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +11,7 @@ public interface RoutingContext {
 
     void next();
 
-    Map<String, String> getParams();
+    WritableJsonObject getParams();
 
     void fail(int statusCode);
 

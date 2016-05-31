@@ -77,7 +77,7 @@ class RouteImpl implements Route {
             int i = path.indexOf("/:"); // parameter
             if (i != -1 && requestedPath.startsWith(path.substring(0, i + 1))) {
                 // Capturing parameter (draft implementation assuming only 1 parameter)
-                context.getParams().put(path.substring(i + 2), requestedPath.substring(i + 1));
+                context.getParams().set(path.substring(i + 2), requestedPath.substring(i + 1));
                 return true;
             }
             return false;
