@@ -8,8 +8,11 @@ public class Objects {
     private Objects() {
     }
 
-    public static <T> T coalesce(T t1, T t2) {
-        return t1 != null ? t1 : t2;
+    public static <T> T coalesce(T... ts) {
+        for (T t : ts)
+            if (t != null)
+                return t;
+        return null;
     }
 
     // Casting methods
