@@ -41,8 +41,8 @@ public class HistoryRouter {
             onNewHistoryLocation(currentLocation);
     }
 
-    protected void onNewHistoryLocation(HistoryLocation location) {
-        router.accept(history.createPath(location));
+    protected void onNewHistoryLocation(HistoryLocation historyLocation) {
+        router.accept(history.createPath(historyLocation), historyLocation.getState());
     }
 
 }

@@ -3,6 +3,7 @@ package naga.core.routing.router.impl;
 import naga.core.routing.router.Route;
 import naga.core.routing.router.RoutingContext;
 import naga.core.spi.platform.Platform;
+import naga.core.util.Strings;
 import naga.core.util.async.Handler;
 
 /**
@@ -41,9 +42,10 @@ class RouteImpl implements Route {
         // a regex for that
         parametrized = path.indexOf(':') != -1;
         if (!parametrized) {
-            exactPath = path.charAt(path.length() - 1) != '*';
+            int lastCharPos = path.length() - 1;
+            exactPath = path.charAt(lastCharPos) != '*';
             if (!exactPath)
-                path = path.substring(0, path.length() - 1);
+                path = path.substring(0, lastCharPos);
         }
         this.path = path;
     }
@@ -105,8 +107,8 @@ class RouteImpl implements Route {
     }
 
     private static String removeTrailing(String path) {
-        int i = path.length();
-        return (path.charAt(i - 1) == '/') ?  path.substring(0, i - 1) : path;
+        int lastCharPos = path.length() - 1;
+        return (path.charAt(lastCharPos) == '/') ? path.substring(0, lastCharPos) : path;
     }
 
     void handleContext(RoutingContext context) {
@@ -131,7 +133,7 @@ class RouteImpl implements Route {
     }
 
     private void checkPath(String path) {
-        if ("".equals(path) || path.charAt(0) != '/')
+        if (!Strings.startsWith(path, "/"))
             throw new IllegalArgumentException("Path must start with /");
     }
 

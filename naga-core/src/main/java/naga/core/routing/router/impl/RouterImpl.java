@@ -1,5 +1,7 @@
 package naga.core.routing.router.impl;
 
+import naga.core.json.JsonObject;
+import naga.core.json.WritableJsonObject;
 import naga.core.routing.router.Route;
 import naga.core.routing.router.Router;
 import naga.core.routing.router.RoutingContext;
@@ -46,14 +48,14 @@ public class RouterImpl implements Router {
             currentPath = defaultPath;
         if (currentPath == null && !routes.isEmpty())
             currentPath = routes.get(0).getPath();
-        accept(currentPath);
+        accept(currentPath, null);
         return this;
     }
 
     @Override
-    public void accept(String path) {
+    public void accept(String path, JsonObject state) {
         this.currentPath = path;
-        new RoutingContextImpl(null, this, path, routes).next();
+        new RoutingContextImpl(null, this, path, routes, (WritableJsonObject) state).next();
     }
 
     @Override

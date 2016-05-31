@@ -1,6 +1,7 @@
 package naga.core.routing.router.impl;
 
 import naga.core.json.Json;
+import naga.core.json.JsonObject;
 import naga.core.json.WritableJsonObject;
 import naga.core.routing.router.Route;
 import naga.core.routing.router.RoutingContext;
@@ -21,10 +22,11 @@ abstract class RoutingContextImplBase implements RoutingContext {
     protected Route currentRoute;
     private WritableJsonObject params;
 
-    RoutingContextImplBase(String mountPoint, String path, Collection<RouteImpl> routes) {
+    RoutingContextImplBase(String mountPoint, String path, Collection<RouteImpl> routes, JsonObject state) {
         this.mountPoint = mountPoint;
         this.path = path;
         this.routes = routes;
+        this.params = (WritableJsonObject) state; // Is merging state and params the right thing to do?
         iter = routes.iterator();
     }
 

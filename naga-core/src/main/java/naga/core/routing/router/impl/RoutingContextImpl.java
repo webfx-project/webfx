@@ -1,5 +1,7 @@
 package naga.core.routing.router.impl;
 
+import naga.core.json.JsonObject;
+
 import java.util.Collection;
 
 /**
@@ -11,8 +13,8 @@ class RoutingContextImpl extends RoutingContextImplBase {
     private Throwable failure;
     private int statusCode = -1;
 
-    RoutingContextImpl(String mountPoint, RouterImpl router, String path, Collection<RouteImpl> routes) {
-        super(mountPoint, path, routes);
+    RoutingContextImpl(String mountPoint, RouterImpl router, String path, Collection<RouteImpl> routes, JsonObject state) {
+        super(mountPoint, path, routes, state);
         this.router = router;
     }
 

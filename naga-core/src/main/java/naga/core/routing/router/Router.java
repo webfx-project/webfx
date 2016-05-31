@@ -1,5 +1,6 @@
 package naga.core.routing.router;
 
+import naga.core.json.JsonObject;
 import naga.core.routing.router.impl.RouterImpl;
 import naga.core.util.async.Handler;
 
@@ -18,7 +19,7 @@ public interface Router {
 
     Router start();
 
-    void accept(String path);
+    void accept(String path, JsonObject state);
 
     Router mountSubRouter(String mountPoint, Router subRouter);
 
