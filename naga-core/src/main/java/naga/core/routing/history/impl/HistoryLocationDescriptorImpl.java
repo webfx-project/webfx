@@ -43,4 +43,30 @@ public class HistoryLocationDescriptorImpl implements HistoryLocationDescriptor 
     public JsonObject getState() {
         return state;
     }
+
+    /**
+     *  Implementing equals() and hashCode() so HistoryLocation can be identified in the history from a descriptor.
+     *  So we consider here only the pathname, the search and the hash.
+     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HistoryLocationDescriptorImpl)) return false;
+
+        HistoryLocationDescriptorImpl that = (HistoryLocationDescriptorImpl) o;
+
+        if (pathName != null ? !pathName.equals(that.pathName) : that.pathName != null) return false;
+        if (search != null ? !search.equals(that.search) : that.search != null) return false;
+        return hash != null ? hash.equals(that.hash) : that.hash == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = pathName != null ? pathName.hashCode() : 0;
+        result = 31 * result + (search != null ? search.hashCode() : 0);
+        result = 31 * result + (hash != null ? hash.hashCode() : 0);
+        return result;
+    }
 }
