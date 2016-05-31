@@ -10,8 +10,8 @@ import java.util.Stack;
  */
 public class MemoryHistory extends HistoryBase {
 
-    private final Stack<HistoryLocationImpl> locationStack = new Stack<>();
-    private int backOffset = 0; // offset that becomes > 0 during back navigation to indicate the current location from the top of the history stack
+    protected final Stack<HistoryLocationImpl> locationStack = new Stack<>();
+    protected int backOffset = 0; // offset that becomes > 0 during back navigation to indicate the current location from the top of the history stack
 
     private int getCurrentLocationIndex() {
         return locationStack.size() - 1 - backOffset;
@@ -37,7 +37,7 @@ public class MemoryHistory extends HistoryBase {
             int previousBackOffset = backOffset;
             backOffset = requestedBackOffset;
             HistoryLocationImpl newLocation = getCurrentLocation();
-            checkAndTransit(newLocation, HistoryEvent.POPPED).setHandler(asyncResult -> {
+            checkBeforeUnloadThenCheckBeforeThenTransit(newLocation, HistoryEvent.POPPED).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     backOffset = previousBackOffset;
             });

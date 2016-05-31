@@ -14,31 +14,48 @@ public abstract class HistoryBase implements History {
 
     @Override
     public void push(HistoryLocationDescriptor location) {
-        checkAndTransit(location, HistoryEvent.PUSHED);
+        checkBeforeUnloadThenCheckBeforeThenTransit(location, HistoryEvent.PUSHED);
     }
 
     @Override
     public void replace(HistoryLocationDescriptor location) {
-        checkAndTransit(location, HistoryEvent.REPLACED);
+        checkBeforeUnloadThenCheckBeforeThenTransit(location, HistoryEvent.REPLACED);
     }
 
-    protected Future<HistoryLocationImpl> checkAndTransit(HistoryLocationDescriptor location, HistoryEvent event) {
+    protected Future<HistoryLocationImpl> checkBeforeUnloadThenCheckBeforeThenTransit(HistoryLocationDescriptor location, HistoryEvent event) {
         if (!checkBeforeUnload(getCurrentLocation()))
             return Future.failedFuture("Location refused to unload");
+        return checkBeforeThenTransit(location, event);
+    }
+
+    protected Future<HistoryLocationImpl> checkBeforeThenTransit(HistoryLocationDescriptor location, HistoryEvent event) {
         Future<HistoryLocationImpl> future = Future.future();
         HistoryLocationImpl newLocation = location instanceof HistoryLocationImpl ? (HistoryLocationImpl) location : createLocation(location, event);
         newLocation.setEvent(event);
         checkBeforeAsync(newLocation).setHandler(asyncResult -> {
-            if (asyncResult.succeeded() && asyncResult.result())
-                switch (event) {
-                    case PUSHED:    doAcceptedPush(newLocation);    break;
-                    case REPLACED:  doAcceptedReplace(newLocation); break;
-                    case POPPED:    doAcceptedPop(newLocation);     break;
-                }
-            future.complete(newLocation);
-            fireLocationChanged(newLocation);
+            if (asyncResult.failed() || !asyncResult.result())
+                future.fail("checkBefore refused transition");
+            else {
+                transit(newLocation, event);
+                future.complete(newLocation);
+            }
         } );
         return future;
+    }
+
+    protected void transit(HistoryLocationImpl newLocation, HistoryEvent event) {
+        switch (event) {
+            case PUSHED:
+                doAcceptedPush(newLocation);
+                break;
+            case REPLACED:
+                doAcceptedReplace(newLocation);
+                break;
+            case POPPED:
+                doAcceptedPop(newLocation);
+                break;
+        }
+        fireLocationChanged(newLocation);
     }
 
     protected abstract void doAcceptedPush(HistoryLocationImpl location);
