@@ -36,6 +36,14 @@ public class Strings {
         return !isEmpty(s);
     }
 
+    public static boolean startsWith(String s, String prefix) {
+        return s != null && s.startsWith(prefix);
+    }
+
+    public static String removePrefix(String s, String prefix) {
+        return startsWith(s, prefix) ? s.substring(prefix.length()) : s;
+    }
+
     public static String replaceAll(String s, String match, String replacement) {
         if (s == null)
             return null;
