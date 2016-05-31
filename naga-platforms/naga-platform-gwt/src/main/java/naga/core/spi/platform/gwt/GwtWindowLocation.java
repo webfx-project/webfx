@@ -1,16 +1,20 @@
 package naga.core.spi.platform.gwt;
 
 import com.google.gwt.user.client.Window;
-import naga.core.spi.platform.web.WindowLocation;
+import naga.core.routing.location.WindowLocation;
+import naga.core.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
 class GwtWindowLocation implements WindowLocation {
 
-    private GwtWindowLocation() {
+    static GwtWindowLocation current() {
+        return new GwtWindowLocation();
     }
 
+    private GwtWindowLocation() {
+    }
 
     @Override
     public String getHref() {
@@ -28,7 +32,7 @@ class GwtWindowLocation implements WindowLocation {
     }
 
     @Override
-    public String getHostName() {
+    public String getHostname() {
         return Window.Location.getHostName();
     }
 
@@ -37,8 +41,7 @@ class GwtWindowLocation implements WindowLocation {
         return Window.Location.getPort();
     }
 
-    @Override
-    public String getPathName() {
+    public String getPathname() {
         return Window.Location.getPath();
     }
 
@@ -48,11 +51,17 @@ class GwtWindowLocation implements WindowLocation {
     }
 
     @Override
+    public String getQueryString() {
+        return Strings.removePrefix(getSearch(), "?");
+    }
+
+    @Override
     public String getHash() {
         return Window.Location.getHash();
     }
 
-    static GwtWindowLocation current() {
-        return new GwtWindowLocation();
+    @Override
+    public String getFragment() {
+        return Strings.removePrefix(getHash(), "#");
     }
 }

@@ -45,16 +45,16 @@ public class MemoryHistory extends HistoryBase {
     }
 
     @Override
-    protected void doAcceptedPush(HistoryLocationImpl location) {
+    protected void doAcceptedPush(HistoryLocationImpl historyLocation) {
         if (backOffset > 0)
             do
                 locationStack.pop();
             while (--backOffset != 0);
-        locationStack.push(location);
+        locationStack.push(historyLocation);
     }
 
-    protected void doAcceptedReplace(HistoryLocationImpl location) {
-        locationStack.set(getCurrentLocationIndex(), location);
+    protected void doAcceptedReplace(HistoryLocationImpl historyLocation) {
+        locationStack.set(getCurrentLocationIndex(), historyLocation);
     }
 
 }

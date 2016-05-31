@@ -3,6 +3,7 @@ package naga.core.spi.platform.web;
 import naga.core.bus.client.ReconnectBus;
 import naga.core.bus.client.WebSocketBusOptions;
 import naga.core.routing.history.History;
+import naga.core.routing.location.WindowLocation;
 import naga.core.spi.platform.WebSocketFactory;
 import naga.core.json.JsonFactory;
 import naga.core.spi.platform.BusFactory;
@@ -70,7 +71,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         // Setting protocol to Web Socket (unless already explicitly set by the application)
         WindowLocation windowLocation = getCurrentLocation();
         if (socketBusOptions.getServerHost() == null)
-            socketBusOptions.setServerHost(windowLocation.getHostName());
+            socketBusOptions.setServerHost(windowLocation.getHostname());
         if (socketBusOptions.getServerPort() == null) {
             String port = windowLocation.getPort();
             if ("63342".equals(port)) // Port used by IntelliJ IDEA to serve web pages when testing directly in IDEA

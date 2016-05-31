@@ -1,5 +1,7 @@
 package naga.core.routing.history;
 
+import naga.core.routing.location.PathStateLocation;
+
 /**
  * A location answers two important (philosophical) questions:
  * Where am I?
@@ -16,7 +18,7 @@ package naga.core.routing.history;
  *
  * @author Bruno Salmon
  */
-public interface HistoryLocation extends HistoryLocationDescriptor {
+public interface HistoryLocation extends PathStateLocation {
 
     /**
      * Returns an history event that describes the type of change that has been done to the URL to get there.

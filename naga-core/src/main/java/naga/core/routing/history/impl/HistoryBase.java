@@ -1,8 +1,12 @@
 package naga.core.routing.history.impl;
 
 import naga.core.json.JsonObject;
-import naga.core.routing.history.*;
-import naga.core.util.Strings;
+import naga.core.routing.history.History;
+import naga.core.routing.history.HistoryEvent;
+import naga.core.routing.history.HistoryLocation;
+import naga.core.routing.location.PathStateLocation;
+import naga.core.routing.location.impl.PathLocationImpl;
+import naga.core.routing.location.impl.PathStateLocationImpl;
 import naga.core.util.async.Future;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
@@ -13,56 +17,56 @@ import naga.core.util.function.Function;
 public abstract class HistoryBase implements History {
 
     @Override
-    public void push(HistoryLocationDescriptor location) {
+    public void push(PathStateLocation location) {
         checkBeforeUnloadThenCheckBeforeThenTransit(location, HistoryEvent.PUSHED);
     }
 
     @Override
-    public void replace(HistoryLocationDescriptor location) {
+    public void replace(PathStateLocation location) {
         checkBeforeUnloadThenCheckBeforeThenTransit(location, HistoryEvent.REPLACED);
     }
 
-    protected Future<HistoryLocationImpl> checkBeforeUnloadThenCheckBeforeThenTransit(HistoryLocationDescriptor location, HistoryEvent event) {
+    protected Future<HistoryLocationImpl> checkBeforeUnloadThenCheckBeforeThenTransit(PathStateLocation location, HistoryEvent event) {
         if (!checkBeforeUnload(getCurrentLocation()))
             return Future.failedFuture("Location refused to unload");
         return checkBeforeThenTransit(location, event);
     }
 
-    protected Future<HistoryLocationImpl> checkBeforeThenTransit(HistoryLocationDescriptor location, HistoryEvent event) {
+    protected Future<HistoryLocationImpl> checkBeforeThenTransit(PathStateLocation location, HistoryEvent event) {
         Future<HistoryLocationImpl> future = Future.future();
-        HistoryLocationImpl newLocation = location instanceof HistoryLocationImpl ? (HistoryLocationImpl) location : createLocation(location, event);
+        HistoryLocationImpl newLocation = location instanceof HistoryLocationImpl ? (HistoryLocationImpl) location : createHistoryLocation(location, event);
         newLocation.setEvent(event);
         checkBeforeAsync(newLocation).setHandler(asyncResult -> {
             if (asyncResult.failed() || !asyncResult.result())
                 future.fail("checkBefore refused transition");
             else {
-                transit(newLocation, event);
+                transit(newLocation);
                 future.complete(newLocation);
             }
         } );
         return future;
     }
 
-    protected void transit(HistoryLocationImpl newLocation, HistoryEvent event) {
-        switch (event) {
+    protected void transit(HistoryLocationImpl newHistoryLocation) {
+        switch (newHistoryLocation.getEvent()) {
             case PUSHED:
-                doAcceptedPush(newLocation);
+                doAcceptedPush(newHistoryLocation);
                 break;
             case REPLACED:
-                doAcceptedReplace(newLocation);
+                doAcceptedReplace(newHistoryLocation);
                 break;
             case POPPED:
-                doAcceptedPop(newLocation);
+                doAcceptedPop(newHistoryLocation);
                 break;
         }
-        fireLocationChanged(newLocation);
+        fireLocationChanged(newHistoryLocation);
     }
 
-    protected abstract void doAcceptedPush(HistoryLocationImpl location);
+    protected abstract void doAcceptedPush(HistoryLocationImpl historyLocation);
 
-    protected abstract void doAcceptedReplace(HistoryLocationImpl location);
+    protected abstract void doAcceptedReplace(HistoryLocationImpl historyLocation);
 
-    protected void doAcceptedPop(HistoryLocationImpl location) {} // normally unnecessary
+    protected void doAcceptedPop(HistoryLocationImpl historyLocation) {} // normally unnecessary
 
 
     private int keySeq;
@@ -71,40 +75,27 @@ public abstract class HistoryBase implements History {
     }
 
     @Override
-    public String createHref(HistoryLocationDescriptor location) {
+    public String createHref(PathStateLocation location) {
         return createPath(location); // It seems a HashHistory will override this method to prepend it with '#'
     }
 
     @Override
-    public String createPath(HistoryLocationDescriptor location) {
-        return Strings.concat(location.getPathName(), location.getSearch(), location.getHash());
+    public String createPath(PathStateLocation location) {
+        return location.getPath();
     }
 
     @Override
-    public HistoryLocationDescriptor createLocationDescriptor(String path, JsonObject state) {
-        String pathname = path;
-        String search = null;
-        String hash = null;
-        int p = pathname.indexOf('#');
-        if (p != -1) {
-            hash = pathname.substring(p);
-            pathname = pathname.substring(0, p);
-        }
-        p = pathname.indexOf('?');
-        if (p != -1) {
-            search = pathname.substring(p);
-            pathname = pathname.substring(0, p);
-        }
-        return new HistoryLocationDescriptorImpl(pathname, search, hash, state);
+    public PathStateLocation createPathStateLocation(String path, JsonObject state) {
+        return new PathStateLocationImpl(new PathLocationImpl(path), state);
     }
 
     @Override
-    public HistoryLocation createLocation(String path, JsonObject state) {
-        return createLocation(createLocationDescriptor(path, state), null);
+    public HistoryLocation createHistoryLocation(String path, JsonObject state) {
+        return createHistoryLocation(createPathStateLocation(path, state), null);
     }
 
-    public HistoryLocationImpl createLocation(HistoryLocationDescriptor locationDescriptor, HistoryEvent event) {
-        return new HistoryLocationImpl(locationDescriptor, event, createLocationKey());
+    public HistoryLocationImpl createHistoryLocation(PathStateLocation pathStateLocation, HistoryEvent event) {
+        return new HistoryLocationImpl(pathStateLocation, event, createLocationKey());
     }
 
 

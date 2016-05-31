@@ -1,6 +1,7 @@
 package naga.core.routing.history;
 
 import naga.core.json.JsonObject;
+import naga.core.routing.location.PathStateLocation;
 import naga.core.util.async.Future;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
@@ -36,13 +37,13 @@ public interface History {
      * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
      * @param state A state object associated with this history entry
      */
-    default void push(String path, JsonObject state) { push(createLocationDescriptor(path, state)); }
+    default void push(String path, JsonObject state) { push(createPathStateLocation(path, state)); }
 
     /**
      * Push a new entry onto the history stack.
      * @param location A location descriptor object that uses a combination of pathname, search, hash, and state properties
      */
-    void push(HistoryLocationDescriptor location);
+    void push(PathStateLocation location);
 
     /**
      * Replace the current entry on the history stack.
@@ -55,13 +56,13 @@ public interface History {
      * @param path A path string that represents a complete URL path. Path = Pathname + Search + Hash
      * @param state A state object associated with this history entry
      */
-    default void replace(String path, JsonObject state) { replace(createLocationDescriptor(path, state)); }
+    default void replace(String path, JsonObject state) { replace(createPathStateLocation(path, state)); }
 
     /**
      * Replace the current entry on the history stack.
      * @param location A location descriptor object that uses a combination of pathname, search, hash, and state properties
      */
-    void replace(HistoryLocationDescriptor location);
+    void replace(PathStateLocation location);
 
     void transitionTo(HistoryLocation location);
 
@@ -138,13 +139,13 @@ public interface History {
      *
      ******************************************************************************************************************/
 
-    String createHref(HistoryLocationDescriptor location);
+    String createHref(PathStateLocation location);
 
-    String createPath(HistoryLocationDescriptor location); // Path = Pathname + Search + Hash;
+    String createPath(PathStateLocation location); // Path = Pathname + Search + Hash;
 
-    HistoryLocationDescriptor createLocationDescriptor(String path, JsonObject state);
+    PathStateLocation createPathStateLocation(String path, JsonObject state);
 
-    HistoryLocation createLocation(String path, JsonObject state);
+    HistoryLocation createHistoryLocation(String path, JsonObject state);
 
     /*
 

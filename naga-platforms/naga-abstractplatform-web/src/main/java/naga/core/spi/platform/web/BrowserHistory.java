@@ -2,11 +2,11 @@ package naga.core.spi.platform.web;
 
 import naga.core.json.JsonObject;
 import naga.core.routing.history.HistoryEvent;
-import naga.core.routing.history.HistoryLocationDescriptor;
 import naga.core.routing.history.impl.HistoryLocationImpl;
 import naga.core.routing.history.impl.MemoryHistory;
+import naga.core.routing.location.PathStateLocation;
+import naga.core.routing.location.WindowLocation;
 import naga.core.spi.platform.Platform;
-import naga.core.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -25,12 +25,12 @@ public class BrowserHistory extends MemoryHistory {
         //Platform.log("Entering onPopState");
         // Transforming the current window location into a history location descriptor
         WindowLocation loc = ((WebPlatform) Platform.get()).getCurrentLocation();
-        HistoryLocationDescriptor locationDescriptor = createLocationDescriptor(Strings.concat(loc.getPathName(), loc.getSearch(), loc.getHash()), state);
+        PathStateLocation pathStateLocation = createPathStateLocation(loc.getPath(), state);
         HistoryLocationImpl location;
-        int p = locationStack.indexOf(locationDescriptor);
+        int p = locationStack.indexOf(pathStateLocation);
         //Platform.log("Index in stack: " + p);
         if (p == -1)
-            super.doAcceptedPush(location = createLocation(locationDescriptor, HistoryEvent.POPPED));
+            super.doAcceptedPush(location = createHistoryLocation(pathStateLocation, HistoryEvent.POPPED));
         else {
             backOffset = p;
             location = locationStack.get(p);
@@ -42,15 +42,15 @@ public class BrowserHistory extends MemoryHistory {
     }
 
     @Override
-    protected void doAcceptedPush(HistoryLocationImpl location) {
-        windowHistory.pushState(location.getState(), null, createPath(location));
-        super.doAcceptedPush(location);
+    protected void doAcceptedPush(HistoryLocationImpl historyLocation) {
+        windowHistory.pushState(historyLocation.getState(), null, createPath(historyLocation));
+        super.doAcceptedPush(historyLocation);
     }
 
     @Override
-    protected void doAcceptedReplace(HistoryLocationImpl location) {
-        windowHistory.replaceState(location.getState(), null, createPath(location));
-        super.doAcceptedReplace(location);
+    protected void doAcceptedReplace(HistoryLocationImpl historyLocation) {
+        windowHistory.replaceState(historyLocation.getState(), null, createPath(historyLocation));
+        super.doAcceptedReplace(historyLocation);
     }
 
     @Override

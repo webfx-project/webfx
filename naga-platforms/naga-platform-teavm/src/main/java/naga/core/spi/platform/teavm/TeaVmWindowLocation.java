@@ -1,7 +1,8 @@
 package naga.core.spi.platform.teavm;
 
 
-import naga.core.spi.platform.web.WindowLocation;
+import naga.core.routing.location.WindowLocation;
+import naga.core.util.Strings;
 import org.teavm.jso.browser.Location;
 
 /**
@@ -11,7 +12,11 @@ class TeaVmWindowLocation implements WindowLocation {
 
     private final Location jsoLocation;
 
-    public TeaVmWindowLocation(org.teavm.jso.browser.Location jsoLocation) {
+    static TeaVmWindowLocation current() {
+        return new TeaVmWindowLocation(org.teavm.jso.browser.Location.current());
+    }
+
+    TeaVmWindowLocation(org.teavm.jso.browser.Location jsoLocation) {
         this.jsoLocation = jsoLocation;
     }
 
@@ -31,7 +36,7 @@ class TeaVmWindowLocation implements WindowLocation {
     }
 
     @Override
-    public String getHostName() {
+    public String getHostname() {
         return jsoLocation.getHostName();
     }
 
@@ -40,8 +45,7 @@ class TeaVmWindowLocation implements WindowLocation {
         return jsoLocation.getPort();
     }
 
-    @Override
-    public String getPathName() {
+    public String getPathname() {
         return jsoLocation.getPathName();
     }
 
@@ -51,11 +55,17 @@ class TeaVmWindowLocation implements WindowLocation {
     }
 
     @Override
+    public String getQueryString() {
+        return Strings.removePrefix(getSearch(), "?");
+    }
+
+    @Override
     public String getHash() {
         return jsoLocation.getHash();
     }
 
-    public static TeaVmWindowLocation current() {
-        return new TeaVmWindowLocation(org.teavm.jso.browser.Location.current());
+    @Override
+    public String getFragment() {
+        return Strings.removePrefix(getHash(), "#");
     }
 }
