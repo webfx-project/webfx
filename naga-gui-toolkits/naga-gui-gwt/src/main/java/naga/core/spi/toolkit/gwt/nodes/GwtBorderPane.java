@@ -51,6 +51,7 @@ public class GwtBorderPane extends GwtNode<DockLayoutPanel> implements BorderPan
         if (topPropertyValue != null) {
             Widget widget = topPropertyValue.unwrapToNativeNode();
             measureHeight(widget).setHandler(asyncResult -> {
+                node.clear();
                 node.addNorth(widget, asyncResult.result());
                 addSouth();
             });
