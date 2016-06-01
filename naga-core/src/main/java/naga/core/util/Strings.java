@@ -40,8 +40,16 @@ public class Strings {
         return s != null && s.startsWith(prefix);
     }
 
+    public static boolean endsWith(String s, String suffix) {
+        return s != null && s.endsWith(suffix);
+    }
+
     public static String removePrefix(String s, String prefix) {
         return startsWith(s, prefix) ? s.substring(prefix.length()) : s;
+    }
+
+    public static String removeSuffix(String s, String suffix) {
+        return endsWith(s, suffix) ? s.substring(0, s.length() - suffix.length()) : s;
     }
 
     public static String replaceAll(String s, String match, String replacement) {
