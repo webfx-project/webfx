@@ -23,7 +23,7 @@ class GwtWindowLocation implements WindowLocation {
 
     @Override
     public String getProtocol() {
-        return Window.Location.getProtocol();
+        return Strings.removeSuffix(Window.Location.getProtocol(), ":");
     }
 
     @Override
@@ -63,5 +63,15 @@ class GwtWindowLocation implements WindowLocation {
     @Override
     public String getFragment() {
         return Strings.removePrefix(getHash(), "#");
+    }
+
+    @Override
+    public void assignHref(String href) {
+        Window.Location.assign(href);
+    }
+
+    @Override
+    public void replaceHref(String href) {
+        Window.Location.replace(href);
     }
 }

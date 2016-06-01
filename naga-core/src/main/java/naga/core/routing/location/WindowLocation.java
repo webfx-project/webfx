@@ -57,4 +57,7 @@ public interface WindowLocation extends PathLocation {
      */
     //String getOrigin();
 
+    default void assignHref(String href) {throw new UnsupportedOperationException();}
+
+    default void replaceHref(String href) {throw new UnsupportedOperationException();}
 }
