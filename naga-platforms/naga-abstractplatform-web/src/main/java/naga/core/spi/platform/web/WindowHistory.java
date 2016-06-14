@@ -24,6 +24,8 @@ public interface WindowHistory {
      */
     void go(int offset);
 
+    boolean supportsStates();
+
     /**
      *
      * @return the current history object.

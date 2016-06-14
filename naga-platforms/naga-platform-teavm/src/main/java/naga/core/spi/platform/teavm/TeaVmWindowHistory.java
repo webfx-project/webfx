@@ -4,6 +4,7 @@ import naga.core.json.JsonObject;
 import naga.core.spi.platform.web.WindowHistory;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
+import org.teavm.jso.JSBody;
 import org.teavm.jso.browser.History;
 import org.teavm.jso.browser.Window;
 
@@ -31,6 +32,14 @@ public class TeaVmWindowHistory implements WindowHistory {
     public void go(int offset) {
         jsoHistory.go(offset);
     }
+
+    @Override
+    public boolean supportsStates() {
+        return hasWindowHistoryPushState();
+    }
+
+    @JSBody(params = "", script = "return typeof window.history.pushState === 'function';")
+    private static native boolean hasWindowHistoryPushState();
 
     @Override
     public JsonObject state() {

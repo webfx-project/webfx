@@ -27,6 +27,11 @@ public class GwtWindowHistory implements WindowHistory {
     }
 
     @Override
+    public final native boolean supportsStates() /*-{
+        return typeof window.history.pushState === 'function';
+    }-*/;
+
+    @Override
     public JsonObject state() {
         return Window.history.state.cast();
     }

@@ -16,12 +16,13 @@ import naga.core.util.Strings;
 public class BrowserHistory extends MemoryHistory {
 
     private final WindowHistory windowHistory;
-    private final boolean hashMode = true;
+    private final boolean hashMode;
     private String hrefBeforeHash;
     private String lastFragment;
 
     public BrowserHistory(WindowHistory windowHistory) {
         this.windowHistory = windowHistory;
+        hashMode = !windowHistory.supportsStates();
         //windowHistory.onBeforeUnload(event -> checkBeforeUnload(getCurrentLocation()));
         if (!hashMode)
             windowHistory.onPopState(this::onPopState);
@@ -33,7 +34,7 @@ public class BrowserHistory extends MemoryHistory {
         if (hrefBeforeHash == null) {
             WindowLocation wl = getCurrentWindowLocation();
             hrefBeforeHash = Strings.concat(wl.getProtocol(), "://", wl.getHost(), wl.getPathname(), wl.getSearch());
-            Platform.get().scheduler().schedulePeriodic(1000, () -> {
+            Platform.get().scheduler().schedulePeriodic(500, () -> {
                 if (!Objects.areEquals(getCurrentWindowLocation().getFragment(), lastFragment))
                     onPopState(null);
             });
