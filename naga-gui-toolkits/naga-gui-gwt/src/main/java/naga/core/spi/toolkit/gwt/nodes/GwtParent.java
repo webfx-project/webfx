@@ -1,5 +1,7 @@
 package naga.core.spi.toolkit.gwt.nodes;
 
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,11 +15,17 @@ import naga.core.spi.toolkit.nodes.Parent;
 /**
  * @author Bruno Salmon
  */
-class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<P, Widget> {
+public class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<P, Widget> {
 
-    GwtParent(P node) {
+    private HandlerRegistration attachHandlerRegistration;
+
+    public GwtParent(P node) {
         super(node);
         children.addListener(this::onChanged);
+        if (node instanceof Widget) {
+            Widget widget = (Widget) node;
+            attachHandlerRegistration = widget.addAttachHandler(this::onAttached);
+        }
     }
 
     private final ObservableList<GuiNode<Widget>> children = FXCollections.observableArrayList();
@@ -26,8 +34,14 @@ class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<P, Widg
         return children;
     }
 
+    protected void onAttached(AttachEvent event) {
+        attachHandlerRegistration.removeHandler();
+        attachHandlerRegistration = null;
+        onChanged(null);
+    }
+
     private void onChanged(ListChangeListener.Change<? extends GuiNode<Widget>> change) {
-        HasWidgets childContainer = getGwtChildContainer();
+        HasWidgets childContainer = attachHandlerRegistration != null ? null : getGwtChildContainer();
         if (childContainer != null) {
             childContainer.clear();
             //Platform.log("Adding " + children.size() + " children to childContainer");
