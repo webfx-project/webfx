@@ -1,7 +1,6 @@
 package naga.core.routing.router.impl;
 
 import naga.core.json.JsonObject;
-import naga.core.json.WritableJsonObject;
 import naga.core.routing.router.Route;
 import naga.core.routing.router.Router;
 import naga.core.routing.router.RoutingContext;
@@ -55,7 +54,7 @@ public class RouterImpl implements Router {
     @Override
     public void accept(String path, JsonObject state) {
         this.currentPath = path;
-        new RoutingContextImpl(null, this, path, routes, (WritableJsonObject) state).next();
+        new RoutingContextImpl(null, this, path, routes, state).next();
     }
 
     @Override
@@ -68,17 +67,6 @@ public class RouterImpl implements Router {
         return exceptionHandler;
     }
 
-        @Override
-    public void handleContext(RoutingContext ctx) {
-        //new RoutingContextWrapper(getAndCheckRoutePath(ctx), ctx.request(), routes, ctx).next();
-    }
-
-    @Override
-    public void handleFailure(RoutingContext ctx) {
-        //new RoutingContextWrapper(getAndCheckRoutePath(ctx), ctx.request(), routes, ctx).next();
-    }
-
-
     @Override
     public Router mountSubRouter(String mountPoint, Router subRouter) {
         if (mountPoint.endsWith("*"))
@@ -87,6 +75,24 @@ public class RouterImpl implements Router {
             throw new IllegalArgumentException("Can't use patterns in subrouter mounts");
         route(mountPoint + "*").handler(subRouter::handleContext).failureHandler(subRouter::handleFailure);
         return this;
+    }
+
+    @Override
+    public void handleContext(RoutingContext ctx) {
+        new RoutingContextWrapper(getAndCheckRoutePath(ctx), ctx.path(), routes, ctx).next();
+    }
+
+    @Override
+    public void handleFailure(RoutingContext ctx) {
+        new RoutingContextWrapper(getAndCheckRoutePath(ctx), ctx.path(), routes, ctx).next();
+    }
+
+    private String getAndCheckRoutePath(RoutingContext ctx) {
+        Route currentRoute = ctx.currentRoute();
+        String path = currentRoute.getPath();
+        if (path == null)
+            throw new IllegalStateException("Sub routers must be mounted on constant paths (no regex or patterns)");
+        return path;
     }
 
     Iterator<RouteImpl> iterator() {
