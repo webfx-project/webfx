@@ -6,19 +6,22 @@ import naga.core.spi.toolkit.nodes.VBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtVBox extends GwtParent<ScrollPanel> implements VBox<ScrollPanel, Widget> {
+public class GwtVBox extends GwtParent<Panel> implements VBox<Panel, Widget> {
 
     public GwtVBox() {
-        this(createScrollPanel());
+        this(createPanel());
     }
 
-    public GwtVBox(ScrollPanel node) {
+    public GwtVBox(Panel node) {
         super(node);
     }
 
     @Override
     protected HasWidgets getGwtChildContainer() {
-        return (node.getWidget() instanceof HasWidgets) ? (HasWidgets) node.getWidget() : super.getGwtChildContainer();
+        Widget containerWidget = null;
+        if (node instanceof SimplePanel)
+            containerWidget = ((SimplePanel) node).getWidget();
+        return (containerWidget instanceof HasWidgets) ? (HasWidgets) containerWidget : super.getGwtChildContainer();
     }
 
     @Override
@@ -27,10 +30,11 @@ public class GwtVBox extends GwtParent<ScrollPanel> implements VBox<ScrollPanel,
         return child;
     }
 
-    private static ScrollPanel createScrollPanel() {
+    private static Panel createPanel() {
         VerticalPanel vp = new VerticalPanel();
-        vp.setWidth("100%");
         vp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_JUSTIFY);
-        return new ScrollPanel(vp);
+        vp.setWidth("100%");
+        vp.addAttachHandler(event -> vp.setWidth("100%")); // Otherwise it can be removed by GWT when going back to the page
+        return vp;
     }
 }
