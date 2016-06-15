@@ -2,7 +2,9 @@ package naga.core.spi.toolkit.gwtpolymer.nodes;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.StyleElement;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.polymer.Polymer;
 import javafx.beans.property.Property;
@@ -15,13 +17,13 @@ import naga.core.spi.toolkit.nodes.BorderPane;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerBorderPane extends GwtNode<HTMLPanel> implements BorderPane<HTMLPanel, Widget> {
+public class GwtPolymerBorderPane extends GwtNode<Panel> implements BorderPane<Panel, Widget> {
 
     public GwtPolymerBorderPane() {
         this(new HTMLPanel("div", ""));
     }
 
-    public GwtPolymerBorderPane(HTMLPanel node) {
+    public GwtPolymerBorderPane(Panel node) {
         super(node);
         node.getElement().addClassName("layout vertical");
         node.getElement().setAttribute("style", "100%");
@@ -33,27 +35,27 @@ public class GwtPolymerBorderPane extends GwtNode<HTMLPanel> implements BorderPa
             doc.getHead().insertFirst(styleElement);
             return null;
         });
-        setNodes();
-        ChangeListener<GuiNode<Widget>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> populate();
+        ChangeListener<GuiNode<Widget>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> updateNodesOnceAttached();
         topProperty.addListener(onAnyNodePropertyChange);
         bottomProperty.addListener(onAnyNodePropertyChange);
         centerProperty.addListener(onAnyNodePropertyChange);
+        updateNodesOnceAttached();
     }
 
-    private boolean populating;
+    private HandlerRegistration attachHandlerRegistration;
 
-    private void populate() {
-        if (!populating) {
-            populating = true;
-            if (!node.isAttached())
-                node.addAttachHandler(event -> setNodes());
-            else
-                setNodes();
+    private void updateNodesOnceAttached() {
+        if (!node.isAttached() && attachHandlerRegistration == null)
+            attachHandlerRegistration = node.addAttachHandler(event -> updateNodes());
+        else
+            updateNodes();
+    }
+
+    private void updateNodes() {
+        if (attachHandlerRegistration != null) {
+            attachHandlerRegistration.removeHandler();
+            attachHandlerRegistration = null;
         }
-    }
-
-    private void setNodes() {
-        populating = false;
         node.clear();
         GuiNode<Widget> topPropertyValue = topProperty.getValue();
         if (topPropertyValue != null)
