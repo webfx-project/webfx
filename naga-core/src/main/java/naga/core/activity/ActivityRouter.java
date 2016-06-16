@@ -17,20 +17,23 @@ import java.util.Map;
  */
 public class ActivityRouter extends HistoryRouter {
 
-    private final ActivityContext parentContext;
+    private final ActivityContext hostingContext; // The activity context that hosts this router
     private Converter<RoutingContext, ActivityContext> defaultContextConverter = this::convertRoutingContextToActivityContext;
+    // Fields used for sub routing
+    private ActivityRouter mountParentRouter;    // pointer set on the child sub router to reference the parent router
+    private ActivityRouter mountChildSubRouter;  // pointer set on the parent router to reference the child sub router
 
-    public ActivityRouter(ActivityContext parentContext) {
-        this(null, parentContext);
+    public ActivityRouter(ActivityContext hostingContext) {
+        this(null, hostingContext);
     }
 
-    public ActivityRouter(Router router, ActivityContext parentContext) {
-        this(router, null, parentContext);
+    public ActivityRouter(Router router, ActivityContext hostingContext) {
+        this(router, null, hostingContext);
     }
 
-    public ActivityRouter(Router router, History history, ActivityContext parentContext) {
+    public ActivityRouter(Router router, History history, ActivityContext hostingContext) {
         super(router, history);
-        this.parentContext = parentContext;
+        this.hostingContext = hostingContext;
     }
 
     public void setDefaultContextConverter(Converter<RoutingContext, ActivityContext> defaultContextConverter) {
@@ -51,6 +54,13 @@ public class ActivityRouter extends HistoryRouter {
 
     public ActivityRouter route(String path, Factory<Activity> activityFactory, Converter<RoutingContext, ActivityContext> contextConverter) {
         router.route(path, new ActivityRoutingHandler(ActivityManager.factory(activityFactory), contextConverter));
+        return this;
+    }
+
+    public ActivityRouter routeAndMountSubRouter(String path, Factory<Activity> activityFactory, ActivityRouter subRouter) {
+        route(path, activityFactory);
+        router.mountSubRouter(path, subRouter.router);
+        subRouter.mountParentRouter = this;
         return this;
     }
 
@@ -79,11 +89,23 @@ public class ActivityRouter extends HistoryRouter {
                 activityManager.create(activityContext); // and we transit the activity into the create state and pass the context
             }
             // Now we transit the current activity (which was either paused or newly created) into the resume state and
-            // once done we display the activity node by binding it with the parent context (done in the UI tread)
-            activityManager.resume().setHandler(event -> Toolkit.get().scheduler().runInUiThread(() -> parentContext.nodeProperty().bind(activityContext.nodeProperty())));
+            // once done we display the activity node by binding it with the hosting context (done in the UI tread)
+            activityManager.resume().setHandler(event -> Toolkit.get().scheduler().runInUiThread(() -> hostingContext.nodeProperty().bind(activityContext.nodeProperty())));
             // Now that the new requested activity is displayed, we pause the previous activity
             if (previousActivityManager != null) // if there was a previous activity
                 previousActivityManager.pause();
+            /*** Sub routing management ***/
+            // When the activity is a mount child activity coming from sub routing, we make sure the mount parent activity is displayed
+            if (mountParentRouter != null) { // Indicates it is a child sub router
+                mountParentRouter.mountChildSubRouter = ActivityRouter.this; // Setting the parent router child pointer
+                // Calling the parent router on the mount point will cause the parent activity to be displayed (if not already done)
+                mountParentRouter.router.accept(context.mountPoint() + "/", context.getParams());
+            }
+            // When the activity is a mount parent activity, we makes the trick so the child activity is displayed within the parent activity
+            if (mountChildSubRouter != null) // Indicates it is a mount parent activity
+                // The trick is to bind the mount node of the parent activity to the child activity node
+                activityContext.mountNodeProperty().bind(mountChildSubRouter.hostingContext.nodeProperty()); // Using the hosting context node which is bound to the child activity node
+                // This should display the child activity because a mount parent activity is supposed to bind its context mount node to the UI
         }
     }
 
@@ -93,7 +115,7 @@ public class ActivityRouter extends HistoryRouter {
         String contextKey = routingContext.currentRoute().getPath();
         ActivityContext activityContext = activityContextHistory.get(contextKey);
         if (activityContext == null)
-            activityContextHistory.put(contextKey, activityContext = new ActivityContext(parentContext));
+            activityContextHistory.put(contextKey, activityContext = new ActivityContext(hostingContext));
         activityContext.setActivityRouter(this);
         activityContext.setParams(routingContext.getParams());
         return activityContext;

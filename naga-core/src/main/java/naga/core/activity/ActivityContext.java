@@ -60,4 +60,11 @@ public class ActivityContext implements HasNodeProperty {
             nodeProperty = new SimpleObjectProperty<>();
         return nodeProperty;
     }
+
+    private Property<GuiNode> mountNodeProperty;
+    public Property<GuiNode> mountNodeProperty() {
+        if (mountNodeProperty == null)
+            mountNodeProperty = new SimpleObjectProperty<>();
+        return mountNodeProperty;
+    }
 }
