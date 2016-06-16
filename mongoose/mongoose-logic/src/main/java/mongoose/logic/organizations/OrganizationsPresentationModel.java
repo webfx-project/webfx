@@ -1,11 +1,10 @@
 package mongoose.logic.organizations;
 
-import javafx.beans.property.*;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.displayselection.DisplaySelection;
 import naga.core.ngui.presentation.PresentationModel;
-import naga.core.spi.toolkit.event.ActionEvent;
-import rx.subjects.BehaviorSubject;
 
 /**
  * @author Bruno Salmon
@@ -22,9 +21,6 @@ class OrganizationsPresentationModel implements PresentationModel {
 
     private final Property<DisplaySelection> organizationsDisplaySelectionProperty = new SimpleObjectProperty<>();
     Property<DisplaySelection> organizationsDisplaySelectionProperty() { return organizationsDisplaySelectionProperty; }
-
-    private final BehaviorSubject<ActionEvent> testButtonActionEventObservable = BehaviorSubject.create();
-    BehaviorSubject<ActionEvent> testButtonActionEventObservable() { return testButtonActionEventObservable; }
 
     // Display output
 

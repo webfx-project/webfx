@@ -5,8 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.core.ngui.displayresultset.DisplayResultSet;
 import naga.core.ngui.displayselection.DisplaySelection;
 import naga.core.ngui.presentation.PresentationModel;
-import naga.core.spi.toolkit.event.ActionEvent;
-import rx.subjects.BehaviorSubject;
 
 /**
  * @author Bruno Salmon
@@ -17,11 +15,6 @@ class CartPresentationModel implements PresentationModel {
 
     private final Property<String> cartUuidProperty = new SimpleObjectProperty<>();
     Property<String> cartUuidProperty() { return cartUuidProperty; }
-
-    // Display input
-
-    private final BehaviorSubject<ActionEvent> testButtonActionEventObservable = BehaviorSubject.create();
-    BehaviorSubject<ActionEvent> testButtonActionEventObservable() { return testButtonActionEventObservable; }
 
     // Display output
 

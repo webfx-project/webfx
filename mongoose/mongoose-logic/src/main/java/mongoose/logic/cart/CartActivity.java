@@ -6,7 +6,6 @@ import naga.core.ngui.presentation.ViewBuilder;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.ActionButton;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
 
@@ -28,13 +27,11 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         Table documentTable = toolkit.createNode(Table.class);
         Table documentLineTable = toolkit.createNode(Table.class);
         Table paymentTable = toolkit.createNode(Table.class);
-        ActionButton testButton = toolkit.createNode(ActionButton.class);
-        testButton.setText("Organizations");
 
         // Displaying the UI
         VBox vBox = toolkit.createNode(VBox.class);
-        vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable, testButton);
-        return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable, testButton);
+        vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable);
+        return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable);
     }
 
     @Override
@@ -42,7 +39,6 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         vm.getDocumentTable().displaySelectionProperty().bindBidirectional(pm.documentDisplaySelectionProperty());
-        vm.getTestButton().actionEventObservable().subscribe(actionEvent -> pm.testButtonActionEventObservable().onNext(actionEvent));
         // User outputs: the presentation model changes are transferred in the UI
         vm.getDocumentTable().displayResultSetProperty().bind(pm.documentDisplayResultSetProperty());
         vm.getDocumentLineTable().displayResultSetProperty().bind(pm.documentLineDisplayResultSetProperty());
@@ -105,7 +101,5 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         new DisplayColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
-
-        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getActivityRouter().getHistory().push("/organizations"));
     }
 }

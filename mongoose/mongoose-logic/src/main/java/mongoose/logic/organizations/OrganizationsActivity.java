@@ -26,16 +26,12 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
         SearchBox searchBox = toolkit.createNode(SearchBox.class);
         Table table = toolkit.createNode(Table.class);
         CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
-        ActionButton testButton = toolkit.createNode(ActionButton.class);
-        testButton.setText("Cart");
-        VBox vbox = toolkit.createNode(VBox.class);
-        vbox.getChildren().setAll(limitCheckBox, testButton);
 
         return new OrganizationsViewModel(toolkit.createNode(BorderPane.class)
                 .setTop(searchBox)
                 .setCenter(table)
-                .setBottom(vbox)
-                , searchBox, table, limitCheckBox, testButton);
+                .setBottom(limitCheckBox)
+                , searchBox, table, limitCheckBox);
     }
 
     protected void bindViewModelWithPresentationModel(OrganizationsViewModel vm, OrganizationsPresentationModel pm) {
@@ -55,7 +51,6 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
         pm.searchTextProperty().bind(searchBox.textProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.organizationsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
-        vm.getTestButton().actionEventObservable().subscribe(actionEvent -> pm.testButtonActionEventObservable().onNext(actionEvent));
         // User outputs: the presentation model changes are transferred in the UI
         vm.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
     }
@@ -79,7 +74,5 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
             if (selectedRow >= 0)
                 Platform.log("Selected entity: " + rxFilter.getCurrentEntityList().get(selectedRow));
         });
-
-        pm.testButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getActivityRouter().getHistory().push("/cart/.570d0151724b2."));
     }
 }
