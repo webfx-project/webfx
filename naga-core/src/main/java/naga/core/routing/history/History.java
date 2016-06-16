@@ -139,24 +139,10 @@ public interface History {
      *
      ******************************************************************************************************************/
 
-    String createHref(PathStateLocation location);
-
-    String createPath(PathStateLocation location); // Path = Pathname + Search + Hash;
+    String getPath(PathStateLocation location); // Path = Pathname + Search + Hash;
 
     PathStateLocation createPathStateLocation(String path, JsonObject state);
 
     HistoryLocation createHistoryLocation(String path, JsonObject state);
-
-    /*
-
-    int historyLength();
-
-    History createHistory();
-
-    History createHashHistory();
-
-    History createMemoryHistory();
-
-    */
 
 }

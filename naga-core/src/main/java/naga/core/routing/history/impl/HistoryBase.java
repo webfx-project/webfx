@@ -7,6 +7,7 @@ import naga.core.routing.history.HistoryLocation;
 import naga.core.routing.location.PathStateLocation;
 import naga.core.routing.location.impl.PathLocationImpl;
 import naga.core.routing.location.impl.PathStateLocationImpl;
+import naga.core.util.Strings;
 import naga.core.util.async.Future;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Function;
@@ -15,6 +16,24 @@ import naga.core.util.function.Function;
  * @author Bruno Salmon
  */
 public abstract class HistoryBase implements History {
+
+    private String mountPoint;
+
+    public void setMountPoint(String mountPoint) {
+        this.mountPoint = mountPoint;
+    }
+
+    protected String getMountPoint() {
+        return mountPoint;
+    }
+
+    protected String mountToFullPath(String mountPath) {
+        return Strings.concat(mountPoint, mountPath);
+    }
+
+    protected String fullToMountPath(String fullPath) {
+        return Strings.removePrefix(fullPath, mountPoint);
+    }
 
     @Override
     public void push(PathStateLocation location) {
@@ -75,17 +94,13 @@ public abstract class HistoryBase implements History {
     }
 
     @Override
-    public String createHref(PathStateLocation location) {
-        return createPath(location); // It seems a HashHistory will override this method to prepend it with '#'
-    }
-
-    @Override
-    public String createPath(PathStateLocation location) {
-        return location.getPath();
+    public String getPath(PathStateLocation location) {
+        return fullToMountPath(location.getPath());
     }
 
     @Override
     public PathStateLocation createPathStateLocation(String path, JsonObject state) {
+        path = mountToFullPath(path);
         return new PathStateLocationImpl(new PathLocationImpl(path), state);
     }
 
