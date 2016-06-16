@@ -16,8 +16,8 @@ abstract class MongooseApplication implements Activity {
 
     @Override
     public void onCreate(ActivityContext context) {
-        activityRouter = new ActivityRouter(context)
-                .routeAndMountSubRouter("/", ContainerActivity::new, new ActivityRouter(new ActivityContext(context))
+        activityRouter = ActivityRouter.create(context)
+                .routeAndMountSubRouter("/", ContainerActivity::new, ActivityRouter.createSubRouter(context)
                     .route("/organizations", OrganizationsActivity::new)
                     .route("/cart/:cartUuid", CartActivity::new)
                 );

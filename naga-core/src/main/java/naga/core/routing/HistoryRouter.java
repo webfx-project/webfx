@@ -4,6 +4,7 @@ import naga.core.routing.history.History;
 import naga.core.routing.history.HistoryLocation;
 import naga.core.routing.router.Router;
 import naga.core.spi.platform.Platform;
+import naga.core.util.async.Handler;
 
 /**
  * @author Bruno Salmon
@@ -15,20 +16,17 @@ public class HistoryRouter {
     // The default path to be used if the history is initially empty or the path is not found
     private String defaultInitialHistoryPath;
 
-    public HistoryRouter() {
-        this(null);
-    }
-
-    public HistoryRouter(Router router) {
-        this(router, null);
-    }
-
     public HistoryRouter(Router router, History history) {
-        this.router = router != null ? router : Router.create();
-        this.history = history != null ? history : Platform.get().getBrowserHistory();
-        this.router.exceptionHandler(throwable -> {
-            Platform.log("Path not found", throwable);
-            replaceCurrentHistoryWithInitialDefaultPath();
+        this.router = router;
+        this.history = history;
+        router.exceptionHandler(new Handler<Throwable>() {
+            @Override
+            public void handle(Throwable throwable) {
+                Platform.log("Path not found", throwable);
+                router.exceptionHandler(null); // removing the handler to avoid an infinite recursion if the default path can't be found
+                replaceCurrentHistoryWithInitialDefaultPath();
+                router.exceptionHandler(this); // restoring the handler
+            }
         });
     }
 
@@ -48,6 +46,11 @@ public class HistoryRouter {
         this.defaultInitialHistoryPath = defaultInitialHistoryPath;
     }
 
+    private void replaceCurrentHistoryWithInitialDefaultPath() {
+        if (defaultInitialHistoryPath != null)
+            history.replace(defaultInitialHistoryPath);
+    }
+
     public void start() {
         HistoryLocation currentLocation = history.getCurrentLocation();
         history.listen(this::onNewHistoryLocation);
@@ -55,11 +58,6 @@ public class HistoryRouter {
             onNewHistoryLocation(currentLocation);
         else
             replaceCurrentHistoryWithInitialDefaultPath();
-    }
-
-    private void replaceCurrentHistoryWithInitialDefaultPath() {
-        if (defaultInitialHistoryPath != null)
-            history.replace(defaultInitialHistoryPath);
     }
 
     protected void onNewHistoryLocation(HistoryLocation historyLocation) {

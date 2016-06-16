@@ -2,6 +2,7 @@ package naga.core.activity;
 
 import naga.core.routing.HistoryRouter;
 import naga.core.routing.history.History;
+import naga.core.routing.history.impl.SubHistory;
 import naga.core.routing.router.Router;
 import naga.core.routing.router.RoutingContext;
 import naga.core.spi.toolkit.Toolkit;
@@ -23,12 +24,24 @@ public class ActivityRouter extends HistoryRouter {
     private ActivityRouter mountParentRouter;    // pointer set on the child sub router to reference the parent router
     private ActivityRouter mountChildSubRouter;  // pointer set on the parent router to reference the child sub router
 
+    public static ActivityRouter create(ActivityContext hostingContext) {
+        return new ActivityRouter(hostingContext);
+    }
+
+    public static ActivityRouter createSubRouter(ActivityContext hostingContext) {
+        return ActivityRouter.create(createSubRouterContext(hostingContext));
+    }
+
+    public static ActivityContext createSubRouterContext(ActivityContext hostingContext) {
+        return new ActivityContext(hostingContext);
+    }
+
     public ActivityRouter(ActivityContext hostingContext) {
-        this(null, hostingContext);
+        this(Router.create(), hostingContext);
     }
 
     public ActivityRouter(Router router, ActivityContext hostingContext) {
-        this(router, null, hostingContext);
+        this(router, hostingContext.getHistory(), hostingContext);
     }
 
     public ActivityRouter(Router router, History history, ActivityContext hostingContext) {
@@ -58,9 +71,14 @@ public class ActivityRouter extends HistoryRouter {
     }
 
     public ActivityRouter routeAndMountSubRouter(String path, Factory<Activity> activityFactory, ActivityRouter subRouter) {
-        route(path, activityFactory);
+        // Mounting the sub router to make its activities findable by the current router
         router.mountSubRouter(path, subRouter.router);
+        // Also adding the route to the current activity to make it findable (this is the current activity that finally will display the sub activities in it)
+        route(path, activityFactory);
+        // Memorizing the link from the sub router to this router (for the sub routing management in ActivityRoutingHandler)
         subRouter.mountParentRouter = this;
+        // Also changing the sub router history so that when sub activities call history.push("/xxx"), they actually do history.push("/{path}/xxx")
+        subRouter.hostingContext.setHistory(new SubHistory(hostingContext.getHistory(), path));
         return this;
     }
 
@@ -116,7 +134,6 @@ public class ActivityRouter extends HistoryRouter {
         ActivityContext activityContext = activityContextHistory.get(contextKey);
         if (activityContext == null)
             activityContextHistory.put(contextKey, activityContext = new ActivityContext(hostingContext));
-        activityContext.setActivityRouter(this);
         activityContext.setParams(routingContext.getParams());
         return activityContext;
     }

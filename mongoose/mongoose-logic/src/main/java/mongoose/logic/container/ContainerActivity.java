@@ -30,19 +30,19 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         // Hard coded initialization
         vm.getOrganizationsButton().setText("Organizations");
         vm.getCartButton().setText("Cart");
+        // Binding the mount node property so that child sub routed pages are displayed in the center
+        vm.getContentNode().centerProperty().bind(getActivityContext().mountNodeProperty());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
-        vm.getOrganizationsButton().actionEventObservable().subscribe(actionEvent -> pm.organizationButtonActionEventObservable().onNext(actionEvent));
+        vm.getOrganizationsButton().actionEventObservable().subscribe(actionEvent -> pm.organizationsButtonActionEventObservable().onNext(actionEvent));
         vm.getCartButton().actionEventObservable().subscribe(actionEvent -> pm.carButtonActionEventObservable().onNext(actionEvent));
-
-        vm.getContentNode().centerProperty().bind(getActivityContext().mountNodeProperty());
     }
 
     @Override
     protected void bindPresentationModelWithLogic(ContainerPresentationModel pm) {
-        pm.organizationButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getActivityRouter().getHistory().push("/organizations"));
-        pm.carButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getActivityRouter().getHistory().push("/cart/.570d0151724b2."));
+        pm.organizationsButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getHistory().push("/organizations"));
+        pm.carButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getHistory().push("/cart/.570d0151724b2."));
     }
 
 }

@@ -3,6 +3,7 @@ package naga.core.activity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.Toolkit;
 
@@ -27,6 +28,7 @@ public class ApplicationContext extends ActivityContext {
         super(null);
         this.mainArgs = mainArgs;
         setDataSourceModel(dataSourceModel);
+        setHistory(Platform.get().getBrowserHistory());
         nodeProperty().addListener(new ChangeListener<GuiNode>() {
             @Override
             public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {

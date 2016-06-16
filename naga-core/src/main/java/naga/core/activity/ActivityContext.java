@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.routing.history.History;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.hasproperties.HasNodeProperty;
 
@@ -16,7 +17,7 @@ public class ActivityContext implements HasNodeProperty {
     private JsonObject params;
     private ActivityManager activityManager;
     private DataSourceModel dataSourceModel;
-    private ActivityRouter activityRouter;
+    private History history;
 
     public ActivityContext(ActivityContext parentContext) {
         this.parentContext = parentContext;
@@ -46,12 +47,12 @@ public class ActivityContext implements HasNodeProperty {
         this.dataSourceModel = dataSourceModel;
     }
 
-    public void setActivityRouter(ActivityRouter activityRouter) {
-        this.activityRouter = activityRouter;
+    public void setHistory(History history) {
+        this.history = history;
     }
 
-    public ActivityRouter getActivityRouter() {
-        return activityRouter != null || parentContext == null ? activityRouter : parentContext.getActivityRouter();
+    public History getHistory() {
+        return history != null || parentContext == null ? history : parentContext.getHistory();
     }
 
     private Property<GuiNode> nodeProperty;
