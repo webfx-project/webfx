@@ -44,7 +44,9 @@ class RoutingContextImpl extends RoutingContextImplBase {
         if (failed())
             // Send back FAILURE
             unhandledFailure(statusCode, failure, router);
-        /*else {
+        else {
+            unhandledFailure(404, new IllegalArgumentException("No matching route for path " + path), router);
+            /*
             // Send back default 404
             response().setStatusCode(404);
             if (request().method() == HttpMethod.HEAD) {
@@ -52,8 +54,8 @@ class RoutingContextImpl extends RoutingContextImplBase {
                 response().end();
             } else {
                 response().end(DEFAULT_404);
-            }
-        }*/
+            }*/
+        }
     }
 
     //@Override
