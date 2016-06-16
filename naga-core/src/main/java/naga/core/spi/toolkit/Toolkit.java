@@ -51,7 +51,7 @@ public abstract class Toolkit {
     }
 
     public static <N> N unwrapToNativeNode(GuiNode<N> guiNode) {
-        return guiNode.unwrapToNativeNode();
+        return guiNode == null ? null : guiNode.unwrapToNativeNode();
     }
 
     public <N> ObservableList<GuiNode<N>> wrapNativeObservableList(ObservableList<N> nativeList) {

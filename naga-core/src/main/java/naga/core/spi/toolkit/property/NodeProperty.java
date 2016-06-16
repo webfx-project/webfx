@@ -10,6 +10,6 @@ import naga.core.spi.toolkit.GuiNode;
 public class NodeProperty<N> extends MappedProperty<GuiNode<N>, N> {
 
     public NodeProperty(Property<N> property) {
-        super(property, node -> node.unwrapToNativeNode(), fxNode -> Toolkit.get().wrapNativeNode(fxNode));
+        super(property, node -> Toolkit.unwrapToNativeNode(node), fxNode -> Toolkit.get().wrapNativeNode(fxNode));
     }
 }
