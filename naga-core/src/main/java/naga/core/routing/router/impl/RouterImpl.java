@@ -15,8 +15,6 @@ import java.util.List;
  */
 public class RouterImpl implements Router {
 
-    private String currentPath;
-    private String defaultPath;
     private List<RouteImpl> routes = new ArrayList<>();
     private Handler<Throwable> exceptionHandler;
 
@@ -36,24 +34,7 @@ public class RouterImpl implements Router {
     }
 
     @Override
-    public Router defaultPath(String defaultPath) {
-        this.defaultPath = defaultPath;
-        return this;
-    }
-
-    @Override
-    public Router start() {
-        if (currentPath == null)
-            currentPath = defaultPath;
-        if (currentPath == null && !routes.isEmpty())
-            currentPath = routes.get(0).getPath();
-        accept(currentPath, null);
-        return this;
-    }
-
-    @Override
     public void accept(String path, JsonObject state) {
-        this.currentPath = path;
         new RoutingContextImpl(null, this, path, routes, state).next();
     }
 

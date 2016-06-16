@@ -15,10 +15,6 @@ public interface Router {
 
     Router route(String path, Handler<RoutingContext> handler);
 
-    Router defaultPath(String defaultPath);
-
-    Router start();
-
     void accept(String path, JsonObject state);
 
     Router mountSubRouter(String mountPoint, Router subRouter);
