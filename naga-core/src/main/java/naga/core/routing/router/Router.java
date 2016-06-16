@@ -25,18 +25,4 @@ public interface Router {
 
     void handleFailure(RoutingContext ctx);
 
-    /*
-    Router goTo(Route route);
-
-    Router goTo(String routeName);
-
-    Router go(int delta);
-
-    default Router back() { return go(-1); }
-
-    default Router forward() { return go(1); }
-
-    int historyLength();
-    */
-
 }
