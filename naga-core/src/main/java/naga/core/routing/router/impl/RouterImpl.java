@@ -79,12 +79,12 @@ public class RouterImpl implements Router {
 
     @Override
     public void handleContext(RoutingContext ctx) {
-        new RoutingContextWrapper(getAndCheckRoutePath(ctx), ctx.path(), routes, ctx).next();
+        new SubRoutingContext(getAndCheckRoutePath(ctx), ctx.path(), routes, ctx).next();
     }
 
     @Override
     public void handleFailure(RoutingContext ctx) {
-        new RoutingContextWrapper(getAndCheckRoutePath(ctx), ctx.path(), routes, ctx).next();
+        new SubRoutingContext(getAndCheckRoutePath(ctx), ctx.path(), routes, ctx).next();
     }
 
     private String getAndCheckRoutePath(RoutingContext ctx) {

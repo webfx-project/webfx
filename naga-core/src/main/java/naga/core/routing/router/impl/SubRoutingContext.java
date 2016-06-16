@@ -8,19 +8,18 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-class RoutingContextWrapper extends RoutingContextImplBase {
+class SubRoutingContext extends RoutingContextImplBase {
 
     protected final RoutingContext inner;
     private final String mountPoint;
 
-    RoutingContextWrapper(String mountPoint, String path, Collection<RouteImpl> routes, RoutingContext inner) {
+    SubRoutingContext(String mountPoint, String path, Collection<RouteImpl> routes, RoutingContext inner) {
         super(mountPoint, path, routes, null);
         this.inner = inner;
         String parentMountPoint = inner.mountPoint();
-        if (mountPoint.charAt(mountPoint.length() - 1) == '/') {
-            // Remove the trailing slash or we won't match
+        // Removing the trailing slash or we won't match
+        if (mountPoint.charAt(mountPoint.length() - 1) == '/')
             mountPoint = mountPoint.substring(0, mountPoint.length() - 1);
-        }
         this.mountPoint = parentMountPoint == null ? mountPoint : parentMountPoint + mountPoint;
     }
 
