@@ -4,6 +4,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import naga.core.spi.platform.Platform;
 import naga.core.util.function.Converter;
 
 /**
@@ -15,6 +16,8 @@ public class MappedProperty<A, B> implements Property<A> {
     private final Property<B> property;
     private final Converter<A,B> aToBConverter;
     private final Converter<B,A> bToAConverter;
+    private ObservableValue<? extends A> bindObservable;
+    private ChangeListener<A> bindListener;
 
     public MappedProperty(Property<B> property, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
         this.property = property;
@@ -45,17 +48,23 @@ public class MappedProperty<A, B> implements Property<A> {
 
     @Override
     public void bind(ObservableValue<? extends A> observable) {
-        System.out.println("bind!!!");
+        unbind();
+        setValue(observable.getValue());
+        observable.addListener(bindListener = (observable1, oldValue, newValue) -> setValue(newValue));
     }
 
     @Override
     public void unbind() {
-        property.unbind();
+        if (bindObservable != null) {
+            bindObservable.removeListener(bindListener);
+            bindListener = null;
+            bindObservable = null;
+        }
     }
 
     @Override
     public boolean isBound() {
-        return property.isBound();
+        return bindObservable != null;
     }
 
     @Override
@@ -65,6 +74,7 @@ public class MappedProperty<A, B> implements Property<A> {
 
     @Override
     public void unbindBidirectional(Property<A> other) {
+        Platform.log("MappedProperty.unbindBidirectional() not yet implemented");
         //TODO property.unbindBidirectional(new MappedProperty<>(other, bToAConverter, aToBConverter));
     }
 
@@ -77,7 +87,7 @@ public class MappedProperty<A, B> implements Property<A> {
 
     @Override
     public void removeListener(ChangeListener<? super A> listener) {
-        //TODO
+        Platform.log("MappedProperty.removeListener() not yet implemented");
     }
 
     @Override
@@ -89,6 +99,6 @@ public class MappedProperty<A, B> implements Property<A> {
 
     @Override
     public void removeListener(InvalidationListener listener) {
-        //TODO
+        Platform.log("MappedProperty.removeListener() not yet implemented");
     }
 }
