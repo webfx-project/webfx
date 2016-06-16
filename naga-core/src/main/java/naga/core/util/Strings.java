@@ -37,11 +37,11 @@ public class Strings {
     }
 
     public static boolean startsWith(String s, String prefix) {
-        return s != null && s.startsWith(prefix);
+        return s != null && prefix != null && s.startsWith(prefix);
     }
 
     public static boolean endsWith(String s, String suffix) {
-        return s != null && s.endsWith(suffix);
+        return s != null && suffix != null && s.endsWith(suffix);
     }
 
     public static String removePrefix(String s, String prefix) {
@@ -70,7 +70,7 @@ public class Strings {
     }
 
     public static String[] split(String s, String separator) {
-        List<String> tokens = new ArrayList<String>();
+        List<String> tokens = new ArrayList<>();
         int p0 = 0;
         if (s != null)
             while (true) {
