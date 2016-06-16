@@ -54,7 +54,11 @@ public class MemoryHistory extends HistoryBase {
     }
 
     protected void doAcceptedReplace(HistoryLocationImpl historyLocation) {
-        locationStack.set(getCurrentLocationIndex(), historyLocation);
+        int index = getCurrentLocationIndex();
+        if (index != -1)
+            locationStack.set(index, historyLocation);
+        else
+            locationStack.push(historyLocation);
     }
 
 }
