@@ -38,7 +38,7 @@ public class TeaVmWindowHistory implements WindowHistory {
         return hasWindowHistoryPushState();
     }
 
-    @JSBody(params = "", script = "return typeof window.history.pushState === 'function';")
+    @JSBody(params = {}, script = "return typeof window.history.pushState === 'function';")
     private static native boolean hasWindowHistoryPushState();
 
     @Override
