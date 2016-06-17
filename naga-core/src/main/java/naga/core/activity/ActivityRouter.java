@@ -33,7 +33,12 @@ public class ActivityRouter extends HistoryRouter {
     }
 
     public static ActivityContext createSubRouterContext(ActivityContext hostingContext) {
+        // For now we just create a new context that is different from the parent router one.
         return new ActivityContext(hostingContext);
+        // The main links between these 2 contexts will actually be done later:
+        // - in routeAndMountSubRouter() which will reset the history to a SubHistory (to consider the mount point shift)
+        // - in ActivityRoutingHandler.handle() which will bind the parent mount node to the sub router context node
+        //   (so the sub activity appears in the appropriate place within the parent activity)
     }
 
     public ActivityRouter(ActivityContext hostingContext) {
