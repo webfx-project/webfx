@@ -28,9 +28,9 @@ package javafx.beans.binding;
 import com.sun.javafx.binding.BidirectionalBinding;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableNumberValue;
-import javafx.util.StringConverter;
+//import javafx.util.StringConverter;
 
-import java.text.Format;
+//import java.text.Format;
 
 /**
  * Bindings is a helper class with a lot of utility functions to create simple
