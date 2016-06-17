@@ -1,5 +1,6 @@
 package mongoose.logic.cart;
 
+import mongoose.format.PriceFormatter;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
 import naga.core.ngui.presentation.ViewBuilder;
@@ -52,7 +53,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
 
     @Override
     protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
-        // Loading the domain model and setting up the reactive filter
+        // Setting up the documents filter
         RxFilter documentFilter = createRxFilter("{class: 'Document', orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
@@ -63,15 +64,15 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         new DisplayColumn("Ref", "ref"),
                         new DisplayColumn("First name", "person_firstName"),
                         new DisplayColumn("Last name", "person_lastName"),
-                        new DisplayColumn("Invoiced", "price_net"),
-                        new DisplayColumn("Deposit", "price_deposit"),
-                        new DisplayColumn("Balance", "price_balance")
+                        new DisplayColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
+                        new DisplayColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
+                        new DisplayColumn("Balance", "price_balance", PriceFormatter.SINGLETON)
                 )
                 .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
                 .selectFirstRowOnFirstDisplay()
                 .displayResultSetInto(pm.documentDisplayResultSetProperty());
 
-        // Loading the domain model and setting up the reactive filter
+        // Setting up the document lines filter
         createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
@@ -84,12 +85,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         new DisplayColumn("Site", "site.name"),
                         new DisplayColumn("Item", "item.name"),
                         new DisplayColumn("Dates", "dates"),
-                        new DisplayColumn("Fees", "price_net")
+                        new DisplayColumn("Fees", "price_net", PriceFormatter.SINGLETON)
                 )
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
 
-        // Loading the domain model and setting up the reactive filter
+        // Setting up the payments filter
         createRxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
@@ -97,7 +98,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .setDisplayColumns(
                         new DisplayColumn("Date", "date"),
                         new DisplayColumn("Booking ref", "document.ref"),
-                        new DisplayColumn("Amount", "amount"),
+                        new DisplayColumn("Amount", "amount", PriceFormatter.SINGLETON),
                         new DisplayColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
