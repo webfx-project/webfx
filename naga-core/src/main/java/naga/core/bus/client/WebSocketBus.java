@@ -17,12 +17,13 @@
  */
 package naga.core.bus.client;
 
-import naga.core.json.JsonObject;
-import naga.core.json.Json;
-import naga.core.json.WritableJsonObject;
 import naga.core.bus.Message;
-import naga.core.spi.platform.Platform;
+import naga.core.json.Json;
+import naga.core.json.JsonObject;
+import naga.core.json.WritableJsonObject;
 import naga.core.spi.platform.ClientPlatform;
+import naga.core.spi.platform.Platform;
+import naga.core.spi.platform.Scheduled;
 import naga.core.util.async.Handler;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class WebSocketBus extends SimpleClientBus {
     String serverUri;
     WebSocket webSocket;
     private int pingInterval;
-    private Object pingTimerId;
+    private Scheduled pingScheduled;
     private String sessionId;
     private String username;
     private String password;
@@ -77,7 +78,7 @@ public class WebSocketBus extends SimpleClientBus {
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
                 cancelPingTimer();
-                pingTimerId = Platform.schedulePeriodic(pingInterval, WebSocketBus.this::sendPing);
+                pingScheduled = Platform.schedulePeriodic(pingInterval, WebSocketBus.this::sendPing);
                 if (hook != null)
                     hook.handleOpened();
                 publishLocal(ON_OPEN, null);
@@ -113,9 +114,9 @@ public class WebSocketBus extends SimpleClientBus {
 
 
     private void cancelPingTimer() {
-        if (pingTimerId != null)
-            Platform.cancelTimer(pingTimerId);
-        pingTimerId = null;
+        if (pingScheduled != null)
+            pingScheduled.cancel();
+        pingScheduled = null;
     }
 
     public void connect(String serverUri, WebSocketBusOptions options) {

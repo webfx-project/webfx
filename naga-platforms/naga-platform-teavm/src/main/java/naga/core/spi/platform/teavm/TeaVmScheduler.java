@@ -1,5 +1,6 @@
 package naga.core.spi.platform.teavm;
 
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 import naga.core.util.tuples.Unit;
 import org.teavm.platform.Platform;
@@ -11,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-final class TeaVmScheduler implements Scheduler<Integer> {
+final class TeaVmScheduler implements Scheduler {
 
     private final Map<Integer, Integer> periodicIds = new HashMap<>();
 
@@ -21,12 +22,12 @@ final class TeaVmScheduler implements Scheduler<Integer> {
     }
 
     @Override
-    public Integer scheduleDelay(long delayMs, Runnable runnable) {
-        return Platform.schedule(runnable::run, (int) delayMs);
+    public TeaVmScheduled scheduleDelay(long delayMs, Runnable runnable) {
+        return new TeaVmScheduled(Platform.schedule(runnable::run, (int) delayMs));
     }
 
     @Override
-    public Integer schedulePeriodic(long delayMs, Runnable runnable) {
+    public TeaVmScheduled schedulePeriodic(long delayMs, Runnable runnable) {
         Unit<Integer> timerIdUnit = new Unit<>();
         int timerId = Platform.schedule(new PlatformRunnable() {
             @Override
@@ -38,20 +39,28 @@ final class TeaVmScheduler implements Scheduler<Integer> {
         }, (int) delayMs);
         periodicIds.put(timerId, timerId);
         timerIdUnit.set(timerId);
-        return timerId;
-    }
-
-    @Override
-    public boolean cancelTimer(Integer id) {
-        Platform.killSchedule(id);
-        Integer periodicId = periodicIds.remove(id);
-        if (periodicId != null)
-            Platform.killSchedule(periodicId);
-        return true;
+        return new TeaVmScheduled(timerId);
     }
 
     @Override
     public boolean isUiThread() {
         return true;
+    }
+
+    private class TeaVmScheduled implements Scheduled {
+        private final int timerId;
+
+        private TeaVmScheduled(int timerId) {
+            this.timerId = timerId;
+        }
+
+        @Override
+        public boolean cancel() {
+            Platform.killSchedule(timerId);
+            Integer periodicId = periodicIds.remove(timerId);
+            if (periodicId != null)
+                Platform.killSchedule(periodicId);
+            return true;
+        }
     }
 }

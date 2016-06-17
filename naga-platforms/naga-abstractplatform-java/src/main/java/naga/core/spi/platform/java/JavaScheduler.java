@@ -18,15 +18,13 @@
 package naga.core.spi.platform.java;
 
 
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -34,10 +32,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
-public class JavaScheduler implements Scheduler<Integer> {
+public class JavaScheduler implements Scheduler {
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-    private final AtomicInteger timerId = new AtomicInteger(0);
-    private final Map<Integer, ScheduledFuture<?>> timers = new HashMap<>();
 
     public JavaScheduler() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -55,30 +51,18 @@ public class JavaScheduler implements Scheduler<Integer> {
     }
 
     @Override
-    public boolean cancelTimer(Integer id) {
-        return timers.containsKey(id) && timers.remove(id).cancel(false);
-    }
-
-    @Override
     public void scheduleDeferred(Runnable runnable) {
         executor.execute(runnable);
     }
 
     @Override
-    public Integer scheduleDelay(long delayMs, Runnable runnable) {
-        int id = timerId.getAndIncrement();
-        timers.put(id, executor.schedule(() -> {
-            timers.remove(id);
-            runnable.run();
-        }, delayMs, TimeUnit.MILLISECONDS));
-        return id;
+    public JavaScheduled scheduleDelay(long delayMs, Runnable runnable) {
+        return new JavaScheduled(executor.schedule(runnable, delayMs, TimeUnit.MILLISECONDS));
     }
 
     @Override
-    public Integer schedulePeriodic(long delayMs, Runnable runnable) {
-        int id = timerId.getAndIncrement();
-        timers.put(id, executor.scheduleAtFixedRate(runnable, delayMs, delayMs, TimeUnit.MILLISECONDS));
-        return id;
+    public JavaScheduled schedulePeriodic(long delayMs, Runnable runnable) {
+        return new JavaScheduled(executor.scheduleAtFixedRate(runnable, delayMs, delayMs, TimeUnit.MILLISECONDS));
     }
 
     @Override
@@ -89,5 +73,18 @@ public class JavaScheduler implements Scheduler<Integer> {
     @Override
     public void runInBackground(Runnable runnable) {
         executor.execute(runnable);
+    }
+
+    private static class JavaScheduled implements Scheduled {
+        private final ScheduledFuture scheduledFuture;
+
+        private JavaScheduled(ScheduledFuture scheduledFuture) {
+            this.scheduledFuture = scheduledFuture;
+        }
+
+        @Override
+        public boolean cancel() {
+            return scheduledFuture.cancel(false);
+        }
     }
 }

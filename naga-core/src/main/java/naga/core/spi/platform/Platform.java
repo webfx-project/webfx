@@ -117,16 +117,12 @@ public abstract class Platform {
         get().scheduler().scheduleDeferred(runnable);
     }
 
-    public static Object scheduleDelay(int delayMs, Runnable runnable) {
+    public static Scheduled scheduleDelay(int delayMs, Runnable runnable) {
         return get().scheduler().scheduleDelay(delayMs, runnable);
     }
 
-    public static Object schedulePeriodic(int delayMs, Runnable runnable) {
+    public static Scheduled schedulePeriodic(int delayMs, Runnable runnable) {
         return get().scheduler().schedulePeriodic(delayMs, runnable);
-    }
-
-    public static boolean cancelTimer(Object timerId) {
-        return get().scheduler().cancelTimer(timerId);
     }
 
     public static void runInBackground(Runnable runnable) {

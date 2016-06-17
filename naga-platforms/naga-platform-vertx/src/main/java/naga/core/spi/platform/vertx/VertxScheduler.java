@@ -1,12 +1,13 @@
 package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
 /**
  * @author Bruno Salmon
  */
-final class VertxScheduler implements Scheduler<Long> {
+final class VertxScheduler implements Scheduler {
 
     private final Vertx vertx;
 
@@ -20,22 +21,30 @@ final class VertxScheduler implements Scheduler<Long> {
     }
 
     @Override
-    public Long scheduleDelay(long delayMs, Runnable runnable) {
-        return vertx.setTimer(delayMs, event -> runnable.run());
+    public VertxScheduled scheduleDelay(long delayMs, Runnable runnable) {
+        return new VertxScheduled(vertx.setTimer(delayMs, event -> runnable.run()));
     }
 
     @Override
-    public Long schedulePeriodic(long delayMs, Runnable runnable) {
-        return vertx.setPeriodic(delayMs, event -> runnable.run());
-    }
-
-    @Override
-    public boolean cancelTimer(Long id) {
-        return vertx.cancelTimer(id);
+    public VertxScheduled schedulePeriodic(long delayMs, Runnable runnable) {
+        return new VertxScheduled(vertx.setPeriodic(delayMs, event -> runnable.run()));
     }
 
     @Override
     public boolean isUiThread() {
         return false;
+    }
+
+    private class VertxScheduled implements Scheduled {
+        private final long timerId;
+
+        private VertxScheduled(long timerId) {
+            this.timerId = timerId;
+        }
+
+        @Override
+        public boolean cancel() {
+            return vertx.cancelTimer(timerId);
+        }
     }
 }

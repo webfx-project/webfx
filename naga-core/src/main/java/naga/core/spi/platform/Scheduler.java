@@ -25,7 +25,7 @@ package naga.core.spi.platform;
  *
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Scheduler.java">Original Goodow class</a>
  */
-public interface Scheduler<T> {
+public interface Scheduler {
     /**
      * A deferred command is executed not now but as soon as possible (ex: after the event loop returns).
      */
@@ -35,9 +35,9 @@ public interface Scheduler<T> {
      * Set a one-shot timer to fire after {@code delayMs} milliseconds, at which point {@code handler}
      * will be called.
      *
-     * @return the unique ID of the timer
+     * @return the timer
      */
-    T scheduleDelay(long delayMs, Runnable runnable);
+    Scheduled scheduleDelay(long delayMs, Runnable runnable);
 
     /**
      * Schedules a repeating handler that is scheduled with a constant periodicity. That is, the
@@ -46,16 +46,9 @@ public interface Scheduler<T> {
      *
      * @param delayMs the period with which the handler is executed
      * @param runnable the handler to execute
-     * @return the unique ID of the timer
+     * @return the timer
      */
-    T schedulePeriodic(long delayMs, Runnable runnable);
-
-    /**
-     * Cancel the timer with the specified {@code id}. Returns {@code} true if the timer was
-     * successfully cancelled, or {@code false} if the timer does not exist.
-     * @param id
-     */
-    boolean cancelTimer(T id);
+    Scheduled schedulePeriodic(long delayMs, Runnable runnable);
 
     default void runInBackground(Runnable runnable) {
         scheduleDeferred(runnable);
@@ -69,4 +62,5 @@ public interface Scheduler<T> {
     }
 
     boolean isUiThread();
+
 }

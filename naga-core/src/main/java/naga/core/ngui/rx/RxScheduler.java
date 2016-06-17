@@ -1,7 +1,8 @@
 package naga.core.ngui.rx;
 
-import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.platform.Platform;
+import naga.core.spi.platform.Scheduled;
+import naga.core.spi.toolkit.Toolkit;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Action0;
@@ -48,7 +49,7 @@ public final class RxScheduler extends Scheduler {
                 BooleanSubscription s = BooleanSubscription.create();
 
                 long delayMillis = unit.toMillis(max(delayTime, 0));
-                Object timerId = nagaScheduler.scheduleDelay(delayMillis, () -> {
+                Scheduled scheduled = nagaScheduler.scheduleDelay(delayMillis, () -> {
                     if (innerSubscription.isUnsubscribed() || s.isUnsubscribed()) {
                         return;
                     }
@@ -60,7 +61,7 @@ public final class RxScheduler extends Scheduler {
 
                 // wrap for returning so it also removes it from the 'innerSubscription'
                 return Subscriptions.create(() -> {
-                    nagaScheduler.cancelTimer(timerId);
+                    scheduled.cancel();
                     s.unsubscribe();
                     innerSubscription.remove(s);
                 });

@@ -18,7 +18,9 @@
 package naga.core.spi.toolkit.android;
 
 import android.os.Looper;
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
+import naga.core.util.tuples.Unit;
 
 final class AndroidGuiScheduler implements Scheduler {
 
@@ -35,28 +37,45 @@ final class AndroidGuiScheduler implements Scheduler {
     }
 
     @Override
-    public Object scheduleDelay(long delayMs, Runnable runnable) {
-        return handler.postDelayed(runnable, delayMs);
+    public AndroidScheduled scheduleDelay(long delayMs, Runnable runnable) {
+        handler.postDelayed(runnable, delayMs);
+        return new AndroidScheduled(runnable);
     }
 
     @Override
-    public Object schedulePeriodic(long delayMs, Runnable runnable) {
-        return handler.postDelayed(new Runnable() {
+    public AndroidScheduled schedulePeriodic(long delayMs, Runnable runnable) {
+        final Unit<AndroidScheduled> androidTimerUnit = new Unit<>();
+        Runnable repeatingRunnable = new Runnable() {
             @Override
             public void run() {
                 runnable.run();
-                handler.postDelayed(this, delayMs);
+                if (!androidTimerUnit.get().cancelled)
+                    handler.postDelayed(this, delayMs);
             }
-        }, delayMs);
-    }
-
-    @Override
-    public boolean cancelTimer(Object id) {
-        return false; // Not yet implemented...
+        };
+        AndroidScheduled androidTimer = new AndroidScheduled(repeatingRunnable);
+        androidTimerUnit.set(androidTimer);
+        handler.postDelayed(androidTimer.runnable, delayMs);
+        return androidTimer;
     }
 
     @Override
     public boolean isUiThread() {
         return Looper.myLooper() == Looper.getMainLooper();
+    }
+
+    private class AndroidScheduled implements Scheduled {
+        private final Runnable runnable;
+        private boolean cancelled;
+
+        private AndroidScheduled(Runnable runnable) {
+            this.runnable = runnable;
+        }
+
+        @Override
+        public boolean cancel() {
+            handler.removeCallbacks(runnable);
+            return cancelled = true;
+        }
     }
 }

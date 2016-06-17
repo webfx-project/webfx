@@ -1,13 +1,14 @@
 package naga.core.spi.platform.gwt;
 
 import com.google.gwt.user.client.Timer;
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
 
 /**
  * @author Bruno Salmon
  */
-final class GwtScheduler implements Scheduler<Timer> {
+final class GwtScheduler implements Scheduler {
 
     @Override
     public void scheduleDeferred(Runnable runnable) {
@@ -15,23 +16,17 @@ final class GwtScheduler implements Scheduler<Timer> {
     }
 
     @Override
-    public Timer scheduleDelay(long delayMs, Runnable runnable) {
+    public GwtScheduled scheduleDelay(long delayMs, Runnable runnable) {
         Timer timer = createTimer(runnable);
         timer.schedule((int) delayMs);
-        return timer;
+        return new GwtScheduled(timer);
     }
 
     @Override
-    public Timer schedulePeriodic(long delayMs, Runnable runnable) {
+    public GwtScheduled schedulePeriodic(long delayMs, Runnable runnable) {
         Timer timer = createTimer(runnable);
         timer.scheduleRepeating((int) delayMs);
-        return timer;
-    }
-
-    @Override
-    public boolean cancelTimer(Timer timer) {
-        timer.cancel();
-        return true;
+        return new GwtScheduled(timer);
     }
 
     private static Timer createTimer(Runnable runnable) {
@@ -46,5 +41,19 @@ final class GwtScheduler implements Scheduler<Timer> {
     @Override
     public boolean isUiThread() {
         return true;
+    }
+
+    private static class GwtScheduled implements Scheduled {
+        private final Timer gwtTimer;
+
+        private GwtScheduled(Timer gwtTimer) {
+            this.gwtTimer = gwtTimer;
+        }
+
+        @Override
+        public boolean cancel() {
+            gwtTimer.cancel();
+            return true;
+        }
     }
 }

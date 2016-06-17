@@ -1,5 +1,6 @@
 package naga.core.spi.toolkit.swing;
 
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingScheduler implements Scheduler<Timer> {
+public class SwingScheduler implements Scheduler {
 
     public static SwingScheduler SINGLETON = new SwingScheduler();
 
@@ -20,29 +21,37 @@ public class SwingScheduler implements Scheduler<Timer> {
     }
 
     @Override
-    public Timer scheduleDelay(long delayMs, Runnable runnable) {
+    public SwingScheduled scheduleDelay(long delayMs, Runnable runnable) {
         Timer timer = new Timer((int) delayMs, e -> runnable.run());
         timer.setRepeats(false);
         timer.start();
-        return timer;
+        return new SwingScheduled(timer);
     }
 
     @Override
-    public Timer schedulePeriodic(long delayMs, Runnable runnable) {
+    public SwingScheduled schedulePeriodic(long delayMs, Runnable runnable) {
         Timer timer = new Timer((int) delayMs, e -> runnable.run());
         timer.setRepeats(true);
         timer.start();
-        return timer;
-    }
-
-    @Override
-    public boolean cancelTimer(Timer timer) {
-        timer.stop();
-        return true;
+        return new SwingScheduled(timer);
     }
 
     @Override
     public boolean isUiThread() {
         return SwingUtilities.isEventDispatchThread();
+    }
+
+    private static class SwingScheduled implements Scheduled {
+        private final Timer swingTimer;
+
+        private SwingScheduled(Timer swingTimer) {
+            this.swingTimer = swingTimer;
+        }
+
+        @Override
+        public boolean cancel() {
+            swingTimer.stop();
+            return true;
+        }
     }
 }

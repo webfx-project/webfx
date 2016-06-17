@@ -2,14 +2,15 @@ package naga.core.spi.toolkit.cn1;
 
 import com.codename1.ui.Display;
 import com.codename1.ui.util.UITimer;
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
 /**
  * @author Bruno Salmon
  */
-public class Cn1Scheduler implements Scheduler<UITimer> {
+class Cn1Scheduler implements Scheduler {
 
-    public static Cn1Scheduler SINGLETON = new Cn1Scheduler();
+    static Cn1Scheduler SINGLETON = new Cn1Scheduler();
 
     private Cn1Scheduler() {
     }
@@ -20,19 +21,13 @@ public class Cn1Scheduler implements Scheduler<UITimer> {
     }
 
     @Override
-    public UITimer scheduleDelay(long delayMs, Runnable runnable) {
-        return UITimer.timer((int) delayMs, false, runnable);
+    public Cn1Scheduled scheduleDelay(long delayMs, Runnable runnable) {
+        return new Cn1Scheduled(UITimer.timer((int) delayMs, false, runnable));
     }
 
     @Override
-    public UITimer schedulePeriodic(long delayMs, Runnable runnable) {
-        return UITimer.timer((int) delayMs, true, runnable);
-    }
-
-    @Override
-    public boolean cancelTimer(UITimer timer) {
-        timer.cancel();
-        return true;
+    public Cn1Scheduled schedulePeriodic(long delayMs, Runnable runnable) {
+        return new Cn1Scheduled(UITimer.timer((int) delayMs, true, runnable));
     }
 
     @Override
@@ -43,5 +38,19 @@ public class Cn1Scheduler implements Scheduler<UITimer> {
     @Override
     public void runInBackground(Runnable runnable) {
         Display.getInstance().scheduleBackgroundTask(runnable);
+    }
+
+    private static class Cn1Scheduled implements Scheduled {
+        private final UITimer cn1Timer;
+
+        private Cn1Scheduled(UITimer cn1Timer) {
+            this.cn1Timer = cn1Timer;
+        }
+
+        @Override
+        public boolean cancel() {
+            cn1Timer.cancel();
+            return true;
+        }
     }
 }

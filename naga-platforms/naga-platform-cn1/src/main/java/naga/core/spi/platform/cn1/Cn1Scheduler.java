@@ -19,14 +19,17 @@ package naga.core.spi.platform.cn1;
 
 
 import com.codename1.ui.Display;
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-final class Cn1Scheduler implements Scheduler<Timer> {
+final class Cn1Scheduler implements Scheduler {
 
-    public static Cn1Scheduler SINGLETON = new Cn1Scheduler();
+    static Cn1Scheduler SINGLETON = new Cn1Scheduler();
+
+    private final Timer timer = new Timer();
 
     private Cn1Scheduler() {
     }
@@ -37,33 +40,26 @@ final class Cn1Scheduler implements Scheduler<Timer> {
     }
 
     @Override
-    public Timer scheduleDelay(long delayMs, Runnable runnable) {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+    public TimerTaskScheduled scheduleDelay(long delayMs, Runnable runnable) {
+        TimerTask timerTask = createTimerTask(runnable);
+        timer.schedule(timerTask, delayMs);
+        return new TimerTaskScheduled(timerTask);
+    }
+
+    @Override
+    public TimerTaskScheduled schedulePeriodic(long delayMs, Runnable runnable) {
+        TimerTask timerTask = createTimerTask(runnable);
+        timer.schedule(timerTask, delayMs, delayMs);
+        return new TimerTaskScheduled(timerTask);
+    }
+
+    private static TimerTask createTimerTask(final Runnable runnable) {
+        return new TimerTask() {
             @Override
             public void run() {
                 runnable.run();
             }
-        }, delayMs);
-        return timer;
-    }
-
-    @Override
-    public Timer schedulePeriodic(long delayMs, Runnable runnable) {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                runnable.run();
-            }
-        }, delayMs, delayMs);
-        return timer;
-    }
-
-    @Override
-    public boolean cancelTimer(Timer timer) {
-        timer.cancel();
-        return true;
+        };
     }
 
     @Override
@@ -79,5 +75,18 @@ final class Cn1Scheduler implements Scheduler<Timer> {
     @Override
     public void runInBackground(Runnable runnable) {
         Display.getInstance().scheduleBackgroundTask(runnable);
+    }
+
+    private static class TimerTaskScheduled implements Scheduled {
+        private final TimerTask timerTask;
+
+        private TimerTaskScheduled(TimerTask timerTask) {
+            this.timerTask = timerTask;
+        }
+
+        @Override
+        public boolean cancel() {
+            return timerTask.cancel();
+        }
     }
 }

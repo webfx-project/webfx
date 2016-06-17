@@ -4,12 +4,13 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
+import naga.core.spi.platform.Scheduled;
 import naga.core.spi.platform.Scheduler;
 
 /**
  * @author Bruno Salmon
  */
-class FxScheduler implements Scheduler<Timeline> {
+class FxScheduler implements Scheduler {
 
     public static FxScheduler SINGLETON = new FxScheduler();
 
@@ -22,29 +23,37 @@ class FxScheduler implements Scheduler<Timeline> {
     }
 
     @Override
-    public Timeline scheduleDelay(long delayMs, Runnable runnable) {
+    public FxScheduled scheduleDelay(long delayMs, Runnable runnable) {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(delayMs), event -> runnable.run()));
         timeline.setCycleCount(1);
         timeline.play();
-        return timeline;
+        return new FxScheduled(timeline);
     }
 
     @Override
-    public Timeline schedulePeriodic(long delayMs, Runnable runnable) {
+    public FxScheduled schedulePeriodic(long delayMs, Runnable runnable) {
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(delayMs), event -> runnable.run()));
         timeline.setCycleCount(Integer.MAX_VALUE);
         timeline.play();
-        return timeline;
-    }
-
-    @Override
-    public boolean cancelTimer(Timeline timeline) {
-        timeline.stop();
-        return true;
+        return new FxScheduled(timeline);
     }
 
     @Override
     public boolean isUiThread() {
         return Platform.isFxApplicationThread();
+    }
+
+    private static class FxScheduled implements Scheduled {
+        private final Timeline timeline;
+
+        private FxScheduled(Timeline timeline) {
+            this.timeline = timeline;
+        }
+
+        @Override
+        public boolean cancel() {
+            timeline.stop();
+            return true;
+        }
     }
 }
