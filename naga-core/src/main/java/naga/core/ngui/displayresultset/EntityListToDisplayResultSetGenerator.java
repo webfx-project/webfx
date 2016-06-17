@@ -5,6 +5,7 @@ import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.expression.Expression;
 import naga.core.type.Type;
+import naga.core.util.function.Converter;
 
 /**
  * @author Bruno Salmon
@@ -34,13 +35,20 @@ public class EntityListToDisplayResultSetGenerator {
         int index = 0;
         for (DisplayColumn displayColumn : displayColumns) {
             Expression expression = displayColumn.getExpression();
+            Converter formatter = displayColumn.getFormatter();
             columnTypes[columnIndex] = expression.getType();
             headerValues[columnIndex++] = displayColumn.getLabel().getText();
             for (Entity entity : entityList)
-                values[index++] = entity.evaluate(expression);
+                values[index++] = formatValue(entity.evaluate(expression), formatter);
         }
         DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columnTypes, headerValues, null);
         //Platform.log("Ok: " + displayResultSet);
         return displayResultSet;
+    }
+
+    private static Object formatValue(Object value, Converter formatter) {
+        if (formatter != null)
+            value = formatter.convert(value);
+        return value;
     }
 }
