@@ -1,5 +1,6 @@
 package mongoose.logic.cart;
 
+import mongoose.format.DateFormatter;
 import mongoose.format.PriceFormatter;
 import naga.core.ngui.displayresultset.DisplayColumn;
 import naga.core.ngui.presentation.PresentationActivity;
@@ -96,7 +97,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
                 .setDisplayColumns(
-                        new DisplayColumn("Date", "date"),
+                        new DisplayColumn("Date", "date", DateFormatter.SINGLETON),
                         new DisplayColumn("Booking ref", "document.ref"),
                         new DisplayColumn("Amount", "amount", PriceFormatter.SINGLETON),
                         new DisplayColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
