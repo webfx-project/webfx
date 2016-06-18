@@ -22,8 +22,6 @@ public interface ActivityContext extends HasNodeProperty {
 
     History getHistory();
 
-    void setParams(JsonObject params);
-
     JsonObject getParams();
 
     Property<GuiNode> nodeProperty();

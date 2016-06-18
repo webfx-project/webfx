@@ -31,7 +31,7 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         vm.getOrganizationsButton().setText("Organizations");
         vm.getCartButton().setText("Cart");
         // Binding the mount node property so that child sub routed pages are displayed in the center
-        vm.getContentNode().centerProperty().bind(getActivityContext().mountNodeProperty());
+        vm.getContentNode().centerProperty().bind(mountNodeProperty());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
@@ -41,8 +41,8 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
 
     @Override
     protected void bindPresentationModelWithLogic(ContainerPresentationModel pm) {
-        pm.organizationsButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getHistory().push("/organizations"));
-        pm.carButtonActionEventObservable().subscribe(actionEvent -> getActivityContext().getHistory().push("/cart/.570d0151724b2."));
+        pm.organizationsButtonActionEventObservable().subscribe(actionEvent -> getHistory().push("/organizations"));
+        pm.carButtonActionEventObservable().subscribe(actionEvent -> getHistory().push("/cart/.570d0151724b2."));
     }
 
 }

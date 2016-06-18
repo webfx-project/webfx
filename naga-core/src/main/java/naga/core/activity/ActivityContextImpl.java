@@ -49,14 +49,13 @@ class ActivityContextImpl implements ActivityContext {
         return history != null || parentContext == null ? history : parentContext.getHistory();
     }
 
-    @Override
-    public JsonObject getParams() {
-        return params;
+    public void setParams(JsonObject params) {
+        this.params = params;
     }
 
     @Override
-    public void setParams(JsonObject params) {
-        this.params = params;
+    public JsonObject getParams() {
+        return params;
     }
 
     private Property<GuiNode> nodeProperty;

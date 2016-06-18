@@ -2,6 +2,7 @@ package naga.core.ngui.presentation;
 
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
+import naga.core.activity.ActivityContextDirectAccess;
 import naga.core.ngui.rx.RxFilter;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.util.function.Factory;
@@ -9,7 +10,7 @@ import naga.core.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> implements Activity {
+public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> implements Activity, ActivityContextDirectAccess {
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
@@ -28,7 +29,7 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         this.viewBuilder = viewBuilder;
     }
 
-    protected ActivityContext getActivityContext() {
+    public ActivityContext getActivityContext() {
         return activityContext;
     }
 
@@ -50,6 +51,7 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     @Override
     public void onResume() {
+        initializePresentationModel(presentationModel); // Doing it again, in case the params have changed on a later resume
         Toolkit toolkit = Toolkit.get();
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());

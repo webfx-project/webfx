@@ -139,7 +139,7 @@ public class ActivityRouter extends HistoryRouter {
         ActivityContext activityContext = activityContextHistory.get(contextKey);
         if (activityContext == null)
             activityContextHistory.put(contextKey, activityContext = new ActivityContextImpl(hostingContext));
-        activityContext.setParams(routingContext.getParams());
+        ((ActivityContextImpl) activityContext).setParams(routingContext.getParams());
         return activityContext;
     }
 

@@ -49,7 +49,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
 
     @Override
     protected void initializePresentationModel(CartPresentationModel pm) {
-        pm.cartUuidProperty().setValue(getActivityContext().getParams().get("cartUuid"));
+        pm.cartUuidProperty().setValue(getParams().get("cartUuid"));
     }
 
     @Override
@@ -89,7 +89,6 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         new DisplayColumn("Fees", "price_net", PriceFormatter.SINGLETON)
                 )
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
-
 
         // Setting up the payments filter
         createRxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
