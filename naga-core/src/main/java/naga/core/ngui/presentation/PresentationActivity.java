@@ -21,6 +21,13 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     private boolean viewBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
 
+    protected PresentationActivity() {
+    }
+
+    protected PresentationActivity(Factory<PM> presentationModelFactory) {
+        setPresentationModelFactory(presentationModelFactory);
+    }
+
     protected void setPresentationModelFactory(Factory<PM> presentationModelFactory) {
         this.presentationModelFactory = presentationModelFactory;
     }

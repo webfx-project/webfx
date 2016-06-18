@@ -19,7 +19,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     public static ViewBuilder<CartViewModel> viewBuilder;
 
     public CartActivity() {
-        setPresentationModelFactory(CartPresentationModel::new);
+        super(CartPresentationModel::new);
         setViewBuilder(viewBuilder);
     }
 

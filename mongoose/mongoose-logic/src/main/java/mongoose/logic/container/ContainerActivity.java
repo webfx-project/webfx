@@ -12,7 +12,7 @@ import naga.core.spi.toolkit.nodes.VBox;
 public class ContainerActivity extends PresentationActivity<ContainerViewModel, ContainerPresentationModel> {
 
     public ContainerActivity() {
-        setPresentationModelFactory(ContainerPresentationModel::new);
+        super(ContainerPresentationModel::new);
     }
 
     @Override

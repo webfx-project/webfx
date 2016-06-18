@@ -17,7 +17,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
     public static ViewBuilder<OrganizationsViewModel> viewBuilder;
 
     public OrganizationsActivity() {
-        setPresentationModelFactory(OrganizationsPresentationModel::new);
+        super(OrganizationsPresentationModel::new);
         setViewBuilder(viewBuilder);
     }
 
