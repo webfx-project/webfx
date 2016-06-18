@@ -33,7 +33,7 @@ public class ActivityManager {
     }
 
     public Future<Void> create(ActivityContext context) {
-        context.setActivityManager(this);
+        ((ActivityContextImpl) context).setActivityManager(this);
         this.context = context;
         return transitTo(State.CREATED);
     }
@@ -127,11 +127,11 @@ public class ActivityManager {
         launchActivity(application, new ApplicationContext(args, dataSourceModel));
     }
 
-    public static void launchActivity(Activity activity, ActivityContext context) {
+    public static void launchActivity(Activity activity, ActivityContextImpl context) {
         from(activity, context).run();
     }
 
-    public static ActivityManager from(Activity activity, ActivityContext context) {
+    public static ActivityManager from(Activity activity, ActivityContextImpl context) {
         return new ActivityManager(activity, context);
     }
 

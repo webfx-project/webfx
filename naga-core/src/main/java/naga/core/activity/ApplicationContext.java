@@ -10,7 +10,7 @@ import naga.core.spi.toolkit.Toolkit;
 /**
  * @author Bruno Salmon
  */
-public class ApplicationContext extends ActivityContext {
+public class ApplicationContext extends ActivityContextImpl {
 
     /**
      *  Global static instance of the application context that any activity can access if needed.
@@ -37,7 +37,6 @@ public class ApplicationContext extends ActivityContext {
                 Toolkit.get().getApplicationWindow().nodeProperty().bind(observable);
             }
         });
-
         instance = this;
     }
 
