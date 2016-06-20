@@ -127,6 +127,13 @@ public class DomainField extends Symbol implements HasLabel {
         return expressionDefinition;
     }
 
+    @Override
+    public Type getType() {
+        if (expression != null || expressionDefinition != null)
+            return getExpression().getType();
+        return super.getType();
+    }
+
     public Expression getApplicableCondition() {
         if (applicableCondition == null && applicableConditionDefinition != null)
             applicableCondition = domainClass.parseExpression(applicableConditionDefinition);
