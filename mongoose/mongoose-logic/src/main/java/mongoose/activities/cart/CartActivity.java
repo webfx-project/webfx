@@ -2,25 +2,21 @@ package mongoose.activities.cart;
 
 import mongoose.format.DateFormatter;
 import mongoose.format.PriceFormatter;
-import naga.core.ui.displayresultset.DisplayColumn;
-import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.presentation.ViewBuilder;
-import naga.core.ui.rx.RxFilter;
 import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
+import naga.core.ui.displayresultset.DisplayColumn;
+import naga.core.ui.presentation.PresentationActivity;
+import naga.core.ui.rx.RxFilter;
 
 /**
  * @author Bruno Salmon
  */
 public class CartActivity extends PresentationActivity<CartViewModel, CartPresentationModel> {
 
-    public static ViewBuilder<CartViewModel> viewBuilder;
-
     public CartActivity() {
         super(CartPresentationModel::new);
-        setViewBuilder(viewBuilder);
     }
 
     @Override

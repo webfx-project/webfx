@@ -3,9 +3,12 @@ package naga.core.ui.presentation;
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityContextDirectAccess;
-import naga.core.ui.rx.RxFilter;
 import naga.core.spi.toolkit.Toolkit;
+import naga.core.ui.rx.RxFilter;
 import naga.core.util.function.Factory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -14,12 +17,17 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
-    private ViewBuilder<VM> viewBuilder;
     private VM viewModel;
     private ActivityContext activityContext;
 
     private boolean viewBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
+
+    private static final Map<Class, ViewBuilder> viewBuilders = new HashMap<>();
+
+    public static <VM extends ViewModel> void registerViewBuilder(Class<? extends PresentationActivity<VM, ? extends PresentationModel>> presentationActivityClass, ViewBuilder<VM> viewBuilder) {
+        viewBuilders.put(presentationActivityClass, viewBuilder);
+    }
 
     protected PresentationActivity() {
     }
@@ -30,10 +38,6 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     protected void setPresentationModelFactory(Factory<PM> presentationModelFactory) {
         this.presentationModelFactory = presentationModelFactory;
-    }
-
-    protected void setViewBuilder(ViewBuilder<VM> viewBuilder) {
-        this.viewBuilder = viewBuilder;
     }
 
     public ActivityContext getActivityContext() {
@@ -62,6 +66,7 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         Toolkit toolkit = Toolkit.get();
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
+            ViewBuilder<VM> viewBuilder = viewBuilders.get(getClass());
             viewModel = viewBuilder != null ? viewBuilder.buildUiModel(toolkit) : buildView(toolkit);
         }
         if (!viewBoundWithPresentationModel) {

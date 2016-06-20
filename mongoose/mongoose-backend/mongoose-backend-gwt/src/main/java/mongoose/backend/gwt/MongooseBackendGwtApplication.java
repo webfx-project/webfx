@@ -18,8 +18,9 @@ public class MongooseBackendGwtApplication implements EntryPoint {
         replaceSplashScreen(Document.get().createBRElement());
         registerResourceBundles();
         MongooseBackendApplication.main(null);
-/*
-        OrganizationsActivity.viewBuilder = OrganizationsPolymerUi.viewBuilder;
+
+        /*
+        PresentationActivity.registerViewBuilder(OrganizationsActivity.class, OrganizationsPolymerUi.viewBuilder);
         Polymer.importHref("iron-flex-layout/iron-flex-layout.html", o -> {
             Document doc = Document.get();
             StyleElement styleElement = doc.createStyleElement();
@@ -29,7 +30,7 @@ public class MongooseBackendGwtApplication implements EntryPoint {
             MongooseBackendApplication.main(null);
             return null;
         });
-*/
+        */
     }
 
     private static void registerResourceBundles() {

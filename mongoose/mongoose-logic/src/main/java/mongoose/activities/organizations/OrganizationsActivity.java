@@ -8,7 +8,6 @@ import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.presentation.ViewBuilder;
 import naga.core.ui.rx.RxFilter;
 
 /**
@@ -16,11 +15,8 @@ import naga.core.ui.rx.RxFilter;
  */
 public class OrganizationsActivity extends PresentationActivity<OrganizationsViewModel, OrganizationsPresentationModel> {
 
-    public static ViewBuilder<OrganizationsViewModel> viewBuilder;
-
     public OrganizationsActivity() {
         super(OrganizationsPresentationModel::new);
-        setViewBuilder(viewBuilder);
     }
 
     protected OrganizationsViewModel buildView(Toolkit toolkit) {

@@ -9,7 +9,6 @@ import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.presentation.ViewBuilder;
 import naga.core.ui.rx.RxFilter;
 
 /**
@@ -17,11 +16,8 @@ import naga.core.ui.rx.RxFilter;
  */
 public class BookingsActivity extends PresentationActivity<BookingsViewModel, BookingsPresentationModel> {
 
-    public static ViewBuilder<BookingsViewModel> viewBuilder;
-
     public BookingsActivity() {
         super(BookingsPresentationModel::new);
-        setViewBuilder(viewBuilder);
     }
 
     protected BookingsViewModel buildView(Toolkit toolkit) {
