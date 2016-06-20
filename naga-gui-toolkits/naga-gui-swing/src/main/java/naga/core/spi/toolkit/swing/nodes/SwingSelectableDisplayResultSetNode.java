@@ -2,7 +2,7 @@ package naga.core.spi.toolkit.swing.nodes;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.ngui.displayselection.DisplaySelection;
+import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.SelectableDisplayResultSetNode;
 

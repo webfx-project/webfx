@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit;
 
 import javafx.collections.ObservableList;
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.nodes.Window;
 import naga.core.spi.toolkit.property.MappedObservableList;
 import naga.core.spi.platform.Scheduler;

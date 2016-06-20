@@ -1,9 +1,9 @@
-package naga.core.ngui.rx;
+package naga.core.ui.rx;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.Toolkit;
 import rx.Observable;
 import rx.Scheduler;

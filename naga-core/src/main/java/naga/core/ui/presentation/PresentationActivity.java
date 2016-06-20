@@ -1,9 +1,9 @@
-package naga.core.ngui.presentation;
+package naga.core.ui.presentation;
 
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityContextDirectAccess;
-import naga.core.ngui.rx.RxFilter;
+import naga.core.ui.rx.RxFilter;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.util.function.Factory;
 

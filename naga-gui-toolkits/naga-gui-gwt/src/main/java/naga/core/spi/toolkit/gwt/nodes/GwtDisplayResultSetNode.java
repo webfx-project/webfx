@@ -3,7 +3,7 @@ package naga.core.spi.toolkit.gwt.nodes;
 import com.google.gwt.user.client.ui.UIObject;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.gwt.GwtNode;
 import naga.core.spi.toolkit.nodes.DisplayResultSetNode;

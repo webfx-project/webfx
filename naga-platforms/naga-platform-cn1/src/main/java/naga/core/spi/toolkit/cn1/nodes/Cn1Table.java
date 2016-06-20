@@ -4,7 +4,7 @@ import com.codename1.ui.events.DataChangedListener;
 import com.codename1.ui.table.TableLayout;
 import com.codename1.ui.table.TableModel;
 import com.codename1.ui.util.EventDispatcher;
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;

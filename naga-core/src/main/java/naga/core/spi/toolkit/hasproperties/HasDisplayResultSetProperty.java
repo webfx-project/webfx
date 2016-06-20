@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.hasproperties;
 
 import javafx.beans.property.Property;
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 
 /**
  * @author Bruno Salmon

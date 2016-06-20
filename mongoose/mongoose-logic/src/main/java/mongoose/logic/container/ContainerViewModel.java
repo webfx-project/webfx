@@ -1,6 +1,6 @@
 package mongoose.logic.container;
 
-import naga.core.ngui.presentation.ViewModel;
+import naga.core.ui.presentation.ViewModel;
 import naga.core.spi.toolkit.nodes.ActionButton;
 import naga.core.spi.toolkit.nodes.BorderPane;
 

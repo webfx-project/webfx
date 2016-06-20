@@ -1,6 +1,6 @@
 package naga.core.spi.toolkit.swing.nodes;
 
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.util.Strings;

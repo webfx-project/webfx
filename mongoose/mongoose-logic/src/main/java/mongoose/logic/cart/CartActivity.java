@@ -2,10 +2,10 @@ package mongoose.logic.cart;
 
 import mongoose.format.DateFormatter;
 import mongoose.format.PriceFormatter;
-import naga.core.ngui.displayresultset.DisplayColumn;
-import naga.core.ngui.presentation.PresentationActivity;
-import naga.core.ngui.presentation.ViewBuilder;
-import naga.core.ngui.rx.RxFilter;
+import naga.core.ui.displayresultset.DisplayColumn;
+import naga.core.ui.presentation.PresentationActivity;
+import naga.core.ui.presentation.ViewBuilder;
+import naga.core.ui.rx.RxFilter;
 import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;

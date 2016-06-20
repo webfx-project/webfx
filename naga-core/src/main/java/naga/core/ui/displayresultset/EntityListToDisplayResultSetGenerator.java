@@ -1,4 +1,4 @@
-package naga.core.ngui.displayresultset;
+package naga.core.ui.displayresultset;
 
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.entity.Entity;

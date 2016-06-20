@@ -1,6 +1,6 @@
 package mongoose.logic.organizations;
 
-import naga.core.ngui.presentation.ViewModel;
+import naga.core.ui.presentation.ViewModel;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;

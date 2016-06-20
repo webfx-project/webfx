@@ -1,4 +1,4 @@
-package naga.core.ngui.displayselection;
+package naga.core.ui.displayselection;
 
 /**
  * @author Bruno Salmon

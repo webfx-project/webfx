@@ -1,13 +1,13 @@
-package naga.core.ngui.rx;
+package naga.core.ui.rx;
 
 import javafx.beans.property.Property;
 import naga.core.json.Json;
 import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
-import naga.core.ngui.displayresultset.DisplayColumn;
-import naga.core.ngui.displayresultset.DisplayResultSet;
-import naga.core.ngui.displayresultset.EntityListToDisplayResultSetGenerator;
-import naga.core.ngui.displayselection.DisplaySelection;
+import naga.core.ui.displayresultset.DisplayColumn;
+import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.EntityListToDisplayResultSetGenerator;
+import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;

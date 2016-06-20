@@ -1,4 +1,4 @@
-package naga.core.ngui.presentation;
+package naga.core.ui.presentation;
 
 import naga.core.spi.toolkit.Toolkit;
 

@@ -3,7 +3,7 @@ package naga.core.spi.toolkit.cn1.nodes;
 import com.codename1.ui.Component;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.ngui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.cn1.Cn1Node;
 import naga.core.spi.toolkit.nodes.DisplayResultSetNode;
 

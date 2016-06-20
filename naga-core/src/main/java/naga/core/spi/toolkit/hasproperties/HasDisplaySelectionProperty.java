@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.hasproperties;
 
 import javafx.beans.property.Property;
-import naga.core.ngui.displayselection.DisplaySelection;
+import naga.core.ui.displayselection.DisplaySelection;
 
 /**
  * @author Bruno Salmon

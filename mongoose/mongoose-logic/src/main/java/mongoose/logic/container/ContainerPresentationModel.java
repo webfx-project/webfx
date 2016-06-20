@@ -1,6 +1,6 @@
 package mongoose.logic.container;
 
-import naga.core.ngui.presentation.PresentationModel;
+import naga.core.ui.presentation.PresentationModel;
 import naga.core.spi.toolkit.event.ActionEvent;
 import rx.subjects.BehaviorSubject;
 

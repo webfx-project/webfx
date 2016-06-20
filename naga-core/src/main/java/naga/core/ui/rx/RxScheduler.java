@@ -1,4 +1,4 @@
-package naga.core.ngui.rx;
+package naga.core.ui.rx;
 
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduled;
