@@ -74,15 +74,36 @@ class RouteImpl implements Route {
             String requestedPath = context.path();
             /*if (useNormalisedPath)
                 requestedPath = Utils.normalisePath(useNormalisedPath, false);*/
-            if (mountPoint != null)
+            if (Strings.isNotEmpty(mountPoint))
                 requestedPath = requestedPath.substring(mountPoint.length());
-            int i = path.indexOf("/:"); // parameter
-            if (i != -1 && requestedPath.startsWith(path.substring(0, i + 1))) {
-                // Capturing parameter (draft implementation assuming only 1 parameter)
-                context.getParams().set(path.substring(i + 2), requestedPath.substring(i + 1));
-                return true;
+            int pathPos = 0, reqPos = 0, pathLength = path.length(), reqLength = requestedPath.length();
+            while (true) {
+                if (pathPos == pathLength && reqPos == reqLength) // Means that the loop is successfully finished
+                    return true;
+                if (pathPos >= pathLength || reqPos >= reqLength) // Means that the paths don't have the same number of tokens
+                    return false;
+                // Now comparing the next token
+                if (path.charAt(pathPos) != '/' || requestedPath.charAt(reqPos) != '/') // it should start with / on both paths
+                    return false;
+                // Searching the end of token position
+                int nextPathPos = path.indexOf('/', pathPos + 1);
+                if (nextPathPos == -1)
+                    nextPathPos = pathLength;
+                int nextReqPos = requestedPath.indexOf('/', reqPos + 1);
+                if (nextReqPos == -1)
+                    nextReqPos = reqLength;
+                // Capturing the token in the requested path
+                String reqToken = requestedPath.substring(reqPos + 1, nextReqPos);
+                // And comparing it with the token in the route path (2 cases: parameter or literal token)
+                if (path.charAt(pathPos + 1) == ':') // If the route path token is a parameter
+                    // We record the parameter value in the context
+                    context.getParams().set(/* parameter name: */ path.substring(pathPos + 2, nextPathPos), /* parameter value: */ reqToken);
+                else // Otherwise (if the route path token is a literal string), we just check that both tokens are equals
+                    if (!path.substring(pathPos + 1, nextPathPos).equals(reqToken))
+                        return false;
+                pathPos = nextPathPos;
+                reqPos = nextReqPos;
             }
-            return false;
         }
         return true;
     }
