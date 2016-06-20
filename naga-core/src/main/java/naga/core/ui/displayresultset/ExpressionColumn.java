@@ -3,6 +3,7 @@ package naga.core.ui.displayresultset;
 import naga.core.json.Json;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DomainModel;
+import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
 import naga.core.util.function.Converter;
 
@@ -14,32 +15,16 @@ public class ExpressionColumn {
     private final String expressionDefinition;
     private Expression  expression;
     private final Converter expressionFormatter;
-    private final Object label;
+    private Object label;
     private DisplayColumn displayColumn;
 
-    public ExpressionColumn(String json) {
-        this(Json.parseObject(json));
-    }
-
-    public ExpressionColumn(JsonObject json) {
-        this(json.get("label"), json.getString("expression"));
-    }
-
-    public ExpressionColumn(Object label, String expressionDefinition) {
-        this(label, expressionDefinition, null);
-    }
-
-    public ExpressionColumn(Object label, String expressionDefinition, Converter expressionFormatter) {
+    public ExpressionColumn(String expressionDefinition, Object label, Converter expressionFormatter) {
         this.expressionDefinition = expressionDefinition;
         this.label = label;
         this.expressionFormatter = expressionFormatter;
     }
 
-    public ExpressionColumn(Object label, Expression expression) {
-        this(label, expression, null);
-    }
-
-    public ExpressionColumn(Object label, Expression expression, Converter expressionFormatter) {
+    public ExpressionColumn(Expression expression, Object label, Converter expressionFormatter) {
         this.expressionDefinition = null;
         this.expression = expression;
         this.label = label;
@@ -47,8 +32,11 @@ public class ExpressionColumn {
     }
 
     public DisplayColumn getDisplayColumn() {
-        if (displayColumn == null)
+        if (displayColumn == null) {
+            if (label == null)
+                label = Label.from(expression);
             displayColumn = new DisplayColumn(label, expression.getType());
+        }
         return displayColumn;
     }
 
@@ -63,5 +51,31 @@ public class ExpressionColumn {
     public void parseIfNecessary(DomainModel domainModel, Object classId) {
         if (expression == null)
             expression = domainModel.parseExpression(expressionDefinition, classId);
+    }
+
+    public static ExpressionColumn create(String jsonOrExpressionDefinition) {
+        if (jsonOrExpressionDefinition.startsWith("{"))
+            return ExpressionColumn.create(Json.parseObject(jsonOrExpressionDefinition));
+        return ExpressionColumn.create(jsonOrExpressionDefinition, null);
+    }
+
+    public static ExpressionColumn create(JsonObject json) {
+        return ExpressionColumn.create(json.getString("expression"), json.get("label"));
+    }
+
+    public static ExpressionColumn create(String expressionDefinition, Object label) {
+        return ExpressionColumn.create(expressionDefinition, label, null);
+    }
+
+    public static ExpressionColumn create(String expressionDefinition, Converter expressionFormatter) {
+        return ExpressionColumn.create(expressionDefinition, null, expressionFormatter);
+    }
+
+    public static ExpressionColumn create(String expressionDefinition, Object label, Converter expressionFormatter) {
+        return new ExpressionColumn(expressionDefinition, label, expressionFormatter);
+    }
+
+    public static ExpressionColumn create(Expression expression) {
+        return new ExpressionColumn(expression, null, null);
     }
 }

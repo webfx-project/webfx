@@ -70,12 +70,14 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns(
-                        new ExpressionColumn("Ref", "ref"),
-                        new ExpressionColumn("First name", "person_firstName"),
-                        new ExpressionColumn("Last name", "person_lastName"),
-                        new ExpressionColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
-                        new ExpressionColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
-                        new ExpressionColumn("Balance", "price_balance", PriceFormatter.SINGLETON))
+                        ExpressionColumn.create("ref"),
+                        ExpressionColumn.create("person_firstName"),
+                        ExpressionColumn.create("person_lastName"),
+                        ExpressionColumn.create("person_age"),
+                        ExpressionColumn.create("price_net", PriceFormatter.SINGLETON),
+                        ExpressionColumn.create("price_minDeposit", PriceFormatter.SINGLETON),
+                        ExpressionColumn.create("price_deposit", PriceFormatter.SINGLETON),
+                        ExpressionColumn.create("price_balance", PriceFormatter.SINGLETON))
                 .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
 
         pm.bookingsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {

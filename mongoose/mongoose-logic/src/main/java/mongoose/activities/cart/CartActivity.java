@@ -58,12 +58,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 //.registerParameter(new Parameter("cartUuid", pm.cartUuidProperty()))
                 //.combine("{where: 'cart.uuid=?cartUuid'}")
                 .setExpressionColumns(
-                        new ExpressionColumn("Ref", "ref"),
-                        new ExpressionColumn("First name", "person_firstName"),
-                        new ExpressionColumn("Last name", "person_lastName"),
-                        new ExpressionColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
-                        new ExpressionColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
-                        new ExpressionColumn("Balance", "price_balance", PriceFormatter.SINGLETON)
+                        ExpressionColumn.create("ref"),
+                        ExpressionColumn.create("person_firstName"),
+                        ExpressionColumn.create("person_lastName"),
+                        ExpressionColumn.create("price_net", PriceFormatter.SINGLETON),
+                        ExpressionColumn.create("price_deposit", PriceFormatter.SINGLETON),
+                        ExpressionColumn.create("price_balance", PriceFormatter.SINGLETON)
                 )
                 .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
                 .selectFirstRowOnFirstDisplay()
@@ -79,10 +79,10 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 })
                 //.combine("{where: 'document=?documentDisplaySelection'}")
                 .setExpressionColumns(
-                        new ExpressionColumn("Site", "site.name"),
-                        new ExpressionColumn("Item", "item.name"),
-                        new ExpressionColumn("Dates", "dates"),
-                        new ExpressionColumn("Fees", "price_net", PriceFormatter.SINGLETON)
+                        ExpressionColumn.create("site.name", "Site"),
+                        ExpressionColumn.create("item.name", "Item"),
+                        ExpressionColumn.create("dates"),
+                        ExpressionColumn.create("price_net", "Fees", PriceFormatter.SINGLETON)
                 )
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
@@ -92,10 +92,10 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
                 .setExpressionColumns(
-                        new ExpressionColumn("Date", "date", DateFormatter.SINGLETON),
-                        new ExpressionColumn("Booking ref", "document.ref"),
-                        new ExpressionColumn("Amount", "amount", PriceFormatter.SINGLETON),
-                        new ExpressionColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
+                        ExpressionColumn.create("date", DateFormatter.SINGLETON),
+                        ExpressionColumn.create("document.ref", "Booking ref"),
+                        ExpressionColumn.create("amount", PriceFormatter.SINGLETON),
+                        ExpressionColumn.create("pending ? 'Pending' : successful ? 'Success' : 'Failed'", "Status")
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
     }

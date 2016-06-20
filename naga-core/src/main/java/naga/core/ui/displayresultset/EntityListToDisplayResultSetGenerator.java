@@ -19,7 +19,7 @@ public class EntityListToDisplayResultSetGenerator {
         ExpressionColumn[] expressionColumns = new ExpressionColumn[columnExpressions.length];
         int columnIndex = 0;
         for (Expression columnExpression : columnExpressions)
-            expressionColumns[columnIndex++] = new ExpressionColumn(columnExpression, columnExpression);
+            expressionColumns[columnIndex++] = ExpressionColumn.create(columnExpression);
         return createDisplayResultSet(entityList, expressionColumns);
     }
 

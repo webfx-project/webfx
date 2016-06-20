@@ -101,7 +101,7 @@ public class RxFilter {
         int n = array.size();
         this.expressionColumns = new ExpressionColumn[n];
         for (int i = 0; i < n; i++)
-            this.expressionColumns[i] = new ExpressionColumn(array.getObject(i));
+            this.expressionColumns[i] = ExpressionColumn.create(array.getObject(i));
         return this;
     }
 
