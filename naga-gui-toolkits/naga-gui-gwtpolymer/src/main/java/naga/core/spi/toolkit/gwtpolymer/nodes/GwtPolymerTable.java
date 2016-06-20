@@ -87,7 +87,7 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                 else
                     node.addColumn(column = JavaScriptObject.createObject().cast(), null);
                 // The API says to use column.setContentHeader() but it doesn't work so using column.setName() instead
-                column.setName(Strings.stringValue(displayResultSet.getHeaderValues()[columnIndex]));
+                column.setName(Strings.stringValue(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
                 final int colIndex = columnIndex;
                 column.setRenderer(oCell -> {
                     Cell cell = (Cell) oCell;
@@ -95,9 +95,10 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                     int rowIndex = (int) row.getIndex();
                     Object value = displayResultSet.getValue(rowIndex, colIndex);
                     String text = value == null ? "" : value.toString();
-                    cell.getElement().<Element>cast().setInnerHTML("<span style='overflow: hidden; text-overflow: ellipsis;'>" + text + "</span>");
+                    cell.getElement().<Element>cast().setInnerHTML("<span style='overflow: hidden; text-overflow: ellipsis; width: 100%;'>" + text + "</span>");
                     return null;
                 });
+                node.setCellClassGenerator(o1 -> "my-right");
             }
             int rowCount = displayResultSet.getRowCount();
             // Setting items to an unfilled (but correctly sized) javascript array as data fetching is actually done in the column renderer

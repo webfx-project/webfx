@@ -7,7 +7,7 @@ import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
-import naga.core.ui.displayresultset.DisplayColumn;
+import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 
@@ -69,13 +69,13 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(person_firstName) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
-                .setDisplayColumns(
-                        new DisplayColumn("Ref", "ref"),
-                        new DisplayColumn("First name", "person_firstName"),
-                        new DisplayColumn("Last name", "person_lastName"),
-                        new DisplayColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
-                        new DisplayColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
-                        new DisplayColumn("Balance", "price_balance", PriceFormatter.SINGLETON))
+                .setExpressionColumns(
+                        new ExpressionColumn("Ref", "ref"),
+                        new ExpressionColumn("First name", "person_firstName"),
+                        new ExpressionColumn("Last name", "person_lastName"),
+                        new ExpressionColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
+                        new ExpressionColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
+                        new ExpressionColumn("Balance", "price_balance", PriceFormatter.SINGLETON))
                 .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
 
         pm.bookingsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {

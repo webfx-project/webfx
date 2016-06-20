@@ -1,7 +1,5 @@
 package naga.core.ui.displayresultset;
 
-import naga.core.type.Type;
-
 /**
  * @author Bruno Salmon
  */
@@ -24,28 +22,15 @@ public class DisplayResultSet {
     private final Object[] values;
 
     /**
-     * The types of the
+     * The columns to display.
      */
-    private final Type[] columnTypes;
+    private final DisplayColumn[] columns;
 
-    /**
-     * The labels to display for column headers
-     */
-    private final Object[] headerValues;
-
-    private final Type headerType;
-
-    public DisplayResultSet(int rowCount, Object[] values, Type[] columnTypes) {
-        this(rowCount, values, columnTypes, null, null);
-    }
-
-    public DisplayResultSet(int rowCount, Object[] values, Type[] columnTypes, Object[] headerValues, Type headerType) {
+    public DisplayResultSet(int rowCount, Object[] values, DisplayColumn[] columns) {
         this.rowCount = rowCount;
         this.values = values;
-        this.columnTypes = columnTypes;
-        this.headerValues = headerValues;
-        this.headerType = headerType;
-        columnCount = columnTypes.length;
+        this.columns = columns;
+        columnCount = columns.length;
     }
 
     public int getRowCount() {
@@ -60,16 +45,8 @@ public class DisplayResultSet {
         return values;
     }
 
-    public Type[] getColumnTypes() {
-        return columnTypes;
-    }
-
-    public Object[] getHeaderValues() {
-        return headerValues;
-    }
-
-    public Type getHeaderType() {
-        return headerType;
+    public DisplayColumn[] getColumns() {
+        return columns;
     }
 
     public Object getValue(int rowIndex, int columnIndex) {
@@ -83,8 +60,8 @@ public class DisplayResultSet {
 
     public StringBuilder toString(StringBuilder sb) {
         sb.append('[');
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-            sb.append(columnIndex == 0 ? "" : ", ").append(headerValues[columnIndex]).append(" (").append(columnTypes[columnIndex]).append(')');
+        for (DisplayColumn column : columns)
+            sb.append(sb.length() == 1 ? "" : ", ").append(column.getHeaderValue()).append(" (").append(column.getType()).append(')');
         for (int rowIndex = 0; rowIndex < rowCount;) {
             sb.append("\n[");
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)

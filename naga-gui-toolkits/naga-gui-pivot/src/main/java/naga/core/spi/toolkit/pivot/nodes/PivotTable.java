@@ -47,7 +47,7 @@ public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> 
             if (columnIndex < columns.getLength())
                 setUpTableColumn(columns.get(columnIndex), columnIndex, displayResultSet);
             else
-                columns.add(setUpTableColumn(new TableView.Column(Strings.toString(displayResultSet.getHeaderValues()[columnIndex])), columnIndex, displayResultSet));
+                columns.add(setUpTableColumn(new TableView.Column(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue())), columnIndex, displayResultSet));
         }
         ArrayList tableData = new ArrayList(rowCount);
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -61,7 +61,7 @@ public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> 
 
     private TableView.Column setUpTableColumn(TableView.Column tableColumn, int columnIndex, DisplayResultSet displayResultSet) {
         tableColumn.setName(Integer.toString(columnIndex));
-        tableColumn.setHeaderData(Strings.toString(displayResultSet.getHeaderValues()[columnIndex]));
+        tableColumn.setHeaderData(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
         tableColumn.setWidth(400);
         return tableColumn;
     }

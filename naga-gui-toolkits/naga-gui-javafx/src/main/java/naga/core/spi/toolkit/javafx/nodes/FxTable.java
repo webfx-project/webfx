@@ -93,7 +93,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     }
 
     private TableColumn<Integer, ?> setUpVisualColumn(TableColumn<Integer, ?> tableColumn, int columnIndex, DisplayResultSet displayResultSet) {
-        tableColumn.setText(Strings.toString(displayResultSet.getHeaderValues()[columnIndex]));
+        tableColumn.setText(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
         tableColumn.setGraphic(null);
         //tableColumn.setCellFactory(ignored -> new FxTableCell(column));
         tableColumn.setCellValueFactory(cdf -> (ObservableValue) displayResultSet.getValue(cdf.getValue(), columnIndex));

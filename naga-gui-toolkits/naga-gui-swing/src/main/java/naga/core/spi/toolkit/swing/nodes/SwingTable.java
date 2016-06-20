@@ -56,7 +56,7 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
         tableModel.setDisplayResultSet(displayResultSet);
         tableModel.fireTableStructureChanged();
         for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++)
-            table.getColumnModel().getColumn(columnIndex).setHeaderValue(Strings.toString(displayResultSet.getHeaderValues()[columnIndex]));
+            table.getColumnModel().getColumn(columnIndex).setHeaderValue(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
         //tableModel.fireTableDataChanged();
         table.doLayout();
     }

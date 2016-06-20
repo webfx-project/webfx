@@ -24,7 +24,6 @@ public class GwtTable extends GwtSelectableDisplayResultSetNode<AbstractCellTabl
 
     @Override
     protected void syncVisualSelectionMode(SelectionMode selectionMode) {
-
     }
 
     @Override
@@ -35,7 +34,7 @@ public class GwtTable extends GwtSelectableDisplayResultSetNode<AbstractCellTabl
             if (columnIndex < node.getColumnCount())
                 column = (GwtColumn) node.getColumn(columnIndex);
             else
-                node.addColumn(column = new GwtColumn(columnIndex), Strings.stringValue(displayResultSet.getHeaderValues()[columnIndex]));
+                node.addColumn(column = new GwtColumn(columnIndex), Strings.stringValue(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
             column.displayResultSet = displayResultSet;
         }
         int rowCount = displayResultSet.getRowCount();

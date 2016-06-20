@@ -6,7 +6,7 @@ import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
-import naga.core.ui.displayresultset.DisplayColumn;
+import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 
@@ -57,13 +57,13 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 //.registerParameter(new Parameter("cartUuid", "constant"))
                 //.registerParameter(new Parameter("cartUuid", pm.cartUuidProperty()))
                 //.combine("{where: 'cart.uuid=?cartUuid'}")
-                .setDisplayColumns(
-                        new DisplayColumn("Ref", "ref"),
-                        new DisplayColumn("First name", "person_firstName"),
-                        new DisplayColumn("Last name", "person_lastName"),
-                        new DisplayColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
-                        new DisplayColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
-                        new DisplayColumn("Balance", "price_balance", PriceFormatter.SINGLETON)
+                .setExpressionColumns(
+                        new ExpressionColumn("Ref", "ref"),
+                        new ExpressionColumn("First name", "person_firstName"),
+                        new ExpressionColumn("Last name", "person_lastName"),
+                        new ExpressionColumn("Invoiced", "price_net", PriceFormatter.SINGLETON),
+                        new ExpressionColumn("Deposit", "price_deposit", PriceFormatter.SINGLETON),
+                        new ExpressionColumn("Balance", "price_balance", PriceFormatter.SINGLETON)
                 )
                 .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
                 .selectFirstRowOnFirstDisplay()
@@ -78,11 +78,11 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                     return selectedEntity == null ? "{where: 'false'}" : "{where: 'document=" + selectedEntity.getId().getPrimaryKey() + "'}";
                 })
                 //.combine("{where: 'document=?documentDisplaySelection'}")
-                .setDisplayColumns(
-                        new DisplayColumn("Site", "site.name"),
-                        new DisplayColumn("Item", "item.name"),
-                        new DisplayColumn("Dates", "dates"),
-                        new DisplayColumn("Fees", "price_net", PriceFormatter.SINGLETON)
+                .setExpressionColumns(
+                        new ExpressionColumn("Site", "site.name"),
+                        new ExpressionColumn("Item", "item.name"),
+                        new ExpressionColumn("Dates", "dates"),
+                        new ExpressionColumn("Fees", "price_net", PriceFormatter.SINGLETON)
                 )
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
@@ -91,11 +91,11 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
-                .setDisplayColumns(
-                        new DisplayColumn("Date", "date", DateFormatter.SINGLETON),
-                        new DisplayColumn("Booking ref", "document.ref"),
-                        new DisplayColumn("Amount", "amount", PriceFormatter.SINGLETON),
-                        new DisplayColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
+                .setExpressionColumns(
+                        new ExpressionColumn("Date", "date", DateFormatter.SINGLETON),
+                        new ExpressionColumn("Booking ref", "document.ref"),
+                        new ExpressionColumn("Amount", "amount", PriceFormatter.SINGLETON),
+                        new ExpressionColumn("Status", "pending ? 'Pending' : successful ? 'Success' : 'Failed'")
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
     }

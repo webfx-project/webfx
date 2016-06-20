@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import naga.core.json.Json;
 import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
-import naga.core.ui.displayresultset.DisplayColumn;
+import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayresultset.EntityListToDisplayResultSetGenerator;
 import naga.core.ui.displayselection.DisplaySelection;
@@ -34,7 +34,7 @@ public class RxFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private Object domainClassId;
-    private DisplayColumn[] displayColumns;
+    private ExpressionColumn[] expressionColumns;
     private DataSourceModel dataSourceModel;
     private EntityStore store;
     private Object listId;
@@ -93,20 +93,20 @@ public class RxFilter {
         return store.getEntityList(listId);
     }
 
-    public RxFilter setDisplayColumns(String jsonArrayDisplayColumns) {
-        return setDisplayColumns(Json.parseArray(jsonArrayDisplayColumns));
+    public RxFilter setExpressionColumns(String jsonArrayDisplayColumns) {
+        return setExpressionColumns(Json.parseArray(jsonArrayDisplayColumns));
     }
 
-    public RxFilter setDisplayColumns(JsonArray array) {
+    public RxFilter setExpressionColumns(JsonArray array) {
         int n = array.size();
-        this.displayColumns = new DisplayColumn[n];
+        this.expressionColumns = new ExpressionColumn[n];
         for (int i = 0; i < n; i++)
-            this.displayColumns[i] = new DisplayColumn(array.getObject(i));
+            this.expressionColumns[i] = new ExpressionColumn(array.getObject(i));
         return this;
     }
 
-    public RxFilter setDisplayColumns(DisplayColumn... displayColumns) {
-        this.displayColumns = displayColumns;
+    public RxFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
+        this.expressionColumns = expressionColumns;
         return this;
     }
 
@@ -159,9 +159,9 @@ public class RxFilter {
         if (listId == null)
             listId = "default";
         List<Expression> displayPersistentTerms = new ArrayList<>();
-        for (DisplayColumn displayColumn : displayColumns) {
-            displayColumn.parseIfNecessary(dataSourceModel.getDomainModel(), domainClassId);
-            displayColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
+        for (ExpressionColumn expressionColumn : expressionColumns) {
+            expressionColumn.parseIfNecessary(dataSourceModel.getDomainModel(), domainClassId);
+            expressionColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
         }
         if (!displayPersistentTerms.isEmpty())
             combine(new StringFilterBuilder().setFields(new ExpressionArray<>(displayPersistentTerms).toString()));
@@ -170,7 +170,7 @@ public class RxFilter {
     public RxFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
         checkFields();
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
-        if (displayResultSetProperty.getValue() == null && displayColumns != null)
+        if (displayResultSetProperty.getValue() == null && expressionColumns != null)
             Toolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(emptyDisplayResultSet()));
         Observable<DisplayResultSet> displayResultObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
@@ -187,7 +187,7 @@ public class RxFilter {
                                     selectFirstRowOnFirstDisplay = false;
                                     displaySelectionProperty.setValue(new DisplaySelection(new int[]{0})); // Temporary implementation
                                 }
-                                return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, displayColumns);
+                                return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns);
                             });
                 });
         RxUi.displayObservable(displayResultObservable, displayResultSetProperty);
@@ -195,7 +195,7 @@ public class RxFilter {
     }
 
     DisplayResultSet emptyDisplayResultSet() {
-        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), displayColumns);
+        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), expressionColumns);
     }
 
 }

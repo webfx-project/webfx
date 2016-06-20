@@ -40,7 +40,7 @@ public class JavaFxToolkit extends Toolkit {
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
         for (int i = 0; i < values.length; i++)
             fxProperties[i] = new SimpleObjectProperty<>(values[i]);
-        return new DisplayResultSet(displayResultSet.getRowCount(), fxProperties, displayResultSet.getColumnTypes(), displayResultSet.getHeaderValues(), displayResultSet.getHeaderType());
+        return new DisplayResultSet(displayResultSet.getRowCount(), fxProperties, displayResultSet.getColumns());
     }
 
     public static class FxApplication extends Application {

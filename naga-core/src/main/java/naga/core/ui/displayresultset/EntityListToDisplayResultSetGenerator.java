@@ -4,7 +4,6 @@ import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.expression.Expression;
-import naga.core.type.Type;
 import naga.core.util.function.Converter;
 
 /**
@@ -17,31 +16,29 @@ public class EntityListToDisplayResultSetGenerator {
     }
 
     public static DisplayResultSet createDisplayResultSet(EntityList entityList, Expression[] columnExpressions) {
-        DisplayColumn[] displayColumns = new DisplayColumn[columnExpressions.length];
+        ExpressionColumn[] expressionColumns = new ExpressionColumn[columnExpressions.length];
         int columnIndex = 0;
         for (Expression columnExpression : columnExpressions)
-            displayColumns[columnIndex++] = new DisplayColumn(columnExpression, columnExpression);
-        return createDisplayResultSet(entityList, displayColumns);
+            expressionColumns[columnIndex++] = new ExpressionColumn(columnExpression, columnExpression);
+        return createDisplayResultSet(entityList, expressionColumns);
     }
 
-    public static DisplayResultSet createDisplayResultSet(EntityList entityList, DisplayColumn[] displayColumns) {
+    public static DisplayResultSet createDisplayResultSet(EntityList entityList, ExpressionColumn[] expressionColumns) {
         //Platform.log("createDisplayResultSet()");
         int rowCount = entityList.size();
-        int columnCount = displayColumns.length;
-        Type[] columnTypes = new Type[columnCount];
-        Object[] headerValues = new Object[columnCount];
+        int columnCount = expressionColumns.length;
+        DisplayColumn[] columns = new DisplayColumn[columnCount];
         Object[] values = new Object[rowCount * columnCount];
         int columnIndex = 0;
         int index = 0;
-        for (DisplayColumn displayColumn : displayColumns) {
-            Expression expression = displayColumn.getExpression();
-            Converter formatter = displayColumn.getFormatter();
-            columnTypes[columnIndex] = expression.getType();
-            headerValues[columnIndex++] = displayColumn.getLabel().getText();
+        for (ExpressionColumn expressionColumn : expressionColumns) {
+            Expression expression = expressionColumn.getExpression();
+            Converter formatter = expressionColumn.getExpressionFormatter();
+            columns[columnIndex++] = expressionColumn.getDisplayColumn();
             for (Entity entity : entityList)
                 values[index++] = formatValue(entity.evaluate(expression), formatter);
         }
-        DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columnTypes, headerValues, null);
+        DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columns);
         //Platform.log("Ok: " + displayResultSet);
         return displayResultSet;
     }

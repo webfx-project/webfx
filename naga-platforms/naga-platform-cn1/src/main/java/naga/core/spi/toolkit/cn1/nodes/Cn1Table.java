@@ -78,7 +78,7 @@ public class Cn1Table extends Cn1SelectableDisplayResultSetNode<com.codename1.ui
 
         @Override
         public String getColumnName(int i) {
-            return Strings.toString(displayResultSet.getHeaderValues()[i]);
+            return Strings.toString(displayResultSet.getColumns()[i].getHeaderValue());
         }
 
         @Override
