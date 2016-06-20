@@ -3,6 +3,7 @@ package naga.core.orm.expression.term.function.java;
 import naga.core.orm.expression.lci.DataReader;
 import naga.core.orm.expression.term.function.Function;
 import naga.core.type.PrimType;
+import naga.core.util.Strings;
 
 import java.util.Arrays;
 
@@ -27,7 +28,7 @@ public class AbcNames extends Function {
     public static String evaluate(String s, boolean like) {
         if (s == null)
             return null;
-        String[] tokens = null; // PB TeaVM s.toLowerCase().split("[\\s,-]");
+        String[] tokens = Strings.split(Strings.replaceAll(s.toLowerCase(), "-", " "), " "); // PB TeaVM s.toLowerCase().split("[\\s,-]");
         Arrays.sort(tokens);
         String start = like ? "% " : " ";
         StringBuilder sb = new StringBuilder(start);

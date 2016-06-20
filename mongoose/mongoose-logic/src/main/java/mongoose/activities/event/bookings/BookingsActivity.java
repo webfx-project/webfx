@@ -1,6 +1,7 @@
 package mongoose.activities.event.bookings;
 
 import mongoose.format.PriceFormatter;
+import naga.core.orm.expression.term.function.java.AbcNames;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.BorderPane;
@@ -66,7 +67,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
-                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(person_firstName) like `%" + s.toLowerCase() + "%`'}")
+                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'person_abcNames like `" + AbcNames.evaluate(s, true) + "`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns(
