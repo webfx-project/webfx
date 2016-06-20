@@ -25,6 +25,6 @@ class OrganizationsPresentationModel implements PresentationModel {
     // Display output
 
     private final Property<DisplayResultSet> organizationsDisplayResultSetProperty = new SimpleObjectProperty<>();
-    Property<DisplayResultSet> organizationDisplayResultSetProperty() { return organizationsDisplayResultSetProperty; }
+    Property<DisplayResultSet> organizationsDisplayResultSetProperty() { return organizationsDisplayResultSetProperty; }
 
 }

@@ -1,13 +1,15 @@
 package mongoose.activities.organizations;
 
-import mongoose.domainmodel.DomainModelSnapshotLoader;
+import naga.core.spi.platform.Platform;
+import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.CheckBox;
+import naga.core.spi.toolkit.nodes.SearchBox;
+import naga.core.spi.toolkit.nodes.Table;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.presentation.ViewBuilder;
 import naga.core.ui.rx.RxFilter;
-import naga.core.spi.platform.Platform;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.*;
 
 /**
  * @author Bruno Salmon
@@ -52,13 +54,12 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.organizationsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
-        vm.getTable().displayResultSetProperty().bind(pm.organizationDisplayResultSetProperty());
+        vm.getTable().displayResultSetProperty().bind(pm.organizationsDisplayResultSetProperty());
     }
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         RxFilter rxFilter = createRxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
-                .setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel())
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
@@ -66,7 +67,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 .setDisplayColumns(
                         new DisplayColumn("Name", "name + ' (' + type.code + ')'"),
                         new DisplayColumn("Country", "country.(name + ' (' + continent.name + ')')"))
-                .displayResultSetInto(pm.organizationDisplayResultSetProperty());
+                .displayResultSetInto(pm.organizationsDisplayResultSetProperty());
 
         pm.organizationsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {
             int selectedRow = newValue.getSelectedRow();
