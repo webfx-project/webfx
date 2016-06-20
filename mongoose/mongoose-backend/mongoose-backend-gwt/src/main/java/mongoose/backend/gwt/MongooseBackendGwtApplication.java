@@ -3,7 +3,7 @@ package mongoose.backend.gwt;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import mongoose.logic.MongooseBackendApplication;
+import mongoose.application.MongooseBackendApplication;
 import naga.core.spi.platform.gwt.GwtPlatform;
 
 /**
@@ -18,6 +18,18 @@ public class MongooseBackendGwtApplication implements EntryPoint {
         replaceSplashScreen(Document.get().createBRElement());
         registerResourceBundles();
         MongooseBackendApplication.main(null);
+/*
+        OrganizationsActivity.viewBuilder = OrganizationsPolymerUi.viewBuilder;
+        Polymer.importHref("iron-flex-layout/iron-flex-layout.html", o -> {
+            Document doc = Document.get();
+            StyleElement styleElement = doc.createStyleElement();
+            styleElement.setAttribute("is", "custom-style");
+            styleElement.setAttribute("include", "iron-flex iron-flex-alignment");
+            doc.getHead().insertFirst(styleElement);
+            MongooseBackendApplication.main(null);
+            return null;
+        });
+*/
     }
 
     private static void registerResourceBundles() {

@@ -1,4 +1,4 @@
-package mongoose.logic;
+package mongoose.application;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.activity.ActivityManager;

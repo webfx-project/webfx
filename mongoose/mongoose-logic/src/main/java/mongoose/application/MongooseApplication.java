@@ -1,4 +1,4 @@
-package mongoose.logic;
+package mongoose.application;
 
 import mongoose.logic.cart.CartActivity;
 import mongoose.logic.container.ContainerActivity;

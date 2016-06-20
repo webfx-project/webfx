@@ -1,6 +1,6 @@
 package mongoose.backend.javafx;
 
-import mongoose.logic.MongooseBackendApplication;
+import mongoose.application.MongooseBackendApplication;
 
 /**
  * @author Bruno Salmon
