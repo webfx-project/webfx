@@ -1,8 +1,5 @@
 package mongoose.application;
 
-import mongoose.domainmodel.DomainModelSnapshotLoader;
-import naga.core.activity.ActivityManager;
-
 /**
  * @author Bruno Salmon
  */
@@ -10,12 +7,12 @@ public class MongooseBackendApplication extends MongooseApplication {
 
     @Override
     public void onStart() {
-        activityRouter.setDefaultInitialHistoryPath("/organizations");
+        activityRouter.setDefaultInitialHistoryPath("/event/115/bookings");
         super.onStart();
     }
 
     public static void main(String[] args) {
-        ActivityManager.launchApplication(new MongooseBackendApplication(), args, DomainModelSnapshotLoader.getDataSourceModel());
+        launchApplication(new MongooseBackendApplication(), args);
     }
 
 }
