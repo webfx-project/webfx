@@ -1,4 +1,4 @@
-package mongoose.logic.container;
+package mongoose.activities.container;
 
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.spi.toolkit.Toolkit;

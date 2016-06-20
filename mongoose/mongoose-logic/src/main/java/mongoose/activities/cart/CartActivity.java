@@ -1,4 +1,4 @@
-package mongoose.logic.cart;
+package mongoose.activities.cart;
 
 import mongoose.format.DateFormatter;
 import mongoose.format.PriceFormatter;

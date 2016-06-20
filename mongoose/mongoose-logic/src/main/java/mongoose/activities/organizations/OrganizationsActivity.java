@@ -1,4 +1,4 @@
-package mongoose.logic.organizations;
+package mongoose.activities.organizations;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.ui.displayresultset.DisplayColumn;

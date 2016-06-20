@@ -1,8 +1,8 @@
 package mongoose.application;
 
-import mongoose.logic.cart.CartActivity;
-import mongoose.logic.container.ContainerActivity;
-import mongoose.logic.organizations.OrganizationsActivity;
+import mongoose.activities.cart.CartActivity;
+import mongoose.activities.container.ContainerActivity;
+import mongoose.activities.organizations.OrganizationsActivity;
 import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityRouter;

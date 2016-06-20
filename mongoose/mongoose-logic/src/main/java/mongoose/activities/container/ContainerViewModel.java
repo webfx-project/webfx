@@ -1,4 +1,4 @@
-package mongoose.logic.container;
+package mongoose.activities.container;
 
 import naga.core.ui.presentation.ViewModel;
 import naga.core.spi.toolkit.nodes.ActionButton;

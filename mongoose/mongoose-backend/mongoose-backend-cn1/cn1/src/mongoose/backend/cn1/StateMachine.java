@@ -10,7 +10,7 @@ package mongoose.backend.cn1;
 import com.codename1.ui.Form;
 import com.codename1.ui.util.Resources;
 import generated.StateMachineBase;
-import mongoose.logic.MongooseBackendApplication;
+import mongoose.activities.MongooseBackendApplication;
 import naga.core.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.Platform;
 

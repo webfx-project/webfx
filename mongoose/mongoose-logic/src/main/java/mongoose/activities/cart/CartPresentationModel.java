@@ -1,4 +1,4 @@
-package mongoose.logic.cart;
+package mongoose.activities.cart;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;

@@ -1,4 +1,4 @@
-package mongoose.logic.cart;
+package mongoose.activities.cart;
 
 import naga.core.ui.presentation.ViewModel;
 import naga.core.spi.toolkit.GuiNode;

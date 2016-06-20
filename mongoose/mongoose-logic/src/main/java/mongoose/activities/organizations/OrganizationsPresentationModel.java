@@ -1,4 +1,4 @@
-package mongoose.logic.organizations;
+package mongoose.activities.organizations;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;

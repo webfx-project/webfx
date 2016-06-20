@@ -1,4 +1,4 @@
-package mongoose.logic.organizations;
+package mongoose.activities.organizations;
 
 import naga.core.ui.presentation.ViewModel;
 import naga.core.spi.toolkit.GuiNode;
