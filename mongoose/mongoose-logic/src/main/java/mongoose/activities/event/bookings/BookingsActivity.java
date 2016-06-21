@@ -12,6 +12,7 @@ import naga.core.spi.toolkit.nodes.Table;
 import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
+import naga.core.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -39,7 +40,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
         // Hard coded initialization
         SearchBox searchBox = vm.getSearchBox();
         CheckBox limitCheckBox = vm.getLimitCheckBox();
-        searchBox.setPlaceholder("Enter first name to narrow the list");
+        searchBox.setPlaceholder("Search here to narrow the list");
         searchBox.requestFocus();
         limitCheckBox.setText("Limit to 100");
 
@@ -68,7 +69,16 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
-                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'person_abcNames like `" + AbcNames.evaluate(s, true) + "`'}")
+                .combine(pm.searchTextProperty(), s -> {
+                    if (Strings.isEmpty(s))
+                        return null;
+                    s = s.trim();
+                    if (Character.isDigit(s.charAt(0)))
+                        return "{where: 'ref = " + s + "'}";
+                    if (s.contains("@"))
+                        return "{where: 'lower(person_email) like `%" + s.toLowerCase() + "%`'}";
+                    return "{where: 'person_abcNames like `" + AbcNames.evaluate(s, true) + "`'}";
+                })
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns(
