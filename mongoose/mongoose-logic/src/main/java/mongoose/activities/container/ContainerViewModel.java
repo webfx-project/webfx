@@ -7,16 +7,20 @@ import naga.core.spi.toolkit.nodes.BorderPane;
 /**
  * @author Bruno Salmon
  */
-public class ContainerViewModel implements ViewModel {
+class ContainerViewModel implements ViewModel {
 
     private final BorderPane contentNode;
+    private final ActionButton backButton;
+    private final ActionButton forwardButton;
     private final ActionButton bookingsButton;
     private final ActionButton organizationsButton;
 
-    public ContainerViewModel(BorderPane contentNode, ActionButton bookingsButton, ActionButton organizationsButton) {
+    ContainerViewModel(BorderPane contentNode, ActionButton backButton, ActionButton forwardButton, ActionButton bookingsButton, ActionButton organizationsButton) {
         this.contentNode = contentNode;
-        this.organizationsButton = organizationsButton;
+        this.backButton = backButton;
+        this.forwardButton = forwardButton;
         this.bookingsButton = bookingsButton;
+        this.organizationsButton = organizationsButton;
     }
 
     @Override
@@ -24,11 +28,20 @@ public class ContainerViewModel implements ViewModel {
         return contentNode;
     }
 
-    public ActionButton getOrganizationsButton() {
+    ActionButton getBackButton() {
+        return backButton;
+    }
+
+    ActionButton getForwardButton() {
+        return forwardButton;
+    }
+
+    ActionButton getBookingsButton() {
+        return bookingsButton;
+    }
+
+    ActionButton getOrganizationsButton() {
         return organizationsButton;
     }
 
-    public ActionButton getBookingsButton() {
-        return bookingsButton;
-    }
 }
