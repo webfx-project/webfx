@@ -1,6 +1,7 @@
 package naga.core.spi.toolkit;
 
 import javafx.collections.ObservableList;
+import naga.core.spi.platform.Platform;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.nodes.Window;
 import naga.core.spi.toolkit.property.MappedObservableList;
@@ -33,7 +34,11 @@ public abstract class Toolkit {
     }
 
     public <T extends GuiNode> T createNode(Class<T> nodeInterface) {
-        return (T) nodeFactories.get(nodeInterface).create();
+        Factory<GuiNode> nodeFactory = nodeFactories.get(nodeInterface);
+        if (nodeFactory != null)
+            return (T) nodeFactory.create();
+        Platform.log("WARNING: No factory node registered for " + nodeInterface + " in " + getClass());
+        return null;
     }
 
     public <N> void registerNativeNodeWrapper(Class<N> nativeNodeClass, Converter<N, GuiNode> nativeNodeWrapper) {
