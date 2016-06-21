@@ -1,6 +1,7 @@
 package naga.core.spi.toolkit.javafx.nodes;
 
 
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
@@ -15,6 +16,7 @@ public class FxVBox extends FxParent<VBox> implements naga.core.spi.toolkit.node
 
     public FxVBox(VBox vbox) {
         super(vbox);
+        vbox.setAlignment(Pos.CENTER);
     }
 
 }
