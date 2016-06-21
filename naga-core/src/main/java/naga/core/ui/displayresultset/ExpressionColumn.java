@@ -18,13 +18,13 @@ public class ExpressionColumn {
     private Object label;
     private DisplayColumn displayColumn;
 
-    public ExpressionColumn(String expressionDefinition, Object label, Converter expressionFormatter) {
+    private ExpressionColumn(String expressionDefinition, Object label, Converter expressionFormatter) {
         this.expressionDefinition = expressionDefinition;
         this.label = label;
         this.expressionFormatter = expressionFormatter;
     }
 
-    public ExpressionColumn(Expression expression, Object label, Converter expressionFormatter) {
+    private ExpressionColumn(Expression expression, Object label, Converter expressionFormatter) {
         this.expressionDefinition = null;
         this.expression = expression;
         this.label = label;
@@ -55,20 +55,20 @@ public class ExpressionColumn {
 
     public static ExpressionColumn create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
-            return ExpressionColumn.create(Json.parseObject(jsonOrExpressionDefinition));
-        return ExpressionColumn.create(jsonOrExpressionDefinition, null);
+            return create(Json.parseObject(jsonOrExpressionDefinition));
+        return create(jsonOrExpressionDefinition, null);
     }
 
     public static ExpressionColumn create(JsonObject json) {
-        return ExpressionColumn.create(json.getString("expression"), json.get("label"));
+        return create(json.getString("expression"), json.get("label"));
     }
 
     public static ExpressionColumn create(String expressionDefinition, Object label) {
-        return ExpressionColumn.create(expressionDefinition, label, null);
+        return create(expressionDefinition, label, null);
     }
 
     public static ExpressionColumn create(String expressionDefinition, Converter expressionFormatter) {
-        return ExpressionColumn.create(expressionDefinition, null, expressionFormatter);
+        return create(expressionDefinition, null, expressionFormatter);
     }
 
     public static ExpressionColumn create(String expressionDefinition, Object label, Converter expressionFormatter) {
@@ -77,5 +77,17 @@ public class ExpressionColumn {
 
     public static ExpressionColumn create(Expression expression) {
         return new ExpressionColumn(expression, null, null);
+    }
+
+    public static ExpressionColumn[] fromExpressions(Expression[] columnExpressions) {
+        ExpressionColumn[] expressionColumns = new ExpressionColumn[columnExpressions.length];
+        int columnIndex = 0;
+        for (Expression columnExpression : columnExpressions)
+            expressionColumns[columnIndex++] = ExpressionColumn.create(columnExpression);
+        return expressionColumns;
+    }
+
+    public static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
+        return fromExpressions(domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
     }
 }
