@@ -23,12 +23,12 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 public class DomainModelLoader {
-    protected final Object id;
-    protected final DomainModelBuilder dmb;
-    protected final Object dataSourceId = 0;
-    protected final Map<Object /*classId*/, DomainClassBuilder> classes = new HashMap<>();
-    protected final Map<Object /* id */, Type> typeMap = new HashMap<>();
-    protected final Map<Object /* id */, Label> labelMap = new HashMap<>();
+    private final Object id;
+    private final DomainModelBuilder dmb;
+    private final Object dataSourceId = 0;
+    private final Map<Object /*classId*/, DomainClassBuilder> classes = new HashMap<>();
+    private final Map<Object /* id */, Type> typeMap = new HashMap<>();
+    private final Map<Object /* id */, Label> labelMap = new HashMap<>();
 
     public DomainModelLoader(Object id) {
         dmb = new DomainModelBuilder(id);
@@ -46,7 +46,7 @@ public class DomainModelLoader {
         return future;
     }
 
-    public Batch<QueryArgument> generateDomainModelQueryBatch() {
+    private Batch<QueryArgument> generateDomainModelQueryBatch() {
         return toQueryBatch(
                 // 1) Labels loading
                 "select id,text,icon from label where data_model_version_id=? or data_model_version_id is null",
@@ -81,7 +81,7 @@ public class DomainModelLoader {
         qr = results[1];
         for (int row = 0; row < qr.getRowCount(); row++) {
             Object typeId = qr.getValue(row, "id");
-            Type superType = getType(qr.getValue(row, "super_type_id"));
+            Type superType = getTypeFromId(qr.getValue(row, "super_type_id"));
             //TextFieldFormat uiFormat = TextFieldFormat.parseDefinition(qr.getString("ui_format"));
             //TextFieldFormat sqlFormat = TextFieldFormat.parseDefinition(qr.getString("sql_format"));
             //typeMap.put(typeId, new Type(typeId, qr.getString("name"), superType, null, qr.getString("cell_factory_name"), null, null, uiFormat, sqlFormat));
@@ -105,7 +105,7 @@ public class DomainModelLoader {
         qr = results[3];
         for (int row = 0; row < qr.getRowCount(); row++) {
             Object typeId = qr.getValue(row, "type_id");
-            Type type = getType(typeId);
+            Type type = getTypeFromId(typeId);
             DomainClassBuilder classBuilder = classes.get(qr.getValue(row, "class_id"));
             DomainFieldBuilder fieldBuilder = classBuilder.newFieldBuilder(qr.getValue(row, "name"), type, true);
             //CoreSystem.log("Building field " + classBuilder.name + '.' + fieldBuilder.name);
@@ -140,14 +140,14 @@ public class DomainModelLoader {
         return dmb.build();
     }
 
-    private Type getType(Object typeId) {
+    private Type getTypeFromId(Object typeId) {
         Type type = typeMap.get(typeId);
         if (type == null)
-            type = getPrimType(typeId);
+            type = getPrimTypeFromId(typeId);
         return type;
     }
 
-    private PrimType getPrimType(Object id) {
+    private PrimType getPrimTypeFromId(Object id) {
         if (id == null)
             return null;
         switch (Numbers.intValue(id)) { // Keeping compatibility with KBS2.0 types
