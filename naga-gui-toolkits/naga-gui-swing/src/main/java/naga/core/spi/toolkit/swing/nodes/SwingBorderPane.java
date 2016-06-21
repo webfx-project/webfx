@@ -20,16 +20,19 @@ public class SwingBorderPane extends SwingNode<JPanel> implements BorderPane<JPa
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.NORTH);
+            node.updateUI();
         });
         centerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.CENTER);
+            node.updateUI();
         });
         bottomProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.SOUTH);
+            node.updateUI();
         });
     }
 
