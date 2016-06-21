@@ -32,8 +32,8 @@ public class MemoryHistory extends HistoryBase {
 
     @Override
     public void go(int offset) {
-        int requestedBackOffset = backOffset + offset;
-        if (offset != 0 && requestedBackOffset >= 0) {
+        int requestedBackOffset = backOffset - offset;
+        if (offset != 0 && requestedBackOffset >= 0 && requestedBackOffset < locationStack.size()) {
             int previousBackOffset = backOffset;
             backOffset = requestedBackOffset;
             HistoryLocationImpl newLocation = getCurrentLocation();
