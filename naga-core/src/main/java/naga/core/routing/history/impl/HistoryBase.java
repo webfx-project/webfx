@@ -28,6 +28,8 @@ public abstract class HistoryBase implements History {
     }
 
     protected String mountToFullPath(String mountPath) {
+        if ("/".equals(mountPoint))
+            return mountPath;
         return Strings.concat(mountPoint, mountPath);
     }
 
