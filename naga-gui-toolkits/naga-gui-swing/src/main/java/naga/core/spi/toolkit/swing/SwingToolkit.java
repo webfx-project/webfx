@@ -25,5 +25,6 @@ public class SwingToolkit  extends Toolkit {
         registerNodeFactory(ToggleSwitch.class, SwingCheckBox::new);
         registerNodeFactory(SearchBox.class, SwingSearchBox::new);
         registerNodeFactoryAndWrapper(ActionButton.class, SwingActionButton::new, JButton.class, SwingActionButton::new);
+        registerNodeFactory(VBox.class, SwingVBox::new);
     }
 }
