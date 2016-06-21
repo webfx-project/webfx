@@ -15,7 +15,8 @@ abstract class SwingSelectableDisplayResultSetNode<N extends Component> extends 
 
     SwingSelectableDisplayResultSetNode(N node) {
         super(node);
-        selectionModeProperty.addListener((observable, oldValue, newValue) -> onNextSelectionMode(newValue));
+        //syncVisualSelectionMode(getSelectionMode());
+        selectionModeProperty.addListener((observable, oldValue, newValue) -> syncVisualSelectionMode(newValue));
     }
 
     private final Property<SelectionMode> selectionModeProperty = new SimpleObjectProperty<>(SelectionMode.DISABLED);
@@ -24,7 +25,7 @@ abstract class SwingSelectableDisplayResultSetNode<N extends Component> extends 
         return selectionModeProperty;
     }
 
-    protected abstract void onNextSelectionMode(SelectionMode selectionMode);
+    protected abstract void syncVisualSelectionMode(SelectionMode selectionMode);
 
     private final Property<DisplaySelection> displaySelectionProperty = new SimpleObjectProperty<>();
     @Override

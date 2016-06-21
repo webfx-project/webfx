@@ -15,7 +15,7 @@ abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<
 
     SwingDisplayResultSetNode(N node) {
         super(node);
-        displayResultProperty.addListener((observable, oldValue, newValue) -> onNextDisplayResult(newValue));
+        displayResultProperty.addListener((observable, oldValue, newValue) -> syncVisualDisplayResult(newValue));
     }
 
     private final Property<DisplayResultSet> displayResultProperty = new SimpleObjectProperty<>();
@@ -24,5 +24,5 @@ abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<
         return displayResultProperty;
     }
 
-    protected abstract void onNextDisplayResult(DisplayResultSet displayResultSet);
+    protected abstract void syncVisualDisplayResult(DisplayResultSet displayResultSet);
 }

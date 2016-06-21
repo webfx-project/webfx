@@ -1,8 +1,9 @@
 package naga.core.spi.toolkit.swing.nodes;
 
-import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
+import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.util.Strings;
 
 import javax.swing.*;
@@ -25,11 +26,9 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
         super(tableScrollPane);
         table = (JTable) tableScrollPane.getViewport().getView();
         table.setModel(tableModel);
-    }
-
-    @Override
-    protected void onNextSelectionMode(SelectionMode selectionMode) {
-
+        syncVisualSelectionMode(getSelectionMode());
+        displaySelectionProperty().addListener((observable, oldValue, newValue) -> syncVisualDisplaySelection());
+        table.getSelectionModel().addListSelectionListener(e -> syncToolkitDisplaySelection());
     }
 
     private static JTable createTable() {
@@ -50,9 +49,46 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
         return scrollPane;
     }
 
+    private boolean syncingDisplaySelection;
+
+    private void syncToolkitDisplaySelection() {
+        if (!syncingDisplaySelection) {
+            syncingDisplaySelection = true;
+            setDisplaySelection(new DisplaySelection(table.getSelectedRows()));
+            syncingDisplaySelection = false;
+        }
+    }
+
+    private void syncVisualDisplaySelection() {
+        if (!syncingDisplaySelection) {
+            syncingDisplaySelection = true;
+            DisplaySelection displaySelection = getDisplaySelection();
+            ListSelectionModel selectionModel = table.getSelectionModel();
+            selectionModel.clearSelection();
+            for (int selectedRow : displaySelection.getSelectedRows())
+                selectionModel.addSelectionInterval(selectedRow, selectedRow);
+            syncingDisplaySelection = false;
+        }
+    }
 
     @Override
-    protected void onNextDisplayResult(DisplayResultSet displayResultSet) {
+    protected void syncVisualSelectionMode(SelectionMode selectionMode) {
+        int swingSelectionMode = 0;
+        switch (selectionMode) {
+            case DISABLED:
+            case SINGLE:
+                swingSelectionMode = ListSelectionModel.SINGLE_SELECTION;
+                break;
+            case MULTIPLE:
+                swingSelectionMode = ListSelectionModel.MULTIPLE_INTERVAL_SELECTION;
+                break;
+        }
+        table.getSelectionModel().setSelectionMode(swingSelectionMode);
+    }
+
+
+    @Override
+    protected void syncVisualDisplayResult(DisplayResultSet displayResultSet) {
         tableModel.setDisplayResultSet(displayResultSet);
         tableModel.fireTableStructureChanged();
         for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++)
@@ -61,14 +97,11 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
         table.doLayout();
     }
 
-    /**
-     * @author Bruno Salmon
-     */
-    public static class DisplayTableModel extends AbstractTableModel {
+    private static class DisplayTableModel extends AbstractTableModel {
 
         private DisplayResultSet displayResultSet;
 
-        public void setDisplayResultSet(DisplayResultSet displayResultSet) {
+        void setDisplayResultSet(DisplayResultSet displayResultSet) {
             this.displayResultSet = displayResultSet;
         }
 
