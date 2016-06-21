@@ -11,10 +11,10 @@ class ContainerPresentationModel implements PresentationModel {
 
     // Display input
 
+    private final BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable = BehaviorSubject.create();
+    BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable() { return bookingsButtonActionEventObservable; }
+
     private final BehaviorSubject<ActionEvent> organizationButtonActionEventObservable = BehaviorSubject.create();
     BehaviorSubject<ActionEvent> organizationsButtonActionEventObservable() { return organizationButtonActionEventObservable; }
-
-    private final BehaviorSubject<ActionEvent> cartButtonActionEventObservable = BehaviorSubject.create();
-    BehaviorSubject<ActionEvent> carButtonActionEventObservable() { return cartButtonActionEventObservable; }
 
 }
