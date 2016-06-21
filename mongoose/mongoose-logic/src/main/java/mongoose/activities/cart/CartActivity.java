@@ -94,6 +94,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .setExpressionColumns(
                         ExpressionColumn.create("date", DateFormatter.SINGLETON),
                         ExpressionColumn.create("document.ref", "Booking ref"),
+                        ExpressionColumn.create("method.name", "Method"),
                         ExpressionColumn.create("amount", PriceFormatter.SINGLETON),
                         ExpressionColumn.create("pending ? 'Pending' : successful ? 'Success' : 'Failed'", "Status")
                 )
