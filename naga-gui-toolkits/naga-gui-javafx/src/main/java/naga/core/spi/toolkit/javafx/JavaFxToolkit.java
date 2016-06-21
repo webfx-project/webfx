@@ -32,6 +32,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
         registerNodeFactory(BorderPane.class, FxBorderPane::new);
         registerNodeFactory(VBox.class, FxVBox::new);
+        registerNodeFactory(HBox.class, FxHBox::new);
     }
 
     @Override
