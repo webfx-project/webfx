@@ -16,6 +16,8 @@ public interface ActivityContext extends HasNodeProperty {
         return new ActivityContextImpl(parentContext);
     }
 
+    ActivityContext getParentContext();
+
     ActivityManager getActivityManager();
 
     DataSourceModel getDataSourceModel();

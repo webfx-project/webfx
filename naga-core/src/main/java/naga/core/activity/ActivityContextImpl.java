@@ -23,6 +23,11 @@ class ActivityContextImpl implements ActivityContext {
     }
 
     @Override
+    public ActivityContext getParentContext() {
+        return parentContext;
+    }
+
+    @Override
     public ActivityManager getActivityManager() {
         return activityManager;
     }
@@ -72,5 +77,13 @@ class ActivityContextImpl implements ActivityContext {
         if (mountNodeProperty == null)
             mountNodeProperty = new SimpleObjectProperty<>();
         return mountNodeProperty;
+    }
+
+    static ActivityContextImpl from(ActivityContext activityContext) {
+        if (activityContext instanceof ActivityContextImpl)
+            return (ActivityContextImpl) activityContext;
+        if (activityContext instanceof HasActivityContext) // including ActivityContextDirectAccess
+            return from(((HasActivityContext) activityContext).getActivityContext());
+        return null;
     }
 }

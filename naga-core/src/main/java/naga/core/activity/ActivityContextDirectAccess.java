@@ -15,16 +15,27 @@ import naga.core.spi.toolkit.GuiNode;
  */
 public interface ActivityContextDirectAccess extends HasActivityContext, ActivityContext {
 
+    @Override
+    default ActivityContext getParentContext() {
+        return getActivityContext().getParentContext();
+    }
+
+    @Override
     default ActivityManager getActivityManager() { return getActivityContext().getActivityManager(); }
 
+    @Override
     default DataSourceModel getDataSourceModel() { return getActivityContext().getDataSourceModel(); }
 
+    @Override
     default History getHistory() { return getActivityContext().getHistory(); }
 
+    @Override
     default JsonObject getParams() { return getActivityContext().getParams(); }
 
+    @Override
     default Property<GuiNode> nodeProperty() { return getActivityContext().nodeProperty(); }
 
+    @Override
     default Property<GuiNode> mountNodeProperty() { return getActivityContext().mountNodeProperty(); }
 
 }

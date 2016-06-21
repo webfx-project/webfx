@@ -83,7 +83,7 @@ public class ActivityRouter extends HistoryRouter {
         // Memorizing the link from the sub router to this router (for the sub routing management in ActivityRoutingHandler)
         subRouter.mountParentRouter = this;
         // Also changing the sub router history so that when sub activities call history.push("/xxx"), they actually do history.push("/{path}/xxx")
-        ((ActivityContextImpl) subRouter.hostingContext).setHistory(new SubHistory(hostingContext.getHistory(), path));
+        ActivityContextImpl.from(subRouter.hostingContext).setHistory(new SubHistory(hostingContext.getHistory(), path));
         return this;
     }
 
@@ -139,7 +139,7 @@ public class ActivityRouter extends HistoryRouter {
         ActivityContext activityContext = activityContextHistory.get(contextKey);
         if (activityContext == null)
             activityContextHistory.put(contextKey, activityContext = new ActivityContextImpl(hostingContext));
-        ((ActivityContextImpl) activityContext).setParams(routingContext.getParams());
+        ActivityContextImpl.from(activityContext).setParams(routingContext.getParams());
         return activityContext;
     }
 
