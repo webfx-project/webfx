@@ -3,7 +3,7 @@ package naga.core.ui.displayresultset;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.expression.Expression;
-import naga.core.util.function.Converter;
+import naga.core.format.Formatter;
 
 /**
  * @author Bruno Salmon
@@ -20,12 +20,12 @@ public class EntityListToDisplayResultSetGenerator {
         int index = 0;
         for (ExpressionColumn expressionColumn : expressionColumns) {
             Expression expression = expressionColumn.getExpression();
-            Converter formatter = expressionColumn.getExpressionFormatter();
+            Formatter formatter = expressionColumn.getExpressionFormatter();
             columns[columnIndex++] = expressionColumn.getDisplayColumn();
             for (Entity entity : entityList) {
                 Object value = entity.evaluate(expression);
                 if (formatter != null)
-                    value = formatter.convert(value);
+                    value = formatter.format(value);
                 values[index++] = value;
             }
         }

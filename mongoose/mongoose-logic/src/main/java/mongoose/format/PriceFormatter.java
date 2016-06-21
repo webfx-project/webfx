@@ -1,12 +1,14 @@
 package mongoose.format;
 
+import naga.core.type.PrimType;
+import naga.core.type.Type;
+import naga.core.format.Formatter;
 import naga.core.util.Numbers;
-import naga.core.util.function.Converter;
 
 /**
  * @author Bruno Salmon
  */
-public class PriceFormatter implements Converter {
+public class PriceFormatter implements Formatter {
 
     public static final PriceFormatter SINGLETON = new PriceFormatter();
 
@@ -14,7 +16,12 @@ public class PriceFormatter implements Converter {
     }
 
     @Override
-    public Object convert(Object value) {
+    public Type getExpectedFormattedType() {
+        return PrimType.STRING;
+    }
+
+    @Override
+    public Object format(Object value) {
         if (!Numbers.isNumber(value))
             return value;
         String cents = value.toString();

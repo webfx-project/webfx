@@ -1,7 +1,9 @@
 package mongoose.format;
 
+import naga.core.type.PrimType;
+import naga.core.type.Type;
+import naga.core.format.Formatter;
 import naga.core.util.Numbers;
-import naga.core.util.function.Converter;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +11,7 @@ import java.time.LocalDateTime;
 /**
  * @author Bruno Salmon
  */
-public class DateFormatter implements Converter {
+public class DateFormatter implements Formatter {
 
     public static final DateFormatter SINGLETON = new DateFormatter();
 
@@ -17,7 +19,12 @@ public class DateFormatter implements Converter {
     }
 
     @Override
-    public Object convert(Object value) {
+    public Type getExpectedFormattedType() {
+        return PrimType.DATE;
+    }
+
+    @Override
+    public Object format(Object value) {
         LocalDateTime date = null;
         if (value instanceof LocalDateTime)
             date = (LocalDateTime) value;

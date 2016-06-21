@@ -5,7 +5,8 @@ import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
-import naga.core.util.function.Converter;
+import naga.core.type.Type;
+import naga.core.format.Formatter;
 
 /**
  * @author Bruno Salmon
@@ -14,17 +15,17 @@ public class ExpressionColumn {
 
     private final String expressionDefinition;
     private Expression  expression;
-    private final Converter expressionFormatter;
+    private final Formatter expressionFormatter;
     private Object label;
     private DisplayColumn displayColumn;
 
-    private ExpressionColumn(String expressionDefinition, Object label, Converter expressionFormatter) {
+    private ExpressionColumn(String expressionDefinition, Object label, Formatter expressionFormatter) {
         this.expressionDefinition = expressionDefinition;
         this.label = label;
         this.expressionFormatter = expressionFormatter;
     }
 
-    private ExpressionColumn(Expression expression, Object label, Converter expressionFormatter) {
+    private ExpressionColumn(Expression expression, Object label, Formatter expressionFormatter) {
         this.expressionDefinition = null;
         this.expression = expression;
         this.label = label;
@@ -35,7 +36,8 @@ public class ExpressionColumn {
         if (displayColumn == null) {
             if (label == null)
                 label = Label.from(expression);
-            displayColumn = new DisplayColumn(label, expression.getType());
+            Type expectedType = expressionFormatter != null ? expressionFormatter.getExpectedFormattedType() : expression.getType();
+            displayColumn = new DisplayColumn(label, expectedType);
         }
         return displayColumn;
     }
@@ -44,7 +46,7 @@ public class ExpressionColumn {
         return expression;
     }
 
-    public Converter getExpressionFormatter() {
+    public Formatter getExpressionFormatter() {
         return expressionFormatter;
     }
 
@@ -67,11 +69,11 @@ public class ExpressionColumn {
         return create(expressionDefinition, label, null);
     }
 
-    public static ExpressionColumn create(String expressionDefinition, Converter expressionFormatter) {
+    public static ExpressionColumn create(String expressionDefinition, Formatter expressionFormatter) {
         return create(expressionDefinition, null, expressionFormatter);
     }
 
-    public static ExpressionColumn create(String expressionDefinition, Object label, Converter expressionFormatter) {
+    public static ExpressionColumn create(String expressionDefinition, Object label, Formatter expressionFormatter) {
         return new ExpressionColumn(expressionDefinition, label, expressionFormatter);
     }
 
