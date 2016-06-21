@@ -1,8 +1,9 @@
 package mongoose.activities.event.bookings;
 
 import mongoose.format.PriceFormatter;
+import naga.core.orm.entity.Entity;
+import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.function.java.AbcNames;
-import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
@@ -63,7 +64,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
 
     protected void bindPresentationModelWithLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        RxFilter rxFilter = createRxFilter("{class: 'Document', where: '!cancelled', orderBy: 'ref desc'}")
+        RxFilter rxFilter = createRxFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
@@ -79,13 +80,17 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                         ExpressionColumn.create("price_minDeposit", PriceFormatter.SINGLETON),
                         ExpressionColumn.create("price_deposit", PriceFormatter.SINGLETON),
                         ExpressionColumn.create("price_balance", PriceFormatter.SINGLETON))
+                .setDisplaySelectionProperty(pm.bookingsDisplaySelectionProperty())
                 .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
 
-        pm.bookingsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {
-            int selectedRow = newValue.getSelectedRow();
-            Platform.log("Selected row: " + selectedRow);
-            if (selectedRow >= 0)
-                Platform.log("Selected entity: " + rxFilter.getCurrentEntityList().get(selectedRow));
+        rxFilter.getDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {
+            Entity document = rxFilter.getSelectedEntity();
+            if (document != null) {
+                Expression cartUuidExpression = getDataSourceModel().getDomainModel().parseExpression("cart.uuid", "Document");
+                Object cartUuid = document.evaluate(cartUuidExpression);
+                if (cartUuid != null)
+                    getHistory().push("/cart/" + cartUuid);
+            }
         });
     }
 }
