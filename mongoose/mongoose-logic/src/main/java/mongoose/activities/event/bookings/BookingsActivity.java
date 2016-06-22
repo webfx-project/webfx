@@ -26,10 +26,10 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
         Table table = toolkit.createTable();
         CheckBox limitCheckBox = toolkit.createCheckBox();
 
-        return new BookingsViewModel(toolkit.createBorderPane()
-                .setTop(searchBox)
+        return new BookingsViewModel(toolkit.createVPage()
+                .setHeader(searchBox)
                 .setCenter(table)
-                .setBottom(limitCheckBox)
+                .setFooter(limitCheckBox)
                 , searchBox, table, limitCheckBox);
     }
 

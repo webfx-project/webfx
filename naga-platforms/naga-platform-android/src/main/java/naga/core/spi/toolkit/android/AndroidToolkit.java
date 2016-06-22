@@ -21,7 +21,7 @@ public class AndroidToolkit extends Toolkit {
 
     private AndroidToolkit() {
         super(AndroidGuiScheduler.SINGLETON, () -> new AndroidWindow(currentActivity));
-        registerNodeFactory(BorderPane.class, AndroidBorderPane::new);
+        registerNodeFactory(VPage.class, AndroidVPage::new);
         registerNodeFactory(CheckBox.class, AndroidCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, AndroidCheckBox::new);
         registerNodeFactory(SearchBox.class, AndroidSearchBox::new);

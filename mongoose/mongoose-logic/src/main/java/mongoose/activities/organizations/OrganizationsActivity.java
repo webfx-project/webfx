@@ -23,10 +23,10 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
         Table table = toolkit.createTable();
         CheckBox limitCheckBox = toolkit.createCheckBox();
 
-        return new OrganizationsViewModel(toolkit.createBorderPane()
-                .setTop(searchBox)
+        return new OrganizationsViewModel(toolkit.createVPage()
+                .setHeader(searchBox)
                 .setCenter(table)
-                .setBottom(limitCheckBox)
+                .setFooter(limitCheckBox)
                 , searchBox, table, limitCheckBox);
     }
 

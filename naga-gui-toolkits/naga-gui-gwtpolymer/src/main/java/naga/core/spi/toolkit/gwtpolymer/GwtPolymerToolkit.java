@@ -35,7 +35,7 @@ public class GwtPolymerToolkit extends GwtToolkit {
     }
 
     public GwtPolymerToolkit() {
-        registerNodeFactory(BorderPane.class, GwtPolymerBorderPane::new);
+        registerNodeFactory(VPage.class, GwtPolymerVPage::new);
         registerNodeFactory(VBox.class, GwtPolymerVBox::new);
         registerNodeFactory(HBox.class, GwtPolymerHBox::new);
         registerNodeFactoryAndWrapper(Table.class, GwtPolymerTable::new, VaadinGrid.class, GwtPolymerTable::new);

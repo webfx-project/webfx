@@ -13,7 +13,7 @@ public class GwtToolkit extends Toolkit {
 
     public GwtToolkit() {
         super(Platform.get().scheduler(), GwtWindow::new);
-        registerNodeFactory(BorderPane.class, GwtBorderPane::new);
+        registerNodeFactory(VPage.class, GwtVPage::new);
         registerNodeFactory(VBox.class, GwtVBox::new);
         registerNodeFactoryAndWrapper(Table.class, GwtTable::new, CellTable.class, GwtTable::new);
         registerNodeFactory(CheckBox.class, GwtCheckBox::new);

@@ -12,18 +12,18 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.gwt.GwtNode;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerBorderPane extends GwtNode<Panel> implements BorderPane<Panel, Widget> {
+public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widget> {
 
-    public GwtPolymerBorderPane() {
+    public GwtPolymerVPage() {
         this(new HTMLPanel("div", ""));
     }
 
-    public GwtPolymerBorderPane(Panel node) {
+    public GwtPolymerVPage(Panel node) {
         super(node);
         node.getElement().addClassName("layout vertical");
         node.getElement().setAttribute("style", "100%");
@@ -76,7 +76,7 @@ public class GwtPolymerBorderPane extends GwtNode<Panel> implements BorderPane<P
     private final Property<GuiNode<Widget>> topProperty = new SimpleObjectProperty<>();
 
     @Override
-    public Property<GuiNode<Widget>> topProperty() {
+    public Property<GuiNode<Widget>> headerProperty() {
         return topProperty;
     }
 
@@ -90,7 +90,7 @@ public class GwtPolymerBorderPane extends GwtNode<Panel> implements BorderPane<P
     private final Property<GuiNode<Widget>> bottomProperty = new SimpleObjectProperty<>();
 
     @Override
-    public Property<GuiNode<Widget>> bottomProperty() {
+    public Property<GuiNode<Widget>> footerProperty() {
         return bottomProperty;
     }
 }

@@ -7,15 +7,15 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.cn1.Cn1Node;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 
 
 /**
  * @author Bruno Salmon
  */
-public class Cn1BorderPane extends Cn1Node<Container> implements BorderPane<Container, Component> {
+public class Cn1VPage extends Cn1Node<Container> implements VPage<Container, Component> {
 
-    public Cn1BorderPane() {
+    public Cn1VPage() {
         super(new Container(new BorderLayout()));
         topProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
@@ -37,7 +37,7 @@ public class Cn1BorderPane extends Cn1Node<Container> implements BorderPane<Cont
 
     private final Property<GuiNode<Component>> topProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> topProperty() {
+    public Property<GuiNode<Component>> headerProperty() {
         return topProperty;
     }
 
@@ -49,7 +49,7 @@ public class Cn1BorderPane extends Cn1Node<Container> implements BorderPane<Cont
 
     private final Property<GuiNode<Component>> bottomProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> bottomProperty() {
+    public Property<GuiNode<Component>> footerProperty() {
         return bottomProperty;
     }
 }

@@ -2,7 +2,7 @@ package mongoose.activities.container;
 
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Button;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 import naga.core.spi.toolkit.nodes.Parent;
 import naga.core.ui.presentation.PresentationActivity;
 
@@ -23,7 +23,7 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         Button bookingsButton = toolkit.createButton();
         Parent header = toolkit.createHBox();
         header.getChildren().setAll(backButton, forwardButton, bookingsButton, organizationsButton);
-        BorderPane borderPane = toolkit.createBorderPane().setTop(header);
+        VPage borderPane = toolkit.createVPage().setHeader(header);
         return new ContainerViewModel(borderPane, backButton, forwardButton, bookingsButton, organizationsButton);
     }
 

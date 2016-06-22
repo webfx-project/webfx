@@ -120,8 +120,8 @@ public abstract class Toolkit {
         return createNode(HBox.class);
     }
 
-    public BorderPane createBorderPane() {
-        return createNode(BorderPane.class);
+    public VPage createVPage() {
+        return createNode(VPage.class);
     }
 
 }

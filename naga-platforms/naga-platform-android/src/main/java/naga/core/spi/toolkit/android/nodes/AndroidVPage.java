@@ -7,23 +7,23 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.android.AndroidToolkit;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 import naga.core.spi.toolkit.android.AndroidNode;
 
 /**
  * @author Bruno Salmon
  */
-public class AndroidBorderPane extends AndroidNode<RelativeLayout> implements BorderPane<RelativeLayout, View> {
+public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<RelativeLayout, View> {
 
-    public AndroidBorderPane() {
+    public AndroidVPage() {
         this(AndroidToolkit.currentActivity);
     }
 
-    public AndroidBorderPane(Context context) {
+    public AndroidVPage(Context context) {
         this(new RelativeLayout(context));
     }
 
-    public AndroidBorderPane(RelativeLayout node) {
+    public AndroidVPage(RelativeLayout node) {
         super(node);
         topProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
@@ -38,14 +38,14 @@ public class AndroidBorderPane extends AndroidNode<RelativeLayout> implements Bo
             if (oldValue != null)
                 node.removeView(oldValue.unwrapToNativeNode());
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            GuiNode<View> top = getTop();
+            GuiNode<View> top = getHeader();
             if (top != null)
                 params.addRule(RelativeLayout.BELOW, top.unwrapToNativeNode().getId());
             else
                 params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            GuiNode<View> bottom = getBottom();
+            GuiNode<View> bottom = getFooter();
             if (bottom != null)
                 params.addRule(RelativeLayout.ABOVE, bottom.unwrapToNativeNode().getId());
             else
@@ -66,7 +66,7 @@ public class AndroidBorderPane extends AndroidNode<RelativeLayout> implements Bo
 
     private final Property<GuiNode<View>> topProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<View>> topProperty() {
+    public Property<GuiNode<View>> headerProperty() {
         return topProperty;
     }
 
@@ -78,7 +78,7 @@ public class AndroidBorderPane extends AndroidNode<RelativeLayout> implements Bo
 
     private final Property<GuiNode<View>> bottomProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<View>> bottomProperty() {
+    public Property<GuiNode<View>> footerProperty() {
         return bottomProperty;
     }
 }

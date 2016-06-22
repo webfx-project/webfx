@@ -29,7 +29,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(TextField.class, FxTextField::new, javafx.scene.control.TextField.class, FxTextField::new);
         registerNodeFactoryAndWrapper(Button.class, FxButton::new, javafx.scene.control.Button.class, FxButton::new);
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
-        registerNodeFactory(BorderPane.class, FxBorderPane::new);
+        registerNodeFactory(VPage.class, FxVPage::new);
         registerNodeFactory(VBox.class, FxVBox::new);
         registerNodeFactory(HBox.class, FxHBox::new);
     }

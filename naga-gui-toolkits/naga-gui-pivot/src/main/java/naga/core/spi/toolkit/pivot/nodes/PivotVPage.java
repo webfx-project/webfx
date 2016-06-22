@@ -3,7 +3,7 @@ package naga.core.spi.toolkit.pivot.nodes;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.GuiNode;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 import naga.core.spi.toolkit.pivot.PivotNode;
 import org.apache.pivot.wtk.BoxPane;
 import org.apache.pivot.wtk.Component;
@@ -13,9 +13,9 @@ import org.apache.pivot.wtk.Orientation;
 /**
  * @author Bruno Salmon
  */
-public class PivotBorderPane extends PivotNode<BoxPane> implements BorderPane<BoxPane, Component> {
+public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Component> {
 
-    public PivotBorderPane() {
+    public PivotVPage() {
         super(new BoxPane());
         node.setOrientation(Orientation.VERTICAL);
         node.getStyles().put("fill", true);
@@ -39,7 +39,7 @@ public class PivotBorderPane extends PivotNode<BoxPane> implements BorderPane<Bo
 
     private final Property<GuiNode<Component>> topProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> topProperty() {
+    public Property<GuiNode<Component>> headerProperty() {
         return topProperty;
     }
 
@@ -51,7 +51,7 @@ public class PivotBorderPane extends PivotNode<BoxPane> implements BorderPane<Bo
 
     private final Property<GuiNode<Component>> bottomProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> bottomProperty() {
+    public Property<GuiNode<Component>> footerProperty() {
         return bottomProperty;
     }
 }

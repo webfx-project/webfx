@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 import naga.core.spi.toolkit.property.NodeProperty;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.javafx.FxNode;
@@ -11,20 +12,20 @@ import naga.core.spi.toolkit.javafx.FxNode;
 /**
  * @author Bruno Salmon
  */
-public class FxBorderPane extends FxNode<BorderPane> implements naga.core.spi.toolkit.nodes.BorderPane<BorderPane, javafx.scene.Node> {
+public class FxVPage extends FxNode<BorderPane> implements VPage<BorderPane, Node> {
 
-    public FxBorderPane() {
+    public FxVPage() {
         this(new BorderPane());
     }
 
-    public FxBorderPane(BorderPane borderPane) {
+    public FxVPage(BorderPane borderPane) {
         super(borderPane);
         borderPane.setBackground(Background.EMPTY);
     }
 
     private NodeProperty topProperty;
     @Override
-    public Property<GuiNode<Node>> topProperty() {
+    public Property<GuiNode<Node>> headerProperty() {
         if (topProperty == null) topProperty = new NodeProperty(node.topProperty());
         return topProperty;
     }
@@ -38,7 +39,7 @@ public class FxBorderPane extends FxNode<BorderPane> implements naga.core.spi.to
 
     private NodeProperty bottomProperty;
     @Override
-    public Property<GuiNode<Node>> bottomProperty() {
+    public Property<GuiNode<Node>> footerProperty() {
         if (bottomProperty == null) bottomProperty = new NodeProperty(node.bottomProperty());
         return bottomProperty;
     }

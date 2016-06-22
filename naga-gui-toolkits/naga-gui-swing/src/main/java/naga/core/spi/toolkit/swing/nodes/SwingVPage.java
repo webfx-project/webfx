@@ -3,7 +3,7 @@ package naga.core.spi.toolkit.swing.nodes;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.GuiNode;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 import naga.core.spi.toolkit.swing.SwingNode;
 
 import javax.swing.*;
@@ -12,9 +12,9 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingBorderPane extends SwingNode<JPanel> implements BorderPane<JPanel, Component> {
+public class SwingVPage extends SwingNode<JPanel> implements VPage<JPanel, Component> {
 
-    public SwingBorderPane() {
+    public SwingVPage() {
         super(new JPanel(new BorderLayout()));
         topProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
@@ -39,7 +39,7 @@ public class SwingBorderPane extends SwingNode<JPanel> implements BorderPane<JPa
 
     private final Property<GuiNode<Component>> topProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> topProperty() {
+    public Property<GuiNode<Component>> headerProperty() {
         return topProperty;
     }
 
@@ -51,7 +51,7 @@ public class SwingBorderPane extends SwingNode<JPanel> implements BorderPane<JPa
 
     private final Property<GuiNode<Component>> bottomProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> bottomProperty() {
+    public Property<GuiNode<Component>> footerProperty() {
         return bottomProperty;
     }
 }

@@ -19,7 +19,7 @@ public class SwingToolkit  extends Toolkit {
 
     public SwingToolkit() {
         super(SwingScheduler.SINGLETON, SwingWindow::new);
-        registerNodeFactory(BorderPane.class, SwingBorderPane::new);
+        registerNodeFactory(VPage.class, SwingVPage::new);
         registerNodeFactory(Table.class, SwingTable::new);
         registerNodeFactory(CheckBox.class, SwingCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, SwingCheckBox::new);

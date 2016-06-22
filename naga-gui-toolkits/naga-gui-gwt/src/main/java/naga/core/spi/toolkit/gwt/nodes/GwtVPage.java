@@ -11,19 +11,19 @@ import javafx.beans.value.ChangeListener;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.GuiNode;
 import naga.core.spi.toolkit.gwt.GwtNode;
-import naga.core.spi.toolkit.nodes.BorderPane;
+import naga.core.spi.toolkit.nodes.VPage;
 import naga.core.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public class GwtBorderPane extends GwtNode<DockLayoutPanel> implements BorderPane<DockLayoutPanel, Widget> {
+public class GwtVPage extends GwtNode<DockLayoutPanel> implements VPage<DockLayoutPanel, Widget> {
 
-    public GwtBorderPane() {
+    public GwtVPage() {
         this(new DockLayoutPanel(Style.Unit.PX));
     }
 
-    public GwtBorderPane(DockLayoutPanel node) {
+    public GwtVPage(DockLayoutPanel node) {
         super(node);
         ChangeListener<GuiNode<Widget>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> populate();
         topProperty.addListener(onAnyNodePropertyChange);
@@ -105,7 +105,7 @@ public class GwtBorderPane extends GwtNode<DockLayoutPanel> implements BorderPan
 
     private final Property<GuiNode<Widget>> topProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Widget>> topProperty() {
+    public Property<GuiNode<Widget>> headerProperty() {
         return topProperty;
     }
 
@@ -117,7 +117,7 @@ public class GwtBorderPane extends GwtNode<DockLayoutPanel> implements BorderPan
 
     private final Property<GuiNode<Widget>> bottomProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Widget>> bottomProperty() {
+    public Property<GuiNode<Widget>> footerProperty() {
         return bottomProperty;
     }
 }

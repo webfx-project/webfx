@@ -12,7 +12,7 @@ public class PivotToolkit extends Toolkit {
 
     public PivotToolkit() {
         super(PivotScheduler.SINGLETON, PivotWindow::new);
-        registerNodeFactory(BorderPane.class, PivotBorderPane::new);
+        registerNodeFactory(VPage.class, PivotVPage::new);
         registerNodeFactory(Table.class, PivotTable::new);
         registerNodeFactory(CheckBox.class, PivotCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, PivotCheckBox::new);
