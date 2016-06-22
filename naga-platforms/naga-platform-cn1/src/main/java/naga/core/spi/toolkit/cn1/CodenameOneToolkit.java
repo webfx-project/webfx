@@ -16,7 +16,7 @@ public class CodenameOneToolkit extends Toolkit {
 
     public CodenameOneToolkit() {
         super(Cn1Scheduler.SINGLETON, Cn1Window::new);
-        registerNodeFactory(BorderPane.class, Cn1BorderPane::new);
+        registerNodeFactory(VPage.class, Cn1VPage::new);
         registerNodeFactory(Table.class, Cn1Table::new);
         registerNodeFactory(CheckBox.class, Cn1CheckBox::new);
         registerNodeFactory(ToggleSwitch.class, Cn1CheckBox::new);
