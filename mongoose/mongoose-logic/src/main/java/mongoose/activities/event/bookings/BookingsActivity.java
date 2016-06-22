@@ -8,7 +8,6 @@ import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
-import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 import naga.core.util.Strings;
@@ -80,15 +79,16 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 })
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
-                .setExpressionColumns(
-                        ExpressionColumn.create("ref"),
-                        ExpressionColumn.create("person_firstName"),
-                        ExpressionColumn.create("person_lastName"),
-                        ExpressionColumn.create("person_age"),
-                        ExpressionColumn.create("price_net", "{format: 'price'}"),
-                        ExpressionColumn.create("price_minDeposit", "{format: 'price'}"),
-                        ExpressionColumn.create("price_deposit", "{format: 'price'}"),
-                        ExpressionColumn.create("price_balance", "{format: 'price'}"))
+                .setExpressionColumns("[" +
+                                "'ref'," +
+                                "'person_firstName'," +
+                                "'person_lastName'," +
+                                "'person_age'," +
+                                "{expression: 'price_net', format: 'price'}," +
+                                "{expression: 'price_minDeposit', format: 'price'}," +
+                                "{expression: 'price_deposit', format: 'price'}," +
+                                "{expression: 'price_balance', format: 'price'}" +
+                        "]")
                 .setDisplaySelectionProperty(pm.bookingsDisplaySelectionProperty())
                 .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
 

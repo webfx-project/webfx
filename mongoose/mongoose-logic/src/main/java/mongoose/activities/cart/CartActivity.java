@@ -4,7 +4,6 @@ import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;
 import naga.core.spi.toolkit.nodes.VBox;
-import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 
@@ -55,14 +54,14 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 //.registerParameter(new Parameter("cartUuid", "constant"))
                 //.registerParameter(new Parameter("cartUuid", pm.cartUuidProperty()))
                 //.combine("{where: 'cart.uuid=?cartUuid'}")
-                .setExpressionColumns(
-                        ExpressionColumn.create("ref"),
-                        ExpressionColumn.create("person_firstName"),
-                        ExpressionColumn.create("person_lastName"),
-                        ExpressionColumn.create("price_net", "{format: 'price'}"),
-                        ExpressionColumn.create("price_deposit", "{format: 'price'}"),
-                        ExpressionColumn.create("price_balance", "{format: 'price'}")
-                )
+                .setExpressionColumns("[" +
+                        "'ref'," +
+                        "'person_firstName'," +
+                        "'person_lastName'," +
+                        "{expression: 'price_net', format: 'price'}," +
+                        "{expression: 'price_deposit', format: 'price'}," +
+                        "{expression: 'price_balance', format: 'price'}" +
+                        "]")
                 .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
                 .selectFirstRowOnFirstDisplay()
                 .displayResultSetInto(pm.documentDisplayResultSetProperty());
@@ -76,12 +75,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                     return selectedEntity == null ? "{where: 'false'}" : "{where: 'document=" + selectedEntity.getId().getPrimaryKey() + "'}";
                 })
                 //.combine("{where: 'document=?documentDisplaySelection'}")
-                .setExpressionColumns(
-                        ExpressionColumn.create("site.name", "{label: 'Site'}"),
-                        ExpressionColumn.create("item.name", "{label: 'Item'}"),
-                        ExpressionColumn.create("dates"),
-                        ExpressionColumn.create("price_net", "{label: 'Fees', format: 'price'}")
-                )
+                .setExpressionColumns("[" +
+                        "{expression: 'site.name', label: 'Site'}," +
+                        "{expression: 'item.name', label: 'Item'}," +
+                        "'dates'," +
+                        "{expression: 'price_net', label: 'Fees', format: 'price'}" +
+                        "]")
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
         // Setting up the payments filter
@@ -89,13 +88,13 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
-                .setExpressionColumns(
-                        ExpressionColumn.create("date", "{label: 'date'}"),
-                        ExpressionColumn.create("document.ref", "{label: 'Booking ref'}"),
-                        ExpressionColumn.create("method.name", "{label: 'Method'}"),
-                        ExpressionColumn.create("amount", "{format: 'price'}"),
-                        ExpressionColumn.create("pending ? 'Pending' : successful ? 'Success' : 'Failed'", "{label: 'Status'}")
-                )
+                .setExpressionColumns("[" +
+                        "{expression: 'date', format: 'date'}," +
+                        "{expression: 'document.ref', label: 'Booking ref'}," +
+                        "{expression: 'method.name', label: 'Method'}," +
+                        "{expression: 'amount', format: 'price'}," +
+                        "{expression: 'pending ? `Pending` : successful ? `Success` : `Failed`', label: 'Status'}" +
+                        "]")
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
     }
 }

@@ -6,7 +6,6 @@ import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
-import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 
@@ -60,9 +59,10 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
-                .setExpressionColumns(
-                        ExpressionColumn.create("name + ' (' + type.code + ')'", "{label: 'Name'}"),
-                        ExpressionColumn.create("country.(name + ' (' + continent.name + ')')", "{label: 'Country'}"))
+                .setExpressionColumns("[" +
+                        "{label: 'Name', expression: 'name + ` (` + type.code + `)`'}," +
+                        "{label: 'Country', expression: 'country.(name + ` (` + continent.name + `)`)'}" +
+                        "]")
                 .displayResultSetInto(pm.organizationsDisplayResultSetProperty());
 
         pm.organizationsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {

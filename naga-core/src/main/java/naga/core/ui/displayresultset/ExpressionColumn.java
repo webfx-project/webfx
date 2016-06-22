@@ -3,6 +3,7 @@ package naga.core.ui.displayresultset;
 import naga.core.format.Formatter;
 import naga.core.format.FormatterRegistry;
 import naga.core.json.Json;
+import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
@@ -74,6 +75,20 @@ public class ExpressionColumn {
 
     public static ExpressionColumn create(Expression expression) {
         return new ExpressionColumn(null, expression, null, null);
+    }
+
+    public static ExpressionColumn[] fromJsonArray(String array) {
+        return fromJsonArray(Json.parseArray(array));
+    }
+
+    public static ExpressionColumn[] fromJsonArray(JsonArray array) {
+        int n = array.size();
+        ExpressionColumn[] expressionColumns = new ExpressionColumn[n];
+        for (int i = 0; i < n; i++) {
+            Object element = array.getElement(i);
+            expressionColumns[i] = element instanceof JsonObject ? create((JsonObject) element) : create(element.toString());
+        }
+        return expressionColumns;
     }
 
     public static ExpressionColumn[] fromExpressions(Expression[] columnExpressions) {
