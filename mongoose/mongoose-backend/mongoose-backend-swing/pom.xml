@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-gui-swing</artifactId>
+            <artifactId>naga-toolkit-swing</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

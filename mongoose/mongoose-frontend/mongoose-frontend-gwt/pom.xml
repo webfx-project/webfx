@@ -21,7 +21,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-gui-gwtpolymer</artifactId>
+            <artifactId>naga-toolkit-gwtpolymer</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->

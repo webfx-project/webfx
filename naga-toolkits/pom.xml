@@ -9,17 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-gui-toolkits</artifactId>
+    <artifactId>naga-toolkits</artifactId>
     <packaging>pom</packaging>
 
     <modules>
-        <module>naga-gui-javafx</module>
-        <module>naga-gui-jfoenix</module>
-        <module>naga-gui-swing</module>
-        <module>naga-gui-pivot</module>
-        <module>naga-gui-gwt</module>
-        <module>naga-gui-gwtmaterial</module>
-        <module>naga-gui-gwtpolymer</module>
+        <module>naga-toolkit-javafx</module>
+        <module>naga-toolkit-jfoenix</module>
+        <module>naga-toolkit-swing</module>
+        <module>naga-toolkit-pivot</module>
+        <module>naga-toolkit-gwt</module>
+        <module>naga-toolkit-gwtmaterial</module>
+        <module>naga-toolkit-gwtpolymer</module>
     </modules>
 
 </project>

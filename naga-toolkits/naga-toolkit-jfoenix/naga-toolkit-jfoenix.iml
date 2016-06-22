@@ -12,7 +12,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-gui-javafx" />
+    <orderEntry type="module" module-name="naga-toolkit-javafx" />
     <orderEntry type="module" module-name="naga-platform-jre" />
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-abstractplatform-java" />

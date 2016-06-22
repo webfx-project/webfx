@@ -20,7 +20,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-gui-pivot</artifactId>
+            <artifactId>naga-toolkit-pivot</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

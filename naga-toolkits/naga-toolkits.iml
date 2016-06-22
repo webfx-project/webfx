@@ -7,8 +7,9 @@
       <sourceFolder url="file://$MODULE_DIR$/../naga-guis/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../naga-guis/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/../naga-guis/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/../naga-gui-toolkits/target" />
       <excludeFolder url="file://$MODULE_DIR$/../naga-guis/target" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

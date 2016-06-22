@@ -30,6 +30,9 @@
     </dependencies>
 
     <properties>
+        <plugin.dependency.param.unpack-sources.phase>false</plugin.dependency.param.unpack-sources.phase>
+        <plugin.dependency.param.unpack-classes.phase>false</plugin.dependency.param.unpack-classes.phase>
+        <plugin.dependency.param.unpack-libs.phase>false</plugin.dependency.param.unpack-libs.phase>
         <!-- deactivating j2objc task in default parent pom antrun configuration -->
         <plugin.antrun.param.j2objc.phase>none</plugin.antrun.param.j2objc.phase>
     </properties>
@@ -102,7 +105,7 @@
                                 <!-- Creating the temporary main.zip file -->
                                 <zip destfile="${project.build.directory}/main.zip">
                                     <!-- Putting all classes (not the domain model) of the fat jar into it -->
-                                    <zipfileset src="${project.build.directory}/${project.artifactId}-${project.version}-fat.jar" includes="**/*.class"/>
+                                    <zipfileset src="${project.build.directory}/${project.artifactId}-${project.version}-fat.jar" includes="mongoose/**/*.class"/>
                                     <!-- Putting the domain model file into it at root level -->
                                     <mappedresources>
                                         <zipfileset src="${project.build.directory}/${project.artifactId}-${project.version}-fat.jar" includes="**/*.lzb64json"/>

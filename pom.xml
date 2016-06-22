@@ -16,7 +16,7 @@
         <module>naga-core</module>
         <module>naga-javaemuls</module>
         <module>naga-platforms</module>
-        <module>naga-gui-toolkits</module>
+        <module>naga-toolkits</module>
 
         <module>mongoose</module>
     </modules>
