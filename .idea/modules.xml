@@ -39,6 +39,14 @@
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-teavm/naga-platform-teavm.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-teavm/naga-platform-teavm.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx/naga-platform-vertx.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-vertx/naga-platform-vertx.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platforms.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platforms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwt/naga-toolkit-gwt.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwt/naga-toolkit-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwtmaterial/naga-toolkit-gwtmaterial.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwtmaterial/naga-toolkit-gwtmaterial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwtpolymer/naga-toolkit-gwtpolymer.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwtpolymer/naga-toolkit-gwtpolymer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-javafx/naga-toolkit-javafx.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-javafx/naga-toolkit-javafx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-jfoenix/naga-toolkit-jfoenix.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-jfoenix/naga-toolkit-jfoenix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-pivot/naga-toolkit-pivot.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-pivot/naga-toolkit-pivot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-swing/naga-toolkit-swing.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkit-swing/naga-toolkit-swing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-toolkits/naga-toolkits.iml" filepath="$PROJECT_DIR$/naga-toolkits/naga-toolkits.iml" />
     </modules>
   </component>
 </project>
