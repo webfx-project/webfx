@@ -19,8 +19,6 @@
         <module>naga-gui-toolkits</module>
 
         <module>mongoose</module>
-
-        <module>naga-application-examples</module>
     </modules>
 
     <properties>
