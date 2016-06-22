@@ -19,12 +19,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     @Override
     protected CartViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        Table documentTable = toolkit.createNode(Table.class);
-        Table documentLineTable = toolkit.createNode(Table.class);
-        Table paymentTable = toolkit.createNode(Table.class);
+        Table documentTable = toolkit.createTable();
+        Table documentLineTable = toolkit.createTable();
+        Table paymentTable = toolkit.createTable();
 
         // Displaying the UI
-        VBox vBox = toolkit.createNode(VBox.class);
+        VBox vBox = toolkit.createVBox();
         vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable);
         return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable);
     }

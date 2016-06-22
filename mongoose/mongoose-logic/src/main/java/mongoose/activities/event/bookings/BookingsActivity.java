@@ -4,7 +4,6 @@ import naga.core.orm.entity.Entity;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.function.java.AbcNames;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
@@ -23,11 +22,11 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
 
     protected BookingsViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        SearchBox searchBox = toolkit.createNode(SearchBox.class);
-        Table table = toolkit.createNode(Table.class);
-        CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
+        SearchBox searchBox = toolkit.createSearchBox();
+        Table table = toolkit.createTable();
+        CheckBox limitCheckBox = toolkit.createCheckBox();
 
-        return new BookingsViewModel(toolkit.createNode(BorderPane.class)
+        return new BookingsViewModel(toolkit.createBorderPane()
                 .setTop(searchBox)
                 .setCenter(table)
                 .setBottom(limitCheckBox)

@@ -2,13 +2,13 @@ package naga.core.spi.toolkit;
 
 import javafx.collections.ObservableList;
 import naga.core.spi.platform.Platform;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.spi.toolkit.nodes.Window;
-import naga.core.spi.toolkit.property.MappedObservableList;
 import naga.core.spi.platform.Scheduler;
-import naga.core.util.serviceloader.ServiceLoaderHelper;
+import naga.core.spi.toolkit.nodes.*;
+import naga.core.spi.toolkit.property.MappedObservableList;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.function.Converter;
 import naga.core.util.function.Factory;
+import naga.core.util.serviceloader.ServiceLoaderHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +94,34 @@ public abstract class Toolkit {
             //Platform.log("Toolkit ok");
         }
         return TOOLKIT;
+    }
+
+    public Table createTable() {
+        return createNode(Table.class);
+    }
+
+    public ActionButton createActionButton() {
+        return createNode(ActionButton.class);
+    }
+
+    public CheckBox createCheckBox() {
+        return createNode(CheckBox.class);
+    }
+
+    public SearchBox createSearchBox() {
+        return createNode(SearchBox.class);
+    }
+
+    public VBox createVBox() {
+        return createNode(VBox.class);
+    }
+
+    public HBox createHBox() {
+        return createNode(HBox.class);
+    }
+
+    public BorderPane createBorderPane() {
+        return createNode(BorderPane.class);
     }
 
 }

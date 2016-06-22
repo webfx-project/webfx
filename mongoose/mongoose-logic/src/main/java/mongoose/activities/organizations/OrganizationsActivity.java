@@ -2,7 +2,6 @@ package mongoose.activities.organizations;
 
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.BorderPane;
 import naga.core.spi.toolkit.nodes.CheckBox;
 import naga.core.spi.toolkit.nodes.SearchBox;
 import naga.core.spi.toolkit.nodes.Table;
@@ -20,11 +19,11 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
 
     protected OrganizationsViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        SearchBox searchBox = toolkit.createNode(SearchBox.class);
-        Table table = toolkit.createNode(Table.class);
-        CheckBox limitCheckBox = toolkit.createNode(CheckBox.class);
+        SearchBox searchBox = toolkit.createSearchBox();
+        Table table = toolkit.createTable();
+        CheckBox limitCheckBox = toolkit.createCheckBox();
 
-        return new OrganizationsViewModel(toolkit.createNode(BorderPane.class)
+        return new OrganizationsViewModel(toolkit.createBorderPane()
                 .setTop(searchBox)
                 .setCenter(table)
                 .setBottom(limitCheckBox)
