@@ -7,7 +7,7 @@ import javafx.scene.layout.HBox;
 /**
  * @author Bruno Salmon
  */
-public class FxHBox extends FxParent<HBox> implements naga.core.spi.toolkit.nodes.VBox<HBox, Node> {
+public class FxHBox extends FxParent<HBox> implements naga.core.spi.toolkit.nodes.HBox<HBox, Node> {
 
     public FxHBox() {
         this(new HBox());
