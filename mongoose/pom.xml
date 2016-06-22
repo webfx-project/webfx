@@ -16,7 +16,9 @@
     <modules>
         <module>mongoose-logic</module>
         <module>mongoose-backend</module>
+        <!-- Commented as not working on it for now (avoiding long GWT compilation)
         <module>mongoose-frontend</module>
+        -->
     </modules>
 
     <properties>
