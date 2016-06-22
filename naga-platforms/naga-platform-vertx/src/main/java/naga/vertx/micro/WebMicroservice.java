@@ -44,6 +44,7 @@ public class WebMicroservice extends AbstractVerticle {
                 .bridge(new BridgeOptions()
                         .addInboundPermitted(new PermittedOptions(new JsonObject()))
                         .addOutboundPermitted(new PermittedOptions(new JsonObject()))
+                        // Uncomment to watch events on the bridge , event -> System.out.println(event.type())
                 )
         );
 
