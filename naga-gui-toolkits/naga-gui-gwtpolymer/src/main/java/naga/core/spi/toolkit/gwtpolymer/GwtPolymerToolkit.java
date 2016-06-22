@@ -40,7 +40,7 @@ public class GwtPolymerToolkit extends GwtToolkit {
         registerNodeFactory(HBox.class, GwtPolymerHBox::new);
         registerNodeFactoryAndWrapper(Table.class, GwtPolymerTable::new, VaadinGrid.class, GwtPolymerTable::new);
         registerNodeFactoryAndWrapper(CheckBox.class, GwtPolymerCheckBox::new, PaperCheckbox.class, GwtPolymerCheckBox::new);
-        registerNodeFactoryAndWrapper(ActionButton.class, GwtPolymerActionButton::new, PaperButton.class, GwtPolymerActionButton::new);
+        registerNodeFactoryAndWrapper(Button.class, GwtPolymerButton::new, PaperButton.class, GwtPolymerButton::new);
         registerNodeFactoryAndWrapper(SearchBox.class, GwtPolymerSearchBox::new, PaperInput.class, GwtPolymerSearchBox::new);
     }
 }

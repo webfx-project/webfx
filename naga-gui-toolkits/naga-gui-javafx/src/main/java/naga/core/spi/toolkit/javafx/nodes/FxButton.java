@@ -1,23 +1,22 @@
 package naga.core.spi.toolkit.javafx.nodes;
 
-import javafx.scene.control.Button;
 import naga.core.spi.toolkit.event.ActionEvent;
 import naga.core.spi.toolkit.javafx.event.FxActionEvent;
-import naga.core.spi.toolkit.nodes.ActionButton;
+import naga.core.spi.toolkit.nodes.Button;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
 /**
  * @author Bruno Salmon
  */
-public class FxActionButton extends FxButtonBase<Button> implements ActionButton<Button> {
+public class FxButton extends FxButtonBase<javafx.scene.control.Button> implements Button<javafx.scene.control.Button> {
 
 
-    public FxActionButton() {
-        this(new Button());
+    public FxButton() {
+        this(new javafx.scene.control.Button());
     }
 
-    public FxActionButton(Button button) {
+    public FxButton(javafx.scene.control.Button button) {
         super(button);
         button.setOnAction(event -> actionEventObservable.onNext(new FxActionEvent(event)));
     }

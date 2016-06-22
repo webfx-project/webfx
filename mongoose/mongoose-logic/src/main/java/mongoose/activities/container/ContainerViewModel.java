@@ -1,7 +1,7 @@
 package mongoose.activities.container;
 
 import naga.core.ui.presentation.ViewModel;
-import naga.core.spi.toolkit.nodes.ActionButton;
+import naga.core.spi.toolkit.nodes.Button;
 import naga.core.spi.toolkit.nodes.BorderPane;
 
 /**
@@ -10,12 +10,12 @@ import naga.core.spi.toolkit.nodes.BorderPane;
 class ContainerViewModel implements ViewModel {
 
     private final BorderPane contentNode;
-    private final ActionButton backButton;
-    private final ActionButton forwardButton;
-    private final ActionButton bookingsButton;
-    private final ActionButton organizationsButton;
+    private final Button backButton;
+    private final Button forwardButton;
+    private final Button bookingsButton;
+    private final Button organizationsButton;
 
-    ContainerViewModel(BorderPane contentNode, ActionButton backButton, ActionButton forwardButton, ActionButton bookingsButton, ActionButton organizationsButton) {
+    ContainerViewModel(BorderPane contentNode, Button backButton, Button forwardButton, Button bookingsButton, Button organizationsButton) {
         this.contentNode = contentNode;
         this.backButton = backButton;
         this.forwardButton = forwardButton;
@@ -28,19 +28,19 @@ class ContainerViewModel implements ViewModel {
         return contentNode;
     }
 
-    ActionButton getBackButton() {
+    Button getBackButton() {
         return backButton;
     }
 
-    ActionButton getForwardButton() {
+    Button getForwardButton() {
         return forwardButton;
     }
 
-    ActionButton getBookingsButton() {
+    Button getBookingsButton() {
         return bookingsButton;
     }
 
-    ActionButton getOrganizationsButton() {
+    Button getOrganizationsButton() {
         return organizationsButton;
     }
 

@@ -7,20 +7,20 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.core.spi.toolkit.event.ActionEvent;
 import naga.core.spi.toolkit.gwt.GwtNode;
 import naga.core.spi.toolkit.gwt.event.GwtActionEvent;
-import naga.core.spi.toolkit.nodes.ActionButton;
+import naga.core.spi.toolkit.nodes.Button;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerActionButton extends GwtNode<PaperButton> implements ActionButton<PaperButton> {
+public class GwtPolymerButton extends GwtNode<PaperButton> implements Button<PaperButton> {
 
-    public GwtPolymerActionButton() {
+    public GwtPolymerButton() {
         this(new PaperButton());
     }
 
-    public GwtPolymerActionButton(PaperButton button) {
+    public GwtPolymerButton(PaperButton button) {
         super(button);
         Polymer.ready(button.getElement(), o -> {
             syncVisualText();

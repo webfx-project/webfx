@@ -3,10 +3,10 @@ package naga.core.spi.toolkit.jfoenix;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import naga.core.spi.toolkit.javafx.JavaFxToolkit;
-import naga.core.spi.toolkit.javafx.nodes.FxActionButton;
+import naga.core.spi.toolkit.javafx.nodes.FxButton;
 import naga.core.spi.toolkit.javafx.nodes.FxCheckBox;
 import naga.core.spi.toolkit.jfoenix.nodes.JFoenixWindow;
-import naga.core.spi.toolkit.nodes.ActionButton;
+import naga.core.spi.toolkit.nodes.Button;
 import naga.core.spi.toolkit.nodes.CheckBox;
 
 /**
@@ -27,7 +27,7 @@ public class JFoenixToolkit extends JavaFxToolkit {
     public JFoenixToolkit() {
         super(() -> JavaFxToolkit.FxApplication.applicationWindow = new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage));
         registerNodeFactory(CheckBox.class, () -> new FxCheckBox(new JFXCheckBox()));
-        registerNodeFactory(ActionButton.class, () -> new FxActionButton(new JFXButton()));
+        registerNodeFactory(Button.class, () -> new FxButton(new JFXButton()));
         //registerNodeFactory(ToggleSwitch.class, () -> new FxToggleSwitch(new JFXToggleButton()));
     }
 }

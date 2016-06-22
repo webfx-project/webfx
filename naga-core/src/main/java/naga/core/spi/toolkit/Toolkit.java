@@ -100,8 +100,8 @@ public abstract class Toolkit {
         return createNode(Table.class);
     }
 
-    public ActionButton createActionButton() {
-        return createNode(ActionButton.class);
+    public Button createButton() {
+        return createNode(Button.class);
     }
 
     public CheckBox createCheckBox() {

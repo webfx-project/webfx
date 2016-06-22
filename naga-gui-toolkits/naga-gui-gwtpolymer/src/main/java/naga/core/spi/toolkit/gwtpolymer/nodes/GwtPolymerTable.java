@@ -10,11 +10,13 @@ import com.vaadin.polymer.vaadin.Column;
 import com.vaadin.polymer.vaadin.Row;
 import com.vaadin.polymer.vaadin.Selection;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.spi.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
 import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.nodes.Table;
+import naga.core.type.Type;
+import naga.core.type.Types;
+import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.util.Strings;
 
 /**
@@ -86,8 +88,9 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                     column = columns.get(columnIndex).cast();
                 else
                     node.addColumn(column = JavaScriptObject.createObject().cast(), null);
+                String headerText = Strings.stringValue(displayResultSet.getColumns()[columnIndex].getHeaderValue());
                 // The API says to use column.setContentHeader() but it doesn't work so using column.setName() instead
-                column.setName(Strings.stringValue(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
+                column.setName(Strings.replaceAll(headerText, ".", ""));
                 final int colIndex = columnIndex;
                 column.setRenderer(oCell -> {
                     Cell cell = (Cell) oCell;
@@ -95,10 +98,13 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                     int rowIndex = (int) row.getIndex();
                     Object value = displayResultSet.getValue(rowIndex, colIndex);
                     String text = value == null ? "" : value.toString();
-                    cell.getElement().<Element>cast().setInnerHTML("<span style='overflow: hidden; text-overflow: ellipsis; width: 100%;'>" + text + "</span>");
+                    String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
+                    Type type = displayResultSet.getColumns()[colIndex].getType();
+                    if (Types.isNumberType(type))
+                        style += " text-align: right;";
+                    cell.getElement().<Element>cast().setInnerHTML("<span style='" + style + "'>" + text + "</span>");
                     return null;
                 });
-                node.setCellClassGenerator(o1 -> "my-right");
             }
             int rowCount = displayResultSet.getRowCount();
             // Setting items to an unfilled (but correctly sized) javascript array as data fetching is actually done in the column renderer

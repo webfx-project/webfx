@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.swing.nodes;
 
 import naga.core.spi.toolkit.event.ActionEvent;
-import naga.core.spi.toolkit.nodes.ActionButton;
+import naga.core.spi.toolkit.nodes.Button;
 import naga.core.spi.toolkit.swing.event.SwingActionEvent;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
@@ -11,14 +11,14 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingActionButton extends SwingButtonBase<JButton> implements ActionButton<JButton> {
+public class SwingButton extends SwingButtonBase<JButton> implements Button<JButton> {
 
 
-    public SwingActionButton() {
+    public SwingButton() {
         this(new JButton());
     }
 
-    public SwingActionButton(JButton button) {
+    public SwingButton(JButton button) {
         super(button);
         button.setAction(new AbstractAction() {
             @Override
