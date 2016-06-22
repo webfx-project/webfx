@@ -67,7 +67,7 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
             ViewBuilder<VM> viewBuilder = viewBuilders.get(getClass());
-            viewModel = viewBuilder != null ? viewBuilder.buildUiModel(toolkit) : buildView(toolkit);
+            viewModel = viewBuilder != null ? viewBuilder.buildView(toolkit) : buildView(toolkit);
         }
         if (!viewBoundWithPresentationModel) {
             //Platform.log("Binding UI model with presentation model");

@@ -5,7 +5,7 @@ import naga.core.spi.toolkit.Toolkit;
 /**
  * @author Bruno Salmon
  */
-public interface ViewBuilder<UM extends ViewModel> {
+public interface ViewBuilder<VM extends ViewModel> {
 
-    UM buildUiModel(Toolkit toolkit);
+    VM buildView(Toolkit toolkit);
 }
