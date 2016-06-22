@@ -61,8 +61,8 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns(
-                        ExpressionColumn.create("name + ' (' + type.code + ')'", "Name"),
-                        ExpressionColumn.create("country.(name + ' (' + continent.name + ')')", "Country"))
+                        ExpressionColumn.create("name + ' (' + type.code + ')'", "{label: 'Name'}"),
+                        ExpressionColumn.create("country.(name + ' (' + continent.name + ')')", "{label: 'Country'}"))
                 .displayResultSetInto(pm.organizationsDisplayResultSetProperty());
 
         pm.organizationsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {

@@ -1,12 +1,13 @@
 package naga.core.ui.displayresultset;
 
+import naga.core.format.Formatter;
+import naga.core.format.FormatterRegistry;
 import naga.core.json.Json;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
 import naga.core.type.Type;
-import naga.core.format.Formatter;
 
 /**
  * @author Bruno Salmon
@@ -19,14 +20,8 @@ public class ExpressionColumn {
     private Object label;
     private DisplayColumn displayColumn;
 
-    private ExpressionColumn(String expressionDefinition, Object label, Formatter expressionFormatter) {
+    private ExpressionColumn(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter) {
         this.expressionDefinition = expressionDefinition;
-        this.label = label;
-        this.expressionFormatter = expressionFormatter;
-    }
-
-    private ExpressionColumn(Expression expression, Object label, Formatter expressionFormatter) {
-        this.expressionDefinition = null;
         this.expression = expression;
         this.label = label;
         this.expressionFormatter = expressionFormatter;
@@ -58,27 +53,27 @@ public class ExpressionColumn {
     public static ExpressionColumn create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
             return create(Json.parseObject(jsonOrExpressionDefinition));
-        return create(jsonOrExpressionDefinition, null);
+        return new ExpressionColumn(jsonOrExpressionDefinition, null, null, null);
     }
 
     public static ExpressionColumn create(JsonObject json) {
-        return create(json.getString("expression"), json.get("label"));
+        return create(json.getString("expression"), json);
     }
 
-    public static ExpressionColumn create(String expressionDefinition, Object label) {
-        return create(expressionDefinition, label, null);
+    public static ExpressionColumn create(String expressionDefinition, String jsonOptions) {
+        return create(expressionDefinition, Json.parseObject(jsonOptions));
+    }
+
+    public static ExpressionColumn create(String expressionDefinition, JsonObject options) {
+        return new ExpressionColumn(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")));
     }
 
     public static ExpressionColumn create(String expressionDefinition, Formatter expressionFormatter) {
-        return create(expressionDefinition, null, expressionFormatter);
-    }
-
-    public static ExpressionColumn create(String expressionDefinition, Object label, Formatter expressionFormatter) {
-        return new ExpressionColumn(expressionDefinition, label, expressionFormatter);
+        return new ExpressionColumn(expressionDefinition, null, null, expressionFormatter);
     }
 
     public static ExpressionColumn create(Expression expression) {
-        return new ExpressionColumn(expression, null, null);
+        return new ExpressionColumn(null, expression, null, null);
     }
 
     public static ExpressionColumn[] fromExpressions(Expression[] columnExpressions) {

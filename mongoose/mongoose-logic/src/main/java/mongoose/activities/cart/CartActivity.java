@@ -1,7 +1,5 @@
 package mongoose.activities.cart;
 
-import mongoose.format.DateFormatter;
-import mongoose.format.PriceFormatter;
 import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.nodes.Table;
@@ -61,9 +59,9 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         ExpressionColumn.create("ref"),
                         ExpressionColumn.create("person_firstName"),
                         ExpressionColumn.create("person_lastName"),
-                        ExpressionColumn.create("price_net", PriceFormatter.SINGLETON),
-                        ExpressionColumn.create("price_deposit", PriceFormatter.SINGLETON),
-                        ExpressionColumn.create("price_balance", PriceFormatter.SINGLETON)
+                        ExpressionColumn.create("price_net", "{format: 'price'}"),
+                        ExpressionColumn.create("price_deposit", "{format: 'price'}"),
+                        ExpressionColumn.create("price_balance", "{format: 'price'}")
                 )
                 .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
                 .selectFirstRowOnFirstDisplay()
@@ -79,10 +77,10 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 })
                 //.combine("{where: 'document=?documentDisplaySelection'}")
                 .setExpressionColumns(
-                        ExpressionColumn.create("site.name", "Site"),
-                        ExpressionColumn.create("item.name", "Item"),
+                        ExpressionColumn.create("site.name", "{label: 'Site'}"),
+                        ExpressionColumn.create("item.name", "{label: 'Item'}"),
                         ExpressionColumn.create("dates"),
-                        ExpressionColumn.create("price_net", "Fees", PriceFormatter.SINGLETON)
+                        ExpressionColumn.create("price_net", "{label: 'Fees', format: 'price'}")
                 )
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
@@ -92,11 +90,11 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
                 .setExpressionColumns(
-                        ExpressionColumn.create("date", DateFormatter.SINGLETON),
-                        ExpressionColumn.create("document.ref", "Booking ref"),
-                        ExpressionColumn.create("method.name", "Method"),
-                        ExpressionColumn.create("amount", PriceFormatter.SINGLETON),
-                        ExpressionColumn.create("pending ? 'Pending' : successful ? 'Success' : 'Failed'", "Status")
+                        ExpressionColumn.create("date", "{label: 'date'}"),
+                        ExpressionColumn.create("document.ref", "{label: 'Booking ref'}"),
+                        ExpressionColumn.create("method.name", "{label: 'Method'}"),
+                        ExpressionColumn.create("amount", "{format: 'price'}"),
+                        ExpressionColumn.create("pending ? 'Pending' : successful ? 'Success' : 'Failed'", "{label: 'Status'}")
                 )
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
     }

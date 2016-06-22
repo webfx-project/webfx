@@ -1,6 +1,5 @@
 package mongoose.activities.event.bookings;
 
-import mongoose.format.PriceFormatter;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.function.java.AbcNames;
@@ -86,10 +85,10 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                         ExpressionColumn.create("person_firstName"),
                         ExpressionColumn.create("person_lastName"),
                         ExpressionColumn.create("person_age"),
-                        ExpressionColumn.create("price_net", PriceFormatter.SINGLETON),
-                        ExpressionColumn.create("price_minDeposit", PriceFormatter.SINGLETON),
-                        ExpressionColumn.create("price_deposit", PriceFormatter.SINGLETON),
-                        ExpressionColumn.create("price_balance", PriceFormatter.SINGLETON))
+                        ExpressionColumn.create("price_net", "{format: 'price'}"),
+                        ExpressionColumn.create("price_minDeposit", "{format: 'price'}"),
+                        ExpressionColumn.create("price_deposit", "{format: 'price'}"),
+                        ExpressionColumn.create("price_balance", "{format: 'price'}"))
                 .setDisplaySelectionProperty(pm.bookingsDisplaySelectionProperty())
                 .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
 
