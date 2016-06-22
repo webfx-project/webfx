@@ -19,6 +19,7 @@
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-retrolambda/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-application-examples/pom.xml" />
       </set>
     </option>
   </component>

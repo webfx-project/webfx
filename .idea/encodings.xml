@@ -31,13 +31,6 @@
     <file url="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-logic" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-application-examples/helloworld/helloworld-teavm" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-core" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-gwtmaterial" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-jfoenix" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-pivot" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-gui-toolkits/naga-gui-swing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt" charset="UTF-8" />
@@ -61,6 +54,14 @@
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-jre" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-teavm" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwtmaterial" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-gwtpolymer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-javafx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-jfoenix" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-pivot" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-toolkits/naga-toolkit-swing" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

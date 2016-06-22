@@ -23,14 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="hellonaga-android" />
-        <module name="hellonaga-gwt" />
         <module name="hellonaga-j2objc" />
-        <module name="hellonaga-logic" />
+        <module name="hellonaga-jre" />
         <module name="hellonaga-teavm" />
         <module name="helloworld-android" />
-        <module name="helloworld-gwt" />
         <module name="helloworld-j2objc" />
-        <module name="helloworld-logic" />
+        <module name="helloworld-jre" />
         <module name="helloworld-teavm" />
         <module name="java-cup-11b-runtime" />
         <module name="java-niobuffer" />
@@ -65,6 +63,7 @@
         <module name="naga-core" />
         <module name="naga-gui-gwt" />
         <module name="naga-gui-gwtmaterial" />
+        <module name="naga-gui-gwtpolymer" />
         <module name="naga-gui-javafx" />
         <module name="naga-gui-javafx-jfoenix" />
         <module name="naga-gui-jfoenix" />
@@ -103,6 +102,13 @@
         <module name="naga-platform-teavm" />
         <module name="naga-platform-vertx" />
         <module name="naga-teavm" />
+        <module name="naga-toolkit-gwt" />
+        <module name="naga-toolkit-gwtmaterial" />
+        <module name="naga-toolkit-gwtpolymer" />
+        <module name="naga-toolkit-javafx" />
+        <module name="naga-toolkit-jfoenix" />
+        <module name="naga-toolkit-pivot" />
+        <module name="naga-toolkit-swing" />
         <module name="naga-vertx" />
         <module name="naga-webplat" />
       </profile>
@@ -149,6 +155,7 @@
       <module name="naga-core" target="1.8" />
       <module name="naga-gui-gwt" target="1.8" />
       <module name="naga-gui-gwtmaterial" target="1.8" />
+      <module name="naga-gui-gwtpolymer" target="1.8" />
       <module name="naga-gui-javafx" target="1.8" />
       <module name="naga-gui-javafx-jfoenix" target="1.8" />
       <module name="naga-gui-jfoenix" target="1.8" />
@@ -188,6 +195,14 @@
       <module name="naga-platform-teavm" target="1.8" />
       <module name="naga-platform-vertx" target="1.8" />
       <module name="naga-platforms" target="1.8" />
+      <module name="naga-toolkit-gwt" target="1.8" />
+      <module name="naga-toolkit-gwtmaterial" target="1.8" />
+      <module name="naga-toolkit-gwtpolymer" target="1.8" />
+      <module name="naga-toolkit-javafx" target="1.8" />
+      <module name="naga-toolkit-jfoenix" target="1.8" />
+      <module name="naga-toolkit-pivot" target="1.8" />
+      <module name="naga-toolkit-swing" target="1.8" />
+      <module name="naga-toolkits" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
