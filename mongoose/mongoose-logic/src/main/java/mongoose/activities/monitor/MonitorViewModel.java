@@ -1,6 +1,6 @@
 package mongoose.activities.monitor;
 
-import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.ui.presentation.ViewModel;
 
 /**

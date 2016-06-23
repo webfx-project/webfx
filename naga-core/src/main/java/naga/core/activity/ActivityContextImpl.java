@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.routing.history.History;
-import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.node.GuiNode;
 
 /**
  * @author Bruno Salmon

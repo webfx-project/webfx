@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.routing.history.History;
-import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.hasproperties.HasNodeProperty;
 
 /**

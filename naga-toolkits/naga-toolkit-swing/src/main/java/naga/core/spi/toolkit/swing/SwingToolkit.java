@@ -1,15 +1,25 @@
 package naga.core.spi.toolkit.swing;
 
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.*;
-import naga.core.spi.toolkit.swing.nodes.*;
+import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.layouts.HBox;
+import naga.core.spi.toolkit.layouts.VBox;
+import naga.core.spi.toolkit.layouts.VPage;
+import naga.core.spi.toolkit.swing.controls.SwingButton;
+import naga.core.spi.toolkit.swing.controls.SwingCheckBox;
+import naga.core.spi.toolkit.swing.controls.SwingSearchBox;
+import naga.core.spi.toolkit.swing.controls.SwingTable;
+import naga.core.spi.toolkit.swing.layouts.SwingHBox;
+import naga.core.spi.toolkit.swing.layouts.SwingVBox;
+import naga.core.spi.toolkit.swing.layouts.SwingVPage;
+import naga.core.spi.toolkit.swing.layouts.SwingWindow;
 
 import javax.swing.*;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingToolkit  extends Toolkit {
+public class SwingToolkit extends Toolkit {
 
     static {
         try {

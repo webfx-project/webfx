@@ -1,0 +1,20 @@
+package naga.core.spi.toolkit.pivot.controls;
+
+import naga.core.spi.toolkit.controls.CheckBox;
+import naga.core.spi.toolkit.controls.ToggleSwitch;
+
+
+/**
+ * @author Bruno Salmon
+ */
+public class PivotCheckBox extends PivotButtonBase<org.apache.pivot.wtk.Checkbox> implements CheckBox<org.apache.pivot.wtk.Checkbox>, ToggleSwitch<org.apache.pivot.wtk.Checkbox> {
+
+    public PivotCheckBox() {
+        this(new org.apache.pivot.wtk.Checkbox());
+    }
+
+    public PivotCheckBox(org.apache.pivot.wtk.Checkbox button) {
+        super(button);
+    }
+}
+

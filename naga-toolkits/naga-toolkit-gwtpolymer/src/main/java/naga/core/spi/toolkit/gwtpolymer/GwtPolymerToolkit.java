@@ -6,9 +6,18 @@ import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
+import naga.core.spi.toolkit.controls.Button;
+import naga.core.spi.toolkit.controls.CheckBox;
+import naga.core.spi.toolkit.controls.SearchBox;
+import naga.core.spi.toolkit.controls.Table;
 import naga.core.spi.toolkit.gwt.GwtToolkit;
-import naga.core.spi.toolkit.gwtpolymer.nodes.*;
-import naga.core.spi.toolkit.nodes.*;
+import naga.core.spi.toolkit.gwtpolymer.layouts.GwtPolymerHBox;
+import naga.core.spi.toolkit.gwtpolymer.layouts.GwtPolymerVBox;
+import naga.core.spi.toolkit.gwtpolymer.layouts.GwtPolymerVPage;
+import naga.core.spi.toolkit.gwtpolymer.controls.*;
+import naga.core.spi.toolkit.layouts.HBox;
+import naga.core.spi.toolkit.layouts.VBox;
+import naga.core.spi.toolkit.layouts.VPage;
 
 /**
  * @author Bruno Salmon

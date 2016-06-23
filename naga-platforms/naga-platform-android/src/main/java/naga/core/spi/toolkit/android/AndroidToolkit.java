@@ -2,10 +2,18 @@ package naga.core.spi.toolkit.android;
 
 import android.app.Activity;
 import android.view.View;
-import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.android.controls.AndroidCheckBox;
+import naga.core.spi.toolkit.android.controls.AndroidSearchBox;
+import naga.core.spi.toolkit.android.controls.AndroidTable;
+import naga.core.spi.toolkit.android.layouts.AndroidVPage;
+import naga.core.spi.toolkit.android.layouts.AndroidWindow;
+import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.android.nodes.*;
-import naga.core.spi.toolkit.nodes.*;
+import naga.core.spi.toolkit.controls.CheckBox;
+import naga.core.spi.toolkit.controls.SearchBox;
+import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.controls.ToggleSwitch;
+import naga.core.spi.toolkit.layouts.VPage;
 import naga.core.util.function.Factory;
 
 /**

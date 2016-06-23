@@ -4,7 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.Toolkit;
 
 /**

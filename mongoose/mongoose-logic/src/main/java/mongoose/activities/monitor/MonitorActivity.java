@@ -1,7 +1,7 @@
 package mongoose.activities.monitor;
 
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.Button;
+import naga.core.spi.toolkit.controls.Button;
 import naga.core.ui.presentation.PresentationActivity;
 
 /**

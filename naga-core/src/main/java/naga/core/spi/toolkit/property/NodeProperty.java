@@ -2,7 +2,7 @@ package naga.core.spi.toolkit.property;
 
 import javafx.beans.property.Property;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.GuiNode;
+import naga.core.spi.toolkit.node.GuiNode;
 
 /**
  * @author Bruno Salmon

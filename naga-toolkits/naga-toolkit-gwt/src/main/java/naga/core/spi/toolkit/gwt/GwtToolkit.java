@@ -2,8 +2,16 @@ package naga.core.spi.toolkit.gwt;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.gwt.nodes.*;
-import naga.core.spi.toolkit.nodes.*;
+import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.gwt.controls.GwtButton;
+import naga.core.spi.toolkit.gwt.controls.GwtCheckBox;
+import naga.core.spi.toolkit.gwt.controls.GwtSearchBox;
+import naga.core.spi.toolkit.gwt.controls.GwtTable;
+import naga.core.spi.toolkit.gwt.layouts.GwtVBox;
+import naga.core.spi.toolkit.gwt.layouts.GwtVPage;
+import naga.core.spi.toolkit.gwt.layouts.GwtWindow;
+import naga.core.spi.toolkit.layouts.VBox;
+import naga.core.spi.toolkit.layouts.VPage;
 import naga.core.spi.platform.Platform;
 
 /**

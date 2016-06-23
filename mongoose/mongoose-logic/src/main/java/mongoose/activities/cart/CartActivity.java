@@ -2,8 +2,8 @@ package mongoose.activities.cart;
 
 import naga.core.orm.entity.Entity;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.Table;
-import naga.core.spi.toolkit.nodes.VBox;
+import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 

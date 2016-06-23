@@ -5,10 +5,18 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.javafx.controls.*;
+import naga.core.spi.toolkit.javafx.layouts.FxHBox;
+import naga.core.spi.toolkit.javafx.layouts.FxVBox;
+import naga.core.spi.toolkit.javafx.layouts.FxVPage;
+import naga.core.spi.toolkit.javafx.layouts.FxWindow;
+import naga.core.spi.toolkit.layouts.HBox;
+import naga.core.spi.toolkit.layouts.VBox;
+import naga.core.spi.toolkit.layouts.VPage;
+import naga.core.spi.toolkit.layouts.Window;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.javafx.nodes.*;
-import naga.core.spi.toolkit.nodes.*;
 import naga.core.util.function.Factory;
 
 /**

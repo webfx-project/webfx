@@ -2,9 +2,9 @@ package mongoose.activities.organizations;
 
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.nodes.CheckBox;
-import naga.core.spi.toolkit.nodes.SearchBox;
-import naga.core.spi.toolkit.nodes.Table;
+import naga.core.spi.toolkit.controls.CheckBox;
+import naga.core.spi.toolkit.controls.SearchBox;
+import naga.core.spi.toolkit.controls.Table;
 import naga.core.ui.presentation.PresentationActivity;
 import naga.core.ui.rx.RxFilter;
 

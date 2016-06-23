@@ -3,13 +3,13 @@ package naga.core.spi.toolkit.gwtmaterial;
 import com.google.gwt.user.cellview.client.DataGrid;
 import gwt.material.design.client.ui.MaterialCheckBox;
 import naga.core.spi.toolkit.gwt.GwtToolkit;
-import naga.core.spi.toolkit.gwtmaterial.nodes.GwtMaterialCheckBox;
-import naga.core.spi.toolkit.gwtmaterial.nodes.GwtMaterialSearchBox;
-import naga.core.spi.toolkit.gwtmaterial.nodes.GwtMaterialTable;
-import naga.core.spi.toolkit.nodes.CheckBox;
-import naga.core.spi.toolkit.nodes.SearchBox;
-import naga.core.spi.toolkit.nodes.Table;
-import naga.core.spi.toolkit.nodes.ToggleSwitch;
+import naga.core.spi.toolkit.gwtmaterial.controls.GwtMaterialCheckBox;
+import naga.core.spi.toolkit.gwtmaterial.controls.GwtMaterialSearchBox;
+import naga.core.spi.toolkit.gwtmaterial.controls.GwtMaterialTable;
+import naga.core.spi.toolkit.controls.CheckBox;
+import naga.core.spi.toolkit.controls.SearchBox;
+import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.controls.ToggleSwitch;
 
 /**
  * @author Bruno Salmon

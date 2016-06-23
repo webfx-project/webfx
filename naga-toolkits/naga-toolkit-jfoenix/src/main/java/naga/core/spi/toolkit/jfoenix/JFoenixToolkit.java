@@ -3,11 +3,11 @@ package naga.core.spi.toolkit.jfoenix;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import naga.core.spi.toolkit.javafx.JavaFxToolkit;
-import naga.core.spi.toolkit.javafx.nodes.FxButton;
-import naga.core.spi.toolkit.javafx.nodes.FxCheckBox;
-import naga.core.spi.toolkit.jfoenix.nodes.JFoenixWindow;
-import naga.core.spi.toolkit.nodes.Button;
-import naga.core.spi.toolkit.nodes.CheckBox;
+import naga.core.spi.toolkit.javafx.controls.FxButton;
+import naga.core.spi.toolkit.javafx.controls.FxCheckBox;
+import naga.core.spi.toolkit.jfoenix.layouts.JFoenixWindow;
+import naga.core.spi.toolkit.controls.Button;
+import naga.core.spi.toolkit.controls.CheckBox;
 
 /**
  * @author Bruno Salmon

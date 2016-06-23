@@ -1,8 +1,8 @@
 package mongoose.activities.cart;
 
 import naga.core.ui.presentation.ViewModel;
-import naga.core.spi.toolkit.GuiNode;
-import naga.core.spi.toolkit.nodes.Table;
+import naga.core.spi.toolkit.node.GuiNode;
+import naga.core.spi.toolkit.controls.Table;
 
 /**
  * @author Bruno Salmon
