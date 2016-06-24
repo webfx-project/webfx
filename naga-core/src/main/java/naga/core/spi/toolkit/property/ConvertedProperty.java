@@ -8,13 +8,13 @@ import naga.core.util.function.Converter;
 /**
  * @author Bruno Salmon
  */
-public class MappedProperty<A, B> extends MappedObservableValue<A, B> implements Property<A> {
+public class ConvertedProperty<A, B> extends ConvertedObservableValue<A, B> implements Property<A> {
 
     private A dontGarbageA; // to avoid garbage collection
     private final Property<B> property;
     private final Converter<A, B> aToBConverter;
 
-    public MappedProperty(Property<B> property, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
+    public ConvertedProperty(Property<B> property, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
         super(property, bToAConverter);
         this.property = property;
         this.aToBConverter = aToBConverter;
@@ -38,7 +38,7 @@ public class MappedProperty<A, B> extends MappedObservableValue<A, B> implements
 
     @Override
     public void bind(ObservableValue<? extends A> observable) {
-        property.bind(new MappedObservableValue<>((ObservableValue<A>) observable, aToBConverter));
+        property.bind(new ConvertedObservableValue<>((ObservableValue<A>) observable, aToBConverter));
     }
 
     @Override
@@ -53,12 +53,12 @@ public class MappedProperty<A, B> extends MappedObservableValue<A, B> implements
 
     @Override
     public void bindBidirectional(Property<A> other) {
-        property.bindBidirectional(new MappedProperty<>(other, bToAConverter, aToBConverter));
+        property.bindBidirectional(new ConvertedProperty<>(other, bToAConverter, aToBConverter));
     }
 
     @Override
     public void unbindBidirectional(Property<A> other) {
-        Platform.log("MappedProperty.unbindBidirectional() not yet implemented");
-        //TODO property.unbindBidirectional(new MappedProperty<>(other, bToAConverter, aToBConverter));
+        Platform.log("ConvertedProperty.unbindBidirectional() not yet implemented");
+        //TODO property.unbindBidirectional(new ConvertedProperty<>(other, bToAConverter, aToBConverter));
     }
 }

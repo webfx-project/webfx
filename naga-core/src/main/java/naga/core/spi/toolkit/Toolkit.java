@@ -9,7 +9,7 @@ import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;
 import naga.core.spi.toolkit.layouts.Window;
 import naga.core.spi.toolkit.node.GuiNode;
-import naga.core.spi.toolkit.property.MappedObservableList;
+import naga.core.spi.toolkit.property.ConvertedObservableList;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.function.Converter;
 import naga.core.util.function.Factory;
@@ -65,7 +65,7 @@ public abstract class Toolkit {
     }
 
     public <N> ObservableList<GuiNode<N>> wrapNativeObservableList(ObservableList<N> nativeList) {
-        return MappedObservableList.create(nativeList, this::wrapNativeNode, Toolkit::unwrapToNativeNode);
+        return ConvertedObservableList.create(nativeList, this::wrapNativeNode, Toolkit::unwrapToNativeNode);
     }
 
     public Window getApplicationWindow() {

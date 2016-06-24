@@ -17,7 +17,7 @@ import naga.core.spi.toolkit.layouts.HBox;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;
 import naga.core.spi.toolkit.layouts.Window;
-import naga.core.spi.toolkit.property.MappedProperty;
+import naga.core.spi.toolkit.property.ConvertedProperty;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.function.Factory;
 
@@ -66,8 +66,8 @@ public class JavaFxToolkit extends Toolkit {
         }
     }
 
-    public static MappedProperty<Integer, Number> numberToIntegerProperty(Property<Number> numberProperty) {
-        return new MappedProperty<>(numberProperty, Integer::doubleValue, Number::intValue);
+    public static ConvertedProperty<Integer, Number> numberToIntegerProperty(Property<Number> numberProperty) {
+        return new ConvertedProperty<>(numberProperty, Integer::doubleValue, Number::intValue);
     }
 
 }

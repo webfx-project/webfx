@@ -9,12 +9,12 @@ import naga.core.util.function.Converter;
 /**
  * @author Bruno Salmon
  */
-public class MappedObservableValue<A, B> implements ObservableValue<A> {
+public class ConvertedObservableValue<A, B> implements ObservableValue<A> {
 
     protected final ObservableValue<B> observableValue;
     protected final Converter<B,A> bToAConverter;
 
-    public MappedObservableValue(ObservableValue<B> observableValue, Converter<B, A> bToAConverter) {
+    public ConvertedObservableValue(ObservableValue<B> observableValue, Converter<B, A> bToAConverter) {
         this.observableValue = observableValue;
         this.bToAConverter = bToAConverter;
     }
@@ -22,13 +22,13 @@ public class MappedObservableValue<A, B> implements ObservableValue<A> {
     @Override
     public void addListener(ChangeListener<? super A> listener) {
         observableValue.addListener((observable, oldValue, newValue) -> {
-            listener.changed(MappedObservableValue.this, bToAConverter.convert(oldValue), bToAConverter.convert(newValue));
+            listener.changed(ConvertedObservableValue.this, bToAConverter.convert(oldValue), bToAConverter.convert(newValue));
         });
     }
 
     @Override
     public void removeListener(ChangeListener<? super A> listener) {
-        Platform.log("MappedProperty.removeListener() not yet implemented");
+        Platform.log("ConvertedProperty.removeListener() not yet implemented");
     }
 
     @Override
@@ -40,12 +40,12 @@ public class MappedObservableValue<A, B> implements ObservableValue<A> {
     @Override
     public void addListener(InvalidationListener listener) {
         observableValue.addListener(observable -> {
-            listener.invalidated(MappedObservableValue.this);
+            listener.invalidated(ConvertedObservableValue.this);
         });
     }
 
     @Override
     public void removeListener(InvalidationListener listener) {
-        Platform.log("MappedProperty.removeListener() not yet implemented");
+        Platform.log("ConvertedProperty.removeListener() not yet implemented");
     }
 }

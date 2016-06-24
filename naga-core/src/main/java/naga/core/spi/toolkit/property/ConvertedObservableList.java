@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class MappedObservableList {
+public class ConvertedObservableList {
 
     public static <A, B> ObservableList<B> create(ObservableList<A> aList, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
         if (aList == null)
