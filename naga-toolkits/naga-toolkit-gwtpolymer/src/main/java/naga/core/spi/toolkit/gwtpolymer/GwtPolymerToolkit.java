@@ -5,16 +5,14 @@ import com.google.gwt.dom.client.StyleElement;
 import com.vaadin.polymer.paper.widget.PaperButton;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperInput;
+import com.vaadin.polymer.paper.widget.PaperSlider;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
-import naga.core.spi.toolkit.controls.Button;
-import naga.core.spi.toolkit.controls.CheckBox;
-import naga.core.spi.toolkit.controls.SearchBox;
-import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.controls.*;
 import naga.core.spi.toolkit.gwt.GwtToolkit;
+import naga.core.spi.toolkit.gwtpolymer.controls.*;
 import naga.core.spi.toolkit.gwtpolymer.layouts.GwtPolymerHBox;
 import naga.core.spi.toolkit.gwtpolymer.layouts.GwtPolymerVBox;
 import naga.core.spi.toolkit.gwtpolymer.layouts.GwtPolymerVPage;
-import naga.core.spi.toolkit.gwtpolymer.controls.*;
 import naga.core.spi.toolkit.layouts.HBox;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;
@@ -51,5 +49,6 @@ public class GwtPolymerToolkit extends GwtToolkit {
         registerNodeFactoryAndWrapper(CheckBox.class, GwtPolymerCheckBox::new, PaperCheckbox.class, GwtPolymerCheckBox::new);
         registerNodeFactoryAndWrapper(Button.class, GwtPolymerButton::new, PaperButton.class, GwtPolymerButton::new);
         registerNodeFactoryAndWrapper(SearchBox.class, GwtPolymerSearchBox::new, PaperInput.class, GwtPolymerSearchBox::new);
+        registerNodeFactoryAndWrapper(Slider.class, GwtPolymerSlider::new, PaperSlider.class, GwtPolymerSlider::new);
     }
 }
