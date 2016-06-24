@@ -2,39 +2,28 @@ package naga.core.spi.toolkit.javafx.controls;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.TextField;
+import naga.core.spi.toolkit.javafx.node.FxNode;
 
 /**
  * @author Bruno Salmon
  */
-public class FxTextField implements naga.core.spi.toolkit.controls.TextField<TextField> {
-
-    private TextField textField;
+public class FxTextField extends FxNode<TextField> implements naga.core.spi.toolkit.controls.TextField<TextField> {
 
     public FxTextField() {
         this(new TextField());
     }
 
     public FxTextField(TextField textField) {
-        this.textField = textField;
-    }
-
-    @Override
-    public TextField unwrapToNativeNode() {
-        return textField;
-    }
-
-    @Override
-    public void requestFocus() {
-        textField.requestFocus();
+        super(textField);
     }
 
     @Override
     public Property<String> textProperty() {
-        return textField.textProperty();
+        return node.textProperty();
     }
 
     @Override
     public Property<String> placeholderProperty() {
-        return textField.promptTextProperty();
+        return node.promptTextProperty();
     }
 }
