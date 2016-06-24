@@ -9,6 +9,7 @@ import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;
 import naga.core.spi.toolkit.layouts.Window;
 import naga.core.spi.toolkit.node.GuiNode;
+import naga.core.spi.toolkit.node.UnimplementedNode;
 import naga.core.spi.toolkit.property.ConvertedObservableList;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.function.Converter;
@@ -43,7 +44,7 @@ public abstract class Toolkit {
         if (nodeFactory != null)
             return (T) nodeFactory.create();
         Platform.log("WARNING: No factory node registered for " + nodeInterface + " in " + getClass());
-        return null;
+        return (T) new UnimplementedNode<>();
     }
 
     public <N> void registerNativeNodeWrapper(Class<N> nativeNodeClass, Converter<N, GuiNode> nativeNodeWrapper) {
