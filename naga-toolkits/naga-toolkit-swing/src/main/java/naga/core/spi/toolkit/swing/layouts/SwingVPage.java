@@ -16,7 +16,7 @@ public class SwingVPage extends SwingNode<JPanel> implements VPage<JPanel, Compo
 
     public SwingVPage() {
         super(new JPanel(new BorderLayout()));
-        topProperty.addListener((observable, oldValue, newValue) -> {
+        headerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.NORTH);
@@ -28,7 +28,7 @@ public class SwingVPage extends SwingNode<JPanel> implements VPage<JPanel, Compo
             node.add(newValue.unwrapToNativeNode(), BorderLayout.CENTER);
             node.updateUI();
         });
-        bottomProperty.addListener((observable, oldValue, newValue) -> {
+        footerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.SOUTH);
@@ -37,10 +37,10 @@ public class SwingVPage extends SwingNode<JPanel> implements VPage<JPanel, Compo
     }
 
 
-    private final Property<GuiNode<Component>> topProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Component>> headerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Component>> headerProperty() {
-        return topProperty;
+        return headerProperty;
     }
 
     private final Property<GuiNode<Component>> centerProperty = new SimpleObjectProperty<>();
@@ -49,9 +49,9 @@ public class SwingVPage extends SwingNode<JPanel> implements VPage<JPanel, Compo
         return centerProperty;
     }
 
-    private final Property<GuiNode<Component>> bottomProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Component>> footerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Component>> footerProperty() {
-        return bottomProperty;
+        return footerProperty;
     }
 }

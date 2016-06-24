@@ -36,8 +36,8 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
             return null;
         });
         ChangeListener<GuiNode<Widget>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> updateNodesOnceAttached();
-        topProperty.addListener(onAnyNodePropertyChange);
-        bottomProperty.addListener(onAnyNodePropertyChange);
+        headerProperty.addListener(onAnyNodePropertyChange);
+        footerProperty.addListener(onAnyNodePropertyChange);
         centerProperty.addListener(onAnyNodePropertyChange);
         updateNodesOnceAttached();
     }
@@ -57,7 +57,7 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
             attachHandlerRegistration = null;
         }
         node.clear();
-        GuiNode<Widget> topPropertyValue = topProperty.getValue();
+        GuiNode<Widget> topPropertyValue = headerProperty.getValue();
         if (topPropertyValue != null)
             node.add(topPropertyValue.unwrapToNativeNode());
         GuiNode<Widget> centerPropertyValue = centerProperty.getValue();
@@ -68,16 +68,16 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
             widget.addStyleName("flex");
             node.add(widget);
         }
-        GuiNode<Widget> bottomPropertyValue = bottomProperty.getValue();
+        GuiNode<Widget> bottomPropertyValue = footerProperty.getValue();
         if (bottomPropertyValue != null)
             node.add(bottomPropertyValue.unwrapToNativeNode());
     }
 
-    private final Property<GuiNode<Widget>> topProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Widget>> headerProperty = new SimpleObjectProperty<>();
 
     @Override
     public Property<GuiNode<Widget>> headerProperty() {
-        return topProperty;
+        return headerProperty;
     }
 
     private final Property<GuiNode<Widget>> centerProperty = new SimpleObjectProperty<>();
@@ -87,10 +87,10 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
         return centerProperty;
     }
 
-    private final Property<GuiNode<Widget>> bottomProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Widget>> footerProperty = new SimpleObjectProperty<>();
 
     @Override
     public Property<GuiNode<Widget>> footerProperty() {
-        return bottomProperty;
+        return footerProperty;
     }
 }

@@ -19,7 +19,7 @@ public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Com
         super(new BoxPane());
         node.setOrientation(Orientation.VERTICAL);
         node.getStyles().put("fill", true);
-        topProperty.addListener((observable, oldValue, newValue) -> {
+        headerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode());
@@ -29,7 +29,7 @@ public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Com
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode());
         });
-        bottomProperty.addListener((observable, oldValue, newValue) -> {
+        footerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.remove(oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode());
@@ -37,10 +37,10 @@ public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Com
     }
 
 
-    private final Property<GuiNode<Component>> topProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Component>> headerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Component>> headerProperty() {
-        return topProperty;
+        return headerProperty;
     }
 
     private final Property<GuiNode<Component>> centerProperty = new SimpleObjectProperty<>();
@@ -49,9 +49,9 @@ public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Com
         return centerProperty;
     }
 
-    private final Property<GuiNode<Component>> bottomProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Component>> footerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Component>> footerProperty() {
-        return bottomProperty;
+        return footerProperty;
     }
 }

@@ -17,7 +17,7 @@ public class Cn1VPage extends Cn1Node<Container> implements VPage<Container, Com
 
     public Cn1VPage() {
         super(new Container(new BorderLayout()));
-        topProperty.addListener((observable, oldValue, newValue) -> {
+        headerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 oldValue.unwrapToNativeNode().remove();
             node.add(BorderLayout.NORTH, newValue.unwrapToNativeNode());
@@ -27,7 +27,7 @@ public class Cn1VPage extends Cn1Node<Container> implements VPage<Container, Com
                 oldValue.unwrapToNativeNode().remove();
             node.add(BorderLayout.CENTER, newValue.unwrapToNativeNode());
         });
-        bottomProperty.addListener((observable, oldValue, newValue) -> {
+        footerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 oldValue.unwrapToNativeNode().remove();
             node.add(BorderLayout.SOUTH, newValue.unwrapToNativeNode());
@@ -35,10 +35,10 @@ public class Cn1VPage extends Cn1Node<Container> implements VPage<Container, Com
     }
 
 
-    private final Property<GuiNode<Component>> topProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Component>> headerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Component>> headerProperty() {
-        return topProperty;
+        return headerProperty;
     }
 
     private final Property<GuiNode<Component>> centerProperty = new SimpleObjectProperty<>();
@@ -47,9 +47,9 @@ public class Cn1VPage extends Cn1Node<Container> implements VPage<Container, Com
         return centerProperty;
     }
 
-    private final Property<GuiNode<Component>> bottomProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Component>> footerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Component>> footerProperty() {
-        return bottomProperty;
+        return footerProperty;
     }
 }

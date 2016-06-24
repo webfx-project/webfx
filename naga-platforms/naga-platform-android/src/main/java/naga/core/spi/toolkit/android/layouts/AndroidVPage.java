@@ -25,7 +25,7 @@ public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<R
 
     public AndroidVPage(RelativeLayout node) {
         super(node);
-        topProperty.addListener((observable, oldValue, newValue) -> {
+        headerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.removeView(oldValue.unwrapToNativeNode());
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -52,7 +52,7 @@ public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<R
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             node.addView(newValue.unwrapToNativeNode(), params);
         }));
-        bottomProperty.addListener((observable, oldValue, newValue) -> {
+        footerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
                 node.removeView(oldValue.unwrapToNativeNode());
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -64,10 +64,10 @@ public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<R
     }
 
 
-    private final Property<GuiNode<View>> topProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<View>> headerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<View>> headerProperty() {
-        return topProperty;
+        return headerProperty;
     }
 
     private final Property<GuiNode<View>> centerProperty = new SimpleObjectProperty<>();
@@ -76,9 +76,9 @@ public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<R
         return centerProperty;
     }
 
-    private final Property<GuiNode<View>> bottomProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<View>> footerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<View>> footerProperty() {
-        return bottomProperty;
+        return footerProperty;
     }
 }

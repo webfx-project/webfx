@@ -26,8 +26,8 @@ public class GwtVPage extends GwtNode<DockLayoutPanel> implements VPage<DockLayo
     public GwtVPage(DockLayoutPanel node) {
         super(node);
         ChangeListener<GuiNode<Widget>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> populate();
-        topProperty.addListener(onAnyNodePropertyChange);
-        bottomProperty.addListener(onAnyNodePropertyChange);
+        headerProperty.addListener(onAnyNodePropertyChange);
+        footerProperty.addListener(onAnyNodePropertyChange);
         centerProperty.addListener(onAnyNodePropertyChange);
     }
 
@@ -47,7 +47,7 @@ public class GwtVPage extends GwtNode<DockLayoutPanel> implements VPage<DockLayo
 
     private void addNorth() {
         populating = false;
-        GuiNode<Widget> topPropertyValue = topProperty.getValue();
+        GuiNode<Widget> topPropertyValue = headerProperty.getValue();
         if (topPropertyValue != null) {
             Widget widget = topPropertyValue.unwrapToNativeNode();
             measureHeight(widget).setHandler(asyncResult -> {
@@ -60,7 +60,7 @@ public class GwtVPage extends GwtNode<DockLayoutPanel> implements VPage<DockLayo
     }
 
     private void addSouth() {
-        GuiNode<Widget> bottomPropertyValue = bottomProperty.getValue();
+        GuiNode<Widget> bottomPropertyValue = footerProperty.getValue();
         if (bottomPropertyValue != null) {
             Widget widget = bottomPropertyValue.unwrapToNativeNode();
             measureHeight(widget).setHandler(asyncResult -> {
@@ -103,10 +103,10 @@ public class GwtVPage extends GwtNode<DockLayoutPanel> implements VPage<DockLayo
             Platform.scheduleDelay(100, () ->  finishMeasureHeight(clone, future));
     }
 
-    private final Property<GuiNode<Widget>> topProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Widget>> headerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Widget>> headerProperty() {
-        return topProperty;
+        return headerProperty;
     }
 
     private final Property<GuiNode<Widget>> centerProperty = new SimpleObjectProperty<>();
@@ -115,9 +115,9 @@ public class GwtVPage extends GwtNode<DockLayoutPanel> implements VPage<DockLayo
         return centerProperty;
     }
 
-    private final Property<GuiNode<Widget>> bottomProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode<Widget>> footerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<GuiNode<Widget>> footerProperty() {
-        return bottomProperty;
+        return footerProperty;
     }
 }

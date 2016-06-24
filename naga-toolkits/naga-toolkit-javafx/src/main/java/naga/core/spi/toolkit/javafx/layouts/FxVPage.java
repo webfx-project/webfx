@@ -23,24 +23,24 @@ public class FxVPage extends FxNode<BorderPane> implements VPage<BorderPane, Nod
         borderPane.setBackground(Background.EMPTY);
     }
 
-    private NodeProperty topProperty;
+    private NodeProperty<Node> headerProperty;
     @Override
     public Property<GuiNode<Node>> headerProperty() {
-        if (topProperty == null) topProperty = new NodeProperty(node.topProperty());
-        return topProperty;
+        if (headerProperty == null) headerProperty = new NodeProperty<>(node.topProperty());
+        return headerProperty;
     }
 
-    private NodeProperty centerProperty;
+    private NodeProperty<Node> centerProperty;
     @Override
     public Property<GuiNode<Node>> centerProperty() {
-        if (centerProperty == null) centerProperty = new NodeProperty(node.centerProperty());
+        if (centerProperty == null) centerProperty = new NodeProperty<>(node.centerProperty());
         return centerProperty;
     }
 
-    private NodeProperty bottomProperty;
+    private NodeProperty<Node> footerProperty;
     @Override
     public Property<GuiNode<Node>> footerProperty() {
-        if (bottomProperty == null) bottomProperty = new NodeProperty(node.bottomProperty());
-        return bottomProperty;
+        if (footerProperty == null) footerProperty = new NodeProperty<>(node.bottomProperty());
+        return footerProperty;
     }
 }
