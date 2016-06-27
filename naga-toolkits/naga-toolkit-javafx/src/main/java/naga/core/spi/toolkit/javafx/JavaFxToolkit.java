@@ -41,8 +41,8 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(Slider.class, FxSlider::new, javafx.scene.control.Slider.class, FxSlider::new);
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
         registerNodeFactory(VPage.class, FxVPage::new);
-        registerNodeFactory(VBox.class, FxVBox::new);
-        registerNodeFactory(HBox.class, FxHBox::new);
+        registerNodeFactoryAndWrapper(VBox.class, FxVBox::new, javafx.scene.layout.VBox.class, FxVBox::new);
+        registerNodeFactoryAndWrapper(HBox.class, FxHBox::new, javafx.scene.layout.HBox.class, FxHBox::new);
     }
 
     @Override

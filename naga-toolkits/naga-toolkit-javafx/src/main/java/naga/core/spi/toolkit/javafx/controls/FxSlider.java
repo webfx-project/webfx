@@ -12,11 +12,20 @@ import naga.core.spi.toolkit.property.ConvertedProperty;
 public class FxSlider extends FxNode<javafx.scene.control.Slider> implements Slider<javafx.scene.control.Slider> {
 
     public FxSlider() {
-        this(new javafx.scene.control.Slider());
+        this(createSlider());
     }
 
     public FxSlider(javafx.scene.control.Slider slider) {
         super(slider);
+    }
+
+    private static javafx.scene.control.Slider createSlider() {
+        javafx.scene.control.Slider slider = new javafx.scene.control.Slider();
+        slider.setShowTickMarks(true);
+        slider.setShowTickLabels(true);
+        slider.setMinorTickCount(4);
+        slider.setMajorTickUnit(500);
+        return slider;
     }
 
 
