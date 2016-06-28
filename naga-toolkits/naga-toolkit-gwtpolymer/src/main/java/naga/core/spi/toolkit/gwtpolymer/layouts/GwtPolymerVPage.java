@@ -3,16 +3,14 @@ package naga.core.spi.toolkit.gwtpolymer.layouts;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.*;
 import com.vaadin.polymer.Polymer;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
-import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.gwt.node.GwtNode;
 import naga.core.spi.toolkit.layouts.VPage;
+import naga.core.spi.toolkit.node.GuiNode;
 
 /**
  * @author Bruno Salmon
@@ -20,13 +18,26 @@ import naga.core.spi.toolkit.layouts.VPage;
 public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widget> {
 
     public GwtPolymerVPage() {
-        this(new HTMLPanel("div", ""));
+        this(new LayoutFlowPanel());
+    }
+
+    // A FlowLayout that implements RequiresResize and ProvidesResize so that children are automatically resized
+    static class LayoutFlowPanel extends FlowPanel implements RequiresResize, ProvidesResize {
+
+        @Override
+        public void onResize() {
+            for (Widget child : getChildren()) {
+                if (child instanceof RequiresResize) {
+                    ((RequiresResize) child).onResize();
+                }
+            }
+        }
     }
 
     public GwtPolymerVPage(Panel node) {
         super(node);
         node.getElement().addClassName("layout vertical");
-        node.getElement().setAttribute("style", "100%");
+        node.getElement().setAttribute("style", "width: 100%");
         Polymer.importHref("iron-flex-layout/iron-flex-layout.html", o -> {
             Document doc = Document.get();
             StyleElement styleElement = doc.createStyleElement();
