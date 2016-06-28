@@ -1,5 +1,6 @@
 package naga.core.util.async;
 
+import naga.core.spi.platform.Platform;
 import naga.core.util.function.Consumer;
 
 /**
@@ -78,7 +79,8 @@ public class Future<T> implements AsyncResult<T> {
             runnable.run();
             return succeededFuture();
         } catch (Throwable t) {
-            t.printStackTrace(); // temporary while exception handling mechanism is finished
+            // temporary tracing the exception while exception handling mechanism is not finished
+            Platform.log("Exception raised in Future.runAsync(): " + t.getMessage(), t); // temporary dependency to Platform so the trace is working with GWT
             return failedFuture(t);
         }
     }
@@ -96,7 +98,8 @@ public class Future<T> implements AsyncResult<T> {
             consumer.accept(arg);
             return succeededFuture();
         } catch (Throwable t) {
-            t.printStackTrace(); // temporary while exception handling mechanism is finished
+            // temporary tracing the exception while exception handling mechanism is not finished
+            Platform.log("Exception raised in Future.consumeAsync(): " + t.getMessage(), t); // temporary dependency to Platform so the trace is working with GWT
             return failedFuture(t);
         }
     }
