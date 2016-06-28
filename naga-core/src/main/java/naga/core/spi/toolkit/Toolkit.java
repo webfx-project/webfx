@@ -3,6 +3,9 @@ package naga.core.spi.toolkit;
 import javafx.collections.ObservableList;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
+import naga.core.spi.toolkit.charts.BarChart;
+import naga.core.spi.toolkit.charts.LineChart;
+import naga.core.spi.toolkit.charts.PieChart;
 import naga.core.spi.toolkit.controls.*;
 import naga.core.spi.toolkit.layouts.HBox;
 import naga.core.spi.toolkit.layouts.VBox;
@@ -35,7 +38,7 @@ public abstract class Toolkit {
         this.windowFactory = windowFactory;
     }
 
-    protected <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, Factory<GuiNode> nodeFactory) {
+    public <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, Factory<GuiNode> nodeFactory) {
         nodeFactories.put(nodeInterface, nodeFactory);
     }
 
@@ -56,9 +59,9 @@ public abstract class Toolkit {
         registerNativeNodeWrapper(nativeNodeClass, nativeNodeWrapper);
     }
 
-    public <N> GuiNode wrapNativeNode(N toolkitNode) {
+    public <T extends GuiNode, N> GuiNode wrapNativeNode(N toolkitNode) {
         Converter guiNodeConverter = nativeNodeWrappers.get(toolkitNode.getClass());
-        return  (GuiNode) guiNodeConverter.convert(toolkitNode);
+        return (T) guiNodeConverter.convert(toolkitNode);
     }
 
     public static <N> N unwrapToNativeNode(GuiNode<N> guiNode) {
@@ -134,4 +137,15 @@ public abstract class Toolkit {
         return createNode(VPage.class);
     }
 
+    public LineChart createLineChart() {
+        return createNode(LineChart.class);
+    }
+
+    public BarChart createBarChart() {
+        return createNode(BarChart.class);
+    }
+
+    public PieChart createPieChart() {
+        return createNode(PieChart.class);
+    }
 }
