@@ -11,12 +11,15 @@ import naga.core.spi.toolkit.javafx.node.FxParent;
 public class FxHBox extends FxParent<HBox> implements naga.core.spi.toolkit.layouts.HBox<HBox, Node> {
 
     public FxHBox() {
-        this(new HBox());
+        this(createHBox());
     }
 
     public FxHBox(HBox hbox) {
         super(hbox);
-        //hbox.setAlignment(Pos.CENTER);
+    }
+
+    private static HBox createHBox() {
+        return new HBox();
     }
 
 }

@@ -24,7 +24,7 @@ import java.util.List;
 public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>> implements Table<TableView<Integer>> {
 
     public FxTable() {
-        this(new TableView<>());
+        this(createTableView());
     }
 
     public FxTable(TableView<Integer> tableView) {
@@ -32,6 +32,10 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
         node.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         displaySelectionProperty().addListener((observable, oldValue, newValue) -> syncVisualDisplaySelection());
         node.getSelectionModel().getSelectedIndices().addListener((ListChangeListener<Integer>) c -> syncToolkitDisplaySelection());
+    }
+
+    private static TableView<Integer> createTableView() {
+        return new TableView<>();
     }
 
     private boolean syncingDisplaySelection;

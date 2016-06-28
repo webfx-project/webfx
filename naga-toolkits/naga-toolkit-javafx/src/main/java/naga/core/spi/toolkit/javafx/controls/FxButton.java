@@ -13,12 +13,16 @@ public class FxButton extends FxButtonBase<javafx.scene.control.Button> implemen
 
 
     public FxButton() {
-        this(new javafx.scene.control.Button());
+        this(createButton());
     }
 
     public FxButton(javafx.scene.control.Button button) {
         super(button);
         button.setOnAction(event -> actionEventObservable.onNext(new FxActionEvent(event)));
+    }
+
+    private static javafx.scene.control.Button createButton() {
+        return new javafx.scene.control.Button();
     }
 
     private final BehaviorSubject<ActionEvent> actionEventObservable = BehaviorSubject.create();

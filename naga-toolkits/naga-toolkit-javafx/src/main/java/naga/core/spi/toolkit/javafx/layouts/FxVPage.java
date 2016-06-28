@@ -4,10 +4,10 @@ import javafx.beans.property.Property;
 import javafx.scene.Node;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
-import naga.core.spi.toolkit.layouts.VPage;
-import naga.core.spi.toolkit.property.NodeProperty;
-import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.javafx.node.FxNode;
+import naga.core.spi.toolkit.layouts.VPage;
+import naga.core.spi.toolkit.node.GuiNode;
+import naga.core.spi.toolkit.property.NodeProperty;
 
 /**
  * @author Bruno Salmon
@@ -15,12 +15,17 @@ import naga.core.spi.toolkit.javafx.node.FxNode;
 public class FxVPage extends FxNode<BorderPane> implements VPage<BorderPane, Node> {
 
     public FxVPage() {
-        this(new BorderPane());
+        this(createBorderPane());
     }
 
     public FxVPage(BorderPane borderPane) {
         super(borderPane);
+    }
+
+    private static BorderPane createBorderPane() {
+        BorderPane borderPane = new BorderPane();
         borderPane.setBackground(Background.EMPTY);
+        return borderPane;
     }
 
     private NodeProperty<Node> headerProperty;

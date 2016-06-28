@@ -9,11 +9,15 @@ import javafx.scene.control.CheckBox;
 public class FxCheckBox extends FxButtonBase<CheckBox> implements naga.core.spi.toolkit.controls.CheckBox<CheckBox> {
 
     public FxCheckBox() {
-        this(new CheckBox());
+        this(createCheckBox());
     }
 
     public FxCheckBox(CheckBox checkBox) {
         super(checkBox);
+    }
+
+    private static CheckBox createCheckBox() {
+        return new CheckBox();
     }
 
     @Override

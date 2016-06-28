@@ -10,11 +10,15 @@ import naga.core.spi.toolkit.javafx.node.FxNode;
 public class FxTextField extends FxNode<TextField> implements naga.core.spi.toolkit.controls.TextField<TextField> {
 
     public FxTextField() {
-        this(new TextField());
+        this(createTextField());
     }
 
     public FxTextField(TextField textField) {
         super(textField);
+    }
+
+    private static TextField createTextField() {
+        return new TextField();
     }
 
     @Override

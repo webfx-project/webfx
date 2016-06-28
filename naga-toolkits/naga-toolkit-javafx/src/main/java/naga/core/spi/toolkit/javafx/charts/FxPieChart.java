@@ -15,13 +15,15 @@ public class FxPieChart extends FxChart implements PieChart<Chart> {
     private String currentSeriesName;
 
     public FxPieChart() {
-        this(new javafx.scene.chart.PieChart());
+        this(createPieChart());
     }
 
     public FxPieChart(javafx.scene.chart.PieChart pieChart) {
         super(pieChart);
-        seriesMaxPointsCount = 1;
-        seriesAreColumns = false;
+    }
+
+    private static javafx.scene.chart.PieChart createPieChart() {
+        return new javafx.scene.chart.PieChart();
     }
 
     @Override

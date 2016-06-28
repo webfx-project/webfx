@@ -10,11 +10,15 @@ import naga.core.spi.toolkit.javafx.controlsfx.ToggleSwitch;
 public class FxToggleSwitch extends FxNode<ToggleSwitch> implements naga.core.spi.toolkit.controls.ToggleSwitch<ToggleSwitch> {
 
     public FxToggleSwitch() {
-        this(new ToggleSwitch());
+        this(createToggleSwitch());
     }
 
     public FxToggleSwitch(ToggleSwitch toggleButton) {
         super(toggleButton);
+    }
+
+    private static ToggleSwitch createToggleSwitch() {
+        return new ToggleSwitch();
     }
 
     @Override

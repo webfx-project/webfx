@@ -10,10 +10,14 @@ import naga.core.spi.toolkit.charts.LineChart;
 public class FxLineChart extends FxXYChart implements LineChart<javafx.scene.chart.Chart> {
 
     public FxLineChart() {
-        this(new javafx.scene.chart.LineChart(new CategoryAxis(), new NumberAxis()));
+        this(createLineChart());
     }
 
     public FxLineChart(javafx.scene.chart.LineChart lineChart) {
         super(lineChart);
+    }
+
+    private static javafx.scene.chart.LineChart createLineChart() {
+        return new javafx.scene.chart.LineChart(new CategoryAxis(), new NumberAxis());
     }
 }
