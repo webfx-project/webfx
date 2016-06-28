@@ -4,6 +4,7 @@
 
     <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
     <inherits name="naga"/> <!-- refers to naga.gwt.xml in naga-platform-gwt -->
+    <inherits name="com.googlecode.gwt.charts.Charts" />
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga"/>               <!-- source path to naga-core and naga-plat-gwt -->

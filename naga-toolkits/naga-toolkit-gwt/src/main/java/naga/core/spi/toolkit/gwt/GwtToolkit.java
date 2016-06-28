@@ -1,8 +1,15 @@
 package naga.core.spi.toolkit.gwt;
 
 import com.google.gwt.user.cellview.client.CellTable;
+import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.charts.BarChart;
+import naga.core.spi.toolkit.charts.LineChart;
+import naga.core.spi.toolkit.charts.PieChart;
 import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.gwt.charts.GwtBarChart;
+import naga.core.spi.toolkit.gwt.charts.GwtLineChart;
+import naga.core.spi.toolkit.gwt.charts.GwtPieChart;
 import naga.core.spi.toolkit.gwt.controls.GwtButton;
 import naga.core.spi.toolkit.gwt.controls.GwtCheckBox;
 import naga.core.spi.toolkit.gwt.controls.GwtSearchBox;
@@ -12,7 +19,6 @@ import naga.core.spi.toolkit.gwt.layouts.GwtVPage;
 import naga.core.spi.toolkit.gwt.layouts.GwtWindow;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;
-import naga.core.spi.platform.Platform;
 
 /**
  * @author Bruno Salmon
@@ -28,5 +34,8 @@ public class GwtToolkit extends Toolkit {
         registerNodeFactory(Button.class, GwtButton::new);
         registerNodeFactory(ToggleSwitch.class, GwtCheckBox::new);
         registerNodeFactory(SearchBox.class, GwtSearchBox::new);
+        registerNodeFactory(LineChart.class, GwtLineChart::new);
+        registerNodeFactory(BarChart.class, GwtBarChart::new);
+        registerNodeFactory(PieChart.class, GwtPieChart::new);
     }
 }
