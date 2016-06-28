@@ -23,7 +23,8 @@ public class As<T> extends UnaryExpression<T> {
 
     @Override
     public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        return dataReader.getDomainFieldValue(domainObject, this);
+        // Reading the alias field which is supposed to be stored in the domain object
+        return dataReader.getDomainFieldValue(domainObject, alias);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class As<T> extends UnaryExpression<T> {
     }
 
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        persistentTerms.add(this); // when using as we want all to be sent to the server
+        persistentTerms.add(this); // We want the whole As expression to be sent to the server
     }
 
 }
