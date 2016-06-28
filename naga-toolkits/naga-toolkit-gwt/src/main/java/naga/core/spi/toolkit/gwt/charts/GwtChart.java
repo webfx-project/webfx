@@ -33,7 +33,7 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
             readyDisplayResultSet = null;
             node.onResize();
             if (!node.isAttached())
-                node.addAttachHandler(event -> Platform.scheduleDeferred(() -> node.onResize()));
+                node.addAttachHandler(event -> Platform.scheduleDeferred(node::onResize));
         });
     }
 

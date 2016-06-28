@@ -3,10 +3,12 @@ package naga.core.spi.toolkit.gwt;
 import com.google.gwt.user.cellview.client.CellTable;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.charts.AreaChart;
 import naga.core.spi.toolkit.charts.BarChart;
 import naga.core.spi.toolkit.charts.LineChart;
 import naga.core.spi.toolkit.charts.PieChart;
 import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.gwt.charts.GwtAreaChart;
 import naga.core.spi.toolkit.gwt.charts.GwtBarChart;
 import naga.core.spi.toolkit.gwt.charts.GwtLineChart;
 import naga.core.spi.toolkit.gwt.charts.GwtPieChart;
@@ -35,6 +37,7 @@ public class GwtToolkit extends Toolkit {
         registerNodeFactory(ToggleSwitch.class, GwtCheckBox::new);
         registerNodeFactory(SearchBox.class, GwtSearchBox::new);
         registerNodeFactory(LineChart.class, GwtLineChart::new);
+        registerNodeFactory(AreaChart.class, GwtAreaChart::new);
         registerNodeFactory(BarChart.class, GwtBarChart::new);
         registerNodeFactory(PieChart.class, GwtPieChart::new);
     }

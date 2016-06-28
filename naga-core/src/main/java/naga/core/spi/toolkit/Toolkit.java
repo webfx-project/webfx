@@ -3,6 +3,7 @@ package naga.core.spi.toolkit;
 import javafx.collections.ObservableList;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
+import naga.core.spi.toolkit.charts.AreaChart;
 import naga.core.spi.toolkit.charts.BarChart;
 import naga.core.spi.toolkit.charts.LineChart;
 import naga.core.spi.toolkit.charts.PieChart;
@@ -143,6 +144,10 @@ public abstract class Toolkit {
 
     public BarChart createBarChart() {
         return createNode(BarChart.class);
+    }
+
+    public AreaChart createAreaChart() {
+        return createNode(AreaChart.class);
     }
 
     public PieChart createPieChart() {
