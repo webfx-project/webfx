@@ -61,7 +61,6 @@ class RxUi {
 
     static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty) {
         displayResultObservable
-                .map(Toolkit.get()::transformDisplayResultForGui)
                 .observeOn(RxScheduler.UI_SCHEDULER)
                 .subscribe(getPropertySubscriber(displayResultProperty));
     }

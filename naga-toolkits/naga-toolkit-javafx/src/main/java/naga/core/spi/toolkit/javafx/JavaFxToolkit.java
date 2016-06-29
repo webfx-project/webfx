@@ -57,8 +57,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(PieChart.class, FxPieChart::new, javafx.scene.chart.PieChart.class, FxPieChart::new);
     }
 
-    @Override
-    public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
+    public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet displayResultSet) {
         Object[] values = displayResultSet.getValues();
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
         for (int i = 0; i < values.length; i++)

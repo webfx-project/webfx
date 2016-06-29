@@ -15,7 +15,6 @@ import naga.core.spi.toolkit.layouts.Window;
 import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.node.UnimplementedNode;
 import naga.core.spi.toolkit.property.ConvertedObservableList;
-import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.function.Converter;
 import naga.core.util.function.Factory;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
@@ -77,10 +76,6 @@ public abstract class Toolkit {
         if (applicationWindow == null)
             applicationWindow = windowFactory.create();
         return applicationWindow;
-    }
-
-    public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
-        return displayResultSet;
     }
 
     public Scheduler scheduler() {

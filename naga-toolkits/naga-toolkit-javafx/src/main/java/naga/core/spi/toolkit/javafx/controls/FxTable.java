@@ -5,12 +5,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.javafx.JavaFxToolkit;
 import naga.core.spi.toolkit.javafx.node.FxSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayselection.DisplaySelection;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
-import naga.core.spi.toolkit.controls.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
 
@@ -75,6 +76,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
 
     @Override
     protected void syncVisualDisplayResult(DisplayResultSet displayResultSet) {
+        displayResultSet = JavaFxToolkit.transformDisplayResultSetValuesToProperties(displayResultSet);
         syncVisualColumns(displayResultSet);
         node.getItems().setAll(new IdentityList(displayResultSet.getRowCount()));
         if (displayResultSet.getRowCount() > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
