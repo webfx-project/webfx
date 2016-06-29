@@ -1,7 +1,11 @@
 package naga.core.spi.toolkit.gwt.charts;
 
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.googlecode.gwt.charts.client.*;
+import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
+import com.googlecode.gwt.charts.client.event.SelectEvent;
+import com.googlecode.gwt.charts.client.event.SelectHandler;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.charts.Chart;
 import naga.core.spi.toolkit.gwt.node.GwtSelectableDisplayResultSetNode;
@@ -11,6 +15,7 @@ import naga.core.type.Type;
 import naga.core.type.Types;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.util.Booleans;
 import naga.core.util.Numbers;
 import naga.core.util.Strings;
@@ -20,7 +25,7 @@ import naga.core.util.Strings;
  */
 public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleLayoutPanel> implements Chart<SimpleLayoutPanel> {
 
-    private ChartWidget chartWidget;
+    private CoreChartWidget<?> chartWidget;
     private DisplayResultSet readyDisplayResultSet;
 
     public GwtChart() {
@@ -37,12 +42,46 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
         });
     }
 
-    protected abstract ChartWidget createChartWidget();
+    protected abstract CoreChartWidget createChartWidget();
 
     @Override
     protected void syncVisualSelectionMode(SelectionMode selectionMode) {
-
     }
+
+    private boolean syncHandlerInstalled;
+    private boolean syncingDisplaySelection;
+
+    private void syncToolkitDisplaySelection() {
+        if (!syncingDisplaySelection) {
+            syncingDisplaySelection = true;
+            JsArray<Selection> selectionArray = chartWidget.getSelection();
+            int length = selectionArray == null ? 0 : selectionArray.length();
+            int[] selectedRows = new int[length];
+            for (int i = 0; i < length; i++)
+                selectedRows[i] = selectionArray.get(i).getRow();
+            setDisplaySelection(new DisplaySelection(selectedRows));
+            syncingDisplaySelection = false;
+        }
+    }
+
+    private void syncVisualDisplaySelection() {
+        if (!syncingDisplaySelection) {
+            syncingDisplaySelection = true;
+            DisplaySelection displaySelection = getDisplaySelection();
+            if (displaySelection == null) {
+                // chartWidget.setSelection(); // don't know how to clear selection (this code produces a JS error)
+            } else {
+                int[] selectedRows = displaySelection.getSelectedRows();
+                int length = selectedRows.length;
+                Selection[] selectionArray = new Selection[length];
+                for (int i = 0; i < length; i++)
+                    selectionArray[i] = Selection.create(selectedRows[i], null);
+                chartWidget.setSelection(selectionArray);
+            }
+            syncingDisplaySelection = false;
+        }
+    }
+
 
     @Override
     protected void syncVisualDisplayResult(DisplayResultSet displayResultSet) {
@@ -53,14 +92,16 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
         DataTable dataTable = DataTable.create();
         dataTable.addRows(displayResultSet.getRowCount());
         // First column = X, other columns = series with Y value associated with X
-        for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++) {
+        int columnCount = displayResultSet.getColumnCount();
+        int rowCount = displayResultSet.getRowCount();
+        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
             DisplayColumn displayColumn = displayResultSet.getColumns()[columnIndex];
             Type type = displayColumn.getType();
             PrimType primType = Types.getPrimType(type);
             DataColumn dataColumn = DataColumn.create(getColumnType(primType));
             dataColumn.setLabel(Strings.toString(displayColumn.getHeaderValue()));
             dataTable.addColumn(dataColumn);
-            for (int rowIndex = 0; rowIndex < displayResultSet.getRowCount(); rowIndex ++) {
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
                 Object value = displayResultSet.getValue(rowIndex, columnIndex);
                 if (primType.isBoolean())
                     dataTable.setValue(rowIndex, columnIndex, Booleans.booleanValue(value));
@@ -71,6 +112,18 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
             }
         }
         chartWidget.draw(dataTable);
+        // The above code reset the selection so selection handlers are installed here when first data arrives (to consider possible initial selection made by logic)
+        if (!syncHandlerInstalled && rowCount > 0) {
+            syncVisualDisplaySelection();
+            displaySelectionProperty().addListener((observable, oldValue, newValue) -> syncVisualDisplaySelection());
+            chartWidget.addSelectHandler(new SelectHandler() {
+                @Override
+                public void onSelect(SelectEvent event) {
+                    syncToolkitDisplaySelection();
+                }
+            });
+            syncHandlerInstalled = true;
+        }
     }
 
     private static ColumnType getColumnType(PrimType primType) {
