@@ -6,7 +6,6 @@ import naga.core.spi.toolkit.controls.CheckBox;
 import naga.core.spi.toolkit.controls.SearchBox;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.rx.RxFilter;
 
 /**
  * @author Bruno Salmon
@@ -53,7 +52,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        RxFilter rxFilter = createRxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
+        createRxFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
@@ -62,13 +61,10 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                         "{label: 'Name', expression: 'name + ` (` + type.code + `)`'}," +
                         "{label: 'Country', expression: 'country.(name + ` (` + continent.name + `)`)'}" +
                         "]")
-                .displayResultSetInto(pm.organizationsDisplayResultSetProperty());
-
-        pm.organizationsDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {
-            int selectedRow = newValue.getSelectedRow();
-            Platform.log("Selected row: " + selectedRow);
-            if (selectedRow >= 0)
-                Platform.log("Selected entity: " + rxFilter.getCurrentEntityList().get(selectedRow));
-        });
+                .displayResultSetInto(pm.organizationsDisplayResultSetProperty())
+                .setSelectedEntityHandler(pm.organizationsDisplaySelectionProperty(), entity -> {
+                    if (entity != null)
+                        Platform.log("Selected entity: " + entity);
+                });
     }
 }

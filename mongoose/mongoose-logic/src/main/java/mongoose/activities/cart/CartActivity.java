@@ -62,9 +62,8 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "{expression: 'price_deposit', format: 'price'}," +
                         "{expression: 'price_balance', format: 'price'}" +
                         "]")
-                .setDisplaySelectionProperty(pm.documentDisplaySelectionProperty())
-                .selectFirstRowOnFirstDisplay()
-                .displayResultSetInto(pm.documentDisplayResultSetProperty());
+                .displayResultSetInto(pm.documentDisplayResultSetProperty())
+                .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty());
 
         // Setting up the document lines filter
         createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")

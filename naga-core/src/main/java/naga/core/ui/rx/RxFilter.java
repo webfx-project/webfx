@@ -20,6 +20,7 @@ import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayresultset.EntityListToDisplayResultSetGenerator;
 import naga.core.ui.displayresultset.ExpressionColumn;
 import naga.core.ui.displayselection.DisplaySelection;
+import naga.core.util.async.Handler;
 import naga.core.util.function.Converter;
 import rx.Observable;
 
@@ -71,9 +72,22 @@ public class RxFilter {
         return this;
     }
 
+    public RxFilter setSelectedEntityHandler(Handler<Entity> entityHandler) {
+        this.displaySelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
+        return this;
+    }
+
+    public RxFilter setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
+        return setDisplaySelectionProperty(displaySelectionProperty).setSelectedEntityHandler(entityHandler);
+    }
+
     public RxFilter selectFirstRowOnFirstDisplay() {
         this.selectFirstRowOnFirstDisplay = true;
         return this;
+    }
+
+    public RxFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
+        return setDisplaySelectionProperty(displaySelectionProperty).selectFirstRowOnFirstDisplay();
     }
 
     public Entity getSelectedEntity() {

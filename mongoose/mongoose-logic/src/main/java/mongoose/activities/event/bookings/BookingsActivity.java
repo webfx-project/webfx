@@ -1,6 +1,5 @@
 package mongoose.activities.event.bookings;
 
-import naga.core.orm.entity.Entity;
 import naga.core.orm.expression.Expression;
 import naga.core.orm.expression.term.function.java.AbcNames;
 import naga.core.spi.toolkit.Toolkit;
@@ -8,7 +7,6 @@ import naga.core.spi.toolkit.controls.CheckBox;
 import naga.core.spi.toolkit.controls.SearchBox;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.rx.RxFilter;
 import naga.core.util.Strings;
 
 /**
@@ -62,7 +60,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
 
     protected void bindPresentationModelWithLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        RxFilter rxFilter = createRxFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+        createRxFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
@@ -79,26 +77,23 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
-                                "'ref'," +
-                                "'person_firstName'," +
-                                "'person_lastName'," +
-                                "'person_age'," +
-                                "{expression: 'price_net', format: 'price'}," +
-                                "{expression: 'price_minDeposit', format: 'price'}," +
-                                "{expression: 'price_deposit', format: 'price'}," +
-                                "{expression: 'price_balance', format: 'price'}" +
+                        "'ref'," +
+                        "'person_firstName'," +
+                        "'person_lastName'," +
+                        "'person_age'," +
+                        "{expression: 'price_net', format: 'price'}," +
+                        "{expression: 'price_minDeposit', format: 'price'}," +
+                        "{expression: 'price_deposit', format: 'price'}," +
+                        "{expression: 'price_balance', format: 'price'}" +
                         "]")
-                .setDisplaySelectionProperty(pm.bookingsDisplaySelectionProperty())
-                .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
-
-        rxFilter.getDisplaySelectionProperty().addListener((observable, oldValue, newValue) -> {
-            Entity document = rxFilter.getSelectedEntity();
-            if (document != null) {
-                Expression cartUuidExpression = getDataSourceModel().getDomainModel().parseExpression("cart.uuid", "Document");
-                Object cartUuid = document.evaluate(cartUuidExpression);
-                if (cartUuid != null)
-                    getHistory().push("/cart/" + cartUuid);
-            }
-        });
+                .displayResultSetInto(pm.bookingsDisplayResultSetProperty())
+                .setSelectedEntityHandler(pm.bookingsDisplaySelectionProperty(), document -> {
+                    if (document != null) {
+                        Expression cartUuidExpression = getDataSourceModel().getDomainModel().parseExpression("cart.uuid", "Document");
+                        Object cartUuid = document.evaluate(cartUuidExpression);
+                        if (cartUuid != null)
+                            getHistory().push("/cart/" + cartUuid);
+                    }
+                });
     }
 }
