@@ -182,7 +182,7 @@ public class RxFilter {
                             .map(entities -> {
                                 if (selectFirstRowOnFirstDisplay && entities.size() > 0) {
                                     selectFirstRowOnFirstDisplay = false;
-                                    displaySelectionProperty.setValue(new DisplaySelection(new int[]{0})); // Temporary implementation
+                                    displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0)); // Temporary implementation
                                 }
                                 return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns);
                             });

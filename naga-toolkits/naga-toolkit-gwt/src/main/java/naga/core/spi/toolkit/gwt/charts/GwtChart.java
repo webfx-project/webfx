@@ -56,10 +56,10 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
             syncingDisplaySelection = true;
             JsArray<Selection> selectionArray = chartWidget.getSelection();
             int length = selectionArray == null ? 0 : selectionArray.length();
-            int[] selectedRows = new int[length];
+            DisplaySelection.Builder selectionBuilder = DisplaySelection.createBuilder(length);
             for (int i = 0; i < length; i++)
-                selectedRows[i] = selectionArray.get(i).getRow();
-            setDisplaySelection(new DisplaySelection(selectedRows));
+                selectionBuilder.addSelectedRow(selectionArray.get(i).getRow());
+            setDisplaySelection(selectionBuilder.build());
             syncingDisplaySelection = false;
         }
     }
@@ -71,11 +71,10 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
             if (displaySelection == null) {
                 // chartWidget.setSelection(); // don't know how to clear selection (this code produces a JS error)
             } else {
-                int[] selectedRows = displaySelection.getSelectedRows();
-                int length = selectedRows.length;
-                Selection[] selectionArray = new Selection[length];
-                for (int i = 0; i < length; i++)
-                    selectionArray[i] = Selection.create(selectedRows[i], null);
+                Selection[] selectionArray = new Selection[displaySelection.getUnitsCount()];
+                int i = 0;
+                for (DisplaySelection.Unit unit : displaySelection.getUnits())
+                    selectionArray[i++] = Selection.create(unit.getRow(), unit.getColumn());
                 chartWidget.setSelection(selectionArray);
             }
             syncingDisplaySelection = false;

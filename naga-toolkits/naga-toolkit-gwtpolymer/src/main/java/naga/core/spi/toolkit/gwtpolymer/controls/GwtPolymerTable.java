@@ -42,10 +42,10 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             Selection selection = node.getSelection();
             JsArrayInteger selected = selection.selected(null, 0, selection.getSize()).cast();
             int length = selected.length();
-            int[] selectedRows = new int[length];
+            DisplaySelection.Builder selectionBuilder = DisplaySelection.createBuilder(length);
             for (int i = 0; i < length; i++)
-                selectedRows[i] = selected.get(i);
-            setDisplaySelection(new DisplaySelection(selectedRows));
+                selectionBuilder.addSelectedRow(selected.get(i));
+            setDisplaySelection(selectionBuilder.build());
             syncingDisplaySelection = false;
         }
     }
@@ -57,8 +57,7 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             selection.clear();
             DisplaySelection displaySelection = getDisplaySelection();
             if (displaySelection != null)
-                for (int i : displaySelection.getSelectedRows())
-                    selection.select(i);
+                displaySelection.forEachRow(row -> selection.select(row)); // Using method reference here with GWT would produce a ClassCastException (it seems GWT doesn't make the Integer -> double auto boxing)
             syncingDisplaySelection = false;
         }
     }

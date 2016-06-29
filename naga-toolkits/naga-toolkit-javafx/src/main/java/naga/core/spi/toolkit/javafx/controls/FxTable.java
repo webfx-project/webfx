@@ -44,12 +44,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     private void syncToolkitDisplaySelection() {
         if (!syncingDisplaySelection) {
             syncingDisplaySelection = true;
-            ObservableList<Integer> selectedIndices = node.getSelectionModel().getSelectedIndices();
-            int length = selectedIndices.size();
-            int[] selectedRows = new int[length];
-            for (int i = 0; i < length; i++)
-                selectedRows[i] = selectedIndices.get(i);
-            setDisplaySelection(new DisplaySelection(selectedRows));
+            setDisplaySelection(DisplaySelection.createRowsSelection(node.getSelectionModel().getSelectedIndices()));
             syncingDisplaySelection = false;
         }
     }
@@ -57,8 +52,10 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     private void syncVisualDisplaySelection() {
         if (!syncingDisplaySelection) {
             syncingDisplaySelection = true;
+            node.getSelectionModel().clearSelection();
             DisplaySelection displaySelection = getDisplaySelection();
-            node.getSelectionModel().selectIndices(displaySelection.getSelectedRow(), displaySelection.getSelectedRows());
+            if (displaySelection != null)
+                displaySelection.forEachRow(node.getSelectionModel()::select);
             syncingDisplaySelection = false;
         }
     }

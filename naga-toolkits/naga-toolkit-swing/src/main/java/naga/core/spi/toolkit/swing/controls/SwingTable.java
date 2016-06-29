@@ -55,7 +55,7 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
     private void syncToolkitDisplaySelection() {
         if (!syncingDisplaySelection) {
             syncingDisplaySelection = true;
-            setDisplaySelection(new DisplaySelection(table.getSelectedRows()));
+            setDisplaySelection(DisplaySelection.createRowsSelection(table.getSelectedRows()));
             syncingDisplaySelection = false;
         }
     }
@@ -66,8 +66,8 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
             DisplaySelection displaySelection = getDisplaySelection();
             ListSelectionModel selectionModel = table.getSelectionModel();
             selectionModel.clearSelection();
-            for (int selectedRow : displaySelection.getSelectedRows())
-                selectionModel.addSelectionInterval(selectedRow, selectedRow);
+            if (displaySelection != null)
+                displaySelection.forEachRow(row -> selectionModel.addSelectionInterval(row, row));
             syncingDisplaySelection = false;
         }
     }
