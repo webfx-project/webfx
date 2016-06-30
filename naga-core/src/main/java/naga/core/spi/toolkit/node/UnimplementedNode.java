@@ -5,9 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.charts.BarChart;
-import naga.core.spi.toolkit.charts.LineChart;
-import naga.core.spi.toolkit.charts.PieChart;
+import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
 import naga.core.spi.toolkit.events.ActionEvent;
 import naga.core.spi.toolkit.hasproperties.SelectionMode;
@@ -21,7 +19,7 @@ import rx.Observable;
 /**
  * @author Bruno Salmon
  */
-public class UnimplementedNode<N> implements HBox<N, N>, VBox<N, N>, VPage<N, N>, Button<N>, CheckBox<N>, SearchBox<N>, Slider<N>, Table<N>, TextField<N>, ToggleSwitch<N>, LineChart<N>, BarChart<N>, PieChart<N> {
+public class UnimplementedNode<N> implements HBox<N, N>, VBox<N, N>, VPage<N, N>, Button<N>, CheckBox<N>, SearchBox<N>, Slider<N>, Table<N>, TextField<N>, ToggleSwitch<N>, LineChart<N>, BarChart<N>, PieChart<N>, AreaChart<N>, ScatterChart<N> {
 
     private final N node;
     public UnimplementedNode() {

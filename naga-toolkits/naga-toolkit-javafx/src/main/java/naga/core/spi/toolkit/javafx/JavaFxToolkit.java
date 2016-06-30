@@ -7,15 +7,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.charts.AreaChart;
-import naga.core.spi.toolkit.charts.BarChart;
-import naga.core.spi.toolkit.charts.LineChart;
-import naga.core.spi.toolkit.charts.PieChart;
+import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
-import naga.core.spi.toolkit.javafx.charts.FxAreaChart;
-import naga.core.spi.toolkit.javafx.charts.FxBarChart;
-import naga.core.spi.toolkit.javafx.charts.FxLineChart;
-import naga.core.spi.toolkit.javafx.charts.FxPieChart;
+import naga.core.spi.toolkit.javafx.charts.*;
 import naga.core.spi.toolkit.javafx.controls.*;
 import naga.core.spi.toolkit.javafx.layouts.FxHBox;
 import naga.core.spi.toolkit.javafx.layouts.FxVBox;
@@ -54,6 +48,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(LineChart.class, FxLineChart::new, javafx.scene.chart.LineChart.class, FxLineChart::new);
         registerNodeFactoryAndWrapper(AreaChart.class, FxAreaChart::new, javafx.scene.chart.AreaChart.class, FxAreaChart::new);
         registerNodeFactoryAndWrapper(BarChart.class, FxBarChart::new, javafx.scene.chart.BarChart.class, FxBarChart::new);
+        registerNodeFactoryAndWrapper(ScatterChart.class, FxScatterChart::new, javafx.scene.chart.ScatterChart.class, FxScatterChart::new);
         registerNodeFactoryAndWrapper(PieChart.class, FxPieChart::new, javafx.scene.chart.PieChart.class, FxPieChart::new);
     }
 

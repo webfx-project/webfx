@@ -46,9 +46,9 @@ import naga.core.spi.toolkit.node.SelectableDisplayResultSetNode;
  *    | Africa |     7  |
  *    +---------+-------+
  *
- * ===========================================
- * ==== Line chart, Area chart, Bar chart ====
- * ===========================================
+ * ==========================================================
+ * ==== Line chart, Area chart, Bar chart, Scatter chart ====
+ * ==========================================================
  *
  * All these types of charts are XY charts where series are supposed to share the same value on the X axis and different
  * values on the Y axis. For exceptions (some series may have no point for a specific X), Y value can be set to null.
