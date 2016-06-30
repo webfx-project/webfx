@@ -87,7 +87,7 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                     column = columns.get(columnIndex).cast();
                 else
                     node.addColumn(column = JavaScriptObject.createObject().cast(), null);
-                String headerText = Strings.stringValue(displayResultSet.getColumns()[columnIndex].getHeaderValue());
+                String headerText = displayResultSet.getColumns()[columnIndex].getName();
                 // The API says to use column.setContentHeader() but it doesn't work so using column.setName() instead
                 column.setName(Strings.replaceAll(headerText, ".", ""));
                 final int colIndex = columnIndex;

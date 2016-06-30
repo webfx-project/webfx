@@ -66,7 +66,7 @@ public class AndroidTable extends AndroidSelectableDisplayResultSetNode<TableVie
         @Override
         public View getHeaderView(int i, ViewGroup viewGroup) {
             TextView textView = new TextView(getContext());
-            textView.setText(Strings.toString(displayResultSet.getColumns()[i].getHeaderValue()));
+            textView.setText(displayResultSet.getColumns()[i].getName());
             return textView;
         }
     }

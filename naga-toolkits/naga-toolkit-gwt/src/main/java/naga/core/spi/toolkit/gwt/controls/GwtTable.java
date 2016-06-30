@@ -3,11 +3,10 @@ package naga.core.spi.toolkit.gwt.controls;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
-import naga.core.spi.toolkit.gwt.node.GwtSelectableDisplayResultSetNode;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.controls.Table;
-import naga.core.util.Strings;
+import naga.core.spi.toolkit.gwt.node.GwtSelectableDisplayResultSetNode;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.collection.IdentityList;
 
 /**
@@ -35,7 +34,7 @@ public class GwtTable extends GwtSelectableDisplayResultSetNode<AbstractCellTabl
             if (columnIndex < node.getColumnCount())
                 column = (GwtColumn) node.getColumn(columnIndex);
             else
-                node.addColumn(column = new GwtColumn(columnIndex), Strings.stringValue(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
+                node.addColumn(column = new GwtColumn(columnIndex), displayResultSet.getColumns()[columnIndex].getName());
             column.displayResultSet = displayResultSet;
         }
         int rowCount = displayResultSet.getRowCount();

@@ -1,11 +1,10 @@
 package naga.core.spi.toolkit.swing.controls;
 
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.swing.node.SwingSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayselection.DisplaySelection;
-import naga.core.util.Strings;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -93,7 +92,7 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
         tableModel.setDisplayResultSet(displayResultSet);
         tableModel.fireTableStructureChanged();
         for (int columnIndex = 0; columnIndex < displayResultSet.getColumnCount(); columnIndex++)
-            table.getColumnModel().getColumn(columnIndex).setHeaderValue(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
+            table.getColumnModel().getColumn(columnIndex).setHeaderValue(displayResultSet.getColumns()[columnIndex].getName());
         //tableModel.fireTableDataChanged();
         table.doLayout();
     }

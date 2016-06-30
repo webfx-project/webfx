@@ -1,13 +1,14 @@
 package naga.core.spi.toolkit.pivot.controls;
 
+import naga.core.spi.toolkit.controls.Table;
+import naga.core.spi.toolkit.hasproperties.SelectionMode;
 import naga.core.spi.toolkit.pivot.node.PivotSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.util.Strings;
 import org.apache.pivot.collections.ArrayList;
 import org.apache.pivot.collections.HashMap;
-import org.apache.pivot.wtk.*;
+import org.apache.pivot.wtk.ScrollPane;
+import org.apache.pivot.wtk.TableView;
+import org.apache.pivot.wtk.TableViewHeader;
 
 
 /**
@@ -48,7 +49,7 @@ public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> 
             if (columnIndex < columns.getLength())
                 setUpTableColumn(columns.get(columnIndex), columnIndex, displayResultSet);
             else
-                columns.add(setUpTableColumn(new TableView.Column(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue())), columnIndex, displayResultSet));
+                columns.add(setUpTableColumn(new TableView.Column(displayResultSet.getColumns()[columnIndex].getName()), columnIndex, displayResultSet));
         }
         ArrayList tableData = new ArrayList(rowCount);
         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
@@ -62,7 +63,7 @@ public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> 
 
     private TableView.Column setUpTableColumn(TableView.Column tableColumn, int columnIndex, DisplayResultSet displayResultSet) {
         tableColumn.setName(Integer.toString(columnIndex));
-        tableColumn.setHeaderData(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
+        tableColumn.setHeaderData(displayResultSet.getColumns()[columnIndex].getName());
         tableColumn.setWidth(400);
         return tableColumn;
     }

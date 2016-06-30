@@ -61,7 +61,7 @@ public class DisplayResultSet {
     public StringBuilder toString(StringBuilder sb) {
         sb.append('[');
         for (DisplayColumn column : columns)
-            sb.append(sb.length() == 1 ? "" : ", ").append(column.getHeaderValue()).append(" (").append(column.getType()).append(')');
+            sb.append(sb.length() == 1 ? "" : ", ").append(column.getName()).append(" (").append(column.getType()).append(')');
         for (int rowIndex = 0; rowIndex < rowCount;) {
             sb.append("\n[");
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)

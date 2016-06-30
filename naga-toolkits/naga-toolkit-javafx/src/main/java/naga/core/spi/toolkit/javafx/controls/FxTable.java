@@ -12,7 +12,6 @@ import naga.core.spi.toolkit.javafx.JavaFxToolkit;
 import naga.core.spi.toolkit.javafx.node.FxSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayselection.DisplaySelection;
-import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;
 
 import java.util.ArrayList;
@@ -97,7 +96,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     }
 
     private TableColumn<Integer, ?> setUpVisualColumn(TableColumn<Integer, ?> tableColumn, int columnIndex, DisplayResultSet displayResultSet) {
-        tableColumn.setText(Strings.toString(displayResultSet.getColumns()[columnIndex].getHeaderValue()));
+        tableColumn.setText(displayResultSet.getColumns()[columnIndex].getName());
         tableColumn.setGraphic(null);
         //tableColumn.setCellFactory(ignored -> new FxTableCell(column));
         tableColumn.setCellValueFactory(cdf -> (ObservableValue) displayResultSet.getValue(cdf.getValue(), columnIndex));
