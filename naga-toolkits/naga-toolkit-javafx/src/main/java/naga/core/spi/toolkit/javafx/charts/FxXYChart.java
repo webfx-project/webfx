@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.javafx.charts;
 
 import javafx.scene.chart.XYChart;
-import naga.core.util.Numbers;
+import naga.core.type.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +11,15 @@ import java.util.List;
  */
 public class FxXYChart extends FxChart {
 
-    private List<XYChart.Series<String, Double>> seriesList;
-    private XYChart.Series<String, Double> currentSeries;
+    private List<XYChart.Series> seriesList;
+    private XYChart.Series currentSeries;
 
     public FxXYChart(javafx.scene.chart.Chart chart) {
         super(chart);
     }
 
     @Override
-    protected void createChartData() {
+    protected void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType) {
         seriesList = new ArrayList<>();
     }
 
@@ -31,8 +31,8 @@ public class FxXYChart extends FxChart {
     }
 
     @Override
-    protected void addValueToCurrentSeries(Object value, String valueName) {
-        currentSeries.getData().add(new XYChart.Data<>(valueName, Numbers.doubleValue(value)));
+    protected void addPointToCurrentSeries(Object xValue, Object yValue) {
+        currentSeries.getData().add(new XYChart.Data<>(xValue, yValue));
     }
 
     @Override

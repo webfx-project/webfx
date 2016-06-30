@@ -4,6 +4,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.googlecode.gwt.charts.client.*;
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
+import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.event.SelectEvent;
 import com.googlecode.gwt.charts.client.event.SelectHandler;
 import naga.core.spi.platform.Platform;
@@ -27,11 +28,13 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
 
     private CoreChartWidget<?> chartWidget;
     private DisplayResultSet readyDisplayResultSet;
+    private boolean isPieChart;
 
     public GwtChart() {
         super(new SimpleLayoutPanel());
         new ChartLoader(ChartPackage.CORECHART).loadApi(() -> {
             chartWidget = createChartWidget();
+            isPieChart = chartWidget instanceof PieChart;
             node.setWidget(chartWidget);
             if (readyDisplayResultSet != null)
                 syncVisualDisplayResult(readyDisplayResultSet);
@@ -83,36 +86,14 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
 
 
     @Override
-    protected void syncVisualDisplayResult(DisplayResultSet displayResultSet) {
+    protected void syncVisualDisplayResult(DisplayResultSet rs) {
         if (chartWidget == null) {
-            readyDisplayResultSet = displayResultSet;
+            readyDisplayResultSet = rs;
             return;
         }
-        DataTable dataTable = DataTable.create();
-        dataTable.addRows(displayResultSet.getRowCount());
-        // First column = X, other columns = series with Y value associated with X
-        int columnCount = displayResultSet.getColumnCount();
-        int rowCount = displayResultSet.getRowCount();
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-            DisplayColumn displayColumn = displayResultSet.getColumns()[columnIndex];
-            Type type = displayColumn.getType();
-            PrimType primType = Types.getPrimType(type);
-            DataColumn dataColumn = DataColumn.create(getColumnType(primType));
-            dataColumn.setLabel(Strings.toString(displayColumn.getHeaderValue()));
-            dataTable.addColumn(dataColumn);
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
-                Object value = displayResultSet.getValue(rowIndex, columnIndex);
-                if (primType.isBoolean())
-                    dataTable.setValue(rowIndex, columnIndex, Booleans.booleanValue(value));
-                else if (primType.isString())
-                    dataTable.setValue(rowIndex, columnIndex, Strings.stringValue(value));
-                if (primType.isNumber())
-                    dataTable.setValue(rowIndex, columnIndex, Numbers.doubleValue(value));
-            }
-        }
-        chartWidget.draw(dataTable);
+        syncVisualDisplayResultNow(rs);
         // The above code reset the selection so selection handlers are installed here when first data arrives (to consider possible initial selection made by logic)
-        if (!syncHandlerInstalled && rowCount > 0) {
+        if (!syncHandlerInstalled && rs.getRowCount() > 0) {
             syncVisualDisplaySelection();
             displaySelectionProperty().addListener((observable, oldValue, newValue) -> syncVisualDisplaySelection());
             chartWidget.addSelectHandler(new SelectHandler() {
@@ -125,13 +106,121 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
         }
     }
 
-    private static ColumnType getColumnType(PrimType primType) {
+    protected void syncVisualDisplayResultNow(DisplayResultSet rs) {
+        int rowCount = rs.getRowCount();
+        int columnCount = rs.getColumnCount();
+        DisplayColumn[] columns = rs.getColumns();
+        boolean rowFormat = columns[0].getRole() == null;
+        if (!rowFormat) { /***** Column format - see {@link Chart} for format description *****/
+            if (isPieChart && rowCount > 1) // ignoring extra rows for pie chart
+                rowCount = 1;
+            int seriesCount = isPieChart ? columnCount : columnCount - 1;
+            int pointPerSeriesCount = rowCount;
+            Type xType = isPieChart ? null : columns[0].getType();
+            Type yType = columns[isPieChart ? 0 : 1].getType();
+            createChartData(seriesCount, pointPerSeriesCount, xType, yType);
+            for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
+                String seriesName = columns[columnIndex].getName();
+                startSeries(seriesName);
+                for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
+                    Object xValue = isPieChart ? null : rs.getValue(rowIndex, 0);
+                    Object yValue = rs.getValue(rowIndex, columnIndex);
+                    addPointToCurrentSeries(xValue, yValue);
+                }
+            }
+        } else {          /***** Row format - see {@link Chart} for format description *****/
+            if (isPieChart && columnCount > 2) // ignoring extra columns for pie charts
+                columnCount = 2;
+            int seriesCount = rowCount;
+            int pointPerSeriesCount = columnCount - 1;
+            Type xType = isPieChart ? null : PrimType.fromObject(columns[1].getName());
+            Type yType = columns[pointPerSeriesCount].getType();
+            createChartData(seriesCount, pointPerSeriesCount, xType, yType);
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
+                String seriesName = Strings.toString(rs.getValue(rowIndex, 0));
+                startSeries(seriesName);
+                for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
+                    Object xValue = isPieChart ? null : columns[columnIndex].getName();
+                    Object yValue = rs.getValue(rowIndex, columnIndex);
+                    addPointToCurrentSeries(xValue, yValue);
+                }
+            }
+        }
+        applyChartData();
+    }
+
+    private DataTable dataTable;
+    private int seriesIndex;
+    private int pointIndex;
+    private ColumnType xGoogleType;
+    private ColumnType yGoogleType;
+    private boolean googleRowFormat;
+
+    private void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType) {
+        // Creating a google dataTable in column format (each series is a column)
+        xGoogleType = toGoogleColumnType(Types.getPrimType(xType));
+        yGoogleType = toGoogleColumnType(Types.getPrimType(yType));
+        dataTable = DataTable.create();
+        googleRowFormat = isPieChart;
+        if (googleRowFormat) {
+            dataTable.addRows(seriesCount);
+            dataTable.addColumn(ColumnType.STRING); // first column for series names
+            if (!isPieChart)
+                dataTable.addColumn(DataColumn.create(xGoogleType)); // second column for X
+            for (int i = 0; i < pointPerSeriesCount; i++)
+                dataTable.addColumn(DataColumn.create(yGoogleType)); // other columns for Y
+        } else {
+            dataTable.addRows(pointPerSeriesCount);
+            dataTable.addColumn(DataColumn.create(xGoogleType)); // first column for X
+        }
+        seriesIndex = -1;
+    }
+
+    private void startSeries(String name) {
+        seriesIndex++;
+        if (googleRowFormat) {
+            dataTable.setValue(seriesIndex, 0, name);
+        } else {
+            DataColumn dataColumn = DataColumn.create(yGoogleType);
+            dataColumn.setLabel(name);
+            dataTable.addColumn(dataColumn);
+        }
+        pointIndex = -1;
+    }
+
+    private void addPointToCurrentSeries(Object xValue, Object yValue) {
+        pointIndex++;
+        if (googleRowFormat) {
+            if (pointIndex == 0 && !isPieChart)
+                setDataTableValue(seriesIndex, 1, xValue, xGoogleType);
+            setDataTableValue(seriesIndex, pointIndex + (isPieChart ? 1 : 2), yValue, yGoogleType);
+        } else {
+            if (seriesIndex == 0)
+                setDataTableValue(pointIndex, 0, xValue, xGoogleType);
+            setDataTableValue(pointIndex, seriesIndex + 1, yValue, yGoogleType);
+        }
+    }
+
+    private void setDataTableValue(int rowIndex, int columnIndex, Object value, ColumnType googleType) {
+        if (googleType == ColumnType.BOOLEAN)
+            dataTable.setValue(rowIndex, columnIndex, Booleans.booleanValue(value));
+        else if (googleType == ColumnType.STRING)
+            dataTable.setValue(rowIndex, columnIndex, Strings.stringValue(value));
+        else if (googleType == ColumnType.NUMBER)
+            dataTable.setValue(rowIndex, columnIndex, Numbers.doubleValue(value));
+    }
+
+    private void applyChartData() {
+        chartWidget.draw(dataTable);
+    }
+
+    private static ColumnType toGoogleColumnType(PrimType primType) {
         if (primType.isBoolean())
             return ColumnType.BOOLEAN;
         if (primType.isString())
             return ColumnType.STRING;
         if (primType.isNumber())
             return ColumnType.NUMBER;
-        return ColumnType.DATE;
+        return null;
     }
 }

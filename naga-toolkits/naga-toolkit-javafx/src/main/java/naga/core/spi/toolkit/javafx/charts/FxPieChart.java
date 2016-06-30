@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.Chart;
 import naga.core.spi.toolkit.charts.PieChart;
+import naga.core.type.Type;
 import naga.core.util.Numbers;
 
 /**
@@ -23,11 +24,13 @@ public class FxPieChart extends FxChart implements PieChart<Chart> {
     }
 
     private static javafx.scene.chart.PieChart createPieChart() {
-        return new javafx.scene.chart.PieChart();
+        javafx.scene.chart.PieChart pieChart = new javafx.scene.chart.PieChart();
+        pieChart.setStartAngle(90);
+        return pieChart;
     }
 
     @Override
-    protected void createChartData() {
+    protected void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType) {
         pieData = FXCollections.observableArrayList();
     }
 
@@ -37,8 +40,8 @@ public class FxPieChart extends FxChart implements PieChart<Chart> {
     }
 
     @Override
-    protected void addValueToCurrentSeries(Object value, String valueName) {
-        pieData.add(new javafx.scene.chart.PieChart.Data(currentSeriesName, Numbers.doubleValue(value)));
+    protected void addPointToCurrentSeries(Object xValue, Object yValue) { // xValue is ignored for pie charts
+        pieData.add(new javafx.scene.chart.PieChart.Data(currentSeriesName, Numbers.doubleValue(yValue)));
     }
 
     @Override
