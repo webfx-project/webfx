@@ -1,13 +1,10 @@
 package naga.core.spi.toolkit.controls;
 
-import naga.core.spi.toolkit.hasproperties.HasMaxProperty;
-import naga.core.spi.toolkit.hasproperties.HasMinProperty;
-import naga.core.spi.toolkit.hasproperties.HasValueProperty;
-import naga.core.spi.toolkit.node.GuiNode;
+import naga.core.spi.toolkit.gauges.Gauge;
 
 /**
  * @author Bruno Salmon
  */
-public interface Slider<N> extends GuiNode<N>, HasMinProperty, HasValueProperty, HasMaxProperty {
+public interface Slider<N> extends Gauge<N> {
 
 }

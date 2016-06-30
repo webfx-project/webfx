@@ -5,6 +5,7 @@ import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.Scheduler;
 import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.gauges.Gauge;
 import naga.core.spi.toolkit.layouts.HBox;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;
@@ -148,5 +149,9 @@ public abstract class Toolkit {
 
     public PieChart createPieChart() {
         return createNode(PieChart.class);
+    }
+
+    public Gauge createGauge() {
+        return nodeFactories.containsKey(Gauge.class) ? createNode(Gauge.class) : createSlider();
     }
 }
