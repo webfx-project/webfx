@@ -19,5 +19,6 @@
     <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
     <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
+    <orderEntry type="library" name="Maven: eu.hansolo:Medusa:5.0" level="project" />
   </component>
 </module>
