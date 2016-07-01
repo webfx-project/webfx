@@ -111,6 +111,10 @@ public abstract class Toolkit {
         return createNode(CheckBox.class);
     }
 
+    public TextField createTextField() {
+        return nodeFactories.containsKey(TextField.class) ? createNode(TextField.class) : createSearchBox();
+    }
+
     public SearchBox createSearchBox() {
         return createNode(SearchBox.class);
     }
