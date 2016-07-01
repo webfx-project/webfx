@@ -57,7 +57,7 @@ public abstract class Toolkit {
         registerNativeNodeWrapper(nativeNodeClass, nativeNodeWrapper);
     }
 
-    public <T extends GuiNode, N> GuiNode wrapNativeNode(N toolkitNode) {
+    public <T extends GuiNode, N> T wrapNativeNode(N toolkitNode) {
         Converter guiNodeConverter = nativeNodeWrappers.get(toolkitNode.getClass());
         return (T) guiNodeConverter.convert(toolkitNode);
     }
