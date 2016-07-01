@@ -5,11 +5,13 @@ import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.gauges.Gauge;
 import naga.core.spi.toolkit.gwt.charts.*;
 import naga.core.spi.toolkit.gwt.controls.GwtButton;
 import naga.core.spi.toolkit.gwt.controls.GwtCheckBox;
 import naga.core.spi.toolkit.gwt.controls.GwtSearchBox;
 import naga.core.spi.toolkit.gwt.controls.GwtTable;
+import naga.core.spi.toolkit.gwt.gauges.GwtGauge;
 import naga.core.spi.toolkit.gwt.layouts.GwtVBox;
 import naga.core.spi.toolkit.gwt.layouts.GwtVPage;
 import naga.core.spi.toolkit.gwt.layouts.GwtWindow;
@@ -35,5 +37,6 @@ public class GwtToolkit extends Toolkit {
         registerNodeFactory(BarChart.class, GwtBarChart::new);
         registerNodeFactory(ScatterChart.class, GwtScatterChart::new);
         registerNodeFactory(PieChart.class, GwtPieChart::new);
+        registerNodeFactory(Gauge.class, GwtGauge::new);
     }
 }
