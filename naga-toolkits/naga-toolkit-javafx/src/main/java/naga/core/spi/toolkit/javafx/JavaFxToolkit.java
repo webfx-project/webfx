@@ -9,8 +9,10 @@ import javafx.stage.Stage;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
+import naga.core.spi.toolkit.gauges.Gauge;
 import naga.core.spi.toolkit.javafx.charts.*;
 import naga.core.spi.toolkit.javafx.controls.*;
+import naga.core.spi.toolkit.javafx.gauges.FxGauge;
 import naga.core.spi.toolkit.javafx.layouts.FxHBox;
 import naga.core.spi.toolkit.javafx.layouts.FxVBox;
 import naga.core.spi.toolkit.javafx.layouts.FxVPage;
@@ -41,6 +43,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(TextField.class, FxTextField::new, javafx.scene.control.TextField.class, FxTextField::new);
         registerNodeFactoryAndWrapper(Button.class, FxButton::new, javafx.scene.control.Button.class, FxButton::new);
         registerNodeFactoryAndWrapper(Slider.class, FxSlider::new, javafx.scene.control.Slider.class, FxSlider::new);
+        registerNodeFactoryAndWrapper(Gauge.class, FxGauge::new, eu.hansolo.medusa.Gauge.class, FxGauge::new);
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
         registerNodeFactory(VPage.class, FxVPage::new);
         registerNodeFactoryAndWrapper(VBox.class, FxVBox::new, javafx.scene.layout.VBox.class, FxVBox::new);
