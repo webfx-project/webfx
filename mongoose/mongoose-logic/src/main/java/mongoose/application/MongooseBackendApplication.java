@@ -7,7 +7,7 @@ public class MongooseBackendApplication extends MongooseApplication {
 
     @Override
     public void onStart() {
-        activityRouter.setDefaultInitialHistoryPath("/event/115/bookings");
+        activityRouter.setDefaultInitialHistoryPath("/monitor");
         super.onStart();
     }
 

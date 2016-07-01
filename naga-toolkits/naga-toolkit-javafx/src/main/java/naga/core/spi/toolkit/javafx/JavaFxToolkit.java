@@ -7,9 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
-import naga.core.spi.toolkit.javafx.charts.*;
 import naga.core.spi.toolkit.javafx.controls.*;
 import naga.core.spi.toolkit.javafx.layouts.FxHBox;
 import naga.core.spi.toolkit.javafx.layouts.FxVBox;
@@ -44,15 +42,11 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactory(SearchBox.class, FxSearchBox::new);
         registerNodeFactory(VPage.class, FxVPage::new);
         registerNodeFactoryAndWrapper(VBox.class, FxVBox::new, javafx.scene.layout.VBox.class, FxVBox::new);
-        registerNodeFactoryAndWrapper(HBox.class, FxHBox::new, javafx.scene.layout.HBox.class, FxHBox::new);
-        registerNodeFactoryAndWrapper(LineChart.class, FxLineChart::new, javafx.scene.chart.LineChart.class, FxLineChart::new);
-        registerNodeFactoryAndWrapper(AreaChart.class, FxAreaChart::new, javafx.scene.chart.AreaChart.class, FxAreaChart::new);
-        registerNodeFactoryAndWrapper(BarChart.class, FxBarChart::new, javafx.scene.chart.BarChart.class, FxBarChart::new);
-        registerNodeFactoryAndWrapper(ScatterChart.class, FxScatterChart::new, javafx.scene.chart.ScatterChart.class, FxScatterChart::new);
-        registerNodeFactoryAndWrapper(PieChart.class, FxPieChart::new, javafx.scene.chart.PieChart.class, FxPieChart::new);
+        registerNodeFactory(HBox.class, FxHBox::new);
     }
 
-    public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet displayResultSet) {
+    @Override
+    public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
         Object[] values = displayResultSet.getValues();
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
         for (int i = 0; i < values.length; i++)
