@@ -2,7 +2,10 @@ package naga.core.spi.toolkit.gwt.charts;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
-import com.googlecode.gwt.charts.client.*;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataColumn;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.Selection;
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.event.SelectEvent;
@@ -32,7 +35,7 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
 
     public GwtChart() {
         super(new SimpleLayoutPanel());
-        new ChartLoader(ChartPackage.CORECHART).loadApi(() -> {
+        ChartApiLoader.onChartApiLoaded(() -> {
             chartWidget = createChartWidget();
             isPieChart = chartWidget instanceof PieChart;
             node.setWidget(chartWidget);
