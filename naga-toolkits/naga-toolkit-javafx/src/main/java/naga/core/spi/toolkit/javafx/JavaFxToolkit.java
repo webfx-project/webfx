@@ -45,8 +45,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactory(HBox.class, FxHBox::new);
     }
 
-    @Override
-    public DisplayResultSet transformDisplayResultForGui(DisplayResultSet displayResultSet) {
+    public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet displayResultSet) {
         Object[] values = displayResultSet.getValues();
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
         for (int i = 0; i < values.length; i++)
