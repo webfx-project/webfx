@@ -26,6 +26,7 @@ public class DomainClassBuilder {
     public String css;
     public Map<String, DomainFieldBuilder> fieldMap = new HashMap<>();
     public Map<String, DomainFieldsGroupBuilder> fieldsGroupMap = new HashMap<>();
+    public String rowStylesDefinition;
 
     public DomainClass domainClass;
     private boolean built;
@@ -75,7 +76,7 @@ public class DomainClassBuilder {
                     sqlTableName = ExpressionSqlCompiler.toSqlString(name);
                 if (label == null)
                     label = new Label(name);
-                domainClass = new DomainClass(domainModel, id, modelId, name, sqlTableName, idColumnName, label, foreignFieldsDefinition, searchCondition, css, logicalMap, sqlMap, groupMap, fxmlForm);
+                domainClass = new DomainClass(domainModel, id, modelId, name, sqlTableName, idColumnName, label, foreignFieldsDefinition, searchCondition, css, rowStylesDefinition, logicalMap, sqlMap, groupMap, fxmlForm);
             }
         }
         return domainClass;
