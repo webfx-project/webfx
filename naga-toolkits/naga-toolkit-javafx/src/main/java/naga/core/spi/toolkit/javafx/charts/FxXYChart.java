@@ -2,6 +2,7 @@ package naga.core.spi.toolkit.javafx.charts;
 
 import javafx.scene.chart.XYChart;
 import naga.core.type.Type;
+import naga.core.util.function.Function;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,27 +13,30 @@ import java.util.List;
 public class FxXYChart extends FxChart {
 
     private List<XYChart.Series> seriesList;
-    private XYChart.Series currentSeries;
+    private Object xValue;
 
     public FxXYChart(javafx.scene.chart.Chart chart) {
         super(chart);
     }
 
     @Override
-    protected void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType) {
+    protected void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
         seriesList = new ArrayList<>();
+        for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
+            XYChart.Series series = new XYChart.Series<>();
+            series.setName(seriesNameGetter.apply(seriesIndex));
+            seriesList.add(series);
+        }
     }
 
     @Override
-    protected void startSeries(String name) {
-        currentSeries = new XYChart.Series<>();
-        currentSeries.setName(name);
-        seriesList.add(currentSeries);
+    protected void setChartDataX(Object xValue, int pointIndex) {
+        this.xValue = xValue;
     }
 
     @Override
-    protected void addPointToCurrentSeries(Object xValue, Object yValue) {
-        currentSeries.getData().add(new XYChart.Data<>(xValue, yValue));
+    protected void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
+        seriesList.get(seriesIndex).getData().add(new XYChart.Data<>(xValue, yValue));
     }
 
     @Override
