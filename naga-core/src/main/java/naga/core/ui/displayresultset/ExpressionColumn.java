@@ -21,11 +21,12 @@ public class ExpressionColumn {
     private Object label;
     private DisplayColumn displayColumn;
 
-    private ExpressionColumn(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter) {
+    private ExpressionColumn(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter, DisplayColumn displayColumn) {
         this.expressionDefinition = expressionDefinition;
         this.expression = expression;
         this.label = label;
         this.expressionFormatter = expressionFormatter;
+        this.displayColumn = displayColumn;
     }
 
     public DisplayColumn getDisplayColumn() {
@@ -54,7 +55,7 @@ public class ExpressionColumn {
     public static ExpressionColumn create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
             return create(Json.parseObject(jsonOrExpressionDefinition));
-        return new ExpressionColumn(jsonOrExpressionDefinition, null, null, null);
+        return new ExpressionColumn(jsonOrExpressionDefinition, null, null, null, null);
     }
 
     public static ExpressionColumn create(JsonObject json) {
@@ -66,15 +67,19 @@ public class ExpressionColumn {
     }
 
     public static ExpressionColumn create(String expressionDefinition, JsonObject options) {
-        return new ExpressionColumn(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")));
+        return new ExpressionColumn(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")), null);
     }
 
     public static ExpressionColumn create(String expressionDefinition, Formatter expressionFormatter) {
-        return new ExpressionColumn(expressionDefinition, null, null, expressionFormatter);
+        return new ExpressionColumn(expressionDefinition, null, null, expressionFormatter, null);
     }
 
     public static ExpressionColumn create(Expression expression) {
-        return new ExpressionColumn(null, expression, null, null);
+        return create(expression, null);
+    }
+
+    public static ExpressionColumn create(Expression expression, DisplayColumn displayColumn) {
+        return new ExpressionColumn(null, expression, null, null, displayColumn);
     }
 
     public static ExpressionColumn[] fromJsonArray(String array) {
