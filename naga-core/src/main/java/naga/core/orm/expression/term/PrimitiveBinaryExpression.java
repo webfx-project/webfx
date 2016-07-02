@@ -21,10 +21,11 @@ public abstract class PrimitiveBinaryExpression<T> extends BinaryExpression<T> {
 
     @Override
     public Object evaluate(Object leftValue, Object rightValue) {
-        Type type = getLeft() != null ? getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
-        PrimType primType = Types.getPrimType(type);
-        if (primType != null)
-            switch (primType) {
+        Expression<T> left = getLeft();
+        Type leftType = left != null ? left.getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
+        PrimType leftPrimType = Types.getPrimType(leftType);
+        if (leftPrimType != null)
+            switch (leftPrimType) {
                 case BOOLEAN: return evaluateBoolean(Booleans.booleanValue(leftValue), Booleans.booleanValue(rightValue));
                 case INTEGER: return evaluateInteger(Numbers.intValue(leftValue), Numbers.intValue(rightValue));
                 case LONG:    return evaluateLong(Numbers.longValue(leftValue), Numbers.longValue(rightValue));
