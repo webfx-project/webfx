@@ -22,8 +22,8 @@ public class DomainClass implements HasLabel {
     private final String foreignFieldsDefinition;
     private Expression foreignFields;
     private final String css;
-    private final String rowStylesDefinition;
-    private ExpressionArray rowStylesExpressionArray;
+    private final String styleClassesExpressionArrayDefinition;
+    private ExpressionArray styleClassesExpressionArray;
     private final String fxmlForm;
     private final String searchCondition;
     private final Map<Object /* modelId or name */, DomainField> fieldMap;
@@ -32,7 +32,7 @@ public class DomainClass implements HasLabel {
 
     private Delete deleteWhereId;
 
-    public DomainClass(DomainModel domainModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, String rowStylesDefinition, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
+    public DomainClass(DomainModel domainModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, String styleClassesExpressionArrayDefinition, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
         this.domainModel = domainModel;
         this.id = id;
         this.modelId = modelId;
@@ -43,7 +43,7 @@ public class DomainClass implements HasLabel {
         this.foreignFieldsDefinition = foreignFieldsDefinition;
         this.searchCondition = searchCondition;
         this.css = css;
-        this.rowStylesDefinition = rowStylesDefinition;
+        this.styleClassesExpressionArrayDefinition = styleClassesExpressionArrayDefinition;
         this.fieldMap = fieldMap;
         this.sqlMap = sqlMap;
         this.fieldsGroupMap = fieldsGroupMap;
@@ -84,10 +84,10 @@ public class DomainClass implements HasLabel {
         return foreignFields;
     }
 
-    public ExpressionArray getRowStylesExpressionArray() {
-        if (rowStylesExpressionArray == null && rowStylesDefinition != null)
-            rowStylesExpressionArray = parseExpressionArray(rowStylesDefinition);
-        return rowStylesExpressionArray;
+    public ExpressionArray getStyleClassesExpressionArray() {
+        if (styleClassesExpressionArray == null && styleClassesExpressionArrayDefinition != null)
+            styleClassesExpressionArray = parseExpressionArray(styleClassesExpressionArrayDefinition);
+        return styleClassesExpressionArray;
     }
 
     public String getFxmlForm() {

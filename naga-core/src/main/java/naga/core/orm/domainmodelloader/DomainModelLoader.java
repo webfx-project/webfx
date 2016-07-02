@@ -54,7 +54,7 @@ public class DomainModelLoader {
                 "select id,name,super_type_id,cell_factory_name,ui_format,sql_format from type where data_model_version_id=?",
                 // 3) Classes loading
                 "select id,name,sql_table_name,foreign_fields,fxml_form,search_condition,label_id from class where data_model_version_id=?",
-                // 4) Class row styles loading
+                // 4) Style classes loading
                 "select c.id,f.name,s.name,s.condition from data_view s join data_view f on f.id=s.parent_id join class c on c.id=f.scope_class_id where c.data_model_version_id=? and active and is_style and not is_folder and s.scope_activity_id is null order by c.id,f.ord,s.ord desc",
                 // 5) Fields loading
                 "select id,name,class_id,type_id,label_id,pref_width,expression,applicable_condition,persistent,sql_column_name,foreign_class_id,foreign_alias,foreign_condition,foreign_order_by,foreign_combo_fields,foreign_table_fields from field f join class c on f.class_id=c.id where c.data_model_version_id=?",
@@ -108,10 +108,10 @@ public class DomainModelLoader {
             classes.put(classId, classBuilder);
         }
 
-        // 4) Building row styles
+        // 4) Style classes loading
         rs = resultSets[3];
-        StringBuilder rowStyleDefinitions = null;
-        String rowStyleDefinition = null;
+        StringBuilder allDefinitions = null;
+        String currentDefinition = null;
         String folderName = null;
         Object lastClassId = null;
         for (int row = 0; row < rs.getRowCount(); row++) {
@@ -121,28 +121,28 @@ public class DomainModelLoader {
             String condition = rs.getValue(row, 3);
             if (lastClassId == null || !lastClassId.equals(classId)) { // Going to next class
                 if (lastClassId != null)
-                    applyClassRowStylesDefinition(classes.get(lastClassId), rowStyleDefinition, rowStyleDefinitions);
-                rowStyleDefinitions = null;
-                rowStyleDefinition = null;
+                    recordStyleClassesExpressionArrayDefinition(classes.get(lastClassId), allDefinitions, currentDefinition);
+                allDefinitions = null;
+                currentDefinition = null;
                 folderName = null;
                 lastClassId = classId;
             }
             if (folderName != null && !folderName.equals(fName)) { // Going to next folder
-                rowStyleDefinitions = appendRowStyleExpression(rowStyleDefinition, rowStyleDefinitions);
-                rowStyleDefinition = null;
+                allDefinitions = appendDefinition(currentDefinition, allDefinitions);
+                currentDefinition = null;
             }
             folderName = fName;
             if (condition == null) // should arrive in first position due to order by desc ordering (the null condition is the last one)
-                rowStyleDefinition = "'" + styleName + "'";
+                currentDefinition = "'" + styleName + "'";
             else {
                 /*Object activityId = rs.getValue(row, 4);
                 if (activityId != null) // if scope_activity is set, adding this criteria in the condition:
                     e = new And(e, new Equals(new Parameter("selectedActivity", null), Constant.newConstant(activityId)));*/
-                rowStyleDefinition = '(' + condition + ") ? '" + styleName + "' : " + rowStyleDefinition;
+                currentDefinition = '(' + condition + ") ? '" + styleName + "' : " + currentDefinition;
             }
         }
-        if (rowStyleDefinition != null)
-            applyClassRowStylesDefinition(classes.get(lastClassId), rowStyleDefinition, rowStyleDefinitions);
+        if (currentDefinition != null)
+            recordStyleClassesExpressionArrayDefinition(classes.get(lastClassId), allDefinitions, currentDefinition);
 
         // 5) Building fields
         rs = resultSets[4];
@@ -207,21 +207,22 @@ public class DomainModelLoader {
         }
     }
 
-    private static StringBuilder appendRowStyleExpression(String rowStyleExpression, StringBuilder rowStyleExpressions) {
-        if (rowStyleExpression != null) {
-            if (rowStyleExpressions == null)
-                rowStyleExpressions = new StringBuilder();
+    private static StringBuilder appendDefinition(String definition, StringBuilder allDefinitions) {
+        if (definition != null) {
+            if (allDefinitions == null)
+                allDefinitions = new StringBuilder(definition);
             else
-                rowStyleExpressions.append(',');
-            rowStyleExpressions.append(rowStyleExpression);
+                allDefinitions.append(',').append(definition);
         }
-        return rowStyleExpressions;
+        return allDefinitions;
     }
 
-    private static void applyClassRowStylesDefinition(DomainClassBuilder classBuilder, String rowStyleExpression, StringBuilder rowStyleExpressions) {
-        if (rowStyleExpressions == null)
-            classBuilder.rowStylesDefinition = rowStyleExpression;
+    private static void recordStyleClassesExpressionArrayDefinition(DomainClassBuilder classBuilder, StringBuilder allDefinitions, String lastDefinition) {
+        String finalExpressionDefinition;
+        if (allDefinitions == null)
+            finalExpressionDefinition = lastDefinition;
         else
-            classBuilder.rowStylesDefinition = appendRowStyleExpression(rowStyleExpression, rowStyleExpressions).toString();
+            finalExpressionDefinition = appendDefinition(lastDefinition, allDefinitions).toString();
+        classBuilder.styleClassesExpressionArrayDefinition = finalExpressionDefinition;
     }
 }
