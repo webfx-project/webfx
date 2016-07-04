@@ -204,7 +204,7 @@ public class RxFilter {
                         return Observable.just(emptyDisplayResultSet());
                     SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                     Platform.log(sqlCompiled.getSql());
-                    return RxFuture.from(Platform.query().read(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
+                    return RxFuture.from(Platform.query().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
                             .map(sqlReadResult -> QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                             .map(entities -> {
                                 if (selectFirstRowOnFirstDisplay && entities.size() > 0) {

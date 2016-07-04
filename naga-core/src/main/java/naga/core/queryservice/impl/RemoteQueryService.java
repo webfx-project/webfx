@@ -17,10 +17,10 @@ public class RemoteQueryService implements QueryService {
     public final static RemoteQueryService REMOTE_ONLY_QUERY_SERVICE = new RemoteQueryService();
 
     @Override
-    public Future<QueryResultSet> read(QueryArgument argument) {
+    public Future<QueryResultSet> executeQuery(QueryArgument argument) {
         QueryService localQueryService = getConnectedLocalQueryService(argument.getDataSourceId());
         if (localQueryService != null)
-            return localQueryService.read(argument);
+            return localQueryService.executeQuery(argument);
         return executeRemoteQuery(argument);
     }
 
@@ -39,6 +39,6 @@ public class RemoteQueryService implements QueryService {
     }
 
     protected <T> Future<T> executeRemoteQuery(QueryArgument argument) {
-        return BusCallService.call(Naga.QUERY_READ_ADDRESS, argument);
+        return BusCallService.call(Naga.QUERY_SERVICE_ADDRESS, argument);
     }
 }

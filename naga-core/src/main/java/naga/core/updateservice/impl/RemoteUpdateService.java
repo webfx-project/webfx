@@ -17,10 +17,10 @@ public class RemoteUpdateService implements UpdateService {
     public final static RemoteUpdateService REMOTE_ONLY_UPDATE_SERVICE = new RemoteUpdateService();
 
     @Override
-    public Future<UpdateResult> update(UpdateArgument argument) {
+    public Future<UpdateResult> executeUpdate(UpdateArgument argument) {
         UpdateService localUpdateService = getConnectedLocalUpdateService(argument.getDataSourceId());
         if (localUpdateService != null)
-            return localUpdateService.update(argument);
+            return localUpdateService.executeUpdate(argument);
         return executeRemoteUpdate(argument);
     }
 
@@ -39,7 +39,7 @@ public class RemoteUpdateService implements UpdateService {
     }
 
     protected Future<naga.core.updateservice.UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
-        return BusCallService.call(Naga.QUERY_WRITE_ADDRESS, argument);
+        return BusCallService.call(Naga.UPDATE_SERVICE_ADDRESS, argument);
     }
 
 }

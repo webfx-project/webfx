@@ -37,7 +37,7 @@ public class DomainModelLoader {
 
     public Future<DomainModel> loadDomainModel() {
         Future<DomainModel> future = Future.future();
-        Platform.query().readBatch(generateDomainModelQueryBatch()).setHandler(asyncResult -> {
+        Platform.query().executeQueryBatch(generateDomainModelQueryBatch()).setHandler(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
             else

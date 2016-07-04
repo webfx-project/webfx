@@ -76,7 +76,7 @@ class VertxConnectedService implements QueryService, UpdateService {
     }
 
     @Override
-    public Future<QueryResultSet> read(QueryArgument arg) {
+    public Future<QueryResultSet> executeQuery(QueryArgument arg) {
         Future<QueryResultSet> future = Future.future();
 
         sqlClient.getConnection(con -> {
@@ -124,7 +124,7 @@ class VertxConnectedService implements QueryService, UpdateService {
     }
 
     @Override
-    public Future<UpdateResult> update(UpdateArgument arg) {
+    public Future<UpdateResult> executeUpdate(UpdateArgument arg) {
         Future<UpdateResult> future = Future.future();
 
         sqlClient.getConnection(con -> {

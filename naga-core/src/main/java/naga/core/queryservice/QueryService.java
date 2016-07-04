@@ -8,12 +8,12 @@ import naga.core.util.async.Future;
  */
 public interface QueryService {
 
-    Future<QueryResultSet> read(QueryArgument argument);
+    Future<QueryResultSet> executeQuery(QueryArgument argument);
 
     // Batch support
 
-    default Future<Batch<QueryResultSet>> readBatch(Batch<QueryArgument> batch) {
-        return batch.execute(this::read, QueryResultSet.class);
+    default Future<Batch<QueryResultSet>> executeQueryBatch(Batch<QueryArgument> batch) {
+        return batch.execute(this::executeQuery, QueryResultSet.class);
     }
 
 }
