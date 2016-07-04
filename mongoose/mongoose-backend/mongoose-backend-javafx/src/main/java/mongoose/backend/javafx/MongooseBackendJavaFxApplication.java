@@ -10,6 +10,7 @@ import naga.core.spi.toolkit.javafx.JavaFxToolkit;
 public class MongooseBackendJavaFxApplication {
 
     public static void main(String[] args) {
+        // Setting JavaFx start hook to load fonts
         JavaFxToolkit.setStartHook(() -> {
             try {
                 double fontSize = 11;
@@ -22,7 +23,9 @@ public class MongooseBackendJavaFxApplication {
                 e.printStackTrace();
             }
         });
+        // Setting JavaFx scene hook to apply the mongoose css file
         JavaFxToolkit.setSceneHook(scene -> scene.getStylesheets().addAll("css/mongoose.css"));
+        // Once hooks are set, we can start the application
         MongooseBackendApplication.main(args);
     }
 }
