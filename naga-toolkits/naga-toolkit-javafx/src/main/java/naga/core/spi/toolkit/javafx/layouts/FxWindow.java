@@ -33,13 +33,15 @@ public class FxWindow implements Window<Parent> {
 
     private void setWindowContent(Parent rootComponent) {
         Scene scene = stage.getScene();
-        if (scene == null) {
+        if (scene != null)
+            scene.setRoot(rootComponent);
+        else { // Creating the scene if not yet done
             stage.setScene(scene = createScene(rootComponent, 800, 600));
+            // Calling the scene hook is specified
             Consumer<Scene> sceneHook = JavaFxToolkit.getSceneHook();
             if (sceneHook != null)
                 sceneHook.accept(scene);
-        } else
-            scene.setRoot(rootComponent);
+        }
         stage.show();
     }
 

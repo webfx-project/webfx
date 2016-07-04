@@ -32,7 +32,16 @@ import naga.core.util.function.Factory;
  */
 public class JavaFxToolkit extends Toolkit {
 
+    /**
+     * Start hook that will be invoked (in JavaFx thread) once JavaFx will be started. This can be used for application
+     * initialization that requires access to the JavaFx API (invoking the API before JavaFx is started will raise
+     * errors), like for example loading fonts in memory so they can be used in css.
+     */
     private static Runnable startHook;
+    /**
+     * Scene hook that will be invoked each time a new scene is created. This can be used to apply some operations
+     * such as applying css sheets.
+     */
     private static Consumer<Scene> sceneHook;
 
     public JavaFxToolkit() {
