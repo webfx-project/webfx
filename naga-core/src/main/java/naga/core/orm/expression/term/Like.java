@@ -1,6 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.lci.DataReader;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +12,7 @@ public class Like<T> extends BinaryBooleanExpression<T> {
         super(left, " like ", right, 5);
     }
 
-    public boolean evaluateCondition(Object a, Object b) {
+    public boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
         return b instanceof String && new LikeImpl((String) b).compare(a);
     }
 

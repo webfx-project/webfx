@@ -1,6 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.lci.DataReader;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class In<T> extends BinaryBooleanExpression<T> {
     }
 
     @Override
-    public boolean evaluateCondition(Object a, Object b) {
+    public boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
         return b instanceof List && ((List) b).contains(a);
     }
 }

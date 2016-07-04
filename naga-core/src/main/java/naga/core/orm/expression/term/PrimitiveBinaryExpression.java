@@ -1,6 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 import naga.core.type.Types;
@@ -20,20 +21,30 @@ public abstract class PrimitiveBinaryExpression<T> extends BinaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(Object leftValue, Object rightValue) {
+    public Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader) {
         Expression<T> left = getLeft();
         Type leftType = left != null ? left.getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
         PrimType leftPrimType = Types.getPrimType(leftType);
-        if (leftPrimType != null)
+        if (leftPrimType != null) {
+            leftValue = dataReader.prepareValueBeforeTypeConversion(leftValue, leftPrimType);
+            rightValue = dataReader.prepareValueBeforeTypeConversion(rightValue, leftPrimType);
             switch (leftPrimType) {
-                case BOOLEAN: return evaluateBoolean(Booleans.booleanValue(leftValue), Booleans.booleanValue(rightValue));
-                case INTEGER: return evaluateInteger(Numbers.intValue(leftValue), Numbers.intValue(rightValue));
-                case LONG:    return evaluateLong(Numbers.longValue(leftValue), Numbers.longValue(rightValue));
-                case FLOAT:   return evaluateFloat(Numbers.floatValue(leftValue), Numbers.floatValue(rightValue));
-                case DOUBLE:  return evaluateDouble(Numbers.doubleValue(leftValue), Numbers.doubleValue(rightValue));
-                case STRING:  return evaluateString(Strings.stringValue(leftValue), Strings.stringValue(rightValue));
-                case DATE:    return evaluateDate((Date) leftValue, (Date) rightValue);
+                case BOOLEAN:
+                    return evaluateBoolean(Booleans.booleanValue(leftValue), Booleans.booleanValue(rightValue));
+                case INTEGER:
+                    return evaluateInteger(Numbers.intValue(leftValue), Numbers.intValue(rightValue));
+                case LONG:
+                    return evaluateLong(Numbers.longValue(leftValue), Numbers.longValue(rightValue));
+                case FLOAT:
+                    return evaluateFloat(Numbers.floatValue(leftValue), Numbers.floatValue(rightValue));
+                case DOUBLE:
+                    return evaluateDouble(Numbers.doubleValue(leftValue), Numbers.doubleValue(rightValue));
+                case STRING:
+                    return evaluateString(Strings.stringValue(leftValue), Strings.stringValue(rightValue));
+                case DATE:
+                    return evaluateDate((Date) leftValue, (Date) rightValue);
             }
+        }
         return evaluateObject(leftValue, rightValue);
     }
 

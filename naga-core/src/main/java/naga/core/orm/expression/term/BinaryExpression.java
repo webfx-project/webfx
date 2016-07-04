@@ -47,7 +47,7 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
         Object rightValue = right.evaluate(domainObject, dataReader);
         if (isShortcutValue(rightValue))
             return rightValue;
-        return evaluate(leftValue, rightValue);
+        return evaluate(leftValue, rightValue, dataReader);
     }
 
     public boolean isShortcutValue(Object value) {
@@ -55,7 +55,7 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
     }
 
 
-    public abstract Object evaluate(Object leftValue, Object rightValue);
+    public abstract Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader);
 
     @Override
     public StringBuilder toString(StringBuilder sb) {
