@@ -1,6 +1,6 @@
 package naga.core.spi.platform.java;
 
-import naga.core.queryservice.impl.ConnectionDetails;
+import naga.core.datasource.ConnectionDetails;
 import naga.core.updateservice.UpdateService;
 import naga.core.updateservice.impl.RemoteUpdateService;
 

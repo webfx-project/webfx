@@ -2,8 +2,8 @@ package naga.core.updateservice.impl;
 
 import naga.core.Naga;
 import naga.core.bus.call.BusCallService;
-import naga.core.queryservice.impl.ConnectionDetails;
-import naga.core.queryservice.impl.LocalDataSourceRegistry;
+import naga.core.datasource.ConnectionDetails;
+import naga.core.datasource.LocalDataSourceRegistry;
 import naga.core.updateservice.UpdateArgument;
 import naga.core.updateservice.UpdateResult;
 import naga.core.updateservice.UpdateService;
@@ -25,7 +25,7 @@ public class RemoteUpdateService implements UpdateService {
     }
 
     protected UpdateService getConnectedLocalUpdateService(Object dataSourceId) {
-        UpdateService connectedUpdateService = LocalDataSourceRegistry.getLocalConnectedUpdateService(dataSourceId);
+        UpdateService connectedUpdateService = LocalUpdateServiceRegistry.getLocalConnectedUpdateService(dataSourceId);
         if (connectedUpdateService == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
             if (connectionDetails != null)

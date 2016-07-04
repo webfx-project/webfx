@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import naga.core.queryservice.QueryArgument;
 import naga.core.queryservice.QueryResultSet;
 import naga.core.queryservice.QueryService;
-import naga.core.queryservice.impl.ConnectionDetails;
+import naga.core.datasource.ConnectionDetails;
 import naga.core.updateservice.UpdateArgument;
 import naga.core.updateservice.UpdateResult;
 import naga.core.updateservice.UpdateService;

@@ -1,4 +1,4 @@
-package naga.core.queryservice.impl;
+package naga.core.datasource;
 
 /**
  * @author Bruno Salmon

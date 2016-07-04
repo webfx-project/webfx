@@ -2,6 +2,8 @@ package naga.core.queryservice.impl;
 
 import naga.core.Naga;
 import naga.core.bus.call.BusCallService;
+import naga.core.datasource.ConnectionDetails;
+import naga.core.datasource.LocalDataSourceRegistry;
 import naga.core.queryservice.QueryArgument;
 import naga.core.queryservice.QueryResultSet;
 import naga.core.queryservice.QueryService;
@@ -23,7 +25,7 @@ public class RemoteQueryService implements QueryService {
     }
 
     protected QueryService getConnectedLocalQueryService(Object dataSourceId) {
-        QueryService connectedQueryService = LocalDataSourceRegistry.getLocalConnectedQueryService(dataSourceId);
+        QueryService connectedQueryService = LocalQueryServiceRegistry.getLocalConnectedQueryService(dataSourceId);
         if (connectedQueryService == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
             if (connectionDetails != null)
