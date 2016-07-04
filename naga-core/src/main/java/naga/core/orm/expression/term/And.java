@@ -1,6 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.orm.expression.lci.DataWriter;
 import naga.core.util.Numbers;
 
@@ -24,7 +25,7 @@ public class And<T> extends BinaryBooleanExpression<T> {
     }
 
     @Override
-    public boolean evaluateCondition(Object a, Object b) {
+    public boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
         return !isShortcutValue(a) && !isShortcutValue(b);
     }
 

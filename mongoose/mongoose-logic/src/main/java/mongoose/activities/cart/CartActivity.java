@@ -62,6 +62,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "{expression: 'price_deposit', format: 'price'}," +
                         "{expression: 'price_balance', format: 'price'}" +
                         "]")
+                .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.documentDisplayResultSetProperty())
                 .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty());
 
@@ -80,6 +81,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "'dates'," +
                         "{expression: 'price_net', label: 'Fees', format: 'price'}" +
                         "]")
+                .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
         // Setting up the payments filter
@@ -94,6 +96,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "{expression: 'amount', format: 'price'}," +
                         "{expression: 'pending ? `Pending` : successful ? `Success` : `Failed`', label: 'Status'}" +
                         "]")
+                .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.paymentDisplayResultSetProperty());
     }
 }

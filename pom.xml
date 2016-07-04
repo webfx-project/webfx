@@ -40,6 +40,7 @@
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
         <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
+        <lib.medusa.version>5.0</lib.medusa.version>
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
@@ -253,6 +254,20 @@
                 <artifactId>gwt-user</artifactId>
                 <version>${lib.gwt.version}</version>
             </dependency>
+
+            <!--
+             ***************************************************
+             * Graphical libraries for toolkit implementations *
+             ***************************************************
+             -->
+
+            <!-- Medusa is a JavaFX 8 library containing gauges and clocks -->
+            <dependency>
+                <groupId>eu.hansolo</groupId>
+                <artifactId>Medusa</artifactId>
+                <version>${lib.medusa.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -88,11 +88,6 @@ public class Numbers {
         }
     }
 
-    public static boolean areNumberEquivalent(Object n1, Object n2) {
-        // Temporary code for J2ME CLDC
-        return n1.toString().equals(n2.toString());
-    }
-
     public static Object negate(Object n) {
         if (n instanceof Byte)
             return -(Byte) n;

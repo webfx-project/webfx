@@ -86,6 +86,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                         "{expression: 'price_deposit', format: 'price'}," +
                         "{expression: 'price_balance', format: 'price'}" +
                         "]")
+                .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.bookingsDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.bookingsDisplaySelectionProperty(), document -> {
                     if (document != null) {

@@ -2,7 +2,10 @@ package naga.core.spi.toolkit.gwt.charts;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
-import com.googlecode.gwt.charts.client.*;
+import com.googlecode.gwt.charts.client.ColumnType;
+import com.googlecode.gwt.charts.client.DataColumn;
+import com.googlecode.gwt.charts.client.DataTable;
+import com.googlecode.gwt.charts.client.Selection;
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import com.googlecode.gwt.charts.client.corechart.PieChart;
 import com.googlecode.gwt.charts.client.event.SelectEvent;
@@ -20,6 +23,7 @@ import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.util.Booleans;
 import naga.core.util.Numbers;
 import naga.core.util.Strings;
+import naga.core.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -32,7 +36,7 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
 
     public GwtChart() {
         super(new SimpleLayoutPanel());
-        new ChartLoader(ChartPackage.CORECHART).loadApi(() -> {
+        ChartApiLoader.onChartApiLoaded(() -> {
             chartWidget = createChartWidget();
             isPieChart = chartWidget instanceof PieChart;
             node.setWidget(chartWidget);
@@ -111,21 +115,22 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
         int columnCount = rs.getColumnCount();
         DisplayColumn[] columns = rs.getColumns();
         boolean rowFormat = columns[0].getRole() == null;
+        boolean hasXAxis = !isPieChart;
         if (!rowFormat) { /***** Column format - see {@link Chart} for format description *****/
             if (isPieChart && rowCount > 1) // ignoring extra rows for pie chart
                 rowCount = 1;
-            int seriesCount = isPieChart ? columnCount : columnCount - 1;
+            int firstSeriesColumnIndex = hasXAxis ? 1 : 0;
+            int seriesCount = columnCount - firstSeriesColumnIndex;
             int pointPerSeriesCount = rowCount;
-            Type xType = isPieChart ? null : columns[0].getType();
-            Type yType = columns[isPieChart ? 0 : 1].getType();
-            createChartData(seriesCount, pointPerSeriesCount, xType, yType);
-            for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                String seriesName = columns[columnIndex].getName();
-                startSeries(seriesName);
-                for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
-                    Object xValue = isPieChart ? null : rs.getValue(rowIndex, 0);
-                    Object yValue = rs.getValue(rowIndex, columnIndex);
-                    addPointToCurrentSeries(xValue, yValue);
+            Type xType = hasXAxis ? columns[0].getType() : null;
+            Type yType = columns[firstSeriesColumnIndex].getType();
+            createChartData(xType, yType, pointPerSeriesCount, seriesCount, seriesIndex -> columns[firstSeriesColumnIndex + seriesIndex].getName());
+            for (int pointIndex = 0; pointIndex < pointPerSeriesCount; pointIndex++) {
+                if (hasXAxis)
+                    setChartDataX(rs.getValue(pointIndex, 0), pointIndex);
+                for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
+                    Object yValue = rs.getValue(pointIndex, firstSeriesColumnIndex + seriesIndex);
+                    setChartDataY(yValue, pointIndex, seriesIndex);
                 }
             }
         } else {          /***** Row format - see {@link Chart} for format description *****/
@@ -133,16 +138,15 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
                 columnCount = 2;
             int seriesCount = rowCount;
             int pointPerSeriesCount = columnCount - 1;
-            Type xType = isPieChart ? null : PrimType.fromObject(columns[1].getName());
+            Type xType = hasXAxis ? PrimType.fromObject(columns[1].getName()) : null;
             Type yType = columns[pointPerSeriesCount].getType();
-            createChartData(seriesCount, pointPerSeriesCount, xType, yType);
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
-                String seriesName = Strings.toString(rs.getValue(rowIndex, 0));
-                startSeries(seriesName);
-                for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                    Object xValue = isPieChart ? null : columns[columnIndex].getName();
-                    Object yValue = rs.getValue(rowIndex, columnIndex);
-                    addPointToCurrentSeries(xValue, yValue);
+            createChartData(xType, yType, pointPerSeriesCount, seriesCount, seriesIndex -> Strings.toString(rs.getValue(seriesIndex, 0)));
+            for (int pointIndex = 0; pointIndex < pointPerSeriesCount; pointIndex++) {
+                if (hasXAxis)
+                    setChartDataX(columns[pointIndex + 1].getName(), pointIndex);
+                for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
+                    Object yValue = rs.getValue(seriesIndex, pointIndex + 1);
+                    setChartDataY(yValue, pointIndex, seriesIndex);
                 }
             }
         }
@@ -150,13 +154,12 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
     }
 
     private DataTable dataTable;
-    private int seriesIndex;
-    private int pointIndex;
     private ColumnType xGoogleType;
     private ColumnType yGoogleType;
     private boolean googleRowFormat;
+    private int seriesCount;
 
-    private void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType) {
+    private void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
         // Creating a google dataTable in column format (each series is a column)
         xGoogleType = toGoogleColumnType(Types.getPrimType(xType));
         yGoogleType = toGoogleColumnType(Types.getPrimType(yType));
@@ -167,38 +170,37 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
             dataTable.addColumn(ColumnType.STRING); // first column for series names
             if (!isPieChart)
                 dataTable.addColumn(DataColumn.create(xGoogleType)); // second column for X
-            for (int i = 0; i < pointPerSeriesCount; i++)
+            for (int pointIndex = 0; pointIndex < pointPerSeriesCount; pointIndex++)
                 dataTable.addColumn(DataColumn.create(yGoogleType)); // other columns for Y
+            for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++)
+                dataTable.setValue(seriesIndex, 0, seriesNameGetter.apply(seriesIndex));
         } else {
             dataTable.addRows(pointPerSeriesCount);
             dataTable.addColumn(DataColumn.create(xGoogleType)); // first column for X
+            for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
+                DataColumn dataColumn = DataColumn.create(yGoogleType);
+                dataColumn.setLabel(seriesNameGetter.apply(seriesIndex));
+                dataTable.addColumn(dataColumn);
+            }
         }
-        seriesIndex = -1;
+        this.seriesCount = seriesCount;
     }
 
-    private void startSeries(String name) {
-        seriesIndex++;
-        if (googleRowFormat) {
-            dataTable.setValue(seriesIndex, 0, name);
-        } else {
-            DataColumn dataColumn = DataColumn.create(yGoogleType);
-            dataColumn.setLabel(name);
-            dataTable.addColumn(dataColumn);
-        }
-        pointIndex = -1;
-    }
-
-    private void addPointToCurrentSeries(Object xValue, Object yValue) {
-        pointIndex++;
-        if (googleRowFormat) {
-            if (pointIndex == 0 && !isPieChart)
+    private void setChartDataX(Object xValue, int pointIndex) {
+        if (isPieChart)
+            return;
+        if (googleRowFormat)
+            for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++)
                 setDataTableValue(seriesIndex, 1, xValue, xGoogleType);
+        else
+            setDataTableValue(pointIndex, 0, xValue, xGoogleType);
+    }
+
+    private void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
+        if (googleRowFormat)
             setDataTableValue(seriesIndex, pointIndex + (isPieChart ? 1 : 2), yValue, yGoogleType);
-        } else {
-            if (seriesIndex == 0)
-                setDataTableValue(pointIndex, 0, xValue, xGoogleType);
+        else
             setDataTableValue(pointIndex, seriesIndex + 1, yValue, yGoogleType);
-        }
     }
 
     private void setDataTableValue(int rowIndex, int columnIndex, Object value, ColumnType googleType) {

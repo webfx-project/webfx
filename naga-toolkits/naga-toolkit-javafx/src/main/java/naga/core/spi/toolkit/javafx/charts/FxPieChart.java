@@ -6,6 +6,7 @@ import javafx.scene.chart.Chart;
 import naga.core.spi.toolkit.charts.PieChart;
 import naga.core.type.Type;
 import naga.core.util.Numbers;
+import naga.core.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +14,7 @@ import naga.core.util.Numbers;
 public class FxPieChart extends FxChart implements PieChart<Chart> {
 
     private ObservableList<javafx.scene.chart.PieChart.Data> pieData;
-    private String currentSeriesName;
+    private Function<Integer, String> seriesNameGetter;
 
     public FxPieChart() {
         this(createPieChart());
@@ -30,18 +31,18 @@ public class FxPieChart extends FxChart implements PieChart<Chart> {
     }
 
     @Override
-    protected void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType) {
+    protected void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
         pieData = FXCollections.observableArrayList();
+        this.seriesNameGetter = seriesNameGetter;
     }
 
     @Override
-    protected void startSeries(String name) {
-        currentSeriesName = name;
+    protected void setChartDataX(Object xValue, int pointIndex) {
     }
 
     @Override
-    protected void addPointToCurrentSeries(Object xValue, Object yValue) { // xValue is ignored for pie charts
-        pieData.add(new javafx.scene.chart.PieChart.Data(currentSeriesName, Numbers.doubleValue(yValue)));
+    protected void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
+        pieData.add(new javafx.scene.chart.PieChart.Data(seriesNameGetter.apply(seriesIndex), Numbers.doubleValue(yValue)));
     }
 
     @Override

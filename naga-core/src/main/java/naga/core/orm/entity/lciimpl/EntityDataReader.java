@@ -5,6 +5,7 @@ import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityID;
 import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.lci.DataReader;
+import naga.core.type.PrimType;
 
 /**
  * @author Bruno Salmon
@@ -39,5 +40,14 @@ public class EntityDataReader implements DataReader<Entity> {
     @Override
     public Object getParameterValue(String name) {
         return null;
+    }
+
+    @Override
+    public Object prepareValueBeforeTypeConversion(Object value, PrimType type) {
+        if (value instanceof Entity)
+            value = ((Entity) value).getId().getPrimaryKey();
+        else if (value instanceof EntityID)
+            value = ((EntityID) value).getPrimaryKey();
+        return value;
     }
 }

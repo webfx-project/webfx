@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.orm.domainmodel.DomainClass;
 import naga.core.orm.entity.Entity;
 import naga.core.orm.entity.EntityList;
 import naga.core.orm.entity.EntityStore;
@@ -16,6 +17,8 @@ import naga.core.orm.stringfilter.StringFilterBuilder;
 import naga.core.queryservice.QueryArgument;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
+import naga.core.type.PrimType;
+import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayresultset.EntityListToDisplayResultSetGenerator;
 import naga.core.ui.displayresultset.ExpressionColumn;
@@ -107,17 +110,27 @@ public class RxFilter {
     }
 
     public RxFilter setExpressionColumns(String jsonArrayDisplayColumns) {
-        this.expressionColumns = ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns);
-        return this;
+        return setExpressionColumns(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
     }
 
     public RxFilter setExpressionColumns(JsonArray array) {
-        this.expressionColumns = ExpressionColumn.fromJsonArray(array);
-        return this;
+        return setExpressionColumns(ExpressionColumn.fromJsonArray(array));
     }
 
     public RxFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
         this.expressionColumns = expressionColumns;
+        return this;
+    }
+
+    public RxFilter applyDomainModelRowStyle() {
+        DomainClass domainClass = dataSourceModel.getDomainModel().getClass(domainClassId);
+        ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
+        if (rowStylesExpressionArray != null) {
+            ExpressionColumn[] expressionColumns2 = new ExpressionColumn[expressionColumns.length + 1];
+            expressionColumns2[0] = ExpressionColumn.create(rowStylesExpressionArray, new DisplayColumn(null, "style", PrimType.STRING, "style"));
+            System.arraycopy(expressionColumns, 0, expressionColumns2, 1, expressionColumns.length);
+            expressionColumns = expressionColumns2;
+        }
         return this;
     }
 
@@ -205,7 +218,7 @@ public class RxFilter {
         return this;
     }
 
-    DisplayResultSet emptyDisplayResultSet() {
+    private DisplayResultSet emptyDisplayResultSet() {
         return EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), expressionColumns);
     }
 

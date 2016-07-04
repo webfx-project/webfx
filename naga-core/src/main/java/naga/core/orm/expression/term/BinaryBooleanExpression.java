@@ -1,6 +1,7 @@
 package naga.core.orm.expression.term;
 
 import naga.core.orm.expression.Expression;
+import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 
@@ -19,10 +20,10 @@ public abstract class BinaryBooleanExpression<T> extends BinaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(Object leftValue, Object rightValue) {
-        return evaluateCondition(leftValue, rightValue);
+    public Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader) {
+        return evaluateCondition(leftValue, rightValue, dataReader);
     }
 
-    public abstract boolean evaluateCondition(Object a, Object b);
+    public abstract boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader);
 
 }

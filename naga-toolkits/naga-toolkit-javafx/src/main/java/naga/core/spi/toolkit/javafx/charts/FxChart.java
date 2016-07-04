@@ -9,6 +9,7 @@ import naga.core.type.Type;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.Strings;
+import naga.core.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -24,7 +25,6 @@ public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.sc
 
     @Override
     protected void syncVisualSelectionMode(SelectionMode selectionMode) {
-
     }
 
     @Override
@@ -33,21 +33,22 @@ public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.sc
         int columnCount = rs.getColumnCount();
         DisplayColumn[] columns = rs.getColumns();
         boolean rowFormat = columns[0].getRole() == null;
+        boolean hasXAxis = !isPieChart;
         if (!rowFormat) { /***** Column format - see {@link Chart} for format description *****/
             if (isPieChart && rowCount > 1) // ignoring extra rows for pie chart
                 rowCount = 1;
-            int seriesCount = isPieChart ? columnCount : columnCount - 1;
+            int firstSeriesColumnIndex = hasXAxis ? 1 : 0;
+            int seriesCount = columnCount - firstSeriesColumnIndex;
             int pointPerSeriesCount = rowCount;
-            Type xType = isPieChart ? null : columns[0].getType();
-            Type yType = columns[isPieChart ? 0 : 1].getType();
-            createChartData(seriesCount, pointPerSeriesCount, xType, yType);
-            for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                String seriesName = columns[columnIndex].getName();
-                startSeries(seriesName);
-                for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
-                    Object xValue = isPieChart ? null : rs.getValue(rowIndex, 0);
-                    Object yValue = rs.getValue(rowIndex, columnIndex);
-                    addPointToCurrentSeries(xValue, yValue);
+            Type xType = hasXAxis ? columns[0].getType() : null;
+            Type yType = columns[firstSeriesColumnIndex].getType();
+            createChartData(xType, yType, pointPerSeriesCount, seriesCount, seriesIndex -> columns[firstSeriesColumnIndex + seriesIndex].getName());
+            for (int pointIndex = 0; pointIndex < pointPerSeriesCount; pointIndex++) {
+                if (hasXAxis)
+                    setChartDataX(rs.getValue(pointIndex, 0), pointIndex);
+                for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
+                    Object yValue = rs.getValue(pointIndex, firstSeriesColumnIndex + seriesIndex);
+                    setChartDataY(yValue, pointIndex, seriesIndex);
                 }
             }
         } else {          /***** Row format - see {@link Chart} for format description *****/
@@ -55,27 +56,26 @@ public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.sc
                 columnCount = 2;
             int seriesCount = rowCount;
             int pointPerSeriesCount = columnCount - 1;
-            Type xType = isPieChart ? null : PrimType.fromObject(columns[1].getName());
+            Type xType = hasXAxis ? PrimType.fromObject(columns[1].getName()) : null;
             Type yType = columns[pointPerSeriesCount].getType();
-            createChartData(seriesCount, pointPerSeriesCount, xType, yType);
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex ++) {
-                String seriesName = Strings.toString(rs.getValue(rowIndex, 0));
-                startSeries(seriesName);
-                for (int columnIndex = 1; columnIndex < columnCount; columnIndex++) {
-                    Object xValue = isPieChart ? null : columns[columnIndex].getName();
-                    Object yValue = rs.getValue(rowIndex, columnIndex);
-                    addPointToCurrentSeries(xValue, yValue);
+            createChartData(xType, yType, pointPerSeriesCount, seriesCount, seriesIndex -> Strings.toString(rs.getValue(seriesIndex, 0)));
+            for (int pointIndex = 0; pointIndex < pointPerSeriesCount; pointIndex++) {
+                if (hasXAxis)
+                    setChartDataX(columns[pointIndex + 1].getName(), pointIndex);
+                for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
+                    Object yValue = rs.getValue(seriesIndex, pointIndex + 1);
+                    setChartDataY(yValue, pointIndex, seriesIndex);
                 }
             }
         }
         applyChartData();
     }
 
-    protected abstract void createChartData(int seriesCount, int pointPerSeriesCount, Type xType, Type yType);
+    protected abstract void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter);
 
-    protected abstract void startSeries(String name);
+    protected abstract void setChartDataX(Object xValue, int pointIndex);
 
-    protected abstract void addPointToCurrentSeries(Object xValue, Object yValue);
+    protected abstract void setChartDataY(Object yValue, int pointIndex, int seriesIndex);
 
     protected abstract void applyChartData();
 

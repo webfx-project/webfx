@@ -21,19 +21,6 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
         this(new LayoutFlowPanel());
     }
 
-    // A FlowLayout that implements RequiresResize and ProvidesResize so that children are automatically resized
-    static class LayoutFlowPanel extends FlowPanel implements RequiresResize, ProvidesResize {
-
-        @Override
-        public void onResize() {
-            for (Widget child : getChildren()) {
-                if (child instanceof RequiresResize) {
-                    ((RequiresResize) child).onResize();
-                }
-            }
-        }
-    }
-
     public GwtPolymerVPage(Panel node) {
         super(node);
         node.getElement().addClassName("layout vertical");

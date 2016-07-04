@@ -19,11 +19,10 @@
             <version>${naga.version}</version>
         </dependency>
 
-        <!--dependency>
-            <groupId>io.reactivex</groupId>
-            <artifactId>rxjavafx</artifactId>
-            <version>0.0.4</version>
-        </dependency-->
+        <dependency>
+            <artifactId>Medusa</artifactId>
+            <groupId>eu.hansolo</groupId>
+        </dependency>
 
     </dependencies>
 

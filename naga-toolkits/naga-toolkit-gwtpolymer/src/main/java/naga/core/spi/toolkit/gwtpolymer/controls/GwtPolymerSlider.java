@@ -19,13 +19,13 @@ public class GwtPolymerSlider extends GwtNode<PaperSlider> implements Slider<Pap
     public GwtPolymerSlider(PaperSlider slider) {
         super(slider);
         Polymer.ready(slider.getElement(), o -> {
-            if (minProperty().getValue() != null)
+            if (getMin() != null)
                 slider.setMin(getMin());
             minProperty().addListener((observable, oldMin, newMin) -> slider.setMin(newMin));
-            if (maxProperty().getValue() != null)
+            if (getMax() != null)
                 slider.setMax(getMax());
             maxProperty().addListener((observable, oldMax, newMax) -> slider.setMax(newMax));
-            if (valueProperty().getValue() != null)
+            if (getValue() != null)
                 slider.setValue(getValue());
             valueProperty().addListener((observable, oldValue, newValue) -> syncValueToVisual());
             slider.addChangeHandler(valueChangeEvent -> syncValueFromVisual());

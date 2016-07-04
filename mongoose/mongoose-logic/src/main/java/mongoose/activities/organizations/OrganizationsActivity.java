@@ -61,6 +61,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                         "{label: 'Name', expression: 'name + ` (` + type.code + `)`'}," +
                         "{label: 'Country', expression: 'country.(name + ` (` + continent.name + `)`)'}" +
                         "]")
+                .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.organizationsDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.organizationsDisplaySelectionProperty(), entity -> {
                     if (entity != null)

@@ -56,7 +56,7 @@ public class Dot<T> extends BinaryExpression<T> {
     }
 
     @Override
-    public Object evaluate(Object leftValue, Object rightValue) {
+    public Object evaluate(Object leftValue, Object rightValue, DataReader<T> dataReader) {
         return null; // never called due to above evaluate method override
     }
 

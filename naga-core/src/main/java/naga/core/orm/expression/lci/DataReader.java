@@ -1,5 +1,7 @@
 package naga.core.orm.expression.lci;
 
+import naga.core.type.PrimType;
+
 /**
  * Loose coupling interface used by expressions to read data (from domain objects and parameters).
  *
@@ -41,4 +43,16 @@ public interface DataReader<T> {
      * @return the parameter value
      */
     Object getParameterValue(String name);
+
+    /**
+     * Prepare the value just before it will be converted into the specified type. This method is called during
+     * expression evaluation, so if the value is actually an instance of a domain object or an identifier, this method
+     * can return the primary key instead of the instance itself. This allows to correctly evaluate expressions such as
+     * object.id=10 or even object=10 when object.id and object are not numbers whereas the primary key is.
+     *
+     * @param value the value that will be converted
+     * @param type the type into which the value will be converted
+     * @return the value to be used for the actual conversion (such as the primary key if applicable or the unchanged value)
+     */
+    Object prepareValueBeforeTypeConversion(Object value, PrimType type);
 }
