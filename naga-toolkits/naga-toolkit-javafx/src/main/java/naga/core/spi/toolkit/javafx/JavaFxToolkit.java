@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import naga.core.spi.toolkit.Toolkit;
@@ -23,12 +24,16 @@ import naga.core.spi.toolkit.layouts.VPage;
 import naga.core.spi.toolkit.layouts.Window;
 import naga.core.spi.toolkit.property.ConvertedProperty;
 import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.util.function.Consumer;
 import naga.core.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
 public class JavaFxToolkit extends Toolkit {
+
+    private static Runnable startHook;
+    private static Consumer<Scene> sceneHook;
 
     public JavaFxToolkit() {
         this(() -> FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage));
@@ -55,6 +60,18 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(PieChart.class, FxPieChart::new, javafx.scene.chart.PieChart.class, FxPieChart::new);
     }
 
+    public static void setStartHook(Runnable startHook) {
+        JavaFxToolkit.startHook = startHook;
+    }
+
+    public static void setSceneHook(Consumer<Scene> sceneHook) {
+        JavaFxToolkit.sceneHook = sceneHook;
+    }
+
+    public static Consumer<Scene> getSceneHook() {
+        return sceneHook;
+    }
+
     public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet displayResultSet) {
         Object[] values = displayResultSet.getValues();
         ObjectProperty[] fxProperties = new ObjectProperty[values.length];
@@ -66,12 +83,17 @@ public class JavaFxToolkit extends Toolkit {
     public static class FxApplication extends Application {
         public static Stage primaryStage;
         public static FxWindow applicationWindow;
+
         @Override
         public void start(Stage primaryStage) throws Exception {
             FxApplication.primaryStage = primaryStage;
             primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
             if (applicationWindow != null)
                 applicationWindow.setStage(primaryStage);
+            if (startHook != null) {
+                startHook.run();
+                startHook = null;
+            }
         }
     }
 

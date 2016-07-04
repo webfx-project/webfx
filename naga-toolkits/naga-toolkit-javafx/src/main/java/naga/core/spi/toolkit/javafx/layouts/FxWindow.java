@@ -5,8 +5,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import naga.core.spi.toolkit.javafx.JavaFxToolkit;
 import naga.core.spi.toolkit.node.GuiNode;
 import naga.core.spi.toolkit.layouts.Window;
+import naga.core.util.function.Consumer;
 
 /**
  * @author Bruno Salmon
@@ -31,9 +33,12 @@ public class FxWindow implements Window<Parent> {
 
     private void setWindowContent(Parent rootComponent) {
         Scene scene = stage.getScene();
-        if (scene == null)
-            stage.setScene(createScene(rootComponent, 800, 600));
-        else
+        if (scene == null) {
+            stage.setScene(scene = createScene(rootComponent, 800, 600));
+            Consumer<Scene> sceneHook = JavaFxToolkit.getSceneHook();
+            if (sceneHook != null)
+                sceneHook.accept(scene);
+        } else
             scene.setRoot(rootComponent);
         stage.show();
     }
