@@ -1,6 +1,7 @@
 package naga.core.queryservice.impl;
 
 import naga.core.queryservice.QueryService;
+import naga.core.updateservice.UpdateService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,22 +11,31 @@ import java.util.Map;
  */
 public class LocalDataSourceRegistry {
 
-    private static final Map<Object, ConnectionDetails> dataSourceConnectionDetails = new HashMap<>();
-    private static final Map<Object, QueryService> dataSourceConnectedSqlServices = new HashMap<>();
+    private static final Map</* dataSourceId */ Object, ConnectionDetails> localDataSourceConnectionDetails = new HashMap<>();
+    private static final Map</* dataSourceId */ Object, QueryService> localConnectedQueryServices = new HashMap<>();
+    private static final Map</* dataSourceId */ Object, UpdateService> localConnectedUpdateServices = new HashMap<>();
 
     public static void registerLocalDataSource(Object dataSourceId, ConnectionDetails connectionDetails) {
-        dataSourceConnectionDetails.put(dataSourceId, connectionDetails);
-    }
-
-    public static void registerConnectedSqlService(Object dataSourceId, QueryService localQueryService) {
-        dataSourceConnectedSqlServices.put(dataSourceId, localQueryService);
+        localDataSourceConnectionDetails.put(dataSourceId, connectionDetails);
     }
 
     public static ConnectionDetails getLocalDataSourceConnectionDetails(Object dataSourceId) {
-        return dataSourceConnectionDetails.get(dataSourceId);
+        return localDataSourceConnectionDetails.get(dataSourceId);
     }
 
-    public static QueryService getConnectedSqlService(Object dataSourceId) {
-        return dataSourceConnectedSqlServices.get(dataSourceId);
+    public static void registerLocalConnectedQueryService(Object dataSourceId, QueryService localQueryService) {
+        localConnectedQueryServices.put(dataSourceId, localQueryService);
+    }
+
+    public static QueryService getLocalConnectedQueryService(Object dataSourceId) {
+        return localConnectedQueryServices.get(dataSourceId);
+    }
+
+    public static void registerLocalConnectedUpdateService(Object dataSourceId, UpdateService localUpdateService) {
+        localConnectedUpdateServices.put(dataSourceId, localUpdateService);
+    }
+
+    public static UpdateService getLocalConnectedUpdateService(Object dataSourceId) {
+        return localConnectedUpdateServices.get(dataSourceId);
     }
 }
