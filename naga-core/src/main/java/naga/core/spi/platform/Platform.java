@@ -24,6 +24,8 @@ import naga.core.queryservice.QueryService;
 import naga.core.queryservice.impl.RemoteQueryService;
 import naga.core.routing.history.History;
 import naga.core.routing.history.impl.MemoryHistory;
+import naga.core.updateservice.UpdateService;
+import naga.core.updateservice.impl.RemoteUpdateService;
 import naga.core.util.function.Consumer;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
 
@@ -65,6 +67,10 @@ public abstract class Platform {
 
     public QueryService queryService() {
         return RemoteQueryService.REMOTE_ONLY_QUERY_SERVICE;
+    }
+
+    public UpdateService updateService() {
+        return RemoteUpdateService.REMOTE_ONLY_UPDATE_SERVICE;
     }
 
     public History getBrowserHistory() {
@@ -159,5 +165,9 @@ public abstract class Platform {
 
     public static QueryService query() {
         return get().queryService();
+    }
+
+    public static UpdateService update() {
+        return get().updateService();
     }
 }

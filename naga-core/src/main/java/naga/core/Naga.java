@@ -32,9 +32,9 @@ public class Naga {
         // Registering java services so they can be called through the BusCallService
         BusCallService.registerCallableJavaService(VERSION_ADDRESS, this::getVersion);
         BusCallService.registerAsyncFunctionJavaService(QUERY_READ_ADDRESS, Platform.query()::read);
-        BusCallService.registerAsyncFunctionJavaService(QUERY_WRITE_ADDRESS, Platform.query()::write);
+        BusCallService.registerAsyncFunctionJavaService(QUERY_WRITE_ADDRESS, Platform.update()::update);
         BusCallService.registerAsyncFunctionJavaService(QUERY_READ_BATCH_ADDRESS, Platform.query()::readBatch);
-        BusCallService.registerAsyncFunctionJavaService(QUERY_WRITE_BATCH_ADDRESS, Platform.query()::writeBatch);
+        BusCallService.registerAsyncFunctionJavaService(QUERY_WRITE_BATCH_ADDRESS, Platform.update()::updateBatch);
 
         // Starting the BusCallService by listening entry calls
         BusCallService.listenEntryCalls();
