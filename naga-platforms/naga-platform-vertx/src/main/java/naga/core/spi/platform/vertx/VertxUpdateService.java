@@ -1,23 +1,23 @@
 package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
-import naga.core.queryservice.QueryService;
 import naga.core.queryservice.impl.ConnectionDetails;
-import naga.core.queryservice.impl.RemoteQueryService;
+import naga.core.updateservice.UpdateService;
+import naga.core.updateservice.impl.RemoteUpdateService;
 
 /**
  * @author Bruno Salmon
  */
-class VertxQueryService extends RemoteQueryService {
+class VertxUpdateService extends RemoteUpdateService {
 
     private final Vertx vertx;
 
-    public VertxQueryService(Vertx vertx) {
+    public VertxUpdateService(Vertx vertx) {
         this.vertx = vertx;
     }
 
     @Override
-    protected QueryService createConnectedQueryService(ConnectionDetails connectionDetails) {
+    protected UpdateService createConnectedUpdateService(ConnectionDetails connectionDetails) {
         return new VertxConnectedService(vertx, connectionDetails);
     }
 
