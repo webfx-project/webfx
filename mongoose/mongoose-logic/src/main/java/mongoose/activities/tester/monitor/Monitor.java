@@ -1,7 +1,8 @@
 package mongoose.activities.tester.monitor;
 
 import javafx.beans.property.ObjectProperty;
-import mongoose.activities.tester.monitor.controller.SystemSnapshot;
+import mongoose.activities.tester.monitor.controller.SystemLookup;
+import mongoose.activities.tester.monitor.controller.SystemLookupMock;
 import mongoose.activities.tester.monitor.model.SysBean;
 import mongoose.activities.tester.monitor.model.SysBeanFX;
 import naga.core.spi.platform.Platform;
@@ -15,8 +16,7 @@ import naga.core.spi.toolkit.Toolkit;
 public class Monitor {
     private static final Monitor instance = new Monitor();   // singleton
 
-    private Thread th;
-    private SystemSnapshot sysMon = new SystemSnapshot();
+    private SystemLookup sysMon = new SystemLookupMock();
     private ObjectProperty<SysBeanFX> sbfx;
     private boolean cancelled;
 
@@ -32,13 +32,12 @@ public class Monitor {
             long current;
 
             while (!cancelled) {
-                SysBean sb = sysMon.systemSnapshot();
+                SysBean sb = sysMon.snapshot();
                 current = System.currentTimeMillis();
                 // Display results on the console (optional)
                 if (mode_console) {
-                    Platform.log(th.getState());
                     sb.printState();
-                    Platform.log("elapsed time : "+ Long.toString(current - start)+" ms");
+                    Platform.log("elapsed time : "+ (current - start)+" ms");
                 }
                 // Display results on the UI
                 Toolkit.get().scheduler().scheduleDeferred(() -> sbfx.set(new SysBeanFX(sb)));
