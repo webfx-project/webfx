@@ -1,9 +1,9 @@
 package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
-import naga.core.queryservice.QueryService;
+import naga.core.services.query.QueryService;
 import naga.core.datasource.ConnectionDetails;
-import naga.core.queryservice.impl.RemoteQueryService;
+import naga.core.services.query.RemoteQueryService;
 
 /**
  * @author Bruno Salmon

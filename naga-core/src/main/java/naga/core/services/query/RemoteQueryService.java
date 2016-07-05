@@ -1,12 +1,9 @@
-package naga.core.queryservice.impl;
+package naga.core.services.query;
 
 import naga.core.Naga;
 import naga.core.bus.call.BusCallService;
 import naga.core.datasource.ConnectionDetails;
 import naga.core.datasource.LocalDataSourceRegistry;
-import naga.core.queryservice.QueryArgument;
-import naga.core.queryservice.QueryResultSet;
-import naga.core.queryservice.QueryService;
 import naga.core.util.async.Future;
 
 /**

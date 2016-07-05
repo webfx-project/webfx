@@ -1,4 +1,4 @@
-package naga.core.queryservice;
+package naga.core.services.query;
 
 import naga.core.util.async.Batch;
 import naga.core.util.async.Future;

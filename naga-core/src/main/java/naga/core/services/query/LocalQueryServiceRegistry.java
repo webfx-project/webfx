@@ -1,6 +1,6 @@
-package naga.core.queryservice.impl;
+package naga.core.services.query;
 
-import naga.core.queryservice.QueryService;
+import naga.core.services.query.QueryService;
 
 import java.util.HashMap;
 import java.util.Map;

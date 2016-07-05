@@ -1,4 +1,4 @@
-package naga.core.queryservice;
+package naga.core.services.query;
 
 import naga.core.json.*;
 import naga.core.json.codec.AbstractJsonCodec;

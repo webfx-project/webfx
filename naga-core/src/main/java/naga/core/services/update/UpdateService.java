@@ -1,4 +1,4 @@
-package naga.core.updateservice;
+package naga.core.services.update;
 
 import naga.core.util.async.Batch;
 import naga.core.util.async.Future;

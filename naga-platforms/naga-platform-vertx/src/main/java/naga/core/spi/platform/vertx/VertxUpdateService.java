@@ -2,8 +2,8 @@ package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.datasource.ConnectionDetails;
-import naga.core.updateservice.UpdateService;
-import naga.core.updateservice.impl.RemoteUpdateService;
+import naga.core.services.update.UpdateService;
+import naga.core.services.update.RemoteUpdateService;
 
 /**
  * @author Bruno Salmon

@@ -1,12 +1,9 @@
-package naga.core.updateservice.impl;
+package naga.core.services.update;
 
 import naga.core.Naga;
 import naga.core.bus.call.BusCallService;
 import naga.core.datasource.ConnectionDetails;
 import naga.core.datasource.LocalDataSourceRegistry;
-import naga.core.updateservice.UpdateArgument;
-import naga.core.updateservice.UpdateResult;
-import naga.core.updateservice.UpdateService;
 import naga.core.util.async.Future;
 
 /**
@@ -38,7 +35,7 @@ public class RemoteUpdateService implements UpdateService {
         throw new UnsupportedOperationException("This platform doesn't support local update service");
     }
 
-    protected Future<naga.core.updateservice.UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
+    protected Future<naga.core.services.update.UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
         return BusCallService.call(Naga.UPDATE_SERVICE_ADDRESS, argument);
     }
 

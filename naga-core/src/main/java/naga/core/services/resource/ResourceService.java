@@ -1,4 +1,4 @@
-package naga.core.spi.platform;
+package naga.core.services.resource;
 
 import naga.core.util.async.Future;
 

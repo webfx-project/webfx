@@ -20,12 +20,13 @@ package naga.core.spi.platform;
 import naga.core.bus.Bus;
 import naga.core.bus.BusOptions;
 import naga.core.json.JsonFactory;
-import naga.core.queryservice.QueryService;
-import naga.core.queryservice.impl.RemoteQueryService;
+import naga.core.services.query.QueryService;
+import naga.core.services.query.RemoteQueryService;
 import naga.core.routing.history.History;
 import naga.core.routing.history.impl.MemoryHistory;
-import naga.core.updateservice.UpdateService;
-import naga.core.updateservice.impl.RemoteUpdateService;
+import naga.core.services.resource.ResourceService;
+import naga.core.services.update.UpdateService;
+import naga.core.services.update.RemoteUpdateService;
 import naga.core.util.function.Consumer;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
 

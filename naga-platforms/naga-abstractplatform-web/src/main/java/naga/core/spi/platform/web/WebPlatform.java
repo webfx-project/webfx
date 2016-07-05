@@ -10,7 +10,7 @@ import naga.core.spi.platform.BusFactory;
 import naga.core.bus.BusOptions;
 import naga.core.spi.platform.ClientPlatform;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.ResourceService;
+import naga.core.services.resource.ResourceService;
 import naga.core.spi.platform.Scheduler;
 
 /**

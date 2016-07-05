@@ -1,6 +1,6 @@
-package naga.core.updateservice.impl;
+package naga.core.services.update;
 
-import naga.core.updateservice.UpdateService;
+import naga.core.services.update.UpdateService;
 
 import java.util.HashMap;
 import java.util.Map;

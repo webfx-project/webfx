@@ -1,10 +1,10 @@
 package naga.core.spi.platform.java;
 
-import naga.core.queryservice.QueryService;
+import naga.core.services.query.QueryService;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.ResourceService;
+import naga.core.services.resource.ResourceService;
 import naga.core.spi.platform.Scheduler;
-import naga.core.updateservice.UpdateService;
+import naga.core.services.update.UpdateService;
 
 /**
  * @author Bruno Salmon

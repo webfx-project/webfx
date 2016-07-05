@@ -1,13 +1,13 @@
 package naga.core.spi.platform.java;
 
 import com.zaxxer.hikari.HikariDataSource;
-import naga.core.queryservice.QueryArgument;
-import naga.core.queryservice.QueryResultSet;
-import naga.core.queryservice.QueryService;
+import naga.core.services.query.QueryArgument;
+import naga.core.services.query.QueryResultSet;
+import naga.core.services.query.QueryService;
 import naga.core.datasource.ConnectionDetails;
-import naga.core.updateservice.UpdateArgument;
-import naga.core.updateservice.UpdateResult;
-import naga.core.updateservice.UpdateService;
+import naga.core.services.update.UpdateArgument;
+import naga.core.services.update.UpdateResult;
+import naga.core.services.update.UpdateService;
 import naga.core.util.Arrays;
 import naga.core.util.async.Future;
 

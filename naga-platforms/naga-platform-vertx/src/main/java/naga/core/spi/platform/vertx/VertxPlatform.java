@@ -2,11 +2,11 @@ package naga.core.spi.platform.vertx;
 
 import io.vertx.core.Vertx;
 import naga.core.json.JsonFactory;
-import naga.core.queryservice.QueryService;
+import naga.core.services.query.QueryService;
 import naga.core.spi.platform.BusFactory;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.platform.java.JavaPlatform;
-import naga.core.updateservice.UpdateService;
+import naga.core.services.update.UpdateService;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package naga.core.spi.platform.java;
 
-import naga.core.queryservice.QueryService;
+import naga.core.services.query.QueryService;
 import naga.core.datasource.ConnectionDetails;
-import naga.core.queryservice.impl.RemoteQueryService;
+import naga.core.services.query.RemoteQueryService;
 
 /**
  * @author Bruno Salmon

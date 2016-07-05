@@ -1,6 +1,6 @@
 package naga.core.spi.platform.teavm;
 
-import naga.core.spi.platform.ResourceService;
+import naga.core.services.resource.ResourceService;
 import naga.core.util.async.Future;
 
 import java.io.BufferedReader;

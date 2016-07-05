@@ -14,7 +14,7 @@ import naga.core.orm.expressionsqlcompiler.sql.SqlCompiled;
 import naga.core.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.core.orm.stringfilter.StringFilter;
 import naga.core.orm.stringfilter.StringFilterBuilder;
-import naga.core.queryservice.QueryArgument;
+import naga.core.services.query.QueryArgument;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.type.PrimType;

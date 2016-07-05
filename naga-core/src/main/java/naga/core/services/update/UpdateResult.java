@@ -1,4 +1,4 @@
-package naga.core.updateservice;
+package naga.core.services.update;
 
 /**
  * @author Bruno Salmon
