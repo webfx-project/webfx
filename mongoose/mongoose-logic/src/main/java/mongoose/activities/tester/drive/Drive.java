@@ -22,6 +22,7 @@ public class Drive {
     private final Property<Integer> startedConnectionCount = new SimpleObjectProperty<>(0);
     public  Property<Integer> startedConnectionCountProperty() {return startedConnectionCount;}
     private final List<Connection> connexionList = new ArrayList<>();
+    public  List<Connection> getConnexionList() {return connexionList;}
     private int currentRequested = 0;
     private int started = 0;
 
