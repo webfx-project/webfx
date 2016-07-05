@@ -6,9 +6,9 @@ import naga.core.type.Types;
 /**
  * @author Bruno Salmon
  */
-public class IDSqlCompiler extends AbstractTermSqlCompiler<IdExpression> {
+public class IdSqlCompiler extends AbstractTermSqlCompiler<IdExpression> {
 
-    public IDSqlCompiler() {
+    public IdSqlCompiler() {
         super(IdExpression.class);
     }
 
