@@ -1,5 +1,7 @@
 package naga.core.ui.displayresultset;
 
+import naga.core.ui.displayresultset.impl.DisplayResultSetImpl;
+
 /**
  * @author Bruno Salmon
  */
@@ -30,7 +32,7 @@ public class DisplayResultSetBuilder {
     }
 
     public DisplayResultSet build() {
-        return new DisplayResultSet(rowCount, values, columns);
+        return new DisplayResultSetImpl(rowCount, values, columns);
     }
 
     public static DisplayResultSetBuilder create(int rowCount, int columnCount) {

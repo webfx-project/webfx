@@ -1,77 +1,37 @@
 package naga.core.ui.displayresultset;
 
+import naga.core.util.function.Converter;
+
 /**
  * @author Bruno Salmon
  */
-public class DisplayResultSet {
+public interface DisplayResultSet {
 
     /**
-     * The number of rows in this display result.
+     * @return the number of rows in this display result
      */
-    private final int rowCount;
+    int getRowCount();
 
     /**
-     * The number of columns in this display result.
+     * @return the number of columns in this display result
      */
-    private final int columnCount;
+    int getColumnCount();
 
     /**
-     * The values of the display result stored in an inline array.
-     * First column, then 2nd column, etc... So inlineIndex = rowIndex + columnIndex * rowCount.
+     * @return The columns to display
      */
-    private final Object[] values;
+    DisplayColumn[] getColumns();
 
     /**
-     * The columns to display.
+     * @param rowIndex the row index
+     * @param columnIndex the column index
+     * @return the value specified at row and column indexes
      */
-    private final DisplayColumn[] columns;
+    Object getValue(int rowIndex, int columnIndex);
 
-    public DisplayResultSet(int rowCount, Object[] values, DisplayColumn[] columns) {
-        this.rowCount = rowCount;
-        this.values = values;
-        this.columns = columns;
-        columnCount = columns.length;
-    }
-
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    public int getColumnCount() {
-        return columnCount;
-    }
-
-    public Object[] getValues() {
-        return values;
-    }
-
-    public DisplayColumn[] getColumns() {
-        return columns;
-    }
-
-    public Object getValue(int rowIndex, int columnIndex) {
-        return values[rowIndex + columnIndex * rowCount];
-    }
-
-    @Override
-    public String toString() {
-        return toString(new StringBuilder()).toString();
-    }
-
-    public StringBuilder toString(StringBuilder sb) {
-        sb.append('[');
-        for (DisplayColumn column : columns)
-            sb.append(sb.length() == 1 ? "" : ", ").append(column.getName()).append(" (").append(column.getType()).append(')');
-        for (int rowIndex = 0; rowIndex < rowCount;) {
-            sb.append("\n[");
-            for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                sb.append(columnIndex == 0 ? "" : ", ").append(getValue(rowIndex, columnIndex));
-            sb.append(']');
-            if (++rowIndex < rowCount)
-                sb.append(',');
-        }
-        sb.append("\n]");
-        return sb;
-    }
-
+    /**
+     * @param valueConverter the value converter
+     * @return a new DisplayResultSet with same properties but all values converted
+     */
+    DisplayResultSet convert(Converter valueConverter);
 }
