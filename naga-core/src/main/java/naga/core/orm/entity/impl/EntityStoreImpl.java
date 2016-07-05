@@ -23,7 +23,7 @@ public class EntityStoreImpl implements EntityStore {
 
     @Override
     public EntityId getEntityId(Object domainClassId, Object primaryKey) {
-        return new EntityIdImpl(domainClassId, primaryKey);
+        return EntityId.create(domainClassId, primaryKey);
     }
 
     // Entity management

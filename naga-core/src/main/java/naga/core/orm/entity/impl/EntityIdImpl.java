@@ -10,7 +10,7 @@ public class EntityIdImpl implements EntityId {
     private final Object domainClassId;
     private final Object primaryKey;
 
-    EntityIdImpl(Object domainClassId, Object primaryKey) {
+    public EntityIdImpl(Object domainClassId, Object primaryKey) {
         this.domainClassId = domainClassId;
         this.primaryKey = primaryKey;
     }
@@ -23,6 +23,11 @@ public class EntityIdImpl implements EntityId {
     @Override
     public Object getPrimaryKey() {
         return primaryKey;
+    }
+
+    @Override
+    public boolean isNew() {
+        return primaryKey instanceof Integer && (Integer) primaryKey < 0; // temporary convention for new ids
     }
 
     @Override
