@@ -13,6 +13,7 @@ import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLConnection;
 import naga.core.services.query.QueryArgument;
 import naga.core.services.query.QueryResultSet;
+import naga.core.services.query.QueryResultSetBuilder;
 import naga.core.services.query.QueryService;
 import naga.core.datasource.ConnectionDetails;
 import naga.core.datasource.DBMS;
@@ -94,15 +95,15 @@ class VertxConnectedService implements QueryService, UpdateService {
                         int columnCount = resultSet.getNumColumns();
                         int rowCount = resultSet.getNumRows();
                         String[] columnNames = resultSet.getColumnNames().toArray(new String[columnCount]);
-                        Object[] inlineValues = new Object[rowCount * columnCount];
+                        QueryResultSetBuilder rsb = QueryResultSetBuilder.create(rowCount, columnNames);
                         List<JsonArray> results = resultSet.getResults();
                         for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
                             JsonArray jsonArray = results.get(rowIndex);
                             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                                inlineValues[rowIndex + columnIndex * rowCount] = jsonArray.getValue(columnIndex);
+                                rsb.setValue(rowIndex, columnIndex, jsonArray.getValue(columnIndex));
                         }
-                        // Returning the final QueryResultSet
-                        future.complete(new QueryResultSet(inlineValues, columnNames));
+                        // Building and returning the final QueryResultSet
+                        future.complete(rsb.build());
                     }
                     // Closing the connection so it can go back to the pool
                     connection.close();

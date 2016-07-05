@@ -3,6 +3,7 @@ package naga.core.spi.platform.java;
 import com.zaxxer.hikari.HikariDataSource;
 import naga.core.services.query.QueryArgument;
 import naga.core.services.query.QueryResultSet;
+import naga.core.services.query.QueryResultSetBuilder;
 import naga.core.services.query.QueryService;
 import naga.core.datasource.ConnectionDetails;
 import naga.core.services.update.UpdateArgument;
@@ -45,26 +46,17 @@ class JdbcConnectedService implements QueryService, UpdateService {
             // Reading column names
             ResultSetMetaData metaData = resultSet.getMetaData();
             int columnCount = metaData.getColumnCount();
-            String[] columnNames = new String[columnCount];
+            QueryResultSetBuilder rsb = QueryResultSetBuilder.createUnknownRowCount(columnCount);
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                columnNames[columnIndex] = metaData.getColumnName(columnIndex + 1); // JDBC index starts with 1 (not 0)
+                rsb.setColumnName(columnIndex, metaData.getColumnName(columnIndex + 1)); // JDBC index starts with 1 (not 0)
             // Reading data through iterating the result set into a temporary growing list of rows (as we don't know yet the rows count)
-            List<Object[]> rows = new ArrayList<>(100); // Default capacity = 100 (as default limit is 100 is Naga).
             while (resultSet.next()) {
-                Object[] columns = new Object[columnCount];
+                rsb.addRow();
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                    columns[columnIndex] = resultSet.getObject(columnIndex + 1); // JDBC index starts with 1 (not 0)
-                rows.add(columns);
+                    rsb.setCurrentRowValue(columnIndex, resultSet.getObject(columnIndex + 1)); // JDBC index starts with 1 (not 0)
             }
-            // Now we have the rows count
-            int rowCount = rows.size();
-            // Moving the data into the final inline array values representation
-            Object[] inlineValues = new Object[rowCount * columnCount];
-            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
-                for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                    inlineValues[rowIndex + columnIndex * rowCount] = rows.get(rowIndex)[columnIndex];
-            // Returning the SQL result
-            future.complete(new QueryResultSet(inlineValues, columnNames));
+            // Building and returning the query result set
+            future.complete(rsb.build());
         } catch (Throwable throwable) {
             future.fail(throwable);
         }
