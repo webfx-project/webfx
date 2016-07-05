@@ -1,32 +1,25 @@
 package naga.core.orm.entity;
 
-import naga.core.util.collection.Collections;
-
-import java.util.ArrayList;
+import naga.core.orm.entity.impl.EntityListImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class EntityList extends ArrayList<Entity> {
+public interface EntityList extends Iterable<Entity> {
 
-    private final Object listId;
-    private final EntityStore store;
+    Object getListId();
 
-    public EntityList(Object listId, EntityStore store) {
-        this.listId = listId;
-        this.store = store;
-    }
+    EntityStore getStore();
 
-    public Object getListId() {
-        return listId;
-    }
+    int size();
 
-    public EntityStore getStore() {
-        return store;
-    }
+    Entity get(int index);
 
-    @Override
-    public String toString() {
-        return Collections.toString(iterator());
+    void clear();
+
+    void add(Entity entity);
+
+    static EntityList create(Object listId, EntityStore store) {
+        return new EntityListImpl(listId, store);
     }
 }

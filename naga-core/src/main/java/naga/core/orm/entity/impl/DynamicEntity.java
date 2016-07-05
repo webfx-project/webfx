@@ -1,5 +1,9 @@
-package naga.core.orm.entity;
+package naga.core.orm.entity.impl;
 
+
+import naga.core.orm.entity.Entity;
+import naga.core.orm.entity.EntityId;
+import naga.core.orm.entity.EntityStore;
 
 import java.util.HashMap;
 import java.util.Map;

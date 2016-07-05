@@ -179,7 +179,7 @@ public class ReactiveExpressionFilter {
 
     private void checkFields() {
         if (store == null)
-            store = new EntityStore();
+            store = EntityStore.create();
         if (listId == null)
             listId = "default";
         List<Expression> displayPersistentTerms = new ArrayList<>();
@@ -219,7 +219,7 @@ public class ReactiveExpressionFilter {
     }
 
     private DisplayResultSet emptyDisplayResultSet() {
-        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(new EntityList(listId, store), expressionColumns);
+        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(EntityList.create(listId, store), expressionColumns);
     }
 
 }
