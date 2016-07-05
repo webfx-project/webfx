@@ -6,11 +6,11 @@ import naga.core.type.PrimType;
 /**
  * @author Bruno Salmon
  */
-public class IDExpression<T> extends Symbol<T> {
+public class IdExpression<T> extends Symbol<T> {
 
-    public final static IDExpression singleton = new IDExpression();
+    public final static IdExpression singleton = new IdExpression();
 
-    private IDExpression() {
+    private IdExpression() {
         super("id", PrimType.LONG);
     }
 

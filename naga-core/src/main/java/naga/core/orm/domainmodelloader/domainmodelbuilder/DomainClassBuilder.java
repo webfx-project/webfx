@@ -1,7 +1,7 @@
 package naga.core.orm.domainmodelloader.domainmodelbuilder;
 
 import naga.core.orm.domainmodel.*;
-import naga.core.orm.expression.term.IDExpression;
+import naga.core.orm.expression.term.IdExpression;
 import naga.core.orm.expressionsqlcompiler.ExpressionSqlCompiler;
 import naga.core.type.Type;
 
@@ -89,7 +89,7 @@ public class DomainClassBuilder {
                 buildField(fieldBuilder);
             if (domainClass.getIdField() == null) {
                 DomainFieldBuilder idFieldBuilder = new DomainFieldBuilder("id");
-                idFieldBuilder.expression = IDExpression.singleton;
+                idFieldBuilder.expression = IdExpression.singleton;
                 idFieldBuilder.sqlColumnName = idColumnName;
                 buildField(idFieldBuilder);
             }

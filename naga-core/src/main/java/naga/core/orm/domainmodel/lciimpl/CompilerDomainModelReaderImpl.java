@@ -3,7 +3,7 @@ package naga.core.orm.domainmodel.lciimpl;
 import naga.core.orm.domainmodel.DomainClass;
 import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.term.IDExpression;
+import naga.core.orm.expression.term.IdExpression;
 import naga.core.orm.expressionsqlcompiler.lci.CompilerDomainModelReader;
 
 /**
@@ -46,7 +46,7 @@ public class CompilerDomainModelReaderImpl implements CompilerDomainModelReader 
     public String getSymbolSqlColumnName(Object symbolDomainClass, Expression symbol) {
         if (symbol instanceof DomainField)
             return ((DomainField) symbol).getSqlColumnName();
-        if (symbol instanceof IDExpression)
+        if (symbol instanceof IdExpression)
             return getDomainClassPrimaryKeySqlColumnName(symbolDomainClass);
         return null;
     }
