@@ -22,7 +22,7 @@ import static naga.core.orm.expressionparser.javacup.ExpressionSymbols.*;
   Declarations
 */
 %{   
-    StringBuffer string = new StringBuffer();
+    StringBuilder string = new StringBuilder();
 
     private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);

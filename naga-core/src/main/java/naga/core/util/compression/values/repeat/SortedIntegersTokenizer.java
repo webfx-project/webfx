@@ -4,14 +4,14 @@ package naga.core.util.compression.values.repeat;
  * @author Bruno Salmon
  */
 class SortedIntegersTokenizer {
-    StringBuffer sb;
+    StringBuilder sb;
     int lastSeqStart;
     int lastInt;
     String token;
 
     void pushInt(int nextInt) {
         if (sb == null)
-            sb = new StringBuffer().append(lastSeqStart = lastInt = nextInt);
+            sb = new StringBuilder().append(lastSeqStart = lastInt = nextInt);
         else if (nextInt == lastInt + 1)
             lastInt = nextInt;
         else {

@@ -74,7 +74,7 @@ public class EntityStore {
             Integer count = classesCount.get(id.getDomainClassId());
             classesCount.put(id.getDomainClassId(), count == null ? 1 : count + 1);
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (Map.Entry<Object, Integer> entry : classesCount.entrySet()) {
             if (sb.length() > 0)
                 sb.append(", ");

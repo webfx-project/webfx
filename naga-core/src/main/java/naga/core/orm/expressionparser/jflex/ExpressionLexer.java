@@ -405,7 +405,7 @@ public class ExpressionLexer implements java_cup.runtime.Scanner {
   private int zzFinalHighSurrogate = 0;
 
   /* user code: */
-    StringBuffer string = new StringBuffer();
+    StringBuilder string = new StringBuilder();
 
     private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);
