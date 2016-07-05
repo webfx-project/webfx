@@ -9,17 +9,17 @@ import java.util.Map;
  */
 public class DynamicEntity implements Entity {
 
-    private final EntityID id;
+    private final EntityId id;
     private final EntityStore store;
     private final Map<Object, Object> fieldValues = new HashMap<>();
 
-    DynamicEntity(EntityID id, EntityStore store) {
+    DynamicEntity(EntityId id, EntityStore store) {
         this.id = id;
         this.store = store;
     }
 
     @Override
-    public EntityID getId() {
+    public EntityId getId() {
         return id;
     }
 

@@ -3,12 +3,12 @@ package naga.core.orm.entity;
 /**
  * @author Bruno Salmon
  */
-public class EntityID {
+public class EntityId {
 
     private final Object domainClassId;
     private final Object primaryKey;
 
-    EntityID(Object domainClassId, Object primaryKey) {
+    EntityId(Object domainClassId, Object primaryKey) {
         this.domainClassId = domainClassId;
         this.primaryKey = primaryKey;
     }
@@ -32,10 +32,10 @@ public class EntityID {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        EntityID entityID = (EntityID) o;
+        EntityId entityId = (EntityId) o;
 
-        if (domainClassId != null ? !domainClassId.equals(entityID.domainClassId) : entityID.domainClassId != null) return false;
-        return !(primaryKey != null ? !primaryKey.equals(entityID.primaryKey) : entityID.primaryKey != null);
+        if (domainClassId != null ? !domainClassId.equals(entityId.domainClassId) : entityId.domainClassId != null) return false;
+        return !(primaryKey != null ? !primaryKey.equals(entityId.primaryKey) : entityId.primaryKey != null);
 
     }
 

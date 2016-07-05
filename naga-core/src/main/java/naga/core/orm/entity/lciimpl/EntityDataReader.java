@@ -2,7 +2,7 @@ package naga.core.orm.entity.lciimpl;
 
 import naga.core.orm.domainmodel.DomainField;
 import naga.core.orm.entity.Entity;
-import naga.core.orm.entity.EntityID;
+import naga.core.orm.entity.EntityId;
 import naga.core.orm.entity.EntityStore;
 import naga.core.orm.expression.lci.DataReader;
 import naga.core.type.PrimType;
@@ -22,7 +22,7 @@ public class EntityDataReader implements DataReader<Entity> {
     public Entity getDomainObjectFromId(Object id) {
         if (id instanceof Entity)
             return (Entity) id;
-        return entityStore.getEntity((EntityID) id);
+        return entityStore.getEntity((EntityId) id);
     }
 
     @Override
@@ -46,8 +46,8 @@ public class EntityDataReader implements DataReader<Entity> {
     public Object prepareValueBeforeTypeConversion(Object value, PrimType type) {
         if (value instanceof Entity)
             value = ((Entity) value).getId().getPrimaryKey();
-        else if (value instanceof EntityID)
-            value = ((EntityID) value).getPrimaryKey();
+        else if (value instanceof EntityId)
+            value = ((EntityId) value).getPrimaryKey();
         return value;
     }
 }

@@ -14,19 +14,19 @@ import java.util.Map;
  */
 public class EntityStore {
 
-    private final Map<EntityID, Entity> entities = new HashMap<>();
+    private final Map<EntityId, Entity> entities = new HashMap<>();
     private final Map<Object, EntityList> entityLists = new HashMap<>();
     private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
 
     // ID management
 
-    public EntityID getEntityID(Object domainClassId, Object primaryKey) {
-        return new EntityID(domainClassId, primaryKey);
+    public EntityId getEntityID(Object domainClassId, Object primaryKey) {
+        return new EntityId(domainClassId, primaryKey);
     }
 
     // Entity management
 
-    public Entity getEntity(EntityID entityId) {
+    public Entity getEntity(EntityId entityId) {
         return entities.get(entityId);
     }
 
@@ -36,14 +36,14 @@ public class EntityStore {
         return getOrCreateEntity(getEntityID(domainClassId, primaryKey));
     }
 
-    public Entity getOrCreateEntity(EntityID id) {
+    public Entity getOrCreateEntity(EntityId id) {
         Entity entity = getEntity(id);
         if (entity == null)
             entities.put(id, entity = createEntity(id));
         return entity;
     }
 
-    protected Entity createEntity(EntityID id) {
+    protected Entity createEntity(EntityId id) {
         return new DynamicEntity(id, this);
     }
 
@@ -70,7 +70,7 @@ public class EntityStore {
 
     public String getEntityClassesCountReport() {
         Map<Object, Integer> classesCount = new HashMap<>();
-        for (EntityID id : entities.keySet()) {
+        for (EntityId id : entities.keySet()) {
             Integer count = classesCount.get(id.getDomainClassId());
             classesCount.put(id.getDomainClassId(), count == null ? 1 : count + 1);
         }

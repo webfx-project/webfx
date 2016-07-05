@@ -14,7 +14,7 @@ public interface Entity {
     /**
      * @return the unique entity identifier
      */
-    EntityID getId();
+    EntityId getId();
 
     /**
      * @return the store that manages this entity
@@ -36,7 +36,7 @@ public interface Entity {
 
 
     default Entity getForeignEntity(Object foreignFieldId) {
-        return getStore().getEntity((EntityID) getFieldValue(foreignFieldId));
+        return getStore().getEntity((EntityId) getFieldValue(foreignFieldId));
     }
 
     default Object evaluate(Expression expression) {
