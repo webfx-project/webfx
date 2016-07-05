@@ -127,7 +127,7 @@ public class ReactiveExpressionFilter {
         ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
         if (rowStylesExpressionArray != null) {
             ExpressionColumn[] expressionColumns2 = new ExpressionColumn[expressionColumns.length + 1];
-            expressionColumns2[0] = ExpressionColumn.create(rowStylesExpressionArray, new DisplayColumn(null, "style", PrimType.STRING, "style"));
+            expressionColumns2[0] = ExpressionColumn.create(rowStylesExpressionArray, DisplayColumn.create(null, "style", PrimType.STRING, "style"));
             System.arraycopy(expressionColumns, 0, expressionColumns2, 1, expressionColumns.length);
             expressionColumns = expressionColumns2;
         }

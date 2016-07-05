@@ -1,5 +1,6 @@
 package naga.core.ui.displayresultset;
 
+import naga.core.ui.displayresultset.impl.DisplayColumnImpl;
 import naga.core.ui.displayresultset.impl.DisplayResultSetImpl;
 
 /**
@@ -14,7 +15,7 @@ public class DisplayResultSetBuilder {
     private DisplayResultSetBuilder(int rowCount, int columnCount) {
         this.rowCount = rowCount;
         this.values = new Object[rowCount * columnCount];
-        this.columns = new DisplayColumn[columnCount];
+        this.columns = new DisplayColumnImpl[columnCount];
     }
 
     public DisplayResultSetBuilder setDisplayColumn(int columnIndex, DisplayColumn displayColumn) {

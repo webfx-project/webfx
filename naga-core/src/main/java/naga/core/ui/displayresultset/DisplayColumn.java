@@ -2,59 +2,45 @@ package naga.core.ui.displayresultset;
 
 import naga.core.orm.domainmodel.Label;
 import naga.core.type.Type;
+import naga.core.ui.displayresultset.impl.DisplayColumnImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class DisplayColumn {
+public interface DisplayColumn {
 
     /**
-     *  A header value that a column may hold.
+     * @return a header value that a column may hold.
      */
-    private final Object headerValue;
+    Object getHeaderValue();
+
     /**
-     * The label (icon and text) to use if the column header is displayed on the screen.
+     * @return the label (icon and text) to use if the column header is displayed on the screen.
      */
-    private final Label label;
+    Label getLabel();
+
     /**
-     * The expected type for the column values (for all rows).
+     * @return the name of the column (which is the text defined in label)
      */
-    private final Type type;
+    String getName();
+
     /**
-     * A specific role that this column is playing (ex: if the column contains the css class to apply to the row in a
+     * @return The expected type for the column values (for all rows).
+     */
+    Type getType();
+
+    /**
+     * @return a specific role that this column is playing (ex: if the column contains the css class to apply to the row in a
      * table, or the series names in a chart using the column format, ...). Should be null if the column has the default
      * role for the visual component it is used for (the default role usually means the column contains domain data).
      */
-    private final String role;
+    String getRole();
 
-    public DisplayColumn(Object label, Type type) {
-        this(label, label, type, null);
+    static DisplayColumn create(Object label, Type type) {
+        return new DisplayColumnImpl(label, type);
     }
 
-    public DisplayColumn(Object headerValue, Object label, Type type, String role) {
-        this.headerValue = headerValue;
-        this.label = Label.from(label);
-        this.type = type;
-        this.role = role;
-    }
-
-    public Object getHeaderValue() {
-        return headerValue;
-    }
-
-    public Label getLabel() {
-        return label;
-    }
-
-    public String getName() {
-        return label.getText();
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public String getRole() {
-        return role;
+    static DisplayColumn create(Object headerValue, Object label, Type type, String role) {
+        return new DisplayColumnImpl(headerValue, label, type, role);
     }
 }

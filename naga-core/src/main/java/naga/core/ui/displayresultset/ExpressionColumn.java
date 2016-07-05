@@ -34,7 +34,7 @@ public class ExpressionColumn {
             if (label == null)
                 label = Label.from(expression);
             Type expectedType = expressionFormatter != null ? expressionFormatter.getExpectedFormattedType() : expression.getType();
-            displayColumn = new DisplayColumn(label, expectedType);
+            displayColumn = DisplayColumn.create(label, expectedType);
         }
         return displayColumn;
     }
