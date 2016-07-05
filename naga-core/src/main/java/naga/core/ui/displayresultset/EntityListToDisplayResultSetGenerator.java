@@ -11,27 +11,23 @@ import naga.core.format.Formatter;
 public class EntityListToDisplayResultSetGenerator {
 
     public static DisplayResultSet createDisplayResultSet(EntityList entityList, ExpressionColumn[] expressionColumns) {
-        //Platform.log("createDisplayResultSet()");
         int rowCount = entityList.size();
         int columnCount = expressionColumns.length;
-        DisplayColumn[] columns = new DisplayColumn[columnCount];
-        Object[] values = new Object[rowCount * columnCount];
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);
         int columnIndex = 0;
-        int index = 0;
+        int inlineIndex = 0;
         for (ExpressionColumn expressionColumn : expressionColumns) {
             Expression expression = expressionColumn.getExpression();
             Formatter formatter = expressionColumn.getExpressionFormatter();
-            columns[columnIndex++] = expressionColumn.getDisplayColumn();
+            rsb.setDisplayColumn(columnIndex++, expressionColumn.getDisplayColumn());
             for (Entity entity : entityList) {
                 Object value = entity.evaluate(expression);
                 if (formatter != null)
                     value = formatter.format(value);
-                values[index++] = value;
+                rsb.setInlineValue(inlineIndex++, value);
             }
         }
-        DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columns);
-        //Platform.log("Ok: " + displayResultSet);
-        return displayResultSet;
+        return rsb.build();
     }
 
 }
