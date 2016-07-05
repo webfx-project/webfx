@@ -1,11 +1,19 @@
 package mongoose.activities.tester;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.Drive;
+import mongoose.activities.tester.drive.model.ChartData;
+import mongoose.activities.tester.drive.model.ConnectionsChartData;
+import mongoose.activities.tester.monitor.Monitor;
+import mongoose.activities.tester.monitor.model.SysBeanFX;
 import naga.core.spi.toolkit.Toolkit;
+import naga.core.spi.toolkit.charts.LineChart;
 import naga.core.spi.toolkit.controls.Button;
 import naga.core.spi.toolkit.controls.Slider;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.spi.toolkit.controls.TextField;
+import naga.core.spi.toolkit.gauges.Gauge;
 import naga.core.spi.toolkit.layouts.HBox;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.ui.presentation.PresentationActivity;
@@ -19,24 +27,42 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         super(TesterPresentationModel::new);
     }
 
+    private final ObjectProperty<SysBeanFX> sbfx = new SimpleObjectProperty<>();
+    private ObjectProperty<ChartData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
+
     protected TesterViewModel buildView(Toolkit toolkit) {
+        // TextFields
         Table systemTable = toolkit.createTable();
-        TextField textField = toolkit.createNode(TextField.class);
-//        TableColumn<LongProperty, String> usedMemColumn;
+        TextField freeMemField = toolkit.createTextField();
+        TextField totalMemField = toolkit.createTextField();
+        // Sliders
         Slider requestedSlider = toolkit.createSlider();
-        Slider startedSlider = toolkit.createSlider();
+        Gauge startedSlider = toolkit.createGauge();
+        // Charts
+        LineChart connectionsChart = toolkit.createLineChart();
+        // Buttons
         Button<Integer> startButton = toolkit.createButton();
         Button<Integer> stopButton = toolkit.createButton();
         Button<Integer> exitButton = toolkit.createButton();
+        // Arranging in boxes
         HBox hBox = toolkit.createHBox();
         hBox.getChildren().setAll(startButton, stopButton, exitButton);
         VBox vBox = toolkit.createVBox();
         vBox.getChildren().setAll(requestedSlider, startedSlider);
         // Building the UI components
         return new TesterViewModel(toolkit.createVPage()
-                .setHeader(vBox)
-                .setCenter(systemTable)
-                .setFooter(hBox), systemTable, requestedSlider, startedSlider, startButton, stopButton, exitButton);
+                    .setHeader(vBox)
+                    .setCenter(connectionsChart)
+                    .setFooter(hBox),
+                systemTable,
+                freeMemField,
+                totalMemField,
+                connectionsChart,
+                requestedSlider,
+                startedSlider,
+                startButton,
+                stopButton,
+                exitButton);
     }
 
     protected void bindViewModelWithPresentationModel(TesterViewModel vm, TesterPresentationModel pm) {
@@ -47,14 +73,46 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         vm.getRequestSlider().setMax(3000);
         pm.requestedConnectionsProperty().bind(vm.getRequestSlider().valueProperty());
         vm.getStartedSlider().valueProperty().bind(pm.startedConnectionsProperty());
+//        DisplayResultSet rs = new DisplayResultSet(6, new Object[]{"Europe", "NA", "Asia", "SA", "Oceania", "Africa", 1757, 597, 159, 127, 103, 21}, new DisplayColumn[]{new DisplayColumn("Continent", PrimType.STRING), new DisplayColumn("Nb", PrimType.INTEGER)});
+//        chart.setDisplayResultSet(rs);
         // Buttons
         vm.getStartButton().setText("Start");
+        vm.getStopButton().setText("Stop");
         vm.getExitButton().setText("Exit");
+        // Set listeners
+        setListeners (vm);
     }
 
     protected void bindPresentationModelWithLogic(TesterPresentationModel pm) {
+        // Monitor
+        Monitor.getInstance().setSbfx(sbfx);
+//        Monitor.getInstance().start(false);
+        // Drive
         Drive.getInstance().start(true);
         Drive.getInstance().requestedConnectionCountProperty().bind(pm.requestedConnectionsProperty());
         pm.startedConnectionsProperty().bind(Drive.getInstance().startedConnectionCountProperty());
+    }
+
+    public void setListeners (TesterViewModel vm) {
+        // Monitor
+//        sbfx.addListener((observable, oldValue, newValue) -> {
+//            sysTableView.getTableView().getItems().add(newValue);
+//            systemChartView.scrollSeries();
+//            systemChartView.addValues(newValue);
+//        });
+
+        // Linking system table and fields
+//        sysGridView.bind(sysBean);       // We bind the GridView on a SysBeanFX object driven by the selected item of the table
+//        sysTableView.getTableView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)-> {
+//            sysBean.set(newValue);
+//        });
+
+        // Charts
+        connectionsToDisplay.addListener((observable, oldValue, newValue) -> {
+//            vm.getConnectionsChart().scrollSeries();
+//            int size = Drive.getInstance().get---List().size();
+//            DisplayResultSet rs = ConnectionListToDisplayResultSetGenerator.createDisplayResultSet(size, Drive.getInstance().getConnexionList());
+//            vm.getConnectionsChart().setDisplayResultSet(rs);
+        });
     }
 }
