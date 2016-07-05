@@ -1,97 +1,97 @@
 package mongoose.activities.tester.monitor.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.Property;
 
 /**
  * @author Jean-Pierre Alonso.
  */
 public class SysBeanFX {
-    private final StringProperty committedMem   = new SimpleStringProperty();
-    private final StringProperty totalMem       = new SimpleStringProperty();
-    private final StringProperty usedMem        = new SimpleStringProperty();
-    private final StringProperty freeMem        = new SimpleStringProperty();
-    private final StringProperty maxMem         = new SimpleStringProperty();
-    private final StringProperty freePhMem      = new SimpleStringProperty();
-    private final StringProperty totalPhMem     = new SimpleStringProperty();
-    private final StringProperty sysLoad        = new SimpleStringProperty();   // the "recent cpu usage" for the whole system, during the last minute (-1 if not available).
-    private final StringProperty cpuLoad        = new SimpleStringProperty();   // the "recent cpu usage" for the Java Virtual Machine process.
-    private final StringProperty cpuTime        = new SimpleStringProperty();   // the CPU time used by the process on which the Java virtual machine is running in nanoseconds.
-    private final StringProperty processors     = new SimpleStringProperty();
+    private final Property<String> committedMem   = new SimpleObjectProperty();
+    private final Property<String> totalMem       = new SimpleObjectProperty();
+    private final Property<String> usedMem        = new SimpleObjectProperty();
+    private final Property<String> freeMem        = new SimpleObjectProperty();
+    private final Property<String> maxMem         = new SimpleObjectProperty();
+    private final Property<String> freePhMem      = new SimpleObjectProperty();
+    private final Property<String> totalPhMem     = new SimpleObjectProperty();
+    private final Property<String> sysLoad        = new SimpleObjectProperty();   // the "recent cpu usage" for the whole system, during the last minute (-1 if not available).
+    private final Property<String> cpuLoad        = new SimpleObjectProperty();   // the "recent cpu usage" for the Java Virtual Machine process.
+    private final Property<String> cpuTime        = new SimpleObjectProperty();   // the CPU time used by the process on which the Java virtual machine is running in nanoseconds.
+    private final Property<String> processors     = new SimpleObjectProperty();
 
     public SysBeanFX () {
         super();
     }
 
     public SysBeanFX (SysBean sb) {
-        committedMem.set(Long.toString(sb.getCommittedMem()/SysBean.MB));
-        totalMem.set(Long.toString(sb.getTotalMem()/SysBean.MB));
-        usedMem.set(Long.toString(sb.getUsedMem()/SysBean.MB));
-        freeMem.set(Long.toString(sb.getFreeMem()/SysBean.MB));
-        maxMem.set(Long.toString(sb.getMaxMem()/SysBean.MB));
-        freePhMem.set(Long.toString(sb.getFreePhMem()/SysBean.MB));
-        totalPhMem.set(Long.toString(sb.getTotalPhMem()/SysBean.MB));
-        sysLoad.set(Double.toString(sb.getSysLoad()==-1?-1:sb.getSysLoad()*100));
-        cpuLoad.set(Double.toString(sb.getCpuLoad()*100));
-        cpuTime.set(Long.toString(sb.getCpuTime()/SysBean.NANO));
-        processors.set(Integer.toString(sb.getAvailableProcessors()));
+        committedMem.setValue(Long.toString(sb.getCommittedMem()/SysBean.MB));
+        totalMem.setValue(Long.toString(sb.getTotalMem()/SysBean.MB));
+        usedMem.setValue(Long.toString(sb.getUsedMem()/SysBean.MB));
+        freeMem.setValue(Long.toString(sb.getFreeMem()/SysBean.MB));
+        maxMem.setValue(Long.toString(sb.getMaxMem()/SysBean.MB));
+        freePhMem.setValue(Long.toString(sb.getFreePhMem()/SysBean.MB));
+        totalPhMem.setValue(Long.toString(sb.getTotalPhMem()/SysBean.MB));
+        sysLoad.setValue(Double.toString(sb.getSysLoad()==-1?-1:sb.getSysLoad()*100));
+        cpuLoad.setValue(Double.toString(sb.getCpuLoad()*100));
+        cpuTime.setValue(Long.toString(sb.getCpuTime()/SysBean.NANO));
+        processors.setValue(Integer.toString(sb.getAvailableProcessors()));
     }
 
     public void set (SysBeanFX sb) {
-        committedMem.set(sb.committedMem.get());
-        totalMem.set(sb.totalMem.get());
-        usedMem.set(sb.usedMem.get());
-        freeMem.set(sb.freeMem.get());
-        maxMem.set(sb.maxMem.get());
-        freePhMem.set(sb.freePhMem.get());
-        totalPhMem.set(sb.totalPhMem.get());
-        sysLoad.set(sb.sysLoad.get());
-        cpuLoad.set(sb.cpuLoad.get());
-        cpuTime.set(sb.cpuTime.get());
-        processors.set(sb.processors.get());
+        committedMem.setValue(sb.committedMem.getValue());
+        totalMem.setValue(sb.totalMem.getValue());
+        usedMem.setValue(sb.usedMem.getValue());
+        freeMem.setValue(sb.freeMem.getValue());
+        maxMem.setValue(sb.maxMem.getValue());
+        freePhMem.setValue(sb.freePhMem.getValue());
+        totalPhMem.setValue(sb.totalPhMem.getValue());
+        sysLoad.setValue(sb.sysLoad.getValue());
+        cpuLoad.setValue(sb.cpuLoad.getValue());
+        cpuTime.setValue(sb.cpuTime.getValue());
+        processors.setValue(sb.processors.getValue());
     }
 
-    public StringProperty committedMemProperty() {
+    public Property<String> committedMemProperty() {
         return committedMem;
     }
 
-    public StringProperty totalMemProperty() {
+    public Property<String> totalMemProperty() {
         return totalMem;
     }
 
-    public StringProperty usedMemProperty() {
+    public Property<String> usedMemProperty() {
         return usedMem;
     }
 
-    public StringProperty freeMemProperty() {
+    public Property<String> freeMemProperty() {
         return freeMem;
     }
 
-    public StringProperty maxMemProperty() {
+    public Property<String> maxMemProperty() {
         return maxMem;
     }
 
-    public StringProperty freePhMemProperty() {
+    public Property<String> freePhMemProperty() {
         return freePhMem;
     }
 
-    public StringProperty totalPhMemProperty() {
+    public Property<String> totalPhMemProperty() {
         return totalPhMem;
     }
 
-    public StringProperty sysLoadProperty() {
+    public Property<String> sysLoadProperty() {
         return sysLoad;
     }
 
-    public StringProperty cpuLoadProperty() {
+    public Property<String> cpuLoadProperty() {
         return cpuLoad;
     }
 
-    public StringProperty cpuTimeProperty() {
+    public Property<String> cpuTimeProperty() {
         return cpuTime;
     }
 
-    public StringProperty processorsProperty() {
+    public Property<String> processorsProperty() {
         return processors;
     }
 
