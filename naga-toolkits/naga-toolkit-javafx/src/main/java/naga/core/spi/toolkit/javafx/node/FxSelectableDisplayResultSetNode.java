@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import naga.core.ui.displayselection.DisplaySelection;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.node.SelectableDisplayResultSetNode;
 
 /**

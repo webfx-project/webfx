@@ -5,7 +5,7 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.spi.toolkit.gwt.node.GwtSelectableDisplayResultSetNode;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.util.collection.IdentityList;
 

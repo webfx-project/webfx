@@ -10,7 +10,7 @@ import de.codecrafters.tableview.TableView;
 import naga.core.spi.toolkit.android.node.AndroidSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.spi.toolkit.android.AndroidToolkit;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.util.Strings;
 import naga.core.util.collection.IdentityList;

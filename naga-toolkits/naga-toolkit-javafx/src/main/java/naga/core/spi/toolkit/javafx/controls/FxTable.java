@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.javafx.JavaFxToolkit;
 import naga.core.spi.toolkit.javafx.node.FxSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayColumn;

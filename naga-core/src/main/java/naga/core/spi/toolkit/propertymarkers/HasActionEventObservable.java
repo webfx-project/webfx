@@ -1,4 +1,4 @@
-package naga.core.spi.toolkit.hasproperties;
+package naga.core.spi.toolkit.propertymarkers;
 
 import naga.core.spi.toolkit.events.ActionEvent;
 import rx.Observable;

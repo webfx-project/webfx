@@ -1,4 +1,4 @@
-package naga.core.spi.toolkit.hasproperties;
+package naga.core.spi.toolkit.propertymarkers;
 
 /**
  * @author Bruno Salmon

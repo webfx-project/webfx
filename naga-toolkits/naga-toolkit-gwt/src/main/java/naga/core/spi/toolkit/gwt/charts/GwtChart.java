@@ -13,7 +13,7 @@ import com.googlecode.gwt.charts.client.event.SelectHandler;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.charts.Chart;
 import naga.core.spi.toolkit.gwt.node.GwtSelectableDisplayResultSetNode;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.type.PrimType;
 import naga.core.type.Type;
 import naga.core.type.Types;

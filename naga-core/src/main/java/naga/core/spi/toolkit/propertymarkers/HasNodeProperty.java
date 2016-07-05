@@ -1,4 +1,4 @@
-package naga.core.spi.toolkit.hasproperties;
+package naga.core.spi.toolkit.propertymarkers;
 
 import javafx.beans.property.Property;
 import naga.core.spi.toolkit.node.GuiNode;
