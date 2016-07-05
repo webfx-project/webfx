@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class RxFilter {
+public class ReactiveExpressionFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private Object domainClassId;
@@ -44,24 +44,24 @@ public class RxFilter {
     private Property<DisplaySelection> displaySelectionProperty;
     private boolean selectFirstRowOnFirstDisplay;
 
-    public RxFilter() {
+    public ReactiveExpressionFilter() {
     }
 
-    public RxFilter(Object jsonOrClass) {
+    public ReactiveExpressionFilter(Object jsonOrClass) {
         combine(new StringFilterBuilder(jsonOrClass));
     }
 
-    public RxFilter setDataSourceModel(DataSourceModel dataSourceModel) {
+    public ReactiveExpressionFilter setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
         return this;
     }
 
-    public RxFilter setStore(EntityStore store) {
+    public ReactiveExpressionFilter setStore(EntityStore store) {
         this.store = store;
         return this;
     }
 
-    public RxFilter setListId(Object listId) {
+    public ReactiveExpressionFilter setListId(Object listId) {
         this.listId = listId;
         return this;
     }
@@ -70,26 +70,26 @@ public class RxFilter {
         return displaySelectionProperty;
     }
 
-    public RxFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
+    public ReactiveExpressionFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
         this.displaySelectionProperty = displaySelectionProperty;
         return this;
     }
 
-    public RxFilter setSelectedEntityHandler(Handler<Entity> entityHandler) {
+    public ReactiveExpressionFilter setSelectedEntityHandler(Handler<Entity> entityHandler) {
         this.displaySelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
         return this;
     }
 
-    public RxFilter setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
+    public ReactiveExpressionFilter setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
         return setDisplaySelectionProperty(displaySelectionProperty).setSelectedEntityHandler(entityHandler);
     }
 
-    public RxFilter selectFirstRowOnFirstDisplay() {
+    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay() {
         this.selectFirstRowOnFirstDisplay = true;
         return this;
     }
 
-    public RxFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
+    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
         return setDisplaySelectionProperty(displaySelectionProperty).selectFirstRowOnFirstDisplay();
     }
 
@@ -109,20 +109,20 @@ public class RxFilter {
         return store.getEntityList(listId);
     }
 
-    public RxFilter setExpressionColumns(String jsonArrayDisplayColumns) {
+    public ReactiveExpressionFilter setExpressionColumns(String jsonArrayDisplayColumns) {
         return setExpressionColumns(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
     }
 
-    public RxFilter setExpressionColumns(JsonArray array) {
+    public ReactiveExpressionFilter setExpressionColumns(JsonArray array) {
         return setExpressionColumns(ExpressionColumn.fromJsonArray(array));
     }
 
-    public RxFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
+    public ReactiveExpressionFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
         this.expressionColumns = expressionColumns;
         return this;
     }
 
-    public RxFilter applyDomainModelRowStyle() {
+    public ReactiveExpressionFilter applyDomainModelRowStyle() {
         DomainClass domainClass = dataSourceModel.getDomainModel().getClass(domainClassId);
         ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
         if (rowStylesExpressionArray != null) {
@@ -134,30 +134,30 @@ public class RxFilter {
         return this;
     }
 
-    public RxFilter combine(String json) {
+    public ReactiveExpressionFilter combine(String json) {
         return combine(new StringFilter(json));
     }
 
-    public RxFilter combine(JsonObject json) {
+    public ReactiveExpressionFilter combine(JsonObject json) {
         return combine(new StringFilter(json));
     }
 
-    public RxFilter combine(StringFilterBuilder stringFilterBuilder) {
+    public ReactiveExpressionFilter combine(StringFilterBuilder stringFilterBuilder) {
         return combine(stringFilterBuilder.build());
     }
 
-    public RxFilter combine(StringFilter stringFilter) {
+    public ReactiveExpressionFilter combine(StringFilter stringFilter) {
         if (domainClassId == null)
             domainClassId = stringFilter.getDomainClassId();
         return combine(Observable.just(stringFilter));
     }
 
-    public RxFilter combine(Observable<StringFilter> stringFilterObservable) {
+    public ReactiveExpressionFilter combine(Observable<StringFilter> stringFilterObservable) {
         stringFilterObservables.add(stringFilterObservable);
         return this;
     }
 
-    public <T> RxFilter combine(Property<T> property, Converter<T, String> toJsonFilterConverter) {
+    public <T> ReactiveExpressionFilter combine(Property<T> property, Converter<T, String> toJsonFilterConverter) {
         return combine(RxUi.observe(property)
                 .map(t -> {
                     String json = toJsonFilterConverter.convert(t);
@@ -165,15 +165,15 @@ public class RxFilter {
                 }));
     }
 
-    public RxFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
+    public ReactiveExpressionFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
         return combine(ifProperty, stringFilterBuilder.build());
     }
 
-    public RxFilter combine(Property<Boolean> ifProperty, String json) {
+    public ReactiveExpressionFilter combine(Property<Boolean> ifProperty, String json) {
         return combine(ifProperty, new StringFilter(json));
     }
 
-    public RxFilter combine(Property<Boolean> ifProperty, StringFilter stringFilter) {
+    public ReactiveExpressionFilter combine(Property<Boolean> ifProperty, StringFilter stringFilter) {
         return combine(RxUi.observeIf(Observable.just(stringFilter), ifProperty));
     }
 
@@ -191,7 +191,7 @@ public class RxFilter {
             combine(new StringFilterBuilder().setFields(new ExpressionArray<>(displayPersistentTerms).toString()));
     }
 
-    public RxFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
+    public ReactiveExpressionFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
         checkFields();
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
         if (displayResultSetProperty.getValue() == null && expressionColumns != null)

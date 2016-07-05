@@ -5,7 +5,7 @@ import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.rx.RxFilter;
+import naga.core.ui.rx.ReactiveExpressionFilter;
 
 /**
  * @author Bruno Salmon
@@ -48,7 +48,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     @Override
     protected void bindPresentationModelWithLogic(CartPresentationModel pm) {
         // Setting up the documents filter
-        RxFilter documentFilter = createRxFilter("{class: 'Document', orderBy: 'creationDate desc'}")
+        ReactiveExpressionFilter documentFilter = createReactiveExpressionFilter("{class: 'Document', orderBy: 'creationDate desc'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'cart.uuid=`" + s + "`'}")
                 //.registerParameter(new Parameter("cartUuid", "constant"))
@@ -67,7 +67,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty());
 
         // Setting up the document lines filter
-        createRxFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")
+        createReactiveExpressionFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 .combine(documentFilter.getDisplaySelectionProperty(), displaySelection -> {
@@ -85,7 +85,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
 
         // Setting up the payments filter
-        createRxFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
+        createReactiveExpressionFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
                 // Condition
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")

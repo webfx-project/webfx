@@ -60,7 +60,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
 
     protected void bindPresentationModelWithLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createRxFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+        createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
