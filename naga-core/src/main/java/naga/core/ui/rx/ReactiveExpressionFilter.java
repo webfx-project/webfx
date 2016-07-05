@@ -18,10 +18,7 @@ import naga.core.services.query.QueryArgument;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.type.PrimType;
-import naga.core.ui.displayresultset.DisplayColumn;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.ui.displayresultset.EntityListToDisplayResultSetGenerator;
-import naga.core.ui.displayresultset.ExpressionColumn;
+import naga.core.ui.displayresultset.*;
 import naga.core.ui.displayselection.DisplaySelection;
 import naga.core.util.async.Handler;
 import naga.core.util.function.Converter;
@@ -184,7 +181,7 @@ public class ReactiveExpressionFilter {
             listId = "default";
         List<Expression> displayPersistentTerms = new ArrayList<>();
         for (ExpressionColumn expressionColumn : expressionColumns) {
-            expressionColumn.parseIfNecessary(dataSourceModel.getDomainModel(), domainClassId);
+            expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), domainClassId);
             expressionColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
         }
         if (!displayPersistentTerms.isEmpty())

@@ -6,87 +6,76 @@ import naga.core.json.Json;
 import naga.core.json.JsonArray;
 import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DomainModel;
-import naga.core.orm.domainmodel.Label;
 import naga.core.orm.expression.Expression;
-import naga.core.type.Type;
+import naga.core.ui.displayresultset.impl.ExpressionColumnImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class ExpressionColumn {
+public interface ExpressionColumn {
 
-    private final String expressionDefinition;
-    private Expression  expression;
-    private final Formatter expressionFormatter;
-    private Object label;
-    private DisplayColumn displayColumn;
+    /**
+     * @return the expression to be used to evaluate all values of the display result set for that column.
+     */
+    Expression getExpression();
 
-    private ExpressionColumn(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter, DisplayColumn displayColumn) {
-        this.expressionDefinition = expressionDefinition;
-        this.expression = expression;
-        this.label = label;
-        this.expressionFormatter = expressionFormatter;
-        this.displayColumn = displayColumn;
-    }
+    /**
+     * @return the formatter to apply after the expression has been evaluated.
+     */
+    Formatter getExpressionFormatter();
 
-    public DisplayColumn getDisplayColumn() {
-        if (displayColumn == null) {
-            if (label == null)
-                label = Label.from(expression);
-            Type expectedType = expressionFormatter != null ? expressionFormatter.getExpectedFormattedType() : expression.getType();
-            displayColumn = DisplayColumn.create(label, expectedType);
-        }
-        return displayColumn;
-    }
+    /**
+     * @return the associated display column.
+     */
+    DisplayColumn getDisplayColumn();
 
-    public Expression getExpression() {
-        return expression;
-    }
+    /**
+     * In case this expression column has been created using an expression definition and not an expression instance,
+     * this methods needs to be called before to parse the expression so getExpression() doesn't return null.
+     *
+     * @param domainModel the domain model
+     * @param domainClassId the domain class id
+     */
+    void parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId);
 
-    public Formatter getExpressionFormatter() {
-        return expressionFormatter;
-    }
 
-    public void parseIfNecessary(DomainModel domainModel, Object classId) {
-        if (expression == null)
-            expression = domainModel.parseExpression(expressionDefinition, classId);
-    }
+    /*** Factory methods ***/
 
-    public static ExpressionColumn create(String jsonOrExpressionDefinition) {
+    static ExpressionColumn create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
             return create(Json.parseObject(jsonOrExpressionDefinition));
-        return new ExpressionColumn(jsonOrExpressionDefinition, null, null, null, null);
+        return new ExpressionColumnImpl(jsonOrExpressionDefinition, null, null, null, null);
     }
 
-    public static ExpressionColumn create(JsonObject json) {
+    static ExpressionColumn create(JsonObject json) {
         return create(json.getString("expression"), json);
     }
 
-    public static ExpressionColumn create(String expressionDefinition, String jsonOptions) {
+    static ExpressionColumn create(String expressionDefinition, String jsonOptions) {
         return create(expressionDefinition, Json.parseObject(jsonOptions));
     }
 
-    public static ExpressionColumn create(String expressionDefinition, JsonObject options) {
-        return new ExpressionColumn(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")), null);
+    static ExpressionColumn create(String expressionDefinition, JsonObject options) {
+        return new ExpressionColumnImpl(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")), null);
     }
 
-    public static ExpressionColumn create(String expressionDefinition, Formatter expressionFormatter) {
-        return new ExpressionColumn(expressionDefinition, null, null, expressionFormatter, null);
+    static ExpressionColumn create(String expressionDefinition, Formatter expressionFormatter) {
+        return new ExpressionColumnImpl(expressionDefinition, null, null, expressionFormatter, null);
     }
 
-    public static ExpressionColumn create(Expression expression) {
+    static ExpressionColumn create(Expression expression) {
         return create(expression, null);
     }
 
-    public static ExpressionColumn create(Expression expression, DisplayColumn displayColumn) {
-        return new ExpressionColumn(null, expression, null, null, displayColumn);
+    static ExpressionColumn create(Expression expression, DisplayColumn displayColumn) {
+        return new ExpressionColumnImpl(null, expression, null, null, displayColumn);
     }
 
-    public static ExpressionColumn[] fromJsonArray(String array) {
+    static ExpressionColumn[] fromJsonArray(String array) {
         return fromJsonArray(Json.parseArray(array));
     }
 
-    public static ExpressionColumn[] fromJsonArray(JsonArray array) {
+    static ExpressionColumn[] fromJsonArray(JsonArray array) {
         int n = array.size();
         ExpressionColumn[] expressionColumns = new ExpressionColumn[n];
         for (int i = 0; i < n; i++) {
@@ -96,7 +85,7 @@ public class ExpressionColumn {
         return expressionColumns;
     }
 
-    public static ExpressionColumn[] fromExpressions(Expression[] columnExpressions) {
+    static ExpressionColumn[] fromExpressions(Expression[] columnExpressions) {
         ExpressionColumn[] expressionColumns = new ExpressionColumn[columnExpressions.length];
         int columnIndex = 0;
         for (Expression columnExpression : columnExpressions)
@@ -104,7 +93,7 @@ public class ExpressionColumn {
         return expressionColumns;
     }
 
-    public static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
+    static ExpressionColumn[] fromExpressionsDefinition(String columnExpressionsDefinition, DomainModel domainModel, Object classId) {
         return fromExpressions(domainModel.parseExpressionArray(columnExpressionsDefinition, classId).getExpressions());
     }
 }
