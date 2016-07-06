@@ -17,7 +17,9 @@
  */
 package naga.core.spi.platform.java;
 
+import naga.core.bus.BusOptions;
 import naga.core.bus.client.ReconnectBus;
+import naga.core.bus.client.WebSocketBusOptions;
 import naga.core.spi.platform.WebSocketFactory;
 import naga.core.spi.platform.BusFactory;
 import naga.core.spi.platform.ClientPlatform;
@@ -41,8 +43,13 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
     }
 
     @Override
-    public BusFactory busFactory() { // busFactory() ClientPlatform default method doesn't work to implement Platform one
+    public BusFactory busFactory() { // ClientPlatform default method doesn't work while extending JavaPlatform
         return ReconnectBus::new; // So repeating it again...
+    }
+
+    @Override
+    public BusOptions createBusOptions() { // ClientPlatform default method doesn't work while extending JavaPlatform
+        return new WebSocketBusOptions(); // So repeating it again...
     }
 
     @Override
