@@ -25,6 +25,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
         <!--
         <dependency>
             <artifactId>naga-javalib-javacupruntime</artifactId>

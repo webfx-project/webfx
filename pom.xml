@@ -41,6 +41,7 @@
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
         <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
         <lib.medusa.version>5.0</lib.medusa.version>
+        <lib.junit.version>4.12</lib.junit.version>
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
@@ -135,6 +136,13 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${lib.junit.version}</version>
+                <scope>test</scope>
+            </dependency>
 
             <!--
              ****************************************************
