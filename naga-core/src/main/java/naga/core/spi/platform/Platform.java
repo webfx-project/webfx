@@ -139,6 +139,7 @@ public abstract class Platform {
     // BusFactory methods
 
     private static Bus BUS;
+    private static BusOptions busOptions;
 
     public static Bus bus() {
         if (BUS == null)
@@ -146,8 +147,18 @@ public abstract class Platform {
         return BUS;
     }
 
+    public static BusOptions getBusOptions() {
+        return busOptions;
+    }
+
+    public static void setBusOptions(BusOptions busOptions) {
+        Platform.busOptions = busOptions;
+    }
+
     public static Bus createBus() {
-        return createBus(get().createBusOptions());
+        if (busOptions == null)
+            busOptions = get().createBusOptions();
+        return createBus(busOptions);
     }
 
     public static Bus createBus(BusOptions options) {
