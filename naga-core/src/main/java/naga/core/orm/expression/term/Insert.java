@@ -18,4 +18,7 @@ public class Insert<T> extends SqlOrder<T> {
         this.setClause = setClause;
     }
 
+    public ExpressionArray<T> getSetClause() {
+        return setClause;
+    }
 }

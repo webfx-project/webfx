@@ -1,7 +1,7 @@
 package naga.core.orm.expressionsqlcompiler;
 
 import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.term.Select;
+import naga.core.orm.expression.term.*;
 import naga.core.orm.expressionsqlcompiler.lci.CompilerDomainModelReader;
 import naga.core.orm.expressionsqlcompiler.sql.DbmsSqlSyntaxOptions;
 import naga.core.orm.expressionsqlcompiler.sql.SqlBuild;
@@ -45,47 +45,107 @@ public class ExpressionSqlCompiler {
                 termCompilers.put(expressionClass, expressionSqlCompiler);
     }
 
-    /**
-     * Select compilation
-     */
+    /*** Public entry points ***/
 
-    // Public entry points
+    // Select compilation
 
     public static SqlCompiled compileSelect(Select select, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, boolean generateQueryMapping, boolean readForeignFields, CompilerDomainModelReader modelReader) {
-        SqlBuild sqlBuild = compileSelect(select, parameterValues, dbmsSyntax, generateQueryMapping, readForeignFields, null, null, modelReader);
+        SqlBuild sqlBuild = buildSelect(select, parameterValues, dbmsSyntax, generateQueryMapping, readForeignFields, null, null, modelReader);
         return sqlBuild.toSqlCompiled();
     }
 
-    // Private entry points
+    // Insert compilation
 
-    public static SqlBuild compileSelect(Select select, Options parentOptions) {
-        Options o = parentOptions;
-        return compileSelect(select, null /*o.parameterValues - can it disappear?*/, o.build.getDbmsSyntax(), o.generateQueryMapping, o.readForeignFields, o.build, o.clause, o.modelReader);
+    public static SqlCompiled compileInsert(Insert insert, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = buildInsert(insert, parameterValues, dbmsSyntax, modelReader);
+        return sqlBuild.toSqlCompiled();
     }
 
-    public static SqlBuild compileSelect(Select select, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, boolean generateQueryMapping, boolean readForeignFields, SqlBuild parent, SqlClause parentClause, CompilerDomainModelReader modelReader) {
-        SqlBuild sqlBuild = new SqlBuild(parent, select.getDomainClass(), select.getDomainClassAlias(), SqlClause.SELECT, dbmsSyntax, modelReader);
+    // Update compilation
+
+    public static SqlCompiled compileUpdate(Update update, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = buildUpdate(update, parameterValues, dbmsSyntax, modelReader);
+        return sqlBuild.toSqlCompiled();
+    }
+
+    // Delete compilation
+
+    public static SqlCompiled compileDelete(Delete delete, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = buildDelete(delete, parameterValues, dbmsSyntax, modelReader);
+        return sqlBuild.toSqlCompiled();
+    }
+
+
+     /*** Private entry points ***/
+
+     // Select compilation
+
+    public static SqlBuild buildSelect(Select select, Options parentOptions) {
+        Options o = parentOptions;
+        return buildSelect(select, null /*o.parameterValues - can it disappear?*/, o.build.getDbmsSyntax(), o.generateQueryMapping, o.readForeignFields, o.build, o.clause, o.modelReader);
+    }
+
+    public static SqlBuild buildSelect(Select select, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, boolean generateQueryMapping, boolean readForeignFields, SqlBuild parent, SqlClause parentClause, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = createSqlOrderBuild(select, SqlClause.SELECT, dbmsSyntax, parent, modelReader);
         sqlBuild.setDistinct(select.isDistinct());
         boolean grouped = select.getGroupBy() != null;
         if (select.isIncludeIdColumn())
             sqlBuild.addColumnInClause(sqlBuild.getTableAlias(), modelReader.getDomainClassPrimaryKeySqlColumnName(select.getDomainClass()), null, null, SqlClause.SELECT, "", grouped, false, true);
         if (select.getFields() != null)
             compileExpression(select.getFields(), new Options(sqlBuild, SqlClause.SELECT, ", ", parameterValues, grouped, generateQueryMapping, readForeignFields, modelReader));
-        if (select.getWhere() != null)
-            compileExpression(select.getWhere(), new Options(sqlBuild, SqlClause.WHERE, null, parameterValues, grouped, false, false, modelReader));
         if (select.getGroupBy() != null)
             compileExpression(select.getGroupBy(), new Options(sqlBuild, SqlClause.GROUP_BY, ", ", parameterValues, grouped, false, false, modelReader));
         if (select.getHaving() != null)
             compileExpression(select.getHaving(), new Options(sqlBuild, SqlClause.HAVING, ", ", parameterValues, grouped, false, false, modelReader));
-        if (select.getOrderBy() != null)
-            compileExpression(select.getOrderBy(), new Options(sqlBuild, SqlClause.ORDER_BY, ", ", parameterValues, grouped, false, false, modelReader));
-        if (select.getLimit() != null && dbmsSyntax != DbmsSqlSyntaxOptions.HSQL_SYNTAX) // temporary fix
-            compileExpression(select.getLimit(), new Options(sqlBuild, SqlClause.LIMIT, null, parameterValues, grouped, false, false, modelReader));
+        return buildCommonSqlOrder(select, parameterValues, sqlBuild, grouped, dbmsSyntax, parent, parentClause, modelReader);
+    }
+
+    private static SqlBuild createSqlOrderBuild(SqlOrder sqlOrder, SqlClause sqlClause, DbmsSqlSyntaxOptions dbmsSyntax, SqlBuild parent, CompilerDomainModelReader modelReader) {
+        return new SqlBuild(parent, sqlOrder.getDomainClass(), sqlOrder.getDomainClassAlias(), sqlClause, dbmsSyntax, modelReader);
+    }
+
+    private static SqlBuild buildCommonSqlOrder(SqlOrder sqlOrder, Object[] parameterValues, SqlBuild sqlBuild, boolean grouped, DbmsSqlSyntaxOptions dbmsSyntax, SqlBuild parent, SqlClause parentClause, CompilerDomainModelReader modelReader) {
+        if (sqlOrder.getWhere() != null)
+            compileExpression(sqlOrder.getWhere(), new Options(sqlBuild, SqlClause.WHERE, null, parameterValues, grouped, false, false, modelReader));
+        if (sqlOrder.getOrderBy() != null)
+            compileExpression(sqlOrder.getOrderBy(), new Options(sqlBuild, SqlClause.ORDER_BY, ", ", parameterValues, grouped, false, false, modelReader));
+        if (sqlOrder.getLimit() != null && dbmsSyntax != DbmsSqlSyntaxOptions.HSQL_SYNTAX) // temporary fix
+            compileExpression(sqlOrder.getLimit(), new Options(sqlBuild, SqlClause.LIMIT, null, parameterValues, grouped, false, false, modelReader));
         if (parent != null)
             parent.prepareAppend(parentClause, null).append(sqlBuild.toSql()); // is it the right way?
-        select.setCacheable(sqlBuild.isCacheable());
+        sqlOrder.setCacheable(sqlBuild.isCacheable());
         return sqlBuild;
     }
+
+    // Update compilation
+
+    private static SqlBuild buildInsert(Insert insert, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = createSqlOrderBuild(insert, SqlClause.INSERT, dbmsSyntax, null, modelReader);
+        sqlBuild.setAutoGeneratedKeyColumnNames(new String[]{modelReader.getDomainClassPrimaryKeySqlColumnName(insert.getDomainClass())});
+        for (Expression expression : insert.getSetClause().getExpressions()) {
+            Equals equals = (Equals) expression;
+            compileExpression(equals.getLeft(), new Options(sqlBuild, SqlClause.INSERT, ", ", parameterValues, false, false, false, modelReader));
+            compileExpression(equals.getRight(), new Options(sqlBuild, SqlClause.VALUES, ", ", parameterValues, false, false, false, modelReader));
+        }
+        return buildCommonSqlOrder(insert, parameterValues, sqlBuild, false, dbmsSyntax, null, null, modelReader);
+    }
+
+    // Update compilation
+
+    private static SqlBuild buildUpdate(Update update, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = createSqlOrderBuild(update, SqlClause.UPDATE, dbmsSyntax, null, modelReader);
+        compileExpression(update.getSetClause(), new Options(sqlBuild, SqlClause.UPDATE, ", ", parameterValues, false, false, false, modelReader));
+        return buildCommonSqlOrder(update, parameterValues, sqlBuild, false, dbmsSyntax, null, null, modelReader);
+    }
+
+    // Delete compilation
+
+    private static SqlBuild buildDelete(Delete delete, Object[] parameterValues, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader modelReader) {
+        SqlBuild sqlBuild = createSqlOrderBuild(delete, SqlClause.DELETE, dbmsSyntax, null, modelReader);
+        return buildCommonSqlOrder(delete, parameterValues, sqlBuild, false, dbmsSyntax, null, null, modelReader);
+    }
+
+    // Expression compilation
 
     public static void compileExpression(Expression expression, Options options) {
         Class<? extends Expression> expressionClass = expression.getClass();
@@ -101,7 +161,7 @@ public class ExpressionSqlCompiler {
                 }
             }
             if (termSqlCompiler == null) */
-                throw new IllegalArgumentException("Sql not compilable: " + expression);
+            throw new IllegalArgumentException("Sql not compilable: " + expression);
         }
         termSqlCompiler.compileExpressionToSql(expression, options);
     }
