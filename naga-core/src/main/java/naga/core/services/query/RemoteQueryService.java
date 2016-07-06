@@ -1,6 +1,6 @@
 package naga.core.services.query;
 
-import naga.core.Naga;
+import naga.core.activity.BusCallMicroservice;
 import naga.core.bus.call.BusCallService;
 import naga.core.datasource.ConnectionDetails;
 import naga.core.datasource.LocalDataSourceRegistry;
@@ -36,6 +36,6 @@ public class RemoteQueryService implements QueryService {
     }
 
     protected <T> Future<T> executeRemoteQuery(QueryArgument argument) {
-        return BusCallService.call(Naga.QUERY_SERVICE_ADDRESS, argument);
+        return BusCallService.call(BusCallMicroservice.QUERY_SERVICE_ADDRESS, argument);
     }
 }

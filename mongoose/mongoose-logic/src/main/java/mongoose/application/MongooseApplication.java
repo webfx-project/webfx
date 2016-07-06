@@ -23,6 +23,10 @@ abstract class MongooseApplication implements Activity {
 
     @Override
     public void onCreate(ActivityContext context) {
+        context.setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel());
+        FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
+        FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
+
         activityRouter = ActivityRouter.create(context)
                 .routeAndMountSubRouter("/", ContainerActivity::new, ActivityRouter.createSubRouter(context)
                         .route("/organizations", OrganizationsActivity::new)
@@ -38,8 +42,6 @@ abstract class MongooseApplication implements Activity {
     }
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
-        FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
-        FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
-        ActivityManager.launchApplication(mongooseApplication, args, DomainModelSnapshotLoader.getDataSourceModel());
+        ActivityManager.launchApplication(mongooseApplication, args);
     }
 }

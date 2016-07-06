@@ -1,6 +1,6 @@
 package naga.core.services.update;
 
-import naga.core.Naga;
+import naga.core.activity.BusCallMicroservice;
 import naga.core.bus.call.BusCallService;
 import naga.core.datasource.ConnectionDetails;
 import naga.core.datasource.LocalDataSourceRegistry;
@@ -36,7 +36,7 @@ public class RemoteUpdateService implements UpdateService {
     }
 
     protected Future<naga.core.services.update.UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
-        return BusCallService.call(Naga.UPDATE_SERVICE_ADDRESS, argument);
+        return BusCallService.call(BusCallMicroservice.UPDATE_SERVICE_ADDRESS, argument);
     }
 
 }

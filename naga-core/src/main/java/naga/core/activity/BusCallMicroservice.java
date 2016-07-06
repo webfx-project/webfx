@@ -1,13 +1,13 @@
-package naga.core;
+package naga.core.activity;
 
-/*
+/**
  * @author Bruno Salmon
  */
 
 import naga.core.bus.call.BusCallService;
 import naga.core.spi.platform.Platform;
 
-public class Naga {
+public class BusCallMicroservice implements Activity {
 
     public static final String VERSION_ADDRESS = "version";
     public static final String QUERY_SERVICE_ADDRESS = "query.read";
@@ -15,20 +15,12 @@ public class Naga {
     public static final String UPDATE_SERVICE_ADDRESS = "query.write";
     public static final String UPDATE_BATCH_SERVICE_ADDRESS = "query.write.batch";
 
-    private static final Naga SINGLETON = new Naga();
-
-    public static Naga naga() {
-        return SINGLETON;
-    }
-
-    private Naga() {
-    }
-
     public String getVersion() {
         return "Naga prototype version 0.1.0-SNAPSHOT";
     }
 
-    public void startMicroservice() {
+    @Override
+    public void onStart() {
         // Registering java services so they can be called through the BusCallService
         BusCallService.registerCallableJavaService(VERSION_ADDRESS, this::getVersion);
         BusCallService.registerAsyncFunctionJavaService(QUERY_SERVICE_ADDRESS, Platform.query()::executeQuery);
