@@ -15,13 +15,64 @@
     <modules>
         <module>naga-abstractplatform-java</module>
         <module>naga-platform-jre</module>
-        <module>naga-platform-android</module>
         <module>naga-platform-vertx</module>
-        <module>naga-platform-cn1</module>
         <module>naga-abstractplatform-web</module>
-        <module>naga-platform-teavm</module>
-        <module>naga-platform-gwt</module>
-        <module>naga-platform-j2objc</module>
     </modules>
+
+    <profiles>
+
+        <!-- Web profiles (GWT, TeaVM) -->
+        <profile>
+            <id>gwt</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>naga-platform-gwt</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>teavm</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>naga-platform-teavm</module>
+            </modules>
+        </profile>
+
+        <!-- Mobile profiles (Android, CodenameOne) -->
+        <profile>
+            <id>android</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>naga-platform-android</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>cn1</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>naga-platform-cn1</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>j2objc</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>naga-platform-j2objc</module>
+            </modules>
+        </profile>
+
+    </profiles>
 
 </project>
