@@ -24,6 +24,11 @@ public interface ActivityContextDirectAccess extends HasActivityContext, Activit
     default ActivityManager getActivityManager() { return getActivityContext().getActivityManager(); }
 
     @Override
+    default void setDataSourceModel(DataSourceModel dataSourceModel) {
+        getActivityContext().setDataSourceModel(dataSourceModel);
+    }
+
+    @Override
     default DataSourceModel getDataSourceModel() { return getActivityContext().getDataSourceModel(); }
 
     @Override

@@ -20,6 +20,8 @@ public interface ActivityContext extends HasNodeProperty {
 
     ActivityManager getActivityManager();
 
+    void setDataSourceModel(DataSourceModel dataSourceModel);
+
     DataSourceModel getDataSourceModel();
 
     History getHistory();
