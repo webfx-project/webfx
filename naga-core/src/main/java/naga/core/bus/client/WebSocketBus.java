@@ -38,8 +38,8 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public class WebSocketBus extends SimpleClientBus {
     private static final String ON_OPEN = "@realtime/bus/onOpen";
-    private static final String ON_CLOSE = "@realtime/bus/onClose";
-    private static final String ON_ERROR = "@realtime/bus/onError";
+    static final String ON_CLOSE = "@realtime/bus/onClose";
+    static final String ON_ERROR = "@realtime/bus/onError";
 
     private static final String SESSION = "_session";
     private static final String USERNAME = "username";
