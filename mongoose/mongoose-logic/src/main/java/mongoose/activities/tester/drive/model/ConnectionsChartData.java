@@ -7,9 +7,9 @@ import javafx.beans.property.SimpleIntegerProperty;
  * @author Jean-Pierre Alonso.
  */
 public class ConnectionsChartData implements ChartData {
-    private IntegerProperty requested = new SimpleIntegerProperty();
-    private IntegerProperty started = new SimpleIntegerProperty();
-    private IntegerProperty connected = new SimpleIntegerProperty();
+    private final IntegerProperty requested = new SimpleIntegerProperty();
+    private final IntegerProperty started = new SimpleIntegerProperty();
+    private final IntegerProperty connected = new SimpleIntegerProperty();
 
     @Override
     public int getRequested() {
@@ -39,5 +39,20 @@ public class ConnectionsChartData implements ChartData {
     @Override
     public IntegerProperty connectedProperty() {
         return connected;
+    }
+
+    @Override
+    public void setRequested(int requested) {
+        this.requested.set(requested);
+    }
+
+    @Override
+    public void setStarted(int started) {
+        this.started.set(started);
+    }
+
+    @Override
+    public void setConnected(int connected) {
+        this.connected.set(connected);
     }
 }
