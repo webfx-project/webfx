@@ -1,9 +1,10 @@
-package mongoose.activities.tester.monitor;
+package mongoose.activities.tester.metrics;
 
 import javafx.beans.property.ObjectProperty;
-import mongoose.activities.tester.monitor.controller.SystemSnapshot;
-import mongoose.activities.tester.monitor.model.SysBean;
-import mongoose.activities.tester.monitor.model.SysBeanFX;
+import mongoose.activities.tester.metrics.controller.SystemLookup;
+import mongoose.activities.tester.metrics.controller.SystemLookupMock;
+import mongoose.activities.tester.metrics.model.SysBean;
+import mongoose.activities.tester.metrics.model.SysBeanFX;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 
@@ -12,17 +13,16 @@ import naga.core.spi.toolkit.Toolkit;
  * It should be only one monitor in the system, so it is designed as a singleton.
  * @author Jean-Pierre Alonso.
  */
-public class Monitor {
-    private static final Monitor instance = new Monitor();   // singleton
+public class Metrics {
+    private static final Metrics instance = new Metrics();   // singleton
 
-    private Thread th;
-    private SystemSnapshot sysMon = new SystemSnapshot();
+    private SystemLookup sysMon = new SystemLookupMock();
     private ObjectProperty<SysBeanFX> sbfx;
     private boolean cancelled;
 
-    private Monitor() {}
+    private Metrics() {}
 
-    public static Monitor getInstance() {
+    public static Metrics getInstance() {
         return instance;
     }
 
@@ -32,13 +32,12 @@ public class Monitor {
             long current;
 
             while (!cancelled) {
-                SysBean sb = sysMon.systemSnapshot();
+                SysBean sb = sysMon.snapshot();
                 current = System.currentTimeMillis();
                 // Display results on the console (optional)
                 if (mode_console) {
-                    Platform.log(th.getState());
                     sb.printState();
-                    Platform.log("elapsed time : "+ Long.toString(current - start)+" ms");
+                    Platform.log("elapsed time : "+ (current - start)+" ms");
                 }
                 // Display results on the UI
                 Toolkit.get().scheduler().scheduleDeferred(() -> sbfx.set(new SysBeanFX(sb)));

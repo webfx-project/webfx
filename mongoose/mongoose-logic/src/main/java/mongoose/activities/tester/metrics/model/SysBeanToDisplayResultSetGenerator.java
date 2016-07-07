@@ -1,8 +1,8 @@
-package mongoose.activities.tester.monitor.controller;
+package mongoose.activities.tester.metrics.model;
 
-import mongoose.activities.tester.monitor.model.SysBean;
 import naga.core.format.Formatter;
 import naga.core.orm.expression.Expression;
+import naga.core.spi.platform.Platform;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayresultset.ExpressionColumn;
@@ -15,7 +15,7 @@ import java.util.List;
 public class SysBeanToDisplayResultSetGenerator {
 
     public static DisplayResultSet createDisplayResultSet (List<SysBean> sysList, ExpressionColumn[] expressionColumns){
-        //Platform.log("createDisplayResultSet()");
+        Platform.log("createDisplayResultSet(SysBean)");
         int rowCount = sysList.size();
         int columnCount = expressionColumns.length;
         DisplayColumn[] columns = new DisplayColumn[columnCount];

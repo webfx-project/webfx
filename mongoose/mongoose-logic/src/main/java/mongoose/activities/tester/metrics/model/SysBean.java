@@ -1,4 +1,4 @@
-package mongoose.activities.tester.monitor.model;
+package mongoose.activities.tester.metrics.model;
 
 import naga.core.spi.platform.Platform;
 
