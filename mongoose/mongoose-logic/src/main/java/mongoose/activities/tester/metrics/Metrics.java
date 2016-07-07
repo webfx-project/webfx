@@ -1,10 +1,10 @@
-package mongoose.activities.tester.monitor;
+package mongoose.activities.tester.metrics;
 
 import javafx.beans.property.ObjectProperty;
-import mongoose.activities.tester.monitor.controller.SystemLookup;
-import mongoose.activities.tester.monitor.controller.SystemLookupMock;
-import mongoose.activities.tester.monitor.model.SysBean;
-import mongoose.activities.tester.monitor.model.SysBeanFX;
+import mongoose.activities.tester.metrics.controller.SystemLookup;
+import mongoose.activities.tester.metrics.controller.SystemLookupMock;
+import mongoose.activities.tester.metrics.model.SysBean;
+import mongoose.activities.tester.metrics.model.SysBeanFX;
 import naga.core.spi.platform.Platform;
 import naga.core.spi.toolkit.Toolkit;
 
@@ -13,16 +13,16 @@ import naga.core.spi.toolkit.Toolkit;
  * It should be only one monitor in the system, so it is designed as a singleton.
  * @author Jean-Pierre Alonso.
  */
-public class Monitor {
-    private static final Monitor instance = new Monitor();   // singleton
+public class Metrics {
+    private static final Metrics instance = new Metrics();   // singleton
 
     private SystemLookup sysMon = new SystemLookupMock();
     private ObjectProperty<SysBeanFX> sbfx;
     private boolean cancelled;
 
-    private Monitor() {}
+    private Metrics() {}
 
-    public static Monitor getInstance() {
+    public static Metrics getInstance() {
         return instance;
     }
 
