@@ -29,15 +29,18 @@ public class ConnectionChartGenerator {
     public DisplayResultSet createDisplayResultSet (){
 //        Platform.log("createDisplayResultSet(Connections)");
         int rowCount = connectionList.size();
+        // Building the DisplayResultSet for the chart using column format (First column = X, other columns = series Ys)
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, new DisplayColumn[]{
+                DisplayColumn.create("Time", PrimType.INTEGER),
                 DisplayColumn.create("Requested", PrimType.INTEGER),
                 DisplayColumn.create("Started", PrimType.INTEGER),
                 DisplayColumn.create("Connected", PrimType.INTEGER)});
         for (int rowIndex=0 ; rowIndex<rowCount ; rowIndex++) {
             ConnectionsChartData data = connectionList.get(rowIndex);
-            rsb.setValue(rowIndex, 0, data.getRequested());
-            rsb.setValue(rowIndex, 1, data.getStarted());
-            rsb.setValue(rowIndex, 2, data.getConnected());
+            rsb.setValue(rowIndex, 0, rowIndex); // temporary taking rowIndex as X
+            rsb.setValue(rowIndex, 1, data.getRequested());
+            rsb.setValue(rowIndex, 2, data.getStarted());
+            rsb.setValue(rowIndex, 3, data.getConnected());
         }
         DisplayResultSet displayResultSet = rsb.build();
         Platform.log("Ok: " + displayResultSet);

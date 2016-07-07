@@ -21,6 +21,7 @@ public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.sc
     public FxChart(javafx.scene.chart.Chart chart) {
         super(chart);
         isPieChart = chart instanceof PieChart;
+        chart.setAnimated(false);
     }
 
     @Override
@@ -32,7 +33,7 @@ public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.sc
         int rowCount = rs.getRowCount();
         int columnCount = rs.getColumnCount();
         DisplayColumn[] columns = rs.getColumns();
-        boolean rowFormat = columns[0].getRole() == null;
+        boolean rowFormat = "series".equals(columns[0].getRole());
         boolean hasXAxis = !isPieChart;
         if (!rowFormat) { /***** Column format - see {@link Chart} for format description *****/
             if (isPieChart && rowCount > 1) // ignoring extra rows for pie chart

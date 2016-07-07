@@ -114,7 +114,7 @@ public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleL
         int rowCount = rs.getRowCount();
         int columnCount = rs.getColumnCount();
         DisplayColumn[] columns = rs.getColumns();
-        boolean rowFormat = columns[0].getRole() == null;
+        boolean rowFormat = "series".equals(columns[0].getRole());
         boolean hasXAxis = !isPieChart;
         if (!rowFormat) { /***** Column format - see {@link Chart} for format description *****/
             if (isPieChart && rowCount > 1) // ignoring extra rows for pie chart

@@ -1,6 +1,5 @@
 package naga.toolkit.providers.javafx.nodes.charts;
 
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import naga.toolkit.spi.nodes.charts.LineChart;
 
@@ -18,6 +17,6 @@ public class FxLineChart extends FxXYChart implements LineChart<javafx.scene.cha
     }
 
     private static javafx.scene.chart.LineChart createLineChart() {
-        return new javafx.scene.chart.LineChart(new CategoryAxis(), new NumberAxis());
+        return new javafx.scene.chart.LineChart(new NumberAxis(), new NumberAxis());
     }
 }

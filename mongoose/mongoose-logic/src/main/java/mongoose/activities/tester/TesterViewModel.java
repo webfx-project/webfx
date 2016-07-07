@@ -21,9 +21,9 @@ public class TesterViewModel implements ViewModel {
     private final Chart connectionsChart;
     private final Slider requestSlider ;
     private final Gauge startedSlider ;
-    private final Button<Integer> startButton ;
-    private final Button<Integer> stopButton ;
-    private final Button<Integer> exitButton ;
+    private final Button startButton ;
+    private final Button stopButton ;
+    private final Button exitButton ;
 
     public TesterViewModel(GuiNode contentNode,
                            Table systemTable,

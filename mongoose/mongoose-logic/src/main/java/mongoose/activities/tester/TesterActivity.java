@@ -8,6 +8,7 @@ import mongoose.activities.tester.drive.model.ConnectionChartGenerator;
 import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import mongoose.activities.tester.metrics.Metrics;
 import mongoose.activities.tester.metrics.model.SysBeanFX;
+import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -17,7 +18,6 @@ import naga.toolkit.spi.nodes.controls.TextField;
 import naga.toolkit.spi.nodes.gauges.Gauge;
 import naga.toolkit.spi.nodes.layouts.HBox;
 import naga.toolkit.spi.nodes.layouts.VBox;
-import naga.framework.ui.presentation.PresentationActivity;
 
 /**
  * @author Bruno Salmon
@@ -42,9 +42,9 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         // Charts
         LineChart connectionsChart = toolkit.createLineChart();
         // Buttons
-        Button<Integer> startButton = toolkit.createButton();
-        Button<Integer> stopButton = toolkit.createButton();
-        Button<Integer> exitButton = toolkit.createButton();
+        Button startButton = toolkit.createButton();
+        Button stopButton = toolkit.createButton();
+        Button exitButton = toolkit.createButton();
         // Arranging in boxes
         HBox hBox = toolkit.createHBox();
         hBox.getChildren().setAll(startButton, stopButton, exitButton);
