@@ -51,7 +51,7 @@ public class WebSocketBus extends SimpleClientBus {
     private static final String REPLY_TOPIC = "replyAddress";
     protected static final String TYPE = "type";
 
-    private final WebSocket.WebSocketHandler webSocketHandler;
+    private final WebSocketListener internalWebSocketHandler;
     String serverUri;
     WebSocket webSocket;
     private int pingInterval;
@@ -60,8 +60,8 @@ public class WebSocketBus extends SimpleClientBus {
     private String username;
     private String password;
     final Map<String, Integer> handlerCount = new HashMap<>();
-    // Additional web socket listener for possible external connection state listening
-    private WebSocket.WebSocketHandler webSocketListener;
+    // Possible external web socket listener to observe web socket connection state
+    private WebSocketListener webSocketListener;
 
     public WebSocketBus(WebSocketBusOptions options) {
         options.turnUnsetPropertiesToDefault(); // should be already done by the platform but just in case
@@ -72,7 +72,7 @@ public class WebSocketBus extends SimpleClientBus {
                 + ':' + options.getServerPort()
                 + '/' + options.getBusPrefix()
                 + (options.getProtocol() == WebSocketBusOptions.Protocol.WS ? "/websocket" : "");
-        webSocketHandler = new WebSocket.WebSocketHandler() {
+        internalWebSocketHandler = new WebSocketListener() {
             @Override
             public void onOpen() {
                 Platform.log("Connection open");
@@ -122,7 +122,7 @@ public class WebSocketBus extends SimpleClientBus {
         connect(serverUri, options);
     }
 
-    public void setWebSocketListener(WebSocket.WebSocketHandler webSocketListener) {
+    public void setWebSocketListener(WebSocketListener webSocketListener) {
         this.webSocketListener = webSocketListener;
     }
 
@@ -143,7 +143,7 @@ public class WebSocketBus extends SimpleClientBus {
 
         Platform.log("Connecting to " + serverUri);
         webSocket = ClientPlatform.createWebSocket(serverUri, options.getSocketOptions());
-        webSocket.setListen(webSocketHandler);
+        webSocket.setListener(internalWebSocketHandler);
     }
 
     public WebSocket.State getReadyState() {

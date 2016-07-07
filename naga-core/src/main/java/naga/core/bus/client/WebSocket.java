@@ -17,8 +17,6 @@
  */
 package naga.core.bus.client;
 
-import naga.core.json.JsonObject;
-
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
  * @author Bruno Salmon - fork, refactor & update for the naga project
@@ -32,36 +30,11 @@ public interface WebSocket {
         public static final State values[] = State.values();
     }
 
-    /**
-     * Listens for events on a {@link WebSocket}.
-     */
-    interface WebSocketHandler {
-        /**
-         * Called when the socket is ready to receive messages.
-         */
-        void onOpen();
-
-        /**
-         * Called when the socket receives a message.
-         */
-        void onMessage(String message);
-
-        /**
-         * Called when an error occurs on the socket.
-         */
-        void onError(String error);
-
-        /**
-         * Called when the socket is closed. When the socket is closed, it cannot be reopened.
-         */
-        void onClose(JsonObject reason);
-    }
-
     State getReadyState();
 
     void send(String data);
 
-    void setListen(WebSocketHandler handler);
+    void setListener(WebSocketListener listener);
 
     /**
      * Close the socket. The socket cannot be used again after calling close; the server must create a
