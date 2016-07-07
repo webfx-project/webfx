@@ -1,6 +1,6 @@
 package naga.core.activity;
 
-import naga.core.orm.domainmodel.DataSourceModel;
+import naga.core.spi.platform.ServerPlatform;
 import naga.core.util.async.AsyncResult;
 import naga.core.util.async.Future;
 import naga.core.util.async.Handler;
@@ -120,14 +120,18 @@ public class ActivityManager {
     }
 
     public static void launchApplication(Activity application, String[] args) {
-        launchApplication(application, args, null);
+        runActivity(application, new ApplicationContext(args));
     }
 
-    public static void launchApplication(Activity application, String[] args, DataSourceModel dataSourceModel) {
-        launchActivity(application, new ApplicationContext(args, dataSourceModel));
+    public static void startBusCallServerActivity() {
+        startServerActivity(new BusCallServerActivity());
     }
 
-    public static void launchActivity(Activity activity, ActivityContext context) {
+    public static void startServerActivity(Activity serverActivity) {
+        ServerPlatform.get().startServerActivity(from(serverActivity, new ServerActivityContext()));
+    }
+
+    public static void runActivity(Activity activity, ActivityContext context) {
         from(activity, context).run();
     }
 

@@ -447,7 +447,7 @@ public abstract class lr_parser {
   }
   /**
    * Translates numerical symbol ids to the (non)terminal names from the spec
-   * @param internal id for (non)terminal
+   * @param id id for (non)terminal
    * @return (non)terminal name as string
    */
   public String symbl_name_from_id(int id){
@@ -477,7 +477,7 @@ public abstract class lr_parser {
 	  for (int i = 0; i<row.length; i+=2){
 		  if (row[i]==-1) continue;
 		  if (!validate_expected_symbol(row[i])) continue;
-		  ret.add(new Integer(row[i]));
+		  ret.add((int) row[i]);
 	  }
 	  return ret;
   }
@@ -805,14 +805,14 @@ public abstract class lr_parser {
   /** Do debug output for stack state. [CSA]
    */
   public void debug_stack() {
-      StringBuffer sb=new StringBuffer("## STACK:");
-      for (int i=0; i<stack.size(); i++) {
-	  Symbol s = (Symbol) stack.elementAt(i);
-	  sb.append(" <state "+s.parse_state+", sym "+s.sym+">");
-	  if ((i%3)==2 || (i==(stack.size()-1))) {
-	      debug_message(sb.toString());
-	      sb = new StringBuffer("         ");
-	  }
+      StringBuilder sb = new StringBuilder("## STACK:");
+      for (int i = 0; i < stack.size(); i++) {
+          Symbol s = (Symbol) stack.elementAt(i);
+          sb.append(" <state " + s.parse_state + ", sym " + s.sym + ">");
+          if ((i % 3) == 2 || (i == (stack.size() - 1))) {
+              debug_message(sb.toString());
+              sb = new StringBuilder("         ");
+          }
       }
   }
 

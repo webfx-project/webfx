@@ -37,21 +37,21 @@ import java.util.Map;
  */
 @SuppressWarnings("rawtypes")
 public class WebSocketBus extends SimpleClientBus {
-    public static final String ON_OPEN = "@realtime/bus/onOpen";
-    public static final String ON_CLOSE = "@realtime/bus/onClose";
-    public static final String ON_ERROR = "@realtime/bus/onError";
+    private static final String ON_OPEN = "@realtime/bus/onOpen";
+    static final String ON_CLOSE = "@realtime/bus/onClose";
+    static final String ON_ERROR = "@realtime/bus/onError";
 
-    public static final String SESSION = "_session";
-    public static final String USERNAME = "username";
-    public static final String PASSWORD = "password";
-    public static final String TOPIC_LOGIN = "vertx.basicauthmanager.login";
+    private static final String SESSION = "_session";
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "password";
+    private static final String TOPIC_LOGIN = "vertx.basicauthmanager.login";
 
-    protected static final String BODY = "body";
-    protected static final String TOPIC = "address";
-    protected static final String REPLY_TOPIC = "replyAddress";
+    private static final String BODY = "body";
+    private static final String TOPIC = "address";
+    private static final String REPLY_TOPIC = "replyAddress";
     protected static final String TYPE = "type";
 
-    private final WebSocket.WebSocketHandler webSocketHandler;
+    private final WebSocketListener internalWebSocketHandler;
     String serverUri;
     WebSocket webSocket;
     private int pingInterval;
@@ -60,6 +60,8 @@ public class WebSocketBus extends SimpleClientBus {
     private String username;
     private String password;
     final Map<String, Integer> handlerCount = new HashMap<>();
+    // Possible external web socket listener to observe web socket connection state
+    private WebSocketListener webSocketListener;
 
     public WebSocketBus(WebSocketBusOptions options) {
         options.turnUnsetPropertiesToDefault(); // should be already done by the platform but just in case
@@ -70,10 +72,12 @@ public class WebSocketBus extends SimpleClientBus {
                 + ':' + options.getServerPort()
                 + '/' + options.getBusPrefix()
                 + (options.getProtocol() == WebSocketBusOptions.Protocol.WS ? "/websocket" : "");
-        webSocketHandler = new WebSocket.WebSocketHandler() {
+        internalWebSocketHandler = new WebSocketListener() {
             @Override
             public void onOpen() {
                 Platform.log("Connection open");
+                if (webSocketListener != null)
+                    webSocketListener.onOpen();
                 sendLogin();
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
@@ -87,6 +91,8 @@ public class WebSocketBus extends SimpleClientBus {
             @Override
             public void onMessage(String msg) {
                 //Platform.log("Received message = " + msg);
+                if (webSocketListener != null)
+                    webSocketListener.onMessage(msg);
                 JsonObject json = Json.parseObject(msg);
                 @SuppressWarnings({"unchecked"})
                 ClientMessage message = new ClientMessage(false, false, WebSocketBus.this, json.getString(TOPIC), json.getString(REPLY_TOPIC), json.get(BODY));
@@ -96,12 +102,16 @@ public class WebSocketBus extends SimpleClientBus {
             @Override
             public void onError(String error) {
                 Platform.log("Connection error = " + error);
+                if (webSocketListener != null)
+                    webSocketListener.onError(error);
                 publishLocal(ON_ERROR, Json.createObject().set("message", error));
             }
 
             @Override
             public void onClose(JsonObject reason) {
                 Platform.log("Connection closed, reason = " + reason);
+                if (webSocketListener != null)
+                    webSocketListener.onClose(reason);
                 cancelPingTimer();
                 publishLocal(ON_CLOSE, reason);
                 if (hook != null)
@@ -112,6 +122,9 @@ public class WebSocketBus extends SimpleClientBus {
         connect(serverUri, options);
     }
 
+    public void setWebSocketListener(WebSocketListener webSocketListener) {
+        this.webSocketListener = webSocketListener;
+    }
 
     private void cancelPingTimer() {
         if (pingScheduled != null)
@@ -130,7 +143,7 @@ public class WebSocketBus extends SimpleClientBus {
 
         Platform.log("Connecting to " + serverUri);
         webSocket = ClientPlatform.createWebSocket(serverUri, options.getSocketOptions());
-        webSocket.setListen(webSocketHandler);
+        webSocket.setListener(internalWebSocketHandler);
     }
 
     public WebSocket.State getReadyState() {

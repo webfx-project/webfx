@@ -26,4 +26,7 @@ public class Update<T> extends SqlOrder<T> {
         this.setClause = setClause;
     }
 
+    public ExpressionArray<T> getSetClause() {
+        return setClause;
+    }
 }

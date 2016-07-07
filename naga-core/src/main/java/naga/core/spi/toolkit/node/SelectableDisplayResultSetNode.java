@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.node;
 
-import naga.core.spi.toolkit.hasproperties.HasDisplaySelectionProperty;
-import naga.core.spi.toolkit.hasproperties.HasSelectionModeProperty;
+import naga.core.spi.toolkit.propertymarkers.HasDisplaySelectionProperty;
+import naga.core.spi.toolkit.propertymarkers.HasSelectionModeProperty;
 
 /**
  * @author Bruno Salmon

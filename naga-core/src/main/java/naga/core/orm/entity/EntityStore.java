@@ -1,85 +1,48 @@
 package naga.core.orm.entity;
 
-
-import naga.core.orm.entity.lciimpl.EntityDataWriter;
+import naga.core.orm.entity.impl.EntityStoreImpl;
 import naga.core.orm.expression.Expression;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A store for entities that are transactionally coherent.
  *
  * @author Bruno Salmon
  */
-public class EntityStore {
+public interface EntityStore {
 
-    private final Map<EntityID, Entity> entities = new HashMap<>();
-    private final Map<Object, EntityList> entityLists = new HashMap<>();
-    private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
+    // Id management
 
-    // ID management
+    EntityId getEntityId(Object domainClassId, Object primaryKey);
 
-    public EntityID getEntityID(Object domainClassId, Object primaryKey) {
-        return new EntityID(domainClassId, primaryKey);
-    }
 
     // Entity management
 
-    public Entity getEntity(EntityID entityId) {
-        return entities.get(entityId);
-    }
+    Entity getEntity(EntityId entityId);
 
-    public Entity getOrCreateEntity(Object domainClassId, Object primaryKey) {
-        if (primaryKey == null)
-            return null;
-        return getOrCreateEntity(getEntityID(domainClassId, primaryKey));
-    }
+    Entity getOrCreateEntity(EntityId id);
 
-    public Entity getOrCreateEntity(EntityID id) {
-        Entity entity = getEntity(id);
-        if (entity == null)
-            entities.put(id, entity = createEntity(id));
-        return entity;
-    }
+    Entity getOrCreateEntity(Object domainClassId, Object primaryKey);
 
-    protected Entity createEntity(EntityID id) {
-        return new DynamicEntity(id, this);
-    }
 
     // EntityList management
 
-    public EntityList getEntityList(Object listId) {
-        return entityLists.get(listId);
-    }
+    EntityList getEntityList(Object listId);
 
-    public EntityList getOrCreateEntityList(Object listId) {
-        EntityList entityList = getEntityList(listId);
-        if (entityList == null)
-            entityLists.put(listId, entityList = new EntityList(listId, this));
-        return entityList;
-    }
+    EntityList getOrCreateEntityList(Object listId);
 
-    // Expression
 
-    public Object evaluateEntityExpression(Entity entity, Expression expression) {
-        return expression.evaluate(entity, entityDataWriter);
-    }
+    // Expression evaluation
 
-    // String
+    Object evaluateEntityExpression(Entity entity, Expression expression);
 
-    public String getEntityClassesCountReport() {
-        Map<Object, Integer> classesCount = new HashMap<>();
-        for (EntityID id : entities.keySet()) {
-            Integer count = classesCount.get(id.getDomainClassId());
-            classesCount.put(id.getDomainClassId(), count == null ? 1 : count + 1);
-        }
-        StringBuffer sb = new StringBuffer();
-        for (Map.Entry<Object, Integer> entry : classesCount.entrySet()) {
-            if (sb.length() > 0)
-                sb.append(", ");
-            sb.append(entry.getValue()).append(' ').append(entry.getKey());
-        }
-        return sb.toString();
+
+    // String report for debugging
+
+    String getEntityClassesCountReport();
+
+    // Factory
+
+    static EntityStore create() {
+        return new EntityStoreImpl();
     }
 }

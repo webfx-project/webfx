@@ -20,10 +20,13 @@ package naga.core.spi.platform;
 import naga.core.bus.Bus;
 import naga.core.bus.BusOptions;
 import naga.core.json.JsonFactory;
-import naga.core.queryservice.QueryService;
-import naga.core.queryservice.impl.RemoteQueryService;
+import naga.core.services.query.QueryService;
+import naga.core.services.query.RemoteQueryService;
 import naga.core.routing.history.History;
 import naga.core.routing.history.impl.MemoryHistory;
+import naga.core.services.resource.ResourceService;
+import naga.core.services.update.UpdateService;
+import naga.core.services.update.RemoteUpdateService;
 import naga.core.util.function.Consumer;
 import naga.core.util.serviceloader.ServiceLoaderHelper;
 
@@ -65,6 +68,10 @@ public abstract class Platform {
 
     public QueryService queryService() {
         return RemoteQueryService.REMOTE_ONLY_QUERY_SERVICE;
+    }
+
+    public UpdateService updateService() {
+        return RemoteUpdateService.REMOTE_ONLY_UPDATE_SERVICE;
     }
 
     public History getBrowserHistory() {
@@ -132,6 +139,7 @@ public abstract class Platform {
     // BusFactory methods
 
     private static Bus BUS;
+    private static BusOptions busOptions;
 
     public static Bus bus() {
         if (BUS == null)
@@ -139,8 +147,18 @@ public abstract class Platform {
         return BUS;
     }
 
+    public static BusOptions getBusOptions() {
+        return busOptions;
+    }
+
+    public static void setBusOptions(BusOptions busOptions) {
+        Platform.busOptions = busOptions;
+    }
+
     public static Bus createBus() {
-        return createBus(get().createBusOptions());
+        if (busOptions == null)
+            busOptions = get().createBusOptions();
+        return createBus(busOptions);
     }
 
     public static Bus createBus(BusOptions options) {
@@ -159,5 +177,9 @@ public abstract class Platform {
 
     public static QueryService query() {
         return get().queryService();
+    }
+
+    public static UpdateService update() {
+        return get().updateService();
     }
 }

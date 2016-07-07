@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.swing.controls;
 
 import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.swing.node.SwingSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import naga.core.ui.displayselection.DisplaySelection;

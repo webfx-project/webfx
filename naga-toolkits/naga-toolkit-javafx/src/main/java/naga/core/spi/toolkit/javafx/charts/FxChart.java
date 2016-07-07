@@ -2,7 +2,7 @@ package naga.core.spi.toolkit.javafx.charts;
 
 import javafx.scene.chart.PieChart;
 import naga.core.spi.toolkit.charts.Chart;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.javafx.node.FxSelectableDisplayResultSetNode;
 import naga.core.type.PrimType;
 import naga.core.type.Type;

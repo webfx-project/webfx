@@ -17,6 +17,7 @@
  */
 package naga.core.spi.platform.java;
 
+import naga.core.bus.client.WebSocketListener;
 import naga.core.json.Json;
 import naga.core.bus.client.WebSocket;
 import org.java_websocket.WebSocket.READYSTATE;
@@ -50,7 +51,7 @@ final class JavaWebSocket implements WebSocket {
     }
 
     private WebSocketClient socket;
-    private WebSocketHandler eventHandler;
+    private WebSocketListener listener;
 
     public JavaWebSocket(String uri) {
         URI serverUri;
@@ -63,21 +64,21 @@ final class JavaWebSocket implements WebSocket {
         socket = new WebSocketClient(serverUri, new Draft_17()) {
             @Override
             public void onOpen(ServerHandshake handshake) {
-                if (eventHandler != null)
-                    eventHandler.onOpen();
+                if (listener != null)
+                    listener.onOpen();
             }
 
             @Override
             public void onMessage(String msg) {
-                if (eventHandler != null)
-                    eventHandler.onMessage(msg);
+                if (listener != null)
+                    listener.onMessage(msg);
             }
 
             @Override
             public void onMessage(ByteBuffer buffer) {
                 try {
-                    if (eventHandler != null)
-                        eventHandler.onMessage(JavaWebSocket.toString(buffer));
+                    if (listener != null)
+                        listener.onMessage(JavaWebSocket.toString(buffer));
                 } catch (CharacterCodingException e) {
                     naga.core.spi.platform.Platform.log("Websocket Failed when Charset Decoding", e);
                 }
@@ -85,16 +86,16 @@ final class JavaWebSocket implements WebSocket {
 
             @Override
             public void onError(Exception e) {
-                if (eventHandler != null) {
+                if (listener != null) {
                     String message = e.getMessage();
-                    eventHandler.onError(message == null ? e.getClass().getSimpleName() : message);
+                    listener.onError(message == null ? e.getClass().getSimpleName() : message);
                 }
             }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {
-                if (eventHandler != null)
-                    eventHandler.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
+                if (listener != null)
+                    listener.onClose(Json.createObject().set("code", code).set("reason", reason).set("remote", remote));
             }
         };
 
@@ -118,8 +119,8 @@ final class JavaWebSocket implements WebSocket {
     }
 
     @Override
-    public void setListen(WebSocketHandler handler) {
-        this.eventHandler = handler;
+    public void setListener(WebSocketListener listener) {
+        this.listener = listener;
     }
 
 

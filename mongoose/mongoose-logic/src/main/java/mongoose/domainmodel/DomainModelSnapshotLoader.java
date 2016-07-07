@@ -7,7 +7,7 @@ import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.orm.domainmodel.DomainModel;
 import naga.core.orm.domainmodelloader.DomainModelLoader;
 import naga.core.spi.platform.Platform;
-import naga.core.queryservice.QueryResultSet;
+import naga.core.services.query.QueryResultSet;
 import naga.core.util.async.Batch;
 import naga.core.util.async.Future;
 import naga.core.util.compression.string.LZString;

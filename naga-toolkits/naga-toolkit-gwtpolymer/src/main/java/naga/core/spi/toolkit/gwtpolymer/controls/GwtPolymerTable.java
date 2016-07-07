@@ -13,7 +13,7 @@ import com.vaadin.polymer.vaadin.Selection;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import naga.core.spi.toolkit.controls.Table;
 import naga.core.spi.toolkit.gwt.node.GwtSelectableDisplayResultSetNode;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.type.Type;
 import naga.core.type.Types;
 import naga.core.ui.displayresultset.DisplayColumn;

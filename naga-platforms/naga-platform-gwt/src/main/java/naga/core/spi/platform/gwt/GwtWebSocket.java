@@ -2,6 +2,7 @@ package naga.core.spi.platform.gwt;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import naga.core.bus.client.WebSocket;
+import naga.core.bus.client.WebSocketListener;
 
 /**
  * @author Bruno Salmon
@@ -28,11 +29,11 @@ final class GwtWebSocket extends JavaScriptObject implements WebSocket {
     public native void send(String data) /*-{ this.send(data); }-*/;
 
     @Override
-    public native void setListen(WebSocketHandler handler) /*-{
-        this.onopen =    handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onOpen().bind(handler);
-        this.onmessage = function(event) { handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onMessage(Ljava/lang/String;)(event.data)};
-        this.onerror =   function(event) { handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onError(Ljava/lang/String;)(event.data)};
-        this.onclose =   handler.@naga.core.bus.client.WebSocket.WebSocketHandler::onClose(Lnaga/core/json/JsonObject;).bind(handler);
+    public native void setListener(WebSocketListener listener) /*-{
+        this.onopen =    listener.@naga.core.bus.client.WebSocketListener::onOpen().bind(listener);
+        this.onmessage = function(event) { listener.@naga.core.bus.client.WebSocketListener::onMessage(Ljava/lang/String;)(event.data)};
+        this.onerror =   function(event) { listener.@naga.core.bus.client.WebSocketListener::onError(Ljava/lang/String;)(event.data)};
+        this.onclose =   listener.@naga.core.bus.client.WebSocketListener::onClose(Lnaga/core/json/JsonObject;).bind(listener);
     }-*/;
 
     @Override

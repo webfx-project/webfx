@@ -2,8 +2,8 @@ package naga.core.json.codec;
 
 import naga.core.json.*;
 import naga.core.bus.call.BusCallService;
-import naga.core.queryservice.QueryArgument;
-import naga.core.queryservice.QueryResultSet;
+import naga.core.services.query.QueryArgument;
+import naga.core.services.query.QueryResultSet;
 import naga.core.util.Numbers;
 import naga.core.util.async.Batch;
 

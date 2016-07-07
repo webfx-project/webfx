@@ -1,7 +1,6 @@
 package naga.core.spi.toolkit.javafx;
 
 import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
@@ -72,12 +71,8 @@ public class JavaFxToolkit extends Toolkit {
         return sceneHook;
     }
 
-    public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet displayResultSet) {
-        Object[] values = displayResultSet.getValues();
-        ObjectProperty[] fxProperties = new ObjectProperty[values.length];
-        for (int i = 0; i < values.length; i++)
-            fxProperties[i] = new SimpleObjectProperty<>(values[i]);
-        return new DisplayResultSet(displayResultSet.getRowCount(), fxProperties, displayResultSet.getColumns());
+    public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet rs) {
+        return rs.convert(SimpleObjectProperty::new);
     }
 
     public static class FxApplication extends Application {

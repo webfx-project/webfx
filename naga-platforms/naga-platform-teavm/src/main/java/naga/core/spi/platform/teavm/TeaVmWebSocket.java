@@ -1,5 +1,6 @@
 package naga.core.spi.platform.teavm;
 
+import naga.core.bus.client.WebSocketListener;
 import naga.core.json.JsonObject;
 import naga.core.bus.client.WebSocket;
 import org.teavm.jso.JSBody;
@@ -36,11 +37,11 @@ final class TeaVmWebSocket implements WebSocket {
     }
 
     @Override
-    public void setListen(WebSocketHandler handler) {
-        sockJS.setOnopen(handler::onOpen);
-        sockJS.setOnclose(jsReason -> handler.onClose(TeaVmJsonObject.create(jsReason)));
-        sockJS.setOnmessage(jsMessage -> handler.onMessage(TeaVmJsonElement.js2String(TeaVmJsonElement.getJSValue(jsMessage, "data"))));
-        sockJS.setOnerror(jsError -> handler.onError(TeaVmJsonElement.js2String(TeaVmJsonElement.getJSValue(jsError, "data"))));
+    public void setListener(WebSocketListener listener) {
+        sockJS.setOnopen(listener::onOpen);
+        sockJS.setOnclose(jsReason -> listener.onClose(TeaVmJsonObject.create(jsReason)));
+        sockJS.setOnmessage(jsMessage -> listener.onMessage(TeaVmJsonElement.js2String(TeaVmJsonElement.getJSValue(jsMessage, "data"))));
+        sockJS.setOnerror(jsError -> listener.onError(TeaVmJsonElement.js2String(TeaVmJsonElement.getJSValue(jsError, "data"))));
     }
 
     @Override

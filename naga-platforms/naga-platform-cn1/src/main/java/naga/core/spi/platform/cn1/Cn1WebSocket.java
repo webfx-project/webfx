@@ -1,5 +1,6 @@
 package naga.core.spi.platform.cn1;
 
+import naga.core.bus.client.WebSocketListener;
 import naga.core.json.Json;
 import naga.core.bus.client.WebSocket;
 
@@ -8,15 +9,15 @@ import java.io.UnsupportedEncodingException;
 final class Cn1WebSocket implements WebSocket {
 
     private final com.codename1.io.websocket.WebSocket socket;
-    private WebSocketHandler eventHandler;
+    private WebSocketListener listener;
 
     public Cn1WebSocket(String uri) {
         socket = new com.codename1.io.websocket.WebSocket(uri) {
 
             @Override
             protected void onOpen() {
-                if (eventHandler != null)
-                    eventHandler.onOpen();
+                if (listener != null)
+                    listener.onOpen();
             }
 
             @Override
@@ -30,22 +31,22 @@ final class Cn1WebSocket implements WebSocket {
 
             @Override
             public void onMessage(String msg) {
-                if (eventHandler != null)
-                    eventHandler.onMessage(msg);
+                if (listener != null)
+                    listener.onMessage(msg);
             }
 
             @Override
             public void onError(Exception e) {
-                if (eventHandler != null) {
+                if (listener != null) {
                     String message = e.getMessage();
-                    eventHandler.onError(message == null ? e.getClass().getSimpleName() : message);
+                    listener.onError(message == null ? e.getClass().getSimpleName() : message);
                 }
             }
 
             @Override
             protected void onClose(int code, String reason) {
-                if (eventHandler != null)
-                    eventHandler.onClose(Json.createObject().set("code", code).set("reason", reason));
+                if (listener != null)
+                    listener.onClose(Json.createObject().set("code", code).set("reason", reason));
             }
         };
 
@@ -67,8 +68,8 @@ final class Cn1WebSocket implements WebSocket {
     }
 
     @Override
-    public void setListen(WebSocketHandler handler) {
-        this.eventHandler = handler;
+    public void setListener(WebSocketListener listener) {
+        this.listener = listener;
     }
 
 

@@ -6,7 +6,7 @@ import com.codename1.ui.table.TableModel;
 import com.codename1.ui.util.EventDispatcher;
 import naga.core.spi.toolkit.cn1.node.Cn1SelectableDisplayResultSetNode;
 import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 
 

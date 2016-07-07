@@ -9,7 +9,7 @@ import naga.core.spi.toolkit.charts.*;
 import naga.core.spi.toolkit.controls.*;
 import naga.core.spi.toolkit.events.ActionEvent;
 import naga.core.spi.toolkit.gauges.Gauge;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.layouts.HBox;
 import naga.core.spi.toolkit.layouts.VBox;
 import naga.core.spi.toolkit.layouts.VPage;

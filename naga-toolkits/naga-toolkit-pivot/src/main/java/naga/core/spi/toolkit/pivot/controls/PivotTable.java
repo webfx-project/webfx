@@ -1,7 +1,7 @@
 package naga.core.spi.toolkit.pivot.controls;
 
 import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.hasproperties.SelectionMode;
+import naga.core.spi.toolkit.propertymarkers.SelectionMode;
 import naga.core.spi.toolkit.pivot.node.PivotSelectableDisplayResultSetNode;
 import naga.core.ui.displayresultset.DisplayResultSet;
 import org.apache.pivot.collections.ArrayList;

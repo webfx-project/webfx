@@ -1,7 +1,7 @@
 package naga.core.spi.platform.cn1;
 
 import com.codename1.ui.Display;
-import naga.core.spi.platform.ResourceService;
+import naga.core.services.resource.ResourceService;
 import naga.core.util.Strings;
 import naga.core.util.async.Future;
 

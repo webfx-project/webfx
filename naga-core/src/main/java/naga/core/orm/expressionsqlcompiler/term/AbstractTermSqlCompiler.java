@@ -39,7 +39,7 @@ public abstract class AbstractTermSqlCompiler<E extends Expression> {
     }
 
     protected void compileSelect(Select select, Options o) {
-        ExpressionSqlCompiler.compileSelect(select, o);
+        ExpressionSqlCompiler.buildSelect(select, o);
     }
 
     void compileFunctionToSql(Function f, Expression arg, Options o) {

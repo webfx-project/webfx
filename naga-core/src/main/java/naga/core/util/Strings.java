@@ -91,7 +91,7 @@ public class Strings {
             return null;
         if (length == 1)
             return strings[0];
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String s : strings)
             if (s != null)
                 sb.append(s);

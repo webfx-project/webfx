@@ -5,7 +5,7 @@ import naga.core.spi.platform.WebSocketFactory;
 import naga.core.spi.platform.BusFactory;
 import naga.core.spi.platform.ClientPlatform;
 import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.ResourceService;
+import naga.core.services.resource.ResourceService;
 
 /**
  * @author Bruno Salmon

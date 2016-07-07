@@ -6,8 +6,8 @@ import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainClassBuilder;
 import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainFieldBuilder;
 import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainFieldsGroupBuilder;
 import naga.core.orm.domainmodelloader.domainmodelbuilder.DomainModelBuilder;
-import naga.core.queryservice.QueryArgument;
-import naga.core.queryservice.QueryResultSet;
+import naga.core.services.query.QueryArgument;
+import naga.core.services.query.QueryResultSet;
 import naga.core.spi.platform.Platform;
 import naga.core.type.DerivedType;
 import naga.core.type.PrimType;
@@ -37,7 +37,7 @@ public class DomainModelLoader {
 
     public Future<DomainModel> loadDomainModel() {
         Future<DomainModel> future = Future.future();
-        Platform.query().readBatch(generateDomainModelQueryBatch()).setHandler(asyncResult -> {
+        Platform.query().executeQueryBatch(generateDomainModelQueryBatch()).setHandler(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
             else

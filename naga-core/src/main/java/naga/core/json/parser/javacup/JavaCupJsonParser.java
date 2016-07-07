@@ -10,6 +10,7 @@ import naga.core.json.WritableJsonArray;
 import naga.core.json.WritableJsonObject;
 import naga.core.util.Numbers;
 import naga.core.util.tuples.Pair;
+import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */
@@ -144,7 +145,7 @@ public class JavaCupJsonParser extends java_cup.runtime.lr_parser {
     public void report_error(String message, Object info) {
    
         /* Create a StringBuffer called 'm' with the string 'Error' in it. */
-        StringBuffer m = new StringBuffer("Error");
+        StringBuilder m = new StringBuilder("Error");
    
         /* Check if the information passed to the method is the same
            type as the type java_cup.runtime.Symbol. */

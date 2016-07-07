@@ -1,8 +1,8 @@
 package naga.core.spi.toolkit.gauges;
 
-import naga.core.spi.toolkit.hasproperties.HasMaxProperty;
-import naga.core.spi.toolkit.hasproperties.HasMinProperty;
-import naga.core.spi.toolkit.hasproperties.HasValueProperty;
+import naga.core.spi.toolkit.propertymarkers.HasMaxProperty;
+import naga.core.spi.toolkit.propertymarkers.HasMinProperty;
+import naga.core.spi.toolkit.propertymarkers.HasValueProperty;
 import naga.core.spi.toolkit.node.GuiNode;
 
 /**

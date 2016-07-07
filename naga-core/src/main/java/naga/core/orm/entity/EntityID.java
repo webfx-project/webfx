@@ -1,54 +1,32 @@
 package naga.core.orm.entity;
 
+import naga.core.orm.entity.impl.EntityIdImpl;
+
 /**
+ * Interface for a unique identifier designating an entity. An EntityId doesn't require it's designated Entity to be
+ * also present in memory.
+ *
  * @author Bruno Salmon
  */
-public class EntityID {
-
-    private final Object domainClassId;
-    private final Object primaryKey;
-
-    EntityID(Object domainClassId, Object primaryKey) {
-        this.domainClassId = domainClassId;
-        this.primaryKey = primaryKey;
-    }
+public interface EntityId {
 
     /**
-     * @return a unique id identifying the domain class in the domain model
+     * @return a unique id identifying the entity domain class in the domain model
      */
-    public Object getDomainClassId() {
-        return domainClassId;
-    }
+    Object getDomainClassId();
 
     /**
-     * @return the primary key of the counterpart database record
+     * @return the primary key of the counterpart database record for this entity
      */
-    public Object getPrimaryKey() {
-        return primaryKey;
+    Object getPrimaryKey();
+
+    /**
+     * @return true is the designated entity is not yet inserted in the database. In this case, the primary key is a
+     * temporary but non null object that works to identify the in-memory newly created entity instance.
+     */
+    boolean isNew();
+
+    static EntityId create(Object domainClassId, Object primaryKey) {
+        return new EntityIdImpl(domainClassId, primaryKey);
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EntityID entityID = (EntityID) o;
-
-        if (domainClassId != null ? !domainClassId.equals(entityID.domainClassId) : entityID.domainClassId != null) return false;
-        return !(primaryKey != null ? !primaryKey.equals(entityID.primaryKey) : entityID.primaryKey != null);
-
-    }
-
-    @Override
-    public String toString() {
-        return "ID[" + domainClassId + ':' + primaryKey + ']';
-    }
-
-    @Override
-    public int hashCode() {
-        int result = domainClassId != null ? domainClassId.hashCode() : 0;
-        result = 31 * result + (primaryKey != null ? primaryKey.hashCode() : 0);
-        return result;
-    }
-
 }

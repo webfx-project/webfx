@@ -5,7 +5,7 @@ import naga.core.json.JsonObject;
 import naga.core.orm.domainmodel.DataSourceModel;
 import naga.core.routing.history.History;
 import naga.core.spi.toolkit.node.GuiNode;
-import naga.core.spi.toolkit.hasproperties.HasNodeProperty;
+import naga.core.spi.toolkit.propertymarkers.HasNodeProperty;
 
 /**
  * @author Bruno Salmon
@@ -19,6 +19,8 @@ public interface ActivityContext extends HasNodeProperty {
     ActivityContext getParentContext();
 
     ActivityManager getActivityManager();
+
+    void setDataSourceModel(DataSourceModel dataSourceModel);
 
     DataSourceModel getDataSourceModel();
 

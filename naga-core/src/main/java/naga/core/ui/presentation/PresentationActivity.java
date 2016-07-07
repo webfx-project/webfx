@@ -4,7 +4,7 @@ import naga.core.activity.Activity;
 import naga.core.activity.ActivityContext;
 import naga.core.activity.ActivityContextDirectAccess;
 import naga.core.spi.toolkit.Toolkit;
-import naga.core.ui.rx.RxFilter;
+import naga.core.ui.rx.ReactiveExpressionFilter;
 import naga.core.util.function.Factory;
 
 import java.util.HashMap;
@@ -95,15 +95,15 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     /** Helpers **/
 
-    protected RxFilter createRxFilter() {
-        return initializeRxFilter(new RxFilter());
+    protected ReactiveExpressionFilter createReactiveExpressionFilter() {
+        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter());
     }
 
-    protected RxFilter createRxFilter(Object jsonOrClass) {
-        return initializeRxFilter(new RxFilter(jsonOrClass));
+    protected ReactiveExpressionFilter createReactiveExpressionFilter(Object jsonOrClass) {
+        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter(jsonOrClass));
     }
 
-    private RxFilter initializeRxFilter(RxFilter rxFilter) {
-        return rxFilter.setDataSourceModel(activityContext.getDataSourceModel());
+    private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
+        return reactiveExpressionFilter.setDataSourceModel(activityContext.getDataSourceModel());
     }
 }

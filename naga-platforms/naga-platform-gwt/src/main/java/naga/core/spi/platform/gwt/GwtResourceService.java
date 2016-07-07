@@ -1,7 +1,7 @@
 package naga.core.spi.platform.gwt;
 
 import com.google.gwt.resources.client.TextResource;
-import naga.core.spi.platform.ResourceService;
+import naga.core.services.resource.ResourceService;
 import naga.core.util.async.Future;
 
 import java.util.ArrayList;

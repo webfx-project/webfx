@@ -36,7 +36,8 @@ class ActivityContextImpl implements ActivityContext {
         this.activityManager = activityManager;
     }
 
-    void setDataSourceModel(DataSourceModel dataSourceModel) {
+    @Override
+    public void setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
     }
 

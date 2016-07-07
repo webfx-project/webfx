@@ -21,8 +21,7 @@ public class BusCallService {
         // Creating a PendingBusCall that will be immediately returned to the caller
         PendingBusCall<T> pendingBusCall = new PendingBusCall<>();
         // Making the actual call by sending the (wrapped) java argument over the event bus and providing a java reply handler
-        BusCallService.<BusCallResult<T>> // specifying BusCallResult<T> parameterized type for the expected as java class result
-            sendJavaObjectAndWaitJavaReply( // helper method that does the job to send the (wrapped) java argument
+        BusCallService.sendJavaObjectAndWaitJavaReply( // helper method that does the job to send the (wrapped) java argument
                 ENTRY_CALL_SERVICE_ADDRESS, // the addressee is the counterpart BusCallService (assuming it is listening entry calls)
                 new BusCallArgument(address, javaArgument), // the java argument is wrapped into a BusCallArgument (as expected by the counterpart BusCallService)
                 pendingBusCall::onBusCallResult // it just forwards the target result to the caller using the future

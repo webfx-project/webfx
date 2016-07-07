@@ -25,6 +25,10 @@ abstract class MongooseApplication implements Activity {
 
     @Override
     public void onCreate(ActivityContext context) {
+        context.setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel());
+        FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
+        FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
+
         activityRouter = ActivityRouter.create(context)
                 .routeAndMountSubRouter("/", ContainerActivity::new, ActivityRouter.createSubRouter(context)
                         .route("/organizations", OrganizationsActivity::new)
@@ -40,9 +44,7 @@ abstract class MongooseApplication implements Activity {
     }
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
-        Platform.createBus(new WebSocketBusOptions().setServerHost("kadampabookings.org").setServerPort("9090"));
-        FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
-        FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
-        ActivityManager.launchApplication(mongooseApplication, args, DomainModelSnapshotLoader.getDataSourceModel());
+        Platform.setBusOptions(new WebSocketBusOptions().setServerHost("kadampabookings.org").setServerPort("9090"));
+        ActivityManager.launchApplication(mongooseApplication, args);
     }
 }

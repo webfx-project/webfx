@@ -135,7 +135,7 @@ public class DomainClass implements HasLabel {
         return definition == null ? null : (ExpressionArray) ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(domainModel), true);
     }
 
-    public final static Expression WHERE_ID_EQUALS_PARAM = new Equals(IDExpression.singleton, Parameter.UNNAMED_PARAMETER);
+    public final static Expression WHERE_ID_EQUALS_PARAM = new Equals(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
 
     public Delete getDeleteWhereId() {
         if (deleteWhereId == null)
