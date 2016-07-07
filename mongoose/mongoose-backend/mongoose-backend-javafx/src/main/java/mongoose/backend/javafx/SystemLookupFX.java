@@ -1,8 +1,8 @@
 package mongoose.backend.javafx;
 
 import com.sun.management.OperatingSystemMXBean;
-import mongoose.activities.tester.monitor.controller.SystemLookup;
-import mongoose.activities.tester.monitor.model.SysBean;
+import mongoose.activities.tester.metrics.controller.SystemLookup;
+import mongoose.activities.tester.metrics.model.SysBean;
 
 import java.lang.management.ManagementFactory;
 

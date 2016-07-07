@@ -1,6 +1,6 @@
-package mongoose.activities.tester.monitor.controller;
+package mongoose.activities.tester.metrics.controller;
 
-import mongoose.activities.tester.monitor.model.SysBean;
+import mongoose.activities.tester.metrics.model.SysBean;
 
 /**
  * @author Jean-Pierre Alonso.
