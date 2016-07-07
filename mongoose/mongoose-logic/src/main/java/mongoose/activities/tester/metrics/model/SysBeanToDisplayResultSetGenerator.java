@@ -1,10 +1,8 @@
 package mongoose.activities.tester.metrics.model;
 
-import naga.core.format.Formatter;
-import naga.core.orm.expression.Expression;
 import naga.core.spi.platform.Platform;
-import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSetBuilder;
 import naga.core.ui.displayresultset.ExpressionColumn;
 
 import java.util.List;
@@ -18,23 +16,16 @@ public class SysBeanToDisplayResultSetGenerator {
         Platform.log("createDisplayResultSet(SysBean)");
         int rowCount = sysList.size();
         int columnCount = expressionColumns.length;
-        DisplayColumn[] columns = new DisplayColumn[columnCount];
-        Object[] values = new Object[rowCount * columnCount];
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);
         int columnIndex = 0;
-        int index = 0;
+        int inlineIndex = 0;
         for (ExpressionColumn expressionColumn : expressionColumns) {
-            Expression expression = expressionColumn.getExpression();
-            Formatter formatter = expressionColumn.getExpressionFormatter();
-            columns[columnIndex++] = expressionColumn.getDisplayColumn();
+            rsb.setDisplayColumn(columnIndex++, expressionColumn.getDisplayColumn());
             for (SysBean sysBean : sysList) {
                 Object value = sysBean.getTotalMem();
-                if (formatter != null)
-                    value = formatter.format(value);
-                values[index++] = value;
+                rsb.setInlineValue(inlineIndex++, value);
             }
         }
-        DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columns);
-        //Platform.log("Ok: " + displayResultSet);
-        return displayResultSet;
+        return rsb.build();
     }
 }

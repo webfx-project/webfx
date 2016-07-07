@@ -9,6 +9,7 @@ import naga.core.spi.toolkit.Toolkit;
 import naga.core.type.PrimType;
 import naga.core.ui.displayresultset.DisplayColumn;
 import naga.core.ui.displayresultset.DisplayResultSet;
+import naga.core.ui.displayresultset.DisplayResultSetBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,22 +29,17 @@ public class ConnectionChartGenerator {
     public DisplayResultSet createDisplayResultSet (){
 //        Platform.log("createDisplayResultSet(Connections)");
         int rowCount = connectionList.size();
-        DisplayColumn[] columns = new DisplayColumn[]{
-                new DisplayColumn("Requested", PrimType.INTEGER),
-                new DisplayColumn("Started", PrimType.INTEGER),
-                new DisplayColumn("Connected", PrimType.INTEGER)};
-        int columnCount = columns.length;
-        Object[] values = new Object[rowCount * columnCount];
-        int index = 0;
-        for (int i=0 ; i<rowCount ; i++) {
-            Integer value = connectionList.get(i).getRequested();
-            values[index++] = value;
-            value = connectionList.get(i).getStarted();
-            values[index++] = value;
-            value = connectionList.get(i).getConnected();
-            values[index++] = value;
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, new DisplayColumn[]{
+                DisplayColumn.create("Requested", PrimType.INTEGER),
+                DisplayColumn.create("Started", PrimType.INTEGER),
+                DisplayColumn.create("Connected", PrimType.INTEGER)});
+        for (int rowIndex=0 ; rowIndex<rowCount ; rowIndex++) {
+            ConnectionsChartData data = connectionList.get(rowIndex);
+            rsb.setValue(rowIndex, 0, data.getRequested());
+            rsb.setValue(rowIndex, 1, data.getStarted());
+            rsb.setValue(rowIndex, 2, data.getConnected());
         }
-        DisplayResultSet displayResultSet = new DisplayResultSet(rowCount, values, columns);
+        DisplayResultSet displayResultSet = rsb.build();
         Platform.log("Ok: " + displayResultSet);
         Toolkit.get().scheduler().scheduleDeferred(() -> connectionListProperty.set(displayResultSet));
         return displayResultSet;

@@ -18,6 +18,12 @@ public class DisplayResultSetBuilder {
         this.columns = new DisplayColumnImpl[columnCount];
     }
 
+    private DisplayResultSetBuilder(int rowCount, DisplayColumn[] columns) {
+        this.rowCount = rowCount;
+        this.columns = columns;
+        this.values = new Object[rowCount * columns.length];
+    }
+
     public DisplayResultSetBuilder setDisplayColumn(int columnIndex, DisplayColumn displayColumn) {
         columns[columnIndex] = displayColumn;
         return this;
@@ -38,5 +44,9 @@ public class DisplayResultSetBuilder {
 
     public static DisplayResultSetBuilder create(int rowCount, int columnCount) {
         return new DisplayResultSetBuilder(rowCount, columnCount);
+    }
+
+    public static DisplayResultSetBuilder create(int rowCount, DisplayColumn[] columns) {
+        return new DisplayResultSetBuilder(rowCount, columns);
     }
 }

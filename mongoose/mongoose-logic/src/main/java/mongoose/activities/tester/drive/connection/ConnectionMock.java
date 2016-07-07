@@ -38,7 +38,7 @@ public class ConnectionMock extends ConnectionBase {
         ConnectionEvent event = new ConnectionEvent(EventType.CONNECTED);
         applyEvent(event);
         recordEvent(event);
-        System.out.println("CnxMock-CONNECTED");
+        Platform.log("CnxMock-CONNECTED");
     };
 
     private Runnable SimClose = () -> {
@@ -46,6 +46,6 @@ public class ConnectionMock extends ConnectionBase {
         ConnectionEvent event = new ConnectionEvent(EventType.NOT_CONNECTED);
         applyEvent(event);
         recordEvent(event);
-        System.out.println("CnxMock-CLOSED");
+        Platform.log("CnxMock-CLOSED");
     };
 }

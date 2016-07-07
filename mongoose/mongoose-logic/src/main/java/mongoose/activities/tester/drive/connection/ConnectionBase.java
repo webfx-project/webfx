@@ -2,6 +2,9 @@ package mongoose.activities.tester.drive.connection;
 
 
 import mongoose.activities.tester.listener.ConnectionEvent;
+import mongoose.activities.tester.listener.EventListener;
+import mongoose.activities.tester.listener.EventListenerImpl;
+import naga.core.spi.platform.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +18,7 @@ public abstract class ConnectionBase implements Connection {
     int id;
     private ConnectionState state = NOT_CONNECTED;
     protected List<ConnectionEvent> uncommitedEventList = new ArrayList<>();    // List of events on this specific connection
-//    EventListener listener;
-
-    // Listener called on each created event
-//    @Override
-//    public void setEventListener(EventListener listener) {
-//        this.listener = listener;
-//    }
+    EventListener listener = EventListenerImpl.getInstance();
 
     // Parse all kind of ConnectionEvent
     @Override
@@ -42,12 +39,12 @@ public abstract class ConnectionBase implements Connection {
                 break;
             default:
                 state = null;
-                System.err.println("Connection state undefined !");
+                Platform.log("Connection state undefined !");
         }
-//        if (listener != null) {
-//            listener.onEvent(event);
-//            System.out.println("CnxApply "+event.getType()+" ");
-//        }
+        if (listener != null) {
+            listener.onEvent(event);
+            System.out.println("CnxApply "+event.getType()+" ");
+        }
     }
 
     protected void recordEvent(ConnectionEvent event) {
