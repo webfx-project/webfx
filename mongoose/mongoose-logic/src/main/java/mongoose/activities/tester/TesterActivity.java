@@ -4,9 +4,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.Drive;
 import mongoose.activities.tester.drive.model.ChartData;
+import mongoose.activities.tester.drive.model.ConnectionChartGenerator;
 import mongoose.activities.tester.drive.model.ConnectionsChartData;
-import mongoose.activities.tester.monitor.Monitor;
-import mongoose.activities.tester.monitor.model.SysBeanFX;
+import mongoose.activities.tester.metrics.Metrics;
+import mongoose.activities.tester.metrics.model.SysBeanFX;
 import naga.core.spi.toolkit.Toolkit;
 import naga.core.spi.toolkit.charts.LineChart;
 import naga.core.spi.toolkit.controls.Button;
@@ -79,22 +80,28 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         vm.getStartButton().setText("Start");
         vm.getStopButton().setText("Stop");
         vm.getExitButton().setText("Exit");
-        // Set listeners
-        setListeners (vm);
+        // Charts
+        vm.getConnectionsChart().displayResultSetProperty().bind(pm.chartDisplayResultSetProperty());
     }
 
     protected void bindPresentationModelWithLogic(TesterPresentationModel pm) {
-        // Monitor
-        Monitor.getInstance().setSbfx(sbfx);
-//        Monitor.getInstance().start(false);
+        // Metrics
+        Metrics metrics = Metrics.getInstance();
+        metrics.setSbfx(sbfx);
+//        metrics.start(false);
         // Drive
-        Drive.getInstance().start(true);
-        Drive.getInstance().requestedConnectionCountProperty().bind(pm.requestedConnectionsProperty());
-        pm.startedConnectionsProperty().bind(Drive.getInstance().startedConnectionCountProperty());
+        Drive drive = Drive.getInstance();
+        drive.start(true);
+        drive.requestedConnectionCountProperty().bind(pm.requestedConnectionsProperty());
+        pm.startedConnectionsProperty().bind(drive.startedConnectionCountProperty());
+        // Charts
+        ConnectionChartGenerator connectionChart = new ConnectionChartGenerator();
+        connectionChart.start();
+        pm.chartDisplayResultSetProperty().bind(connectionChart.connectionListProperty());
     }
 
     public void setListeners (TesterViewModel vm) {
-        // Monitor
+        // Metrics
 //        sbfx.addListener((observable, oldValue, newValue) -> {
 //            sysTableView.getTableView().getItems().add(newValue);
 //            systemChartView.scrollSeries();
@@ -108,11 +115,10 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
 //        });
 
         // Charts
-        connectionsToDisplay.addListener((observable, oldValue, newValue) -> {
-//            vm.getConnectionsChart().scrollSeries();
-//            int size = Drive.getInstance().get---List().size();
-//            DisplayResultSet rs = ConnectionListToDisplayResultSetGenerator.createDisplayResultSet(size, Drive.getInstance().getConnexionList());
+//        connectionsToDisplay.addListener((observable, oldValue, newValue) -> {
+//            int size = EventListenerImpl.getInstance().getConnectionList().size();
+//            DisplayResultSet rs = ConnectionChartGenerator.createDisplayResultSet(size, EventListenerImpl.getInstance().getConnectionList());
 //            vm.getConnectionsChart().setDisplayResultSet(rs);
-        });
+//        });
     }
 }
