@@ -1,11 +1,11 @@
 package mongoose.server;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
-import naga.core.activity.Activity;
-import naga.core.activity.ActivityContext;
-import naga.core.datasource.ConnectionDetails;
-import naga.core.datasource.LocalDataSourceRegistry;
-import naga.core.orm.domainmodel.DataSourceModel;
+import naga.commons.activity.Activity;
+import naga.commons.activity.ActivityContext;
+import naga.commons.services.datasource.ConnectionDetails;
+import naga.commons.services.datasource.LocalDataSourceRegistry;
+import naga.framework.orm.domainmodel.DataSourceModel;
 
 /**
  * @author Bruno Salmon

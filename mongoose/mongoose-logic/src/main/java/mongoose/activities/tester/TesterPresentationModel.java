@@ -2,12 +2,8 @@ package mongoose.activities.tester;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.activities.tester.drive.connection.Connection;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.ui.presentation.PresentationModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import naga.toolkit.spi.display.DisplayResultSet;
+import naga.framework.ui.presentation.PresentationModel;
 
 /**
  * @author Bruno Salmon

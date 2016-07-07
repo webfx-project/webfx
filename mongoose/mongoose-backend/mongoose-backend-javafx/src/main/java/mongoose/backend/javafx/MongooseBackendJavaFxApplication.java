@@ -2,7 +2,7 @@ package mongoose.backend.javafx;
 
 import javafx.scene.text.Font;
 import mongoose.application.MongooseBackendApplication;
-import naga.core.spi.toolkit.javafx.JavaFxToolkit;
+import naga.toolkit.providers.javafx.JavaFxToolkit;
 
 /**
  * @author Bruno Salmon

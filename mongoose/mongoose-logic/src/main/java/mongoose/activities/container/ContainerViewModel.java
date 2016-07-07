@@ -1,8 +1,8 @@
 package mongoose.activities.container;
 
-import naga.core.ui.presentation.ViewModel;
-import naga.core.spi.toolkit.controls.Button;
-import naga.core.spi.toolkit.layouts.VPage;
+import naga.framework.ui.presentation.ViewModel;
+import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
  * @author Bruno Salmon

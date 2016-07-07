@@ -1,16 +1,16 @@
 package mongoose.domainmodel;
 
-import naga.core.json.JsonElement;
-import naga.core.json.Json;
-import naga.core.json.codec.JsonCodecManager;
-import naga.core.orm.domainmodel.DataSourceModel;
-import naga.core.orm.domainmodel.DomainModel;
-import naga.core.orm.domainmodelloader.DomainModelLoader;
-import naga.core.spi.platform.Platform;
-import naga.core.services.query.QueryResultSet;
-import naga.core.util.async.Batch;
-import naga.core.util.async.Future;
-import naga.core.util.compression.string.LZString;
+import naga.commons.json.spi.JsonElement;
+import naga.commons.json.Json;
+import naga.commons.json.codec.JsonCodecManager;
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainModel;
+import naga.framework.orm.domainmodel.loader.DomainModelLoader;
+import naga.platform.spi.Platform;
+import naga.commons.services.query.QueryResultSet;
+import naga.commons.util.async.Batch;
+import naga.commons.util.async.Future;
+import naga.commons.util.compression.string.LZString;
 
 /**
  * @author Bruno Salmon
@@ -38,7 +38,7 @@ public class DomainModelSnapshotLoader {
 
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
-            Future<String> text = Platform.res().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
+            Future<String> text = Platform.getResourceService().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
             String jsonString = LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
             Batch<QueryResultSet> snapshotBatch = JsonCodecManager.decodeFromJson(json);

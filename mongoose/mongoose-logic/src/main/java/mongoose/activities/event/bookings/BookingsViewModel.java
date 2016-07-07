@@ -1,10 +1,10 @@
 package mongoose.activities.event.bookings;
 
-import naga.core.spi.toolkit.node.GuiNode;
-import naga.core.spi.toolkit.controls.CheckBox;
-import naga.core.spi.toolkit.controls.SearchBox;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.ui.presentation.ViewModel;
+import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.controls.CheckBox;
+import naga.toolkit.spi.nodes.controls.SearchBox;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.framework.ui.presentation.ViewModel;
 
 /**
  * @author Bruno Salmon

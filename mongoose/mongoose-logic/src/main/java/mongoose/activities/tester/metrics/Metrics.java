@@ -5,8 +5,8 @@ import mongoose.activities.tester.metrics.controller.SystemLookup;
 import mongoose.activities.tester.metrics.controller.SystemLookupMock;
 import mongoose.activities.tester.metrics.model.SysBean;
 import mongoose.activities.tester.metrics.model.SysBeanFX;
-import naga.core.spi.platform.Platform;
-import naga.core.spi.toolkit.Toolkit;
+import naga.platform.spi.Platform;
+import naga.toolkit.spi.Toolkit;
 
 
 /**

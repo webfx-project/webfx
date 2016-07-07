@@ -1,9 +1,9 @@
 package mongoose.activities.tester.metrics.model;
 
-import naga.core.spi.platform.Platform;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.ui.displayresultset.DisplayResultSetBuilder;
-import naga.core.ui.displayresultset.ExpressionColumn;
+import naga.platform.spi.Platform;
+import naga.toolkit.spi.display.DisplayResultSet;
+import naga.toolkit.spi.display.DisplayResultSetBuilder;
+import naga.framework.ui.filter.ExpressionColumn;
 
 import java.util.List;
 

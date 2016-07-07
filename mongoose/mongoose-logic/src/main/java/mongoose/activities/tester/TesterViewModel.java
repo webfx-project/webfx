@@ -1,13 +1,13 @@
 package mongoose.activities.tester;
 
-import naga.core.spi.toolkit.charts.Chart;
-import naga.core.spi.toolkit.controls.Button;
-import naga.core.spi.toolkit.controls.Slider;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.controls.TextField;
-import naga.core.spi.toolkit.gauges.Gauge;
-import naga.core.spi.toolkit.node.GuiNode;
-import naga.core.ui.presentation.ViewModel;
+import naga.toolkit.spi.nodes.charts.Chart;
+import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.spi.nodes.controls.Slider;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.spi.nodes.controls.TextField;
+import naga.toolkit.spi.nodes.gauges.Gauge;
+import naga.toolkit.spi.nodes.GuiNode;
+import naga.framework.ui.presentation.ViewModel;
 
 /**
  * @author Bruno Salmon

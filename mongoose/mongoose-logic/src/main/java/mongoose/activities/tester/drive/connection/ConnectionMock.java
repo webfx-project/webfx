@@ -4,8 +4,8 @@ package mongoose.activities.tester.drive.connection;
 import mongoose.activities.tester.drive.command.Command;
 import mongoose.activities.tester.listener.ConnectionEvent;
 import mongoose.activities.tester.listener.EventType;
-import naga.core.spi.platform.Platform;
-import naga.core.spi.platform.Scheduler;
+import naga.platform.spi.Platform;
+import naga.commons.scheduler.spi.Scheduler;
 
 /**
  * @author Jean-Pierre Alonso.

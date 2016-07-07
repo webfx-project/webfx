@@ -1,9 +1,9 @@
 package mongoose.format;
 
-import naga.core.type.PrimType;
-import naga.core.type.Type;
-import naga.core.format.Formatter;
-import naga.core.util.Numbers;
+import naga.commons.type.PrimType;
+import naga.commons.type.Type;
+import naga.framework.ui.format.Formatter;
+import naga.commons.util.Numbers;
 
 /**
  * @author Bruno Salmon

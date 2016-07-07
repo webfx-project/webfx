@@ -1,6 +1,6 @@
 package mongoose.activities.tester.metrics.model;
 
-import naga.core.spi.platform.Platform;
+import naga.platform.spi.Platform;
 
 /**
  * @author Jean-Pierre Alonso.

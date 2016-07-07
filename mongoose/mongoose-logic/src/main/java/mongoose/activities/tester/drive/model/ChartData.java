@@ -1,18 +1,18 @@
 package mongoose.activities.tester.drive.model;
 
-import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 
 /**
  * @author Jean-Pierre Alonso.
  */
 public interface ChartData {
     int getRequested();
-    IntegerProperty requestedProperty();
+    Property<Integer> requestedProperty();
     void setRequested(int requested);
     int getStarted();
-    IntegerProperty startedProperty();
+    Property<Integer> startedProperty();
     void setStarted(int started);
     int getConnected();
-    IntegerProperty connectedProperty();
+    Property<Integer> connectedProperty();
     void setConnected(int connected);
 }

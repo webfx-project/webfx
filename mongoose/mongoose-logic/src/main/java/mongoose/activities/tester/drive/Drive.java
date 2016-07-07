@@ -5,8 +5,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.command.Command;
 import mongoose.activities.tester.drive.connection.Connection;
 import mongoose.activities.tester.drive.connection.ConnectionMock;
-import naga.core.spi.platform.Platform;
-import naga.core.spi.toolkit.Toolkit;
+import naga.platform.spi.Platform;
+import naga.toolkit.spi.Toolkit;
 
 import java.util.ArrayList;
 import java.util.List;

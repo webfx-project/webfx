@@ -1,11 +1,11 @@
 package mongoose.activities.cart;
 
-import naga.core.orm.entity.Entity;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.layouts.VBox;
-import naga.core.ui.presentation.PresentationActivity;
-import naga.core.ui.rx.ReactiveExpressionFilter;
+import naga.framework.orm.entity.Entity;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.spi.nodes.layouts.VBox;
+import naga.framework.ui.presentation.PresentationActivity;
+import naga.framework.ui.filter.ReactiveExpressionFilter;
 
 /**
  * @author Bruno Salmon

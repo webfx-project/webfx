@@ -1,7 +1,7 @@
 package emul.java.lang.reflect;
 
-import naga.core.services.query.QueryResultSet;
-import naga.core.spi.platform.Platform;
+import naga.commons.services.query.QueryResultSet;
+import naga.platform.spi.Platform;
 
 public final class Array {
 

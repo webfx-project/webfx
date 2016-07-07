@@ -1,7 +1,7 @@
 package mongoose.activities.container;
 
-import naga.core.ui.presentation.PresentationModel;
-import naga.core.spi.toolkit.events.ActionEvent;
+import naga.framework.ui.presentation.PresentationModel;
+import naga.toolkit.spi.events.ActionEvent;
 import rx.subjects.BehaviorSubject;
 
 /**

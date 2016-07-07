@@ -8,13 +8,13 @@ import mongoose.activities.organizations.OrganizationsActivity;
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import mongoose.format.DateFormatter;
 import mongoose.format.PriceFormatter;
-import naga.core.activity.Activity;
-import naga.core.activity.ActivityContext;
-import naga.core.activity.ActivityManager;
-import naga.core.activity.ActivityRouter;
-import naga.core.bus.client.WebSocketBusOptions;
-import naga.core.format.FormatterRegistry;
-import naga.core.spi.platform.Platform;
+import naga.commons.activity.Activity;
+import naga.commons.activity.ActivityContext;
+import naga.commons.activity.ActivityManager;
+import naga.framework.ui.router.ActivityRouter;
+import naga.commons.bus.websocket.WebSocketBusOptions;
+import naga.framework.ui.format.FormatterRegistry;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon

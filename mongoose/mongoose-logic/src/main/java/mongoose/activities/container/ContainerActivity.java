@@ -1,10 +1,10 @@
 package mongoose.activities.container;
 
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.controls.Button;
-import naga.core.spi.toolkit.layouts.VPage;
-import naga.core.spi.toolkit.node.Parent;
-import naga.core.ui.presentation.PresentationActivity;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.spi.nodes.Parent;
+import naga.framework.ui.presentation.PresentationActivity;
 
 /**
  * @author Bruno Salmon

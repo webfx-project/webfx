@@ -9,11 +9,8 @@ import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import mongoose.activities.organizations.OrganizationsViewModel;
-import naga.core.ui.presentation.ViewBuilder;
-import naga.core.spi.toolkit.gwt.node.GwtNode;
-import naga.core.spi.toolkit.controls.CheckBox;
-import naga.core.spi.toolkit.controls.SearchBox;
-import naga.core.spi.toolkit.controls.Table;
+import naga.framework.ui.presentation.ViewBuilder;
+import naga.toolkit.providers.gwt.nodes.GwtNode;
 
 /**
  * @author Bruno Salmon
@@ -27,9 +24,9 @@ public class OrganizationsPolymerUi extends Composite {
     public static ViewBuilder<OrganizationsViewModel> viewBuilder = toolkit -> {
         OrganizationsPolymerUi ui = new OrganizationsPolymerUi();
         return new OrganizationsViewModel(new GwtNode(ui.content.getParent()),
-                (SearchBox) toolkit.wrapNativeNode(ui.searchInput),
-                (Table) toolkit.wrapNativeNode(ui.grid),
-                (CheckBox) toolkit.wrapNativeNode(ui.limitCheckBox));
+                toolkit.wrapNativeNode(ui.searchInput),
+                toolkit.wrapNativeNode(ui.grid),
+                toolkit.wrapNativeNode(ui.limitCheckBox));
     };
 
     @UiField

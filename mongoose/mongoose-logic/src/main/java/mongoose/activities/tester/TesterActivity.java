@@ -8,16 +8,16 @@ import mongoose.activities.tester.drive.model.ConnectionChartGenerator;
 import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import mongoose.activities.tester.metrics.Metrics;
 import mongoose.activities.tester.metrics.model.SysBeanFX;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.charts.LineChart;
-import naga.core.spi.toolkit.controls.Button;
-import naga.core.spi.toolkit.controls.Slider;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.spi.toolkit.controls.TextField;
-import naga.core.spi.toolkit.gauges.Gauge;
-import naga.core.spi.toolkit.layouts.HBox;
-import naga.core.spi.toolkit.layouts.VBox;
-import naga.core.ui.presentation.PresentationActivity;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.charts.LineChart;
+import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.spi.nodes.controls.Slider;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.spi.nodes.controls.TextField;
+import naga.toolkit.spi.nodes.gauges.Gauge;
+import naga.toolkit.spi.nodes.layouts.HBox;
+import naga.toolkit.spi.nodes.layouts.VBox;
+import naga.framework.ui.presentation.PresentationActivity;
 
 /**
  * @author Bruno Salmon

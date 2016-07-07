@@ -1,11 +1,11 @@
 package mongoose.activities.organizations;
 
-import naga.core.spi.platform.Platform;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.controls.CheckBox;
-import naga.core.spi.toolkit.controls.SearchBox;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.ui.presentation.PresentationActivity;
+import naga.platform.spi.Platform;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.CheckBox;
+import naga.toolkit.spi.nodes.controls.SearchBox;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.framework.ui.presentation.PresentationActivity;
 
 /**
  * @author Bruno Salmon

@@ -1,15 +1,15 @@
 package mongoose.activities.tester.drive.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * @author Jean-Pierre Alonso.
  */
 public class ConnectionsChartData implements ChartData {
-    private final IntegerProperty requested = new SimpleIntegerProperty();
-    private final IntegerProperty started = new SimpleIntegerProperty();
-    private final IntegerProperty connected = new SimpleIntegerProperty();
+    private final Property<Integer> requested = new SimpleObjectProperty<>(0);
+    private final Property<Integer> started = new SimpleObjectProperty(0);
+    private final Property<Integer> connected = new SimpleObjectProperty(0);
 
     @Override
     public int getRequested() {
@@ -17,42 +17,42 @@ public class ConnectionsChartData implements ChartData {
     }
 
     @Override
-    public IntegerProperty requestedProperty() {
+    public Property<Integer> requestedProperty() {
         return requested;
     }
 
     @Override
     public int getStarted() {
-        return started.get();
+        return started.getValue();
     }
 
     @Override
-    public IntegerProperty startedProperty() {
+    public Property<Integer> startedProperty() {
         return started;
     }
 
     @Override
     public int getConnected() {
-        return connected.get();
+        return connected.getValue();
     }
 
     @Override
-    public IntegerProperty connectedProperty() {
+    public Property<Integer> connectedProperty() {
         return connected;
     }
 
     @Override
     public void setRequested(int requested) {
-        this.requested.set(requested);
+        this.requested.setValue(requested);
     }
 
     @Override
     public void setStarted(int started) {
-        this.started.set(started);
+        this.started.setValue(started);
     }
 
     @Override
     public void setConnected(int connected) {
-        this.connected.set(connected);
+        this.connected.setValue(connected);
     }
 }

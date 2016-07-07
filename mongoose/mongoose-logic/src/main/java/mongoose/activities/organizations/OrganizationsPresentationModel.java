@@ -2,9 +2,9 @@ package mongoose.activities.organizations;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.ui.displayselection.DisplaySelection;
-import naga.core.ui.presentation.PresentationModel;
+import naga.toolkit.spi.display.DisplayResultSet;
+import naga.toolkit.spi.display.DisplaySelection;
+import naga.framework.ui.presentation.PresentationModel;
 
 /**
  * @author Bruno Salmon

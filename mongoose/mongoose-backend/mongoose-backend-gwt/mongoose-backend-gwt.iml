@@ -44,6 +44,7 @@
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.gwt-charts:gwt-charts:0.9.10" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.vaadin.polymer:vaadin-gwt-polymer-elements:1.2.3.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.8.0-beta1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />

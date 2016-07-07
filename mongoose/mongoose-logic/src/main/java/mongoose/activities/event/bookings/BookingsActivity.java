@@ -1,13 +1,13 @@
 package mongoose.activities.event.bookings;
 
-import naga.core.orm.expression.Expression;
-import naga.core.orm.expression.term.function.java.AbcNames;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.spi.toolkit.controls.CheckBox;
-import naga.core.spi.toolkit.controls.SearchBox;
-import naga.core.spi.toolkit.controls.Table;
-import naga.core.ui.presentation.PresentationActivity;
-import naga.core.util.Strings;
+import naga.framework.expression.Expression;
+import naga.framework.expression.terms.function.java.AbcNames;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.CheckBox;
+import naga.toolkit.spi.nodes.controls.SearchBox;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.framework.ui.presentation.PresentationActivity;
+import naga.commons.util.Strings;
 
 /**
  * @author Bruno Salmon

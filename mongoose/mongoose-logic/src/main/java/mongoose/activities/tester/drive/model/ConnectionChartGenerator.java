@@ -4,12 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.listener.EventListener;
 import mongoose.activities.tester.listener.EventListenerImpl;
-import naga.core.spi.platform.Platform;
-import naga.core.spi.toolkit.Toolkit;
-import naga.core.type.PrimType;
-import naga.core.ui.displayresultset.DisplayColumn;
-import naga.core.ui.displayresultset.DisplayResultSet;
-import naga.core.ui.displayresultset.DisplayResultSetBuilder;
+import naga.platform.spi.Platform;
+import naga.toolkit.spi.Toolkit;
+import naga.commons.type.PrimType;
+import naga.toolkit.spi.display.DisplayColumn;
+import naga.toolkit.spi.display.DisplayResultSet;
+import naga.toolkit.spi.display.DisplayResultSetBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +49,9 @@ public class ConnectionChartGenerator {
         EventListener listener = EventListenerImpl.getInstance();
         ConnectionsChartData data = new ConnectionsChartData();
 
-        data.requestedProperty().set(listener.getRequested());
-        data.startedProperty().set(listener.getStarted());
-        data.connectedProperty().set(listener.getConnected());
+        data.requestedProperty().setValue(listener.getRequested());
+        data.startedProperty().setValue(listener.getStarted());
+        data.connectedProperty().setValue(listener.getConnected());
         connectionList.add(data);
         createDisplayResultSet();
     }
