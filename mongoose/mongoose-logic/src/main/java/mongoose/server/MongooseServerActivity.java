@@ -1,4 +1,4 @@
-package mongoose.microservice;
+package mongoose.server;
 
 import mongoose.domainmodel.DomainModelSnapshotLoader;
 import naga.core.activity.Activity;
@@ -10,17 +10,17 @@ import naga.core.orm.domainmodel.DataSourceModel;
 /**
  * @author Bruno Salmon
  */
-public class MongooseMicroservice implements Activity {
+public class MongooseServerActivity implements Activity {
 
     protected ActivityContext activityContext;
     private final DataSourceModel dataSourceModel;
     private final ConnectionDetails connectionDetails;
 
-    public MongooseMicroservice(ConnectionDetails connectionDetails) {
+    public MongooseServerActivity(ConnectionDetails connectionDetails) {
         this(DomainModelSnapshotLoader.getDataSourceModel(), connectionDetails);
     }
 
-    public MongooseMicroservice(DataSourceModel dataSourceModel, ConnectionDetails connectionDetails) {
+    public MongooseServerActivity(DataSourceModel dataSourceModel, ConnectionDetails connectionDetails) {
         this.dataSourceModel = dataSourceModel;
         this.connectionDetails = connectionDetails;
     }

@@ -7,7 +7,7 @@ package naga.core.activity;
 import naga.core.bus.call.BusCallService;
 import naga.core.spi.platform.Platform;
 
-public class BusCallMicroservice implements Activity {
+public class BusCallServerActivity implements Activity {
 
     public static final String VERSION_ADDRESS = "version";
     public static final String QUERY_SERVICE_ADDRESS = "query.read";

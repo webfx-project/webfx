@@ -3,9 +3,9 @@ package naga.core.activity;
 /**
  * @author Bruno Salmon
  */
-class MicroserviceContext extends ActivityContextImpl {
+class ServerActivityContext extends ActivityContextImpl {
 
-    MicroserviceContext() {
+    ServerActivityContext() {
         super(null);
     }
 }

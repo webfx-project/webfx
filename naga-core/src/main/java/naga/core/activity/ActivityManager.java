@@ -123,12 +123,12 @@ public class ActivityManager {
         runActivity(application, new ApplicationContext(args));
     }
 
-    public static void startBusCallMicroservice() {
-        startMicroservice(new BusCallMicroservice());
+    public static void startBusCallServerActivity() {
+        startServerActivity(new BusCallServerActivity());
     }
 
-    public static void startMicroservice(Activity microservice) {
-        ServerPlatform.get().startMicroService(from(microservice, new MicroserviceContext()));
+    public static void startServerActivity(Activity serverActivity) {
+        ServerPlatform.get().startServerActivity(from(serverActivity, new ServerActivityContext()));
     }
 
     public static void runActivity(Activity activity, ActivityContext context) {

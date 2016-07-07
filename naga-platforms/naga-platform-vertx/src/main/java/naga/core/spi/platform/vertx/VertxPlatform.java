@@ -57,7 +57,7 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
     }
 
     @Override
-    public void startMicroService(ActivityManager microserviceActivityManager) {
+    public void startServerActivity(ActivityManager serverActivityManager) {
         vertx.deployVerticle(new Verticle() {
             @Override
             public Vertx getVertx() {
@@ -70,12 +70,12 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
 
             @Override
             public void start(Future<Void> future) throws Exception {
-                microserviceActivityManager.run();
+                serverActivityManager.run();
             }
 
             @Override
             public void stop(Future<Void> future) throws Exception {
-                microserviceActivityManager.destroy();
+                serverActivityManager.destroy();
             }
         });
     }

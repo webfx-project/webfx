@@ -7,7 +7,7 @@ import naga.core.activity.ActivityManager;
  */
 public interface ServerPlatform {
 
-    void startMicroService(ActivityManager microserviceActivityManager);
+    void startServerActivity(ActivityManager serverActivityManager);
 
     /*** Static access ***/
 
