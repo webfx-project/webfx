@@ -6,7 +6,6 @@ package mongoose.activities.tester.listener;
 public class EventListenerImpl implements EventListener {
     private static final EventListener instance = new EventListenerImpl();   // singleton
     private int requested, started, connected;
-//    private SysBean sysBean;
 
     public static EventListener getInstance() {
         return instance;
@@ -52,5 +51,4 @@ public class EventListenerImpl implements EventListener {
     public int getConnected() {
         return connected;
     }
-
 }
