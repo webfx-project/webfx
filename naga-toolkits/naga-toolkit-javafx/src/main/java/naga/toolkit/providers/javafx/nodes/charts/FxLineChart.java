@@ -17,6 +17,8 @@ public class FxLineChart extends FxXYChart implements LineChart<javafx.scene.cha
     }
 
     private static javafx.scene.chart.LineChart createLineChart() {
-        return new javafx.scene.chart.LineChart(new NumberAxis(), new NumberAxis());
+        javafx.scene.chart.LineChart lineChart = new javafx.scene.chart.LineChart(new NumberAxis(), new NumberAxis());
+        lineChart.setCreateSymbols(false);
+        return lineChart;
     }
 }
