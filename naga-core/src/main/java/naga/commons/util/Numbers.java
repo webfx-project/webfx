@@ -36,11 +36,9 @@ public class Numbers {
                 number instanceof Double);
     }
 
-    public static int intValue(Object value) {
+    public static Integer toInteger(Object value) {
         if (value == null)
-            return 0;
-        /* J2ME CLDC if (value instanceof Number)
-            return ((Number) value).intValue(); */
+            return null;
         try {
             return (int) value;
         } catch (Exception e) {
@@ -52,40 +50,62 @@ public class Numbers {
         }
     }
 
-    public static long longValue(Object value) {
+    public static Long toLong(Object value) {
         if (value == null)
-            return 0;
-        /* J2ME CLDC if (value instanceof Number)
-            return ((Number) value).longValue(); */
+            return null;
         try {
-            return Long.parseLong(value.toString());
+            return (long) value;
         } catch (Exception e) {
-            return 0;
+            try {
+                return Long.parseLong(value.toString());
+            } catch (NumberFormatException e1) {
+                return null;
+            }
         }
+    }
+
+    public static Float toFloat(Object value) {
+        if (value == null)
+            return null;
+        try {
+            return (float) value;
+        } catch (Exception e) {
+            try {
+                return Float.parseFloat(value.toString());
+            } catch (NumberFormatException e1) {
+                return null;
+            }
+        }
+    }
+
+    public static Double toDouble(Object value) {
+        if (value == null)
+            return null;
+        try {
+            return (double) value;
+        } catch (Exception e) {
+            try {
+                return Double.parseDouble(value.toString());
+            } catch (NumberFormatException e1) {
+                return null;
+            }
+        }
+    }
+
+    public static int intValue(Object value) {
+        return value == null ? 0 : toInteger(value);
+    }
+
+    public static long longValue(Object value) {
+        return value == null ? 0 : toLong(value);
     }
 
     public static float floatValue(Object value) {
-        if (value == null)
-            return 0;
-        /* J2ME CLDC if (value instanceof Number)
-            return ((Number) value).floatValue(); */
-        try {
-            return Float.parseFloat(value.toString());
-        } catch (NumberFormatException e) {
-            return 0;
-        }
+        return value == null ? 0 : toFloat(value);
     }
 
     public static double doubleValue(Object value) {
-        if (value == null)
-            return 0;
-        /* J2ME CLDC if (value instanceof Number)
-            return ((Number) value).doubleValue(); */
-        try {
-            return Double.parseDouble(value.toString());
-        } catch (NumberFormatException e) {
-            return 0;
-        }
+        return value == null ? 0 : toDouble(value);
     }
 
     public static Object negate(Object n) {
