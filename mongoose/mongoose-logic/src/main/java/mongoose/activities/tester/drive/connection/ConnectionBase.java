@@ -4,6 +4,7 @@ package mongoose.activities.tester.drive.connection;
 import mongoose.activities.tester.listener.ConnectionEvent;
 import mongoose.activities.tester.listener.EventListener;
 import mongoose.activities.tester.listener.EventListenerImpl;
+import naga.commons.bus.spi.Bus;
 import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public abstract class ConnectionBase implements Connection {
     int id;
     private ConnectionState state = NOT_CONNECTED;
     protected List<ConnectionEvent> uncommitedEventList = new ArrayList<>();    // List of events on this specific connection
+    Bus bus;
+
     EventListener listener = EventListenerImpl.getInstance();
 
     // Parse all kind of ConnectionEvent
@@ -43,7 +46,7 @@ public abstract class ConnectionBase implements Connection {
         }
         if (listener != null) {
             listener.onEvent(event);
-            System.out.println("CnxApply "+event.getType()+" ");
+            Platform.log("CnxApply "+event.getType()+" ");
         }
     }
 
