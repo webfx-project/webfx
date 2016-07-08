@@ -1,5 +1,7 @@
 package mongoose.activities.tester.listener;
 
+import naga.platform.spi.Platform;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -32,9 +34,8 @@ public class EventListenerImpl implements EventListener {
                 connected --;
                 break;
             default:
-                System.err.println("Event type unkwon !");
+                Platform.log("Event type unkwon !");
         }
-//        System.out.printf("Event %s / started : %d - connected : %d", event.getType(), started, connected).println();
     }
 
     @Override
