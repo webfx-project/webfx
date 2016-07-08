@@ -6,6 +6,8 @@ package java.util;
  * @author Bruno Salmon
  */
 
+import naga.commons.util.numbers.providers.StandardPlatformNumbers;
+import naga.commons.util.numbers.spi.NumbersProvider;
 import naga.platform.spi.Platform;
 import naga.platform.providers.gwt.GwtPlatform;
 
@@ -14,6 +16,8 @@ public class ServiceLoader<S> {
     public static <S> ServiceLoader<S> load(Class<S> service) {
         if (service.equals(Platform.class))
             return new ServiceLoader<>(new GwtPlatform());
+        if (service.equals(NumbersProvider.class))
+            return new ServiceLoader<>(new StandardPlatformNumbers());
         return null;
     }
 

@@ -1,14 +1,15 @@
 package naga.commons.bus.call;
 
-import naga.commons.json.codec.JsonCodecManager;
+import naga.commons.bus.spi.Bus;
 import naga.commons.bus.spi.Message;
-import naga.platform.spi.Platform;
+import naga.commons.json.codec.JsonCodecManager;
 import naga.commons.util.async.AsyncFunction;
 import naga.commons.util.async.Future;
+import naga.commons.util.async.Handler;
 import naga.commons.util.function.BiConsumer;
 import naga.commons.util.function.Callable;
 import naga.commons.util.function.Function;
-import naga.commons.util.async.Handler;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -18,16 +19,22 @@ public class BusCallService {
     private final static String ENTRY_CALL_SERVICE_ADDRESS = "call";
 
     public static <T> PendingBusCall<T> call(String address, Object javaArgument) {
-        // Creating a PendingBusCall that will be immediately returned to the caller
-        PendingBusCall<T> pendingBusCall = new PendingBusCall<>();
-        // Making the actual call by sending the (wrapped) java argument over the event bus and providing a java reply handler
-        BusCallService.sendJavaObjectAndWaitJavaReply( // helper method that does the job to send the (wrapped) java argument
-                ENTRY_CALL_SERVICE_ADDRESS, // the addressee is the counterpart BusCallService (assuming it is listening entry calls)
-                new BusCallArgument(address, javaArgument), // the java argument is wrapped into a BusCallArgument (as expected by the counterpart BusCallService)
-                pendingBusCall::onBusCallResult // it just forwards the target result to the caller using the future
-            );
-        // We return the future immediately while we are waiting for the call result
-        return pendingBusCall; // The caller can set a handler to it that will be called back later on call result reception
+        return call(address, javaArgument, null); // bus = null means using the default platform bus
+    }
+
+    public static <T> PendingBusCall<T> call(String address, Object javaArgument, Bus bus) {
+        try (ThreadLocalBusContext context = ThreadLocalBusContext.open(bus)) {
+            // Creating a PendingBusCall that will be immediately returned to the caller
+            PendingBusCall<T> pendingBusCall = new PendingBusCall<>();
+            // Making the actual call by sending the (wrapped) java argument over the event bus and providing a java reply handler
+            BusCallService.sendJavaObjectAndWaitJavaReply( // helper method that does the job to send the (wrapped) java argument
+                    ENTRY_CALL_SERVICE_ADDRESS, // the addressee is the counterpart BusCallService (assuming it is listening entry calls)
+                    new BusCallArgument(address, javaArgument), // the java argument is wrapped into a BusCallArgument (as expected by the counterpart BusCallService)
+                    pendingBusCall::onBusCallResult // it just forwards the target result to the caller using the future
+                );
+            // We return the future immediately while we are waiting for the call result
+            return pendingBusCall; // The caller can set a handler to it that will be called back later on call result reception
+        }
     }
 
     public static void listenEntryCalls() {

@@ -17,6 +17,7 @@
  */
 package naga.platform.spi;
 
+import naga.commons.bus.call.ThreadLocalBusContext;
 import naga.commons.bus.spi.Bus;
 import naga.commons.bus.spi.BusFactory;
 import naga.commons.bus.spi.BusOptions;
@@ -147,6 +148,9 @@ public abstract class Platform {
     private static BusOptions busOptions;
 
     public static Bus bus() {
+        Bus bus = ThreadLocalBusContext.getThreadLocalBus();
+        if (bus != null)
+            return bus;
         if (BUS == null)
             BUS = createBus();
         return BUS;
