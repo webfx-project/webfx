@@ -4,10 +4,11 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.command.Command;
 import mongoose.activities.tester.drive.connection.Connection;
-import mongoose.activities.tester.drive.connection.ConnectionMock;
+import mongoose.activities.tester.drive.connection.ConnectionImpl;
 import mongoose.activities.tester.listener.ConnectionEvent;
 import mongoose.activities.tester.listener.EventListenerImpl;
 import mongoose.activities.tester.listener.EventType;
+import naga.commons.bus.call.BusCallService;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 
@@ -36,9 +37,9 @@ public class Drive {
 
     public void start(boolean mode_console) {
         this.mode_console = mode_console;
+        BusCallService.call("version", "ignored").setHandler(asyncResult -> Platform.log(asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause()));
         Platform.get().scheduler().schedulePeriodic(10, () -> {
             int requested = requestedConnectionCount.getValue();
-            //int started = startedConnectionCount.get();
 
             if (currentRequested != requested) {
                 EventListenerImpl.getInstance().onEvent(new ConnectionEvent(EventType.REQUESTED, requested));
@@ -47,8 +48,7 @@ public class Drive {
             if (started != requested) {
                 if (started < requested) {
                     // We must start new connections
-                    Connection cnx = new ConnectionMock();
-//                    cnx.setEventListener(EventListenerImpl.getInstance());
+                    Connection cnx = new ConnectionImpl();
                     connexionList.add(cnx);
                     cnx.executeCommand(Command.OPEN);
                     ++started;
@@ -62,9 +62,9 @@ public class Drive {
                 Toolkit.get().scheduler().scheduleDeferred(() -> startedConnectionCount.setValue(started));
 
                 if (mode_console)
-                    Platform.log("Drive (2) - started connections : "+Integer.toString(started)
-                                +" / "+Integer.toString(requested)
-                                +" (time = "+Long.toString(System.currentTimeMillis())+")");
+                    Platform.log("Drive - connections : "+ requested
+                            +" , "+ started
+                            +" (time = "+ System.currentTimeMillis() +")");
             }
         });
     }
