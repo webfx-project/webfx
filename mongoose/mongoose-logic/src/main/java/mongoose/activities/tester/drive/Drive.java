@@ -5,6 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.command.Command;
 import mongoose.activities.tester.drive.connection.Connection;
 import mongoose.activities.tester.drive.connection.ConnectionMock;
+import mongoose.activities.tester.listener.ConnectionEvent;
+import mongoose.activities.tester.listener.EventListenerImpl;
+import mongoose.activities.tester.listener.EventType;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 
@@ -38,7 +41,7 @@ public class Drive {
             //int started = startedConnectionCount.get();
 
             if (currentRequested != requested) {
-//                EventListenerImpl.getInstance().onEvent(new ConnectionEvent(EventType.REQUESTED, requested));
+                EventListenerImpl.getInstance().onEvent(new ConnectionEvent(EventType.REQUESTED, requested));
                 currentRequested = requested;
             }
             if (started != requested) {
