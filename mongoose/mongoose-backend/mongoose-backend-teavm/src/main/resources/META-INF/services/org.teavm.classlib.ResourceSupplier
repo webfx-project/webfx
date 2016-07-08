@@ -1,1 +1,1 @@
-mongoose.backend.teavm.TeaVmCompilerResourceSupplier
+mongoose.application.backend.teavm.TeaVmCompilerResourceSupplier

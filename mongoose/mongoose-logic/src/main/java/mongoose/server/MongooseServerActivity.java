@@ -1,6 +1,6 @@
 package mongoose.server;
 
-import mongoose.domainmodel.DomainModelSnapshotLoader;
+import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.commons.activity.Activity;
 import naga.commons.activity.ActivityContext;
 import naga.commons.services.datasource.ConnectionDetails;

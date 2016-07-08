@@ -5,9 +5,9 @@ import mongoose.activities.container.ContainerActivity;
 import mongoose.activities.event.bookings.BookingsActivity;
 import mongoose.activities.tester.TesterActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
-import mongoose.domainmodel.DomainModelSnapshotLoader;
-import mongoose.format.DateFormatter;
-import mongoose.format.PriceFormatter;
+import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.domainmodel.format.DateFormatter;
+import mongoose.domainmodel.format.PriceFormatter;
 import naga.commons.activity.Activity;
 import naga.commons.activity.ActivityContext;
 import naga.commons.activity.ActivityManager;
@@ -19,7 +19,7 @@ import naga.platform.spi.Platform;
 /**
  * @author Bruno Salmon
  */
-abstract class MongooseApplication implements Activity {
+public abstract class MongooseApplication implements Activity {
 
     protected ActivityRouter activityRouter;
 
