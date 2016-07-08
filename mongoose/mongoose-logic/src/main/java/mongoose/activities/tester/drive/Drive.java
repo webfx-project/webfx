@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.command.Command;
 import mongoose.activities.tester.drive.connection.Connection;
-import mongoose.activities.tester.drive.connection.ConnectionImpl;
+import mongoose.activities.tester.drive.connection.WebSocketBusConnection;
 import mongoose.activities.tester.listener.ConnectionEvent;
 import mongoose.activities.tester.listener.EventListenerImpl;
 import mongoose.activities.tester.listener.EventType;
@@ -48,7 +48,7 @@ public class Drive {
             if (started != requested) {
                 if (started < requested) {
                     // We must start new connections
-                    Connection cnx = new ConnectionImpl();
+                    Connection cnx = new WebSocketBusConnection();
                     connexionList.add(cnx);
                     cnx.executeCommand(Command.OPEN);
                     ++started;
