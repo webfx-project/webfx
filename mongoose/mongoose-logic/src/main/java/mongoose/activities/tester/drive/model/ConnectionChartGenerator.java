@@ -43,7 +43,12 @@ public class ConnectionChartGenerator {
             rsb.setValue(rowIndex, 3, data.getConnected());
         }
         DisplayResultSet displayResultSet = rsb.build();
-        Platform.log("Ok: " + displayResultSet);
+//        Platform.log("Ok: " + displayResultSet);
+        Platform.log("Chart - [" + rowCount
+                    +", "+ connectionList.get(rowCount-1).getRequested()
+                    +", "+ connectionList.get(rowCount-1).getStarted()
+                    +", "+ connectionList.get(rowCount-1).getConnected()
+                    +" ]");
         Toolkit.get().scheduler().scheduleDeferred(() -> connectionListProperty.set(displayResultSet));
         return displayResultSet;
     }
