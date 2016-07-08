@@ -80,7 +80,7 @@ public class WebSocketBus extends SimpleClientBus {
                 Platform.log("Connection open");
                 if (webSocketListener != null)
                     webSocketListener.onOpen();
-                sendLogin();
+                // sendLogin(); // Disabling the auto logic mechanism
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
                 cancelPingTimer();
