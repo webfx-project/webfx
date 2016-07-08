@@ -4,7 +4,11 @@ package mongoose.activities.tester.drive.connection;
 import mongoose.activities.tester.listener.ConnectionEvent;
 import mongoose.activities.tester.listener.EventListener;
 import mongoose.activities.tester.listener.EventListenerImpl;
-import naga.commons.bus.spi.Bus;
+import mongoose.activities.tester.listener.EventType;
+import naga.commons.bus.call.BusCallService;
+import naga.commons.bus.websocket.WebSocketBus;
+import naga.commons.json.spi.JsonObject;
+import naga.commons.websocket.spi.WebSocketListener;
 import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
@@ -18,15 +22,45 @@ import static mongoose.activities.tester.drive.connection.ConnectionState.*;
 public abstract class ConnectionBase implements Connection {
     int id;
     private ConnectionState state = NOT_CONNECTED;
-    protected List<ConnectionEvent> uncommitedEventList = new ArrayList<>();    // List of events on this specific connection
-    Bus bus;
-
     EventListener listener = EventListenerImpl.getInstance();
+    protected List<ConnectionEvent> uncommitedEventList = new ArrayList<>();    // List of events on this specific connection
+    protected WebSocketBus bus;
+    protected WebSocketListener webSocketListener = new WebSocketListener() {
+        @Override
+        public void onOpen() {
+            ConnectionEvent event = new ConnectionEvent(EventType.CONNECTED);
+            applyEvent(event);
+            recordEvent(event);
+            Platform.log("Cnx-CONNECTED");
+        }
+
+        @Override
+        public void onClose(JsonObject reason) {
+            ConnectionEvent event = new ConnectionEvent(EventType.NOT_CONNECTED);
+            applyEvent(event);
+            recordEvent(event);
+            Platform.log("Cnx-CLOSED");
+        }
+
+        @Override
+        public void onMessage(String message) {
+            Platform.log("Cnx-MESSAGE : "+message);
+        }
+
+        @Override
+        public void onError(String error) {
+            Platform.log("Cnx-ERROR : "+error);
+        }
+    };
+
+    public ConnectionBase () {
+        super();
+        BusCallService.call("version", "ignored").setHandler(asyncResult -> Platform.log(asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause()));
+    }
 
     // Parse all kind of ConnectionEvent
     @Override
     public void applyEvent(ConnectionEvent event) {
-//        switch (event.getType()) {
         switch (event.getType()) {
             case CONNECTING:
                 state = CONNECTING;
@@ -46,7 +80,7 @@ public abstract class ConnectionBase implements Connection {
         }
         if (listener != null) {
             listener.onEvent(event);
-            Platform.log("CnxApply "+event.getType()+" ");
+//            Platform.log("CnxApply "+event.getType()+" ");
         }
     }
 
