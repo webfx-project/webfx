@@ -12,7 +12,7 @@ public class All<T> extends BinaryBooleanExpression<T> {
         super(left, operator + " all ", right, 5);
     }
 
-    public boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
         throw new UnsupportedOperationException();
     }
 

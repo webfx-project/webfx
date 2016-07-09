@@ -12,7 +12,7 @@ public class Like<T> extends BinaryBooleanExpression<T> {
         super(left, " like ", right, 5);
     }
 
-    public boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
         return b instanceof String && new LikeImpl((String) b).compare(a);
     }
 

@@ -13,7 +13,7 @@ public class NotLike<T> extends BinaryBooleanExpression<T> {
     }
 
     @Override
-    public boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
         return b instanceof String && !new Like.LikeImpl((String) b).compare(a);
     }
 

@@ -1,15 +1,16 @@
 package naga.framework.expression.terms;
 
-import naga.framework.expression.Expression;
-import naga.framework.expression.lci.DataReader;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
 import naga.commons.type.Types;
 import naga.commons.util.Booleans;
+import naga.commons.util.Dates;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
+import naga.framework.expression.Expression;
+import naga.framework.expression.lci.DataReader;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  * @author Bruno Salmon
@@ -21,7 +22,7 @@ public abstract class PrimitiveBinaryBooleanExpression<T> extends BinaryBooleanE
     }
 
     @Override
-    public boolean evaluateCondition(Object leftValue, Object rightValue, DataReader<T> dataReader) {
+    public Boolean evaluateCondition(Object leftValue, Object rightValue, DataReader<T> dataReader) {
         Expression<T> left = getLeft();
         Type leftType = left != null ? left.getType() : Types.guessType(leftValue); // left may be null for generic MULTIPLIER and DIVIDER
         PrimType leftPrimType = Types.getPrimType(leftType);
@@ -32,29 +33,51 @@ public abstract class PrimitiveBinaryBooleanExpression<T> extends BinaryBooleanE
                 case BOOLEAN:
                     return evaluateBoolean(Booleans.booleanValue(leftValue), Booleans.booleanValue(rightValue));
                 case INTEGER:
-                    return evaluateInteger(Numbers.intValue(leftValue), Numbers.intValue(rightValue));
+                    return evaluateInteger(Numbers.toInteger(leftValue), Numbers.toInteger(rightValue));
                 case LONG:
-                    return evaluateLong(Numbers.longValue(leftValue), Numbers.longValue(rightValue));
+                    return evaluateLong(Numbers.toLong(leftValue), Numbers.toLong(rightValue));
                 case FLOAT:
-                    return evaluateFloat(Numbers.floatValue(leftValue), Numbers.floatValue(rightValue));
+                    return evaluateFloat(Numbers.toFloat(leftValue), Numbers.toFloat(rightValue));
                 case DOUBLE:
-                    return evaluateDouble(Numbers.doubleValue(leftValue), Numbers.doubleValue(rightValue));
+                    return evaluateDouble(Numbers.toDouble(leftValue), Numbers.toDouble(rightValue));
                 case STRING:
-                    return evaluateString(Strings.stringValue(leftValue), Strings.stringValue(rightValue));
+                    return evaluateString(Strings.toString(leftValue), Strings.toString(rightValue));
                 case DATE:
-                    return evaluateDate((Date) leftValue, (Date) rightValue);
+                    return evaluateDate(Dates.toInstant(leftValue), Dates.toInstant(rightValue));
             }
         }
         return evaluateObject(leftValue, rightValue);
     }
+
+    protected Boolean evaluateBoolean(Boolean a, Boolean b) {
+        return a == null | b == null ? null : evaluateBoolean(a.booleanValue(), b.booleanValue());
+    }
+
+    protected Boolean evaluateInteger(Integer a, Integer b) {
+        return a == null | b == null ? null : evaluateInteger(a.intValue(), b.intValue());
+    }
+
+    protected Boolean evaluateLong(Long a, Long b) {
+        return a == null | b == null ? null : evaluateLong(a.longValue(), b.longValue());
+    }
+
+    protected Boolean evaluateFloat(Float a, Float b) {
+        return a == null | b == null ? null : evaluateFloat(a.floatValue(), b.floatValue());
+    }
+
+    protected Boolean evaluateDouble(Float a, Float b) {
+        return a == null | b == null ? null : evaluateDouble(a.doubleValue(), b.doubleValue());
+    }
+
+    protected Boolean evaluateString(String a, String b) { return evaluateObject(a, b);}
+
+    protected Boolean evaluateDate(Instant a, Instant b) { return evaluateLong(a.toEpochMilli(), b.toEpochMilli());}
 
     abstract boolean evaluateInteger(int a, int b);
     abstract boolean evaluateLong(long a, long b);
     abstract boolean evaluateFloat(float a, float b);
     abstract boolean evaluateDouble(double a, double b);
     abstract boolean evaluateBoolean(boolean a, boolean b);
-    boolean evaluateString(String a, String b) { return evaluateObject(a, b);}
-    boolean evaluateDate(Date a, Date b) { return evaluateLong(a.getTime(), b.getTime());}
     abstract boolean evaluateObject(Object a, Object b);
 
 

@@ -24,6 +24,6 @@ public abstract class BinaryBooleanExpression<T> extends BinaryExpression<T> {
         return evaluateCondition(leftValue, rightValue, dataReader);
     }
 
-    public abstract boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader);
+    public abstract Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader);
 
 }
