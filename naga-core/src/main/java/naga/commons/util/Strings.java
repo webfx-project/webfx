@@ -9,7 +9,7 @@ import java.util.List;
 public class Strings {
 
     public static String asString(Object value) {
-        return (String) value;
+        return value instanceof String ? (String) value : null;
     }
 
     public static String toString(Object value) {

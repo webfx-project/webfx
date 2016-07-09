@@ -1,20 +1,67 @@
 package naga.commons.util;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeParseException;
 
 /**
  * @author Bruno Salmon
  */
 public class Dates {
 
-    public static LocalDateTime toLocalDateTime(Object value) {
-        if (value == null)
+    public static Instant asInstant(Object value) {
+        return value == null || !(value instanceof Instant) ? null : (Instant) value;
+    }
+
+    public static LocalDateTime asLocalDateTime(Object value) {
+        return value == null || !(value instanceof LocalDateTime) ? null : (LocalDateTime) value;
+    }
+
+    public static Instant parseInstant(String s) {
+        if (s == null)
             return null;
-        if (value instanceof LocalDateTime)
-            return (LocalDateTime) value;
-        if (Numbers.isNumber(value))
-            return LocalDateTime.ofEpochSecond(Numbers.longValue(value) / 1000, 0, null);
-        return LocalDateTime.parse(value.toString());
+        try {
+            return Instant.parse(s);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    public static LocalDateTime parseLocalDateTime(String s) {
+        if (s == null)
+            return null;
+        try {
+            return LocalDateTime.parse(s);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
+    }
+
+    public static Instant toInstant(Object value) {
+        Instant instant = asInstant(value);
+        if (instant != null || value == null)
+            return instant;
+        instant = parseInstant(value.toString());
+        if (instant != null)
+            return instant;
+        Long l = Numbers.toLong(value);
+        if (l != null)
+            return Instant.ofEpochMilli(l);
+        return null;
+    }
+
+    public static LocalDateTime toLocalDateTime(Object value) {
+        LocalDateTime localDateTime = asLocalDateTime(value);
+        if (localDateTime != null || value == null)
+            return localDateTime;
+        localDateTime = parseLocalDateTime(value.toString());
+        if (localDateTime != null)
+            return localDateTime;
+        Long l = Numbers.toLong(value);
+        if (l != null)
+            return LocalDateTime.ofEpochSecond(l / 1000, (int) (l % 1000), ZoneOffset.UTC);
+        return null;
     }
 
     /**
