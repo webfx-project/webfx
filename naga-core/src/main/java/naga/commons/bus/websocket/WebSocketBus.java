@@ -77,9 +77,10 @@ public class WebSocketBus extends SimpleClientBus {
         internalWebSocketHandler = new WebSocketListener() {
             @Override
             public void onOpen() {
-                Platform.log("Connection open");
                 if (webSocketListener != null)
                     webSocketListener.onOpen();
+                else
+                    Platform.log("Connection open");
                 // sendLogin(); // Disabling the auto logic mechanism
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
@@ -103,17 +104,19 @@ public class WebSocketBus extends SimpleClientBus {
 
             @Override
             public void onError(String error) {
-                Platform.log("Connection error = " + error);
                 if (webSocketListener != null)
                     webSocketListener.onError(error);
+                else
+                    Platform.log("Connection error = " + error);
                 publishLocal(ON_ERROR, Json.createObject().set("message", error));
             }
 
             @Override
             public void onClose(JsonObject reason) {
-                Platform.log("Connection closed, reason = " + reason);
                 if (webSocketListener != null)
                     webSocketListener.onClose(reason);
+                else
+                    Platform.log("Connection closed, reason = " + reason);
                 cancelPingTimer();
                 publishLocal(ON_CLOSE, reason);
                 if (hook != null)
@@ -143,7 +146,9 @@ public class WebSocketBus extends SimpleClientBus {
         username = options.getUsername();
         password = options.getPassword();
 
-        Platform.log("Connecting to " + serverUri);
+        if (webSocketListener == null)
+            Platform.log("Connecting to " + serverUri);
+
         webSocket = ClientPlatform.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListener(internalWebSocketHandler);
     }
