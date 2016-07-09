@@ -17,21 +17,21 @@
  */
 package naga.platform.spi;
 
-import naga.commons.bus.call.ThreadLocalBusContext;
-import naga.commons.bus.spi.Bus;
-import naga.commons.bus.spi.BusFactory;
-import naga.commons.bus.spi.BusOptions;
-import naga.commons.json.Json;
-import naga.commons.json.spi.JsonFactory;
-import naga.commons.scheduler.spi.Scheduled;
-import naga.commons.scheduler.spi.Scheduler;
-import naga.commons.services.query.spi.QueryService;
-import naga.commons.services.query.remote.RemoteQueryService;
-import naga.commons.url.history.spi.History;
-import naga.commons.url.history.memory.MemoryHistory;
-import naga.commons.services.resource.spi.ResourceService;
-import naga.commons.services.update.spi.UpdateService;
-import naga.commons.services.update.remote.RemoteUpdateService;
+import naga.platform.bus.call.ThreadLocalBusContext;
+import naga.platform.bus.Bus;
+import naga.platform.bus.BusFactory;
+import naga.platform.bus.BusOptions;
+import naga.platform.json.Json;
+import naga.platform.json.spi.JsonFactory;
+import naga.commons.scheduler.Scheduled;
+import naga.commons.scheduler.Scheduler;
+import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.remote.RemoteQueryService;
+import naga.platform.client.url.history.History;
+import naga.platform.client.url.history.memory.MemoryHistory;
+import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.update.remote.RemoteUpdateService;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 

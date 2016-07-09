@@ -2,12 +2,12 @@ package naga.framework.ui.filter;
 
 import naga.framework.ui.format.Formatter;
 import naga.framework.ui.format.FormatterRegistry;
-import naga.commons.json.Json;
-import naga.commons.json.spi.JsonArray;
-import naga.commons.json.spi.JsonObject;
+import naga.platform.json.Json;
+import naga.platform.json.spi.JsonArray;
+import naga.platform.json.spi.JsonObject;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.expression.Expression;
-import naga.toolkit.spi.display.DisplayColumn;
+import naga.toolkit.display.DisplayColumn;
 
 /**
  * @author Bruno Salmon

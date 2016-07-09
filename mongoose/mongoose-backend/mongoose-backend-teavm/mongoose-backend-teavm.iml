@@ -16,7 +16,7 @@
     <orderEntry type="module" module-name="naga-abstractplatform-web" />
     <orderEntry type="module" module-name="naga-core" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
-    <orderEntry type="library" name="Maven: naga:naga-javalib-rxjava:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
     <orderEntry type="module" module-name="naga-javaemul-teavm" />
     <orderEntry type="module" module-name="naga-javaemul-shared" />

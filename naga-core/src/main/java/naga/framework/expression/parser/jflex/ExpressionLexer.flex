@@ -1,7 +1,7 @@
 
 /* --------------------------Usercode Section------------------------ */
 
-package naga.framework.orm.expressionparser.jflex;
+package naga.framework.expression.parser.jflex;
 
 import java_cup.runtime.*;
 import naga.framework.expression.parser.javacup.ExpressionSymbols;

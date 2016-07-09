@@ -1,8 +1,8 @@
 package naga.framework.router.impl;
 
-import naga.commons.json.Json;
-import naga.commons.json.spi.JsonObject;
-import naga.commons.json.spi.WritableJsonObject;
+import naga.platform.json.Json;
+import naga.platform.json.spi.JsonObject;
+import naga.platform.json.spi.WritableJsonObject;
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
 import naga.platform.spi.Platform;

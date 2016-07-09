@@ -1,16 +1,16 @@
 package mongoose.domainmodel.loader;
 
-import naga.commons.json.spi.JsonElement;
-import naga.commons.json.Json;
-import naga.commons.json.codec.JsonCodecManager;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.loader.DomainModelLoader;
+import naga.platform.json.Json;
+import naga.platform.json.codec.JsonCodecManager;
+import naga.platform.json.spi.JsonElement;
+import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.commons.services.query.QueryResultSet;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
-import naga.commons.util.compression.string.LZString;
+import naga.platform.compression.string.LZString;
 
 /**
  * @author Bruno Salmon

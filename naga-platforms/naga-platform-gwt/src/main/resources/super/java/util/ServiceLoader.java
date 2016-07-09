@@ -7,9 +7,9 @@ package java.util;
  */
 
 import naga.commons.util.numbers.providers.StandardPlatformNumbers;
-import naga.commons.util.numbers.spi.NumbersProvider;
 import naga.platform.spi.Platform;
-import naga.platform.providers.gwt.GwtPlatform;
+import naga.commons.util.numbers.spi.NumbersProvider;
+import naga.providers.platform.client.gwt.GwtPlatform;
 
 public class ServiceLoader<S> {
 

@@ -1,6 +1,6 @@
 package naga.toolkit.spi.nodes.controls;
 
-import naga.toolkit.spi.properties.markers.HasActionEventObservable;
+import naga.toolkit.properties.markers.HasActionEventObservable;
 
 /**
  * @author Bruno Salmon

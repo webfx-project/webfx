@@ -6,7 +6,7 @@ import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.commons.services.query.QueryResultSet;
+import naga.platform.services.query.QueryResultSet;
 
 /**
  * @author Bruno Salmon

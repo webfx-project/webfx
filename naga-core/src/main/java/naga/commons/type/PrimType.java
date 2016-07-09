@@ -2,7 +2,7 @@ package naga.commons.type;
 
 import java.util.Date;
 
-/*
+/**
  * @author Bruno Salmon
  */
 

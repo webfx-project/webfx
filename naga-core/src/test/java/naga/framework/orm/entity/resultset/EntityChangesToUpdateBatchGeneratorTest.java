@@ -1,9 +1,9 @@
 package naga.framework.orm.entity.resultset;
 
-import naga.framework.orm.entity.EntityId;
-import naga.framework.expression.mocks.ParserDomainModelReaderMock;
-import naga.framework.expression.mocks.CompilerDomainModelReaderMock;
+import naga.framework.expression.lci.mocks.CompilerDomainModelReaderMock;
+import naga.framework.expression.lci.mocks.ParserDomainModelReaderMock;
 import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;
+import naga.framework.orm.entity.EntityId;
 import org.junit.Test;
 
 /**

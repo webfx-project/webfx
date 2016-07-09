@@ -1,6 +1,6 @@
 package naga.framework.router.impl;
 
-import naga.commons.json.spi.WritableJsonObject;
+import naga.platform.json.spi.WritableJsonObject;
 import naga.framework.router.RoutingContext;
 
 import java.util.Collection;

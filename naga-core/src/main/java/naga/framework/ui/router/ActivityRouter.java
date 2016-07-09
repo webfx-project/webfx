@@ -1,11 +1,11 @@
 package naga.framework.ui.router;
 
-import naga.commons.activity.Activity;
-import naga.commons.activity.ActivityContext;
-import naga.commons.activity.ActivityContextImpl;
-import naga.commons.activity.ActivityManager;
-import naga.commons.url.history.spi.History;
-import naga.commons.url.history.baseimpl.SubHistory;
+import naga.platform.activity.Activity;
+import naga.platform.activity.ActivityContext;
+import naga.platform.activity.ActivityContextImpl;
+import naga.platform.activity.ActivityManager;
+import naga.platform.client.url.history.History;
+import naga.platform.client.url.history.baseimpl.SubHistory;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.toolkit.spi.Toolkit;

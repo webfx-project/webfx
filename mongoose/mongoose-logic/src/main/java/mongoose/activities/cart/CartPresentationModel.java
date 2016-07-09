@@ -2,8 +2,8 @@ package mongoose.activities.cart;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.spi.display.DisplayResultSet;
-import naga.toolkit.spi.display.DisplaySelection;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplaySelection;
 import naga.framework.ui.presentation.PresentationModel;
 
 /**

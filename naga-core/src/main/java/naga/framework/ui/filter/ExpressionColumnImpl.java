@@ -5,7 +5,7 @@ import naga.framework.expression.Expression;
 import naga.framework.ui.format.Formatter;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.Label;
-import naga.toolkit.spi.display.DisplayColumn;
+import naga.toolkit.display.DisplayColumn;
 
 /**
  * @author Bruno Salmon

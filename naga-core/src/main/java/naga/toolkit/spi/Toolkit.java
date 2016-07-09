@@ -4,18 +4,17 @@ import javafx.collections.ObservableList;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
-import naga.platform.spi.Platform;
-import naga.commons.scheduler.spi.Scheduler;
+import naga.commons.scheduler.Scheduler;
+import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.charts.*;
 import naga.toolkit.spi.nodes.controls.*;
+import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.properties.conversion.ConvertedObservableList;
 import naga.toolkit.spi.nodes.gauges.Gauge;
 import naga.toolkit.spi.nodes.layouts.HBox;
 import naga.toolkit.spi.nodes.layouts.VBox;
-import naga.toolkit.spi.nodes.layouts.VPage;
 import naga.toolkit.spi.nodes.layouts.Window;
-import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.UnimplementedNode;
-import naga.toolkit.spi.properties.conversion.ConvertedObservableList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +43,7 @@ public abstract class Toolkit {
         Factory<GuiNode> nodeFactory = nodeFactories.get(nodeInterface);
         if (nodeFactory != null)
             return (T) nodeFactory.create();
-        Platform.log("WARNING: No factory node registered for " + nodeInterface + " in " + getClass());
+        System.out.println("WARNING: No factory node registered for " + nodeInterface + " in " + getClass());
         return (T) new UnimplementedNode<>();
     }
 

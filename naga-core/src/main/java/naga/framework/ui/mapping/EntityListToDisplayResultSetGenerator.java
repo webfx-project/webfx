@@ -4,8 +4,8 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.expression.Expression;
 import naga.framework.ui.format.Formatter;
-import naga.toolkit.spi.display.DisplayResultSet;
-import naga.toolkit.spi.display.DisplayResultSetBuilder;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplayResultSetBuilder;
 import naga.framework.ui.filter.ExpressionColumn;
 
 /**

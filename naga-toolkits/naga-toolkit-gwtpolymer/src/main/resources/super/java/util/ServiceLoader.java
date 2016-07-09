@@ -6,12 +6,12 @@ package java.util;
  * @author Bruno Salmon
  */
 
-import naga.commons.util.numbers.providers.StandardPlatformNumbers;
 import naga.commons.util.numbers.spi.NumbersProvider;
 import naga.platform.spi.Platform;
-import naga.platform.providers.gwt.GwtPlatform;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.providers.gwtpolymer.GwtPolymerToolkit;
+import naga.commons.util.numbers.providers.StandardPlatformNumbers;
+import naga.providers.platform.client.gwt.GwtPlatform;
+import naga.providers.toolkit.gwtpolymer.GwtPolymerToolkit;
 
 public class ServiceLoader<S> {
 

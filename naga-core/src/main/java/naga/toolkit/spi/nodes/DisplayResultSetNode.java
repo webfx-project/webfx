@@ -1,6 +1,6 @@
 package naga.toolkit.spi.nodes;
 
-import naga.toolkit.spi.properties.markers.HasDisplayResultSetProperty;
+import naga.toolkit.properties.markers.HasDisplayResultSetProperty;
 
 /**
  * @author Bruno Salmon

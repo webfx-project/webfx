@@ -5,16 +5,16 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.spi.Toolkit;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.charts.*;
 import naga.toolkit.spi.nodes.controls.*;
-import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.gauges.Gauge;
-import naga.toolkit.spi.properties.markers.SelectionMode;
-import naga.toolkit.spi.nodes.layouts.HBox;
 import naga.toolkit.spi.nodes.layouts.VBox;
 import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.toolkit.spi.display.DisplayResultSet;
-import naga.toolkit.spi.display.DisplaySelection;
+import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.spi.nodes.layouts.HBox;
 import rx.Observable;
 
 /**

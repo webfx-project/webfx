@@ -1,6 +1,6 @@
 package naga.commons.type;
 
-/*
+/**
  * @author Bruno Salmon
  */
 

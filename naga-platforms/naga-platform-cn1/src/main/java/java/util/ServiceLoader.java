@@ -1,9 +1,9 @@
 package java.util;
 
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.providers.cn1.CodenameOneToolkit;
+import naga.providers.toolkit.cn1.CodenameOneToolkit;
 import naga.platform.spi.Platform;
-import naga.platform.providers.cn1.CodenameOnePlatform;
+import naga.providers.platform.client.cn1.CodenameOnePlatform;
 
 /**
  * ServiceLoader CN1 implementation that just works to provide the CN1 Platform and Toolkit

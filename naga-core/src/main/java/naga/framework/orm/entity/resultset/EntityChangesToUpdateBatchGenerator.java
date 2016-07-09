@@ -9,7 +9,7 @@ import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
 import naga.framework.expression.lci.CompilerDomainModelReader;
 import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
-import naga.commons.services.update.UpdateArgument;
+import naga.platform.services.update.UpdateArgument;
 import naga.commons.util.async.Batch;
 
 import java.util.ArrayList;

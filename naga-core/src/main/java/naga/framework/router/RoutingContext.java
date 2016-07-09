@@ -1,6 +1,6 @@
 package naga.framework.router;
 
-import naga.commons.json.spi.WritableJsonObject;
+import naga.platform.json.spi.WritableJsonObject;
 
 /**
  * @author Bruno Salmon

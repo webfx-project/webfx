@@ -1,6 +1,6 @@
 package naga.toolkit.spi.nodes.controls;
 
-import naga.toolkit.spi.properties.markers.HasSelectedProperty;
+import naga.toolkit.properties.markers.HasSelectedProperty;
 
 /**
  * @author Bruno Salmon

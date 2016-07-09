@@ -8,7 +8,7 @@ import mongoose.activities.tester.drive.connection.WebSocketBusConnection;
 import mongoose.activities.tester.listener.ConnectionEvent;
 import mongoose.activities.tester.listener.EventListenerImpl;
 import mongoose.activities.tester.listener.EventType;
-import naga.commons.bus.call.BusCallService;
+import naga.platform.bus.call.BusCallService;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 

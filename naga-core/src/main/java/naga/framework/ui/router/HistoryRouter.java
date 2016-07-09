@@ -1,7 +1,7 @@
 package naga.framework.ui.router;
 
-import naga.commons.url.history.spi.History;
-import naga.commons.url.history.spi.HistoryLocation;
+import naga.platform.client.url.history.History;
+import naga.platform.client.url.history.HistoryLocation;
 import naga.framework.router.Router;
 import naga.platform.spi.Platform;
 import naga.commons.util.async.Handler;

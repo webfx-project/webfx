@@ -11,7 +11,7 @@ import com.codename1.ui.Form;
 import com.codename1.ui.util.Resources;
 import generated.StateMachineBase;
 import mongoose.activities.MongooseBackendApplication;
-import naga.commons.bus.websocket.WebSocketBusOptions;
+import naga.platform.client.bus.WebSocketBusOptions;
 import naga.core.spi.platform.Platform;
 
 /**

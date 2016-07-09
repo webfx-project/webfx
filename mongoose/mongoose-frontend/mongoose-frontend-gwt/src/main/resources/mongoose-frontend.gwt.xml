@@ -8,7 +8,7 @@
     <inherits name="com.google.gwt.resources.Resources" />
 
     <!-- Specify the app entry point class.                         -->
-    <entry-point class='mongoose.application.frontend.gwt.MongooseFrontendGwtApplication'/>
+    <entry-point class='mongoose.client.frontend.gwt.MongooseFrontendGwtApplication'/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="mongoose"/>   <!-- code is under mongoose package -->
