@@ -60,7 +60,8 @@
         <module name="naga-abstractplatform-web" />
         <module name="naga-abstrplat-java" />
         <module name="naga-android" />
-        <module name="naga-core" />
+        <module name="naga-commons" />
+        <module name="naga-framework" />
         <module name="naga-gui-gwt" />
         <module name="naga-gui-gwtmaterial" />
         <module name="naga-gui-gwtpolymer" />
@@ -93,6 +94,7 @@
         <module name="naga-plat-jre" />
         <module name="naga-plat-teavm" />
         <module name="naga-plat-vertx" />
+        <module name="naga-platform" />
         <module name="naga-platform-android" />
         <module name="naga-platform-cn1" />
         <module name="naga-platform-codenameone" />
@@ -102,6 +104,7 @@
         <module name="naga-platform-teavm" />
         <module name="naga-platform-vertx" />
         <module name="naga-teavm" />
+        <module name="naga-toolkit" />
         <module name="naga-toolkit-gwt" />
         <module name="naga-toolkit-gwtmaterial" />
         <module name="naga-toolkit-gwtpolymer" />
@@ -152,7 +155,9 @@
       <module name="naga-abstractplatform-java" target="1.8" />
       <module name="naga-abstractplatform-web" target="1.8" />
       <module name="naga-application-examples" target="1.8" />
+      <module name="naga-commons" target="1.8" />
       <module name="naga-core" target="1.8" />
+      <module name="naga-framework" target="1.8" />
       <module name="naga-gui-gwt" target="1.8" />
       <module name="naga-gui-gwtmaterial" target="1.8" />
       <module name="naga-gui-gwtpolymer" target="1.8" />
@@ -186,6 +191,7 @@
       <module name="naga-plat-jre" target="1.8" />
       <module name="naga-plat-teavm" target="1.8" />
       <module name="naga-plat-vertx" target="1.8" />
+      <module name="naga-platform" target="1.8" />
       <module name="naga-platform-android" target="1.8" />
       <module name="naga-platform-cn1" target="1.8" />
       <module name="naga-platform-codenameone" target="1.8" />
@@ -195,6 +201,7 @@
       <module name="naga-platform-teavm" target="1.8" />
       <module name="naga-platform-vertx" target="1.8" />
       <module name="naga-platforms" target="1.8" />
+      <module name="naga-toolkit" target="1.8" />
       <module name="naga-toolkit-gwt" target="1.8" />
       <module name="naga-toolkit-gwtmaterial" target="1.8" />
       <module name="naga-toolkit-gwtpolymer" target="1.8" />

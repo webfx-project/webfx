@@ -14,9 +14,15 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-platform-jre</artifactId>
+            <artifactId>naga-toolkit</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>rxjava</artifactId>
+            <groupId>io.reactivex</groupId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

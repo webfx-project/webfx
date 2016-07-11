@@ -6,11 +6,14 @@ import naga.providers.toolkit.pivot.nodes.layouts.PivotVBox;
 import naga.providers.toolkit.pivot.nodes.layouts.PivotVPage;
 import naga.providers.toolkit.pivot.nodes.layouts.PivotWindow;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.*;
+import naga.toolkit.spi.nodes.controls.CheckBox;
+import naga.toolkit.spi.nodes.controls.SearchBox;
+import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.spi.nodes.controls.ToggleSwitch;
+import naga.toolkit.spi.nodes.layouts.HBox;
 import naga.toolkit.spi.nodes.layouts.VBox;
 import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.toolkit.spi.nodes.layouts.HBox;
-import org.apache.pivot.wtk.*;
+import org.apache.pivot.wtk.PushButton;
 
 
 /**

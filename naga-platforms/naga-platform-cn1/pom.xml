@@ -41,9 +41,16 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-core</artifactId>
+            <artifactId>naga-platform</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
+        </dependency>
+
+        <dependency> <!-- because of ServiceLoader -->
+            <artifactId>naga-toolkit</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>

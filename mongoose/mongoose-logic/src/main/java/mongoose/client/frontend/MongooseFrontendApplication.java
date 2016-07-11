@@ -9,7 +9,7 @@ public class MongooseFrontendApplication extends MongooseApplication {
 
     @Override
     public void onStart() {
-        activityRouter.setDefaultInitialHistoryPath("/cart/a58faba5-5b0b-4573-b547-361e10c788dc");
+        uiRouter.setDefaultInitialHistoryPath("/cart/a58faba5-5b0b-4573-b547-361e10c788dc");
         super.onStart();
     }
 

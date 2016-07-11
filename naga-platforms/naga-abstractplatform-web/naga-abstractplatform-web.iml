@@ -11,7 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-core" />
+    <orderEntry type="module" module-name="naga-platform" />
+    <orderEntry type="module" module-name="naga-commons" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" />

@@ -1,6 +1,7 @@
 package mongoose.server;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
+import naga.framework.ui.activity.DomainActivityContext;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.services.datasource.ConnectionDetails;
@@ -10,7 +11,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 /**
  * @author Bruno Salmon
  */
-public class MongooseServerActivity implements Activity {
+public class MongooseServerActivity implements Activity<DomainActivityContext> {
 
     protected ActivityContext activityContext;
     private final DataSourceModel dataSourceModel;
@@ -26,7 +27,7 @@ public class MongooseServerActivity implements Activity {
     }
 
     @Override
-    public void onCreate(ActivityContext context) {
+    public void onCreate(DomainActivityContext context) {
         this.activityContext = context;
         context.setDataSourceModel(dataSourceModel);
         LocalDataSourceRegistry.registerLocalDataSource(dataSourceModel.getId(), connectionDetails);

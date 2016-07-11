@@ -13,11 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mongoose-logic" />
     <orderEntry type="module" module-name="naga-toolkit-swing" />
-    <orderEntry type="module" module-name="naga-platform-jre" />
-    <orderEntry type="module" module-name="naga-core" />
-    <orderEntry type="module" module-name="naga-abstractplatform-java" />
-    <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
-    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
+    <orderEntry type="module" module-name="naga-toolkit" />
+    <orderEntry type="module" module-name="naga-commons" />
   </component>
 </module>

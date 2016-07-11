@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>naga</artifactId>
+        <groupId>naga</groupId>
+        <version>0.1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>naga-framework</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <artifactId>naga-platform</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-toolkit</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>java-cup-runtime</artifactId>
+            <groupId>com.github.vbmacher</groupId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <artifactId>rxjava</artifactId>
+            <groupId>io.reactivex</groupId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <!--
+        <dependency>
+            <artifactId>naga-javalib-javacupruntime</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-rxjava</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+        -->
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Calling the Java CUP plugin to generate JavaCupExpressionParser.java and ExpressionSymbols.java from the ExpressionParser.cup grammar file -->
+            <plugin>
+                <groupId>com.github.vbmacher</groupId>
+                <artifactId>cup-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>expression-parser</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <cupDefinition>src/main/java/naga/framework/expression/parser/javacup/ExpressionParser.cup</cupDefinition>
+                            <outputDirectory>src/main/java/</outputDirectory>
+                            <className>JavaCupExpressionParser</className>
+                            <symbolsName>ExpressionSymbols</symbolsName>
+                            <packageName>naga.framework.expression.parser.javacup</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Calling the JFlex plugin to generate ExpressionLexer.java from the ExpressionLexer.flex lexical file -->
+            <plugin>
+                <groupId>de.jflex</groupId>
+                <artifactId>jflex-maven-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>src/main/java</outputDirectory>
+                    <lexDefinitions>
+                        <lexDefinition>src/main/java/naga/framework/expression/parser/jflex/ExpressionLexer.flex</lexDefinition>
+                    </lexDefinitions>
+                </configuration>
+            </plugin>
+
+            <!-- Generating the source artifact for GWT compilation -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

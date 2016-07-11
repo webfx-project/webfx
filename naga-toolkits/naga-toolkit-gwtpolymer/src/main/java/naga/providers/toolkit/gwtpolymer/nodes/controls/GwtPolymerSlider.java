@@ -52,21 +52,21 @@ public class GwtPolymerSlider extends GwtNode<PaperSlider> implements Slider<Pap
             syncValueToVisual(); // we do the opposite: we reset the slider value from the value property
     }
 
-    private final Property<Integer> maxProperty = new SimpleObjectProperty<>();
+    private final Property<Integer> maxProperty = new SimpleObjectProperty<>(100);
 
     @Override
     public Property<Integer> maxProperty() {
         return maxProperty;
     }
 
-    private final Property<Integer> minProperty = new SimpleObjectProperty<>();
+    private final Property<Integer> minProperty = new SimpleObjectProperty<>(0);
 
     @Override
     public Property<Integer> minProperty() {
         return minProperty;
     }
 
-    private final Property<Integer> valueProperty = new SimpleObjectProperty<>();
+    private final Property<Integer> valueProperty = new SimpleObjectProperty<>(0);
 
     @Override
     public Property<Integer> valueProperty() {

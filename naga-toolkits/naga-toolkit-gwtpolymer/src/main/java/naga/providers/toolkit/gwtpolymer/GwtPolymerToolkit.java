@@ -11,11 +11,11 @@ import naga.providers.toolkit.gwt.GwtToolkit;
 import naga.providers.toolkit.gwtpolymer.nodes.controls.*;
 import naga.providers.toolkit.gwtpolymer.nodes.layouts.GwtPolymerHBox;
 import naga.providers.toolkit.gwtpolymer.nodes.layouts.GwtPolymerVBox;
+import naga.providers.toolkit.gwtpolymer.nodes.layouts.GwtPolymerVPage;
 import naga.toolkit.spi.nodes.controls.*;
+import naga.toolkit.spi.nodes.layouts.HBox;
 import naga.toolkit.spi.nodes.layouts.VBox;
 import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.providers.toolkit.gwtpolymer.nodes.layouts.GwtPolymerVPage;
-import naga.toolkit.spi.nodes.layouts.HBox;
 
 /**
  * @author Bruno Salmon

@@ -9,8 +9,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-platform-cn1" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-core" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: naga:naga-platform-cn1:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="naga-platform" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-commons" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" scope="PROVIDED" />

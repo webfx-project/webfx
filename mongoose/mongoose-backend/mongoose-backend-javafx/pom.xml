@@ -20,10 +20,23 @@
         </dependency>
 
         <dependency>
+            <artifactId>naga-framework</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-platform-jre</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>naga-toolkit-javafx</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
+
         <dependency>
             <groupId>eu.hansolo</groupId>
             <artifactId>Medusa</artifactId>
