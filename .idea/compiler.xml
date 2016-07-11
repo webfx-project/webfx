@@ -54,6 +54,7 @@
         <module name="mongoose-frontend-gwt" />
         <module name="mongoose-frontend-javafx" />
         <module name="mongoose-logic" />
+        <module name="mongoose-vertx" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
         <module name="naga-abstractplatform-java" />
@@ -149,6 +150,7 @@
       <module name="mongoose-frontend-javafx" target="1.8" />
       <module name="mongoose-jre" target="1.8" />
       <module name="mongoose-logic" target="1.8" />
+      <module name="mongoose-vertx" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-abstractplat-java" target="1.8" />
       <module name="naga-abstractplat-web" target="1.8" />

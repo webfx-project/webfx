@@ -15,8 +15,8 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-vertx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-commons" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-framework" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc" charset="UTF-8" />

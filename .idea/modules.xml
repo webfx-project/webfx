@@ -15,6 +15,7 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-gwt/mongoose-frontend-gwt.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-gwt/mongoose-frontend-gwt.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx/mongoose-frontend-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx/mongoose-frontend-javafx.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-vertx/mongoose-vertx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-vertx/mongoose-vertx.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga.iml" filepath="$PROJECT_DIR$/naga.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java/naga-abstractplatform-java.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java/naga-abstractplatform-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/naga-abstractplatform-web.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/naga-abstractplatform-web.iml" />
