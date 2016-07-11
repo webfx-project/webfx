@@ -1,5 +1,7 @@
 package naga.platform.services.datasource;
 
+import naga.platform.json.spi.JsonObject;
+
 /**
  * @author Bruno Salmon
  */
@@ -63,5 +65,20 @@ public class ConnectionDetails {
 
     public String getPassword() {
         return password;
+    }
+
+    public static ConnectionDetails fromJson(JsonObject json) {
+        if (json == null)
+            return null;
+        return new ConnectionDetails(
+                json.getString("host"),
+                json.getInt("port", -1),
+                json.getString("filePath"),
+                json.getString("databaseName"),
+                DBMS.POSTGRES, // temporary, should be parsed
+                json.getString("url"),
+                json.getString("username"),
+                json.getString("password")
+        );
     }
 }
