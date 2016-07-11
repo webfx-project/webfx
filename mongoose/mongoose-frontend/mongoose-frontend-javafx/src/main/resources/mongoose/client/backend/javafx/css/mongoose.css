@@ -1,0 +1,88 @@
+.table-view {
+    -fx-table-cell-border-color: #bbbbbb; /* same color as java 7 caspian, java 8 one is too light on colored rows */
+}
+
+/*.table-row-cell {
+    -fx-cell-size: 100;
+}*/
+
+.table-row-cell:empty {
+    -fx-opacity: 0.0;
+}
+
+.table-row-cell .text, .table-row-cell Text { /* texts displayed in tables */
+   -fx-font-family: "Open Sans"; /* embedded font to be sure it can correctly render bold and italic on all systems */
+   -fx-alignment: baseline-right;
+}
+
+.table-row-cell:selected .table-cell {
+   -fx-text-fill: -fx-text-inner-color;
+}
+
+/* Declaring color variables with default values */
+* {
+   -color-base: white;
+   -stay-color: transparent;
+   -selection-color: #8AAAD380;
+}
+
+/* Bookings */
+.abandoned { -color-base: #E0CDCD; }
+.absent { -color-base: #FF8080; }
+.cancelled { -color-base: #E0A0CD; }
+.arrived { -color-base: #09EF00; }
+.arrivedWithBalance { -color-base: #01afef; }
+.flagged { -color-base: #FF8800; }
+.changed { -color-base: #A8A8FF; }
+.passReady { -color-base: #5DC8CD; }
+.confirmed { -color-base: #A8A8FF; }
+.paidInFull { -color-base: #CCFF00; }
+.overPaid { -color-base: #FF9955; }
+.noDeposit { -color-base: #FFFFFF; }
+.willPay { -color-base: #E0E0E0; }
+.paidUnderMinimal { -color-base: #D3BC5F; }
+.paidEnough { -color-base: #FAFD00; }
+
+/* Stays */
+.nonStay { -stay-color: transparent; }
+.workingVisitStay { -stay-color: #E4399E; }
+.discoveryStay { -stay-color: #FF9A40; }
+.guestStay { -stay-color: #200772; }
+.standardStay { -stay-color: #9276EB; }
+
+/* Payments */
+.pending { -color-base: #E0CDCD; }
+.successful { -color-base: #CCFF00; }
+.failed { -color-base: #FF8080; }
+
+/* Organizations */
+.kmc { -color-base: #dfabfc; }
+.kbc { -color-base: #fdfe96; }
+.branch { -color-base: #cef7ff; }
+.closed { -color-base: #E0CDCD; }
+
+/* .table-row-cell { */
+.abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay .pending, .successful, .failed, .kmc, .kbc, .branch, .closed {
+    -fx-background-color:
+        -fx-table-cell-border-color,
+        linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+        linear-gradient(from 0% 0% to 100% 0%, -stay-color 0%, -stay-color 40%, transparent 50%, transparent 100%);
+    -fx-font-weight: normal;
+}
+
+.table-row-cell:selected {
+    -fx-background-color:
+        -fx-focus-color,
+        -fx-cell-focus-inner-border,
+        linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
+        linear-gradient(from 0% 0% to 100% 0%, -stay-color 0%, -stay-color 40%, transparent 50%, transparent 100%),
+        linear-gradient(from 0px 0px to 5px 10px, reflect, -selection-color 30%, transparent 70%);
+}
+
+.unread, .kmc {
+    -fx-font-weight: bold;
+}
+
+.specialRate, .branch {
+    -fx-font-style: italic;
+}
