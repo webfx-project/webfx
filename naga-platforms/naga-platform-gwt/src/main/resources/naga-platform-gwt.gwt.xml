@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<module rename-to='naga'>
+<module rename-to='naga_platform_gwt'>
 
     <!-- Inherits the Logging API and setting logging properties    -->
     <inherits name="com.google.gwt.logging.Logging"/>

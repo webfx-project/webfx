@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<module rename-to='naga_gui_gwt'>
+<module rename-to='naga_toolkit_gwtpolymer'>
 
     <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
-    <inherits name="naga"/> <!-- refers to naga.gwt.xml in naga-platform-gwt -->
-    <inherits name="com.googlecode.gwt.charts.Charts" />
+    <inherits name="naga-toolkit-gwt"/> <!-- refers to naga-platform-gwt.gwt.xml in naga-platform-gwt -->
+
+    <!-- GWT Polymer -->
+    <inherits name="com.vaadin.polymer.Elements"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga"/>               <!-- source path to naga-core and naga-plat-gwt -->

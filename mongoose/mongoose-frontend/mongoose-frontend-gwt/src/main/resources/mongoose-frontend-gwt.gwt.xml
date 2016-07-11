@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<module rename-to='mongoose_frontend'>
+<module rename-to='mongoose_frontend_gwt'>
 
     <!-- Selecting Polymer as the GUI toolkit (this includes the naga gwt & core modules) -->
-    <inherits name="naga-gui-gwtpolymer"/>
+    <inherits name="naga-toolkit-gwtpolymer"/>
 
     <inherits name="com.google.gwt.resources.Resources" />
 

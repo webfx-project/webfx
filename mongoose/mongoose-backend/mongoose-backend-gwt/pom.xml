@@ -28,20 +28,6 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-platform</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
-        </dependency>
-
-        <dependency>
-            <artifactId>naga-framework</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
-        </dependency>
-
-        <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
             <scope>provided</scope>
@@ -58,7 +44,7 @@
 
     <properties>
         <!-- Setting the GWT plugin configuration parameters -->
-        <plugin.gwt.param.module>mongoose-backend</plugin.gwt.param.module>
+        <plugin.gwt.param.module>mongoose-backend-gwt</plugin.gwt.param.module>
         <plugin.gwt.param.compileSourcesArtifact1>${mongoose.groupId}:mongoose-logic</plugin.gwt.param.compileSourcesArtifact1>
         <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-toolkit-gwtpolymer</plugin.gwt.param.compileSourcesArtifact2>
         <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-toolkit-gwt</plugin.gwt.param.compileSourcesArtifact3>

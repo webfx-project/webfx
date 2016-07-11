@@ -4,16 +4,95 @@
     <meta charset="UTF-8">
     <title>Mongoose Frontend - GWT</title>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <style>
+        /***** Declaring color variables with default values *****/
+        :root {
+            --color-light: white;
+            --color-dark: white;
+            --stay-color: transparent;
+            --selection-color: rgba(137, 169, 210, 0.5);
+        }
+
+        /***** Bookings colors *****/
+        .confirmed          { --color-light: #C2C2FF; --color-dark: #8F8FE6; }
+        .arrived            { --color-light: #23FF1A; --color-dark: #00D600; }
+        .arrivedWithBalance { --color-light: #1BC9FF; --color-dark: #0096D6; }
+        .paidUnderMinimal   { --color-light: #EDD679; --color-dark: #BAA346; }
+        .paidEnough         { --color-light: #FFFF1A; --color-dark: #E1E400; }
+        .paidInFull         { --color-light: #E6FF1A; --color-dark: #B3E600; }
+        .overPaid           { --color-light: #FFB36F; --color-dark: #E6803C; }
+        .willPay            { --color-light: #FAFAFA; --color-dark: #C7C7C7; }
+
+        /***** Stay colors *****/
+        .workingVisitStay   { --stay-color: #E4399E; }
+        .discoveryStay      { --stay-color: #FF9A40; }
+        .guestStay          { --stay-color: #200772; }
+        .standardStay       { --stay-color: #9276EB; }
+
+        /***** Payments colors *****/
+        .pending            { --color-light: #FAE7E7; --color-dark: #C7B4B4; }
+        .successful         { --color-light: #E6FF1A; --color-dark: #E6FF1A; }
+        .failed             { --color-light: #FF9A9A; --color-dark: #E66767; }
+
+        /***** Organizations colors *****/
+        .kmc                { --color-light: #F9C5FF; --color-dark: #C692E3; }
+        .kbc                { --color-light: #FFFFB0; --color-dark: #E4E57D; }
+        .branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
+        .closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
+
+        /**** Aplying styles to vaading grid ****/
+
+        td.vaadin-grid.vaadin-grid-cell {
+            background: transparent;
+        }
+
+        tbody.vaadin-grid:not(.touch):not(.scrolling) .vaadin-grid-row.vaadin-grid:hover td.vaadin-grid {
+            background-color: transparent;
+        }
+
+        .vaadin-grid-row-selected.vaadin-grid td.vaadin-grid {
+            background-color: transparent;
+        }
+
+        tr.vaadin-grid-row-has-data {
+            background: linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
+                        linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
+                        ;
+        }
+
+        tr.vaadin-grid-row-selected.vaadin-grid {
+            background: repeating-linear-gradient(-35deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
+                        linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
+                        linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
+                        ;
+        }
+
+        tr.unread.vaadin-grid-row-has-data {
+            font-weight: bold;
+        }
+
+        tr.specialRate.vaadin-grid-row-has-data {
+            font-style: italic;
+        }
+
+        tr.kmc.vaadin-grid-row-has-data {
+            font-weight: bold;
+        }
+
+        tr.branch.vaadin-grid-row-has-data {
+            font-style: italic;
+        }
+    </style>
 </head>
 <body style="margin: 0;">
-    <table style="position: absolute; width: 100%; height: 100%;">
-        <tr>
-            <td id="preloader" style="text-align: center; vertical-align: middle;">
-                <img src="../naga-abstractplatform-web/images/preloader.gif">
-            </td>
-        </tr>
-    </table>
-    <script type="text/javascript" charset="utf-8" src="../naga-abstractplatform-web/js/sockjs.min.js"></script>
+<table style="position: absolute; width: 100%; height: 100%;">
+    <tr>
+        <td id="preloader" style="text-align: center; vertical-align: middle;">
+            <img src="../naga-abstractplatform-web/images/preloader.gif">
+        </td>
+    </tr>
+</table>
+<script type="text/javascript" charset="utf-8" src="../naga-abstractplatform-web/js/sockjs.min.js"></script>
     <script type="text/javascript" src="js/mongoose_frontend/bower_components/webcomponentsjs/webcomponents.js"></script>
     <script type="text/javascript" src="js/mongoose_frontend/mongoose_frontend.nocache.js"></script>
 </body>
