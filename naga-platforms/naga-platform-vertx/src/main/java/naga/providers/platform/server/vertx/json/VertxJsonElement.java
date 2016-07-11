@@ -1,13 +1,12 @@
 package naga.providers.platform.server.vertx.json;
 
-import io.vertx.core.json.Json;
+import naga.commons.util.Numbers;
+import naga.platform.json.listmap.ListMapBasedJsonElement;
+import naga.platform.json.listmap.MapBasedJsonObject;
 import naga.platform.json.spi.ElementType;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
-import naga.platform.json.listmap.ListMapBasedJsonElement;
-import naga.platform.json.listmap.MapBasedJsonObject;
 import naga.platform.json.spi.WritableJsonArray;
-import naga.commons.util.Numbers;
 
 import java.util.List;
 import java.util.Map;
@@ -16,16 +15,6 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 interface VertxJsonElement extends ListMapBasedJsonElement {
-
-    @Override
-    default io.vertx.core.json.JsonObject parseNativeObject(String text) {
-        return Json.decodeValue(text, io.vertx.core.json.JsonObject.class);
-    }
-
-    @Override
-    default io.vertx.core.json.JsonArray parseNativeArray(String text) {
-        return Json.decodeValue(text, io.vertx.core.json.JsonArray.class);
-    }
 
     @Override
     default ElementType getNativeElementType(Object nativeElement) {
