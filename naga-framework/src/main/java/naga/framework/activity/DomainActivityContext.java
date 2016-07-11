@@ -1,4 +1,4 @@
-package naga.framework.ui.activity;
+package naga.framework.activity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.ActivityContext;
@@ -8,12 +8,20 @@ import naga.platform.activity.ActivityContext;
  */
 public interface DomainActivityContext<C extends DomainActivityContext<C>> extends ActivityContext<C> {
 
-    void setDataSourceModel(DataSourceModel dataSourceModel);
+    C setDataSourceModel(DataSourceModel dataSourceModel);
 
     DataSourceModel getDataSourceModel();
 
     static DomainActivityContext create(ActivityContext parentContext) {
         return new DomainActivityContextImpl(parentContext, DomainActivityContext::create);
+    }
+
+    static DomainActivityContext create(ActivityContext parentContext, DataSourceModel dataSourceModel) {
+        return create(parentContext).setDataSourceModel(dataSourceModel);
+    }
+
+    static DomainActivityContext create(DataSourceModel dataSourceModel) {
+        return create(null, dataSourceModel);
     }
 
 }

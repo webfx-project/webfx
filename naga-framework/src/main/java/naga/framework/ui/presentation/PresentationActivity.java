@@ -1,8 +1,8 @@
 package naga.framework.ui.presentation;
 
 import naga.commons.util.function.Factory;
-import naga.framework.ui.activity.UiDomainActivityContext;
-import naga.framework.ui.activity.UiDomainActivityContextDirectAccess;
+import naga.framework.activity.client.UiDomainActivityContext;
+import naga.framework.activity.client.UiDomainActivityContextDirectAccess;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.platform.activity.Activity;
 import naga.toolkit.spi.Toolkit;

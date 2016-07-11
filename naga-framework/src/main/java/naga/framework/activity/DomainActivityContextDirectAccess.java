@@ -1,4 +1,4 @@
-package naga.framework.ui.activity;
+package naga.framework.activity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.ActivityContextDirectAccess;
@@ -9,8 +9,8 @@ import naga.platform.activity.ActivityContextDirectAccess;
 public interface DomainActivityContextDirectAccess<C extends DomainActivityContext<C>> extends ActivityContextDirectAccess<C>, DomainActivityContext<C> {
 
     @Override
-    default void setDataSourceModel(DataSourceModel dataSourceModel) {
-        getActivityContext().setDataSourceModel(dataSourceModel);
+    default C setDataSourceModel(DataSourceModel dataSourceModel) {
+        return getActivityContext().setDataSourceModel(dataSourceModel);
     }
 
     @Override

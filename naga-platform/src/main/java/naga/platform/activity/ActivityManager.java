@@ -4,7 +4,6 @@ import naga.commons.util.async.AsyncResult;
 import naga.commons.util.async.Future;
 import naga.commons.util.async.Handler;
 import naga.commons.util.function.Factory;
-import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.spi.server.ServerPlatform;
 
 /**
@@ -132,16 +131,12 @@ public class ActivityManager<C extends ActivityContext> {
         return Future.failedFuture("Unknown state"); // Should never occur
     }
 
-    /*public static <C extends ActivityContext> void launchApplication(Activity<C> application, String[] args) {
-        runActivity(application, new ApplicationContext(args));
-    }*/
-
-    public static void startBusCallServerActivity() {
-        startServerActivity(new BusCallServerActivity());
+    public static <C extends ActivityContext> void launchApplication(Activity<C> activity, C context) {
+        runActivity(activity, context);
     }
 
-    public static void startServerActivity(Activity serverActivity) {
-        ServerPlatform.get().startServerActivity(from(serverActivity, new ServerActivityContext()));
+    public static <C extends ActivityContext> void startServerActivity(Activity<C> activity, C context) {
+        ServerPlatform.get().startServerActivity(from(activity, context));
     }
 
     public static <C extends ActivityContext> void runActivity(Activity<C> activity, C context) {

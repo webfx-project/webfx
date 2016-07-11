@@ -1,4 +1,4 @@
-package naga.framework.ui.activity;
+package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
 import naga.platform.activity.ActivityContext;

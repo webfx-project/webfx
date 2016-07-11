@@ -1,5 +1,6 @@
-package naga.framework.ui.activity;
+package naga.framework.activity.client;
 
+import naga.framework.activity.DomainActivityContext;
 import naga.platform.activity.ActivityContext;
 
 /**

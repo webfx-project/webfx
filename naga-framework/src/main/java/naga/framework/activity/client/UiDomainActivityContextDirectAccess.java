@@ -1,4 +1,6 @@
-package naga.framework.ui.activity;
+package naga.framework.activity.client;
+
+import naga.framework.activity.DomainActivityContextDirectAccess;
 
 /**
  * @author Bruno Salmon

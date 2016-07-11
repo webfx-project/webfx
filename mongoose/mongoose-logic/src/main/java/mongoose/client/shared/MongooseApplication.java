@@ -8,8 +8,8 @@ import mongoose.activities.tester.TesterActivity;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.framework.ui.activity.UiDomainActivityContext;
-import naga.framework.ui.activity.UiDomainApplicationContext;
+import naga.framework.activity.client.UiDomainActivityContext;
+import naga.framework.activity.client.UiDomainApplicationContext;
 import naga.framework.ui.format.FormatterRegistry;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
@@ -26,7 +26,6 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
 
     @Override
     public void onCreate(UiDomainActivityContext context) {
-        context.setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel());
         FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
         FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
 
@@ -46,7 +45,6 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
         Platform.setBusOptions(new WebSocketBusOptions().setServerHost("kadampabookings.org").setServerPort("9090"));
-        //ActivityManager.launchApplication(mongooseApplication, args);
-        ActivityManager.runActivity(mongooseApplication, UiDomainApplicationContext.create(args));
+        ActivityManager.launchApplication(mongooseApplication, UiDomainApplicationContext.create(DomainModelSnapshotLoader.getDataSourceModel(), args));
     }
 }

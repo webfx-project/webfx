@@ -1,4 +1,4 @@
-package naga.framework.ui.activity;
+package naga.framework.activity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.ActivityContext;
@@ -10,17 +10,20 @@ import naga.platform.activity.ActivityContextImpl;
  */
 public class DomainActivityContextImpl<C extends DomainActivityContextImpl<C>> extends ActivityContextImpl<C> implements DomainActivityContext<C> {
 
+    private DataSourceModel dataSourceModel;
+
     protected DomainActivityContextImpl(ActivityContext parentContext, ActivityContextFactory<C> contextFactory) {
         super(parentContext, contextFactory);
     }
 
     @Override
-    public void setDataSourceModel(DataSourceModel dataSourceModel) {
-
+    public C setDataSourceModel(DataSourceModel dataSourceModel) {
+        this.dataSourceModel = dataSourceModel;
+        return (C) this;
     }
 
     @Override
     public DataSourceModel getDataSourceModel() {
-        return null;
+        return dataSourceModel;
     }
 }

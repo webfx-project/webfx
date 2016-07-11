@@ -1,11 +1,11 @@
-package naga.framework.ui.activity;
+package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.ApplicationContextImpl;
+import naga.platform.activity.client.ApplicationContextImpl;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;

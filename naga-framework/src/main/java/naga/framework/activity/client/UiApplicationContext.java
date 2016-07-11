@@ -1,6 +1,6 @@
-package naga.framework.ui.activity;
+package naga.framework.activity.client;
 
-import naga.platform.activity.ApplicationContext;
+import naga.platform.activity.client.ApplicationContext;
 
 /**
  * @author Bruno Salmon

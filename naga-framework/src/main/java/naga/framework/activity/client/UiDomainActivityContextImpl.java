@@ -1,4 +1,4 @@
-package naga.framework.ui.activity;
+package naga.framework.activity.client;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.ActivityContext;
@@ -16,8 +16,9 @@ public class UiDomainActivityContextImpl<C extends UiDomainActivityContextImpl<C
     }
 
     @Override
-    public void setDataSourceModel(DataSourceModel dataSourceModel) {
+    public C setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
+        return (C) this;
     }
 
     @Override
