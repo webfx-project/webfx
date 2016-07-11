@@ -93,6 +93,11 @@
                 </configuration>
             </plugin>
 
+            <!-- Generating the source artifact for another GWT compilation (ex: KBS) -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
         </plugins>
     </build>
 </project>
