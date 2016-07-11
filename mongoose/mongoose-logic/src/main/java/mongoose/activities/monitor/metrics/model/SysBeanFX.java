@@ -1,4 +1,4 @@
-package mongoose.activities.tester.metrics.model;
+package mongoose.activities.monitor.metrics.model;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.Property;

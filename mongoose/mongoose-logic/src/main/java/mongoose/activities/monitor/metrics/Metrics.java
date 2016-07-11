@@ -1,10 +1,10 @@
-package mongoose.activities.tester.metrics;
+package mongoose.activities.monitor.metrics;
 
 import javafx.beans.property.ObjectProperty;
-import mongoose.activities.tester.metrics.controller.SystemLookup;
-import mongoose.activities.tester.metrics.controller.SystemLookupMock;
-import mongoose.activities.tester.metrics.model.SysBean;
-import mongoose.activities.tester.metrics.model.SysBeanFX;
+import mongoose.activities.monitor.metrics.controller.SystemLookup;
+import mongoose.activities.monitor.metrics.controller.SystemLookupMock;
+import mongoose.activities.monitor.metrics.model.SysBean;
+import mongoose.activities.monitor.metrics.model.SysBeanFX;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 
