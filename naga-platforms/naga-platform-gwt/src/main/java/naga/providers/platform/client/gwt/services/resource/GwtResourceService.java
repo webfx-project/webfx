@@ -30,6 +30,6 @@ public final class GwtResourceService implements ResourceService {
             if (textResource != null)
                 return Future.succeededFuture(textResource.getText());
         }
-        return null;
+        return Future.succeededFuture(null);
     }
 }
