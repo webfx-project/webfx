@@ -17,7 +17,6 @@
             <artifactId>naga-framework</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
