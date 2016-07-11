@@ -17,23 +17,23 @@
  */
 package naga.platform.spi;
 
-import naga.platform.bus.call.ThreadLocalBusContext;
+import naga.commons.scheduler.Scheduled;
+import naga.commons.scheduler.Scheduler;
+import naga.commons.util.function.Consumer;
+import naga.commons.util.serviceloader.ServiceLoaderHelper;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonFactory;
-import naga.commons.scheduler.Scheduled;
-import naga.commons.scheduler.Scheduler;
-import naga.platform.services.query.spi.QueryService;
-import naga.platform.services.query.remote.RemoteQueryService;
+import naga.platform.bus.call.ThreadLocalBusContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.memory.MemoryHistory;
+import naga.platform.json.Json;
+import naga.platform.json.spi.JsonFactory;
+import naga.platform.services.query.remote.RemoteQueryService;
+import naga.platform.services.query.spi.QueryService;
 import naga.platform.services.resource.spi.ResourceService;
-import naga.platform.services.update.spi.UpdateService;
 import naga.platform.services.update.remote.RemoteUpdateService;
-import naga.commons.util.function.Consumer;
-import naga.commons.util.serviceloader.ServiceLoaderHelper;
+import naga.platform.services.update.spi.UpdateService;
 
 /**
  * Generic platform class. New platforms are defined as extension of this abstract class.

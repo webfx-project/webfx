@@ -1,5 +1,6 @@
 package naga.platform.client.bus;
 
+import naga.commons.util.Objects;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.BusOptions;
 
@@ -27,13 +28,25 @@ public class WebSocketBusOptions extends BusOptions {
     private JsonObject socketOptions;
 
     @Override
-    public BusOptions turnUnsetPropertiesToDefault() {
-        protocol = getValue(protocol, Protocol.WS);
-        serverSSL = getValue(serverSSL, Boolean.FALSE);
-        serverHost = getValue(serverHost, "localhost");
-        serverPort = getValue(serverPort, "80");
-        pingInterval = getValue(pingInterval, 5 * 1000);
-        return super.turnUnsetPropertiesToDefault();
+    public WebSocketBusOptions turnUnsetPropertiesToDefault() {
+        protocol = Objects.coalesce(protocol, Protocol.WS);
+        serverSSL = Objects.coalesce(serverSSL, Boolean.FALSE);
+        serverHost = Objects.coalesce(serverHost, "localhost");
+        serverPort = Objects.coalesce(serverPort, "80");
+        pingInterval = Objects.coalesce(pingInterval, 5 * 1000);
+        super.turnUnsetPropertiesToDefault();
+        return this;
+    }
+
+    @Override
+    public WebSocketBusOptions applyJson(JsonObject json) {
+        super.applyJson(json);
+        protocol = Protocol.valueOf(json.getString("protocol", protocol.name()));
+        serverSSL = json.getBoolean("serverSSL", serverSSL);
+        serverHost = json.getString("serverHost", serverHost);
+        serverPort = json.getString("serverPort", serverHost);
+        pingInterval = json.getInt("pingInterval", pingInterval);
+        return this;
     }
 
     public Protocol getProtocol() {

@@ -14,8 +14,6 @@ import naga.framework.ui.format.FormatterRegistry;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
-import naga.platform.client.bus.WebSocketBusOptions;
-import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -44,7 +42,6 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
     }
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
-        Platform.setBusOptions(new WebSocketBusOptions().setServerHost("kadampabookings.org").setServerPort("9090"));
         ActivityManager.launchApplication(mongooseApplication, UiDomainApplicationContext.create(DomainModelSnapshotLoader.getDataSourceModel(), args));
     }
 }
