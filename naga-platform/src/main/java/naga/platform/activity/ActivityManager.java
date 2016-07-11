@@ -36,12 +36,13 @@ public class ActivityManager<C extends ActivityContext> {
     }
 
     private ActivityManager(Activity<C> activity, C context) {
-        this(activity, context.getActivityContextFactory());
+        this(activity, context == null ? null: context.getActivityContextFactory());
         init(context);
     }
 
     private void init(C context) {
-        ActivityContextImpl.from(context).setActivityManager(this);
+        if (context != null)
+            ActivityContextImpl.from(context).setActivityManager(this);
         this.context = context;
     }
 
