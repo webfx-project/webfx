@@ -113,8 +113,6 @@ public class ActivityManager<C extends ActivityContext> {
     private Future<Void> onStateChanged(State newState) {
         switch (currentState = newState) {
             case CREATED:
-                if (context == null)
-                    return Future.failedFuture("Activity context is not set");
                 if (activity == null)
                     activity = activityFactory.create();
                 return activity.onCreateAsync(context);
