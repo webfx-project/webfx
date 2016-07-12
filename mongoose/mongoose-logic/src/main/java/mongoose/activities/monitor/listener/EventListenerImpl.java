@@ -1,5 +1,6 @@
-package mongoose.activities.tester.listener;
+package mongoose.activities.monitor.listener;
 
+import mongoose.activities.monitor.metrics.model.MemData;
 import naga.platform.spi.Platform;
 
 /**
@@ -8,6 +9,7 @@ import naga.platform.spi.Platform;
 public class EventListenerImpl implements EventListener {
     private static final EventListener instance = new EventListenerImpl();   // singleton
     private int requested, started, connected;
+    private MemData memData;
 
     public static EventListener getInstance() {
         return instance;
@@ -33,6 +35,9 @@ public class EventListenerImpl implements EventListener {
             case NOT_CONNECTED:
                 connected --;
                 break;
+            case SYSTEM:
+                // TODO  onEvent SYSTEM : mettre à jour le SysBeanFX lu par MemeCharGenerator.
+                memData = event.
             default:
                 Platform.log("Event type unkwon !");
         }
