@@ -36,8 +36,7 @@ public class EventListenerImpl implements EventListener {
                 connected --;
                 break;
             case SYSTEM:
-                // TODO  onEvent SYSTEM : mettre à jour le SysBeanFX lu par MemeCharGenerator.
-                memData = event.
+                memData = (MemData)event.getObject();
             default:
                 Platform.log("Event type unkwon !");
         }
@@ -56,5 +55,10 @@ public class EventListenerImpl implements EventListener {
     @Override
     public int getConnected() {
         return connected;
+    }
+
+    @Override
+    public MemData getMemData() {
+        return memData;
     }
 }
