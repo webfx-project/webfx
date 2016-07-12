@@ -3,7 +3,7 @@ package mongoose.activities.tester;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.Drive;
-import mongoose.activities.tester.drive.model.ChartData;
+import mongoose.activities.tester.drive.model.ConnectionData;
 import mongoose.activities.tester.drive.model.ConnectionChartGenerator;
 import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import mongoose.activities.monitor.metrics.Metrics;
@@ -29,7 +29,7 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
     }
 
     private final ObjectProperty<SysBeanFX> sbfx = new SimpleObjectProperty<>();
-    private ObjectProperty<ChartData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
+    private ObjectProperty<ConnectionData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
 
     protected TesterViewModel buildView(Toolkit toolkit) {
         // TextFields

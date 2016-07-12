@@ -2,10 +2,11 @@ package mongoose.activities.monitor;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.activities.tester.drive.model.ChartData;
-import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import mongoose.activities.monitor.metrics.Metrics;
+import mongoose.activities.monitor.metrics.model.MemChartGenerator;
 import mongoose.activities.monitor.metrics.model.SysBeanFX;
+import mongoose.activities.tester.drive.model.ConnectionData;
+import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
@@ -27,7 +28,7 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
     }
 
     private final ObjectProperty<SysBeanFX> sbfx = new SimpleObjectProperty<>();
-    private ObjectProperty<ChartData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
+    private ObjectProperty<ConnectionData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
 
     protected MonitorViewModel buildView(Toolkit toolkit) {
         // TextFields
@@ -73,13 +74,10 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         // Metrics
         Metrics metrics = Metrics.getInstance();
         metrics.setSbfx(sbfx);
-//        metrics.start(false);
-        // Drive
-//        Drive drive = Drive.getInstance();
-//        drive.start(true);
+        metrics.start(false);    // snapshots of the system
         // Charts
-//        MemChartGenerator memChart = new MemChartGenerator();
-//        memChart.start();
-//        pm.chartDisplayResultSetProperty().bind(memChart.memListProperty());
+        MemChartGenerator memChart = new MemChartGenerator();
+        memChart.start();        // update the list of snapshots to display on chart
+        pm.chartDisplayResultSetProperty().bind(memChart.memListProperty());
     }
 }
