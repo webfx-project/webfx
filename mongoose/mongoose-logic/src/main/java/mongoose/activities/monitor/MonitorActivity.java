@@ -4,7 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.monitor.metrics.Metrics;
 import mongoose.activities.monitor.metrics.model.MemChartGenerator;
-import mongoose.activities.monitor.metrics.model.SysBeanFX;
+import mongoose.activities.monitor.metrics.model.MemData;
 import mongoose.activities.tester.drive.model.ConnectionData;
 import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import naga.framework.ui.presentation.PresentationActivity;
@@ -27,7 +27,7 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         super(MonitorPresentationModel::new);
     }
 
-    private final ObjectProperty<SysBeanFX> sbfx = new SimpleObjectProperty<>();
+    private final ObjectProperty<MemData> memData = new SimpleObjectProperty<>();
     private ObjectProperty<ConnectionData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
 
     protected MonitorViewModel buildView(Toolkit toolkit) {
@@ -73,7 +73,7 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
     protected void bindPresentationModelWithLogic(MonitorPresentationModel pm) {
         // Metrics
         Metrics metrics = Metrics.getInstance();
-        metrics.setSbfx(sbfx);
+        metrics.setMemData(memData);
         metrics.start(false);    // snapshots of the system
         // Charts
         MemChartGenerator memChart = new MemChartGenerator();
