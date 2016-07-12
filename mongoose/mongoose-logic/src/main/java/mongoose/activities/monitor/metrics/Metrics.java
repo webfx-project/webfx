@@ -3,6 +3,7 @@ package mongoose.activities.monitor.metrics;
 import javafx.beans.property.ObjectProperty;
 import mongoose.activities.monitor.metrics.controller.SystemLookup;
 import mongoose.activities.monitor.metrics.controller.SystemLookupMock;
+import mongoose.activities.monitor.metrics.model.MemData;
 import mongoose.activities.monitor.metrics.model.SysBean;
 import mongoose.activities.monitor.metrics.model.SysBeanFX;
 import naga.platform.spi.Platform;
@@ -18,6 +19,7 @@ public class Metrics {
 
     private SystemLookup sysMon = new SystemLookupMock();
     private ObjectProperty<SysBeanFX> sbfx;
+    private ObjectProperty<MemData> memData;
     private boolean cancelled;
 
     private Metrics() {}
@@ -34,13 +36,13 @@ public class Metrics {
             while (!cancelled) {
                 SysBean sb = sysMon.snapshot();
                 current = System.currentTimeMillis();
+                // Display results on the UI
+                Toolkit.get().scheduler().scheduleDeferred(() -> memData.set(new MemData(sb)));
                 // Display results on the console (optional)
                 if (mode_console) {
                     sb.printState();
                     Platform.log("elapsed time : "+ (current - start)+" ms");
                 }
-                // Display results on the UI
-                Toolkit.get().scheduler().scheduleDeferred(() -> sbfx.set(new SysBeanFX(sb)));
             }
             cancelled = false;
         });
@@ -56,5 +58,17 @@ public class Metrics {
 
     public void setSbfx(ObjectProperty<SysBeanFX> sbfx) {
         this.sbfx = sbfx;
+    }
+
+    public MemData getMemData() {
+        return memData.get();
+    }
+
+    public ObjectProperty<MemData> memDataProperty() {
+        return memData;
+    }
+
+    public void setMemData(ObjectProperty<MemData> memData) {
+        this.memData = memData;
     }
 }
