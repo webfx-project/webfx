@@ -33,27 +33,27 @@ public interface Entity {
     /**
      * Return the field value as a boolean. If the type is not a boolean, this can result in runtime errors.
      */
-    default boolean getBooleanFieldValue(Object domainFieldId) { return Booleans.booleanValue(getFieldValue(domainFieldId)); }
+    default Boolean getBooleanFieldValue(Object domainFieldId) { return Booleans.toBoolean(getFieldValue(domainFieldId)); }
 
     /**
      * Return the field value as a String. If the type is not a String, this can result in runtime errors.
      */
-    default String getStringFieldValue(Object domainFieldId) { return Strings.stringValue(getFieldValue(domainFieldId)); }
+    default String getStringFieldValue(Object domainFieldId) { return Strings.toString(getFieldValue(domainFieldId)); }
 
     /**
      * Return the field value as a int. If the type is not a int, this can result in runtime errors.
      */
-    default int getIntFieldValue(Object domainFieldId) { return Numbers.intValue(getFieldValue(domainFieldId)); }
+    default Integer getIntFieldValue(Object domainFieldId) { return Numbers.toInteger(getFieldValue(domainFieldId)); }
 
     /**
      * Return the field value as a long. If the type is not a long, this can result in runtime errors.
      */
-    default long getLongFieldValue(Object domainFieldId) { return Numbers.longValue(getFieldValue(domainFieldId)); }
+    default Long getLongFieldValue(Object domainFieldId) { return Numbers.toLong(getFieldValue(domainFieldId)); }
 
     /**
      * Return the field value as a double. If the type is not a double, this can result in runtime errors.
      */
-    default double getDoubleFieldValue(Object domainFieldId) { return Numbers.doubleValue(getFieldValue(domainFieldId)); }
+    default Double getDoubleFieldValue(Object domainFieldId) { return Numbers.toDouble(getFieldValue(domainFieldId)); }
 
     /**
      * Set the value of an entity field
