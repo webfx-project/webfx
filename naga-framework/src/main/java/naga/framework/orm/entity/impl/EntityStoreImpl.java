@@ -19,7 +19,7 @@ public class EntityStoreImpl implements EntityStore {
     private final Map<Object, EntityList> entityLists = new HashMap<>();
     private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
 
-    // Id management
+    // EntityId management
 
     @Override
     public EntityId getEntityId(Object domainClassId, Object primaryKey) {
@@ -29,27 +29,35 @@ public class EntityStoreImpl implements EntityStore {
     // Entity management
 
     @Override
-    public Entity getEntity(EntityId entityId) {
-        return entities.get(entityId);
+    public <E extends Entity> E getEntity(EntityId entityId) {
+        return (E) entities.get(entityId);
     }
 
     @Override
-    public Entity getOrCreateEntity(EntityId id) {
-        Entity entity = getEntity(id);
-        if (entity == null)
-            entities.put(id, entity = createEntity(id));
-        return entity;
+    public <E extends Entity> E getOrCreateEntity(Class<E> entityClass, Object primaryKey) {
+        return getOrCreateEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass), primaryKey);
     }
 
     @Override
-    public Entity getOrCreateEntity(Object domainClassId, Object primaryKey) {
+    public <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey) {
         if (primaryKey == null)
             return null;
         return getOrCreateEntity(getEntityId(domainClassId, primaryKey));
     }
 
-    protected Entity createEntity(EntityId id) {
-        return new DynamicEntity(id, this);
+    @Override
+    public <E extends Entity> E getOrCreateEntity(EntityId id) {
+        E entity = getEntity(id);
+        if (entity == null)
+            entities.put(id, entity = createEntity(id));
+        return entity;
+    }
+
+    protected <E extends Entity> E createEntity(EntityId id) {
+        EntityFactory<E> entityFactory = EntityFactoryRegistry.getEntityFactory(id.getDomainClassId());
+        if (entityFactory != null)
+            return entityFactory.createEntity(id, this);
+        return (E) new DynamicEntity(id, this);
     }
 
     // EntityList management

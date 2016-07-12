@@ -17,7 +17,7 @@ public class DynamicEntity implements Entity {
     private final EntityStore store;
     private final Map<Object, Object> fieldValues = new HashMap<>();
 
-    DynamicEntity(EntityId id, EntityStore store) {
+    protected DynamicEntity(EntityId id, EntityStore store) {
         this.id = id;
         this.store = store;
     }

@@ -1,5 +1,6 @@
 package naga.framework.orm.entity.impl;
 
+import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.EntityId;
 
 /**
@@ -11,6 +12,8 @@ public class EntityIdImpl implements EntityId {
     private final Object primaryKey;
 
     public EntityIdImpl(Object domainClassId, Object primaryKey) {
+        if (domainClassId instanceof DomainClass)
+            domainClassId = ((DomainClass) domainClassId).getModelId();
         this.domainClassId = domainClassId;
         this.primaryKey = primaryKey;
     }
@@ -53,5 +56,4 @@ public class EntityIdImpl implements EntityId {
         result = 31 * result + (primaryKey != null ? primaryKey.hashCode() : 0);
         return result;
     }
-
 }

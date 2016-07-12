@@ -10,18 +10,21 @@ import naga.framework.expression.Expression;
  */
 public interface EntityStore {
 
-    // Id management
+    // EntityId management
 
     EntityId getEntityId(Object domainClassId, Object primaryKey);
 
 
     // Entity management
 
-    Entity getEntity(EntityId entityId);
+    <E extends Entity> E getEntity(EntityId entityId);
 
-    Entity getOrCreateEntity(EntityId id);
+    <E extends Entity> E getOrCreateEntity(Class<E> entityClass, Object primaryKey);
 
-    Entity getOrCreateEntity(Object domainClassId, Object primaryKey);
+    <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey);
+
+    <E extends Entity> E getOrCreateEntity(EntityId id);
+
 
 
     // EntityList management
