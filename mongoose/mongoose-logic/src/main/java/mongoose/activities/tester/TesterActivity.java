@@ -94,26 +94,4 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         connectionChart.start();
         pm.chartDisplayResultSetProperty().bind(connectionChart.connectionListProperty());
     }
-
-    public void setListeners (TesterViewModel vm) {
-        // Metrics
-//        sbfx.addListener((observable, oldValue, newValue) -> {
-//            sysTableView.getTableView().getItems().add(newValue);
-//            systemChartView.scrollSeries();
-//            systemChartView.addValues(newValue);
-//        });
-
-        // Linking system table and fields
-//        sysGridView.bind(sysBean);       // We bind the GridView on a SysBeanFX object driven by the selected item of the table
-//        sysTableView.getTableView().getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue)-> {
-//            sysBean.set(newValue);
-//        });
-
-        // Charts
-//        connectionsToDisplay.addListener((observable, oldValue, newValue) -> {
-//            int size = EventListenerImpl.getInstance().getConnectionList().size();
-//            DisplayResultSet rs = ConnectionChartGenerator.createDisplayResultSet(size, EventListenerImpl.getInstance().getConnectionList());
-//            vm.getConnectionsChart().setDisplayResultSet(rs);
-//        });
-    }
 }
