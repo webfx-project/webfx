@@ -5,7 +5,7 @@ package mongoose.activities.monitor.listener;
  */
 public class EventBase implements Event {
     private long idEvent;
-    private long idObject;
+    private Object object;
     private EventType type;
     private int val;
     private long eventTime;
@@ -35,15 +35,28 @@ public class EventBase implements Event {
         return eventTime;
     }
 
+    @Override
     public void setEventTime(long eventTime) {
         this.eventTime = eventTime;
     }
 
+    @Override
     public long getIdEvent() {
         return idEvent;
     }
 
+    @Override
     public void setIdEvent(long idEvent) {
         this.idEvent = idEvent;
+    }
+
+    @Override
+    public Object getObject() {
+        return object;
+    }
+
+    @Override
+    public void setObject(Object object) {
+        this.object = object;
     }
 }
