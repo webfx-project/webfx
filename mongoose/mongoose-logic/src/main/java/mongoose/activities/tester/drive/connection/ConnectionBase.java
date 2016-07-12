@@ -1,9 +1,9 @@
 package mongoose.activities.tester.drive.connection;
 
 
-import mongoose.activities.tester.listener.ConnectionEvent;
-import mongoose.activities.tester.listener.EventListener;
-import mongoose.activities.tester.listener.EventListenerImpl;
+import mongoose.activities.monitor.listener.ConnectionEvent;
+import mongoose.activities.monitor.listener.EventListener;
+import mongoose.activities.monitor.listener.EventListenerImpl;
 import naga.platform.spi.Platform;
 
 import java.util.ArrayList;

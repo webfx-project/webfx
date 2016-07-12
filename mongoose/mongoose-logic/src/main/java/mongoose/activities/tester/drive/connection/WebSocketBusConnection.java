@@ -1,8 +1,8 @@
 package mongoose.activities.tester.drive.connection;
 
 import mongoose.activities.tester.drive.command.Command;
-import mongoose.activities.tester.listener.ConnectionEvent;
-import mongoose.activities.tester.listener.EventType;
+import mongoose.activities.monitor.listener.ConnectionEvent;
+import mongoose.activities.monitor.listener.EventType;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.client.bus.WebSocketBus;
 import naga.platform.json.spi.JsonObject;

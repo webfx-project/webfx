@@ -2,7 +2,7 @@ package mongoose.activities.tester.drive.connection;
 
 
 import mongoose.activities.tester.drive.command.Command;
-import mongoose.activities.tester.listener.ConnectionEvent;
+import mongoose.activities.monitor.listener.ConnectionEvent;
 
 import java.util.List;
 

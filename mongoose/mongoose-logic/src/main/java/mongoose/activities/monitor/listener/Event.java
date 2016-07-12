@@ -1,4 +1,4 @@
-package mongoose.activities.tester.listener;
+package mongoose.activities.monitor.listener;
 
 /**
  * @author Jean-Pierre Alonso.
