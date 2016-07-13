@@ -4,7 +4,6 @@ import naga.commons.util.Booleans;
 import naga.framework.expression.Expression;
 import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.terms.*;
-import naga.framework.orm.domainmodel.lciimpl.ParserDomainModelReaderImpl;
 import naga.toolkit.display.HasLabel;
 import naga.toolkit.display.Label;
 
@@ -31,8 +30,6 @@ public class DomainClass implements HasLabel {
     private final Map<Object /* modelId or name */, DomainField> fieldMap;
     private final Map<String /* sql column */, DomainField> sqlMap;
     private final Map<Object /* modelId or name */, FieldsGroup> fieldsGroupMap;
-
-    private Delete deleteWhereId;
 
     public DomainClass(DomainModel domainModel, Object id, Object modelId, String name, String sqlTableName, String idColumnName, Label label, String foreignFieldsDefinition, String searchCondition, String css, String styleClassesExpressionArrayDefinition, Map<Object, DomainField> fieldMap, Map<String, DomainField> sqlMap, Map<Object, FieldsGroup> fieldsGroupMap, String fxmlForm) {
         this.domainModel = domainModel;
@@ -130,18 +127,10 @@ public class DomainClass implements HasLabel {
     }
 
     public Expression parseExpression(String definition) {
-        return definition == null ? null : ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(domainModel), false);
+        return definition == null ? null : ExpressionParser.parseExpression(definition, this, domainModel.getParserDomainModelReader(), false);
     }
 
     public ExpressionArray parseExpressionArray(String definition) {
-        return definition == null ? null : (ExpressionArray) ExpressionParser.parseExpression(definition, this, new ParserDomainModelReaderImpl(domainModel), true);
-    }
-
-    public final static Expression WHERE_ID_EQUALS_PARAM = new Equals(IdExpression.singleton, Parameter.UNNAMED_PARAMETER);
-
-    public Delete getDeleteWhereId() {
-        if (deleteWhereId == null)
-            deleteWhereId = new Delete(this, null, WHERE_ID_EQUALS_PARAM);
-        return deleteWhereId;
+        return definition == null ? null : (ExpressionArray) ExpressionParser.parseExpression(definition, this, domainModel.getParserDomainModelReader(), true);
     }
 }
