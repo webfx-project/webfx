@@ -11,6 +11,7 @@ import naga.framework.activity.client.UiDomainApplicationContext;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -37,6 +38,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
     }
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
+        Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (before loading the model which takes time)
         ActivityManager.launchApplication(mongooseApplication, UiDomainApplicationContext.create(DomainModelSnapshotLoader.getDataSourceModel(), args));
     }
 }
