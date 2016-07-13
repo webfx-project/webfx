@@ -19,17 +19,17 @@ public class SysBean {
     private int availableProcessors;
 
     static long MB = 1024*1024;
-    public static long NANO = 1000000;
+    static long NANO = 1000000;
 
     public void printState() {
 
-        Platform.log("commited : " + getCommittedMem() / MB + " MB");
-        Platform.log("total    : " + getTotalMem() / MB + " MB");
-        Platform.log("total 1  : " + getTotalMem());
-        Platform.log("used     : " + getUsedMem() / MB + " MB");
-        Platform.log("free     : " + getFreeMem() / MB + " MB\n");
-        Platform.log("sys max  : " + getMaxMem() / MB + " MB");
-        Platform.log("sys free : " + getFreePhMem() / MB + " MB\n");
+        Platform.log("commited : " + getCommittedMem() + " MB");
+        Platform.log("total    : " + getTotalMem() + " MB");
+//        Platform.log("total 1  : " + getTotalMem());
+        Platform.log("used     : " + getUsedMem() + " MB");
+        Platform.log("free     : " + getFreeMem() + " MB\n");
+        Platform.log("sys max  : " + getMaxMem() + " MB");
+        Platform.log("sys free : " + getFreePhMem() + " MB\n");
 //        Platform.log("proc     : " + sb.getAvailableProcessors());
         Platform.log("sys load : " + getSysLoad());
         Platform.log("cpu load : " + (getCpuLoad()*100) + " %");
