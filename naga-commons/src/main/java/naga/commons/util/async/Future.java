@@ -149,7 +149,7 @@ public class Future<T> implements AsyncResult<T> {
     }
 
     /**
-     * Did it succeeed?
+     * Did it succeed?
      */
     public boolean succeeded() {
         return succeeded;
@@ -207,7 +207,11 @@ public class Future<T> implements AsyncResult<T> {
 
     private void checkCallHandler() {
         if (handler != null && isComplete()) {
-            handler.handle(this);
+            try {
+                handler.handle(this);
+            } catch (Throwable t) { // Tracing any uncaught exception from the handler
+                t.printStackTrace();
+            }
         }
     }
 

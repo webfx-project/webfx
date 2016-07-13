@@ -1,17 +1,18 @@
 package naga.providers.platform.abstr.web;
 
+import naga.commons.scheduler.Scheduler;
+import naga.platform.bus.BusFactory;
+import naga.platform.bus.BusOptions;
 import naga.platform.client.bus.ReconnectBus;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.location.WindowLocation;
 import naga.platform.client.websocket.WebSocketFactory;
+import naga.platform.json.Json;
 import naga.platform.json.spi.JsonFactory;
-import naga.platform.bus.BusFactory;
-import naga.platform.bus.BusOptions;
-import naga.platform.spi.client.ClientPlatform;
-import naga.platform.spi.Platform;
 import naga.platform.services.resource.spi.ResourceService;
-import naga.commons.scheduler.Scheduler;
+import naga.platform.spi.Platform;
+import naga.platform.spi.client.ClientPlatform;
 
 /**
  * @author Bruno Salmon
@@ -36,6 +37,11 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
     @Override
     public BusFactory busFactory() { // busFactory() ClientPlatform default method doesn't work to implement Platform one
         return ReconnectBus::new; // So repeating it again...
+    }
+
+    @Override
+    public BusOptions createBusOptions() { // ClientPlatform default method doesn't work while extending JavaPlatform
+        return new WebSocketBusOptions(); // So repeating it again...
     }
 
     @Override
@@ -79,5 +85,8 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
             socketBusOptions.setServerPort(port);
         }
         super.setPlatformBusOptions(options);
+        String json = resourceService().getText("naga/platform/client/bus/BusOptions.json").result();
+        if (json != null)
+            options.applyJson(Json.parseObject(json));
     }
 }

@@ -19,10 +19,11 @@
         <!-- Commented as not working on it for now (avoiding long GWT compilation)
         <module>mongoose-frontend</module>
         -->
+        <module>mongoose-vertx</module>
     </modules>
 
     <properties>
-        <!-- Mongoose groupId & version -->
+        <!-- Mongoose groupId & version (same as naga for now) -->
         <mongoose.groupId>${naga.groupId}</mongoose.groupId>
         <mongoose.version>${naga.version}</mongoose.version>
     </properties>

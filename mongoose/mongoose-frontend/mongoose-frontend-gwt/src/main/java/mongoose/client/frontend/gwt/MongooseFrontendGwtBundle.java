@@ -15,9 +15,13 @@ public interface MongooseFrontendGwtBundle extends ClientBundle {
     @Source("mongoose/domainmodel/DomainModelSnapshot.lzb64json")
     TextResource lzBase64DomainModelSnapshot();
 
+    @Source("naga/platform/client/bus/BusOptions.json")
+    TextResource jsonClientBusOptions();
+
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
             case "mongoose/domainmodel/DomainModelSnapshot.lzb64json": return R.lzBase64DomainModelSnapshot();
+            case "naga/platform/client/bus/BusOptions.json": return R.jsonClientBusOptions();
             default: return null;
         }
     };

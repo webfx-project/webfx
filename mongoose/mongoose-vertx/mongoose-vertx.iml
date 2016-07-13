@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="mongoose-logic" />
+    <orderEntry type="module" module-name="naga-framework" />
+    <orderEntry type="module" module-name="naga-platform" />
+    <orderEntry type="module" module-name="naga-commons" />
+    <orderEntry type="module" module-name="naga-toolkit" />
+    <orderEntry type="module" module-name="naga-platform-vertx" />
+    <orderEntry type="module" module-name="naga-abstractplatform-java" />
+    <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
+    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http2:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-dns:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.4" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-mysql-postgresql-client:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-sql-common:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.7" level="project" />
+    <orderEntry type="library" name="Maven: com.github.mauricio:postgresql-async_2.11:0.2.20" level="project" />
+    <orderEntry type="library" name="Maven: com.github.mauricio:db-async-common_2.11:0.2.20" level="project" />
+    <orderEntry type="library" name="Maven: joda-time:joda-time:2.9.2" level="project" />
+    <orderEntry type="library" name="Maven: org.joda:joda-convert:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
+    <orderEntry type="library" name="Maven: com.github.mauricio:mysql-async_2.11:0.2.20" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-jdbc-client:3.3.0" level="project" />
+    <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.2" level="project" />
+    <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-api:1.7.15" level="project" />
+  </component>
+</module>

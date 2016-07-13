@@ -1,14 +1,15 @@
 package naga.framework.orm.domainmodel;
 
-import naga.framework.orm.domainmodel.lciimpl.CompilerDomainModelReaderImpl;
-import naga.framework.orm.domainmodel.lciimpl.ParserDomainModelReaderImpl;
 import naga.framework.expression.Expression;
-import naga.framework.expression.terms.ExpressionArray;
-import naga.framework.expression.terms.Select;
+import naga.framework.expression.lci.CompilerDomainModelReader;
 import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
 import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
+import naga.framework.expression.terms.ExpressionArray;
+import naga.framework.expression.terms.Select;
+import naga.framework.orm.domainmodel.lciimpl.CompilerDomainModelReaderImpl;
+import naga.framework.orm.domainmodel.lciimpl.ParserDomainModelReaderImpl;
 
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import java.util.Map;
 public class DomainModel {
     private final Object id;
     private final Map<Object /* id, modelId, name or sqlTable */, DomainClass> classMap;
+    private final CompilerDomainModelReader compilerDomainModelReader = new CompilerDomainModelReaderImpl(this);
+    private final ParserDomainModelReaderImpl parserDomainModelReader = new ParserDomainModelReaderImpl(this);
 
     public DomainModel(Object id, Map<Object, DomainClass> classMap) {
         this.id = id;
@@ -34,16 +37,24 @@ public class DomainModel {
         return classMap.get(classId);
     }
 
+    public CompilerDomainModelReader getCompilerDomainModelReader() {
+        return compilerDomainModelReader;
+    }
+
+    public ParserDomainModelReaderImpl getParserDomainModelReader() {
+        return parserDomainModelReader;
+    }
+
     public Expression parseExpression(String definition, Object classId) {
-        return ExpressionParser.parseExpression(definition, classId, new ParserDomainModelReaderImpl(this));
+        return ExpressionParser.parseExpression(definition, classId, parserDomainModelReader);
     }
 
     public ExpressionArray parseExpressionArray(String definition, Object classId) {
-        return ExpressionParser.parseExpressionArray(definition, classId, new ParserDomainModelReaderImpl(this));
+        return ExpressionParser.parseExpressionArray(definition, classId, parserDomainModelReader);
     }
 
     public Select parseSelect(String definition) {
-        return ExpressionParser.parseSelect(definition, new ParserDomainModelReaderImpl(this));
+        return ExpressionParser.parseSelect(definition, parserDomainModelReader);
     }
 
     public SqlCompiled compileSelect(String stringSelect) {
@@ -59,7 +70,7 @@ public class DomainModel {
     }
 
     public SqlCompiled compileSelect(Select select, Object[] parameterValues) {
-        return ExpressionSqlCompiler.compileSelect(select, parameterValues, DbmsSqlSyntaxOptions.POSTGRES_SYNTAX, true, true, CompilerDomainModelReaderImpl.SINGLETON);
+        return ExpressionSqlCompiler.compileSelect(select, parameterValues, DbmsSqlSyntaxOptions.POSTGRES_SYNTAX, true, true, compilerDomainModelReader);
     }
 
     public static String toSqlString(String logicalName) {

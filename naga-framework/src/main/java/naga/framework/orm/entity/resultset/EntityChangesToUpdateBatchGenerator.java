@@ -8,7 +8,8 @@ import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
 import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.expression.terms.*;
-import naga.framework.orm.domainmodel.lciimpl.CompilerDomainModelReaderImpl;
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityId;
 import naga.platform.services.update.UpdateArgument;
 
@@ -25,12 +26,16 @@ public class EntityChangesToUpdateBatchGenerator {
     private EntityChangesToUpdateBatchGenerator() {
     }
 
-    public static Batch<UpdateArgument> generateUpdateBatch(EntityChanges changes, Object dataSourceId) {
-        return generateUpdateBatch(changes, dataSourceId, DbmsSqlSyntaxOptions.POSTGRES_SYNTAX, null, CompilerDomainModelReaderImpl.SINGLETON);
+    public static Batch<UpdateArgument> generateUpdateBatch(EntityChanges changes, DataSourceModel dataSourceModel) {
+        return generateUpdateBatch(changes, dataSourceModel.getId(), DbmsSqlSyntaxOptions.POSTGRES_SYNTAX, dataSourceModel.getDomainModel());
+    }
+
+    public static Batch<UpdateArgument> generateUpdateBatch(EntityChanges changes, Object dataSourceId, DbmsSqlSyntaxOptions dbmsSyntax, DomainModel domainModel) {
+        return generateUpdateBatch(changes, dataSourceId, dbmsSyntax, domainModel.getParserDomainModelReader(), domainModel.getCompilerDomainModelReader());
     }
 
     public static Batch<UpdateArgument> generateUpdateBatch(EntityChanges changes, Object dataSourceId, DbmsSqlSyntaxOptions dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader) {
-        return new BatchGenerator(changes, dataSourceId, dbmsSyntax, parserModelReader, compilerModelReader).generate();
+        return new BatchGenerator(changes, dataSourceId, dbmsSyntax, compilerModelReader).generate();
     }
 
     private static class BatchGenerator {
@@ -40,15 +45,13 @@ public class EntityChangesToUpdateBatchGenerator {
         private final EntityChanges changes;
         private final Object dataSourceId;
         private final DbmsSqlSyntaxOptions dbmsSyntax;
-        private final ParserDomainModelReader parserModelReader;
         private final CompilerDomainModelReader compilerModelReader;
         private final List<UpdateArgument> updateArguments = new ArrayList<>();
 
-        public BatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntaxOptions dbmsSyntax, ParserDomainModelReader parserModelReader, CompilerDomainModelReader compilerModelReader) {
+        public BatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader compilerModelReader) {
             this.changes = changes;
             this.dataSourceId = dataSourceId;
             this.dbmsSyntax = dbmsSyntax;
-            this.parserModelReader = parserModelReader;
             this.compilerModelReader = compilerModelReader;
         }
 
@@ -66,17 +69,14 @@ public class EntityChangesToUpdateBatchGenerator {
             if (deletedEntities != null && !deletedEntities.isEmpty()) {
                 List<EntityId> deletedList = new ArrayList<>(deletedEntities);
                 // Sorting according to classes references
-                Collections.sort(deletedList, (id1, id2) -> {
-                    Object classId1 = id1.getDomainClassId();
-                    return (classId1 instanceof Comparable) ? - ((Comparable) classId1).compareTo(id2.getDomainClassId()) : 0;
-                });
+                Collections.sort(deletedList, (id1, id2) -> id1.getDomainClass().getName().compareTo(id2.getDomainClass().getName()));
                 for (EntityId deletedId : deletedList) // java 8 forEach doesn't compile with GWT
                     generateDelete(deletedId);
             }
         }
 
         void generateDelete(EntityId id) {
-            Delete delete = new Delete(id.getDomainClassId(), null, WHERE_ID_EQUALS_PARAM);
+            Delete delete = new Delete(id.getDomainClass(), null, WHERE_ID_EQUALS_PARAM);
             Object[] parameterValues = {id.getPrimaryKey()};
             addToBatch(compileDelete(delete, parameterValues), parameterValues);
         }
@@ -91,13 +91,18 @@ public class EntityChangesToUpdateBatchGenerator {
                 for (EntityId id : rs.getEntityIds()) {
                     List<Equals> assignments = new ArrayList<>();
                     for (Object fieldId : rs.getFieldIds(id))
-                        assignments.add(new Equals(parserModelReader.getDomainFieldSymbol(id.getDomainClassId(), fieldId.toString()), Constant.newConstant(rs.getFieldValue(id, fieldId))));
+                        if (fieldId != null) {
+                            Object fieldValue = rs.getFieldValue(id, fieldId);
+                            if (fieldValue instanceof EntityId)
+                                fieldValue = ((EntityId) fieldValue).getPrimaryKey();
+                            assignments.add(new Equals(id.getDomainClass().getField(fieldId), Constant.newConstant(fieldValue)));
+                        }
                     ExpressionArray setClause = new ExpressionArray(assignments);
                     if (id.isNew()) { // insert statement
-                        Insert insert = new Insert(id.getDomainClassId(), setClause);
+                        Insert insert = new Insert(id.getDomainClass(), setClause);
                         addToBatch(compileInsert(insert, null), null);
                     } else { // update statement
-                        Update update = new Update(id.getDomainClassId(), setClause, WHERE_ID_EQUALS_PARAM);
+                        Update update = new Update(id.getDomainClass(), setClause, WHERE_ID_EQUALS_PARAM);
                         Object[] parameterValues = {id.getPrimaryKey()};
                         addToBatch(compileUpdate(update, parameterValues), parameterValues);
                     }

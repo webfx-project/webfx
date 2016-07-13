@@ -4,7 +4,6 @@ import naga.commons.util.async.AsyncResult;
 import naga.commons.util.async.Future;
 import naga.commons.util.async.Handler;
 import naga.commons.util.function.Factory;
-import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.spi.server.ServerPlatform;
 
 /**
@@ -37,12 +36,13 @@ public class ActivityManager<C extends ActivityContext> {
     }
 
     private ActivityManager(Activity<C> activity, C context) {
-        this(activity, context.getActivityContextFactory());
+        this(activity, context == null ? null: context.getActivityContextFactory());
         init(context);
     }
 
     private void init(C context) {
-        ActivityContextImpl.from(context).setActivityManager(this);
+        if (context != null)
+            ActivityContextImpl.from(context).setActivityManager(this);
         this.context = context;
     }
 
@@ -113,8 +113,6 @@ public class ActivityManager<C extends ActivityContext> {
     private Future<Void> onStateChanged(State newState) {
         switch (currentState = newState) {
             case CREATED:
-                if (context == null)
-                    return Future.failedFuture("Activity context is not set");
                 if (activity == null)
                     activity = activityFactory.create();
                 return activity.onCreateAsync(context);
@@ -132,16 +130,12 @@ public class ActivityManager<C extends ActivityContext> {
         return Future.failedFuture("Unknown state"); // Should never occur
     }
 
-    /*public static <C extends ActivityContext> void launchApplication(Activity<C> application, String[] args) {
-        runActivity(application, new ApplicationContext(args));
-    }*/
-
-    public static void startBusCallServerActivity() {
-        startServerActivity(new BusCallServerActivity());
+    public static <C extends ActivityContext> void launchApplication(Activity<C> activity, C context) {
+        runActivity(activity, context);
     }
 
-    public static void startServerActivity(Activity serverActivity) {
-        ServerPlatform.get().startServerActivity(from(serverActivity, new ServerActivityContext()));
+    public static <C extends ActivityContext> void startServerActivity(Activity<C> activity, C context) {
+        ServerPlatform.get().startServerActivity(from(activity, context));
     }
 
     public static <C extends ActivityContext> void runActivity(Activity<C> activity, C context) {

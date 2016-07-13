@@ -90,6 +90,7 @@ proguard/
 .navigation/
 
 
+
 ### Web build tools
 # Grunt
 target-grunt/
@@ -100,6 +101,8 @@ node_modules/
 # Bower
 bower_components/
 
+
+
 ### Codename One
 **/cn1/build/
 **/cn1/dist/README.txt
@@ -109,3 +112,9 @@ bower_components/
 **/mongoose-backend-cn1/cn1/dist/
 **/mongoose-backend-cn1/cn1/lib/*.cn1lib
 /naga-platforms/naga-platform-cn1/cn1/dist/
+
+
+
+### Mongoose
+/mongoose/mongoose-logic/src/main/resources/naga/platform/client/bus/BusOptions.json
+/mongoose/mongoose-vertx/src/main/resources/mongoose/datasource/3/ConnectionDetails.json

@@ -5,6 +5,7 @@ package naga.platform.bus.call;
  */
 
 import naga.platform.activity.Activity;
+import naga.platform.activity.ActivityManager;
 import naga.platform.spi.Platform;
 
 public class BusCallServerActivity implements Activity {
@@ -31,4 +32,9 @@ public class BusCallServerActivity implements Activity {
         // Starting the BusCallService by listening entry calls
         BusCallService.listenEntryCalls();
     }
+
+    public static void startServerActivity() {
+        ActivityManager.startServerActivity(new BusCallServerActivity(), null);
+    }
+
 }

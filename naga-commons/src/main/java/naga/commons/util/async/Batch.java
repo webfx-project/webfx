@@ -30,11 +30,12 @@ public class Batch<A> {
                 if (!future.isComplete()) {
                     if (asyncResult.failed())
                         future.fail(asyncResult.cause());
-                    else
+                    else {
                         results[index] = asyncResult.result();
-                    responseCounter.set(responseCounter.get() + 1);
-                    if (responseCounter.get() == n)
-                        future.complete(new Batch<>(results));
+                        responseCounter.set(responseCounter.get() + 1);
+                        if (responseCounter.get() == n)
+                            future.complete(new Batch<>(results));
+                    }
                 }
             });
         }

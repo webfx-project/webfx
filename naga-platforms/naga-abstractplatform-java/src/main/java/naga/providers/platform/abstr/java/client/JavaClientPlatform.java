@@ -22,6 +22,7 @@ import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
 import naga.platform.client.bus.ReconnectBus;
 import naga.platform.client.bus.WebSocketBusOptions;
+import naga.platform.json.Json;
 import naga.platform.spi.client.ClientPlatform;
 import naga.platform.client.websocket.WebSocketFactory;
 import naga.providers.platform.abstr.java.JavaPlatform;
@@ -52,6 +53,13 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
     @Override
     public BusOptions createBusOptions() { // ClientPlatform default method doesn't work while extending JavaPlatform
         return new WebSocketBusOptions(); // So repeating it again...
+    }
+
+    public void setPlatformBusOptions(BusOptions options) {
+        super.setPlatformBusOptions(options);
+        String json = resourceService().getText("naga/platform/client/bus/BusOptions.json").result();
+        if (json != null)
+            options.applyJson(Json.parseObject(json));
     }
 
     @Override

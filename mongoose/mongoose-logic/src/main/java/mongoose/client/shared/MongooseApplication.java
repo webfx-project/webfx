@@ -6,16 +6,12 @@ import mongoose.activities.event.bookings.BookingsActivity;
 import mongoose.activities.monitor.MonitorActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
 import mongoose.activities.tester.TesterActivity;
-import mongoose.domainmodel.format.DateFormatter;
-import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.framework.ui.activity.UiDomainActivityContext;
-import naga.framework.ui.activity.UiDomainApplicationContext;
-import naga.framework.ui.format.FormatterRegistry;
+import naga.framework.activity.client.UiDomainActivityContext;
+import naga.framework.activity.client.UiDomainApplicationContext;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
-import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.spi.Platform;
 
 /**
@@ -27,9 +23,6 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
 
     @Override
     public void onCreate(UiDomainActivityContext context) {
-        context.setDataSourceModel(DomainModelSnapshotLoader.getDataSourceModel());
-        FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
-        FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
 
         uiRouter = UiRouter.create(context)
                 .routeAndMount("/", ContainerActivity::new, UiRouter.createSubRouter(context)
@@ -47,8 +40,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
     }
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
-        Platform.setBusOptions(new WebSocketBusOptions().setServerHost("kadampabookings.org").setServerPort("9090"));
-        //ActivityManager.launchApplication(mongooseApplication, args);
-        ActivityManager.runActivity(mongooseApplication, UiDomainApplicationContext.create(args));
+        Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (before loading the model which takes time)
+        ActivityManager.launchApplication(mongooseApplication, UiDomainApplicationContext.create(DomainModelSnapshotLoader.getDataSourceModel(), args));
     }
 }

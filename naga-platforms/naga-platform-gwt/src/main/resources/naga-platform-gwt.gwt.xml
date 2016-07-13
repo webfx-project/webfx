@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module rename-to='naga_platform_gwt'>
+
+    <!-- Inherits the Logging API and setting logging properties    -->
+    <inherits name="com.google.gwt.logging.Logging"/>
+    <set-property name="gwt.logging.logLevel" value="INFO"/>
+    <set-property name="gwt.logging.enabled" value="TRUE"/>
+    <set-property name="gwt.logging.consoleHandler" value="ENABLED"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga"/>               <!-- source path to naga-core and naga-plat-gwt -->
+    <source path="java_cup/runtime"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
+    <source path="rx"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
+    <source path="javafx"/>             <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
+    <source path="com/sun/javafx"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
+    <source path="sun"/>                <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
+    <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
+
+</module>

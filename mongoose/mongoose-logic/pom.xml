@@ -17,13 +17,25 @@
             <artifactId>naga-framework</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <artifactId>rxjava</artifactId>
             <groupId>io.reactivex</groupId>
             <scope>provided</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-platform-jre</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -41,20 +53,22 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
-            <!-- Unpacking dependencies before calling retrolambda -->
+            <!-- Commented as not working on Android for now
+            <!- - Unpacking dependencies before calling retrolambda - ->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <configuration>
-                    <includeScope>runtime</includeScope> <!-- to avoid unpacking android dependency -->
+                    <includeScope>runtime</includeScope> <!- - to avoid unpacking android dependency - ->
                 </configuration>
             </plugin>
 
-            <!-- Calling retrolambda (for android project) -->
+            <!- - Calling retrolambda (for android project) - ->
             <plugin>
                 <groupId>net.orfjackal.retrolambda</groupId>
                 <artifactId>retrolambda-maven-plugin</artifactId>
             </plugin>
+            -->
 
         </plugins>
     </build>

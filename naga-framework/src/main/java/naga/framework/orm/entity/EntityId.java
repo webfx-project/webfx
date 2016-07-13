@@ -1,5 +1,6 @@
 package naga.framework.orm.entity;
 
+import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.impl.EntityIdImpl;
 
 /**
@@ -11,9 +12,9 @@ import naga.framework.orm.entity.impl.EntityIdImpl;
 public interface EntityId {
 
     /**
-     * @return a unique id identifying the entity domain class in the domain model
+     * @return the domain class for the entity
      */
-    Object getDomainClassId();
+    DomainClass getDomainClass();
 
     /**
      * @return the primary key of the counterpart database record for this entity
@@ -21,12 +22,16 @@ public interface EntityId {
     Object getPrimaryKey();
 
     /**
-     * @return true is the designated entity is not yet inserted in the database. In this case, the primary key is a
+     * @return true if the designated entity is not yet inserted in the database. In this case, the primary key is a
      * temporary but non null object that works to identify the in-memory newly created entity instance.
      */
     boolean isNew();
 
-    static EntityId create(Object domainClassId, Object primaryKey) {
-        return new EntityIdImpl(domainClassId, primaryKey);
+    static EntityId create(DomainClass domainClass, Object primaryKey) {
+        return EntityIdImpl.create(domainClass, primaryKey);
+    }
+
+    static EntityId create(DomainClass domainClass) {
+        return EntityIdImpl.create(domainClass);
     }
 }

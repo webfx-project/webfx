@@ -1,5 +1,9 @@
 package naga.platform.bus;
 
+
+import naga.commons.util.Objects;
+import naga.platform.json.spi.JsonObject;
+
 /**
  * @author Bruno Salmon
  */
@@ -10,14 +14,17 @@ public class BusOptions {
     private String serverBusAddress;
 
     public BusOptions turnUnsetPropertiesToDefault() {
-        busPrefix = getValue(busPrefix, "eventbus");
-        clientBusAddressPrefix = getValue(clientBusAddressPrefix, "client");
-        serverBusAddress = getValue(serverBusAddress, "server");
+        busPrefix = Objects.coalesce(busPrefix, "eventbus");
+        clientBusAddressPrefix = Objects.coalesce(clientBusAddressPrefix, "client");
+        serverBusAddress = Objects.coalesce(serverBusAddress, "server");
         return this;
     }
 
-    protected static <T> T getValue(T currentValue, T defaultValue) {
-        return currentValue != null ? currentValue : defaultValue;
+    public BusOptions applyJson(JsonObject json) {
+        busPrefix = json.getString("busPrefix", busPrefix);
+        clientBusAddressPrefix = json.getString("clientBusAddressPrefix", clientBusAddressPrefix);
+        serverBusAddress = json.getString("serverBusAddress", serverBusAddress);
+        return this;
     }
 
     public BusOptions setBusPrefix(String busPrefix) {

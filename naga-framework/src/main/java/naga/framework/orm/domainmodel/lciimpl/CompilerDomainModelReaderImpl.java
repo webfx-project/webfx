@@ -5,19 +5,23 @@ import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.IdExpression;
 import naga.framework.expression.lci.CompilerDomainModelReader;
+import naga.framework.orm.domainmodel.DomainModel;
 
 /**
  * @author Bruno Salmon
  */
 public class CompilerDomainModelReaderImpl implements CompilerDomainModelReader {
 
-    public static CompilerDomainModelReaderImpl SINGLETON = new CompilerDomainModelReaderImpl();
+    private final DomainModel domainModel;
 
-    private CompilerDomainModelReaderImpl() {
+    public CompilerDomainModelReaderImpl(DomainModel domainModel) {
+        this.domainModel = domainModel;
     }
 
     private DomainClass getDomainClass(Object domainClass) {
-        return (DomainClass) domainClass;
+        if (domainClass instanceof DomainClass)
+            return (DomainClass) domainClass;
+        return domainModel.getClass(domainClass);
     }
 
     @Override

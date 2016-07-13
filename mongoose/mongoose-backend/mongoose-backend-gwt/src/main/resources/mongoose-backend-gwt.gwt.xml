@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module rename-to='mongoose_backend_gwt'>
+
+    <!-- Selecting Polymer as the GUI toolkit (this includes the naga gwt & core modules) -->
+    <inherits name="naga-toolkit-gwtpolymer"/>
+
+    <inherits name="com.google.gwt.resources.Resources" />
+
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='mongoose.client.backend.gwt.MongooseBackendGwtApplication'/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="mongoose"/>   <!-- code is under mongoose package -->
+    <resource path="mongoose"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.lzb64json -->
+    <resource path="naga"/>     <!-- for naga/platform/client/bus/BusOptions.json -->
+</module>

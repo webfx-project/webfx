@@ -13,6 +13,9 @@ public class TeaVmCompilerResourceSupplier implements ResourceSupplier {
 
     @Override
     public String[] supplyResources(ResourceSupplierContext context) {
-        return new String[]{"mongoose/domainmodel/DomainModelSnapshot.lzb64json"};
+        return new String[]{
+                "mongoose/domainmodel/DomainModelSnapshot.lzb64json",
+                "naga/platform/bus/BusOptions.json"
+        };
     }
 }

@@ -1,5 +1,6 @@
 package naga.framework.orm.entity.impl;
 
+import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.EntityId;
 
 /**
@@ -7,17 +8,17 @@ import naga.framework.orm.entity.EntityId;
  */
 public class EntityIdImpl implements EntityId {
 
-    private final Object domainClassId;
+    private final DomainClass domainClass;
     private final Object primaryKey;
 
-    public EntityIdImpl(Object domainClassId, Object primaryKey) {
-        this.domainClassId = domainClassId;
+    public EntityIdImpl(DomainClass domainClass, Object primaryKey) {
+        this.domainClass = domainClass;
         this.primaryKey = primaryKey;
     }
 
     @Override
-    public Object getDomainClassId() {
-        return domainClassId;
+    public DomainClass getDomainClass() {
+        return domainClass;
     }
 
     @Override
@@ -37,21 +38,30 @@ public class EntityIdImpl implements EntityId {
 
         EntityIdImpl entityId = (EntityIdImpl) o;
 
-        if (domainClassId != null ? !domainClassId.equals(entityId.domainClassId) : entityId.domainClassId != null) return false;
+        if (domainClass != null ? !domainClass.equals(entityId.domainClass) : entityId.domainClass != null) return false;
         return !(primaryKey != null ? !primaryKey.equals(entityId.primaryKey) : entityId.primaryKey != null);
 
     }
 
     @Override
     public String toString() {
-        return "ID[" + domainClassId + ':' + primaryKey + ']';
+        return "ID[" + domainClass + ':' + primaryKey + ']';
     }
 
     @Override
     public int hashCode() {
-        int result = domainClassId != null ? domainClassId.hashCode() : 0;
+        int result = domainClass != null ? domainClass.hashCode() : 0;
         result = 31 * result + (primaryKey != null ? primaryKey.hashCode() : 0);
         return result;
     }
 
+    private static int newPk;
+
+    public static EntityIdImpl create(DomainClass domainClassId) {
+        return new EntityIdImpl(domainClassId, --newPk);
+    }
+
+    public static EntityIdImpl create(DomainClass domainClassId, Object primaryKey) {
+        return new EntityIdImpl(domainClassId, primaryKey);
+    }
 }

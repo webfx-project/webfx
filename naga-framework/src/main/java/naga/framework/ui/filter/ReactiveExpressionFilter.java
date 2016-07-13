@@ -178,7 +178,7 @@ public class ReactiveExpressionFilter {
 
     private void checkFields() {
         if (store == null)
-            store = EntityStore.create();
+            store = EntityStore.create(dataSourceModel);
         if (listId == null)
             listId = "default";
         List<Expression> displayPersistentTerms = new ArrayList<>();

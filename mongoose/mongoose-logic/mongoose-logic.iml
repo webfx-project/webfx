@@ -11,10 +11,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-framework" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-platform" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-commons" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-toolkit" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-framework" />
+    <orderEntry type="module" module-name="naga-platform" />
+    <orderEntry type="module" module-name="naga-commons" />
+    <orderEntry type="module" module-name="naga-toolkit" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
   </component>
 </module>
