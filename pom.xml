@@ -39,11 +39,11 @@
         <lib.teavm.version>0.4.3</lib.teavm.version>
         <lib.gwt.version>2.8.0-beta1</lib.gwt.version>
         <lib.gwt-polymer.version>1.2.3.0</lib.gwt-polymer.version>
-        <lib.vertx.version>3.3.0</lib.vertx.version>
+        <lib.vertx.version>3.3.2</lib.vertx.version>
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
         <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
-        <lib.medusa.version>5.0</lib.medusa.version>
+        <lib.medusa.version>5.2</lib.medusa.version>
         <lib.junit.version>4.12</lib.junit.version>
 
         <!-- plugins versions -->
@@ -90,6 +90,8 @@
         <plugin.gwt.param.compileSourcesArtifact11>TBD</plugin.gwt.param.compileSourcesArtifact11>
         <plugin.gwt.param.compileSourcesArtifact12>TBD</plugin.gwt.param.compileSourcesArtifact12>
         <plugin.gwt.param.compileSourcesArtifact13>TBD</plugin.gwt.param.compileSourcesArtifact13>
+        <plugin.gwt.param.compileSourcesArtifact14>TBD</plugin.gwt.param.compileSourcesArtifact14>
+        <plugin.gwt.param.compileSourcesArtifact15>TBD</plugin.gwt.param.compileSourcesArtifact15>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
@@ -670,6 +672,8 @@
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact11}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact12}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact13}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact14}</compileSourcesArtifact>
+                                    <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact15}</compileSourcesArtifact>
                                 </compileSourcesArtifacts>
                                 <webappDirectory>${project.build.outputDirectory}/webroot/${project.artifactId}/js</webappDirectory>
                             </configuration>
