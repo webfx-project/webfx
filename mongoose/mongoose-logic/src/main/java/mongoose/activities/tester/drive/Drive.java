@@ -29,14 +29,12 @@ public class Drive {
     private int currentRequested = 0;
     private int started = 0;
 
-    boolean mode_console;
-
     public static Drive getInstance() {
         return instance;
     }
 
     public void start(boolean mode_console) {
-        this.mode_console = mode_console;
+        long t0 = System.currentTimeMillis();
         BusCallService.call("version", "ignored").setHandler(asyncResult -> Platform.log(asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause()));
         Platform.get().scheduler().schedulePeriodic(10, () -> {
             int requested = requestedConnectionCount.getValue();
@@ -62,9 +60,9 @@ public class Drive {
                 Toolkit.get().scheduler().scheduleDeferred(() -> startedConnectionCount.setValue(started));
 
                 if (mode_console)
-                    Platform.log("Drive - connections : "+ requested
-                            +" , "+ started
-                            +" (time = "+ System.currentTimeMillis() +")");
+                    Platform.log("Drive - connections : R="+ requested
+                            +" , S="+ started
+                            +" (time = "+ (System.currentTimeMillis()-t0) +"ms)");
             }
         });
     }
