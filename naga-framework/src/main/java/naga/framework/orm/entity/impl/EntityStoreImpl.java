@@ -1,6 +1,8 @@
 package naga.framework.orm.entity.impl;
 
 
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.*;
 import naga.framework.orm.entity.lciimpl.EntityDataWriter;
 import naga.framework.expression.Expression;
@@ -15,15 +17,34 @@ import java.util.Map;
  */
 public class EntityStoreImpl implements EntityStore {
 
+    protected final DataSourceModel dataSourceModel;
     private final Map<EntityId, Entity> entities = new HashMap<>();
     private final Map<Object, EntityList> entityLists = new HashMap<>();
     private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
 
+    public EntityStoreImpl(DataSourceModel dataSourceModel) {
+        this.dataSourceModel = dataSourceModel;
+    }
+
+    @Override
+    public DataSourceModel getDataSourceModel() {
+        return dataSourceModel;
+    }
+
     // EntityId management
+
+    DomainClass getDomainClass(Object domainClassId) {
+        return domainClassId instanceof DomainClass ? (DomainClass) domainClassId : dataSourceModel.getDomainModel().getClass(domainClassId);
+    }
 
     @Override
     public EntityId getEntityId(Object domainClassId, Object primaryKey) {
-        return EntityId.create(domainClassId, primaryKey);
+        return EntityId.create(getDomainClass(domainClassId), primaryKey);
+    }
+
+    @Override
+    public EntityId getEntityId(DomainClass domainClass, Object primaryKey) {
+        return EntityId.create(domainClass, primaryKey);
     }
 
     // Entity management
@@ -39,6 +60,13 @@ public class EntityStoreImpl implements EntityStore {
     }
 
     @Override
+    public <E extends Entity> E getOrCreateEntity(DomainClass domainClass, Object primaryKey) {
+        if (primaryKey == null)
+            return null;
+        return getOrCreateEntity(getEntityId(domainClass, primaryKey));
+    }
+
+    @Override
     public <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey) {
         if (primaryKey == null)
             return null;
@@ -47,6 +75,8 @@ public class EntityStoreImpl implements EntityStore {
 
     @Override
     public <E extends Entity> E getOrCreateEntity(EntityId id) {
+        if (id == null)
+            return null;
         E entity = getEntity(id);
         if (entity == null)
             entities.put(id, entity = createEntity(id));
@@ -54,7 +84,7 @@ public class EntityStoreImpl implements EntityStore {
     }
 
     protected <E extends Entity> E createEntity(EntityId id) {
-        EntityFactory<E> entityFactory = EntityFactoryRegistry.getEntityFactory(id.getDomainClassId());
+        EntityFactory<E> entityFactory = EntityFactoryRegistry.getEntityFactory(id.getDomainClass().getModelId());
         if (entityFactory != null)
             return entityFactory.createEntity(id, this);
         return (E) new DynamicEntity(id, this);
@@ -88,8 +118,8 @@ public class EntityStoreImpl implements EntityStore {
     public String getEntityClassesCountReport() {
         Map<Object, Integer> classesCount = new HashMap<>();
         for (EntityId id : entities.keySet()) {
-            Integer count = classesCount.get(id.getDomainClassId());
-            classesCount.put(id.getDomainClassId(), count == null ? 1 : count + 1);
+            Integer count = classesCount.get(id.getDomainClass());
+            classesCount.put(id.getDomainClass(), count == null ? 1 : count + 1);
         }
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Object, Integer> entry : classesCount.entrySet()) {
