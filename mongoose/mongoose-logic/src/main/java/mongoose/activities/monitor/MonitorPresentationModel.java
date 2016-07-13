@@ -10,12 +10,6 @@ import naga.toolkit.display.DisplayResultSet;
  */
 class MonitorPresentationModel implements PresentationModel {
 
-//    private final Property<Integer> requestedConnectionsProperty = new SimpleObjectProperty<>(0);
-//    Property<Integer> requestedConnectionsProperty() { return requestedConnectionsProperty; }
-//
-//    private final Property<Integer> startedConnectionsProperty = new SimpleObjectProperty<>(0);
-//    Property<Integer> startedConnectionsProperty() { return startedConnectionsProperty; }
-
     private final Property<DisplayResultSet> chartDisplayResultSetProperty = new SimpleObjectProperty<>();
     Property<DisplayResultSet> chartDisplayResultSetProperty() { return chartDisplayResultSetProperty; }
 
