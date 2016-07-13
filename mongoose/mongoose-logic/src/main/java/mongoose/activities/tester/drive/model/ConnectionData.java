@@ -5,7 +5,7 @@ import javafx.beans.property.Property;
 /**
  * @author Jean-Pierre Alonso.
  */
-public interface ChartData {
+public interface ConnectionData {
     int getRequested();
     Property<Integer> requestedProperty();
     void setRequested(int requested);

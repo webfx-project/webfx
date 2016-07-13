@@ -1,8 +1,5 @@
-package mongoose.activities.tester.listener;
+package mongoose.activities.monitor.listener;
 
-
-import mongoose.activities.tester.listener.EventBase;
-import mongoose.activities.tester.listener.EventType;
 
 /**
  * @author Jean-Pierre Alonso.

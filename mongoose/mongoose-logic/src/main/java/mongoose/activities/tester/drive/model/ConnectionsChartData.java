@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 /**
  * @author Jean-Pierre Alonso.
  */
-public class ConnectionsChartData implements ChartData {
+public class ConnectionsChartData implements ConnectionData {
     private final Property<Integer> requested = new SimpleObjectProperty<>(0);
     private final Property<Integer> started = new SimpleObjectProperty(0);
     private final Property<Integer> connected = new SimpleObjectProperty(0);

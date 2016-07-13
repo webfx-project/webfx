@@ -2,8 +2,8 @@ package mongoose.activities.tester.drive.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.activities.tester.listener.EventListener;
-import mongoose.activities.tester.listener.EventListenerImpl;
+import mongoose.activities.monitor.listener.EventListener;
+import mongoose.activities.monitor.listener.EventListenerImpl;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 import naga.commons.type.PrimType;

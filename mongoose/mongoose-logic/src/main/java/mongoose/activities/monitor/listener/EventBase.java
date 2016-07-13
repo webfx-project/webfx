@@ -1,18 +1,23 @@
-package mongoose.activities.tester.listener;
+package mongoose.activities.monitor.listener;
 
 /**
  * @author Jean-Pierre Alonso.
  */
 public class EventBase implements Event {
     private long idEvent;
-    private long idObject;
+    private Object object;
     private EventType type;
-    private long eventTime;
     private int val;
+    private long eventTime;
 
     @Override
     public EventType getType() {
         return type;
+    }
+
+    @Override
+    public void setType(EventType type) {
+        this.type = type;
     }
 
     @Override
@@ -31,19 +36,27 @@ public class EventBase implements Event {
     }
 
     @Override
-    public void setType(EventType type) {
-        this.type = type;
-    }
-
     public void setEventTime(long eventTime) {
         this.eventTime = eventTime;
     }
 
+    @Override
     public long getIdEvent() {
         return idEvent;
     }
 
+    @Override
     public void setIdEvent(long idEvent) {
         this.idEvent = idEvent;
+    }
+
+    @Override
+    public Object getObject() {
+        return object;
+    }
+
+    @Override
+    public void setObject(Object object) {
+        this.object = object;
     }
 }

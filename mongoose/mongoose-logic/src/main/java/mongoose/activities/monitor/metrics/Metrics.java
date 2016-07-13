@@ -3,8 +3,11 @@ package mongoose.activities.monitor.metrics;
 import javafx.beans.property.ObjectProperty;
 import mongoose.activities.monitor.metrics.controller.SystemLookup;
 import mongoose.activities.monitor.metrics.controller.SystemLookupMock;
+import mongoose.activities.monitor.metrics.model.MemData;
 import mongoose.activities.monitor.metrics.model.SysBean;
 import mongoose.activities.monitor.metrics.model.SysBeanFX;
+import naga.commons.scheduler.Scheduled;
+import naga.commons.util.tuples.Unit;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 
@@ -18,6 +21,7 @@ public class Metrics {
 
     private SystemLookup sysMon = new SystemLookupMock();
     private ObjectProperty<SysBeanFX> sbfx;
+    private ObjectProperty<MemData> memData;
     private boolean cancelled;
 
     private Metrics() {}
@@ -27,23 +31,26 @@ public class Metrics {
     }
 
     public void start (boolean mode_console) {
-        Platform.get().scheduler().schedulePeriodic(1000, () -> {
+        Unit<Scheduled> scheduledUnit = new Unit<>();
+        scheduledUnit.set(Platform.get().scheduler().schedulePeriodic(1000, () -> {
             long start = System.currentTimeMillis();
             long current;
 
-            while (!cancelled) {
+            if (cancelled)
+                scheduledUnit.get().cancel();
+            else {
                 SysBean sb = sysMon.snapshot();
                 current = System.currentTimeMillis();
+                // Display results on the UI
+                Toolkit.get().scheduler().scheduleDeferred(() -> memData.set(new MemData(sb)));
                 // Display results on the console (optional)
                 if (mode_console) {
                     sb.printState();
-                    Platform.log("elapsed time : "+ (current - start)+" ms");
+//                    Platform.log("elapsed time : " + (current - start) + " ms");
                 }
-                // Display results on the UI
-                Toolkit.get().scheduler().scheduleDeferred(() -> sbfx.set(new SysBeanFX(sb)));
             }
             cancelled = false;
-        });
+        }));
     }
 
     public void stop () {
@@ -56,5 +63,17 @@ public class Metrics {
 
     public void setSbfx(ObjectProperty<SysBeanFX> sbfx) {
         this.sbfx = sbfx;
+    }
+
+    public MemData getMemData() {
+        return memData.get();
+    }
+
+    public ObjectProperty<MemData> memDataProperty() {
+        return memData;
+    }
+
+    public void setMemData(ObjectProperty<MemData> memData) {
+        this.memData = memData;
     }
 }
