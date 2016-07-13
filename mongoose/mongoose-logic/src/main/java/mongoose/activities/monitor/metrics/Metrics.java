@@ -6,6 +6,8 @@ import mongoose.activities.monitor.metrics.controller.SystemLookupMock;
 import mongoose.activities.monitor.metrics.model.MemData;
 import mongoose.activities.monitor.metrics.model.SysBean;
 import mongoose.activities.monitor.metrics.model.SysBeanFX;
+import naga.commons.scheduler.Scheduled;
+import naga.commons.util.tuples.Unit;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 
@@ -29,11 +31,14 @@ public class Metrics {
     }
 
     public void start (boolean mode_console) {
-        Platform.get().scheduler().schedulePeriodic(1000, () -> {
+        Unit<Scheduled> scheduledUnit = new Unit<>();
+        scheduledUnit.set(Platform.get().scheduler().schedulePeriodic(1000, () -> {
             long start = System.currentTimeMillis();
             long current;
 
-            while (!cancelled) {
+            if (cancelled)
+                scheduledUnit.get().cancel();
+            else {
                 SysBean sb = sysMon.snapshot();
                 current = System.currentTimeMillis();
                 // Display results on the UI
@@ -41,11 +46,11 @@ public class Metrics {
                 // Display results on the console (optional)
                 if (mode_console) {
                     sb.printState();
-                    Platform.log("elapsed time : "+ (current - start)+" ms");
+//                    Platform.log("elapsed time : " + (current - start) + " ms");
                 }
             }
             cancelled = false;
-        });
+        }));
     }
 
     public void stop () {
