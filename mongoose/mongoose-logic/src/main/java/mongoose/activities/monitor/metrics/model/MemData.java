@@ -7,26 +7,26 @@ import javafx.beans.property.SimpleObjectProperty;
  * @author Jean-Pierre Alonso.
  */
 public class MemData {
-    private final Property<String> committedMem   = new SimpleObjectProperty();
-    private final Property<String> totalMem       = new SimpleObjectProperty();
-    private final Property<String> usedMem        = new SimpleObjectProperty();
-    private final Property<String> freeMem        = new SimpleObjectProperty();
-    private final Property<String> maxMem         = new SimpleObjectProperty();
-    private final Property<String> freePhMem      = new SimpleObjectProperty();
-    private final Property<String> totalPhMem     = new SimpleObjectProperty();
+    private final Property<Long> committedMem   = new SimpleObjectProperty();
+    private final Property<Long> totalMem       = new SimpleObjectProperty();
+    private final Property<Long> usedMem        = new SimpleObjectProperty();
+    private final Property<Long> freeMem        = new SimpleObjectProperty();
+    private final Property<Long> maxMem         = new SimpleObjectProperty();
+    private final Property<Long> freePhMem      = new SimpleObjectProperty();
+    private final Property<Long> totalPhMem     = new SimpleObjectProperty();
 
     public MemData() {
         super();
     }
 
     public MemData(SysBean sb) {
-        committedMem.setValue(Long.toString(sb.getCommittedMem()/SysBean.MB));
-        totalMem.setValue(Long.toString(sb.getTotalMem()/SysBean.MB));
-        usedMem.setValue(Long.toString(sb.getUsedMem()/SysBean.MB));
-        freeMem.setValue(Long.toString(sb.getFreeMem()/SysBean.MB));
-        maxMem.setValue(Long.toString(sb.getMaxMem()/SysBean.MB));
-        freePhMem.setValue(Long.toString(sb.getFreePhMem()/SysBean.MB));
-        totalPhMem.setValue(Long.toString(sb.getTotalPhMem()/SysBean.MB));
+        committedMem.setValue(sb.getCommittedMem());
+        totalMem.setValue(sb.getTotalMem());
+        usedMem.setValue(sb.getUsedMem());
+        freeMem.setValue(sb.getFreeMem());
+        maxMem.setValue(sb.getMaxMem());
+        freePhMem.setValue(sb.getFreePhMem());
+        totalPhMem.setValue(sb.getTotalPhMem());
     }
 
     public void set (MemData memData) {
@@ -39,31 +39,31 @@ public class MemData {
         totalPhMem.setValue(memData.totalPhMem.getValue());
     }
 
-    public Property<String> committedMemProperty() {
+    public Property<Long> committedMemProperty() {
         return committedMem;
     }
 
-    public Property<String> totalMemProperty() {
+    public Property<Long> totalMemProperty() {
         return totalMem;
     }
 
-    public Property<String> usedMemProperty() {
+    public Property<Long> usedMemProperty() {
         return usedMem;
     }
 
-    public Property<String> freeMemProperty() {
+    public Property<Long> freeMemProperty() {
         return freeMem;
     }
 
-    public Property<String> maxMemProperty() {
+    public Property<Long> maxMemProperty() {
         return maxMem;
     }
 
-    public Property<String> freePhMemProperty() {
+    public Property<Long> freePhMemProperty() {
         return freePhMem;
     }
 
-    public Property<String> totalPhMemProperty() {
+    public Property<Long> totalPhMemProperty() {
         return totalPhMem;
     }
 }
