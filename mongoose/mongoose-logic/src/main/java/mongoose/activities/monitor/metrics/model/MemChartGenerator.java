@@ -2,8 +2,7 @@ package mongoose.activities.monitor.metrics.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.activities.monitor.listener.EventListener;
-import mongoose.activities.monitor.listener.EventListenerImpl;
+import mongoose.activities.monitor.metrics.Metrics;
 import naga.commons.type.PrimType;
 import naga.platform.spi.Platform;
 import naga.toolkit.display.DisplayColumn;
@@ -54,14 +53,7 @@ public class MemChartGenerator {
     }
 
     private void readTask () {
-        EventListener listener = EventListenerImpl.getInstance();
-        MemData data = new MemData();
-
-//        data.totalMemProperty().setValue(listener.getRequested());
-//        data.startedProperty().setValue(listener.getStarted());
-//        data.connectedProperty().setValue(listener.getConnected());
-        // TODO initialise data with the last snapshot (binding ?)
-        memList.add(data);
+        memList.add(Metrics.getInstance().getMemData());
         createDisplayResultSet();
     }
 
