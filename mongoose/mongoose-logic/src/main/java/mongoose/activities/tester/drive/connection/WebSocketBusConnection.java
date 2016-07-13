@@ -14,6 +14,7 @@ import naga.platform.spi.Platform;
  */
 public class WebSocketBusConnection extends ConnectionBase {
     protected WebSocketBus bus;
+    boolean opened;
 
     @Override
     public ConnectionEvent executeCommand(Command t) {
@@ -31,7 +32,7 @@ public class WebSocketBusConnection extends ConnectionBase {
                 });
                 break;
             case CLOSE:
-                event = new ConnectionEvent(EventType.UNCONNECTING);
+                event = new ConnectionEvent(EventType.DISCONNECTING);
                 bus.close();
                 break;
             default:
@@ -46,6 +47,7 @@ public class WebSocketBusConnection extends ConnectionBase {
         return new WebSocketListener() {
             @Override
             public void onOpen() {
+                opened = true;
                 ConnectionEvent event1 = new ConnectionEvent(EventType.CONNECTED);
                 applyEvent(event1);
                 recordEvent(event1);
@@ -54,9 +56,12 @@ public class WebSocketBusConnection extends ConnectionBase {
 
             @Override
             public void onClose(JsonObject reason) {
-                ConnectionEvent event1 = new ConnectionEvent(EventType.NOT_CONNECTED);
-                applyEvent(event1);
-                recordEvent(event1);
+                if (opened) {
+                    ConnectionEvent event1 = new ConnectionEvent(EventType.NOT_CONNECTED);
+                    applyEvent(event1);
+                    recordEvent(event1);
+                    opened = false;
+                }
                 Platform.log("Cnx-CLOSED : "+reason);
             }
 
