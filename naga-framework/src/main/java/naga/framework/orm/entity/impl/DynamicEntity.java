@@ -39,6 +39,20 @@ public class DynamicEntity implements Entity {
     }
 
     @Override
+    public void setForeignField(Object foreignFieldId, Object foreignFieldValue) {
+        EntityId foreignEntityId;
+        if (foreignFieldValue instanceof EntityId)
+            foreignEntityId = (EntityId) foreignFieldValue;
+        else if (foreignFieldValue instanceof Entity)
+            foreignEntityId = ((Entity) foreignFieldValue).getId();
+        else {
+            Object foreignClass = getId().getDomainClass().getForeignClass(foreignFieldId);
+            foreignEntityId = getStore().getEntityId(foreignClass, foreignFieldValue);
+        }
+        setFieldValue(foreignFieldId, foreignEntityId);
+    }
+
+    @Override
     public EntityId getForeignEntityId(Object foreignFieldId) {
         Object value = getFieldValue(foreignFieldId);
         if (value instanceof EntityId)

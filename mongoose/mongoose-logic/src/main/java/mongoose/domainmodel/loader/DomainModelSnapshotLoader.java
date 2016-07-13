@@ -2,11 +2,16 @@ package mongoose.domainmodel.loader;
 
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.entities.Document;
+import mongoose.entities.DocumentImpl;
+import mongoose.entities.Event;
+import mongoose.entities.EventImpl;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.loader.DomainModelLoader;
+import naga.framework.orm.entity.EntityFactoryRegistry;
 import naga.framework.ui.format.FormatterRegistry;
 import naga.platform.compression.string.LZString;
 import naga.platform.json.Json;
@@ -41,8 +46,13 @@ public class DomainModelSnapshotLoader {
 
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
+            // Registering formats
             FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
             FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
+            // Registering entity java classes
+            EntityFactoryRegistry.registerEntityFactory(Document.class, "Document", DocumentImpl::new);
+            EntityFactoryRegistry.registerEntityFactory(Event.class, "Event", EventImpl::new);
+            // Loading the model from the resource snapshot
             Future<String> text = Platform.getResourceService().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
             String jsonString = LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
