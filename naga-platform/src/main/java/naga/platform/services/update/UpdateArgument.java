@@ -1,5 +1,11 @@
 package naga.platform.services.update;
 
+import naga.commons.util.Arrays;
+import naga.platform.json.codec.AbstractJsonCodec;
+import naga.platform.json.codec.JsonCodecManager;
+import naga.platform.json.spi.JsonObject;
+import naga.platform.json.spi.WritableJsonObject;
+
 /**
  * @author Bruno Salmon
  */
@@ -32,4 +38,44 @@ public class UpdateArgument {
     public Object getDataSourceId() {
         return dataSourceId;
     }
+
+    @Override
+    public String toString() {
+        return "UpdateArgument('" + updateString + "', " + Arrays.toString(parameters) + ')';
+    }
+
+    /****************************************************
+     *                    Json Codec                    *
+     * *************************************************/
+
+    private static String CODEC_ID = "UpdateArg";
+    private static String UPDATE_KEY = "update";
+    private static String PARAMETERS_KEY = "params";
+    private static String RETURN_GENERATED_KEYS_KEY = "genKeys";
+    private static String DATA_SOURCE_ID_KEY = "dsId";
+
+    public static void registerJsonCodec() {
+        new AbstractJsonCodec<UpdateArgument>(UpdateArgument.class, CODEC_ID) {
+
+            @Override
+            public void encodeToJson(UpdateArgument arg, WritableJsonObject json) {
+                json.set(UPDATE_KEY, arg.getUpdateString());
+                if (!Arrays.isEmpty(arg.getParameters()))
+                    json.set(PARAMETERS_KEY, JsonCodecManager.encodePrimitiveArrayToJsonArray(arg.getParameters()));
+                json.set(RETURN_GENERATED_KEYS_KEY, arg.returnGeneratedKeys());
+                json.set(DATA_SOURCE_ID_KEY, arg.getDataSourceId());
+            }
+
+            @Override
+            public UpdateArgument decodeFromJson(JsonObject json) {
+                return new UpdateArgument(
+                        json.getString(UPDATE_KEY),
+                        JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(PARAMETERS_KEY)),
+                        json.getBoolean(RETURN_GENERATED_KEYS_KEY),
+                        json.get(DATA_SOURCE_ID_KEY)
+                );
+            }
+        };
+    }
+
 }

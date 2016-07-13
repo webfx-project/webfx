@@ -10,6 +10,8 @@ import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.commons.util.Numbers;
 import naga.commons.util.async.Batch;
+import naga.platform.services.update.UpdateArgument;
+import naga.platform.services.update.UpdateResult;
 
 import java.lang.reflect.Array;
 import java.util.HashMap;
@@ -158,6 +160,8 @@ public class JsonCodecManager {
         BusCallService.registerJsonCodecs();
         QueryArgument.registerJsonCodec();
         QueryResultSet.registerJsonCodec();
+        UpdateArgument.registerJsonCodec();
+        UpdateResult.registerJsonCodec();
         registerBatchJsonCodec();
     }
 }
