@@ -1,6 +1,5 @@
 package naga.framework.orm.entity.impl;
 
-import naga.commons.util.Arrays;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
@@ -60,7 +59,7 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
     @Override
     public Future<Batch<UpdateResult>> executeUpdate() {
         Batch<UpdateArgument> batch = EntityChangesToUpdateBatchGenerator.generateUpdateBatch(getEntityChanges(), dataSourceModel);
-        Platform.log("Executing update batch " + Arrays.toString(batch.getArray()));
+        //Platform.log("Executing update batch " + Arrays.toString(batch.getArray()));
         return Platform.getUpdateService().executeUpdateBatch(batch);
     }
 
