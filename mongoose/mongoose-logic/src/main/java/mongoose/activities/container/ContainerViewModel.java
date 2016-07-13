@@ -15,14 +15,16 @@ class ContainerViewModel implements ViewModel {
     private final Button bookingsButton;
     private final Button organizationsButton;
     private final Button monitorButton;
+    private final Button testerButton;
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button bookingsButton, Button organizationsButton, Button monitorButton) {
+    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button bookingsButton, Button organizationsButton, Button monitorButton, Button testerButton) {
         this.contentNode = contentNode;
         this.backButton = backButton;
         this.forwardButton = forwardButton;
         this.bookingsButton = bookingsButton;
         this.organizationsButton = organizationsButton;
         this.monitorButton = monitorButton;
+        this.testerButton = testerButton;
     }
 
     @Override
@@ -48,5 +50,9 @@ class ContainerViewModel implements ViewModel {
 
     public Button getMonitorButton() {
         return monitorButton;
+    }
+
+    public Button getTesterButton() {
+        return testerButton;
     }
 }
