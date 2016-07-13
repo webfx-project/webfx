@@ -26,7 +26,7 @@ public class Arrays {
     }
 
     public static <T> String toString(T[] array) {
-        return Collections.toString(java.util.Arrays.asList(array).iterator());
+        return array == null ? null : Collections.toString(java.util.Arrays.asList(array).iterator());
     }
 
 }
