@@ -2,21 +2,18 @@ package mongoose.domainmodel.loader;
 
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
-import mongoose.entities.Document;
-import mongoose.entities.DocumentImpl;
+import naga.commons.util.async.Batch;
+import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.loader.DomainModelLoader;
-import naga.framework.orm.entity.EntityFactoryRegistry;
 import naga.framework.ui.format.FormatterRegistry;
+import naga.platform.compression.string.LZString;
 import naga.platform.json.Json;
 import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonElement;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.commons.util.async.Batch;
-import naga.commons.util.async.Future;
-import naga.platform.compression.string.LZString;
 
 /**
  * @author Bruno Salmon
