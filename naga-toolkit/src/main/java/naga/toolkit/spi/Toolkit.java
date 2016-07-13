@@ -89,7 +89,7 @@ public abstract class Toolkit {
         TOOLKIT = toolkit;
     }
 
-    public static Toolkit get() {
+    public static synchronized Toolkit get() {
         if (TOOLKIT == null) {
             //Platform.log("Getting toolkit");
             TOOLKIT = ServiceLoaderHelper.loadService(Toolkit.class);

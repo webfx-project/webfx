@@ -92,7 +92,7 @@ public abstract class Platform {
         Json.registerFactory(platform.jsonFactory());
     }
 
-    public static Platform get() {
+    public static synchronized Platform get() {
         if (PLATFORM == null)
             register(ServiceLoaderHelper.loadService(Platform.class));
         return PLATFORM;
