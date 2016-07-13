@@ -27,7 +27,7 @@ public class WebSocketBusConnection extends ConnectionBase {
                 long t0 = System.currentTimeMillis();
                 BusCallService.call("version", "ignored", bus).setHandler(asyncResult -> {
                     long t1 = System.currentTimeMillis();
-                    Platform.log((asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause()) + " in " + (t1 - t0) + "ms");
+                    Platform.log((asyncResult.succeeded() ? "Connected : "+bus.toString() : "Error : " + asyncResult.cause()) + " in " + (t1 - t0) + "ms");
                 });
                 break;
             case CLOSE:
@@ -49,7 +49,7 @@ public class WebSocketBusConnection extends ConnectionBase {
                 ConnectionEvent event1 = new ConnectionEvent(EventType.CONNECTED);
                 applyEvent(event1);
                 recordEvent(event1);
-                Platform.log("Cnx-CONNECTED");
+                Platform.log("Cnx-CONNECTED : "+bus.toString());
             }
 
             @Override
@@ -57,17 +57,17 @@ public class WebSocketBusConnection extends ConnectionBase {
                 ConnectionEvent event1 = new ConnectionEvent(EventType.NOT_CONNECTED);
                 applyEvent(event1);
                 recordEvent(event1);
-                Platform.log("Cnx-CLOSED");
+                Platform.log("Cnx-CLOSED : "+reason);
             }
 
             @Override
             public void onMessage(String message) {
-                Platform.log("Cnx-MESSAGE : "+message);
+//                Platform.log("Cnx-MESSAGE : "+message);
             }
 
             @Override
             public void onError(String error) {
-                Platform.log("Cnx-ERROR : "+error);
+                Platform.log("Cnx-ERROR ("+bus.toString()+") : "+error);
             }
         };
     }
