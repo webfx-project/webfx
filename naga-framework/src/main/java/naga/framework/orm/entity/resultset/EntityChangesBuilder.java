@@ -40,6 +40,11 @@ public class EntityChangesBuilder {
         return this;
     }
 
+    public void clear() {
+        rsb = null;
+        deletedEntities = null;
+    }
+
     private EntityResultSetBuilder rsb() {
         if (rsb == null)
             rsb = EntityResultSetBuilder.create();

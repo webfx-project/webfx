@@ -62,9 +62,10 @@ public interface Entity {
      */
     void setFieldValue(Object domainFieldId, Object value);
 
+    EntityId getForeignEntityId(Object foreignFieldId);
 
     default Entity getForeignEntity(Object foreignFieldId) {
-        return getStore().getEntity((EntityId) getFieldValue(foreignFieldId));
+        return getStore().getEntity(getForeignEntityId(foreignFieldId));
     }
 
     default Object evaluate(Expression expression) {

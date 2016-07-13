@@ -4,6 +4,7 @@ package naga.framework.orm.entity.impl;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.orm.entity.UpdateStore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +39,18 @@ public class DynamicEntity implements Entity {
     }
 
     @Override
+    public EntityId getForeignEntityId(Object foreignFieldId) {
+        Object value = getFieldValue(foreignFieldId);
+        if (value instanceof EntityId)
+            return (EntityId) value;
+        return null;
+    }
+
+    @Override
     public void setFieldValue(Object domainFieldId, Object value) {
         fieldValues.put(domainFieldId, value);
+        if (store instanceof UpdateStore)
+            ((UpdateStoreImpl) store).updateEntity(id, domainFieldId, value);
     }
 
     @Override
@@ -48,7 +59,7 @@ public class DynamicEntity implements Entity {
     }
 
     public StringBuilder toString(StringBuilder sb) {
-        sb.append(id.getDomainClassId()).append("(pk: ").append(id.getPrimaryKey());
+        sb.append(id.getDomainClass()).append("(pk: ").append(id.getPrimaryKey());
         for (Map.Entry entry : fieldValues.entrySet())
             sb.append(", ").append(entry.getKey()).append(": ").append(entry.getValue());
         sb.append(')');
