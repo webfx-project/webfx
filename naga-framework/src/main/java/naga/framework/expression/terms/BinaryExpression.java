@@ -17,6 +17,8 @@ public abstract class BinaryExpression<T> extends AbstractExpression<T> {
 
     public BinaryExpression(Expression<T> left, String separator, Expression<T> right, int precedenceLevel) {
         super(precedenceLevel);
+        if (left == null || right == null)
+            throw new IllegalArgumentException("An operand can't be null");
         this.left = left;
         this.right = right;
         this.separator = separator;
