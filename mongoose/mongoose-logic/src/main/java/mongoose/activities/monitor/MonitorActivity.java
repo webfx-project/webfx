@@ -11,12 +11,9 @@ import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
 import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.Slider;
 import naga.toolkit.spi.nodes.controls.Table;
 import naga.toolkit.spi.nodes.controls.TextField;
-import naga.toolkit.spi.nodes.gauges.Gauge;
 import naga.toolkit.spi.nodes.layouts.HBox;
-import naga.toolkit.spi.nodes.layouts.VBox;
 
 /**
  * @author Bruno Salmon
@@ -35,9 +32,6 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         Table systemTable = toolkit.createTable();
         TextField freeMemField = toolkit.createTextField();
         TextField totalMemField = toolkit.createTextField();
-        // Sliders
-        Slider requestedSlider = toolkit.createSlider();
-        Gauge startedSlider = toolkit.createGauge();
         // Charts
         LineChart memChart = toolkit.createLineChart();
         // Buttons
@@ -46,11 +40,8 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         // Arranging in boxes
         HBox hBox = toolkit.createHBox();
         hBox.getChildren().setAll(startButton, stopButton);
-        VBox vBox = toolkit.createVBox();
-        vBox.getChildren().setAll(requestedSlider, startedSlider);
         // Building the UI components
         return new MonitorViewModel(toolkit.createVPage()
-                    .setHeader(vBox)
                     .setCenter(memChart)
                     .setFooter(hBox),
                 systemTable,
