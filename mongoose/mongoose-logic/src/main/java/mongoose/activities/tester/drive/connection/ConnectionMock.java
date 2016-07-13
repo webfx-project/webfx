@@ -22,7 +22,7 @@ public class ConnectionMock extends ConnectionBase {
                 scheduler.scheduleDelay(1000, SimConnection);
                 break;
             case CLOSE:
-                event = new ConnectionEvent(EventType.UNCONNECTING);
+                event = new ConnectionEvent(EventType.DISCONNECTING);
                 scheduler.scheduleDelay(500, SimClose);
                 break;
             default:

@@ -34,7 +34,7 @@ public abstract class ConnectionBase implements Connection {
             case CONNECTED:
                 state = CONNECTED;
                 break;
-            case UNCONNECTING:
+            case DISCONNECTING:
                 state = UNCONNECTING;
                 break;
             case NOT_CONNECTED:

@@ -29,7 +29,7 @@ public class EventListenerImpl implements EventListener {
             case CONNECTED:
                 connected ++;
                 break;
-            case UNCONNECTING:
+            case DISCONNECTING:
                 started --;
                 break;
             case NOT_CONNECTED:
