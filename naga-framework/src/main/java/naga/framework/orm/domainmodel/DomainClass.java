@@ -121,6 +121,10 @@ public class DomainClass implements HasLabel {
         return sb.append(Booleans.isTrue(parameter) ? modelId : name);
     }
 
+    public DomainClass getForeignClass(Object foreignFieldId) {
+        return (DomainClass) domainModel.getParserDomainModelReader().getSymbolForeignDomainClass(this, getField(foreignFieldId));
+    }
+
     @Override
     public String toString() {
         return name;

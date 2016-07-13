@@ -43,7 +43,7 @@ public interface Entity {
     /**
      * Return the field value as a int. If the type is not a int, this can result in runtime errors.
      */
-    default Integer getIntFieldValue(Object domainFieldId) { return Numbers.toInteger(getFieldValue(domainFieldId)); }
+    default Integer getIntegerFieldValue(Object domainFieldId) { return Numbers.toInteger(getFieldValue(domainFieldId)); }
 
     /**
      * Return the field value as a long. If the type is not a long, this can result in runtime errors.
@@ -62,9 +62,11 @@ public interface Entity {
      */
     void setFieldValue(Object domainFieldId, Object value);
 
+    void setForeignField(Object foreignFieldId, Object foreignFieldValue);
+
     EntityId getForeignEntityId(Object foreignFieldId);
 
-    default Entity getForeignEntity(Object foreignFieldId) {
+    default <E extends Entity> E getForeignEntity(Object foreignFieldId) {
         return getStore().getEntity(getForeignEntityId(foreignFieldId));
     }
 
