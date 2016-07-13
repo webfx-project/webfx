@@ -1,8 +1,14 @@
 package mongoose.domainmodel.loader;
 
+import mongoose.domainmodel.format.DateFormatter;
+import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.entities.Document;
+import mongoose.entities.DocumentImpl;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.loader.DomainModelLoader;
+import naga.framework.orm.entity.EntityFactoryRegistry;
+import naga.framework.ui.format.FormatterRegistry;
 import naga.platform.json.Json;
 import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonElement;
@@ -38,6 +44,8 @@ public class DomainModelSnapshotLoader {
 
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
+            FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
+            FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
             Future<String> text = Platform.getResourceService().getText("mongoose/domainmodel/DomainModelSnapshot.lzb64json");
             String jsonString = LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);

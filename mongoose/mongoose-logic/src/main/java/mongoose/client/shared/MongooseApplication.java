@@ -5,12 +5,9 @@ import mongoose.activities.container.ContainerActivity;
 import mongoose.activities.event.bookings.BookingsActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
 import mongoose.activities.tester.TesterActivity;
-import mongoose.domainmodel.format.DateFormatter;
-import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainApplicationContext;
-import naga.framework.ui.format.FormatterRegistry;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
@@ -24,8 +21,6 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
 
     @Override
     public void onCreate(UiDomainActivityContext context) {
-        FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
-        FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
 
         uiRouter = UiRouter.create(context)
                 .routeAndMount("/", ContainerActivity::new, UiRouter.createSubRouter(context)
