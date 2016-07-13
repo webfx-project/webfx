@@ -22,10 +22,11 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         Button organizationsButton = toolkit.createButton();
         Button bookingsButton = toolkit.createButton();
         Button monitorButton = toolkit.createButton();
+        Button testerButton = toolkit.createButton();
         Parent header = toolkit.createHBox();
-        header.getChildren().setAll(backButton, forwardButton, bookingsButton, organizationsButton, monitorButton);
+        header.getChildren().setAll(backButton, forwardButton, bookingsButton, organizationsButton, monitorButton, testerButton);
         VPage borderPane = toolkit.createVPage().setHeader(header);
-        return new ContainerViewModel(borderPane, backButton, forwardButton, bookingsButton, organizationsButton, monitorButton);
+        return new ContainerViewModel(borderPane, backButton, forwardButton, bookingsButton, organizationsButton, monitorButton, testerButton);
     }
 
     @Override
@@ -36,6 +37,7 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         vm.getOrganizationsButton().setText("Organizations");
         vm.getBookingsButton().setText("Bookings");
         vm.getMonitorButton().setText("Monitor");
+        vm.getTesterButton().setText("Tester");
         // Binding the mount node property so that child sub routed pages are displayed in the center
         vm.getContentNode().centerProperty().bind(mountNodeProperty());
 
@@ -44,6 +46,7 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         vm.getBackButton().actionEventObservable().subscribe(actionEvent -> getHistory().goBack());
         vm.getForwardButton().actionEventObservable().subscribe(actionEvent -> getHistory().goForward());
         vm.getMonitorButton().actionEventObservable().subscribe(actionEvent -> getHistory().push("/monitor"));
+        vm.getTesterButton().actionEventObservable().subscribe(actionEvent -> getHistory().push("/tester"));
         vm.getOrganizationsButton().actionEventObservable().subscribe(actionEvent -> pm.organizationsButtonActionEventObservable().onNext(actionEvent));
         vm.getBookingsButton().actionEventObservable().subscribe(actionEvent -> pm.bookingsButtonActionEventObservable().onNext(actionEvent));
     }
