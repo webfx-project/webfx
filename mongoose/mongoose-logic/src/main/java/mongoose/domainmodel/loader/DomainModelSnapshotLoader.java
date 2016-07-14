@@ -2,10 +2,7 @@ package mongoose.domainmodel.loader;
 
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
-import mongoose.entities.Document;
-import mongoose.entities.DocumentImpl;
-import mongoose.entities.Event;
-import mongoose.entities.EventImpl;
+import mongoose.entities.*;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
@@ -50,6 +47,7 @@ public class DomainModelSnapshotLoader {
             FormatterRegistry.registerFormatter("price", PriceFormatter.SINGLETON);
             FormatterRegistry.registerFormatter("date", DateFormatter.SINGLETON);
             // Registering entity java classes
+            EntityFactoryRegistry.registerEntityFactory(MetricsEntity.class, "Metrics", MetricsEntityImpl::new);
             EntityFactoryRegistry.registerEntityFactory(Document.class, "Document", DocumentImpl::new);
             EntityFactoryRegistry.registerEntityFactory(Event.class, "Event", EventImpl::new);
             // Loading the model from the resource snapshot
