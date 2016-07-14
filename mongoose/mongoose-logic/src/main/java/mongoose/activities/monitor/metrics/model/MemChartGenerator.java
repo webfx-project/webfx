@@ -53,7 +53,6 @@ public class MemChartGenerator {
     }
 
     private void readTask () {
-        System.out.println("readTask() called in " + Thread.currentThread().getName());
         memList.add(Metrics.getInstance().getMemData());
         createDisplayResultSet();
     }
