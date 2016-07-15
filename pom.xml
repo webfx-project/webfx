@@ -43,7 +43,7 @@
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
         <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
-        <lib.medusa.version>5.3</lib.medusa.version>
+        <lib.medusa.version>5.5</lib.medusa.version>
         <lib.junit.version>4.12</lib.junit.version>
 
         <!-- plugins versions -->
