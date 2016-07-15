@@ -61,21 +61,6 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
                     Platform.log("Inserting metrics in database failed!", asyncResult.cause());
             });
         });
-
-
-/*
-        // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Metrics', orderBy: 'date desc'}")
-                .setExpressionColumns("[" +
-                        "{expression: 'date', format: 'date'}," +
-                        "'memoryTotal'," +
-                        "'memoryFree'," +
-                        "'memoryMax'," +
-                        "'memoryUsed'" +
-                        "]")
-                .combine(pm.limitProperty(), "{limit: '100'}")
-                .displayResultSetInto(pm.bookingsDisplayResultSetProperty());
-*/
     }
 
     @Override
