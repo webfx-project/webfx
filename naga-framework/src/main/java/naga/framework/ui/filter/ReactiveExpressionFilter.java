@@ -1,6 +1,7 @@
 package naga.framework.ui.filter;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.framework.orm.domainmodel.DataSourceModel;
@@ -42,6 +43,7 @@ public class ReactiveExpressionFilter {
     private Object listId;
     private Property<DisplaySelection> displaySelectionProperty;
     private boolean selectFirstRowOnFirstDisplay;
+    private boolean autoRefresh = false;
 
     public ReactiveExpressionFilter() {
     }
@@ -176,6 +178,11 @@ public class ReactiveExpressionFilter {
         return combine(RxUi.observeIf(Observable.just(stringFilter), ifProperty));
     }
 
+    public ReactiveExpressionFilter setAutoRefresh(boolean autoRefresh) {
+        this.autoRefresh = autoRefresh;
+        return this;
+    }
+
     private void checkFields() {
         if (store == null)
             store = EntityStore.create(dataSourceModel);
@@ -195,9 +202,14 @@ public class ReactiveExpressionFilter {
         // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
         if (displayResultSetProperty.getValue() == null && expressionColumns != null)
             Toolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(emptyDisplayResultSet()));
+        if (autoRefresh) {
+            Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
+            Platform.schedulePeriodic(5000, () -> ticTacProperty.setValue(!ticTacProperty.getValue()));
+            combine(ticTacProperty, "{}");
+        }
         Observable<DisplayResultSet> displayResultObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
-                .distinctUntilChanged()
+                //.distinctUntilChanged() // commented to allow auto refresh
                 .switchMap(stringFilter -> {
                     if ("false".equals(stringFilter.getWhere()))
                         return Observable.just(emptyDisplayResultSet());
