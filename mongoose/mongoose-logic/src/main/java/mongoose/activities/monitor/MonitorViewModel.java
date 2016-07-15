@@ -25,8 +25,8 @@ public class MonitorViewModel implements ViewModel {
                             TextField freeMemField,
                             TextField totalMemField,
                             Chart memChart,
-                            Button<Integer> startButton,
-                            Button<Integer> stopButton) {
+                            Button startButton,
+                            Button stopButton) {
         this.contentNode = contentNode;
         this.systemTable = systemTable;
         this.freeMemField = freeMemField;
