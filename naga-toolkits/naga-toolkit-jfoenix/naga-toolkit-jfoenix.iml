@@ -14,7 +14,7 @@
     <orderEntry type="module" module-name="naga-toolkit-javafx" />
     <orderEntry type="module" module-name="naga-toolkit" />
     <orderEntry type="module" module-name="naga-commons" />
-    <orderEntry type="library" name="Maven: eu.hansolo:Medusa:5.0" level="project" />
+    <orderEntry type="library" name="Maven: eu.hansolo:Medusa:5.5" level="project" />
     <orderEntry type="library" name="Maven: com.jfoenix:jfoenix:0.0.0-SNAPSHOT" level="project" />
   </component>
 </module>
