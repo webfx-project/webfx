@@ -19,6 +19,11 @@
    -fx-text-fill: -fx-text-inner-color;
 }
 
+.chart-series-line {
+    -fx-stroke-width: 1.5px;
+}
+
+
 /* Declaring color variables with default values */
 * {
    -color-base: white;
