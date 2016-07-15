@@ -5,6 +5,7 @@ import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.Chart;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.layouts.HBox;
+import naga.toolkit.spi.nodes.layouts.VBox;
 
 /**
  * @author Bruno Salmon
@@ -18,20 +19,23 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
     protected MonitorViewModel buildView(Toolkit toolkit) {
         // Chart
         Chart memChart = toolkit.createLineChart();
+        Chart sysChart = toolkit.createLineChart();
         // Buttons
         Button startButton = toolkit.createButton();
         Button stopButton = toolkit.createButton();
         // Arranging in boxes
+        VBox vBox = toolkit.createVBox();
+        vBox.getChildren().setAll(memChart, sysChart);
         HBox hBox = toolkit.createHBox();
         hBox.getChildren().setAll(startButton, stopButton);
         // Building the content node and returning the view model
         return new MonitorViewModel(toolkit.createVPage()
-                    .setCenter(memChart)
+                    .setCenter(vBox)
                     .setFooter(hBox),
-                toolkit.createTable(),     // systemTable
-                toolkit.createTextField(), // freeMemField
-                toolkit.createTextField(), // totalMemField
-                memChart, startButton, stopButton);
+//                toolkit.createTable(),     // systemTable
+//                toolkit.createTextField(), // freeMemField
+//                toolkit.createTextField(), // totalMemField
+                memChart, sysChart, startButton, stopButton);
     }
 
     protected void bindViewModelWithPresentationModel(MonitorViewModel vm, MonitorPresentationModel pm) {
@@ -39,14 +43,20 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         vm.getStartButton().setText("Start");
         vm.getStopButton().setText("Stop");
         // Charts
-        vm.getMemChart().displayResultSetProperty().bind(pm.chartDisplayResultSetProperty());
+        vm.getMemChart().displayResultSetProperty().bind(pm.memChartDisplayResultSetProperty());
+        vm.getSysChart().displayResultSetProperty().bind(pm.sysChartDisplayResultSetProperty());
     }
 
     protected void bindPresentationModelWithLogic(MonitorPresentationModel pm) {
         createReactiveExpressionFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
                 .setExpressionColumns("['0 + id','memoryUsed','memoryTotal']")
                 .setAutoRefresh(true)
-                .displayResultSetInto(pm.chartDisplayResultSetProperty());
+                .displayResultSetInto(pm.memChartDisplayResultSetProperty());
+
+        createReactiveExpressionFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
+                .setExpressionColumns("['0 + id','memoryUsed','memoryTotal']")
+                .setAutoRefresh(true)
+                .displayResultSetInto(pm.memChartDisplayResultSetProperty());
 /*
         // Metrics
         Metrics metrics = Metrics.getInstance();
@@ -55,7 +65,7 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         // Charts
         MemChartGenerator memChart = new MemChartGenerator();
         memChart.start();        // update the list of snapshots to display on chart
-        pm.chartDisplayResultSetProperty().bind(memChart.memListProperty());
+        pm.memChartDisplayResultSetProperty().bind(memChart.memListProperty());
 */
     }
 }

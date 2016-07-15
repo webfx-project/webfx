@@ -23,13 +23,13 @@ public interface Metrics {
 
     Long getMemoryMax();
 
-    void setSystemLoadAverage(Long systemLoadAverage);
+    void setSystemLoadAverage(Double systemLoadAverage);
 
-    Long getSystemLoadAverage();
+    Double getSystemLoadAverage();
 
-    void setProcessCpuLoad(Long processCpuLoad);
+    void setProcessCpuLoad(Double processCpuLoad);
 
-    Long getProcessCpuLoad();
+    Double getProcessCpuLoad();
 
     Long getMemoryUsed();
 }

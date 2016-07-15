@@ -57,23 +57,23 @@ public class MetricsEntityImpl extends DynamicEntity implements MetricsEntity {
     }
 
     @Override
-    public void setSystemLoadAverage(Long systemLoadAverage) {
+    public void setSystemLoadAverage(Double systemLoadAverage) {
         setFieldValue("systemLoadAverage", systemLoadAverage);
     }
 
     @Override
-    public Long getSystemLoadAverage() {
-        return getLongFieldValue("systemLoadAverage");
+    public Double getSystemLoadAverage() {
+        return getDoubleFieldValue("systemLoadAverage");
     }
 
     @Override
-    public void setProcessCpuLoad(Long processCpuLoad) {
+    public void setProcessCpuLoad(Double processCpuLoad) {
         setFieldValue("processCpuLoad", processCpuLoad);
     }
 
     @Override
-    public Long getProcessCpuLoad() {
-        return getLongFieldValue("processCpuLoad");
+    public Double getProcessCpuLoad() {
+        return getDoubleFieldValue("processCpuLoad");
     }
 
     @Override

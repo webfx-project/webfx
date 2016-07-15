@@ -10,7 +10,9 @@ import naga.toolkit.display.DisplayResultSet;
  */
 class MonitorPresentationModel implements PresentationModel {
 
-    private final Property<DisplayResultSet> chartDisplayResultSetProperty = new SimpleObjectProperty<>();
-    Property<DisplayResultSet> chartDisplayResultSetProperty() { return chartDisplayResultSetProperty; }
+    private final Property<DisplayResultSet> memChartDisplayResultSetProperty = new SimpleObjectProperty<>();
+    Property<DisplayResultSet> memChartDisplayResultSetProperty() { return memChartDisplayResultSetProperty; }
 
+    private final Property<DisplayResultSet> sysChartDisplayResultSetProperty = new SimpleObjectProperty<>();
+    Property<DisplayResultSet> sysChartDisplayResultSetProperty() { return sysChartDisplayResultSetProperty; }
 }
