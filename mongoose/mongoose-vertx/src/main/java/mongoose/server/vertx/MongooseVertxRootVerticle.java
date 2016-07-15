@@ -1,6 +1,6 @@
 package mongoose.server.vertx;
 
-import mongoose.server.MongooseServerActivity;
+import mongoose.server.MongooseMetricsServerActivity;
 import naga.providers.platform.server.vertx.util.VertxRunner;
 import naga.providers.platform.server.vertx.verticles.RootVerticle;
 
@@ -16,7 +16,7 @@ public class MongooseVertxRootVerticle extends RootVerticle {
     @Override
     public void start() throws Exception {
         super.start();
-        MongooseServerActivity.startServerActivity();
+        MongooseMetricsServerActivity.startActivity();
     }
 
 }

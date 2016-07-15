@@ -20,6 +20,7 @@ package naga.providers.platform.abstr.java.scheduler;
 
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.Scheduler;
+import naga.platform.spi.Platform;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeUnit;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public class JavaScheduler implements Scheduler {
-    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     public JavaScheduler() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -52,17 +53,17 @@ public class JavaScheduler implements Scheduler {
 
     @Override
     public void scheduleDeferred(Runnable runnable) {
-        executor.execute(runnable);
+        executor.execute(caughtRunnable(runnable));
     }
 
     @Override
     public JavaScheduled scheduleDelay(long delayMs, Runnable runnable) {
-        return new JavaScheduled(executor.schedule(runnable, delayMs, TimeUnit.MILLISECONDS));
+        return new JavaScheduled(executor.schedule(caughtRunnable(runnable), delayMs, TimeUnit.MILLISECONDS));
     }
 
     @Override
     public JavaScheduled schedulePeriodic(long delayMs, Runnable runnable) {
-        return new JavaScheduled(executor.scheduleAtFixedRate(runnable, delayMs, delayMs, TimeUnit.MILLISECONDS));
+        return new JavaScheduled(executor.scheduleAtFixedRate(caughtRunnable(runnable), delayMs, delayMs, TimeUnit.MILLISECONDS));
     }
 
     @Override
@@ -70,9 +71,19 @@ public class JavaScheduler implements Scheduler {
         return false;
     }
 
+    private static Runnable caughtRunnable(Runnable runnable) {
+        return () -> {
+            try {
+                runnable.run();
+            } catch (Throwable t) {
+                Platform.log("Uncaught exception in scheduled runnable " + runnable, t);
+            }
+        };
+    }
+
     @Override
     public void runInBackground(Runnable runnable) {
-        executor.execute(runnable);
+        executor.execute(caughtRunnable(runnable));
     }
 
     private static class JavaScheduled implements Scheduled {

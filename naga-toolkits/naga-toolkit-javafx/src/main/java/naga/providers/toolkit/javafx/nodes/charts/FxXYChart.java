@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class FxXYChart extends FxChart {
+public class FxXYChart<N extends XYChart> extends FxChart<N> {
 
     private List<XYChart.Series> seriesList;
     private Object xValue;
 
-    public FxXYChart(javafx.scene.chart.Chart chart) {
+    protected FxXYChart(N chart) {
         super(chart);
     }
 

@@ -24,6 +24,7 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
 
     public UpdateStoreImpl(DataSourceModel dataSourceModel) {
         super(dataSourceModel);
+        dataSourceModel.getDomainModel(); // Making sure the domain model is loaded in memory and entity factories are registered
     }
 
     EntityChangesBuilder getChangesBuilder() {

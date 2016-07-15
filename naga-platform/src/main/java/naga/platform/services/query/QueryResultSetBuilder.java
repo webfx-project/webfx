@@ -57,6 +57,7 @@ public class QueryResultSetBuilder {
 
     public QueryResultSet build() {
         if (values == null) {
+            rowCount = growingRows.size();
             values = new Object[rowCount * columnCount];
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)

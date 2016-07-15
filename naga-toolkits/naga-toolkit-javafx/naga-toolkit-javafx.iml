@@ -14,6 +14,6 @@
     <orderEntry type="module" module-name="naga-toolkit" />
     <orderEntry type="module" module-name="naga-commons" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
-    <orderEntry type="library" name="Maven: eu.hansolo:Medusa:5.0" level="project" />
+    <orderEntry type="library" name="Maven: eu.hansolo:Medusa:5.5" level="project" />
   </component>
 </module>

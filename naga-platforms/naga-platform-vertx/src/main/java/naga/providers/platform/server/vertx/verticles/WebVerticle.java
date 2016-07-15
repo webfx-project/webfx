@@ -24,7 +24,7 @@ public class WebVerticle extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        createHttpServer(80);   // standard web port
+        //createHttpServer(80);   // standard web port
         createHttpServer(9090); // (temporary): alternative secondary access in case the web port is already bound
     }
 
