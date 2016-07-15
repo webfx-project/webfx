@@ -1,5 +1,6 @@
 package naga.providers.toolkit.javafx.nodes.charts;
 
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import naga.toolkit.spi.nodes.charts.Chart;
 import naga.toolkit.properties.markers.SelectionMode;
@@ -14,11 +15,11 @@ import naga.commons.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.scene.chart.Chart> implements Chart<javafx.scene.chart.Chart> {
+public abstract class FxChart<N extends javafx.scene.chart.Chart> extends FxSelectableDisplayResultSetNode<N> implements Chart<N> {
 
     private final boolean isPieChart;
 
-    public FxChart(javafx.scene.chart.Chart chart) {
+    public FxChart(N chart) {
         super(chart);
         isPieChart = chart instanceof PieChart;
         chart.setAnimated(false);
@@ -79,5 +80,11 @@ public abstract class FxChart extends FxSelectableDisplayResultSetNode<javafx.sc
     protected abstract void setChartDataY(Object yValue, int pointIndex, int seriesIndex);
 
     protected abstract void applyChartData();
+
+    protected static NumberAxis createNumberAxis() {
+        NumberAxis axis = new NumberAxis();
+        axis.setForceZeroInRange(false);
+        return axis;
+    }
 
 }

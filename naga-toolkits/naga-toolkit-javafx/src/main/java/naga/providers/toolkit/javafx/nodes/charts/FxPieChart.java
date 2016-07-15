@@ -2,16 +2,15 @@ package naga.providers.toolkit.javafx.nodes.charts;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.Chart;
-import naga.toolkit.spi.nodes.charts.PieChart;
 import naga.commons.type.Type;
 import naga.commons.util.Numbers;
 import naga.commons.util.function.Function;
+import naga.toolkit.spi.nodes.charts.PieChart;
 
 /**
  * @author Bruno Salmon
  */
-public class FxPieChart extends FxChart implements PieChart<Chart> {
+public class FxPieChart extends FxChart<javafx.scene.chart.PieChart> implements PieChart<javafx.scene.chart.PieChart> {
 
     private ObservableList<javafx.scene.chart.PieChart.Data> pieData;
     private Function<Integer, String> seriesNameGetter;
@@ -47,6 +46,6 @@ public class FxPieChart extends FxChart implements PieChart<Chart> {
 
     @Override
     protected void applyChartData() {
-        ((javafx.scene.chart.PieChart) node).setData(pieData);
+        node.setData(pieData);
     }
 }

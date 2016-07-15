@@ -1,12 +1,11 @@
 package naga.providers.toolkit.javafx.nodes.charts;
 
-import javafx.scene.chart.NumberAxis;
 import naga.toolkit.spi.nodes.charts.LineChart;
 
 /**
  * @author Bruno Salmon
  */
-public class FxLineChart extends FxXYChart implements LineChart<javafx.scene.chart.Chart> {
+public class FxLineChart extends FxXYChart<javafx.scene.chart.LineChart> implements LineChart<javafx.scene.chart.LineChart> {
 
     public FxLineChart() {
         this(createLineChart());
@@ -17,7 +16,7 @@ public class FxLineChart extends FxXYChart implements LineChart<javafx.scene.cha
     }
 
     private static javafx.scene.chart.LineChart createLineChart() {
-        javafx.scene.chart.LineChart lineChart = new javafx.scene.chart.LineChart(new NumberAxis(), new NumberAxis());
+        javafx.scene.chart.LineChart lineChart = new javafx.scene.chart.LineChart(createNumberAxis(), createNumberAxis());
         lineChart.setCreateSymbols(false);
         return lineChart;
     }

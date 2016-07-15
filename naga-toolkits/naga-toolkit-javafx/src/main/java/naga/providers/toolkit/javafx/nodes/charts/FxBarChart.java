@@ -1,14 +1,11 @@
 package naga.providers.toolkit.javafx.nodes.charts;
 
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.Chart;
-import javafx.scene.chart.NumberAxis;
 import naga.toolkit.spi.nodes.charts.BarChart;
 
 /**
  * @author Bruno Salmon
  */
-public class FxBarChart extends FxXYChart implements BarChart<Chart> {
+public class FxBarChart extends FxXYChart<javafx.scene.chart.BarChart> implements BarChart<javafx.scene.chart.BarChart> {
 
     public FxBarChart() {
         this(createBarChart());
@@ -19,6 +16,6 @@ public class FxBarChart extends FxXYChart implements BarChart<Chart> {
     }
 
     private static javafx.scene.chart.BarChart createBarChart() {
-        return new javafx.scene.chart.BarChart(new CategoryAxis(), new NumberAxis());
+        return new javafx.scene.chart.BarChart(createNumberAxis(), createNumberAxis());
     }
 }

@@ -1,14 +1,11 @@
 package naga.providers.toolkit.javafx.nodes.charts;
 
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.Chart;
-import javafx.scene.chart.NumberAxis;
 import naga.toolkit.spi.nodes.charts.ScatterChart;
 
 /**
  * @author Bruno Salmon
  */
-public class FxScatterChart extends FxXYChart implements ScatterChart<Chart> {
+public class FxScatterChart extends FxXYChart<javafx.scene.chart.ScatterChart> implements ScatterChart<javafx.scene.chart.ScatterChart> {
 
     public FxScatterChart() {
         this(createScatterChart());
@@ -19,6 +16,6 @@ public class FxScatterChart extends FxXYChart implements ScatterChart<Chart> {
     }
 
     private static javafx.scene.chart.ScatterChart createScatterChart() {
-        return new javafx.scene.chart.ScatterChart(new CategoryAxis(), new NumberAxis());
+        return new javafx.scene.chart.ScatterChart(createNumberAxis(), createNumberAxis());
     }
 }
