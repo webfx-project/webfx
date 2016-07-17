@@ -54,6 +54,7 @@ public class ReactiveExpressionFilter {
 
     public ReactiveExpressionFilter setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
+        dataSourceModel.getDomainModel(); // Ensuring the data model is loaded with formats registered before expression columns are set
         return this;
     }
 

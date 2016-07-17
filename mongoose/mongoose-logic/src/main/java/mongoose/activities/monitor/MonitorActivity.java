@@ -54,9 +54,9 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
                 .displayResultSetInto(pm.memChartDisplayResultSetProperty());
 
         createReactiveExpressionFilter("{class: 'Metrics', orderBy: 'date desc', limit: '500'}")
-                .setExpressionColumns("['0 + id','processCpuLoad','systemLoadAverage']")
+                .setExpressionColumns("['0 + id','systemLoadAverage','processCpuLoad']")
                 .setAutoRefresh(true)
-                .displayResultSetInto(pm.memChartDisplayResultSetProperty());
+                .displayResultSetInto(pm.sysChartDisplayResultSetProperty());
 /*
         // Metrics
         Metrics metrics = Metrics.getInstance();
