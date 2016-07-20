@@ -1,5 +1,6 @@
 package naga.framework.orm.entity.resultset;
 
+import naga.commons.util.Arrays;
 import naga.commons.util.async.Batch;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.CompilerDomainModelReader;
@@ -11,12 +12,10 @@ import naga.framework.expression.terms.*;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityId;
+import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
@@ -47,6 +46,7 @@ public class EntityChangesToUpdateBatchGenerator {
         private final DbmsSqlSyntaxOptions dbmsSyntax;
         private final CompilerDomainModelReader compilerModelReader;
         private final List<UpdateArgument> updateArguments = new ArrayList<>();
+        private final Map<EntityId, Integer> newEntityIdInsertBatchIndexes = new IdentityHashMap<>();
 
         public BatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader compilerModelReader) {
             this.changes = changes;
@@ -58,11 +58,58 @@ public class EntityChangesToUpdateBatchGenerator {
         Batch<UpdateArgument> generate() {
             // First generating delete statements
             generateDeletes();
-            // Then insert and update statements
+            // Then insert and update statements. Statements parameters values may temporary contains EntityId objects,
+            // which will be replaced on next step while sorting statements.
             generateInsertUpdates();
+            // Finally sorting the statements so that any statement (insert or update) that is referring to a new entity
+            // will be executed after that entity has been inserted into the database. For such statements, the parameter
+            // value referring to the new entity is replaced with a GeneratedKeyBatchIndex object that contains the index
+            // of the insert statement in the batch. The UpdateService must replace that value with the generated key
+            // returned by that insert statement (which will be already executed at this stage thanks to the sort).
+            // This sorting method also replaces all other (not new) EntityId with their primary key in the parameter
+            // values so that they can be used as is without any transformation by the UpdateService.
+            sortStatementsByCreationOrder();
             // Returning the batch
             return new Batch<>(updateArguments.toArray(new UpdateArgument[updateArguments.size()]));
         }
+
+        void sortStatementsByCreationOrder() {
+            int size = updateArguments.size();
+            int sorted = 0;
+            List<UpdateArgument> sortedList = new ArrayList<>(updateArguments);
+            while (sorted < size) {
+                boolean someResolved = false;
+                for (int batchIndex = 0; batchIndex < size; batchIndex++) {
+                    UpdateArgument arg = updateArguments.get(batchIndex);
+                    if (arg != null) {
+                        Object[] parameters = arg.getParameters();
+                        int length = Arrays.length(parameters);
+                        for (int parameterIndex = 0; parameterIndex < length; parameterIndex++) {
+                            Object value = parameters[parameterIndex];
+                            if (value instanceof EntityId) {
+                                EntityId entityId = (EntityId) value;
+                                if (!entityId.isNew())
+                                    parameters[parameterIndex] = entityId.getPrimaryKey();
+                                else {
+                                    Integer insertIndex = newEntityIdInsertBatchIndexes.get(entityId);
+                                    if (insertIndex >= sorted)
+                                        break;
+                                    parameters[parameterIndex] = new GeneratedKeyBatchIndex(insertIndex);
+                                }
+                            }
+                        }
+                        sortedList.set(sorted++, arg);
+                        updateArguments.set(batchIndex, null);
+                        someResolved = true;
+                    }
+                }
+                if (!someResolved)
+                    throw new IllegalStateException("Cyclic references detected");
+            }
+            for (int i = 0; i < size; i++)
+                updateArguments.set(i, sortedList.get(i));
+        }
+
 
         void generateDeletes() {
             Collection<EntityId> deletedEntities = changes.getDeletedEntityIds();
@@ -90,20 +137,22 @@ public class EntityChangesToUpdateBatchGenerator {
             if (rs != null) {
                 for (EntityId id : rs.getEntityIds()) {
                     List<Equals> assignments = new ArrayList<>();
-                    for (Object fieldId : rs.getFieldIds(id))
+                    List values = new ArrayList();
+                    for (Object fieldId : rs.getFieldIds(id)) // java 8 forEach doesn't compile with GWT
                         if (fieldId != null) {
-                            Object fieldValue = rs.getFieldValue(id, fieldId);
-                            if (fieldValue instanceof EntityId)
-                                fieldValue = ((EntityId) fieldValue).getPrimaryKey();
-                            assignments.add(new Equals(id.getDomainClass().getField(fieldId), Constant.newConstant(fieldValue)));
+                            assignments.add(new Equals(id.getDomainClass().getField(fieldId), Parameter.UNNAMED_PARAMETER));
+                            values.add(rs.getFieldValue(id, fieldId));
                         }
                     ExpressionArray setClause = new ExpressionArray(assignments);
                     if (id.isNew()) { // insert statement
+                        newEntityIdInsertBatchIndexes.put(id, updateArguments.size());
                         Insert insert = new Insert(id.getDomainClass(), setClause);
-                        addToBatch(compileInsert(insert, null), null);
+                        Object[] parameterValues = values.isEmpty() ? null : values.toArray();
+                        addToBatch(compileInsert(insert, parameterValues), parameterValues);
                     } else { // update statement
                         Update update = new Update(id.getDomainClass(), setClause, WHERE_ID_EQUALS_PARAM);
-                        Object[] parameterValues = {id.getPrimaryKey()};
+                        values.add(id.getPrimaryKey());
+                        Object[] parameterValues = values.toArray();
                         addToBatch(compileUpdate(update, parameterValues), parameterValues);
                     }
                 }
