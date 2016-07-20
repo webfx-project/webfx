@@ -13,7 +13,7 @@ public interface UpdateService {
     Future<UpdateResult> executeUpdate(UpdateArgument argument);
 
     default Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
-        return batch.execute(this::executeUpdate, UpdateResult.class);
+        return batch.executeSerial(this::executeUpdate, UpdateResult.class);
     }
 
 }

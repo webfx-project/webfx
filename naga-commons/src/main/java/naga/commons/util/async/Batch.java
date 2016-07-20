@@ -19,8 +19,11 @@ public class Batch<A> {
         return array;
     }
 
-    public <R> Future<Batch<R>> execute(AsyncFunction<A, R> asyncFunction, Class<R> expectedResultClass) {
-        Future<Batch<R>> future = Future.future();
+    public <R> Future<Batch<R>> executeParallel(AsyncFunction<A, R> asyncFunction, Class<R> expectedResultClass) {
+        return executeParallel(asyncFunction, expectedResultClass, Future.future());
+    }
+
+    public <R> Future<Batch<R>> executeParallel(AsyncFunction<A, R> asyncFunction, Class<R> expectedResultClass, Future<Batch<R>> future) {
         int n = array.length, i = 0;
         R[] results = (R[]) Array.newInstance(expectedResultClass, n);
         Unit<Integer> responseCounter = new Unit<>(0);
@@ -39,6 +42,33 @@ public class Batch<A> {
                 }
             });
         }
+        return future;
+    }
+
+    public <R> Future<Batch<R>> executeSerial(AsyncFunction<A, R> asyncFunction, Class<R> expectedResultClass) {
+        return executeSerial(asyncFunction, expectedResultClass, Future.future());
+    }
+
+    public <R> Future<Batch<R>> executeSerial(AsyncFunction<A, R> asyncFunction, Class<R> expectedResultClass, Future<Batch<R>> future) {
+        int n = array.length, i = 0;
+        R[] results = (R[]) Array.newInstance(expectedResultClass, n);
+        Unit<Integer> responseCounter = new Unit<>(0);
+        Unit<Handler<AsyncResult<R>>> handlerUnit = new Unit<>();
+        handlerUnit.set(asyncResult -> {
+            if (!future.isComplete()) {
+                if (asyncResult.failed())
+                    future.fail(asyncResult.cause());
+                else {
+                    results[responseCounter.get()] = asyncResult.result();
+                    responseCounter.set(responseCounter.get() + 1);
+                    if (responseCounter.get() < n)
+                        asyncFunction.apply(getArray()[0]).setHandler(handlerUnit.get());
+                    else
+                        future.complete(new Batch<>(results));
+                }
+            }
+        });
+        asyncFunction.apply(getArray()[0]).setHandler(handlerUnit.get());
         return future;
     }
 

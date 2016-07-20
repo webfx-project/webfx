@@ -15,7 +15,7 @@ public interface QueryService {
     // Batch support
 
     default Future<Batch<QueryResultSet>> executeQueryBatch(Batch<QueryArgument> batch) {
-        return batch.execute(this::executeQuery, QueryResultSet.class);
+        return batch.executeParallel(this::executeQuery, QueryResultSet.class);
     }
 
 }
