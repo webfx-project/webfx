@@ -18,13 +18,12 @@ public class WebSocketBusConnection extends ConnectionBase {
 
     @Override
     public ConnectionEvent executeCommand(Command t) {
-//        Scheduler scheduler = Platform.get().scheduler();
         ConnectionEvent event;
         switch (t) {
             case OPEN:
-                event = new ConnectionEvent(EventType.CONNECTING);
                 bus = (WebSocketBus)Platform.createBus();
                 bus.setWebSocketListener(createWebSocketListener());
+                event = new ConnectionEvent(EventType.CONNECTING);
                 long t0 = System.currentTimeMillis();
                 BusCallService.call("version", "ignored", bus).setHandler(asyncResult -> {
                     long t1 = System.currentTimeMillis();
