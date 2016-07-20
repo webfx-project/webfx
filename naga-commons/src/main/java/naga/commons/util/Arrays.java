@@ -21,8 +21,12 @@ public class Arrays {
         return java.util.Arrays.asList(a);
     }
 
+    public static <T> int length(T[] array) {
+        return array == null ? 0 : array.length;
+    }
+
     public static <T> boolean isEmpty(T[] array) {
-        return array == null || array.length == 0;
+        return length(array) == 0;
     }
 
     public static <T> String toString(T[] array) {
