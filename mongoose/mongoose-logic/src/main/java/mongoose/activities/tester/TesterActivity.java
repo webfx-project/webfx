@@ -9,7 +9,9 @@ import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
+import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.controls.Slider;
+import naga.toolkit.spi.nodes.controls.TextField;
 import naga.toolkit.spi.nodes.gauges.Gauge;
 import naga.toolkit.spi.nodes.layouts.VBox;
 
@@ -25,6 +27,13 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
     private ObjectProperty<ConnectionData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
 
     protected TesterViewModel buildView(Toolkit toolkit) {
+        // TextFields
+        TextField<String> testName = toolkit.createTextField();
+        TextField<String> testComment = toolkit.createTextField();
+        testName.setPlaceholder("Test name");
+        testComment.setPlaceholder("Comments");
+        Button createTest = toolkit.createButton();
+        createTest.setText("Create Test");
         // Sliders
         Slider requestedSlider = toolkit.createSlider();
         Gauge startedSlider = toolkit.createGauge();
@@ -32,17 +41,24 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         LineChart connectionsChart = toolkit.createLineChart();
         // Arranging in boxes
         VBox vBox = toolkit.createVBox();
-        vBox.getChildren().setAll(requestedSlider, startedSlider);
+        vBox.getChildren().setAll(testName, testComment, createTest, requestedSlider, startedSlider);
         // Building the UI components
         return new TesterViewModel(toolkit.createVPage()
                     .setHeader(vBox)
                     .setCenter(connectionsChart),
+                testName,
+                testComment,
+                createTest,
                 connectionsChart,
                 requestedSlider,
                 startedSlider);
     }
 
     protected void bindViewModelWithPresentationModel(TesterViewModel vm, TesterPresentationModel pm) {
+        // Test description
+        pm.testNameProperty().bind(vm.getTestName().textProperty());
+        pm.testCommentProperty().bind(vm.getTestComment().textProperty());
+        vm.getCreateTest().actionEventObservable() ; // TODO implementer l'action du bouton
         // Sliders
         vm.getStartedSlider().setMin(0);
         vm.getStartedSlider().setMax(3000);

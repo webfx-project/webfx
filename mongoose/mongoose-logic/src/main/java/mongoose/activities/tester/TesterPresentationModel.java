@@ -10,6 +10,12 @@ import naga.framework.ui.presentation.PresentationModel;
  */
 class TesterPresentationModel implements PresentationModel {
 
+    private final Property<String> testNameProperty = new SimpleObjectProperty<>();
+    Property<String> testNameProperty() { return testNameProperty; }
+
+    private final Property<String> testCommentProperty = new SimpleObjectProperty<>();
+    Property<String> testCommentProperty() { return testCommentProperty; }
+
     private final Property<Integer> requestedConnectionsProperty = new SimpleObjectProperty<>(0);
     Property<Integer> requestedConnectionsProperty() { return requestedConnectionsProperty; }
 

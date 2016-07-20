@@ -8,7 +8,7 @@ import naga.framework.orm.entity.EntityId;
  */
 public interface Document extends Entity {
 
-    void setEventId(Object eventId);
+    void setEvent(Object event);
 
     EntityId getEventId();
 
