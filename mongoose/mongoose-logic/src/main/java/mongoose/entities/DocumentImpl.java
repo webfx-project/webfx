@@ -14,8 +14,8 @@ public class DocumentImpl extends DynamicEntity implements Document {
     }
 
     @Override
-    public void setEventId(Object eventId) {
-        setForeignField("event", eventId);
+    public void setEvent(Object event) {
+        setForeignField("event", event);
     }
 
     @Override

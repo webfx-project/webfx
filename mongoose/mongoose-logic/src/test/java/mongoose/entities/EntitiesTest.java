@@ -23,7 +23,7 @@ public class EntitiesTest {
     public void test() throws Throwable {
         UpdateStore store = UpdateStore.create(dataSourceModel);
         Document d = store.insertEntity(Document.class);
-        d.setEventId(116);
+        d.setEvent(116);
         d.setPersonFirstName("test");
         d.setPersonLastName("TEST");
 /*
