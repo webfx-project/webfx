@@ -111,7 +111,7 @@ public class QueryResultSet {
      *                    Json Codec                    *
      * *************************************************/
 
-    private final static String CODEC_ID = "QueryResultSet";
+    public final static String CODEC_ID = "QueryResultSet";
     private final static String COLUMN_NAMES_KEY = "names";
     private final static String COLUMN_TYPES_KEY = "types";
     private final static String VALUES_KEY = "values";

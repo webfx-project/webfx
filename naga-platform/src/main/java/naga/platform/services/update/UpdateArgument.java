@@ -48,11 +48,11 @@ public class UpdateArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "UpdateArg";
-    private static String UPDATE_KEY = "update";
-    private static String PARAMETERS_KEY = "params";
-    private static String RETURN_GENERATED_KEYS_KEY = "genKeys";
-    private static String DATA_SOURCE_ID_KEY = "dsId";
+    public static final String CODEC_ID = "UpdateArg";
+    private static final String UPDATE_KEY = "update";
+    private static final String PARAMETERS_KEY = "params";
+    private static final String RETURN_GENERATED_KEYS_KEY = "genKeys";
+    private static final String DATA_SOURCE_ID_KEY = "dsId";
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<UpdateArgument>(UpdateArgument.class, CODEC_ID) {

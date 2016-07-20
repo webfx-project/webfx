@@ -41,10 +41,10 @@ public class QueryArgument {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "QueryArg";
-    private static String QUERY_KEY = "query";
-    private static String PARAMETERS_KEY = "params";
-    private static String DATA_SOURCE_ID_KEY = "dsId";
+    public static final String CODEC_ID = "QueryArg";
+    private static final String QUERY_KEY = "query";
+    private static final String PARAMETERS_KEY = "params";
+    private static final String DATA_SOURCE_ID_KEY = "dsId";
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<QueryArgument>(QueryArgument.class, CODEC_ID) {

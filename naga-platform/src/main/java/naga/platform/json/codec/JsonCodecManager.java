@@ -1,15 +1,16 @@
 package naga.platform.json.codec;
 
-import naga.platform.json.*;
+import naga.commons.util.Numbers;
+import naga.commons.util.async.Batch;
 import naga.platform.bus.call.BusCallService;
+import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
-import naga.commons.util.Numbers;
-import naga.commons.util.async.Batch;
+import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 
@@ -98,7 +99,7 @@ public class JsonCodecManager {
             return null;
         WritableJsonArray ca = Json.createArray();
         for (Object value : primArray)
-            ca.push(value);
+            ca.push(encodeToJson(value));
         return ca;
     }
 
@@ -108,7 +109,7 @@ public class JsonCodecManager {
         int n = ca.size();
         Object[] array = new Object[n];
         for (int i = 0; i < n; i++)
-            array[i] = ca.getElement(i);
+            array[i] = decodeFromJson(ca.getElement(i));
         return array;
     }
 
@@ -150,7 +151,16 @@ public class JsonCodecManager {
 
             @Override
             public Batch decodeFromJson(JsonObject json) {
-                return new Batch<>(decodeFromJsonArray(json.getArray(BATCH_ARRAY_KEY), QueryResultSet.class /* Temporary hardcoded TODO: guess the result class from the codecID */));
+                JsonArray array = json.getArray(BATCH_ARRAY_KEY);
+                Class contentClass = Object.class;
+                if (array.size() > 0) {
+                    switch (array.getObject(0).getString(JsonCodecManager.CODEC_ID_KEY)) {
+                        case QueryResultSet.CODEC_ID: contentClass = QueryResultSet.class; break;
+                        case QueryArgument.CODEC_ID: contentClass = QueryArgument.class; break;
+                        case UpdateArgument.CODEC_ID: contentClass = UpdateArgument.class; break;
+                    }
+                }
+                return new Batch<>(decodeFromJsonArray(array, contentClass));
             }
         };
     }
@@ -161,6 +171,7 @@ public class JsonCodecManager {
         QueryArgument.registerJsonCodec();
         QueryResultSet.registerJsonCodec();
         UpdateArgument.registerJsonCodec();
+        GeneratedKeyBatchIndex.registerJsonCodec();
         UpdateResult.registerJsonCodec();
         registerBatchJsonCodec();
     }
