@@ -1,5 +1,6 @@
 package naga.platform.services.update.remote;
 
+import naga.commons.util.async.Batch;
 import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
@@ -25,6 +26,15 @@ public class RemoteUpdateService implements UpdateService {
         return executeRemoteUpdate(argument);
     }
 
+    @Override
+    public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
+        Object dataSourceId = batch.getArray()[0].getDataSourceId();
+        UpdateService localUpdateService = getConnectedLocalUpdateService(dataSourceId);
+        if (localUpdateService != null)
+            return localUpdateService.executeUpdateBatch(batch);
+        return executeRemoteUpdateBatch(batch);
+    }
+
     protected UpdateService getConnectedLocalUpdateService(Object dataSourceId) {
         UpdateService connectedUpdateService = LocalUpdateServiceRegistry.getLocalConnectedUpdateService(dataSourceId);
         if (connectedUpdateService == null) {
@@ -39,8 +49,12 @@ public class RemoteUpdateService implements UpdateService {
         throw new UnsupportedOperationException("This platform doesn't support local update service");
     }
 
-    protected Future<naga.platform.services.update.UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
+    protected Future<UpdateResult> executeRemoteUpdate(UpdateArgument argument) {
         return BusCallService.call(BusCallServerActivity.UPDATE_SERVICE_ADDRESS, argument);
+    }
+
+    protected Future<Batch<UpdateResult>> executeRemoteUpdateBatch(Batch<UpdateArgument> batch) {
+        return BusCallService.call(BusCallServerActivity.UPDATE_BATCH_SERVICE_ADDRESS, batch);
     }
 
 }
