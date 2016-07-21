@@ -28,6 +28,7 @@ import naga.platform.services.update.UpdateResult;
 import naga.platform.services.update.spi.UpdateService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,12 +47,11 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 // used for PostgreSQLClient only
                 .put("host", connectionDetails.getHost())
                 .put("database", connectionDetails.getDatabaseName());
-        String poolName = "mypool";
         // Getting the best (non blocking if possible) sql client depending on the dbms
         if (connectionDetails.getDBMS() == DBMS.POSTGRES)
-            sqlClient = PostgreSQLClient.createShared(vertx, sqlConfig, poolName); // Non blocking client for Postgres
+            sqlClient = PostgreSQLClient.createNonShared(vertx, sqlConfig); // Non blocking client for Postgres
         else if (connectionDetails.getDBMS() == DBMS.MYSQL)
-            sqlClient = MySQLClient.createShared(vertx, sqlConfig, poolName); // Non blocking client for Mysql
+            sqlClient = MySQLClient.createNonShared(vertx, sqlConfig); // Non blocking client for Mysql
         else { // Otherwise using JDBC client: the working thread will be blocked by jdbc calls (synchronous API)
             // used for JDBCClient client only
             sqlConfig
@@ -60,7 +60,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
             //.put("provider_class", HikariCPDataSourceProvider.class.getName())
             ;
             sqlClient = new AsyncSQLClient() {
-                JDBCClient jdbcClient = JDBCClient.createShared(vertx, sqlConfig, poolName);
+                JDBCClient jdbcClient = JDBCClient.createNonShared(vertx, sqlConfig);
 
                 @Override
                 public void close() {
@@ -82,77 +82,100 @@ public class VertxConnectedService implements QueryService, UpdateService {
     }
 
     @Override
-    public Future<QueryResultSet> executeQuery(QueryArgument arg) {
-        return connectAndExecute(true, (connection, future) -> {
-            // Preparing the result handler which is the same for query() and queryWithParams()
-            Handler<AsyncResult<ResultSet>> resultHandler = res -> {
-                if (res.failed()) // Sql error
-                    future.fail(res.cause());
-                else { // Sql succeeded
-                    // Transforming the result set into columnNames and values arrays
-                    ResultSet resultSet = res.result();
-                    int columnCount = resultSet.getNumColumns();
-                    int rowCount = resultSet.getNumRows();
-                    String[] columnNames = resultSet.getColumnNames().toArray(new String[columnCount]);
-                    QueryResultSetBuilder rsb = QueryResultSetBuilder.create(rowCount, columnNames);
-                    List<JsonArray> results = resultSet.getResults();
-                    for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                        JsonArray jsonArray = results.get(rowIndex);
-                        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                            rsb.setValue(rowIndex, columnIndex, jsonArray.getValue(columnIndex));
-                    }
-                    // Building and returning the final QueryResultSet
-                    future.complete(rsb.build());
+    public Future<QueryResultSet> executeQuery(QueryArgument queryArgument) {
+        return connectAndExecute(true, (connection, future) -> executeQueryOnConnection(queryArgument, connection, future));
+    }
+
+    protected void executeQueryOnConnection(QueryArgument queryArgument, SQLConnection connection, Future<QueryResultSet> future) {
+        executeQueryOnConnection(queryArgument.getQueryString(), queryArgument.getParameters(), connection, res -> {
+            if (res.failed()) // Sql error
+                future.fail(res.cause());
+            else { // Sql succeeded
+                // Transforming the result set into columnNames and values arrays
+                ResultSet resultSet = res.result();
+                int columnCount = resultSet.getNumColumns();
+                int rowCount = resultSet.getNumRows();
+                String[] columnNames = resultSet.getColumnNames().toArray(new String[columnCount]);
+                QueryResultSetBuilder rsb = QueryResultSetBuilder.create(rowCount, columnNames);
+                List<JsonArray> results = resultSet.getResults();
+                for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+                    JsonArray jsonArray = results.get(rowIndex);
+                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+                        rsb.setValue(rowIndex, columnIndex, jsonArray.getValue(columnIndex));
                 }
-                // Closing the connection so it can go back to the pool
-                connection.close();
-            };
-            // Calling query() or queryWithParams() depending if parameters are provided or not
-            Object[] parameters = arg.getParameters();
-            if (Arrays.isEmpty(parameters))
-                connection.query(arg.getQueryString(), resultHandler);
-            else {
-                JsonArray array = new JsonArray();
-                for (Object value : parameters)
-                    array.add(value);
-                connection.queryWithParams(arg.getQueryString(), array, resultHandler);
+                // Building and returning the final QueryResultSet
+                future.complete(rsb.build());
             }
+            // Closing the connection so it can go back to the pool
+            connection.close();
         });
+    }
+
+    private void executeQueryOnConnection(String queryString, Object[] parameters, SQLConnection connection, Handler<AsyncResult<ResultSet>> resultHandler) {
+        // Calling query() or queryWithParams() depending if parameters are provided or not
+        if (Arrays.isEmpty(parameters))
+            connection.query(queryString, resultHandler);
+        else
+            connection.queryWithParams(queryString, toJsonParameters(parameters), resultHandler);
     }
 
     @Override
     public Future<UpdateResult> executeUpdate(UpdateArgument updateArgument) {
-        return connectAndExecute(true, (connection, future) -> {
-            Handler<AsyncResult<io.vertx.ext.sql.UpdateResult>> resultHandler = res -> {
-                if (res.failed()) // Sql error
-                    future.fail(res.cause());
-                else { // Sql succeeded
-                    io.vertx.ext.sql.UpdateResult vertxUpdateResult = res.result();
-                    JsonArray keys = vertxUpdateResult.getKeys();
-                    Object[] generatedKeys = null;
-                    if (updateArgument.returnGeneratedKeys() && keys != null && !keys.isEmpty()) {
-                        int length = keys.size();
-                        generatedKeys = new Object[length];
-                        for (int i = 0; i < length; i++)
-                            generatedKeys[i] = keys.getValue(i);
-                    }
-                    // Returning the final QueryResultSet
-                    future.complete(new UpdateResult(vertxUpdateResult.getUpdated(), generatedKeys));
+        return connectAndExecute(true, (connection, future) -> executeUpdateOnConnection(updateArgument, connection, true, future));
+    }
+
+    private Future<UpdateResult> executeUpdateOnConnection(UpdateArgument updateArgument, SQLConnection connection, boolean close, Future<UpdateResult> future) {
+        // Special case: update with a returning clause must be managed differently using query() instead of update()
+        String updateString = updateArgument.getUpdateString();
+        if (updateString.toLowerCase().contains(" returning "))
+            return executeReturningUpdateOnConnection(updateArgument, connection, close, future);
+
+        // Calling update() or updateWithParams() depending if parameters are provided or not
+        executeUpdateOnConnection(updateString, updateArgument.getParameters(), connection, res -> {
+            if (res.failed()) // Sql error
+                future.fail(res.cause());
+            else { // Sql succeeded
+                io.vertx.ext.sql.UpdateResult vertxUpdateResult = res.result();
+                JsonArray keys = vertxUpdateResult.getKeys();
+                Object[] generatedKeys = null;
+                if (updateArgument.returnGeneratedKeys() && keys != null && !keys.isEmpty()) {
+                    int length = keys.size();
+                    generatedKeys = new Object[length];
+                    for (int i = 0; i < length; i++)
+                        generatedKeys[i] = keys.getValue(i);
                 }
-                // Closing the connection so it can go back to the pool
-                connection.close();
-            };
-            // Calling update() or updateWithParams() depending if parameters are provided or not
-            Object[] parameters = updateArgument.getParameters();
-            if (Arrays.isEmpty(parameters))
-                connection.update(updateArgument.getUpdateString(), resultHandler);
-            else {
-                JsonArray array = new JsonArray();
-                for (Object value : parameters)
-                    array.add(value);
-                connection.updateWithParams(updateArgument.getUpdateString(), array, resultHandler);
+                // Returning the final QueryResultSet
+                future.complete(new UpdateResult(vertxUpdateResult.getUpdated(), generatedKeys));
             }
+            // Closing the connection so it can go back to the pool
+            if (close)
+                connection.close();
         });
+        return future;
+    }
+
+    private void executeUpdateOnConnection(String updateString, Object[] parameters, SQLConnection connection, Handler<AsyncResult<io.vertx.ext.sql.UpdateResult>> resultHandler) {
+        if (Arrays.isEmpty(parameters))
+            connection.update(updateString, resultHandler);
+        else
+            connection.updateWithParams(updateString, toJsonParameters(parameters), resultHandler);
+    }
+
+    private Future<UpdateResult> executeReturningUpdateOnConnection(UpdateArgument updateArgument, SQLConnection connection, boolean close, Future<UpdateResult> future) {
+        executeQueryOnConnection(updateArgument.getUpdateString(), updateArgument.getParameters(), connection, res -> {
+            if (res.failed()) // Sql error
+                future.fail(res.cause());
+            else { // Sql succeeded
+                // Transforming the result set into columnNames and values arrays
+                ResultSet resultSet = res.result();
+                Object[] generatedKeys = resultSet.getResults().get(0).stream().toArray();
+                future.complete(new UpdateResult(resultSet.getNumRows(), generatedKeys));
+            }
+            // Closing the connection so it can go back to the pool
+            if (close)
+                connection.close();
+        });
+        return future;
     }
 
     @Override
@@ -163,51 +186,40 @@ public class VertxConnectedService implements QueryService, UpdateService {
             return singularBatchFuture;
 
         // Now handling real batch with several arguments -> no autocommit with explicit commit() or rollback() handling
-        List<Object> batchIndexGeneratedKeys = new ArrayList<>();
+        return connectAndExecute(false, (connection, batchFuture) -> executeUpdateBatchOnConnection(batch, connection, batchFuture));
+    }
+
+    private void executeUpdateBatchOnConnection(Batch<UpdateArgument> batch, SQLConnection connection, Future<Batch<UpdateResult>> batchFuture) {
+        List<Object> batchIndexGeneratedKeys = new ArrayList<>(Collections.nCopies(batch.getArray().length, null));
         Unit<Integer> batchIndex = new Unit<>(0);
-        return connectAndExecute(false, (connection, batchFuture) -> batch.executeSerial(batchFuture, UpdateResult.class, arg -> {
-            Future<UpdateResult> future = Future.future();
-            Handler<AsyncResult<io.vertx.ext.sql.UpdateResult>> resultHandler = res -> {
+        batch.executeSerial(batchFuture, UpdateResult.class, arg -> {
+            Future<UpdateResult> statementFuture = Future.future();
+            // Replacing GeneratedKeyBatchIndex parameters with their actual generated keys
+            Object[] parameters = arg.getParameters();
+            int length = Arrays.length(parameters);
+            for (int i = 0; i < length; i++) {
+                Object value = parameters[i];
+                if (value instanceof GeneratedKeyBatchIndex)
+                    parameters[i] = batchIndexGeneratedKeys.get(((GeneratedKeyBatchIndex) value).getBatchIndex());
+            }
+            executeUpdateOnConnection(arg, connection, false, Future.future()).setHandler(res -> {
                 if (res.failed()) { // Sql error
-                    future.fail(res.cause());
+                    statementFuture.fail(res.cause());
                     connection.rollback(event -> connection.close());
                 } else { // Sql succeeded
-                    io.vertx.ext.sql.UpdateResult vertxUpdateResult = res.result();
-                    JsonArray keys = vertxUpdateResult.getKeys();
-                    Object[] generatedKeys = null;
-                    if (keys != null && !keys.isEmpty()) {
-                        batchIndexGeneratedKeys.set(batchIndex.get(), keys.getValue(0));
-                        if (arg.returnGeneratedKeys()) {
-                            int length = keys.size();
-                            generatedKeys = new Object[length];
-                            for (int i = 0; i < length; i++)
-                                generatedKeys[i] = keys.getValue(i);
-                        }
-                    }
+                    UpdateResult updateResult = res.result();
+                    Object[] generatedKeys = updateResult.getGeneratedKeys();
+                    if (!Arrays.isEmpty(generatedKeys))
+                        batchIndexGeneratedKeys.set(batchIndex.get(), generatedKeys[0]);
                     batchIndex.set(batchIndex.get() + 1);
-                    // Returning the final UpdateResult
-                    UpdateResult updateResult = new UpdateResult(vertxUpdateResult.getUpdated(), generatedKeys);
                     if (batchIndex.get() < batch.getArray().length)
-                        future.complete(updateResult);
+                        statementFuture.complete(updateResult);
                     else
-                        commitCompleteAndClose(future, connection, updateResult);
+                        commitCompleteAndClose(statementFuture, connection, updateResult);
                 }
-            };
-            // Calling update() or updateWithParams() depending if parameters are provided or not
-            Object[] parameters = arg.getParameters();
-            if (Arrays.isEmpty(parameters))
-                connection.update(arg.getUpdateString(), resultHandler);
-            else {
-                JsonArray array = new JsonArray();
-                for (Object value : parameters) {
-                    if (value instanceof GeneratedKeyBatchIndex)
-                        value = batchIndexGeneratedKeys.get(((GeneratedKeyBatchIndex) value).getBatchIndex());
-                    array.add(value);
-                }
-                connection.updateWithParams(arg.getUpdateString(), array, resultHandler);
-            }
-            return future;
-        }));
+            });
+            return statementFuture;
+        });
     }
 
     private <T> Future<T> connectAndExecute(boolean autoCommit, BiConsumer<SQLConnection, Future<T>> executor) {
@@ -241,5 +253,12 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 future.complete(result);
             connection.close();
         });
+    }
+
+    private static JsonArray toJsonParameters(Object[] parameters) {
+        JsonArray array = new JsonArray();
+        for (Object value : parameters)
+            array.add(value);
+        return array;
     }
 }
