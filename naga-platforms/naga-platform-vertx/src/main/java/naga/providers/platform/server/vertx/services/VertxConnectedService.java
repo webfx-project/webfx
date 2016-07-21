@@ -158,14 +158,14 @@ public class VertxConnectedService implements QueryService, UpdateService {
     @Override
     public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
         // Singular batch optimization: executing the single sql order in autocommit mode
-        Future<Batch<UpdateResult>> singularBatchFuture = batch.executeIfSingularBatch(this::executeUpdate, UpdateResult.class);
+        Future<Batch<UpdateResult>> singularBatchFuture = batch.executeIfSingularBatch(UpdateResult.class, this::executeUpdate);
         if (singularBatchFuture != null)
             return singularBatchFuture;
 
         // Now handling real batch with several arguments -> no autocommit with explicit commit() or rollback() handling
         List<Object> batchIndexGeneratedKeys = new ArrayList<>();
         Unit<Integer> batchIndex = new Unit<>(0);
-        return connectAndExecute(false /* no autocommit */, (connection, batchFuture) -> batch.executeSerial(arg -> {
+        return connectAndExecute(false, (connection, batchFuture) -> batch.executeSerial(batchFuture, UpdateResult.class, arg -> {
             Future<UpdateResult> future = Future.future();
             Handler<AsyncResult<io.vertx.ext.sql.UpdateResult>> resultHandler = res -> {
                 if (res.failed()) { // Sql error
@@ -190,7 +190,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
                     if (batchIndex.get() < batch.getArray().length)
                         future.complete(updateResult);
                     else
-                        commitCompleteAndClose(connection, updateResult, future);
+                        commitCompleteAndClose(future, connection, updateResult);
                 }
             };
             // Calling update() or updateWithParams() depending if parameters are provided or not
@@ -207,7 +207,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 connection.updateWithParams(arg.getUpdateString(), array, resultHandler);
             }
             return future;
-        }, UpdateResult.class, batchFuture));
+        }));
     }
 
     private <T> Future<T> connectAndExecute(boolean autoCommit, BiConsumer<SQLConnection, Future<T>> executor) {
@@ -233,7 +233,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
         return future;
     }
 
-    private <T> void commitCompleteAndClose(SQLConnection connection, T result, Future<T> future) {
+    private <T> void commitCompleteAndClose(Future<T> future, SQLConnection connection, T result) {
         connection.commit(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
