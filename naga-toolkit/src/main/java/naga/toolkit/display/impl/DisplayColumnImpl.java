@@ -13,16 +13,18 @@ public class DisplayColumnImpl implements DisplayColumn {
     private final Label label;
     private final Type type;
     private final String role;
+    private final Double prefWidth;
 
     public DisplayColumnImpl(Object label, Type type) {
-        this(label, label, type, null);
+        this(label, label, type, null, null);
     }
 
-    public DisplayColumnImpl(Object headerValue, Object label, Type type, String role) {
+    public DisplayColumnImpl(Object headerValue, Object label, Type type, String role, Double prefWidth) {
         this.headerValue = headerValue;
         this.label = Label.from(label);
         this.type = type;
         this.role = role;
+        this.prefWidth = prefWidth;
     }
 
     @Override
@@ -48,5 +50,10 @@ public class DisplayColumnImpl implements DisplayColumn {
     @Override
     public String getRole() {
         return role;
+    }
+
+    @Override
+    public Double getPrefWidth() {
+        return prefWidth;
     }
 }

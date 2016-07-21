@@ -35,11 +35,17 @@ public interface DisplayColumn {
      */
     String getRole();
 
+    Double getPrefWidth();
+
     static DisplayColumn create(Object label, Type type) {
         return new DisplayColumnImpl(label, type);
     }
 
+    static DisplayColumn create(Object label, Type type, Double prefWidth) {
+        return new DisplayColumnImpl(label, label, type, null, prefWidth);
+    }
+
     static DisplayColumn create(Object headerValue, Object label, Type type, String role) {
-        return new DisplayColumnImpl(headerValue, label, type, role);
+        return new DisplayColumnImpl(headerValue, label, type, role, null);
     }
 }
