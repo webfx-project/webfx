@@ -1,11 +1,7 @@
 package mongoose.activities.tester;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.tester.drive.Drive;
 import mongoose.activities.tester.drive.model.ConnectionChartGenerator;
-import mongoose.activities.tester.drive.model.ConnectionData;
-import mongoose.activities.tester.drive.model.ConnectionsChartData;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
@@ -24,15 +20,13 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         super(TesterPresentationModel::new);
     }
 
-    private ObjectProperty<ConnectionData> connectionsToDisplay = new SimpleObjectProperty<>(new ConnectionsChartData());
-
     protected TesterViewModel buildView(Toolkit toolkit) {
         // TextFields
-        TextField<String> testName = toolkit.createTextField();
+        TextField<String> testName  = toolkit.createTextField();
         TextField<String> testComment = toolkit.createTextField();
+        Button createTest = toolkit.createButton();
         testName.setPlaceholder("Test name");
         testComment.setPlaceholder("Comments");
-        Button createTest = toolkit.createButton();
         createTest.setText("Create Test");
         // Sliders
         Slider requestedSlider = toolkit.createSlider();
@@ -58,7 +52,7 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         // Test description
         pm.testNameProperty().bind(vm.getTestName().textProperty());
         pm.testCommentProperty().bind(vm.getTestComment().textProperty());
-        vm.getCreateTest().actionEventObservable() ; // TODO implementer l'action du bouton
+        vm.getCreateTest().actionEventObservable().subscribe(actionEvent -> Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue()));
         // Sliders
         vm.getStartedSlider().setMin(0);
         vm.getStartedSlider().setMax(3000);
