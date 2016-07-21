@@ -173,7 +173,10 @@ public abstract class Platform {
     public static Bus createBus(BusOptions options) {
         Platform platform = get();
         platform.setPlatformBusOptions(options);
-        return BUS = platform.busFactory().createBus(options);
+        Bus bus = platform.busFactory().createBus(options);
+        if (BUS == null)
+            BUS = bus;
+        return bus;
     }
 
     // ResourceService methods

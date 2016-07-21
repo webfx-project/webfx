@@ -31,6 +31,7 @@ public class WebVerticle extends AbstractVerticle {
     private void createHttpServer(int port) {
         // Creating web server and its router
         HttpServerOptions httpServerOptions = new HttpServerOptions()
+                .setMaxWebsocketFrameSize(65536 * 10) // Increasing the frame size to allow big client request
                 .setCompressionSupported(true) // enabling gzip and deflate compression
                 .setPort(port); // web port
         HttpServer server = vertx.createHttpServer(httpServerOptions);
