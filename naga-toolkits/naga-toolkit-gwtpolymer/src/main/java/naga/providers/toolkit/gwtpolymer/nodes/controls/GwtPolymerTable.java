@@ -11,15 +11,13 @@ import com.vaadin.polymer.vaadin.Column;
 import com.vaadin.polymer.vaadin.Row;
 import com.vaadin.polymer.vaadin.Selection;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.spi.nodes.controls.Table;
-import naga.toolkit.properties.markers.SelectionMode;
-import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
-import naga.commons.type.Type;
-import naga.commons.type.Types;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplaySelection;
 import naga.commons.util.Strings;
+import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.spi.nodes.controls.Table;
 
 /**
  * @author Bruno Salmon
@@ -109,6 +107,13 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                     String headerText = displayColumn.getName();
                     // The API says to use gridColumn.setContentHeader() but it doesn't work so using gridColumn.setName() instead
                     gridColumn.setName(Strings.replaceAll(headerText, ".", ""));
+                    Double prefWidth = displayColumn.getPrefWidth();
+                    if (prefWidth != null) {
+                        prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
+                        gridColumn.setMinWidth(prefWidth);
+                        gridColumn.setMaxWidth(prefWidth);
+                        gridColumn.setWidth(prefWidth);
+                    }
                     final int colIndex = columnIndex;
                     gridColumn.setRenderer(oCell -> {
                         Cell cell = (Cell) oCell;
@@ -117,9 +122,11 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                         Object value = rs.getValue(rowIndex, colIndex);
                         String text = value == null ? "" : value.toString();
                         String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
+/*
                         Type type = rs.getColumns()[colIndex].getType();
                         if (Types.isNumberType(type))
                             style += " text-align: right;";
+*/
                         cell.getElement().<Element>cast().setInnerHTML("<span style='" + style + "'>" + text + "</span>");
                         return null;
                     });
