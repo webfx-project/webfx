@@ -7,6 +7,10 @@ import mongoose.activities.monitor.listener.EventType;
  */
 public interface LtTestEvent {
 
+    void setLtTestSet(Object ltTestSet);
+
+    LtTestSet getLtTestSet();
+
     Long getEventTime();
 
     void setEventTime(Long eventTime);
@@ -19,5 +23,5 @@ public interface LtTestEvent {
 
     void setVal(Integer val);
 
-    long getEventId();
+//    long getEventId();
 }
