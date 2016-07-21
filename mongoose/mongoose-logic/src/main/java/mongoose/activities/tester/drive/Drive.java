@@ -2,12 +2,19 @@ package mongoose.activities.tester.drive;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import mongoose.activities.monitor.listener.ConnectionEvent;
+import mongoose.activities.monitor.listener.Event;
+import mongoose.activities.monitor.listener.EventListenerImpl;
+import mongoose.activities.monitor.listener.EventType;
 import mongoose.activities.tester.drive.command.Command;
 import mongoose.activities.tester.drive.connection.Connection;
 import mongoose.activities.tester.drive.connection.WebSocketBusConnection;
-import mongoose.activities.monitor.listener.ConnectionEvent;
-import mongoose.activities.monitor.listener.EventListenerImpl;
-import mongoose.activities.monitor.listener.EventType;
+import mongoose.entities.LtTestEvent;
+import mongoose.entities.LtTestEventEntity;
+import mongoose.entities.LtTestSet;
+import mongoose.entities.LtTestSetEntity;
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.entity.UpdateStore;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
@@ -28,6 +35,7 @@ public class Drive {
     private final List<Connection> connexionList = new ArrayList<>();
     private int currentRequested = 0;
     private int started = 0;
+    private int netxToRemove = 0;
 
     public static Drive getInstance() {
         return instance;
@@ -49,13 +57,14 @@ public class Drive {
                     Connection cnx = new WebSocketBusConnection();
                     connexionList.add(cnx);
                     cnx.executeCommand(Command.OPEN);
-                    ++started;
+                    started++;
                 } else {
                     // We must close existing connections
-                    Connection cnx = connexionList.get(0);
+                    Connection cnx = connexionList.get(netxToRemove);
                     cnx.executeCommand(Command.CLOSE);
-                    connexionList.remove(0);
-                    --started;
+                    //connexionList.remove(0);
+                    netxToRemove++;
+                    started--;
                 }
                 Toolkit.get().scheduler().scheduleDeferred(() -> startedConnectionCount.setValue(started));
 
@@ -65,5 +74,32 @@ public class Drive {
                             +" (time = "+ (System.currentTimeMillis()-t0) +"ms)");
             }
         });
+    }
+    public void recordTestSet(DataSourceModel dataSourceModel, String testName, String testComment) {
+        UpdateStore store = UpdateStore.create(dataSourceModel);
+        LtTestSet testSet = store.insertEntity(LtTestSetEntity.class);
+        testSet.setName(testName);
+        testSet.setComment(testComment);
+        // All events of each connection are read by the getUncommitedEvent method
+        for (Connection connection : connexionList) {
+            List<ConnectionEvent> eventList = connection.getUncommitedEvents();
+            for (Event e : eventList) {
+                LtTestEvent event = store.insertEntity(LtTestEventEntity.class);
+                event.setLtTestSet(testSet);
+                event.setEventTime(e.getEventTime());
+                event.setType(e.getType());
+                event.setVal(e.getVal());
+            }
+        }
+        // Writing the result in the database
+        store.executeUpdate().setHandler(asyncResult -> {
+            if (asyncResult.failed())
+                Platform.log(asyncResult.cause());
+            else {
+                connexionList.clear();
+                Platform.log("Recorded !!! :-)");
+            }
+        });
+
     }
 }
