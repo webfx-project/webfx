@@ -13,5 +13,6 @@ public enum SqlClause {
     GROUP_BY,
     HAVING,
     ORDER_BY,
-    LIMIT
+    LIMIT,
+    RETURNING
 }

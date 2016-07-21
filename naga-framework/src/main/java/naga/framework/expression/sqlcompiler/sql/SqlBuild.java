@@ -159,7 +159,8 @@ public class SqlBuild {
                     .append(_if(" group by ", getClauseBuilder(SqlClause.GROUP_BY), "", sb))
                     .append(_if(" having ", getClauseBuilder(SqlClause.HAVING), "", sb))
                     .append(_if(" order by ", getClauseBuilder(SqlClause.ORDER_BY), "", sb))
-                    .append(_if(" limit ", getClauseBuilder(SqlClause.LIMIT), "", sb));
+                    .append(_if(" limit ", getClauseBuilder(SqlClause.LIMIT), "", sb))
+                    .append(_if(" returning ", getClauseBuilder(SqlClause.RETURNING), "", sb));
             sql = sb.toString();
         }
         return sql;
