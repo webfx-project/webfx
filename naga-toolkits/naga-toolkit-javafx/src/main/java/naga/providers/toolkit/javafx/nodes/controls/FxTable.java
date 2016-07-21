@@ -107,6 +107,12 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
                 rowStyleColumnIndex = columnIndex;
             else if (role == null) {
                 TableColumn<Integer, ?> tableColumn = columnIndex < currentColumns.size() ? currentColumns.get(columnIndex) : new TableColumn<>();
+                Double prefWidth = displayColumn.getPrefWidth();
+                if (prefWidth != null) {
+                    tableColumn.setPrefWidth(prefWidth);
+                    tableColumn.setMinWidth(prefWidth);
+                    tableColumn.setMaxWidth(prefWidth);
+                }
                 setUpVisualColumn(tableColumn, columnIndex, rs);
                 newColumns.add(tableColumn);
             }
