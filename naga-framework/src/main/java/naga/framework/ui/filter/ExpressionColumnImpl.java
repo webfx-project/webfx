@@ -2,6 +2,7 @@ package naga.framework.ui.filter;
 
 import naga.commons.type.Type;
 import naga.framework.expression.Expression;
+import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.ui.format.Formatter;
 import naga.toolkit.display.DisplayColumn;
@@ -32,7 +33,13 @@ class ExpressionColumnImpl implements ExpressionColumn {
             if (label == null)
                 label = Label.from(expression);
             Type expectedType = expressionFormatter != null ? expressionFormatter.getExpectedFormattedType() : expression.getType();
-            displayColumn = DisplayColumn.create(label, expectedType);
+            Double prefWidth = null;
+            if (expression instanceof DomainField) {
+                int fieldPrefWidth = ((DomainField) expression).getPrefWidth();
+                if (fieldPrefWidth > 0)
+                    prefWidth = (double) fieldPrefWidth;
+            }
+            displayColumn = DisplayColumn.create(label, expectedType, prefWidth);
         }
         return displayColumn;
     }
