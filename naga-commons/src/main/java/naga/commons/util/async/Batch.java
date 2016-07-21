@@ -59,10 +59,11 @@ public class Batch<A> {
                 if (asyncResult.failed())
                     future.fail(asyncResult.cause());
                 else {
-                    results[responseCounter.get()] = asyncResult.result();
-                    responseCounter.set(responseCounter.get() + 1);
-                    if (responseCounter.get() < n)
-                        asyncFunction.apply(getArray()[0]).setHandler(handlerUnit.get());
+                    int count = responseCounter.get();
+                    results[count] = asyncResult.result();
+                    responseCounter.set(++count);
+                    if (count < n)
+                        asyncFunction.apply(getArray()[count]).setHandler(handlerUnit.get());
                     else
                         future.complete(new Batch<>(results));
                 }
