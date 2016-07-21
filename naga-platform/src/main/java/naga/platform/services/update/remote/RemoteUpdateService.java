@@ -39,8 +39,10 @@ public class RemoteUpdateService implements UpdateService {
         UpdateService connectedUpdateService = LocalUpdateServiceRegistry.getLocalConnectedUpdateService(dataSourceId);
         if (connectedUpdateService == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
-            if (connectionDetails != null)
+            if (connectionDetails != null) {
                 connectedUpdateService = createConnectedUpdateService(connectionDetails);
+                LocalUpdateServiceRegistry.registerLocalConnectedUpdateService(dataSourceId, connectedUpdateService);
+            }
         }
         return connectedUpdateService;
     }
