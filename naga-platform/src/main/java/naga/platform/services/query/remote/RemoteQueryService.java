@@ -29,8 +29,10 @@ public class RemoteQueryService implements QueryService {
         QueryService connectedQueryService = LocalQueryServiceRegistry.getLocalConnectedQueryService(dataSourceId);
         if (connectedQueryService == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
-            if (connectionDetails != null)
+            if (connectionDetails != null) {
                 connectedQueryService = createConnectedQueryService(connectionDetails);
+                LocalQueryServiceRegistry.registerLocalConnectedQueryService(dataSourceId, connectedQueryService);
+            }
         }
         return connectedQueryService;
     }
