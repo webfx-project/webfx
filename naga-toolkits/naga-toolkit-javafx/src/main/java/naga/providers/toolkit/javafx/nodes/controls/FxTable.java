@@ -8,8 +8,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import naga.providers.toolkit.javafx.FxImageStore;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
+import naga.toolkit.display.Label;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
@@ -107,12 +109,6 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
                 rowStyleColumnIndex = columnIndex;
             else if (role == null) {
                 TableColumn<Integer, ?> tableColumn = columnIndex < currentColumns.size() ? currentColumns.get(columnIndex) : new TableColumn<>();
-                Double prefWidth = displayColumn.getPrefWidth();
-                if (prefWidth != null) {
-                    tableColumn.setPrefWidth(prefWidth);
-                    tableColumn.setMinWidth(prefWidth);
-                    tableColumn.setMaxWidth(prefWidth);
-                }
                 setUpVisualColumn(tableColumn, columnIndex, rs);
                 newColumns.add(tableColumn);
             }
@@ -121,8 +117,16 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     }
 
     private TableColumn<Integer, ?> setUpVisualColumn(TableColumn<Integer, ?> tableColumn, int columnIndex, DisplayResultSet rs) {
-        tableColumn.setText(rs.getColumns()[columnIndex].getName());
-        tableColumn.setGraphic(null);
+        DisplayColumn displayColumn = rs.getColumns()[columnIndex];
+        Label label = displayColumn.getLabel();
+        tableColumn.setText(label.getText());
+        tableColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
+        Double prefWidth = displayColumn.getPrefWidth();
+        if (prefWidth != null) {
+            tableColumn.setPrefWidth(prefWidth);
+            tableColumn.setMinWidth(prefWidth);
+            tableColumn.setMaxWidth(prefWidth);
+        }
         //tableColumn.setCellFactory(ignored -> new FxTableCell(column));
         tableColumn.setCellValueFactory(cdf -> (ObservableValue) rs.getValue(cdf.getValue(), columnIndex));
         return tableColumn;
