@@ -81,29 +81,6 @@ public class VertxConnectedService implements QueryService, UpdateService {
         }
     }
 
-    private <T> Future<T> connectAndExecute(boolean autoCommit, BiConsumer<SQLConnection, Future<T>> executor) {
-        Future<T> future = Future.future();
-
-        sqlClient.getConnection(con -> {
-            if (con.failed()) // Connection failed
-                future.fail(con.cause());
-            else { // Connection succeeded
-                SQLConnection connection = con.result();
-                if (autoCommit)
-                    executor.accept(connection, future);
-                else
-                    connection.setAutoCommit(false, event -> {
-                        if (event.failed())
-                            future.fail(event.cause());
-                        else
-                            executor.accept(connection, future);
-                    });
-            }
-        });
-
-        return future;
-    }
-
     @Override
     public Future<QueryResultSet> executeQuery(QueryArgument arg) {
         return connectAndExecute(true, (connection, future) -> {
@@ -180,9 +157,15 @@ public class VertxConnectedService implements QueryService, UpdateService {
 
     @Override
     public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
+        // Singular batch optimization: executing the single sql order in autocommit mode
+        Future<Batch<UpdateResult>> singularBatchFuture = batch.executeIfSingularBatch(this::executeUpdate, UpdateResult.class);
+        if (singularBatchFuture != null)
+            return singularBatchFuture;
+
+        // Now handling real batch with several arguments -> no autocommit with explicit commit() or rollback() handling
         List<Object> batchIndexGeneratedKeys = new ArrayList<>();
         Unit<Integer> batchIndex = new Unit<>(0);
-        return connectAndExecute(false, (connection, batchFuture) -> batch.executeSerial(arg -> {
+        return connectAndExecute(false /* no autocommit */, (connection, batchFuture) -> batch.executeSerial(arg -> {
             Future<UpdateResult> future = Future.future();
             Handler<AsyncResult<io.vertx.ext.sql.UpdateResult>> resultHandler = res -> {
                 if (res.failed()) { // Sql error
@@ -207,13 +190,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
                     if (batchIndex.get() < batch.getArray().length)
                         future.complete(updateResult);
                     else
-                        connection.commit(event -> {
-                            if (event.failed())
-                                future.fail(event.cause());
-                            else
-                                future.complete(updateResult);
-                            connection.close();
-                        });
+                        commitCompleteAndClose(connection, updateResult, future);
                 }
             };
             // Calling update() or updateWithParams() depending if parameters are provided or not
@@ -231,5 +208,38 @@ public class VertxConnectedService implements QueryService, UpdateService {
             }
             return future;
         }, UpdateResult.class, batchFuture));
+    }
+
+    private <T> Future<T> connectAndExecute(boolean autoCommit, BiConsumer<SQLConnection, Future<T>> executor) {
+        Future<T> future = Future.future();
+
+        sqlClient.getConnection(connectionAsyncResult -> {
+            if (connectionAsyncResult.failed()) // Connection failed
+                future.fail(connectionAsyncResult.cause());
+            else { // Connection succeeded
+                SQLConnection connection = connectionAsyncResult.result();
+                if (autoCommit)
+                    executor.accept(connection, future);
+                else
+                    connection.setAutoCommit(false, event -> {
+                        if (event.failed())
+                            future.fail(event.cause());
+                        else
+                            executor.accept(connection, future);
+                    });
+            }
+        });
+
+        return future;
+    }
+
+    private <T> void commitCompleteAndClose(SQLConnection connection, T result, Future<T> future) {
+        connection.commit(asyncResult -> {
+            if (asyncResult.failed())
+                future.fail(asyncResult.cause());
+            else
+                future.complete(result);
+            connection.close();
+        });
     }
 }
