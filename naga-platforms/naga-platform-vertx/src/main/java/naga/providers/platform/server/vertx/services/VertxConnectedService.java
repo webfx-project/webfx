@@ -107,7 +107,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 future.complete(rsb.build());
             }
             // Closing the connection so it can go back to the pool
-            connection.close();
+            closeConnection(connection);
         });
     }
 
@@ -149,7 +149,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
             }
             // Closing the connection so it can go back to the pool
             if (close)
-                connection.close();
+                closeConnection(connection);
         });
         return future;
     }
@@ -173,7 +173,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
             }
             // Closing the connection so it can go back to the pool
             if (close)
-                connection.close();
+                closeConnection(connection);
         });
         return future;
     }
@@ -205,7 +205,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
             executeUpdateOnConnection(arg, connection, false, Future.future()).setHandler(res -> {
                 if (res.failed()) { // Sql error
                     statementFuture.fail(res.cause());
-                    connection.rollback(event -> connection.close());
+                    connection.rollback(event -> closeConnection(connection));
                 } else { // Sql succeeded
                     UpdateResult updateResult = res.result();
                     Object[] generatedKeys = updateResult.getGeneratedKeys();
@@ -222,6 +222,8 @@ public class VertxConnectedService implements QueryService, UpdateService {
         });
     }
 
+    //private int open = 0;
+
     private <T> Future<T> connectAndExecute(boolean autoCommit, BiConsumer<SQLConnection, Future<T>> executor) {
         Future<T> future = Future.future();
 
@@ -230,6 +232,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 future.fail(connectionAsyncResult.cause());
             else { // Connection succeeded
                 SQLConnection connection = connectionAsyncResult.result();
+                //Platform.log("open = " + ++open);
                 if (autoCommit)
                     executor.accept(connection, future);
                 else
@@ -245,20 +248,28 @@ public class VertxConnectedService implements QueryService, UpdateService {
         return future;
     }
 
+    private void closeConnection(SQLConnection connection) {
+        connection.close();
+        //Platform.log("open = " + --open);
+    }
+
     private <T> void commitCompleteAndClose(Future<T> future, SQLConnection connection, T result) {
         connection.commit(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
             else
                 future.complete(result);
-            connection.close();
+            closeConnection(connection);
         });
     }
 
     private static JsonArray toJsonParameters(Object[] parameters) {
         JsonArray array = new JsonArray();
         for (Object value : parameters)
-            array.add(value);
+            if (value == null)
+                array.addNull();
+            else
+                array.add(value);
         return array;
     }
 }

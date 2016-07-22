@@ -38,7 +38,7 @@ public final class GwtJsonArray extends GwtJsonElement implements WritableJsonAr
 
     @Override
     public native int indexOfNativeElement(Object element) /*-{
-        return this.indexOf(value);
+        return this.indexOf(element);
     }-*/;
 
     @Override
@@ -47,14 +47,14 @@ public final class GwtJsonArray extends GwtJsonElement implements WritableJsonAr
       }-*/;
 
     @Override
-    public native GwtJsonArray setNativeElement(int index, Object value) /*-{
-        this[index] = value;
+    public native GwtJsonArray setNativeElement(int index, Object element) /*-{
+        this[index] = element;
         return this;
     }-*/;
 
     @Override
     public native GwtJsonArray pushNativeElement(Object element) /*-{
-        this[this.length] = value;
+        this[this.length] = element;
         return this;
     }-*/;
 
