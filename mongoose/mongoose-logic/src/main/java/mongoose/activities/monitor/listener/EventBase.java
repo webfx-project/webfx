@@ -1,11 +1,13 @@
 package mongoose.activities.monitor.listener;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
 public class EventBase implements Event {
     private long idEvent;
-    private long eventTime;
+    private Instant eventTime;
     private EventType type;
     private int val;
     private Object object;
@@ -31,12 +33,12 @@ public class EventBase implements Event {
     }
 
     @Override
-    public long getEventTime() {
+    public Instant getEventTime() {
         return eventTime;
     }
 
     @Override
-    public void setEventTime(long eventTime) {
+    public void setEventTime(Instant eventTime) {
         this.eventTime = eventTime;
     }
 
