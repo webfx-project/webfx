@@ -1,5 +1,6 @@
 package naga.platform.json.codec;
 
+import naga.commons.util.Dates;
 import naga.commons.util.Numbers;
 import naga.commons.util.async.Batch;
 import naga.platform.bus.call.BusCallService;
@@ -15,6 +16,7 @@ import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 
 import java.lang.reflect.Array;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +60,9 @@ public class JsonCodecManager {
     public static Object encodeToJson(Object object) {
         if (object == null || object instanceof String || Numbers.isNumber(object))
             return object;
+        Instant instant = Dates.asInstant(object);
+        if (instant != null)
+            return Dates.formatIso(instant);
         return encodeToJsonObject(object);
     }
 
@@ -91,6 +96,7 @@ public class JsonCodecManager {
     public static <J> J decodeFromJson(Object object) {
         if (object instanceof JsonObject)
             return decodeFromJsonObject((JsonObject) object);
+        object = Dates.fastToInstantIfIsoString(object);
         return (J) object;
     }
 

@@ -2,6 +2,7 @@ package naga.commons.util;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 
@@ -18,7 +19,7 @@ public class Dates {
         return value == null || !(value instanceof LocalDateTime) ? null : (LocalDateTime) value;
     }
 
-    public static Instant parseInstant(String s) {
+    public static Instant parseIsoInstant(String s) {
         if (s == null)
             return null;
         try {
@@ -28,7 +29,22 @@ public class Dates {
         }
     }
 
-    public static LocalDateTime parseLocalDateTime(String s) {
+    public static Instant fastCheckParseIsoInstant(String s) {
+        if (s == null || !s.endsWith("Z") || s.length() != 23)
+            return null;
+        return parseIsoInstant(s);
+    }
+
+    public static Object fastToInstantIfIsoString(Object value) {
+        if (value instanceof String) {
+            Instant instant = fastCheckParseIsoInstant((String) value);
+            if (instant != null)
+                value = instant;
+        }
+        return value;
+    }
+
+    public static LocalDateTime parseIsoLocalDateTime(String s) {
         if (s == null)
             return null;
         try {
@@ -42,7 +58,7 @@ public class Dates {
         Instant instant = asInstant(value);
         if (instant != null || value == null)
             return instant;
-        instant = parseInstant(value.toString());
+        instant = parseIsoInstant(value.toString());
         if (instant != null)
             return instant;
         Long l = Numbers.toLong(value);
@@ -51,11 +67,15 @@ public class Dates {
         return null;
     }
 
+    public static String formatIso(Instant instant) {
+        return formatIso(LocalDateTime.ofInstant(instant, ZoneId.of("Z")));
+    }
+
     public static LocalDateTime toLocalDateTime(Object value) {
         LocalDateTime localDateTime = asLocalDateTime(value);
         if (localDateTime != null || value == null)
             return localDateTime;
-        localDateTime = parseLocalDateTime(value.toString());
+        localDateTime = parseIsoLocalDateTime(value.toString());
         if (localDateTime != null)
             return localDateTime;
         Long l = Numbers.toLong(value);
@@ -88,6 +108,10 @@ public class Dates {
         if (pattern.contains("ss"))
             s = Strings.replaceAll(s, "ss", twoDigits(date.getSecond()));
         return s;
+    }
+
+    public static String formatIso(LocalDateTime date) {
+        return format(date, "yyyy-MM-ddTHH:mm:ss.00Z");
     }
 
     public static String format(Object date, String pattern) {
