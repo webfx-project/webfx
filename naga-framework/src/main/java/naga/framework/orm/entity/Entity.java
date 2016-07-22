@@ -1,9 +1,12 @@
 package naga.framework.orm.entity;
 
-import naga.framework.expression.Expression;
 import naga.commons.util.Booleans;
+import naga.commons.util.Dates;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
+import naga.framework.expression.Expression;
+
+import java.time.Instant;
 
 /**
  * Interface used to interact with an entity = a domain object which can persist in the database. Behind it can be a
@@ -54,6 +57,11 @@ public interface Entity {
      * Return the field value as a double. If the type is not a double, this can result in runtime errors.
      */
     default Double getDoubleFieldValue(Object domainFieldId) { return Numbers.toDouble(getFieldValue(domainFieldId)); }
+
+    /**
+     * Return the field value as an instant. If the type is not an instant, this can result in runtime errors.
+     */
+    default Instant getInstantFieldValue(Object domainFieldId) { return Dates.toInstant(getFieldValue(domainFieldId)); }
 
     /**
      * Set the value of an entity field
