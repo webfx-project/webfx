@@ -15,7 +15,11 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.datasource.LocalDataSourceRegistry;
+import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 /**
  * @author Bruno Salmon
@@ -23,7 +27,8 @@ import naga.platform.spi.Platform;
 public class MongooseMetricsServerActivity implements Activity<DomainActivityContext>, DomainActivityContextDirectAccess {
 
     private DomainActivityContext activityContext;
-    private Scheduled metricsPeriodicTimer;
+    private Scheduled metricsCapturePeriodicTimer;
+    private Scheduled metricsCleaningPeriodicTimer;
 
     @Override
     public void onCreate(DomainActivityContext context) {
@@ -48,7 +53,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
 
         Platform.log("Starting Mongoose metrics server activity...");
         // Starting a periodic timer to capture metrics every seconds and store it in the database
-        metricsPeriodicTimer = Platform.schedulePeriodic(1000, () -> {
+        metricsCapturePeriodicTimer = Platform.schedulePeriodic(1000, () -> {
             // Creating an update store for metrics entity
             UpdateStore store = UpdateStore.create(getDataSourceModel());
             // Instantiating a Metrics entity to be inserted in the database
@@ -61,14 +66,24 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
                     Platform.log("Inserting metrics in database failed!", asyncResult.cause());
             });
         });
+
+        metricsCleaningPeriodicTimer = Platform.schedulePeriodic(3600 * 1000, () ->
+            Platform.get().updateService().executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.HOURS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
+                if (asyncResult.failed())
+                    Platform.log("Deleting metrics in database failed!", asyncResult.cause());
+                else
+                    Platform.log("" + asyncResult.result().getRowCount() + " metrics records have been deleted from the database");
+            }));
     }
 
     @Override
     public void onStop() {
-        if (metricsPeriodicTimer != null) {
+        if (metricsCapturePeriodicTimer != null) {
             Platform.log("Stopping Mongoose metrics server activity...");
-            metricsPeriodicTimer.cancel();
-            metricsPeriodicTimer = null;
+            metricsCapturePeriodicTimer.cancel();
+            metricsCapturePeriodicTimer = null;
+            metricsCleaningPeriodicTimer.cancel();
+            metricsCleaningPeriodicTimer = null;
         }
     }
 
