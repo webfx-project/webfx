@@ -5,6 +5,8 @@ import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -25,8 +27,8 @@ public class LtTestEventEntityImpl extends DynamicEntity implements LtTestEventE
     }
 
     @Override
-    public Long getEventTime() {
-        return getLongFieldValue("eventTime");
+    public Instant getEventTime() {
+        return (Instant) getFieldValue("eventTime");
     }
 
     @Override
