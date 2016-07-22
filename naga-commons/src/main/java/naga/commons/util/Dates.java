@@ -68,7 +68,7 @@ public class Dates {
     }
 
     public static String formatIso(Instant instant) {
-        return formatIso(LocalDateTime.ofInstant(instant, ZoneId.ofOffset("UTC", ZoneOffset.UTC)));
+        return formatIso(LocalDateTime.ofInstant(instant, ZoneId.of("Z")));
     }
 
     public static LocalDateTime toLocalDateTime(Object value) {
