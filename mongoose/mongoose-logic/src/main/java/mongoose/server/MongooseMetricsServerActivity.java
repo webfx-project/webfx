@@ -68,7 +68,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
         });
 
         metricsCleaningPeriodicTimer = Platform.schedulePeriodic(3600 * 1000, () ->
-            Platform.get().updateService().executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.HOURS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
+            Platform.get().updateService().executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     Platform.log("Deleting metrics in database failed!", asyncResult.cause());
                 else
