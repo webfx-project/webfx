@@ -101,7 +101,7 @@ public final class GwtJsonArray extends GwtJsonElement implements WritableJsonAr
       }-*/;
 
     @Override
-    public native GwtJsonArray push(Object value) /*-{
+    public native GwtJsonArray push(String value) /*-{
         this[this.length] = value;
         return this;
      }-*/;
