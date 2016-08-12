@@ -1,17 +1,38 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    src: url('../fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-weight: bold;
+    src: url('../fonts/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: italic;
+    src: url('../fonts/Roboto-Italic.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-weight: bold;
+    font-style: italic;
+    src: url('../fonts/Roboto-BoldItalic.ttf');
+}
+
 .table-view {
     -fx-table-cell-border-color: #bbbbbb; /* same color as java 7 caspian, java 8 one is too light on colored rows */
 }
-
-/*.table-row-cell {
-    -fx-cell-size: 100;
-}*/
 
 .table-row-cell:empty {
     -fx-opacity: 0.0;
 }
 
 .table-row-cell .text, .table-row-cell Text { /* texts displayed in tables */
-   -fx-font-family: "Open Sans"; /* embedded font to be sure it can correctly render bold and italic on all systems */
+   -fx-font-family: "Roboto"; /* embedded font to be sure it can correctly render bold and italic on all systems */
    -fx-alignment: baseline-right;
 }
 
