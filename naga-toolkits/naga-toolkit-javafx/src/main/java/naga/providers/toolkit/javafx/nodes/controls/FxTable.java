@@ -3,24 +3,28 @@ package naga.providers.toolkit.javafx.nodes.controls;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.util.Callback;
-import naga.providers.toolkit.javafx.FxImageStore;
-import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
-import naga.toolkit.display.Label;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.spi.nodes.controls.Table;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.commons.type.Types;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.IdentityList;
+import naga.providers.toolkit.javafx.FxImageStore;
+import naga.providers.toolkit.javafx.JavaFxToolkit;
+import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.display.Label;
+import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,16 +127,40 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
         tableColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
         Double prefWidth = displayColumn.getPrefWidth();
         if (prefWidth != null) {
+            // Applying same prefWidth transformation as the PolymerTable (trying to
+            if (label.getText() != null)
+                prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
+            prefWidth = prefWidth + 10; // because of the 5px left and right padding
             tableColumn.setPrefWidth(prefWidth);
             tableColumn.setMinWidth(prefWidth);
             tableColumn.setMaxWidth(prefWidth);
         }
-        //tableColumn.setCellFactory(ignored -> new FxTableCell(column));
+        boolean isImage = Types.isImageType(displayColumn.getType());
+        tableColumn.setCellFactory(param -> new TableCell() {
+            { setAlignment( "right".equals(displayColumn.getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
+            private final ImageView imageView = new ImageView();
+            @Override
+                protected void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!isImage)
+                    setText(Strings.toString(item));
+                else {
+                    setText(null);
+                    if (empty || item == null)
+                        setGraphic(null);
+                    else {
+                        String url = Strings.toString(item);
+                        imageView.setImage(FxImageStore.getImage(url));
+                        setGraphic(imageView);
+                    }
+                }
+            }
+        });
         tableColumn.setCellValueFactory(cdf -> (ObservableValue) rs.getValue(cdf.getValue(), columnIndex));
         return tableColumn;
     }
 
-    Callback<TableView<Integer>, TableRow<Integer>> createRowFactory() {
+    private Callback<TableView<Integer>, TableRow<Integer>> createRowFactory() {
         return tableView -> {
             final TableRow<Integer> row = new TableRow<>();
             NodeStyleUpdater rowStyleUpdater = new NodeStyleUpdater(row);
@@ -149,7 +177,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
         };
     }
 
-    static class NodeStyleUpdater {
+    private static class NodeStyleUpdater {
         final Node node;
         Object[] styles;
 
