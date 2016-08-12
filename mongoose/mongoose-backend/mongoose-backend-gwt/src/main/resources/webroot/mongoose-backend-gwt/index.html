@@ -5,7 +5,53 @@
     <title>Mongoose Backend - GWT</title>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
     <style>
-        /***** Declaring color variables with default values *****/
+        /********************************************************
+         ***  Style adjustments regarding Polymer components  ***
+         ********************************************************/
+
+        /***** Declaring some variables used in several selectors *****/
+        :root {
+            --grid-border-color: lightgray;
+            --grid-row-height: 36px;
+        }
+
+        .vaadin-grid-header.vaadin-grid {
+            border-top-style: solid;
+            border-top-color: var(--grid-border-color);
+            border-top-width: thin;
+            height: var(--grid-row-height);
+        }
+
+        .vaadin-grid-header.vaadin-grid th.vaadin-grid {
+            color: black;
+            font-weight: bold;
+        }
+
+        .vaadin-grid-header.vaadin-grid th.vaadin-grid, td.vaadin-grid.vaadin-grid-cell {
+            border-right-width: thin;
+            border-right-style: solid;
+            border-right-color: var(--grid-border-color);
+            height: var(--grid-row-height);
+        }
+
+        .vaadin-grid-row-has-data.vaadin-grid td.vaadin-grid {
+            border-bottom-color: var(--grid-border-color);
+        }
+
+        .vaadin-grid-0 .vaadin-grid-header.vaadin-grid tr.vaadin-grid , .vaadin-grid-0 .vaadin-grid-body.vaadin-grid tr.vaadin-grid {
+            height: var(--grid-row-height);
+        }
+
+        .vaadin-grid-header.vaadin-grid th.vaadin-grid, .vaadin-grid-body.vaadin-grid td.vaadin-grid, .vaadin-grid-footer.vaadin-grid td.vaadin-grid {
+            padding: 0 5px 0 5px;
+        }
+
+
+        /************************
+         *** Table row colors ***
+         ************************/
+
+        /***** Declaring table row color variables with default values *****/
         :root {
             --color-light: white;
             --color-dark: white;
@@ -40,7 +86,7 @@
         .branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
         .closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
 
-        /**** Aplying styles to vaading grid ****/
+        /**** Applying styles to vaading grid ****/
 
         td.vaadin-grid.vaadin-grid-cell {
             background: transparent;
