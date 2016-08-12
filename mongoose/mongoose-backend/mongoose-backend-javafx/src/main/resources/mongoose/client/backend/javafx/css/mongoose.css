@@ -31,9 +31,15 @@
     -fx-opacity: 0.0;
 }
 
+.table-row-cell .table-cell {
+    -fx-padding: 9px 5px 5px 5px;
+}
+
 .table-row-cell .text, .table-row-cell Text { /* texts displayed in tables */
    -fx-font-family: "Roboto"; /* embedded font to be sure it can correctly render bold and italic on all systems */
-   -fx-alignment: baseline-right;
+   -fx-font-size: 16px;
+   -fx-font-smoothing-type: gray;
+   -fx-fill: rgba(0, 0, 0, 0.7);
 }
 
 .table-row-cell:selected .table-cell {
