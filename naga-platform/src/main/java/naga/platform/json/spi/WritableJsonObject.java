@@ -1,5 +1,9 @@
 package naga.platform.json.spi;
 
+import naga.commons.util.Dates;
+
+import java.time.Instant;
+
 /**
  * @author Bruno Salmon
  */
@@ -41,8 +45,12 @@ public interface WritableJsonObject extends JsonObject {
 
     default WritableJsonObject set(String key, int value) { return setScalar(key, value); }
 
+    default WritableJsonObject set(String key, long value) { return setScalar(key, value); }
+
     default WritableJsonObject set(String key, double value) { return setScalar(key, value); }
 
     default WritableJsonObject set(String key, String value) { return setScalar(key, value); }
+
+    default WritableJsonObject set(String key, Instant value) { return setScalar(key, Dates.formatIso(value)); }
 
 }
