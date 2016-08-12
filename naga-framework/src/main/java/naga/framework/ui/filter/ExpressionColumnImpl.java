@@ -1,6 +1,7 @@
 package naga.framework.ui.filter;
 
 import naga.commons.type.Type;
+import naga.commons.type.Types;
 import naga.framework.expression.Expression;
 import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
@@ -39,7 +40,10 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 if (fieldPrefWidth > 0)
                     prefWidth = (double) fieldPrefWidth;
             }
-            displayColumn = DisplayColumn.create(label, expectedType, prefWidth);
+            String textAlign = null;
+            if (Types.isNumberType(expression.getType()))
+                textAlign = "right";
+            displayColumn = DisplayColumn.create(label, expectedType, prefWidth, textAlign);
         }
         return displayColumn;
     }
