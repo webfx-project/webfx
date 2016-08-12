@@ -3,19 +3,18 @@ package naga.providers.toolkit.gwtpolymer.nodes.controls;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.*;
 import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
-import com.vaadin.polymer.vaadin.Cell;
-import com.vaadin.polymer.vaadin.Column;
-import com.vaadin.polymer.vaadin.Row;
-import com.vaadin.polymer.vaadin.Selection;
+import com.vaadin.polymer.vaadin.*;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
-import naga.commons.util.Strings;
+import naga.commons.type.Type;
+import naga.commons.type.Types;
 import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.display.Label;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.nodes.controls.Table;
 
@@ -93,6 +92,8 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             rowStyleColumnIndex = -1;
             int columnCount = rs.getColumnCount();
             int rowCount = rs.getRowCount();
+            Header header = node.getHeader();
+            header.setRowCount(1);
             for (int columnIndex = 0, gridColumnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 DisplayColumn displayColumn = rs.getColumns()[columnIndex];
                 String role = displayColumn.getRole();
@@ -104,12 +105,41 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                         gridColumn = gridColumns.get(gridColumnIndex).cast();
                     else
                         node.addColumn(gridColumn = JavaScriptObject.createObject().cast(), null);
-                    String headerText = displayColumn.getName();
-                    // The API says to use gridColumn.setContentHeader() but it doesn't work so using gridColumn.setName() instead
-                    gridColumn.setName(Strings.replaceAll(headerText, ".", ""));
+                    HeaderAndFooterCell headerCell = header.getCell(0, gridColumnIndex);
+                    Label label = displayColumn.getLabel();
+                    SpanElement headerText = null;
+                    if (label.getText() != null) {
+                        headerText = Document.get().createSpanElement();
+                        headerText.appendChild(Document.get().createTextNode(label.getText()));
+                    }
+                    ImageElement headerIcon = null;
+                    if (label.getIconPath() != null) {
+                        headerIcon = Document.get().createImageElement();
+                        headerIcon.setSrc(label.getIconPath());
+                    }
+                    Node headerContent;
+                    if (headerText == null) {
+                        if (headerIcon != null)
+                            headerIcon.setAttribute("style", "margin-left: auto; margin-right: auto;");
+                        headerContent = headerIcon;
+                    } else if (headerIcon == null) {
+                        headerText.setAttribute("style", "margin-left: auto; margin-right: auto;");
+                        headerContent = headerText;
+                    } else {
+                        headerIcon.setAttribute("style", "vertical-align: middle; margin-right: 5px;");
+                        headerText.setAttribute("style", "vertical-align: middle;");
+                        SpanElement span = Document.get().createSpanElement();
+                        span.setAttribute("style", "width: 100%; text-align: center;");
+                        span.appendChild(headerIcon);
+                        span.appendChild(headerText);
+                        headerContent = span;
+                    }
+                    headerCell.setContent(headerContent);
                     Double prefWidth = displayColumn.getPrefWidth();
                     if (prefWidth != null) {
-                        prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
+                        if (label.getText() != null)
+                            prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
+                        prefWidth = prefWidth + 10; // because of the 5px left and right padding
                         gridColumn.setMinWidth(prefWidth);
                         gridColumn.setMaxWidth(prefWidth);
                         gridColumn.setWidth(prefWidth);
@@ -121,13 +151,17 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                         int rowIndex = (int) row.getIndex();
                         Object value = rs.getValue(rowIndex, colIndex);
                         String text = value == null ? "" : value.toString();
-                        String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
-/*
-                        Type type = rs.getColumns()[colIndex].getType();
-                        if (Types.isNumberType(type))
-                            style += " text-align: right;";
-*/
-                        cell.getElement().<Element>cast().setInnerHTML("<span style='" + style + "'>" + text + "</span>");
+                        String innerHtml;
+                        Type type = displayColumn.getType();
+                        if (Types.isImageType(type)) {
+                            innerHtml = "<img src='" + text + "' style='margin-left: auto; margin-right: auto;'/>";
+                        } else {
+                            String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
+                            if (displayColumn.getTextAlign() != null)
+                                style += " text-align: " + displayColumn.getTextAlign() + ";";
+                            innerHtml = "<span style='" + style + "'>" + text + "</span>";
+                        }
+                        cell.getElement().<Element>cast().setInnerHTML(innerHtml);
                         return null;
                     });
                     gridColumnIndex++;
