@@ -93,10 +93,32 @@
                         <artifactId>gwt-maven-plugin</artifactId>
                     </plugin>
 
-                    <!-- Also unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
+                    <!-- Copying the Mongoose images into the webroot directory and also unpacking webroot resources coming from dependencies such as naga-abstractplatform-web-->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <artifactId>mongoose-logic</artifactId>
+                                            <groupId>${mongoose.groupId}</groupId>
+                                            <version>${mongoose.version}</version>
+                                            <type>jar</type>
+                                            <overWrite>true</overWrite>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <includes>images/**</includes>
+                                    <outputDirectory>${project.build.outputDirectory}/webroot/mongoose-backend-gwt/</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
 
                     <!-- Keeping only webroot (without WEB-INF) in the artifact -->
