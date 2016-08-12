@@ -64,4 +64,8 @@ public class Types {
         return primType != null && primType.isNumber();
     }
 
+    public static boolean isImageType(Type type) {
+        return type instanceof DerivedType && ((DerivedType) type).isDisplayAsImage();
+    }
+
 }
