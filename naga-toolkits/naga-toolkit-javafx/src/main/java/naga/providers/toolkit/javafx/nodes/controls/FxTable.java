@@ -11,7 +11,10 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import naga.commons.type.ArrayType;
+import naga.commons.type.Type;
 import naga.commons.type.Types;
+import naga.commons.util.Arrays;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.IdentityList;
@@ -135,25 +138,43 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
             tableColumn.setMinWidth(prefWidth);
             tableColumn.setMaxWidth(prefWidth);
         }
-        boolean isImage = Types.isImageType(displayColumn.getType());
+        Type type = displayColumn.getType();
+        boolean isArray = Types.isArrayType(type);
+        boolean isImageAndText;
+        if (isArray) {
+            Type[] types = ((ArrayType) type).getTypes();
+            isImageAndText = Arrays.length(types) == 2 && Types.isImageType(types[0]);
+        } else
+            isImageAndText = false;
+        boolean isImage = !isArray && Types.isImageType(type);
         tableColumn.setCellFactory(param -> new TableCell() {
             { setAlignment( "right".equals(displayColumn.getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
-            private final ImageView imageView = new ImageView();
+            private ImageView imageView;
             @Override
                 protected void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
-                if (!isImage)
-                    setText(Strings.toString(item));
-                else {
-                    setText(null);
-                    if (empty || item == null)
-                        setGraphic(null);
-                    else {
-                        String url = Strings.toString(item);
-                        imageView.setImage(FxImageStore.getImage(url));
-                        setGraphic(imageView);
+                String text = null, imageUrl = null;
+                Node graphic = null;
+                if (isImage)
+                    imageUrl = empty || item == null ? null : Strings.toString(item);
+                else if (isImageAndText) {
+                    Object[] array = (Object[]) item;
+                    if (Arrays.length(array) == 2) {
+                        imageUrl = Strings.toString(array[0]);
+                        text = Strings.toString(array[1]);
                     }
+                } else if (isArray) {
+                    // TODO
+                } else
+                    text = Strings.toString(item);
+                if (graphic == null && imageUrl != null) {
+                    if (imageView == null)
+                        imageView = new ImageView();
+                    imageView.setImage(FxImageStore.getImage(imageUrl));
+                    graphic = imageView;
                 }
+                setText(text);
+                setGraphic(graphic);
             }
         });
         tableColumn.setCellValueFactory(cdf -> (ObservableValue) rs.getValue(cdf.getValue(), columnIndex));
