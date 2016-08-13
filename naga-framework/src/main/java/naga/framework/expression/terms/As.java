@@ -3,8 +3,6 @@ package naga.framework.expression.terms;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 
-import java.util.Collection;
-
 /**
  * @author Bruno Salmon
  */
@@ -32,8 +30,10 @@ public class As<T> extends UnaryExpression<T> {
         return operand.toString(sb).append(" as ").append(alias);
     }
 
+/* Temporary commented because this may result in collecting the same alias several times which is confusing for sql (ex: here and in StringFilter fields - See EventsActivity for example)
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
         persistentTerms.add(this); // We want the whole As expression to be sent to the server
     }
+*/
 
 }
