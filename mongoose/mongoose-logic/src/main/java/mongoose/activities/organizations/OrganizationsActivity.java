@@ -59,7 +59,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
                         "{label: 'Name', expression: '[icon, name + ` (` + type.code + `)`]'}," +
-                        "'country', 'country.continent'" +
+                        "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.organizationsDisplayResultSetProperty())
