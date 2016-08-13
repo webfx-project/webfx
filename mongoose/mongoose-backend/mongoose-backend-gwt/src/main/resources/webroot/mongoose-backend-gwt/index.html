@@ -47,9 +47,20 @@
         }
 
 
-        /************************
-         *** Table row colors ***
-         ************************/
+        /***********************************
+         *** Table header and row colors ***
+         ***********************************/
+
+        /*** Table header gray gradient ***/
+
+        thead tr.vaadin-grid {
+            background: linear-gradient( 180deg, white, lightgray 100%);
+        }
+
+        th.vaadin-grid.vaadin-grid-cell {
+            background: transparent;
+        }
+
 
         /***** Declaring table row color variables with default values *****/
         :root {
