@@ -8,8 +8,11 @@ import com.vaadin.polymer.Polymer;
 import com.vaadin.polymer.elemental.Function;
 import com.vaadin.polymer.vaadin.*;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
+import naga.commons.type.ArrayType;
 import naga.commons.type.Type;
 import naga.commons.type.Types;
+import naga.commons.util.Arrays;
+import naga.commons.util.Strings;
 import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
@@ -145,21 +148,33 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                         gridColumn.setWidth(prefWidth);
                     }
                     final int colIndex = columnIndex;
+                    Type type = displayColumn.getType();
+                    boolean isArray = Types.isArrayType(type);
+                    boolean isImageAndText;
+                    if (isArray) {
+                        Type[] types = ((ArrayType) type).getTypes();
+                        isImageAndText = Arrays.length(types) == 2 && Types.isImageType(types[0]);
+                    } else
+                        isImageAndText = false;
+                    boolean isImage = !isArray && Types.isImageType(type);
                     gridColumn.setRenderer(oCell -> {
                         Cell cell = (Cell) oCell;
                         Row row = cell.getRow().cast();
                         int rowIndex = (int) row.getIndex();
                         Object value = rs.getValue(rowIndex, colIndex);
-                        String text = value == null ? "" : value.toString();
                         String innerHtml;
-                        Type type = displayColumn.getType();
-                        if (Types.isImageType(type)) {
-                            innerHtml = "<img src='" + text + "' style='margin-left: auto; margin-right: auto;'/>";
+                        if (isImage)
+                            innerHtml = value == null ? null : "<img src='" + Strings.toString(value) + "' style='margin-left: auto; margin-right: auto;'/>";
+                        else if (isImageAndText) {
+                            Object[] array = (Object[]) value;
+                            innerHtml = Arrays.length(array) < 2 ? null : "<span><img src='" + Strings.toString(array[0]) + "' style='vertical-align: middle; margin-right: 5px;'/><span style='vertical-align: middle;'>" + Strings.toString(array[1]) + "</span></span>";
+                        } else if (isArray) {
+                            innerHtml = null; // TODO
                         } else {
                             String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
                             if (displayColumn.getTextAlign() != null)
                                 style += " text-align: " + displayColumn.getTextAlign() + ";";
-                            innerHtml = "<span style='" + style + "'>" + text + "</span>";
+                            innerHtml = "<span style='" + style + "'>" + Strings.toString(value) + "</span>";
                         }
                         cell.getElement().<Element>cast().setInnerHTML(innerHtml);
                         return null;
