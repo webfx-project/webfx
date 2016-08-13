@@ -170,11 +170,11 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                             innerHtml = Arrays.length(array) < 2 ? null : "<span><img src='" + Strings.toString(array[0]) + "' style='vertical-align: middle; margin-right: 5px;'/><span style='vertical-align: middle;'>" + Strings.toString(array[1]) + "</span></span>";
                         } else if (isArray) {
                             innerHtml = null; // TODO
-                        } else {
+                        } else { // default case (presumably text)
                             String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
                             if (displayColumn.getTextAlign() != null)
                                 style += " text-align: " + displayColumn.getTextAlign() + ";";
-                            innerHtml = "<span style='" + style + "'>" + Strings.toString(value) + "</span>";
+                            innerHtml = value == null ? null : "<span style='" + style + "'>" + Strings.toString(value) + "</span>";
                         }
                         cell.getElement().<Element>cast().setInnerHTML(innerHtml);
                         return null;
