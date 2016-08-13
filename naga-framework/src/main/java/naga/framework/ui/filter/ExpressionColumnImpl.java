@@ -53,7 +53,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
                     topRightExpression = getTopRightExpression(displayExpression);
                 displayType = topRightExpression.getType();
             }
-            String textAlign = Types.isNumberType(displayType) ? "right" : null;
+            String textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
             displayColumn = DisplayColumn.create(label, displayType, prefWidth, textAlign);
         }
         return displayColumn;
