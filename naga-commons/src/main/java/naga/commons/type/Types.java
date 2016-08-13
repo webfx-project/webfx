@@ -68,4 +68,7 @@ public class Types {
         return type instanceof DerivedType && ((DerivedType) type).isDisplayAsImage();
     }
 
+    public static boolean isArrayType(Type type) {
+        return type instanceof ArrayType;
+    }
 }
