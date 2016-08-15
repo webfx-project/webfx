@@ -1,7 +1,9 @@
 package naga.framework.expression.terms.function;
 
+import naga.commons.util.Arrays;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
+import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.UnaryExpression;
 import naga.commons.type.Type;
 
@@ -36,8 +38,17 @@ public class Call<T> extends UnaryExpression<T> {
 
     @Override
     public Type getType() {
-        Type type = function.getReturnType(); // type = null means return same type as argument (ex: sum function)
-        return type != null ? type : super.getType();
+        Type type = function.getReturnType();
+        if (type == null) { // type = null means the function returns the same type as the argument (ex: sum function)
+            Expression operand = getOperand(); // General case: the type to return is the type of the operand
+            if (operand instanceof ExpressionArray) { // Particular case: multiple arguments (ex: coalesce(ar1, arg2))
+                Expression[] arguments = ((ExpressionArray) operand).getExpressions();
+                if (!Arrays.isEmpty(arguments))
+                    operand = arguments[0]; // we return the type of the first argument
+            }
+            type = operand.getType();
+        }
+        return type;
     }
 
     @Override
