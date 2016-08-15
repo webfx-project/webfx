@@ -2,33 +2,39 @@ package naga.framework.ui.filter;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.platform.json.spi.JsonArray;
-import naga.platform.json.spi.JsonObject;
+import naga.commons.type.PrimType;
+import naga.commons.util.async.Handler;
+import naga.commons.util.function.Converter;
+import naga.framework.expression.Expression;
+import naga.framework.expression.builder.ThreadLocalReferenceResolver;
+import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
+import naga.framework.expression.terms.Alias;
+import naga.framework.expression.terms.As;
+import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
+import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.expression.Expression;
-import naga.framework.expression.terms.ExpressionArray;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
-import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
-import naga.platform.services.query.QueryArgument;
+import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.framework.ui.rx.RxFuture;
 import naga.framework.ui.rx.RxUi;
+import naga.platform.json.spi.JsonArray;
+import naga.platform.json.spi.JsonObject;
+import naga.platform.services.query.QueryArgument;
 import naga.platform.spi.Platform;
-import naga.toolkit.spi.Toolkit;
-import naga.commons.type.PrimType;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
-import naga.commons.util.async.Handler;
-import naga.commons.util.function.Converter;
+import naga.toolkit.spi.Toolkit;
 import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -37,6 +43,7 @@ public class ReactiveExpressionFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private Object domainClassId;
+    private StringFilter baseFilter;
     private ExpressionColumn[] expressionColumns;
     private DataSourceModel dataSourceModel;
     private EntityStore store;
@@ -149,8 +156,10 @@ public class ReactiveExpressionFilter {
     }
 
     public ReactiveExpressionFilter combine(StringFilter stringFilter) {
-        if (domainClassId == null)
+        if (domainClassId == null) {
             domainClassId = stringFilter.getDomainClassId();
+            baseFilter = stringFilter;
+        }
         return combine(Observable.just(stringFilter));
     }
 
@@ -189,13 +198,44 @@ public class ReactiveExpressionFilter {
             store = EntityStore.create(dataSourceModel);
         if (listId == null)
             listId = "default";
-        List<Expression> displayPersistentTerms = new ArrayList<>();
-        for (ExpressionColumn expressionColumn : expressionColumns) {
-            expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), domainClassId);
-            expressionColumn.getExpression().collectPersistentTerms(displayPersistentTerms);
+        /** Parsing expression columns and collecting their persistent fields (their load is required for later evaluation) **/
+        DomainModel domainModel = dataSourceModel.getDomainModel();
+        List<Expression> expressionColumnsPersistentTerms = new ArrayList<>();
+        // Before parsing, we prepare a ReferenceResolver to resolve possible references to root aliases
+        Map<String, Alias> rootAliases = new HashMap<>();
+        try {
+            ThreadLocalReferenceResolver.pushReferenceResolver(rootAliases::get);
+            if (baseFilter != null) { // Root aliases are stored in the baseFilter
+                // The first possible root alias is the base filter alias. Ex: Event e => the alias "e" then acts in a
+                // similar way as "this" in java because it refers to the current Event row in the select, so some
+                // expressions such as sub queries may refer to it (ex: select count(1) from Booking where event=e)
+                String alias = baseFilter.getAlias();
+                if (alias != null) // when defined, we add an Alias expression that can be returned when resolving this alias
+                    rootAliases.put(alias, new Alias(alias, domainModel.getClass(domainClassId)));
+                // Other possible root aliases can be As expressions defined in the base filter fields, such as sub queries
+                // If fields contains for example (select ...) as xxx -> then xxx can be referenced in expression columns
+                String fields = baseFilter.getFields();
+                if (fields != null && fields.contains(" as ")) { // quick skipping if fields doesn't contains " as "
+                    for (Expression field : domainModel.parseExpressionArray(fields, domainClassId).getExpressions()) {
+                        if (field instanceof As) { // If a field is a As expression,
+                            As as = (As) field;
+                            // we add an Alias expression that can be returned when resolving this alias
+                            rootAliases.put(as.getAlias(), new Alias(as.getAlias(), as.getType()));
+                        }
+                    }
+                }
+            }
+            // Now that the ReferenceResolver is ready, we can parse the expression columns
+            for (ExpressionColumn expressionColumn : expressionColumns) {
+                expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
+                expressionColumn.getExpression().collectPersistentTerms(expressionColumnsPersistentTerms);
+            }
+        } finally {
+            ThreadLocalReferenceResolver.popReferenceResolver();
         }
-        if (!displayPersistentTerms.isEmpty())
-            combine(new StringFilterBuilder().setFields(new ExpressionArray<>(displayPersistentTerms).toString()));
+        /** If expression columns have persistent fields, we make an additional string filter to cause their load **/
+        if (!expressionColumnsPersistentTerms.isEmpty())
+            combine(new StringFilterBuilder().setFields(new ExpressionArray<>(expressionColumnsPersistentTerms).toString()));
     }
 
     public ReactiveExpressionFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
