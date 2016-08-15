@@ -51,13 +51,13 @@ public class EventsActivity extends PresentationActivity<EventsViewModel, Events
 
     protected void bindPresentationModelWithLogic(EventsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields: '(select count(1) from Document where !cancelled and event=e) as bc', where: 'live', orderBy: 'startDate desc,id desc'}")
+        createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where: 'live', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
-                        "{label: 'Name', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + (0 as bc) + `)`'}," +
+                        "{label: 'Name', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}," +
                         "{label: 'Centre', expression: 'organization'}" +
                         "]")
                 .applyDomainModelRowStyle()
