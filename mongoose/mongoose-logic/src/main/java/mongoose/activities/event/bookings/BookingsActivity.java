@@ -78,7 +78,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
                         "'ref'," +
-                        "'multipleBookingIcon','genderIcon'," +
+                        "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
                         "'person_firstName'," +
                         "'person_lastName'," +
                         "'person_age','noteIcon'," +
