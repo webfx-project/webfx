@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Bruno Salmon
@@ -248,16 +249,25 @@ public class ReactiveExpressionFilter {
             Platform.schedulePeriodic(5000, () -> ticTacProperty.setValue(!ticTacProperty.getValue()));
             combine(ticTacProperty, "{}");
         }
-        Observable<DisplayResultSet> displayResultObservable = Observable
+        AtomicInteger observableSequence = new AtomicInteger(); // Used for
+        Observable<DisplayResultSet> displayResultSetObservable = Observable
                 .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
                 //.distinctUntilChanged() // commented to allow auto refresh
                 .switchMap(stringFilter -> {
+                    // Shortcut: when the string filter is "false", we return an empty result set immediately (no server call)
                     if ("false".equals(stringFilter.getWhere()))
                         return Observable.just(emptyDisplayResultSet());
+                    // Otherwise we compile the final string filter into sql
                     SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                     Platform.log(sqlCompiled.getSql());
+                    // We increment and capture the sequence to check if the request is still the latest one when receiving the result
+                    int sequence = observableSequence.incrementAndGet();
+                    // Then we ask the query service to execute the sql query
                     return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
-                            .map(sqlReadResult -> QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
+                            // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                            // Otherwise transforming the QueryResultSet into an EntityList
+                            .map(sqlReadResult -> (sequence != observableSequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
+                            // Finally transforming the EntityList into a DisplayResultSet
                             .map(entities -> {
                                 if (selectFirstRowOnFirstDisplay && entities.size() > 0) {
                                     selectFirstRowOnFirstDisplay = false;
@@ -266,7 +276,8 @@ public class ReactiveExpressionFilter {
                                 return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns);
                             });
                 });
-        RxUi.displayObservable(displayResultObservable, displayResultSetProperty);
+        // Any new DisplayResultSet emitted by the observable will set the displayResultSetProperty
+        RxUi.displayObservable(displayResultSetObservable, displayResultSetProperty);
         return this;
     }
 
