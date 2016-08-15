@@ -1,6 +1,7 @@
 package naga.framework.expression.builder.terms;
 
 import naga.framework.expression.Expression;
+import naga.framework.expression.terms.Alias;
 import naga.framework.expression.terms.Dot;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Symbol;
@@ -22,8 +23,11 @@ public class DotBuilder extends BinaryExpressionBuilder {
     public Dot build() {
         if (operation == null) {
             propagateDomainClasses();
-            Symbol leftExpression = (Symbol) left.build(); // left should be a term when using dot
-            right.buildingClass = getModelReader().getSymbolForeignDomainClass(left.buildingClass, leftExpression);
+            Expression leftExpression = left.build(); // left should be a term when using dot
+            if (leftExpression instanceof Alias)
+                right.buildingClass = ((Alias) leftExpression).getDomainClass();
+            else
+                right.buildingClass = getModelReader().getSymbolForeignDomainClass(left.buildingClass, (Symbol) leftExpression);
             boolean leftResolver = left instanceof ReferenceResolver;
             if (leftResolver)
                 ThreadLocalReferenceResolver.pushReferenceResolver((ReferenceResolver) left);
