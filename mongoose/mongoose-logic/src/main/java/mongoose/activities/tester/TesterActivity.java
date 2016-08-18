@@ -7,7 +7,6 @@ import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.controls.Slider;
-import naga.toolkit.spi.nodes.controls.TextField;
 import naga.toolkit.spi.nodes.gauges.Gauge;
 import naga.toolkit.spi.nodes.layouts.VBox;
 
@@ -15,19 +14,13 @@ import naga.toolkit.spi.nodes.layouts.VBox;
  * @author Bruno Salmon
  */
 public class TesterActivity extends PresentationActivity<TesterViewModel, TesterPresentationModel> {
+    ConnectionChartGenerator connectionChartGenerator = new ConnectionChartGenerator();
 
     public TesterActivity() {
         super(TesterPresentationModel::new);
     }
 
     protected TesterViewModel buildView(Toolkit toolkit) {
-        // TextFields
-        TextField<String> testName  = toolkit.createTextField();
-        TextField<String> testComment = toolkit.createTextField();
-        Button createTest = toolkit.createButton();
-        testName.setPlaceholder("Test name");
-        testComment.setPlaceholder("Comments");
-        createTest.setText("Create Test");
         // Sliders
         Slider requestedSlider = toolkit.createSlider();
         Gauge startedSlider = toolkit.createGauge();
@@ -35,24 +28,28 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         LineChart connectionsChart = toolkit.createLineChart();
         // Arranging in boxes
         VBox vBox = toolkit.createVBox();
-        vBox.getChildren().setAll(testName, testComment, createTest, requestedSlider, startedSlider);
+        vBox.getChildren().setAll(requestedSlider, startedSlider);
+        // Buttons
+        Button saveTest = toolkit.createButton();
+        saveTest.setText("Save Test");
         // Building the UI components
         return new TesterViewModel(toolkit.createVPage()
                     .setHeader(vBox)
-                    .setCenter(connectionsChart),
-                testName,
-                testComment,
-                createTest,
+                    .setCenter(connectionsChart)
+                    .setFooter(saveTest),
+                saveTest,
                 connectionsChart,
                 requestedSlider,
                 startedSlider);
     }
 
     protected void bindViewModelWithPresentationModel(TesterViewModel vm, TesterPresentationModel pm) {
-        // Test description
-        pm.testNameProperty().bind(vm.getTestName().textProperty());
-        pm.testCommentProperty().bind(vm.getTestComment().textProperty());
-        vm.getCreateTest().actionEventObservable().subscribe(actionEvent -> Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue()));
+        vm.getSaveTest().actionEventObservable().subscribe(actionEvent -> {
+            getHistory().push("/testSet");
+//            Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue());
+            connectionChartGenerator.reset();
+//            pm.chartDisplayResultSetProperty().bind(connectionChartGenerator.connectionListProperty());
+        });
         // Sliders
         vm.getStartedSlider().setMin(0);
         vm.getStartedSlider().setMax(3000);
@@ -68,13 +65,11 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
 
     protected void bindPresentationModelWithLogic(TesterPresentationModel pm) {
         // Drive
-        Drive drive = Drive.getInstance();
-        drive.start(true);
-        drive.requestedConnectionCountProperty().bind(pm.requestedConnectionsProperty());
-        pm.startedConnectionsProperty().bind(drive.startedConnectionCountProperty());
+        Drive.getInstance().start(true);
+        Drive.getInstance().requestedConnectionCountProperty().bind(pm.requestedConnectionsProperty());
+        pm.startedConnectionsProperty().bind(Drive.getInstance().startedConnectionCountProperty());
         // Charts
-        ConnectionChartGenerator connectionChart = new ConnectionChartGenerator();
-        connectionChart.start();
-        pm.chartDisplayResultSetProperty().bind(connectionChart.connectionListProperty());
+        connectionChartGenerator.start();
+        pm.chartDisplayResultSetProperty().bind(connectionChartGenerator.connectionListProperty());
     }
 }
