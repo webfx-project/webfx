@@ -32,7 +32,7 @@ public class LtTestEventEntityImpl extends DynamicEntity implements LtTestEventE
     }
 
     @Override
-    public void setEventTime(Long eventTime) {
+    public void setEventTime(Instant eventTime) {
         setFieldValue("eventTime", eventTime);
     }
 

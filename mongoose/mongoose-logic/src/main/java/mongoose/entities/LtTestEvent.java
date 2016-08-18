@@ -15,7 +15,7 @@ public interface LtTestEvent {
 
     Instant getEventTime();
 
-    void setEventTime(Long eventTime);
+    void setEventTime(Instant eventTime);
 
     EventType getType();
 
