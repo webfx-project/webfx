@@ -5,9 +5,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import naga.commons.util.function.Converter;
 import naga.commons.util.tuples.Unit;
-
-import java.util.ArrayList;
-import java.util.List;
+import naga.toolkit.util.ObservableLists;
 
 /**
  * @author Bruno Salmon
@@ -22,26 +20,18 @@ public class ConvertedObservableList {
         aList.addListener((ListChangeListener<A>) c -> {
             if (!syncing.get()) {
                 syncing.set(true);
-                copy(aList, bList, aToBConverter);
+                ObservableLists.setAllConverted(aList, aToBConverter, bList);
                 syncing.set(false);
             }
         });
         bList.addListener((ListChangeListener<B>) c -> {
             if (!syncing.get()) {
                 syncing.set(true);
-                copy(bList, aList, bToAConverter);
+                ObservableLists.setAllConverted(bList, bToAConverter, aList);
                 syncing.set(false);
             }
         });
         return bList;
-    }
-
-    private static <A, B> void copy(List<A> aList, ObservableList<B> bList, Converter<A, B> aToBConverter) {
-        // GWT/J2OBJC bList.setAll(aList.stream().map(aToBConverter::convert).collect(Collectors.toList()));
-        List<B> list = new ArrayList<>(aList.size());
-        for (A a : aList)
-            list.add(aToBConverter.convert(a));
-        bList.setAll(list);
     }
 
 }
