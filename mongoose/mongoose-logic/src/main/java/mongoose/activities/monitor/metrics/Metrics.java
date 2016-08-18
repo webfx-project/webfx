@@ -5,7 +5,6 @@ import mongoose.activities.monitor.metrics.controller.SystemLookup;
 import mongoose.activities.monitor.metrics.controller.SystemLookupMock;
 import mongoose.activities.monitor.metrics.model.MemData;
 import mongoose.activities.monitor.metrics.model.SysBean;
-import mongoose.activities.monitor.metrics.model.SysBeanFX;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.tuples.Unit;
 import naga.platform.spi.Platform;
@@ -20,7 +19,6 @@ public class Metrics {
     private static final Metrics instance = new Metrics();   // singleton
 
     private SystemLookup sysMon = new SystemLookupMock();
-    private ObjectProperty<SysBeanFX> sbfx;
     private ObjectProperty<MemData> memData;
     private boolean cancelled;
 
@@ -55,14 +53,6 @@ public class Metrics {
 
     public void stop () {
         cancelled = true;
-    }
-
-    public ObjectProperty<SysBeanFX> sbfxProperty() {
-        return sbfx;
-    }
-
-    public void setSbfx(ObjectProperty<SysBeanFX> sbfx) {
-        this.sbfx = sbfx;
     }
 
     public MemData getMemData() {
