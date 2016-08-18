@@ -7,14 +7,13 @@ import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 import naga.toolkit.properties.conversion.ConvertedObservableList;
 import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.Parent;
 import naga.toolkit.spi.nodes.UnimplementedNode;
 import naga.toolkit.spi.nodes.charts.*;
 import naga.toolkit.spi.nodes.controls.*;
 import naga.toolkit.spi.nodes.gauges.Gauge;
-import naga.toolkit.spi.nodes.layouts.HBox;
-import naga.toolkit.spi.nodes.layouts.VBox;
-import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.toolkit.spi.nodes.layouts.Window;
+import naga.toolkit.spi.nodes.layouts.*;
+import naga.toolkit.util.ObservableLists;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,6 +97,11 @@ public abstract class Toolkit {
         return TOOLKIT;
     }
 
+    public static <P extends Parent> P setAllChildren(P parent, GuiNode... children) {
+        ObservableLists.setAllNonNulls(parent.getChildren(), children);
+        return parent;
+    }
+
     public Table createTable() {
         return createNode(Table.class);
     }
@@ -114,6 +118,33 @@ public abstract class Toolkit {
         return nodeFactories.containsKey(TextField.class) ? createNode(TextField.class) : createSearchBox();
     }
 
+    public Image createImage() {
+        return createNode(Image.class);
+    }
+
+    public Image createImage(String url) {
+        Image image = createImage();
+        image.setUrl(url);
+        return image;
+    }
+    public Image createImageOrNull(String url) {
+        return url == null ? null : createImage(url);
+    }
+
+    public TextView createTextView() {
+        return createNode(TextView.class);
+    }
+
+    public TextView createTextView(String text) {
+        TextView textView = createTextView();
+        textView.setText(text);
+        return textView;
+    }
+
+    public TextView createTextViewOrNull(String text) {
+        return text == null ? null : createTextView(text);
+    }
+
     public SearchBox createSearchBox() {
         return createNode(SearchBox.class);
     }
@@ -126,8 +157,20 @@ public abstract class Toolkit {
         return createNode(VBox.class);
     }
 
+    public VBox createVBox(GuiNode... children) {
+        return setAllChildren(createVBox(), children);
+    }
+
     public HBox createHBox() {
         return createNode(HBox.class);
+    }
+
+    public HBox createHBox(GuiNode... children) {
+        return setAllChildren(createHBox(), children);
+    }
+
+    public FlowPane createFlowBox() {
+        return createNode(FlowPane.class);
     }
 
     public VPage createVPage() {
