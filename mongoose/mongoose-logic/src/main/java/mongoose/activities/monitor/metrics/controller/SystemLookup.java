@@ -2,6 +2,8 @@ package mongoose.activities.monitor.metrics.controller;
 
 import mongoose.activities.monitor.metrics.model.SysBean;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -10,11 +12,10 @@ public abstract class SystemLookup {
     protected SysBean sb;
 
     public SysBean snapshot() {
+        long rnd = (long)Math.random();
         sb = new SysBean();
 
-        long t0 = System.currentTimeMillis();
-        long rnd = (long)Math.random();
-
+        sb.setDate(Instant.now());
         sb.setCommittedMem(200+rnd*20);
         sb.setTotalMem(64+rnd*10);
         sb.setFreeMem(20+rnd*40);
