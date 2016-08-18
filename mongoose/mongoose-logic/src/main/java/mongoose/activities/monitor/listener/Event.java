@@ -1,5 +1,7 @@
 package mongoose.activities.monitor.listener;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -12,9 +14,9 @@ public interface Event {
 
     void setVal(int val);
 
-    long getEventTime();
+    Instant getEventTime();
 
-    void setEventTime(long eventTime);
+    void setEventTime(Instant eventTime);
 
     long getIdEvent();
 

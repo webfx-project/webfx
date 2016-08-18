@@ -35,7 +35,7 @@ public class Drive {
     private final List<Connection> connexionList = new ArrayList<>();
     private int currentRequested = 0;
     private int started = 0;
-    private int netxToRemove = 0;
+    private int nextToRemove = 0;
 
     public static Drive getInstance() {
         return instance;
@@ -60,10 +60,9 @@ public class Drive {
                     started++;
                 } else {
                     // We must close existing connections
-                    Connection cnx = connexionList.get(netxToRemove);
+                    Connection cnx = connexionList.get(nextToRemove);
                     cnx.executeCommand(Command.CLOSE);
-                    //connexionList.remove(0);
-                    netxToRemove++;
+                    nextToRemove++;
                     started--;
                 }
                 Toolkit.get().scheduler().scheduleDeferred(() -> startedConnectionCount.setValue(started));
@@ -97,6 +96,7 @@ public class Drive {
                 Platform.log(asyncResult.cause());
             else {
                 connexionList.clear();
+                nextToRemove = 0;
                 Platform.log("Recorded !!! :-)");
             }
         });

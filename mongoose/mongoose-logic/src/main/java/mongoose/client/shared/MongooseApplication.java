@@ -7,6 +7,7 @@ import mongoose.activities.events.EventsActivity;
 import mongoose.activities.monitor.MonitorActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
 import mongoose.activities.tester.TesterActivity;
+import mongoose.activities.tester.testset.TestSetActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainApplicationContext;
@@ -33,6 +34,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
                         .route("/cart/:cartUuid", CartActivity::new)
                         .route("/monitor", MonitorActivity::new)
                         .route("/tester", TesterActivity::new)
+                        .route("/testSet", TestSetActivity::new)
                 );
     }
 

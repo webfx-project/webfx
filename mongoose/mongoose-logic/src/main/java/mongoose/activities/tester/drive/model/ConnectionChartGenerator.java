@@ -26,6 +26,10 @@ public class ConnectionChartGenerator {
         Platform.get().scheduler().schedulePeriodic(1000, this::readTask);
     }
 
+    public void reset() {
+        connectionList.clear();
+    }
+
     public DisplayResultSet createDisplayResultSet (){
 //        Platform.log("createDisplayResultSet(Connections)");
         int rowCount = connectionList.size();
@@ -37,7 +41,7 @@ public class ConnectionChartGenerator {
                 DisplayColumn.create("Connected", PrimType.INTEGER)});
         for (int rowIndex=0 ; rowIndex<rowCount ; rowIndex++) {
             ConnectionsChartData data = connectionList.get(rowIndex);
-            rsb.setValue(rowIndex, 0, rowIndex); // temporary taking rowIndex as X
+            rsb.setValue(rowIndex, 0, rowIndex); // TODO temporary taking rowIndex as X, should take event_time
             rsb.setValue(rowIndex, 1, data.getRequested());
             rsb.setValue(rowIndex, 2, data.getStarted());
             rsb.setValue(rowIndex, 3, data.getConnected());

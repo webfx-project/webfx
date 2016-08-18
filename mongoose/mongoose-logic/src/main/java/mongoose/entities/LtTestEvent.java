@@ -2,6 +2,8 @@ package mongoose.entities;
 
 import mongoose.activities.monitor.listener.EventType;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -11,9 +13,9 @@ public interface LtTestEvent {
 
     LtTestSet getLtTestSet();
 
-    Long getEventTime();
+    Instant getEventTime();
 
-    void setEventTime(Long eventTime);
+    void setEventTime(Instant eventTime);
 
     EventType getType();
 

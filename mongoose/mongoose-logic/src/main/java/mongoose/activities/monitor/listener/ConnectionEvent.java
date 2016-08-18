@@ -1,6 +1,8 @@
 package mongoose.activities.monitor.listener;
 
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -8,13 +10,13 @@ public class ConnectionEvent extends EventBase {
 
     public ConnectionEvent(EventType type) {
         setType(type);
-        setEventTime(System.currentTimeMillis());
+        setEventTime(Instant.now());
         setVal(0);
     }
 
     public ConnectionEvent(EventType type, int requested) {
         setType(type);
-        setEventTime(System.currentTimeMillis());
+        setEventTime(Instant.now());
         setVal(requested);
     }
 }

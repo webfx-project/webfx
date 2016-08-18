@@ -2,39 +2,50 @@ package mongoose.activities.monitor.metrics.model;
 
 import naga.platform.spi.Platform;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
 public class SysBean {
-    private long committedMem;
-    private long totalMem;
-    private long usedMem;
-    private long freeMem;
-    private long maxMem;
-    private long freePhMem;
-    private long totalPhMem;
-    private double sysLoad;         // the "recent cpu usage" for the whole system, during the last minute (-1 if not available).
-    private double cpuLoad;         // the "recent cpu usage" for the Java Virtual Machine process.
-    private long cpuTime;           // the CPU time used by the process on which the Java virtual machine is running in nanoseconds.
-    private int availableProcessors;
+    private Instant date;
+    private long    committedMem;
+    private long    totalMem;
+    private long    usedMem;
+    private long    freeMem;
+    private long    maxMem;
+    private long    freePhMem;
+    private long    totalPhMem;
+    private double  sysLoad;         // the "recent cpu usage" for the whole system, during the last minute (-1 if not available).
+    private double  cpuLoad;         // the "recent cpu usage" for the Java Virtual Machine process.
+    private long    cpuTime;           // the CPU time used by the process on which the Java virtual machine is running in nanoseconds.
+    private int     availableProcessors;
 
     static long MB = 1024*1024;
     static long NANO = 1000000;
 
     public void printState() {
 
+        Platform.log("date     : " + getDate());
         Platform.log("commited : " + getCommittedMem() + " MB");
         Platform.log("total    : " + getTotalMem() + " MB");
-//        Platform.log("total 1  : " + getTotalMem());
         Platform.log("used     : " + getUsedMem() + " MB");
         Platform.log("free     : " + getFreeMem() + " MB\n");
         Platform.log("sys max  : " + getMaxMem() + " MB");
         Platform.log("sys free : " + getFreePhMem() + " MB\n");
-//        Platform.log("proc     : " + sb.getAvailableProcessors());
+//        Platform.log("proc     : " + getAvailableProcessors());
         Platform.log("sys load : " + getSysLoad());
         Platform.log("cpu load : " + (getCpuLoad()*100) + " %");
         Platform.log("cpu time : " + (getCpuTime()/NANO) + " ms");
 
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public void setDate(Instant date) {
+        this.date = date;
     }
 
     public long getCommittedMem() { return committedMem; }
