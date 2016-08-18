@@ -1,6 +1,5 @@
 package mongoose.entities;
 
-import naga.commons.util.Dates;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;
@@ -23,7 +22,7 @@ public class MetricsEntityImpl extends DynamicEntity implements MetricsEntity {
 
     @Override
     public Instant getDate() {
-        return Dates.toInstant(getLongFieldValue("date"));
+        return getInstantFieldValue("date");
     }
 
     @Override
