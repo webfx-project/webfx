@@ -169,10 +169,6 @@ public abstract class Toolkit {
         return setAllChildren(createHBox(), children);
     }
 
-    public FlowPane createFlowBox() {
-        return createNode(FlowPane.class);
-    }
-
     public VPage createVPage() {
         return createNode(VPage.class);
     }
