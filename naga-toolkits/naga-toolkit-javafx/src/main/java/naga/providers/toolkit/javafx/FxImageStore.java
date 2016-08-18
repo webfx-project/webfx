@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import naga.toolkit.display.Label;
 
-import java.io.InputStream;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -17,12 +16,8 @@ public class FxImageStore {
 
     public static Image getImage(String url) {
         Image image = images.get(url);
-        if (image == null && url != null) {
-            try (InputStream is = Thread.currentThread().getContextClassLoader().getResource(url).openStream()) {
-                images.put(url, image = new Image(is));
-            } catch (Exception e) {
-            }
-        }
+        if (image == null && url != null)
+            images.put(url, image = new Image(url));
         return image;
     }
 
