@@ -11,20 +11,14 @@ import naga.commons.util.function.Factory;
 import naga.providers.toolkit.javafx.nodes.charts.*;
 import naga.providers.toolkit.javafx.nodes.controls.*;
 import naga.providers.toolkit.javafx.nodes.gauges.FxGauge;
-import naga.providers.toolkit.javafx.nodes.layouts.FxHBox;
-import naga.providers.toolkit.javafx.nodes.layouts.FxVBox;
-import naga.providers.toolkit.javafx.nodes.layouts.FxVPage;
-import naga.providers.toolkit.javafx.nodes.layouts.FxWindow;
+import naga.providers.toolkit.javafx.nodes.layouts.*;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.*;
 import naga.toolkit.spi.nodes.controls.*;
 import naga.toolkit.spi.nodes.gauges.Gauge;
-import naga.toolkit.spi.nodes.layouts.HBox;
-import naga.toolkit.spi.nodes.layouts.VBox;
-import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.toolkit.spi.nodes.layouts.Window;
+import naga.toolkit.spi.nodes.layouts.*;
 
 /**
  * @author Bruno Salmon
@@ -44,6 +38,8 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(Table.class, FxTable::new, TableView.class, FxTable::new);
         registerNodeFactoryAndWrapper(CheckBox.class, FxCheckBox::new, javafx.scene.control.CheckBox.class, FxCheckBox::new);
         registerNodeFactoryAndWrapper(ToggleSwitch.class, FxToggleSwitch::new, naga.providers.toolkit.javafx.nodes.controlsfx.ToggleSwitch.class, FxToggleSwitch::new);
+        registerNodeFactoryAndWrapper(Image.class, FxImage::new, javafx.scene.image.ImageView.class, FxImage::new);
+        registerNodeFactoryAndWrapper(TextView.class, FxTextView::new, javafx.scene.text.Text.class, FxTextView::new);
         registerNodeFactoryAndWrapper(TextField.class, FxTextField::new, javafx.scene.control.TextField.class, FxTextField::new);
         registerNodeFactoryAndWrapper(Button.class, FxButton::new, javafx.scene.control.Button.class, FxButton::new);
         registerNodeFactoryAndWrapper(Slider.class, FxSlider::new, javafx.scene.control.Slider.class, FxSlider::new);
@@ -95,5 +91,4 @@ public class JavaFxToolkit extends Toolkit {
     public static ConvertedProperty<Integer, Number> numberToIntegerProperty(Property<Number> numberProperty) {
         return new ConvertedProperty<>(numberProperty, Integer::doubleValue, Number::intValue);
     }
-
 }
