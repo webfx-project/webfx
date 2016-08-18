@@ -1,6 +1,7 @@
 package naga.toolkit.display;
 
 import naga.commons.type.Type;
+import naga.toolkit.cell.renderers.CellRenderer;
 import naga.toolkit.display.impl.DisplayColumnImpl;
 
 /**
@@ -38,6 +39,8 @@ public interface DisplayColumn {
     Double getPrefWidth();
 
     String getTextAlign();
+
+    CellRenderer getCellRenderer();
 
     static DisplayColumn create(Object label, Type type) {
         return new DisplayColumnImpl(label, type);

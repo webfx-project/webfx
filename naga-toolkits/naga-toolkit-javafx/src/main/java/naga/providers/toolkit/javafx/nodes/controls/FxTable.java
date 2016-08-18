@@ -20,7 +20,6 @@ import naga.toolkit.display.Label;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.cell.*;
-import naga.toolkit.cell.renderers.CellRenderer;
 import naga.toolkit.spi.nodes.controls.Table;
 
 import java.util.ArrayList;
@@ -111,7 +110,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
         }
 
         @Override
-        protected void setUpGridColumn(int gridColumnIndex, DisplayColumn displayColumn, CellRenderer cellRenderer, int rsColumnIndex, DisplayResultSet rs) {
+        protected void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
             TableColumn<Integer, ?> gridColumn = gridColumnIndex < currentColumns.size() ? currentColumns.get(gridColumnIndex) : new TableColumn<>();
             newColumns.add(gridColumn);
             Label label = displayColumn.getLabel();
@@ -127,13 +126,13 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
                 gridColumn.setMinWidth(prefWidth);
                 gridColumn.setMaxWidth(prefWidth);
             }
-            gridColumn.setCellValueFactory(cdf -> (ObservableValue) rs.getValue(cdf.getValue(), rsColumnIndex));
+            gridColumn.setCellValueFactory(cdf -> (ObservableValue) getDisplayResultSet().getValue(cdf.getValue(), rsColumnIndex));
             gridColumn.setCellFactory(param -> new TableCell() {
                 { setAlignment("right".equals(displayColumn.getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
-                    fillCell(this, item, cellRenderer, displayColumn);
+                    fillCell(this, item, displayColumn);
                 }
             });
         }

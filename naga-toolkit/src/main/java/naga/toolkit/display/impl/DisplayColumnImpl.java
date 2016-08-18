@@ -1,6 +1,8 @@
 package naga.toolkit.display.impl;
 
 import naga.commons.type.Type;
+import naga.toolkit.cell.renderers.CellRenderer;
+import naga.toolkit.cell.renderers.CellRendererFactory;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.Label;
 
@@ -15,6 +17,7 @@ public class DisplayColumnImpl implements DisplayColumn {
     private final String role;
     private final Double prefWidth;
     private final String textAlign;
+    private CellRenderer cellRenderer;
 
     public DisplayColumnImpl(Object label, Type type) {
         this(label, label, type, null, null, null);
@@ -62,5 +65,12 @@ public class DisplayColumnImpl implements DisplayColumn {
     @Override
     public String getTextAlign() {
         return textAlign;
+    }
+
+    @Override
+    public CellRenderer getCellRenderer() {
+        if (cellRenderer == null)
+            cellRenderer = CellRendererFactory.getDefault().createCellRenderer(getType());
+        return cellRenderer;
     }
 }

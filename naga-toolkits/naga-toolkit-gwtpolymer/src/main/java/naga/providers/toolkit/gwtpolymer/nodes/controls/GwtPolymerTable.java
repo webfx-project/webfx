@@ -16,7 +16,6 @@ import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.display.Label;
 import naga.toolkit.properties.markers.SelectionMode;
-import naga.toolkit.cell.renderers.CellRenderer;
 import naga.toolkit.cell.GridFiller;
 import naga.toolkit.cell.ImageTextGridAdapter;
 import naga.toolkit.spi.nodes.GuiNode;
@@ -144,7 +143,7 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
         }
 
         @Override
-        protected void setUpGridColumn(int gridColumnIndex, DisplayColumn displayColumn, CellRenderer cellRenderer, int rsColumnIndex, DisplayResultSet rs) {
+        protected void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
             Column gridColumn;
             if (gridColumnIndex < gridColumns.length())
                 gridColumn = gridColumns.get(gridColumnIndex).cast();
@@ -193,8 +192,7 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                 Cell cell = (Cell) oCell;
                 Row row = cell.getRow().cast();
                 int rowIndex = (int) row.getIndex();
-                Object value = rs.getValue(rowIndex, rsColumnIndex);
-                fillCell(cell, value,cellRenderer, displayColumn);
+                fillCell(cell, rowIndex, rsColumnIndex, displayColumn);
                 return null;
             });
         }

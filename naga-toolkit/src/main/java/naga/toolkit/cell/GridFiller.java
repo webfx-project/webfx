@@ -1,12 +1,11 @@
 package naga.toolkit.cell;
 
 import naga.commons.util.Strings;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.cell.renderers.CellRenderer;
-import naga.toolkit.cell.renderers.CellRendererFactory;
 import naga.toolkit.cell.renderers.ImageTextCellRenderer;
 import naga.toolkit.cell.renderers.TextCellRenderer;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
 
 /**
  * @author Bruno Salmon
@@ -23,8 +22,8 @@ public abstract class GridFiller<C> {
         imageTextGridAdapter = gridAdapter instanceof ImageTextGridAdapter ? (ImageTextGridAdapter<C, ?>) gridAdapter : null;
     }
 
-    public int getRowStyleColumnIndex() {
-        return rowStyleColumnIndex;
+    protected DisplayResultSet getDisplayResultSet() {
+        return rs;
     }
 
     public void fillGrid(DisplayResultSet rs) {
@@ -36,18 +35,21 @@ public abstract class GridFiller<C> {
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
             DisplayColumn displayColumn = columns[columnIndex];
             String role = displayColumn.getRole();
-            if ("style".equals(role))
+            if (role == null)
+                setUpGridColumn(gridColumnIndex++, columnIndex, displayColumn);
+            else if (role.equals("style"))
                 rowStyleColumnIndex = columnIndex;
-            else if (role == null) {
-                CellRenderer cellRenderer = CellRendererFactory.getDefault().createCellRenderer(displayColumn.getType());
-                setUpGridColumn(gridColumnIndex++, displayColumn, cellRenderer, columnIndex, rs);
-            }
         }
     }
 
-    protected abstract void setUpGridColumn(int gridColumnIndex, DisplayColumn displayColumn, CellRenderer cellRenderer, int rsColumnIndex, DisplayResultSet rs);
+    protected abstract void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn);
 
-    public void fillCell(C cell, Object cellValue, CellRenderer cellRenderer, DisplayColumn displayColumn) {
+    public void fillCell(C cell, int rowIndex, int rsColumnIndex, DisplayColumn displayColumn) {
+        fillCell(cell, rs.getValue(rowIndex, rsColumnIndex), displayColumn);
+    }
+
+    public void fillCell(C cell, Object cellValue, DisplayColumn displayColumn) {
+        CellRenderer cellRenderer = displayColumn.getCellRenderer();
         if (imageTextGridAdapter != null) {
             if (cellRenderer == TextCellRenderer.SINGLETON) {
                 imageTextGridAdapter.setCellTextContent(cell, Strings.toString(cellValue), displayColumn);
