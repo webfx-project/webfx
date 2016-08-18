@@ -1,7 +1,7 @@
 package naga.toolkit.display;
 
 import naga.commons.type.Type;
-import naga.toolkit.cell.renderers.CellRenderer;
+import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.impl.DisplayColumnImpl;
 
 /**
@@ -40,7 +40,7 @@ public interface DisplayColumn {
 
     String getTextAlign();
 
-    CellRenderer getCellRenderer();
+    ValueRenderer getValueRenderer();
 
     static DisplayColumn create(Object label, Type type) {
         return new DisplayColumnImpl(label, type);

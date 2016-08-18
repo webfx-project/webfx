@@ -7,14 +7,14 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class TextCellRenderer<N> implements CellRenderer<N> {
+class ImageRenderer<N> implements ValueRenderer<N> {
 
-    public static TextCellRenderer SINGLETON = new TextCellRenderer();
+    public static ImageRenderer SINGLETON = new ImageRenderer();
 
-    private TextCellRenderer() {}
+    private ImageRenderer() {}
 
     @Override
     public GuiNode<N> renderCellValue(Object value) {
-        return Toolkit.get().createTextView(Strings.toString(value));
+        return Toolkit.get().createImage(Strings.toString(value));
     }
 }

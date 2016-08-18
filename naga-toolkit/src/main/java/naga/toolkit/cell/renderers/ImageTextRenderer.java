@@ -9,11 +9,11 @@ import naga.toolkit.spi.nodes.controls.TextView;
 /**
  * @author Bruno Salmon
  */
-public class ImageTextCellRenderer<N> implements CellRenderer<N> {
+public class ImageTextRenderer<N> implements ValueRenderer<N> {
 
-    public static ImageTextCellRenderer SINGLETON = new ImageTextCellRenderer();
+    public static ImageTextRenderer SINGLETON = new ImageTextRenderer();
 
-    private ImageTextCellRenderer() {}
+    private ImageTextRenderer() {}
 
     @Override
     public GuiNode<N> renderCellValue(Object value) {

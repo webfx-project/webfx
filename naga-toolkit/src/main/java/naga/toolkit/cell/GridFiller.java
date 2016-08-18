@@ -1,9 +1,9 @@
 package naga.toolkit.cell;
 
 import naga.commons.util.Strings;
-import naga.toolkit.cell.renderers.CellRenderer;
-import naga.toolkit.cell.renderers.ImageTextCellRenderer;
-import naga.toolkit.cell.renderers.TextCellRenderer;
+import naga.toolkit.cell.renderers.ValueRenderer;
+import naga.toolkit.cell.renderers.ImageTextRenderer;
+import naga.toolkit.cell.renderers.TextRenderer;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 
@@ -49,20 +49,20 @@ public abstract class GridFiller<C> {
     }
 
     public void fillCell(C cell, Object cellValue, DisplayColumn displayColumn) {
-        CellRenderer cellRenderer = displayColumn.getCellRenderer();
+        ValueRenderer valueRenderer = displayColumn.getValueRenderer();
         if (imageTextGridAdapter != null) {
-            if (cellRenderer == TextCellRenderer.SINGLETON) {
+            if (valueRenderer == TextRenderer.SINGLETON) {
                 imageTextGridAdapter.setCellTextContent(cell, Strings.toString(cellValue), displayColumn);
                 return;
             }
-            if (cellRenderer == ImageTextCellRenderer.SINGLETON) {
-                ImageTextCellRenderer imageTextCellRenderer = ImageTextCellRenderer.SINGLETON;
+            if (valueRenderer == ImageTextRenderer.SINGLETON) {
+                ImageTextRenderer imageTextCellRenderer = ImageTextRenderer.SINGLETON;
                 Object[] array = imageTextCellRenderer.getAndCheckArray(cellValue);
                 imageTextGridAdapter.setCellImageAndTextContent(cell, imageTextCellRenderer.getImage(array), imageTextCellRenderer.getText(array), displayColumn);
                 return;
             }
         }
-        gridAdapter.setCellContent(cell, cellRenderer.renderCellValue(cellValue), displayColumn);
+        gridAdapter.setCellContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
     }
 
     public Object getRowStyleResultSetValue(int rowIndex) {

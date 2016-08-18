@@ -5,7 +5,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface CellRenderer<N> {
+public interface ValueRenderer<N> {
 
     GuiNode<N> renderCellValue(Object value);
 

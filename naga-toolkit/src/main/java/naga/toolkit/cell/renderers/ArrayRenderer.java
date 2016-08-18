@@ -6,13 +6,13 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-class ArrayCellRenderer<N> implements CellRenderer<N> {
+class ArrayRenderer<N> implements ValueRenderer<N> {
 
-    private final CellRenderer[] cellRenderers;
+    private final ValueRenderer[] valueRenderers;
     private final NodeArrayRenderer<N> nodeArrayRenderer;
 
-    public ArrayCellRenderer(CellRenderer[] cellRenderers, NodeArrayRenderer<N> nodeArrayRenderer) {
-        this.cellRenderers = cellRenderers;
+    public ArrayRenderer(ValueRenderer[] valueRenderers, NodeArrayRenderer<N> nodeArrayRenderer) {
+        this.valueRenderers = valueRenderers;
         this.nodeArrayRenderer = nodeArrayRenderer;
     }
 
@@ -22,10 +22,10 @@ class ArrayCellRenderer<N> implements CellRenderer<N> {
         if (value instanceof Object[]) {
             Object[] array = (Object[]) value;
             int n = Arrays.length(array);
-            if (n == Arrays.length(cellRenderers)) {
+            if (n == Arrays.length(valueRenderers)) {
                 nodes = new GuiNode[n];
                 for (int i = 0; i < n; i++)
-                    nodes[i] = cellRenderers[i].renderCellValue(array[i]);
+                    nodes[i] = valueRenderers[i].renderCellValue(array[i]);
             }
         }
         return nodeArrayRenderer.renderNodeArray(nodes);

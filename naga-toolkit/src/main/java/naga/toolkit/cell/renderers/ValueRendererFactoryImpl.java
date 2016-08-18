@@ -8,26 +8,26 @@ import naga.commons.util.Arrays;
 /**
  * @author Bruno Salmon
  */
-class DefaultCellRendererFactory implements CellRendererFactory {
+class ValueRendererFactoryImpl implements ValueRendererFactory {
 
-    static DefaultCellRendererFactory INSTANCE = new DefaultCellRendererFactory();
+    static ValueRendererFactoryImpl INSTANCE = new ValueRendererFactoryImpl();
 
     @Override
-    public CellRenderer createCellRenderer(Type type) {
+    public ValueRenderer createCellRenderer(Type type) {
         if (Types.isImageType(type)) // Case: image type
-            return ImageCellRenderer.SINGLETON;
+            return ImageRenderer.SINGLETON;
         if (Types.isArrayType(type)) { // Case: any array type (including image & text)
             Type[] types = ((ArrayType) type).getTypes();
             if (Arrays.length(types) == 2 && Types.isImageType(types[0])) // Case: image & text type
-                return ImageTextCellRenderer.SINGLETON;
+                return ImageTextRenderer.SINGLETON;
             // Case: any other array type
-            CellRenderer[] renderers = new CellRenderer[types.length];
+            ValueRenderer[] renderers = new ValueRenderer[types.length];
             for (int i = 0; i < types.length; i++)
                 renderers[i] = createCellRenderer(types[i]);
-            return new ArrayCellRenderer(renderers, getNodesRenderer());
+            return new ArrayRenderer(renderers, getNodesRenderer());
         }
         //
-        return TextCellRenderer.SINGLETON;
+        return TextRenderer.SINGLETON;
     }
 
     protected NodeArrayRenderer getNodesRenderer() {
