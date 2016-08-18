@@ -3,24 +3,31 @@ package naga.providers.toolkit.javafx.nodes.controls;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.util.Callback;
-import naga.providers.toolkit.javafx.FxImageStore;
-import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
-import naga.toolkit.display.Label;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.spi.nodes.controls.Table;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.commons.type.ArrayType;
+import naga.commons.type.Type;
+import naga.commons.type.Types;
+import naga.commons.util.Arrays;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.IdentityList;
+import naga.providers.toolkit.javafx.FxImageStore;
+import naga.providers.toolkit.javafx.JavaFxToolkit;
+import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.display.Label;
+import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,16 +130,58 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
         tableColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
         Double prefWidth = displayColumn.getPrefWidth();
         if (prefWidth != null) {
+            // Applying same prefWidth transformation as the PolymerTable (trying to
+            if (label.getText() != null)
+                prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
+            prefWidth = prefWidth + 10; // because of the 5px left and right padding
             tableColumn.setPrefWidth(prefWidth);
             tableColumn.setMinWidth(prefWidth);
             tableColumn.setMaxWidth(prefWidth);
         }
-        //tableColumn.setCellFactory(ignored -> new FxTableCell(column));
+        Type type = displayColumn.getType();
+        boolean isArray = Types.isArrayType(type);
+        boolean isImageAndText;
+        if (isArray) {
+            Type[] types = ((ArrayType) type).getTypes();
+            isImageAndText = Arrays.length(types) == 2 && Types.isImageType(types[0]);
+        } else
+            isImageAndText = false;
+        boolean isImage = !isArray && Types.isImageType(type);
+        tableColumn.setCellFactory(param -> new TableCell() {
+            { setAlignment( "right".equals(displayColumn.getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
+            private ImageView imageView;
+            @Override
+                protected void updateItem(Object item, boolean empty) {
+                super.updateItem(item, empty);
+                String text = null, imageUrl = null;
+                Node graphic = null;
+                if (isImage)
+                    imageUrl = empty || item == null ? null : Strings.toString(item);
+                else if (isImageAndText) {
+                    Object[] array = (Object[]) item;
+                    if (Arrays.length(array) == 2) {
+                        imageUrl = Strings.toString(array[0]);
+                        text = Strings.toString(array[1]);
+                    }
+                } else if (isArray) {
+                    // TODO
+                } else
+                    text = Strings.toString(item);
+                if (graphic == null && imageUrl != null) {
+                    if (imageView == null)
+                        imageView = new ImageView();
+                    imageView.setImage(FxImageStore.getImage(imageUrl));
+                    graphic = imageView;
+                }
+                setText(text);
+                setGraphic(graphic);
+            }
+        });
         tableColumn.setCellValueFactory(cdf -> (ObservableValue) rs.getValue(cdf.getValue(), columnIndex));
         return tableColumn;
     }
 
-    Callback<TableView<Integer>, TableRow<Integer>> createRowFactory() {
+    private Callback<TableView<Integer>, TableRow<Integer>> createRowFactory() {
         return tableView -> {
             final TableRow<Integer> row = new TableRow<>();
             NodeStyleUpdater rowStyleUpdater = new NodeStyleUpdater(row);
@@ -149,7 +198,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
         };
     }
 
-    static class NodeStyleUpdater {
+    private static class NodeStyleUpdater {
         final Node node;
         Object[] styles;
 

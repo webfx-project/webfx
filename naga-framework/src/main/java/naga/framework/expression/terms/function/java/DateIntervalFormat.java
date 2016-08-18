@@ -1,9 +1,13 @@
 package naga.framework.expression.terms.function.java;
 
-import naga.framework.expression.lci.DataReader;
-import naga.framework.expression.terms.function.Function;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
+import naga.commons.util.Dates;
+import naga.framework.expression.lci.DataReader;
+import naga.framework.expression.terms.function.Function;
+
+import java.time.LocalDate;
+import java.time.Month;
 
 /**
  * @author Bruno Salmon
@@ -16,35 +20,31 @@ public class DateIntervalFormat extends Function {
 
     @Override
     public Object evaluate(Object argument, DataReader dataReader) {
-        /* doesn't compile with GWT
         try {
             Object[] arguments = (Object[]) argument;
-            Date date1 = (Date) arguments[0];
-            Date date2 = (Date) arguments[1];
 
-            Calendar calendar = Calendar.getInstance();
-            int nowYear = calendar.get(Calendar.YEAR);
-            calendar.setTime(date1);
-            int day1 = calendar.get(Calendar.DAY_OF_MONTH);
-            int month1 = calendar.get(Calendar.MONTH);
-            String month1Name = null; // PB TeaVM calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
-            //int year1 = calendar.get(Calendar.YEAR);
-            calendar.setTime(date2);
-            int day2 = calendar.get(Calendar.DAY_OF_MONTH);
-            int month2 = calendar.get(Calendar.MONTH);
-            int year2 = calendar.get(Calendar.YEAR);
+            LocalDate date1 = Dates.parseIsoLocalDate((String) arguments[0]);
+            LocalDate date2 = Dates.parseIsoLocalDate((String) arguments[1]);
+
+            int day1 = date1.getDayOfMonth();
+            Month month1 = date1.getMonth();
+            String month1Name = month1.name().toLowerCase();
+            int day2 = date2.getDayOfMonth();
+            Month month2 = date2.getMonth();
+            int year2 = date2.getYear();
             StringBuffer sb = new StringBuffer();
-            if (month1 == month2)
-                sb.append(day1).append('-').append(day2).append(' ').append(month1Name);
-            else
-                sb.append(day1).append(' ').append(month1Name).append(" - ").append(day2).append(' '); //PB TEAVM .append(calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()));
-            if (year2 != nowYear)
+            if (month1 == month2) {
+                sb.append(day1);
+                if (day2 != day1)
+                    sb.append('-').append(day2);
+                sb.append(' ').append(month1Name);
+            } else
+                sb.append(day1).append(' ').append(month1Name).append(" - ").append(day2).append(' ').append(month2.name().toLowerCase());
+            if (year2 != LocalDate.now().getYear())
                 sb.append(' ').append(year2);
             return sb.toString();
         } catch (Exception e) {
             return argument;
         }
-        */
-        return argument;
     }
 }

@@ -127,8 +127,6 @@ expr_or_list ::= expr_or_list:list COMMA expr:e
 
 expr_list_token ::= expr:e
               {: RESULT = e; :}
-            | expr:e AS IDENTIFIER:alias
-              {: RESULT = new AsBuilder(e, alias); :}
             | fields_group:fg
               {: RESULT = fg; :}
             | list_dot:lf
@@ -194,6 +192,8 @@ expr      ::= expr:left OR expr:right
 			  {: RESULT = new OrBuilder(left, right); :}
 			| expr:left AND expr:right
 			  {: RESULT = new AndBuilder(left, right); :}
+            | expr:e AS IDENTIFIER:alias
+              {: RESULT = new AsBuilder(e, alias); :}
 			| NOT expr:e
 			  {: RESULT = new NotBuilder(e); :}
 			| EXISTS LPAREN select_query:select RPAREN

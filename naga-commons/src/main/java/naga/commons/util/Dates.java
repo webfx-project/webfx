@@ -1,9 +1,6 @@
 package naga.commons.util;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -42,6 +39,16 @@ public class Dates {
                 value = instant;
         }
         return value;
+    }
+
+    public static LocalDate parseIsoLocalDate(String s) {
+        if (s == null)
+            return null;
+        try {
+            return LocalDate.parse(s);
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 
     public static LocalDateTime parseIsoLocalDateTime(String s) {

@@ -42,7 +42,8 @@ public class Alias<T> extends AbstractExpression<T> {
 
     @Override
     public Object evaluate(T domainObject, DataReader<T> dataReader) {
-        throw new UnsupportedOperationException();
+        // Reading the alias field which is supposed to be stored in the domain object
+        return dataReader.getDomainFieldValue(domainObject, name);
     }
 
     @Override

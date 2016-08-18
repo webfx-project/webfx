@@ -1,9 +1,8 @@
 package naga.platform.json.spi;
 
-import naga.commons.util.Booleans;
-import naga.commons.util.Numbers;
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
+import naga.commons.util.*;
+
+import java.time.Instant;
 
 /**
  * @author Bruno Salmon
@@ -110,4 +109,14 @@ public interface JsonObject extends JsonElement {
      * Return the element as a double. If the type is not a double, this can result in runtime errors.
      */
     default double getDouble(String key, double defaultValue) { return  Numbers.doubleValue(getScalar(key, defaultValue)); }
+
+    /**
+     * Return the element as a double. If the type is not a double, this can result in runtime errors.
+     */
+    default Instant getInstant(String key) { return Dates.toInstant(getNativeElement(key)); }
+
+    /**
+     * Return the element as a double. If the type is not a double, this can result in runtime errors.
+     */
+    default Instant getInstant(String key, Instant defaultValue) { return  Dates.toInstant(getScalar(key, defaultValue)); }
 }

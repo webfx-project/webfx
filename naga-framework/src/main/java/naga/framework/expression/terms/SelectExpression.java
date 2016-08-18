@@ -11,6 +11,8 @@ import java.util.Collection;
  */
 public class SelectExpression<T> extends AbstractExpression<T> {
     protected final Select<T> select;
+    private static int asSeq;
+    private As as;
 
     public SelectExpression(Select<T> select) {
         super(9);
@@ -30,6 +32,8 @@ public class SelectExpression<T> extends AbstractExpression<T> {
 
     @Override
     public Object evaluate(T domainObject, DataReader<T> dataReader) {
+        if (as != null)
+            return as.evaluate(domainObject, dataReader);
         throw new UnsupportedOperationException();
     }
 
@@ -42,7 +46,9 @@ public class SelectExpression<T> extends AbstractExpression<T> {
 
     @Override
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
-        persistentTerms.add(this);
+        if (as == null)
+            as = new As(this, "as" + ++asSeq);
+        persistentTerms.add(as);
     }
 
 }

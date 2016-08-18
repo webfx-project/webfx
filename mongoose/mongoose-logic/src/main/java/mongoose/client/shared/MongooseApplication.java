@@ -3,6 +3,7 @@ package mongoose.client.shared;
 import mongoose.activities.cart.CartActivity;
 import mongoose.activities.container.ContainerActivity;
 import mongoose.activities.event.bookings.BookingsActivity;
+import mongoose.activities.events.EventsActivity;
 import mongoose.activities.monitor.MonitorActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
 import mongoose.activities.tester.TesterActivity;
@@ -28,6 +29,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
         uiRouter = UiRouter.create(context)
                 .routeAndMount("/", ContainerActivity::new, UiRouter.createSubRouter(context)
                         .route("/organizations", OrganizationsActivity::new)
+                        .route("/events", EventsActivity::new)
                         .route("/event/:eventId/bookings", BookingsActivity::new)
                         .route("/cart/:cartUuid", CartActivity::new)
                         .route("/monitor", MonitorActivity::new)
