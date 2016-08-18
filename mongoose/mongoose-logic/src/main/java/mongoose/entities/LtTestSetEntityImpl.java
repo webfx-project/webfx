@@ -4,6 +4,8 @@ import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;
 
+import java.time.Instant;
+
 /**
  * @author Jean-Pierre Alonso.
  */
@@ -11,6 +13,16 @@ public class LtTestSetEntityImpl extends DynamicEntity implements LtTestSetEntit
 
     public LtTestSetEntityImpl(EntityId id, EntityStore store) {
         super(id, store);
+    }
+
+    @Override
+    public Instant getDate() {
+        return getInstantFieldValue("date");
+    }
+
+    @Override
+    public void setDate(Instant date) {
+        setFieldValue("date", date);
     }
 
     @Override
