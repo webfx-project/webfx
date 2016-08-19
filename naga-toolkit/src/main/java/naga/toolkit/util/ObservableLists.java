@@ -13,9 +13,11 @@ import java.util.List;
 public class ObservableLists {
 
     public static <T> void setAllNonNulls(ObservableList<T> list, T... elements) {
-        if (Arrays.allNonNulls(elements))
-            list.setAll(elements);
-        list.setAll(Arrays.nonNullsAsList(elements));
+        if (elements != null) {
+            if (Arrays.allNonNulls(elements))
+                list.setAll(elements);
+            list.setAll(Arrays.nonNullsAsList(elements));
+        }
     }
 
     public static <A, B> void setAllConverted(List<A> aList, Converter<A, B> aToBConverter, ObservableList<B> bList) {
