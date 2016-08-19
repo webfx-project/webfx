@@ -10,6 +10,7 @@ import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.ui.format.Formatter;
 import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayColumnBuilder;
 
 /**
  * @author Bruno Salmon
@@ -54,7 +55,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 displayType = topRightExpression.getType();
             }
             String textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
-            displayColumn = DisplayColumn.create(label, displayType, prefWidth, textAlign);
+            displayColumn = DisplayColumnBuilder.create(label, displayType).setPrefWidth(prefWidth).setTextAlign(textAlign).build();
         }
         return displayColumn;
     }

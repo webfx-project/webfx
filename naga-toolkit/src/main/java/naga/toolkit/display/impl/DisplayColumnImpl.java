@@ -20,16 +20,17 @@ public class DisplayColumnImpl implements DisplayColumn {
     private ValueRenderer valueRenderer;
 
     public DisplayColumnImpl(Object label, Type type) {
-        this(label, label, type, null, null, null);
+        this(label, label, type, null, null, null, null);
     }
 
-    public DisplayColumnImpl(Object headerValue, Object label, Type type, String role, Double prefWidth, String textAlign) {
+    public DisplayColumnImpl(Object headerValue, Object label, Type type, String role, Double prefWidth, String textAlign, ValueRenderer valueRenderer) {
         this.headerValue = headerValue;
         this.label = Label.from(label);
         this.type = type;
         this.role = role;
         this.prefWidth = prefWidth;
         this.textAlign = textAlign;
+        this.valueRenderer = valueRenderer;
     }
 
     @Override
