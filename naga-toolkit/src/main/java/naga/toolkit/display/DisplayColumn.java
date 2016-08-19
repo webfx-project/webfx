@@ -36,12 +36,20 @@ public interface DisplayColumn {
      */
     String getRole();
 
-    Double getPrefWidth();
+    /**
+     * @return The style information to apply when rendering this column.
+     */
+    DisplayStyle getStyle();
 
-    String getTextAlign();
-
+    /**
+     * @return The value renderer to be used for this column to transform the cell values into graphical nodes.
+     */
     ValueRenderer getValueRenderer();
 
+    /**
+     * Quick factory method for a simple DisplayColumn creation with just a label and type. Use the DisplayColumnBuilder
+     * for more complex cases.
+     */
     static DisplayColumn create(Object label, Type type) {
         return new DisplayColumnImpl(label, type);
     }

@@ -116,7 +116,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
             Label label = displayColumn.getLabel();
             gridColumn.setText(label.getText());
             gridColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
-            Double prefWidth = displayColumn.getPrefWidth();
+            Double prefWidth = displayColumn.getStyle().getPrefWidth();
             if (prefWidth != null) {
                 // Applying same prefWidth transformation as the PolymerTable (trying to
                 if (label.getText() != null)
@@ -128,7 +128,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
             }
             gridColumn.setCellValueFactory(cdf -> (ObservableValue) getDisplayResultSet().getValue(cdf.getValue(), rsColumnIndex));
             gridColumn.setCellFactory(param -> new TableCell() {
-                { setAlignment("right".equals(displayColumn.getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
+                { setAlignment("right".equals(displayColumn.getStyle().getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);

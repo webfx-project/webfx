@@ -11,6 +11,7 @@ import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.ui.format.Formatter;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayColumnBuilder;
+import naga.toolkit.display.DisplayStyleBuilder;
 
 /**
  * @author Bruno Salmon
@@ -55,7 +56,9 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 displayType = topRightExpression.getType();
             }
             String textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
-            displayColumn = DisplayColumnBuilder.create(label, displayType).setPrefWidth(prefWidth).setTextAlign(textAlign).build();
+            displayColumn = DisplayColumnBuilder.create(label, displayType)
+                    .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
+                    .build();
         }
         return displayColumn;
     }

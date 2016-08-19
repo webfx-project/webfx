@@ -13,8 +13,7 @@ public class DisplayColumnBuilder {
     private Object label;
     private Type type;
     private String role;
-    private Double prefWidth;
-    private String textAlign;
+    private DisplayStyle style;
     private ValueRenderer valueRenderer;
 
     private DisplayColumnBuilder(Object label, Type type) {
@@ -42,13 +41,8 @@ public class DisplayColumnBuilder {
         return this;
     }
 
-    public DisplayColumnBuilder setPrefWidth(Double prefWidth) {
-        this.prefWidth = prefWidth;
-        return this;
-    }
-
-    public DisplayColumnBuilder setTextAlign(String textAlign) {
-        this.textAlign = textAlign;
+    public DisplayColumnBuilder setStyle(DisplayStyle style) {
+        this.style = style;
         return this;
     }
 
@@ -58,7 +52,7 @@ public class DisplayColumnBuilder {
     }
 
     public DisplayColumn build() {
-        return new DisplayColumnImpl(headerValue, label, type, role, prefWidth, textAlign, valueRenderer);
+        return new DisplayColumnImpl(headerValue, label, type, role, style, valueRenderer);
     }
 
     public static DisplayColumnBuilder create(Object label, Type type) {

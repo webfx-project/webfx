@@ -98,8 +98,9 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
         @Override
         public void setCellTextContent(Cell cell, String text, DisplayColumn displayColumn) {
             String style = "overflow: hidden; text-overflow: ellipsis; width: 100%;";
-            if (displayColumn.getTextAlign() != null)
-                style += " text-align: " + displayColumn.getTextAlign() + ";";
+            String textAlign = displayColumn.getStyle().getTextAlign();
+            if (textAlign != null)
+                style += " text-align: " + textAlign + ";";
             String innerHtml = text == null ? null : "<span style='" + style + "'>" + text + "</span>";
             cell.getElement().<Element>cast().setInnerHTML(innerHtml);
         }
@@ -179,7 +180,7 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
                 headerContent = span;
             }
             headerCell.setContent(headerContent);
-            Double prefWidth = displayColumn.getPrefWidth();
+            Double prefWidth = displayColumn.getStyle().getPrefWidth();
             if (prefWidth != null) {
                 if (label.getText() != null)
                     prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
