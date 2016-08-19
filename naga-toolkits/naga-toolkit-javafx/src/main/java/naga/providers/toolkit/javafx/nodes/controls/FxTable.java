@@ -126,9 +126,11 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
                 gridColumn.setMinWidth(prefWidth);
                 gridColumn.setMaxWidth(prefWidth);
             }
+            String textAlign = displayColumn.getStyle().getTextAlign();
+            Pos alignment = "right".equals(textAlign) ? Pos.CENTER_RIGHT : "center".equals(textAlign) ? Pos.CENTER : Pos.CENTER_LEFT;
             gridColumn.setCellValueFactory(cdf -> (ObservableValue) getDisplayResultSet().getValue(cdf.getValue(), rsColumnIndex));
             gridColumn.setCellFactory(param -> new TableCell() {
-                { setAlignment("right".equals(displayColumn.getStyle().getTextAlign()) ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT); }
+                { setAlignment(alignment); }
                 @Override
                 protected void updateItem(Object item, boolean empty) {
                     super.updateItem(item, empty);
