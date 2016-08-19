@@ -10,6 +10,7 @@ import com.vaadin.polymer.elemental.Function;
 import com.vaadin.polymer.vaadin.*;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import naga.commons.util.Strings;
+import naga.providers.toolkit.gwt.nodes.GwtParent;
 import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
@@ -88,11 +89,17 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
     private final GridFiller gridFiller = new GridFiller<Cell>(new ImageTextGridAdapter<Cell, UIObject>() {
         @Override
         public void setCellContent(Cell cell, GuiNode<UIObject> content, DisplayColumn displayColumn) {
-            Element img = content.unwrapToNativeNode().getElement();
-            img.setAttribute("style", "margin-left: auto; margin-right: auto;");
+            // In case the content is a GWT widget with children (GwtParent) its addition to the dom won't trigger the
+            // traditional GWT attach event (because we add its element and not the widget itself as the cell is not a
+            // GWT object). This can be problematic if the GwtParent is waiting for this event to add its children (like
+            // a newly created GwtHBox or GwtVBox collator with pending children).
+            if (content instanceof GwtParent) // So in this case
+                ((GwtParent) content).onAttached(null); // we simulate the attach event to cause the children addition
+            Element e = content.unwrapToNativeNode().getElement();
+            e.setAttribute("style", Strings.appendToken(e.getAttribute("style"), "margin-left: auto; margin-right: auto;", "; "));
             Element cellElement = cell.getElement().cast();
             cellElement.removeAllChildren();
-            cellElement.appendChild(img);
+            cellElement.appendChild(e);
         }
 
         @Override

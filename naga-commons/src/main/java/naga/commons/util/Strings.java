@@ -98,4 +98,12 @@ public class Strings {
         return sb.toString();
     }
 
+    public static String appendToken(String s, String token, String separator) {
+        if (isEmpty(s))
+            return token;
+        if (isEmpty(token))
+            return s;
+        return s + separator + token;
+    }
+
 }

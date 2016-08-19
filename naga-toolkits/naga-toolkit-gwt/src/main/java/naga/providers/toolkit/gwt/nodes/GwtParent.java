@@ -33,10 +33,12 @@ public class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<
         return children;
     }
 
-    protected void onAttached(AttachEvent event) {
-        attachHandlerRegistration.removeHandler();
-        attachHandlerRegistration = null;
-        onChanged(null);
+    public void onAttached(AttachEvent event) {
+        if (attachHandlerRegistration != null) {
+            attachHandlerRegistration.removeHandler();
+            attachHandlerRegistration = null;
+            onChanged(null);
+        }
     }
 
     private void onChanged(ListChangeListener.Change<? extends GuiNode<Widget>> change) {
