@@ -13,6 +13,7 @@ import naga.providers.toolkit.javafx.nodes.controls.*;
 import naga.providers.toolkit.javafx.nodes.gauges.FxGauge;
 import naga.providers.toolkit.javafx.nodes.layouts.*;
 import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplayResultSetBuilder;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.*;
@@ -68,7 +69,7 @@ public class JavaFxToolkit extends Toolkit {
     }
 
     public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet rs) {
-        return rs.convert(SimpleObjectProperty::new);
+        return DisplayResultSetBuilder.convertDisplayResultSet(rs, SimpleObjectProperty::new);
     }
 
     public static class FxApplication extends Application {

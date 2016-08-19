@@ -1,5 +1,6 @@
 package naga.toolkit.display;
 
+import naga.commons.util.function.Converter;
 import naga.toolkit.display.impl.DisplayColumnImpl;
 import naga.toolkit.display.impl.DisplayResultSetImpl;
 
@@ -48,5 +49,16 @@ public class DisplayResultSetBuilder {
 
     public static DisplayResultSetBuilder create(int rowCount, DisplayColumn[] columns) {
         return new DisplayResultSetBuilder(rowCount, columns);
+    }
+
+    public static DisplayResultSet convertDisplayResultSet(DisplayResultSet rs, Converter valueConverter) {
+        int rowCount = rs.getRowCount();
+        int columnCount = rs.getColumnCount();
+        Object[] convertedValues = new Object[rowCount * columnCount];
+        int inlineIndex = 0;
+        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+            for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+                convertedValues[inlineIndex++] = valueConverter.convert(rs.getValue(rowIndex, columnIndex));
+        return new DisplayResultSetImpl(rowCount, convertedValues, rs.getColumns());
     }
 }

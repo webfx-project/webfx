@@ -1,10 +1,7 @@
 package naga.toolkit.display.impl;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
-import naga.commons.util.function.Converter;
 
 /**
  * @author Bruno Salmon
@@ -45,14 +42,6 @@ public class DisplayResultSetImpl implements DisplayResultSet {
     @Override
     public Object getValue(int rowIndex, int columnIndex) {
         return values[rowIndex + columnIndex * rowCount];
-    }
-
-    @Override
-    public DisplayResultSet convert(Converter valueConverter) {
-        ObjectProperty[] convertedValues = new ObjectProperty[values.length];
-        for (int i = 0; i < values.length; i++)
-            convertedValues[i] = new SimpleObjectProperty<>(values[i]);
-        return new DisplayResultSetImpl(rowCount, convertedValues, columns);
     }
 
     @Override

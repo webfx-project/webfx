@@ -1,7 +1,5 @@
 package naga.toolkit.display;
 
-import naga.commons.util.function.Converter;
-
 /**
  * @author Bruno Salmon
  */
@@ -28,10 +26,4 @@ public interface DisplayResultSet {
      * @return the value specified at row and column indexes
      */
     Object getValue(int rowIndex, int columnIndex);
-
-    /**
-     * @param valueConverter the value converter
-     * @return a new DisplayResultSet with same properties but all values converted
-     */
-    DisplayResultSet convert(Converter valueConverter);
 }
