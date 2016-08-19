@@ -49,6 +49,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactory(VPage.class, FxVPage::new);
         registerNodeFactoryAndWrapper(VBox.class, FxVBox::new, javafx.scene.layout.VBox.class, FxVBox::new);
         registerNodeFactoryAndWrapper(HBox.class, FxHBox::new, javafx.scene.layout.HBox.class, FxHBox::new);
+        registerNodeFactoryAndWrapper(FlowPane.class, FxFlowPane::new, javafx.scene.layout.FlowPane.class, FxFlowPane::new);
         registerNodeFactoryAndWrapper(LineChart.class, FxLineChart::new, javafx.scene.chart.LineChart.class, FxLineChart::new);
         registerNodeFactoryAndWrapper(AreaChart.class, FxAreaChart::new, javafx.scene.chart.AreaChart.class, FxAreaChart::new);
         registerNodeFactoryAndWrapper(BarChart.class, FxBarChart::new, javafx.scene.chart.BarChart.class, FxBarChart::new);

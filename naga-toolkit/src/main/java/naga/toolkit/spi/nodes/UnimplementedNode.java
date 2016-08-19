@@ -12,6 +12,7 @@ import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.charts.*;
 import naga.toolkit.spi.nodes.controls.*;
 import naga.toolkit.spi.nodes.gauges.Gauge;
+import naga.toolkit.spi.nodes.layouts.FlowPane;
 import naga.toolkit.spi.nodes.layouts.HBox;
 import naga.toolkit.spi.nodes.layouts.VBox;
 import naga.toolkit.spi.nodes.layouts.VPage;
@@ -24,13 +25,16 @@ public class UnimplementedNode<N> implements
         HBox<N, N>,
         VBox<N, N>,
         VPage<N, N>,
+        FlowPane<N, N>,
         Button<N>,
         CheckBox<N>,
         SearchBox<N>,
         Slider<N>,
         Gauge<N>,
         Table<N>,
+        TextView<N>,
         TextField<N>,
+        Image<N>,
         ToggleSwitch<N>,
         LineChart<N>,
         BarChart<N>,
@@ -103,6 +107,12 @@ public class UnimplementedNode<N> implements
     @Override
     public Property<Integer> valueProperty() {
         return valueProperty;
+    }
+
+    Property<String> urlProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<String> urlProperty() {
+        return urlProperty;
     }
 
     private Property<GuiNode<N>> headerProperty = new SimpleObjectProperty<>();

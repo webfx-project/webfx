@@ -5,6 +5,7 @@ import naga.commons.type.Type;
 import naga.commons.type.Types;
 import naga.commons.util.Arrays;
 import naga.toolkit.cell.collators.NodeCollator;
+import naga.toolkit.cell.collators.NodeCollatorRegistry;
 
 /**
  * @author Bruno Salmon
@@ -32,6 +33,6 @@ class ValueRendererFactoryImpl implements ValueRendererFactory {
     }
 
     protected NodeCollator getNodeCollator() {
-        return NodeCollator.hBoxCollator();
+        return NodeCollatorRegistry.hBoxCollator();
     }
 }
