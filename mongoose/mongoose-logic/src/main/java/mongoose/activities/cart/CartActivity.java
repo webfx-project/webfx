@@ -1,11 +1,10 @@
 package mongoose.activities.cart;
 
 import naga.framework.orm.entity.Entity;
+import naga.framework.ui.filter.ReactiveExpressionFilter;
+import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Table;
-import naga.toolkit.spi.nodes.layouts.VBox;
-import naga.framework.ui.presentation.PresentationActivity;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
 
 /**
  * @author Bruno Salmon
@@ -24,9 +23,8 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
         Table paymentTable = toolkit.createTable();
 
         // Displaying the UI
-        VBox vBox = toolkit.createVBox();
-        vBox.getChildren().setAll(documentTable, documentLineTable, paymentTable);
-        return new CartViewModel(vBox, documentTable, documentLineTable, paymentTable);
+        return new CartViewModel(toolkit.createVBox(documentTable, documentLineTable, paymentTable),
+                documentTable, documentLineTable, paymentTable);
     }
 
     @Override

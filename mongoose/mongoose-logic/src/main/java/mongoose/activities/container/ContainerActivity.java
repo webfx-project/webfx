@@ -1,10 +1,8 @@
 package mongoose.activities.container;
 
+import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.toolkit.spi.nodes.Parent;
-import naga.framework.ui.presentation.PresentationActivity;
 
 /**
  * @author Bruno Salmon
@@ -23,10 +21,8 @@ public class ContainerActivity extends PresentationActivity<ContainerViewModel, 
         Button bookingsButton = toolkit.createButton();
         Button monitorButton = toolkit.createButton();
         Button testerButton = toolkit.createButton();
-        Parent header = toolkit.createHBox();
-        header.getChildren().setAll(backButton, forwardButton, bookingsButton, organizationsButton, monitorButton, testerButton);
-        VPage borderPane = toolkit.createVPage().setHeader(header);
-        return new ContainerViewModel(borderPane, backButton, forwardButton, bookingsButton, organizationsButton, monitorButton, testerButton);
+        return new ContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, bookingsButton, organizationsButton, monitorButton, testerButton)),
+                backButton, forwardButton, bookingsButton, organizationsButton, monitorButton, testerButton);
     }
 
     @Override
