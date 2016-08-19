@@ -1,19 +1,24 @@
 package naga.toolkit.cell.renderers;
 
 import naga.commons.util.Arrays;
+import naga.toolkit.cell.collators.NodeCollator;
 import naga.toolkit.spi.nodes.GuiNode;
 
 /**
  * @author Bruno Salmon
  */
-class ArrayRenderer<N> implements ValueRenderer<N> {
+public class ArrayRenderer<N> implements ValueRenderer<N> {
 
     private final ValueRenderer[] valueRenderers;
-    private final NodeArrayRenderer<N> nodeArrayRenderer;
+    private NodeCollator<N> collator;
 
-    public ArrayRenderer(ValueRenderer[] valueRenderers, NodeArrayRenderer<N> nodeArrayRenderer) {
+    public ArrayRenderer(ValueRenderer[] valueRenderers, NodeCollator<N> collator) {
         this.valueRenderers = valueRenderers;
-        this.nodeArrayRenderer = nodeArrayRenderer;
+        this.collator = collator;
+    }
+
+    public void setCollator(NodeCollator<N> collator) {
+        this.collator = collator;
     }
 
     @Override
@@ -28,7 +33,7 @@ class ArrayRenderer<N> implements ValueRenderer<N> {
                     nodes[i] = valueRenderers[i].renderCellValue(array[i]);
             }
         }
-        return nodeArrayRenderer.renderNodeArray(nodes);
+        return collator.collateNodes(nodes);
     }
 
 }

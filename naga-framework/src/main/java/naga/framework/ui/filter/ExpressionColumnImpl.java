@@ -9,6 +9,8 @@ import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.ui.format.Formatter;
+import naga.platform.json.spi.JsonObject;
+import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayColumnBuilder;
 import naga.toolkit.display.DisplayStyleBuilder;
@@ -24,13 +26,15 @@ class ExpressionColumnImpl implements ExpressionColumn {
     private final Formatter expressionFormatter;
     private Object label;
     private DisplayColumn displayColumn;
+    private JsonObject json;
 
-    ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter, DisplayColumn displayColumn) {
+    ExpressionColumnImpl(String expressionDefinition, Expression expression, Object label, Formatter expressionFormatter, DisplayColumn displayColumn, JsonObject json) {
         this.expressionDefinition = expressionDefinition;
         this.expression = expression;
         this.label = label;
         this.expressionFormatter = expressionFormatter;
         this.displayColumn = displayColumn;
+        this.json = json;
     }
 
     @Override
@@ -55,9 +59,20 @@ class ExpressionColumnImpl implements ExpressionColumn {
                     topRightExpression = getTopRightExpression(displayExpression);
                 displayType = topRightExpression.getType();
             }
-            String textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
+            String textAlign = null;
+            ValueRenderer valueRenderer = null;
+            if (json != null) {
+                textAlign = json.getString("textAlign");
+                String collator = json.getString("collator");
+                if (collator != null)
+                    valueRenderer = ValueRenderer.create(displayType, collator);
+                json = null;
+            }
+            if (textAlign == null)
+                textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
             displayColumn = DisplayColumnBuilder.create(label, displayType)
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
+                    .setValueRenderer(valueRenderer)
                     .build();
         }
         return displayColumn;

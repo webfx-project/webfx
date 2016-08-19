@@ -44,7 +44,7 @@ public interface ExpressionColumn {
     static ExpressionColumn create(String jsonOrExpressionDefinition) {
         if (jsonOrExpressionDefinition.startsWith("{"))
             return create(Json.parseObject(jsonOrExpressionDefinition));
-        return new ExpressionColumnImpl(jsonOrExpressionDefinition, null, null, null, null);
+        return new ExpressionColumnImpl(jsonOrExpressionDefinition, null, null, null, null, null);
     }
 
     static ExpressionColumn create(JsonObject json) {
@@ -56,11 +56,11 @@ public interface ExpressionColumn {
     }
 
     static ExpressionColumn create(String expressionDefinition, JsonObject options) {
-        return new ExpressionColumnImpl(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")), null);
+        return new ExpressionColumnImpl(expressionDefinition, null, options.get("label"), FormatterRegistry.getFormatter(options.getString("format")), null, options);
     }
 
     static ExpressionColumn create(String expressionDefinition, Formatter expressionFormatter) {
-        return new ExpressionColumnImpl(expressionDefinition, null, null, expressionFormatter, null);
+        return new ExpressionColumnImpl(expressionDefinition, null, null, expressionFormatter, null, null);
     }
 
     static ExpressionColumn create(Expression expression) {
@@ -68,7 +68,7 @@ public interface ExpressionColumn {
     }
 
     static ExpressionColumn create(Expression expression, DisplayColumn displayColumn) {
-        return new ExpressionColumnImpl(null, expression, null, null, displayColumn);
+        return new ExpressionColumnImpl(null, expression, null, null, displayColumn, null);
     }
 
     static ExpressionColumn[] fromJsonArray(String array) {

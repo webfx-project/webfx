@@ -2,7 +2,6 @@ package naga.toolkit.display.impl;
 
 import naga.commons.type.Type;
 import naga.toolkit.cell.renderers.ValueRenderer;
-import naga.toolkit.cell.renderers.ValueRendererFactory;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayStyle;
 import naga.toolkit.display.Label;
@@ -64,7 +63,7 @@ public class DisplayColumnImpl implements DisplayColumn {
 
     public ValueRenderer getValueRenderer() {
         if (valueRenderer == null)
-            valueRenderer = ValueRendererFactory.getDefault().createCellRenderer(getType());
+            valueRenderer = ValueRenderer.create(getType());
         return valueRenderer;
     }
 }

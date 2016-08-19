@@ -4,6 +4,7 @@ import naga.commons.type.ArrayType;
 import naga.commons.type.Type;
 import naga.commons.type.Types;
 import naga.commons.util.Arrays;
+import naga.toolkit.cell.collators.NodeCollator;
 
 /**
  * @author Bruno Salmon
@@ -24,13 +25,13 @@ class ValueRendererFactoryImpl implements ValueRendererFactory {
             ValueRenderer[] renderers = new ValueRenderer[types.length];
             for (int i = 0; i < types.length; i++)
                 renderers[i] = createCellRenderer(types[i]);
-            return new ArrayRenderer(renderers, getNodesRenderer());
+            return new ArrayRenderer(renderers, getNodeCollator());
         }
         //
         return TextRenderer.SINGLETON;
     }
 
-    protected NodeArrayRenderer getNodesRenderer() {
-        return NodeArrayRenderer.hBoxNodeArrayRenderer();
+    protected NodeCollator getNodeCollator() {
+        return NodeCollator.hBoxCollator();
     }
 }
