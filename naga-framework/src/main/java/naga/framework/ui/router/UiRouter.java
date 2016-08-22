@@ -107,11 +107,13 @@ public class UiRouter extends HistoryRouter {
         return this;
     }
 
+    // Was originally in ActivityRoutingHandler but was moved in upper level because otherwise activities were not paused
+    private ActivityManager activityManager; // TODO: check if this is correct to put it here
+
     private class ActivityRoutingHandler<C extends UiActivityContext> implements Handler<RoutingContext> {
 
         private final Converter<RoutingContext, C> contextConverter;
         private final Factory<ActivityManager<C>> activityManagerFactory;
-        private ActivityManager<C> activityManager;
 
         ActivityRoutingHandler(Factory<ActivityManager<C>> activityManagerFactory, Converter<RoutingContext, C> contextConverter) {
             this.contextConverter = contextConverter != null ? contextConverter : this::convertRoutingContextToActivityContext;
@@ -135,7 +137,7 @@ public class UiRouter extends HistoryRouter {
             // once done we display the activity node by binding it with the hosting context (done in the UI tread)
             activityManager.resume().setHandler(event -> Toolkit.get().scheduler().runInUiThread(() -> hostingContext.nodeProperty().bind(activityContext.nodeProperty())));
             // Now that the new requested activity is displayed, we pause the previous activity
-            if (previousActivityManager != null) // if there was a previous activity
+            if (previousActivityManager != null && previousActivityManager != activityManager) // if there was a previous activity
                 previousActivityManager.pause();
             /*** Sub routing management ***/
             // When the activity is a mount child activity coming from sub routing, we make sure the mount parent activity is displayed
