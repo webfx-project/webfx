@@ -1,11 +1,10 @@
 package mongoose.activities.organizations;
 
-import naga.platform.spi.Platform;
+import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
 import naga.toolkit.spi.nodes.controls.Table;
-import naga.framework.ui.presentation.PresentationActivity;
 
 /**
  * @author Bruno Salmon
@@ -52,7 +51,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Organization', where: '!closed', orderBy: 'name'}")
+        createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed', orderBy: 'name'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
@@ -63,9 +62,9 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.organizationsDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.organizationsDisplaySelectionProperty(), entity -> {
-                    if (entity != null)
-                        Platform.log("Selected entity: " + entity);
+                .setSelectedEntityHandler(pm.organizationsDisplaySelectionProperty(), organization -> {
+                    if (organization != null)
+                        getHistory().push("/organization/" + organization.getId().getPrimaryKey() + "/events");
                 });
     }
 }

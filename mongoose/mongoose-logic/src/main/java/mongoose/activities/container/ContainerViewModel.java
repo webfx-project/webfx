@@ -12,19 +12,21 @@ class ContainerViewModel implements ViewModel {
     private final VPage contentNode;
     private final Button backButton;
     private final Button forwardButton;
+    private final Button organizationsButton;
+    private final Button eventsButton;
     private final Button bookingsButton;
     private final Button lettersButton;
-    private final Button organizationsButton;
     private final Button monitorButton;
     private final Button testerButton;
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button bookingsButton, Button lettersButton, Button organizationsButton, Button monitorButton, Button testerButton) {
+    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
         this.contentNode = contentNode;
         this.backButton = backButton;
         this.forwardButton = forwardButton;
+        this.organizationsButton = organizationsButton;
+        this.eventsButton = eventsButton;
         this.bookingsButton = bookingsButton;
         this.lettersButton = lettersButton;
-        this.organizationsButton = organizationsButton;
         this.monitorButton = monitorButton;
         this.testerButton = testerButton;
     }
@@ -42,6 +44,14 @@ class ContainerViewModel implements ViewModel {
         return forwardButton;
     }
 
+    Button getOrganizationsButton() {
+        return organizationsButton;
+    }
+
+    public Button getEventsButton() {
+        return eventsButton;
+    }
+
     Button getBookingsButton() {
         return bookingsButton;
     }
@@ -50,15 +60,11 @@ class ContainerViewModel implements ViewModel {
         return lettersButton;
     }
 
-    Button getOrganizationsButton() {
-        return organizationsButton;
-    }
-
-    public Button getMonitorButton() {
+    Button getMonitorButton() {
         return monitorButton;
     }
 
-    public Button getTesterButton() {
+    Button getTesterButton() {
         return testerButton;
     }
 }

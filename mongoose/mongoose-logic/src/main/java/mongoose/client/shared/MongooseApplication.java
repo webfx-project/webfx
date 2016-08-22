@@ -31,6 +31,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
                 .routeAndMount("/", ContainerActivity::new, UiRouter.createSubRouter(context)
                         .route("/organizations", OrganizationsActivity::new)
                         .route("/events", EventsActivity::new)
+                        .route("/organization/:organizationId/events", EventsActivity::new)
                         .route("/event/:eventId/bookings", BookingsActivity::new)
                         .route("/event/:eventId/letters", LettersActivity::new)
                         .route("/cart/:cartUuid", CartActivity::new)
