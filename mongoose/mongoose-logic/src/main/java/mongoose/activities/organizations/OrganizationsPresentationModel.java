@@ -19,6 +19,9 @@ class OrganizationsPresentationModel implements PresentationModel {
     private final Property<Boolean> limitProperty = new SimpleObjectProperty<>(true); // Limit initially set to true
     Property<Boolean> limitProperty() { return limitProperty; }
 
+    private final Property<Boolean> withEventsProperty = new SimpleObjectProperty<>(true); // Limit initially set to true
+    Property<Boolean> withEventsProperty() { return withEventsProperty; }
+
     private final Property<DisplaySelection> organizationsDisplaySelectionProperty = new SimpleObjectProperty<>();
     Property<DisplaySelection> organizationsDisplaySelectionProperty() { return organizationsDisplaySelectionProperty; }
 

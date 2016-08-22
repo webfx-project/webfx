@@ -14,12 +14,14 @@ public class OrganizationsViewModel implements ViewModel {
     private final GuiNode contentNode;
     private final SearchBox searchBox;
     private final Table table;
+    private final CheckBox withEventsCheckBox;
     private final CheckBox limitCheckBox;
 
-    public OrganizationsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
+    public OrganizationsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox withEventsCheckBox, CheckBox limitCheckBox) {
         this.contentNode = contentNode;
         this.searchBox = searchBox;
         this.table = table;
+        this.withEventsCheckBox = withEventsCheckBox;
         this.limitCheckBox = limitCheckBox;
     }
 
@@ -34,6 +36,10 @@ public class OrganizationsViewModel implements ViewModel {
 
     Table getTable() {
         return table;
+    }
+
+    public CheckBox getWithEventsCheckBox() {
+        return withEventsCheckBox;
     }
 
     CheckBox getLimitCheckBox() {

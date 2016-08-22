@@ -26,6 +26,7 @@ public class OrganizationsPolymerUi extends Composite {
         return new OrganizationsViewModel(new GwtNode(ui.content.getParent()),
                 toolkit.wrapNativeNode(ui.searchInput),
                 toolkit.wrapNativeNode(ui.grid),
+                null,
                 toolkit.wrapNativeNode(ui.limitCheckBox));
     };
 
