@@ -18,6 +18,11 @@ public interface UiActivityContextDirectAccess<C extends UiActivityContext<C>> e
     default JsonObject getParams() { return getActivityContext().getParams(); }
 
     @Override
+    default <T> T getParameter(String key) {
+        return getActivityContext().getParameter(key);
+    }
+
+    @Override
     default Property<GuiNode> nodeProperty() { return getActivityContext().nodeProperty(); }
 
     @Override

@@ -13,8 +13,8 @@ class BookingsPresentationModel implements PresentationModel {
 
     // Input parameter
 
-    private final Property<String> eventIdProperty = new SimpleObjectProperty<>();
-    Property<String> eventIdProperty() { return eventIdProperty; }
+    private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
+    Property<Object> eventIdProperty() { return eventIdProperty; }
 
     // Display input
 

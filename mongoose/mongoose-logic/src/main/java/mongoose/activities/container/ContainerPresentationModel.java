@@ -14,6 +14,9 @@ class ContainerPresentationModel implements PresentationModel {
     private final BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable = BehaviorSubject.create();
     BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable() { return bookingsButtonActionEventObservable; }
 
+    private final BehaviorSubject<ActionEvent> lettersButtonActionEventObservable = BehaviorSubject.create();
+    BehaviorSubject<ActionEvent> lettersButtonActionEventObservable() { return lettersButtonActionEventObservable; }
+
     private final BehaviorSubject<ActionEvent> organizationButtonActionEventObservable = BehaviorSubject.create();
     BehaviorSubject<ActionEvent> organizationsButtonActionEventObservable() { return organizationButtonActionEventObservable; }
 

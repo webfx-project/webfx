@@ -13,15 +13,17 @@ class ContainerViewModel implements ViewModel {
     private final Button backButton;
     private final Button forwardButton;
     private final Button bookingsButton;
+    private final Button lettersButton;
     private final Button organizationsButton;
     private final Button monitorButton;
     private final Button testerButton;
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button bookingsButton, Button organizationsButton, Button monitorButton, Button testerButton) {
+    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button bookingsButton, Button lettersButton, Button organizationsButton, Button monitorButton, Button testerButton) {
         this.contentNode = contentNode;
         this.backButton = backButton;
         this.forwardButton = forwardButton;
         this.bookingsButton = bookingsButton;
+        this.lettersButton = lettersButton;
         this.organizationsButton = organizationsButton;
         this.monitorButton = monitorButton;
         this.testerButton = testerButton;
@@ -42,6 +44,10 @@ class ContainerViewModel implements ViewModel {
 
     Button getBookingsButton() {
         return bookingsButton;
+    }
+
+    Button getLettersButton() {
+        return lettersButton;
     }
 
     Button getOrganizationsButton() {

@@ -54,7 +54,7 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
 
     @Override
     protected void initializePresentationModel(BookingsPresentationModel pm) {
-        pm.eventIdProperty().setValue(getParams().get("eventId"));
+        pm.eventIdProperty().setValue(getParameter("eventId"));
     }
 
 

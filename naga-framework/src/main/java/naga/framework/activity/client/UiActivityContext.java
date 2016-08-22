@@ -16,6 +16,8 @@ public interface UiActivityContext<C extends UiActivityContext<C>> extends Activ
 
     JsonObject getParams();
 
+    default <T> T getParameter(String key) { return getParams().get(key); }
+
     Property<GuiNode> nodeProperty();
 
     Property<GuiNode> mountNodeProperty();

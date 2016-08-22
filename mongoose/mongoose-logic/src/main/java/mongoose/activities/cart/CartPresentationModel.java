@@ -13,8 +13,8 @@ class CartPresentationModel implements PresentationModel {
 
     // Input parameter
 
-    private final Property<String> cartUuidProperty = new SimpleObjectProperty<>();
-    Property<String> cartUuidProperty() { return cartUuidProperty; }
+    private final Property<Object> cartUuidProperty = new SimpleObjectProperty<>();
+    Property<Object> cartUuidProperty() { return cartUuidProperty; }
 
     // Display output
 

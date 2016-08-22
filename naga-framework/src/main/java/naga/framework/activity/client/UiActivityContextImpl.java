@@ -7,6 +7,7 @@ import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.ActivityContextImpl;
 import naga.platform.activity.HasActivityContext;
 import naga.platform.client.url.history.History;
+import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.toolkit.spi.nodes.GuiNode;
 
@@ -42,7 +43,20 @@ public class UiActivityContextImpl<C extends UiActivityContextImpl<C>> extends A
 
     @Override
     public JsonObject getParams() {
+        if (params == null)
+            params = Json.createObject();
         return params;
+    }
+
+    @Override
+    public <T> T getParameter(String key) {
+        T value = getParams().get(key);
+        if (value == null && !params.has(key)) {
+            ActivityContext parentContext = getParentContext();
+            if (parentContext instanceof UiActivityContext)
+                return ((UiActivityContext<?>) parentContext).getParameter(key);
+        }
+        return null;
     }
 
     private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();

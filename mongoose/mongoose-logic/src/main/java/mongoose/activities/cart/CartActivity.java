@@ -40,7 +40,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
 
     @Override
     protected void initializePresentationModel(CartPresentationModel pm) {
-        pm.cartUuidProperty().setValue(getParams().get("cartUuid"));
+        pm.cartUuidProperty().setValue(getParameter("cartUuid"));
     }
 
     @Override
