@@ -3,6 +3,7 @@ package mongoose.client.shared;
 import mongoose.activities.cart.CartActivity;
 import mongoose.activities.container.ContainerActivity;
 import mongoose.activities.event.bookings.BookingsActivity;
+import mongoose.activities.event.letters.LettersActivity;
 import mongoose.activities.events.EventsActivity;
 import mongoose.activities.monitor.MonitorActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
@@ -31,6 +32,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
                         .route("/organizations", OrganizationsActivity::new)
                         .route("/events", EventsActivity::new)
                         .route("/event/:eventId/bookings", BookingsActivity::new)
+                        .route("/event/:eventId/letters", LettersActivity::new)
                         .route("/cart/:cartUuid", CartActivity::new)
                         .route("/monitor", MonitorActivity::new)
                         .route("/tester", TesterActivity::new)
