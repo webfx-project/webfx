@@ -62,7 +62,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.documentDisplayResultSetProperty())
-                .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty());
+                .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty(), pm.cartUuidProperty());
 
         // Setting up the document lines filter
         createReactiveExpressionFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")

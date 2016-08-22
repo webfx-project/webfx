@@ -12,13 +12,14 @@ import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import naga.commons.util.Strings;
 import naga.providers.toolkit.gwt.nodes.GwtParent;
 import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
+import naga.toolkit.cell.GridFiller;
+import naga.toolkit.cell.ImageTextGridAdapter;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.display.Label;
 import naga.toolkit.properties.markers.SelectionMode;
-import naga.toolkit.cell.GridFiller;
-import naga.toolkit.cell.ImageTextGridAdapter;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.Table;
 
@@ -34,10 +35,11 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
     public GwtPolymerTable(VaadinGrid vaadinGrid) {
         super(vaadinGrid);
         syncVisualSelectionMode(getSelectionMode());
+        displaySelectionProperty().addListener((observable, oldValue, newValue) -> syncVisualDisplaySelection());
+        node.addSelectedItemsChangedHandler(event -> syncToolkitDisplaySelection());
         vaadinGrid.setRowClassGenerator(createRowClassGenerator());
     }
 
-    private boolean syncHandlerInstalled;
     private boolean syncingDisplaySelection;
 
     private void syncToolkitDisplaySelection() {
@@ -61,7 +63,8 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             selection.clear();
             DisplaySelection displaySelection = getDisplaySelection();
             if (displaySelection != null)
-                displaySelection.forEachRow(row -> selection.select(row)); // Using method reference here with GWT would produce a ClassCastException (it seems GWT doesn't make the Integer -> double auto boxing)
+                // The call is deferred to make it work with ReactiveExpressionFilter selectFirstRowOnFirstDisplay() mechanism (it seems changing data and selection at the same time doesn't work)
+                Toolkit.get().scheduler().scheduleDeferred(() -> displaySelection.forEachRow(row -> selection.select(row))); // Using method reference here with GWT would produce a ClassCastException (it seems GWT doesn't make the Integer -> double auto boxing)
             syncingDisplaySelection = false;
         }
     }
@@ -142,12 +145,6 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             node.setVisibleRows(rowCount); // This makes the grid height fit with the number of rows (no scroll bar)
             node.refreshItems();
             // The above code reset the selection so selection handlers are installed here when first data arrives (to consider possible initial selection made by logic)
-            if (!syncHandlerInstalled && rowCount > 0) {
-                syncVisualDisplaySelection();
-                displaySelectionProperty().addListener((observable, oldValue, newValue) -> syncVisualDisplaySelection());
-                node.addSelectedItemsChangedHandler(event -> syncToolkitDisplaySelection());
-                syncHandlerInstalled = true;
-            }
         }
 
         @Override

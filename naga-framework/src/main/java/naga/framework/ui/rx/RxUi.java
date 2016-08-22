@@ -19,15 +19,12 @@ import rx.subscriptions.Subscriptions;
 public class RxUi {
 
     public static <T> Observable<T> observe(ObservableValue<T> observableValue) {
-        return Observable.create(new Observable.OnSubscribe<T>() {
-            @Override
-            public void call(final Subscriber<? super T> subscriber) {
-                subscriber.onNext(observableValue.getValue());
-                ChangeListener<T> listener = (value, prev, current) -> subscriber.onNext(current);
-                observableValue.addListener(listener);
-                subscriber.add(unsubscribeInUiThread(() -> observableValue.removeListener(listener)));
+        return Observable.create(subscriber -> {
+            subscriber.onNext(observableValue.getValue());
+            ChangeListener<T> listener = (value, prev, current) -> subscriber.onNext(current);
+            observableValue.addListener(listener);
+            subscriber.add(unsubscribeInUiThread(() -> observableValue.removeListener(listener)));
 
-            }
         });
     }
 
@@ -60,17 +57,21 @@ public class RxUi {
     }
 
     public static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty) {
+        displayObservable(displayResultObservable, displayResultProperty, null);
+    }
+
+    public static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty, Runnable onPropertySetRunnable) {
         displayResultObservable
                 .observeOn(RxScheduler.UI_SCHEDULER)
-                .subscribe(getPropertySubscriber(displayResultProperty));
+                .subscribe(getPropertySubscriber(displayResultProperty, onPropertySetRunnable));
     }
 
 
-    static <T> Subscriber<T> getPropertySubscriber(Property<T> property) {
+    static <T> Subscriber<T> getPropertySubscriber(Property<T> property, Runnable onPropertySetRunnable) {
         return Subscribers.create(value -> {
-            //Platform.log("Setting property value via RxUi: " + value);
             property.setValue(value);
-            //Platform.log("Property set");
+            if (onPropertySetRunnable != null)
+                onPropertySetRunnable.run();
         });
     }
 }

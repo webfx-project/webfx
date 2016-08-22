@@ -99,6 +99,15 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
+    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
+        // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
+        onEachChangeProperty.addListener(observable -> {
+            displaySelectionProperty.setValue(null);
+            selectFirstRowOnFirstDisplay();
+        });
+        return selectFirstRowOnFirstDisplay(displaySelectionProperty);
+    }
+
     public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
         return setDisplaySelectionProperty(displaySelectionProperty).selectFirstRowOnFirstDisplay();
     }
@@ -269,15 +278,16 @@ public class ReactiveExpressionFilter {
                             .map(sqlReadResult -> (sequence != observableSequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                             // Finally transforming the EntityList into a DisplayResultSet
                             .map(entities -> {
-                                if (selectFirstRowOnFirstDisplay && entities.size() > 0) {
-                                    selectFirstRowOnFirstDisplay = false;
-                                    displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0)); // Temporary implementation
-                                }
                                 return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns);
                             });
                 });
         // Any new DisplayResultSet emitted by the observable will set the displayResultSetProperty
-        RxUi.displayObservable(displayResultSetObservable, displayResultSetProperty);
+        RxUi.displayObservable(displayResultSetObservable, displayResultSetProperty, () -> {
+            if (selectFirstRowOnFirstDisplay && displayResultSetProperty.getValue().getRowCount() > 0) {
+                selectFirstRowOnFirstDisplay = false;
+                displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
+            }
+        });
         return this;
     }
 
