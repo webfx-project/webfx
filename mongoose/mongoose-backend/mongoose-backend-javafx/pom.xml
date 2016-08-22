@@ -32,7 +32,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-toolkit-javafx</artifactId>
+            <artifactId>naga-toolkit-jfoenix</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
