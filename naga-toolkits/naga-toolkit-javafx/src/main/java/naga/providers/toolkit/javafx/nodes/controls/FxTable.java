@@ -13,13 +13,16 @@ import naga.commons.util.collection.IdentityList;
 import naga.providers.toolkit.javafx.FxImageStore;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
+import naga.toolkit.cell.GridFiller;
+import naga.toolkit.cell.ImageTextGridAdapter;
+import naga.toolkit.cell.RowAdapter;
+import naga.toolkit.cell.RowStyleUpdater;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.display.Label;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.cell.*;
 import naga.toolkit.spi.nodes.controls.Table;
 
 import java.util.ArrayList;
@@ -106,7 +109,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
                 currentColumns.clear();
             super.fillGrid(rs);
             node.getColumns().setAll(newColumns);
-            currentColumns = newColumns = null;
+            // currentColumns = newColumns = null; // Commented as may cause NPE in setUpGridColumn() TODO: check if it's a bug
         }
 
         @Override
