@@ -7,6 +7,7 @@ import javafx.beans.value.ObservableValue;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.client.ApplicationContextImpl;
 import naga.platform.client.url.history.History;
+import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
@@ -35,9 +36,10 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
         return history;
     }
 
+    private JsonObject params = Json.createObject();
     @Override
     public JsonObject getParams() {
-        return null;
+        return params;
     }
 
     private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();

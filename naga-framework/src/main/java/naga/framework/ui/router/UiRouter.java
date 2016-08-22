@@ -8,8 +8,12 @@ import naga.framework.router.RoutingContext;
 import naga.framework.activity.client.UiActivityContext;
 import naga.framework.activity.client.UiActivityContextImpl;
 import naga.platform.activity.*;
+import naga.platform.activity.client.ApplicationContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.baseimpl.SubHistory;
+import naga.platform.json.spi.JsonArray;
+import naga.platform.json.spi.JsonObject;
+import naga.platform.json.spi.WritableJsonObject;
 import naga.toolkit.spi.Toolkit;
 
 import java.util.HashMap;
@@ -152,8 +156,24 @@ public class UiRouter extends HistoryRouter {
             C activityContext = (C) activityContextHistory.get(contextKey);
             if (activityContext == null)
                 activityContextHistory.put(contextKey, activityContext = (C) activityContextFactory.createContext(hostingContext));
-            UiActivityContextImpl.from(activityContext).setParams(routingContext.getParams());
+            applyRoutingContextParamsToActivityContext(routingContext.getParams(), activityContext);
             return activityContext;
+        }
+
+        private void applyRoutingContextParamsToActivityContext(JsonObject routingContextParams, C activityContext) {
+            // Temporary applying the parameters to the whole application context so they can be shared between activities
+            // (ex: changing :x parameter in activity1 and then pressing a navigation button in a parent container activity
+            // that goes to /:x/activity2 => the parent container can get the last :x value changed by activity1)
+            //UiActivityContextImpl.from(activityContext).setParams(routingContext.getParams()); // Commented original code
+            UiActivityContext uiAppContext = ApplicationContext.get();
+            WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
+            // TODO: move this code into a apply() method in WritableJsonObject
+            JsonArray keys = routingContextParams.keys();
+            int size = keys.size();
+            for (int i = 0; i < size; i++) {
+                String key = keys.getString(i);
+                appParams.setNativeElement(key, routingContextParams.getNativeElement(key));
+            }
         }
     }
 }
