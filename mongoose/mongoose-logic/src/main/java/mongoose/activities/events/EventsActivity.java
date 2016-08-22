@@ -49,18 +49,23 @@ public class EventsActivity extends PresentationActivity<EventsViewModel, Events
         vm.getTable().displayResultSetProperty().bind(pm.eventsDisplayResultSetProperty());
     }
 
+    @Override
+    protected void initializePresentationModel(EventsPresentationModel pm) {
+        pm.organizationIdProperty().setValue(getParameter("organizationId"));
+    }
+
     protected void bindPresentationModelWithLogic(EventsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where: 'live', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combine(pm.organizationIdProperty(), o -> o == null ? null : "{where: 'organization=" + o + "'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
-                        "{label: 'Name', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}," +
-                        "{label: 'Centre', expression: 'organization'}" +
+                        "{label: 'Name', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
                         "]")
-                .applyDomainModelRowStyle()
+                //.applyDomainModelRowStyle()
                 .displayResultSetInto(pm.eventsDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.eventsDisplaySelectionProperty(), event -> {
                     if (event != null)
