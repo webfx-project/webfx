@@ -23,7 +23,7 @@
 
         <!-- Web profiles (GWT, TeaVM) -->
         <profile>
-            <id>gwt</id>
+            <id>naga-platform-gwt</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -33,7 +33,7 @@
         </profile>
 
         <profile>
-            <id>teavm</id>
+            <id>naga-platform-teavm</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -44,7 +44,7 @@
 
         <!-- Mobile profiles (Android, CodenameOne) -->
         <profile>
-            <id>android</id>
+            <id>naga-platform-android</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -54,7 +54,7 @@
         </profile>
 
         <profile>
-            <id>cn1</id>
+            <id>naga-platform-cn1</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -64,7 +64,7 @@
         </profile>
 
         <profile>
-            <id>j2objc</id>
+            <id>naga-platform-j2objc</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>

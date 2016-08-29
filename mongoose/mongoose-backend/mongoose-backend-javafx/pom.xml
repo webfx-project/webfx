@@ -82,9 +82,9 @@
 
         <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
         <profile>
-            <id>jre-fat</id>
+            <id>mongoose-backend-javafx-fat</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
 
             <build>
@@ -102,9 +102,9 @@
 
         <!-- Profile to minimize and obfuscate the jar file with Proguard -->
         <profile>
-            <id>jre-min</id>
+            <id>mongoose-backend-javafx-min</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
 
             <build>

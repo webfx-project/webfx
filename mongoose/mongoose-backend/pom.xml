@@ -15,7 +15,7 @@
     <profiles>
         <!-- JRE profiles (JavaFx, Swing, Pivot) -->
         <profile>
-            <id>javafx</id>
+            <id>mongoose-backend-javafx</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -24,7 +24,7 @@
             </modules>
         </profile>
         <profile>
-            <id>swing</id>
+            <id>mongoose-backend-swing</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -33,7 +33,7 @@
             </modules>
         </profile>
         <profile>
-            <id>pivot</id>
+            <id>mongoose-backend-pivot</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -44,7 +44,7 @@
 
         <!-- Web profiles (GWT, TeaVM) -->
         <profile>
-            <id>gwt</id>
+            <id>mongoose-backend-gwt</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -53,9 +53,9 @@
             </modules>
         </profile>
         <profile>
-            <id>teavm</id>
+            <id>mongoose-backend-teavm</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
                 <module>mongoose-backend-teavm</module>
@@ -64,9 +64,9 @@
 
         <!-- Mobile profiles (CodenameOne) -->
         <profile>
-            <id>cn1</id>
+            <id>mongoose-backend-cn1</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
             <modules>
                 <module>mongoose-backend-cn1</module>
