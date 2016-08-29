@@ -11,4 +11,8 @@ public interface UiApplicationContext<C extends UiApplicationContext<C>> extends
         return new UiApplicationContextImpl(mainArgs, UiActivityContext::create);
     }
 
+    static void onWindowReady(Runnable callback) {
+        UiApplicationContextImpl.onWindowReady(callback);
+    }
+
 }
