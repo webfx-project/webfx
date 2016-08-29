@@ -17,6 +17,7 @@
         <module>naga-toolkit-jfoenix</module>
         <module>naga-toolkit-swing</module>
         <module>naga-toolkit-pivot</module>
+        <module>naga-toolkit-html</module>
         <module>naga-toolkit-gwt</module>
         <module>naga-toolkit-gwtmaterial</module>
         <module>naga-toolkit-gwtpolymer</module>

@@ -1,9 +1,9 @@
 package naga.toolkit.cell;
 
 import naga.commons.util.Strings;
-import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.cell.renderers.ImageTextRenderer;
 import naga.toolkit.cell.renderers.TextRenderer;
+import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 
@@ -14,8 +14,9 @@ public abstract class GridFiller<C> {
 
     private final GridAdapter<C, ?> gridAdapter;
     private final ImageTextGridAdapter<C, ?> imageTextGridAdapter;
-    private int rowStyleColumnIndex;
     private DisplayResultSet rs;
+    private int rowStyleColumnIndex;
+    protected int gridColumnCount;
 
     protected GridFiller(GridAdapter<C, ?> gridAdapter) {
         this.gridAdapter = gridAdapter;
@@ -40,16 +41,24 @@ public abstract class GridFiller<C> {
             else if (role.equals("style"))
                 rowStyleColumnIndex = columnIndex;
         }
+        gridColumnCount = gridColumnIndex;
     }
 
     protected abstract void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn);
+
+    public void fillCell(C cell, int rowIndex, int rsColumnIndex) {
+        fillCell(cell, rowIndex, rsColumnIndex, rs.getColumns()[rsColumnIndex]);
+    }
 
     public void fillCell(C cell, int rowIndex, int rsColumnIndex, DisplayColumn displayColumn) {
         fillCell(cell, rs.getValue(rowIndex, rsColumnIndex), displayColumn);
     }
 
     public void fillCell(C cell, Object cellValue, DisplayColumn displayColumn) {
-        ValueRenderer valueRenderer = displayColumn.getValueRenderer();
+        fillCell(cell, cellValue, displayColumn, displayColumn.getValueRenderer());
+    }
+
+    public void fillCell(C cell, Object cellValue, DisplayColumn displayColumn, ValueRenderer valueRenderer) {
         if (imageTextGridAdapter != null) {
             if (valueRenderer == TextRenderer.SINGLETON) {
                 imageTextGridAdapter.setCellTextContent(cell, Strings.toString(cellValue), displayColumn);
@@ -63,6 +72,10 @@ public abstract class GridFiller<C> {
             }
         }
         gridAdapter.setCellContent(cell, valueRenderer.renderCellValue(cellValue), displayColumn);
+    }
+
+    public int getRowStyleColumnIndex() {
+        return rowStyleColumnIndex;
     }
 
     public Object getRowStyleResultSetValue(int rowIndex) {

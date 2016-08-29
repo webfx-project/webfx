@@ -75,7 +75,6 @@ public class GridCollator implements SelectableDisplayResultSetNode {
 
         private ValueRenderer[] renderers;
         private int[] rsColumnIndexes;
-        private int gridColumnCount;
 
         @Override
         public void fillGrid(DisplayResultSet rs) {
@@ -99,7 +98,6 @@ public class GridCollator implements SelectableDisplayResultSetNode {
         protected void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
             renderers[gridColumnIndex] = displayColumn.getValueRenderer();
             rsColumnIndexes[gridColumnIndex] = rsColumnIndex;
-            gridColumnCount = gridColumnIndex + 1;
         }
     };
 
