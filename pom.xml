@@ -264,11 +264,12 @@
              ***************************************************************
              -->
 
-            <!-- Google Web Toolkit (GWT) -->
             <dependency>
                 <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-user</artifactId>
+                <artifactId>gwt</artifactId>
                 <version>${lib.gwt.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!--
@@ -325,7 +326,7 @@
                         <execution>
                             <id>attach-sources</id>
                             <goals>
-                                <goal>jar</goal>
+                                <goal>jar-no-fork</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -634,6 +635,22 @@
                  ****************************
                  -->
                 <plugin>
+                    <groupId>net.ltgt.gwt.maven</groupId>
+                    <artifactId>gwt-maven-plugin</artifactId>
+                    <version>1.0-rc-6</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <moduleName>${plugin.gwt.param.module}</moduleName>
+                        <failOnError>true</failOnError>
+                    </configuration>
+                </plugin>
+
+                <!--
+                 ***************************************
+                 * GWT Mojo plugin configuration (old) *
+                 ***************************************
+                 -->
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>gwt-maven-plugin</artifactId>
                     <version>${plugin.gwt.version}</version>
@@ -658,6 +675,7 @@
                                 <draftCompile>false</draftCompile>
                                 <incremental>false</incremental>
                                 <persistentunitcache>false</persistentunitcache>
+                                <force>true</force>
                                 <compileSourcesArtifacts>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact1}</compileSourcesArtifact>
                                     <compileSourcesArtifact>${plugin.gwt.param.compileSourcesArtifact2}</compileSourcesArtifact>
