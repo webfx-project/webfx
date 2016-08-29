@@ -53,6 +53,15 @@
             </modules>
         </profile>
         <profile>
+            <id>mongoose-backend-html</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-backend-html</module>
+            </modules>
+        </profile>
+        <profile>
             <id>mongoose-backend-teavm</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
