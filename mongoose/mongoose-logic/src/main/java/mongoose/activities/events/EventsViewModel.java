@@ -14,12 +14,14 @@ public class EventsViewModel implements ViewModel {
     private final GuiNode contentNode;
     private final SearchBox searchBox;
     private final Table table;
+    private final CheckBox withBookingsCheckBox;
     private final CheckBox limitCheckBox;
 
-    public EventsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
+    public EventsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox withBookingsCheckBox, CheckBox limitCheckBox) {
         this.contentNode = contentNode;
         this.searchBox = searchBox;
         this.table = table;
+        this.withBookingsCheckBox = withBookingsCheckBox;
         this.limitCheckBox = limitCheckBox;
     }
 
@@ -34,6 +36,10 @@ public class EventsViewModel implements ViewModel {
 
     Table getTable() {
         return table;
+    }
+
+    CheckBox getWithBookingsCheckBox() {
+        return withBookingsCheckBox;
     }
 
     CheckBox getLimitCheckBox() {

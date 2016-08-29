@@ -16,10 +16,13 @@ class EventsPresentationModel implements PresentationModel {
     private final Property<String> searchTextProperty = new SimpleObjectProperty<>();
     Property<String> searchTextProperty() { return searchTextProperty; }
 
+    private final Property<Boolean> withBookingsProperty = new SimpleObjectProperty<>(true); // Limit initially set to true
+    Property<Boolean> withBookingsProperty() { return withBookingsProperty; }
+
     private final Property<Boolean> limitProperty = new SimpleObjectProperty<>(true); // Limit initially set to true
     Property<Boolean> limitProperty() { return limitProperty; }
 
-    private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>(); // Limit initially set to true
+    private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>();
     Property<Object> organizationIdProperty() { return organizationIdProperty; }
 
     private final Property<DisplaySelection> eventsDisplaySelectionProperty = new SimpleObjectProperty<>();

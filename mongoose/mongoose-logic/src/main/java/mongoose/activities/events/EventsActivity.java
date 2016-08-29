@@ -19,30 +19,35 @@ public class EventsActivity extends PresentationActivity<EventsViewModel, Events
         // Building the UI components
         SearchBox searchBox = toolkit.createSearchBox();
         Table table = toolkit.createTable();
+        CheckBox withBookingsCheckBox = toolkit.createCheckBox();
         CheckBox limitCheckBox = toolkit.createCheckBox();
 
         return new EventsViewModel(toolkit.createVPage()
                 .setHeader(searchBox)
                 .setCenter(table)
-                .setFooter(limitCheckBox)
-                , searchBox, table, limitCheckBox);
+                .setFooter(toolkit.createHBox(withBookingsCheckBox, limitCheckBox))
+                , searchBox, table, withBookingsCheckBox, limitCheckBox);
     }
 
     protected void bindViewModelWithPresentationModel(EventsViewModel vm, EventsPresentationModel pm) {
         // Hard coded initialization
         SearchBox searchBox = vm.getSearchBox();
+        CheckBox withBookingsCheckBox = vm.getWithBookingsCheckBox();
         CheckBox limitCheckBox = vm.getLimitCheckBox();
         searchBox.setPlaceholder("Enter the event name to narrow the list");
         searchBox.requestFocus();
+        withBookingsCheckBox.setText("With bookings");
         limitCheckBox.setText("Limit to 100");
 
         // Initialization from the presentation model current state
         searchBox.setText(pm.searchTextProperty().getValue());
+        withBookingsCheckBox.setSelected(pm.withBookingsProperty().getValue());
         limitCheckBox.setSelected(pm.limitProperty().getValue());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
+        pm.withBookingsProperty().bind(withBookingsCheckBox.selectedProperty());
         pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.eventsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
@@ -61,6 +66,7 @@ public class EventsActivity extends PresentationActivity<EventsViewModel, Events
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 .combine(pm.organizationIdProperty(), o -> o == null ? null : "{where: 'organization=" + o + "'}")
                 // Limit condition
+                .combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
                         "{label: 'Name', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
