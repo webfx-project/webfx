@@ -138,12 +138,32 @@
 
     </dependencies>
 
+    <properties>
+        <!-- Setting the GWT plugin configuration parameters -->
+        <lib.gwt.version>2.8.0-rc2</lib.gwt.version>
+        <plugin.gwt.version>2.8.0-beta1</plugin.gwt.version>
+        <plugin.gwt.param.module>mongoose-backend-html</plugin.gwt.param.module>
+        <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
+        <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+        <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+        <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
+        <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+    </properties>
+
     <build>
         <plugins>
 
             <!-- Generating the source artifact for another GWT compilation (ex: KBS) -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
             </plugin>
 
         </plugins>
@@ -158,36 +178,9 @@
             </activation>
 
             <properties>
-                <!-- Setting the GWT plugin configuration parameters -->
-                <lib.gwt.version>2.8.0-rc2</lib.gwt.version>
-                <plugin.gwt.version>2.8.0-beta1</plugin.gwt.version>
-                <plugin.gwt.param.module>mongoose-backend-html</plugin.gwt.param.module>
-                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-                <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
-                <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
-                <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
-                <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+                <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
             </properties>
 
-            <build>
-                <plugins>
-
-                    <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
-                    <plugin>
-                        <groupId>net.ltgt.gwt.maven</groupId>
-                        <artifactId>gwt-maven-plugin</artifactId>
-                        <configuration>
-                            <moduleName>${plugin.gwt.param.module}</moduleName>
-                            <failOnError>true</failOnError>
-                            <startupUrls>
-                                <startupUrl>index.html</startupUrl>
-                            </startupUrls>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
         </profile>
     </profiles>
 

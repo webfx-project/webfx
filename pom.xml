@@ -76,6 +76,7 @@
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.teavm.minifying>true</plugin.teavm.minifying>
         <plugin.teavm.debug>false</plugin.teavm.debug>
+        <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugin.gwt.param.compileSourcesArtifact1>TBD</plugin.gwt.param.compileSourcesArtifact1>
         <plugin.gwt.param.compileSourcesArtifact2>TBD</plugin.gwt.param.compileSourcesArtifact2>
@@ -640,6 +641,7 @@
                     <version>1.0-rc-6</version>
                     <extensions>true</extensions>
                     <configuration>
+                        <skipCompilation>${plugin.gwt.param.skipCompilation}</skipCompilation>
                         <moduleName>${plugin.gwt.param.module}</moduleName>
                         <failOnError>true</failOnError>
                     </configuration>
