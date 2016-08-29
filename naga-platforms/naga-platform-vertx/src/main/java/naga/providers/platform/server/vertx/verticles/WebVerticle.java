@@ -51,7 +51,7 @@ public class WebVerticle extends AbstractVerticle {
 
         // GWT perfect caching
         router.routeWithRegex(".*\\.cache\\..*").handler(routingContext -> {
-            routingContext.response().putHeader("Cache-Control", "public, max-age=31556926");
+            routingContext.response().putHeader("cache-control", "public, max-age=31556926");
             routingContext.next();
         });
 
