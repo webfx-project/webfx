@@ -56,12 +56,12 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed', orderBy: 'name'}")
+        createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed', orderBy: 'id'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
-                .combine(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)'}")
+                .combine(pm.withEventsProperty(), "{where: 'exists(select Event where live and organization=o)'}")
                 .setExpressionColumns("[" +
                         "{label: 'Name', expression: '[icon, name + ` (` + type.code + `)`]'}," +
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
