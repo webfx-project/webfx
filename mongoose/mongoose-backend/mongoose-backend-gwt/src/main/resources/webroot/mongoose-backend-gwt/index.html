@@ -139,13 +139,139 @@
         tr.branch.vaadin-grid-row-has-data {
             font-style: italic;
         }
+
+        /**********************************************
+         *** Page loading spinner (Material Design) ***
+         *********************************************/
+
+        .showbox {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 5%;
+        }
+
+        .loader {
+            position: relative;
+            margin: 0 auto;
+            width: 100px;
+        }
+
+        .loader:before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+
+        .circular {
+            -webkit-animation: rotate 2s linear infinite;
+                  animation: rotate 2s linear infinite;
+            height: 100%;
+            -webkit-transform-origin: center center;
+                  transform-origin: center center;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .path {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+            -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+                  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+            stroke-linecap: round;
+        }
+
+        @-webkit-keyframes rotate {
+            100% {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotate {
+            100% {
+            -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @-webkit-keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35px;
+            }
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35px;
+            }
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+        @-webkit-keyframes color {
+            100%,
+            0% {
+                stroke: #d62d20;
+            }
+            40% {
+                stroke: #0057e7;
+            }
+            66% {
+                stroke: #008744;
+            }
+            80%,
+            90% {
+                stroke: #ffa700;
+            }
+        }
+        @keyframes color {
+            100%,
+            0% {
+                stroke: #d62d20;
+            }
+            40% {
+                stroke: #0057e7;
+            }
+            66% {
+                stroke: #008744;
+            }
+            80%,
+            90% {
+                stroke: #ffa700;
+            }
+        }
     </style>
 </head>
 <body style="margin: 0;">
-    <table style="position: absolute; width: 100%; height: 100%;">
+    <table id="preloader" style="position: absolute; width: 100%; height: 90%;">
         <tr>
-            <td id="preloader" style="text-align: center; vertical-align: middle;">
-                <img src="../naga-abstractplatform-web/images/preloader.gif">
+            <td style="text-align: center; vertical-align: middle;">
+                <div class="loader">
+                    <svg class="circular">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                    </svg>
+                </div>
             </td>
         </tr>
     </table>
