@@ -30,7 +30,7 @@ public final class GwtPlatform extends WebPlatform {
         setWebLogger(GwtPlatform::logConsole);
     }
 
-    private static native void logConsole(String message) /*-{ console.log(message); }-*/;
+    private static native void logConsole(String message) /*-{ $wnd.console.log(message); }-*/;
 
     public static void registerBundle(GwtBundle bundle) {
         GwtResourceService.SINGLETON.register(bundle);

@@ -1,13 +1,12 @@
 package naga.providers.platform.client.gwt.url.location;
 
-import com.google.gwt.user.client.Window;
 import naga.platform.client.url.location.WindowLocation;
 import naga.commons.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
-public class GwtWindowLocation implements WindowLocation {
+public final class GwtWindowLocation implements WindowLocation {
 
     public static GwtWindowLocation current() {
         return new GwtWindowLocation();
@@ -17,38 +16,42 @@ public class GwtWindowLocation implements WindowLocation {
     }
 
     @Override
-    public String getHref() {
-        return Window.Location.getHref();
-    }
+    public native String getHref() /*-{
+        return $wnd.location.href;
+    }-*/;
 
     @Override
     public String getProtocol() {
-        return Strings.removeSuffix(Window.Location.getProtocol(), ":");
+        return Strings.removeSuffix(getWindowProtocol(), ":");
     }
+
+    private native String getWindowProtocol() /*-{
+        return $wnd.location.protocol;
+    }-*/;
 
     @Override
-    public String getHost() {
-        return Window.Location.getHost();
-    }
+    public native String getHost() /*-{
+        return $wnd.location.host;
+    }-*/;
 
     @Override
-    public String getHostname() {
-        return Window.Location.getHostName();
-    }
+    public native String getHostname() /*-{
+        return $wnd.location.hostname;
+    }-*/;
 
     @Override
-    public String getPort() {
-        return Window.Location.getPort();
-    }
+    public native String getPort() /*-{
+        return $wnd.location.port;
+    }-*/;
 
-    public String getPathname() {
-        return Window.Location.getPath();
-    }
+    public native String getPathname() /*-{
+        return $wnd.location.pathname;
+    }-*/;
 
     @Override
-    public String getSearch() {
-        return Window.Location.getQueryString();
-    }
+    public native String getSearch() /*-{
+        return $wnd.location.search;
+    }-*/;
 
     @Override
     public String getQueryString() {
@@ -56,9 +59,9 @@ public class GwtWindowLocation implements WindowLocation {
     }
 
     @Override
-    public String getHash() {
-        return Window.Location.getHash();
-    }
+    public native String getHash() /*-{
+        return $wnd.location.hash;
+    }-*/;
 
     @Override
     public String getFragment() {
@@ -66,12 +69,12 @@ public class GwtWindowLocation implements WindowLocation {
     }
 
     @Override
-    public void assignHref(String href) {
-        Window.Location.assign(href);
-    }
+    public native void assignHref(String href) /*-{
+        $wnd.location.assign(href);
+    }-*/;
 
     @Override
-    public void replaceHref(String href) {
-        Window.Location.replace(href);
-    }
+    public native void replaceHref(String href) /*-{
+        $wnd.location.replace(href);
+    }-*/;
 }
