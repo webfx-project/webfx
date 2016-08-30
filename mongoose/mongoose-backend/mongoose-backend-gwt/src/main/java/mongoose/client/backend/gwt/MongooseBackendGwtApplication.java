@@ -3,7 +3,10 @@ package mongoose.client.backend.gwt;
 import com.google.gwt.core.client.EntryPoint;
 import mongoose.client.backend.MongooseBackendApplication;
 import naga.framework.activity.client.UiApplicationContext;
+import naga.framework.ui.rx.RxUi;
+import naga.platform.bus.call.PendingBusCall;
 import naga.providers.platform.client.gwt.GwtPlatform;
+import rx.Observable;
 
 /**
  * @author Bruno Salmon
@@ -16,7 +19,11 @@ public class MongooseBackendGwtApplication implements EntryPoint {
     public void onModuleLoad() {
         registerResourceBundles();
         MongooseBackendApplication.main(null);
-        UiApplicationContext.onWindowReady(MongooseBackendGwtApplication::removeSplashScreen);
+        Observable.combineLatest(
+                RxUi.observe(UiApplicationContext.getUiApplicationContext().windowBoundProperty()),
+                RxUi.observe(PendingBusCall.pendingCallsCountProperty()),
+                (windowBound, pendingCallsCount) -> !windowBound || pendingCallsCount > 0
+        ).subscribe(MongooseBackendGwtApplication::setLoadingSpinnerVisible);
 
         /*
         PresentationActivity.registerViewBuilder(OrganizationsActivity.class, OrganizationsPolymerUi.viewBuilder);
@@ -36,9 +43,8 @@ public class MongooseBackendGwtApplication implements EntryPoint {
         GwtPlatform.registerBundle(MongooseBackendGwtBundle.B);
     }
 
-    private static native void removeSplashScreen() /*-{
-        var preloader = $wnd.document.getElementById("preloader");
-        preloader.parentNode.removeChild(preloader);
+    private static native void setLoadingSpinnerVisible(boolean visible) /*-{
+        $wnd.document.getElementById("loadingSpinner").setAttribute("style", "visibility: " + (visible ? "visible" : "hidden"));
     }-*/;
 
 
