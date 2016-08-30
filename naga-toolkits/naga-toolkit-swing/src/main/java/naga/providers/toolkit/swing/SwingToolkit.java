@@ -1,9 +1,6 @@
 package naga.providers.toolkit.swing;
 
-import naga.providers.toolkit.swing.nodes.controls.SwingButton;
-import naga.providers.toolkit.swing.nodes.controls.SwingCheckBox;
-import naga.providers.toolkit.swing.nodes.controls.SwingSearchBox;
-import naga.providers.toolkit.swing.nodes.controls.SwingTable;
+import naga.providers.toolkit.swing.nodes.controls.*;
 import naga.providers.toolkit.swing.nodes.layouts.SwingHBox;
 import naga.providers.toolkit.swing.nodes.layouts.SwingVBox;
 import naga.providers.toolkit.swing.nodes.layouts.SwingVPage;
@@ -34,6 +31,7 @@ public class SwingToolkit extends Toolkit {
         registerNodeFactory(CheckBox.class, SwingCheckBox::new);
         registerNodeFactory(ToggleSwitch.class, SwingCheckBox::new);
         registerNodeFactory(SearchBox.class, SwingSearchBox::new);
+        registerNodeFactory(Image.class, SwingImage::new);
         registerNodeFactoryAndWrapper(Button.class, SwingButton::new, JButton.class, SwingButton::new);
         registerNodeFactory(VBox.class, SwingVBox::new);
         registerNodeFactory(HBox.class, SwingHBox::new);
