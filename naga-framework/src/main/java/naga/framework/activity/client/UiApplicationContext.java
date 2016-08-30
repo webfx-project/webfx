@@ -1,5 +1,6 @@
 package naga.framework.activity.client;
 
+import javafx.beans.property.Property;
 import naga.platform.activity.client.ApplicationContext;
 
 /**
@@ -7,12 +8,16 @@ import naga.platform.activity.client.ApplicationContext;
  */
 public interface UiApplicationContext<C extends UiApplicationContext<C>> extends UiActivityContext<C>, ApplicationContext<C> {
 
+    Property<Boolean> windowBoundProperty();
+
+    default boolean isWindowBound() { return windowBoundProperty().getValue(); }
+
     static UiApplicationContext create(String[] mainArgs) {
         return new UiApplicationContextImpl(mainArgs, UiActivityContext::create);
     }
 
-    static void onWindowReady(Runnable callback) {
-        UiApplicationContextImpl.onWindowReady(callback);
+    static <C extends UiApplicationContext<C>> C getUiApplicationContext() {
+        return (C) ApplicationContext.get();
     }
 
 }

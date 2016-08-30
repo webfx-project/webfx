@@ -5,7 +5,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.client.ApplicationContext;
 import naga.platform.activity.client.ApplicationContextImpl;
 import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
@@ -19,9 +18,6 @@ import naga.toolkit.spi.nodes.GuiNode;
  */
 public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> extends ApplicationContextImpl<C> implements UiApplicationContext<C> {
 
-    private boolean windowReady;
-    private Runnable onWindowReadyCallback;
-
     protected UiApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);
         nodeProperty().addListener(new ChangeListener<GuiNode>() {
@@ -30,23 +26,15 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
                 observable.removeListener(this);
                 //Platform.log("Binding application window node property");
                 Toolkit.get().getApplicationWindow().nodeProperty().bind(observable);
-                windowReady = true;
-                callOnWindowReadyCallbackIfApplicable();
+                windowBoundProperty.setValue(true);
             }
         });
     }
 
-    static void onWindowReady(Runnable callback) {
-        UiApplicationContextImpl context = ApplicationContext.get();
-        context.onWindowReadyCallback = callback;
-        context.callOnWindowReadyCallbackIfApplicable();
-    }
-
-    void callOnWindowReadyCallbackIfApplicable() {
-        if (windowReady && onWindowReadyCallback != null) {
-            Toolkit.get().scheduler().runInUiThread(onWindowReadyCallback);
-            onWindowReadyCallback = null;
-        }
+    private Property<Boolean> windowBoundProperty = new SimpleObjectProperty<>(false);
+    @Override
+    public Property<Boolean> windowBoundProperty() {
+        return windowBoundProperty;
     }
 
     private History history = Platform.get().getBrowserHistory();
