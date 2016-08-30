@@ -63,7 +63,7 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .combine(pm.withEventsProperty(), "{where: 'exists(select Event where live and organization=o)'}")
                 .setExpressionColumns("[" +
-                        "{label: 'Name', expression: '[icon, name + ` (` + type.code + `)`]'}," +
+                        "{label: 'Center', expression: '[icon, name + ` (` + type.code + `)`]'}," +
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
                         "]")
                 .applyDomainModelRowStyle()

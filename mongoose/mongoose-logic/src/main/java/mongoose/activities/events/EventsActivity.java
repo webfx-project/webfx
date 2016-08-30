@@ -69,7 +69,7 @@ public class EventsActivity extends PresentationActivity<EventsViewModel, Events
                 .combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
-                        "{label: 'Name', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
+                        "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
                         "]")
                 //.applyDomainModelRowStyle()
                 .displayResultSetInto(pm.eventsDisplayResultSetProperty())
