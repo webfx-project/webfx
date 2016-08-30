@@ -1,12 +1,29 @@
 package naga.platform.bus.call;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.commons.util.async.AsyncResult;
 import naga.commons.util.async.Future;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
 public class PendingBusCall<T> extends Future<T> {
+
+    private static List<PendingBusCall> pendingCalls = new ArrayList<>();
+    private static Property<Integer> pendingCallsCountProperty = new SimpleObjectProperty<>(0);
+    // Note: this is the only javafx property used so far in the Platform module
+    // TODO: decide if we keep it or replace it with something else to remove the dependency to javafx bindings
+    public static Property<Integer> pendingCallsCountProperty() {
+        return pendingCallsCountProperty;
+    }
+
+    PendingBusCall() {
+        updatePendingCalls(true);
+    }
 
     void onBusCallResult(BusCallResult<T> busCallResult) {
         // Getting the result of the bus call that needs to be returned back to the initial caller
@@ -22,5 +39,15 @@ public class PendingBusCall<T> extends Future<T> {
             fail((Throwable) result); // we finally mark the pending call as failed and return that exception
         else // otherwise it is as successful result
             complete((T) result); // so we finally mark the pending call as complete and return that result (in the expected class result)
+        // Updating the pending calls property
+        updatePendingCalls(false);
+    }
+
+    private void updatePendingCalls(boolean addition) {
+        if (addition)
+            pendingCalls.add(this);
+        else
+            pendingCalls.remove(this);
+        pendingCallsCountProperty.setValue(pendingCalls.size());
     }
 }
