@@ -2,13 +2,15 @@ package naga.providers.toolkit.javafx.nodes.layouts;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.toolkit.spi.nodes.layouts.Window;
 import naga.commons.util.function.Consumer;
+import naga.providers.toolkit.javafx.JavaFxToolkit;
+import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.layouts.Window;
 
 /**
  * @author Bruno Salmon
@@ -36,7 +38,8 @@ public class FxWindow implements Window<Parent> {
         if (scene != null)
             scene.setRoot(rootComponent);
         else { // Creating the scene if not yet done
-            stage.setScene(scene = createScene(rootComponent, 800, 600));
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            stage.setScene(scene = createScene(rootComponent, screenBounds.getWidth() * 0.8, screenBounds.getHeight() * 0.9));
             // Calling the scene hook is specified
             Consumer<Scene> sceneHook = JavaFxToolkit.getSceneHook();
             if (sceneHook != null)
@@ -46,7 +49,7 @@ public class FxWindow implements Window<Parent> {
     }
 
     protected Scene createScene(Parent rootComponent, double width, double height) {
-        return new Scene(rootComponent, 800, 600);
+        return new Scene(rootComponent, width, height);
     }
 
     private final Property<GuiNode<Parent>> nodeProperty = new SimpleObjectProperty<>();
