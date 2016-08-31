@@ -3,6 +3,7 @@ package naga.providers.toolkit.swing.nodes.controls;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.swing.nodes.SwingNode;
+import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.toolkit.spi.nodes.controls.SelectableButton;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ public class SwingButtonBase<N extends AbstractButton> extends SwingNode<N> impl
 
     public SwingButtonBase(N button) {
         super(button);
+        button.setFont(StyleUtil.getFont(false, false));
         textProperty.setValue(button.getText());
         textProperty.addListener((observable, oldValue, newValue) -> button.setText(newValue));
         selectedProperty.setValue(button.isSelected());
