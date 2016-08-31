@@ -31,7 +31,8 @@ public class SwingWindow implements Window<Component> {
         contentPane.removeAll();
         contentPane.add(rootComponent);
         if (firstShown) {
-            frame.setSize(800, 600);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setSize((int) (screenSize.getWidth() * 0.8), (int) (screenSize.getHeight() * 0.9));
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
