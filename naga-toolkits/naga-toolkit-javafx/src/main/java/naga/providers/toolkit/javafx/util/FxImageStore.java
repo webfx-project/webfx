@@ -1,4 +1,4 @@
-package naga.providers.toolkit.javafx;
+package naga.providers.toolkit.javafx.util;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

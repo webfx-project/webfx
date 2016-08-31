@@ -8,7 +8,7 @@ import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.rx.RxScheduler;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.bus.call.PendingBusCall;
-import naga.providers.toolkit.javafx.FxImageStore;
+import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.GuiNode;

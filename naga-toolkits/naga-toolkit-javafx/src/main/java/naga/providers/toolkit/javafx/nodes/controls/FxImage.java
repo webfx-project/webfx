@@ -3,7 +3,7 @@ package naga.providers.toolkit.javafx.nodes.controls;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.ImageView;
-import naga.providers.toolkit.javafx.FxImageStore;
+import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 
 /**

@@ -10,7 +10,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
-import naga.providers.toolkit.javafx.FxImageStore;
+import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
 import naga.toolkit.cell.GridFiller;
