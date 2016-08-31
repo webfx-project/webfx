@@ -8,9 +8,18 @@ import java.awt.*;
  */
 class GradientUtil {
 
-    static void paintVerticalGradient(JComponent c, Graphics g) {
+    private static final Color SELECTION_COLOR = new Color(0x8A, 0xAA, 0xD3, 0x80);
+    private static final Color TRANSPARENT_COLOR = new Color(0, 0, 0, 0);
+    private static final LinearGradientPaint SELECTION_GRADIENT = new LinearGradientPaint(0, 0, 5, 10, new float[]{0.3f, 0.7f}, new Color[]{SELECTION_COLOR, TRANSPARENT_COLOR}, MultipleGradientPaint.CycleMethod.REFLECT);
+
+    static void paintVerticalGradient(JComponent c, Graphics g, boolean selected) {
         Color baseColor = c.getBackground();
-        if (baseColor != Color.WHITE)
+        if (baseColor == Color.WHITE) {
+            if (selected)
+                paintGradient(c, g, (Paint) SELECTION_GRADIENT);
+        } else if (selected)
+            paintGradient(c, g, createVerticalGradient(baseColor, c.getHeight()), SELECTION_GRADIENT);
+        else
             paintGradient(c, g, createVerticalGradient(baseColor, c.getHeight()));
     }
 
@@ -18,24 +27,26 @@ class GradientUtil {
         paintGradient(c, g, createVerticalGradient(topColor, bottomColor, c.getHeight()));
     }
 
-    static void paintGradient(JComponent c, Graphics g, GradientPaint vg) {
+    static void paintGradient(JComponent c, Graphics g, Paint... paints) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setPaint(vg);
-        g2d.fillRect(0, 0, c.getWidth(), c.getHeight());
+        for (Paint paint : paints) {
+            g2d.setPaint(paint);
+            g2d.fillRect(0, 0, c.getWidth(), c.getHeight());
+        }
     }
 
-    private static GradientPaint createVerticalGradient(Color baseColor, int height) {
+    private static Paint createVerticalGradient(Color baseColor, int height) {
         return createVerticalGradient(baseColor, height, 0.9f);
     }
 
-    private static GradientPaint createVerticalGradient(Color baseColor, int height, float factor) {
+    private static Paint createVerticalGradient(Color baseColor, int height, float factor) {
         Color topColor = baseColor;
         Color bottomColor = darker(topColor, factor);
         return createVerticalGradient(topColor, bottomColor, height);
     }
 
-    private static GradientPaint createVerticalGradient(Color topColor, Color bottomColor, int height) {
+    private static Paint createVerticalGradient(Color topColor, Color bottomColor, int height) {
         return new GradientPaint(0, 0, topColor, 0, height, bottomColor);
     }
 

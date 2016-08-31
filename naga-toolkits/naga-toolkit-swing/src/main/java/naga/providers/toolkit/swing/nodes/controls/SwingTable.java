@@ -129,7 +129,7 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
     };
 
     private TableCellRenderer createTableCellRenderer(ValueRenderer valueRenderer, DisplayColumn displayColumn, boolean header) {
-        return valueRenderer == null ? null : (table1, value, isSelected, hasFocus, row, column) -> {
+        return valueRenderer == null ? null : (jTable, value, isSelected, hasFocus, row, column) -> {
             Component cellComponent;
             if (valueRenderer != ImageTextRenderer.SINGLETON)
                 cellComponent = (Component) Toolkit.unwrapToNativeNode(valueRenderer.renderCellValue(value));
@@ -145,7 +145,7 @@ public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane>
             }
             String textAlign = displayColumn.getStyle().getTextAlign();
             String rowStyle = gridFiller.getRowStyle(row);
-            StyleUtil.styleCellComponent(cellComponent, rowStyle, header, textAlign);
+            StyleUtil.styleCellComponent(cellComponent, rowStyle, header, textAlign, isSelected);
             return cellComponent;
         };
     }

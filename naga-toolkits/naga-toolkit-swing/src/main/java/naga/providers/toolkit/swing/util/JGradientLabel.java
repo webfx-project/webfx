@@ -10,6 +10,7 @@ public class JGradientLabel extends JLabel {
 
     private Color topColor;
     private Color bottomColor;
+    private boolean selected;
 
     {
         setOpaque(false);
@@ -27,12 +28,16 @@ public class JGradientLabel extends JLabel {
         this.bottomColor = bottomColor;
     }
 
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         if (topColor != null)
             GradientUtil.paintVerticalGradient(this, topColor, bottomColor, g);
         else
-            GradientUtil.paintVerticalGradient(this, g);
+            GradientUtil.paintVerticalGradient(this, g, selected);
         super.paintComponent(g);
     }
 
