@@ -23,12 +23,29 @@ public abstract class GridFiller<C> {
         imageTextGridAdapter = gridAdapter instanceof ImageTextGridAdapter ? (ImageTextGridAdapter<C, ?>) gridAdapter : null;
     }
 
+    public void setDisplayResultSet(DisplayResultSet rs) {
+        this.rs = rs;
+    }
+
     protected DisplayResultSet getDisplayResultSet() {
         return rs;
     }
 
+    public int getGridColumnCount() {
+        return gridColumnCount;
+    }
+
+    public void initGrid(DisplayResultSet rs) {
+        setDisplayResultSet(rs);
+        fillGrid(true);
+    }
+
     public void fillGrid(DisplayResultSet rs) {
-        this.rs = rs;
+        setDisplayResultSet(rs);
+        fillGrid(false);
+    }
+
+    private void fillGrid(boolean init) {
         rowStyleColumnIndex = -1;
         int columnCount = rs.getColumnCount();
         int gridColumnIndex = 0;
@@ -36,9 +53,11 @@ public abstract class GridFiller<C> {
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
             DisplayColumn displayColumn = columns[columnIndex];
             String role = displayColumn.getRole();
-            if (role == null)
-                setUpGridColumn(gridColumnIndex++, columnIndex, displayColumn);
-            else if (role.equals("style"))
+            if (role == null) {
+                if (!init)
+                    setUpGridColumn(gridColumnIndex, columnIndex, displayColumn);
+                gridColumnIndex++;
+            } else if (role.equals("style"))
                 rowStyleColumnIndex = columnIndex;
         }
         gridColumnCount = gridColumnIndex;
@@ -76,6 +95,13 @@ public abstract class GridFiller<C> {
 
     public int getRowStyleColumnIndex() {
         return rowStyleColumnIndex;
+    }
+
+    public int gridColumnIndexToResultSetColumnIndex(int gridColumnIndex) {
+        int rsColumnIndex = gridColumnIndex;
+        if (rowStyleColumnIndex == 0 && gridColumnIndex >= rowStyleColumnIndex)
+            rsColumnIndex++;
+        return rsColumnIndex;
     }
 
     public Object getRowStyleResultSetValue(int rowIndex) {
