@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mongoose Backend - HTML</title>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <style>
+        /********************************************************
+         ***  Style adjustments regarding Polymer components  ***
+         ********************************************************/
+
+        /***** Declaring some variables used in several selectors *****/
+        :root {
+            --grid-border-color: lightgray;
+            --grid-row-height: 36px;
+        }
+
+        body, input, textarea, keygen, select, button {
+            font-family: 'Roboto', 'Noto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            color: rgba(0, 0, 0, 0.87);
+        }
+
+        table, th, td {
+            border: 1px solid var(--grid-border-color);
+        }
+
+        table {
+            border-collapse: collapse;
+            cursor: pointer;
+        }
+
+        thead {
+            border-top-style: solid;
+            border-top-color: var(--grid-border-color);
+            border-top-width: thin;
+            height: var(--grid-row-height);
+        }
+
+        thead td {
+            border-right-width: thin;
+            border-right-style: solid;
+            border-right-color: var(--grid-border-color);
+            height: var(--grid-row-height);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        tbody td {
+            border-bottom-color: var(--grid-border-color);
+        }
+
+        tbody tr {
+            height: var(--grid-row-height);
+        }
+
+        thead td, tbody td {
+            padding: 0 5px 0 5px;
+        }
+
+        /***********************************
+         *** Table header and row colors ***
+         ***********************************/
+
+        /*** Table header gray gradient ***/
+
+        thead tr {
+            background: linear-gradient( 180deg, white, lightgray 100%);
+        }
+
+        th {
+            background: transparent;
+        }
+
+
+        /***** Declaring table row color variables with default values *****/
+        :root {
+            --color-light: white;
+            --color-dark: white;
+            --stay-color: transparent;
+            --selection-color: rgba(137, 169, 210, 0.5);
+        }
+
+        /***** Bookings colors *****/
+        .confirmed          { --color-light: #C2C2FF; --color-dark: #8F8FE6; }
+        .arrived            { --color-light: #23FF1A; --color-dark: #00D600; }
+        .arrivedWithBalance { --color-light: #1BC9FF; --color-dark: #0096D6; }
+        .paidUnderMinimal   { --color-light: #EDD679; --color-dark: #BAA346; }
+        .paidEnough         { --color-light: #FFFF1A; --color-dark: #E1E400; }
+        .paidInFull         { --color-light: #E6FF1A; --color-dark: #B3E600; }
+        .overPaid           { --color-light: #FFB36F; --color-dark: #E6803C; }
+        .willPay            { --color-light: #FAFAFA; --color-dark: #C7C7C7; }
+
+        /***** Stay colors *****/
+        .workingVisitStay   { --stay-color: #E4399E; }
+        .discoveryStay      { --stay-color: #FF9A40; }
+        .guestStay          { --stay-color: #200772; }
+        .standardStay       { --stay-color: #9276EB; }
+
+        /***** Payments colors *****/
+        .pending            { --color-light: #FAE7E7; --color-dark: #C7B4B4; }
+        .successful         { --color-light: #E6FF1A; --color-dark: #E6FF1A; }
+        .failed             { --color-light: #FF9A9A; --color-dark: #E66767; }
+
+        /***** Organizations colors *****/
+        .kmc                { --color-light: #F9C5FF; --color-dark: #C692E3; }
+        .kbc                { --color-light: #FFFFB0; --color-dark: #E4E57D; }
+        .branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
+        .closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
+
+        /**** Applying styles to vaading grid ****/
+
+        td {
+            background: transparent;
+        }
+
+        tbody {
+            background-color: transparent;
+        }
+
+
+        tr {
+            background: linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
+                        linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
+                        ;
+        }
+
+        tr.selected {
+            background: repeating-linear-gradient(-35deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
+                        linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
+                        linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
+                        ;
+        }
+
+        tr.unread {
+            font-weight: bold;
+        }
+
+        tr.specialRate {
+            font-style: italic;
+        }
+
+        tr.kmc {
+            font-weight: bold;
+        }
+
+        tr.branch {
+            font-style: italic;
+        }
+
+        /**********************************************
+         *** Page loading spinner (Material Design) ***
+         *********************************************/
+
+        #loadingSpinner {
+            position: absolute;
+            width: 100%;
+            height: 90%;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .showbox {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 5%;
+        }
+
+        .loader {
+            position: relative;
+            margin: 0 auto;
+            width: 100px;
+        }
+
+        .loader:before {
+            content: '';
+            display: block;
+            padding-top: 100%;
+        }
+
+        .circular {
+            -webkit-animation: rotate 2s linear infinite;
+                  animation: rotate 2s linear infinite;
+            height: 100%;
+            -webkit-transform-origin: center center;
+                  transform-origin: center center;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .path {
+            stroke-dasharray: 1, 200;
+            stroke-dashoffset: 0;
+            -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+                  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+            stroke-linecap: round;
+        }
+
+        @-webkit-keyframes rotate {
+            100% {
+            -webkit-transform: rotate(360deg);
+                    transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotate {
+            100% {
+            -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @-webkit-keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35px;
+            }
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -35px;
+            }
+            100% {
+                stroke-dasharray: 89, 200;
+                stroke-dashoffset: -124px;
+            }
+        }
+        @-webkit-keyframes color {
+            100%,
+            0% {
+                stroke: #d62d20;
+            }
+            40% {
+                stroke: #0057e7;
+            }
+            66% {
+                stroke: #008744;
+            }
+            80%,
+            90% {
+                stroke: #ffa700;
+            }
+        }
+        @keyframes color {
+            100%,
+            0% {
+                stroke: #d62d20;
+            }
+            40% {
+                stroke: #0057e7;
+            }
+            66% {
+                stroke: #008744;
+            }
+            80%,
+            90% {
+                stroke: #ffa700;
+            }
+        }
+    </style>
+</head>
+<body style="margin: 0;">
+<table id="loadingSpinner">
+    <tr>
+        <td style="text-align: center; vertical-align: middle;">
+            <div class="loader">
+                <svg class="circular">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle>
+                </svg>
+            </div>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript" charset="utf-8" src="webroot/naga-abstractplatform-web/js/sockjs.min.js"></script>
+<script type="text/javascript" src="mongoose_backend_html/mongoose_backend_html.nocache.js"></script>
+</body>
+</html>

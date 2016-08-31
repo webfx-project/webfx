@@ -18,6 +18,7 @@
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Now listing the sources for GWT compilation -->
@@ -26,6 +27,7 @@
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -33,6 +35,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -40,6 +43,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -47,6 +51,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -54,6 +59,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -61,6 +67,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -68,6 +75,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -75,6 +83,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -82,6 +91,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -89,6 +99,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -96,6 +107,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -103,6 +115,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -110,6 +123,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -117,6 +131,7 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
@@ -124,21 +139,25 @@
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
+            <scope>provided</scope> <!-- for being skipped by the shade plugin -->
         </dependency>
 
     </dependencies>
 
     <properties>
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <!-- Setting the GWT plugin configuration parameters -->
         <lib.gwt.version>2.8.0-rc2</lib.gwt.version>
         <plugin.gwt.version>2.8.0-beta1</plugin.gwt.version>
@@ -149,6 +168,7 @@
         <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
         <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
+        <plugin.dependency.param.unpack-classes.outputDirectory>${webappDirectory}</plugin.dependency.param.unpack-classes.outputDirectory>
         <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
     </properties>
 
@@ -160,10 +180,83 @@
                 <artifactId>maven-source-plugin</artifactId>
             </plugin>
 
+            <!-- Copying the Mongoose images into the webroot directory and also unpacking webroot resources coming from dependencies such as naga-abstractplatform-web-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <artifactId>mongoose-logic</artifactId>
+                                    <groupId>${mongoose.groupId}</groupId>
+                                    <version>${mongoose.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <includes>images/**</includes>
+                            <outputDirectory>${webappDirectory}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${webappDirectory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/war/</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
             <plugin>
                 <groupId>net.ltgt.gwt.maven</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- Relocating the web files for Vert.x -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>false</shadedArtifactAttached>
+                            <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                            <relocations>
+                                <relocation>
+                                    <shadedPattern>webroot/mongoose-backend-html/</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

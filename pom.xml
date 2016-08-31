@@ -69,6 +69,7 @@
         <plugin.dependency.param.unpack-sources.phase>validate</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>validate</plugin.dependency.param.unpack-classes.phase>
         <plugin.dependency.param.unpack-classes.includes>**</plugin.dependency.param.unpack-classes.includes>
+        <plugin.dependency.param.unpack-classes.outputDirectory>${project.build.outputDirectory}</plugin.dependency.param.unpack-classes.outputDirectory>
         <plugin.dependency.param.copy-libs.phase>validate</plugin.dependency.param.copy-libs.phase>
         <plugin.shade.param.fat.phase>package</plugin.shade.param.fat.phase>
         <plugin.antrun.param.j2objc.phase>compile</plugin.antrun.param.j2objc.phase>
@@ -365,7 +366,7 @@
                             </goals>
                             <configuration>
                                 <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
-                                <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                                <outputDirectory>${plugin.dependency.param.unpack-classes.outputDirectory}</outputDirectory>
                                 <overWriteReleases>true</overWriteReleases>
                                 <overWriteSnapshots>true</overWriteSnapshots>
                                 <includes>${plugin.dependency.param.unpack-classes.includes}</includes>
