@@ -4,7 +4,7 @@
 
     <inherits name="com.google.gwt.resources.Resources" />
 
-    <set-property name="user.agent" value="safari" />
+    <!--set-property name="user.agent" value="safari" /-->
 
     <!-- Specify the app entry point class.                         -->
     <entry-point class='mongoose.client.backend.html.MongooseBackendHtmlApplication'/>
