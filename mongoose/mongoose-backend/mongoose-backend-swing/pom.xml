@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-logic</artifactId>
+            <artifactId>mongoose-logic-java</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>

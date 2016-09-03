@@ -14,7 +14,7 @@ public class StyleUtil {
     private final static Border cellHeaderBorder = new CompoundBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, tableGridColor), cellPaddingBorder);
     private final static Color fontColor = new Color(0, 0, 0, (int) (0.7 * 255));
     private static final float fontSize = 16f;
-    private static final String fontStartPath = "/mongoose/client/swing/fonts/Roboto";
+    private static final String fontStartPath = "/mongoose/client/java/fonts/Roboto";
     private static final Font boldItalicFont = SwingImageStore.getFont(fontStartPath + "-BoldItalic.ttf").deriveFont(fontSize);
     private static final Font italicFont = SwingImageStore.getFont(fontStartPath + "-Italic.ttf").deriveFont(fontSize);
     private static final Font boldFont = SwingImageStore.getFont(fontStartPath + "-Bold.ttf").deriveFont(fontSize);

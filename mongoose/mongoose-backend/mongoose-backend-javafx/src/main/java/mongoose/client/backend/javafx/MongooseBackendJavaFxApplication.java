@@ -34,7 +34,7 @@ public class MongooseBackendJavaFxApplication {
 
     private static void installJavaFxHooks() {
         // Setting JavaFx scene hook to apply the mongoose css file
-        JavaFxToolkit.setSceneHook(scene -> scene.getStylesheets().addAll("mongoose/client/backend/javafx/css/mongoose.css"));
+        JavaFxToolkit.setSceneHook(scene -> scene.getStylesheets().addAll("mongoose/client/java/css/mongoose.css"));
     }
 
     private static ImageView spinner;
@@ -49,7 +49,7 @@ public class MongooseBackendJavaFxApplication {
                     rootPane.getChildren().remove(spinner);
                 } else if (!rootPane.getChildren().contains(spinner)) {
                     if (spinner == null)
-                        spinner = FxImageStore.createIconImageView("mongoose/client/backend/javafx/images/spinner.gif");
+                        spinner = FxImageStore.createIconImageView("mongoose/client/java/images/spinner.gif");
                     spinner.setManaged(false);
                     spinner.setX(rootPane.getWidth()  / 2 - spinner.prefWidth(-1)  / 2);
                     spinner.setY(rootPane.getHeight() / 2 - spinner.prefHeight(-1) / 2);
