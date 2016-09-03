@@ -112,7 +112,6 @@
     </dependencies>
 
     <properties>
-        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <!-- Setting the GWT plugin configuration parameters -->
         <plugin.gwt.param.module>mongoose-frontend-html</plugin.gwt.param.module>
         <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>

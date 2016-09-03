@@ -119,7 +119,6 @@
     </dependencies>
 
     <properties>
-        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <!-- Setting the GWT plugin configuration parameters -->
         <plugin.gwt.param.module>mongoose-frontend-gwt</plugin.gwt.param.module>
         <lib.gwt.version>2.8.0-beta1</lib.gwt.version>
