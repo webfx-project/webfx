@@ -1,0 +1,11 @@
+<module rename-to="mongoose_frontend_gwt">
+
+    <!-- Speeding up GWT compilation time in development mode -->
+    <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
+
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='mongoose.client.frontend.gwt.MongooseFrontendGwtApplication'/>
+
+    <source path="mongoose/client/frontend/gwt"/>
+
+</module>

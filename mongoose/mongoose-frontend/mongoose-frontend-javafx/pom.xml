@@ -10,11 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mongoose-frontend-javafx</artifactId>
-
     <dependencies>
 
         <dependency>
-            <artifactId>mongoose-logic</artifactId>
+            <artifactId>mongoose-logic-java</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
         </dependency>
@@ -26,9 +25,15 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-toolkit-javafx</artifactId>
+            <artifactId>naga-toolkit-jfoenix</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.hansolo</groupId>
+            <artifactId>Medusa</artifactId>
+            <version>5.0</version>
         </dependency>
 
     </dependencies>
@@ -70,9 +75,9 @@
 
         <!-- profile to make a fat standalone executable jar with all dependent libraries included inside -->
         <profile>
-            <id>jre-fat</id>
+            <id>mongoose-frontend-javafx-fat</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
 
             <build>
@@ -90,9 +95,9 @@
 
         <!-- Profile to minimize and obfuscate the jar file with Proguard -->
         <profile>
-            <id>jre-min</id>
+            <id>mongoose-frontend-javafx-min</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
 
             <build>

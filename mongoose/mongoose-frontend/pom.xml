@@ -15,7 +15,7 @@
     <profiles>
         <!-- JRE profiles (JavaFx, Swing, Pivot) -->
         <profile>
-            <id>javafx</id>
+            <id>mongoose-frontend-javafx</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -46,7 +46,7 @@
 
         <!-- Web profiles (GWT, TeaVM) -->
         <profile>
-            <id>gwt</id>
+            <id>mongoose-frontend-gwt</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
