@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>mongoose-backend-gwt</artifactId>
+    <packaging>gwt-app</packaging>
 
     <dependencies>
 
@@ -17,30 +18,119 @@
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
-            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Now listing the sources for GWT compilation -->
+        <dependency>
+            <artifactId>mongoose-logic</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-framework</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
         </dependency>
 
         <dependency>
             <artifactId>naga-toolkit-gwtpolymer</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <scope>provided</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-toolkit-gwt</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-toolkit</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-platform-gwt</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-abstractplatform-web</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-platform</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-commons</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-javacupruntime</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-javafxbindings</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-rxjava</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
         </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-user</artifactId>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-codeserver</artifactId>
-            <version>${lib.gwt.version}</version>
-            <scope>runtime</scope> <!-- No need to include this artifact in a further fat jar (only javascript files under webroot are required) -->
+            <artifactId>gwt-dev</artifactId>
         </dependency>
 
     </dependencies>
+
+    <properties>
+        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+        <!-- Setting the GWT plugin configuration parameters -->
+        <plugin.gwt.param.module>mongoose-backend-gwt</plugin.gwt.param.module>
+        <lib.gwt.version>2.8.0-beta1</lib.gwt.version>
+        <plugin.gwt.param.skipCompilation>true</plugin.gwt.param.skipCompilation>
+        <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
+        <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
+        <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
+        <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
+        <plugin.dependency.param.unpack-classes.phase>none</plugin.dependency.param.unpack-classes.phase>
+        <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+    </properties>
 
     <build>
         <plugins>
@@ -48,6 +138,22 @@
             <!-- Generating the source artifact for another GWT compilation (ex: KBS) -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <type>jar</type>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
             </plugin>
 
         </plugins>
@@ -62,80 +168,9 @@
             </activation>
 
             <properties>
-                <!-- Setting the GWT plugin configuration parameters -->
-                <plugin.gwt.param.module>mongoose-backend-gwt</plugin.gwt.param.module>
-                <plugin.gwt.param.compileSourcesArtifact1>${mongoose.groupId}:mongoose-logic</plugin.gwt.param.compileSourcesArtifact1>
-                <plugin.gwt.param.compileSourcesArtifact2>${naga.groupId}:naga-toolkit-gwtpolymer</plugin.gwt.param.compileSourcesArtifact2>
-                <plugin.gwt.param.compileSourcesArtifact3>${naga.groupId}:naga-toolkit-gwt</plugin.gwt.param.compileSourcesArtifact3>
-                <plugin.gwt.param.compileSourcesArtifact4>${naga.groupId}:naga-toolkit</plugin.gwt.param.compileSourcesArtifact4>
-                <plugin.gwt.param.compileSourcesArtifact5>${naga.groupId}:naga-platform-gwt</plugin.gwt.param.compileSourcesArtifact5>
-                <plugin.gwt.param.compileSourcesArtifact6>${naga.groupId}:naga-abstractplatform-web</plugin.gwt.param.compileSourcesArtifact6>
-                <plugin.gwt.param.compileSourcesArtifact7>${naga.groupId}:naga-platform</plugin.gwt.param.compileSourcesArtifact7>
-                <plugin.gwt.param.compileSourcesArtifact8>${naga.groupId}:naga-framework</plugin.gwt.param.compileSourcesArtifact8>
-                <plugin.gwt.param.compileSourcesArtifact9>${naga.groupId}:naga-commons</plugin.gwt.param.compileSourcesArtifact9>
-                <plugin.gwt.param.compileSourcesArtifact10>${naga.groupId}:naga-javalib-javacupruntime</plugin.gwt.param.compileSourcesArtifact10>
-                <plugin.gwt.param.compileSourcesArtifact11>${naga.groupId}:naga-javalib-rxjava</plugin.gwt.param.compileSourcesArtifact11>
-                <plugin.gwt.param.compileSourcesArtifact12>${naga.groupId}:naga-javalib-javafxbindings</plugin.gwt.param.compileSourcesArtifact12>
-                <!-- Avoiding size consuming META-INF/maven/** coming dependencies (useless for this artifact) -->
-                <plugin.jar.param.addMavenDescriptor>false</plugin.jar.param.addMavenDescriptor>
-                <!-- But unpacking webroot resources coming from dependencies such as naga-abstractplatform-web -->
-                <plugin.dependency.param.unpack-sources.phase>none</plugin.dependency.param.unpack-sources.phase>
-                <plugin.dependency.param.unpack-classes.includes>webroot/**</plugin.dependency.param.unpack-classes.includes>
-                <plugin.dependency.param.copy-libs.phase>none</plugin.dependency.param.copy-libs.phase>
+                <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
             </properties>
 
-            <build>
-                <plugins>
-
-                    <!-- Calling the GWT maven plugin to compile the gwt module into javascript -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>gwt-maven-plugin</artifactId>
-                    </plugin>
-
-                    <!-- Copying the Mongoose images into the webroot directory and also unpacking webroot resources coming from dependencies such as naga-abstractplatform-web-->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>unpack</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <artifactId>mongoose-logic</artifactId>
-                                            <groupId>${mongoose.groupId}</groupId>
-                                            <version>${mongoose.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>true</overWrite>
-                                        </artifactItem>
-                                    </artifactItems>
-                                    <includes>images/**</includes>
-                                    <outputDirectory>${project.build.outputDirectory}/webroot/mongoose-backend-gwt/</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-
-                    <!-- Keeping only webroot (without WEB-INF) in the artifact -->
-                    <plugin>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>webroot/**</include>
-                            </includes>
-                            <excludes>
-                                <exclude>webroot/WEB-INF/**</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-
-                </plugins>
-            </build>
         </profile>
     </profiles>
 

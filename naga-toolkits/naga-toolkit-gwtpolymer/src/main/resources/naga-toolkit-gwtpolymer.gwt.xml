@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <module rename-to='naga_toolkit_gwtpolymer'>
 
     <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
@@ -9,6 +7,6 @@
     <inherits name="com.vaadin.polymer.Elements"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga"/>               <!-- source path to naga-core and naga-plat-gwt -->
+    <source path="naga/providers/toolkit/gwtpolymer"/>               <!-- source path to naga-core and naga-plat-gwt -->
     <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
 </module>

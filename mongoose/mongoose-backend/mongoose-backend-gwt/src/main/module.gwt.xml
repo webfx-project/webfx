@@ -1,0 +1,8 @@
+<module rename-to="mongoose_backend_gwt">
+
+    <!-- Specify the app entry point class.                         -->
+    <entry-point class='mongoose.client.backend.gwt.MongooseBackendGwtApplication'/>
+
+    <source path="mongoose/client/backend/gwt"/>
+
+</module>

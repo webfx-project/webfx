@@ -1,0 +1,9 @@
+<module rename-to="mongoose_logic">
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="mongoose"/>   <!-- code is under mongoose package -->
+    <resource path="mongoose/domainmodel"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.lzb64json -->
+
+    <public path="" includes="images/"/>
+
+</module>

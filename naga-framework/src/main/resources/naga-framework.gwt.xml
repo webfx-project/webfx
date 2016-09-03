@@ -1,0 +1,8 @@
+<module>
+    <inherits name="naga-platform"/>
+    <inherits name="naga-javalib-javafxbindings"/>
+    <inherits name="naga-javalib-rxjava"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/framework"/>   <!-- code is under mongoose package -->
+</module>

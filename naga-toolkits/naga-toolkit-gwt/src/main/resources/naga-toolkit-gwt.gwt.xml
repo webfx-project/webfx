@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <module rename-to='naga_toolkit_gwt'>
 
     <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
+    <inherits name="naga-toolkit"/> <!-- refers to naga-platform-gwt.gwt.xml in naga-platform-gwt -->
     <inherits name="naga-platform-gwt"/> <!-- refers to naga-platform-gwt.gwt.xml in naga-platform-gwt -->
     <inherits name="com.googlecode.gwt.charts.Charts" />
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga"/>               <!-- source path to naga-core and naga-plat-gwt -->
+    <source path="naga/providers/toolkit/gwt"/>
     <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
 </module>
