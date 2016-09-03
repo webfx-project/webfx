@@ -796,6 +796,17 @@
                 <plugin.grunt.disabled>false</plugin.grunt.disabled>
             </properties>
         </profile>
+
+        <profile>
+            <id>bruno-maven-target-relocation</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <directory>C:/dev/build-output/maven-target/${project.artifactId}-target</directory>
+            </build>
+        </profile>
+
     </profiles>
 
 </project>

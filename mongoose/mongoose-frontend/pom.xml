@@ -55,6 +55,16 @@
             </modules>
         </profile>
 
+        <profile>
+            <id>mongoose-frontend-html</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>mongoose-frontend-html</module>
+            </modules>
+        </profile>
+
         <!--profile>
             <id>teavm</id>
             <activation>
