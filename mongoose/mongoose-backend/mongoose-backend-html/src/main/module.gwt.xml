@@ -1,5 +1,8 @@
 <module rename-to="mongoose_backend_html">
 
+    <!-- Speeding up GWT compilation time in development mode -->
+    <set-property name="user.agent" value="safari"/> <!-- to make only 1 permutation for testing with Chrome -->
+
     <!-- Specify the app entry point class.                         -->
     <entry-point class='mongoose.client.backend.html.MongooseBackendHtmlApplication'/>
 

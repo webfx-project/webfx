@@ -12,7 +12,6 @@
   <inherits name="naga-javalib-javacupruntime"/>
   <inherits name="naga-javalib-javafxbindings"/>
   <inherits name="naga-javalib-rxjava"/>
-  <set-property name="user.agent" value="safari"/>
   <entry-point class="mongoose.client.backend.html.MongooseBackendHtmlApplication"/>
   <source path="mongoose/client/backend/html"/>
 </module>
