@@ -1,34 +1,28 @@
 package naga.providers.toolkit.swing.nodes.charts;
 
 import naga.commons.type.Type;
-import naga.commons.util.Numbers;
 import naga.commons.util.function.Function;
+import naga.commons.util.tuples.Triplet;
 import naga.providers.toolkit.swing.nodes.SwingSelectableDisplayResultSetNode;
 import naga.toolkit.adapters.chart.ChartAdapter;
 import naga.toolkit.adapters.chart.ChartFiller;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.properties.markers.SelectionMode;
-import naga.toolkit.spi.nodes.charts.Chart;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.knowm.xchart.XYChart;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class SwingChart extends SwingSelectableDisplayResultSetNode<ChartPanel> implements Chart<ChartPanel> {
+public abstract class SwingChart extends SwingSelectableDisplayResultSetNode<XChartJPanel> implements naga.toolkit.spi.nodes.charts.Chart<XChartJPanel> {
 
     public SwingChart() {
-        this(createChartPanel());
+        this(new XChartJPanel());
     }
 
-    public static ChartPanel createChartPanel() {
-        ChartPanel chartPanel = new ChartPanel(null);
-        return chartPanel;
-    }
-
-    public SwingChart(ChartPanel node) {
+    public SwingChart(XChartJPanel node) {
         super(node);
     }
 
@@ -41,27 +35,18 @@ public abstract class SwingChart extends SwingSelectableDisplayResultSetNode<Cha
         chartFiller.fillChart(rs);
     }
 
-    protected abstract JFreeChart createChart(CategoryDataset ds);
+    protected abstract XYChart createChart();
 
     private final ChartFiller chartFiller = new ChartFiller(this, new ChartAdapter() {
 
-        private DefaultCategoryDataset ds;
-        private Function<Integer, String> seriesNameGetter;
+        private Triplet<String, List, List>[] seriesInfos;
         private Object xValue;
 
         @Override
         public void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
-            ds = new DefaultCategoryDataset();
-/*
-            try {
-                Field data = DefaultCategoryDataset.class.getDeclaredField("data");
-                data.setAccessible(true);
-                data.set(ds, new DefaultKeyedValues2D(true));
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
-*/
-            this.seriesNameGetter = seriesNameGetter;
+            seriesInfos = new Triplet[seriesCount];
+            for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++)
+                seriesInfos[seriesIndex] = new Triplet(seriesNameGetter.apply(seriesIndex), new ArrayList(pointPerSeriesCount), new ArrayList(pointPerSeriesCount));
         }
 
         @Override
@@ -71,12 +56,18 @@ public abstract class SwingChart extends SwingSelectableDisplayResultSetNode<Cha
 
         @Override
         public void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
-            ds.setValue(Numbers.doubleValue(yValue), seriesNameGetter.apply(seriesIndex), (Comparable) xValue);
+            Triplet<String, List, List> seriesInfo = seriesInfos[seriesIndex];
+            seriesInfo.get2().add(xValue);
+            seriesInfo.get3().add(yValue);
         }
 
         @Override
         public void applyChartData() {
-            node.setChart(createChart(ds));
+            XYChart chart = createChart();
+            for (Triplet<String, List, List> seriesInfo : seriesInfos)
+                if (!seriesInfo.get3().isEmpty())
+                    chart.addSeries(seriesInfo.get1(), seriesInfo.get2(), seriesInfo.get3());
+            node.setChart(chart);
         }
     });
 
