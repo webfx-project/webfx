@@ -38,6 +38,7 @@ public class SwingToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(Button.class, SwingButton::new, JButton.class, SwingButton::new);
         registerNodeFactory(VBox.class, SwingVBox::new);
         registerNodeFactory(HBox.class, SwingHBox::new);
+        registerNodeFactory(Slider.class, SwingSlider::new);
         registerNodeFactory(LineChart.class, SwingLineChart::new);
     }
 }
