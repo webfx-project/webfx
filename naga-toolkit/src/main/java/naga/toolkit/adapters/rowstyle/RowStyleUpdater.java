@@ -1,4 +1,4 @@
-package naga.toolkit.cell;
+package naga.toolkit.adapters.rowstyle;
 
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;

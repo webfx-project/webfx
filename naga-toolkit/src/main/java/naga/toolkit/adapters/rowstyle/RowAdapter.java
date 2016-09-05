@@ -1,4 +1,4 @@
-package naga.toolkit.cell;
+package naga.toolkit.adapters.rowstyle;
 
 /**
  * @author Bruno Salmon
