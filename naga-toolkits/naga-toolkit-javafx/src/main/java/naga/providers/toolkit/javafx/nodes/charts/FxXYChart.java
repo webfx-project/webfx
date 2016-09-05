@@ -20,7 +20,7 @@ public class FxXYChart<N extends XYChart> extends FxChart<N> {
     }
 
     @Override
-    protected void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
+    public void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
         seriesList = new ArrayList<>();
         for (int seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
             XYChart.Series series = new XYChart.Series<>();
@@ -30,17 +30,17 @@ public class FxXYChart<N extends XYChart> extends FxChart<N> {
     }
 
     @Override
-    protected void setChartDataX(Object xValue, int pointIndex) {
+    public void setChartDataX(Object xValue, int pointIndex) {
         this.xValue = xValue;
     }
 
     @Override
-    protected void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
+    public void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
         seriesList.get(seriesIndex).getData().add(new XYChart.Data<>(xValue, yValue));
     }
 
     @Override
-    protected void applyChartData() {
-        ((XYChart) node).getData().setAll(seriesList);
+    public void applyChartData() {
+        node.getData().setAll(seriesList);
     }
 }

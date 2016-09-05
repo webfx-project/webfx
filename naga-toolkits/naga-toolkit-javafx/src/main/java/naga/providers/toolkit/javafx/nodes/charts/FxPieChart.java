@@ -30,22 +30,22 @@ public class FxPieChart extends FxChart<javafx.scene.chart.PieChart> implements 
     }
 
     @Override
-    protected void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
+    public void createChartData(Type xType, Type yType, int pointPerSeriesCount, int seriesCount, Function<Integer, String> seriesNameGetter) {
         pieData = FXCollections.observableArrayList();
         this.seriesNameGetter = seriesNameGetter;
     }
 
     @Override
-    protected void setChartDataX(Object xValue, int pointIndex) {
+    public void setChartDataX(Object xValue, int pointIndex) {
     }
 
     @Override
-    protected void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
+    public void setChartDataY(Object yValue, int pointIndex, int seriesIndex) {
         pieData.add(new javafx.scene.chart.PieChart.Data(seriesNameGetter.apply(seriesIndex), Numbers.doubleValue(yValue)));
     }
 
     @Override
-    protected void applyChartData() {
+    public void applyChartData() {
         node.setData(pieData);
     }
 }
