@@ -12,8 +12,8 @@ import com.vaadin.polymer.vaadin.widget.VaadinGrid;
 import naga.commons.util.Strings;
 import naga.providers.toolkit.gwt.nodes.GwtParent;
 import naga.providers.toolkit.gwt.nodes.GwtSelectableDisplayResultSetNode;
-import naga.toolkit.cell.GridFiller;
-import naga.toolkit.cell.ImageTextGridAdapter;
+import naga.toolkit.adapters.grid.GridFiller;
+import naga.toolkit.adapters.grid.ImageTextGridAdapter;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
@@ -21,6 +21,7 @@ import naga.toolkit.display.Label;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.controls.Image;
 import naga.toolkit.spi.nodes.controls.Table;
 
 /**
@@ -89,6 +90,14 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
         });
     }
 
+    @Override
+    protected void syncVisualDisplayResult(DisplayResultSet rs) {
+        Polymer.ready(node.getElement(), o -> {
+            gridFiller.fillGrid(rs);
+            return null;
+        });
+    }
+
     private final GridFiller gridFiller = new GridFiller<Cell>(new ImageTextGridAdapter<Cell, UIObject>() {
         @Override
         public void setCellContent(Cell cell, GuiNode<UIObject> content, DisplayColumn displayColumn) {
@@ -99,7 +108,8 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             if (content instanceof GwtParent) // So in this case
                 ((GwtParent) content).onAttached(null); // we simulate the attach event to cause the children addition
             Element e = content.unwrapToNativeNode().getElement();
-            e.setAttribute("style", Strings.appendToken(e.getAttribute("style"), "margin-left: auto; margin-right: auto;", "; "));
+            if (content instanceof Image)
+                e.setAttribute("style", Strings.appendToken(e.getAttribute("style"), "margin-left: auto; margin-right: auto;", "; "));
             Element cellElement = cell.getElement().cast();
             cellElement.removeAllChildren();
             cellElement.appendChild(e);
@@ -202,14 +212,6 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
             });
         }
     };
-
-    @Override
-    protected void syncVisualDisplayResult(DisplayResultSet rs) {
-        Polymer.ready(node.getElement(), o -> {
-            gridFiller.fillGrid(rs);
-            return null;
-        });
-    }
 
     private Function createRowClassGenerator() {
         return oRow -> {

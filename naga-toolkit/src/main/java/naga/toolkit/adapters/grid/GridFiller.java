@@ -1,4 +1,4 @@
-package naga.toolkit.cell;
+package naga.toolkit.adapters.grid;
 
 import naga.commons.util.Strings;
 import naga.toolkit.cell.renderers.ImageTextRenderer;

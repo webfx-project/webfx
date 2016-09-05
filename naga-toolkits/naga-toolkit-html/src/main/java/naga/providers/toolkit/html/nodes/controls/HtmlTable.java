@@ -4,7 +4,7 @@ import elemental2.*;
 import naga.commons.util.tuples.Unit;
 import naga.providers.toolkit.html.HtmlUtil;
 import naga.providers.toolkit.html.nodes.HtmlSelectableDisplayResultSetNode;
-import naga.toolkit.cell.GridFiller;
+import naga.toolkit.adapters.grid.GridFiller;
 import naga.toolkit.cell.renderers.ImageTextRenderer;
 import naga.toolkit.display.*;
 import naga.toolkit.properties.markers.SelectionMode;

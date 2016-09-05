@@ -2,7 +2,7 @@ package naga.toolkit.cell.collators;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.cell.GridFiller;
+import naga.toolkit.adapters.grid.GridFiller;
 import naga.toolkit.cell.renderers.ArrayRenderer;
 import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.DisplayColumn;

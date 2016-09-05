@@ -1,4 +1,4 @@
-package naga.toolkit.cell;
+package naga.toolkit.adapters.grid;
 
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.spi.nodes.GuiNode;

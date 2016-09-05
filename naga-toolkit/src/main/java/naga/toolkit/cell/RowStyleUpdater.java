@@ -2,6 +2,7 @@ package naga.toolkit.cell;
 
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
+import naga.toolkit.adapters.grid.GridFiller;
 
 /**
  * @author Bruno Salmon

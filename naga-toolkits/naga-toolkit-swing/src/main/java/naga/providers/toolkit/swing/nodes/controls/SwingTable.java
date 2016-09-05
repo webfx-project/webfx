@@ -3,7 +3,7 @@ package naga.providers.toolkit.swing.nodes.controls;
 import naga.providers.toolkit.swing.nodes.SwingSelectableDisplayResultSetNode;
 import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.providers.toolkit.swing.util.JGradientLabel;
-import naga.toolkit.cell.GridFiller;
+import naga.toolkit.adapters.grid.GridFiller;
 import naga.toolkit.cell.renderers.ImageTextRenderer;
 import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.DisplayColumn;
