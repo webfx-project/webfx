@@ -1,7 +1,7 @@
 package mongoose.client.frontend.html;
 
 import com.google.gwt.core.client.EntryPoint;
-import mongoose.client.backend.MongooseBackendApplication;
+import mongoose.client.frontend.MongooseFrontendApplication;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.bus.call.PendingBusCall;
@@ -18,7 +18,7 @@ public class MongooseFrontendHtmlApplication implements EntryPoint {
     @Override
     public void onModuleLoad() {
         registerResourceBundles();
-        MongooseBackendApplication.main(null);
+        MongooseFrontendApplication.main(null);
         Observable.combineLatest(
                 RxUi.observe(UiApplicationContext.getUiApplicationContext().windowBoundProperty()),
                 RxUi.observe(PendingBusCall.pendingCallsCountProperty()),

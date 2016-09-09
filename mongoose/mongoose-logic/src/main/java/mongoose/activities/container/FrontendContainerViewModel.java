@@ -7,28 +7,20 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 /**
  * @author Bruno Salmon
  */
-class ContainerViewModel implements ViewModel {
+class FrontendContainerViewModel implements ViewModel {
 
     private final VPage contentNode;
     private final Button backButton;
     private final Button forwardButton;
     private final Button organizationsButton;
     private final Button eventsButton;
-    private final Button bookingsButton;
-    private final Button lettersButton;
-    private final Button monitorButton;
-    private final Button testerButton;
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
+    public FrontendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton) {
         this.contentNode = contentNode;
         this.backButton = backButton;
         this.forwardButton = forwardButton;
         this.organizationsButton = organizationsButton;
         this.eventsButton = eventsButton;
-        this.bookingsButton = bookingsButton;
-        this.lettersButton = lettersButton;
-        this.monitorButton = monitorButton;
-        this.testerButton = testerButton;
     }
 
     @Override
@@ -48,23 +40,7 @@ class ContainerViewModel implements ViewModel {
         return organizationsButton;
     }
 
-    public Button getEventsButton() {
+    Button getEventsButton() {
         return eventsButton;
-    }
-
-    Button getBookingsButton() {
-        return bookingsButton;
-    }
-
-    Button getLettersButton() {
-        return lettersButton;
-    }
-
-    Button getMonitorButton() {
-        return monitorButton;
-    }
-
-    Button getTesterButton() {
-        return testerButton;
     }
 }

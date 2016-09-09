@@ -7,7 +7,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * @author Bruno Salmon
  */
-class ContainerPresentationModel implements PresentationModel {
+class FrontendContainerPresentationModel implements PresentationModel {
 
     // Display input
 
@@ -16,11 +16,5 @@ class ContainerPresentationModel implements PresentationModel {
 
     private final BehaviorSubject<ActionEvent> eventsButtonActionEventObservable = BehaviorSubject.create();
     BehaviorSubject<ActionEvent> eventsButtonActionEventObservable() { return eventsButtonActionEventObservable; }
-
-    private final BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable = BehaviorSubject.create();
-    BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable() { return bookingsButtonActionEventObservable; }
-
-    private final BehaviorSubject<ActionEvent> lettersButtonActionEventObservable = BehaviorSubject.create();
-    BehaviorSubject<ActionEvent> lettersButtonActionEventObservable() { return lettersButtonActionEventObservable; }
 
 }

@@ -1,12 +1,10 @@
 package mongoose.client.shared;
 
 import mongoose.activities.cart.CartActivity;
-import mongoose.activities.container.ContainerActivity;
-import mongoose.activities.event.bookings.BookingsActivity;
-import mongoose.activities.event.letters.LettersActivity;
 import mongoose.activities.events.EventsActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
+import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainApplicationContext;
 import naga.framework.ui.router.UiRouter;
@@ -24,16 +22,16 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
     @Override
     public void onCreate(UiDomainActivityContext context) {
         this.context = context;
-        context.getUiRouter().routeAndMount("/", ContainerActivity::new, setupContainedRouter(UiRouter.createSubRouter(context)));
+        context.getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
     }
+
+    protected abstract Factory<Activity<UiDomainActivityContext>> getContainerActivityFactory();
 
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter
             .route("/organizations", OrganizationsActivity::new)
             .route("/events", EventsActivity::new)
             .route("/organization/:organizationId/events", EventsActivity::new)
-            .route("/event/:eventId/bookings", BookingsActivity::new)
-            .route("/event/:eventId/letters", LettersActivity::new)
             .route("/cart/:cartUuid", CartActivity::new);
     }
 
