@@ -3,11 +3,14 @@ package naga.framework.ui.router;
 import naga.commons.util.async.Handler;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
-import naga.framework.router.Router;
-import naga.framework.router.RoutingContext;
 import naga.framework.activity.client.UiActivityContext;
 import naga.framework.activity.client.UiActivityContextImpl;
-import naga.platform.activity.*;
+import naga.framework.router.Router;
+import naga.framework.router.RoutingContext;
+import naga.platform.activity.Activity;
+import naga.platform.activity.ActivityContext;
+import naga.platform.activity.ActivityContextFactory;
+import naga.platform.activity.ActivityManager;
 import naga.platform.activity.client.ApplicationContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.baseimpl.SubHistory;
@@ -68,6 +71,9 @@ public class UiRouter extends HistoryRouter {
         super(router, history);
         this.hostingContext = hostingContext;
         this.activityContextFactory = activityContextFactory;
+        UiActivityContextImpl hostingUiActivityContext = UiActivityContextImpl.from(hostingContext);
+        if (hostingUiActivityContext != null) // can be null if the hosting context is the application context
+            hostingUiActivityContext.setUiRouter(this);
     }
 
     /* GWT public <CT> UiRouter route(String path, Class<? extends Activity<CT>> activityClass) {
@@ -103,7 +109,7 @@ public class UiRouter extends HistoryRouter {
         // Memorizing the link from the sub router to this router (for the sub routing management in ActivityRoutingHandler)
         subRouter.mountParentRouter = this;
         // Also changing the sub router history so that when sub activities call history.push("/xxx"), they actually do history.push("/{path}/xxx")
-        UiActivityContextImpl.from(subRouter.hostingContext).setHistory(new SubHistory(hostingContext.getHistory(), path));
+        subRouter.setHistory(new SubHistory(subRouter.getHistory(), path));
         return this;
     }
 

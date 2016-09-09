@@ -12,7 +12,7 @@ import naga.commons.util.async.Handler;
 public class HistoryRouter {
 
     protected final Router router;
-    protected final History history;
+    protected History history;
     // The default path to be used if the history is initially empty or the path is not found
     private String defaultInitialHistoryPath;
 
@@ -36,6 +36,10 @@ public class HistoryRouter {
 
     public History getHistory() {
         return history;
+    }
+
+    protected void setHistory(History history) {
+        this.history = history;
     }
 
     public String getDefaultInitialHistoryPath() {

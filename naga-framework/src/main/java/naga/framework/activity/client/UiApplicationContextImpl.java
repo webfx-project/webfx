@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.client.ApplicationContextImpl;
 import naga.platform.client.url.history.History;
@@ -37,10 +38,21 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
         return windowBoundProperty;
     }
 
-    private History history = Platform.get().getBrowserHistory();
+    private UiRouter uiRouter;
+    @Override
+    public UiRouter getUiRouter() {
+        if (uiRouter == null)
+            uiRouter = UiRouter.create(this);
+        return uiRouter;
+    }
+
+    public void setUiRouter(UiRouter uiRouter) {
+        this.uiRouter = uiRouter;
+    }
+
     @Override
     public History getHistory() {
-        return history;
+        return uiRouter != null ? uiRouter.getHistory() : Platform.get().getBrowserHistory();
     }
 
     private JsonObject params = Json.createObject();

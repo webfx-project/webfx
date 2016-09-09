@@ -79,8 +79,11 @@ public abstract class Platform {
         return RemoteUpdateService.REMOTE_ONLY_UPDATE_SERVICE;
     }
 
+    protected History history;
     public History getBrowserHistory() {
-        return new MemoryHistory();
+        if (history == null)
+            history = new MemoryHistory();
+        return history;
     }
 
     /*** Static access ***/

@@ -5,10 +5,7 @@ import mongoose.activities.container.ContainerActivity;
 import mongoose.activities.event.bookings.BookingsActivity;
 import mongoose.activities.event.letters.LettersActivity;
 import mongoose.activities.events.EventsActivity;
-import mongoose.activities.monitor.MonitorActivity;
 import mongoose.activities.organizations.OrganizationsActivity;
-import mongoose.activities.tester.TesterActivity;
-import mongoose.activities.tester.testset.TestSetActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainApplicationContext;
@@ -22,28 +19,27 @@ import naga.platform.spi.Platform;
  */
 public abstract class MongooseApplication implements Activity<UiDomainActivityContext> {
 
-    protected UiRouter uiRouter;
+    protected UiDomainActivityContext context;
 
     @Override
     public void onCreate(UiDomainActivityContext context) {
+        this.context = context;
+        context.getUiRouter().routeAndMount("/", ContainerActivity::new, setupContainedRouter(UiRouter.createSubRouter(context)));
+    }
 
-        uiRouter = UiRouter.create(context)
-                .routeAndMount("/", ContainerActivity::new, UiRouter.createSubRouter(context)
-                        .route("/organizations", OrganizationsActivity::new)
-                        .route("/events", EventsActivity::new)
-                        .route("/organization/:organizationId/events", EventsActivity::new)
-                        .route("/event/:eventId/bookings", BookingsActivity::new)
-                        .route("/event/:eventId/letters", LettersActivity::new)
-                        .route("/cart/:cartUuid", CartActivity::new)
-                        .route("/monitor", MonitorActivity::new)
-                        .route("/tester", TesterActivity::new)
-                        .route("/testSet", TestSetActivity::new)
-                );
+    protected UiRouter setupContainedRouter(UiRouter containedRouter) {
+        return containedRouter
+            .route("/organizations", OrganizationsActivity::new)
+            .route("/events", EventsActivity::new)
+            .route("/organization/:organizationId/events", EventsActivity::new)
+            .route("/event/:eventId/bookings", BookingsActivity::new)
+            .route("/event/:eventId/letters", LettersActivity::new)
+            .route("/cart/:cartUuid", CartActivity::new);
     }
 
     @Override
     public void onStart() {
-        uiRouter.start();
+        context.getUiRouter().start();
     }
 
     protected static void launchApplication(MongooseApplication mongooseApplication, String[] args) {
