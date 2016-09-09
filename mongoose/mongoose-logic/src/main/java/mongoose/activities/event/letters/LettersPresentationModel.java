@@ -2,19 +2,14 @@ package mongoose.activities.event.letters;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.framework.ui.presentation.PresentationModel;
+import mongoose.activities.event.shared.EventBasedPresentationModel;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 
 /**
  * @author Bruno Salmon
  */
-class LettersPresentationModel implements PresentationModel {
-
-    // Input parameter
-
-    private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
-    Property<Object> eventIdProperty() { return eventIdProperty; }
+class LettersPresentationModel extends EventBasedPresentationModel {
 
     // Display input
 

@@ -2,19 +2,14 @@ package mongoose.activities.event.bookings;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import mongoose.activities.event.shared.EventBasedPresentationModel;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
-import naga.framework.ui.presentation.PresentationModel;
 
 /**
  * @author Bruno Salmon
  */
-class BookingsPresentationModel implements PresentationModel {
-
-    // Input parameter
-
-    private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
-    Property<Object> eventIdProperty() { return eventIdProperty; }
+class BookingsPresentationModel extends EventBasedPresentationModel {
 
     // Display input
 

@@ -1,6 +1,6 @@
 package mongoose.activities.event.letters;
 
-import naga.framework.ui.presentation.PresentationActivity;
+import mongoose.activities.event.shared.EventBasedActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.Table;
 /**
  * @author Bruno Salmon
  */
-public class LettersActivity extends PresentationActivity<LettersViewModel, LettersPresentationModel> {
+public class LettersActivity extends EventBasedActivity<LettersViewModel, LettersPresentationModel> {
 
     public LettersActivity() {
         super(LettersPresentationModel::new);
@@ -48,12 +48,6 @@ public class LettersActivity extends PresentationActivity<LettersViewModel, Lett
         // User outputs: the presentation model changes are transferred in the UI
         vm.getTable().displayResultSetProperty().bind(pm.bookingsDisplayResultSetProperty());
     }
-
-    @Override
-    protected void initializePresentationModel(LettersPresentationModel pm) {
-        pm.eventIdProperty().setValue(getParameter("eventId"));
-    }
-
 
     protected void bindPresentationModelWithLogic(LettersPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter

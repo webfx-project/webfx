@@ -1,18 +1,18 @@
 package mongoose.activities.event.bookings;
 
+import mongoose.activities.event.shared.EventBasedActivity;
+import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
 import naga.toolkit.spi.nodes.controls.Table;
-import naga.framework.ui.presentation.PresentationActivity;
-import naga.commons.util.Strings;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsActivity extends PresentationActivity<BookingsViewModel, BookingsPresentationModel> {
+public class BookingsActivity extends EventBasedActivity<BookingsViewModel, BookingsPresentationModel> {
 
     public BookingsActivity() {
         super(BookingsPresentationModel::new);
@@ -51,12 +51,6 @@ public class BookingsActivity extends PresentationActivity<BookingsViewModel, Bo
         // User outputs: the presentation model changes are transferred in the UI
         vm.getTable().displayResultSetProperty().bind(pm.bookingsDisplayResultSetProperty());
     }
-
-    @Override
-    protected void initializePresentationModel(BookingsPresentationModel pm) {
-        pm.eventIdProperty().setValue(getParameter("eventId"));
-    }
-
 
     protected void bindPresentationModelWithLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
