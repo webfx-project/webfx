@@ -1,6 +1,6 @@
 package mongoose.activities.tester.testset;
 
-import naga.framework.ui.presentation.ViewModel;
+import naga.framework.ui.presentation.AbstractViewModel;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.controls.TextField;
@@ -8,8 +8,7 @@ import naga.toolkit.spi.nodes.controls.TextField;
 /**
  * @author Jean-Pierre Alonso.
  */
-public class TestSetViewModel implements ViewModel {
-    private final GuiNode contentNode;
+class TestSetViewModel extends AbstractViewModel {
     private final TextField testName;
     private final TextField testComment;
     private final Button saveTest;
@@ -18,25 +17,19 @@ public class TestSetViewModel implements ViewModel {
                            TextField testName,
                            TextField testComment,
                            Button saveTest) {
-        this.contentNode = contentNode;
+        super(contentNode);
         this.testName = testName;
         this.testComment = testComment;
         this.saveTest = saveTest;
     }
 
-
-    @Override
-    public GuiNode getContentNode() {
-        return contentNode;
-    }
-
-    public TextField getTestName() {
+    TextField getTestName() {
         return testName;
     }
 
-    public TextField getTestComment() {
+    TextField getTestComment() {
         return testComment;
     }
 
-    public Button getSaveTest() { return saveTest; }
+    Button getSaveTest() { return saveTest; }
 }

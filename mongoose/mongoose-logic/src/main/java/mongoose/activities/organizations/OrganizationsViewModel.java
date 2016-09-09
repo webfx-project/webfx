@@ -1,6 +1,6 @@
 package mongoose.activities.organizations;
 
-import naga.framework.ui.presentation.ViewModel;
+import naga.framework.ui.presentation.AbstractViewModel;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
@@ -9,25 +9,19 @@ import naga.toolkit.spi.nodes.controls.Table;
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsViewModel implements ViewModel {
+class OrganizationsViewModel extends AbstractViewModel {
 
-    private final GuiNode contentNode;
     private final SearchBox searchBox;
     private final Table table;
     private final CheckBox withEventsCheckBox;
     private final CheckBox limitCheckBox;
 
-    public OrganizationsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox withEventsCheckBox, CheckBox limitCheckBox) {
-        this.contentNode = contentNode;
+    OrganizationsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox withEventsCheckBox, CheckBox limitCheckBox) {
+        super(contentNode);
         this.searchBox = searchBox;
         this.table = table;
         this.withEventsCheckBox = withEventsCheckBox;
         this.limitCheckBox = limitCheckBox;
-    }
-
-    @Override
-    public GuiNode getContentNode() {
-        return contentNode;
     }
 
     SearchBox getSearchBox() {
@@ -38,7 +32,7 @@ public class OrganizationsViewModel implements ViewModel {
         return table;
     }
 
-    public CheckBox getWithEventsCheckBox() {
+    CheckBox getWithEventsCheckBox() {
         return withEventsCheckBox;
     }
 

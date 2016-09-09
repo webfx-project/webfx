@@ -1,31 +1,25 @@
 package mongoose.activities.event.bookings;
 
+import naga.framework.ui.presentation.AbstractViewModel;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
 import naga.toolkit.spi.nodes.controls.Table;
-import naga.framework.ui.presentation.ViewModel;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsViewModel implements ViewModel {
+class BookingsViewModel extends AbstractViewModel {
 
-    private final GuiNode contentNode;
     private final SearchBox searchBox;
     private final Table table;
     private final CheckBox limitCheckBox;
 
-    public BookingsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
-        this.contentNode = contentNode;
+    BookingsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
+        super(contentNode);
         this.searchBox = searchBox;
         this.table = table;
         this.limitCheckBox = limitCheckBox;
-    }
-
-    @Override
-    public GuiNode getContentNode() {
-        return contentNode;
     }
 
     SearchBox getSearchBox() {

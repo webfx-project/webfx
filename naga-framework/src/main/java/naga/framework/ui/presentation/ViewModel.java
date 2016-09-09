@@ -5,8 +5,8 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface ViewModel {
+public interface ViewModel<N extends GuiNode> {
 
-    GuiNode getContentNode();
+    N getContentNode();
 
 }

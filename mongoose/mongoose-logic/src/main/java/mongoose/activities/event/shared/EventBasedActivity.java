@@ -9,9 +9,6 @@ import naga.framework.ui.presentation.ViewModel;
  */
 public abstract class EventBasedActivity<VM extends ViewModel, PM extends EventBasedPresentationModel> extends PresentationActivity<VM, PM> {
 
-    protected EventBasedActivity() {
-    }
-
     protected EventBasedActivity(Factory<PM> presentationModelFactory) {
         super(presentationModelFactory);
     }

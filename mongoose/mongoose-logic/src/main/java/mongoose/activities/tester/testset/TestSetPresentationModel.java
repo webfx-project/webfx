@@ -7,7 +7,7 @@ import naga.framework.ui.presentation.PresentationModel;
 /**
  * @author Jean-Pierre Alonso.
  */
-public class TestSetPresentationModel  implements PresentationModel {
+class TestSetPresentationModel  implements PresentationModel {
 
     private final Property<String> testNameProperty = new SimpleObjectProperty<>();
     Property<String> testNameProperty() { return testNameProperty; }
