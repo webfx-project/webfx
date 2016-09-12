@@ -1,4 +1,4 @@
-package mongoose.activities.event.shared;
+package mongoose.activities.shared;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -7,7 +7,7 @@ import naga.framework.ui.presentation.PresentationModel;
 /**
  * @author Bruno Salmon
  */
-public abstract class EventBasedPresentationModel implements PresentationModel {
+public abstract class EventDependentPresentationModel implements PresentationModel, HasEventIdProperty {
 
     // Input parameter
 

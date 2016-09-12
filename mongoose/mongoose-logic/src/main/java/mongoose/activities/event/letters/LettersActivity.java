@@ -1,55 +1,15 @@
 package mongoose.activities.event.letters;
 
-import mongoose.activities.event.shared.EventBasedActivity;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
+import mongoose.activities.shared.GenericTableActivity;
+import mongoose.activities.shared.GenericTableEventDependentPresentationModel;
+import mongoose.activities.shared.GenericTableViewModel;
 
 /**
  * @author Bruno Salmon
  */
-public class LettersActivity extends EventBasedActivity<LettersViewModel, LettersPresentationModel> {
+public class LettersActivity extends GenericTableActivity<GenericTableViewModel, GenericTableEventDependentPresentationModel> {
 
-    public LettersActivity() {
-        super(LettersPresentationModel::new);
-    }
-
-    protected LettersViewModel buildView(Toolkit toolkit) {
-        // Building the UI components
-        SearchBox searchBox = toolkit.createSearchBox();
-        Table table = toolkit.createTable();
-        CheckBox limitCheckBox = toolkit.createCheckBox();
-
-        return new LettersViewModel(toolkit.createVPage()
-                .setHeader(searchBox)
-                .setCenter(table)
-                .setFooter(limitCheckBox)
-                , searchBox, table, limitCheckBox);
-    }
-
-    protected void bindViewModelWithPresentationModel(LettersViewModel vm, LettersPresentationModel pm) {
-        // Hard coded initialization
-        SearchBox searchBox = vm.getSearchBox();
-        CheckBox limitCheckBox = vm.getLimitCheckBox();
-        searchBox.setPlaceholder("Search here to narrow the list");
-        searchBox.requestFocus();
-        limitCheckBox.setText("Limit to 100");
-
-        // Initialization from the presentation model current state
-        searchBox.setText(pm.searchTextProperty().getValue());
-        limitCheckBox.setSelected(pm.limitProperty().getValue());
-
-        // Binding the UI with the presentation model for further state changes
-        // User inputs: the UI state changes are transferred in the presentation model
-        pm.searchTextProperty().bind(searchBox.textProperty());
-        pm.limitProperty().bind(limitCheckBox.selectedProperty());
-        pm.bookingsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
-        // User outputs: the presentation model changes are transferred in the UI
-        vm.getTable().displayResultSetProperty().bind(pm.bookingsDisplayResultSetProperty());
-    }
-
-    protected void bindPresentationModelWithLogic(LettersPresentationModel pm) {
+    protected void bindPresentationModelWithLogic(GenericTableEventDependentPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'active', orderBy: 'id'}")
                 // Condition
@@ -63,8 +23,8 @@ public class LettersActivity extends EventBasedActivity<LettersViewModel, Letter
                         "'type'" +
                         "]")
                 .applyDomainModelRowStyle()
-                .displayResultSetInto(pm.bookingsDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.bookingsDisplaySelectionProperty(), letter -> {
+                .displayResultSetInto(pm.genericDisplayResultSetProperty())
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> {
                     if (letter != null) {
                     }
                 });

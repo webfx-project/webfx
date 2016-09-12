@@ -1,6 +1,6 @@
 package mongoose.activities.organizations;
 
-import naga.framework.ui.presentation.PresentationActivity;
+import mongoose.activities.shared.GenericTableActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.Table;
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsActivity extends PresentationActivity<OrganizationsViewModel, OrganizationsPresentationModel> {
+public class OrganizationsActivity extends GenericTableActivity<OrganizationsViewModel, OrganizationsPresentationModel> {
 
     public OrganizationsActivity() {
         super(OrganizationsPresentationModel::new);
@@ -30,28 +30,18 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
     }
 
     protected void bindViewModelWithPresentationModel(OrganizationsViewModel vm, OrganizationsPresentationModel pm) {
+        super.bindViewModelWithPresentationModel(vm, pm);
         // Hard coded initialization
-        SearchBox searchBox = vm.getSearchBox();
-        CheckBox limitCheckBox = vm.getLimitCheckBox();
+        vm.getSearchBox().setPlaceholder("Enter your centre name to narrow the list");
         CheckBox withEventsCheckBox = vm.getWithEventsCheckBox();
-        searchBox.setPlaceholder("Enter your centre name to narrow the list");
-        searchBox.requestFocus();
-        limitCheckBox.setText("Limit to 100");
         withEventsCheckBox.setText("With events");
 
         // Initialization from the presentation model current state
-        searchBox.setText(pm.searchTextProperty().getValue());
-        limitCheckBox.setSelected(pm.limitProperty().getValue());
         withEventsCheckBox.setSelected(pm.withEventsProperty().getValue());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
-        pm.searchTextProperty().bind(searchBox.textProperty());
-        pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.withEventsProperty().bind(withEventsCheckBox.selectedProperty());
-        pm.organizationsDisplaySelectionProperty().bind(vm.getTable().displaySelectionProperty());
-        // User outputs: the presentation model changes are transferred in the UI
-        vm.getTable().displayResultSetProperty().bind(pm.organizationsDisplayResultSetProperty());
     }
 
     protected void bindPresentationModelWithLogic(OrganizationsPresentationModel pm) {
@@ -67,8 +57,8 @@ public class OrganizationsActivity extends PresentationActivity<OrganizationsVie
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
                         "]")
                 .applyDomainModelRowStyle()
-                .displayResultSetInto(pm.organizationsDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.organizationsDisplaySelectionProperty(), organization -> {
+                .displayResultSetInto(pm.genericDisplayResultSetProperty())
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> {
                     if (organization != null)
                         getHistory().push("/organization/" + organization.getId().getPrimaryKey() + "/events");
                 });
