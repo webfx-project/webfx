@@ -1,6 +1,6 @@
 package mongoose.client.backend.pivot;
 
-import mongoose.client.backend.MongooseBackendApplication;
+import mongoose.activities.backend.application.MongooseBackendApplication;
 
 /**
  * @author Bruno Salmon

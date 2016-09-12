@@ -3,7 +3,7 @@ package mongoose.client.frontend.javafx;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import mongoose.client.frontend.MongooseFrontendApplication;
+import mongoose.activities.frontend.application.MongooseFrontendApplication;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.rx.RxScheduler;
 import naga.framework.ui.rx.RxUi;

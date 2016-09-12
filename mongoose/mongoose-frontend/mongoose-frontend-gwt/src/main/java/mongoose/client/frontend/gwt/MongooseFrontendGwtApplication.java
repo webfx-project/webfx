@@ -3,7 +3,7 @@ package mongoose.client.frontend.gwt;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import mongoose.client.frontend.MongooseFrontendApplication;
+import mongoose.activities.frontend.application.MongooseFrontendApplication;
 import naga.providers.platform.client.gwt.GwtPlatform;
 
 /**

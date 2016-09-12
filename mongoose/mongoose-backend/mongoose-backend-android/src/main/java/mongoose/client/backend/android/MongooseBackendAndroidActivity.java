@@ -2,7 +2,7 @@ package mongoose.client.backend.android;
 
 import android.app.Activity;
 import android.os.Bundle;
-import mongoose.client.backend.MongooseBackendApplication;
+import mongoose.activities.backend.application.MongooseBackendApplication;
 import naga.providers.toolkit.android.AndroidToolkit;
 import naga.providers.platform.client.android.AndroidPlatform;
 

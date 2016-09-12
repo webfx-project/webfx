@@ -1,6 +1,6 @@
 package mongoose.entities;
 
-import mongoose.activities.monitor.listener.EventType;
+import mongoose.activities.backend.monitor.listener.EventType;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;

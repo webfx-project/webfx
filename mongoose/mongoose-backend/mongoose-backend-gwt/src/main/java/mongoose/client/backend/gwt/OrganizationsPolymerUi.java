@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.vaadin.polymer.paper.widget.PaperCheckbox;
 import com.vaadin.polymer.paper.widget.PaperInput;
 import com.vaadin.polymer.vaadin.widget.VaadinGrid;
-import mongoose.activities.organizations.OrganizationsViewModel;
+import mongoose.activities.backend.organizations.OrganizationsViewModel;
 import naga.framework.ui.presentation.ViewBuilder;
 import naga.providers.toolkit.gwt.nodes.GwtNode;
 

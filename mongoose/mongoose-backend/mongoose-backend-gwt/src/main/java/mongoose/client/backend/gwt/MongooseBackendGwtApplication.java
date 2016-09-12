@@ -1,7 +1,7 @@
 package mongoose.client.backend.gwt;
 
 import com.google.gwt.core.client.EntryPoint;
-import mongoose.client.backend.MongooseBackendApplication;
+import mongoose.activities.backend.application.MongooseBackendApplication;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.bus.call.PendingBusCall;

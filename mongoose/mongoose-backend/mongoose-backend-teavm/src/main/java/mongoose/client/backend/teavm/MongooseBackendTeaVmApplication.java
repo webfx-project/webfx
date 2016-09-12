@@ -1,6 +1,6 @@
 package mongoose.client.backend.teavm;
 
-import mongoose.client.backend.MongooseBackendApplication;
+import mongoose.activities.backend.application.MongooseBackendApplication;
 import naga.platform.spi.Platform;
 import org.teavm.jso.dom.html.HTMLDocument;
 import org.teavm.jso.dom.html.HTMLElement;
