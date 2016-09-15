@@ -1,0 +1,555 @@
+
+html {
+    -webkit-font-smoothing: antialiased !important;
+}
+
+html, body, .container, .main-ui-view-container {
+    height: 100%;    
+}
+
+body {
+    background: transparent;
+    /*padding-top: 50px;*/ /* to be used if the navbar is fixed with navbar-fixed-top*/
+    /*font-family: 'Roboto',sans-serif;*/
+}
+
+a, a:hover, a:focus { /* links */
+    color: #55BFCF; /* Blue closed to Jeff de bruges - render well with color theme */
+}
+
+.panel-title a:hover { /* but keeping panel title white on mouse hover */
+    color: white;
+}
+
+.container {
+    width: 100%;
+    padding: 0;
+}
+
+.modal-footer {
+    border-top-width: 0;
+}
+
+.subview {
+    background: transparent;
+}
+
+/* 
+* Bootstrap cursor fix from http://angular-ui.github.io/bootstrap/
+*/
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.navbar {
+    /* padding-left: 2%; */
+    /* padding-right: 10px; */
+    min-height: 50px;
+    margin-bottom: 0;
+    border: none;
+    border-radius: 0;
+}
+
+/*
+.navbar:hover {
+    min-height: 50px;
+}
+*/
+
+.navbar-brand {
+    /* padding: 15px 15px; */
+    /* position: absolute; commented as cause Safari to overlap left top image and event title */ /* to prevent going under the navbar for small screens */    
+}
+
+.navbar-nav > li > a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+}
+
+.navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > li > a, .navbar-default .navbar-nav > li > a:hover {
+    color: white;
+    /*background-color: rgba(0, 0, 0, 0.07);*/
+}
+
+.container > .navbar-header, .container-fluid > .navbar-header, .container > .navbar-collapse, .container-fluid > .navbar-collapse {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.navbar {
+    -webkit-transition: ease 300ms all;
+    -moz-transition: ease 300ms all;
+    -ms-transition: ease 300ms all;
+    -o-transition: ease 300ms all;
+    transition: ease 300ms all;
+}
+
+.navbar-nav > li > a {
+    text-transform: uppercase;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+/*
+.navbar-collapse {
+    border-top: 0; // avoiding menu line over background images (may be buddhas)
+}
+*/
+
+.main-ui-view-container {
+    /*position: relative;*/ /* in order that children absolute position are from here and not from the browser view port*/
+}
+
+.subview-container {
+    position: relative; /* in order that children absolute position are from here and not from the browser view port*/
+}
+
+h1, h2 {
+    margin-top: 0; /* to avoid spaces while displaying events name*/
+    /*text-decoration: underline;*/
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    text-decoration-color: black;
+    text-decoration-skip: none;
+}
+
+/* Reducing padding for book buttons in fees page */
+.ngCell .btn {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin-bottom: 1px;
+}
+
+.badge.fees {
+    width: 32px;
+    margin-right: 5px;    
+}
+
+.transparent {
+    opacity: 0;
+    filter: alpha(opacity=0); /* IE way */
+}
+
+.glyphicon-credit-card {
+    vertical-align: -10%;
+}
+
+a { cursor: pointer; } /* for explanation link */    
+
+#explanation ul {
+    padding-left: 15px;
+    margin-bottom: 0;
+}
+ 
+#booking_schedule_container {
+    margin-top: 10px;
+}
+
+.rightAlign {
+    text-align: right;
+    padding-right: 5px;
+}
+
+.centerAlign {
+    text-align:center;
+}
+
+.noPadding {
+    padding: 0;
+}
+
+.fullHeight {
+    height: 100%;
+}
+
+.panel.noPadding .panel-body {
+    padding: 0;
+}
+
+.panel.noHeading .panel-heading {
+    display: none;
+}
+
+
+.btn-prev:before {
+    content: "« ";
+}
+
+.btn-next:after {
+    content: " »";
+}
+
+.jumbotron { /* removing default padding for small mobiles */
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 48px; /* This value is normally for wide screen only but we keep it for small screens to avoid overriding buddhas (this rule should only apply for empowerment events) */
+}
+
+.terms p {
+    font-size: 11pt;
+}
+
+/* Forms */
+
+.input-group {
+    margin-bottom: 5px; /* vertical space between input groups (ex: bewteen o NKT Centre and o No Centre) */
+}
+
+/* Form validation (angular css in addition to bootstrap css) */
+
+input.form-control.ng-dirty.ng-invalid,
+.form-signin input.form-control.ng-dirty.ng-invalid {
+    background-color: transparent;
+    background: url('../css/invalid.png') right 10px center no-repeat;
+}
+
+input[required].form-control.ng-valid, input.form-control.ng-dirty.ng-valid,
+.form-signin input[required].form-control.ng-valid, .form-signin input.form-control.ng-dirty.ng-valid {
+    background-color: transparent;
+    background: url('../css/valid.png') right 10px center no-repeat;
+}
+
+.loading, .completionRunning, input.form-control.ng-dirty.completionRunning {
+    background-image: url("../css/spinner.gif");
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+}
+
+.loading {
+    background-position: right center;
+    padding-right: 24px;
+}
+
+
+/***** Dark / Soft Common Styling *****/
+
+.btn-group .btn-major {
+    color: white;
+    text-decoration: none;
+}
+
+.btn-group .teachings {
+    background-color: #8489F5;
+    border-color: #ffff19;
+    color: white;
+}
+
+.btn-group .accommodation {
+    background-color: #484A61;
+    border-color: #7f7fff;
+    color: white;
+}
+
+.btn-group.open .accommodation {
+    background-color: #4e4ea5;
+}
+
+.btn-group .meals {
+    background-color: #A44F5F;
+    border-color: #ff9c7b;
+    color: white;
+}
+
+.btn-group.open .meals {
+    background-color: #c04b25;
+}
+
+.btn-group .btn-major.inactive {
+    /*color: darkgray;*/
+    text-decoration: line-through;
+}
+
+/* Grids */
+
+.ngGrid {
+    background-color: transparent; /* to remove the blank bottom bar*/
+    border: 1px solid black;
+}
+
+.ngViewport, .ngCanvas {
+    overflow: hidden; /* hidding eventual nasty scroll bars (tables are always fully displayed in the frontend)*/
+}
+
+.ngHeaderContainer {
+    background: -webkit-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
+    background: -moz-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
+    background: -ms-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
+    background: -o-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
+    background: linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
+    background-size: auto, 100%;
+}
+
+.ngHeaderCell {
+    background-color: transparent;
+    background:transparent;
+    font-size: 16px;
+
+    border-color: #705335;
+    border-bottom: 1px solid #4c453b;
+    color: white;
+    text-shadow: 0px 2px 3px #555;    
+}
+
+
+.ngHeaderCell.col0 .ngHeaderText {
+    padding-left: 15px;
+    padding-top: 8px;
+}
+
+.ngRow .ngRow.even, .ngRow .ngRow.odd, .ngRow .ngCell {
+    background: transparent;
+}
+
+.ngRow.even, .ngRow.odd, .ngAggregate {
+    background-color: transparent;
+}
+
+.ngRow.selected, .panel.selected .panel-heading {
+    color: white;
+    font-weight: bold;
+}
+
+.ngVerticalBar {
+    height: 38px;
+}
+
+.lineThrough {
+    text-decoration: line-through;
+}
+
+.white {
+    color: white;
+}
+
+.red {
+    color: rgb(255, 122, 120);
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* Alerts */
+
+.alert-warning {
+    border-color: #ebc078;
+    background: transparent;
+    background-image: -webkit-linear-gradient(top, rgb(244, 217, 132) 0%, rgb(235, 192, 120) 100%);
+    background-image: -moz-linear-gradient(top, rgb(244, 217, 132) 0%, rgb(235, 192, 120) 100%);
+    background-image: -ms-linear-gradient(top, rgb(244, 217, 132) 0%, rgb(235, 192, 120) 100%);
+    background-image: -o-linear-gradient(top, rgb(244, 217, 132) 0%, rgb(235, 192, 120) 100%);
+    background-image: linear-gradient(top, rgb(244, 217, 132) 0%, rgb(235, 192, 120) 100%);
+}
+
+.alert-success {
+    border-color: #86985e;
+    background-image: -webkit-linear-gradient(top, rgb(171, 194, 97) 0%, rgb(128, 152, 76) 100%);
+    background-image: -moz-linear-gradient(top, rgb(171, 194, 97) 0%, rgb(128, 152, 76) 100%);
+    background-image: -ms-linear-gradient(top, rgb(171, 194, 97) 0%, rgb(128, 152, 76) 100%);
+    background-image: -o-linear-gradient(top, rgb(171, 194, 97) 0%, rgb(128, 152, 76) 100%);
+    background-image: linear-gradient(top, rgb(171, 194, 97) 0%, rgb(128, 152, 76) 100%);
+    color: white;
+}
+
+.alert-danger {
+    border-color: #ff7a78;
+    background-image: -webkit-linear-gradient(top, rgb(243, 154, 153) 0%, rgb(255, 122, 120) 100%);
+    background-image: -moz-linear-gradient(top, rgb(243, 154, 153) 0%, rgb(255, 122, 120) 100%);
+    background-image: -ms-linear-gradient(top, rgb(243, 154, 153) 0%, rgb(255, 122, 120) 100%);
+    background-image: -o-linear-gradient(top, rgb(243, 154, 153) 0%, rgb(255, 122, 120) 100%);
+    background-image: linear-gradient(top, rgb(243, 154, 153) 0%, rgb(255, 122, 120) 100%);
+    color: #4c2f2f;
+}
+
+/* Buttons */
+
+.shadow, .panel, .alert {
+    box-shadow: 0 10px 6px -6px #777; /* Shadow effect */
+}
+
+.btn-booking-container {
+    padding: 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-image: -webkit-linear-gradient(top, rgba(194, 194, 194, 0.3) 0%, rgba(177, 177, 177, 0.5) 1px, rgba(240, 240, 240, 0.3) 100%);
+    background-image: -moz-linear-gradient(top, rgba(194, 194, 194, 0.3) 0%, rgba(177, 177, 177, 0.5) 1px, rgba(240, 240, 240, 0.3) 100%);
+    background-image: -ms-linear-gradient(top, rgba(194, 194, 194, 0.3) 0%, rgba(177, 177, 177, 0.5) 1px, rgba(240, 240, 240, 0.3) 100%);
+    background-image: -o-linear-gradient(top, rgba(194, 194, 194, 0.3) 0%, rgba(177, 177, 177, 0.5) 1px, rgba(240, 240, 240, 0.3) 100%);
+    background-image: linear-gradient(top, rgba(194, 194, 194, 0.3) 0%, rgba(177, 177, 177, 0.5) 1px, rgba(240, 240, 240, 0.3) 100%);
+}
+
+.btn-booking-container .btn {
+    margin: 10px;
+}
+
+/*.btn-bottom-container {
+    margin-top: 20px;
+}*/
+
+.btn-default {
+    border-color: #a49893;
+    border-bottom-color: #494442;
+    background-image: -webkit-linear-gradient(bottom, #cac9c8 0, #f1efee 10px);
+    background-image: -moz-linear-gradient(bottom, #cac9c8 0, #f1efee 10px);
+    background-image: -ms-linear-gradient(bottom, #cac9c8 0, #f1efee 10px);
+    background-image: -o-linear-gradient(bottom, #cac9c8 0, #f1efee 10px);
+    background-image: linear-gradient(bottom, #cac9c8 0, #f1efee 10px);
+    color: #444;
+}
+
+.btn-default:active, .btn-default.active {
+    border-color: #494442;
+    background-image: -webkit-linear-gradient(top, #cac9c8 0, #f1efee 10px);
+    background-image: -moz-linear-gradient(top, #cac9c8 0, #f1efee 10px);
+    background-image: -ms-linear-gradient(top, #cac9c8 0, #f1efee 10px);
+    background-image: -o-linear-gradient(top, #cac9c8 0, #f1efee 10px);
+    background-image: linear-gradient(top, #cac9c8 0, #f1efee 10px);
+    color: #444;
+}
+
+.btn-default:hover {
+    border-color: #494442;
+    color: #444;
+}
+
+.btn-primary, .panel.primary .panel-heading, .ngCell .primary {
+    background-image: -webkit-linear-gradient(top, #96b1e0 0%, #6e8bbb 100%);
+    background-image: -moz-linear-gradient(top, #96b1e0 0%, #6e8bbb 100%);
+    background-image: -ms-linear-gradient(top, #96b1e0 0%, #6e8bbb 100%);
+    background-image: -o-linear-gradient(top, #96b1e0 0%, #6e8bbb 100%);
+    background-image: linear-gradient(top, #96b1e0 0%, #6e8bbb 100%);
+    color: white;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background-image: -webkit-linear-gradient(bottom, #96b1e0 0%, #6e8bbb 100%);
+    background-image: -moz-linear-gradient(bottom, #96b1e0 0%, #6e8bbb 100%);
+    background-image: -ms-linear-gradient(bottom, #96b1e0 0%, #6e8bbb 100%);
+    background-image: -o-linear-gradient(bottom, #96b1e0 0%, #6e8bbb 100%);
+    background-image: linear-gradient(bottom, #96b1e0 0%, #6e8bbb 100%);
+    color: white;
+}
+
+.btn-success, .panel.success .panel-heading, .ngCell .success {
+    border-color: #749824;
+    border-bottom-color: #59751c;
+    background-image: -webkit-linear-gradient(top, #a8c257 0%, #749824 100%);
+    background-image: -moz-linear-gradient(top, #a8c257 0%, #749824 100%);
+    background-image: -ms-linear-gradient(top, #a8c257 0%, #749824 100%);
+    background-image: -o-linear-gradient(top, #a8c257 0%, #749824 100%);
+    background-image: linear-gradient(top, #a8c257 0%, #749824 100%);
+    color: white;
+}
+
+.btn-success, .form-signin .btn-success {
+    border-color: #273b06; 
+    background: -webkit-linear-gradient(top, #adc57b 0px, #adc57b 1px, #7fa53e 2px, #4f711b 100%);
+    background: -moz-linear-gradient(top, #adc57b 0px, #adc57b 1px, #7fa53e 2px, #4f711b 100%);
+    background: -ms-linear-gradient(top, #adc57b 0px, #adc57b 1px, #7fa53e 2px, #4f711b 100%);
+    background: -o-linear-gradient(top, #adc57b 0px, #adc57b 1px, #7fa53e 2px, #4f711b 100%);
+    background: linear-gradient(top, #adc57b 0px, #adc57b 1px, #7fa53e 2px, #4f711b 100%);
+}
+
+
+.btn-success:active, .form-signin .btn-success:active {
+    border-color: #749824;
+    border-bottom-color: #59751c;
+    background-image: -webkit-linear-gradient(bottom, #a8c257 0%, #749824 100%);
+    background-image: -moz-linear-gradient(bottom, #a8c257 0%, #749824 100%);
+    background-image: -ms-linear-gradient(bottom, #a8c257 0%, #749824 100%);
+    background-image: -o-linear-gradient(bottom, #a8c257 0%, #749824 100%);
+    background-image: linear-gradient(bottom, #a8c257 0%, #749824 100%);
+    color: white;
+}
+
+.btn-warning, .panel.warning .panel-heading, .ngCell .warning {
+    border-color: #e5ae39;
+    background-image: -webkit-linear-gradient(top, #ffda7f 0%, #e5ae39 100%);
+    background-image: -moz-linear-gradient(top, #ffda7f 0%, #e5ae39 100%);
+    background-image: -ms-linear-gradient(top, #ffda7f 0%, #e5ae39 100%);
+    background-image: -o-linear-gradient(top, #ffda7f 0%, #e5ae39 100%);
+    background-image: linear-gradient(top, #ffda7f 0%, #e5ae39 100%);
+    color: white;
+}
+
+.btn-danger, .panel.danger .panel-heading, .ngCell .danger {
+    border-color: #982424;
+    background-image: -webkit-linear-gradient(top, #b196e0 0%, #8e70c2 100%); /* mauve */
+    background-image: -webkit-linear-gradient(top, #96e0b1 0%, #6ebb8b 100%); /* turquoise */
+    background-image: -webkit-linear-gradient(top, #c2a857 0%, #987424 100%); /* marron */
+    background-image: -webkit-linear-gradient(top, #a857c2 0%, #742498 100%); /* violet */
+    background-image: -webkit-linear-gradient(top, #69c5e0 0%, #2a92d3 100%); /* bleu */
+    background-image: -webkit-linear-gradient(top, #57c2a8 0%, #249874 100%); /* bleu vert */
+    background-image: -webkit-linear-gradient(top, #e0b196 0%, #bb8b6e 100%); /* rose terre */
+    background-image: -webkit-linear-gradient(top, #bef413 0%, #96eb05 100%); /* vert pomme */
+    background-image: -webkit-linear-gradient(top, #e9593a 0%, #662811 100%);
+    background-image: -moz-linear-gradient(top, #e9593a 0%, #662811 100%);
+    background-image: -ms-linear-gradient(top, #e9593a 0%, #662811 100%);
+    background-image: -o-linear-gradient(top, #e9593a 0%, #662811 100%);
+    background-image: linear-gradient(top, #e9593a 0%, #662811 100%);
+}
+
+.btn-danger:active {
+    border-color: #853416;
+    background-image: -webkit-linear-gradient(bottom, #e92c04 0%, #853416 100%);
+    background-image: -moz-linear-gradient(bottom, #e92c04 0%, #853416 100%);
+    background-image: -ms-linear-gradient(bottom, #e92c04 0%, #853416 100%);
+    background-image: -o-linear-gradient(bottom, #e92c04 0%, #853416 100%);
+    background-image: linear-gradient(bottom, #e92c04 0%, #853416 100%);
+    color: white;
+}
+
+.countdown {
+    font-size: 24px;
+    color: #00C000;
+    background-color: black;
+    padding: 10px;
+    border: 5px solid #F0F0F0;
+    border-radius: 5px
+}
+
+/* Changes to chosen css in order to better match with bootstrap form-control */
+
+.chosen-container {
+    font-size: 14px;
+}
+
+.chosen-container-single .chosen-single {
+    height: 34px;
+    padding-top: 3px;
+}
+
+.chosen-container-single .chosen-single div b {
+    margin-top: 3px;
+}
+
+.chosen-search {
+    color: darkslategray; /* otherwise may be white/white with some themes */
+}
+
+/* Tag image */
+.chose-image {
+    padding: 2px 5px 3px 0;
+}
+
+/* Chosen images (from ImageSelect.css) */
+
+/* Image for Single mode */
+.chose-image-small {
+    vertical-align: middle;
+    margin: -3px 0 0 0;
+    padding: 0 3px 0 0;
+}
+
+/* Images appended to the li(s) */
+.chose-image-list {
+    vertical-align: middle;
+    margin: -3px 0 0 0;
+    padding: 0 3px 0 0;
+}
+
+/* Grey-out image for Multi mode */
+div.chosen-container-multi .result-selected img {
+    opacity: 0.3;
+}
