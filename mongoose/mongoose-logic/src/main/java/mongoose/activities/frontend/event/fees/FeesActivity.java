@@ -16,9 +16,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
 
     protected FeesViewModel buildView(Toolkit toolkit) {
         Button previousButton = toolkit.createButton();
+        Button termsButton = toolkit.createButton();
         Button programButton = toolkit.createButton();
         Button nextButton = toolkit.createButton();
-        return new FeesViewModel(toolkit.createVPage().setFooter(toolkit.createHBox(previousButton, programButton, nextButton)), previousButton, nextButton, programButton);
+        return new FeesViewModel(toolkit.createVPage().setFooter(toolkit.createHBox(previousButton, termsButton, programButton, nextButton)), previousButton, nextButton, termsButton, programButton);
     }
 
     @Override
@@ -27,9 +28,16 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         Button programButton = vm.getProgramButton();
         programButton.setText("Program »");
         programButton.actionEventObservable().subscribe(this::onProgramButtonPressed);
+        Button termsButton = vm.getTermsButton();
+        termsButton.setText("Terms & conditions »");
+        termsButton.actionEventObservable().subscribe(this::onTermsButtonPressed);
     }
 
-    protected void onProgramButtonPressed(ActionEvent actionEvent) {
-        getHistory().push("/event/" + getParameter("eventId") + "/program");
+    private void onProgramButtonPressed(ActionEvent actionEvent) {
+        goToNextBookingProcessPage("program");
+    }
+
+    private void onTermsButtonPressed(ActionEvent actionEvent) {
+        goToNextBookingProcessPage("terms");
     }
 }

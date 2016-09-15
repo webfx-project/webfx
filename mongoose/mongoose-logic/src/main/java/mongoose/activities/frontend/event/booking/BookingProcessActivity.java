@@ -35,7 +35,11 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
     }
 
     protected void onNextButtonPressed(ActionEvent actionEvent) {
-        getHistory().push("/event/" + getParameter("eventId") + "/" + nextPage);
+        goToNextBookingProcessPage(nextPage);
+    }
+
+    protected void goToNextBookingProcessPage(String page) {
+        getHistory().push("/event/" + getParameter("eventId") + "/" + page);
     }
 
     protected void bindPresentationModelWithLogic(PM pm) {

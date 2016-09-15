@@ -2,8 +2,9 @@ package mongoose.activities.frontend.application;
 
 import mongoose.activities.frontend.container.FrontendContainerActivity;
 import mongoose.activities.frontend.event.fees.FeesActivity;
-import mongoose.activities.frontend.event.program.ProgramActivity;
 import mongoose.activities.frontend.event.options.OptionsActivity;
+import mongoose.activities.frontend.event.program.ProgramActivity;
+import mongoose.activities.frontend.event.terms.TermsActivity;
 import mongoose.activities.shared.application.MongooseApplication;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiDomainActivityContext;
@@ -24,6 +25,7 @@ public class MongooseFrontendApplication extends MongooseApplication {
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter)
                 .route("/event/:eventId/fees", FeesActivity::new)
+                .route("/event/:eventId/terms", TermsActivity::new)
                 .route("/event/:eventId/program", ProgramActivity::new)
                 .route("/event/:eventId/options", OptionsActivity::new);
     }
