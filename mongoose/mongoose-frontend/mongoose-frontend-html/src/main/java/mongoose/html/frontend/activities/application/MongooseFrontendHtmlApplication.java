@@ -4,8 +4,10 @@ import com.google.gwt.core.client.EntryPoint;
 import mongoose.activities.frontend.application.MongooseFrontendApplication;
 import mongoose.activities.frontend.event.fees.FeesActivity;
 import mongoose.activities.frontend.event.options.OptionsActivity;
+import mongoose.activities.frontend.event.program.ProgramActivity;
 import mongoose.html.frontend.activities.event.fees.FeesUi;
 import mongoose.html.frontend.activities.event.options.OptionsUi;
+import mongoose.html.frontend.activities.event.program.ProgramUi;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.framework.ui.rx.RxUi;
@@ -24,6 +26,7 @@ public class MongooseFrontendHtmlApplication implements EntryPoint {
     public void onModuleLoad() {
         registerResourceBundles();
         PresentationActivity.registerViewBuilder(FeesActivity.class, FeesUi::buildView);
+        PresentationActivity.registerViewBuilder(ProgramActivity.class, ProgramUi::buildView);
         PresentationActivity.registerViewBuilder(OptionsActivity.class, OptionsUi::buildView);
         MongooseFrontendApplication.main(null);
         Observable.combineLatest(

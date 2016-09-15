@@ -18,7 +18,8 @@ public class FeesUi {
         HTMLDivElement div = HtmlUtil.createDivElement(R.feesHtml().getText());
         return new FeesViewModel(new HtmlNode<>(div),
                 toolkit.wrapNativeNode(HtmlUtil.getElementById(div, "previousButton")),
-                toolkit.wrapNativeNode(HtmlUtil.getElementById(div, "nextButton")));
+                toolkit.wrapNativeNode(HtmlUtil.getElementById(div, "nextButton")),
+                toolkit.wrapNativeNode(HtmlUtil.getElementById(div, "programButton")));
     }
 
 }

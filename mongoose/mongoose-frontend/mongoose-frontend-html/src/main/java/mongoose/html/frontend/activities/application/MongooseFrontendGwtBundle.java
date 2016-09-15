@@ -21,6 +21,9 @@ public interface MongooseFrontendGwtBundle extends ClientBundle {
     @Source("mongoose/html/frontend/activities/event/fees/fees.html")
     TextResource feesHtml();
 
+    @Source("mongoose/html/frontend/activities/event/program/program.html")
+    TextResource programHtml();
+
     @Source("mongoose/html/frontend/activities/event/options/options.html")
     TextResource optionsHtml();
 
