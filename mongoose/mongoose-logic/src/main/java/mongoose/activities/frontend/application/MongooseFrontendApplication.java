@@ -2,6 +2,7 @@ package mongoose.activities.frontend.application;
 
 import mongoose.activities.frontend.container.FrontendContainerActivity;
 import mongoose.activities.frontend.event.fees.FeesActivity;
+import mongoose.activities.frontend.event.options.OptionsActivity;
 import mongoose.activities.shared.application.MongooseApplication;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiDomainActivityContext;
@@ -21,12 +22,13 @@ public class MongooseFrontendApplication extends MongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter)
-                .route("/event/:eventId/bookings", FeesActivity::new);
+                .route("/event/:eventId/fees", FeesActivity::new)
+                .route("/event/:eventId/options", OptionsActivity::new);
     }
 
     @Override
     public void onStart() {
-        context.getUiRouter().setDefaultInitialHistoryPath("/cart/a58faba5-5b0b-4573-b547-361e10c788dc");
+        context.getUiRouter().setDefaultInitialHistoryPath("/event/137/fees");
         super.onStart();
     }
 
