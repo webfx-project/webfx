@@ -1,8 +1,13 @@
-package mongoose.client.frontend.html;
+package mongoose.html.frontend.activities.application;
 
 import com.google.gwt.core.client.EntryPoint;
 import mongoose.activities.frontend.application.MongooseFrontendApplication;
+import mongoose.activities.frontend.event.fees.FeesActivity;
+import mongoose.activities.frontend.event.options.OptionsActivity;
+import mongoose.html.frontend.activities.event.fees.FeesUi;
+import mongoose.html.frontend.activities.event.options.OptionsUi;
 import naga.framework.activity.client.UiApplicationContext;
+import naga.framework.ui.presentation.PresentationActivity;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.bus.call.PendingBusCall;
 import naga.providers.platform.client.gwt.GwtPlatform;
@@ -18,6 +23,8 @@ public class MongooseFrontendHtmlApplication implements EntryPoint {
     @Override
     public void onModuleLoad() {
         registerResourceBundles();
+        PresentationActivity.registerViewBuilder(FeesActivity.class, FeesUi::buildView);
+        PresentationActivity.registerViewBuilder(OptionsActivity.class, OptionsUi::buildView);
         MongooseFrontendApplication.main(null);
         Observable.combineLatest(
                 RxUi.observe(UiApplicationContext.getUiApplicationContext().windowBoundProperty()),
