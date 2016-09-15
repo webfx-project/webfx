@@ -14,6 +14,7 @@
 
     <dependencies>
 
+        <!-- Listing the dependencies for Java compilation -->
         <dependency>
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
@@ -21,7 +22,13 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Now listing the sources for GWT compilation -->
+        <dependency> <!-- Because the application code directly refers to classes such as HtmlUtil -->
+            <artifactId>naga-toolkit-html</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <!-- Listing the sources for GWT compilation -->
         <dependency>
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>

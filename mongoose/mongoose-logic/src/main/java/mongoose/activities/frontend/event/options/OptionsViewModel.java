@@ -7,7 +7,7 @@ import naga.toolkit.spi.nodes.controls.Button;
 /**
  * @author Bruno Salmon
  */
-class OptionsViewModel extends BookingProcessViewModel {
+public class OptionsViewModel extends BookingProcessViewModel {
 
     public OptionsViewModel(GuiNode contentNode, Button previousButton, Button nextButton) {
         super(contentNode, previousButton, nextButton);
