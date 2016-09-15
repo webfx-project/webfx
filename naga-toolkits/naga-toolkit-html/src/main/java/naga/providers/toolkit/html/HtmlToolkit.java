@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html;
 
+import elemental2.HTMLButtonElement;
 import naga.platform.spi.Platform;
 import naga.providers.toolkit.html.nodes.controls.*;
 import naga.providers.toolkit.html.nodes.layouts.HtmlHBox;
@@ -22,7 +23,7 @@ public class HtmlToolkit extends Toolkit {
         registerNodeFactory(VPage.class, HtmlVPage::new);
         registerNodeFactory(VBox.class, HtmlVBox::new);
         registerNodeFactory(HBox.class, HtmlHBox::new);
-        registerNodeFactory(Button.class, HtmlButton::new);
+        registerNodeFactoryAndWrapper(Button.class, HtmlButton::new, HTMLButtonElement.class, HtmlButton::new);
         registerNodeFactory(CheckBox.class, HtmlCheckbox::new);
         registerNodeFactory(SearchBox.class, HtmlSearchBox::new);
         registerNodeFactory(TextView.class, HtmlTextView::new);
