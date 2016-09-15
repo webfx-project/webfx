@@ -90,6 +90,12 @@ public class HtmlUtil {
         return createElement("div");
     }
 
+    public static HTMLDivElement createDivElement(String innerHTML) {
+        HTMLDivElement div = createDivElement();
+        div.innerHTML = innerHTML;
+        return div;
+    }
+
     public static HTMLElement createSpanElement() {
         return createElement("span");
     }
@@ -104,6 +110,20 @@ public class HtmlUtil {
 
     public static HTMLInputElement createCheckBox() {
         return createInputElement("checkbox");
+    }
+
+    public static <E extends Element> E getElementById(HTMLElement element, String id) {
+        return getElementById(element, id, "*");
+    }
+
+    public static <E extends Element> E getElementById(HTMLElement element, String id, String tag) {
+        NodeList<Element> elements = element.getElementsByTagName(tag);
+        for (int i = 0; i < elements.length; i++) {
+            Element e = elements.get(i);
+            if (id.equals(e.getAttribute("id")))
+                return (E) e;
+        }
+        return null;
     }
 
 }
