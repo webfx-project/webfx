@@ -9,7 +9,14 @@ import naga.toolkit.spi.nodes.controls.Button;
  */
 public class FeesViewModel extends BookingProcessViewModel {
 
-    public FeesViewModel(GuiNode contentNode, Button previousButton, Button nextButton) {
+    private final Button programButton;
+
+    public FeesViewModel(GuiNode contentNode, Button previousButton, Button nextButton, Button programButton) {
         super(contentNode, previousButton, nextButton);
+        this.programButton = programButton;
+    }
+
+    Button getProgramButton() {
+        return programButton;
     }
 }
