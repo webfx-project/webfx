@@ -42,6 +42,10 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
         getHistory().push("/event/" + getParameter("eventId") + "/" + page);
     }
 
+    protected void initializePresentationModel(PM pm) {
+        pm.setEventId(getParameter("eventId"));
+    }
+
     protected void bindPresentationModelWithLogic(PM pm) {
     }
 
