@@ -27,6 +27,7 @@ public class HtmlToolkit extends Toolkit {
         registerNodeFactory(CheckBox.class, HtmlCheckbox::new);
         registerNodeFactory(SearchBox.class, HtmlSearchBox::new);
         registerNodeFactory(TextView.class, HtmlTextView::new);
+        registerNodeFactory(HtmlView.class, HtmlHtmlView::new);
         registerNodeFactory(Image.class, HtmlImage::new);
         registerNodeFactory(Table.class, HtmlTable::new);
     }
