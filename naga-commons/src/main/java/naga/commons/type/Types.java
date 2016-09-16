@@ -64,8 +64,16 @@ public class Types {
         return primType != null && primType.isNumber();
     }
 
+    public static SpecializedText getSpecializedText(Type type) {
+        return type instanceof SpecializedTextType ? ((SpecializedTextType) type).getSpecializedText() : null;
+    }
+
     public static boolean isImageType(Type type) {
-        return type instanceof SpecializedTextType && ((SpecializedTextType) type).getSpecializedText() == SpecializedText.IMAGE_URL;
+        return getSpecializedText(type) == SpecializedText.IMAGE_URL;
+    }
+
+    public static boolean isHtmlType(Type type) {
+        return getSpecializedText(type) == SpecializedText.HTML;
     }
 
     public static boolean isArrayType(Type type) {

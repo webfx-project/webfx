@@ -18,6 +18,8 @@ class ValueRendererFactoryImpl implements ValueRendererFactory {
     public ValueRenderer createCellRenderer(Type type) {
         if (Types.isImageType(type)) // Case: image type
             return ImageRenderer.SINGLETON;
+        if (Types.isHtmlType(type)) // Case: html type
+            return HtmlRenderer.SINGLETON;
         if (Types.isArrayType(type)) { // Case: any array type (including image & text)
             Type[] types = ((ArrayType) type).getTypes();
             if (Arrays.length(types) == 2 && Types.isImageType(types[0])) // Case: image & text type

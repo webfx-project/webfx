@@ -40,6 +40,7 @@ public class Function<T> {
 
         register(new InlineFunction("readOnly", "e", null, "e"));
         register(new InlineFunction("image", "src", new Type[]{new SpecializedTextType(SpecializedText.IMAGE_URL)}, "src"));
+        register(new InlineFunction("html", "text", new Type[]{new SpecializedTextType(SpecializedText.HTML)}, "text"));
         register(new InlineFunction("isSet", "s", new Type[]{PrimType.STRING}, "s!=null and s!=''"));
         register(new InlineFunction("isNotSet", "s", new Type[]{PrimType.STRING}, "s=null or s=''"));
         register(new InlineFunction("oneOrZero", "b", new Type[]{PrimType.BOOLEAN}, "b ? 1 : 0"));

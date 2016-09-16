@@ -35,6 +35,7 @@ public class UnimplementedNode<N> implements
         TextView<N>,
         TextField<N>,
         Image<N>,
+        HtmlView<N>,
         ToggleSwitch<N>,
         LineChart<N>,
         BarChart<N>,
@@ -97,7 +98,7 @@ public class UnimplementedNode<N> implements
         return selectionModeProperty;
     }
 
-    Property<String> textProperty = new SimpleObjectProperty<>();
+    private Property<String> textProperty = new SimpleObjectProperty<>();
     @Override
     public Property<String> textProperty() {
         return textProperty;

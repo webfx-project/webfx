@@ -6,6 +6,7 @@ import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 import naga.toolkit.properties.conversion.ConvertedObservableList;
+import naga.toolkit.properties.markers.HasTextProperty;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.Parent;
 import naga.toolkit.spi.nodes.UnimplementedNode;
@@ -136,13 +137,24 @@ public abstract class Toolkit {
     }
 
     public TextView createTextView(String text) {
-        TextView textView = createTextView();
-        textView.setText(text);
-        return textView;
+        return setText(createTextView(), text);
+    }
+
+    private static <T extends HasTextProperty> T setText(T hasText, String text) {
+        hasText.setText(text);
+        return hasText;
     }
 
     public TextView createTextViewOrNull(String text) {
         return text == null ? null : createTextView(text);
+    }
+
+    public HtmlView createHtmlView() {
+        return createNode(HtmlView.class);
+    }
+
+    public HtmlView createHtmlView(String text) {
+        return setText(createHtmlView(), text);
     }
 
     public SearchBox createSearchBox() {
