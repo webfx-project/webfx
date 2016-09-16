@@ -1,10 +1,10 @@
 package mongoose.html.frontend.activities.event.program;
 
-import elemental2.HTMLDivElement;
+import elemental2.Element;
 import mongoose.activities.frontend.event.program.ProgramViewModel;
 import naga.providers.toolkit.html.HtmlUtil;
-import naga.providers.toolkit.html.nodes.HtmlNode;
 import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.HtmlView;
 
 import static mongoose.html.frontend.activities.application.MongooseFrontendGwtBundle.R;
 
@@ -15,9 +15,10 @@ import static mongoose.html.frontend.activities.application.MongooseFrontendGwtB
 public class ProgramUi {
 
     public static ProgramViewModel buildView(Toolkit toolkit) {
-        HTMLDivElement div = HtmlUtil.createDivElement(R.programHtml().getText());
-        return new ProgramViewModel(new HtmlNode<>(div),
-                toolkit.wrapNativeNode(HtmlUtil.getElementById(div, "previousButton")));
+        HtmlView htmlView = toolkit.createHtmlView(R.programHtml().getText());
+        Element rootElement = (Element) htmlView.unwrapToNativeNode();
+        return new ProgramViewModel(htmlView,
+                toolkit.wrapNativeNode(HtmlUtil.getElementById(rootElement, "previousButton")));
     }
 
 }

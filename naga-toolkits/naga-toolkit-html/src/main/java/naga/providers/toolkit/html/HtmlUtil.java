@@ -112,11 +112,11 @@ public class HtmlUtil {
         return createInputElement("checkbox");
     }
 
-    public static <E extends Element> E getElementById(HTMLElement element, String id) {
+    public static <E extends Element> E getElementById(Element element, String id) {
         return getElementById(element, id, "*");
     }
 
-    public static <E extends Element> E getElementById(HTMLElement element, String id, String tag) {
+    public static <E extends Element> E getElementById(Element element, String id, String tag) {
         NodeList<Element> elements = element.getElementsByTagName(tag);
         for (int i = 0; i < elements.length; i++) {
             Element e = elements.get(i);
