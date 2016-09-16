@@ -1,12 +1,13 @@
 package naga.framework.expression.terms.function;
 
-import naga.commons.type.DerivedType;
+import naga.commons.type.PrimType;
+import naga.commons.type.SpecializedText;
+import naga.commons.type.SpecializedTextType;
+import naga.commons.type.Type;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.expression.terms.function.java.Coalesce;
 import naga.framework.expression.terms.function.java.DateIntervalFormat;
-import naga.commons.type.PrimType;
-import naga.commons.type.Type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class Function<T> {
         register(new Function("string_agg", PrimType.STRING));
 
         register(new InlineFunction("readOnly", "e", null, "e"));
-        register(new InlineFunction("image", "src", new Type[]{new DerivedType("image", PrimType.STRING, true)}, "src"));
+        register(new InlineFunction("image", "src", new Type[]{new SpecializedTextType(SpecializedText.IMAGE_URL)}, "src"));
         register(new InlineFunction("isSet", "s", new Type[]{PrimType.STRING}, "s!=null and s!=''"));
         register(new InlineFunction("isNotSet", "s", new Type[]{PrimType.STRING}, "s=null or s=''"));
         register(new InlineFunction("oneOrZero", "b", new Type[]{PrimType.BOOLEAN}, "b ? 1 : 0"));

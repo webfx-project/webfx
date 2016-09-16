@@ -65,7 +65,7 @@ public class Types {
     }
 
     public static boolean isImageType(Type type) {
-        return type instanceof DerivedType && ((DerivedType) type).isDisplayAsImage();
+        return type instanceof SpecializedTextType && ((SpecializedTextType) type).getSpecializedText() == SpecializedText.IMAGE_URL;
     }
 
     public static boolean isArrayType(Type type) {

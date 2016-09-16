@@ -8,16 +8,14 @@ public class DerivedType implements Type {
 
     private final String name;
     private final PrimType primType;
-    private final boolean displayAsImage;
 
-    public DerivedType(String name, PrimType primType, boolean displayAsImage) {
+    public DerivedType(String name, PrimType primType) {
         this.name = name;
         this.primType = primType;
-        this.displayAsImage = displayAsImage;
     }
 
-    public DerivedType(String name, Type type, boolean displayAsImage) {
-        this(name, Types.getPrimType(type), displayAsImage);
+    public DerivedType(String name, Type type) {
+        this(name, Types.getPrimType(type));
     }
 
     public String getName() {
@@ -28,7 +26,4 @@ public class DerivedType implements Type {
         return primType;
     }
 
-    public boolean isDisplayAsImage() {
-        return displayAsImage;
-    }
 }

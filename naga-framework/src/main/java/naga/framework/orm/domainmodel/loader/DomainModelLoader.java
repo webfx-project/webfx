@@ -90,7 +90,7 @@ public class DomainModelLoader {
             //TextFieldFormat uiFormat = TextFieldFormat.parseDefinition(rs.getString("ui_format"));
             //TextFieldFormat sqlFormat = TextFieldFormat.parseDefinition(rs.getString("sql_format"));
             //typeMap.put(typeId, new Type(typeId, rs.getString("name"), superType, null, rs.getString("cell_factory_name"), null, null, uiFormat, sqlFormat));
-            typeMap.put(typeId, new DerivedType(rs.getValue(row, "name"), superType, false));
+            typeMap.put(typeId, new DerivedType(rs.getValue(row, "name"), superType));
         }
 
         // 3) Building classes
