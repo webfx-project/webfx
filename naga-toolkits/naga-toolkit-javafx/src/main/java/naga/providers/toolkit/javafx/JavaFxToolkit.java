@@ -5,6 +5,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Factory;
@@ -42,6 +43,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(Image.class, FxImage::new, javafx.scene.image.ImageView.class, FxImage::new);
         registerNodeFactoryAndWrapper(TextView.class, FxTextView::new, javafx.scene.text.Text.class, FxTextView::new);
         registerNodeFactoryAndWrapper(TextField.class, FxTextField::new, javafx.scene.control.TextField.class, FxTextField::new);
+        registerNodeFactoryAndWrapper(HtmlView.class, FxHtmlView::new, WebView.class, FxHtmlView::new);
         registerNodeFactoryAndWrapper(Button.class, FxButton::new, javafx.scene.control.Button.class, FxButton::new);
         registerNodeFactoryAndWrapper(Slider.class, FxSlider::new, javafx.scene.control.Slider.class, FxSlider::new);
         registerNodeFactoryAndWrapper(Gauge.class, FxGauge::new, eu.hansolo.medusa.Gauge.class, FxGauge::new);
