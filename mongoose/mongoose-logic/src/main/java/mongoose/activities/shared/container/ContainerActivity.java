@@ -25,8 +25,10 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
         Button forwardButton = toolkit.createButton();
         Button organizationsButton = toolkit.createButton();
         Button eventsButton = toolkit.createButton();
-        return (VM) new ContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, organizationsButton, eventsButton)),
-                backButton, forwardButton, organizationsButton, eventsButton);
+        Button englishButton = toolkit.createButton();
+        Button frenchButton = toolkit.createButton();
+        return (VM) new ContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton)),
+                backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
     }
 
     @Override
@@ -41,6 +43,10 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
         i18n.translateText(vm.getForwardButton(), ">").actionEventObservable().subscribe(actionEvent -> getHistory().goForward());
         i18n.translateText(vm.getOrganizationsButton(), "Organizations").actionEventObservable().subscribe(actionEvent -> pm.organizationsButtonActionEventObservable().onNext(actionEvent));
         i18n.translateText(vm.getEventsButton(), "Events").actionEventObservable().subscribe(actionEvent -> pm.eventsButtonActionEventObservable().onNext(actionEvent));
+        vm.getEnglishButton().setText("English");
+        vm.getEnglishButton().actionEventObservable().subscribe(actionEvent -> i18n.setLanguage("en"));
+        vm.getFrenchButton().setText("Français");
+        vm.getFrenchButton().actionEventObservable().subscribe(actionEvent -> i18n.setLanguage("fr"));
     }
 
     @Override

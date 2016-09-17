@@ -24,8 +24,10 @@ public class BackendContainerActivity extends ContainerActivity<BackendContainer
         Button lettersButton = toolkit.createButton();
         Button monitorButton = toolkit.createButton();
         Button testerButton = toolkit.createButton();
-        return new BackendContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, organizationsButton, eventsButton, bookingsButton, lettersButton, monitorButton, testerButton)),
-                backButton, forwardButton, organizationsButton, eventsButton, bookingsButton, lettersButton, monitorButton, testerButton);
+        Button englishButton = toolkit.createButton();
+        Button frenchButton = toolkit.createButton();
+        return new BackendContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, organizationsButton, eventsButton, bookingsButton, lettersButton, monitorButton, testerButton, englishButton, frenchButton)),
+                backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton, bookingsButton, lettersButton, monitorButton, testerButton);
     }
 
     @Override

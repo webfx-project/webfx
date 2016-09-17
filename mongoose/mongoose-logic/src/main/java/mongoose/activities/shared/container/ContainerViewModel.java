@@ -13,13 +13,17 @@ public class ContainerViewModel extends AbstractViewModel<VPage> {
     private final Button forwardButton;
     private final Button organizationsButton;
     private final Button eventsButton;
+    private final Button englishButton;
+    private final Button frenchButton;
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton) {
+    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton) {
         super(contentNode);
         this.backButton = backButton;
         this.forwardButton = forwardButton;
         this.organizationsButton = organizationsButton;
         this.eventsButton = eventsButton;
+        this.englishButton = englishButton;
+        this.frenchButton = frenchButton;
     }
 
     Button getBackButton() {
@@ -36,5 +40,13 @@ public class ContainerViewModel extends AbstractViewModel<VPage> {
 
     Button getEventsButton() {
         return eventsButton;
+    }
+
+    Button getEnglishButton() {
+        return englishButton;
+    }
+
+    Button getFrenchButton() {
+        return frenchButton;
     }
 }

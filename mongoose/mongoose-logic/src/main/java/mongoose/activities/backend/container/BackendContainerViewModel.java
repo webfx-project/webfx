@@ -14,8 +14,8 @@ class BackendContainerViewModel extends ContainerViewModel {
     private final Button monitorButton;
     private final Button testerButton;
 
-    BackendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
-        super(contentNode, backButton, forwardButton, organizationsButton, eventsButton);
+    public BackendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
+        super(contentNode, backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
         this.bookingsButton = bookingsButton;
         this.lettersButton = lettersButton;
         this.monitorButton = monitorButton;

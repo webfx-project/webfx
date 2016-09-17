@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.layouts.VPage;
  */
 public class FrontendContainerViewModel extends ContainerViewModel {
 
-    public FrontendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton) {
-        super(contentNode, backButton, forwardButton, organizationsButton, eventsButton);
+    public FrontendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton) {
+        super(contentNode, backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
     }
 }

@@ -25,7 +25,7 @@ public class I18nImpl implements I18n {
         languageProperty.addListener((observable, oldValue, newValue) -> onLanguageChanged());
     }
 
-    private Property<Object> languageProperty = new SimpleObjectProperty<>("fr");
+    private Property<Object> languageProperty = new SimpleObjectProperty<>("en");
     @Override
     public Property<Object> languageProperty() {
         return languageProperty;
