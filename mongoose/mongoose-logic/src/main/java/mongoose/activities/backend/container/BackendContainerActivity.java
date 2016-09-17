@@ -1,6 +1,7 @@
 package mongoose.activities.backend.container;
 
 import mongoose.activities.frontend.container.FrontendContainerActivity;
+import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Button;
 
@@ -30,16 +31,11 @@ public class BackendContainerActivity extends FrontendContainerActivity<BackendC
     @Override
     protected void bindViewModelWithPresentationModel(BackendContainerViewModel vm, BackendContainerPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
-
-        vm.getBookingsButton().setText("Bookings");
-        vm.getLettersButton().setText("Letters");
-        vm.getMonitorButton().setText("Monitor");
-        vm.getTesterButton().setText("Tester");
-
-        vm.getBookingsButton().actionEventObservable().subscribe(actionEvent -> pm.bookingsButtonActionEventObservable().onNext(actionEvent));
-        vm.getLettersButton().actionEventObservable().subscribe(actionEvent -> pm.lettersButtonActionEventObservable().onNext(actionEvent));
-        vm.getMonitorButton().actionEventObservable().subscribe(actionEvent -> getHistory().push("/monitor"));
-        vm.getTesterButton().actionEventObservable().subscribe(actionEvent -> getHistory().push("/tester"));
+        I18n i18n = getI18n();
+        i18n.translateText(vm.getBookingsButton(), "Bookings").actionEventObservable().subscribe(actionEvent -> pm.bookingsButtonActionEventObservable().onNext(actionEvent));
+        i18n.translateText(vm.getLettersButton(),  "Letters") .actionEventObservable().subscribe(actionEvent -> pm.lettersButtonActionEventObservable().onNext(actionEvent));
+        i18n.translateText(vm.getMonitorButton(),  "Monitor") .actionEventObservable().subscribe(actionEvent -> getHistory().push("/monitor"));
+        i18n.translateText(vm.getTesterButton(),   "Tester")  .actionEventObservable().subscribe(actionEvent -> getHistory().push("/tester"));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package mongoose.activities.frontend.event.fees;
 
 import mongoose.activities.frontend.event.booking.BookingProcessActivity;
+import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -25,12 +26,9 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     @Override
     protected void bindViewModelWithPresentationModel(FeesViewModel vm, FeesPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
-        Button programButton = vm.getProgramButton();
-        programButton.setText("Program »");
-        programButton.actionEventObservable().subscribe(this::onProgramButtonPressed);
-        Button termsButton = vm.getTermsButton();
-        termsButton.setText("Terms & conditions »");
-        termsButton.actionEventObservable().subscribe(this::onTermsButtonPressed);
+        I18n i18n = getI18n();
+        i18n.translateText(vm.getProgramButton(), "Program").actionEventObservable().subscribe(this::onProgramButtonPressed);
+        i18n.translateText(vm.getTermsButton(), "TermsAndConditions").actionEventObservable().subscribe(this::onTermsButtonPressed);
     }
 
     private void onProgramButtonPressed(ActionEvent actionEvent) {

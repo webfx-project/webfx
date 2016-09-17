@@ -9,6 +9,10 @@ import mongoose.activities.shared.generic.GenericTableViewModel;
  */
 public class LettersActivity extends GenericTableActivity<GenericTableViewModel, GenericTableEventDependentPresentationModel> {
 
+    public LettersActivity() {
+        super(GenericTableEventDependentPresentationModel::new);
+    }
+
     protected void bindPresentationModelWithLogic(GenericTableEventDependentPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'active', orderBy: 'id'}")

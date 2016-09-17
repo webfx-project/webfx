@@ -19,15 +19,11 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
 
     protected void bindViewModelWithPresentationModel(VM vm, PM pm) {
         Button previousButton = vm.getPreviousButton();
-        if (previousButton != null) {
-            previousButton.setText("« Previous");
-            previousButton.actionEventObservable().subscribe(this::onPreviousButtonPressed);
-        }
+        if (previousButton != null)
+            getI18n().translateText(previousButton, "Back").actionEventObservable().subscribe(this::onPreviousButtonPressed);
         Button nextButton = vm.getNextButton();
-        if (nextButton != null) {
-            nextButton.setText("Next »");
-            nextButton.actionEventObservable().subscribe(this::onNextButtonPressed);
-        }
+        if (nextButton != null)
+            getI18n().translateText(nextButton, "Next").actionEventObservable().subscribe(this::onNextButtonPressed);
     }
 
     protected void onPreviousButtonPressed(ActionEvent actionEvent) {

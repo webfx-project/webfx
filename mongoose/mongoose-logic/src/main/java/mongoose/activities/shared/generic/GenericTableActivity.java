@@ -1,6 +1,7 @@
 package mongoose.activities.shared.generic;
 
 import naga.commons.util.function.Factory;
+import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.CheckBox;
@@ -44,13 +45,11 @@ public abstract class GenericTableActivity<VM extends GenericTableViewModel, PM 
         // Hard coded initialization
         SearchBox searchBox = vm.getSearchBox();
         CheckBox limitCheckBox = vm.getLimitCheckBox();
-        searchBox.setPlaceholder("Search here to narrow the list");
-        searchBox.requestFocus();
-        limitCheckBox.setText("Limit to 100");
-
         // Initialization from the presentation model current state
-        searchBox.setText(pm.searchTextProperty().getValue());
-        limitCheckBox.setSelected(pm.limitProperty().getValue());
+        I18n i18n = getI18n();
+        i18n.translatePlaceholder(searchBox, "GenericSearchPlaceholder").setText(pm.searchTextProperty().getValue());
+        i18n.translateText(limitCheckBox, "LimitTo100").setSelected(pm.limitProperty().getValue());
+        searchBox.requestFocus();
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model

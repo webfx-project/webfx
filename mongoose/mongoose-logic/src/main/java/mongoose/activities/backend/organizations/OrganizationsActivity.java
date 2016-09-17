@@ -1,6 +1,7 @@
 package mongoose.activities.backend.organizations;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
+import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.CheckBox;
 import naga.toolkit.spi.nodes.controls.SearchBox;
@@ -32,9 +33,9 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
     protected void bindViewModelWithPresentationModel(OrganizationsViewModel vm, OrganizationsPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
         // Hard coded initialization
-        vm.getSearchBox().setPlaceholder("Enter your centre name to narrow the list");
-        CheckBox withEventsCheckBox = vm.getWithEventsCheckBox();
-        withEventsCheckBox.setText("With events");
+        I18n i18n = getI18n();
+        i18n.translatePlaceholder(vm.getSearchBox(), "YourCentrePlaceholder");
+        CheckBox withEventsCheckBox = i18n.translateText(vm.getWithEventsCheckBox(), "WithEvents");
 
         // Initialization from the presentation model current state
         withEventsCheckBox.setSelected(pm.withEventsProperty().getValue());
