@@ -1,6 +1,7 @@
 package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
+import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextDirectAccess;
 import naga.platform.client.url.history.History;
@@ -32,4 +33,6 @@ public interface UiActivityContextDirectAccess<C extends UiActivityContext<C>> e
     @Override
     default Property<GuiNode> mountNodeProperty() { return getActivityContext().mountNodeProperty(); }
 
+    @Override
+    default I18n getI18n() { return getActivityContext().getI18n(); }
 }

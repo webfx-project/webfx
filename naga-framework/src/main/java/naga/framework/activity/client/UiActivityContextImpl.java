@@ -2,6 +2,7 @@ package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
@@ -18,6 +19,7 @@ public class UiActivityContextImpl<C extends UiActivityContextImpl<C>> extends A
 
     private UiRouter uiRouter;
     private JsonObject params;
+    private I18n i18n;
 
     protected UiActivityContextImpl(ActivityContext parentContext, ActivityContextFactory<C> contextFactory) {
         super(parentContext, contextFactory);
@@ -69,6 +71,16 @@ public class UiActivityContextImpl<C extends UiActivityContextImpl<C>> extends A
     @Override
     public Property<GuiNode> mountNodeProperty() {
         return mountNodeProperty;
+    }
+
+    @Override
+    public I18n getI18n() {
+        if (i18n != null)
+            return i18n;
+        ActivityContext parentContext = getParentContext();
+        if (parentContext instanceof UiActivityContext)
+            return ((UiActivityContext) parentContext).getI18n();
+        return null;
     }
 
     public static <C extends ActivityContext> UiActivityContextImpl from(C activityContext) {

@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.client.ApplicationContextImpl;
@@ -70,5 +71,17 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
     @Override
     public Property<GuiNode> mountNodeProperty() {
         return null;
+    }
+
+    private I18n i18n;
+    @Override
+    public C setI18n(I18n i18n) {
+        this.i18n = i18n;
+        return (C) this;
+    }
+
+    @Override
+    public I18n getI18n() {
+        return i18n;
     }
 }
