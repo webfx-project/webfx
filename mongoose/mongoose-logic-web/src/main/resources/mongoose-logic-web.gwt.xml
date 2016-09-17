@@ -1,0 +1,6 @@
+<module rename-to="mongoose_logic_web">
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="mongoose/web"/>   <!-- code is under mongoose package -->
+
+</module>

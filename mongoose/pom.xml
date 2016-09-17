@@ -16,6 +16,7 @@
     <modules>
         <module>mongoose-logic</module>
         <module>mongoose-logic-java</module>
+        <module>mongoose-logic-web</module>
         <module>mongoose-backend</module>
         <module>mongoose-frontend</module>
         <module>mongoose-vertx</module>

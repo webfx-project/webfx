@@ -1,7 +1,6 @@
-package mongoose.client.backend.html;
+package mongoose.web.activities.shared.application;
 
 import com.google.gwt.core.client.EntryPoint;
-import mongoose.activities.backend.application.MongooseBackendApplication;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.bus.call.PendingBusCall;
@@ -11,24 +10,29 @@ import rx.Observable;
 /**
  * @author Bruno Salmon
  */
-public class MongooseBackendHtmlApplication implements EntryPoint {
+public abstract class MongooseWebApplication implements EntryPoint {
 
     /* No need for GwtPlatform.register(); as the platform will be found by the customized ServiceLoader provided in the super-source */
 
     @Override
     public void onModuleLoad() {
         registerResourceBundles();
-        MongooseBackendApplication.main(null);
+        registerCustomViewBuilders();
+        startMongooseApplicationLogic();
         Observable.combineLatest(
                 RxUi.observe(UiApplicationContext.getUiApplicationContext().windowBoundProperty()),
                 RxUi.observe(PendingBusCall.pendingCallsCountProperty()),
                 (windowBound, pendingCallsCount) -> !windowBound || pendingCallsCount > 0
-        ).subscribe(MongooseBackendHtmlApplication::setLoadingSpinnerVisible);
+        ).subscribe(MongooseWebApplication::setLoadingSpinnerVisible);
     }
 
-    private static void registerResourceBundles() {
-        GwtPlatform.registerBundle(MongooseBackendGwtBundle.B);
+    protected abstract void startMongooseApplicationLogic();
+
+    protected void registerResourceBundles() {
+        GwtPlatform.registerBundle(MongooseWebBundle.B);
     }
+
+    protected void registerCustomViewBuilders() {}
 
     private static native void setLoadingSpinnerVisible(boolean visible) /*-{
         var loadingSpinner = $wnd.document.getElementById("loadingSpinner");

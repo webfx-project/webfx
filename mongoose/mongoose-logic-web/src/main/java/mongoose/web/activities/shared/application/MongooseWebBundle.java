@@ -1,4 +1,4 @@
-package mongoose.html.frontend.activities.application;
+package mongoose.web.activities.shared.application;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -8,9 +8,9 @@ import naga.providers.platform.client.gwt.services.resource.GwtBundle;
 /**
  * @author Bruno Salmon
  */
-public interface MongooseFrontendGwtBundle extends ClientBundle {
+public interface MongooseWebBundle extends ClientBundle {
 
-    MongooseFrontendGwtBundle R = GWT.create(MongooseFrontendGwtBundle.class);
+    MongooseWebBundle R = GWT.create(MongooseWebBundle.class);
 
     @Source("mongoose/domainmodel/DomainModelSnapshot.lzb64json")
     TextResource lzBase64DomainModelSnapshot();
@@ -18,22 +18,18 @@ public interface MongooseFrontendGwtBundle extends ClientBundle {
     @Source("naga/platform/client/bus/BusOptions.json")
     TextResource jsonClientBusOptions();
 
-    @Source("mongoose/html/frontend/activities/event/fees/fees.html")
-    TextResource feesHtml();
+    @Source("mongoose/dictionaries/en.json")
+    TextResource englishDictionary();
 
-    @Source("mongoose/html/frontend/activities/event/terms/terms.html")
-    TextResource termsHtml();
-
-    @Source("mongoose/html/frontend/activities/event/program/program.html")
-    TextResource programHtml();
-
-    @Source("mongoose/html/frontend/activities/event/options/options.html")
-    TextResource optionsHtml();
+    @Source("mongoose/dictionaries/fr.json")
+    TextResource frenchDictionary();
 
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
             case "mongoose/domainmodel/DomainModelSnapshot.lzb64json": return R.lzBase64DomainModelSnapshot();
             case "naga/platform/client/bus/BusOptions.json": return R.jsonClientBusOptions();
+            case "mongoose/dictionaries/en.json": return R.englishDictionary();
+            case "mongoose/dictionaries/fr.json": return R.frenchDictionary();
             default: return null;
         }
     };

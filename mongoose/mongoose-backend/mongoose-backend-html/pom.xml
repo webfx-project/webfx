@@ -14,14 +14,14 @@
 
     <dependencies>
 
+        <!-- Now listing the sources for GWT compilation -->
         <dependency>
-            <artifactId>mongoose-logic</artifactId>
+            <artifactId>mongoose-logic-web</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
-            <scope>provided</scope>
+            <classifier>sources</classifier>
         </dependency>
 
-        <!-- Now listing the sources for GWT compilation -->
         <dependency>
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>

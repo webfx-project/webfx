@@ -6,6 +6,6 @@
     <!-- Specify the app entry point class.                         -->
     <entry-point class='mongoose.html.frontend.activities.application.MongooseFrontendHtmlApplication'/>
 
-    <source path="mongoose/client/frontend/html"/>
+    <source path="mongoose/html/frontend"/>
 
 </module>

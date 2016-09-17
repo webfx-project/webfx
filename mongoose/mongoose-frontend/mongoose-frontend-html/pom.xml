@@ -16,6 +16,13 @@
 
         <!-- Listing the dependencies for Java compilation -->
         <dependency>
+            <artifactId>mongoose-logic-web</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
@@ -26,9 +33,17 @@
             <artifactId>naga-toolkit-html</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Listing the sources for GWT compilation -->
+        <dependency>
+            <artifactId>mongoose-logic-web</artifactId>
+            <groupId>${mongoose.groupId}</groupId>
+            <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
         <dependency>
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
