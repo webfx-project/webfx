@@ -1,13 +1,13 @@
 package mongoose.activities.backend.container;
 
-import mongoose.activities.frontend.container.FrontendContainerPresentationModel;
+import mongoose.activities.shared.container.ContainerPresentationModel;
 import naga.toolkit.spi.events.ActionEvent;
 import rx.subjects.BehaviorSubject;
 
 /**
  * @author Bruno Salmon
  */
-class BackendContainerPresentationModel extends FrontendContainerPresentationModel {
+class BackendContainerPresentationModel extends ContainerPresentationModel {
 
     private final BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable = BehaviorSubject.create();
     BehaviorSubject<ActionEvent> bookingsButtonActionEventObservable() { return bookingsButtonActionEventObservable; }

@@ -1,13 +1,13 @@
 package mongoose.activities.backend.container;
 
-import mongoose.activities.frontend.container.FrontendContainerViewModel;
+import mongoose.activities.shared.container.ContainerViewModel;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
  * @author Bruno Salmon
  */
-class BackendContainerViewModel extends FrontendContainerViewModel {
+class BackendContainerViewModel extends ContainerViewModel {
 
     private final Button bookingsButton;
     private final Button lettersButton;

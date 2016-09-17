@@ -1,6 +1,6 @@
 package mongoose.activities.backend.container;
 
-import mongoose.activities.frontend.container.FrontendContainerActivity;
+import mongoose.activities.shared.container.ContainerActivity;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -8,7 +8,7 @@ import naga.toolkit.spi.nodes.controls.Button;
 /**
  * @author Bruno Salmon
  */
-public class BackendContainerActivity extends FrontendContainerActivity<BackendContainerViewModel, BackendContainerPresentationModel> {
+public class BackendContainerActivity extends ContainerActivity<BackendContainerViewModel, BackendContainerPresentationModel> {
 
     public BackendContainerActivity() {
         super(BackendContainerPresentationModel::new);

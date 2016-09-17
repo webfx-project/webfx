@@ -1,40 +1,15 @@
 package mongoose.activities.frontend.container;
 
-import naga.framework.ui.presentation.AbstractViewModel;
+import mongoose.activities.shared.container.ContainerViewModel;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
  * @author Bruno Salmon
  */
-public class FrontendContainerViewModel extends AbstractViewModel<VPage> {
-
-    private final Button backButton;
-    private final Button forwardButton;
-    private final Button organizationsButton;
-    private final Button eventsButton;
+public class FrontendContainerViewModel extends ContainerViewModel {
 
     public FrontendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton) {
-        super(contentNode);
-        this.backButton = backButton;
-        this.forwardButton = forwardButton;
-        this.organizationsButton = organizationsButton;
-        this.eventsButton = eventsButton;
-    }
-
-    Button getBackButton() {
-        return backButton;
-    }
-
-    Button getForwardButton() {
-        return forwardButton;
-    }
-
-    Button getOrganizationsButton() {
-        return organizationsButton;
-    }
-
-    Button getEventsButton() {
-        return eventsButton;
+        super(contentNode, backButton, forwardButton, organizationsButton, eventsButton);
     }
 }
