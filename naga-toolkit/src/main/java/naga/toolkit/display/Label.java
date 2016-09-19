@@ -5,6 +5,7 @@ package naga.toolkit.display;
  */
 public class Label {
 
+    private String code; // Can be used by i18n as translation key
     private String text;
     private String iconPath;
 
@@ -15,8 +16,13 @@ public class Label {
     }
 
     public Label(String text, String iconPath) {
+        code = text;
         setText(text);
         this.iconPath = iconPath;
+    }
+
+    public String getCode() {
+        return code;
     }
 
     public String getText() {

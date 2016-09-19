@@ -18,6 +18,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.framework.ui.rx.RxFuture;
 import naga.framework.ui.rx.RxUi;
@@ -52,6 +53,7 @@ public class ReactiveExpressionFilter {
     private Property<DisplaySelection> displaySelectionProperty;
     private boolean selectFirstRowOnFirstDisplay;
     private boolean autoRefresh = false;
+    private I18n i18n;
 
     public ReactiveExpressionFilter() {
     }
@@ -63,6 +65,11 @@ public class ReactiveExpressionFilter {
     public ReactiveExpressionFilter setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
         dataSourceModel.getDomainModel(); // Ensuring the data model is loaded with formats registered before expression columns are set
+        return this;
+    }
+
+    public ReactiveExpressionFilter setI18n(I18n i18n) {
+        this.i18n = i18n;
         return this;
     }
 
@@ -277,9 +284,7 @@ public class ReactiveExpressionFilter {
                             // Otherwise transforming the QueryResultSet into an EntityList
                             .map(sqlReadResult -> (sequence != observableSequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
                             // Finally transforming the EntityList into a DisplayResultSet
-                            .map(entities -> {
-                                return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns);
-                            });
+                            .map(this::entitiesListToDisplayResultSet);
                 });
         // Any new DisplayResultSet emitted by the observable will set the displayResultSetProperty
         RxUi.displayObservable(displayResultSetObservable, displayResultSetProperty, () -> {
@@ -288,12 +293,20 @@ public class ReactiveExpressionFilter {
                 displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
             }
         });
+        // Adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
+        if (i18n != null)
+            i18n.languageProperty().addListener((observable, oldValue, newValue) -> // we defer the treatment to ensure i18n has loaded the dictionary because columns use instant translation
+                Toolkit.get().scheduler().scheduleDeferred(() -> displayResultSetProperty.setValue(entitiesListToDisplayResultSet(store.getEntityList(listId)))));
+
         return this;
     }
 
+    private DisplayResultSet entitiesListToDisplayResultSet(EntityList entityList) {
+        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entityList, expressionColumns, i18n);
+    }
+
     private DisplayResultSet emptyDisplayResultSet() {
-        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(EntityList.create(listId, store), expressionColumns);
+        return entitiesListToDisplayResultSet(EntityList.create(listId, store));
     }
 
 }
-

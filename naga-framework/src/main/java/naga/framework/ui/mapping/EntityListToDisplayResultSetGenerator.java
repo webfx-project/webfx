@@ -1,28 +1,39 @@
 package naga.framework.ui.mapping;
 
+import naga.framework.expression.Expression;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
-import naga.framework.expression.Expression;
+import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.format.Formatter;
+import naga.framework.ui.i18n.I18n;
+import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
-import naga.framework.ui.filter.ExpressionColumn;
+import naga.toolkit.display.Label;
 
 /**
  * @author Bruno Salmon
  */
 public class EntityListToDisplayResultSetGenerator {
 
-    public static DisplayResultSet createDisplayResultSet(EntityList entityList, ExpressionColumn[] expressionColumns) {
+    public static DisplayResultSet createDisplayResultSet(EntityList entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
         int rowCount = entityList.size();
         int columnCount = expressionColumns.length;
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);
         int columnIndex = 0;
         int inlineIndex = 0;
         for (ExpressionColumn expressionColumn : expressionColumns) {
+            // First setting the display column
+            DisplayColumn displayColumn = expressionColumn.getDisplayColumn();
+            if (i18n != null) { // translating the label if i18n is provided
+                Label label = displayColumn.getLabel();
+                String translationKey = label.getCode(); // the code used as translation key for i18n
+                label.setText(i18n.instantTranslate(translationKey));
+            }
+            rsb.setDisplayColumn(columnIndex++, displayColumn);
+            // Then setting the column values (including possible formatting)
             Expression expression = expressionColumn.getExpression();
             Formatter formatter = expressionColumn.getExpressionFormatter();
-            rsb.setDisplayColumn(columnIndex++, expressionColumn.getDisplayColumn());
             for (Entity entity : entityList) {
                 Object value = entity.evaluate(expression);
                 if (formatter != null)

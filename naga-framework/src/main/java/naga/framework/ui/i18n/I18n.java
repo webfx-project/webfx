@@ -17,6 +17,10 @@ public interface I18n {
 
     Property<String> translationProperty(Object key);
 
+    default String instantTranslate(Object key) {
+        return translationProperty(key).getValue();
+    }
+
     default I18n translateString(Property<String> stringProperty, Object key) {
         stringProperty.bind(translationProperty(key));
         return this;

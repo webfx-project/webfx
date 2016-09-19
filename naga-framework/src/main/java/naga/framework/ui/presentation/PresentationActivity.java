@@ -104,6 +104,6 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     }
 
     private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        return reactiveExpressionFilter.setDataSourceModel(activityContext.getDataSourceModel());
+        return reactiveExpressionFilter.setDataSourceModel(activityContext.getDataSourceModel()).setI18n(getI18n());
     }
 }
