@@ -1,5 +1,7 @@
 package naga.framework.ui.presentation;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainActivityContextDirectAccess;
@@ -22,6 +24,16 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     private boolean viewBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
+
+    private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(false); // Should be stored in UiContext?
+
+    public boolean isActive() {
+        return activeProperty.getValue();
+    }
+
+    private void setActive(boolean active) {
+        activeProperty.setValue(active);
+    }
 
     private static final Map<Class, ViewBuilder> viewBuilders = new HashMap<>();
 
@@ -58,11 +70,13 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             bindPresentationModelWithLogic(presentationModel);
             presentationModelBoundWithLogic = true;
         }
+        setActive(true);
     }
 
     @Override
     public void onResume() {
         initializePresentationModel(presentationModel); // Doing it again, in case the params have changed on a later resume
+        setActive(true);
         Toolkit toolkit = Toolkit.get();
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
@@ -75,6 +89,11 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             viewBoundWithPresentationModel = true;
         }
         toolkit.scheduler().runInUiThread(() -> activityContext.setNode(viewModel.getContentNode()));
+    }
+
+    @Override
+    public void onPause() {
+        setActive(false);
     }
 
     @Override
@@ -104,6 +123,10 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     }
 
     private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        return reactiveExpressionFilter.setDataSourceModel(activityContext.getDataSourceModel()).setI18n(getI18n());
+        reactiveExpressionFilter.activePropertyProperty().bind(activeProperty);
+        return reactiveExpressionFilter
+                .setDataSourceModel(activityContext.getDataSourceModel())
+                .setI18n(getI18n())
+                ;
     }
 }
