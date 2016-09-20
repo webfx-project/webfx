@@ -31,7 +31,7 @@ public class TermsActivity extends BookingProcessActivity<TermsViewModel, TermsP
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine(pm.eventIdProperty(), e -> "{where: 'event=" + e + "'}")
-                .setExpressionColumns("['html(en)']")
+                .combine(getI18n().languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
                 .displayResultSetInto(pm.termsLetterDisplayResultSetProperty())
                 .start();
     }
