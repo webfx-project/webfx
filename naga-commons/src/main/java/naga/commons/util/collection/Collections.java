@@ -26,6 +26,14 @@ public class Collections {
         return bList;
     }
 
+    public static int size(Collection collection) {
+        return collection == null ? 0 : collection.size();
+    }
+
+    public static <T> T next(Iterator<T> it) {
+        return it == null || !it.hasNext() ? null : it.next();
+    }
+
     public static String toString(Iterator it) {
         if (!it.hasNext())
             return "[]";
