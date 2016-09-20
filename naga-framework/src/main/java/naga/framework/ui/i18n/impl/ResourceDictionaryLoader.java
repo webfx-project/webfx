@@ -2,6 +2,7 @@ package naga.framework.ui.i18n.impl;
 
 import naga.commons.util.Strings;
 import naga.commons.util.async.Future;
+import naga.framework.ui.i18n.Dictionary;
 import naga.platform.spi.Platform;
 
 import java.util.Set;
@@ -17,14 +18,14 @@ public class ResourceDictionaryLoader implements DictionaryLoader {
         this.pathPattern = pathPattern;
     }
 
-    private String getDirectionayResourcePath(Object lang) {
+    private String getDictionaryResourcePath(Object lang) {
         return Strings.replaceAll(pathPattern, "{lang}", Strings.toString(lang));
     }
 
     @Override
     public Future<Dictionary> loadDictionary(Object lang, Set keys) {
         Future<Dictionary> future = Future.future();
-        Platform.getResourceService().getText(getDirectionayResourcePath(lang)).setHandler(asyncResult -> {
+        Platform.getResourceService().getText(getDictionaryResourcePath(lang)).setHandler(asyncResult -> {
             if (asyncResult.failed())
                 future.fail(asyncResult.cause());
             else

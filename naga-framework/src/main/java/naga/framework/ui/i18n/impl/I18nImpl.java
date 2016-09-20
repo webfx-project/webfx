@@ -2,7 +2,7 @@ package naga.framework.ui.i18n.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.commons.util.Strings;
+import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
 
@@ -16,8 +16,8 @@ import java.util.*;
 public class I18nImpl implements I18n {
 
     private Map<Object, Reference<Property<String>>> translations = new HashMap<>();
+    private boolean dictionaryLoadRequired;
     private DictionaryLoader dictionaryLoader;
-    private Dictionary dictionary;
     private Set<Object> unloadedKeys;
 
     public I18nImpl(DictionaryLoader dictionaryLoader) {
@@ -29,6 +29,12 @@ public class I18nImpl implements I18n {
     @Override
     public Property<Object> languageProperty() {
         return languageProperty;
+    }
+
+    private Property<Dictionary> dictionaryProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Dictionary> dictionaryProperty() {
+        return dictionaryProperty;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class I18nImpl implements I18n {
     }
 
     private void onLanguageChanged() {
-        dictionary = null;
+        dictionaryLoadRequired = true;
         updateTranslations();
     }
 
@@ -66,7 +72,7 @@ public class I18nImpl implements I18n {
     }
 
     private Property<String> updateTranslation(Property<String> translationProperty, Object key) {
-        if (dictionary == null && dictionaryLoader != null) {
+        if (dictionaryLoadRequired && dictionaryLoader != null) {
             if (unloadedKeys != null)
                 unloadedKeys.add(key);
             else {
@@ -74,25 +80,15 @@ public class I18nImpl implements I18n {
                 unloadedKeys.add(key);
                 Toolkit.get().scheduler().scheduleDeferred(() -> {
                     dictionaryLoader.loadDictionary(getLanguage(), unloadedKeys).setHandler(asyncResult -> {
-                        dictionary = asyncResult.result();
+                        dictionaryProperty.setValue(asyncResult.result());
+                        dictionaryLoadRequired = false;
                         updateTranslations();
                     });
                     unloadedKeys = null;
                 });
             }
         } else
-            translationProperty.setValue(getDictionaryMessage(key));
+            translationProperty.setValue(instantTranslate(key));
         return translationProperty;
-    }
-
-    private String getDictionaryMessage(Object key) {
-        String message = dictionary == null ? null : dictionary.getMessage(key);
-        if (message == null)
-            message = notFoundTranslation(key);
-        return message;
-    }
-
-    private String notFoundTranslation(Object key) {
-        return Strings.toString(key);
     }
 }
