@@ -21,11 +21,16 @@ public class I18nImpl implements I18n {
     private Set<Object> unloadedKeys;
 
     public I18nImpl(DictionaryLoader dictionaryLoader) {
-        this.dictionaryLoader = dictionaryLoader;
-        languageProperty.addListener((observable, oldValue, newValue) -> onLanguageChanged());
+        this(dictionaryLoader, "en");
     }
 
-    private Property<Object> languageProperty = new SimpleObjectProperty<>("en");
+    public I18nImpl(DictionaryLoader dictionaryLoader, Object initialLanguage) {
+        this.dictionaryLoader = dictionaryLoader;
+        languageProperty.addListener((observable, oldValue, newValue) -> onLanguageChanged());
+        setLanguage(initialLanguage);
+    }
+
+    private Property<Object> languageProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Object> languageProperty() {
         return languageProperty;
