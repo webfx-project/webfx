@@ -201,5 +201,9 @@
   "WithEvents": "With events",
   "LimitTo100": "Limit to 100",
   "GenericSearchPlaceholder": "Search here to narrow the list",
-  "EventSearchPlaceholder": "Enter the event name to narrow the list"
+  "EventSearchPlaceholder": "Enter the event name to narrow the list",
+  "UsedMemory": "Used memory",
+  "TotalMemory": "Total memory",
+  "SystemLoadAverage": "System load average",
+  "ProcessCpuLoad": "KBS cpu load"
 }

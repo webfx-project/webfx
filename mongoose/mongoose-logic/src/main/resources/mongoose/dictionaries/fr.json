@@ -199,6 +199,7 @@
   "SoldoutMessage": "Désolé, cette option vient juste d'être épuisée.\nMerci de bien vouloir en choisir une autre.",
   "": "",
   "Organizations": "Organisations",
+  "Event": "Évènement",
   "Events": "Évènements",
   "Bookings": "Inscriptions",
   "Letters": "Lettres",
@@ -208,5 +209,11 @@
   "WithBookings": "Avec inscriptions",
   "LimitTo100": "Limiter à 100",
   "GenericSearchPlaceholder": "Entrez votre recherche ici pour réduire la liste",
-  "EventSearchPlaceholder": "Entrez le nom de l'évènement pour réduire la liste"
+  "EventSearchPlaceholder": "Entrez le nom de l'évènement pour réduire la liste",
+  "Invoiced" : "Dû",
+  "UsedMemory": "Mémoire utilisée",
+  "TotalMemory": "Mémoire totale",
+  "SystemLoadAverage": "Moyenne de la charge serveur",
+  "ProcessCpuLoad": "Utilisation du processeur par KBS"
+
 }
