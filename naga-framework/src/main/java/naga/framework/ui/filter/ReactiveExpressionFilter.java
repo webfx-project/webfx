@@ -54,6 +54,7 @@ public class ReactiveExpressionFilter {
     private FilterDisplay filterDisplay;
     private List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
+    private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(true);
 
     public ReactiveExpressionFilter() {
     }
@@ -86,6 +87,14 @@ public class ReactiveExpressionFilter {
     public ReactiveExpressionFilter setAutoRefresh(boolean autoRefresh) {
         this.autoRefresh = autoRefresh;
         return this;
+    }
+
+    public Property<Boolean> activePropertyProperty() {
+        return activeProperty;
+    }
+
+    public boolean isActive() {
+        return activeProperty.getValue();
     }
 
     public ReactiveExpressionFilter combine(String json) {
@@ -226,10 +235,11 @@ public class ReactiveExpressionFilter {
         // If not set, we create a new store
         if (store == null)
             store = EntityStore.create(dataSourceModel);
+        combine(activeProperty, "{}");
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
             Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
-            Platform.schedulePeriodic(5000, () -> ticTacProperty.setValue(!ticTacProperty.getValue()));
+            Platform.schedulePeriodic(5000, () -> {if (isActive()) ticTacProperty.setValue(!ticTacProperty.getValue());});
             combine(ticTacProperty, "{}");
         }
         // The following call is to set stringFilterObservableLastIndex on the latest filterDisplay
@@ -240,28 +250,30 @@ public class ReactiveExpressionFilter {
         if (i18n != null)
             i18n.dictionaryProperty().addListener((observable, oldValue, newValue) -> resetAllDisplayResultSets(false));
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
-        Observable
+        Observable<StringFilter> o = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
-                //.distinctUntilChanged() // commented to allow auto refresh
-                .switchMap(stringFilter -> {
-                    // Shortcut: when the string filter is "false", we return an empty result set immediately (no server call)
-                    if ("false".equals(stringFilter.getWhere()))
-                        return Observable.just(emptyDisplayResultSets());
-                    // Otherwise we compile the final string filter into sql
-                    SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
-                    Platform.log(sqlCompiled.getSql());
-                    // We increment and capture the sequence to check if the request is still the latest one when receiving the result
-                    int sequence = querySequence.incrementAndGet();
-                    // Then we ask the query service to execute the sql query
-                    return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
-                            // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                            // Otherwise transforming the QueryResultSet into an EntityList
-                            .map(sqlReadResult -> (sequence != querySequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
-                            // Finally transforming the EntityList into a DisplayResultSet
-                            .map(this::entitiesListToDisplayResultSets);
-                })
-                .observeOn(RxScheduler.UI_SCHEDULER)
-                .subscribe(this::applyDisplayResultSets);
+                .filter(stringFilter -> isActive());
+        if (!autoRefresh)
+            o = o.distinctUntilChanged();
+        o.switchMap(stringFilter -> {
+            // Shortcut: when the string filter is "false", we return an empty result set immediately (no server call)
+            if ("false".equals(stringFilter.getWhere()))
+                return Observable.just(emptyDisplayResultSets());
+            // Otherwise we compile the final string filter into sql
+            SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
+            Platform.log(sqlCompiled.getSql());
+            // We increment and capture the sequence to check if the request is still the latest one when receiving the result
+            int sequence = querySequence.incrementAndGet();
+            // Then we ask the query service to execute the sql query
+            return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
+                    // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                    // Otherwise transforming the QueryResultSet into an EntityList
+                    .map(sqlReadResult -> (sequence != querySequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
+                    // Finally transforming the EntityList into a DisplayResultSet
+                    .map(this::entitiesListToDisplayResultSets);
+        })
+        .observeOn(RxScheduler.UI_SCHEDULER)
+        .subscribe(this::applyDisplayResultSets);
         return this;
     }
 
@@ -471,6 +483,7 @@ public class ReactiveExpressionFilter {
             return entitiesListToDisplayResultSet(EntityList.create(listId, store));
         }
 
+        @SuppressWarnings("unchecked")
         List<Expression> collectColumnsPersistentTerms() {
             if (columnsPersistentTerms == null) {
                 columnsPersistentTerms = new ArrayList<>();
