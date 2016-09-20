@@ -238,8 +238,7 @@ public class ReactiveExpressionFilter {
         resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
-            i18n.languageProperty().addListener((observable, oldValue, newValue) -> // we defer the treatment to ensure i18n has loaded the dictionary because columns use instant translation
-                    Toolkit.get().scheduler().scheduleDeferred(() -> resetAllDisplayResultSets(false)));
+            i18n.dictionaryProperty().addListener((observable, oldValue, newValue) -> resetAllDisplayResultSets(false));
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
         Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
