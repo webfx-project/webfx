@@ -18,7 +18,7 @@ import naga.toolkit.display.Label;
 public class EntityListToDisplayResultSetGenerator {
 
     public static DisplayResultSet createDisplayResultSet(EntityList entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
-        int rowCount = entityList.size();
+        int rowCount = entityList == null ? 0 : entityList.size();
         int columnCount = Arrays.length(expressionColumns);
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);
         if (expressionColumns != null) {
@@ -30,18 +30,20 @@ public class EntityListToDisplayResultSetGenerator {
                 if (i18n != null) { // translating the label if i18n is provided
                     Label label = displayColumn.getLabel();
                     String translationKey = label.getCode(); // the code used as translation key for i18n
-                    label.setText(i18n.instantTranslate(translationKey));
+                    if (translationKey != null)
+                        label.setText(i18n.instantTranslate(translationKey));
                 }
                 rsb.setDisplayColumn(columnIndex++, displayColumn);
                 // Then setting the column values (including possible formatting)
                 Expression expression = expressionColumn.getExpression();
                 Formatter formatter = expressionColumn.getExpressionFormatter();
-                for (Entity entity : entityList) {
-                    Object value = entity.evaluate(expression);
-                    if (formatter != null)
-                        value = formatter.format(value);
-                    rsb.setInlineValue(inlineIndex++, value);
-                }
+                if (entityList != null)
+                    for (Entity entity : entityList) {
+                        Object value = entity.evaluate(expression);
+                        if (formatter != null)
+                            value = formatter.format(value);
+                        rsb.setInlineValue(inlineIndex++, value);
+                    }
             }
         }
         return rsb.build();
