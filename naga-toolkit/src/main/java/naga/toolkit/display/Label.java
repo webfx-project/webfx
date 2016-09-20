@@ -12,12 +12,12 @@ public class Label {
     public static Label emptyLabel = new Label("");
 
     public Label(String text) {
-        this(text, null);
+        this(text, text, null);
     }
 
-    public Label(String text, String iconPath) {
-        code = text;
-        setText(text);
+    public Label(String code, String text, String iconPath) {
+        this.code = code;
+        this.text = text;
         this.iconPath = iconPath;
     }
 

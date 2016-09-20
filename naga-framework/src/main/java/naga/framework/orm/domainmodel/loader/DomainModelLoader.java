@@ -49,7 +49,7 @@ public class DomainModelLoader {
     public Batch<QueryArgument> generateDomainModelQueryBatch() {
         return toQueryBatch(
                 // 1) Labels loading
-                "select id,text,icon from label where data_model_version_id=? or data_model_version_id is null",
+                "select id,code,text,icon from label where data_model_version_id=? or data_model_version_id is null",
                 // 2) Types loading
                 "select id,name,super_type_id,cell_factory_name,ui_format,sql_format from type where data_model_version_id=?",
                 // 3) Classes loading
@@ -80,7 +80,7 @@ public class DomainModelLoader {
         // 1) Building labels
         QueryResultSet rs = resultSets[0];
         for (int row = 0; row < rs.getRowCount(); row++)
-            labelMap.put(rs.getValue(row, "id"), new Label(rs.getValue(row, "text"), rs.getValue(row, "icon")));
+            labelMap.put(rs.getValue(row, "id"), new Label(rs.getValue(row, "code"), rs.getValue(row, "text"), rs.getValue(row, "icon")));
 
         // 2) Building types
         rs = resultSets[1];
