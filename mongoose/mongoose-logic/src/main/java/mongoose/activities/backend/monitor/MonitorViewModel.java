@@ -3,44 +3,27 @@ package mongoose.activities.backend.monitor;
 import naga.framework.ui.presentation.AbstractViewModel;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.charts.Chart;
-import naga.toolkit.spi.nodes.controls.Button;
 
 /**
  * @author Bruno Salmon
  */
 class MonitorViewModel extends AbstractViewModel {
 
-    private final Chart memChart;
-    private final Chart sysChart;
-    private final Button startButton ;
-    private final Button stopButton ;
+    private final Chart memoryChart;
+    private final Chart cpuChart;
 
-    MonitorViewModel(GuiNode contentNode,
-                            Chart memChart,
-                            Chart sysChart,
-                            Button startButton,
-                            Button stopButton) {
+    public MonitorViewModel(GuiNode contentNode, Chart memoryChart, Chart cpuChart) {
         super(contentNode);
-        this.memChart = memChart;
-        this.sysChart = sysChart;
-        this.startButton = startButton;
-        this.stopButton = stopButton;
+        this.memoryChart = memoryChart;
+        this.cpuChart = cpuChart;
     }
 
-    Chart getMemChart() {
-        return memChart;
+    Chart getMemoryChart() {
+        return memoryChart;
     }
 
-    Chart getSysChart() {
-        return sysChart;
-    }
-
-    Button getStartButton() {
-        return startButton;
-    }
-
-    Button getStopButton() {
-        return stopButton;
+    Chart getCpuChart() {
+        return cpuChart;
     }
 
 }

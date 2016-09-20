@@ -54,7 +54,7 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .combine(pm.withEventsProperty(), "{where: 'exists(select Event where live and organization=o)', orderBy: 'id'}")
                 .setExpressionColumns("[" +
-                        "{label: 'Center', expression: '[icon, name + ` (` + type.code + `)`]'}," +
+                        "{label: 'Centre', expression: '[icon, name + ` (` + type.code + `)`]'}," +
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
                         "]")
                 .applyDomainModelRowStyle()
@@ -62,6 +62,6 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> {
                     if (organization != null)
                         getHistory().push("/organization/" + organization.getId().getPrimaryKey() + "/events");
-                });
+                }).start();
     }
 }

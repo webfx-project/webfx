@@ -54,6 +54,6 @@ public class BookingsActivity extends GenericTableActivity<GenericTableViewModel
                         if (cartUuid != null)
                             getHistory().push("/cart/" + cartUuid);
                     }
-                });
+                }).start();
     }
 }

@@ -31,6 +31,6 @@ public class LettersActivity extends GenericTableActivity<GenericTableViewModel,
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> {
                     if (letter != null) {
                     }
-                });
+                }).start();
     }
 }

@@ -61,6 +61,6 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> {
                     if (event != null)
                         getHistory().push("/event/" + event.getId().getPrimaryKey() + "/bookings");
-                });
+                }).start();
     }
 }

@@ -58,13 +58,13 @@ public class StringFilterBuilder {
             return this;
         if (!isApplicable(sf))
             throw new IllegalArgumentException();
-        alias = sf.getAlias();
-        fields = sf.getFields();
-        where = sf.getWhere();
-        groupBy = sf.getGroupBy();
-        having = sf.getHaving();
-        orderBy = sf.getOrderBy();
-        limit = sf.getLimit();
+        setAlias(sf.getAlias());
+        setFields(sf.getFields());
+        setWhere(sf.getWhere());
+        setGroupBy(sf.getGroupBy());
+        setHaving(sf.getHaving());
+        setOrderBy(sf.getOrderBy());
+        setLimit(sf.getLimit());
         return this;
     }
 
@@ -73,13 +73,13 @@ public class StringFilterBuilder {
             return this;
         if (!isApplicable(json.getString("class")))
             throw new IllegalArgumentException();
-        alias = json.getString("alias");
-        fields = json.getString("fields");
-        where = json.getString("where");
-        groupBy = json.getString("groupBy");
-        having = json.getString("having");
-        orderBy = json.getString("orderBy");
-        limit = json.getString("limit");
+        setAlias(json.getString("alias"));
+        setFields(json.getString("fields"));
+        setWhere(json.getString("where"));
+        setGroupBy(json.getString("groupBy"));
+        setHaving(json.getString("having"));
+        setOrderBy(json.getString("orderBy"));
+        setLimit(json.getString("limit"));
         return this;
     }
 
@@ -88,21 +88,13 @@ public class StringFilterBuilder {
             return;
         if (!isApplicable(sf))
             throw new IllegalArgumentException("Trying to merge filters of different classes (" + domainClassId + " / " + sf.getDomainClassId() + ")");
-        if (sf.getAlias() != null)
-            setAlias(sf.getAlias());
-        if (sf.getFields() != null)
-            setFields(mergeFields(fields, sf.getFields()));
-        String where = sf.getWhere();
-        if (where != null && !"true".equals(where) && !"false".equals(this.where))
-            setWhere(this.where == null || "true".equals(this.where) || "false".equals(where) ? where : "(" + this.where + ") and (" + where + ")");
-        if (sf.getGroupBy() != null)
-            setGroupBy(sf.getGroupBy());
-        if (sf.getHaving() != null)
-            setHaving(sf.getHaving());
-        if (sf.getOrderBy() != null)
-            setOrderBy(sf.getOrderBy());
-        if (sf.getLimit() != null)
-            setLimit(sf.getLimit());
+        mergeAlias(sf.getAlias());
+        mergeFields(sf.getFields());
+        mergeWhere(sf.getWhere());
+        mergeGroupBy(sf.getGroupBy());
+        mergeHaving(sf.getHaving());
+        mergeOrderBy(sf.getOrderBy());
+        mergeLimit(sf.getLimit());
     }
 
     public static String mergeFields(String fields1, String fields2) {
@@ -119,7 +111,7 @@ public class StringFilterBuilder {
         return mergeBuilder.build();
     }
 
-    /* Fluent API Setters */
+    /* Fluent API setters */
 
     public StringFilterBuilder setAlias(String alias) {
         this.alias = alias;
@@ -153,6 +145,50 @@ public class StringFilterBuilder {
 
     public StringFilterBuilder setLimit(String limit) {
         this.limit = limit;
+        return this;
+    }
+
+    /* Fluent API mergers */
+
+    public StringFilterBuilder mergeAlias(String alias) {
+        if (alias != null)
+            setAlias(alias);
+        return this;
+    }
+
+    public StringFilterBuilder mergeWhere(String where) {
+        if (where != null && !"true".equals(where) && !"false".equals(this.where))
+            setWhere(this.where == null || "true".equals(this.where) || "false".equals(where) ? where : "(" + this.where + ") and (" + where + ")");
+        return this;
+    }
+
+    public StringFilterBuilder mergeFields(String fields) {
+        if (fields != null)
+            setFields(mergeFields(this.fields, fields));
+        return this;
+    }
+
+    public StringFilterBuilder mergeGroupBy(String groupBy) {
+        if (groupBy != null)
+            setGroupBy(groupBy);
+        return this;
+    }
+
+    public StringFilterBuilder mergeHaving(String having) {
+        if (having != null)
+            setHaving(having);
+        return this;
+    }
+
+    public StringFilterBuilder mergeOrderBy(String orderBy) {
+        if (orderBy != null)
+            setOrderBy(orderBy);
+        return this;
+    }
+
+    public StringFilterBuilder mergeLimit(String limit) {
+        if (limit != null)
+            setLimit(limit);
         return this;
     }
 

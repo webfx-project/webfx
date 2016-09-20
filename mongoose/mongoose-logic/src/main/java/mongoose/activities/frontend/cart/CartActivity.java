@@ -62,7 +62,8 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.documentDisplayResultSetProperty())
-                .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty(), pm.cartUuidProperty());
+                .selectFirstRowOnFirstDisplay(pm.documentDisplaySelectionProperty(), pm.cartUuidProperty())
+                .start();
 
         // Setting up the document lines filter
         createReactiveExpressionFilter("{class: 'DocumentLine', where: 'item.family.code!=`round`', orderBy: 'item.family.ord,item.ord'}")
@@ -80,7 +81,8 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "{expression: 'price_net', label: 'Fees', format: 'price'}" +
                         "]")
                 .applyDomainModelRowStyle()
-                .displayResultSetInto(pm.documentLineDisplayResultSetProperty());
+                .displayResultSetInto(pm.documentLineDisplayResultSetProperty())
+                .start();
 
         // Setting up the payments filter
         createReactiveExpressionFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
@@ -95,6 +97,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                         "{expression: 'pending ? `Pending` : successful ? `Success` : `Failed`', label: 'Status'}" +
                         "]")
                 .applyDomainModelRowStyle()
-                .displayResultSetInto(pm.paymentDisplayResultSetProperty());
+                .displayResultSetInto(pm.paymentDisplayResultSetProperty())
+                .start();
     }
 }

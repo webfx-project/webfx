@@ -3,14 +3,11 @@ package naga.framework.ui.rx;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.spi.Toolkit;
 import rx.Observable;
 import rx.Scheduler;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.functions.Action0;
-import rx.observers.Subscribers;
 import rx.subscriptions.Subscriptions;
 
 /**
@@ -53,25 +50,6 @@ public class RxUi {
                     worker.unsubscribe();
                 });
             }
-        });
-    }
-
-    public static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty) {
-        displayObservable(displayResultObservable, displayResultProperty, null);
-    }
-
-    public static void displayObservable(Observable<DisplayResultSet> displayResultObservable, Property<DisplayResultSet> displayResultProperty, Runnable onPropertySetRunnable) {
-        displayResultObservable
-                .observeOn(RxScheduler.UI_SCHEDULER)
-                .subscribe(getPropertySubscriber(displayResultProperty, onPropertySetRunnable));
-    }
-
-
-    static <T> Subscriber<T> getPropertySubscriber(Property<T> property, Runnable onPropertySetRunnable) {
-        return Subscribers.create(value -> {
-            property.setValue(value);
-            if (onPropertySetRunnable != null)
-                onPropertySetRunnable.run();
         });
     }
 }

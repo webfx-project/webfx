@@ -6,6 +6,7 @@ import naga.commons.type.PrimType;
 import naga.commons.util.async.Handler;
 import naga.commons.util.function.Converter;
 import naga.framework.expression.Expression;
+import naga.framework.expression.builder.ReferenceResolver;
 import naga.framework.expression.builder.ThreadLocalReferenceResolver;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.expression.terms.Alias;
@@ -21,6 +22,7 @@ import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.framework.ui.rx.RxFuture;
+import naga.framework.ui.rx.RxScheduler;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
@@ -44,16 +46,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ReactiveExpressionFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
+    private DataSourceModel dataSourceModel;
+    private I18n i18n;
+    private EntityStore store;
+    private Object listId = "default";
+    private boolean autoRefresh = false;
     private Object domainClassId;
     private StringFilter baseFilter;
-    private ExpressionColumn[] expressionColumns;
-    private DataSourceModel dataSourceModel;
-    private EntityStore store;
-    private Object listId;
-    private Property<DisplaySelection> displaySelectionProperty;
-    private boolean selectFirstRowOnFirstDisplay;
-    private boolean autoRefresh = false;
-    private I18n i18n;
+    private FilterDisplay filterDisplay;
+    private List<FilterDisplay> filterDisplays = new ArrayList<>();
+    private ReferenceResolver rootAliasReferenceResolver;
 
     public ReactiveExpressionFilter() {
     }
@@ -83,80 +85,8 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    public Property<DisplaySelection> getDisplaySelectionProperty() {
-        return displaySelectionProperty;
-    }
-
-    public ReactiveExpressionFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
-        this.displaySelectionProperty = displaySelectionProperty;
-        return this;
-    }
-
-    public ReactiveExpressionFilter setSelectedEntityHandler(Handler<Entity> entityHandler) {
-        this.displaySelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
-        return this;
-    }
-
-    public ReactiveExpressionFilter setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
-        return setDisplaySelectionProperty(displaySelectionProperty).setSelectedEntityHandler(entityHandler);
-    }
-
-    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay() {
-        this.selectFirstRowOnFirstDisplay = true;
-        return this;
-    }
-
-    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
-        // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
-        onEachChangeProperty.addListener(observable -> {
-            displaySelectionProperty.setValue(null);
-            selectFirstRowOnFirstDisplay();
-        });
-        return selectFirstRowOnFirstDisplay(displaySelectionProperty);
-    }
-
-    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
-        return setDisplaySelectionProperty(displaySelectionProperty).selectFirstRowOnFirstDisplay();
-    }
-
-    public Entity getSelectedEntity() {
-        return getSelectedEntity(displaySelectionProperty.getValue());
-    }
-
-    public Entity getSelectedEntity(DisplaySelection selection) {
-        Entity selectedEntity = null;
-        int selectedRow = selection == null ? -1 : selection.getSelectedRow();
-        if (selectedRow >= 0)
-            selectedEntity = getCurrentEntityList().get(selectedRow);
-        return selectedEntity;
-    }
-
-    public EntityList getCurrentEntityList() {
-        return store.getEntityList(listId);
-    }
-
-    public ReactiveExpressionFilter setExpressionColumns(String jsonArrayDisplayColumns) {
-        return setExpressionColumns(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
-    }
-
-    public ReactiveExpressionFilter setExpressionColumns(JsonArray array) {
-        return setExpressionColumns(ExpressionColumn.fromJsonArray(array));
-    }
-
-    public ReactiveExpressionFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
-        this.expressionColumns = expressionColumns;
-        return this;
-    }
-
-    public ReactiveExpressionFilter applyDomainModelRowStyle() {
-        DomainClass domainClass = dataSourceModel.getDomainModel().getClass(domainClassId);
-        ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
-        if (rowStylesExpressionArray != null) {
-            ExpressionColumn[] expressionColumns2 = new ExpressionColumn[expressionColumns.length + 1];
-            expressionColumns2[0] = ExpressionColumn.create(rowStylesExpressionArray, DisplayColumnBuilder.create("style", PrimType.STRING).setRole("style").build());
-            System.arraycopy(expressionColumns, 0, expressionColumns2, 1, expressionColumns.length);
-            expressionColumns = expressionColumns2;
-        }
+    public ReactiveExpressionFilter setAutoRefresh(boolean autoRefresh) {
+        this.autoRefresh = autoRefresh;
         return this;
     }
 
@@ -205,23 +135,183 @@ public class ReactiveExpressionFilter {
         return combine(RxUi.observeIf(Observable.just(stringFilter), ifProperty));
     }
 
-    public ReactiveExpressionFilter setAutoRefresh(boolean autoRefresh) {
-        this.autoRefresh = autoRefresh;
+    public ReactiveExpressionFilter nextDisplay() {
+        goToNextFilterDisplayIfDisplayResultSetPropertyIsSet();
         return this;
     }
 
-    private void checkFields() {
+    private void goToNextFilterDisplayIfDisplayResultSetPropertyIsSet() {
+        if (filterDisplay != null && filterDisplay.displayResultSetProperty != null)
+            filterDisplay = null;
+    }
+
+    private FilterDisplay getFilterDisplay() {
+        if (filterDisplay == null)
+            filterDisplays.add(filterDisplay = new FilterDisplay());
+        return filterDisplay;
+    }
+
+    public Property<DisplaySelection> getDisplaySelectionProperty() {
+        return getFilterDisplay().getDisplaySelectionProperty();
+    }
+
+    public ReactiveExpressionFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
+        getFilterDisplay().setDisplaySelectionProperty(displaySelectionProperty);
+        return this;
+    }
+
+    public ReactiveExpressionFilter setSelectedEntityHandler(Handler<Entity> entityHandler) {
+        getFilterDisplay().setSelectedEntityHandler(entityHandler);
+        return this;
+    }
+
+    public ReactiveExpressionFilter setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
+        getFilterDisplay().setSelectedEntityHandler(displaySelectionProperty, entityHandler);
+        return this;
+    }
+
+    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay() {
+        getFilterDisplay().selectFirstRowOnFirstDisplay();
+        return this;
+    }
+
+    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
+        getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty, onEachChangeProperty);
+        return this;
+    }
+
+    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
+        getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty);
+        return this;
+    }
+
+    public Entity getSelectedEntity() {
+        return getFilterDisplay().getSelectedEntity();
+    }
+
+    public Entity getSelectedEntity(DisplaySelection selection) {
+        return getFilterDisplay().getSelectedEntity(selection);
+    }
+
+    public EntityList getCurrentEntityList() {
+        return getFilterDisplay().getCurrentEntityList();
+    }
+
+    public ReactiveExpressionFilter setExpressionColumns(String jsonArrayDisplayColumns) {
+        getFilterDisplay().setExpressionColumns(jsonArrayDisplayColumns);
+        return this;
+    }
+
+    public ReactiveExpressionFilter setExpressionColumns(JsonArray array) {
+        getFilterDisplay().setExpressionColumns(array);
+        return this;
+    }
+
+    public ReactiveExpressionFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
+        getFilterDisplay().setExpressionColumns(expressionColumns);
+        return this;
+    }
+
+    public ReactiveExpressionFilter applyDomainModelRowStyle() {
+        getFilterDisplay().applyDomainModelRowStyle();
+        return this;
+    }
+
+    public ReactiveExpressionFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
+        getFilterDisplay().setDisplayResultSetProperty(displayResultSetProperty);
+        return this;
+    }
+
+    public ReactiveExpressionFilter start() {
+        // If not set, we create a new store
         if (store == null)
             store = EntityStore.create(dataSourceModel);
-        if (listId == null)
-            listId = "default";
-        /** Parsing expression columns and collecting their persistent fields (their load is required for later evaluation) **/
-        DomainModel domainModel = dataSourceModel.getDomainModel();
-        List<Expression> expressionColumnsPersistentTerms = new ArrayList<>();
-        // Before parsing, we prepare a ReferenceResolver to resolve possible references to root aliases
-        Map<String, Alias> rootAliases = new HashMap<>();
-        try {
-            ThreadLocalReferenceResolver.pushReferenceResolver(rootAliases::get);
+        // if autoRefresh is set, we combine the filter with a 5s tic tac property
+        if (autoRefresh) {
+            Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
+            Platform.schedulePeriodic(5000, () -> ticTacProperty.setValue(!ticTacProperty.getValue()));
+            combine(ticTacProperty, "{}");
+        }
+        // Initializing the displays with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
+        resetAllDisplayResultSets(true);
+        // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
+        if (i18n != null)
+            i18n.languageProperty().addListener((observable, oldValue, newValue) -> // we defer the treatment to ensure i18n has loaded the dictionary because columns use instant translation
+                    Toolkit.get().scheduler().scheduleDeferred(() -> resetAllDisplayResultSets(false)));
+        AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
+        Observable
+                .combineLatest(stringFilterObservables, this::mergeStringFilters)
+                //.distinctUntilChanged() // commented to allow auto refresh
+                .switchMap(stringFilter -> {
+                    // Shortcut: when the string filter is "false", we return an empty result set immediately (no server call)
+                    if ("false".equals(stringFilter.getWhere()))
+                        return Observable.just(emptyDisplayResultSets());
+                    // Otherwise we compile the final string filter into sql
+                    SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
+                    Platform.log(sqlCompiled.getSql());
+                    // We increment and capture the sequence to check if the request is still the latest one when receiving the result
+                    int sequence = querySequence.incrementAndGet();
+                    // Then we ask the query service to execute the sql query
+                    return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
+                            // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                            // Otherwise transforming the QueryResultSet into an EntityList
+                            .map(sqlReadResult -> (sequence != querySequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
+                            // Finally transforming the EntityList into a DisplayResultSet
+                            .map(this::entitiesListToDisplayResultSets);
+                })
+                .observeOn(RxScheduler.UI_SCHEDULER)
+                .subscribe(this::applyDisplayResultSets);
+        return this;
+    }
+
+    private StringFilter mergeStringFilters(Object... args) {
+        StringFilterBuilder mergeBuilder = new StringFilterBuilder(domainClassId);
+        for (int i = 0; i < args.length; i++)
+            mergeBuilder.merge((StringFilter) args[i]);
+        for (FilterDisplay filterDisplay : filterDisplays) {
+            // Parsing expression columns and collecting their persistent fields (their load is required for later evaluation)
+            List<Expression> columnsPersistentTerms = filterDisplay.collectColumnsPersistentTerms();
+            // If expression columns have persistent fields, we make an additional string filter to cause their load
+            if (!columnsPersistentTerms.isEmpty())
+                mergeBuilder.mergeFields(new ExpressionArray<>(columnsPersistentTerms).toString());
+        }
+        return mergeBuilder.build();
+    }
+
+    private void applyDisplayResultSets(DisplayResultSet[] displayResultSets) {
+        int n = displayResultSets.length;
+        for (int i = 0; i < n; i++)
+            filterDisplays.get(i).setDisplayResultSet(displayResultSets[i]);
+    }
+
+    private void resetAllDisplayResultSets(boolean empty) {
+        Toolkit.get().scheduler().runInUiThread(() -> {
+            for (FilterDisplay filterDisplay : filterDisplays)
+                filterDisplay.resetDisplayResultSet(empty);
+        });
+    }
+    private DisplayResultSet[] emptyDisplayResultSets() {
+        int n = filterDisplays.size();
+        DisplayResultSet[] resultSets = new DisplayResultSet[n];
+        for (int i = 0; i < n; i++)
+            resultSets[i] = filterDisplays.get(i).emptyDisplayResultSet();
+        return resultSets;
+    }
+
+    private DisplayResultSet[] entitiesListToDisplayResultSets(EntityList entities) {
+        int n = filterDisplays.size();
+        DisplayResultSet[] resultSets = new DisplayResultSet[n];
+        for (int i = 0; i < n; i++)
+            resultSets[i] = filterDisplays.get(i).entitiesListToDisplayResultSet(entities);
+        return resultSets;
+    }
+
+    private ReferenceResolver getRootAliasReferenceResolver() {
+        if (rootAliasReferenceResolver == null) {
+            DomainModel domainModel = dataSourceModel.getDomainModel();
+            // Before parsing, we prepare a ReferenceResolver to resolve possible references to root aliases
+            Map<String, Alias> rootAliases = new HashMap<>();
+            rootAliasReferenceResolver = rootAliases::get;
             if (baseFilter != null) { // Root aliases are stored in the baseFilter
                 // The first possible root alias is the base filter alias. Ex: Event e => the alias "e" then acts in a
                 // similar way as "this" in java because it refers to the current Event row in the select, so some
@@ -233,80 +323,159 @@ public class ReactiveExpressionFilter {
                 // If fields contains for example (select ...) as xxx -> then xxx can be referenced in expression columns
                 String fields = baseFilter.getFields();
                 if (fields != null && fields.contains(" as ")) { // quick skipping if fields doesn't contains " as "
-                    for (Expression field : domainModel.parseExpressionArray(fields, domainClassId).getExpressions()) {
-                        if (field instanceof As) { // If a field is a As expression,
-                            As as = (As) field;
-                            // we add an Alias expression that can be returned when resolving this alias
-                            rootAliases.put(as.getAlias(), new Alias(as.getAlias(), as.getType()));
+                    try {
+                        ThreadLocalReferenceResolver.pushReferenceResolver(rootAliasReferenceResolver);
+                        // Now that the ReferenceResolver is ready, we can parse the expression columns
+                        for (Expression field : domainModel.parseExpressionArray(fields, domainClassId).getExpressions()) {
+                            if (field instanceof As) { // If a field is a As expression,
+                                As as = (As) field;
+                                // we add an Alias expression that can be returned when resolving this alias
+                                rootAliases.put(as.getAlias(), new Alias(as.getAlias(), as.getType()));
+                            }
                         }
+                    } finally {
+                        ThreadLocalReferenceResolver.popReferenceResolver();
                     }
                 }
             }
-            // Now that the ReferenceResolver is ready, we can parse the expression columns
-            for (ExpressionColumn expressionColumn : expressionColumns) {
-                expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
-                expressionColumn.getExpression().collectPersistentTerms(expressionColumnsPersistentTerms);
-            }
-        } finally {
-            ThreadLocalReferenceResolver.popReferenceResolver();
         }
-        /** If expression columns have persistent fields, we make an additional string filter to cause their load **/
-        if (!expressionColumnsPersistentTerms.isEmpty())
-            combine(new StringFilterBuilder().setFields(new ExpressionArray<>(expressionColumnsPersistentTerms).toString()));
+        return rootAliasReferenceResolver;
     }
 
-    public ReactiveExpressionFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
-        checkFields();
-        // Emitting an initial empty display result (no rows but columns) to initialize the component (probably a table) with the columns before calling the server
-        if (displayResultSetProperty.getValue() == null && expressionColumns != null)
-            Toolkit.get().scheduler().runInUiThread(() -> displayResultSetProperty.setValue(emptyDisplayResultSet()));
-        if (autoRefresh) {
-            Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
-            Platform.schedulePeriodic(5000, () -> ticTacProperty.setValue(!ticTacProperty.getValue()));
-            combine(ticTacProperty, "{}");
+    private class FilterDisplay {
+        ExpressionColumn[] expressionColumns;
+        Property<DisplayResultSet> displayResultSetProperty;
+        Property<DisplaySelection> displaySelectionProperty;
+        boolean selectFirstRowOnFirstDisplay;
+        List<Expression> columnsPersistentTerms;
+
+        Property<DisplaySelection> getDisplaySelectionProperty() {
+            return displaySelectionProperty;
         }
-        AtomicInteger observableSequence = new AtomicInteger(); // Used for
-        Observable<DisplayResultSet> displayResultSetObservable = Observable
-                .combineLatest(stringFilterObservables, StringFilterBuilder::mergeStringFilters)
-                //.distinctUntilChanged() // commented to allow auto refresh
-                .switchMap(stringFilter -> {
-                    // Shortcut: when the string filter is "false", we return an empty result set immediately (no server call)
-                    if ("false".equals(stringFilter.getWhere()))
-                        return Observable.just(emptyDisplayResultSet());
-                    // Otherwise we compile the final string filter into sql
-                    SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
-                    Platform.log(sqlCompiled.getSql());
-                    // We increment and capture the sequence to check if the request is still the latest one when receiving the result
-                    int sequence = observableSequence.incrementAndGet();
-                    // Then we ask the query service to execute the sql query
-                    return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
-                            // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                            // Otherwise transforming the QueryResultSet into an EntityList
-                            .map(sqlReadResult -> (sequence != observableSequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
-                            // Finally transforming the EntityList into a DisplayResultSet
-                            .map(this::entitiesListToDisplayResultSet);
-                });
-        // Any new DisplayResultSet emitted by the observable will set the displayResultSetProperty
-        RxUi.displayObservable(displayResultSetObservable, displayResultSetProperty, () -> {
-            if (selectFirstRowOnFirstDisplay && displayResultSetProperty.getValue().getRowCount() > 0) {
+
+        void setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
+            this.displaySelectionProperty = displaySelectionProperty;
+        }
+
+        Property<DisplayResultSet> getDisplayResultSetProperty() {
+            return displayResultSetProperty;
+        }
+
+        void setSelectedEntityHandler(Handler<Entity> entityHandler) {
+            displaySelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
+        }
+
+        void setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
+            setDisplaySelectionProperty(displaySelectionProperty);
+            setSelectedEntityHandler(entityHandler);
+        }
+
+        void selectFirstRowOnFirstDisplay() {
+            selectFirstRowOnFirstDisplay = true;
+        }
+
+        void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
+            // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
+            onEachChangeProperty.addListener(observable -> {
+                displaySelectionProperty.setValue(null);
+                selectFirstRowOnFirstDisplay();
+            });
+            selectFirstRowOnFirstDisplay(displaySelectionProperty);
+        }
+
+        void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
+            setDisplaySelectionProperty(displaySelectionProperty);
+            selectFirstRowOnFirstDisplay();
+        }
+
+        Entity getSelectedEntity() {
+            return getSelectedEntity(displaySelectionProperty.getValue());
+        }
+
+        Entity getSelectedEntity(DisplaySelection selection) {
+            Entity selectedEntity = null;
+            int selectedRow = selection == null ? -1 : selection.getSelectedRow();
+            if (selectedRow >= 0)
+                selectedEntity = getCurrentEntityList().get(selectedRow);
+            return selectedEntity;
+        }
+
+        EntityList getCurrentEntityList() {
+            return store.getEntityList(listId);
+        }
+
+        void setExpressionColumns(String jsonArrayDisplayColumns) {
+            setExpressionColumns(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
+        }
+
+        void setExpressionColumns(JsonArray array) {
+            setExpressionColumns(ExpressionColumn.fromJsonArray(array));
+        }
+
+        void setExpressionColumns(ExpressionColumn... expressionColumns) {
+            this.expressionColumns = expressionColumns;
+            columnsPersistentTerms = null; // forcing re-computation on next collectColumnsPersistentTerms() call since the columns have changed
+        }
+
+        void applyDomainModelRowStyle() {
+            DomainClass domainClass = dataSourceModel.getDomainModel().getClass(domainClassId);
+            ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
+            if (rowStylesExpressionArray != null) {
+                ExpressionColumn[] includingRowStyleColumns = new ExpressionColumn[expressionColumns.length + 1];
+                includingRowStyleColumns[0] = ExpressionColumn.create(rowStylesExpressionArray, DisplayColumnBuilder.create("style", PrimType.STRING).setRole("style").build());
+                System.arraycopy(expressionColumns, 0, includingRowStyleColumns, 1, expressionColumns.length);
+                setExpressionColumns(includingRowStyleColumns);
+            }
+        }
+
+        void setDisplayResultSetProperty(Property<DisplayResultSet> displayResultSetProperty) {
+            this.displayResultSetProperty = displayResultSetProperty;
+        }
+
+        void setDisplayResultSet(DisplayResultSet rs) {
+            displayResultSetProperty.setValue(rs);
+            if (selectFirstRowOnFirstDisplay && rs.getRowCount() > 0) {
                 selectFirstRowOnFirstDisplay = false;
                 displaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(0));
             }
-        });
-        // Adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
-        if (i18n != null)
-            i18n.languageProperty().addListener((observable, oldValue, newValue) -> // we defer the treatment to ensure i18n has loaded the dictionary because columns use instant translation
-                Toolkit.get().scheduler().scheduleDeferred(() -> displayResultSetProperty.setValue(entitiesListToDisplayResultSet(store.getEntityList(listId)))));
+        }
 
-        return this;
+        void resetDisplayResultSet(boolean empty) {
+            if (empty)
+                setEmptyDisplayResultSet();
+            else
+                displayResultSetProperty.setValue(entitiesListToDisplayResultSet(store.getEntityList(listId)));
+        }
+
+        void setEmptyDisplayResultSet() {
+            displayResultSetProperty.setValue(emptyDisplayResultSet());
+        }
+
+        DisplayResultSet entitiesListToDisplayResultSet(EntityList entities) {
+            collectColumnsPersistentTerms();
+            return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns, i18n);
+        }
+
+        DisplayResultSet emptyDisplayResultSet() {
+            return entitiesListToDisplayResultSet(EntityList.create(listId, store));
+        }
+
+        List<Expression> collectColumnsPersistentTerms() {
+            if (columnsPersistentTerms == null) {
+                columnsPersistentTerms = new ArrayList<>();
+                DomainModel domainModel = dataSourceModel.getDomainModel();
+                try {
+                    ThreadLocalReferenceResolver.pushReferenceResolver(getRootAliasReferenceResolver());
+                    // Now that the ReferenceResolver is ready, we can parse the expression columns
+                    for (ExpressionColumn expressionColumn : expressionColumns) {
+                        expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
+                        expressionColumn.getExpression().collectPersistentTerms(columnsPersistentTerms);
+                    }
+                } finally {
+                    ThreadLocalReferenceResolver.popReferenceResolver();
+                }
+            }
+            return columnsPersistentTerms;
+        }
     }
-
-    private DisplayResultSet entitiesListToDisplayResultSet(EntityList entityList) {
-        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entityList, expressionColumns, i18n);
-    }
-
-    private DisplayResultSet emptyDisplayResultSet() {
-        return entitiesListToDisplayResultSet(EntityList.create(listId, store));
-    }
-
 }
