@@ -5327,9 +5327,9 @@ public class Observable<T> {
      *         evaluates as {@code true}
      * @see <a href="http://reactivex.io/documentation/operators/filter.html">ReactiveX operators documentation: Filter</a>
      */
-    /* public final Observable<T> filter(Func1<? super T, Boolean> predicate) {
+    public final Observable<T> filter(Func1<? super T, Boolean> predicate) {
         return lift(new OperatorFilter<T>(predicate));
-    }*/
+    }
 
     /**
      * Registers an {@link Action0} to be called when this Observable invokes either
