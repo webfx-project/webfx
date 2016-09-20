@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.commons.type.PrimType;
 import naga.commons.util.async.Handler;
+import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Converter;
 import naga.framework.expression.Expression;
 import naga.framework.expression.builder.ReferenceResolver;
@@ -34,10 +35,7 @@ import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.spi.Toolkit;
 import rx.Observable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -141,8 +139,10 @@ public class ReactiveExpressionFilter {
     }
 
     private void goToNextFilterDisplayIfDisplayResultSetPropertyIsSet() {
-        if (filterDisplay != null && filterDisplay.displayResultSetProperty != null)
+        if (filterDisplay != null && filterDisplay.displayResultSetProperty != null) {
+            filterDisplay.stringFilterObservableLastIndex = stringFilterObservables.size() - 1;
             filterDisplay = null;
+        }
     }
 
     private FilterDisplay getFilterDisplay() {
@@ -232,6 +232,8 @@ public class ReactiveExpressionFilter {
             Platform.schedulePeriodic(5000, () -> ticTacProperty.setValue(!ticTacProperty.getValue()));
             combine(ticTacProperty, "{}");
         }
+        // The following call is to set stringFilterObservableLastIndex on the latest filterDisplay
+        goToNextFilterDisplayIfDisplayResultSetPropertyIsSet();
         // Initializing the displays with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
         resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
@@ -265,13 +267,22 @@ public class ReactiveExpressionFilter {
     }
 
     private StringFilter mergeStringFilters(Object... args) {
+        Iterator<FilterDisplay> it = filterDisplays.iterator();
+        filterDisplay = Collections.next(it);
         StringFilterBuilder mergeBuilder = new StringFilterBuilder(domainClassId);
-        for (int i = 0; i < args.length; i++)
+        for (int i = 0; i < args.length; i++) {
             mergeBuilder.merge((StringFilter) args[i]);
+            if (filterDisplay != null && filterDisplay.stringFilterObservableLastIndex == i) {
+                if (mergeBuilder.getColumns() != null) {
+                    filterDisplay.setExpressionColumns(mergeBuilder.getColumns());
+                    mergeBuilder.setColumns(null);
+                }
+                filterDisplay = Collections.next(it);
+            }
+        }
+        // If expression columns have persistent fields, we include them in the fields to load
         for (FilterDisplay filterDisplay : filterDisplays) {
-            // Parsing expression columns and collecting their persistent fields (their load is required for later evaluation)
             List<Expression> columnsPersistentTerms = filterDisplay.collectColumnsPersistentTerms();
-            // If expression columns have persistent fields, we make an additional string filter to cause their load
             if (!columnsPersistentTerms.isEmpty())
                 mergeBuilder.mergeFields(new ExpressionArray<>(columnsPersistentTerms).toString());
         }
@@ -347,6 +358,7 @@ public class ReactiveExpressionFilter {
         Property<DisplayResultSet> displayResultSetProperty;
         Property<DisplaySelection> displaySelectionProperty;
         boolean selectFirstRowOnFirstDisplay;
+        int stringFilterObservableLastIndex = -1;
         List<Expression> columnsPersistentTerms;
 
         Property<DisplaySelection> getDisplaySelectionProperty() {
@@ -464,16 +476,17 @@ public class ReactiveExpressionFilter {
             if (columnsPersistentTerms == null) {
                 columnsPersistentTerms = new ArrayList<>();
                 DomainModel domainModel = dataSourceModel.getDomainModel();
-                try {
-                    ThreadLocalReferenceResolver.pushReferenceResolver(getRootAliasReferenceResolver());
-                    // Now that the ReferenceResolver is ready, we can parse the expression columns
-                    for (ExpressionColumn expressionColumn : expressionColumns) {
-                        expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
-                        expressionColumn.getExpression().collectPersistentTerms(columnsPersistentTerms);
+                if (expressionColumns != null)
+                    try {
+                        ThreadLocalReferenceResolver.pushReferenceResolver(getRootAliasReferenceResolver());
+                        // Now that the ReferenceResolver is ready, we can parse the expression columns
+                        for (ExpressionColumn expressionColumn : expressionColumns) {
+                            expressionColumn.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
+                            expressionColumn.getExpression().collectPersistentTerms(columnsPersistentTerms);
+                        }
+                    } finally {
+                        ThreadLocalReferenceResolver.popReferenceResolver();
                     }
-                } finally {
-                    ThreadLocalReferenceResolver.popReferenceResolver();
-                }
             }
             return columnsPersistentTerms;
         }

@@ -15,8 +15,10 @@ public final class StringFilter {
     private final String having;
     private final String orderBy;
     private final String limit;
+    // The 'columns' field is for display purpose only, it is not included in the resulting sql query. So any persistent fields required for the columns evaluation should be loaded by including them in the 'fields' field.
+    private final String columns;
 
-    public StringFilter(Object domainClassId, String alias, String fields, String where, String groupBy, String having, String orderBy, String limit) {
+    public StringFilter(Object domainClassId, String alias, String fields, String where, String groupBy, String having, String orderBy, String limit, String columns) {
         this.domainClassId = domainClassId;
         this.alias = alias;
         this.fields = fields;
@@ -25,6 +27,7 @@ public final class StringFilter {
         this.having = having;
         this.orderBy = orderBy;
         this.limit = limit;
+        this.columns = columns;
     }
 
     public StringFilter(JsonObject json) {
@@ -36,6 +39,7 @@ public final class StringFilter {
         having = json.getString("having");
         orderBy = json.getString("orderBy");
         limit = json.getString("limit");
+        columns = json.getString("columns");
     }
 
     public StringFilter(String json) {
@@ -74,6 +78,10 @@ public final class StringFilter {
         return limit;
     }
 
+    public String getColumns() {
+        return columns;
+    }
+
     public String toStringSelect() {
         return "select " +
                 (fields == null ? "" : fields + " from ") +
@@ -101,7 +109,8 @@ public final class StringFilter {
         if (groupBy != null ? !groupBy.equals(that.groupBy) : that.groupBy != null) return false;
         if (having != null ? !having.equals(that.having) : that.having != null) return false;
         if (orderBy != null ? !orderBy.equals(that.orderBy) : that.orderBy != null) return false;
-        return limit != null ? limit.equals(that.limit) : that.limit == null;
+        if (limit != null ? !limit.equals(that.limit) : that.limit != null) return false;
+        return columns != null ? columns.equals(that.columns) : that.columns == null;
 
     }
 
@@ -115,6 +124,7 @@ public final class StringFilter {
         result = 31 * result + (having != null ? having.hashCode() : 0);
         result = 31 * result + (orderBy != null ? orderBy.hashCode() : 0);
         result = 31 * result + (limit != null ? limit.hashCode() : 0);
+        result = 31 * result + (columns != null ? columns.hashCode() : 0);
         return result;
     }
 }

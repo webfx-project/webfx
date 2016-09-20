@@ -16,6 +16,8 @@ public class StringFilterBuilder {
     private String having;
     private String orderBy;
     private String limit;
+    // The 'columns' field is for display purpose only, it is not included in the resulting sql query. So any persistent fields required for the columns evaluation should be loaded by including them in the 'fields' field.
+    private String columns;
 
     public StringFilterBuilder() {
         domainClassId = null;
@@ -65,6 +67,7 @@ public class StringFilterBuilder {
         setHaving(sf.getHaving());
         setOrderBy(sf.getOrderBy());
         setLimit(sf.getLimit());
+        setColumns(sf.getColumns());
         return this;
     }
 
@@ -80,6 +83,7 @@ public class StringFilterBuilder {
         setHaving(json.getString("having"));
         setOrderBy(json.getString("orderBy"));
         setLimit(json.getString("limit"));
+        setColumns(json.getString("columns"));
         return this;
     }
 
@@ -95,12 +99,10 @@ public class StringFilterBuilder {
         mergeHaving(sf.getHaving());
         mergeOrderBy(sf.getOrderBy());
         mergeLimit(sf.getLimit());
+        mergeColumns(sf.getColumns());
     }
 
-    public static String mergeFields(String fields1, String fields2) {
-        return Strings.isEmpty(fields1) ? fields2 : Strings.isEmpty(fields2) ? fields1 : fields1 + ',' + fields2;
-    }
-
+/*
     public static StringFilter mergeStringFilters(Object... args) {
         StringFilter stringFilter = (StringFilter) args[0];
         if (args.length == 1)
@@ -109,6 +111,11 @@ public class StringFilterBuilder {
         for (int i = 1; i < args.length; i++)
             mergeBuilder.merge((StringFilter) args[i]);
         return mergeBuilder.build();
+    }
+*/
+
+    public String getColumns() {
+        return columns;
     }
 
     /* Fluent API setters */
@@ -148,6 +155,11 @@ public class StringFilterBuilder {
         return this;
     }
 
+    public StringFilterBuilder setColumns(String columns) {
+        this.columns = columns;
+        return this;
+    }
+
     /* Fluent API mergers */
 
     public StringFilterBuilder mergeAlias(String alias) {
@@ -166,6 +178,10 @@ public class StringFilterBuilder {
         if (fields != null)
             setFields(mergeFields(this.fields, fields));
         return this;
+    }
+
+    public static String mergeFields(String fields1, String fields2) {
+        return Strings.isEmpty(fields1) ? fields2 : Strings.isEmpty(fields2) ? fields1 : fields1 + ',' + fields2;
     }
 
     public StringFilterBuilder mergeGroupBy(String groupBy) {
@@ -192,7 +208,17 @@ public class StringFilterBuilder {
         return this;
     }
 
+    public StringFilterBuilder mergeColumns(String columns) {
+        if (columns != null)
+            setColumns(mergeFields(this.columns, columns));
+        return this;
+    }
+
+    public static String mergeColumns(String columns1, String columns2) {
+        return Strings.isEmpty(columns1) ? columns2 : Strings.isEmpty(columns2) ? columns1 : Strings.removeSuffix(columns1, "]") + ',' + Strings.removePrefix(columns2, "[");
+    }
+
     public StringFilter build() {
-        return new StringFilter(domainClassId, alias, fields, where, groupBy, having, orderBy, limit);
+        return new StringFilter(domainClassId, alias, fields, where, groupBy, having, orderBy, limit, columns);
     }
 }
