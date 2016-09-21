@@ -69,5 +69,4 @@ public class ExpressionArray<T> extends AbstractExpression<T> implements ParentE
         for (Expression<T> expression : expressions)
             expression.collectPersistentTerms(persistentTerms);
     }
-
 }

@@ -10,8 +10,6 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public class ExpressionArrayBuilder extends ExpressionBuilder {
-    public Object id;
-    public String definition;
     public List<ExpressionBuilder> expressions = new ArrayList<>();
 
     public ExpressionArrayBuilder() {
@@ -28,7 +26,6 @@ public class ExpressionArrayBuilder extends ExpressionBuilder {
             expb.buildingClass = buildingClass;
             exps[i] = expb.build();
         }
-        //return new ExpressionArray(id, definition, exps);
         return new ExpressionArray(exps);
     }
 
@@ -41,5 +38,4 @@ public class ExpressionArrayBuilder extends ExpressionBuilder {
         elb.expressions.add(b);
         return elb;
     }
-
 }
