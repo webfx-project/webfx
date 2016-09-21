@@ -37,7 +37,7 @@ public class GeneratedKeyBatchIndex {
             @Override
             public GeneratedKeyBatchIndex decodeFromJson(JsonObject json) {
                 return new GeneratedKeyBatchIndex(
-                        json.getInt(BATCH_INDEX_KEY)
+                        json.getInteger(BATCH_INDEX_KEY)
                 );
             }
         };

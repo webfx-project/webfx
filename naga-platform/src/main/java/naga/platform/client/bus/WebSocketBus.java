@@ -233,7 +233,7 @@ public class WebSocketBus extends SimpleClientBus {
         send(TOPIC_LOGIN, msg, new Handler<Message<JsonObject>>() {
             @Override
             public void handle(Message<JsonObject> message) {
-                if (message.body() != null && message.body().getInt("code") != 0)
+                if (message.body() != null && message.body().getInteger("code") != 0)
                     throw new RuntimeException(message.body().toJsonString());
             }
         });

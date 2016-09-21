@@ -48,7 +48,7 @@ public class UpdateResult {
             @Override
             public UpdateResult decodeFromJson(JsonObject json) {
                 return new UpdateResult(
-                        json.getInt(ROW_COUNT_KEY),
+                        json.getInteger(ROW_COUNT_KEY),
                         JsonCodecManager.decodePrimitiveArrayFromJsonArray(json.getArray(GENERATED_KEYS_KEY))
                 );
             }

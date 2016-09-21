@@ -90,7 +90,7 @@ class BusCallResult<T> {
             public BusCallResult decodeFromJson(JsonObject json) {
                 //Platform.log("Decoding " + json.toJsonString());
                 return new BusCallResult(
-                        json.getInt(CALL_NUMBER_KEY),
+                        json.getInteger(CALL_NUMBER_KEY),
                         json.get(TARGET_RESULT_KEY)
                 );
             }

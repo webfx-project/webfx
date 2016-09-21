@@ -67,12 +67,12 @@ public interface KeyObject {
     /**
      * Return the element as a int. If the type is not a int, this can result in runtime errors.
      */
-    default Integer getInt(String key) { return Numbers.toInteger(getScalar(key)); }
+    default Integer getInteger(String key) { return Numbers.toInteger(getScalar(key)); }
 
     /**
      * Return the element as a int. If the type is not a int, this can result in runtime errors.
      */
-    default Integer getInt(String key, Integer defaultValue) { return Numbers.toInteger(getScalar(key, defaultValue)); }
+    default Integer getInteger(String key, Integer defaultValue) { return Numbers.toInteger(getScalar(key, defaultValue)); }
 
     /**
      * Return the element as a long. If the type is not a long, this can result in runtime errors.

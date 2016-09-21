@@ -72,7 +72,7 @@ public class ConnectionDetails {
             return null;
         return new ConnectionDetails(
                 json.getString("host"),
-                json.getInt("port", -1),
+                json.getInteger("port", -1),
                 json.getString("filePath"),
                 json.getString("databaseName"),
                 DBMS.POSTGRES, // temporary, should be parsed

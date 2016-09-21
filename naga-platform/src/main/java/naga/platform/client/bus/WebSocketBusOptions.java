@@ -45,7 +45,7 @@ public class WebSocketBusOptions extends BusOptions {
         serverSSL = json.getBoolean("serverSSL", serverSSL);
         serverHost = json.getString("serverHost", serverHost);
         serverPort = json.getString("serverPort", serverHost);
-        pingInterval = json.getInt("pingInterval", pingInterval);
+        pingInterval = json.getInteger("pingInterval", pingInterval);
         return this;
     }
 
