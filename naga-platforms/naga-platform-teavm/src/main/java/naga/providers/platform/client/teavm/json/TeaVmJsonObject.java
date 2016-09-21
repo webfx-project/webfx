@@ -34,10 +34,9 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJ
     }
 
     @Override
-    public double getDouble(String key) {
+    public Double getDouble(String key) {
         return js2Double(getNativeElement(key));
     }
-
 
     @Override
     public String getString(String key) {
@@ -67,12 +66,12 @@ public final class TeaVmJsonObject extends TeaVmJsonElement implements WritableJ
     }
 
     @Override
-    public TeaVmJsonObject set(String key, boolean value) {
+    public TeaVmJsonObject set(String key, Boolean value) {
         return setNativeElement(key, JSBoolean.valueOf(value));
     }
 
     @Override
-    public TeaVmJsonObject set(String key, double value) {
+    public TeaVmJsonObject set(String key, Double value) {
         return setNativeElement(key, JSNumber.valueOf(value));
     }
 
