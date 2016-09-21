@@ -68,7 +68,7 @@ parser code {:
 terminal          EXPR_START;
 terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, EXISTS, IS, LIKE, IN, AS, ANY, ALL;
 terminal          OBJ_STATE, IMAGE;
-terminal          LPAREN, RPAREN, LBRACK, RBRACK, COLON, COMMA, DOT;
+terminal          LPAREN, RPAREN, LBRACK, RBRACK, COLON, COMMA, DOT, LCURLY, RCURLY;
 terminal          PLUS, MINUS, MULT, DIV, EQ, GT, LT, NOT, QUESTION, EQEQ, LTEQ, GTEQ, NOTEQ, AND, OR;
 terminal          NULL;
 terminal Object   NUMBER;
@@ -80,6 +80,7 @@ non terminal Object                 parser_start;
 non terminal SelectBuilder          select_query, select_start, select_distinct, select_class, select_where, select_group, select_order, select_limit;
 non terminal ExpressionBuilder      expr, expr_list_token, expr_or_list, left_dot, list_dot, list_dot_right, field_dot, field_dot_right, expr_dot, expr_dot_right, field, fields_group, val, constant, parameter, ordered, ordered_nulls;
 non terminal ExpressionArrayBuilder expr_list, expr2_list, val_list, order_list;
+non terminal JsonExpressionBuilder  json_token_list;
 non terminal Boolean dot_op;
 
 /* -------------Precedence and Associatively of Terminals Section----------- */
@@ -254,6 +255,10 @@ expr      ::= expr:left OR expr:right
               {: RESULT = new CallBuilder(name); :}
             | IDENTIFIER:name LPAREN expr_or_list:arg RPAREN
               {: RESULT = new CallBuilder(name, arg); :}
+            | LCURLY RCURLY
+              {: RESULT = new JsonExpressionBuilder(); :}
+            | LCURLY json_token_list:list RCURLY
+              {: RESULT = list; :}
             | field:f
               {: RESULT = f; :}
             | field_dot:ff
@@ -308,6 +313,11 @@ constant ::= NUMBER:n
               {: RESULT = new ConstantBuilder(null); :}
             ;
 
+json_token_list ::= json_token_list:list COMMA IDENTIFIER:key COLON expr:e
+              {: RESULT = list; RESULT.add(key, e); :}
+            | IDENTIFIER:key COLON expr:e
+              {: RESULT = new JsonExpressionBuilder(key, e); :}
+            ;
 
 order_list ::= order_list:list COMMA ordered_nulls:o
                {: RESULT = list; RESULT.expressions.add(o); :}

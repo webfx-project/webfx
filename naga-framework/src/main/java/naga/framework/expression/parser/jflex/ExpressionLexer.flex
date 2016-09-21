@@ -108,6 +108,8 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
     "]"                            { return symbol(RBRACK); }
     ","                            { return symbol(COMMA); }
     "."                            { return symbol(DOT); }
+    "{"                            { return symbol(LCURLY); }
+    "}"                            { return symbol(RCURLY); }
 
   /* string literal */
     "'"                            { yybegin(STRING_SINGLE_QUOTE); string.setLength(0); }
