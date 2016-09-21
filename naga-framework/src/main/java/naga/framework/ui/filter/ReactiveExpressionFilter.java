@@ -160,10 +160,6 @@ public class ReactiveExpressionFilter {
         return filterDisplay;
     }
 
-    public Property<DisplaySelection> getDisplaySelectionProperty() {
-        return getFilterDisplay().getDisplaySelectionProperty();
-    }
-
     public ReactiveExpressionFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
         getFilterDisplay().setDisplaySelectionProperty(displaySelectionProperty);
         return this;
@@ -194,18 +190,6 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    public Entity getSelectedEntity() {
-        return getFilterDisplay().getSelectedEntity();
-    }
-
-    public Entity getSelectedEntity(DisplaySelection selection) {
-        return getFilterDisplay().getSelectedEntity(selection);
-    }
-
-    public EntityList getCurrentEntityList() {
-        return getFilterDisplay().getCurrentEntityList();
-    }
-
     public ReactiveExpressionFilter setExpressionColumns(String jsonArrayDisplayColumns) {
         getFilterDisplay().setExpressionColumns(jsonArrayDisplayColumns);
         return this;
@@ -229,6 +213,39 @@ public class ReactiveExpressionFilter {
     public ReactiveExpressionFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
         getFilterDisplay().setDisplayResultSetProperty(displayResultSetProperty);
         return this;
+    }
+
+
+    public Property<DisplaySelection> getDisplaySelectionProperty() {
+        return getDisplaySelectionProperty(0);
+    }
+
+    public Property<DisplaySelection> getDisplaySelectionProperty(int displayIndex) {
+        return filterDisplays.get(displayIndex).getDisplaySelectionProperty();
+    }
+
+    public Entity getSelectedEntity() {
+        return getSelectedEntity(0);
+    }
+
+    public Entity getSelectedEntity(int displayIndex) {
+        return filterDisplays.get(displayIndex).getSelectedEntity();
+    }
+
+    public Entity getSelectedEntity(DisplaySelection selection) {
+        return getSelectedEntity(0, selection);
+    }
+
+    public Entity getSelectedEntity(int displayIndex, DisplaySelection selection) {
+        return filterDisplays.get(displayIndex).getSelectedEntity(selection);
+    }
+
+    public EntityList getCurrentEntityList() {
+        return getCurrentEntityList(0);
+    }
+
+    public EntityList getCurrentEntityList(int displayIndex) {
+        return filterDisplays.get(displayIndex).getCurrentEntityList();
     }
 
     public ReactiveExpressionFilter start() {
@@ -312,6 +329,7 @@ public class ReactiveExpressionFilter {
                 filterDisplay.resetDisplayResultSet(empty);
         });
     }
+
     private DisplayResultSet[] emptyDisplayResultSets() {
         int n = filterDisplays.size();
         DisplayResultSet[] resultSets = new DisplayResultSet[n];
