@@ -14,7 +14,7 @@ public interface JsonWrapper {
             case NUMBER: return nativeToJavaScalar(nativeElement);
             case ARRAY:  return (T) nativeToJavaJsonArray(nativeElement);
             case OBJECT: return (T) nativeToJavaJsonObject(nativeElement);
-            default:     return null;
+            default:     return (T) nativeElement;
         }
     }
 
