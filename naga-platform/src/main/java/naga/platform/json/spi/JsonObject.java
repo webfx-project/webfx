@@ -1,13 +1,11 @@
 package naga.platform.json.spi;
 
-import naga.commons.util.*;
-
-import java.time.Instant;
+import naga.commons.keyobject.KeyObject;
 
 /**
  * @author Bruno Salmon
  */
-public interface JsonObject extends JsonElement {
+public interface JsonObject extends KeyObject, JsonElement {
 
     /**
      * Return true if it is an array.
@@ -18,13 +16,6 @@ public interface JsonObject extends JsonElement {
      * Return true if it is an object.
      */
     default boolean isObject() { return true; }
-
-    /**
-     * Test whether a given key has present.
-     */
-    default boolean has(String key) {
-        return get(key) != null;
-    }
 
     /**
      * All keys of the object.
@@ -41,7 +32,6 @@ public interface JsonObject extends JsonElement {
      */
     default <T> T get(String key) { return anyNativeToJava(getNativeElement(key)); }
 
-
     /**
      * Return the element as a JsonObject. If the type is not an object, this can result in runtime errors.
      */
@@ -55,68 +45,4 @@ public interface JsonObject extends JsonElement {
     default <T> T getScalar(String key) {
         return nativeToJavaScalar(getNativeElement(key));
     }
-
-    default <T> T getScalar(String key, T defaultValue) {
-        return Objects.coalesce(getScalar(key), defaultValue);
-    }
-
-    /**
-     * Return the element as a boolean. If the type is not a boolean, this can result in runtime errors.
-     */
-    default boolean getBoolean(String key) { return Booleans.booleanValue(getScalar(key)); }
-
-    /**
-     * Return the element as a boolean. If the type is not a boolean, this can result in runtime errors.
-     */
-    default boolean getBoolean(String key, boolean defaultValue) { return Booleans.booleanValue(getScalar(key, anyJavaToNative(defaultValue))); }
-
-    /**
-     * Return the element as a String. If the type is not a String, this can result in runtime errors.
-     */
-    default String getString(String key) { return Strings.stringValue(getNativeElement(key)); }
-
-    /**
-     * Return the element as a String. If the type is not a String, this can result in runtime errors.
-     */
-    default String getString(String key, String defaultValue) { return Strings.stringValue(getScalar(key, defaultValue)); }
-
-    /**
-     * Return the element as a int. If the type is not a int, this can result in runtime errors.
-     */
-    default int getInt(String key) { return Numbers.intValue(getNativeElement(key)); }
-
-    /**
-     * Return the element as a int. If the type is not a int, this can result in runtime errors.
-     */
-    default int getInt(String key, int defaultValue) { return Numbers.intValue(getScalar(key, defaultValue)); }
-
-    /**
-     * Return the element as a long. If the type is not a long, this can result in runtime errors.
-     */
-    default long getLong(String key) { return Numbers.longValue(getNativeElement(key)); }
-
-    /**
-     * Return the element as a long. If the type is not a long, this can result in runtime errors.
-     */
-    default long getLong(String key, long defaultValue) { return Numbers.longValue(getScalar(key, defaultValue)); }
-
-    /**
-     * Return the element as a double. If the type is not a double, this can result in runtime errors.
-     */
-    default double getDouble(String key) { return Numbers.doubleValue(getNativeElement(key)); }
-
-    /**
-     * Return the element as a double. If the type is not a double, this can result in runtime errors.
-     */
-    default double getDouble(String key, double defaultValue) { return  Numbers.doubleValue(getScalar(key, defaultValue)); }
-
-    /**
-     * Return the element as a double. If the type is not a double, this can result in runtime errors.
-     */
-    default Instant getInstant(String key) { return Dates.toInstant(getNativeElement(key)); }
-
-    /**
-     * Return the element as a double. If the type is not a double, this can result in runtime errors.
-     */
-    default Instant getInstant(String key, Instant defaultValue) { return  Dates.toInstant(getScalar(key, defaultValue)); }
 }

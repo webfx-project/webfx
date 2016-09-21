@@ -1,14 +1,11 @@
 package naga.platform.json.spi;
 
-import naga.commons.util.Booleans;
-import naga.commons.util.Numbers;
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
+import naga.commons.keyobject.IndexedArray;
 
 /**
  * @author Bruno Salmon
  */
-public interface JsonArray extends JsonElement {
+public interface JsonArray extends JsonElement, IndexedArray {
 
     /**
      * Return true if it is an array.
@@ -57,59 +54,4 @@ public interface JsonArray extends JsonElement {
     default <T> T getScalar(int index) {
         return nativeToJavaScalar(getNativeElement(index));
     }
-
-    default <T> T getScalar(int index, T defaultValue) {
-        return Objects.coalesce(getScalar(index), defaultValue);
-    }
-
-    /**
-     * Return the ith element of the array as a boolean. If the type is not a boolean, this can result in runtime errors.
-     */
-    default boolean getBoolean(int index) { return Booleans.booleanValue(getScalar(index)); }
-
-    /**
-     * Return the ith element of the array as a boolean. If the type is not a boolean, this can result in runtime errors.
-     */
-    default boolean getBoolean(int index, boolean defaultValue) { return Booleans.booleanValue(getScalar(index, defaultValue)); }
-
-    /**
-     * Return the ith element of the array as a String. If the type is not a String, this can result in runtime errors.
-     */
-    default String getString(int index) { return Strings.stringValue(getScalar(index)); }
-
-    /**
-     * Return the ith element of the array as a String. If the type is not a String, this can result in runtime errors.
-     */
-    default String getString(int index, String defaultValue) { return Strings.stringValue(getScalar(index, defaultValue)); }
-
-    /**
-     * Return the ith element of the array as a int. If the type is not a int, this can result in runtime errors.
-     */
-    default int getInt(int index) { return Numbers.intValue(getScalar(index)); }
-
-    /**
-     * Return the ith element of the array as a int. If the type is not a int, this can result in runtime errors.
-     */
-    default int getInt(int index, int defaultValue) { return Numbers.intValue(getScalar(index, defaultValue)); }
-
-    /**
-     * Return the ith element of the array as a long. If the type is not a long, this can result in runtime errors.
-     */
-    default long getLong(int index) { return Numbers.longValue(getScalar(index)); }
-
-    /**
-     * Return the ith element of the array as a long. If the type is not a long, this can result in runtime errors.
-     */
-    default long getLong(int index, long defaultValue) { return Numbers.longValue(getScalar(index, defaultValue)); }
-
-    /**
-     * Return the ith element of the array as a double. If the type is not a double, this can result in runtime errors.
-     */
-    default double getDouble(int index) { return Numbers.doubleValue(getScalar(index)); }
-
-    /**
-     * Return the ith element of the array as a double. If the type is not a double, this can result in runtime errors.
-     */
-    default double getDouble(int index, double defaultValue) { return Numbers.doubleValue(getScalar(index, defaultValue)); }
-
 }

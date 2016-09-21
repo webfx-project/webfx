@@ -1,14 +1,13 @@
 package naga.platform.json.spi;
 
+import naga.commons.keyobject.IndexedArray;
+import naga.commons.keyobject.KeyObject;
+import naga.commons.keyobject.WritableIndexedArray;
+
 /**
  * @author Bruno Salmon
  */
-public interface WritableJsonArray extends JsonArray, WritableJsonElement {
-
-    /**
-     * Remove a given index and associated value from the object.
-     */
-    <V> V remove(int index);
+public interface WritableJsonArray extends JsonArray, WritableJsonElement, WritableIndexedArray {
 
     /**
      * Pushes the given element onto the end of the array. Fluent API (return this).
@@ -25,32 +24,18 @@ public interface WritableJsonArray extends JsonArray, WritableJsonElement {
     /**
      * Set a given index to the given object.
      */
-    default WritableJsonArray push(JsonObject object) { return pushNativeElement(javaToNativeJsonObject(object)); }
+    default WritableJsonArray push(KeyObject object) { return pushNativeElement(javaToNativeJsonObject((JsonObject) object)); }
 
     /**
      * Set a given index to the given array.
      */
-    default WritableJsonArray push(JsonArray array) { return pushNativeElement(javaToNativeJsonArray(array)); }
+    default WritableJsonArray push(IndexedArray array) { return pushNativeElement(javaToNativeJsonArray((JsonArray) array)); }
 
     /**
      * Set a given index to the given element.
      */
     default WritableJsonArray pushScalar(Object scalar) { return pushNativeElement(javaToNativeScalar(scalar)); }
 
-    /**
-     * Pushes the given boolean string onto the end of the array.
-     */
-    default WritableJsonArray push(String value) { return pushScalar(value); }
-
-    /**
-     * Pushes the given boolean value onto the end of the array.
-     */
-    default WritableJsonArray push(boolean value) { return pushScalar(value); }
-
-    /**
-     * Pushes the given double value onto the end of the array.
-     */
-    default WritableJsonArray push(double value) { return pushScalar(value); }
 
     /**
      * Set a given index to the given value. Fluent API (return this).
@@ -84,26 +69,4 @@ public interface WritableJsonArray extends JsonArray, WritableJsonElement {
     default WritableJsonArray setScalar(int index, Object scalar) {
         return setNativeElement(index, javaToNativeScalar(scalar));
     }
-
-    /**
-     * Set a given index to the given string.
-     */
-    default WritableJsonArray set(int index, String value) {
-        return setScalar(index, value);
-    }
-
-    /**
-     * Set a given index to the given boolean.
-     */
-    default WritableJsonArray set(int index, boolean value) {
-        return setScalar(index, value);
-    }
-
-    /**
-     * Set a given index to the given double.
-     */
-    default WritableJsonArray set(int index, double value) {
-        return setScalar(index, value);
-    }
-
 }

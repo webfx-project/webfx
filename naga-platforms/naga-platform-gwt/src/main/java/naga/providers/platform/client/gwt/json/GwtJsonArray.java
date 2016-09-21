@@ -74,12 +74,12 @@ public final class GwtJsonArray extends GwtJsonElement implements WritableJsonAr
     }
 
     @Override
-    public native boolean getBoolean(int index) /*-{
+    public native Boolean getBoolean(int index) /*-{
         return this[index];
     }-*/;
 
     @Override
-    public native double getDouble(int index) /*-{
+    public native Double getDouble(int index) /*-{
         return this[index];
     }-*/;
 

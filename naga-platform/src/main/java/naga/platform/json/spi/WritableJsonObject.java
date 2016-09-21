@@ -1,18 +1,13 @@
 package naga.platform.json.spi;
 
-import naga.commons.util.Dates;
-
-import java.time.Instant;
+import naga.commons.keyobject.IndexedArray;
+import naga.commons.keyobject.KeyObject;
+import naga.commons.keyobject.WritableKeyObject;
 
 /**
  * @author Bruno Salmon
  */
-public interface WritableJsonObject extends JsonObject {
-
-    /**
-     * Remove a given key and associated value from the object.
-     */
-    <V> V remove(String key);
+public interface WritableJsonObject extends JsonObject, WritableKeyObject {
 
     /**
      * Set a given key to the given element. Fluent API (return this).
@@ -29,28 +24,16 @@ public interface WritableJsonObject extends JsonObject {
     /**
      * Set a given key to the given object.
      */
-    default WritableJsonObject setObject(String key, JsonObject object) { return setNativeElement(key, javaToNativeJsonObject(object)); }
+    default WritableJsonObject setObject(String key, KeyObject object) { return setNativeElement(key, javaToNativeJsonObject((JsonObject) object)); }
 
     /**
      * Set a given key to the given array.
      */
-    default WritableJsonObject setArray(String key, JsonArray array) { return setNativeElement(key, javaToNativeJsonArray(array)); }
+    default WritableJsonObject setArray(String key, IndexedArray array) { return setNativeElement(key, javaToNativeJsonArray((JsonArray) array)); }
 
     /**
      * Set a given key to the given element.
      */
     default WritableJsonObject setScalar(String key, Object scalar) { return setNativeElement(key, javaToNativeScalar(scalar)); }
-
-    default WritableJsonObject set(String key, boolean value) { return setScalar(key, value); }
-
-    default WritableJsonObject set(String key, int value) { return setScalar(key, value); }
-
-    default WritableJsonObject set(String key, long value) { return setScalar(key, value); }
-
-    default WritableJsonObject set(String key, double value) { return setScalar(key, value); }
-
-    default WritableJsonObject set(String key, String value) { return setScalar(key, value); }
-
-    default WritableJsonObject set(String key, Instant value) { return setScalar(key, Dates.formatIso(value)); }
 
 }
