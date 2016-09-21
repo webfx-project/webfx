@@ -3,6 +3,7 @@ package naga.providers.toolkit.gwt.nodes.controls;
 import com.google.gwt.user.client.ui.Image;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.commons.util.Strings;
 import naga.providers.toolkit.gwt.nodes.GwtNode;
 
 /**
@@ -17,12 +18,8 @@ public class GwtImage extends GwtNode<Image> implements naga.toolkit.spi.nodes.c
     public GwtImage(Image image) {
         super(image);
         urlProperty.addListener((observable, oldValue, url) -> image.setUrl(url));
-        widthProperty.addListener((observable, oldValue, width) -> image.setWidth(toPx(width)));
-        heightProperty.addListener((observable, oldValue, height) -> image.setHeight(toPx(height)));
-    }
-
-    private static String toPx(Double size) {
-        return size == null ? null : size + "px";
+        widthProperty.addListener((observable, oldValue, width) -> image.getElement().setAttribute("width", Strings.toString(width)));
+        heightProperty.addListener((observable, oldValue, height) -> image.getElement().setAttribute("height", Strings.toString(height)));
     }
 
     private final Property<String> urlProperty = new SimpleObjectProperty<>();
