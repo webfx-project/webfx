@@ -124,10 +124,17 @@ public abstract class Toolkit {
     }
 
     public Image createImage(String url) {
+        return createImage(url, null, null);
+    }
+
+    public Image createImage(String url, Double width, Double height) {
         Image image = createImage();
+        image.setWidth(width);
+        image.setHeight(height);
         image.setUrl(url);
         return image;
     }
+
     public Image createImageOrNull(String url) {
         return url == null ? null : createImage(url);
     }
