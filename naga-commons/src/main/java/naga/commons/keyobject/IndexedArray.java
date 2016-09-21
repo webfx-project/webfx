@@ -11,6 +11,11 @@ import naga.commons.util.Strings;
 public interface IndexedArray {
 
     /**
+     * Length of the array or number of keys of the object
+     */
+    int size();
+
+    /**
      * Returns the first index of the given value, or -1 if it cannot be found.
      */
     int indexOf(Object value);
