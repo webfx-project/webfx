@@ -20,7 +20,7 @@ public class FxImageStore {
 
     public static Image getImage(String url, double w, double h) {
         Image image = images.get(url);
-        if (image == null && url != null)
+        if (image == null && url != null || image != null && (w != 0 && image.getWidth() != w || h != 0 && image.getHeight() != h))
             images.put(url, image = new Image(url, w, h, false, false));
         return image;
     }
