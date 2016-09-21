@@ -16,7 +16,13 @@ public class GwtImage extends GwtNode<Image> implements naga.toolkit.spi.nodes.c
 
     public GwtImage(Image image) {
         super(image);
-        urlProperty.addListener((observable, oldValue, newValue) -> image.setUrl(newValue));
+        urlProperty.addListener((observable, oldValue, url) -> image.setUrl(url));
+        widthProperty.addListener((observable, oldValue, width) -> image.setWidth(toPx(width)));
+        heightProperty.addListener((observable, oldValue, height) -> image.setHeight(toPx(height)));
+    }
+
+    private static String toPx(Double size) {
+        return size == null ? null : size + "px";
     }
 
     private final Property<String> urlProperty = new SimpleObjectProperty<>();
@@ -25,4 +31,15 @@ public class GwtImage extends GwtNode<Image> implements naga.toolkit.spi.nodes.c
         return urlProperty;
     }
 
+    private final Property<Double> widthProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> widthProperty() {
+        return widthProperty;
+    }
+
+    private final Property<Double> heightProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> heightProperty() {
+        return heightProperty;
+    }
 }

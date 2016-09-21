@@ -15,9 +15,13 @@ public class FxImageStore {
     private static Map<String, Image> images = new WeakHashMap<>();
 
     public static Image getImage(String url) {
+        return getImage(url, 0, 0);
+    }
+
+    public static Image getImage(String url, double w, double h) {
         Image image = images.get(url);
         if (image == null && url != null)
-            images.put(url, image = new Image(url));
+            images.put(url, image = new Image(url, w, h, false, false));
         return image;
     }
 

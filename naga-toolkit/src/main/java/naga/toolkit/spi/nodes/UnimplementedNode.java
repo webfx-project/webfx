@@ -140,6 +140,18 @@ public class UnimplementedNode<N> implements
         return children;
     }
 
+    private final Property<Double> widthProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> widthProperty() {
+        return widthProperty;
+    }
+
+    private final Property<Double> heightProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> heightProperty() {
+        return heightProperty;
+    }
+
     @Override
     public N unwrapToNativeNode() {
         return node;

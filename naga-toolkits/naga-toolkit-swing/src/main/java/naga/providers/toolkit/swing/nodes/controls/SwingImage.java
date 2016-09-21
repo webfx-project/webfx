@@ -29,4 +29,15 @@ public class SwingImage extends SwingNode<JLabel> implements Image<JLabel> {
         return urlProperty;
     }
 
+    private final Property<Double> widthProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> widthProperty() {
+        return widthProperty;
+    }
+
+    private final Property<Double> heightProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> heightProperty() {
+        return heightProperty;
+    }
 }
