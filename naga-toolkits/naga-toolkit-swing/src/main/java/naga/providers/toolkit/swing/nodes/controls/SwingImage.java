@@ -2,6 +2,7 @@ package naga.providers.toolkit.swing.nodes.controls;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.nodes.SwingNode;
 import naga.providers.toolkit.swing.util.JGradientLabel;
 import naga.providers.toolkit.swing.util.SwingImageStore;
@@ -20,7 +21,7 @@ public class SwingImage extends SwingNode<JLabel> implements Image<JLabel> {
 
     public SwingImage(JLabel label) {
         super(label);
-        urlProperty.addListener((observable, oldValue, newValue) -> label.setIcon(SwingImageStore.getImageIcon(newValue)));
+        urlProperty.addListener((observable, oldValue, url) -> label.setIcon(SwingImageStore.getIcon(url, Numbers.intValue(getWidth()), Numbers.intValue(getHeight()))));
     }
 
     private final Property<String> urlProperty = new SimpleObjectProperty<>();

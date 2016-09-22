@@ -25,10 +25,20 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Charts library -->
         <dependency>
             <groupId>org.knowm.xchart</groupId>
             <artifactId>xchart</artifactId>
-            <version>3.2.0</version>
+        </dependency>
+
+        <!-- SVG support -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>xmlgraphics-commons</artifactId>
         </dependency>
 
     </dependencies>

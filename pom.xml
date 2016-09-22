@@ -45,6 +45,9 @@
         <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
         <lib.medusa.version>5.5</lib.medusa.version>
         <lib.javafxsvg.version>1.2.1</lib.javafxsvg.version>
+        <lib.xchart.version>3.2.0</lib.xchart.version>
+        <lib.batik-transcoder.version>1.8</lib.batik-transcoder.version>
+        <lib.xmlgraphics-commons.version>1.5</lib.xmlgraphics-commons.version>
         <lib.junit.version>4.12</lib.junit.version>
 
         <!-- plugins versions -->
@@ -282,6 +285,28 @@
                 <groupId>eu.hansolo</groupId>
                 <artifactId>Medusa</artifactId>
                 <version>${lib.medusa.version}</version>
+            </dependency>
+
+            <!-- Swing libraries -->
+
+            <!-- Charts library for Swing -->
+            <dependency>
+                <groupId>org.knowm.xchart</groupId>
+                <artifactId>xchart</artifactId>
+                <version>${lib.xchart.version}</version>
+            </dependency>
+
+            <!-- Adding SVG support to Swing -->
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>batik-transcoder</artifactId>
+                <version>${lib.batik-transcoder.version}</version>
+            </dependency>
+            <!-- Also required for the SVG support -->
+            <dependency>
+                <groupId>org.apache.xmlgraphics</groupId>
+                <artifactId>xmlgraphics-commons</artifactId>
+                <version>${lib.xmlgraphics-commons.version}</version>
             </dependency>
 
         </dependencies>

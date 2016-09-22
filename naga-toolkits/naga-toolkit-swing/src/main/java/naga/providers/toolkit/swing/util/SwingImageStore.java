@@ -27,7 +27,19 @@ public final class SwingImageStore {
         return image;
     }
 
-    public static ImageIcon getImageIcon(String url) {
+    public static Icon getIcon(String url) {
+        return getIcon(url, 0, 0);
+    }
+
+    public static Icon getIcon(String url, int width, int height) {
+        if (url.endsWith(".svg"))
+            try {
+                InputStream is = SwingImageStore.class.getClassLoader().getResourceAsStream(url);
+                return new BatikSvgIcon(is, width, height);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         Image image = getImage(url);
         return image == null ? null : new ImageIcon(image);
     }
