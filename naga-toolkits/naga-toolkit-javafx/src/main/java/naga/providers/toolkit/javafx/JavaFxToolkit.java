@@ -1,5 +1,6 @@
 package naga.providers.toolkit.javafx;
 
+import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -81,6 +82,8 @@ public class JavaFxToolkit extends Toolkit {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
+            // Activating SVG support
+            SvgImageLoaderFactory.install();
             FxApplication.primaryStage = primaryStage;
             primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
             if (applicationWindow != null)

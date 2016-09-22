@@ -25,6 +25,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- SVG support for JavaFx -->
+        <dependency>
+            <groupId>de.codecentric.centerdevice</groupId>
+            <artifactId>javafxsvg</artifactId>
+        </dependency>
+
+        <!-- Gauges for JavaFx -->
         <dependency>
             <artifactId>Medusa</artifactId>
             <groupId>eu.hansolo</groupId>
