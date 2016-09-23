@@ -8,11 +8,13 @@ import naga.framework.activity.client.HasMountNodeProperty;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainActivityContextDirectAccess;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
+import naga.framework.ui.i18n.I18n;
 import naga.platform.activity.Activity;
 import naga.platform.json.Json;
 import naga.toolkit.properties.markers.HasImageProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Image;
+import naga.toolkit.spi.nodes.controls.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,11 +124,15 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     /** Helpers **/
 
-    protected Image createImage(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
+    public static TextView createTextView(String translationKey, I18n i18n) {
+        return i18n.translateText(Toolkit.get().createTextView(), translationKey);
+    }
+
+    public static Image createImage(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
         return Toolkit.get().createImage(Strings.startsWith(urlOrJson, "{") ? Json.parseObject(urlOrJson) : urlOrJson);
     }
 
-    protected <T extends HasImageProperty> T setImage(T hasImageProperty, String urlOrJson) {
+    public static  <T extends HasImageProperty> T setImage(T hasImageProperty, String urlOrJson) {
         hasImageProperty.setImage(createImage(urlOrJson));
         return hasImageProperty;
     }
