@@ -37,7 +37,7 @@ public class HtmlButton extends HtmlButtonBase<HTMLButtonElement> implements But
         super.updateHtmlContent();
         Image image = getImage();
         if (image != null)
-            appendFirstChild((Node) image.unwrapToNativeNode(), node);
+            appendFirstChild(node, (Node) image.unwrapToNativeNode());
     }
 
     private final BehaviorSubject<ActionEvent> actionEventObservable = BehaviorSubject.create();

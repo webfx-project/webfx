@@ -14,13 +14,21 @@ import static elemental2.Global.document;
 public class HtmlUtil {
 
     public static <N extends Node> N removeChildren(N node) {
-        while (node.firstChild != null)
-            node.removeChild(node.firstChild);
+        if (node != null)
+            while (node.firstChild != null)
+                node.removeChild(node.firstChild);
         return node;
     }
 
     public static <N extends Node> N appendChild(N parent, Node child) {
-        parent.appendChild(child);
+        if (parent != null && child != null)
+            parent.appendChild(child);
+        return parent;
+    }
+
+    public static <N extends Node> N appendFirstChild(N parent, Node child) {
+        if (parent != null && child != null)
+            parent.insertBefore(child, parent.firstChild);
         return parent;
     }
 
@@ -125,10 +133,6 @@ public class HtmlUtil {
                 return (E) e;
         }
         return null;
-    }
-
-    public static void appendFirstChild(Node child, Node parent) {
-        parent.insertBefore(child, parent.firstChild);
     }
 
     public static void replaceNode(Node oldChild, Node newChild, boolean observeIfNotYetAttached) {
