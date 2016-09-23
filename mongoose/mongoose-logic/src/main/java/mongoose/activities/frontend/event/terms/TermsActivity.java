@@ -1,6 +1,7 @@
 package mongoose.activities.frontend.event.terms;
 
 import mongoose.activities.frontend.event.booking.BookingProcessActivity;
+import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.toolkit.cell.collators.GridCollator;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -17,7 +18,10 @@ public class TermsActivity extends BookingProcessActivity<TermsViewModel, TermsP
     protected TermsViewModel buildView(Toolkit toolkit) {
         GridCollator termsLetterCollator = new GridCollator("vbox", "hbox");
         Button previousButton = toolkit.createButton();
-        return new TermsViewModel(toolkit.createVPage().setCenter(termsLetterCollator).setFooter(previousButton), termsLetterCollator, previousButton);
+        return new TermsViewModel(toolkit.createVPage()
+                .setCenter(HighLevelComponents.createSectionPanel("{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions", getI18n()).setCenter(termsLetterCollator))
+                .setFooter(previousButton),
+                termsLetterCollator, previousButton);
     }
 
     @Override

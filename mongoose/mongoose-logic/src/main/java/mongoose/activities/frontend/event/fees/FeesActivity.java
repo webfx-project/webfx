@@ -1,6 +1,7 @@
 package mongoose.activities.frontend.event.fees;
 
 import mongoose.activities.frontend.event.booking.BookingProcessActivity;
+import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
@@ -20,7 +21,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         Button termsButton = toolkit.createButton();
         Button programButton = toolkit.createButton();
         Button nextButton = toolkit.createButton();
-        return new FeesViewModel(toolkit.createVPage().setFooter(toolkit.createHBox(previousButton, termsButton, programButton, nextButton)), previousButton, nextButton, termsButton, programButton);
+        return new FeesViewModel(toolkit.createVPage()
+                .setCenter(HighLevelComponents.createSectionPanel("{url: 'images/price-tag.svg', width: 16, height: 16}", "Fees", getI18n()))
+                .setFooter(toolkit.createHBox(previousButton, termsButton, programButton, nextButton)),
+                previousButton, nextButton, termsButton, programButton);
     }
 
     @Override
