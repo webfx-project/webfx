@@ -12,7 +12,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface UiActivityContext<C extends UiActivityContext<C>> extends ActivityContext<C>, HasNodeProperty {
+public interface UiActivityContext<C extends UiActivityContext<C>> extends ActivityContext<C>, HasNodeProperty, HasMountNodeProperty {
 
     UiRouter getUiRouter();
 

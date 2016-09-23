@@ -33,9 +33,6 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
 
     @Override
     protected void bindViewModelWithPresentationModel(VM vm, PM pm) {
-        // Binding the mount node property so that child sub routed pages are displayed in the center
-        vm.getContentNode().centerProperty().bind(mountNodeProperty());
-
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         I18n i18n = getI18n();

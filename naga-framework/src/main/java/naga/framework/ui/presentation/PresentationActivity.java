@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.commons.util.Strings;
 import naga.commons.util.function.Factory;
+import naga.framework.activity.client.HasMountNodeProperty;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainActivityContextDirectAccess;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
@@ -88,6 +89,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             viewModel = viewBuilder != null ? viewBuilder.buildView(toolkit) : buildView(toolkit);
         }
         if (!viewBoundWithPresentationModel) {
+            // Binding the mount node property so that child sub routed pages are displayed
+            if (viewModel instanceof HasMountNodeProperty)
+                ((HasMountNodeProperty) viewModel).mountNodeProperty().bind(mountNodeProperty());
             //Platform.log("Binding UI model with presentation model");
             bindViewModelWithPresentationModel(viewModel, presentationModel);
             viewBoundWithPresentationModel = true;
