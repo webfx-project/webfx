@@ -21,6 +21,10 @@ a, a:hover, a:focus { /* links */
     color: white;
 }
 
+.panel-title {
+    font-weight: bold;
+}
+
 .container {
     width: 100%;
     padding: 0;
@@ -34,7 +38,7 @@ a, a:hover, a:focus { /* links */
     background: transparent;
 }
 
-button svg {
+button svg, .panel-title svg {
     fill: currentColor;
     vertical-align: middle;
     margin-right: 5px;
