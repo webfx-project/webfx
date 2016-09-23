@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.GuiNode;
  */
 public class HtmlNode<N extends Node> implements GuiNode<N> {
 
-    protected final N node;
+    protected N node;
 
     public HtmlNode(N node) {
         this.node = node;
