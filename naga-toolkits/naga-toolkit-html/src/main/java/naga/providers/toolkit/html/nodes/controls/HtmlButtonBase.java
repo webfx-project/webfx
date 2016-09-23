@@ -14,7 +14,11 @@ public class HtmlButtonBase<N extends Element> extends HtmlNode<N> implements Bu
     public HtmlButtonBase(N button) {
         super(button);
         textProperty.setValue(button.textContent);
-        textProperty.addListener((observable, oldValue, newValue) -> button.textContent = newValue);
+        textProperty.addListener((observable, oldValue, newValue) -> updateHtmlContent());
+    }
+
+    protected void updateHtmlContent() {
+        node.textContent = getText();
     }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();

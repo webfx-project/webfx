@@ -1,7 +1,10 @@
 package naga.providers.toolkit.gwt.nodes.controls;
 
-import naga.toolkit.spi.events.ActionEvent;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.gwt.events.GwtActionEvent;
+import naga.toolkit.spi.events.ActionEvent;
+import naga.toolkit.spi.nodes.controls.Image;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
@@ -23,5 +26,11 @@ public class GwtButton extends GwtButtonBase<com.google.gwt.user.client.ui.Butto
     @Override
     public Observable<ActionEvent> actionEventObservable() {
         return actionEventObservable;
+    }
+
+    private final Property<Image> imageProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Image> imageProperty() {
+        return imageProperty;
     }
 }

@@ -8,6 +8,7 @@ import naga.providers.toolkit.gwt.nodes.GwtNode;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.events.ActionEvent;
 import naga.providers.toolkit.gwt.events.GwtActionEvent;
+import naga.toolkit.spi.nodes.controls.Image;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
@@ -23,8 +24,9 @@ public class GwtPolymerButton extends GwtNode<PaperButton> implements Button<Pap
     public GwtPolymerButton(PaperButton button) {
         super(button);
         Polymer.ready(button.getElement(), o -> {
-            syncVisualText();
-            textProperty.addListener((observable, oldValue, newValue) -> syncVisualText());
+            syncVisual();
+            textProperty.addListener((observable, oldValue, newValue) -> syncVisual());
+            imageProperty.addListener((observable, oldValue, newValue) -> syncVisual());
             button.addClickHandler(event -> actionEventObservable.onNext(new GwtActionEvent(event)));
             return null;
         });
@@ -42,7 +44,15 @@ public class GwtPolymerButton extends GwtNode<PaperButton> implements Button<Pap
         return textProperty;
     }
 
-    private void syncVisualText() {
+    private final Property<Image> imageProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Image> imageProperty() {
+        return imageProperty;
+    }
+
+
+    private void syncVisual() {
         node.getElement().setInnerHTML(getText());
+        // TODO: add image
     }
 }

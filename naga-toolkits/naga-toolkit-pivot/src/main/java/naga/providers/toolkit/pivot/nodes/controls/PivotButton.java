@@ -1,8 +1,11 @@
 package naga.providers.toolkit.pivot.nodes.controls;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.pivot.events.PivotActionEvent;
 import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.events.ActionEvent;
+import naga.toolkit.spi.nodes.controls.Image;
 import org.apache.pivot.wtk.Action;
 import org.apache.pivot.wtk.Component;
 import org.apache.pivot.wtk.PushButton;
@@ -33,4 +36,12 @@ public class PivotButton extends PivotButtonBase<PushButton> implements Button<P
     public Observable<ActionEvent> actionEventObservable() {
         return actionEventObservable;
     }
+
+    //TODO: display image in the button
+    private final Property<Image> imageProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Image> imageProperty() {
+        return imageProperty;
+    }
+
 }

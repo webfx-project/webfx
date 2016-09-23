@@ -152,6 +152,12 @@ public class UnimplementedNode<N> implements
         return heightProperty;
     }
 
+    private final Property<Image> imageProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Image> imageProperty() {
+        return imageProperty;
+    }
+
     @Override
     public N unwrapToNativeNode() {
         return node;
