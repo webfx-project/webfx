@@ -16,29 +16,41 @@ import static naga.providers.toolkit.html.HtmlUtil.*;
  */
 public class HtmlVPage extends HtmlNode<HTMLDivElement> implements VPage<HTMLDivElement, Node> {
 
+    private final Node[] customContainers;
+
     public HtmlVPage() {
         this(createDiv());
-    }
-
-    public HtmlVPage(HTMLDivElement node) {
-        super(node);
-        ChangeListener<GuiNode<Node>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> populate();
-        for (int i = 0; i < childrenProperties.length; i++) {
-            childrenProperties[i] = new SimpleObjectProperty<>();
-            childrenProperties[i].addListener(onAnyNodePropertyChange);
-        }
     }
 
     private static HTMLDivElement createDiv() {
         return setStyle(createElement("div"), "width: 100%");
     }
 
+    public HtmlVPage(HTMLDivElement div) {
+        this(div, null, null, null);
+    }
+
+    public HtmlVPage(HTMLDivElement node, Node customHeaderContainer, Node customCenterContainer, Node customFooterContainer) {
+        super(node);
+        customContainers = customCenterContainer == null ? null : new Node[]{customHeaderContainer, customCenterContainer, customFooterContainer};
+        ChangeListener<GuiNode<Node>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> populate();
+        for (int i = 0; i < 3; i++) {
+            childrenProperties[i] = new SimpleObjectProperty<>();
+            childrenProperties[i].addListener(onAnyNodePropertyChange);
+        }
+    }
+
     private void populate() {
-        removeChildren();
-        for (Property<GuiNode<Node>> childProperty : childrenProperties) {
+        if (customContainers == null)
+            removeChildren();
+        for (int i = 0; i < 3; i++) {
+            Property<GuiNode<Node>> childProperty = childrenProperties[i];
             GuiNode<Node> childPropertyValue = childProperty.getValue();
-            if (childPropertyValue != null)
-                node.appendChild(prepareChild(childPropertyValue.unwrapToNativeNode()));
+            Node child = childPropertyValue == null ? null : prepareChild(childPropertyValue.unwrapToNativeNode());
+            if (customContainers == null)
+                appendChild(node, child);
+            else
+                setChild(customContainers[i], child);
         }
     }
 
