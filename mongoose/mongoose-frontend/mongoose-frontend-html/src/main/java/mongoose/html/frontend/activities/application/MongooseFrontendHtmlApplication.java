@@ -10,6 +10,7 @@ import mongoose.html.frontend.activities.event.fees.FeesUi;
 import mongoose.html.frontend.activities.event.options.OptionsUi;
 import mongoose.html.frontend.activities.event.program.ProgramUi;
 import mongoose.html.frontend.activities.event.terms.TermsUi;
+import mongoose.html.frontend.activities.highlevelcomponents.HtmlHighLevelComponentsFactory;
 import mongoose.web.activities.frontend.application.MongooseFrontendWebApplication;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.providers.platform.client.gwt.GwtPlatform;
@@ -25,6 +26,7 @@ public class MongooseFrontendHtmlApplication extends MongooseFrontendWebApplicat
 
     @Override
     protected void registerCustomViewBuilders() {
+        HtmlHighLevelComponentsFactory.register();
         PresentationActivity.registerViewBuilder(FrontendContainerActivity.class, ContainerUi::buildView);
         PresentationActivity.registerViewBuilder(FeesActivity.class, FeesUi::buildView);
         PresentationActivity.registerViewBuilder(TermsActivity.class, TermsUi::buildView);
