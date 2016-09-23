@@ -1,7 +1,10 @@
 package naga.providers.toolkit.html;
 
 import elemental2.*;
+import naga.commons.scheduler.Scheduled;
 import naga.commons.util.Strings;
+import naga.commons.util.tuples.Unit;
+import naga.toolkit.spi.Toolkit;
 
 import static elemental2.Global.document;
 
@@ -90,10 +93,10 @@ public class HtmlUtil {
         return createElement("div");
     }
 
-    public static HTMLDivElement createDivElement(String innerHTML) {
+    public static <E extends Node> E createNodeFromHtml(String innerHTML) {
         HTMLDivElement div = createDivElement();
         div.innerHTML = innerHTML;
-        return div;
+        return (E) div.firstChild;
     }
 
     public static HTMLElement createSpanElement() {
@@ -126,4 +129,32 @@ public class HtmlUtil {
         return null;
     }
 
+    public static void appendFirstChild(Node child, Node parent) {
+        parent.insertBefore(child, parent.firstChild);
+    }
+
+    public static void replaceNode(Node oldChild, Node newChild, boolean observeIfNotYetAttached) {
+        if (oldChild.parentNode != null)
+            oldChild.parentNode.replaceChild(newChild, oldChild);
+        else if (observeIfNotYetAttached) {
+/* Commented as can't make it work (just crashes) TODO: Make it work
+            new MutationObserver((mutationRecords, mutationObserver) -> {
+                Platform.log("mutationRecords");
+                if (oldChild.parentNode != null) {
+                    oldChild.parentNode.replaceChild(newChild, oldChild);
+                    mutationObserver.disconnect();
+                }
+                return null;
+            }).observe(oldChild);
+*/
+            // Using an alternative way with a periodic scan (quite ugly but works)
+            Unit<Scheduled> scheduled = new Unit<>();
+            scheduled.set(Toolkit.get().scheduler().schedulePeriodic(100, () -> {
+                if (oldChild.parentNode != null) {
+                    oldChild.parentNode.replaceChild(newChild, oldChild);
+                    scheduled.get().cancel();
+                }
+            }));
+        }
+    }
 }
