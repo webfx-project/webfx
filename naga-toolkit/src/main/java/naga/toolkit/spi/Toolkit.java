@@ -1,7 +1,9 @@
 package naga.toolkit.spi;
 
 import javafx.collections.ObservableList;
+import naga.commons.keyobject.KeyObject;
 import naga.commons.scheduler.Scheduler;
+import naga.commons.util.Strings;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
@@ -123,8 +125,13 @@ public abstract class Toolkit {
         return createNode(Image.class);
     }
 
-    public Image createImage(String url) {
-        return createImage(url, null, null);
+    public Image createImage(Object urlOrJson) {
+        boolean isJson = urlOrJson instanceof KeyObject;
+        KeyObject json = isJson ? (KeyObject) urlOrJson : null;
+        String url = isJson ? json.getString("url") : Strings.toString(urlOrJson);
+        Double width = isJson ? json.getDouble("width") : null;
+        Double height = isJson ? json.getDouble("width") : null;
+        return createImage(url, width, height);
     }
 
     public Image createImage(String url, Double width, Double height) {
