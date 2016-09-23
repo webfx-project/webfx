@@ -11,6 +11,9 @@ public interface MongooseFrontendHtmlBundle extends MongooseWebBundle {
 
     MongooseFrontendHtmlBundle R = GWT.create(MongooseFrontendHtmlBundle.class);
 
+    @Source("mongoose/html/frontend/activities/container/container.html")
+    TextResource containerHtml();
+
     @Source("mongoose/html/frontend/activities/event/fees/fees.html")
     TextResource feesHtml();
 
