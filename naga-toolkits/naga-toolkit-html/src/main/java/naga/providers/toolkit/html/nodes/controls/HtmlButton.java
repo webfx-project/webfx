@@ -4,7 +4,6 @@ import elemental2.HTMLButtonElement;
 import elemental2.Node;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.providers.toolkit.html.HtmlUtil;
 import naga.providers.toolkit.html.events.HtmlActionEvent;
 import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -12,6 +11,8 @@ import naga.toolkit.spi.nodes.controls.Image;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
+import static naga.providers.toolkit.html.HtmlUtil.appendFirstChild;
+import static naga.providers.toolkit.html.HtmlUtil.createButtonElement;
 
 /**
  * @author Bruno Salmon
@@ -19,7 +20,7 @@ import rx.subjects.BehaviorSubject;
 public class HtmlButton extends HtmlButtonBase<HTMLButtonElement> implements Button<HTMLButtonElement> {
 
     public HtmlButton() {
-        this(HtmlUtil.createButtonElement());
+        this(createButtonElement());
     }
 
     public HtmlButton(HTMLButtonElement button) {
@@ -36,7 +37,7 @@ public class HtmlButton extends HtmlButtonBase<HTMLButtonElement> implements But
         super.updateHtmlContent();
         Image image = getImage();
         if (image != null)
-            HtmlUtil.appendFirstChild((Node) image.unwrapToNativeNode(), node);
+            appendFirstChild((Node) image.unwrapToNativeNode(), node);
     }
 
     private final BehaviorSubject<ActionEvent> actionEventObservable = BehaviorSubject.create();

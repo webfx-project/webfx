@@ -5,10 +5,11 @@ import elemental2.Node;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
-import naga.providers.toolkit.html.HtmlUtil;
 import naga.providers.toolkit.html.nodes.HtmlNode;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.VPage;
+
+import static naga.providers.toolkit.html.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +30,7 @@ public class HtmlVPage extends HtmlNode<HTMLDivElement> implements VPage<HTMLDiv
     }
 
     private static HTMLDivElement createDiv() {
-        return HtmlUtil.setStyle(HtmlUtil.createElement("div"), "width: 100%");
+        return setStyle(createElement("div"), "width: 100%");
     }
 
     private void populate() {
@@ -42,7 +43,7 @@ public class HtmlVPage extends HtmlNode<HTMLDivElement> implements VPage<HTMLDiv
     }
 
     protected Node prepareChild(Node child) {
-        return HtmlUtil.appendChild(createDiv(), HtmlUtil.appendStyle(child, "width: 100%"));
+        return appendChild(createDiv(), appendStyle(child, "width: 100%"));
     }
 
 

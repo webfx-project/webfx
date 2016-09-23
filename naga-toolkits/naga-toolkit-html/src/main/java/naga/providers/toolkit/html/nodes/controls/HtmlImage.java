@@ -6,8 +6,9 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.commons.util.Strings;
 import naga.platform.spi.Platform;
-import naga.providers.toolkit.html.HtmlUtil;
 import naga.providers.toolkit.html.nodes.HtmlNode;
+
+import static naga.providers.toolkit.html.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon
@@ -15,7 +16,7 @@ import naga.providers.toolkit.html.nodes.HtmlNode;
 public class HtmlImage extends HtmlNode<Element> implements naga.toolkit.spi.nodes.controls.Image<Element> {
 
     public HtmlImage() {
-        this(HtmlUtil.createImageElement());
+        this(createImageElement());
     }
 
     public HtmlImage(HTMLElement image) {
@@ -44,14 +45,14 @@ public class HtmlImage extends HtmlNode<Element> implements naga.toolkit.spi.nod
                 if (svgTagIndex != -1)
                     svgFile = svgFile.substring(svgTagIndex);
                 // Creating the svg element from the file content
-                Element svgNode = HtmlUtil.createNodeFromHtml(svgFile);
+                Element svgNode = createNodeFromHtml(svgFile);
                 // Setting width and height if defined
                 if (getWidth() != null)
                     svgNode.setAttribute("width", getWidth());
                 if (getHeight() != null)
                     svgNode.setAttribute("height", getHeight());
                 // Replacing the node in the dom (only if it was already attached)
-                HtmlUtil.replaceNode(node, svgNode, false);
+                replaceNode(node, svgNode, false);
                 // Switching the node from image to svg (what will be returned by unwrapToNativeNode())
                 node = svgNode;
                 return true;

@@ -2,7 +2,6 @@ package naga.providers.toolkit.html.nodes.controls;
 
 import elemental2.*;
 import naga.commons.util.tuples.Unit;
-import naga.providers.toolkit.html.HtmlUtil;
 import naga.providers.toolkit.html.nodes.HtmlSelectableDisplayResultSetNode;
 import naga.toolkit.adapters.grid.GridFiller;
 import naga.toolkit.cell.renderers.ImageTextRenderer;
@@ -10,13 +9,15 @@ import naga.toolkit.display.*;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.nodes.controls.Table;
 
+import static naga.providers.toolkit.html.HtmlUtil.*;
+
 /**
  * @author Bruno Salmon
  */
 public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableElement> implements Table<HTMLTableElement> {
 
     public HtmlTable() {
-        this(HtmlUtil.createTableElement());
+        this(createTableElement());
     }
 
     public HtmlTable(HTMLTableElement node) {
@@ -45,7 +46,7 @@ public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableEleme
         firstRow = firstRow + 1;
         lastRow = Math.min(lastRow + 1, (int) rows.getLength() - 1);
         for (int trIndex = firstRow; trIndex <= lastRow; trIndex++)
-            HtmlUtil.setPseudoClass(rows.get(trIndex), "selected", selected);
+            setPseudoClass(rows.get(trIndex), "selected", selected);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableEleme
         HTMLTableSectionElement tHead = (HTMLTableSectionElement) node.createTHead();
         tHeadRow = (HTMLTableRowElement) tHead.insertRow(0);
         gridFiller.fillGrid(rs);
-        HTMLTableSectionElement tbody = HtmlUtil.createElement("tbody");
+        HTMLTableSectionElement tbody = createElement("tbody");
         node.appendChild(tbody);
         int rowCount = rs.getRowCount();
         int columnCount = rs.getColumnCount();
@@ -71,7 +72,7 @@ public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableEleme
                 setDisplaySelection(displaySelection);
                 return null;
             };
-            HtmlUtil.setPseudoClass(tBodyRow, gridFiller.getRowStyle(rowIndex));
+            setPseudoClass(tBodyRow, gridFiller.getRowStyle(rowIndex));
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                 if (columnIndex != gridFiller.getRowStyleColumnIndex())
                     gridFiller.fillCell(tBodyRow.insertCell(-1), rowIndex, columnIndex);
@@ -85,13 +86,13 @@ public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableEleme
         DisplayStyle style = displayColumn.getStyle();
         String textAlign = style.getTextAlign();
         if (textAlign != null)
-            HtmlUtil.setStyle(cell, "text-align: " + textAlign);
+            setStyle(cell, "text-align: " + textAlign);
         Double prefWidth = style.getPrefWidth();
         if (prefWidth != null) {
             if (displayColumn.getLabel().getText() != null)
                 prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
             //prefWidth = prefWidth + 10; // because of the 5px left and right padding
-            HtmlUtil.appendStyle(cell, "width: " + prefWidth + "px");
+            appendStyle(cell, "width: " + prefWidth + "px");
         }
         cell.appendChild((Node) content.unwrapToNativeNode());
     }) {

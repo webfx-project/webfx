@@ -42,9 +42,7 @@ public class HtmlUtil {
     }
 
     public static <E extends HTMLElement> E setPseudoClass(E e, String pseudoClass, boolean present) {
-        if (present)
-            return HtmlUtil.addPseudoClass(e, pseudoClass);
-        return HtmlUtil.removePseudoClass(e, pseudoClass);
+        return present ? addPseudoClass(e, pseudoClass) : removePseudoClass(e, pseudoClass);
     }
 
     public static <E extends HTMLElement> E addPseudoClass(E e, String pseudoClass) {
