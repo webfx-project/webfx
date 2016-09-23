@@ -24,12 +24,20 @@ public interface MongooseWebBundle extends ClientBundle {
     @Source("mongoose/dictionaries/fr.json")
     TextResource frenchDictionary();
 
+    @Source("images/certificate.svg")
+    TextResource certificateSvg();
+
+    @Source("images/calendar.svg")
+    TextResource calendarSvg();
+
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
             case "mongoose/domainmodel/DomainModelSnapshot.lzb64json": return R.lzBase64DomainModelSnapshot();
             case "naga/platform/client/bus/BusOptions.json": return R.jsonClientBusOptions();
             case "mongoose/dictionaries/en.json": return R.englishDictionary();
             case "mongoose/dictionaries/fr.json": return R.frenchDictionary();
+            case "images/certificate.svg": return R.certificateSvg();
+            case "images/calendar.svg": return R.calendarSvg();
             default: return null;
         }
     };

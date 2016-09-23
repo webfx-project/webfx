@@ -2,12 +2,16 @@ package naga.framework.ui.presentation;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.commons.util.Strings;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainActivityContextDirectAccess;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.platform.activity.Activity;
+import naga.platform.json.Json;
+import naga.toolkit.properties.markers.HasImageProperty;
 import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.Image;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,6 +117,15 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     protected abstract void bindViewModelWithPresentationModel(VM vm, PM pm);
 
     /** Helpers **/
+
+    protected Image createImage(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
+        return Toolkit.get().createImage(Strings.startsWith(urlOrJson, "{") ? Json.parseObject(urlOrJson) : urlOrJson);
+    }
+
+    protected <T extends HasImageProperty> T setImage(T hasImageProperty, String urlOrJson) {
+        hasImageProperty.setImage(createImage(urlOrJson));
+        return hasImageProperty;
+    }
 
     protected ReactiveExpressionFilter createReactiveExpressionFilter() {
         return initializeReactiveExpressionFilter(new ReactiveExpressionFilter());

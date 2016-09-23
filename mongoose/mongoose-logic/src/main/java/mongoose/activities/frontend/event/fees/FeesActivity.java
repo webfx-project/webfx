@@ -27,8 +27,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     protected void bindViewModelWithPresentationModel(FeesViewModel vm, FeesPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
         I18n i18n = getI18n();
-        i18n.translateText(vm.getProgramButton(), "Program").actionEventObservable().subscribe(this::onProgramButtonPressed);
-        i18n.translateText(vm.getTermsButton(), "TermsAndConditions").actionEventObservable().subscribe(this::onTermsButtonPressed);
+        i18n.translateText(setImage(vm.getProgramButton(), "{url: 'images/calendar.svg', width: 16, height: 16}"), "Program")
+                .actionEventObservable().subscribe(this::onProgramButtonPressed);
+        i18n.translateText(setImage(vm.getTermsButton(), "{url: 'images/certificate.svg', width: 16, height: 16}"), "TermsAndConditions")
+                .actionEventObservable().subscribe(this::onTermsButtonPressed);
     }
 
     private void onProgramButtonPressed(ActionEvent actionEvent) {
