@@ -45,7 +45,8 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     private static final Map<Class, ViewBuilder> viewBuilders = new HashMap<>();
 
     public static <VM extends ViewModel> void registerViewBuilder(Class<? extends PresentationActivity<VM, ? extends PresentationModel>> presentationActivityClass, ViewBuilder<VM> viewBuilder) {
-        viewBuilders.put(presentationActivityClass, viewBuilder);
+        // Skipping any further registration attempt, keeping only the first one (typically the one defined at application top level)
+        viewBuilders.putIfAbsent(presentationActivityClass, viewBuilder);
     }
 
     protected PresentationActivity() {
@@ -118,7 +119,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     protected abstract void bindPresentationModelWithLogic(PM pm);
 
-    protected abstract VM buildView(Toolkit toolkit);
+    protected VM buildView(Toolkit toolkit) {
+        return null;
+    }
 
     protected abstract void bindViewModelWithPresentationModel(VM vm, PM pm);
 
