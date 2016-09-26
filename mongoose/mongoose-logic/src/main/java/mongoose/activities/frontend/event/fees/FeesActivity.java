@@ -1,11 +1,8 @@
 package mongoose.activities.frontend.event.fees;
 
 import mongoose.activities.frontend.event.booking.BookingProcessActivity;
-import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
-import naga.toolkit.spi.nodes.controls.Button;
 
 /**
  * @author Bruno Salmon
@@ -14,17 +11,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
 
     public FeesActivity() {
         super(FeesPresentationModel::new, "options");
-    }
-
-    protected FeesViewModel buildView(Toolkit toolkit) {
-        Button previousButton = toolkit.createButton();
-        Button termsButton = toolkit.createButton();
-        Button programButton = toolkit.createButton();
-        Button nextButton = toolkit.createButton();
-        return new FeesViewModel(toolkit.createVPage()
-                .setCenter(HighLevelComponents.createSectionPanel("{url: 'images/price-tag.svg', width: 16, height: 16}", "Fees", getI18n()))
-                .setFooter(toolkit.createHBox(previousButton, termsButton, programButton, nextButton)),
-                previousButton, nextButton, termsButton, programButton);
+        registerViewBuilder(getClass(), new FeesViewModelBuilder());
     }
 
     @Override

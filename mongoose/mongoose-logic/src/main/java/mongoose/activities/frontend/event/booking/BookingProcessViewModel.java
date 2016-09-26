@@ -12,7 +12,6 @@ public class BookingProcessViewModel<N extends GuiNode> extends AbstractViewMode
     private final Button previousButton;
     private final Button nextButton;
 
-
     public BookingProcessViewModel(N contentNode, Button previousButton, Button nextButton) {
         super(contentNode);
         this.previousButton = previousButton;
