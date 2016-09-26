@@ -26,8 +26,8 @@ public class JFoenixToolkit extends JavaFxToolkit {
 
     public JFoenixToolkit() {
         super(() -> JavaFxToolkit.FxApplication.applicationWindow = new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage));
-        registerNodeFactory(CheckBox.class, () -> new FxCheckBox(new JFXCheckBox()));
-        registerNodeFactory(Button.class, () -> new FxButton(new JFXButton()));
+        registerNodeFactoryAndWrapper(CheckBox.class, () -> new FxCheckBox(new JFXCheckBox()), JFXCheckBox.class,FxCheckBox::new);
+        registerNodeFactoryAndWrapper(Button.class, () -> new FxButton(new JFXButton()), JFXButton.class, FxButton::new);
         //registerNodeFactory(ToggleSwitch.class, () -> new FxToggleSwitch(new JFXToggleButton()));
     }
 }
