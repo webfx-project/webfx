@@ -8,8 +8,8 @@ import mongoose.activities.frontend.event.terms.TermsActivity;
 import mongoose.html.frontend.activities.container.ContainerUi;
 import mongoose.html.frontend.activities.event.fees.FeesUi;
 import mongoose.html.frontend.activities.event.options.OptionsUi;
-import mongoose.html.frontend.activities.event.program.ProgramUi;
-import mongoose.html.frontend.activities.event.terms.TermsUi;
+import mongoose.html.frontend.activities.event.program.HtmlProgramViewModelBuilder;
+import mongoose.html.frontend.activities.event.terms.HtmlTermsViewModelBuilder;
 import mongoose.html.frontend.activities.highlevelcomponents.HtmlHighLevelComponentsFactory;
 import mongoose.web.activities.frontend.application.MongooseFrontendWebApplication;
 import naga.framework.ui.presentation.PresentationActivity;
@@ -29,8 +29,8 @@ public class MongooseFrontendHtmlApplication extends MongooseFrontendWebApplicat
         HtmlHighLevelComponentsFactory.register();
         PresentationActivity.registerViewBuilder(FrontendContainerActivity.class, ContainerUi::buildView);
         PresentationActivity.registerViewBuilder(FeesActivity.class, FeesUi::buildView);
-        PresentationActivity.registerViewBuilder(TermsActivity.class, TermsUi::buildView);
-        PresentationActivity.registerViewBuilder(ProgramActivity.class, ProgramUi::buildView);
+        PresentationActivity.registerViewBuilder(TermsActivity.class, new HtmlTermsViewModelBuilder());
+        PresentationActivity.registerViewBuilder(ProgramActivity.class, new HtmlProgramViewModelBuilder());
         PresentationActivity.registerViewBuilder(OptionsActivity.class, OptionsUi::buildView);
     }
 }
