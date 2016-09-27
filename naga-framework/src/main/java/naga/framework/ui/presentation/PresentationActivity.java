@@ -46,7 +46,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     public static <VM extends ViewModel> void registerViewBuilder(Class<? extends PresentationActivity<VM, ? extends PresentationModel>> presentationActivityClass, ViewBuilder<VM> viewBuilder) {
         // Skipping any further registration attempt, keeping only the first one (typically the one defined at application top level)
-        viewBuilders.putIfAbsent(presentationActivityClass, viewBuilder);
+        // viewBuilders.putIfAbsent(presentationActivityClass, viewBuilder); // works with GWT 2.8rc2 but not 2.8beta1
+        if (!viewBuilders.containsKey(presentationActivityClass))
+            viewBuilders.put(presentationActivityClass, viewBuilder);
     }
 
     protected PresentationActivity() {
