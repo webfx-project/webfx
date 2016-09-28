@@ -6,6 +6,7 @@ import naga.framework.expression.terms.Dot;
 import naga.framework.expression.terms.Symbol;
 import naga.framework.expression.sqlcompiler.sql.SqlClause;
 import naga.commons.type.Types;
+import naga.framework.orm.domainmodel.FieldsGroup;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +14,7 @@ import naga.commons.type.Types;
 public class SymbolSqlCompiler extends AbstractTermSqlCompiler<Symbol> {
 
     public SymbolSqlCompiler() {
-        super(Symbol.class, DomainField.class);
+        super(Symbol.class, DomainField.class, FieldsGroup.class);
     }
 
     @Override

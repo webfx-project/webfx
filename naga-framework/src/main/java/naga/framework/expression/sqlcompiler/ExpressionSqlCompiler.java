@@ -35,7 +35,7 @@ public class ExpressionSqlCompiler {
                 new ConstantSqlCompiler(),          // Constant
                 new ParameterSqlCompiler(),         // Parameter
                 new IdSqlCompiler(),                // IdExpression
-                new SymbolSqlCompiler()             // Symbol
+                new SymbolSqlCompiler()             // Symbol, DomainField, FieldsGroup
         );
     }
 
