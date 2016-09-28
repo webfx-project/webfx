@@ -139,12 +139,12 @@ public class UiRouter extends HistoryRouter {
                 activityManager = activityManagerFactory.create(); // So we create the activity manager (and its associated activity)
                 activityManager.create(activityContext); // and we transit the activity into the create state and pass the context
             }
+            // Now that the new requested activity is displayed, we pause the previous activity
+            if (previousActivityManager != null) // if there was a previous activity
+                previousActivityManager.pause();
             // Now we transit the current activity (which was either paused or newly created) into the resume state and
             // once done we display the activity node by binding it with the hosting context (done in the UI tread)
             activityManager.resume().setHandler(event -> Toolkit.get().scheduler().runInUiThread(() -> hostingContext.nodeProperty().bind(activityContext.nodeProperty())));
-            // Now that the new requested activity is displayed, we pause the previous activity
-            if (previousActivityManager != null && previousActivityManager != activityManager) // if there was a previous activity
-                previousActivityManager.pause();
             /*** Sub routing management ***/
             // When the activity is a mount child activity coming from sub routing, we make sure the mount parent activity is displayed
             if (mountParentRouter != null) { // Indicates it is a child sub router
