@@ -292,8 +292,6 @@ public class ReactiveExpressionFilter {
                 return Observable.just(EntityList.create(listId, store));
             // Otherwise we compile the final string filter into sql
             SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
-            // Tracing the compiled sql for debug
-            Platform.log(sqlCompiled.getSql());
             // We increment and capture the sequence to check if the request is still the latest one when receiving the result
             int sequence = querySequence.incrementAndGet();
             // Then we ask the query service to execute the sql query

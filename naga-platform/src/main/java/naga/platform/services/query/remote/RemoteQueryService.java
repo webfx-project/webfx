@@ -1,5 +1,6 @@
 package naga.platform.services.query.remote;
 
+import naga.commons.util.Arrays;
 import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
@@ -9,6 +10,7 @@ import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.spi.QueryService;
 import naga.commons.util.async.Future;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -19,6 +21,9 @@ public class RemoteQueryService implements QueryService {
 
     @Override
     public Future<QueryResultSet> executeQuery(QueryArgument argument) {
+        Platform.log(argument.getQueryString());
+        if (argument.getParameters() != null)
+            Platform.log(Arrays.toString(argument.getParameters()));
         QueryService localQueryService = getConnectedLocalQueryService(argument.getDataSourceId());
         if (localQueryService != null)
             return localQueryService.executeQuery(argument);
