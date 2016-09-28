@@ -64,7 +64,7 @@ public class I18nImpl implements I18n {
         updateTranslations();
     }
 
-    private void updateTranslations() {
+    private synchronized void updateTranslations() {
         for (Iterator<Map.Entry<Object, Reference<Property<String>>>> it = translations.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<Object, Reference<Property<String>>> entry = it.next();
             Reference<Property<String>> value = entry.getValue();
