@@ -77,6 +77,14 @@ public abstract class Toolkit {
         return applicationWindow;
     }
 
+    public boolean isReady() {
+        return true;
+    }
+
+    public void onReady(Runnable runnable) {
+        get().scheduler().runInUiThread(runnable);
+    }
+
     public Scheduler scheduler() {
         return uiScheduler;
     }

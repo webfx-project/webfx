@@ -23,13 +23,16 @@ import naga.toolkit.spi.nodes.controls.*;
 import naga.toolkit.spi.nodes.gauges.Gauge;
 import naga.toolkit.spi.nodes.layouts.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Bruno Salmon
  */
 public class JavaFxToolkit extends Toolkit {
 
-    private static Runnable startHook;
     private static Consumer<Scene> sceneHook;
+    private static List<Runnable> readyRunnables = new ArrayList<>();
 
     public JavaFxToolkit() {
         this(() -> FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage));
@@ -60,8 +63,17 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(PieChart.class, FxPieChart::new, javafx.scene.chart.PieChart.class, FxPieChart::new);
     }
 
-    public static void setStartHook(Runnable startHook) {
-        JavaFxToolkit.startHook = startHook;
+    @Override
+    public boolean isReady() {
+        return readyRunnables == null;
+    }
+
+    @Override
+    public void onReady(Runnable runnable) {
+        if (readyRunnables != null)
+            readyRunnables.add(runnable);
+        else
+            super.onReady(runnable);
     }
 
     public static void setSceneHook(Consumer<Scene> sceneHook) {
@@ -88,9 +100,9 @@ public class JavaFxToolkit extends Toolkit {
             primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
             if (applicationWindow != null)
                 applicationWindow.setStage(primaryStage);
-            if (startHook != null) {
-                startHook.run();
-                startHook = null;
+            if (readyRunnables != null) {
+                readyRunnables.forEach(Runnable::run);
+                readyRunnables = null;
             }
         }
     }
