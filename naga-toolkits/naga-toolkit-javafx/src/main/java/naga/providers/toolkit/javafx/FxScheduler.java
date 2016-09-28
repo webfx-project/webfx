@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.Scheduler;
+import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -19,7 +20,11 @@ class FxScheduler implements Scheduler {
 
     @Override
     public void scheduleDeferred(Runnable runnable) {
-        Platform.runLater(runnable);
+        Toolkit toolkit = Toolkit.get();
+        if (!toolkit.isReady())
+            toolkit.onReady(runnable);
+        else
+            Platform.runLater(runnable);
     }
 
     @Override
@@ -40,7 +45,7 @@ class FxScheduler implements Scheduler {
 
     @Override
     public boolean isUiThread() {
-        return Platform.isFxApplicationThread();
+        return Toolkit.get().isReady() && Platform.isFxApplicationThread();
     }
 
     private static class FxScheduled implements Scheduled {
