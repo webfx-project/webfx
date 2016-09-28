@@ -1,5 +1,6 @@
 package naga.toolkit.cell.collators;
 
+import naga.commons.util.Arrays;
 import naga.toolkit.spi.Toolkit;
 
 import java.util.HashMap;
@@ -15,11 +16,13 @@ public class NodeCollatorRegistry {
     private static NodeCollator hBoxCollator = Toolkit.get()::createHBox;
     private static NodeCollator vBoxCollator = Toolkit.get()::createVBox;
     private static NodeCollator flowPaneCollator = Toolkit.get()::createFlowPane;
+    private static NodeCollator firstCollator = nodes -> Arrays.getValue(nodes, 0);
 
     static {
-        registerCollator("hBox", hBoxCollator());
-        registerCollator("vBox", vBoxCollator());
-        registerCollator("flowPane", flowPaneCollator());
+        registerCollator("hBox", hBoxCollator);
+        registerCollator("vBox", vBoxCollator);
+        registerCollator("flowPane", flowPaneCollator);
+        registerCollator("first", firstCollator);
     }
 
     public static void registerCollator(String name, NodeCollator collator) {
@@ -40,5 +43,9 @@ public class NodeCollatorRegistry {
 
     public static NodeCollator flowPaneCollator() {
         return flowPaneCollator;
+    }
+
+    public static NodeCollator firstCollator() {
+        return firstCollator;
     }
 }
