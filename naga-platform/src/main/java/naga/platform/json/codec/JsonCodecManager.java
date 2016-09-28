@@ -58,7 +58,7 @@ public class JsonCodecManager {
     }
 
     public static Object encodeToJson(Object object) {
-        if (object == null || object instanceof String || Numbers.isNumber(object))
+        if (object == null || object instanceof String || Numbers.isNumber(object) || object instanceof Boolean)
             return object;
         Instant instant = Dates.asInstant(object);
         if (instant != null)
