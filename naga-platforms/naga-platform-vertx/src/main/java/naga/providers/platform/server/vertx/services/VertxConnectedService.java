@@ -95,8 +95,8 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 ResultSet resultSet = res.result();
                 int columnCount = resultSet.getNumColumns();
                 int rowCount = resultSet.getNumRows();
-                String[] columnNames = resultSet.getColumnNames().toArray(new String[columnCount]);
-                QueryResultSetBuilder rsb = QueryResultSetBuilder.create(rowCount, columnNames);
+                QueryResultSetBuilder rsb = QueryResultSetBuilder.create(rowCount, columnCount);
+                // deactivated column names serialization - rsb.setColumnNames(resultSet.getColumnNames().toArray(new String[columnCount]));
                 List<JsonArray> results = resultSet.getResults();
                 for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
                     JsonArray jsonArray = results.get(rowIndex);
