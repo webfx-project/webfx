@@ -28,6 +28,7 @@ import naga.framework.ui.rx.RxUi;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
 import naga.toolkit.display.DisplayColumnBuilder;
 import naga.toolkit.display.DisplayResultSet;
@@ -49,8 +50,10 @@ public class ReactiveExpressionFilter {
     private EntityStore store;
     private Object listId = "default";
     private boolean autoRefresh = false;
+    private boolean startsWithEmptyResult = true;
     private Object domainClassId;
     private StringFilter baseFilter;
+    private Handler<EntityList> entitiesHandler;
     private FilterDisplay filterDisplay;
     private List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
@@ -86,6 +89,16 @@ public class ReactiveExpressionFilter {
 
     public ReactiveExpressionFilter setAutoRefresh(boolean autoRefresh) {
         this.autoRefresh = autoRefresh;
+        return this;
+    }
+
+    public ReactiveExpressionFilter setStartsWithEmptyResult(boolean startsWithEmptyResult) {
+        this.startsWithEmptyResult = startsWithEmptyResult;
+        return this;
+    }
+
+    public ReactiveExpressionFilter setEntitiesHandler(Handler<EntityList> entitiesHandler) {
+        this.entitiesHandler = entitiesHandler;
         return this;
     }
 
@@ -261,23 +274,25 @@ public class ReactiveExpressionFilter {
         }
         // The following call is to set stringFilterObservableLastIndex on the latest filterDisplay
         goToNextFilterDisplayIfDisplayResultSetPropertyIsSet();
-        // Initializing the displays with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
-        resetAllDisplayResultSets(true);
+        // Initializing the display with empty results (no rows but columns) so the component (probably a table) display the columns before calling the server
+        if (startsWithEmptyResult)
+            resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
             i18n.dictionaryProperty().addListener((observable, oldValue, newValue) -> resetAllDisplayResultSets(false));
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
-        Observable<StringFilter> o = Observable
+        Observable<StringFilter> resultingStringFilterObservable = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
                 .filter(stringFilter -> isActive());
         if (!autoRefresh)
-            o = o.distinctUntilChanged();
-        o.switchMap(stringFilter -> {
-            // Shortcut: when the string filter is "false", we return an empty result set immediately (no server call)
+            resultingStringFilterObservable = resultingStringFilterObservable.distinctUntilChanged();
+        Observable<EntityList> entitiesObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
+            // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
             if ("false".equals(stringFilter.getWhere()))
-                return Observable.just(emptyDisplayResultSets());
+                return Observable.just(EntityList.create(listId, store));
             // Otherwise we compile the final string filter into sql
             SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
+            // Tracing the compiled sql for debug
             Platform.log(sqlCompiled.getSql());
             // We increment and capture the sequence to check if the request is still the latest one when receiving the result
             int sequence = querySequence.incrementAndGet();
@@ -285,12 +300,16 @@ public class ReactiveExpressionFilter {
             return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
                     // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
                     // Otherwise transforming the QueryResultSet into an EntityList
-                    .map(sqlReadResult -> (sequence != querySequence.get()) ? null : QueryResultSetToEntityListGenerator.createEntityList(sqlReadResult, sqlCompiled.getQueryMapping(), store, listId))
-                    // Finally transforming the EntityList into a DisplayResultSet
-                    .map(this::entitiesListToDisplayResultSets);
-        })
-        .observeOn(RxScheduler.UI_SCHEDULER)
-        .subscribe(this::applyDisplayResultSets);
+                    .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+        });
+        if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
+            entitiesObservable
+                // Finally transforming the EntityList into a DisplayResultSet
+                .map(this::entitiesToDisplayResultSets)
+                .observeOn(RxScheduler.UI_SCHEDULER)
+                .subscribe(this::applyDisplayResultSets);
+        else if (entitiesHandler != null)
+            entitiesObservable.subscribe(entitiesHandler::handle);
         return this;
     }
 
@@ -317,12 +336,6 @@ public class ReactiveExpressionFilter {
         return mergeBuilder.build();
     }
 
-    private void applyDisplayResultSets(DisplayResultSet[] displayResultSets) {
-        int n = displayResultSets.length;
-        for (int i = 0; i < n; i++)
-            filterDisplays.get(i).setDisplayResultSet(displayResultSets[i]);
-    }
-
     private void resetAllDisplayResultSets(boolean empty) {
         Toolkit.get().scheduler().runInUiThread(() -> {
             for (FilterDisplay filterDisplay : filterDisplays)
@@ -330,20 +343,24 @@ public class ReactiveExpressionFilter {
         });
     }
 
-    private DisplayResultSet[] emptyDisplayResultSets() {
-        int n = filterDisplays.size();
-        DisplayResultSet[] resultSets = new DisplayResultSet[n];
-        for (int i = 0; i < n; i++)
-            resultSets[i] = filterDisplays.get(i).emptyDisplayResultSet();
-        return resultSets;
+    private EntityList queryResultSetToEntities(QueryResultSet rs, SqlCompiled sqlCompiled) {
+        return QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), store, listId);
     }
 
-    private DisplayResultSet[] entitiesListToDisplayResultSets(EntityList entities) {
+    private DisplayResultSet[] entitiesToDisplayResultSets(EntityList entities) {
+        if (entitiesHandler != null)
+            entitiesHandler.handle(entities);
         int n = filterDisplays.size();
         DisplayResultSet[] resultSets = new DisplayResultSet[n];
         for (int i = 0; i < n; i++)
             resultSets[i] = filterDisplays.get(i).entitiesListToDisplayResultSet(entities);
         return resultSets;
+    }
+
+    private void applyDisplayResultSets(DisplayResultSet[] displayResultSets) {
+        int n = displayResultSets.length;
+        for (int i = 0; i < n; i++)
+            filterDisplays.get(i).setDisplayResultSet(displayResultSets[i]);
     }
 
     private ReferenceResolver getRootAliasReferenceResolver() {
