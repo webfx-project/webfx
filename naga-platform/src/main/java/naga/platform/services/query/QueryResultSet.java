@@ -1,14 +1,13 @@
 package naga.platform.services.query;
 
-import naga.platform.json.*;
+import naga.commons.util.Numbers;
+import naga.platform.compression.values.repeat.RepeatedValuesCompressor;
+import naga.platform.json.Json;
 import naga.platform.json.codec.AbstractJsonCodec;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.commons.type.PrimType;
-import naga.commons.util.Numbers;
-import naga.platform.compression.values.repeat.RepeatedValuesCompressor;
 
 /**
  * @author Bruno Salmon
@@ -49,7 +48,11 @@ public class QueryResultSet {
     }
 
     public QueryResultSet(int columnCount, Object[] values) {
-        this(values.length / columnCount, columnCount, values, null);
+        this(columnCount, values, null);
+    }
+
+    public QueryResultSet(int columnCount, Object[] values, String[] columnNames) {
+        this(values.length / columnCount, columnCount, values, columnNames);
     }
 
     public QueryResultSet(Object[] values, String[] columnNames) {
@@ -113,7 +116,7 @@ public class QueryResultSet {
 
     public final static String CODEC_ID = "QueryResultSet";
     private final static String COLUMN_NAMES_KEY = "names";
-    private final static String COLUMN_TYPES_KEY = "types";
+    private final static String COLUMN_COUNT_KEY = "colCount";
     private final static String VALUES_KEY = "values";
     private final static String COMPRESSED_VALUES_KEY = "cvalues";
 
@@ -128,27 +131,14 @@ public class QueryResultSet {
                     int columnCount = result.getColumnCount();
                     // Column names serialization
                     WritableJsonArray namesArray = json.createJsonArray();
-                    for (String name : result.getColumnNames())
-                        namesArray.push(name);
-                    json.set(COLUMN_NAMES_KEY, namesArray);
-                    if (columnCount == -1)
+                    String[] columnNames = result.getColumnNames();
+                    if (columnNames != null) {
+                        for (String name : columnNames)
+                            namesArray.push(name);
+                        json.set(COLUMN_NAMES_KEY, namesArray);
                         columnCount = namesArray.size();
-                    // types serialization & values compression
-                    WritableJsonArray typesArray = json.createJsonArray();
-                    PrimType[] types = new PrimType[columnCount];
-                    int rowCount = result.getRowCount();
-                    // Guessing types from values
-                    for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
-                        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                            Object value = result.getValue(rowIndex, columnIndex);
-                            if (value != null) {
-                                types[columnIndex] = PrimType.fromObject(value);
-                                break;
-                            }
-                        }
-                    for (PrimType type : types)
-                        typesArray.push(type == null ? null : type.name());
-                    json.set(COLUMN_TYPES_KEY, typesArray);
+                    }
+                    json.set(COLUMN_COUNT_KEY, columnCount);
                     // values packing and serialization
                     if (COMPRESSION)
                         json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
@@ -161,19 +151,15 @@ public class QueryResultSet {
 
             @Override
             public QueryResultSet decodeFromJson(JsonObject json) {
+                Integer columnCount = json.getInteger(COLUMN_COUNT_KEY);
                 // Column names deserialization
+                String[] names = null;
                 JsonArray namesArray = json.getArray(COLUMN_NAMES_KEY);
-                int columnCount = namesArray.size();
-                String[] names = new String[columnCount];
-                for (int i = 0; i < columnCount; i++)
-                    names[i] = namesArray.getString(i);
-                // Types deserialization
-                JsonArray typesArray = json.getArray(COLUMN_TYPES_KEY);
-                PrimType[] types = new PrimType[columnCount];
-                for (int i = 0; i < columnCount; i++) {
-                    String typeName = typesArray.getString(i);
-                    if (typeName != null)
-                        types[i] = PrimType.valueOf(typeName);
+                if (namesArray != null) {
+                    columnCount = namesArray.size();
+                    names = new String[columnCount];
+                    for (int i = 0; i < columnCount; i++)
+                        names[i] = namesArray.getString(i);
                 }
                 // Values deserialization
                 Object[] inlineValues;
@@ -183,7 +169,7 @@ public class QueryResultSet {
                 else
                     inlineValues = RepeatedValuesCompressor.SINGLETON.uncompress(Json.toJavaArray(json.getArray(COMPRESSED_VALUES_KEY)));
                 // returning the result as a snapshot
-                return new QueryResultSet(inlineValues, names);
+                return new QueryResultSet(columnCount, inlineValues, names);
             }
         };
     }
