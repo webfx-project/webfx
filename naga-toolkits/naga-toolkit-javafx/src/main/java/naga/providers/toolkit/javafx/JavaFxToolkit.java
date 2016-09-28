@@ -69,11 +69,18 @@ public class JavaFxToolkit extends Toolkit {
     }
 
     @Override
-    public void onReady(Runnable runnable) {
+    public synchronized void onReady(Runnable runnable) {
         if (readyRunnables != null)
             readyRunnables.add(runnable);
         else
             super.onReady(runnable);
+    }
+
+    private static synchronized void executeReadyRunnables() {
+        if (readyRunnables != null) {
+            readyRunnables.forEach(Runnable::run);
+            readyRunnables = null;
+        }
     }
 
     public static void setSceneHook(Consumer<Scene> sceneHook) {
@@ -100,10 +107,7 @@ public class JavaFxToolkit extends Toolkit {
             primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
             if (applicationWindow != null)
                 applicationWindow.setStage(primaryStage);
-            if (readyRunnables != null) {
-                readyRunnables.forEach(Runnable::run);
-                readyRunnables = null;
-            }
+            executeReadyRunnables();
         }
     }
 
