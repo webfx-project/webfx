@@ -1,5 +1,6 @@
 package naga.commons.util.async;
 
+import naga.commons.util.function.IntFunction;
 import naga.commons.util.tuples.Unit;
 
 import java.lang.reflect.Array;
@@ -19,13 +20,13 @@ public class Batch<A> {
         return array;
     }
 
-    public <R> Future<Batch<R>> executeParallel(Class<R> expectedResultClass, AsyncFunction<A, R> asyncFunction) {
-        return executeParallel(Future.future(), expectedResultClass, asyncFunction);
+    public <R> Future<Batch<R>> executeParallel(IntFunction<R[]> arrayGenerator, AsyncFunction<A, R> asyncFunction) {
+        return executeParallel(Future.future(), arrayGenerator, asyncFunction);
     }
 
-    public <R> Future<Batch<R>> executeParallel(Future<Batch<R>> future, Class<R> expectedResultClass, AsyncFunction<A, R> asyncFunction) {
+    public <R> Future<Batch<R>> executeParallel(Future<Batch<R>> future, IntFunction<R[]> arrayGenerator, AsyncFunction<A, R> asyncFunction) {
         int n = array.length, i = 0;
-        R[] results = (R[]) Array.newInstance(expectedResultClass, n);
+        R[] results = arrayGenerator.apply(n);
         Unit<Integer> responseCounter = new Unit<>(0);
         for (A argument : getArray()) {
             int index = i++;
