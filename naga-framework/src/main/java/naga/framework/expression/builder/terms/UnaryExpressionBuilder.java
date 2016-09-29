@@ -7,7 +7,7 @@ import naga.framework.expression.terms.UnaryExpression;
  * @author Bruno Salmon
  */
 public abstract class UnaryExpressionBuilder extends ExpressionBuilder {
-    public ExpressionBuilder operand;
+    public ExpressionBuilder operand; // may be null, like for example a call with no argument such as: now()
 
     private UnaryExpression operation;
 
@@ -27,7 +27,8 @@ public abstract class UnaryExpressionBuilder extends ExpressionBuilder {
     @Override
     protected void propagateDomainClasses() {
         super.propagateDomainClasses();
-        operand.buildingClass = buildingClass;
+        if (operand != null)
+            operand.buildingClass = buildingClass;
     }
 
     protected abstract UnaryExpression newUnaryOperation(Expression operand);
