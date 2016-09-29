@@ -21,9 +21,7 @@ public class RemoteQueryService implements QueryService {
 
     @Override
     public Future<QueryResultSet> executeQuery(QueryArgument argument) {
-        Platform.log(argument.getQueryString());
-        if (argument.getParameters() != null)
-            Platform.log(Arrays.toString(argument.getParameters()));
+        Platform.log("Query: " + argument.getQueryString() + (argument.getParameters() == null ? "" : "\nParameters: " + Arrays.toString(argument.getParameters())));
         QueryService localQueryService = getConnectedLocalQueryService(argument.getDataSourceId());
         if (localQueryService != null)
             return localQueryService.executeQuery(argument);
