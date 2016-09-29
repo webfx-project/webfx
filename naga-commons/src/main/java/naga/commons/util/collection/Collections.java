@@ -35,16 +35,25 @@ public class Collections {
     }
 
     public static String toString(Iterator it) {
+        return toString(it, false);
+    }
+
+    public static String toStringWithLineFeeds(Iterator it) {
+        return toString(it, true);
+    }
+
+    private static String toString(Iterator it, boolean lineFeeds) {
         if (!it.hasNext())
             return "[]";
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         for (;;) {
-            sb.append('\n');
+            if (lineFeeds)
+                sb.append('\n');
             Object e = it.next();
             sb.append(e);
             if (!it.hasNext())
-                return sb.append("\n]").toString();
+                return sb.append(lineFeeds ? "\n]" : "]").toString();
             sb.append(',').append(' ');
         }
     }

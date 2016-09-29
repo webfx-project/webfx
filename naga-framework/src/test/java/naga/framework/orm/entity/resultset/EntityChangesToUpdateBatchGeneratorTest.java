@@ -13,7 +13,7 @@ public class EntityChangesToUpdateBatchGeneratorTest {
 
     @Test
     public void test() throws Exception {
-        System.out.println(Arrays.toString(
+        System.out.println(Arrays.toStringWithLineFeeds(
         EntityChangesToUpdateBatchGenerator.generateUpdateBatch(EntityChangesBuilder.create()
 /*
                 .addFieldChange(EntityId.create("Document", -5), "cancelled", true)

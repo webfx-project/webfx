@@ -32,7 +32,11 @@ public class Arrays {
     }
 
     public static <T> String toString(T[] array) {
-        return array == null ? null : Collections.toString(java.util.Arrays.asList(array).iterator());
+        return array == null ? null : Collections.toString(asList(array).iterator());
+    }
+
+    public static <T> String toStringWithLineFeeds(T[] array) {
+        return array == null ? null : Collections.toStringWithLineFeeds(asList(array).iterator());
     }
 
     public static <T> void forEach(T[] array, Consumer<T> consumer) {

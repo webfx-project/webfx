@@ -33,6 +33,6 @@ public class QueryRowToEntityMapping {
 
     @Override
     public String toString() {
-        return "{DomainClass: " + domainClassId + ", primaryKeyColumnIndex: " + primaryKeyColumnIndex + ", columnMappings: " + Arrays.toString(columnMappings) + "}";
+        return "{DomainClass: " + domainClassId + ", primaryKeyColumnIndex: " + primaryKeyColumnIndex + ", columnMappings: " + Arrays.toStringWithLineFeeds(columnMappings) + "}";
     }
 }
