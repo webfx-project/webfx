@@ -84,7 +84,7 @@ public class EntityStoreImpl implements EntityStore {
     }
 
     protected <E extends Entity> E createEntity(EntityId id) {
-        EntityFactory<E> entityFactory = EntityFactoryRegistry.getEntityFactory(id.getDomainClass().getModelId());
+        EntityFactory<E> entityFactory = id == null ? null : EntityFactoryRegistry.getEntityFactory(id.getDomainClass().getModelId());
         if (entityFactory != null)
             return entityFactory.createEntity(id, this);
         return (E) new DynamicEntity(id, this);

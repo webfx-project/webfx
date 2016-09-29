@@ -10,4 +10,6 @@ public interface Event extends Entity {
     void setName(String name);
 
     String getName();
+
+    void setOrganization(Object organization);
 }
