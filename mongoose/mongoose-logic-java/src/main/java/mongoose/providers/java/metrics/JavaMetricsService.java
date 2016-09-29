@@ -1,8 +1,8 @@
-package mongoose.providers.java.services;
+package mongoose.providers.java.metrics;
 
 import com.sun.management.OperatingSystemMXBean;
-import mongoose.services.Metrics;
-import mongoose.services.MetricsService;
+import mongoose.spi.metrics.Metrics;
+import mongoose.spi.metrics.MetricsService;
 
 import java.lang.management.ManagementFactory;
 

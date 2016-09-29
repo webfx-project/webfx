@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.spi.metrics;
 
 import java.time.Instant;
 

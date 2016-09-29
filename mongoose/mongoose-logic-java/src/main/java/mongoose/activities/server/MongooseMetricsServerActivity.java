@@ -2,8 +2,8 @@ package mongoose.activities.server;
 
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.MetricsEntity;
-import mongoose.services.Metrics;
-import mongoose.services.MetricsService;
+import mongoose.spi.metrics.Metrics;
+import mongoose.spi.metrics.MetricsService;
 import naga.commons.scheduler.Scheduled;
 import naga.framework.activity.DomainActivityContext;
 import naga.framework.activity.DomainActivityContextDirectAccess;
@@ -93,14 +93,14 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
         startActivity(new MongooseMetricsServerActivity());
     }
 
-    public static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity) {
+    private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity) {
         DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
         String json = Platform.getResourceService().getText("mongoose/datasource/" + dataSourceModel.getId() + "/ConnectionDetails.json").result();
         JsonObject jso = json == null ? null : Json.parseObject(json);
         startActivity(mongooseMetricsServerActivity, dataSourceModel, ConnectionDetails.fromJson(jso));
     }
 
-    public static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity, DataSourceModel dataSourceModel, ConnectionDetails connectionDetails) {
+    private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity, DataSourceModel dataSourceModel, ConnectionDetails connectionDetails) {
         if (connectionDetails != null)
             LocalDataSourceRegistry.registerLocalDataSource(dataSourceModel.getId(), connectionDetails);
         ActivityManager.startServerActivity(mongooseMetricsServerActivity, DomainActivityContext.create(dataSourceModel));

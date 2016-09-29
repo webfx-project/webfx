@@ -1,4 +1,4 @@
-package mongoose.services;
+package mongoose.spi.metrics;
 
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 

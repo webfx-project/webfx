@@ -1,6 +1,6 @@
 package mongoose.entities;
 
-import mongoose.services.Metrics;
+import mongoose.spi.metrics.Metrics;
 import naga.framework.orm.entity.Entity;
 
 /**
