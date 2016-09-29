@@ -1,6 +1,8 @@
-package mongoose.entities;
+package mongoose.entities.impl;
 
 import mongoose.activities.backend.monitor.listener.EventType;
+import mongoose.entities.LtTestEventEntity;
+import mongoose.entities.LtTestSet;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;

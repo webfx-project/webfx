@@ -1,5 +1,7 @@
-package mongoose.entities;
+package mongoose.entities.impl;
 
+import mongoose.entities.Document;
+import mongoose.entities.Event;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;

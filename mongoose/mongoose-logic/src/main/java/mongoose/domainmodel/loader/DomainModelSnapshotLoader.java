@@ -3,6 +3,7 @@ package mongoose.domainmodel.loader;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
+import mongoose.entities.impl.*;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
