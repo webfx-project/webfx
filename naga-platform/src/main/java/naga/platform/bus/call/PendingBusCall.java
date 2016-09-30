@@ -3,7 +3,7 @@ package naga.platform.bus.call;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.commons.util.async.AsyncResult;
-import naga.commons.util.async.Future;
+import naga.commons.util.async.FutureImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class PendingBusCall<T> extends Future<T> {
+public class PendingBusCall<T> extends FutureImpl<T> {
 
     private static List<PendingBusCall> pendingCalls = new ArrayList<>();
     private static Property<Integer> pendingCallsCountProperty = new SimpleObjectProperty<>(0);

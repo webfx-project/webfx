@@ -3,25 +3,17 @@ package naga.commons.util.async;
 import naga.commons.util.function.Consumer;
 
 /**
- * Represents the result of an asynchronous operation that may, or may not, have finished yet.
- *
  * @author Bruno Salmon
  */
-public class Future<T> implements AsyncResult<T> {
-    private boolean failed;
-    private boolean succeeded;
-    private Handler<AsyncResult<T>> handler;
-    private T result;
-    private Throwable throwable;
-
+public interface Future<T> extends AsyncResult<T> {
     /**
      * Create a future that hasn't completed yet
      *
      * @param <T>  the result type
      * @return  the future
      */
-    public static <T> Future<T> future() {
-        return new Future<>();
+    static <T> Future<T> future() {
+        return new FutureImpl<>();
     }
 
     /**
@@ -30,8 +22,8 @@ public class Future<T> implements AsyncResult<T> {
      * @param <T>  the result type
      * @return  the future
      */
-    public static <T> Future<T> succeededFuture() {
-        return new Future<>((T)null);
+    static <T> Future<T> succeededFuture() {
+        return new FutureImpl<>((T)null);
     }
 
     /**
@@ -41,8 +33,8 @@ public class Future<T> implements AsyncResult<T> {
      * @param <T>  the result type
      * @return  the future
      */
-    public static <T> Future<T> succeededFuture(T result) {
-        return new Future<>(result);
+    static <T> Future<T> succeededFuture(T result) {
+        return new FutureImpl<>(result);
     }
 
     /**
@@ -52,8 +44,8 @@ public class Future<T> implements AsyncResult<T> {
      * @param <T>  the result type
      * @return  the future
      */
-    public static <T> Future<T> failedFuture(Throwable t) {
-        return new Future<>(t);
+    static <T> Future<T> failedFuture(Throwable t) {
+        return new FutureImpl<>(t);
     }
 
     /**
@@ -63,8 +55,8 @@ public class Future<T> implements AsyncResult<T> {
      * @param <T>  the result type
      * @return  the future
      */
-    public static <T> Future<T> failedFuture(String failureMessage) {
-        return new Future<>(failureMessage, true);
+    static <T> Future<T> failedFuture(String failureMessage) {
+        return new FutureImpl<>(failureMessage, true);
     }
 
     /**
@@ -73,7 +65,7 @@ public class Future<T> implements AsyncResult<T> {
      * @param runnable  the runnable
      * @return  the future
      */
-    public static Future<Void> runAsync(Runnable runnable) {
+    static Future<Void> runAsync(Runnable runnable) {
         try {
             runnable.run();
             return succeededFuture();
@@ -93,7 +85,7 @@ public class Future<T> implements AsyncResult<T> {
      * @param <T>  the argument type
      * @return  the future
      */
-    public static <T> Future<Void> consumeAsync(Consumer<T> consumer, T arg) {
+    static <T> Future<Void> consumeAsync(Consumer<T> consumer, T arg) {
         try {
             consumer.accept(arg);
             return succeededFuture();
@@ -106,118 +98,43 @@ public class Future<T> implements AsyncResult<T> {
     }
 
     /**
-     * Create a FutureResult that hasn't completed yet
-     */
-    protected Future() {
-    }
-
-    /**
-     * Create a VoidResult that has already completed
-     * @param t The Throwable or null if succeeded
-     */
-    private Future(Throwable t) {
-        if (t == null)
-            complete(null);
-        else
-            fail(t);
-    }
-
-    private Future(String failureMessage, boolean failed) {
-        this(new NoStackTraceThrowable(failureMessage));
-    }
-
-    /**
-     * Create a FutureResult that has already succeeded
-     * @param result The result
-     */
-    private Future(T result) {
-        complete(result);
-    }
-
-    /**
      * The result of the operation. This will be null if the operation failed.
      */
-    public T result() {
-        return result;
-    }
+    T result();
 
     /**
      * An exception describing failure. This will be null if the operation succeeded.
      */
-    public Throwable cause() {
-        return throwable;
-    }
+    Throwable cause();
 
     /**
      * Did it succeed?
      */
-    public boolean succeeded() {
-        return succeeded;
-    }
+    boolean succeeded();
 
     /**
      * Did it fail?
      */
-    public boolean failed() {
-        return failed;
-    }
+    boolean failed();
 
     /**
      * Has it completed?
      */
-    public boolean isComplete() {
-        return failed || succeeded;
-    }
+    boolean isComplete();
 
     /**
      * Set a handler for the result. It will get called when it's complete
      */
-    public void setHandler(Handler<AsyncResult<T>> handler) {
-        this.handler = handler;
-        checkCallHandler();
-    }
+    void setHandler(Handler<AsyncResult<T>> handler);
 
-    /**
-     * Set the result. Any handler will be called, if there is one
-     */
-    public void complete(T result) {
-        checkComplete();
-        this.result = result;
-        succeeded = true;
-        checkCallHandler();
-    }
+    void complete(T result);
 
-    public void complete() {
-        complete(null);
-    }
+    void complete();
 
     /**
      * Set the failure. Any handler will be called, if there is one
      */
-    public void fail(Throwable throwable) {
-        checkComplete();
-        this.throwable = throwable;
-        failed = true;
-        checkCallHandler();
-    }
+    void fail(Throwable throwable);
 
-    public void fail(String failureMessage) {
-        fail(new NoStackTraceThrowable(failureMessage));
-    }
-
-    private void checkCallHandler() {
-        if (handler != null && isComplete()) {
-            try {
-                handler.handle(this);
-            } catch (Throwable t) { // Tracing any uncaught exception from the handler
-                t.printStackTrace();
-            }
-        }
-    }
-
-    private void checkComplete() {
-        if (succeeded || failed) {
-            throw new IllegalStateException("Result is already complete: " + (succeeded ? "succeeded" : "failed"));
-        }
-    }
+    void fail(String failureMessage);
 }
