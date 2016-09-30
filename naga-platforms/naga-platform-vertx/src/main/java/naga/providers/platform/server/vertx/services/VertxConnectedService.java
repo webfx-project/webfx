@@ -181,7 +181,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
     @Override
     public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
         // Singular batch optimization: executing the single sql order in autocommit mode
-        Future<Batch<UpdateResult>> singularBatchFuture = batch.executeIfSingularBatch(UpdateResult.class, this::executeUpdate);
+        Future<Batch<UpdateResult>> singularBatchFuture = batch.executeIfSingularBatch(UpdateResult[]::new, this::executeUpdate);
         if (singularBatchFuture != null)
             return singularBatchFuture;
 
@@ -192,7 +192,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
     private void executeUpdateBatchOnConnection(Batch<UpdateArgument> batch, SQLConnection connection, Future<Batch<UpdateResult>> batchFuture) {
         List<Object> batchIndexGeneratedKeys = new ArrayList<>(Collections.nCopies(batch.getArray().length, null));
         Unit<Integer> batchIndex = new Unit<>(0);
-        batch.executeSerial(batchFuture, UpdateResult.class, arg -> {
+        batch.executeSerial(batchFuture, UpdateResult[]::new, arg -> {
             Future<UpdateResult> statementFuture = Future.future();
             // Replacing GeneratedKeyBatchIndex parameters with their actual generated keys
             Object[] parameters = arg.getParameters();
