@@ -24,13 +24,6 @@ public class ResourceDictionaryLoader implements DictionaryLoader {
 
     @Override
     public Future<Dictionary> loadDictionary(Object lang, Set keys) {
-        Future<Dictionary> future = Future.future();
-        Platform.getResourceService().getText(getDictionaryResourcePath(lang)).setHandler(asyncResult -> {
-            if (asyncResult.failed())
-                future.fail(asyncResult.cause());
-            else
-                future.complete(new JsonDictionary(asyncResult.result()));
-        });
-        return future;
+        return Platform.getResourceService().getText(getDictionaryResourcePath(lang)).map(JsonDictionary::new);
     }
 }

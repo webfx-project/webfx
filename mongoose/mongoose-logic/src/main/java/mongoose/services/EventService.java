@@ -74,16 +74,9 @@ public class EventService {
     }
 
     private Future<EntityList> executeEventQuery(EventQuery eventQuery) {
-        Future<EntityList> future = Future.future();
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
-        Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), eventQuery.parameters, dataSourceModel.getId()))
-                .setHandler(asyncResult -> {
-                    if (asyncResult.failed())
-                        future.fail(asyncResult.cause());
-                    else
-                        future.complete(QueryResultSetToEntityListGenerator.createEntityList(asyncResult.result(), sqlCompiled.getQueryMapping(), eventStore, eventQuery.listId));
-                });
-        return future;
+        return Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), eventQuery.parameters, dataSourceModel.getId()))
+                .map(rs ->  QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), eventStore, eventQuery.listId));
     }
 
     private static class EventQuery {

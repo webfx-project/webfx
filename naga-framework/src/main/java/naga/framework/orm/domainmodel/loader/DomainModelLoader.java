@@ -36,14 +36,7 @@ public class DomainModelLoader {
     }
 
     public Future<DomainModel> loadDomainModel() {
-        Future<DomainModel> future = Future.future();
-        Platform.getQueryService().executeQueryBatch(generateDomainModelQueryBatch()).setHandler(asyncResult -> {
-            if (asyncResult.failed())
-                future.fail(asyncResult.cause());
-            else
-                future.complete(generateDomainModel(asyncResult.result()));
-        });
-        return future;
+        return Platform.getQueryService().executeQueryBatch(generateDomainModelQueryBatch()).map(this::generateDomainModel);
     }
 
     public Batch<QueryArgument> generateDomainModelQueryBatch() {
