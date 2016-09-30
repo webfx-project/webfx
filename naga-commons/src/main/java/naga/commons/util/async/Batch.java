@@ -3,8 +3,6 @@ package naga.commons.util.async;
 import naga.commons.util.function.IntFunction;
 import naga.commons.util.tuples.Unit;
 
-import java.lang.reflect.Array;
-
 /**
  * @author Bruno Salmon
  */
@@ -46,13 +44,13 @@ public class Batch<A> {
         return future;
     }
 
-    public <R> Future<Batch<R>> executeSerial(Class<R> expectedResultClass, AsyncFunction<A, R> asyncFunction) {
-        return executeSerial(Future.future(), expectedResultClass, asyncFunction);
+    public <R> Future<Batch<R>> executeSerial(IntFunction<R[]> arrayGenerator, AsyncFunction<A, R> asyncFunction) {
+        return executeSerial(Future.future(), arrayGenerator, asyncFunction);
     }
 
-    public <R> Future<Batch<R>> executeSerial(Future<Batch<R>> future, Class<R> expectedResultClass, AsyncFunction<A, R> asyncFunction) {
+    public <R> Future<Batch<R>> executeSerial(Future<Batch<R>> future, IntFunction<R[]> arrayGenerator, AsyncFunction<A, R> asyncFunction) {
         int n = array.length;
-        R[] results = (R[]) Array.newInstance(expectedResultClass, n);
+        R[] results = arrayGenerator.apply(n);
         Unit<Integer> responseCounter = new Unit<>(0);
         Unit<Handler<AsyncResult<R>>> handlerUnit = new Unit<>();
         handlerUnit.set(asyncResult -> {
@@ -74,19 +72,19 @@ public class Batch<A> {
         return future;
     }
 
-    public <R> Future<Batch<R>> executeIfSingularBatch(Class<R> expectedResultClass, AsyncFunction<A, R> asyncFunction) {
+    public <R> Future<Batch<R>> executeIfSingularBatch(IntFunction<R[]> arrayGenerator, AsyncFunction<A, R> asyncFunction) {
         if (array.length > 1)
             return null;
         Future<Batch<R>> future = Future.future();
-        executeIfSingularBatch(future, expectedResultClass, asyncFunction);
+        executeIfSingularBatch(future, arrayGenerator, asyncFunction);
         return future;
     }
 
-    public <R> boolean executeIfSingularBatch(Future<Batch<R>> future, Class<R> expectedResultClass, AsyncFunction<A, R> asyncFunction) {
+    public <R> boolean executeIfSingularBatch(Future<Batch<R>> future, IntFunction<R[]> arrayGenerator, AsyncFunction<A, R> asyncFunction) {
         int n = array.length;
         if (n > 1)
             return false;
-        R[] results = (R[]) Array.newInstance(expectedResultClass, n);
+        R[] results = arrayGenerator.apply(n);
         if (n == 0)
             future.complete(new Batch<>(results));
         else
