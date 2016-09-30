@@ -5,7 +5,7 @@ import naga.framework.orm.entity.impl.EntityListImpl;
 /**
  * @author Bruno Salmon
  */
-public interface EntityList extends Iterable<Entity> {
+public interface EntityList<E extends Entity> extends Iterable<E> {
 
     Object getListId();
 
@@ -13,13 +13,13 @@ public interface EntityList extends Iterable<Entity> {
 
     int size();
 
-    Entity get(int index);
+    E get(int index);
 
     void clear();
 
-    void add(Entity entity);
+    void add(E entity);
 
-    static EntityList create(Object listId, EntityStore store) {
-        return new EntityListImpl(listId, store);
+    static <E extends Entity> EntityList<E> create(Object listId, EntityStore store) {
+        return new EntityListImpl<>(listId, store);
     }
 }

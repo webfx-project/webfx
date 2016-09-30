@@ -17,7 +17,7 @@ import naga.toolkit.display.Label;
  */
 public class EntityListToDisplayResultSetGenerator {
 
-    public static DisplayResultSet createDisplayResultSet(EntityList entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
+    public static DisplayResultSet createDisplayResultSet(EntityList<? extends Entity> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
         int rowCount = entityList == null ? 0 : entityList.size();
         int columnCount = Arrays.length(expressionColumns);
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);

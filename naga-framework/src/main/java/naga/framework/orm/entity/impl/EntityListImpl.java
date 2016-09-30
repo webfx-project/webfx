@@ -11,11 +11,11 @@ import java.util.Iterator;
 /**
  * @author Bruno Salmon
  */
-public class EntityListImpl implements EntityList {
+public class EntityListImpl<E extends Entity> implements EntityList<E> {
 
     private final Object listId;
     private final EntityStore store;
-    private ArrayList<Entity> list = new ArrayList<>();
+    private ArrayList<E> list = new ArrayList<>();
 
     public EntityListImpl(Object listId, EntityStore store) {
         this.listId = listId;
@@ -38,7 +38,7 @@ public class EntityListImpl implements EntityList {
     }
 
     @Override
-    public Entity get(int index) {
+    public E get(int index) {
         return list.get(index);
     }
 
@@ -48,12 +48,12 @@ public class EntityListImpl implements EntityList {
     }
 
     @Override
-    public void add(Entity entity) {
+    public void add(E entity) {
         list.add(entity);
     }
 
     @Override
-    public Iterator<Entity> iterator() {
+    public Iterator<E> iterator() {
         return list.iterator();
     }
 
