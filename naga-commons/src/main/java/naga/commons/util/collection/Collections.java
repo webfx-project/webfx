@@ -2,6 +2,7 @@ package naga.commons.util.collection;
 
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Converter;
+import naga.commons.util.function.IntFunction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +33,10 @@ public class Collections {
 
     public static <T> T next(Iterator<T> it) {
         return it == null || !it.hasNext() ? null : it.next();
+    }
+
+    public static <T> T[] toArray(Collection<T> collection, IntFunction<T[]> arrayGenerator) {
+        return collection.toArray(arrayGenerator.apply(collection.size()));
     }
 
     public static String toString(Iterator it) {
