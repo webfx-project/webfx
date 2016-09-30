@@ -49,8 +49,10 @@ public class DomainModelSnapshotLoader {
             registerFormatter("price", PriceFormatter.SINGLETON);
             registerFormatter("date", DateFormatter.SINGLETON);
             // Registering entity java classes
+            registerEntityFactory(Attendance.class, "Attendance", AttendanceImpl::new);
             registerEntityFactory(DateInfo.class, "DateInfo", DateInfoImpl::new);
             registerEntityFactory(Document.class, "Document", DocumentImpl::new);
+            registerEntityFactory(DocumentLine.class, "DocumentLine", DocumentLineImpl::new);
             registerEntityFactory(Event.class, "Event", EventImpl::new);
             registerEntityFactory(Image.class, "Image", ImageImpl::new);
             registerEntityFactory(Item.class, "Item", ItemImpl::new);
