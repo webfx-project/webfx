@@ -25,13 +25,31 @@ public interface EntityStore {
 
     <E extends Entity> E getEntity(EntityId entityId);
 
-    <E extends Entity> E getOrCreateEntity(Class<E> entityClass, Object primaryKey);
-
-    <E extends Entity> E getOrCreateEntity(DomainClass domainClass, Object primaryKey);
-
-    <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey);
-
     <E extends Entity> E getOrCreateEntity(EntityId id);
+
+    default <E extends Entity> E getEntity(Class<E> entityClass, Object primaryKey) {
+        return getEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass), primaryKey);
+    }
+
+    default <E extends Entity> E getEntity(DomainClass domainClass, Object primaryKey) {
+        return primaryKey == null ? null : getEntity(getEntityId(domainClass, primaryKey));
+    }
+
+    default <E extends Entity> E getEntity(Object domainClassId, Object primaryKey) {
+        return primaryKey == null ? null : getEntity(getEntityId(domainClassId, primaryKey));
+    }
+
+    default <E extends Entity> E getOrCreateEntity(Class<E> entityClass, Object primaryKey) {
+        return getOrCreateEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass), primaryKey);
+    }
+
+    default <E extends Entity> E getOrCreateEntity(DomainClass domainClass, Object primaryKey) {
+        return primaryKey == null ? null : getOrCreateEntity(getEntityId(domainClass, primaryKey));
+    }
+
+    default <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey) {
+        return primaryKey == null ? null : getOrCreateEntity(getEntityId(domainClassId, primaryKey));
+    }
 
 
 

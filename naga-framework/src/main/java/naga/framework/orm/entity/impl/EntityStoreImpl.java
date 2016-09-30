@@ -55,25 +55,6 @@ public class EntityStoreImpl implements EntityStore {
     }
 
     @Override
-    public <E extends Entity> E getOrCreateEntity(Class<E> entityClass, Object primaryKey) {
-        return getOrCreateEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass), primaryKey);
-    }
-
-    @Override
-    public <E extends Entity> E getOrCreateEntity(DomainClass domainClass, Object primaryKey) {
-        if (primaryKey == null)
-            return null;
-        return getOrCreateEntity(getEntityId(domainClass, primaryKey));
-    }
-
-    @Override
-    public <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey) {
-        if (primaryKey == null)
-            return null;
-        return getOrCreateEntity(getEntityId(domainClassId, primaryKey));
-    }
-
-    @Override
     public <E extends Entity> E getOrCreateEntity(EntityId id) {
         if (id == null)
             return null;
