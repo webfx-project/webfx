@@ -1,9 +1,11 @@
 package mongoose.services;
 
+import mongoose.entities.*;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
@@ -32,6 +34,11 @@ public class EventService {
         return service;
     }
 
+    private final static Object OPTIONS_LIST_ID = "options";
+    private final static Object SITES_LIST_ID = "sites";
+    private final static Object RATES_LIST_ID = "rates";
+    private final static Object DATE_INFOS_LIST_ID = "dateInfos";
+
     private final Integer eventId;
     private final DataSourceModel dataSourceModel;
     private final EntityStore eventStore;
@@ -42,6 +49,30 @@ public class EventService {
         eventStore = EntityStore.create(dataSourceModel);
     }
 
+    public Event getEvent() {
+        return eventStore.getEntity("Event", eventId);
+    }
+
+    public EntityList<Option> getEventOptions() {
+        return getEntityList(OPTIONS_LIST_ID);
+    }
+
+    public EntityList<Site> getEventSites() {
+        return getEntityList(SITES_LIST_ID);
+    }
+
+    public EntityList<Rate> getEventRates() {
+        return getEntityList(RATES_LIST_ID);
+    }
+
+    public EntityList<DateInfo> getEventDateInfos() {
+        return getEntityList(DATE_INFOS_LIST_ID);
+    }
+
+    public <E extends Entity> EntityList<E> getEntityList(Object listId) {
+        return eventStore.getEntityList(listId);
+    }
+
     public Future<Batch<EntityList>> loadEventOptions() {
         String host = getHost();
         Object[] parameters = {eventId, host, host, false /* isDeveloper */};
@@ -50,10 +81,10 @@ public class EventService {
         String siteIds = "(select site.id from Option where " + optionCondition + ")";
         String rateCondition = "site.id in " + siteIds + " and (startDate is null or startDate <= site.event.endDate) and (endDate is null or endDate >= site.event.startDate) and (onDate is null or onDate <= now()) and (offDate is null or offDate > now())";
         return executeParallelEventQueries(
-                new EventQuery("options",   "select <frontend_loadEvent> from Option where " + optionCondition + " order by ord", parameters),
-                new EventQuery("sites",     "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
-                new EventQuery("rates",     "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
-                new EventQuery("dateInfos", "select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
+                new EventQuery(OPTIONS_LIST_ID,   "select <frontend_loadEvent> from Option where " + optionCondition + " order by ord", parameters),
+                new EventQuery(SITES_LIST_ID,     "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
+                new EventQuery(RATES_LIST_ID,     "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
+                new EventQuery(DATE_INFOS_LIST_ID,"select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
         );
     }
 
