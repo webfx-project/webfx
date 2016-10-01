@@ -1,12 +1,12 @@
 package naga.framework.ui.presentation;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContextDirectAccess;
+import naga.platform.activity.ActivityContextMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface PresentationActivityContextDirectAccess extends ActivityContextDirectAccess<PresentationActivityContext>, PresentationActivityContext {
+public interface PresentationActivityContextMixin extends ActivityContextMixin<PresentationActivityContext>, PresentationActivityContext {
 
     @Override
     default void setDataSourceModel(DataSourceModel dataSourceModel) {

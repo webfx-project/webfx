@@ -6,7 +6,7 @@ import mongoose.spi.metrics.Metrics;
 import mongoose.spi.metrics.MetricsService;
 import naga.commons.scheduler.Scheduled;
 import naga.framework.activity.DomainActivityContext;
-import naga.framework.activity.DomainActivityContextDirectAccess;
+import naga.framework.activity.DomainActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.activity.Activity;
@@ -24,7 +24,7 @@ import java.time.temporal.ChronoUnit;
 /**
  * @author Bruno Salmon
  */
-public class MongooseMetricsServerActivity implements Activity<DomainActivityContext>, DomainActivityContextDirectAccess {
+public class MongooseMetricsServerActivity implements Activity<DomainActivityContext>, DomainActivityContextMixin {
 
     private DomainActivityContext activityContext;
     private Scheduled metricsCapturePeriodicTimer;

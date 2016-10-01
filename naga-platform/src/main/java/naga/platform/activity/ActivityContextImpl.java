@@ -36,7 +36,7 @@ public class ActivityContextImpl<C extends ActivityContextImpl<C>> implements Ac
     public static <C extends ActivityContext> ActivityContextImpl from(C activityContext) {
         if (activityContext instanceof ActivityContextImpl)
             return (ActivityContextImpl) activityContext;
-        if (activityContext instanceof HasActivityContext) // including ActivityContextDirectAccess
+        if (activityContext instanceof HasActivityContext) // including ActivityContextMixin
             return from(((HasActivityContext) activityContext).getActivityContext());
         return null;
     }

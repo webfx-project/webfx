@@ -1,12 +1,12 @@
 package naga.framework.activity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContextDirectAccess;
+import naga.platform.activity.ActivityContextMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface DomainActivityContextDirectAccess<C extends DomainActivityContext<C>> extends ActivityContextDirectAccess<C>, DomainActivityContext<C> {
+public interface DomainActivityContextMixin<C extends DomainActivityContext<C>> extends ActivityContextMixin<C>, DomainActivityContext<C> {
 
     @Override
     default C setDataSourceModel(DataSourceModel dataSourceModel) {

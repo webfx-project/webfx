@@ -6,7 +6,7 @@ import naga.commons.util.Strings;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.HasMountNodeProperty;
 import naga.framework.activity.client.UiDomainActivityContext;
-import naga.framework.activity.client.UiDomainActivityContextDirectAccess;
+import naga.framework.activity.client.UiDomainActivityContextMixin;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.activity.Activity;
@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> implements Activity<UiDomainActivityContext>, UiDomainActivityContextDirectAccess {
+public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> implements Activity<UiDomainActivityContext>, UiDomainActivityContextMixin {
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
