@@ -45,7 +45,7 @@ public class DayTimeRange {
         }
     }
 
-    public TimeInterval[] getDayTimeSeries(long day, TimeUnit timeUnit) {
+    public TimeSeries getDayTimeSeries(long day, TimeUnit timeUnit) {
         return getRuleForDay(day, timeUnit).getDayTimeSeries();
     }
 
@@ -67,25 +67,25 @@ public class DayTimeRange {
 
     private static class TimeRangeRule {
         final DateTimeRange coverage;
-        final TimeInterval[] dayTimeSeries;
+        final TimeSeries dayTimeSeries;
         TimeInterval dayTimeInterval;
 
         TimeRangeRule(DateTimeRange coverage, String text) {
             this.coverage = coverage;
-            dayTimeSeries = TimeConverter.convertTextToSeries(text, TimeUnit.MINUTES);
+            dayTimeSeries = TimeSeries.parse(text);
         }
 
         DateTimeRange getCoverage() {
             return coverage;
         }
 
-        TimeInterval[] getDayTimeSeries() {
+        TimeSeries getDayTimeSeries() {
             return dayTimeSeries;
         }
 
         TimeInterval getDayTimeInterval() {
             if (dayTimeInterval == null)
-                dayTimeInterval = TimeConverter.convertSeriesToInterval(dayTimeSeries);
+                dayTimeInterval = dayTimeSeries.toInterval();
             return dayTimeInterval;
         }
     }
