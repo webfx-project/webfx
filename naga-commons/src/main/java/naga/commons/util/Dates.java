@@ -3,6 +3,8 @@ package naga.commons.util;
 import java.time.*;
 import java.time.format.DateTimeParseException;
 
+import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
+
 /**
  * @author Bruno Salmon
  */
@@ -87,8 +89,24 @@ public class Dates {
             return localDateTime;
         Long l = Numbers.toLong(value);
         if (l != null)
-            return LocalDateTime.ofEpochSecond(l / 1000, (int) (l % 1000), ZoneOffset.UTC);
+            return epochMillisUtcToLocalDateTime(l);
         return null;
+    }
+
+    public static LocalDateTime epochMillisUtcToLocalDateTime(long epochMillis) {
+        return epochMillisToLocalDateTime(epochMillis, ZoneOffset.UTC);
+    }
+
+    public static LocalDateTime epochMillisToLocalDateTime(long epochMillis, ZoneOffset offset) {
+        return LocalDateTime.ofEpochSecond(epochMillis / 1000, (int) (epochMillis % 1000), offset);
+    }
+
+    public static long localDateTimeToEpochMillisUtc(LocalDateTime date) {
+        return localDateTimeToEpochMillis(date, ZoneOffset.UTC);
+    }
+
+    public static long localDateTimeToEpochMillis(LocalDateTime date, ZoneOffset offset) {
+        return date.toEpochSecond(offset) * 1000 + date.get(MILLI_OF_SECOND);
     }
 
     /**
