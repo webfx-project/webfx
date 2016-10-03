@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author Bruno Salmon
  */
 public class Collections {
 
-    public static <T> void forEach(Collection<T> collection, Consumer<T> consumer) {
+    public static <T> void forEach(Iterable<T> collection, Consumer<T> consumer) {
         // collection.forEach(consumer); // Not GWT compilable for now
         for (T element : collection)
             consumer.accept(element);
@@ -25,6 +26,16 @@ public class Collections {
         List<B> bList = new ArrayList<>(aList.size());
         forEach(aList, a -> bList.add(aToBConverter.convert(a)));
         return bList;
+    }
+
+    public static <T> List<T> filter(Iterable<T> collection, Predicate<? super T> predicate) {
+        // return collection.stream().filter(predicate).collect(Collectors.toList()); // Not GWT compilable for now
+        List<T> list = new ArrayList<>();
+        forEach(collection, a -> {
+            if (predicate.test(a))
+                list.add(a);
+        });
+        return list;
     }
 
     public static int size(Collection collection) {
