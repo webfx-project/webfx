@@ -39,6 +39,14 @@ public class Collections {
         return collection.toArray(arrayGenerator.apply(collection.size()));
     }
 
+    public static long[] toLongArray(Collection<Long> collection) {
+        int n = collection.size(), i = 0;
+        long[] array = new long[n];
+        for (Long l : collection)
+            array[i++] = l;
+        return array;
+    }
+
     public static String toString(Iterator it) {
         return toString(it, false);
     }
