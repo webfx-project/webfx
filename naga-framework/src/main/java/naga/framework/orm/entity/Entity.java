@@ -7,6 +7,8 @@ import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Interface used to interact with an entity = a domain object which can persist in the database. Behind it can be a
@@ -59,9 +61,19 @@ public interface Entity {
     default Double getDoubleFieldValue(Object domainFieldId) { return Numbers.toDouble(getFieldValue(domainFieldId)); }
 
     /**
-     * Return the field value as an instant. If the type is not an instant, this can result in runtime errors.
+     * Return the field value as an Instant. If the type is not an instant, this can result in runtime errors.
      */
     default Instant getInstantFieldValue(Object domainFieldId) { return Dates.toInstant(getFieldValue(domainFieldId)); }
+
+    /**
+     * Return the field value as a LocalDateTime. If the type is not an instant, this can result in runtime errors.
+     */
+    default LocalDateTime getLocalDateTimeFieldValue(Object domainFieldId) { return Dates.toLocalDateTime(getFieldValue(domainFieldId)); }
+
+    /**
+     * Return the field value as a LocalDate. If the type is not an instant, this can result in runtime errors.
+     */
+    default LocalDate getLocalDateFieldValue(Object domainFieldId) { return Dates.toLocalDate(getFieldValue(domainFieldId)); }
 
     /**
      * Set the value of an entity field
