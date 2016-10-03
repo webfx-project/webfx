@@ -18,6 +18,10 @@ public class Dates {
         return value == null || !(value instanceof LocalDateTime) ? null : (LocalDateTime) value;
     }
 
+    public static LocalDate asLocalDate(Object value) {
+        return value == null || !(value instanceof LocalDate) ? null : (LocalDate) value;
+    }
+
     public static Instant parseIsoInstant(String s) {
         if (s == null)
             return null;
@@ -93,6 +97,16 @@ public class Dates {
         return null;
     }
 
+    public static LocalDate toLocalDate(Object value) {
+        LocalDate localDate = asLocalDate(value);
+        if (localDate != null || value == null)
+            return localDate;
+        localDate = parseIsoLocalDate(value.toString());
+        if (localDate != null)
+            return localDate;
+        return null;
+    }
+
     public static LocalDateTime epochMillisUtcToLocalDateTime(long epochMillis) {
         return epochMillisToLocalDateTime(epochMillis, ZoneOffset.UTC);
     }
@@ -101,37 +115,37 @@ public class Dates {
         return LocalDateTime.ofEpochSecond(epochMillis / 1000, (int) (epochMillis % 1000), offset);
     }
 
-    public static long localDateTimeToEpochMillisUtc(LocalDateTime date) {
-        return localDateTimeToEpochMillis(date, ZoneOffset.UTC);
+    public static long localDateTimeToEpochMillisUtc(LocalDateTime dateTime) {
+        return localDateTimeToEpochMillis(dateTime, ZoneOffset.UTC);
     }
 
-    public static long localDateTimeToEpochMillis(LocalDateTime date, ZoneOffset offset) {
-        return date.toEpochSecond(offset) * 1000 + date.get(MILLI_OF_SECOND);
+    public static long localDateTimeToEpochMillis(LocalDateTime dateTime, ZoneOffset offset) {
+        return dateTime.toEpochSecond(offset) * 1000 + dateTime.get(MILLI_OF_SECOND);
     }
 
     /**
      * Formats a date
-     * @param date the date to format
+     * @param dateTime the date to format
      * @param pattern the format pattern, ex: dd/MM/yyyy HH:mm:ss
      * @return the formatted date
      */
 
-    public static String format(LocalDateTime date, String pattern) {
-        if (date == null || pattern == null)
+    public static String format(LocalDateTime dateTime, String pattern) {
+        if (dateTime == null || pattern == null)
             return null;
         String s = pattern;
         if (pattern.contains("dd"))
-            s = Strings.replaceAll(s, "dd", twoDigits(date.getDayOfMonth()));
+            s = Strings.replaceAll(s, "dd", twoDigits(dateTime.getDayOfMonth()));
         if (pattern.contains("MM"))
-            s = Strings.replaceAll(s, "MM", twoDigits(date.getMonthValue()));
+            s = Strings.replaceAll(s, "MM", twoDigits(dateTime.getMonthValue()));
         if (pattern.contains("yyyy"))
-            s = Strings.replaceAll(s, "yyyy", twoDigits(date.getYear()));
+            s = Strings.replaceAll(s, "yyyy", twoDigits(dateTime.getYear()));
         if (pattern.contains("HH"))
-            s = Strings.replaceAll(s, "HH", twoDigits(date.getHour()));
+            s = Strings.replaceAll(s, "HH", twoDigits(dateTime.getHour()));
         if (pattern.contains("mm"))
-            s = Strings.replaceAll(s, "mm", twoDigits(date.getMinute()));
+            s = Strings.replaceAll(s, "mm", twoDigits(dateTime.getMinute()));
         if (pattern.contains("ss"))
-            s = Strings.replaceAll(s, "ss", twoDigits(date.getSecond()));
+            s = Strings.replaceAll(s, "ss", twoDigits(dateTime.getSecond()));
         return s;
     }
 
