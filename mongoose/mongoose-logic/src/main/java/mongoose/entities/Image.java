@@ -1,9 +1,10 @@
 package mongoose.entities;
 
+import mongoose.entities.markers.EntityHasName;
 import naga.framework.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon
  */
-public interface Image extends Entity {
+public interface Image extends Entity, EntityHasName {
 }

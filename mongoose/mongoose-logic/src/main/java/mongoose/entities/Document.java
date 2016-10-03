@@ -1,18 +1,12 @@
 package mongoose.entities;
 
+import mongoose.entities.markers.EntityHasEvent;
 import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon
  */
-public interface Document extends Entity {
-
-    void setEvent(Object event);
-
-    EntityId getEventId();
-
-    Event getEvent();
+public interface Document extends Entity, EntityHasEvent {
 
     void setRef(Integer ref);
 
@@ -25,6 +19,5 @@ public interface Document extends Entity {
     void setPersonLastName(String personLastName);
 
     String getPersonLastName();
-
 
 }

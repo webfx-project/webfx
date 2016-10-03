@@ -1,7 +1,6 @@
 package mongoose.entities.impl;
 
 import mongoose.entities.Document;
-import mongoose.entities.Event;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.impl.DynamicEntity;
@@ -13,21 +12,6 @@ public class DocumentImpl extends DynamicEntity implements Document {
 
     public DocumentImpl(EntityId id, EntityStore store) {
         super(id, store);
-    }
-
-    @Override
-    public void setEvent(Object event) {
-        setForeignField("event", event);
-    }
-
-    @Override
-    public EntityId getEventId() {
-        return getForeignEntityId("event");
-    }
-
-    @Override
-    public Event getEvent() {
-        return getForeignEntity("event");
     }
 
     @Override

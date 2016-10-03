@@ -14,18 +14,4 @@ public class EventImpl extends DynamicEntity implements Event {
         super(id, store);
     }
 
-    @Override
-    public void setName(String name) {
-        setFieldValue("name", name);
-    }
-
-    @Override
-    public String getName() {
-        return getStringFieldValue("name");
-    }
-
-    @Override
-    public void setOrganization(Object organization) {
-        setForeignField("organization", organization);
-    }
 }
