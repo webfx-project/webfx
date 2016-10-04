@@ -43,8 +43,8 @@ public class QueryResultSetToEntityListGenerator {
                 // Now that we have the target entity, getting the value for the column index
                 Object value = rs.getValue(rowIndex, columnMapping.getColumnIndex());
                 // If this is a foreign key (when foreignClassId is filled), we transform the value into a link to the foreign entity
-                if (columnMapping.getForeignClassId() != null)
-                    value = store.getOrCreateEntity(columnMapping.getForeignClassId(), value);
+                if (value != null && columnMapping.getForeignClassId() != null)
+                    value = store.getOrCreateEntity(columnMapping.getForeignClassId(), value).getId();
                 // Now everything is ready to set the field on the target entity
                 Object fieldId = columnMapping.getDomainFieldId();
                 if (fieldId instanceof DomainField)
