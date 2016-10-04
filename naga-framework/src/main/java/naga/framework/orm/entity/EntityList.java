@@ -13,6 +13,10 @@ public interface EntityList<E extends Entity> extends Iterable<E> {
 
     int size();
 
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
     E get(int index);
 
     void clear();
