@@ -79,6 +79,10 @@ class TimeConverter {
             i = text.indexOf('h', p);
         if (i != -1) {
             hour = Numbers.intValue(text.substring(p, i));
+            if (hour > 24) {
+                day++;
+                hour -= 24;
+            }
             i = text.indexOf(':', p = i + 1);
             if (i == -1)
                 i = text.length();
