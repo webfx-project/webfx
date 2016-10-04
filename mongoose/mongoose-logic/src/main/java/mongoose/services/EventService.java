@@ -2,9 +2,13 @@ package mongoose.services;
 
 import mongoose.entities.*;
 import naga.commons.util.async.Future;
+import naga.commons.util.collection.Collections;
+import naga.commons.util.function.Predicate;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
+
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -24,7 +28,7 @@ public interface EventService {
         return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
     }
 
-    Future<EntityList> onEventOptions();
+    Future<EntityList<Option>> onEventOptions();
 
     Event getEvent();
 

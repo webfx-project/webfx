@@ -1,6 +1,7 @@
 package mongoose.services;
 
 import mongoose.entities.Event;
+import mongoose.entities.Option;
 import naga.commons.util.async.Future;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
@@ -12,7 +13,7 @@ public interface EventServiceMixin extends EventService {
 
     EventService getEventService();
 
-    default Future<EntityList> onEventOptions() {
+    default Future<EntityList<Option>> onEventOptions() {
         return getEventService().onEventOptions();
     }
 

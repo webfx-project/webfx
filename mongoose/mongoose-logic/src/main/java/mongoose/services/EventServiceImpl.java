@@ -45,8 +45,8 @@ class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Future<EntityList> onEventOptions() {
-        EntityList<Entity> options = getEntityList(OPTIONS_LIST_ID);
+    public Future<EntityList<Option>> onEventOptions() {
+        EntityList<Option> options = getEventOptions();
         if (options != null)
             return Future.succeededFuture(options);
         String host = getHost();
@@ -60,7 +60,7 @@ class EventServiceImpl implements EventService {
                 new EventQuery(SITES_LIST_ID,      "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
                 new EventQuery(RATES_LIST_ID,      "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
                 new EventQuery(DATE_INFOS_LIST_ID, "select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
-        ).map(() -> getEntityList(OPTIONS_LIST_ID));
+        ).map(this::getEventOptions);
     }
 
     @Override
