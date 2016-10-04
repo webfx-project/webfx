@@ -32,16 +32,16 @@
 package emul.java.time.jdk8;
 
 import emul.java.time.LocalTime;
-import emul.java.time.calendrical.ChronoField;
-import emul.java.time.calendrical.DateTime;
-import emul.java.time.calendrical.DateTimeField;
-import emul.java.time.calendrical.PeriodUnit;
+import emul.java.time.temporal.ChronoField;
+import emul.java.time.temporal.DateTime;
+import emul.java.time.temporal.DateTimeField;
+import emul.java.time.temporal.PeriodUnit;
 import emul.java.time.chrono.Chrono;
 import emul.java.time.chrono.ChronoLocalDate;
 import emul.java.time.chrono.ChronoLocalDateTime;
 import emul.java.time.chrono.Era;
 
-import static emul.java.time.calendrical.ChronoField.*;
+import static emul.java.time.temporal.ChronoField.*;
 
 /**
  * A temporary class providing implementations that will become default interface methods once integrated into

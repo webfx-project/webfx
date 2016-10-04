@@ -31,8 +31,8 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
-import emul.java.time.calendrical.DateTime.WithAdjuster;
+import emul.java.time.temporal.*;
+import emul.java.time.temporal.DateTime.WithAdjuster;
 import emul.java.time.format.DateTimeParseException;
 import emul.java.time.jdk8.DefaultInterfaceDateTimeAccessor;
 import emul.java.time.jdk8.Jdk7Methods;
@@ -41,8 +41,8 @@ import emul.java.time.jdk8.Jdk8Methods;
 import java.io.Serializable;
 
 import static emul.java.time.LocalTime.*;
-import static emul.java.time.calendrical.ChronoField.*;
-import static emul.java.time.calendrical.ChronoUnit.NANOS;
+import static emul.java.time.temporal.ChronoField.*;
+import static emul.java.time.temporal.ChronoUnit.NANOS;
 
 /**
  * An instantaneous point on the time-line.

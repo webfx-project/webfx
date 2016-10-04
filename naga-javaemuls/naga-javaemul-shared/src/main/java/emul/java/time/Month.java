@@ -31,14 +31,14 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.chrono.Chrono;
 import emul.java.time.chrono.ISOChrono;
 import emul.java.time.format.TextStyle;
 
 import java.util.Locale;
 
-import static emul.java.time.calendrical.ChronoField.MONTH_OF_YEAR;
+import static emul.java.time.temporal.ChronoField.MONTH_OF_YEAR;
 
 /**
  * A month-of-year, such as 'July'.

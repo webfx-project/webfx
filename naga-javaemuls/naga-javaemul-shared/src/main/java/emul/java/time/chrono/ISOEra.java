@@ -32,12 +32,12 @@
 package emul.java.time.chrono;
 
 import emul.java.time.DateTimeException;
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.format.TextStyle;
 
 import java.util.Locale;
 
-import static emul.java.time.calendrical.ChronoField.ERA;
+import static emul.java.time.temporal.ChronoField.ERA;
 
 /**
  * An era in the ISO calendar system.

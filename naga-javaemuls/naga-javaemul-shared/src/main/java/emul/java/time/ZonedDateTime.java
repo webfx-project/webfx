@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.chrono.ChronoZonedDateTime;
 import emul.java.time.chrono.ISOChrono;
 import emul.java.time.format.DateTimeParseException;
@@ -42,8 +42,8 @@ import emul.java.time.zone.ZoneRules;
 import java.io.Serializable;
 import java.util.List;
 
-import static emul.java.time.calendrical.ChronoField.INSTANT_SECONDS;
-import static emul.java.time.calendrical.ChronoField.NANO_OF_SECOND;
+import static emul.java.time.temporal.ChronoField.INSTANT_SECONDS;
+import static emul.java.time.temporal.ChronoField.NANO_OF_SECOND;
 
 /**
  * A date-time with a time-zone in the ISO-8601 calendar system, such as

@@ -32,11 +32,11 @@
 package emul.java.time.chrono;
 
 import emul.java.time.*;
-import emul.java.time.calendrical.ChronoField;
-import emul.java.time.calendrical.DateTime;
-import emul.java.time.calendrical.DateTimeAccessor;
-import emul.java.time.calendrical.DateTimeAccessor.Query;
-import emul.java.time.calendrical.DateTimeValueRange;
+import emul.java.time.temporal.ChronoField;
+import emul.java.time.temporal.DateTime;
+import emul.java.time.temporal.DateTimeAccessor;
+import emul.java.time.temporal.DateTimeAccessor.Query;
+import emul.java.time.temporal.DateTimeValueRange;
 import emul.java.time.format.TextStyle;
 import emul.java.time.jdk8.Jdk7Methods;
 import emul.java.time.zone.ZoneRules;

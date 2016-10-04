@@ -33,7 +33,7 @@ package emul.java.time.chrono;
 
 import emul.java.time.LocalDate;
 import emul.java.time.LocalTime;
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.jdk8.Jdk7Methods;
 
 import java.util.Comparator;

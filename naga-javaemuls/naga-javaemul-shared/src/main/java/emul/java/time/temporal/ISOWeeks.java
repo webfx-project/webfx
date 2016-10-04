@@ -29,16 +29,16 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package emul.java.time.calendrical;
+package emul.java.time.temporal;
 
 import emul.java.time.DayOfWeek;
 import emul.java.time.Duration;
 import emul.java.time.LocalDate;
-import emul.java.time.calendrical.PeriodUnit.PeriodBetween;
+import emul.java.time.temporal.PeriodUnit.PeriodBetween;
 import emul.java.time.jdk8.Jdk8Methods;
 
-import static emul.java.time.calendrical.ChronoField.*;
-import static emul.java.time.calendrical.ChronoUnit.*;
+import static emul.java.time.temporal.ChronoField.*;
+import static emul.java.time.temporal.ChronoUnit.*;
 
 /**
  * Fields and units supporting the week-based-year defined by ISO-8601.

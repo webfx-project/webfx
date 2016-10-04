@@ -31,8 +31,8 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.DateTimeAccessor;
-import emul.java.time.calendrical.DateTimeAccessor.Query;
+import emul.java.time.temporal.DateTimeAccessor;
+import emul.java.time.temporal.DateTimeAccessor.Query;
 import emul.java.time.format.DateTimeParseException;
 import emul.java.time.format.TextStyle;
 import emul.java.time.jdk8.Jdk7Methods;

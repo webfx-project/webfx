@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.chrono.Chrono;
 import emul.java.time.format.DateTimeParseException;
 import emul.java.time.jdk8.Jdk7Methods;
@@ -40,8 +40,8 @@ import emul.java.time.jdk8.Jdk8Methods;
 import java.io.Serializable;
 
 import static emul.java.time.LocalTime.*;
-import static emul.java.time.calendrical.ChronoField.*;
-import static emul.java.time.calendrical.ChronoUnit.*;
+import static emul.java.time.temporal.ChronoField.*;
+import static emul.java.time.temporal.ChronoUnit.*;
 
 /**
  * An immutable period consisting of the most common units, such as '3 Months, 4 Days and 7 Hours'.

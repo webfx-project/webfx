@@ -32,10 +32,10 @@
 package emul.java.time.jdk8;
 
 import emul.java.time.DateTimeException;
-import emul.java.time.calendrical.ChronoField;
-import emul.java.time.calendrical.DateTimeAccessor;
-import emul.java.time.calendrical.DateTimeField;
-import emul.java.time.calendrical.DateTimeValueRange;
+import emul.java.time.temporal.ChronoField;
+import emul.java.time.temporal.DateTimeAccessor;
+import emul.java.time.temporal.DateTimeField;
+import emul.java.time.temporal.DateTimeValueRange;
 
 /**
  * A temporary class providing implementations that will become default interface methods once integrated into

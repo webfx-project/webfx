@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.chrono.ChronoLocalDate;
 import emul.java.time.chrono.Era;
 import emul.java.time.chrono.ISOChrono;
@@ -43,7 +43,7 @@ import emul.java.time.jdk8.Jdk8Methods;
 import java.io.Serializable;
 
 import static emul.java.time.LocalTime.SECONDS_PER_DAY;
-import static emul.java.time.calendrical.ChronoField.*;
+import static emul.java.time.temporal.ChronoField.*;
 
 /**
  * A date without a time-zone in the ISO-8601 calendar system, such as {@code 2007-12-03}.

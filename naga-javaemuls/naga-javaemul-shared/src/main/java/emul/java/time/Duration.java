@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.format.DateTimeParseException;
 import emul.java.time.jdk8.Jdk7Methods;
 import emul.java.time.jdk8.Jdk8Methods;
@@ -42,8 +42,8 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import static emul.java.time.LocalTime.SECONDS_PER_DAY;
-import static emul.java.time.calendrical.ChronoField.INSTANT_SECONDS;
-import static emul.java.time.calendrical.ChronoField.NANO_OF_SECOND;
+import static emul.java.time.temporal.ChronoField.INSTANT_SECONDS;
+import static emul.java.time.temporal.ChronoField.NANO_OF_SECOND;
 
 /**
  * A duration between two instants on the time-line.

@@ -29,14 +29,14 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package emul.java.time.calendrical;
+package emul.java.time.temporal;
 
 import emul.java.time.DateTimeException;
 import emul.java.time.LocalDate;
 import emul.java.time.jdk8.Jdk7Methods;
 import emul.java.time.jdk8.Jdk8Methods;
 
-import static emul.java.time.calendrical.ChronoField.EPOCH_DAY;
+import static emul.java.time.temporal.ChronoField.EPOCH_DAY;
 
 /**
  * A set of date fields that provide access to Julian Days.

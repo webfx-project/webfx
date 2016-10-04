@@ -29,7 +29,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package emul.java.time.calendrical;
+package emul.java.time.temporal;
 
 import emul.java.time.DayOfWeek;
 import emul.java.time.chrono.Chrono;

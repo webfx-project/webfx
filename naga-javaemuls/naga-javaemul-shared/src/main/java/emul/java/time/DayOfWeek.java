@@ -31,13 +31,13 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
-import emul.java.time.calendrical.DateTime.WithAdjuster;
+import emul.java.time.temporal.*;
+import emul.java.time.temporal.DateTime.WithAdjuster;
 import emul.java.time.format.TextStyle;
 
 import java.util.Locale;
 
-import static emul.java.time.calendrical.ChronoField.DAY_OF_WEEK;
+import static emul.java.time.temporal.ChronoField.DAY_OF_WEEK;
 
 /**
  * A day-of-week, such as 'Tuesday'.

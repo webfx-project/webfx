@@ -32,7 +32,7 @@
 package emul.java.time.chrono;
 
 import emul.java.time.*;
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.jdk8.DefaultInterfaceChronoZonedDateTime;
 import emul.java.time.jdk8.Jdk7Methods;
 import emul.java.time.zone.ZoneRules;
@@ -40,7 +40,7 @@ import emul.java.time.zone.ZoneRules;
 import java.io.Serializable;
 import java.util.List;
 
-import static emul.java.time.calendrical.ChronoUnit.SECONDS;
+import static emul.java.time.temporal.ChronoUnit.SECONDS;
 
 /**
  * A date-time with a time-zone in the calendar neutral API.

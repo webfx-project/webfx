@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.chrono.Chrono;
 import emul.java.time.chrono.ISOChrono;
 import emul.java.time.format.DateTimeParseException;
@@ -40,7 +40,7 @@ import emul.java.time.jdk8.Jdk8Methods;
 
 import java.io.Serializable;
 
-import static emul.java.time.calendrical.ChronoField.*;
+import static emul.java.time.temporal.ChronoField.*;
 
 /**
  * A year in the ISO-8601 calendar system, such as {@code 2007}.

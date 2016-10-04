@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.format.DateTimeParseException;
 import emul.java.time.jdk8.DefaultInterfaceDateTimeAccessor;
 import emul.java.time.jdk8.Jdk7Methods;
@@ -40,8 +40,8 @@ import emul.java.time.zone.ZoneRules;
 import java.io.Serializable;
 
 import static emul.java.time.LocalTime.*;
-import static emul.java.time.calendrical.ChronoField.NANO_OF_DAY;
-import static emul.java.time.calendrical.ChronoField.OFFSET_SECONDS;
+import static emul.java.time.temporal.ChronoField.NANO_OF_DAY;
+import static emul.java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 /**
  * A time with an offset from UTC/Greenwich in the ISO-8601 calendar system, such as {@code 10:15:30+01:00}.

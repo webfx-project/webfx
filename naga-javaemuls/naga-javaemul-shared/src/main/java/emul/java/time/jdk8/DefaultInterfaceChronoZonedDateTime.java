@@ -34,17 +34,17 @@ package emul.java.time.jdk8;
 import emul.java.time.DateTimeException;
 import emul.java.time.Instant;
 import emul.java.time.LocalTime;
-import emul.java.time.calendrical.ChronoField;
-import emul.java.time.calendrical.DateTimeField;
-import emul.java.time.calendrical.DateTimeValueRange;
-import emul.java.time.calendrical.PeriodUnit;
+import emul.java.time.temporal.ChronoField;
+import emul.java.time.temporal.DateTimeField;
+import emul.java.time.temporal.DateTimeValueRange;
+import emul.java.time.temporal.PeriodUnit;
 import emul.java.time.chrono.Chrono;
 import emul.java.time.chrono.ChronoLocalDate;
 import emul.java.time.chrono.ChronoZonedDateTime;
 
-import static emul.java.time.calendrical.ChronoField.INSTANT_SECONDS;
-import static emul.java.time.calendrical.ChronoField.OFFSET_SECONDS;
-import static emul.java.time.calendrical.ChronoUnit.NANOS;
+import static emul.java.time.temporal.ChronoField.INSTANT_SECONDS;
+import static emul.java.time.temporal.ChronoField.OFFSET_SECONDS;
+import static emul.java.time.temporal.ChronoUnit.NANOS;
 
 /**
  * A temporary class providing implementations that will become default interface methods once integrated into

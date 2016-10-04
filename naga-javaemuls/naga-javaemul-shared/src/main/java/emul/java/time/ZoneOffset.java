@@ -31,7 +31,7 @@
  */
 package emul.java.time;
 
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.jdk8.Jdk7Methods;
 import emul.java.time.zone.ZoneRules;
 
@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static emul.java.time.calendrical.ChronoField.OFFSET_SECONDS;
+import static emul.java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 /**
  * A time-zone offset from Greenwich/UTC, such as {@code +02:00}.

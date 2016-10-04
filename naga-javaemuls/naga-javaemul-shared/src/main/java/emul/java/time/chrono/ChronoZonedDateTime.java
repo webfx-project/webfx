@@ -32,10 +32,10 @@
 package emul.java.time.chrono;
 
 import emul.java.time.*;
-import emul.java.time.calendrical.ChronoField;
-import emul.java.time.calendrical.DateTime;
-import emul.java.time.calendrical.DateTimeField;
-import emul.java.time.calendrical.PeriodUnit;
+import emul.java.time.temporal.ChronoField;
+import emul.java.time.temporal.DateTime;
+import emul.java.time.temporal.DateTimeField;
+import emul.java.time.temporal.PeriodUnit;
 import emul.java.time.jdk8.Jdk7Methods;
 
 import java.util.Comparator;

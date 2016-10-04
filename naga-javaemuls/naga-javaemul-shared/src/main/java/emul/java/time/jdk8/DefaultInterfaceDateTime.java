@@ -31,8 +31,8 @@
  */
 package emul.java.time.jdk8;
 
-import emul.java.time.calendrical.DateTime;
-import emul.java.time.calendrical.PeriodUnit;
+import emul.java.time.temporal.DateTime;
+import emul.java.time.temporal.PeriodUnit;
 
 /**
  * A temporary class providing implementations that will become default interface methods once integrated into

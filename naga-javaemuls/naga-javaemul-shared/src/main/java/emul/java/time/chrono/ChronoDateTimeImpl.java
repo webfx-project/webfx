@@ -34,14 +34,14 @@ package emul.java.time.chrono;
 import emul.java.time.DateTimeException;
 import emul.java.time.LocalTime;
 import emul.java.time.ZoneId;
-import emul.java.time.calendrical.*;
+import emul.java.time.temporal.*;
 import emul.java.time.jdk8.DefaultInterfaceChronoLocalDateTime;
 import emul.java.time.jdk8.Jdk7Methods;
 import emul.java.time.jdk8.Jdk8Methods;
 
 import java.io.Serializable;
 
-import static emul.java.time.calendrical.ChronoField.EPOCH_DAY;
+import static emul.java.time.temporal.ChronoField.EPOCH_DAY;
 
 /**
  * A date-time without a time-zone for the calendar neutral API.

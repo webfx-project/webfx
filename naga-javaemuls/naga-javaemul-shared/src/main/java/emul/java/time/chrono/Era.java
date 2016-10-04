@@ -31,8 +31,8 @@
  */
 package emul.java.time.chrono;
 
-import emul.java.time.calendrical.DateTime;
-import emul.java.time.calendrical.DateTimeAccessor;
+import emul.java.time.temporal.DateTime;
+import emul.java.time.temporal.DateTimeAccessor;
 import emul.java.time.format.TextStyle;
 
 import java.util.Locale;
