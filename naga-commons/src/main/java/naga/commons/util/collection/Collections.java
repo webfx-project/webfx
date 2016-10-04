@@ -3,12 +3,12 @@ package naga.commons.util.collection;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.IntFunction;
+import naga.commons.util.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * @author Bruno Salmon
