@@ -1,12 +1,13 @@
 package mongoose.entities;
 
+import mongoose.entities.markers.EntityHasCancelled;
 import mongoose.entities.markers.EntityHasEvent;
 import naga.framework.orm.entity.Entity;
 
 /**
  * @author Bruno Salmon
  */
-public interface Document extends Entity, EntityHasEvent {
+public interface Document extends Entity, EntityHasEvent, EntityHasCancelled {
 
     void setRef(Integer ref);
 

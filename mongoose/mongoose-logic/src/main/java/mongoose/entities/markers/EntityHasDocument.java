@@ -24,5 +24,4 @@ public interface EntityHasDocument extends Entity, HasDocument {
         return getForeignEntity("document");
     }
 
-
 }
