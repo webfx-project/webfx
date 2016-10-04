@@ -13,10 +13,10 @@ public class DateTimeRange {
     private DaysArray daysArray;
 
     public static DateTimeRange parse(String text) {
-        return new DateTimeRange(text);
+        return text == null ? null : new DateTimeRange(text);
     }
 
-    public DateTimeRange(String text) {
+    private DateTimeRange(String text) {
         this.text = text;
     }
 

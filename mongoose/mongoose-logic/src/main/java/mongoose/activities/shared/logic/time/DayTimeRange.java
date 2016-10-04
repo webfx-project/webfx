@@ -18,7 +18,7 @@ public class DayTimeRange {
     private final List<TimeRangeRule> exceptionRules;
 
     public static DayTimeRange parse(String text) {
-        return new DayTimeRange(text);
+        return text == null ? null : new DayTimeRange(text);
     }
 
     private DayTimeRange(String text) {
@@ -43,6 +43,10 @@ public class DayTimeRange {
             }
             generalRule = _generalRule;
         }
+    }
+
+    public String getText() {
+        return text;
     }
 
     public TimeSeries getDayTimeSeries(long day, TimeUnit timeUnit) {
