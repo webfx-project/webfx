@@ -49,4 +49,12 @@ public interface EventService {
     default EntityList<DateInfo> getEventDateInfos() {
         return getEntityList(DATE_INFOS_LIST_ID);
     }
+
+    default <E extends Entity> List<E> selectEntities(Iterable<E> entities, Predicate<? super E> predicate) {
+        return Collections.filter(entities, predicate);
+    }
+
+    default List<Option> selectOptions(Predicate<? super Option> predicate) {
+        return selectEntities(getEventOptions(), predicate);
+    }
 }
