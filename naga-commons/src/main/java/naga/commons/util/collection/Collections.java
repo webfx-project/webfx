@@ -15,16 +15,16 @@ import java.util.List;
  */
 public class Collections {
 
-    public static <T> void forEach(Iterable<T> collection, Consumer<T> consumer) {
-        // collection.forEach(consumer); // Not GWT compilable for now
-        for (T element : collection)
+    public static <T> void forEach(Iterable<T> iterable, Consumer<T> consumer) {
+        // iterable.forEach(consumer); // Not GWT compilable for now
+        for (T element : iterable)
             consumer.accept(element);
     }
 
-    public static <A, B> List<B> convert(Collection<A> aList, Converter<A, B> aToBConverter) {
-        // return aList.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
-        List<B> bList = new ArrayList<>(aList.size());
-        forEach(aList, a -> bList.add(aToBConverter.convert(a)));
+    public static <A, B> List<B> convert(Collection<A> aCollection, Converter<A, B> aToBConverter) {
+        // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
+        List<B> bList = new ArrayList<>(aCollection.size());
+        forEach(aCollection, a -> bList.add(aToBConverter.convert(a)));
         return bList;
     }
 
@@ -40,6 +40,10 @@ public class Collections {
 
     public static int size(Collection collection) {
         return collection == null ? 0 : collection.size();
+    }
+
+    public static <T> Iterator<T> iterator(Iterable<T> iterable) {
+        return iterable == null ? null : iterable.iterator();
     }
 
     public static <T> T next(Iterator<T> it) {
@@ -58,8 +62,16 @@ public class Collections {
         return array;
     }
 
+    public static String toString(Iterable iterable) {
+        return toString(iterator(iterable));
+    }
+
     public static String toString(Iterator it) {
         return toString(it, false);
+    }
+
+    public static String toStringWithLineFeeds(Iterable iterable) {
+        return toStringWithLineFeeds(iterator(iterable));
     }
 
     public static String toStringWithLineFeeds(Iterator it) {
@@ -67,6 +79,8 @@ public class Collections {
     }
 
     private static String toString(Iterator it, boolean lineFeeds) {
+        if (it == null)
+            return null;
         if (!it.hasNext())
             return "[]";
         StringBuilder sb = new StringBuilder();

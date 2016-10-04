@@ -32,11 +32,11 @@ public class Arrays {
     }
 
     public static <T> String toString(T[] array) {
-        return array == null ? null : Collections.toString(asList(array).iterator());
+        return Collections.toString(asList(array));
     }
 
     public static <T> String toStringWithLineFeeds(T[] array) {
-        return array == null ? null : Collections.toStringWithLineFeeds(asList(array).iterator());
+        return Collections.toStringWithLineFeeds(asList(array));
     }
 
     public static <T> void forEach(T[] array, Consumer<T> consumer) {

@@ -59,6 +59,6 @@ public class EntityListImpl<E extends Entity> implements EntityList<E> {
 
     @Override
     public String toString() {
-        return Collections.toStringWithLineFeeds(iterator());
+        return Collections.toStringWithLineFeeds(this);
     }
 }
