@@ -194,6 +194,9 @@ public interface Future<T> extends AsyncResult<T> {
                 try {
                     apply = mapper.apply(ar.result());
                 } catch (Throwable e) {
+                    // temporary tracing the exception while exception handling mechanism is not finished
+                    System.out.println("Exception raised in Future.compose(): " + e.getMessage());
+                    e.printStackTrace();
                     ret.fail(e);
                     return;
                 }
@@ -226,6 +229,9 @@ public interface Future<T> extends AsyncResult<T> {
                 try {
                     mapped = mapper.apply(ar.result());
                 } catch (Throwable e) {
+                    // temporary tracing the exception while exception handling mechanism is not finished
+                    System.out.println("Exception raised in Future.map(): " + e.getMessage());
+                    e.printStackTrace();
                     ret.fail(e);
                     return;
                 }
