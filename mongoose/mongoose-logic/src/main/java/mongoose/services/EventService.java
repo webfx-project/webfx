@@ -1,7 +1,6 @@
 package mongoose.services;
 
 import mongoose.entities.*;
-import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
@@ -25,7 +24,7 @@ public interface EventService {
         return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
     }
 
-    Future<Batch<EntityList>> loadEventOptions();
+    Future<EntityList> onEventOptions();
 
     Event getEvent();
 

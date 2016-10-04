@@ -1,7 +1,6 @@
 package mongoose.services;
 
-import mongoose.entities.*;
-import naga.commons.util.async.Batch;
+import mongoose.entities.Event;
 import naga.commons.util.async.Future;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
@@ -13,8 +12,8 @@ public interface EventServiceMixin extends EventService {
 
     EventService getEventService();
 
-    default Future<Batch<EntityList>> loadEventOptions() {
-        return getEventService().loadEventOptions();
+    default Future<EntityList> onEventOptions() {
+        return getEventService().onEventOptions();
     }
 
     default Event getEvent() {

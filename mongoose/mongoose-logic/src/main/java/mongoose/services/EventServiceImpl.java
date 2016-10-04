@@ -45,7 +45,10 @@ class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Future<Batch<EntityList>> loadEventOptions() {
+    public Future<EntityList> onEventOptions() {
+        EntityList<Entity> options = getEntityList(OPTIONS_LIST_ID);
+        if (options != null)
+            return Future.succeededFuture(options);
         String host = getHost();
         Object[] parameters = {eventId, host, host, false /* isDeveloper */};
         // Loading event options
@@ -57,7 +60,7 @@ class EventServiceImpl implements EventService {
                 new EventQuery(SITES_LIST_ID,      "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
                 new EventQuery(RATES_LIST_ID,      "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
                 new EventQuery(DATE_INFOS_LIST_ID, "select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
-        );
+        ).map(() -> getEntityList(OPTIONS_LIST_ID));
     }
 
     @Override
