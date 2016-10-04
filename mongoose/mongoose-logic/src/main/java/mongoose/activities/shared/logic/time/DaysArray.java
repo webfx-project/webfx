@@ -25,6 +25,10 @@ public class DaysArray {
         return timeUnit;
     }
 
+    public boolean isEmpty() {
+        return array.length == 0;
+    }
+
     public DaysArray changeTimeUnit(TimeUnit newTimeUnit) {
         if (timeUnit == newTimeUnit)
             return this;
