@@ -44,6 +44,10 @@ public class DateTimeRange {
         return daysArray;
     }
 
+    public DaysArray getDaysArray(DayTimeRange dayTimeRange) {
+        return getSeries().toDaysArray(dayTimeRange);
+    }
+
     public TimeSeries getSeries() {
         if (series == null) {
             if (text != null)

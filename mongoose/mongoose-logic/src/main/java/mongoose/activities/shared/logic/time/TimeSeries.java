@@ -45,7 +45,11 @@ public class TimeSeries {
     }
 
     public DaysArray toDaysArray() {
-        return new DaysArrayBuilder(timeUnit).addSeries(this).build();
+        return toDaysArray(null);
+    }
+
+    public DaysArray toDaysArray(DayTimeRange dayTimeRange) {
+        return new DaysArrayBuilder(timeUnit).addSeries(this, dayTimeRange).build();
     }
 
     public String toText() {

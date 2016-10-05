@@ -26,25 +26,35 @@ public class DaysArrayBuilder {
         this.timeUnit = timeUnit;
     }
 
-    public DaysArrayBuilder addInterval(TimeInterval interval) {
+    public DaysArrayBuilder addInterval(TimeInterval interval, DayTimeRange dayTimeRange) {
         long oneDay = TimeConverter.oneDay(timeUnit);
         long extra = oneDay <= 1 ? 0 : oneDay - 1;
         TimeUnit intervalTimeUnit = interval.getTimeUnit();
-        long includedFirstDay = convertTime(floorToDay(interval.getIncludedStart(), intervalTimeUnit), intervalTimeUnit, timeUnit);
-        long excludedLastDay = convertTime(floorToDay(interval.getExcludedEnd() + extra, intervalTimeUnit), intervalTimeUnit, timeUnit);
+        long includedFirstDay = floorToDay(interval.getIncludedStart(), intervalTimeUnit);
+        long excludedLastDay = floorToDay(interval.getExcludedEnd() + extra, intervalTimeUnit);
+        long firstDayTime = interval.getIncludedStart() - includedFirstDay;
+        long lastDayTime = interval.getExcludedEnd() + extra - excludedLastDay;
+        includedFirstDay = convertTime(includedFirstDay, intervalTimeUnit, timeUnit);
+        excludedLastDay = convertTime(excludedLastDay, intervalTimeUnit, timeUnit);
+        if (dayTimeRange != null) {
+            if (firstDayTime > dayTimeRange.getDayTimeInterval(includedFirstDay, intervalTimeUnit).getExcludedEnd())
+                includedFirstDay += oneDay;
+            if (lastDayTime < dayTimeRange.getDayTimeInterval(excludedLastDay, intervalTimeUnit).getIncludedStart())
+                excludedLastDay -= oneDay;
+        }
         for (long day = includedFirstDay; day < excludedLastDay; day += oneDay)
             days.add(day);
         return this;
     }
 
-    public DaysArrayBuilder addIntervals(TimeInterval[] intervals) {
+    public DaysArrayBuilder addIntervals(TimeInterval[] intervals, DayTimeRange dayTimeRange) {
         for (TimeInterval interval : intervals)
-            addInterval(interval);
+            addInterval(interval, dayTimeRange);
         return this;
     }
 
-    public DaysArrayBuilder addSeries(TimeSeries series) {
-        return addIntervals(series.getArray());
+    public DaysArrayBuilder addSeries(TimeSeries series, DayTimeRange dayTimeRange) {
+        return addIntervals(series.getArray(), dayTimeRange);
     }
 
     public DaysArrayBuilder addDate(LocalDate date) {
