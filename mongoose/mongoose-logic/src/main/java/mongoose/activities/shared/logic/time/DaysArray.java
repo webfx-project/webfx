@@ -1,5 +1,7 @@
 package mongoose.activities.shared.logic.time;
 
+import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import static mongoose.activities.shared.logic.time.TimeConverter.convertTime;
@@ -7,7 +9,7 @@ import static mongoose.activities.shared.logic.time.TimeConverter.convertTime;
 /**
  * @author Bruno Salmon
  */
-public class DaysArray {
+public class DaysArray implements Iterable<Long> {
 
     private final long[] array;
     private final TimeUnit timeUnit;
@@ -27,6 +29,57 @@ public class DaysArray {
 
     public boolean isEmpty() {
         return array.length == 0;
+    }
+
+    public long getDay(int index) {
+        return array[index];
+    }
+
+    public long getEpochDay(int index) {
+        return convertTime(getDay(index), timeUnit, TimeUnit.DAYS);
+    }
+
+    public LocalDate getDate(int index) {
+        return LocalDate.ofEpochDay(getEpochDay(index));
+    }
+
+    public LocalDate getFirstDate() {
+        return getDate(0);
+    }
+
+    @Override
+    public Iterator<Long> iterator() {
+        return new Iterator<Long>() {
+            int nextIndex = 0;
+            @Override
+            public boolean hasNext() {
+                return nextIndex < array.length;
+            }
+
+            @Override
+            public Long next() {
+                return getDay(nextIndex++);
+            }
+        };
+    }
+
+    public Iterable<LocalDate> localDateIterable() {
+        return this::localDateIterator;
+    }
+
+    public Iterator<LocalDate> localDateIterator() {
+        return new Iterator<LocalDate>() {
+            int nextIndex = 0;
+            @Override
+            public boolean hasNext() {
+                return nextIndex < array.length;
+            }
+
+            @Override
+            public LocalDate next() {
+                return getDate(nextIndex++);
+            }
+        };
     }
 
     public DaysArray changeTimeUnit(TimeUnit newTimeUnit) {
