@@ -1,8 +1,11 @@
 package mongoose.entities;
 
+import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.entities.markers.*;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
@@ -73,6 +76,17 @@ public interface Option extends Entity, EntityHasParent<Option>, EntityHasName, 
 
     default boolean isConcrete() {
         return !isFolder() && getSite() != null && getItem() != null;
+    }
+
+    default boolean isBreakfast() {
+        if (!isMeals())
+            return false;
+        DayTimeRange dayTimeRange = DayTimeRange.parse(getTimeRangeOrParent());
+        return dayTimeRange != null && dayTimeRange.getDayTimeInterval(0, TimeUnit.DAYS).getExcludedEnd() < 10 * 60;
+    }
+
+    default boolean isDependant() {
+        return isDiet() || isBreakfast();
     }
 
     default boolean hasTimeRange() {
