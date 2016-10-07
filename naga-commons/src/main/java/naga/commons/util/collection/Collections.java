@@ -31,11 +31,20 @@ public class Collections {
     public static <T> List<T> filter(Iterable<T> collection, Predicate<? super T> predicate) {
         // return collection.stream().filter(predicate).collect(Collectors.toList()); // Not GWT compilable for now
         List<T> list = new ArrayList<>();
-        forEach(collection, a -> {
-            if (predicate.test(a))
-                list.add(a);
+        forEach(collection, element -> {
+            if (predicate.test(element))
+                list.add(element);
         });
         return list;
+    }
+
+    public static <T> T findFirst(Iterable<T> collection, Predicate<? super T> predicate) {
+        //return collection.stream().filter(predicate::test).findFirst().get(); // Not GWT compilable for now
+        for (T element : collection) {
+            if (predicate.test(element))
+                return element;
+        }
+        return null;
     }
 
     public static int size(Collection collection) {
