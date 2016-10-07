@@ -1,5 +1,7 @@
 package mongoose.activities.frontend.event.booking;
 
+import mongoose.services.EventService;
+import mongoose.services.EventServiceMixin;
 import naga.commons.util.function.Factory;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.events.ActionEvent;
@@ -8,7 +10,8 @@ import naga.toolkit.spi.nodes.controls.Button;
 /**
  * @author Bruno Salmon
  */
-public abstract class BookingProcessActivity<VM extends BookingProcessViewModel, PM extends BookingProcessPresentationModel> extends PresentationActivity<VM, PM> {
+public abstract class BookingProcessActivity<VM extends BookingProcessViewModel, PM extends BookingProcessPresentationModel>
+        extends PresentationActivity<VM, PM> implements EventServiceMixin {
 
     private final String nextPage;
 
@@ -26,23 +29,31 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
             getI18n().translateText(nextButton, "Next").actionEventObservable().subscribe(this::onNextButtonPressed);
     }
 
-    protected void onPreviousButtonPressed(ActionEvent actionEvent) {
+    private void onPreviousButtonPressed(ActionEvent actionEvent) {
         getHistory().goBack();
     }
 
-    protected void onNextButtonPressed(ActionEvent actionEvent) {
+    private void onNextButtonPressed(ActionEvent actionEvent) {
         goToNextBookingProcessPage(nextPage);
     }
 
     protected void goToNextBookingProcessPage(String page) {
-        getHistory().push("/event/" + getParameter("eventId") + "/" + page);
+        getHistory().push("/event/" + getEventId() + "/" + page);
     }
 
     protected void initializePresentationModel(PM pm) {
-        pm.setEventId(getParameter("eventId"));
+        pm.setEventId(getEventId());
     }
 
     protected void bindPresentationModelWithLogic(PM pm) {
+    }
+
+    private Object getEventId() {
+        return getParameter("eventId");
+    }
+
+    public EventService getEventService() { // Mainly to make EventServiceMixin work
+        return EventService.getOrCreate(getEventId(), getDataSourceModel());
     }
 
 }
