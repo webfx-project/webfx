@@ -34,6 +34,10 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(false); // Should be stored in UiContext?
 
+    protected Property<Boolean> activeProperty() {
+        return activeProperty;
+    }
+
     public boolean isActive() {
         return activeProperty.getValue();
     }
