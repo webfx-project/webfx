@@ -67,7 +67,7 @@ public class GridCollator implements SelectableDisplayResultSetNode {
     }
 
     protected void syncVisualDisplayResult(DisplayResultSet rs) {
-        gridFiller.fillGrid(rs);
+        Toolkit.get().scheduler().runInUiThread(() -> gridFiller.fillGrid(rs));
     }
 
     @SuppressWarnings("unchecked")
@@ -100,5 +100,4 @@ public class GridCollator implements SelectableDisplayResultSetNode {
             rsColumnIndexes[gridColumnIndex] = rsColumnIndex;
         }
     };
-
 }
