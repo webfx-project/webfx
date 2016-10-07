@@ -100,6 +100,21 @@ public class DaysArray implements Iterable<Long> {
         return new DaysArray(newArray, newTimeUnit);
     }
 
+    public DaysArray shift(long shiftDays) {
+        return shift(shiftDays, TimeUnit.DAYS);
+    }
+
+    public DaysArray shift(long shiftDays, TimeUnit shiftTimeUnit) {
+        shiftDays = convertTime(shiftDays, shiftTimeUnit, timeUnit);
+        if (shiftDays == 0)
+            return this;
+        int n = array.length, i = 0;
+        long[] newArray = new long[n];
+        for (long day : array)
+            newArray[i++] = day + shiftDays;
+        return new DaysArray(newArray, timeUnit);
+    }
+
     public TimeSeries toSeries() {
         return new TimeSeriesBuilder(timeUnit).addDaysArrays(this).build();
     }
