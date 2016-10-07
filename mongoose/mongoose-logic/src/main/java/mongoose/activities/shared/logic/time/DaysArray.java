@@ -60,6 +60,10 @@ public class DaysArray implements Iterable<Long> {
             public Long next() {
                 return getDay(nextIndex++);
             }
+
+            public void remove() { // necessary for GWT compilation (perhaps they haven't written the default method)
+                throw new UnsupportedOperationException("remove");
+            }
         };
     }
 
@@ -78,6 +82,10 @@ public class DaysArray implements Iterable<Long> {
             @Override
             public LocalDate next() {
                 return getDate(nextIndex++);
+            }
+
+            public void remove() { // necessary for GWT compilation (perhaps they haven't written the default method)
+                throw new UnsupportedOperationException("remove");
             }
         };
     }
