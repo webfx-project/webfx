@@ -1,6 +1,7 @@
 package mongoose.services;
 
 import mongoose.entities.*;
+import naga.commons.util.Numbers;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
@@ -21,24 +22,25 @@ import java.util.Map;
  */
 class EventServiceImpl implements EventService {
 
-    private static Map<Integer, EventService> services = new HashMap<>();
+    private static Map<Object, EventService> services = new HashMap<>();
 
-    static EventService get(Integer eventId) {
+    static EventService get(Object eventId) {
         return EventServiceImpl.services.get(eventId);
     }
 
-    static EventService getOrCreate(Integer eventId, DataSourceModel dataSourceModel) {
+    static EventService getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
         EventService service = get(eventId);
         if (service == null)
             EventServiceImpl.services.put(eventId, service = new EventServiceImpl(eventId, dataSourceModel));
         return service;
     }
 
-    private final Integer eventId;
+    private final Object eventId;
     private final DataSourceModel dataSourceModel;
     private final EntityStore eventStore;
+    private Event event;
 
-    public EventServiceImpl(Integer eventId, DataSourceModel dataSourceModel) {
+    public EventServiceImpl(Object eventId, DataSourceModel dataSourceModel) {
         this.eventId = eventId;
         this.dataSourceModel = dataSourceModel;
         eventStore = EntityStore.create(dataSourceModel);
@@ -65,7 +67,14 @@ class EventServiceImpl implements EventService {
 
     @Override
     public Event getEvent() {
-        return eventStore.getEntity("Event", eventId);
+        if (event == null) {
+            event = eventStore.getEntity("Event", eventId); // eventId may be from the wrong type (ex: String) because coming from the url
+            if (event == null) // If not found, trying now with integer (should work for Java platforms)
+                event = eventStore.getEntity("Event", Numbers.toInteger(eventId));
+            if (event == null) // If not found, trying now with double (should work for Web platforms)
+                event = eventStore.getEntity("Event", Numbers.toDouble(eventId));
+        }
+        return event;
     }
 
     @Override

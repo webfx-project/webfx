@@ -20,11 +20,11 @@ public interface EventService {
     Object RATES_LIST_ID = "rates";
     Object DATE_INFOS_LIST_ID = "dateInfos";
 
-    static EventService get(Integer eventId) {
+    static EventService get(Object eventId) {
         return EventServiceImpl.get(eventId);
     }
 
-    static EventService getOrCreate(Integer eventId, DataSourceModel dataSourceModel) {
+    static EventService getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
         return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
     }
 
