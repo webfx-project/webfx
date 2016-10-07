@@ -1,10 +1,15 @@
 package mongoose.activities.frontend.event.fees;
 
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.preselection.OptionsPreselectionBuilder;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
+import naga.commons.util.collection.Collections;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -19,7 +24,8 @@ class FeesGroupBuilder {
     private Label feesPopupLabel;
     private boolean forceSoldout;
 
-    private OptionsPreselectionBuilder optionsPreselectionBuilder;
+    private Iterable<Option> defaultOptions;
+    private Iterable<Option> accommodationOptions;
 
     FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
         this.dateInfo = dateInfo;
@@ -44,23 +50,30 @@ class FeesGroupBuilder {
         return event;
     }
 
-    private OptionsPreselectionBuilder getOptionsPreselectionBuilder() {
-        if (optionsPreselectionBuilder == null)
-            optionsPreselectionBuilder = new OptionsPreselectionBuilder(getEvent());
-        return optionsPreselectionBuilder;
-    }
-
-    FeesGroupBuilder addDefaultOptions(Iterable<Option> options) {
-        getOptionsPreselectionBuilder().addDefaultOptions(options);
+    FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
+        this.defaultOptions = defaultOptions;
         return this;
     }
 
-    FeesGroupBuilder addAccommodationOption(Option option) {
-        getOptionsPreselectionBuilder().addAccommodationOption(option);
+    public FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
+        this.accommodationOptions = accommodationOptions;
         return this;
     }
 
     FeesGroup build() {
-        return new FeesGroup(id, label, feesBottomLabel, feesPopupLabel, forceSoldout, getOptionsPreselectionBuilder().build());
+        List<OptionsPreselection> optionsPreselections = new ArrayList<>();
+        if (accommodationOptions != null)
+            for (Option accommodationOption : accommodationOptions) {
+                OptionsPreselectionBuilder opb = new OptionsPreselectionBuilder(getEvent());
+                opb.addDefaultOptions(defaultOptions);
+                opb.addAccommodationOption(accommodationOption);
+                optionsPreselections.add(opb.build());
+            }
+        // No accommodation
+        OptionsPreselectionBuilder opb = new OptionsPreselectionBuilder(getEvent());
+        opb.addDefaultOptions(defaultOptions);
+        optionsPreselections.add(opb.build());
+
+        return new FeesGroup(id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
     }
 }

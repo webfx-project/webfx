@@ -1,12 +1,17 @@
 package mongoose.activities.frontend.event.fees;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.frontend.event.booking.BookingProcessPresentationModel;
+import naga.toolkit.display.DisplayResultSet;
 
 /**
  * @author Bruno Salmon
  */
 class FeesPresentationModel extends BookingProcessPresentationModel {
 
-    FeesPresentationModel() {
-    }
+    // Display output
+
+    private final Property<DisplayResultSet> dateInfoDisplayResultSetProperty = new SimpleObjectProperty<>();
+    public Property<DisplayResultSet> dateInfoDisplayResultSetProperty() { return dateInfoDisplayResultSetProperty; }
 }

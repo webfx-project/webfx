@@ -2,6 +2,7 @@ package mongoose.activities.shared.highlevelcomponents;
 
 import mongoose.activities.shared.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
 import naga.framework.ui.i18n.I18n;
+import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
@@ -27,6 +28,10 @@ public class HighLevelComponents {
 
     public static VPage createSectionPanel(String iconImageUrl, String translationKey, I18n i18n) {
         return getBuilder().createSectionPanel(iconImageUrl, translationKey, i18n);
+    }
+
+    public static VPage createSectionPanel(GuiNode... headerNodes) {
+        return getBuilder().createSectionPanel(headerNodes);
     }
 
 }
