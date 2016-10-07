@@ -115,4 +115,15 @@ class EventServiceImpl implements EventService {
             this.parameters = parameters;
         }
     }
+
+    //// Breakfast option
+
+    private Option breakfastOption;
+
+    @Override
+    public Option getBreakfastOption() {
+        if (breakfastOption == null)
+            breakfastOption = findFirstOption(Option::isBreakfast);
+        return breakfastOption;
+    }
 }

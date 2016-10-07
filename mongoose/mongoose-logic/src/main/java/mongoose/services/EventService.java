@@ -57,4 +57,21 @@ public interface EventService {
     default List<Option> selectOptions(Predicate<? super Option> predicate) {
         return selectEntities(getEventOptions(), predicate);
     }
+
+    default List<Option> selectDefaultOptions() {
+        return selectOptions(o -> o.isConcrete() && (o.isObligatory() || o.isTeaching() || o.isMeals()) && !o.isDependant());
+    }
+
+    default List<Rate> selectRates(Predicate<? super Rate> predicate) {
+        return selectEntities(getEventRates(), predicate);
+    }
+
+    default Option findFirstOption(Predicate<? super Option> predicate) {
+        return Collections.findFirst(getEventOptions(), predicate);
+    }
+
+    default Option getBreakfastOption() {
+        return findFirstOption(Option::isBreakfast);
+    }
+
 }
