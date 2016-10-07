@@ -22,13 +22,17 @@ public class PriceFormatter implements Formatter {
 
     @Override
     public Object format(Object value) {
+        return format(value, true);
+    }
+
+    public Object format(Object value, boolean show00cents) {
         if (!Numbers.isNumber(value))
             return value;
         String cents = value.toString();
         switch (cents.length()) {
             case 1 : return "0.0" + cents;
             case 2 : return "0." + cents;
-            default: return cents.substring(0, cents.length() - 2) + "." + cents.substring(cents.length() - 2);
+            default: return cents.substring(0, cents.length() - 2) + (!show00cents && cents.endsWith("00") ? "" : "." + cents.substring(cents.length() - 2));
         }
     }
 }
