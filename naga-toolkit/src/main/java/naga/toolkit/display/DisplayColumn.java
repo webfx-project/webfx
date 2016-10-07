@@ -53,4 +53,9 @@ public interface DisplayColumn {
     static DisplayColumn create(Object label, Type type) {
         return new DisplayColumnImpl(label, type);
     }
+
+    static DisplayColumn create(ValueRenderer valueRenderer) {
+        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer);
+    }
+
 }
