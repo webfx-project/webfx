@@ -55,6 +55,10 @@ public class DisplayColumnBuilder {
         return new DisplayColumnImpl(headerValue, label, type, role, style, valueRenderer);
     }
 
+    public static DisplayColumnBuilder create(Object label) {
+        return new DisplayColumnBuilder(label, null);
+    }
+
     public static DisplayColumnBuilder create(Object label, Type type) {
         return new DisplayColumnBuilder(label, type);
     }
