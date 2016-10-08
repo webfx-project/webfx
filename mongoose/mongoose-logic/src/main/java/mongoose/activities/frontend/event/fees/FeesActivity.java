@@ -1,6 +1,7 @@
 package mongoose.activities.frontend.event.fees;
 
 import mongoose.activities.frontend.event.booking.BookingProcessActivity;
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import naga.commons.type.PrimType;
@@ -11,9 +12,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.rx.RxScheduler;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.spi.Platform;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
+import naga.toolkit.display.*;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.controls.Table;
@@ -65,6 +64,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                         .filter(active -> active)
                         .observeOn(RxScheduler.UI_SCHEDULER)
                         .subscribe(active -> displayFeesGroups(feesGroups, pm));
+                onEventAvailabilities().setHandler(ar -> {
+                    if (ar.succeeded())
+                        displayFeesGroups(feesGroups, pm);
+                });
             }
         });
     }
@@ -85,7 +88,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         I18n i18n = getI18n();
         for (FeesGroup feesGroup : feesGroups) {
             rsb.setInlineValue(inlineIndex++, feesGroup.getDisplayName(i18n));
-            rsb.setInlineValue(inlineIndex++, feesGroup.generateDisplayResultSet(i18n, this));
+            rsb.setInlineValue(inlineIndex++, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
         }
         DisplayResultSet rs = rsb.build();
         pm.dateInfoDisplayResultSetProperty().setValue(rs);
@@ -115,5 +118,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
                 .build();
+    }
+
+    private void onBookButtonPressed(OptionsPreselection optionsPreselection) {
+        Platform.log("Booking " + optionsPreselection);
+        onNextButtonPressed(null);
     }
 }

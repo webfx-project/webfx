@@ -4,10 +4,13 @@ import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
 import naga.commons.type.PrimType;
+import naga.commons.util.Numbers;
+import naga.commons.util.async.Handler;
+import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
+import naga.toolkit.display.*;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.Button;
 
 /**
  * @author Bruno Salmon
@@ -61,14 +64,26 @@ class FeesGroup {
         return label.getStringFieldValue(language);
     }
 
-    public DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService) {
+    public DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsPreselections.length, new DisplayColumn[]{
                 DisplayColumn.create(i18n.instantTranslate("Accommodation"), PrimType.STRING),
-                DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.LONG)});
+                DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
+                DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE)
+                        .setValueRenderer(p -> {
+                            if (p == null)
+                                return null;
+                            Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
+                            boolean soldout = Numbers.isZero(pair.get1());
+                            Button button = i18n.instantTranslateText(Toolkit.get().createButton(), soldout ? "Soldout" : "Book");
+                            if (!soldout)
+                                button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(pair.get2()));
+                            return button;
+                        }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
             rsb.setValue(rowIndex,   0, optionsPreselection.getDisplayName(i18n));
-            rsb.setValue(rowIndex++, 1, optionsPreselection.getDisplayPrice(eventService));
+            rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice(eventService));
+            rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
         }
         return rsb.build();
     }

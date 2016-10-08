@@ -33,7 +33,7 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
         getHistory().goBack();
     }
 
-    private void onNextButtonPressed(ActionEvent actionEvent) {
+    protected void onNextButtonPressed(ActionEvent actionEvent) {
         goToNextBookingProcessPage(nextPage);
     }
 

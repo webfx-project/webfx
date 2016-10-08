@@ -61,7 +61,7 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> {
                     if (organization != null)
-                        getHistory().push("/organization/" + organization.getId().getPrimaryKey() + "/events");
+                        getHistory().push("/organization/" + organization.getPrimaryKey() + "/events");
                 }).start();
     }
 }

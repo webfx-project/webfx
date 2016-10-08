@@ -54,7 +54,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine accommodationLine;
 
-    private WorkingDocumentLine getAccommodationLine() {
+    public WorkingDocumentLine getAccommodationLine() {
         if (accommodationLine == null)
             accommodationLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isAccommodation());
         return accommodationLine;
