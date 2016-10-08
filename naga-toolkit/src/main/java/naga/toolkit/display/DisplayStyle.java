@@ -12,5 +12,6 @@ public interface DisplayStyle {
     String getTextAlign();
 
     DisplayStyle NO_STYLE = new DisplayStyleImpl();
+    DisplayStyle CENTER_STYLE = new DisplayStyleImpl(null, "center");
 
 }
