@@ -5,6 +5,7 @@ import naga.commons.util.async.Future;
 import naga.commons.util.function.Predicate;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
+import naga.platform.services.query.QueryResultSet;
 
 import java.util.List;
 
@@ -17,6 +18,16 @@ public interface EventServiceMixin extends EventService {
 
     default Future<EntityList<Option>> onEventOptions() {
         return getEventService().onEventOptions();
+    }
+
+    @Override
+    default Future<QueryResultSet> onEventAvailabilities() {
+        return getEventService().onEventAvailabilities();
+    }
+
+    @Override
+    default QueryResultSet getEventAvailabilities() {
+        return getEventService().getEventAvailabilities();
     }
 
     default Event getEvent() {

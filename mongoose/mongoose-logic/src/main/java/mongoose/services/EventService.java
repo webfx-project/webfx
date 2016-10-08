@@ -7,6 +7,7 @@ import naga.commons.util.function.Predicate;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
+import naga.platform.services.query.QueryResultSet;
 
 import java.util.List;
 
@@ -29,6 +30,10 @@ public interface EventService {
     }
 
     Future<EntityList<Option>> onEventOptions();
+
+    Future<QueryResultSet> onEventAvailabilities();
+
+    QueryResultSet getEventAvailabilities();
 
     Event getEvent();
 
