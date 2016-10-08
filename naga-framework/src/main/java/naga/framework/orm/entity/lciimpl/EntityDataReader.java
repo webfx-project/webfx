@@ -45,7 +45,7 @@ public class EntityDataReader implements DataReader<Entity> {
     @Override
     public Object prepareValueBeforeTypeConversion(Object value, PrimType type) {
         if (value instanceof Entity)
-            value = ((Entity) value).getId().getPrimaryKey();
+            value = ((Entity) value).getPrimaryKey();
         else if (value instanceof EntityId)
             value = ((EntityId) value).getPrimaryKey();
         return value;

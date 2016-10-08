@@ -71,7 +71,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 .combine(documentFilter.getDisplaySelectionProperty(), displaySelection -> {
                     Entity selectedEntity = documentFilter.getSelectedEntity();
-                    return selectedEntity == null ? "{where: 'false'}" : "{where: 'document=" + selectedEntity.getId().getPrimaryKey() + "'}";
+                    return selectedEntity == null ? "{where: 'false'}" : "{where: 'document=" + selectedEntity.getPrimaryKey() + "'}";
                 })
                 //.combine("{where: 'document=?documentDisplaySelection'}")
                 .setExpressionColumns("[" +

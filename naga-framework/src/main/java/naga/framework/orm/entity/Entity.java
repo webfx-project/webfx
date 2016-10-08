@@ -5,6 +5,7 @@ import naga.commons.util.Dates;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
+import naga.framework.orm.domainmodel.DomainClass;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -23,6 +24,28 @@ public interface Entity {
      * @return the unique entity identifier
      */
     EntityId getId();
+
+    /**
+     * @return the domain class for the entity
+     */
+    default DomainClass getDomainClass() {
+        return getId().getDomainClass();
+    }
+
+    /**
+     * @return the primary key of the counterpart database record for this entity
+     */
+    default Object getPrimaryKey() {
+        return getId().getPrimaryKey();
+    }
+
+    /**
+     * @return true if the designated entity is not yet inserted in the database. In this case, the primary key is a
+     * temporary but non null object that works to identify the in-memory newly created entity instance.
+     */
+    default boolean isNew() {
+        return getId().isNew();
+    }
 
     /**
      * @return the store that manages this entity

@@ -46,7 +46,7 @@ public class DynamicEntity implements Entity {
         else if (foreignFieldValue instanceof Entity)
             foreignEntityId = ((Entity) foreignFieldValue).getId();
         else {
-            Object foreignClass = getId().getDomainClass().getForeignClass(foreignFieldId);
+            Object foreignClass = getDomainClass().getForeignClass(foreignFieldId);
             foreignEntityId = getStore().getEntityId(foreignClass, foreignFieldValue);
         }
         setFieldValue(foreignFieldId, foreignEntityId);
