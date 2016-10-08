@@ -32,6 +32,11 @@ public interface I18n {
         return message;
     }
 
+    default <T extends HasTextProperty> T instantTranslateText(T hasTextProperty, Object key) {
+        hasTextProperty.setText(instantTranslate(key));
+        return hasTextProperty;
+    }
+
     default String notFoundTranslation(Object key) {
         return Strings.toString(key);
     }
