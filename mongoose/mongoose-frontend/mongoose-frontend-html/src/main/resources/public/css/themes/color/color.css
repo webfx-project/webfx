@@ -49,27 +49,31 @@ body, h2 {
 
 /* Grids */
 
-.ngGrid {
+table {
     border: none;
 }
 
-.ngHeaderContainer {
-    background: -webkit-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
-    background: -moz-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
-    background: -ms-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
-    background: -o-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
-    background: linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%);
+thead {
+    margin: 0;
 }
 
-.ngHeaderCell {
+thead tr {
+    background: -webkit-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%), #eaeaea;
+    background: -moz-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%), #eaeaea;
+    background: -ms-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%), #eaeaea;
+    background: -o-linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%), #eaeaea;
+    background: linear-gradient(top, rgba(193, 192, 188, 1.0) 0px, rgba(193, 192, 188, 1.0) 1px, rgba(163, 151, 131, 0.7) 2px, rgba(114, 103, 99, 0.7) 100%), #eaeaea;
+}
+
+thead td {
     border-color: #705335;
     border-bottom: 1px solid #4c453b;
     color: white;
-    text-shadow: 0px 2px 3px #555;    
+    text-shadow: 0px 2px 3px #555;
 }
 
 
-.ngRow.even, .ngRow.odd {
+tbody tr {
     background-image: -webkit-linear-gradient(top, rgba(68, 68, 68, 0.5) 0%, rgba(44, 44, 44, 0.5) 100%);
     background-image: -moz-linear-gradient(top, rgba(68, 68, 68, 0.5) 0%, rgba(44, 44, 44, 0.5) 100%);
     background-image: -ms-linear-gradient(top, rgba(68, 68, 68, 0.5) 0%, rgba(44, 44, 44, 0.5) 100%);
@@ -77,6 +81,14 @@ body, h2 {
     background-image: linear-gradient(top, rgba(68, 68, 68, 0.5) 0%, rgba(44, 44, 44, 0.5) 100%);
     border-top-color: #7f8384;
     border-bottom-width: 0;
+}
+
+td {
+    border: none;
+}
+
+td:not(:last-child) {
+    border-right: 1px solid #d4d4d4;
 }
 
 .ngRow.selected, .panel.selected .panel-heading {

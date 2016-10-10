@@ -272,9 +272,9 @@ input[required].form-control.ng-valid, input.form-control.ng-dirty.ng-valid,
 
 /* Grids */
 
-.ngGrid {
-    background-color: transparent; /* to remove the blank bottom bar*/
-    border: 1px solid black;
+ tbody tr {
+    background: transparent; /* to remove the blank bottom bar*/
+    /*border: 0px solid black;*/
 }
 
 .ngViewport, .ngCanvas {
