@@ -23,7 +23,7 @@ public class TermsViewModelBuilder extends BookingsProcessViewModelBuilder<Terms
     protected void buildComponents(Toolkit toolkit, I18n i18n) {
         super.buildComponents(toolkit, i18n);
         termsLetterCollator = new GridCollator("vbox", "hbox");
-        termsPanel = HighLevelComponents.createSectionPanel("{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions", i18n)
+        termsPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions", i18n)
                 .setCenter(termsLetterCollator);
         contentNode = toolkit.createVPage()
                 .setCenter(termsPanel)

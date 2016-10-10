@@ -2,6 +2,7 @@ package mongoose.html.frontend.activities.highlevelcomponents;
 
 import elemental2.HTMLDivElement;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
+import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import mongoose.activities.shared.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
 import naga.providers.toolkit.html.nodes.layouts.HtmlVPage;
 import naga.toolkit.spi.nodes.layouts.VPage;
@@ -19,9 +20,9 @@ public class HtmlHighLevelComponentsFactory extends HighLevelComponentsFactoryIm
     }
 
     @Override
-    public VPage createSectionPanel() {
+    public VPage createSectionPanel(SectionPanelStyleOptions options) {
         String template = "" +
-                "<div class='panel panel-default'>\n" +
+                "<div class='panel panel-default " + (options == null || options.hasPadding() ? "" : "noPadding") + "'>\n" +
                 "    <div class='panel-heading'>\n" +
                 "        <h4 id='section-header' class='panel-title'></h4>\n" +
                 "    </div>\n" +

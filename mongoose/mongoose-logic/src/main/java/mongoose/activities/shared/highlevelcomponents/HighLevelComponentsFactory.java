@@ -11,13 +11,13 @@ import naga.toolkit.spi.nodes.layouts.VPage;
  */
 public interface HighLevelComponentsFactory {
 
-    VPage createSectionPanel();
+    VPage createSectionPanel(SectionPanelStyleOptions options);
 
-    default VPage createSectionPanel(String iconImageUrl, String translationKey, I18n i18n) {
-        return createSectionPanel(PresentationActivity.createImage(iconImageUrl), PresentationActivity.createTextView(translationKey, i18n));
+    default VPage createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
+        return createSectionPanel(options, PresentationActivity.createImage(iconImageUrl), PresentationActivity.createTextView(translationKey, i18n));
     }
 
-    default VPage createSectionPanel(GuiNode... headerNodes) {
-        return createSectionPanel().setHeader(Toolkit.get().createHBox(headerNodes));
+    default VPage createSectionPanel(SectionPanelStyleOptions options, GuiNode... headerNodes) {
+        return createSectionPanel(options).setHeader(Toolkit.get().createHBox(headerNodes));
     }
 }

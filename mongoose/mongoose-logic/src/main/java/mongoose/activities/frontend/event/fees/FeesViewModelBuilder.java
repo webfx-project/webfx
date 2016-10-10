@@ -2,6 +2,7 @@ package mongoose.activities.frontend.event.fees;
 
 import mongoose.activities.frontend.event.booking.BookingsProcessViewModelBuilder;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
+import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.cell.collators.GridCollator;
@@ -48,9 +49,10 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
     }
 
     private VPage buildFeesSectionPanel(GuiNode node, I18n i18n) {
+        SectionPanelStyleOptions options = new SectionPanelStyleOptions(false);
         String imageJson = "{url: 'images/price-tag.svg', width: 16, height: 16}";
         if (node == null)
-            return HighLevelComponents.createSectionPanel(imageJson, "Fees", i18n);
-        return HighLevelComponents.createSectionPanel(PresentationActivity.createImage(imageJson), node);
+            return HighLevelComponents.createSectionPanel(options, imageJson, "Fees", i18n);
+        return HighLevelComponents.createSectionPanel(options, PresentationActivity.createImage(imageJson), node);
     }
 }
