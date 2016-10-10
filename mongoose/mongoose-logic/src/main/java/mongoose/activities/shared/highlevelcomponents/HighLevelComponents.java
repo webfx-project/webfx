@@ -3,6 +3,7 @@ package mongoose.activities.shared.highlevelcomponents;
 import mongoose.activities.shared.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
@@ -36,5 +37,13 @@ public class HighLevelComponents {
 
     public static GuiNode createBadge(GuiNode... badgeNodes) {
         return getBuilder().createBadge(badgeNodes);
+    }
+
+    public static Button createBookButton() {
+        return getBuilder().createBookButton();
+    }
+
+    public static Button createSoldoutButton() {
+        return getBuilder().createSoldoutButton();
     }
 }

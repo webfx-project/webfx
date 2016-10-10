@@ -4,6 +4,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.controls.Button;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
@@ -22,4 +23,8 @@ public interface HighLevelComponentsFactory {
     }
 
     GuiNode createBadge(GuiNode... badgeNodes);
+
+    Button createBookButton();
+
+    Button createSoldoutButton();
 }

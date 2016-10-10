@@ -76,9 +76,9 @@ class FeesGroup {
                             if (pair == null || eventService.getEventAvailabilities() == null)
                                 return Toolkit.get().createImage("images/16/spinner.gif");
                             boolean soldout = Numbers.isZero(pair.get1());
-                            Button button = i18n.instantTranslateText(Toolkit.get().createButton(), soldout ? "Soldout" : "Book");
                             if (soldout || pair.get1() == null)
-                                return button;
+                                return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
+                            Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book");
                             button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(pair.get2()));
                             return Toolkit.get().createHBox(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(pair.get1())), button);
                         }).build()});
