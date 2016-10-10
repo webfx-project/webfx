@@ -20,4 +20,6 @@ public interface HighLevelComponentsFactory {
     default VPage createSectionPanel(SectionPanelStyleOptions options, GuiNode... headerNodes) {
         return createSectionPanel(options).setHeader(Toolkit.get().createHBox(headerNodes));
     }
+
+    GuiNode createBadge(GuiNode... badgeNodes);
 }

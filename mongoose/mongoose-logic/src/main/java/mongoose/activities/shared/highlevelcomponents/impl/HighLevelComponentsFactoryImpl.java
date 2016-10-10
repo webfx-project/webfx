@@ -3,6 +3,7 @@ package mongoose.activities.shared.highlevelcomponents.impl;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponentsFactory;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
@@ -13,5 +14,10 @@ public class HighLevelComponentsFactoryImpl implements HighLevelComponentsFactor
     @Override
     public VPage createSectionPanel(SectionPanelStyleOptions options) {
         return Toolkit.get().createVPage();
+    }
+
+    @Override
+    public GuiNode createBadge(GuiNode... badgeNodes) {
+        return Toolkit.get().createHBox(badgeNodes);
     }
 }

@@ -1,5 +1,6 @@
 package mongoose.activities.frontend.event.fees;
 
+import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
@@ -8,6 +9,7 @@ import naga.commons.util.Numbers;
 import naga.commons.util.async.Handler;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
+import naga.toolkit.cell.renderers.TextRenderer;
 import naga.toolkit.display.*;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -70,14 +72,15 @@ class FeesGroup {
                 DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
                 DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE)
                         .setValueRenderer(p -> {
-                            if (p == null)
-                                return null;
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
+                            if (pair == null || eventService.getEventAvailabilities() == null)
+                                return Toolkit.get().createImage("images/16/spinner.gif");
                             boolean soldout = Numbers.isZero(pair.get1());
                             Button button = i18n.instantTranslateText(Toolkit.get().createButton(), soldout ? "Soldout" : "Book");
-                            if (!soldout)
-                                button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(pair.get2()));
-                            return button;
+                            if (soldout || pair.get1() == null)
+                                return button;
+                            button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(pair.get2()));
+                            return Toolkit.get().createHBox(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(pair.get1())), button);
                         }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {

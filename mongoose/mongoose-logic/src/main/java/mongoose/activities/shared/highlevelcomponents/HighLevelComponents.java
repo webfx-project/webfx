@@ -34,4 +34,7 @@ public class HighLevelComponents {
         return getBuilder().createSectionPanel(options, headerNodes);
     }
 
+    public static GuiNode createBadge(GuiNode... badgeNodes) {
+        return getBuilder().createBadge(badgeNodes);
+    }
 }

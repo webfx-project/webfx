@@ -63,16 +63,15 @@ class FeesGroupBuilder {
     FeesGroup build() {
         List<OptionsPreselection> optionsPreselections = new ArrayList<>();
         if (accommodationOptions != null)
-            for (Option accommodationOption : accommodationOptions) {
-                OptionsPreselectionBuilder opb = new OptionsPreselectionBuilder(getEvent());
-                opb.addDefaultOptions(defaultOptions);
-                opb.addAccommodationOption(accommodationOption);
-                optionsPreselections.add(opb.build());
-            }
+            for (Option accommodationOption : accommodationOptions)
+                optionsPreselections.add(new OptionsPreselectionBuilder(getEvent())
+                        .addDefaultOptions(defaultOptions)
+                        .addAccommodationOption(accommodationOption)
+                        .build());
         // No accommodation
-        OptionsPreselectionBuilder opb = new OptionsPreselectionBuilder(getEvent());
-        opb.addDefaultOptions(defaultOptions);
-        optionsPreselections.add(opb.build());
+        optionsPreselections.add(new OptionsPreselectionBuilder(getEvent())
+                .addDefaultOptions(defaultOptions)
+                .build());
 
         return new FeesGroup(id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
     }

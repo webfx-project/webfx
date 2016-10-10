@@ -4,11 +4,13 @@ import elemental2.HTMLDivElement;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import mongoose.activities.shared.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
+import naga.providers.toolkit.html.nodes.layouts.HtmlHBox;
 import naga.providers.toolkit.html.nodes.layouts.HtmlVPage;
+import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
-import static naga.providers.toolkit.html.HtmlUtil.createNodeFromHtml;
-import static naga.providers.toolkit.html.HtmlUtil.getElementById;
+import static naga.providers.toolkit.html.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon
@@ -33,5 +35,10 @@ public class HtmlHighLevelComponentsFactory extends HighLevelComponentsFactoryIm
                 "</div>\n";
         HTMLDivElement div = createNodeFromHtml(template);
         return new HtmlVPage(div, getElementById(div, "section-header"), getElementById(div, "section-center"), getElementById(div, "section-footer"));
+    }
+
+    @Override
+    public GuiNode createBadge(GuiNode... badgeNodes) {
+        return Toolkit.setAllChildren(new HtmlHBox(setPseudoClass(createSpanElement(), "badge")), badgeNodes);
     }
 }
