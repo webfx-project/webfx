@@ -2,8 +2,10 @@ package naga.providers.toolkit.html.nodes.layouts;
 
 import elemental2.Element;
 import elemental2.HTMLElement;
+import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.HtmlUtil;
 import naga.providers.toolkit.html.nodes.HtmlParent;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.layouts.HBox;
 
 /**
@@ -21,6 +23,9 @@ public class HtmlHBox extends HtmlParent<HTMLElement> implements HBox<HTMLElemen
 
     @Override
     protected Element prepareChild(Element child) {
-        return HtmlUtil.appendStyle(child, "vertical-align: middle; margin-right: 5px");
+        String style = "vertical-align: middle";
+        if (child != Toolkit.unwrapToNativeNode(Collections.last(getChildren())))
+            style += "; margin-right: 5px";
+        return HtmlUtil.appendStyle(child, style);
     }
 }
