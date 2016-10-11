@@ -28,19 +28,19 @@ public class Collections {
         return bList;
     }
 
-    public static <T> List<T> filter(Iterable<T> collection, Predicate<? super T> predicate) {
+    public static <T> List<T> filter(Iterable<T> iterable, Predicate<? super T> predicate) {
         // return collection.stream().filter(predicate).collect(Collectors.toList()); // Not GWT compilable for now
         List<T> list = new ArrayList<>();
-        forEach(collection, element -> {
+        forEach(iterable, element -> {
             if (predicate.test(element))
                 list.add(element);
         });
         return list;
     }
 
-    public static <T> T findFirst(Iterable<T> collection, Predicate<? super T> predicate) {
+    public static <T> T findFirst(Iterable<T> iterable, Predicate<? super T> predicate) {
         //return collection.stream().filter(predicate::test).findFirst().get(); // Not GWT compilable for now
-        for (T element : collection) {
+        for (T element : iterable) {
             if (predicate.test(element))
                 return element;
         }
@@ -49,6 +49,19 @@ public class Collections {
 
     public static int size(Collection collection) {
         return collection == null ? 0 : collection.size();
+    }
+
+    public static boolean isEmpty(Collection collection) {
+        return size(collection) == 0;
+    }
+
+    public static <T> T first(List<T> list) {
+        return isEmpty(list) ? null : list.get(0);
+    }
+
+    public static <T> T last(List<T> list) {
+        int size = size(list);
+        return size == 0 ? null : list.get(size - 1);
     }
 
     public static <T> Iterator<T> iterator(Iterable<T> iterable) {
