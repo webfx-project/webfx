@@ -88,6 +88,10 @@ public interface EventService {
 
     // Event availability accessor
 
+    default boolean areEventAvailabilitiesLoaded() {
+        return getEventAvailabilities() != null;
+    }
+
     QueryResultSet getEventAvailabilities();
 
 }

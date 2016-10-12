@@ -17,28 +17,22 @@ public interface EventServiceMixin extends EventService {
 
     EventService getEventService();
 
+    @Override
     default DataSourceModel getEventDataSourceModel() {
         return getEventService().getEventDataSourceModel();
     }
 
+    @Override
     default Future<EntityList<Option>> onEventOptions() {
         return getEventService().onEventOptions();
     }
 
     @Override
-    default Future<QueryResultSet> onEventAvailabilities() {
-        return getEventService().onEventAvailabilities();
-    }
-
-    @Override
-    default QueryResultSet getEventAvailabilities() {
-        return getEventService().getEventAvailabilities();
-    }
-
     default Event getEvent() {
         return getEventService().getEvent();
     }
 
+    @Override
     default <E extends Entity> EntityList<E> getEntityList(Object listId) {
         return getEventService().getEntityList(listId);
     }
@@ -91,5 +85,20 @@ public interface EventServiceMixin extends EventService {
     @Override
     default Option getBreakfastOption() {
         return getEventService().getBreakfastOption();
+    }
+
+    @Override
+    default Future<QueryResultSet> onEventAvailabilities() {
+        return getEventService().onEventAvailabilities();
+    }
+
+    @Override
+    default boolean areEventAvailabilitiesLoaded() {
+        return getEventService().areEventAvailabilitiesLoaded();
+    }
+
+    @Override
+    default QueryResultSet getEventAvailabilities() {
+        return getEventService().getEventAvailabilities();
     }
 }
