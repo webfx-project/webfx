@@ -24,15 +24,15 @@
             </modules>
         </profile>
 
-        <!--profile>
-            <id>swing</id>
+        <profile>
+            <id>mongoose-frontend-swing</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>mongoose-frontend-swing</module>
             </modules>
-        </profile-->
+        </profile>
 
         <!--profile>
             <id>pivot</id>
