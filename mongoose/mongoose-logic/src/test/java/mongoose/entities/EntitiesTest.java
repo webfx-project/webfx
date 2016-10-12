@@ -24,8 +24,8 @@ public class EntitiesTest {
         UpdateStore store = UpdateStore.create(dataSourceModel);
         Document d = store.insertEntity(Document.class);
         d.setEvent(116);
-        d.setPersonFirstName("test");
-        d.setPersonLastName("TEST");
+        d.setFirstName("test");
+        d.setLastName("TEST");
 /*
         CountDownLatch latch = new CountDownLatch(1);
         Unit<Throwable> error = new Unit<>();
