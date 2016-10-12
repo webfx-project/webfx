@@ -42,6 +42,11 @@ body, h2 {
     background: rgba(114, 103, 99, 0.5);
 }
 
+.panel-footer, .panel-default > .panel-footer {
+    background: rgba(114, 103, 99, 0.5);
+    padding: 10px;
+}
+
 .panel-default > .panel-heading + .panel-collapse .panel-body {
     border-top: 1px solid rgba(187, 170, 154, 0.5);
 }

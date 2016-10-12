@@ -33,7 +33,7 @@ public class HtmlHighLevelComponentsFactory extends HighLevelComponentsFactoryIm
                 "    <div class='panel-collapse collapse in'>\n" +
                 "        <div id='section-center' class='panel-body'></div>\n" +
                 "    </div>\n" +
-                "    <div id='section-footer'></div>\n" +
+                "    <div id='section-footer' class='panel-footer'></div>\n" +
                 "</div>\n";
         HTMLDivElement div = createNodeFromHtml(template);
         return new HtmlVPage(div, getElementById(div, "section-header"), getElementById(div, "section-center"), getElementById(div, "section-footer"));

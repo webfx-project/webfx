@@ -40,7 +40,7 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
     }
 
     private GuiNode toFeesGroupPanel(GuiNode[] nodes) { // for GWT 2.8 beta1
-        return buildFeesSectionPanel(nodes[0]).setCenter(nodes[1]);
+        return buildFeesSectionPanel(nodes[0]).setCenter(nodes[1]).setFooter(nodes[2]);
     }
 
     private VPage buildFeesSectionPanel(GuiNode node) {

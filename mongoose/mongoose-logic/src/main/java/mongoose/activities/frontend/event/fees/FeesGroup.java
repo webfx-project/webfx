@@ -6,6 +6,7 @@ import mongoose.entities.Label;
 import mongoose.services.EventService;
 import naga.commons.type.PrimType;
 import naga.commons.util.Numbers;
+import naga.commons.util.Objects;
 import naga.commons.util.async.Handler;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
@@ -34,39 +35,39 @@ class FeesGroup {
         this.optionsPreselections = optionsPreselections;
     }
 
-    public Object getId() {
+    Object getId() {
         return id;
     }
 
-    public Label getLabel() {
+    Label getLabel() {
         return label;
     }
 
-    public Label getFeesBottomLabel() {
+    Label getFeesBottomLabel() {
         return feesBottomLabel;
     }
 
-    public Label getFeesPopupLabel() {
+    Label getFeesPopupLabel() {
         return feesPopupLabel;
     }
 
-    public boolean isForceSoldout() {
+    boolean isForceSoldout() {
         return forceSoldout;
     }
 
-    public OptionsPreselection[] getOptionsPreselections() {
+    OptionsPreselection[] getOptionsPreselections() {
         return optionsPreselections;
     }
 
-    public String getDisplayName(I18n i18n) {
+    String getDisplayName(I18n i18n) {
         return label == null ? i18n.instantTranslate("Fees") : label.getStringFieldValue(i18n.getLanguage());
     }
 
-    public String getDisplayName(Object language) {
+    String getDisplayName(Object language) {
         return label.getStringFieldValue(language);
     }
 
-    public DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
+    DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsPreselections.length, new DisplayColumn[]{
                 DisplayColumn.create(i18n.instantTranslate("Accommodation"), PrimType.STRING),
                 DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
@@ -91,6 +92,11 @@ class FeesGroup {
             rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
         }
         return rsb.build();
+    }
+
+    String getFeesBottomText(I18n i18n, EventService eventService) {
+        Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), eventService.getEvent().getFeesBottomLabel());
+        return feesBottomLabel != null ? feesBottomLabel.getStringFieldValue(i18n.getLanguage()) : i18n.instantTranslate("FeesExplanation");
     }
 
     @Override

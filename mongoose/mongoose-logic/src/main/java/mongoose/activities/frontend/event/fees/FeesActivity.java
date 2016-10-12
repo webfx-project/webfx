@@ -6,6 +6,7 @@ import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
 import mongoose.services.PersonService;
+import naga.commons.type.SpecializedTextType;
 import naga.commons.util.Booleans;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
@@ -121,13 +122,15 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     private void displayFeesGroups(FeesGroup[] feesGroups, FeesPresentationModel pm) {
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
                 DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, pm)),
-                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value))});
+                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
+                DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
         int rowIndex = 0;
         WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");
         for (FeesGroup feesGroup : feesGroups) {
             rsb.setValue(rowIndex,   0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
-            rsb.setValue(rowIndex++, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
+            rsb.setValue(rowIndex,   1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
+            rsb.setValue(rowIndex++, 2, feesGroup.getFeesBottomText(i18n, this));
         }
         DisplayResultSet rs = rsb.build();
         pm.dateInfoDisplayResultSetProperty().setValue(rs);
