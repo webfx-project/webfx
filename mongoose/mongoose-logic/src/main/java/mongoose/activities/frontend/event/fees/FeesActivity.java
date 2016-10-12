@@ -4,18 +4,26 @@ import mongoose.activities.frontend.event.booking.BookingProcessActivity;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
-import naga.commons.type.PrimType;
+import mongoose.entities.Person;
+import mongoose.services.PersonService;
+import naga.commons.util.Booleans;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.tuples.Pair;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.rx.RxScheduler;
 import naga.framework.ui.rx.RxUi;
+import naga.platform.json.Json;
+import naga.platform.json.spi.JsonObject;
+import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.spi.Platform;
-import naga.toolkit.display.*;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.display.DisplayResultSetBuilder;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
-import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.spi.nodes.controls.CheckBox;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -51,6 +59,13 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     protected void bindPresentationModelWithLogic(FeesPresentationModel pm) {
+        // Load and display fees groups now
+        loadAndDisplayFeesGroups(pm);
+        // But also on event change
+        pm.eventIdProperty().addListener((observable, oldValue, newValue) -> loadAndDisplayFeesGroups(pm));
+    }
+
+    private void loadAndDisplayFeesGroups(FeesPresentationModel pm) {
         onFeesGroup().setHandler(async -> {
             if (async.failed())
                 Platform.log(async.cause());
@@ -77,18 +92,27 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     private void displayFeesGroups(FeesGroup[] feesGroups, FeesPresentationModel pm) {
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
-                DisplayColumn.create("FeesGroup", PrimType.STRING),
-                DisplayColumn.create(value -> {
-                    Table table = Toolkit.get().createTable();
-                    table.setDisplayResultSet((DisplayResultSet) value);
-                    return table;
-                })});
-        int inlineIndex = 0;
+        Toolkit toolkit = Toolkit.get();
         I18n i18n = getI18n();
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
+                DisplayColumn.create(value -> {
+                    Pair<JsonObject, String> pair = (Pair<JsonObject, String>) value;
+                    CheckBox checkBox = i18n.instantTranslateText(toolkit.createCheckBox(), "UnemployedDiscount");
+                    PersonService personService = PersonService.get(getDataSourceModel());
+                    Person person = personService.getPreselectionProfilePerson();
+                    checkBox.setSelected(Booleans.isTrue(person.isUnemployed()));
+                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                        person.setUnemployed(newValue);
+                        displayFeesGroups(feesGroups, pm);
+                    });
+                    return toolkit.createHBox(toolkit.createImage(pair.get1()), toolkit.createTextView(pair.get2()), checkBox);
+                }),
+                DisplayColumn.create(value -> toolkit.createTable((DisplayResultSet) value))});
+        int rowIndex = 0;
+        WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");
         for (FeesGroup feesGroup : feesGroups) {
-            rsb.setInlineValue(inlineIndex++, feesGroup.getDisplayName(i18n));
-            rsb.setInlineValue(inlineIndex++, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
+            rsb.setValue(rowIndex,   0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
+            rsb.setValue(rowIndex++, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
         }
         DisplayResultSet rs = rsb.build();
         pm.dateInfoDisplayResultSetProperty().setValue(rs);

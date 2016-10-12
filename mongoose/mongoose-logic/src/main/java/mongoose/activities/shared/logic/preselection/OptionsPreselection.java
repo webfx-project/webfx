@@ -6,6 +6,7 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
+import mongoose.services.PersonService;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.services.query.QueryResultSet;
@@ -32,7 +33,9 @@ public class OptionsPreselection {
     private WorkingDocument workingDocument;
     public WorkingDocument initializeNewWorkingDocument(EventService eventService) {
         if (workingDocument == null)
-            workingDocument = new WorkingDocument(eventService, null, Collections.convert(optionPreselections, WorkingDocumentLine::new));
+            workingDocument = new WorkingDocument(eventService, Collections.convert(optionPreselections, WorkingDocumentLine::new));
+        else
+            workingDocument.syncPersonDetails(PersonService.get(eventService.getEventDataSourceModel()).getPreselectionProfilePerson());
         return workingDocument;
     }
 
