@@ -23,7 +23,8 @@ import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
-import naga.toolkit.spi.nodes.controls.CheckBox;
+import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.spi.nodes.controls.RadioButton;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -91,33 +92,6 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         return onEventOptions().map(this::createFeesGroups);
     }
 
-    private void displayFeesGroups(FeesGroup[] feesGroups, FeesPresentationModel pm) {
-        Toolkit toolkit = Toolkit.get();
-        I18n i18n = getI18n();
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
-                DisplayColumn.create(value -> {
-                    Pair<JsonObject, String> pair = (Pair<JsonObject, String>) value;
-                    CheckBox checkBox = i18n.instantTranslateText(toolkit.createCheckBox(), "UnemployedDiscount");
-                    PersonService personService = PersonService.get(getDataSourceModel());
-                    Person person = personService.getPreselectionProfilePerson();
-                    checkBox.setSelected(Booleans.isTrue(person.isUnemployed()));
-                    checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                        person.setUnemployed(newValue);
-                        displayFeesGroups(feesGroups, pm);
-                    });
-                    return toolkit.createHBox(toolkit.createImage(pair.get1()), toolkit.createTextView(pair.get2()), checkBox);
-                }),
-                DisplayColumn.create(value -> toolkit.createTable((DisplayResultSet) value))});
-        int rowIndex = 0;
-        WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");
-        for (FeesGroup feesGroup : feesGroups) {
-            rsb.setValue(rowIndex,   0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
-            rsb.setValue(rowIndex++, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
-        }
-        DisplayResultSet rs = rsb.build();
-        pm.dateInfoDisplayResultSetProperty().setValue(rs);
-    }
-
     private FeesGroup[] createFeesGroups() {
         List<FeesGroup> feesGroups = new ArrayList<>();
         EntityList<DateInfo> dateInfos = getEventDateInfos();
@@ -142,6 +116,67 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
                 .build();
+    }
+
+    private void displayFeesGroups(FeesGroup[] feesGroups, FeesPresentationModel pm) {
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
+                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, pm)),
+                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value))});
+        I18n i18n = getI18n();
+        int rowIndex = 0;
+        WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");
+        for (FeesGroup feesGroup : feesGroups) {
+            rsb.setValue(rowIndex,   0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
+            rsb.setValue(rowIndex++, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
+        }
+        DisplayResultSet rs = rsb.build();
+        pm.dateInfoDisplayResultSetProperty().setValue(rs);
+    }
+
+    private GuiNode renderFeesGroupHeader(Pair<JsonObject, String> pair, FeesGroup[] feesGroups, FeesPresentationModel pm) {
+        Toolkit toolkit = Toolkit.get();
+        I18n i18n = getI18n();
+        boolean hasUnemployedRate = hasUnemployedRate();
+        boolean hasFacilityFeeRate = hasFacilityFeeRate();
+        boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
+        RadioButton noDiscountRadio  = hasDiscountRates ?   i18n.instantTranslateText(toolkit.createRadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate ?  i18n.instantTranslateText(toolkit.createRadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(toolkit.createRadioButton(), "FacilityFeeDiscount") : null;
+        PersonService personService = PersonService.get(getDataSourceModel());
+        Person person = personService.getPreselectionProfilePerson();
+        if (unemployedRadio != null) {
+            unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));
+            unemployedRadio.selectedProperty().addListener((observable, oldValue, unemployed) -> {
+                person.setUnemployed(unemployed);
+                if (unemployed)
+                    person.setFacilityFee(false);
+                displayFeesGroups(feesGroups, pm);
+            });
+        }
+        if (facilityFeeRadio != null) {
+            facilityFeeRadio.setSelected(Booleans.isTrue(person.isFacilityFee()));
+            facilityFeeRadio.selectedProperty().addListener((observable, oldValue, facilityFee) -> {
+                person.setFacilityFee(facilityFee);
+                if (facilityFee)
+                    person.setUnemployed(false);
+                displayFeesGroups(feesGroups, pm);
+            });
+        }
+        if (noDiscountRadio != null) {
+            noDiscountRadio.setSelected(Booleans.isNotTrue(person.isUnemployed()) && Booleans.isNotTrue(person.isFacilityFee()));
+            noDiscountRadio.selectedProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    person.setUnemployed(false);
+                    person.setFacilityFee(false);
+                }
+                displayFeesGroups(feesGroups, pm);
+            });
+        }
+        return toolkit.createHBox(toolkit.createImage(pair.get1()), toolkit.createTextView(pair.get2()), noDiscountRadio, unemployedRadio, facilityFeeRadio);
+    }
+
+    private GuiNode renderFeesGroupBody(DisplayResultSet rs) {
+        return Toolkit.get().createTable(rs);
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {
