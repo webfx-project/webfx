@@ -160,4 +160,20 @@ class EventServiceImpl implements EventService {
             breakfastOption = findFirstOption(Option::isBreakfast);
         return breakfastOption;
     }
+
+    private Boolean hasUnemployedRate;
+    @Override
+    public boolean hasUnemployedRate() {
+        if (hasUnemployedRate == null)
+            hasUnemployedRate = findFirstRate(rate -> rate.getUnemployedPrice() != null || rate.getUnemployedDiscount() != null) != null;
+        return hasUnemployedRate;
+    }
+
+    private Boolean hasFacilityFeeRate;
+    @Override
+    public boolean hasFacilityFeeRate() {
+        if (hasFacilityFeeRate == null)
+            hasFacilityFeeRate = findFirstRate(rate -> rate.getFacilityFeePrice() != null || rate.getFacilityFeeDiscount() != null) != null;
+        return hasFacilityFeeRate;
+    }
 }
