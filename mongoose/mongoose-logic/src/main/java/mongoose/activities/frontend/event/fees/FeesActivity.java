@@ -1,5 +1,6 @@
 package mongoose.activities.frontend.event.fees;
 
+import javafx.beans.property.Property;
 import mongoose.activities.frontend.event.booking.BookingProcessActivity;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.DateInfo;
@@ -73,6 +74,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 Platform.log(async.cause());
             else {
                 FeesGroup[] feesGroups = async.result();
+                Property<DisplayResultSet> displayProperty = pm.dateInfoDisplayResultSetProperty();
                 I18n i18n = getI18n();
                 Observable.combineLatest(
                         RxUi.observe(i18n.dictionaryProperty()),
@@ -80,10 +82,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                         (dictionary, active) -> active)
                         .filter(active -> active)
                         .observeOn(RxScheduler.UI_SCHEDULER)
-                        .subscribe(active -> displayFeesGroups(feesGroups, pm));
+                        .subscribe(active -> displayFeesGroups(feesGroups, displayProperty));
                 onEventAvailabilities().setHandler(ar -> {
                     if (ar.succeeded())
-                        displayFeesGroups(feesGroups, pm);
+                        displayFeesGroups(feesGroups, displayProperty);
                 });
             }
         });
@@ -119,9 +121,9 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 .build();
     }
 
-    private void displayFeesGroups(FeesGroup[] feesGroups, FeesPresentationModel pm) {
+    private void displayFeesGroups(FeesGroup[] feesGroups, Property<DisplayResultSet> displayProperty) {
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
-                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, pm)),
+                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, displayProperty)),
                 DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
@@ -133,10 +135,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
             rsb.setValue(rowIndex++, 2, feesGroup.getFeesBottomText(i18n, this));
         }
         DisplayResultSet rs = rsb.build();
-        pm.dateInfoDisplayResultSetProperty().setValue(rs);
+        displayProperty.setValue(rs);
     }
 
-    private GuiNode renderFeesGroupHeader(Pair<JsonObject, String> pair, FeesGroup[] feesGroups, FeesPresentationModel pm) {
+    private GuiNode renderFeesGroupHeader(Pair<JsonObject, String> pair, FeesGroup[] feesGroups, Property<DisplayResultSet> displayProperty) {
         Toolkit toolkit = Toolkit.get();
         I18n i18n = getI18n();
         boolean hasUnemployedRate = hasUnemployedRate();
@@ -153,7 +155,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 person.setUnemployed(unemployed);
                 if (unemployed)
                     person.setFacilityFee(false);
-                displayFeesGroups(feesGroups, pm);
+                displayFeesGroups(feesGroups, displayProperty);
             });
         }
         if (facilityFeeRadio != null) {
@@ -162,17 +164,17 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 person.setFacilityFee(facilityFee);
                 if (facilityFee)
                     person.setUnemployed(false);
-                displayFeesGroups(feesGroups, pm);
+                displayFeesGroups(feesGroups, displayProperty);
             });
         }
         if (noDiscountRadio != null) {
             noDiscountRadio.setSelected(Booleans.isNotTrue(person.isUnemployed()) && Booleans.isNotTrue(person.isFacilityFee()));
-            noDiscountRadio.selectedProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue) {
+            noDiscountRadio.selectedProperty().addListener((observable, oldValue, noDiscount) -> {
+                if (noDiscount) {
                     person.setUnemployed(false);
                     person.setFacilityFee(false);
                 }
-                displayFeesGroups(feesGroups, pm);
+                displayFeesGroups(feesGroups, displayProperty);
             });
         }
         return toolkit.createHBox(toolkit.createImage(pair.get1()), toolkit.createTextView(pair.get2()), noDiscountRadio, unemployedRadio, facilityFeeRadio);
