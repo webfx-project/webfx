@@ -73,14 +73,16 @@ class FeesGroup {
                 DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE)
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
-                            if (pair == null || eventService.getEventAvailabilities() == null)
+                            if (pair == null || !eventService.areEventAvailabilitiesLoaded())
                                 return Toolkit.get().createImage("images/16/spinner.gif");
-                            boolean soldout = Numbers.isZero(pair.get1());
-                            if (soldout || pair.get1() == null)
+                            Object availability = pair.get1();
+                            if (Numbers.isZero(availability))
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
                             Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book");
                             button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(pair.get2()));
-                            return Toolkit.get().createHBox(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(pair.get1())), button);
+                            if (availability == null)
+                                return button;
+                            return Toolkit.get().createHBox(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
                         }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
