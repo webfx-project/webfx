@@ -43,6 +43,7 @@ public class JavaFxToolkit extends Toolkit {
         new Thread(() -> Application.launch(FxApplication.class), "JavaFxToolkit-Launcher").start();
         registerNodeFactoryAndWrapper(Table.class, FxTable::new, TableView.class, FxTable::new);
         registerNodeFactoryAndWrapper(CheckBox.class, FxCheckBox::new, javafx.scene.control.CheckBox.class, FxCheckBox::new);
+        registerNodeFactoryAndWrapper(RadioButton.class, FxRadioButton::new, javafx.scene.control.RadioButton.class, FxRadioButton::new);
         registerNodeFactoryAndWrapper(ToggleSwitch.class, FxToggleSwitch::new, naga.providers.toolkit.javafx.nodes.controlsfx.ToggleSwitch.class, FxToggleSwitch::new);
         registerNodeFactoryAndWrapper(Image.class, FxImage::new, javafx.scene.image.ImageView.class, FxImage::new);
         registerNodeFactoryAndWrapper(TextView.class, FxTextView::new, javafx.scene.text.Text.class, FxTextView::new);
