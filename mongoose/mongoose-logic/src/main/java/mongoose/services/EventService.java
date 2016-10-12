@@ -16,6 +16,7 @@ import java.util.List;
  */
 public interface EventService {
 
+    // Entity lists ids used to store event options
     Object OPTIONS_LIST_ID = "options";
     Object SITES_LIST_ID = "sites";
     Object RATES_LIST_ID = "rates";
@@ -29,11 +30,13 @@ public interface EventService {
         return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
     }
 
+    DataSourceModel getEventDataSourceModel();  // Note: simply call it getDataSourceModel() would cause a mixin clash with DomainActivityContextMixin in BookingProcessActivity
+
+    // Event options loading method
+
     Future<EntityList<Option>> onEventOptions();
 
-    Future<QueryResultSet> onEventAvailabilities();
-
-    QueryResultSet getEventAvailabilities();
+    // Event options accessors (once loaded)
 
     Event getEvent();
 
@@ -78,5 +81,13 @@ public interface EventService {
     default Option getBreakfastOption() {
         return findFirstOption(Option::isBreakfast);
     }
+
+    // Event availability loading method
+
+    Future<QueryResultSet> onEventAvailabilities();
+
+    // Event availability accessor
+
+    QueryResultSet getEventAvailabilities();
 
 }

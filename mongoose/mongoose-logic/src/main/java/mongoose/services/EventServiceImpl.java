@@ -38,13 +38,18 @@ class EventServiceImpl implements EventService {
 
     private final Object eventId;
     private final DataSourceModel dataSourceModel;
-    private final EntityStore eventStore;
+    private final EntityStore store;
     private Event event;
 
     public EventServiceImpl(Object eventId, DataSourceModel dataSourceModel) {
         this.eventId = eventId;
         this.dataSourceModel = dataSourceModel;
-        eventStore = EntityStore.create(dataSourceModel);
+        store = EntityStore.create(dataSourceModel);
+    }
+
+    @Override
+    public DataSourceModel getEventDataSourceModel() {
+        return dataSourceModel;
     }
 
     @Override
@@ -93,18 +98,18 @@ class EventServiceImpl implements EventService {
     @Override
     public Event getEvent() {
         if (event == null) {
-            event = eventStore.getEntity("Event", eventId); // eventId may be from the wrong type (ex: String) because coming from the url
+            event = store.getEntity("Event", eventId); // eventId may be from the wrong type (ex: String) because coming from the url
             if (event == null) // If not found, trying now with integer (should work for Java platforms)
-                event = eventStore.getEntity("Event", Numbers.toInteger(eventId));
+                event = store.getEntity("Event", Numbers.toInteger(eventId));
             if (event == null) // If not found, trying now with double (should work for Web platforms)
-                event = eventStore.getEntity("Event", Numbers.toDouble(eventId));
+                event = store.getEntity("Event", Numbers.toDouble(eventId));
         }
         return event;
     }
 
     @Override
     public <E extends Entity> EntityList<E> getEntityList(Object listId) {
-        return eventStore.getEntityList(listId);
+        return store.getEntityList(listId);
     }
 
     private static String getHost() {
@@ -126,7 +131,7 @@ class EventServiceImpl implements EventService {
     private Future<EntityList> executeEventQuery(EventQuery eventQuery) {
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
         return executeQuery(sqlCompiled.getSql(), eventQuery.parameters)
-                .map(rs ->  QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), eventStore, eventQuery.listId));
+                .map(rs ->  QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), store, eventQuery.listId));
     }
 
     Future<QueryResultSet> executeQuery(String queryString, Object... parameters) {

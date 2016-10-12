@@ -3,6 +3,7 @@ package mongoose.services;
 import mongoose.entities.*;
 import naga.commons.util.async.Future;
 import naga.commons.util.function.Predicate;
+import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.platform.services.query.QueryResultSet;
@@ -15,6 +16,10 @@ import java.util.List;
 public interface EventServiceMixin extends EventService {
 
     EventService getEventService();
+
+    default DataSourceModel getEventDataSourceModel() {
+        return getEventService().getEventDataSourceModel();
+    }
 
     default Future<EntityList<Option>> onEventOptions() {
         return getEventService().onEventOptions();
