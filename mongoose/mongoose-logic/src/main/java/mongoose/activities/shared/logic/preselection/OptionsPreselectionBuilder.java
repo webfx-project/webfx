@@ -3,11 +3,11 @@ package mongoose.activities.shared.logic.preselection;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
+import mongoose.util.Labels;
 import naga.commons.util.Objects;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -36,7 +36,7 @@ public class OptionsPreselectionBuilder {
         if (option != null) {
             addOption(option);
             if (label == null)
-                label = option.bestLabel();
+                label = Labels.bestLabelOrName(option);
         }
         return this;
     }

@@ -4,6 +4,7 @@ import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
+import mongoose.util.Labels;
 import naga.commons.type.PrimType;
 import naga.commons.util.Numbers;
 import naga.commons.util.Objects;
@@ -60,11 +61,11 @@ class FeesGroup {
     }
 
     String getDisplayName(I18n i18n) {
-        return label == null ? i18n.instantTranslate("Fees") : label.getStringFieldValue(i18n.getLanguage());
+        return Labels.instantTranslateLabel(label, i18n, "Fees");
     }
 
     String getDisplayName(Object language) {
-        return label.getStringFieldValue(language);
+        return Labels.instantTranslateLabel(label, language);
     }
 
     DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
@@ -96,7 +97,7 @@ class FeesGroup {
 
     String getFeesBottomText(I18n i18n, EventService eventService) {
         Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), eventService.getEvent().getFeesBottomLabel());
-        return feesBottomLabel != null ? feesBottomLabel.getStringFieldValue(i18n.getLanguage()) : i18n.instantTranslate("FeesExplanation");
+        return Labels.instantTranslateLabel(feesBottomLabel, i18n, "FeesExplanation");
     }
 
     @Override

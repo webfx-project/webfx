@@ -7,6 +7,7 @@ import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
 import mongoose.services.PersonService;
+import mongoose.util.Labels;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.services.query.QueryResultSet;
@@ -44,11 +45,11 @@ public class OptionsPreselection {
     }
 
     public String getDisplayName(I18n i18n) {
-        return i18n.instantTranslate(getDisplayName(i18n.getLanguage()));
+        return Labels.instantTranslateLabel(label, i18n, "NoAccommodation");
     }
 
     public String getDisplayName(Object language) {
-        return label == null ? "NoAccommodation" : label.getStringFieldValue(language);
+        return Labels.instantTranslateLabel(label, language, "NoAccommodation");
     }
 
     public Object getDisplayPrice(EventService eventService) {

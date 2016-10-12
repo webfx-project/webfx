@@ -52,16 +52,6 @@ public interface Option extends Entity, EntityHasParent<Option>, EntityHasName, 
 
     //// Enriched fields and methods
 
-    default Label bestLabel() {
-        Label label = getLabel();
-        if (label != null)
-            return label;
-        Item item = getItem();
-        if (item != null)
-            label = item.getLabel();
-        return label;
-    }
-
     @Override
     default ItemFamilyType getItemFamilyType() {
         Item item = getItem();
