@@ -132,6 +132,10 @@ public abstract class Toolkit {
         return createNode(CheckBox.class);
     }
 
+    public RadioButton createRadioButton() {
+        return createNode(RadioButton.class);
+    }
+
     public TextField createTextField() {
         return nodeFactories.containsKey(TextField.class) ? createNode(TextField.class) : createSearchBox();
     }

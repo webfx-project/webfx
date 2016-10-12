@@ -28,6 +28,7 @@ public class UnimplementedNode<N> implements
         FlowPane<N, N>,
         Button<N>,
         CheckBox<N>,
+        RadioButton<N>,
         SearchBox<N>,
         Slider<N>,
         Gauge<N>,
