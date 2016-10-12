@@ -25,6 +25,11 @@ a, a:hover, a:focus { /* links */
     font-weight: bold;
 }
 
+.panel-title label {
+    font-weight: normal;
+    margin-left: 10px;
+}
+
 .container {
     width: 100%;
     padding: 0;
