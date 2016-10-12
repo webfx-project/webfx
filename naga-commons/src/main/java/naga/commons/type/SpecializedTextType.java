@@ -7,6 +7,9 @@ public class SpecializedTextType extends DerivedType {
 
     private final SpecializedText specializedText;
 
+    public final static SpecializedTextType IMAGE_URL = new SpecializedTextType(SpecializedText.IMAGE_URL);
+    public final static SpecializedTextType HTML = new SpecializedTextType(SpecializedText.HTML);
+
     public SpecializedTextType(SpecializedText specializedText) {
         this(specializedText.name(), specializedText);
     }
