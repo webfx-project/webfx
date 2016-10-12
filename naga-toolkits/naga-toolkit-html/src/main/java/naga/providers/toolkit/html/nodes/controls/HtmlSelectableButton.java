@@ -1,27 +1,40 @@
 package naga.providers.toolkit.html.nodes.controls;
 
-import elemental2.Element;
 import elemental2.HTMLInputElement;
+import elemental2.HTMLLabelElement;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.providers.toolkit.html.HtmlUtil;
 import naga.toolkit.spi.nodes.controls.SelectableButton;
 
 /**
  * @author Bruno Salmon
  */
-public class HtmlSelectableButton<N extends Element> extends HtmlButtonBase<N> implements SelectableButton<N> {
+public class HtmlSelectableButton extends HtmlButtonBase<HTMLLabelElement> implements SelectableButton<HTMLLabelElement> {
 
-    public HtmlSelectableButton(N button) {
-        super(button);
-        if (button instanceof HTMLInputElement) {
-            HTMLInputElement input = (HTMLInputElement) button;
-            selectedProperty.setValue(input.checked);
-            button.onclick = event -> {
-                selectedProperty.setValue(input.checked);
-                return null;
-            };
-            selectedProperty.addListener((observable, oldValue, newValue) -> input.checked = newValue);
-        }
+    private final HTMLInputElement button;
+
+    public HtmlSelectableButton(HTMLInputElement button) {
+        this(button, HtmlUtil.createLabelElement());
+    }
+
+    public HtmlSelectableButton(HTMLInputElement button, HTMLLabelElement label) {
+        super(label);
+        this.button = button;
+        HtmlUtil.appendStyle(label, "margin: 0");
+        HtmlUtil.setStyle(button, "vertical-align: middle; margin: 0 5px 0 0;");
+        selectedProperty.setValue(button.checked);
+        button.onclick = event -> {
+            selectedProperty.setValue(button.checked);
+            return null;
+        };
+        selectedProperty.addListener((observable, oldValue, newValue) -> button.checked = newValue);
+    }
+
+    @Override
+    protected void updateHtmlContent() {
+        super.updateHtmlContent();
+        HtmlUtil.appendFirstChild(node, button);
     }
 
     private final Property<Boolean> selectedProperty = new SimpleObjectProperty<>();

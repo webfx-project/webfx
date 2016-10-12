@@ -87,6 +87,10 @@ public class HtmlUtil {
         return createElement("button");
     }
 
+    public static HTMLLabelElement createLabelElement() {
+        return createElement("label");
+    }
+
     public static HTMLTableElement createTableElement() {
         return createElement("table");
     }
