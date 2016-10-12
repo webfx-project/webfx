@@ -31,6 +31,7 @@ public class SwingToolkit extends Toolkit {
         registerNodeFactory(VPage.class, SwingVPage::new);
         registerNodeFactory(Table.class, SwingTable::new);
         registerNodeFactory(CheckBox.class, SwingCheckBox::new);
+        registerNodeFactory(RadioButton.class, SwingRadioButton::new);
         registerNodeFactory(ToggleSwitch.class, SwingCheckBox::new);
         registerNodeFactory(TextView.class, SwingTextView::new);
         registerNodeFactory(SearchBox.class, SwingSearchBox::new);
