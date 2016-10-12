@@ -121,6 +121,10 @@ public class HtmlUtil {
         return createInputElement("checkbox");
     }
 
+    public static HTMLInputElement createRadioButton() {
+        return createInputElement("radio");
+    }
+
     public static <E extends Element> E getElementById(Element element, String id) {
         return getElementById(element, id, "*");
     }
