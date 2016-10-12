@@ -7,6 +7,7 @@ import naga.commons.util.Strings;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
+import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.properties.conversion.ConvertedObservableList;
 import naga.toolkit.properties.markers.HasTextProperty;
 import naga.toolkit.spi.nodes.GuiNode;
@@ -117,6 +118,12 @@ public abstract class Toolkit {
         return createNode(Table.class);
     }
 
+    public Table createTable(DisplayResultSet rs) {
+        Table table = createTable();
+        table.setDisplayResultSet(rs);
+        return table;
+    }
+
     public Button createButton() {
         return createNode(Button.class);
     }
@@ -134,24 +141,31 @@ public abstract class Toolkit {
     }
 
     public Image createImage(Object urlOrJson) {
+        return applyImage(createImage(), urlOrJson);
+    }
+
+    public Image createImage(String url, Double width, Double height) {
+        return applyImage(createImage(), url, width, height);
+    }
+
+    public static Image applyImage(Image image, Object urlOrJson) {
         boolean isJson = urlOrJson instanceof KeyObject;
         KeyObject json = isJson ? (KeyObject) urlOrJson : null;
         String url = isJson ? json.getString("url") : Strings.toString(urlOrJson);
         Double width = isJson ? json.getDouble("width") : null;
         Double height = isJson ? json.getDouble("width") : null;
-        return createImage(url, width, height);
+        return applyImage(image, url, width, height);
     }
 
-    public Image createImage(String url, Double width, Double height) {
-        Image image = createImage();
+    public static Image applyImage(Image image, String url, Double width, Double height) {
         image.setWidth(width);
         image.setHeight(height);
         image.setUrl(url);
         return image;
     }
 
-    public Image createImageOrNull(String url) {
-        return url == null ? null : createImage(url);
+    public Image createImageOrNull(Object urlOrJson) {
+        return urlOrJson == null ? null : createImage(urlOrJson);
     }
 
     public TextView createTextView() {
