@@ -61,6 +61,7 @@ public class DomainModelSnapshotLoader {
             registerEntityFactory(Option.class, "Option", OptionImpl::new);
             registerEntityFactory(Organization.class, "Organization", OrganizationImpl::new);
             registerEntityFactory(OrganizationType.class, "OrganizationType", OrganizationTypeImpl::new);
+            registerEntityFactory(Person.class, "Person", PersonImpl::new);
             registerEntityFactory(Rate.class, "Rate", RateImpl::new);
             registerEntityFactory(Site.class, "Site", SiteImpl::new);
             registerEntityFactory(Teacher.class, "Teacher", TeacherImpl::new);
