@@ -2,6 +2,8 @@ package naga.commons.util;
 
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
+import naga.commons.util.function.Converter;
+import naga.commons.util.function.IntFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,15 @@ public class Arrays {
         return length(array) == 0;
     }
 
+    public static <T> T first(T[] array) {
+        return isEmpty(array) ? null : array[0];
+    }
+
+    public static <T> T last(T[] list) {
+        int length = length(list);
+        return length == 0 ? null : list[length - 1];
+    }
+
     public static <T> String toString(T[] array) {
         return Collections.toString(asList(array));
     }
@@ -53,6 +64,14 @@ public class Arrays {
     public static <T> List<T> collectNonNulls(T[] array, List<T> list) {
         forEachNonNull(array, list::add);
         return list;
+    }
+
+    public static <A, B> B[] convert(A[] aArray, Converter<A, B> aToBConverter, IntFunction<B[]> arrayGenerator) {
+        int length = aArray.length;
+        B[] bArray = arrayGenerator.apply(length);
+        for (int i = 0; i < length; i++)
+            bArray[i] = aToBConverter.convert(aArray[i]);
+        return bArray;
     }
 
     public static <T> List<T> nonNullsAsList(T[] array) {
