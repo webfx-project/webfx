@@ -13,7 +13,11 @@ public class OptionPreselection {
     private DayTimeRange dayTimeRange;
 
     OptionPreselection(Option option, String dateTimeRange, String dayTimeRange) {
-        this(option, DateTimeRange.parse(dateTimeRange), DayTimeRange.parse(dayTimeRange));
+        this(option, DateTimeRange.parse(dateTimeRange), dayTimeRange);
+    }
+
+    OptionPreselection(Option option, DateTimeRange dateTimeRange, String dayTimeRange) {
+        this(option, dateTimeRange, DayTimeRange.parse(dayTimeRange));
     }
 
     OptionPreselection(Option option, DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {

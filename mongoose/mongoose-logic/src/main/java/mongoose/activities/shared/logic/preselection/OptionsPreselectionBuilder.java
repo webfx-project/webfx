@@ -1,10 +1,10 @@
 package mongoose.activities.shared.logic.preselection;
 
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.commons.util.Objects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,14 @@ public class OptionsPreselectionBuilder {
 
     private Label label;
     private final List<OptionPreselection> optionPreselections = new ArrayList<>();
-    private final String eventDateTimeRange;
+    private final String dateTimeRange;
 
     public OptionsPreselectionBuilder(Event event) {
         this(event.getDateTimeRange());
     }
 
-    public OptionsPreselectionBuilder(String eventDateTimeRange) {
-        this.eventDateTimeRange = eventDateTimeRange;
+    public OptionsPreselectionBuilder(String dateTimeRange) {
+        this.dateTimeRange = dateTimeRange;
     }
 
     public OptionsPreselectionBuilder addDefaultOptions(Iterable<Option> options) {
@@ -42,7 +42,11 @@ public class OptionsPreselectionBuilder {
     }
 
     private OptionsPreselectionBuilder addOption(Option option) {
-        return addOptionPreselection(new OptionPreselection(option, Objects.coalesce(option.getDateTimeRangeOrParent(), eventDateTimeRange), option.getTimeRangeOrParent()));
+        String optionDateTimeRange = option.getDateTimeRangeOrParent();
+        DateTimeRange finalDateTimeRange = DateTimeRange.parse(dateTimeRange);
+        if (optionDateTimeRange != null)
+            finalDateTimeRange = finalDateTimeRange.intersect(DateTimeRange.parse(optionDateTimeRange));
+        return addOptionPreselection(new OptionPreselection(option, finalDateTimeRange, option.getTimeRangeOrParent()));
     }
 
     private OptionsPreselectionBuilder addOptionPreselection(OptionPreselection optionPreselection) {

@@ -55,21 +55,24 @@ class FeesGroupBuilder {
         return this;
     }
 
-    public FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
+    FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
         this.accommodationOptions = accommodationOptions;
         return this;
     }
 
     FeesGroup build() {
+        String dateTimeRange = dateInfo.getDateTimeRange();
+        if (dateTimeRange == null)
+            dateTimeRange = getEvent().getDateTimeRange();
         List<OptionsPreselection> optionsPreselections = new ArrayList<>();
         if (accommodationOptions != null)
             for (Option accommodationOption : accommodationOptions)
-                optionsPreselections.add(new OptionsPreselectionBuilder(getEvent())
+                optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
                         .addDefaultOptions(defaultOptions)
                         .addAccommodationOption(accommodationOption)
                         .build());
         // No accommodation
-        optionsPreselections.add(new OptionsPreselectionBuilder(getEvent())
+        optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
                 .addDefaultOptions(defaultOptions)
                 .build());
 
