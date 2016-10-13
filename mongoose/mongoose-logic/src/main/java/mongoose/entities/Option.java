@@ -14,6 +14,14 @@ public interface Option extends Entity, EntityHasParent<Option>, EntityHasName, 
 
     //// Domain fields
 
+    default void setForceSoldout(Boolean forceSoldout) {
+        setFieldValue("forceSoldout", forceSoldout);
+    }
+
+    default Boolean isForceSoldout() {
+        return getBooleanFieldValue("forceSoldout");
+    }
+
     default void setTimeRange(String timeRange) {
         setFieldValue("timeRange", timeRange);
     }

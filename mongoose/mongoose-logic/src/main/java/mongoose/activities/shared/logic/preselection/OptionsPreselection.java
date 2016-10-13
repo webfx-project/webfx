@@ -5,9 +5,11 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.Label;
+import mongoose.entities.Option;
 import mongoose.services.EventService;
 import mongoose.services.PersonService;
 import mongoose.util.Labels;
+import naga.commons.util.Booleans;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.services.query.QueryResultSet;
@@ -38,6 +40,28 @@ public class OptionsPreselection {
         else
             workingDocument.syncPersonDetails(PersonService.get(eventService.getEventDataSourceModel()).getPreselectionProfilePerson());
         return workingDocument;
+    }
+
+    public WorkingDocument getWorkingDocument() {
+        return workingDocument;
+    }
+
+    public WorkingDocumentLine getAccommodationLine() {
+        return workingDocument.getAccommodationLine();
+    }
+
+    public boolean hasAccommodation() {
+        return getAccommodationLine() != null;
+    }
+
+    public Option getAccommodationOption() {
+        WorkingDocumentLine accommodationLine = getAccommodationLine();
+        return accommodationLine == null ? null : accommodationLine.getOption();
+    }
+
+    public boolean isForceSoldout() {
+        Option accommodationOption = getAccommodationOption();
+        return accommodationOption != null && Booleans.isTrue(accommodationOption.isForceSoldout());
     }
 
     public int computePrice(EventService eventService) {

@@ -69,6 +69,7 @@ class FeesGroup {
     }
 
     DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
+        boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsPreselections.length, new DisplayColumn[]{
                 DisplayColumn.create(i18n.instantTranslate("Accommodation"), PrimType.STRING),
                 DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
@@ -78,11 +79,18 @@ class FeesGroup {
                             if (pair == null || !eventService.areEventAvailabilitiesLoaded())
                                 return Toolkit.get().createImage("images/16/spinner.gif");
                             Object availability = pair.get1();
-                            if (Numbers.isZero(availability))
+                            OptionsPreselection optionsPreselection = pair.get2();
+                            // Availability is null when there is no online room at all. In this case...
+                            if (availability == null && optionsPreselection.hasAccommodation()) // ... if it's an accommodation line
+                                availability = 0; // we show it as soldout - otherwise (if it's the no accommodation line) we show it as available
+                            boolean soldout = Numbers.isZero(availability) || // Showing soldout if the availability is zero
+                                    optionsPreselection.isForceSoldout() || // or if the option has been forced as soldout in the backend
+                                    isForceSoldout(); // or if the whole FeesGroup has been forced as soldout
+                            if (soldout)
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
                             Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book");
-                            button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(pair.get2()));
-                            if (availability == null)
+                            button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(optionsPreselection));
+                            if (availability == null || !showBadges)
                                 return button;
                             return Toolkit.get().createHBox(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
                         }).build()});
