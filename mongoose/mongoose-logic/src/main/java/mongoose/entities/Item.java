@@ -38,6 +38,14 @@ public interface Item extends Entity, EntityHasCode, EntityHasName, EntityHasLab
         return getForeignEntity("rateAliasItem");
     }
 
+    default void setShare_mate(Boolean share_mate) {
+        setFieldValue("share_mate", share_mate);
+    }
+
+    default Boolean isShare_mate() {
+        return getBooleanFieldValue("forceSoldout");
+    }
+
     //// Enriched fields and methods
 
     @Override

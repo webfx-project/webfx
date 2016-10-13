@@ -81,8 +81,8 @@ class FeesGroup {
                             Object availability = pair.get1();
                             OptionsPreselection optionsPreselection = pair.get2();
                             // Availability is null when there is no online room at all. In this case...
-                            if (availability == null && optionsPreselection.hasAccommodation()) // ... if it's an accommodation line
-                                availability = 0; // we show it as soldout - otherwise (if it's the no accommodation line) we show it as available
+                            if (availability == null && optionsPreselection.hasAccommodationSharingExcluded()) // ... if it's an accommodation option (but not just sharing)
+                                availability = 0; // we show it as soldout - otherwise (if it's a sharing option or no accommodation) we show it as available
                             boolean soldout = Numbers.isZero(availability) || // Showing soldout if the availability is zero
                                     optionsPreselection.isForceSoldout() || // or if the option has been forced as soldout in the backend
                                     isForceSoldout(); // or if the whole FeesGroup has been forced as soldout
