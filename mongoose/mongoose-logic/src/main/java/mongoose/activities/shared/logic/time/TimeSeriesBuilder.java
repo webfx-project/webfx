@@ -38,13 +38,13 @@ class TimeSeriesBuilder {
             if (includedStart == excludedEnd)
                 includedStart = day;
             else if (day != excludedEnd) { // > 1 day => break of the consecutive dates
-                series.add(new TimeInterval(includedStart, excludedEnd, daysTimeUnit).changeTimeUnit(timeUnit));
+                addInterval(new TimeInterval(includedStart, excludedEnd, daysTimeUnit));
                 includedStart = day;
             }
             excludedEnd = day + oneDay;
         }
         if (includedStart != excludedEnd)
-            series.add(new TimeInterval(includedStart, excludedEnd, daysTimeUnit).changeTimeUnit(timeUnit));
+            addInterval(new TimeInterval(includedStart, excludedEnd, daysTimeUnit));
         return this;
     }
 
@@ -68,4 +68,19 @@ class TimeSeriesBuilder {
         return this;
     }
 
+    TimeSeriesBuilder addInterval(TimeInterval interval) {
+        interval = interval.changeTimeUnit(timeUnit);
+        TimeInterval lastInterval = Collections.last(series);
+        if (lastInterval != null && interval.getIncludedStart() <= lastInterval.getExcludedEnd())
+            series.set(series.size() - 1, new TimeInterval(lastInterval.getIncludedStart(), interval.getExcludedEnd(), timeUnit));
+        else
+            series.add(interval);
+        return this;
+    }
+
+    TimeSeriesBuilder addSeries(TimeSeries series) {
+        for (TimeInterval interval : series.getArray())
+            addInterval(interval);
+        return this;
+    }
 }

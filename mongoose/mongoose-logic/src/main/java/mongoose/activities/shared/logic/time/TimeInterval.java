@@ -39,6 +39,14 @@ public class TimeInterval {
         return new TimeInterval(getIncludedStart(newTimeUnit), getExcludedEnd(newTimeUnit), newTimeUnit);
     }
 
+    public TimeInterval shift(long offset, TimeUnit timeUnit) {
+        if (offset == 0)
+            return this;
+        TimeUnit smallestUnit = TimeConverter.smallestUnit(this.timeUnit, timeUnit);
+        offset = TimeConverter.convertTime(offset, timeUnit, smallestUnit);
+        return new TimeInterval(getIncludedStart(smallestUnit) + offset, getExcludedEnd(smallestUnit) + offset, smallestUnit);
+    }
+
     public long getIncludedStart(TimeUnit timeUnit) {
         return convertTime(includedStart, this.timeUnit, timeUnit);
     }

@@ -32,6 +32,10 @@ public class DateTimeRange {
         this.daysArray = daysArray;
     }
 
+    private DateTimeRange from(TimeSeries series) {
+        return series == this.series ? this : new DateTimeRange(series);
+    }
+
     public TimeInterval getInterval() {
         if (interval == null)
             interval = getSeries().toInterval();
@@ -79,5 +83,19 @@ public class DateTimeRange {
                 return true;
         }
         return false;
+    }
+
+    public DateTimeRange intersect(DateTimeRange dateTimeRange) {
+        return intersect(dateTimeRange.getSeries());
+    }
+
+    public DateTimeRange intersect(TimeSeries series) {
+        return from(getSeries().intersect(series));
+    }
+
+    public DateTimeRange intersect(DayTimeRange dayTimeRange) {
+        if (dayTimeRange == null)
+            return this;
+        return from(getSeries().intersect(dayTimeRange));
     }
 }

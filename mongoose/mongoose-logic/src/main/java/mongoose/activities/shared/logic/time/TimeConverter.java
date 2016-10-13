@@ -28,6 +28,10 @@ class TimeConverter {
         return convertTime(1, TimeUnit.DAYS, timeUnit);
     }
 
+    static TimeUnit smallestUnit(TimeUnit timeUnit1, TimeUnit timeUnit2) {
+        return timeUnit1.toDays(1) < timeUnit2.toDays(1) ? timeUnit1 : timeUnit2;
+    }
+
     static long floorToDay(long time, TimeUnit timeUnit) {
         if (timeUnit == TimeUnit.DAYS)
             return time;
