@@ -32,8 +32,8 @@ public class WorkingDocumentLine {
         option = optionPreselection.getOption();
         site = option.getSite();
         item = option.getItem();
-        dateTimeRange = optionPreselection.getDateTimeRange();
         dayTimeRange = optionPreselection.getDayTimeRange();
+        dateTimeRange = cropDateTimeRange(optionPreselection.getDateTimeRange(), dayTimeRange);
         daysArray = dateTimeRange.getDaysArray(dayTimeRange);
         documentLine = null;
         attendances = null;
@@ -44,8 +44,8 @@ public class WorkingDocumentLine {
         this.option = option;
         site = option.getSite();
         item = option.getItem();
-        dateTimeRange = DateTimeRange.parse(option.getDateTimeRangeOrParent());
         dayTimeRange = DayTimeRange.parse(option.getTimeRange());
+        dateTimeRange = cropDateTimeRange(DateTimeRange.parse(option.getDateTimeRangeOrParent()), dayTimeRange);
         documentLine = null;
         attendances = null;
         daysArray = null;
@@ -59,11 +59,15 @@ public class WorkingDocumentLine {
         option = findDocumentLineOption();
         site = documentLine.getSite();
         item = documentLine.getItem();
-        dateTimeRange = option == null ? null : DateTimeRange.parse(option.getDateTimeRangeOrParent());
         dayTimeRange = option == null ? null : DayTimeRange.parse(option.getTimeRange());
+        dateTimeRange = option == null ? null : cropDateTimeRange(DateTimeRange.parse(option.getDateTimeRangeOrParent()), dayTimeRange);
         DaysArrayBuilder b = new DaysArrayBuilder();
         Collections.forEach(attendances, a -> b.addDate(a.getDate()));
         daysArray = b.build();
+    }
+
+    private static DateTimeRange cropDateTimeRange(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
+        return dateTimeRange == null || dayTimeRange == null ? dateTimeRange : dateTimeRange.intersect(dayTimeRange);
     }
 
     private Option findDocumentLineOption() {
