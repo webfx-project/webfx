@@ -61,7 +61,7 @@ class FeesGroupBuilder {
     }
 
     FeesGroup build() {
-        String dateTimeRange = dateInfo.getDateTimeRange();
+        String dateTimeRange = dateInfo == null ? null : dateInfo.getDateTimeRange();
         if (dateTimeRange == null)
             dateTimeRange = getEvent().getDateTimeRange();
         List<OptionsPreselection> optionsPreselections = new ArrayList<>();
