@@ -70,8 +70,10 @@ class FeesGroup {
 
     DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
         boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsPreselections.length, new DisplayColumn[]{
-                DisplayColumn.create(i18n.instantTranslate("Accommodation"), PrimType.STRING),
+        int optionsCount = optionsPreselections.length;
+        boolean singleOption = optionsCount == 1;
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsCount, new DisplayColumn[]{
+                DisplayColumn.create(i18n.instantTranslate(singleOption ? "Course" : "Accommodation"), PrimType.STRING),
                 DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
                 DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE)
                         .setValueRenderer(p -> {
@@ -96,7 +98,7 @@ class FeesGroup {
                         }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
-            rsb.setValue(rowIndex,   0, optionsPreselection.getDisplayName(i18n));
+            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Labels.bestLabelOrName(eventService.getEvent()), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
             rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice(eventService));
             rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
         }

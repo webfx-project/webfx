@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.preselection;
 
 import mongoose.activities.shared.logic.time.DateTimeRange;
-import mongoose.entities.Event;
+import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
@@ -17,10 +17,8 @@ public class OptionsPreselectionBuilder {
     private Label label;
     private final List<OptionPreselection> optionPreselections = new ArrayList<>();
     private final String dateTimeRange;
-
-    public OptionsPreselectionBuilder(Event event) {
-        this(event.getDateTimeRange());
-    }
+    private boolean hasAccommodation;
+    private boolean nightIsCovered;
 
     public OptionsPreselectionBuilder(String dateTimeRange) {
         this.dateTimeRange = dateTimeRange;
@@ -34,28 +32,30 @@ public class OptionsPreselectionBuilder {
 
     public OptionsPreselectionBuilder addAccommodationOption(Option option) {
         if (option != null) {
-            addOption(option);
-            if (label == null)
-                label = Labels.bestLabelOrName(option);
+            hasAccommodation = true;
+            if (addOption(option))
+                nightIsCovered = true;
+            label = Labels.bestLabelOrName(option);
         }
         return this;
     }
 
-    private OptionsPreselectionBuilder addOption(Option option) {
+    private boolean addOption(Option option) {
         String optionDateTimeRange = option.getDateTimeRangeOrParent();
         DateTimeRange finalDateTimeRange = DateTimeRange.parse(dateTimeRange);
         if (optionDateTimeRange != null)
             finalDateTimeRange = finalDateTimeRange.intersect(DateTimeRange.parse(optionDateTimeRange));
-        return addOptionPreselection(new OptionPreselection(option, finalDateTimeRange, option.getTimeRangeOrParent()));
-    }
-
-    private OptionsPreselectionBuilder addOptionPreselection(OptionPreselection optionPreselection) {
-        optionPreselections.add(optionPreselection);
-        return this;
+        DayTimeRange dayTimeRange = DayTimeRange.parse(option.getTimeRangeOrParent());
+        if (dayTimeRange != null)
+            finalDateTimeRange = finalDateTimeRange.intersect(dayTimeRange);
+        if (finalDateTimeRange.isEmpty())
+            return false;
+        optionPreselections.add(new OptionPreselection(option, finalDateTimeRange, dayTimeRange));
+        return true;
     }
 
     public OptionsPreselection build() {
-        return new OptionsPreselection(label, optionPreselections);
+        return hasAccommodation && !nightIsCovered ? null : new OptionsPreselection(label, optionPreselections);
     }
 
 }

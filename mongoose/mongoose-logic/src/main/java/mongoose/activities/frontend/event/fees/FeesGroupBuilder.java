@@ -67,10 +67,10 @@ class FeesGroupBuilder {
         List<OptionsPreselection> optionsPreselections = new ArrayList<>();
         if (accommodationOptions != null)
             for (Option accommodationOption : accommodationOptions)
-                optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
+                Collections.addIfNotNull(new OptionsPreselectionBuilder(dateTimeRange)
                         .addDefaultOptions(defaultOptions)
                         .addAccommodationOption(accommodationOption)
-                        .build());
+                        .build(), optionsPreselections);
         // No accommodation
         optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
                 .addDefaultOptions(defaultOptions)

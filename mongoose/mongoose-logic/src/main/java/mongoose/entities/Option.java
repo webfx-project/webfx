@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public interface Option extends Entity, EntityHasParent<Option>, EntityHasName, EntityHasLabel, EntityHasSite, EntityHasItem, HasItemFamilyType, EntityHasDateTimeRange {
+public interface Option extends Entity, EntityHasParent<Option>, EntityHasEvent, EntityHasName, EntityHasLabel, EntityHasSite, EntityHasItem, HasItemFamilyType, EntityHasDateTimeRange {
 
     //// Domain fields
 
