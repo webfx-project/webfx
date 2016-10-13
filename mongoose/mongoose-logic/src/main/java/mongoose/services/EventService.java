@@ -67,7 +67,12 @@ public interface EventService {
     }
 
     default List<Option> selectDefaultOptions() {
-        return selectOptions(o -> o.isConcrete() && (o.isObligatory() || o.isTeaching() || o.isMeals()) && !o.isDependant());
+        return selectOptions(o -> o.isConcrete() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
+    }
+
+    default boolean mealsAreIncludedByDefault() {
+        String eventName = getEvent().getName();
+        return !eventName.contains("Day Course") && !eventName.contains("Public Talk");
     }
 
     default Option findFirstOption(Predicate<? super Option> predicate) {
