@@ -197,6 +197,10 @@ public abstract class Toolkit {
         return setText(createHtmlView(), text);
     }
 
+    public HtmlView createHtmlViewOrNull(String text) {
+        return text == null ? null : createHtmlView(text);
+    }
+
     public SearchBox createSearchBox() {
         return createNode(SearchBox.class);
     }

@@ -15,6 +15,6 @@ public class HtmlRenderer<N> implements ValueRenderer<N> {
 
     @Override
     public GuiNode<N> renderCellValue(Object value) {
-        return Toolkit.get().createHtmlView(Strings.toString(value));
+        return Toolkit.get().createHtmlViewOrNull(Strings.toString(value));
     }
 }

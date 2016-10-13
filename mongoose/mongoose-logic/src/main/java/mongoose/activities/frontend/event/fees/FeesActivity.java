@@ -122,17 +122,19 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     private void displayFeesGroups(FeesGroup[] feesGroups, Property<DisplayResultSet> displayProperty) {
-        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(feesGroups.length, new DisplayColumn[]{
+        int n = feesGroups.length;
+        DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(n, new DisplayColumn[]{
                 DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, displayProperty)),
                 DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
-        int rowIndex = 0;
         WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");
-        for (FeesGroup feesGroup : feesGroups) {
-            rsb.setValue(rowIndex,   0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
-            rsb.setValue(rowIndex,   1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
-            rsb.setValue(rowIndex++, 2, feesGroup.getFeesBottomText(i18n, this));
+        for (int i = 0; i < n; i++) {
+            FeesGroup feesGroup = feesGroups[i];
+            rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
+            rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
+            if (i == n - 1) // Showing the fees bottom text only on the last fees group
+                rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n, this));
         }
         DisplayResultSet rs = rsb.build();
         displayProperty.setValue(rs);
