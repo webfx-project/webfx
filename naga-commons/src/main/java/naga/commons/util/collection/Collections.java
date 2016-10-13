@@ -64,6 +64,13 @@ public class Collections {
         return size == 0 ? null : list.get(size - 1);
     }
 
+    public static <T> boolean addIfNotNull(T element, Collection<T> collection) {
+        if (element == null || collection == null)
+            return false;
+        collection.add(element);
+        return true;
+    }
+
     public static <T> Iterator<T> iterator(Iterable<T> iterable) {
         return iterable == null ? null : iterable.iterator();
     }
