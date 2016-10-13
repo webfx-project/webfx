@@ -85,7 +85,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                         .subscribe(active -> displayFeesGroups(feesGroups, displayProperty));
                 onEventAvailabilities().setHandler(ar -> {
                     if (ar.succeeded())
-                        displayFeesGroups(feesGroups, displayProperty);
+                        Toolkit.get().scheduler().runInUiThread(() -> displayFeesGroups(feesGroups, displayProperty));
                 });
             }
         });
