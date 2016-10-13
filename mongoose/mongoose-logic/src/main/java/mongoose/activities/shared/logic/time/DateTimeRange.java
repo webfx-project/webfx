@@ -1,5 +1,7 @@
 package mongoose.activities.shared.logic.time;
 
+import naga.commons.util.Arrays;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -66,6 +68,10 @@ public class DateTimeRange {
         if (text == null)
             text = getSeries().toText();
         return text;
+    }
+
+    public boolean isEmpty() {
+        return Arrays.isEmpty(getSeries().getArray());
     }
 
     public boolean containsInterval(TimeInterval interval) {
