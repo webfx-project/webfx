@@ -60,6 +60,10 @@ class FeesGroupBuilder {
         return this;
     }
 
+    private boolean includeNoAccommodation() {
+        return !getEvent().getName().contains("Overnight");
+    }
+
     FeesGroup build() {
         String dateTimeRange = dateInfo == null ? null : dateInfo.getDateTimeRange();
         if (dateTimeRange == null)
@@ -71,10 +75,12 @@ class FeesGroupBuilder {
                         .addDefaultOptions(defaultOptions)
                         .addAccommodationOption(accommodationOption)
                         .build(), optionsPreselections);
-        // No accommodation
-        optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
-                .addDefaultOptions(defaultOptions)
-                .build());
+        // Adding Course or No accommodation option
+        if (optionsPreselections.isEmpty() || // Ex: a day course or a section with no accommodation (like Food for Thought)
+                includeNoAccommodation())     // If there are accommodation options, checking we can offer no accommodation (not the case for Refresh and Revive Overnighter)
+            optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
+                    .addDefaultOptions(defaultOptions)
+                    .build());
 
         return new FeesGroup(id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
     }
