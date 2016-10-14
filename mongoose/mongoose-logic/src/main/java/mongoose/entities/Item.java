@@ -43,7 +43,7 @@ public interface Item extends Entity, EntityHasCode, EntityHasName, EntityHasLab
     }
 
     default Boolean isShare_mate() {
-        return getBooleanFieldValue("forceSoldout");
+        return getBooleanFieldValue("share_mate");
     }
 
     //// Enriched fields and methods
