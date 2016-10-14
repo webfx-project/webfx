@@ -66,14 +66,7 @@ public interface EventService {
         return selectEntities(getEventOptions(), predicate);
     }
 
-    default List<Option> selectDefaultOptions() {
-        return selectOptions(o -> o.isConcrete() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
-    }
-
-    default boolean mealsAreIncludedByDefault() {
-        String eventName = getEvent().getName();
-        return !eventName.contains("Day Course") && !eventName.contains("Public Talk");
-    }
+    List<Option> selectDefaultOptions();
 
     default Option findFirstOption(Predicate<? super Option> predicate) {
         return Collections.findFirst(getEventOptions(), predicate);
@@ -87,17 +80,9 @@ public interface EventService {
         return selectEntities(getEventRates(), predicate);
     }
 
-    default Rate findFirstRate(Predicate<? super Rate> predicate) {
-        return Collections.findFirst(getEventRates(), predicate);
-    }
+    boolean hasUnemployedRate();
 
-    default boolean hasUnemployedRate() {
-        return findFirstRate(rate -> rate.getUnemployedPrice() != null || rate.getUnemployedDiscount() != null) != null;
-    }
-
-    default boolean hasFacilityFeeRate() {
-        return findFirstRate(rate -> rate.getFacilityFeePrice() != null || rate.getFacilityFeeDiscount() != null) != null;
-    }
+    boolean hasFacilityFeeRate();
 
     // Event availability loading method
 

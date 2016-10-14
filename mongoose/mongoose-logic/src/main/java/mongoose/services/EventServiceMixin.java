@@ -73,11 +73,6 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
-    default boolean mealsAreIncludedByDefault() {
-        return getEventService().mealsAreIncludedByDefault();
-    }
-
-    @Override
     default Option findFirstOption(Predicate<? super Option> predicate) {
         return getEventService().findFirstOption(predicate);
     }
@@ -90,9 +85,6 @@ public interface EventServiceMixin extends EventService {
     @Override
     default List<Rate> selectRates(Predicate<? super Rate> predicate) {
         return getEventService().selectRates(predicate);
-    }
-    default Rate findFirstRate(Predicate<? super Rate> predicate) {
-        return getEventService().findFirstRate(predicate);
     }
 
     default boolean hasUnemployedRate() {
