@@ -98,7 +98,7 @@ class FeesGroup {
                         }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
-            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Labels.bestLabelOrName(eventService.getEvent()), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
+            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(eventService.getEvent())), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
             rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice(eventService));
             rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
         }
