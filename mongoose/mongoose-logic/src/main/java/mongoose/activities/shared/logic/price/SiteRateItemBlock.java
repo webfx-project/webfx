@@ -134,7 +134,7 @@ class SiteRateItemBlock {
     }
 
     private boolean dateNullOrBefore(LocalDate date, LocalDate compareToDate) {
-        return date == null || compareToDate == null || date.compareTo(compareToDate) < 0;
+        return date == null || compareToDate == null || date.compareTo(compareToDate) <= 0;
     }
 
     private boolean dateNullOrAfter(LocalDate date, LocalDate compareToDate) {
