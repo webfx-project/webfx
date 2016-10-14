@@ -54,7 +54,7 @@ public class OptionsPreselection {
         return getAccommodationLine() != null;
     }
 
-    public boolean hasAccommodationSharingExcluded() {
+    public boolean hasAccommodationExcludingSharing() {
         WorkingDocumentLine accommodationLine = getAccommodationLine();
         return accommodationLine != null && Booleans.isFalse(accommodationLine.getItem().isShare_mate());
     }
