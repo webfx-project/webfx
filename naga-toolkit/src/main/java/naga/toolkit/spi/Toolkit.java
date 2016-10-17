@@ -8,6 +8,7 @@ import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.properties.conversion.ConvertedObservableList;
 import naga.toolkit.properties.markers.HasTextProperty;
 import naga.toolkit.spi.nodes.GuiNode;
@@ -259,5 +260,9 @@ public abstract class Toolkit {
 
     public Gauge createGauge() {
         return nodeFactories.containsKey(Gauge.class) ? createNode(Gauge.class) : createSlider();
+    }
+
+    public DrawingNode createDrawingNode() {
+        return createNode(DrawingNode.class);
     }
 }
