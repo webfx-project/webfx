@@ -6,6 +6,8 @@ import naga.commons.util.Strings;
 import naga.commons.util.tuples.Unit;
 import naga.toolkit.spi.Toolkit;
 
+import java.lang.Iterable;
+
 import static elemental2.Global.document;
 
 /**
@@ -34,6 +36,13 @@ public class HtmlUtil {
 
     public static <N extends Node> N setChild(N parent, Node child) {
         return appendChild(removeChildren(parent), child);
+    }
+
+    public static <N extends Node> N setChildren(N parent, Iterable<? extends Node> children) {
+        removeChildren(parent);
+        for (Node child : children)
+            appendChild(parent, child);
+        return parent;
     }
 
     public static <E extends Element> E setAttribute(E e, String name, String value) {
