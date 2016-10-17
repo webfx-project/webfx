@@ -10,12 +10,14 @@ import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Factory;
+import naga.providers.toolkit.javafx.drawing.FxDrawingNode;
 import naga.providers.toolkit.javafx.nodes.charts.*;
 import naga.providers.toolkit.javafx.nodes.controls.*;
 import naga.providers.toolkit.javafx.nodes.gauges.FxGauge;
 import naga.providers.toolkit.javafx.nodes.layouts.*;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
+import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.*;
@@ -62,6 +64,7 @@ public class JavaFxToolkit extends Toolkit {
         registerNodeFactoryAndWrapper(BarChart.class, FxBarChart::new, javafx.scene.chart.BarChart.class, FxBarChart::new);
         registerNodeFactoryAndWrapper(ScatterChart.class, FxScatterChart::new, javafx.scene.chart.ScatterChart.class, FxScatterChart::new);
         registerNodeFactoryAndWrapper(PieChart.class, FxPieChart::new, javafx.scene.chart.PieChart.class, FxPieChart::new);
+        registerNodeFactory(DrawingNode.class, FxDrawingNode::new);
     }
 
     @Override
