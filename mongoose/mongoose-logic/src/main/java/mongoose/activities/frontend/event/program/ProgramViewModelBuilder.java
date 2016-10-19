@@ -4,6 +4,7 @@ import mongoose.activities.frontend.event.booking.BookingsProcessViewModelBuilde
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.spi.Platform;
+import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.shapes.ShapeFactory;
 import naga.toolkit.drawing.spi.DrawingNode;
@@ -32,6 +33,7 @@ public class ProgramViewModelBuilder extends BookingsProcessViewModelBuilder<Pro
         // Drawing node (just testing API for now)
         DrawingNode drawingNode = toolkit.createDrawingNode();
         Rectangle rectangle = ShapeFactory.get().createRectangle();
+        rectangle.setFill(Color.GREENYELLOW);
         rectangle.setHeight(100d);
         Platform.schedulePeriodic(10, () -> rectangle.setWidth(200d * (1 + Math.sin(System.currentTimeMillis() * Math.PI / 500))));
         ObservableLists.setAllNonNulls(drawingNode.getChildrenShapes(), rectangle);
