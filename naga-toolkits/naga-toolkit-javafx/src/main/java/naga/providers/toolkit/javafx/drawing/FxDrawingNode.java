@@ -23,7 +23,7 @@ public class FxDrawingNode extends FxNode<Group> implements DrawingNode<Group>, 
 
     private final Drawing drawing = new DrawingImpl(FxShapeViewFactory.SINGLETON) {
         @Override
-        protected void syncChildrenShapesWithVisual(ShapeParent shapeParent) {
+        protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
             Parent parent = shapeParent == this ? node : (Parent) getFxShapeNode((Shape) shapeParent);
             try {
                 Method getChildren = Parent.class.getDeclaredMethod("getChildren");
