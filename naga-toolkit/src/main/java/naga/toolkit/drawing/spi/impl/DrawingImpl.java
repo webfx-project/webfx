@@ -21,33 +21,26 @@ public class DrawingImpl implements Drawing {
 
     private final Map<Shape, ShapeView> shapeViews = new HashMap<>();
     private ShapeViewFactory shapeViewFactory;
-    private final Runnable drawingNodeRepaintRequester;
     private final DrawingNotifier drawingNotifier = new DrawingNotifier() {
 
         @Override
-        public void onChildrenShapesChange(ShapeParent shapeParent) {
-            createAndBindShapeViews(shapeParent.getChildrenShapes());
-            syncChildrenShapesWithVisual(shapeParent);
+        public void onChildrenShapesListChange(ShapeParent shapeParent) {
+            syncShapeViewListFromShapeList(shapeParent.getChildrenShapes());
+            syncNodeListFromShapeViewList(shapeParent);
         }
 
         @Override
-        public void requestDrawingNodeRepaint() {
-            if (drawingNodeRepaintRequester != null)
-                drawingNodeRepaintRequester.run();
+        public void requestShapeRepaint(Shape shape) {
+            DrawingImpl.this.onShapeRepaintRequested(shape);
         }
     };
 
     public DrawingImpl() {
-        this(null, null);
+        this(null);
     }
 
     public DrawingImpl(ShapeViewFactory shapeViewFactory) {
-        this(shapeViewFactory, null);
-    }
-
-    public DrawingImpl(ShapeViewFactory shapeViewFactory, Runnable drawingNodeRepaintRequester) {
         this.shapeViewFactory = shapeViewFactory;
-        this.drawingNodeRepaintRequester = drawingNodeRepaintRequester;
         observeChildrenShapes(this);
     }
 
@@ -70,15 +63,18 @@ public class DrawingImpl implements Drawing {
         shapeParent.getChildrenShapes().addListener(new ListChangeListener<Shape>() {
             @Override
             public void onChanged(Change<? extends Shape> c) {
-                drawingNotifier.onChildrenShapesChange(shapeParent);
+                drawingNotifier.onChildrenShapesListChange(shapeParent);
             }
         });
     }
 
-    protected void syncChildrenShapesWithVisual(ShapeParent shapeParent) {
+    protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
     }
 
-    private void createAndBindShapeViews(Collection<Shape> shapes) {
+    protected void onShapeRepaintRequested(Shape shape) {
+    }
+
+    private void syncShapeViewListFromShapeList(Collection<Shape> shapes) {
         for (Shape shape : shapes)
             createAndBindShapeViewAndChildren(shape);
     }
@@ -86,7 +82,7 @@ public class DrawingImpl implements Drawing {
     private void createAndBindShapeViewAndChildren(Shape shape) {
         ShapeView shapeView = getOrCreateAndBindShapeView(shape);
         if (shapeView instanceof ShapeParent)
-            createAndBindShapeViews(((ShapeParent) shapeView).getChildrenShapes());
+            syncShapeViewListFromShapeList(((ShapeParent) shapeView).getChildrenShapes());
     }
 
     public ShapeView getOrCreateAndBindShapeView(Shape shape) {

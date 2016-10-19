@@ -1,5 +1,6 @@
 package naga.toolkit.drawing.spi;
 
+import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.ShapeParent;
 
 /**
@@ -7,8 +8,8 @@ import naga.toolkit.drawing.shapes.ShapeParent;
  */
 public interface DrawingNotifier {
 
-    void onChildrenShapesChange(ShapeParent shapeParent);
+    void onChildrenShapesListChange(ShapeParent shapeParent);
 
-    void requestDrawingNodeRepaint();
+    void requestShapeRepaint(Shape shape);
 
 }

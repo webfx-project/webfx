@@ -8,7 +8,7 @@ import naga.toolkit.drawing.spi.view.ShapeView;
 /**
  * @author Bruno Salmon
  */
-class ShapeViewImplBase<S extends Shape> implements ShapeView<S> {
+abstract class ShapeViewImplBase<S extends Shape> implements ShapeView<S> {
 
     protected S shape;
 
@@ -22,16 +22,16 @@ class ShapeViewImplBase<S extends Shape> implements ShapeView<S> {
         shape = null;
     }
 
-    protected static void requestRepaintOnPropertyChange(DrawingNotifier drawingNotifier, Property... properties) {
-        runOnPropertyChange(drawingNotifier::requestDrawingNodeRepaint, properties);
+    protected static void requestRepaintShapeOnPropertiesChange(DrawingNotifier drawingNotifier, Shape shape, Property... properties) {
+        runOnPropertiesChange(() -> drawingNotifier.requestShapeRepaint(shape), properties);
     }
 
-    protected static void runNowAndOnPropertyChange(Runnable runnable, Property... properties) {
+    protected static void runNowAndOnPropertiesChange(Runnable runnable, Property... properties) {
         runnable.run();
-        runOnPropertyChange(runnable, properties);
+        runOnPropertiesChange(runnable, properties);
     }
 
-    protected static void runOnPropertyChange(Runnable runnable, Property... properties) {
+    protected static void runOnPropertiesChange(Runnable runnable, Property... properties) {
         for (Property property : properties)
             property.addListener((observable, oldValue, newValue) -> runnable.run());
     }
