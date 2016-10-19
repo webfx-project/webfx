@@ -33,7 +33,12 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
     static class DrawingPanel extends JPanel {
 
-        private final DrawingImpl drawing = new DrawingImpl(SwingShapeViewFactory.SINGLETON, this::repaint);
+        private final DrawingImpl drawing = new DrawingImpl(SwingShapeViewFactory.SINGLETON) {
+            @Override
+            protected void onShapeRepaintRequested(Shape shape) {
+                repaint();
+            }
+        };
 
         @Override
         protected void paintComponent(Graphics g) {

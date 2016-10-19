@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.drawing.view;
 
+import naga.providers.toolkit.swing.util.SwingPaints;
 import naga.toolkit.drawing.spi.view.RectangleView;
 import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
 
@@ -12,7 +13,7 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingSh
 
     @Override
     public void paintShape(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor((Color) SwingPaints.toSwingPaint(shape.getFill()));
         g.fillRect(shape.getX().intValue(), shape.getY().intValue(), shape.getWidth().intValue(), shape.getHeight().intValue());
     }
 }
