@@ -181,8 +181,4 @@ public class UnimplementedNode<N> implements
     @Override
     public void setShapeViewFactory(ShapeViewFactory shapeViewFactory) {
     }
-
-    @Override
-    public void draw() {
-    }
 }

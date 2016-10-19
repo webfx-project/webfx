@@ -9,5 +9,4 @@ public interface Drawing extends ShapeParent {
 
     void setShapeViewFactory(ShapeViewFactory shapeViewFactory);
 
-    void draw();
 }

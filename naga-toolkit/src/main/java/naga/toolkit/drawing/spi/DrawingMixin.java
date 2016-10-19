@@ -16,11 +16,6 @@ public interface DrawingMixin extends Drawing {
     }
 
     @Override
-    default void draw() {
-        getDrawing().draw();
-    }
-
-    @Override
     default ObservableList<Shape> getChildrenShapes() {
         return getDrawing().getChildrenShapes();
     }
