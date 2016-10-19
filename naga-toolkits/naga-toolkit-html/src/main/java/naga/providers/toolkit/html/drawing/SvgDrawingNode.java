@@ -18,17 +18,25 @@ import naga.toolkit.drawing.spi.impl.DrawingImpl;
  */
 public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implements DrawingNode<Element>, DrawingMixin {
 
-    private final DrawingImpl drawing = new DrawingImpl(SvgShapeViewFactory.SINGLETON) {
+    private final Drawing drawing = new DrawingImpl(SvgShapeViewFactory.SINGLETON) {
         @Override
-        protected void syncChildrenShapesWithVisual(ShapeParent shapeParent) {
+        protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
             Node parent = shapeParent == this ? node : getSvgShapeElement((Shape) shapeParent);
             HtmlUtil.setChildren(parent, Collections.convert(shapeParent.getChildrenShapes(), this::getSvgShapeElement));
         }
 
-        private Element getSvgShapeElement(Shape shape) {
-            return ((SvgShapeView) getOrCreateAndBindShapeView(shape)).getSvgShapeElement();
+        private SvgShapeView getOrCreateAndBindSvgShapeView(Shape shape) {
+            return (SvgShapeView) getOrCreateAndBindShapeView(shape);
         }
 
+        private Element getSvgShapeElement(Shape shape) {
+            return getOrCreateAndBindSvgShapeView(shape).getSvgShapeElement();
+        }
+
+        @Override
+        protected void onShapeRepaintRequested(Shape shape) {
+            getOrCreateAndBindSvgShapeView(shape).syncSvgPropertiesFromShape();
+        }
     };
 
     public SvgDrawingNode() {

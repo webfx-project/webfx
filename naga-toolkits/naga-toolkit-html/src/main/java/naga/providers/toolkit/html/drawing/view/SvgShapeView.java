@@ -7,6 +7,8 @@ import elemental2.Element;
  */
 public interface SvgShapeView {
 
+    void syncSvgPropertiesFromShape();
+
     Element getSvgShapeElement();
 
 }
