@@ -7,7 +7,7 @@ import naga.toolkit.drawing.shapes.Rectangle;
 /**
  * @author Bruno Salmon
  */
-public class RectangleImpl implements Rectangle {
+public class RectangleImpl extends ShapeImpl implements Rectangle {
 
     private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
     @Override
