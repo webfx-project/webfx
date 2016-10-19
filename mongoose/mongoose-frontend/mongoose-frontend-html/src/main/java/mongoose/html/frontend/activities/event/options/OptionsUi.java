@@ -6,7 +6,7 @@ import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.HtmlView;
 
 import static mongoose.html.frontend.activities.application.MongooseFrontendHtmlBundle.R;
-import static naga.providers.toolkit.html.HtmlUtil.getElementById;
+import static naga.providers.toolkit.html.util.HtmlUtil.getElementById;
 
 /**
  * @author Bruno Salmon

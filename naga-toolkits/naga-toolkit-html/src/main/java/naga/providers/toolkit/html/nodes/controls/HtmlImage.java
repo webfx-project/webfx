@@ -8,7 +8,7 @@ import naga.commons.util.Strings;
 import naga.platform.spi.Platform;
 import naga.providers.toolkit.html.nodes.HtmlNode;
 
-import static naga.providers.toolkit.html.HtmlUtil.*;
+import static naga.providers.toolkit.html.util.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon

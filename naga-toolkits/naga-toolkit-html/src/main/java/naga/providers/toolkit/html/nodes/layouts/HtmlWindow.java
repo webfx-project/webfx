@@ -3,7 +3,7 @@ package naga.providers.toolkit.html.nodes.layouts;
 import elemental2.Element;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.providers.toolkit.html.HtmlUtil;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.Window;
 

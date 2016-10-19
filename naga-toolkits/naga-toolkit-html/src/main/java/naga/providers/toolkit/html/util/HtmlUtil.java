@@ -1,4 +1,4 @@
-package naga.providers.toolkit.html;
+package naga.providers.toolkit.html.util;
 
 import elemental2.*;
 import naga.commons.scheduler.Scheduled;

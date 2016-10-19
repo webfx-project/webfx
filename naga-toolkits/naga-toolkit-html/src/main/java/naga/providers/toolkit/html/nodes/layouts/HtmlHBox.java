@@ -3,7 +3,7 @@ package naga.providers.toolkit.html.nodes.layouts;
 import elemental2.Element;
 import elemental2.HTMLElement;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.HtmlUtil;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.layouts.HBox;

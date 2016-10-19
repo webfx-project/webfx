@@ -3,7 +3,7 @@ package naga.providers.toolkit.html.drawing;
 import elemental2.Element;
 import elemental2.Node;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.HtmlUtil;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.drawing.view.SvgShapeView;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.toolkit.drawing.shapes.Shape;

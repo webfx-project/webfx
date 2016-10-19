@@ -11,8 +11,8 @@ import naga.toolkit.spi.nodes.controls.Image;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
-import static naga.providers.toolkit.html.HtmlUtil.appendFirstChild;
-import static naga.providers.toolkit.html.HtmlUtil.createButtonElement;
+import static naga.providers.toolkit.html.util.HtmlUtil.appendFirstChild;
+import static naga.providers.toolkit.html.util.HtmlUtil.createButtonElement;
 
 /**
  * @author Bruno Salmon

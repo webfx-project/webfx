@@ -9,7 +9,7 @@ import naga.providers.toolkit.html.nodes.HtmlNode;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
-import static naga.providers.toolkit.html.HtmlUtil.*;
+import static naga.providers.toolkit.html.util.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon

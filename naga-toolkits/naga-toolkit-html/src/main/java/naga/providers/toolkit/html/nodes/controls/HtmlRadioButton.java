@@ -2,7 +2,7 @@ package naga.providers.toolkit.html.nodes.controls;
 
 import elemental2.HTMLInputElement;
 import elemental2.HTMLLabelElement;
-import naga.providers.toolkit.html.HtmlUtil;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.spi.nodes.controls.RadioButton;
 
 

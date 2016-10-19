@@ -5,7 +5,7 @@ import elemental2.HTMLDivElement;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.toolkit.spi.nodes.layouts.VBox;
 
-import static naga.providers.toolkit.html.HtmlUtil.*;
+import static naga.providers.toolkit.html.util.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon

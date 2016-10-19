@@ -9,7 +9,7 @@ import naga.toolkit.display.*;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.nodes.controls.Table;
 
-import static naga.providers.toolkit.html.HtmlUtil.*;
+import static naga.providers.toolkit.html.util.HtmlUtil.*;
 
 /**
  * @author Bruno Salmon

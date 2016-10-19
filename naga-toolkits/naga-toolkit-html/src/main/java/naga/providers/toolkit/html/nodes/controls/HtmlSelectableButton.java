@@ -4,7 +4,7 @@ import elemental2.HTMLInputElement;
 import elemental2.HTMLLabelElement;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.providers.toolkit.html.HtmlUtil;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.spi.nodes.controls.SelectableButton;
 
 /**
