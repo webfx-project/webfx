@@ -1,27 +1,51 @@
 package naga.providers.toolkit.javafx.util;
 
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+
+import naga.toolkit.drawing.paint.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
  */
 public class FxPaints {
 
-    public static Paint toFxPaint(naga.toolkit.drawing.paint.Paint paint) {
-        return toFxColor((naga.toolkit.drawing.paint.Color) paint);
+    public static javafx.scene.paint.Paint toFxPaint(Paint paint) {
+        if (paint instanceof Color)
+            return toFxColor((Color) paint);
+        if (paint instanceof LinearGradient)
+            return toFxLinearGradient((LinearGradient) paint);
+        return null;
     }
 
-    public static  naga.toolkit.drawing.paint.Paint fromFxPaint(Paint paint) {
-        return fromFxColor((Color) paint);
+    public static Paint fromFxPaint(javafx.scene.paint.Paint fxPaint) {
+        return fromFxColor((javafx.scene.paint.Color) fxPaint);
     }
 
-    public static Color toFxColor(naga.toolkit.drawing.paint.Color color) {
-        return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity());
+    public static javafx.scene.paint.Color toFxColor(Color color) {
+        return new javafx.scene.paint.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity());
     }
 
-    public static  naga.toolkit.drawing.paint.Color fromFxColor(Color color) {
-        return naga.toolkit.drawing.paint.Color.create(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity());
+    public static Color fromFxColor(javafx.scene.paint.Color fxColor) {
+        return Color.rgba(fxColor.getRed(), fxColor.getGreen(), fxColor.getBlue(), fxColor.getOpacity());
+    }
+
+    public static javafx.scene.paint.LinearGradient toFxLinearGradient(LinearGradient lg) {
+        return new javafx.scene.paint.LinearGradient(lg.getStartX(), lg.getStartY(), lg.getEndX(), lg.getEndY(), lg.isProportional(), toFxCycleMethod(lg.getCycleMethod()), toFxStops(lg.getStops()));
+    }
+
+    private static javafx.scene.paint.CycleMethod toFxCycleMethod(CycleMethod cycleMethod) {
+        switch (cycleMethod) {
+            case NO_CYCLE: return javafx.scene.paint.CycleMethod.NO_CYCLE;
+            case REFLECT: return javafx.scene.paint.CycleMethod.REFLECT;
+            case REPEAT: return javafx.scene.paint.CycleMethod.REPEAT;
+        }
+        return null;
+    }
+
+    private static List<javafx.scene.paint.Stop> toFxStops(List<Stop> stops) {
+        return stops.stream().map(stop -> new javafx.scene.paint.Stop(stop.getOffset(), toFxColor(stop.getColor()))).collect(Collectors.toList());
     }
 
 }
