@@ -1,6 +1,13 @@
 package naga.providers.toolkit.html.drawing;
 
 import elemental2.Element;
+import naga.commons.util.collection.Collections;
+import naga.providers.toolkit.html.util.HtmlPaints;
+import naga.providers.toolkit.html.util.HtmlUtil;
+import naga.toolkit.drawing.paint.Color;
+import naga.toolkit.drawing.paint.CycleMethod;
+import naga.toolkit.drawing.paint.LinearGradient;
+import naga.toolkit.drawing.paint.Stop;
 
 import static elemental2.Global.document;
 
@@ -19,8 +26,40 @@ public class SvgUtil {
         return /*SVGElement*/ createSvgElement("svg");
     }
 
+    public static Element createSvgDefs() {
+        return createSvgElement("defs");
+    }
+
     public static Element createSvgRectangle() {
         return createSvgElement("rect");
+    }
+
+    private static int lgSeq;
+    public static Element createLinearGradient() {
+        return HtmlUtil.setAttribute(createSvgElement("linearGradient"), "id", "LG" + ++lgSeq);
+    }
+
+    public static Element updateLinearGradient(LinearGradient lg, Element svgLg) {
+        if (svgLg == null)
+            svgLg = createLinearGradient();
+        svgLg.setAttribute("x1", lg.getStartX());
+        svgLg.setAttribute("y1", lg.getStartY());
+        svgLg.setAttribute("x2", lg.getEndX());
+        svgLg.setAttribute("y2", lg.getEndY());
+        CycleMethod cycleMethod = lg.getCycleMethod();
+        svgLg.setAttribute("spreadMethod", cycleMethod == CycleMethod.REPEAT ? "repeat" : cycleMethod == CycleMethod.REFLECT ? "reflect" : "pad");
+        svgLg.setAttribute("gradientUnits", lg.isProportional() ? "objectBoundingBox" : "userSpaceOnUse");
+        return HtmlUtil.setChildren(svgLg, Collections.convert(lg.getStops(), SvgUtil::toSvgStop));
+    }
+
+    private static Element toSvgStop(Stop stop) {
+        Element svgStop = createSvgElement("stop");
+        svgStop.setAttribute("offset", (stop.getOffset() * 100) + "%");
+        Color stopColor = stop.getColor();
+        svgStop.setAttribute("stop-color", HtmlPaints.toCssOpaqueColor(stopColor));
+        if (!stopColor.isOpaque())
+            svgStop.setAttribute("stop-opacity", stopColor.getOpacity());
+        return svgStop;
     }
 
 }

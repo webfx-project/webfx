@@ -3,9 +3,9 @@ package naga.providers.toolkit.html.drawing;
 import elemental2.Element;
 import elemental2.Node;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.drawing.view.SvgShapeView;
 import naga.providers.toolkit.html.nodes.HtmlParent;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.ShapeParent;
 import naga.toolkit.drawing.spi.Drawing;
@@ -18,11 +18,16 @@ import naga.toolkit.drawing.spi.impl.DrawingImpl;
  */
 public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implements DrawingNode<Element>, DrawingMixin {
 
+    private final Element defsElement = SvgUtil.createSvgDefs();
+
     private final Drawing drawing = new DrawingImpl(SvgShapeViewFactory.SINGLETON) {
         @Override
         protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
-            Node parent = shapeParent == this ? node : getSvgShapeElement((Shape) shapeParent);
+            boolean isRoot = shapeParent == this;
+            Node parent = isRoot ? node : getSvgShapeElement((Shape) shapeParent);
             HtmlUtil.setChildren(parent, Collections.convert(shapeParent.getChildrenShapes(), this::getSvgShapeElement));
+            if (isRoot)
+                HtmlUtil.appendFirstChild(node, defsElement);
         }
 
         private SvgShapeView getOrCreateAndBindSvgShapeView(Shape shape) {
@@ -35,7 +40,7 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
 
         @Override
         protected void onShapeRepaintRequested(Shape shape) {
-            getOrCreateAndBindSvgShapeView(shape).syncSvgPropertiesFromShape();
+            getOrCreateAndBindSvgShapeView(shape).syncSvgPropertiesFromShape(SvgDrawingNode.this);
         }
     };
 
@@ -46,6 +51,10 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
     public SvgDrawingNode(Element svg) {
         super(svg);
         //svg.setAttribute("style", "width: 600; height: 250; border: 1px solid red");
+    }
+
+    public void addDef(Element def) {
+        defsElement.appendChild(def);
     }
 
     @Override
