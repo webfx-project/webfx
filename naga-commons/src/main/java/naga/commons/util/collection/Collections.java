@@ -86,8 +86,16 @@ public class Collections {
     public static long[] toLongArray(Collection<Long> collection) {
         int n = collection.size(), i = 0;
         long[] array = new long[n];
-        for (Long l : collection)
-            array[i++] = l;
+        for (Long value : collection)
+            array[i++] = value;
+        return array;
+    }
+
+    public static float[] toFloatArray(Collection<Float> collection) {
+        int n = collection.size(), i = 0;
+        float[] array = new float[n];
+        for (Float value : collection)
+            array[i++] = value;
         return array;
     }
 
