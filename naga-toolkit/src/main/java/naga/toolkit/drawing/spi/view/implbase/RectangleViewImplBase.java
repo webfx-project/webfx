@@ -12,6 +12,6 @@ public class RectangleViewImplBase extends ShapeViewImplBase<Rectangle> implemen
     @Override
     public void bind(Rectangle shape, DrawingNotifier drawingNotifier) {
         super.bind(shape, drawingNotifier);
-        requestRepaintShapeOnPropertiesChange(drawingNotifier, shape, shape.xProperty(), shape.yProperty(), shape.widthProperty(), shape.heightProperty(), shape.fillProperty(), shape.strokeProperty());
+        requestRepaintShapeOnPropertiesChange(drawingNotifier, shape, shape.xProperty(), shape.yProperty(), shape.widthProperty(), shape.heightProperty());
     }
 }

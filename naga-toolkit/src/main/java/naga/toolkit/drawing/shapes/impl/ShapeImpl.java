@@ -22,4 +22,10 @@ public class ShapeImpl implements Shape {
     public Property<Paint> strokeProperty() {
         return stokeProperty;
     }
+
+    private final Property<Double> strokeWidthProperty = new SimpleObjectProperty<>(1d);
+    @Override
+    public Property<Double> strokeWidthProperty() {
+        return strokeWidthProperty;
+    }
 }
