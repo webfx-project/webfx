@@ -2,6 +2,8 @@ package naga.toolkit.drawing.shapes.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.Shape;
@@ -53,5 +55,11 @@ public class ShapeImpl implements Shape {
     @Override
     public Property<Double> strokeDashOffsetProperty() {
         return strokeDashOffsetProperty;
+    }
+
+    private final ObservableList<Double> getStrokeDashArray = FXCollections.observableArrayList();
+    @Override
+    public ObservableList<Double> getStrokeDashArray() {
+        return getStrokeDashArray;
     }
 }

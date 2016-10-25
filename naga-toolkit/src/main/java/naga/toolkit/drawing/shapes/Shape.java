@@ -1,5 +1,6 @@
 package naga.toolkit.drawing.shapes;
 
+import javafx.collections.ObservableList;
 import naga.toolkit.properties.markers.*;
 
 /**
@@ -13,4 +14,6 @@ public interface Shape extends
         HasStrokeLineJoinProperty,
         HasStrokeMiterLimitProperty,
         HasStrokeDashOffsetProperty {
+
+        ObservableList<Double> getStrokeDashArray();
 }
