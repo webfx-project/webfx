@@ -8,6 +8,7 @@ import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.DrawingNotifier;
 import naga.toolkit.drawing.spi.view.RectangleView;
 import naga.toolkit.properties.conversion.ConvertedProperty;
+import naga.toolkit.util.ObservableLists;
 
 /**
  * @author Bruno Salmon
@@ -30,6 +31,7 @@ public class FxRectangleView implements FxShapeView, RectangleView {
         fxRectangle.strokeLineJoinProperty().bind(new ConvertedProperty<>(rectangle.strokeLineJoinProperty(), FxStrokes::toFxStrokeLineJoin));
         fxRectangle.strokeMiterLimitProperty().bind(rectangle.strokeMiterLimitProperty());
         fxRectangle.strokeDashOffsetProperty().bind(rectangle.strokeDashOffsetProperty());
+        ObservableLists.bind(fxRectangle.getStrokeDashArray(), rectangle.getStrokeDashArray());
     }
 
     @Override
