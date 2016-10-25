@@ -42,4 +42,10 @@ public class ShapeImpl implements Shape {
     public Property<StrokeLineJoin> strokeLineJoinProperty() {
         return strokeLineJoinProperty;
     }
+
+    private final Property<Double> strokeMiterLimitProperty = new SimpleObjectProperty<>(1d);
+    @Override
+    public Property<Double> strokeMiterLimitProperty() {
+        return strokeMiterLimitProperty;
+    }
 }
