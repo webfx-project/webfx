@@ -100,36 +100,57 @@ public class Collections {
     }
 
     public static String toString(Iterable iterable) {
-        return toString(iterator(iterable));
+        return toString(iterable, true, false);
     }
 
-    public static String toString(Iterator it) {
-        return toString(it, false);
+    public static String toString(Iterator iterator) {
+        return toString(iterator, true, false);
     }
 
     public static String toStringWithLineFeeds(Iterable iterable) {
-        return toStringWithLineFeeds(iterator(iterable));
+        return toString(iterable, true, true);
     }
 
-    public static String toStringWithLineFeeds(Iterator it) {
-        return toString(it, true);
+    public static String toStringWithLineFeeds(Iterator iterator) {
+        return toString(iterator, true, true);
     }
 
-    private static String toString(Iterator it, boolean lineFeeds) {
+    public static String toStringWithNoBrackets(Iterable iterable) {
+        return toString(iterable, false, false);
+    }
+
+    public static String toStringWithNoBrackets(Iterator iterator) {
+        return toString(iterator, false, false);
+    }
+
+    private static String toString(Iterable iterable, boolean brackets, boolean lineFeeds) {
+        return toString(iterable.iterator(), brackets, lineFeeds);
+    }
+
+    private static String toString(Iterator it, boolean brackets, boolean lineFeeds) {
         if (it == null)
             return null;
         if (!it.hasNext())
-            return "[]";
+            return brackets ? "[]" : "";
         StringBuilder sb = new StringBuilder();
-        sb.append('[');
-        for (;;) {
+        if (brackets)
+            sb.append('[');
+        int initialLength = sb.length();
+        while (it.hasNext()) {
+            int length = sb.length();
+            if (length > 0) {
+                if (length > initialLength)
+                    sb.append(", ");
+                if (lineFeeds)
+                    sb.append('\n');
+            }
+            sb.append(it.next());
+        }
+        if (brackets) {
             if (lineFeeds)
                 sb.append('\n');
-            Object e = it.next();
-            sb.append(e);
-            if (!it.hasNext())
-                return sb.append(lineFeeds ? "\n]" : "]").toString();
-            sb.append(',').append(' ');
+            sb.append(']');
         }
+        return sb.toString();
     }
 }
