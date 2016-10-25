@@ -23,6 +23,7 @@ public class FxRectangleView implements FxShapeView, RectangleView {
         fxRectangle.widthProperty().bind(rectangle.widthProperty());
         fxRectangle.heightProperty().bind(rectangle.heightProperty());
         fxRectangle.fillProperty().bind(new ConvertedProperty<>(rectangle.fillProperty(), FxPaints::fromFxPaint, FxPaints::toFxPaint));
+        fxRectangle.strokeProperty().bind(new ConvertedProperty<>(rectangle.strokeProperty(), FxPaints::fromFxPaint, FxPaints::toFxPaint));
     }
 
     @Override
