@@ -5,5 +5,12 @@ import naga.toolkit.properties.markers.*;
 /**
  * @author Bruno Salmon
  */
-public interface Shape extends HasFillProperty, HasStrokeProperty, HasStrokeWidthProperty, HasStrokeLineCapProperty, HasStrokeLineJoinProperty, HasStrokeMiterLimitProperty {
+public interface Shape extends
+        HasFillProperty,
+        HasStrokeProperty,
+        HasStrokeWidthProperty,
+        HasStrokeLineCapProperty,
+        HasStrokeLineJoinProperty,
+        HasStrokeMiterLimitProperty,
+        HasStrokeDashOffsetProperty {
 }

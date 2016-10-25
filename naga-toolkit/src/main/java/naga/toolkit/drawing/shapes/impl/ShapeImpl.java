@@ -48,4 +48,10 @@ public class ShapeImpl implements Shape {
     public Property<Double> strokeMiterLimitProperty() {
         return strokeMiterLimitProperty;
     }
+
+    private final Property<Double> strokeDashOffsetProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> strokeDashOffsetProperty() {
+        return strokeDashOffsetProperty;
+    }
 }
