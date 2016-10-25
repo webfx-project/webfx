@@ -29,6 +29,7 @@ public class FxRectangleView implements FxShapeView, RectangleView {
         fxRectangle.strokeLineCapProperty().bind(new ConvertedProperty<>(rectangle.strokeLineCapProperty(), FxStrokes::toFxStrokeLineCap));
         fxRectangle.strokeLineJoinProperty().bind(new ConvertedProperty<>(rectangle.strokeLineJoinProperty(), FxStrokes::toFxStrokeLineJoin));
         fxRectangle.strokeMiterLimitProperty().bind(rectangle.strokeMiterLimitProperty());
+        fxRectangle.strokeDashOffsetProperty().bind(rectangle.strokeDashOffsetProperty());
     }
 
     @Override
