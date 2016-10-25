@@ -35,11 +35,11 @@ public class DrawingImpl implements Drawing {
         }
     };
 
-    public DrawingImpl() {
+    protected DrawingImpl() {
         this(null);
     }
 
-    public DrawingImpl(ShapeViewFactory shapeViewFactory) {
+    protected DrawingImpl(ShapeViewFactory shapeViewFactory) {
         this.shapeViewFactory = shapeViewFactory;
         observeChildrenShapes(this);
     }
@@ -52,8 +52,7 @@ public class DrawingImpl implements Drawing {
 
     public void setShapeViewFactory(ShapeViewFactory shapeViewFactory) {
         if (this.shapeViewFactory != null) {
-            for (ShapeView shapeView : shapeViews.values())
-                shapeView.unbind();
+            shapeViews.values().forEach(ShapeView::unbind);
             shapeViews.clear();
         }
         this.shapeViewFactory = shapeViewFactory;
@@ -75,8 +74,7 @@ public class DrawingImpl implements Drawing {
     }
 
     private void syncShapeViewListFromShapeList(Collection<Shape> shapes) {
-        for (Shape shape : shapes)
-            createAndBindShapeViewAndChildren(shape);
+        shapes.forEach(this::createAndBindShapeViewAndChildren);
     }
 
     private void createAndBindShapeViewAndChildren(Shape shape) {
@@ -90,6 +88,7 @@ public class DrawingImpl implements Drawing {
         if (shapeView == null) {
             shapeViews.put(shape, shapeView = shapeViewFactory.createShapeView(shape));
             shapeView.bind(shape, drawingNotifier);
+            onShapeRepaintRequested(shape);
         }
         return shapeView;
     }
