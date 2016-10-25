@@ -25,6 +25,7 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingSh
         shape.fillProperty().addListener((observable, oldValue, newValue) -> updateSwingFill());
         updateSwingFill();
         shape.strokeProperty().addListener((observable, oldValue, newValue) -> updateSwingStroke());
+        shape.strokeWidthProperty().addListener((observable, oldValue, newValue) -> updateSwingStroke());
         updateSwingStroke();
     }
 
@@ -36,7 +37,7 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingSh
 
     private void updateSwingStroke() {
         naga.toolkit.drawing.paint.Paint stroke = shape.getStroke();
-        swingStroke = new BasicStroke();
+        swingStroke = new BasicStroke(shape.getStrokeWidth().intValue());
         strokePaintIsProportionalGradient = stroke instanceof LinearGradient && ((LinearGradient) stroke).isProportional();
         swingStrokePaint = strokePaintIsProportionalGradient ? null : SwingPaints.toSwingPaint(stroke);
     }
