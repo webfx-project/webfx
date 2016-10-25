@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shapes.StrokeLineCap;
 
 /**
  * @author Bruno Salmon
@@ -27,5 +28,11 @@ public class ShapeImpl implements Shape {
     @Override
     public Property<Double> strokeWidthProperty() {
         return strokeWidthProperty;
+    }
+
+    private final Property<StrokeLineCap> strokeLineCapProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<StrokeLineCap> strokeLineCapProperty() {
+        return strokeLineCapProperty;
     }
 }
