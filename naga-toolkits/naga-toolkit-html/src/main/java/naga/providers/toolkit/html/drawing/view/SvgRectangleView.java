@@ -28,6 +28,7 @@ public class SvgRectangleView extends RectangleViewImplBase implements SvgShapeV
         svgRectangle.setAttribute("height", shape.getHeight());
         setPaintAttribute("fill", shape.getFill(), svgDrawingNode);
         setPaintAttribute("stroke", shape.getStroke(), svgDrawingNode);
+        svgRectangle.setAttribute("stroke-width", shape.getStrokeWidth());
     }
 
     private void setPaintAttribute(String name, Paint paint, SvgDrawingNode svgDrawingNode) {
