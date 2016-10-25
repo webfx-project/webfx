@@ -13,6 +13,10 @@ public class ConvertedProperty<A, B> extends ConvertedObservableValue<A, B> impl
     private final Property<B> property;
     private final Converter<A, B> aToBConverter;
 
+    public ConvertedProperty(Property<B> property, Converter<B, A> bToAConverter) {
+        this(property, null, bToAConverter);
+    }
+
     public ConvertedProperty(Property<B> property, Converter<A, B> aToBConverter, Converter<B, A> bToAConverter) {
         super(property, bToAConverter);
         this.property = property;

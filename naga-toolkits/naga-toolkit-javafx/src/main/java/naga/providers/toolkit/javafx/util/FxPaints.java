@@ -19,16 +19,8 @@ public class FxPaints {
         return null;
     }
 
-    public static Paint fromFxPaint(javafx.scene.paint.Paint fxPaint) {
-        return fromFxColor((javafx.scene.paint.Color) fxPaint);
-    }
-
     public static javafx.scene.paint.Color toFxColor(Color color) {
         return new javafx.scene.paint.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity());
-    }
-
-    public static Color fromFxColor(javafx.scene.paint.Color fxColor) {
-        return Color.rgba(fxColor.getRed(), fxColor.getGreen(), fxColor.getBlue(), fxColor.getOpacity());
     }
 
     public static javafx.scene.paint.LinearGradient toFxLinearGradient(LinearGradient lg) {

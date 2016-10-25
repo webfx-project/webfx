@@ -3,6 +3,7 @@ package naga.providers.toolkit.javafx.drawing.view;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import naga.providers.toolkit.javafx.util.FxPaints;
+import naga.providers.toolkit.javafx.util.FxStrokes;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.DrawingNotifier;
 import naga.toolkit.drawing.spi.view.RectangleView;
@@ -22,9 +23,10 @@ public class FxRectangleView implements FxShapeView, RectangleView {
         fxRectangle.yProperty().bind(rectangle.yProperty());
         fxRectangle.widthProperty().bind(rectangle.widthProperty());
         fxRectangle.heightProperty().bind(rectangle.heightProperty());
-        fxRectangle.fillProperty().bind(new ConvertedProperty<>(rectangle.fillProperty(), FxPaints::fromFxPaint, FxPaints::toFxPaint));
-        fxRectangle.strokeProperty().bind(new ConvertedProperty<>(rectangle.strokeProperty(), FxPaints::fromFxPaint, FxPaints::toFxPaint));
+        fxRectangle.fillProperty().bind(new ConvertedProperty<>(rectangle.fillProperty(), FxPaints::toFxPaint));
+        fxRectangle.strokeProperty().bind(new ConvertedProperty<>(rectangle.strokeProperty(), FxPaints::toFxPaint));
         fxRectangle.strokeWidthProperty().bind(rectangle.strokeWidthProperty());
+        fxRectangle.strokeLineCapProperty().bind(new ConvertedProperty<>(rectangle.strokeLineCapProperty(), FxStrokes::toFxStrokeLineCap));
     }
 
     @Override
