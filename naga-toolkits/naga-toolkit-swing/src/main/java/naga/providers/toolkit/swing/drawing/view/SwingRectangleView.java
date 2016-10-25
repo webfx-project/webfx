@@ -1,12 +1,15 @@
 package naga.providers.toolkit.swing.drawing.view;
 
+import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.swing.util.SwingPaints;
+import naga.providers.toolkit.swing.util.SwingStrokes;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.DrawingNotifier;
 import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * @author Bruno Salmon
@@ -37,14 +40,19 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingSh
 
     private void updateSwingStroke() {
         naga.toolkit.drawing.paint.Paint stroke = shape.getStroke();
-        swingStroke = new BasicStroke(shape.getStrokeWidth().intValue());
+        swingStroke = new BasicStroke(shape.getStrokeWidth().intValue(),
+                SwingStrokes.toSwingStrokeLineCap(shape.getStrokeLineCap()),
+                SwingStrokes.toSwingStrokeLineJoin(shape.getStrokeLineJoin()),
+                shape.getStrokeMiterLimit().floatValue(),
+                Collections.doubleCollectionToFloatArray(shape.getStrokeDashArray()),
+                shape.getStrokeDashOffset().floatValue());
         strokePaintIsProportionalGradient = stroke instanceof LinearGradient && ((LinearGradient) stroke).isProportional();
         swingStrokePaint = strokePaintIsProportionalGradient ? null : SwingPaints.toSwingPaint(stroke);
     }
 
     @Override
     public void paintShape(Graphics g) {
-        java.awt.Rectangle swingRectangle = new java.awt.Rectangle(shape.getX().intValue(), shape.getY().intValue(), shape.getWidth().intValue(), shape.getHeight().intValue());
+        java.awt.Shape swingRectangle = new Rectangle2D.Double(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
         Graphics2D g2 = (Graphics2D) g;
         if (fillIsProportionalGradient)
             swingFill = SwingPaints.toSwingLinearGradient((LinearGradient) shape.getFill(), shape.getWidth().floatValue(), shape.getHeight().floatValue());
