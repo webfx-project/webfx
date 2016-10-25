@@ -1,5 +1,6 @@
 package naga.toolkit.util;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
@@ -23,5 +24,10 @@ public class ObservableLists {
     public static <A, B> void setAllConverted(List<A> aList, Converter<A, B> aToBConverter, ObservableList<B> bList) {
         // GWT/J2OBJC bList.setAll(aList.stream().map(aToBConverter::convert).collect(Collectors.toList()));
         bList.setAll(Collections.convert(aList, aToBConverter));
+    }
+
+    public static <T> void bind(ObservableList<T> list1, ObservableList<T> list2) {
+        list1.setAll(list2);
+        list2.addListener((ListChangeListener<? super T>) c -> list1.setAll(list2));
     }
 }
