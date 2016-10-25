@@ -32,4 +32,16 @@ public class RectangleImpl extends ShapeImpl implements Rectangle {
     public Property<Double> heightProperty() {
         return heightProperty;
     }
+
+    private final Property<Double> arcWidthProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> arcWidthProperty() {
+        return arcWidthProperty;
+    }
+
+    private final Property<Double> arcHeightProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> arcHeightProperty() {
+        return arcHeightProperty;
+    }
 }
