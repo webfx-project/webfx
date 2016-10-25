@@ -99,6 +99,14 @@ public class Collections {
         return array;
     }
 
+    public static float[] doubleCollectionToFloatArray(Collection<Double> collection) {
+        int n = collection.size(), i = 0;
+        float[] array = new float[n];
+        for (Double value : collection)
+            array[i++] = value.floatValue();
+        return array;
+    }
+
     public static String toString(Iterable iterable) {
         return toString(iterable, true, false);
     }
