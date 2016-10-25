@@ -6,6 +6,7 @@ import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.StrokeLineCap;
+import naga.toolkit.drawing.shapes.StrokeLineJoin;
 
 /**
  * @author Bruno Salmon
@@ -34,5 +35,11 @@ public class ShapeImpl implements Shape {
     @Override
     public Property<StrokeLineCap> strokeLineCapProperty() {
         return strokeLineCapProperty;
+    }
+
+    private final Property<StrokeLineJoin> strokeLineJoinProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<StrokeLineJoin> strokeLineJoinProperty() {
+        return strokeLineJoinProperty;
     }
 }
