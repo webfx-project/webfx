@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
+import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.drawing.SvgDrawingNode;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.providers.toolkit.html.util.HtmlPaints;
@@ -29,6 +30,11 @@ public class SvgRectangleView extends RectangleViewImplBase implements SvgShapeV
         setPaintAttribute("fill", shape.getFill(), svgDrawingNode);
         setPaintAttribute("stroke", shape.getStroke(), svgDrawingNode);
         svgRectangle.setAttribute("stroke-width", shape.getStrokeWidth());
+        svgRectangle.setAttribute("stroke-linecap", SvgUtil.toSvgStrokeLineCap(shape.getStrokeLineCap()));
+        svgRectangle.setAttribute("stroke-linejoin", SvgUtil.toSvgStrokeLineJoin(shape.getStrokeLineJoin()));
+        svgRectangle.setAttribute("stroke-miterlimit", shape.getStrokeMiterLimit());
+        svgRectangle.setAttribute("stroke-dasharray", Collections.toStringWithNoBrackets(shape.getStrokeDashArray()));
+        svgRectangle.setAttribute("stroke-dashoffset", shape.getStrokeDashOffset());
     }
 
     private void setPaintAttribute(String name, Paint paint, SvgDrawingNode svgDrawingNode) {

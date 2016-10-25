@@ -8,6 +8,8 @@ import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.CycleMethod;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Stop;
+import naga.toolkit.drawing.shapes.StrokeLineCap;
+import naga.toolkit.drawing.shapes.StrokeLineJoin;
 
 import static elemental2.Global.document;
 
@@ -62,4 +64,23 @@ public class SvgUtil {
         return svgStop;
     }
 
+    public static String toSvgStrokeLineCap(StrokeLineCap strokeLineCap) {
+        if (strokeLineCap != null)
+            switch (strokeLineCap) {
+                case BUTT: return "butt";
+                case ROUND: return "round";
+                case SQUARE: return "square";
+            }
+        return null;
+    }
+
+    public static String toSvgStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
+        if (strokeLineJoin != null)
+            switch (strokeLineJoin) {
+                case BEVEL: return "bevel";
+                case MITER: return "miter";
+                case ROUND: return "round";
+            }
+        return null;
+    }
 }
