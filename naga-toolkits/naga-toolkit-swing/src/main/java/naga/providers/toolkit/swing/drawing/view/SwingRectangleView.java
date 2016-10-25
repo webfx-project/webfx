@@ -10,6 +10,7 @@ import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * @author Bruno Salmon
@@ -52,7 +53,13 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingSh
 
     @Override
     public void paintShape(Graphics g) {
-        java.awt.Shape swingRectangle = new Rectangle2D.Double(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+        Double arcWidth = shape.getArcWidth();
+        Double arcHeight = shape.getArcHeight();
+        java.awt.Shape swingRectangle;
+        if (arcWidth != null && arcHeight != null && arcWidth != 0 && arcHeight != 0)
+            swingRectangle = new RoundRectangle2D.Double(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight(), arcWidth, arcHeight);
+        else
+            swingRectangle = new Rectangle2D.Double(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
         Graphics2D g2 = (Graphics2D) g;
         if (fillIsProportionalGradient)
             swingFill = SwingPaints.toSwingLinearGradient((LinearGradient) shape.getFill(), shape.getWidth().floatValue(), shape.getHeight().floatValue());
