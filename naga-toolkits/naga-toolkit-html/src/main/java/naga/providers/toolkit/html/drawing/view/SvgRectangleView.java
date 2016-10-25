@@ -9,13 +9,16 @@ import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Bruno Salmon
  */
 public class SvgRectangleView extends RectangleViewImplBase implements SvgShapeView {
 
     private final Element svgRectangle = SvgUtil.createSvgRectangle();
-    private Element svgLinearGradient;
+    private Map<String, Element> svgLinearGradients;
 
     @Override
     public void syncSvgPropertiesFromShape(SvgDrawingNode svgDrawingNode) {
@@ -23,16 +26,24 @@ public class SvgRectangleView extends RectangleViewImplBase implements SvgShapeV
         svgRectangle.setAttribute("y", shape.getY());
         svgRectangle.setAttribute("width", shape.getWidth());
         svgRectangle.setAttribute("height", shape.getHeight());
-        Paint fill = shape.getFill();
-        String fillValue = null;
-        if (fill instanceof Color)
-            fillValue = HtmlPaints.toCssPaint(fill);
-        if (fill instanceof LinearGradient) {
-            if (svgLinearGradient != (svgLinearGradient = SvgUtil.updateLinearGradient((LinearGradient) fill, svgLinearGradient)))
-                svgDrawingNode.addDef(svgLinearGradient);
-            fillValue = "url(#" + svgLinearGradient.getAttribute("id") + ")";
+        setPaintAttribute("fill", shape.getFill(), svgDrawingNode);
+        setPaintAttribute("stroke", shape.getStroke(), svgDrawingNode);
+    }
+
+    private void setPaintAttribute(String name, Paint paint, SvgDrawingNode svgDrawingNode) {
+        String value = null;
+        if (paint instanceof Color)
+            value = HtmlPaints.toCssPaint(paint);
+        else if (paint instanceof LinearGradient) {
+            if (svgLinearGradients == null)
+                svgLinearGradients = new HashMap<>();
+            Element svgLinearGradient = svgLinearGradients.get(name);
+            if (svgLinearGradient == null)
+                svgLinearGradients.put(name, svgLinearGradient = svgDrawingNode.addDef(SvgUtil.createLinearGradient()));
+            SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
+            value = "url(#" + svgLinearGradient.getAttribute("id") + ")";
         }
-        svgRectangle.setAttribute("fill", fillValue);
+        svgRectangle.setAttribute(name, value);
     }
 
     @Override

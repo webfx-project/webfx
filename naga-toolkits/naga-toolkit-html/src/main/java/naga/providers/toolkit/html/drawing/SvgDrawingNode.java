@@ -53,8 +53,9 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
         //svg.setAttribute("style", "width: 600; height: 250; border: 1px solid red");
     }
 
-    public void addDef(Element def) {
+    public Element addDef(Element def) {
         defsElement.appendChild(def);
+        return def;
     }
 
     @Override
