@@ -11,9 +11,9 @@ import naga.toolkit.util.ObservableLists;
  */
 abstract class FxShapeViewImpl<S extends Shape, F extends javafx.scene.shape.Shape> implements FxShapeView<S, F> {
 
-    protected F fxShape;
+    F fxShape;
 
-    protected void setAndBindCommonShapeProperties(S shape, F fxShape) {
+    void setAndBindCommonShapeProperties(S shape, F fxShape) {
         this.fxShape = fxShape;
         fxShape.fillProperty().bind(new ConvertedProperty<>(shape.fillProperty(), FxPaints::toFxPaint));
         fxShape.strokeProperty().bind(new ConvertedProperty<>(shape.strokeProperty(), FxPaints::toFxPaint));
