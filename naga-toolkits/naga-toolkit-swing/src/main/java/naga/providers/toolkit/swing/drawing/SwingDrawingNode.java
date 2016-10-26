@@ -43,15 +43,15 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            paintShapes(drawing.getChildrenShapes(), g);
+            paintShapes(drawing.getChildrenShapes(), (Graphics2D) g);
         }
 
-        private void paintShapes(Collection<Shape> shapes, Graphics g) {
+        private void paintShapes(Collection<Shape> shapes, Graphics2D g) {
             for (Shape shape : shapes)
                 paintShape(shape, g);
         }
 
-        private void paintShape(Shape shape, Graphics g) {
+        private void paintShape(Shape shape, Graphics2D g) {
             SwingShapeView shapeView = (SwingShapeView) drawing.getOrCreateAndBindShapeView(shape);
             shapeView.paintShape(g);
             if (shape instanceof ShapeParent)
