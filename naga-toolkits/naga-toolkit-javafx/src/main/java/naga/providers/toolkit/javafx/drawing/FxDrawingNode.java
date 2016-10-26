@@ -1,9 +1,9 @@
 package naga.providers.toolkit.javafx.drawing;
 
 import javafx.collections.ObservableList;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.layout.Region;
 import naga.providers.toolkit.javafx.drawing.view.FxShapeView;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.drawing.shapes.Shape;
@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 /**
  * @author Bruno Salmon
  */
-public class FxDrawingNode extends FxNode<Group> implements DrawingNode<Group>, DrawingMixin {
+public class FxDrawingNode extends FxNode<Region> implements DrawingNode<Region>, DrawingMixin {
 
     private final Drawing drawing = new DrawingImpl(FxShapeViewFactory.SINGLETON) {
         @Override
@@ -36,16 +36,16 @@ public class FxDrawingNode extends FxNode<Group> implements DrawingNode<Group>, 
         }
 
         private Node getFxShapeNode(Shape shape) {
-            return ((FxShapeView) getOrCreateAndBindShapeView(shape)).getFxShapeNode();
+            return ((FxShapeView) getOrCreateAndBindShapeView(shape)).getFxShape();
         }
     };
 
 
     public FxDrawingNode() {
-        this(new Group());
+        this(new Region());
     }
 
-    public FxDrawingNode(Group node) {
+    public FxDrawingNode(Region node) {
         super(node);
     }
 
