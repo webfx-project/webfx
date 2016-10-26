@@ -1,17 +1,20 @@
 package naga.providers.toolkit.html.drawing;
 
 import naga.providers.toolkit.html.drawing.view.SvgRectangleView;
+import naga.providers.toolkit.html.drawing.view.SvgTextShapeView;
 import naga.toolkit.drawing.shapes.impl.RectangleImpl;
+import naga.toolkit.drawing.shapes.impl.TextShapeImpl;
 import naga.toolkit.drawing.spi.impl.ShapeViewFactoryImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class SvgShapeViewFactory extends ShapeViewFactoryImpl {
+class SvgShapeViewFactory extends ShapeViewFactoryImpl {
 
-    public final static SvgShapeViewFactory SINGLETON = new SvgShapeViewFactory();
+    final static SvgShapeViewFactory SINGLETON = new SvgShapeViewFactory();
 
-    public SvgShapeViewFactory() {
+    SvgShapeViewFactory() {
         registerShapeViewFactory(RectangleImpl.class, SvgRectangleView::new);
+        registerShapeViewFactory(TextShapeImpl.class, SvgTextShapeView::new);
     }
 }

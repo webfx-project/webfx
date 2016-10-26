@@ -3,12 +3,12 @@ package naga.providers.toolkit.html.drawing.view;
 import elemental2.Element;
 import naga.providers.toolkit.html.drawing.SvgDrawingNode;
 import naga.providers.toolkit.html.drawing.SvgUtil;
-import naga.toolkit.drawing.spi.view.implbase.TextViewImplBase;
+import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
 
 /**
  * @author Bruno Salmon
  */
-public class SvgTextView extends TextViewImplBase implements SvgShapeView {
+public class SvgTextShapeView extends TextShapeViewImplBase implements SvgShapeView {
 
     private final SvgShapeElementUpdater svgShapeElementUpdater = new SvgShapeElementUpdater(SvgUtil.createSvgText());
 
