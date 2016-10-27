@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.shapes.Font;
 import naga.toolkit.drawing.shapes.TextShape;
+import naga.toolkit.drawing.shapes.VPos;
 
 /**
  * @author Bruno Salmon
@@ -14,6 +15,12 @@ public class TextShapeImpl extends ShapeImpl implements TextShape {
     @Override
     public Property<Double> xProperty() {
         return xProperty;
+    }
+
+    private final Property<VPos> textOriginProperty = new SimpleObjectProperty<>(VPos.BASELINE);
+    @Override
+    public Property<VPos> textOriginProperty() {
+        return textOriginProperty;
     }
 
     private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
