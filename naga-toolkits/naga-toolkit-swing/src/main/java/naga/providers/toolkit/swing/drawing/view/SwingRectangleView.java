@@ -29,6 +29,7 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingSh
 
     @Override
     public void paintShape(Graphics2D g) {
+        swingShapeBinderPainter.applyCommonShapePropertiesToGraphics(shape, g);
         swingShapeBinderPainter.paintShape(shape.getWidth(), shape.getHeight(), g);
     }
 }

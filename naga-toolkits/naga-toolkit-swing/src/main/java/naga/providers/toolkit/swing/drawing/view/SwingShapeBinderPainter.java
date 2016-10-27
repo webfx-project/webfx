@@ -26,21 +26,35 @@ class SwingShapeBinderPainter {
         Properties.runNowAndOnPropertiesChange(() -> swingStrokeUpdater.updateFromShape(shape), shape.strokeProperty(), shape.strokeWidthProperty(), shape.strokeLineCapProperty(), shape.strokeLineJoinProperty(), shape.strokeMiterLimitProperty(), shape.strokeDashOffsetProperty());
     }
 
+    void applyCommonShapePropertiesToGraphics(Shape shape, Graphics2D g) {
+        boolean smooth = shape.isSmooth();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, smooth ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, smooth ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+    }
+
+    void applyCommonShapePropertiesToGraphicsAndPaintShape(Shape shape, Graphics2D g) {
+        applyCommonShapePropertiesToGraphics(shape, g);
+        paintShape(g);
+    }
+
     void paintShape(Graphics2D g) {
-        paintShape(swingShapeFactory.apply(g), g);
+        paintSwingShape(createSwingShape(g), g);
     }
 
     void paintShape(Double width, Double height, Graphics2D g) {
-        paintShape(swingShapeFactory.apply(g), width, height, g);
+        paintSwingShape(createSwingShape(g), width, height, g);
     }
 
-    void paintShape(java.awt.Shape swingShape, Graphics2D g) {
+    private java.awt.Shape createSwingShape(Graphics2D g) {
+        return swingShapeFactory.apply(g);
+    }
+
+    void paintSwingShape(java.awt.Shape swingShape, Graphics2D g) {
         Rectangle2D bounds2D = swingShape.getBounds2D();
-        paintShape(swingShape, bounds2D.getWidth(), bounds2D.getHeight(), g);
+        paintSwingShape(swingShape, bounds2D.getWidth(), bounds2D.getHeight(), g);
     }
 
-    void paintShape(java.awt.Shape swingShape, Double width, Double height, Graphics2D g) {
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    void paintSwingShape(java.awt.Shape swingShape, Double width, Double height, Graphics2D g) {
         swingPaintUpdater.updateProportionalGradient(width, height);
         g.setPaint(swingPaintUpdater.swingPaint);
         g.fill(swingShape);
