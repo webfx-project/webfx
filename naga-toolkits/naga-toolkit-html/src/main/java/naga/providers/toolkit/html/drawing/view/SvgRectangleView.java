@@ -14,7 +14,7 @@ public class SvgRectangleView extends RectangleViewImplBase implements SvgShapeV
 
     @Override
     public void syncSvgPropertiesFromShape(SvgDrawingNode svgDrawingNode) {
-        Element svgElement = svgShapeElementUpdater.syncSvgPropertiesFromShape(shape, svgDrawingNode);
+        Element svgElement = svgShapeElementUpdater.syncSvgFromCommonShapeProperties(shape, svgDrawingNode);
         svgElement.setAttribute("x", shape.getX());
         svgElement.setAttribute("y", shape.getY());
         svgElement.setAttribute("width", shape.getWidth());

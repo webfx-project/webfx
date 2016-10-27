@@ -1,7 +1,6 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
-import naga.platform.spi.Platform;
 import naga.providers.toolkit.html.drawing.SvgDrawingNode;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.Font;
@@ -17,7 +16,7 @@ public class SvgTextShapeView extends TextShapeViewImplBase implements SvgShapeV
 
     @Override
     public void syncSvgPropertiesFromShape(SvgDrawingNode svgDrawingNode) {
-        Element svgElement = svgShapeElementUpdater.syncSvgPropertiesFromShape(shape, svgDrawingNode);
+        Element svgElement = svgShapeElementUpdater.syncSvgFromCommonShapeProperties(shape, svgDrawingNode);
         svgElement.textContent = shape.getText();
         svgElement.setAttribute("x", shape.getX());
         svgElement.setAttribute("y", shape.getY());

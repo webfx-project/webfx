@@ -29,9 +29,10 @@ class SvgShapeElementUpdater {
         return svgElement;
     }
 
-    Element syncSvgPropertiesFromShape(Shape shape, SvgDrawingNode svgDrawingNode) {
+    Element syncSvgFromCommonShapeProperties(Shape shape, SvgDrawingNode svgDrawingNode) {
         setPaintAttribute("fill", shape.getFill(), svgDrawingNode);
         setPaintAttribute("stroke", shape.getStroke(), svgDrawingNode);
+        svgElement.setAttribute("shape-rendering", shape.isSmooth() ? "geometricPrecision" : "crispEdges");
         svgElement.setAttribute("stroke-width", shape.getStrokeWidth());
         svgElement.setAttribute("stroke-linecap", SvgUtil.toSvgStrokeLineCap(shape.getStrokeLineCap()));
         svgElement.setAttribute("stroke-linejoin", SvgUtil.toSvgStrokeLineJoin(shape.getStrokeLineJoin()));
