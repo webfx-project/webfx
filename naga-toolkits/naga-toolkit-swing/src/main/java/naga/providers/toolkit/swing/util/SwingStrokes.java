@@ -1,9 +1,11 @@
 package naga.providers.toolkit.swing.util;
 
+import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.StrokeLineCap;
 import naga.toolkit.drawing.shapes.StrokeLineJoin;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -28,6 +30,10 @@ public class SwingStrokes {
                 case ROUND: return BasicStroke.JOIN_ROUND;
             }
         return BasicStroke.JOIN_MITER;
+    }
+
+    public static float[] toSwingDashArray(List<Double> dashArray) {
+        return Collections.isEmpty(dashArray) ? null : Collections.doubleCollectionToFloatArray(dashArray);
     }
 
 }

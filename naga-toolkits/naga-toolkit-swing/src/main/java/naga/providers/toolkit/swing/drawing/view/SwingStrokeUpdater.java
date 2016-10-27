@@ -1,6 +1,6 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import naga.commons.util.collection.Collections;
+import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingStrokes;
 import naga.toolkit.drawing.shapes.Shape;
 
@@ -19,8 +19,8 @@ class SwingStrokeUpdater extends SwingPaintUpdater {
         swingStroke = new BasicStroke(shape.getStrokeWidth().intValue(),
                 SwingStrokes.toSwingStrokeLineCap(shape.getStrokeLineCap()),
                 SwingStrokes.toSwingStrokeLineJoin(shape.getStrokeLineJoin()),
-                shape.getStrokeMiterLimit().floatValue(),
-                Collections.doubleCollectionToFloatArray(shape.getStrokeDashArray()),
-                shape.getStrokeDashOffset().floatValue());
+                Numbers.floatValue(shape.getStrokeMiterLimit()),
+                SwingStrokes.toSwingDashArray(shape.getStrokeDashArray()),
+                Numbers.floatValue(shape.getStrokeDashOffset()));
     }
 }
