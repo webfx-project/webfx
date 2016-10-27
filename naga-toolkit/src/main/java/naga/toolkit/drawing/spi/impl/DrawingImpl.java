@@ -3,6 +3,7 @@ package naga.toolkit.drawing.spi.impl;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.ShapeParent;
 import naga.toolkit.drawing.spi.Drawing;
@@ -52,7 +53,7 @@ public class DrawingImpl implements Drawing {
 
     public void setShapeViewFactory(ShapeViewFactory shapeViewFactory) {
         if (this.shapeViewFactory != null) {
-            shapeViews.values().forEach(ShapeView::unbind);
+            Collections.forEach(shapeViews.values(), ShapeView::unbind);
             shapeViews.clear();
         }
         this.shapeViewFactory = shapeViewFactory;
@@ -74,7 +75,7 @@ public class DrawingImpl implements Drawing {
     }
 
     private void syncShapeViewListFromShapeList(Collection<Shape> shapes) {
-        shapes.forEach(this::createAndBindShapeViewAndChildren);
+        Collections.forEach(shapes, this::createAndBindShapeViewAndChildren);
     }
 
     private void createAndBindShapeViewAndChildren(Shape shape) {
