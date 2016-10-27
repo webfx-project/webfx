@@ -9,6 +9,7 @@ import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shapes.VPos;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +57,17 @@ class SvgShapeElementUpdater {
             value = "url(#" + svgLinearGradient.getAttribute("id") + ")";
         }
         svgElement.setAttribute(name, value);
+    }
+
+    static String vPosToSvgAlignmentBaseLine(VPos vpos) {
+        if (vpos != null)
+            switch (vpos) {
+                case TOP: return "text-before-edge";
+                case CENTER: return "central";
+                case BASELINE: return "baseline";
+                case BOTTOM: return "text-after-edge";
+            }
+        return null;
     }
 
 }

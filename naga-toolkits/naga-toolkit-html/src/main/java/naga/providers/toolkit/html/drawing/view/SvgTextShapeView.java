@@ -20,9 +20,10 @@ public class SvgTextShapeView extends TextShapeViewImplBase implements SvgShapeV
         svgElement.textContent = shape.getText();
         svgElement.setAttribute("x", shape.getX());
         svgElement.setAttribute("y", shape.getY());
+        svgElement.setAttribute("dominant-baseline", SvgShapeElementUpdater.vPosToSvgAlignmentBaseLine(shape.getTextOrigin()));
         Font font = shape.getFont();
         svgElement.setAttribute("font-family", font.getFamily());
-        svgElement.setAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : null);
+        svgElement.setAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal");
         svgElement.setAttribute("font-weight", font.getWeight() == null ? 0 : font.getWeight().getWeight());
         svgElement.setAttribute("font-size", font.getSize());
     }
