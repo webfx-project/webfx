@@ -18,6 +18,7 @@ abstract class ShapeViewImplBase<S extends Shape> implements ShapeView<S> {
         this.shape = shape;
         requestRepaintShapeOnPropertiesChange(drawingNotifier, shape,
                 shape.fillProperty(),
+                shape.smoothProperty(),
                 shape.strokeProperty(),
                 shape.strokeWidthProperty(),
                 shape.strokeLineCapProperty(),

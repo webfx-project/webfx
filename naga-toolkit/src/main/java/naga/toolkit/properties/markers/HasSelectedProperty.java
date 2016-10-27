@@ -9,7 +9,7 @@ import javafx.beans.property.Property;
 public interface HasSelectedProperty {
 
     Property<Boolean> selectedProperty();
-    default void setSelected(boolean selected) { selectedProperty().setValue(selected); }
-    default boolean isSelected() { return selectedProperty().getValue(); }
+    default void setSelected(Boolean selected) { selectedProperty().setValue(selected); }
+    default Boolean isSelected() { return selectedProperty().getValue(); }
 
 }

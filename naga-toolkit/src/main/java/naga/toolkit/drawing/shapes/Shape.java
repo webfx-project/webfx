@@ -8,6 +8,7 @@ import naga.toolkit.properties.markers.*;
  */
 public interface Shape extends
         HasFillProperty,
+        HasSmoothProperty,
         HasStrokeProperty,
         HasStrokeWidthProperty,
         HasStrokeLineCapProperty,
@@ -15,5 +16,5 @@ public interface Shape extends
         HasStrokeMiterLimitProperty,
         HasStrokeDashOffsetProperty {
 
-        ObservableList<Double> getStrokeDashArray();
+    ObservableList<Double> getStrokeDashArray();
 }

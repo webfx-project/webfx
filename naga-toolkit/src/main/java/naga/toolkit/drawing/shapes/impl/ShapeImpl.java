@@ -21,6 +21,12 @@ public class ShapeImpl implements Shape {
         return fillProperty;
     }
 
+    private final Property<Boolean> smoothProperty = new SimpleObjectProperty<>(true);
+    @Override
+    public Property<Boolean> smoothProperty() {
+        return smoothProperty;
+    }
+
     private final Property<Paint> stokeProperty = new SimpleObjectProperty<>(Color.TRANSPARENT);
     @Override
     public Property<Paint> strokeProperty() {
