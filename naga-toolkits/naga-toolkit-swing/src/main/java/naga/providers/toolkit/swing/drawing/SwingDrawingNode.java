@@ -11,6 +11,7 @@ import naga.toolkit.drawing.spi.impl.DrawingImpl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.util.Collection;
 
 /**
@@ -40,6 +41,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
             }
         };
 
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -47,8 +49,11 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
         }
 
         private void paintShapes(Collection<Shape> shapes, Graphics2D g) {
-            for (Shape shape : shapes)
+            AffineTransform parentTransform = g.getTransform();
+            for (Shape shape : shapes) {
+                g.setTransform(parentTransform); // Resetting the graphics to the initial transform (ex: x,y to 0,0)
                 paintShape(shape, g);
+            }
         }
 
         private void paintShape(Shape shape, Graphics2D g) {
