@@ -3,6 +3,7 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.function.Function;
 import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.properties.util.Properties;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -21,11 +22,8 @@ class SwingShapeBinderPainter {
     }
 
     void bind(Shape shape) {
-        shape.fillProperty().addListener((observable, oldValue, newValue) -> swingPaintUpdater.updateFromShape(shape));
-        swingPaintUpdater.updateFromShape(shape);
-        shape.strokeProperty().addListener((observable, oldValue, newValue) -> swingStrokeUpdater.updateFromShape(shape));
-        shape.strokeWidthProperty().addListener((observable, oldValue, newValue) -> swingStrokeUpdater.updateFromShape(shape));
-        swingStrokeUpdater.updateFromShape(shape);
+        Properties.runNowAndOnPropertiesChange(() -> swingPaintUpdater.updateFromShape(shape), shape.fillProperty());
+        Properties.runNowAndOnPropertiesChange(() -> swingStrokeUpdater.updateFromShape(shape), shape.strokeProperty(), shape.strokeWidthProperty(), shape.strokeLineCapProperty(), shape.strokeLineJoinProperty(), shape.strokeMiterLimitProperty(), shape.strokeDashOffsetProperty());
     }
 
     void paintShape(Graphics2D g) {
@@ -42,6 +40,7 @@ class SwingShapeBinderPainter {
     }
 
     void paintShape(java.awt.Shape swingShape, Double width, Double height, Graphics2D g) {
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         swingPaintUpdater.updateProportionalGradient(width, height);
         g.setPaint(swingPaintUpdater.swingPaint);
         g.fill(swingShape);
