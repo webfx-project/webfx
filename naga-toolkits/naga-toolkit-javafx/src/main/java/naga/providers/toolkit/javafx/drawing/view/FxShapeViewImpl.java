@@ -15,6 +15,7 @@ abstract class FxShapeViewImpl<S extends Shape, F extends javafx.scene.shape.Sha
 
     void setAndBindCommonShapeProperties(S shape, F fxShape) {
         this.fxShape = fxShape;
+        fxShape.smoothProperty().bind(shape.smoothProperty());
         fxShape.fillProperty().bind(new ConvertedProperty<>(shape.fillProperty(), FxPaints::toFxPaint));
         fxShape.strokeProperty().bind(new ConvertedProperty<>(shape.strokeProperty(), FxPaints::toFxPaint));
         fxShape.strokeWidthProperty().bind(shape.strokeWidthProperty());
