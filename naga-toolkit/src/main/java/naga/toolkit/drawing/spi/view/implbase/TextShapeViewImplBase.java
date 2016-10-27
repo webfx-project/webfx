@@ -13,7 +13,8 @@ public class TextShapeViewImplBase extends ShapeViewImplBase<TextShape> implemen
     public void bind(TextShape shape, DrawingNotifier drawingNotifier) {
         super.bind(shape, drawingNotifier);
         requestRepaintShapeOnPropertiesChange(drawingNotifier, shape,
-                shape.textProperty());
+                shape.textProperty(),
+                shape.fontProperty());
     }
 
 }
