@@ -31,7 +31,6 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.util.Callback;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 //import com.sun.javafx.collections.ObservableMapWrapper;
@@ -111,12 +110,12 @@ public class FXCollections {
      * @param map a Map that backs this ObservableMap
      * @return a newly created ObservableMap
      */
-    /* public static <K, V> ObservableMap<K, V> observableMap(Map<K, V> map) {
+     public static <K, V> ObservableMap<K, V> observableMap(Map<K, V> map) {
         if (map == null) {
             throw new NullPointerException();
         }
-        return new ObservableMapWrapper<K, V>(map);
-    }*/
+        return new ObservableMapWrapper<>(map);
+    }
 
     /**
      * Constructs an ObservableSet that is backed by the specified set.
