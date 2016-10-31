@@ -29,6 +29,10 @@ class FxScheduler implements Scheduler {
 
     @Override
     public FxScheduled scheduleDelay(long delayMs, Runnable runnable) {
+        if (delayMs <= 0) { // KeyFrame doesn't work in this case
+            scheduleDeferred(runnable);
+            return new FxScheduled(null);
+        }
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(delayMs), event -> runnable.run()));
         timeline.setCycleCount(1);
         timeline.play();
@@ -57,7 +61,8 @@ class FxScheduler implements Scheduler {
 
         @Override
         public boolean cancel() {
-            timeline.stop();
+            if (timeline != null)
+                timeline.stop();
             return true;
         }
     }
