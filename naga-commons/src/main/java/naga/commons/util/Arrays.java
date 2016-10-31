@@ -74,6 +74,10 @@ public class Arrays {
         return bArray;
     }
 
+    public static <A> A[] clone(A[] aArray, IntFunction<A[]> arrayGenerator) {
+        return convert(aArray, a -> a, arrayGenerator);
+    }
+
     public static <T> List<T> nonNullsAsList(T[] array) {
         return collectNonNulls(array, new ArrayList<>(length(array)));
     }
