@@ -85,8 +85,9 @@ public class JavaFxToolkit extends Toolkit {
     private static void executeReadyRunnables() {
         synchronized (readyRunnables) {
             if (readyRunnables != null) {
-                readyRunnables.forEach(Runnable::run);
+                List<Runnable> runnables = readyRunnables;
                 readyRunnables = null;
+                runnables.forEach(Runnable::run);
             }
         }
     }
