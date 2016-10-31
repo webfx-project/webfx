@@ -10,5 +10,7 @@ public interface TextShape extends Shape,
         HasYProperty,
         HasTextProperty,
         HasTextOriginProperty,
+        HasTextAlignmentProperty,
+        HasWrappingWidthProperty,
         HasFontProperty {
 }

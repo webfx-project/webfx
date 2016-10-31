@@ -3,6 +3,7 @@ package naga.toolkit.drawing.shapes.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.shapes.Font;
+import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.shapes.VPos;
 
@@ -21,6 +22,18 @@ public class TextShapeImpl extends ShapeImpl implements TextShape {
     @Override
     public Property<VPos> textOriginProperty() {
         return textOriginProperty;
+    }
+
+    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    @Override
+    public Property<TextAlignment> textAlignmentProperty() {
+        return textAlignmentProperty;
+    }
+
+    private final Property<Double> wrappingWidthProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Double> wrappingWidthProperty() {
+        return wrappingWidthProperty;
     }
 
     private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
