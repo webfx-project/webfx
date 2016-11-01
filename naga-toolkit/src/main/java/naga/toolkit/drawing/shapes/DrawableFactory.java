@@ -23,4 +23,8 @@ public interface DrawableFactory {
         return new CircleImpl();
     }
 
+    default Group createGroup() {
+        return new GroupImpl();
+    }
+
 }

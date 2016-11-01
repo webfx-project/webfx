@@ -1,6 +1,5 @@
 package naga.toolkit.drawing.spi.impl;
 
-import javafx.collections.ListChangeListener;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
@@ -9,6 +8,7 @@ import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingNotifier;
 import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.util.ObservableLists;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class DrawingImpl extends DrawableParentImpl implements Drawing {
 
     protected DrawingImpl(DrawableViewFactory drawableViewFactory) {
         this.drawableViewFactory = drawableViewFactory;
-        observeChildrenShapes(this);
+        observeDrawableChildren(this);
     }
 
     public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
@@ -52,13 +52,8 @@ public class DrawingImpl extends DrawableParentImpl implements Drawing {
         this.drawableViewFactory = drawableViewFactory;
     }
 
-    private void observeChildrenShapes(DrawableParent drawableParent) {
-        drawableParent.getDrawableChildren().addListener(new ListChangeListener<Drawable>() {
-            @Override
-            public void onChanged(Change<? extends Drawable> c) {
-                drawingNotifier.onDrawableParentChange(drawableParent);
-            }
-        });
+    private void observeDrawableChildren(DrawableParent drawableParent) {
+        ObservableLists.runNowAndOnListChange(() -> drawingNotifier.onDrawableParentChange(drawableParent), drawableParent.getDrawableChildren());
     }
 
     protected void syncParentNodeFromDrawableParent(DrawableParent drawableParent) {
@@ -82,6 +77,8 @@ public class DrawingImpl extends DrawableParentImpl implements Drawing {
         if (drawableView == null) {
             drawableViews.put(drawable, drawableView = drawableViewFactory.createDrawableView(drawable));
             drawableView.bind(drawable, drawingNotifier);
+            if (drawable instanceof DrawableParent)
+                observeDrawableChildren((DrawableParent) drawable);
             onDrawableRepaintRequested(drawable);
         }
         return drawableView;
