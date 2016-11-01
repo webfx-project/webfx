@@ -7,7 +7,6 @@ import naga.providers.toolkit.html.drawing.view.SvgDrawableView;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
@@ -25,7 +24,7 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
         @Override
         protected void syncParentNodeFromDrawableParent(DrawableParent drawableParent) {
             boolean isRoot = drawableParent == this;
-            Node parent = isRoot ? node : getSvgDrawableElement((Shape) drawableParent);
+            Node parent = isRoot ? node : getSvgDrawableElement((Drawable) drawableParent);
             HtmlUtil.setChildren(parent, Collections.convert(drawableParent.getDrawableChildren(), this::getSvgDrawableElement));
             if (isRoot)
                 HtmlUtil.appendFirstChild(node, defsElement);
@@ -40,8 +39,8 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
         }
 
         @Override
-        protected void onDrawableRepaintRequested(Drawable shape) {
-            getOrCreateAndBindSvgDrawableView(shape).syncSvgPropertiesFromDrawable(SvgDrawingNode.this);
+        protected void onDrawableRepaintRequested(Drawable drawable) {
+            getOrCreateAndBindSvgDrawableView(drawable).syncSvgPropertiesFromDrawable(SvgDrawingNode.this);
         }
     };
 

@@ -40,6 +40,10 @@ public class SvgUtil {
         return createSvgElement("text");
     }
 
+    public static Element createSvgGroup() {
+        return createSvgElement("g");
+    }
+
     private static int lgSeq;
     public static Element createLinearGradient() {
         return HtmlUtil.setAttribute(createSvgElement("linearGradient"), "id", "LG" + ++lgSeq);
