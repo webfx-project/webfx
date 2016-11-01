@@ -5,7 +5,7 @@ import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.shapes.VPos;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDrawableView<TextShape> {
 
-    private final SwingShapeBinderPainter swingShapeBinderPainter = new SwingShapeBinderPainter((g) ->
+    private final SwingDrawableBinderPainter swingDrawableBinderPainter = new SwingDrawableBinderPainter((g) ->
         getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), drawable.getText()).getOutline()
     );
 
@@ -24,9 +24,9 @@ public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDr
     }
 
     @Override
-    public void bind(TextShape drawable, DrawingNotifier drawingNotifier) {
-        swingShapeBinderPainter.bind(drawable);
-        super.bind(drawable, drawingNotifier);
+    public void bind(TextShape drawable, DrawingRequester drawingRequester) {
+        swingDrawableBinderPainter.bind(drawable);
+        super.bind(drawable, drawingRequester);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDr
                 x += (wrappingWidth - textWidth);
         }
         g.translate(x, drawable.getY() + vPosToBaselineOffset(drawable.getTextOrigin(), g));
-        swingShapeBinderPainter.applyCommonShapePropertiesToGraphicsAndPaintShape(drawable, g);
+        swingDrawableBinderPainter.applyCommonShapePropertiesToGraphicsAndPaintShape(drawable, g);
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {

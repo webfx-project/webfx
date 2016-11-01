@@ -11,19 +11,24 @@ import java.awt.geom.Rectangle2D;
 /**
  * @author Bruno Salmon
  */
-class SwingShapeBinderPainter {
+class SwingDrawableBinderPainter {
 
     private final SwingPaintUpdater swingPaintUpdater = new SwingPaintUpdater();
     private final SwingStrokeUpdater swingStrokeUpdater = new SwingStrokeUpdater();
     private final Function<Graphics2D, java.awt.Shape> swingShapeFactory;
 
-    public SwingShapeBinderPainter(Function<Graphics2D, java.awt.Shape> swingShapeFactory) {
+    public SwingDrawableBinderPainter(Function<Graphics2D, java.awt.Shape> swingShapeFactory) {
         this.swingShapeFactory = swingShapeFactory;
     }
 
     void bind(Shape shape) {
         Properties.runNowAndOnPropertiesChange(() -> swingPaintUpdater.updateFromShape(shape), shape.fillProperty());
         Properties.runNowAndOnPropertiesChange(() -> swingStrokeUpdater.updateFromShape(shape), shape.strokeProperty(), shape.strokeWidthProperty(), shape.strokeLineCapProperty(), shape.strokeLineJoinProperty(), shape.strokeMiterLimitProperty(), shape.strokeDashOffsetProperty());
+    }
+
+    protected void updateFromShape(Shape shape) {
+        swingPaintUpdater.updateFromShape(shape);
+        swingStrokeUpdater.updateFromShape(shape);
     }
 
     void applyCommonShapePropertiesToGraphics(Shape shape, Graphics2D g) {
