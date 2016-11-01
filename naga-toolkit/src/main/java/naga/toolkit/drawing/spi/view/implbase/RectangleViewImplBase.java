@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.view.implbase;
 
 import naga.toolkit.drawing.shapes.Rectangle;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.RectangleView;
 
 /**
@@ -10,9 +10,9 @@ import naga.toolkit.drawing.spi.view.RectangleView;
 public class RectangleViewImplBase extends ShapeViewImplBase<Rectangle> implements RectangleView {
 
     @Override
-    public void bind(Rectangle r, DrawingNotifier drawingNotifier) {
-        super.bind(r, drawingNotifier);
-        requestRepaintDrawableOnPropertiesChange(drawingNotifier, r,
+    public void bind(Rectangle r, DrawingRequester drawingRequester) {
+        super.bind(r, drawingRequester);
+        requestDrawableViewUpdateOnPropertiesChange(drawingRequester, r,
                 r.xProperty(),
                 r.yProperty(),
                 r.widthProperty(),

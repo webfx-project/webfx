@@ -5,7 +5,8 @@ import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.shapes.impl.DrawableParentImpl;
 import naga.toolkit.drawing.spi.Drawing;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingNode;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 import naga.toolkit.util.ObservableLists;
@@ -17,31 +18,28 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DrawingImpl extends DrawableParentImpl implements Drawing {
+public abstract class DrawingImpl extends DrawableParentImpl implements Drawing {
 
-    private final Map<Drawable, DrawableView> drawableViews = new HashMap<>();
+    protected final DrawingNode drawingNode;
     private DrawableViewFactory drawableViewFactory;
-    private final DrawingNotifier drawingNotifier = new DrawingNotifier() {
+    private final Map<Drawable, DrawableView> drawableViews = new HashMap<>();
+    private final DrawingRequester drawingRequester = new DrawingRequester() {
 
         @Override
-        public void onDrawableParentChange(DrawableParent drawableParent) {
-            syncDrawableViewsFromDrawables(drawableParent.getDrawableChildren());
-            syncParentNodeFromDrawableParent(drawableParent);
+        public void requestDrawableParentAndChildrenViewsUpdate(DrawableParent drawableParent) {
+            updateDrawableParentAndChildrenViews(drawableParent);
         }
 
         @Override
-        public void requestDrawableRepaint(Drawable drawable) {
-            DrawingImpl.this.onDrawableRepaintRequested(drawable);
+        public void requestDrawableViewUpdate(Drawable drawable) {
+            updateDrawableView(drawable);
         }
     };
 
-    protected DrawingImpl() {
-        this(null);
-    }
-
-    protected DrawingImpl(DrawableViewFactory drawableViewFactory) {
+    protected DrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
+        this.drawingNode = drawingNode;
         this.drawableViewFactory = drawableViewFactory;
-        observeDrawableChildren(this);
+        keepDrawableParentAndChildrenViewsUpdated(this);
     }
 
     public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
@@ -52,35 +50,40 @@ public class DrawingImpl extends DrawableParentImpl implements Drawing {
         this.drawableViewFactory = drawableViewFactory;
     }
 
-    private void observeDrawableChildren(DrawableParent drawableParent) {
-        ObservableLists.runNowAndOnListChange(() -> drawingNotifier.onDrawableParentChange(drawableParent), drawableParent.getDrawableChildren());
+    private void keepDrawableParentAndChildrenViewsUpdated(DrawableParent drawableParent) {
+        ObservableLists.runNowAndOnListChange(() -> updateDrawableParentAndChildrenViews(drawableParent), drawableParent.getDrawableChildren());
     }
 
-    protected void syncParentNodeFromDrawableParent(DrawableParent drawableParent) {
+    protected void updateDrawableParentAndChildrenViews(DrawableParent drawableParent) {
+        updateDrawableChildrenViews(drawableParent.getDrawableChildren());
     }
 
-    protected void onDrawableRepaintRequested(Drawable shape) {
+    protected void updateDrawableView(Drawable drawable) {
     }
 
-    private void syncDrawableViewsFromDrawables(Collection<Drawable> drawables) {
+    private void updateDrawableChildrenViews(Collection<Drawable> drawables) {
         Collections.forEach(drawables, this::createAndBindDrawableViewAndChildren);
     }
 
     private void createAndBindDrawableViewAndChildren(Drawable drawable) {
         DrawableView drawableView = getOrCreateAndBindDrawableView(drawable);
         if (drawableView instanceof DrawableParent)
-            syncDrawableViewsFromDrawables(((DrawableParent) drawableView).getDrawableChildren());
+            updateDrawableChildrenViews(((DrawableParent) drawableView).getDrawableChildren());
     }
 
     public DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
         DrawableView drawableView = drawableViews.get(drawable);
         if (drawableView == null) {
             drawableViews.put(drawable, drawableView = drawableViewFactory.createDrawableView(drawable));
-            drawableView.bind(drawable, drawingNotifier);
+            drawableView.bind(drawable, drawingRequester);
             if (drawable instanceof DrawableParent)
-                observeDrawableChildren((DrawableParent) drawable);
-            onDrawableRepaintRequested(drawable);
+                keepDrawableParentAndChildrenViewsUpdated((DrawableParent) drawable);
+            updateDrawableView(drawable);
         }
         return drawableView;
+    }
+
+    protected boolean isDrawableParentRoot(DrawableParent drawableParent) {
+        return drawableParent == drawingNode || drawableParent == this;
     }
 }

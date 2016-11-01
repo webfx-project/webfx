@@ -27,13 +27,11 @@ public class ObservableLists {
     }
 
     public static <T> void bind(ObservableList<T> list1, ObservableList<T> list2) {
-        list1.setAll(list2);
-        list2.addListener((ListChangeListener<? super T>) c -> list1.setAll(list2));
+        runNowAndOnListChange(() -> list1.setAll(list2), list2);
     }
 
-    public static <A, B> void bindConverted(List<A> aList, Converter<A, B> aToBConverter, ObservableList<B> bList) {
-        setAllConverted(aList, aToBConverter, bList);
-        bList.addListener((ListChangeListener<? super B>) c ->setAllConverted(aList, aToBConverter, bList));
+    public static <A, B> void bindConverted(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
+        runNowAndOnListChange(() -> setAllConverted(bList, bToAConverter, aList), bList);
     }
 
     public static void runNowAndOnListChange(Runnable runnable, ObservableList list) {

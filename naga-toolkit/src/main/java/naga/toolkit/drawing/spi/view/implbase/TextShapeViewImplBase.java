@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.view.implbase;
 
 import naga.toolkit.drawing.shapes.TextShape;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.TextShapeView;
 
 /**
@@ -10,9 +10,9 @@ import naga.toolkit.drawing.spi.view.TextShapeView;
 public class TextShapeViewImplBase extends ShapeViewImplBase<TextShape> implements TextShapeView {
 
     @Override
-    public void bind(TextShape ts, DrawingNotifier drawingNotifier) {
-        super.bind(ts, drawingNotifier);
-        requestRepaintDrawableOnPropertiesChange(drawingNotifier, ts,
+    public void bind(TextShape ts, DrawingRequester drawingRequester) {
+        super.bind(ts, drawingRequester);
+        requestDrawableViewUpdateOnPropertiesChange(drawingRequester, ts,
                 ts.textProperty(),
                 ts.textOriginProperty(),
                 ts.wrappingWidthProperty(),
