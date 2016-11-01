@@ -2,7 +2,7 @@ package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.drawing.SvgDrawingNode;
+import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.toolkit.drawing.paint.Color;
@@ -32,9 +32,9 @@ class SvgShapeElementUpdater {
         return svgElement;
     }
 
-    Element syncSvgFromCommonShapeProperties(Shape shape, SvgDrawingNode svgDrawingNode) {
-        setPaintAttribute("fill", shape.getFill(), svgDrawingNode);
-        setPaintAttribute("stroke", shape.getStroke(), svgDrawingNode);
+    Element syncSvgFromCommonShapeProperties(Shape shape, SvgDrawing svgDrawing) {
+        setPaintAttribute("fill", shape.getFill(), svgDrawing);
+        setPaintAttribute("stroke", shape.getStroke(), svgDrawing);
         setSvgAttribute("shape-rendering", shape.isSmooth() ? "geometricPrecision" : "crispEdges");
         setSvgAttribute("stroke-width", shape.getStrokeWidth());
         setSvgAttribute("stroke-linecap", SvgUtil.toSvgStrokeLineCap(shape.getStrokeLineCap()));
@@ -78,7 +78,7 @@ class SvgShapeElementUpdater {
             svgElement.setAttribute(name, value);
     }
 
-    private void setPaintAttribute(String name, Paint paint, SvgDrawingNode svgDrawingNode) {
+    private void setPaintAttribute(String name, Paint paint, SvgDrawing svgDrawing) {
         String value = null;
         if (paint instanceof Color)
             value = HtmlPaints.toCssPaint(paint);
@@ -87,7 +87,7 @@ class SvgShapeElementUpdater {
                 svgLinearGradients = new HashMap<>();
             Element svgLinearGradient = svgLinearGradients.get(name);
             if (svgLinearGradient == null)
-                svgLinearGradients.put(name, svgLinearGradient = svgDrawingNode.addDef(SvgUtil.createLinearGradient()));
+                svgLinearGradients.put(name, svgLinearGradient = svgDrawing.addDef(SvgUtil.createLinearGradient()));
             SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
             value = "url(#" + svgLinearGradient.getAttribute("id") + ")";
         }

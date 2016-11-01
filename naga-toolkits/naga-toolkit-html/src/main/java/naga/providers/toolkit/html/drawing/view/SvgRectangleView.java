@@ -1,7 +1,7 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
-import naga.providers.toolkit.html.drawing.SvgDrawingNode;
+import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
@@ -14,7 +14,7 @@ public class SvgRectangleView extends RectangleViewImplBase implements SvgDrawab
     private final SvgShapeElementUpdater svgShapeElementUpdater = new SvgShapeElementUpdater(SvgUtil.createSvgRectangle());
 
     @Override
-    public void syncSvgPropertiesFromDrawable(SvgDrawingNode svgDrawingNode) {
+    public void syncSvgPropertiesFromDrawable(SvgDrawing svgDrawingNode) {
         Rectangle r = drawable;
         svgShapeElementUpdater.syncSvgFromCommonShapeProperties(r, svgDrawingNode);
         svgShapeElementUpdater.setSvgAttribute("x", r.getX());

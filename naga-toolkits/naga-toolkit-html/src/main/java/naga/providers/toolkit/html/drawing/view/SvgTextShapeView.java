@@ -2,7 +2,7 @@ package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
 import naga.commons.util.Numbers;
-import naga.providers.toolkit.html.drawing.SvgDrawingNode;
+import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.Font;
 import naga.toolkit.drawing.shapes.FontPosture;
@@ -18,9 +18,9 @@ public class SvgTextShapeView extends TextShapeViewImplBase implements SvgDrawab
     private final SvgShapeElementUpdater svgShapeElementUpdater = new SvgShapeElementUpdater(SvgUtil.createSvgText());
 
     @Override
-    public void syncSvgPropertiesFromDrawable(SvgDrawingNode svgDrawingNode) {
+    public void syncSvgPropertiesFromDrawable(SvgDrawing svgDrawing) {
         TextShape ts = drawable;
-        Element svgElement = svgShapeElementUpdater.syncSvgFromCommonShapeProperties(ts, svgDrawingNode);
+        Element svgElement = svgShapeElementUpdater.syncSvgFromCommonShapeProperties(ts, svgDrawing);
         svgElement.textContent = ts.getText();
         double x = Numbers.doubleValue(ts.getX());
         double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
