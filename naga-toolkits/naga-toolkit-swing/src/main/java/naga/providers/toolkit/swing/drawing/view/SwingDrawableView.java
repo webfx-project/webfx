@@ -11,6 +11,6 @@ import java.awt.*;
  */
 public interface SwingDrawableView<S extends Drawable> extends DrawableView<S> {
 
-    void paintShape(Graphics2D g);
+    void paintDrawable(Graphics2D g);
 
 }

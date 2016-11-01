@@ -30,7 +30,7 @@ public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDr
     }
 
     @Override
-    public void paintShape(Graphics2D g) {
+    public void paintDrawable(Graphics2D g) {
         double x = Numbers.doubleValue(drawable.getX());
         double wrappingWidth = Numbers.doubleValue(drawable.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support

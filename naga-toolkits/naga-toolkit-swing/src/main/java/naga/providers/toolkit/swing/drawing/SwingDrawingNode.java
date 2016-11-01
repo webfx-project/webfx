@@ -58,7 +58,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         private void paintDrawable(Drawable drawable, Graphics2D g) {
             SwingDrawableView drawableView = (SwingDrawableView) drawing.getOrCreateAndBindDrawableView(drawable);
-            drawableView.paintShape(g);
+            drawableView.paintDrawable(g);
             if (drawable instanceof DrawableParent)
                 paintDrawables(((DrawableParent) drawable).getDrawableChildren(), g);
         }
