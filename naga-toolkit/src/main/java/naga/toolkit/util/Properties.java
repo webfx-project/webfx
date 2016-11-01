@@ -1,4 +1,4 @@
-package naga.toolkit.properties.util;
+package naga.toolkit.util;
 
 import javafx.beans.property.Property;
 

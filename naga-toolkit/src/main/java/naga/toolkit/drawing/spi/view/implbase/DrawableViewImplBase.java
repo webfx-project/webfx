@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingNotifier;
 import naga.toolkit.drawing.spi.view.DrawableView;
-import naga.toolkit.properties.util.Properties;
+import naga.toolkit.util.Properties;
 
 /**
  * @author Bruno Salmon

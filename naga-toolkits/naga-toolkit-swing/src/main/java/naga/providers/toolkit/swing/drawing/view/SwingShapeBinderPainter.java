@@ -3,7 +3,7 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.function.Function;
 import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.properties.util.Properties;
+import naga.toolkit.util.Properties;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
