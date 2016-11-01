@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Region;
-import naga.providers.toolkit.javafx.drawing.view.FxShapeView;
+import naga.providers.toolkit.javafx.drawing.view.FxDrawableView;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
@@ -36,7 +36,7 @@ public class FxDrawingNode extends FxNode<Region> implements DrawingNode<Region>
         }
 
         private Node getFxDrawableNode(Drawable drawable) {
-            return ((FxShapeView) getOrCreateAndBindDrawableView(drawable)).getFxDrawableNode();
+            return ((FxDrawableView) getOrCreateAndBindDrawableView(drawable)).getFxDrawableNode();
         }
     };
 
