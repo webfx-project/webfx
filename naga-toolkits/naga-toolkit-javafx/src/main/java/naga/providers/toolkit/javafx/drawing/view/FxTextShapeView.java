@@ -5,7 +5,7 @@ import naga.providers.toolkit.javafx.util.FxFonts;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.shapes.VPos;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.TextShapeView;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 
@@ -15,15 +15,15 @@ import naga.toolkit.properties.conversion.ConvertedProperty;
 public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements TextShapeView {
 
     @Override
-    public void bind(TextShape t, DrawingNotifier drawingNotifier) {
-        setAndBindDrawableProperties(t, new Text());
-        fxDrawableNode.xProperty().bind(t.xProperty());
-        fxDrawableNode.yProperty().bind(t.yProperty());
-        fxDrawableNode.textProperty().bind(t.textProperty());
-        fxDrawableNode.textOriginProperty().bind(new ConvertedProperty<>(t.textOriginProperty(), FxTextShapeView::toFxVpos));
-        fxDrawableNode.textAlignmentProperty().bind(new ConvertedProperty<>(t.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
-        fxDrawableNode.wrappingWidthProperty().bind(t.wrappingWidthProperty());
-        fxDrawableNode.fontProperty().bind(new ConvertedProperty<>(t.fontProperty(), FxFonts::toFxFont));
+    public void bind(TextShape ts, DrawingRequester drawingRequester) {
+        setAndBindDrawableProperties(ts, new Text());
+        fxDrawableNode.xProperty().bind(ts.xProperty());
+        fxDrawableNode.yProperty().bind(ts.yProperty());
+        fxDrawableNode.textProperty().bind(ts.textProperty());
+        fxDrawableNode.textOriginProperty().bind(new ConvertedProperty<>(ts.textOriginProperty(), FxTextShapeView::toFxVpos));
+        fxDrawableNode.textAlignmentProperty().bind(new ConvertedProperty<>(ts.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
+        fxDrawableNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
+        fxDrawableNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

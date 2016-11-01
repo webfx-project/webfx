@@ -11,17 +11,17 @@ import naga.toolkit.util.ObservableLists;
  */
 abstract class FxShapeViewImpl<S extends Shape, N extends javafx.scene.shape.Shape> extends FxDrawableViewImpl<S, N> implements FxShapeView<S, N> {
 
-    void setAndBindDrawableProperties(S shape, N fxShape) {
-        super.setAndBindDrawableProperties(shape, fxShape);
-        fxShape.smoothProperty().bind(shape.smoothProperty());
-        fxShape.fillProperty().bind(new ConvertedProperty<>(shape.fillProperty(), FxPaints::toFxPaint));
-        fxShape.strokeProperty().bind(new ConvertedProperty<>(shape.strokeProperty(), FxPaints::toFxPaint));
-        fxShape.strokeWidthProperty().bind(shape.strokeWidthProperty());
-        fxShape.strokeLineCapProperty().bind(new ConvertedProperty<>(shape.strokeLineCapProperty(), FxStrokes::toFxStrokeLineCap));
-        fxShape.strokeLineJoinProperty().bind(new ConvertedProperty<>(shape.strokeLineJoinProperty(), FxStrokes::toFxStrokeLineJoin));
-        fxShape.strokeMiterLimitProperty().bind(shape.strokeMiterLimitProperty());
-        fxShape.strokeDashOffsetProperty().bind(shape.strokeDashOffsetProperty());
-        ObservableLists.bind(fxShape.getStrokeDashArray(), shape.getStrokeDashArray());
+    void setAndBindDrawableProperties(S shape, N fxDrawableNode) {
+        super.setAndBindDrawableProperties(shape, fxDrawableNode);
+        fxDrawableNode.smoothProperty().bind(shape.smoothProperty());
+        fxDrawableNode.fillProperty().bind(new ConvertedProperty<>(shape.fillProperty(), FxPaints::toFxPaint));
+        fxDrawableNode.strokeProperty().bind(new ConvertedProperty<>(shape.strokeProperty(), FxPaints::toFxPaint));
+        fxDrawableNode.strokeWidthProperty().bind(shape.strokeWidthProperty());
+        fxDrawableNode.strokeLineCapProperty().bind(new ConvertedProperty<>(shape.strokeLineCapProperty(), FxStrokes::toFxStrokeLineCap));
+        fxDrawableNode.strokeLineJoinProperty().bind(new ConvertedProperty<>(shape.strokeLineJoinProperty(), FxStrokes::toFxStrokeLineJoin));
+        fxDrawableNode.strokeMiterLimitProperty().bind(shape.strokeMiterLimitProperty());
+        fxDrawableNode.strokeDashOffsetProperty().bind(shape.strokeDashOffsetProperty());
+        ObservableLists.bind(fxDrawableNode.getStrokeDashArray(), shape.getStrokeDashArray());
     }
 
 }

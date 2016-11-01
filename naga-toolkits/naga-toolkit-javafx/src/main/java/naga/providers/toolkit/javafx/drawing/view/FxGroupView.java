@@ -1,7 +1,7 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
 import naga.toolkit.drawing.shapes.Group;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.GroupView;
 import naga.toolkit.util.ObservableLists;
 
@@ -11,8 +11,8 @@ import naga.toolkit.util.ObservableLists;
 public class FxGroupView extends FxDrawableViewImpl<Group, javafx.scene.Group> implements GroupView {
 
     @Override
-    public void bind(Group g, DrawingNotifier drawingNotifier) {
+    public void bind(Group g, DrawingRequester drawingRequester) {
         setAndBindDrawableProperties(g, new javafx.scene.Group());
-        ObservableLists.runNowAndOnListChange(() -> drawingNotifier.onDrawableParentChange(g), g.getDrawableChildren());
+        ObservableLists.runNowAndOnListChange(() -> drawingRequester.requestDrawableParentAndChildrenViewsUpdate(g), g.getDrawableChildren());
     }
 }

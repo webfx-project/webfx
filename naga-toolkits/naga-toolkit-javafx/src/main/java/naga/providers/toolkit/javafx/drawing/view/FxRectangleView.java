@@ -1,7 +1,7 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
 import naga.toolkit.drawing.shapes.Rectangle;
-import naga.toolkit.drawing.spi.DrawingNotifier;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.RectangleView;
 
 /**
@@ -10,7 +10,7 @@ import naga.toolkit.drawing.spi.view.RectangleView;
 public class FxRectangleView extends FxShapeViewImpl<Rectangle, javafx.scene.shape.Rectangle> implements RectangleView {
 
     @Override
-    public void bind(Rectangle r, DrawingNotifier drawingNotifier) {
+    public void bind(Rectangle r, DrawingRequester drawingRequester) {
         setAndBindDrawableProperties(r, new javafx.scene.shape.Rectangle());
         fxDrawableNode.xProperty().bind(r.xProperty());
         fxDrawableNode.yProperty().bind(r.yProperty());
