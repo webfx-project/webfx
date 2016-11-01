@@ -30,4 +30,15 @@ public class ObservableLists {
         list1.setAll(list2);
         list2.addListener((ListChangeListener<? super T>) c -> list1.setAll(list2));
     }
+
+    public static <A, B> void bindConverted(List<A> aList, Converter<A, B> aToBConverter, ObservableList<B> bList) {
+        setAllConverted(aList, aToBConverter, bList);
+        bList.addListener((ListChangeListener<? super B>) c ->setAllConverted(aList, aToBConverter, bList));
+    }
+
+    public static void runNowAndOnListChange(Runnable runnable, ObservableList list) {
+        runnable.run();
+        list.addListener((ListChangeListener) c -> runnable.run());
+    }
+
 }
