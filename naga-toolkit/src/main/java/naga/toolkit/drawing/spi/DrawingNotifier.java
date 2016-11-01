@@ -1,15 +1,15 @@
 package naga.toolkit.drawing.spi;
 
-import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.drawing.shapes.ShapeParent;
+import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.DrawableParent;
 
 /**
  * @author Bruno Salmon
  */
 public interface DrawingNotifier {
 
-    void onChildrenShapesListChange(ShapeParent shapeParent);
+    void onDrawableParentChange(DrawableParent drawableParent);
 
-    void requestShapeRepaint(Shape shape);
+    void requestDrawableRepaint(Drawable drawable);
 
 }

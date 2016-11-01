@@ -6,10 +6,10 @@ import naga.providers.toolkit.html.drawing.SvgDrawingNode;
 /**
  * @author Bruno Salmon
  */
-public interface SvgShapeView {
+public interface SvgDrawableView {
 
-    void syncSvgPropertiesFromShape(SvgDrawingNode svgDrawingNode);
+    void syncSvgPropertiesFromDrawable(SvgDrawingNode svgDrawingNode);
 
-    Element getSvgShapeElement();
+    Element getSvgDrawableElement();
 
 }

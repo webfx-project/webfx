@@ -13,37 +13,37 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingTextShapeView extends TextShapeViewImplBase implements SwingShapeView<TextShape> {
+public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDrawableView<TextShape> {
 
     private final SwingShapeBinderPainter swingShapeBinderPainter = new SwingShapeBinderPainter((g) ->
-        getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), shape.getText()).getOutline()
+        getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), drawable.getText()).getOutline()
     );
 
     private Font getShapeSwingFont() {
-        return SwingFonts.toSwingFont(shape.getFont());
+        return SwingFonts.toSwingFont(drawable.getFont());
     }
 
     @Override
-    public void bind(TextShape shape, DrawingNotifier drawingNotifier) {
-        swingShapeBinderPainter.bind(shape);
-        super.bind(shape, drawingNotifier);
+    public void bind(TextShape drawable, DrawingNotifier drawingNotifier) {
+        swingShapeBinderPainter.bind(drawable);
+        super.bind(drawable, drawingNotifier);
     }
 
     @Override
     public void paintShape(Graphics2D g) {
-        double x = Numbers.doubleValue(shape.getX());
-        double wrappingWidth = Numbers.doubleValue(shape.getWrappingWidth());
+        double x = Numbers.doubleValue(drawable.getX());
+        double wrappingWidth = Numbers.doubleValue(drawable.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
         if (wrappingWidth > 0) {
-            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(shape.getText());
-            TextAlignment textAlignment = shape.getTextAlignment();
+            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(drawable.getText());
+            TextAlignment textAlignment = drawable.getTextAlignment();
             if (textAlignment == TextAlignment.CENTER)
                 x += (wrappingWidth - textWidth) / 2;
             else if (textAlignment == TextAlignment.RIGHT)
                 x += (wrappingWidth - textWidth);
         }
-        g.translate(x, shape.getY() + vPosToBaselineOffset(shape.getTextOrigin(), g));
-        swingShapeBinderPainter.applyCommonShapePropertiesToGraphicsAndPaintShape(shape, g);
+        g.translate(x, drawable.getY() + vPosToBaselineOffset(drawable.getTextOrigin(), g));
+        swingShapeBinderPainter.applyCommonShapePropertiesToGraphicsAndPaintShape(drawable, g);
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {

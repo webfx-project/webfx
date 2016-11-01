@@ -15,15 +15,15 @@ import naga.toolkit.properties.conversion.ConvertedProperty;
 public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements TextShapeView {
 
     @Override
-    public void bind(TextShape shape, DrawingNotifier drawingNotifier) {
-        setAndBindCommonShapeProperties(shape, new Text());
-        fxShape.xProperty().bind(shape.xProperty());
-        fxShape.yProperty().bind(shape.yProperty());
-        fxShape.textProperty().bind(shape.textProperty());
-        fxShape.textOriginProperty().bind(new ConvertedProperty<>(shape.textOriginProperty(), FxTextShapeView::toFxVpos));
-        fxShape.textAlignmentProperty().bind(new ConvertedProperty<>(shape.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
-        fxShape.wrappingWidthProperty().bind(shape.wrappingWidthProperty());
-        fxShape.fontProperty().bind(new ConvertedProperty<>(shape.fontProperty(), FxFonts::toFxFont));
+    public void bind(TextShape t, DrawingNotifier drawingNotifier) {
+        setAndBindDrawableProperties(t, new Text());
+        fxDrawableNode.xProperty().bind(t.xProperty());
+        fxDrawableNode.yProperty().bind(t.yProperty());
+        fxDrawableNode.textProperty().bind(t.textProperty());
+        fxDrawableNode.textOriginProperty().bind(new ConvertedProperty<>(t.textOriginProperty(), FxTextShapeView::toFxVpos));
+        fxDrawableNode.textAlignmentProperty().bind(new ConvertedProperty<>(t.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
+        fxDrawableNode.wrappingWidthProperty().bind(t.wrappingWidthProperty());
+        fxDrawableNode.fontProperty().bind(new ConvertedProperty<>(t.fontProperty(), FxFonts::toFxFont));
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

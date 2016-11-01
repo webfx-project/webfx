@@ -9,12 +9,10 @@ import naga.toolkit.util.ObservableLists;
 /**
  * @author Bruno Salmon
  */
-abstract class FxShapeViewImpl<S extends Shape, F extends javafx.scene.shape.Shape> implements FxShapeView<S, F> {
+abstract class FxShapeViewImpl<S extends Shape, N extends javafx.scene.shape.Shape> extends FxDrawableViewImpl<S, N> implements FxShapeView<S, N> {
 
-    F fxShape;
-
-    void setAndBindCommonShapeProperties(S shape, F fxShape) {
-        this.fxShape = fxShape;
+    void setAndBindDrawableProperties(S shape, N fxShape) {
+        super.setAndBindDrawableProperties(shape, fxShape);
         fxShape.smoothProperty().bind(shape.smoothProperty());
         fxShape.fillProperty().bind(new ConvertedProperty<>(shape.fillProperty(), FxPaints::toFxPaint));
         fxShape.strokeProperty().bind(new ConvertedProperty<>(shape.strokeProperty(), FxPaints::toFxPaint));
@@ -26,12 +24,4 @@ abstract class FxShapeViewImpl<S extends Shape, F extends javafx.scene.shape.Sha
         ObservableLists.bind(fxShape.getStrokeDashArray(), shape.getStrokeDashArray());
     }
 
-    @Override
-    public void unbind() {
-        fxShape = null;
-    }
-
-    public F getFxShape() {
-        return fxShape;
-    }
 }

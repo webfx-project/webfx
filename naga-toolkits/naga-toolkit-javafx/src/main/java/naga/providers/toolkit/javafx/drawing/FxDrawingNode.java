@@ -6,8 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.layout.Region;
 import naga.providers.toolkit.javafx.drawing.view.FxShapeView;
 import naga.providers.toolkit.javafx.nodes.FxNode;
-import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.drawing.shapes.ShapeParent;
+import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
@@ -21,22 +21,22 @@ import java.lang.reflect.Method;
  */
 public class FxDrawingNode extends FxNode<Region> implements DrawingNode<Region>, DrawingMixin {
 
-    private final Drawing drawing = new DrawingImpl(FxShapeViewFactory.SINGLETON) {
+    private final Drawing drawing = new DrawingImpl(FxDrawableViewFactory.SINGLETON) {
         @Override
-        protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
-            Parent parent = shapeParent == this ? node : (Parent) getFxShapeNode((Shape) shapeParent);
+        protected void syncParentNodeFromDrawableParent(DrawableParent drawableParent) {
+            Parent parent = drawableParent == this ? node : (Parent) getFxDrawableNode((Drawable) drawableParent);
             try {
                 Method getChildren = Parent.class.getDeclaredMethod("getChildren");
                 getChildren.setAccessible(true);
                 ObservableList<Node> children = (ObservableList<Node>) getChildren.invoke(parent);
-                ObservableLists.setAllConverted(shapeParent.getChildrenShapes(), this::getFxShapeNode, children);
+                ObservableLists.setAllConverted(drawableParent.getDrawableChildren(), this::getFxDrawableNode, children);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        private Node getFxShapeNode(Shape shape) {
-            return ((FxShapeView) getOrCreateAndBindShapeView(shape)).getFxShape();
+        private Node getFxDrawableNode(Drawable drawable) {
+            return ((FxShapeView) getOrCreateAndBindDrawableView(drawable)).getFxDrawableNode();
         }
     };
 

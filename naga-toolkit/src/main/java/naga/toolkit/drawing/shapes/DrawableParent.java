@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 /**
  * @author Bruno Salmon
  */
-public interface ShapeParent {
+public interface DrawableParent {
 
-    ObservableList<Shape> getChildrenShapes();
+    ObservableList<Drawable> getDrawableChildren();
 }

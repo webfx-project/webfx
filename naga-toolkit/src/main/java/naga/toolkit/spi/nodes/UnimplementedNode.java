@@ -6,9 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingNode;
-import naga.toolkit.drawing.spi.ShapeViewFactory;
+import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
@@ -172,13 +172,12 @@ public class UnimplementedNode<N> implements
     public void requestFocus() {
     }
 
-    private final ObservableList<Shape> childrenShapes = FXCollections.observableArrayList();
+    private final ObservableList<Drawable> drawableChildren = FXCollections.observableArrayList();
     @Override
-    public ObservableList<Shape> getChildrenShapes() {
-        return childrenShapes;
+    public ObservableList<Drawable> getDrawableChildren() {
+        return drawableChildren;
     }
 
-    @Override
-    public void setShapeViewFactory(ShapeViewFactory shapeViewFactory) {
+    public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
     }
 }

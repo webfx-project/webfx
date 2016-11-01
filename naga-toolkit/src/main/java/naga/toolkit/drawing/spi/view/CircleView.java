@@ -5,5 +5,5 @@ import naga.toolkit.drawing.shapes.Circle;
 /**
  * @author Bruno Salmon
  */
-public interface CircleView extends ShapeView<Circle> {
+public interface CircleView extends DrawableView<Circle> {
 }

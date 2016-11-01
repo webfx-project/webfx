@@ -1,15 +1,14 @@
 package naga.toolkit.drawing.spi.impl;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import naga.commons.util.collection.Collections;
-import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.drawing.shapes.ShapeParent;
+import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.toolkit.drawing.shapes.impl.DrawableParentImpl;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingNotifier;
-import naga.toolkit.drawing.spi.ShapeViewFactory;
-import naga.toolkit.drawing.spi.view.ShapeView;
+import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,21 +17,21 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DrawingImpl implements Drawing {
+public class DrawingImpl extends DrawableParentImpl implements Drawing {
 
-    private final Map<Shape, ShapeView> shapeViews = new HashMap<>();
-    private ShapeViewFactory shapeViewFactory;
+    private final Map<Drawable, DrawableView> drawableViews = new HashMap<>();
+    private DrawableViewFactory drawableViewFactory;
     private final DrawingNotifier drawingNotifier = new DrawingNotifier() {
 
         @Override
-        public void onChildrenShapesListChange(ShapeParent shapeParent) {
-            syncShapeViewListFromShapeList(shapeParent.getChildrenShapes());
-            syncNodeListFromShapeViewList(shapeParent);
+        public void onDrawableParentChange(DrawableParent drawableParent) {
+            syncDrawableViewsFromDrawables(drawableParent.getDrawableChildren());
+            syncParentNodeFromDrawableParent(drawableParent);
         }
 
         @Override
-        public void requestShapeRepaint(Shape shape) {
-            DrawingImpl.this.onShapeRepaintRequested(shape);
+        public void requestDrawableRepaint(Drawable drawable) {
+            DrawingImpl.this.onDrawableRepaintRequested(drawable);
         }
     };
 
@@ -40,57 +39,51 @@ public class DrawingImpl implements Drawing {
         this(null);
     }
 
-    protected DrawingImpl(ShapeViewFactory shapeViewFactory) {
-        this.shapeViewFactory = shapeViewFactory;
+    protected DrawingImpl(DrawableViewFactory drawableViewFactory) {
+        this.drawableViewFactory = drawableViewFactory;
         observeChildrenShapes(this);
     }
 
-    private final ObservableList<Shape> children = FXCollections.observableArrayList();
-    @Override
-    public ObservableList<Shape> getChildrenShapes() {
-        return children;
-    }
-
-    public void setShapeViewFactory(ShapeViewFactory shapeViewFactory) {
-        if (this.shapeViewFactory != null) {
-            Collections.forEach(shapeViews.values(), ShapeView::unbind);
-            shapeViews.clear();
+    public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
+        if (this.drawableViewFactory != null) {
+            Collections.forEach(drawableViews.values(), DrawableView::unbind);
+            drawableViews.clear();
         }
-        this.shapeViewFactory = shapeViewFactory;
+        this.drawableViewFactory = drawableViewFactory;
     }
 
-    private void observeChildrenShapes(ShapeParent shapeParent) {
-        shapeParent.getChildrenShapes().addListener(new ListChangeListener<Shape>() {
+    private void observeChildrenShapes(DrawableParent drawableParent) {
+        drawableParent.getDrawableChildren().addListener(new ListChangeListener<Drawable>() {
             @Override
-            public void onChanged(Change<? extends Shape> c) {
-                drawingNotifier.onChildrenShapesListChange(shapeParent);
+            public void onChanged(Change<? extends Drawable> c) {
+                drawingNotifier.onDrawableParentChange(drawableParent);
             }
         });
     }
 
-    protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
+    protected void syncParentNodeFromDrawableParent(DrawableParent drawableParent) {
     }
 
-    protected void onShapeRepaintRequested(Shape shape) {
+    protected void onDrawableRepaintRequested(Drawable shape) {
     }
 
-    private void syncShapeViewListFromShapeList(Collection<Shape> shapes) {
-        Collections.forEach(shapes, this::createAndBindShapeViewAndChildren);
+    private void syncDrawableViewsFromDrawables(Collection<Drawable> drawables) {
+        Collections.forEach(drawables, this::createAndBindDrawableViewAndChildren);
     }
 
-    private void createAndBindShapeViewAndChildren(Shape shape) {
-        ShapeView shapeView = getOrCreateAndBindShapeView(shape);
-        if (shapeView instanceof ShapeParent)
-            syncShapeViewListFromShapeList(((ShapeParent) shapeView).getChildrenShapes());
+    private void createAndBindDrawableViewAndChildren(Drawable drawable) {
+        DrawableView drawableView = getOrCreateAndBindDrawableView(drawable);
+        if (drawableView instanceof DrawableParent)
+            syncDrawableViewsFromDrawables(((DrawableParent) drawableView).getDrawableChildren());
     }
 
-    public ShapeView getOrCreateAndBindShapeView(Shape shape) {
-        ShapeView shapeView = shapeViews.get(shape);
-        if (shapeView == null) {
-            shapeViews.put(shape, shapeView = shapeViewFactory.createShapeView(shape));
-            shapeView.bind(shape, drawingNotifier);
-            onShapeRepaintRequested(shape);
+    public DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
+        DrawableView drawableView = drawableViews.get(drawable);
+        if (drawableView == null) {
+            drawableViews.put(drawable, drawableView = drawableViewFactory.createDrawableView(drawable));
+            drawableView.bind(drawable, drawingNotifier);
+            onDrawableRepaintRequested(drawable);
         }
-        return shapeView;
+        return drawableView;
     }
 }

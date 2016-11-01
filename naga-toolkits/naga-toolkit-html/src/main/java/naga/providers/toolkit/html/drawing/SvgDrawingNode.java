@@ -3,11 +3,12 @@ package naga.providers.toolkit.html.drawing;
 import elemental2.Element;
 import elemental2.Node;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.drawing.view.SvgShapeView;
+import naga.providers.toolkit.html.drawing.view.SvgDrawableView;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.providers.toolkit.html.util.HtmlUtil;
+import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.drawing.shapes.ShapeParent;
+import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
@@ -20,27 +21,27 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
 
     private final Element defsElement = SvgUtil.createSvgDefs();
 
-    private final Drawing drawing = new DrawingImpl(SvgShapeViewFactory.SINGLETON) {
+    private final Drawing drawing = new DrawingImpl(SvgDrawableViewFactory.SINGLETON) {
         @Override
-        protected void syncNodeListFromShapeViewList(ShapeParent shapeParent) {
-            boolean isRoot = shapeParent == this;
-            Node parent = isRoot ? node : getSvgShapeElement((Shape) shapeParent);
-            HtmlUtil.setChildren(parent, Collections.convert(shapeParent.getChildrenShapes(), this::getSvgShapeElement));
+        protected void syncParentNodeFromDrawableParent(DrawableParent drawableParent) {
+            boolean isRoot = drawableParent == this;
+            Node parent = isRoot ? node : getSvgDrawableElement((Shape) drawableParent);
+            HtmlUtil.setChildren(parent, Collections.convert(drawableParent.getDrawableChildren(), this::getSvgDrawableElement));
             if (isRoot)
                 HtmlUtil.appendFirstChild(node, defsElement);
         }
 
-        private SvgShapeView getOrCreateAndBindSvgShapeView(Shape shape) {
-            return (SvgShapeView) getOrCreateAndBindShapeView(shape);
+        private SvgDrawableView getOrCreateAndBindSvgDrawableView(Drawable drawable) {
+            return (SvgDrawableView) getOrCreateAndBindDrawableView(drawable);
         }
 
-        private Element getSvgShapeElement(Shape shape) {
-            return getOrCreateAndBindSvgShapeView(shape).getSvgShapeElement();
+        private Element getSvgDrawableElement(Drawable drawable) {
+            return getOrCreateAndBindSvgDrawableView(drawable).getSvgDrawableElement();
         }
 
         @Override
-        protected void onShapeRepaintRequested(Shape shape) {
-            getOrCreateAndBindSvgShapeView(shape).syncSvgPropertiesFromShape(SvgDrawingNode.this);
+        protected void onDrawableRepaintRequested(Drawable shape) {
+            getOrCreateAndBindSvgDrawableView(shape).syncSvgPropertiesFromDrawable(SvgDrawingNode.this);
         }
     };
 

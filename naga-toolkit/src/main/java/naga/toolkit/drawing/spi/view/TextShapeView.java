@@ -5,5 +5,5 @@ import naga.toolkit.drawing.shapes.TextShape;
 /**
  * @author Bruno Salmon
  */
-public interface TextShapeView extends ShapeView<TextShape> {
+public interface TextShapeView extends DrawableView<TextShape> {
 }

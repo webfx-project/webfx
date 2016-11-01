@@ -10,14 +10,14 @@ import naga.toolkit.drawing.spi.view.RectangleView;
 public class FxRectangleView extends FxShapeViewImpl<Rectangle, javafx.scene.shape.Rectangle> implements RectangleView {
 
     @Override
-    public void bind(Rectangle shape, DrawingNotifier drawingNotifier) {
-        setAndBindCommonShapeProperties(shape, new javafx.scene.shape.Rectangle());
-        fxShape.xProperty().bind(shape.xProperty());
-        fxShape.yProperty().bind(shape.yProperty());
-        fxShape.widthProperty().bind(shape.widthProperty());
-        fxShape.heightProperty().bind(shape.heightProperty());
-        fxShape.arcWidthProperty().bind(shape.arcWidthProperty());
-        fxShape.arcHeightProperty().bind(shape.arcHeightProperty());
+    public void bind(Rectangle r, DrawingNotifier drawingNotifier) {
+        setAndBindDrawableProperties(r, new javafx.scene.shape.Rectangle());
+        fxDrawableNode.xProperty().bind(r.xProperty());
+        fxDrawableNode.yProperty().bind(r.yProperty());
+        fxDrawableNode.widthProperty().bind(r.widthProperty());
+        fxDrawableNode.heightProperty().bind(r.heightProperty());
+        fxDrawableNode.arcWidthProperty().bind(r.arcWidthProperty());
+        fxDrawableNode.arcHeightProperty().bind(r.arcHeightProperty());
     }
 
 }

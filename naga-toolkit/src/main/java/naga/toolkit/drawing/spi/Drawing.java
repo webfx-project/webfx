@@ -1,12 +1,13 @@
 package naga.toolkit.drawing.spi;
 
-import naga.toolkit.drawing.shapes.ShapeParent;
+import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 
 /**
  * @author Bruno Salmon
  */
-public interface Drawing extends ShapeParent {
+public interface Drawing extends DrawableParent {
 
-    void setShapeViewFactory(ShapeViewFactory shapeViewFactory);
+    void setDrawableViewFactory(DrawableViewFactory drawableViewFactory);
 
 }

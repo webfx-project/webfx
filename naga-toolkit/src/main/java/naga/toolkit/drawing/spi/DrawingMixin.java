@@ -1,7 +1,8 @@
 package naga.toolkit.drawing.spi;
 
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 
 /**
  * @author Bruno Salmon
@@ -10,13 +11,12 @@ public interface DrawingMixin extends Drawing {
 
     Drawing getDrawing();
 
-    @Override
-    default void setShapeViewFactory(ShapeViewFactory shapeViewFactory) {
-        getDrawing().setShapeViewFactory(shapeViewFactory);
+    default void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
+        getDrawing().setDrawableViewFactory(drawableViewFactory);
     }
 
     @Override
-    default ObservableList<Shape> getChildrenShapes() {
-        return getDrawing().getChildrenShapes();
+    default ObservableList<Drawable> getDrawableChildren() {
+        return getDrawing().getDrawableChildren();
     }
 }
