@@ -41,6 +41,7 @@ public abstract class SvgDrawableView
 
     @Override
     public void updateTransforms(List<Transform> transforms) {
+        setSvgAttribute("transform", SvgTransforms.toSvgTransforms(transforms));
     }
 
     void setSvgAttribute(String name, String value) {
