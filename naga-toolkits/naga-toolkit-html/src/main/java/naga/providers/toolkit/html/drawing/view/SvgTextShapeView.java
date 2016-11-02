@@ -2,7 +2,6 @@ package naga.providers.toolkit.html.drawing.view;
 
 import javafx.beans.property.Property;
 import naga.commons.util.Numbers;
-import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
@@ -25,9 +24,9 @@ public class SvgTextShapeView extends SvgShapeView<TextShape, TextShapeViewBase>
     }
 
     @Override
-    public boolean update(SvgDrawing svgDrawing, Property changedProperty) {
+    public boolean update(Property changedProperty) {
         TextShape ts = getDrawableViewBase().getDrawable();
-        return super.update(svgDrawing, changedProperty)
+        return super.update(changedProperty)
             || updateSvgTextContent(ts.textProperty(), changedProperty)
             || updateXAttribute(changedProperty)
             || updateSvgDoubleAttribute("y", ts.yProperty(), changedProperty)

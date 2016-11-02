@@ -1,7 +1,6 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import javafx.beans.property.Property;
-import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
@@ -23,9 +22,9 @@ public class SvgRectangleView extends SvgShapeView<Rectangle, RectangleViewBase>
     }
 
     @Override
-    public boolean update(SvgDrawing svgDrawingNode, Property changedProperty) {
+    public boolean update(Property changedProperty) {
         Rectangle r = getDrawableViewBase().getDrawable();
-        return super.update(svgDrawingNode, changedProperty)
+        return super.update(changedProperty)
             || updateSvgDoubleAttribute("x", r.xProperty(), changedProperty)
             || updateSvgDoubleAttribute("y", r.yProperty(), changedProperty)
             || updateSvgDoubleAttribute("width", r.widthProperty(), changedProperty)

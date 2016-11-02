@@ -28,12 +28,16 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
 
         @Override
         public void requestDrawableParentAndChildrenViewsUpdate(DrawableParent drawableParent) {
+            drawingThreadLocal.set(DrawingImpl.this);
             updateDrawableParentAndChildrenViews(drawableParent);
+            drawingThreadLocal.set(null);
         }
 
         @Override
         public void requestDrawableViewUpdate(Drawable drawable, Property changedProperty) {
+            drawingThreadLocal.set(DrawingImpl.this);
             updateDrawableView(drawable, changedProperty);
+            drawingThreadLocal.set(null);
         }
     };
 
@@ -41,6 +45,11 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         this.drawingNode = drawingNode;
         this.drawableViewFactory = drawableViewFactory;
         keepDrawableParentAndChildrenViewsUpdated(this);
+    }
+
+    private final static ThreadLocal<DrawingImpl> drawingThreadLocal = new ThreadLocal<>();
+    public static DrawingImpl getThreadLocalDrawing() {
+        return drawingThreadLocal.get();
     }
 
     public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {

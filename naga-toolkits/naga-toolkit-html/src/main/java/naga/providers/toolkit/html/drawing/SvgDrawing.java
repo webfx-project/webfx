@@ -45,7 +45,7 @@ public class SvgDrawing extends DrawingImpl {
 
     @Override
     protected void updateDrawableView(Drawable drawable, Property changedProperty) {
-        getOrCreateAndBindSvgDrawableView(drawable).update(this, changedProperty);
+        getOrCreateAndBindSvgDrawableView(drawable).update(changedProperty);
     }
 
 }

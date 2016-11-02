@@ -10,6 +10,7 @@ import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.*;
+import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.DrawableView;
 
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public abstract class SvgDrawableView<S extends Drawable> implements DrawableVie
         return svgElement;
     }
 
-    public abstract boolean update(SvgDrawing svgDrawing, Property changedProperty);
+    public abstract boolean update(Property changedProperty);
 
     <T> boolean updateSvgStringAttribute(String name, Property<T> property, Converter<T, String> converter, Property changedProperty) {
         boolean hitChangedProperty = property == changedProperty;
@@ -100,11 +101,11 @@ public abstract class SvgDrawableView<S extends Drawable> implements DrawableVie
         return hitProperty;
     }
 
-    boolean updateSvgPaintAttribute(String name, Property<Paint> property, Property changedProperty, SvgDrawing svgDrawing) {
-        return updateSvgStringAttribute(name, property, paint -> toPaintAttribute(name, paint, svgDrawing), changedProperty);
+    boolean updateSvgPaintAttribute(String name, Property<Paint> property, Property changedProperty) {
+        return updateSvgStringAttribute(name, property, paint -> toPaintAttribute(name, paint), changedProperty);
     }
 
-    private String toPaintAttribute(String name, Paint paint, SvgDrawing svgDrawing) {
+    private String toPaintAttribute(String name, Paint paint) {
         String value = null;
         if (paint instanceof Color)
             value = HtmlPaints.toCssPaint(paint);
@@ -113,7 +114,7 @@ public abstract class SvgDrawableView<S extends Drawable> implements DrawableVie
                 svgLinearGradients = new HashMap<>();
             Element svgLinearGradient = svgLinearGradients.get(name);
             if (svgLinearGradient == null)
-                svgLinearGradients.put(name, svgLinearGradient = svgDrawing.addDef(SvgUtil.createLinearGradient()));
+                svgLinearGradients.put(name, svgLinearGradient = ((SvgDrawing) DrawingImpl.getThreadLocalDrawing()).addDef(SvgUtil.createLinearGradient()));
             SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
             value = "url(#" + svgLinearGradient.getAttribute("id") + ")";
         }
