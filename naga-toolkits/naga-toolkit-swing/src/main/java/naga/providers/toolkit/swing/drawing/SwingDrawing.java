@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.drawing;
 
+import javafx.beans.property.Property;
 import naga.providers.toolkit.swing.drawing.view.SwingDrawableView;
 import naga.toolkit.drawing.spi.impl.CanvasDrawingImpl;
 
@@ -13,6 +14,11 @@ class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView, Graphics2D, Affi
 
     SwingDrawing(SwingDrawingNode drawingNode) {
         super(drawingNode, SwingDrawableViewFactory.SINGLETON);
+    }
+
+    @Override
+    protected void updateDrawableView(SwingDrawableView drawableView, Property changedProperty) {
+        drawableView.update(changedProperty);
     }
 
     @Override
@@ -32,6 +38,6 @@ class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView, Graphics2D, Affi
 
     @Override
     protected void paintDrawableView(SwingDrawableView drawableView, Graphics2D g) {
-        drawableView.paintDrawable(g);
+        drawableView.paint(g);
     }
 }

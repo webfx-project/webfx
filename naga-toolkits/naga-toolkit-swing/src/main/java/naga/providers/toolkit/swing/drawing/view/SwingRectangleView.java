@@ -1,7 +1,7 @@
 package naga.providers.toolkit.swing.drawing.view;
 
+import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Rectangle;
-import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
 
 import java.awt.*;
@@ -13,7 +13,7 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class SwingRectangleView extends RectangleViewImplBase implements SwingDrawableView<Rectangle> {
 
-    private final SwingDrawableBinderPainter swingDrawableBinderPainter = new SwingDrawableBinderPainter((g) -> {
+    private final SwingShapeUpdaterPainter swingShapeUpdaterPainter = new SwingShapeUpdaterPainter((g) -> {
         Double arcWidth = drawable.getArcWidth();
         Double arcHeight = drawable.getArcHeight();
         if (arcWidth != null && arcHeight != null && arcWidth != 0 && arcHeight != 0)
@@ -22,20 +22,13 @@ public class SwingRectangleView extends RectangleViewImplBase implements SwingDr
     });
 
     @Override
-    public void bind(Rectangle drawable, DrawingRequester drawingRequester) {
-        super.bind(drawable, drawingRequester);
-        //swingDrawableBinderPainter.bind(drawable);
+    public void update(Property changedProperty) {
+        swingShapeUpdaterPainter.updateSwingShape(drawable, changedProperty);
     }
 
     @Override
-    protected void requestDrawableViewUpdate(DrawingRequester drawingRequester, Rectangle drawable) {
-        swingDrawableBinderPainter.updateFromShape(drawable);
-        super.requestDrawableViewUpdate(drawingRequester, drawable);
-    }
-
-    @Override
-    public void paintDrawable(Graphics2D g) {
-        swingDrawableBinderPainter.applyCommonShapePropertiesToGraphics(drawable, g);
-        swingDrawableBinderPainter.paintShape(drawable.getWidth(), drawable.getHeight(), g);
+    public void paint(Graphics2D g) {
+        swingShapeUpdaterPainter.prepareGraphics(drawable, g);
+        swingShapeUpdaterPainter.paintSwingShape(drawable.getWidth(), drawable.getHeight(), g);
     }
 }

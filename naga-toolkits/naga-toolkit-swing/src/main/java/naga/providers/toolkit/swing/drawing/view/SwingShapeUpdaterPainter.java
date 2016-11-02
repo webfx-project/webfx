@@ -1,9 +1,9 @@
 package naga.providers.toolkit.swing.drawing.view;
 
 
+import javafx.beans.property.Property;
 import naga.commons.util.function.Function;
 import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.util.Properties;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -11,47 +11,48 @@ import java.awt.geom.Rectangle2D;
 /**
  * @author Bruno Salmon
  */
-class SwingDrawableBinderPainter {
+class SwingShapeUpdaterPainter {
 
     private final SwingPaintUpdater swingPaintUpdater = new SwingPaintUpdater();
     private final SwingStrokeUpdater swingStrokeUpdater = new SwingStrokeUpdater();
     private final Function<Graphics2D, java.awt.Shape> swingShapeFactory;
+    private java.awt.Shape swingShape;
 
-    public SwingDrawableBinderPainter(Function<Graphics2D, java.awt.Shape> swingShapeFactory) {
+    SwingShapeUpdaterPainter(Function<Graphics2D, java.awt.Shape> swingShapeFactory) {
         this.swingShapeFactory = swingShapeFactory;
     }
 
-    void bind(Shape shape) {
-        Properties.runNowAndOnPropertiesChange(() -> swingPaintUpdater.updateFromShape(shape), shape.fillProperty());
-        Properties.runNowAndOnPropertiesChange(() -> swingStrokeUpdater.updateFromShape(shape), shape.strokeProperty(), shape.strokeWidthProperty(), shape.strokeLineCapProperty(), shape.strokeLineJoinProperty(), shape.strokeMiterLimitProperty(), shape.strokeDashOffsetProperty());
+    void updateSwingShape(Shape shape, Property changedProperty) {
+        if (swingPaintUpdater.updateFromShape(shape, changedProperty))
+            return;
+        if (swingStrokeUpdater.updateFromShape(shape, changedProperty))
+            return;
+        swingShape = null;
     }
 
-    protected void updateFromShape(Shape shape) {
-        swingPaintUpdater.updateFromShape(shape);
-        swingStrokeUpdater.updateFromShape(shape);
+    private java.awt.Shape getOrCreateSwingShape(Graphics2D g) {
+        if (swingShape == null)
+            swingShape =  swingShapeFactory.apply(g);
+        return swingShape;
     }
 
-    void applyCommonShapePropertiesToGraphics(Shape shape, Graphics2D g) {
+    void prepareGraphics(Shape shape, Graphics2D g) {
         boolean smooth = shape.isSmooth();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, smooth ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, smooth ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
     }
 
-    void applyCommonShapePropertiesToGraphicsAndPaintShape(Shape shape, Graphics2D g) {
-        applyCommonShapePropertiesToGraphics(shape, g);
-        paintShape(g);
+    void prepareGraphicsAndPaintShape(Shape shape, Graphics2D g) {
+        prepareGraphics(shape, g);
+        paintSwingShape(g);
     }
 
-    void paintShape(Graphics2D g) {
-        paintSwingShape(createSwingShape(g), g);
+    void paintSwingShape(Graphics2D g) {
+        paintSwingShape(getOrCreateSwingShape(g), g);
     }
 
-    void paintShape(Double width, Double height, Graphics2D g) {
-        paintSwingShape(createSwingShape(g), width, height, g);
-    }
-
-    private java.awt.Shape createSwingShape(Graphics2D g) {
-        return swingShapeFactory.apply(g);
+    void paintSwingShape(Double width, Double height, Graphics2D g) {
+        paintSwingShape(getOrCreateSwingShape(g), width, height, g);
     }
 
     void paintSwingShape(java.awt.Shape swingShape, Graphics2D g) {

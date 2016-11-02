@@ -1,11 +1,11 @@
 package naga.providers.toolkit.swing.drawing.view;
 
+import javafx.beans.property.Property;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.shapes.VPos;
-import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.awt.*;
  */
 public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDrawableView<TextShape> {
 
-    private final SwingDrawableBinderPainter swingDrawableBinderPainter = new SwingDrawableBinderPainter((g) ->
+    private final SwingShapeUpdaterPainter swingShapeUpdaterPainter = new SwingShapeUpdaterPainter((g) ->
         getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), drawable.getText()).getOutline()
     );
 
@@ -24,13 +24,12 @@ public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDr
     }
 
     @Override
-    public void bind(TextShape drawable, DrawingRequester drawingRequester) {
-        swingDrawableBinderPainter.bind(drawable);
-        super.bind(drawable, drawingRequester);
+    public void update(Property changedProperty) {
+        swingShapeUpdaterPainter.updateSwingShape(drawable, changedProperty);
     }
 
     @Override
-    public void paintDrawable(Graphics2D g) {
+    public void paint(Graphics2D g) {
         double x = Numbers.doubleValue(drawable.getX());
         double wrappingWidth = Numbers.doubleValue(drawable.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
@@ -43,7 +42,7 @@ public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDr
                 x += (wrappingWidth - textWidth);
         }
         g.translate(x, drawable.getY() + vPosToBaselineOffset(drawable.getTextOrigin(), g));
-        swingDrawableBinderPainter.applyCommonShapePropertiesToGraphicsAndPaintShape(drawable, g);
+        swingShapeUpdaterPainter.prepareGraphicsAndPaintShape(drawable, g);
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {
