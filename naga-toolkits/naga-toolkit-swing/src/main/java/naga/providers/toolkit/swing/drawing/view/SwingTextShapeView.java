@@ -26,8 +26,14 @@ public class SwingTextShapeView
     }
 
     @Override
+    public void updateText(String text) {
+        updateSwingShape();
+    }
+
+    @Override
     public void updateFont(Font font) {
         swingFont = null;
+        updateSwingShape();
     }
 
     private java.awt.Font getShapeSwingFont() {

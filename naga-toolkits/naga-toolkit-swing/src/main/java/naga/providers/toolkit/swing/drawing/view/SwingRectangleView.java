@@ -22,6 +22,26 @@ public class SwingRectangleView
     }
 
     @Override
+    public void updateWidth(Double width) {
+        updateSwingShape();
+    }
+
+    @Override
+    public void updateHeight(Double height) {
+        updateSwingShape();
+    }
+
+    @Override
+    public void updateArcWidth(Double arcWidth) {
+        updateSwingShape();
+    }
+
+    @Override
+    public void updateArcHeight(Double arcHeight) {
+        updateSwingShape();
+    }
+
+    @Override
     protected Shape createSwingShape(Graphics2D g) {
         Rectangle r = getDrawable();
         double arcWidth = Numbers.doubleValue(r.getArcWidth());

@@ -80,15 +80,19 @@ abstract class SwingShapeView
         swingStrokeUpdater.updateFromShape(getDrawable());
     }
 
-    @Override
-    public void paint(Graphics2D g) {
-        paintSwingShape(g);
+    protected void updateSwingShape() {
+        swingShape = null;
     }
 
     private java.awt.Shape getOrCreateSwingShape(Graphics2D g) {
         if (swingShape == null)
             swingShape =  createSwingShape(g);
         return swingShape;
+    }
+
+    @Override
+    public void paint(Graphics2D g) {
+        paintSwingShape(g);
     }
 
     protected abstract java.awt.Shape createSwingShape(Graphics2D g);
@@ -102,8 +106,13 @@ abstract class SwingShapeView
     }
 
     void paintSwingShape(Graphics2D g) {
-        Rectangle2D bounds2D = getOrCreateSwingShape(g).getBounds2D();
-        paintSwingShape(bounds2D.getWidth(), bounds2D.getHeight(), g);
+        Double width = null, height = null;
+        if (swingStrokeUpdater.getSwingStroke() != null) {
+            Rectangle2D bounds2D = getOrCreateSwingShape(g).getBounds2D();
+            width = bounds2D.getWidth();
+            height = bounds2D.getHeight();
+        }
+        paintSwingShape(width, height, g);
     }
 
     void paintSwingShape(Double width, Double height, Graphics2D g) {
