@@ -68,7 +68,12 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         updateDrawableChildrenViews(drawableParent.getDrawableChildren());
     }
 
-    protected void updateDrawableView(Drawable drawable, Property changedProperty) {
+    protected boolean updateDrawableView(Drawable drawable, Property changedProperty) {
+        return updateDrawableView(getOrCreateAndBindDrawableView(drawable), changedProperty);
+    }
+
+    protected boolean updateDrawableView(DrawableView drawableView, Property changedProperty) {
+        return drawableView.update(changedProperty);
     }
 
     private void updateDrawableChildrenViews(Collection<Drawable> drawables) {

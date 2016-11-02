@@ -1,14 +1,16 @@
-package naga.toolkit.drawing.spi.view.mixin;
+package naga.toolkit.drawing.spi.view.base;
 
+import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
-import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 
 /**
  * @author Bruno Salmon
  */
-public interface DrawableViewMixin<D extends Drawable, DV extends DrawableViewBase<D>> extends DrawableView<D> {
+public interface DrawableViewMixin
+        <D extends Drawable, DV extends DrawableViewBase<D, DV, DM>, DM extends DrawableViewMixin<D, DV, DM>>
+        extends DrawableView<D> {
 
     DV getDrawableViewBase();
 
@@ -20,5 +22,10 @@ public interface DrawableViewMixin<D extends Drawable, DV extends DrawableViewBa
     @Override
     default void unbind() {
         getDrawableViewBase().unbind();
+    }
+
+    @Override
+    default boolean update(Property changedProperty) {
+        return getDrawableViewBase().update(changedProperty);
     }
 }

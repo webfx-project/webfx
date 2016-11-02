@@ -1,6 +1,7 @@
 package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
+import naga.commons.util.function.Consumer;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
@@ -9,14 +10,21 @@ import naga.toolkit.util.Properties;
 /**
  * @author Bruno Salmon
  */
-public abstract class DrawableViewBase<D extends Drawable> implements DrawableView<D> {
+public abstract class DrawableViewBase
+        <D extends Drawable, DV extends DrawableViewBase<D, DV, DM>, DM extends DrawableViewMixin<D, DV, DM>>
+        implements DrawableView<D> {
 
     protected D drawable;
+    protected DM mixin;
+
+    public void setMixin(DM mixin) {
+        this.mixin = mixin;
+    }
 
     @Override
     public void bind(D drawable, DrawingRequester drawingRequester) {
         this.drawable = drawable;
-        requestDrawableViewUpdate(drawingRequester, null);
+        requestUpdate(drawingRequester, null);
     }
 
     @Override
@@ -28,12 +36,23 @@ public abstract class DrawableViewBase<D extends Drawable> implements DrawableVi
         return drawable;
     }
 
-    protected void requestDrawableViewUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
-        Properties.runOnPropertiesChange(property -> requestDrawableViewUpdate(drawingRequester, property), properties);
+    protected void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
+        Properties.runOnPropertiesChange(property -> requestUpdate(drawingRequester, property), properties);
     }
 
-    protected void requestDrawableViewUpdate(DrawingRequester drawingRequester, Property changedProperty) {
+    protected void requestUpdate(DrawingRequester drawingRequester, Property changedProperty) {
         drawingRequester.requestDrawableViewUpdate(drawable, changedProperty);
     }
 
+    @Override
+    public boolean update(Property changedProperty) {
+        return false;
+    }
+
+    protected <T> boolean updateProperty(Property<T> property, Property changedProperty, Consumer<T> updater) {
+        boolean hitChangedProperty = property == changedProperty;
+        if (hitChangedProperty || changedProperty == null)
+            updater.accept(property.getValue());
+        return hitChangedProperty;
+    }
 }

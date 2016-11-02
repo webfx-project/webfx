@@ -25,12 +25,12 @@ public abstract class CanvasDrawingImpl<DV extends DrawableView, CC, CT> extends
     }
 
     @Override
-    protected void updateDrawableView(Drawable drawable, Property changedProperty) {
-        updateDrawableView((DV) getOrCreateAndBindDrawableView(drawable), changedProperty);
+    protected boolean updateDrawableView(Drawable drawable, Property changedProperty) {
+        if (!super.updateDrawableView(drawable, changedProperty))
+            return false;
         requestCanvasRepaint();
+        return true;
     }
-
-    protected abstract void updateDrawableView(DV drawableView, Property changedProperty);
 
     protected abstract void requestCanvasRepaint();
 

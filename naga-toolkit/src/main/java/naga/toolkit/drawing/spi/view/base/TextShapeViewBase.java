@@ -1,5 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
+import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.TextShapeView;
@@ -7,12 +8,14 @@ import naga.toolkit.drawing.spi.view.TextShapeView;
 /**
  * @author Bruno Salmon
  */
-public class TextShapeViewBase extends ShapeViewBase<TextShape> implements TextShapeView {
+public class TextShapeViewBase
+        extends ShapeViewBase<TextShape, TextShapeViewBase, TextShapeViewMixin>
+        implements TextShapeView {
 
     @Override
     public void bind(TextShape ts, DrawingRequester drawingRequester) {
         super.bind(ts, drawingRequester);
-        requestDrawableViewUpdateOnPropertiesChange(drawingRequester,
+        requestUpdateOnPropertiesChange(drawingRequester,
                 ts.textProperty(),
                 ts.textOriginProperty(),
                 ts.wrappingWidthProperty(),
@@ -20,4 +23,16 @@ public class TextShapeViewBase extends ShapeViewBase<TextShape> implements TextS
                 ts.fontProperty());
     }
 
+    @Override
+    public boolean update(Property changedProperty) {
+        TextShape ts = drawable;
+        return super.update(changedProperty)
+                || updateProperty(ts.textProperty(), changedProperty, mixin::updateText)
+                || updateProperty(ts.xProperty(), changedProperty, mixin::updateX)
+                || updateProperty(ts.yProperty(), changedProperty, mixin::updateY)
+                || updateProperty(ts.wrappingWidthProperty(), changedProperty, mixin::updateWrappingWidth)
+                || updateProperty(ts.textAlignmentProperty(), changedProperty, mixin::updateTextAlignment)
+                || updateProperty(ts.textOriginProperty(), changedProperty, mixin::updateTextOrigin)
+                || updateProperty(ts.fontProperty(), changedProperty, mixin::updateFont);
+    }
 }
