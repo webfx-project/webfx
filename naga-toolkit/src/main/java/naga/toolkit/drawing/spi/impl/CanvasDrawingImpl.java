@@ -1,5 +1,6 @@
 package naga.toolkit.drawing.spi.impl;
 
+import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.DrawingNode;
@@ -24,10 +25,12 @@ public abstract class CanvasDrawingImpl<DV extends DrawableView, CC, CT> extends
     }
 
     @Override
-    protected void updateDrawableView(Drawable drawable) {
-        super.updateDrawableView(drawable);
+    protected void updateDrawableView(Drawable drawable, Property changedProperty) {
+        updateDrawableView((DV) getOrCreateAndBindDrawableView(drawable), changedProperty);
         requestCanvasRepaint();
     }
+
+    protected abstract void updateDrawableView(DV drawableView, Property changedProperty);
 
     protected abstract void requestCanvasRepaint();
 

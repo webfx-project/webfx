@@ -12,7 +12,7 @@ public class RectangleViewImplBase extends ShapeViewImplBase<Rectangle> implemen
     @Override
     public void bind(Rectangle r, DrawingRequester drawingRequester) {
         super.bind(r, drawingRequester);
-        requestDrawableViewUpdateOnPropertiesChange(drawingRequester, r,
+        requestDrawableViewUpdateOnPropertiesChange(r, drawingRequester,
                 r.xProperty(),
                 r.yProperty(),
                 r.widthProperty(),

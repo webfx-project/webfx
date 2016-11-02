@@ -1,5 +1,6 @@
 package naga.toolkit.drawing.spi.impl;
 
+import javafx.beans.property.Property;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
@@ -31,8 +32,8 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         }
 
         @Override
-        public void requestDrawableViewUpdate(Drawable drawable) {
-            updateDrawableView(drawable);
+        public void requestDrawableViewUpdate(Drawable drawable, Property changedProperty) {
+            updateDrawableView(drawable, changedProperty);
         }
     };
 
@@ -58,7 +59,7 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         updateDrawableChildrenViews(drawableParent.getDrawableChildren());
     }
 
-    protected void updateDrawableView(Drawable drawable) {
+    protected void updateDrawableView(Drawable drawable, Property changedProperty) {
     }
 
     private void updateDrawableChildrenViews(Collection<Drawable> drawables) {
@@ -71,14 +72,14 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
             updateDrawableChildrenViews(((DrawableParent) drawableView).getDrawableChildren());
     }
 
-    public DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
+    protected DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
         DrawableView drawableView = drawableViews.get(drawable);
         if (drawableView == null) {
             drawableViews.put(drawable, drawableView = drawableViewFactory.createDrawableView(drawable));
             drawableView.bind(drawable, drawingRequester);
             if (drawable instanceof DrawableParent)
                 keepDrawableParentAndChildrenViewsUpdated((DrawableParent) drawable);
-            updateDrawableView(drawable);
+            updateDrawableView(drawable, null);
         }
         return drawableView;
     }
