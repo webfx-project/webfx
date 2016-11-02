@@ -2,6 +2,7 @@ package naga.providers.toolkit.html.drawing;
 
 import elemental2.Element;
 import elemental2.Node;
+import javafx.beans.property.Property;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.drawing.view.SvgDrawableView;
 import naga.providers.toolkit.html.util.HtmlUtil;
@@ -39,12 +40,12 @@ public class SvgDrawing extends DrawingImpl {
     }
 
     private Element getSvgDrawableElement(Drawable drawable) {
-        return getOrCreateAndBindSvgDrawableView(drawable).getSvgDrawableElement();
+        return getOrCreateAndBindSvgDrawableView(drawable).getElement();
     }
 
     @Override
-    protected void updateDrawableView(Drawable drawable) {
-        getOrCreateAndBindSvgDrawableView(drawable).syncSvgPropertiesFromDrawable(this);
+    protected void updateDrawableView(Drawable drawable, Property changedProperty) {
+        getOrCreateAndBindSvgDrawableView(drawable).update(this, changedProperty);
     }
 
 }

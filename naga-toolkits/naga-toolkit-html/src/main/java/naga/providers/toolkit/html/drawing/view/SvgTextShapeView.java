@@ -1,11 +1,10 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
+import javafx.beans.property.Property;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
-import naga.toolkit.drawing.shapes.Font;
-import naga.toolkit.drawing.shapes.FontPosture;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
@@ -15,38 +14,43 @@ import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
  */
 public class SvgTextShapeView extends TextShapeViewImplBase implements SvgDrawableView {
 
-    private final SvgShapeElementUpdater svgShapeElementUpdater = new SvgShapeElementUpdater(SvgUtil.createSvgText());
+    private final SvgShapeUpdater svgShapeUpdater = new SvgShapeUpdater(SvgUtil.createSvgText());
 
     @Override
-    public void syncSvgPropertiesFromDrawable(SvgDrawing svgDrawing) {
+    public boolean update(SvgDrawing svgDrawing, Property changedProperty) {
         TextShape ts = drawable;
-        Element svgElement = svgShapeElementUpdater.syncSvgFromCommonShapeProperties(ts, svgDrawing);
-        svgElement.textContent = ts.getText();
-        double x = Numbers.doubleValue(ts.getX());
-        double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
-        TextAlignment textAlignment = ts.getTextAlignment();
-        // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
-        if (wrappingWidth > 0) {
-            if (textAlignment == TextAlignment.CENTER)
-                x = x + wrappingWidth / 2;
-            else if (textAlignment == TextAlignment.RIGHT)
-                x = x + wrappingWidth;
+        return svgShapeUpdater.update(ts, changedProperty, svgDrawing)
+            || svgShapeUpdater.updateSvgTextContent(ts.textProperty(), changedProperty)
+            || updateXAttribute(changedProperty)
+            || svgShapeUpdater.updateSvgDoubleAttribute("y", ts.yProperty(), changedProperty)
+            || svgShapeUpdater.updateSvgDoubleAttribute("width", ts.wrappingWidthProperty(), changedProperty)
+            || svgShapeUpdater.updateSvgStringAttribute("text-anchor", ts.textAlignmentProperty(), SvgShapeUpdater::textAlignmentToSvgTextAnchor, changedProperty)
+            || svgShapeUpdater.updateSvgStringAttribute("dominant-baseline", ts.textOriginProperty(), SvgShapeUpdater::vPosToSvgAlignmentBaseLine, changedProperty)
+            || svgShapeUpdater.updateSvgFontAttributes(ts.fontProperty(), changedProperty);
+    }
+
+    boolean updateXAttribute(Property changedProperty) {
+        TextShape ts = drawable;
+        boolean hitProperty = changedProperty == ts.xProperty();
+        if (hitProperty || changedProperty == null || changedProperty == ts.wrappingWidthProperty() || changedProperty == ts.textAlignmentProperty()) {
+            double x = Numbers.doubleValue(ts.getX());
+            double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
+            // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
+            if (wrappingWidth > 0) {
+                TextAlignment textAlignment = ts.getTextAlignment();
+                if (textAlignment == TextAlignment.CENTER)
+                    x = x + wrappingWidth / 2;
+                else if (textAlignment == TextAlignment.RIGHT)
+                    x = x + wrappingWidth;
+            }
+            svgShapeUpdater.setSvgAttribute("x", x);
         }
-        svgShapeElementUpdater.setSvgAttribute("x", x);
-        svgShapeElementUpdater.setSvgAttribute("y", ts.getY());
-        svgShapeElementUpdater.setSvgAttribute("width", wrappingWidth);
-        svgShapeElementUpdater.setSvgAttribute("text-anchor", SvgShapeElementUpdater.textAlignmentToSvgTextAnchor(textAlignment));
-        svgShapeElementUpdater.setSvgAttribute("dominant-baseline", SvgShapeElementUpdater.vPosToSvgAlignmentBaseLine(ts.getTextOrigin()));
-        Font font = ts.getFont();
-        svgShapeElementUpdater.setSvgAttribute("font-family", font.getFamily());
-        svgShapeElementUpdater.setSvgAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal", "normal");
-        svgShapeElementUpdater.setSvgAttribute("font-weight", font.getWeight() == null ? 0 : font.getWeight().getWeight(), 0);
-        svgShapeElementUpdater.setSvgAttribute("font-size", font.getSize());
+        return hitProperty;
     }
 
     @Override
-    public Element getSvgDrawableElement() {
-        return svgShapeElementUpdater.getSvgShapeElement();
+    public Element getElement() {
+        return svgShapeUpdater.getSvgShapeElement();
     }
 
 }

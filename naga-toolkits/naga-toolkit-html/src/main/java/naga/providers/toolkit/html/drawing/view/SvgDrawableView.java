@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
+import javafx.beans.property.Property;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
 
 /**
@@ -8,8 +9,8 @@ import naga.providers.toolkit.html.drawing.SvgDrawing;
  */
 public interface SvgDrawableView {
 
-    void syncSvgPropertiesFromDrawable(SvgDrawing svgDrawing);
+    boolean update(SvgDrawing svgDrawing, Property changedProperty);
 
-    Element getSvgDrawableElement();
+    Element getElement();
 
 }
