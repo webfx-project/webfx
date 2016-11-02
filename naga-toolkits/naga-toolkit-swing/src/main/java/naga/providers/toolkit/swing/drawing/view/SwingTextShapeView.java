@@ -2,67 +2,43 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingFonts;
-import naga.toolkit.drawing.shapes.*;
+import naga.toolkit.drawing.shapes.TextAlignment;
+import naga.toolkit.drawing.shapes.TextShape;
+import naga.toolkit.drawing.shapes.VPos;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin;
+import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin2;
+import naga.toolkit.drawing.shapes.Font;
 
 import java.awt.*;
-import java.awt.Font;
-import java.awt.Shape;
 
 /**
  * @author Bruno Salmon
  */
 public class SwingTextShapeView
         extends SwingShapeView<TextShape, TextShapeViewBase, TextShapeViewMixin>
-        implements TextShapeViewMixin {
+        implements TextShapeViewMixin2 {
+
+    private java.awt.Font swingFont;
 
     public SwingTextShapeView() {
         super(new TextShapeViewBase());
     }
 
     @Override
-    public void updateText(String text) {
-
+    public void updateFont(Font font) {
+        swingFont = null;
     }
 
-    @Override
-    public void updateTextOrigin(VPos textOrigin) {
-
-    }
-
-    @Override
-    public void updateX(Double x) {
-
-    }
-
-    @Override
-    public void updateY(Double y) {
-
-    }
-
-    @Override
-    public void updateWrappingWidth(Double wrappingWidth) {
-
-    }
-
-    @Override
-    public void updateTextAlignment(TextAlignment textAlignment) {
-
-    }
-
-    @Override
-    public void updateFont(naga.toolkit.drawing.shapes.Font font) {
-
+    private java.awt.Font getShapeSwingFont() {
+        if (swingFont == null)
+            swingFont = SwingFonts.toSwingFont(getDrawable().getFont());
+        return swingFont;
     }
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
         return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), getDrawable().getText()).getOutline();
-    }
-
-    private Font getShapeSwingFont() {
-        return SwingFonts.toSwingFont(getDrawable().getFont());
     }
 
     @Override

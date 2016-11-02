@@ -3,6 +3,7 @@ package naga.providers.toolkit.swing.drawing.view;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
 import naga.toolkit.drawing.spi.view.base.RectangleViewMixin;
+import naga.toolkit.drawing.spi.view.base.RectangleViewMixin2;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -13,40 +14,10 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class SwingRectangleView
         extends SwingShapeView<Rectangle, RectangleViewBase, RectangleViewMixin>
-        implements RectangleViewMixin {
+        implements RectangleViewMixin2 {
 
     public SwingRectangleView() {
         super(new RectangleViewBase());
-    }
-
-    @Override
-    public void updateX(Double x) {
-
-    }
-
-    @Override
-    public void updateY(Double y) {
-
-    }
-
-    @Override
-    public void updateWidth(Double width) {
-
-    }
-
-    @Override
-    public void updateHeight(Double height) {
-
-    }
-
-    @Override
-    public void updateArcWidth(Double arcWidth) {
-
-    }
-
-    @Override
-    public void updateArcHeight(Double arcHeight) {
-
     }
 
     @Override
