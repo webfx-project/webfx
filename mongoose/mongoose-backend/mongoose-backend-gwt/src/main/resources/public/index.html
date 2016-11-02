@@ -15,26 +15,26 @@
             --grid-row-height: 36px;
         }
 
-        .vaadin-grid-header.vaadin-grid {
+        .vaadin-grid-0 .vaadin-grid-header.vaadin-grid {
             border-top-style: solid;
             border-top-color: var(--grid-border-color);
             border-top-width: thin;
             height: var(--grid-row-height);
         }
 
-        .vaadin-grid-header.vaadin-grid th.vaadin-grid {
+        .vaadin-grid-0 .vaadin-grid-header.vaadin-grid th.vaadin-grid {
             color: black;
             font-weight: bold;
         }
 
-        .vaadin-grid-header.vaadin-grid th.vaadin-grid, td.vaadin-grid.vaadin-grid-cell {
+        .vaadin-grid-0 .vaadin-grid-header.vaadin-grid th.vaadin-grid, td.vaadin-grid.vaadin-grid-cell {
             border-right-width: thin;
             border-right-style: solid;
             border-right-color: var(--grid-border-color);
             height: var(--grid-row-height);
         }
 
-        .vaadin-grid-row-has-data.vaadin-grid td.vaadin-grid {
+        .vaadin-grid-0 .vaadin-grid-row-has-data.vaadin-grid td.vaadin-grid {
             border-bottom-color: var(--grid-border-color);
         }
 
@@ -42,7 +42,7 @@
             height: var(--grid-row-height);
         }
 
-        .vaadin-grid-header.vaadin-grid th.vaadin-grid, .vaadin-grid-body.vaadin-grid td.vaadin-grid, .vaadin-grid-footer.vaadin-grid td.vaadin-grid {
+        .vaadin-grid-0 .vaadin-grid-header.vaadin-grid th.vaadin-grid, .vaadin-grid-body.vaadin-grid td.vaadin-grid, .vaadin-grid-footer.vaadin-grid td.vaadin-grid {
             padding: 0 5px 0 5px;
         }
 
@@ -53,11 +53,11 @@
 
         /*** Table header gray gradient ***/
 
-        thead tr.vaadin-grid {
+        .vaadin-grid-0 thead tr.vaadin-grid {
             background: linear-gradient( 180deg, white, lightgray 100%);
         }
 
-        th.vaadin-grid.vaadin-grid-cell {
+        .vaadin-grid-0 th.vaadin-grid.vaadin-grid-cell {
             background: transparent;
         }
 
@@ -99,44 +99,44 @@
 
         /**** Applying styles to vaading grid ****/
 
-        td.vaadin-grid.vaadin-grid-cell {
+        .vaadin-grid-0 td.vaadin-grid.vaadin-grid-cell {
             background: transparent;
         }
 
-        tbody.vaadin-grid:not(.touch):not(.scrolling) .vaadin-grid-row.vaadin-grid:hover td.vaadin-grid {
+        .vaadin-grid-0 tbody.vaadin-grid:not(.touch):not(.scrolling) .vaadin-grid-row.vaadin-grid:hover td.vaadin-grid {
             background-color: transparent;
         }
 
-        .vaadin-grid-row-selected.vaadin-grid td.vaadin-grid {
+        .vaadin-grid-0 .vaadin-grid-row-selected.vaadin-grid td.vaadin-grid {
             background-color: transparent;
         }
 
-        tr.vaadin-grid-row-has-data {
+        .vaadin-grid-0 tr.vaadin-grid-row-has-data {
             background: linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
                         linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
                         ;
         }
 
-        tr.vaadin-grid-row-selected.vaadin-grid {
+        .vaadin-grid-0 tr.vaadin-grid-row-selected.vaadin-grid {
             background: repeating-linear-gradient(-35deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
                         linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
                         linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
                         ;
         }
 
-        tr.unread.vaadin-grid-row-has-data {
+        .vaadin-grid-0 tr.unread.vaadin-grid-row-has-data {
             font-weight: bold;
         }
 
-        tr.specialRate.vaadin-grid-row-has-data {
+        .vaadin-grid-0 tr.specialRate.vaadin-grid-row-has-data {
             font-style: italic;
         }
 
-        tr.kmc.vaadin-grid-row-has-data {
+        .vaadin-grid-0 tr.kmc.vaadin-grid-row-has-data {
             font-weight: bold;
         }
 
-        tr.branch.vaadin-grid-row-has-data {
+        .vaadin-grid-0 tr.branch.vaadin-grid-row-has-data {
             font-style: italic;
         }
 

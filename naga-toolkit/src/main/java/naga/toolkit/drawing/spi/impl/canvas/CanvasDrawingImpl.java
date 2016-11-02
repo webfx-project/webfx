@@ -1,10 +1,10 @@
-package naga.toolkit.drawing.spi.impl;
+package naga.toolkit.drawing.spi.impl.canvas;
 
 import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.DrawingNode;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public abstract class CanvasDrawingImpl<DV extends DrawableView, CC, CT> extends DrawingImpl {
+public abstract class CanvasDrawingImpl<DV extends CanvasDrawableView<?, CC>, CC, CT> extends DrawingImpl {
 
     public CanvasDrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
         super(drawingNode, drawableViewFactory);
@@ -26,13 +26,11 @@ public abstract class CanvasDrawingImpl<DV extends DrawableView, CC, CT> extends
 
     @Override
     protected boolean updateDrawableView(Drawable drawable, Property changedProperty) {
-        if (!super.updateDrawableView(drawable, changedProperty))
-            return false;
-        requestCanvasRepaint();
-        return true;
+        boolean hitChangedProperty = super.updateDrawableView(drawable, changedProperty);
+        if (hitChangedProperty || changedProperty == null)
+            requestCanvasRepaint();
+        return hitChangedProperty;
     }
-
-    protected abstract void requestCanvasRepaint();
 
     public void paintCanvas(CC canvasContext) {
         paintDrawables(getDrawableChildren(), canvasContext);
@@ -53,10 +51,14 @@ public abstract class CanvasDrawingImpl<DV extends DrawableView, CC, CT> extends
             paintDrawables(((DrawableParent) drawable).getDrawableChildren(), canvasContext);
     }
 
+    private void paintDrawableView(DV drawableView, CC canvasContext) {
+        drawableView.paint(canvasContext);
+    }
+
+    protected abstract void requestCanvasRepaint();
+
     protected abstract CT getCanvasTransform(CC canvasContext);
 
     protected abstract void setCanvasTransform(CT transform, CC canvasContext);
-
-    protected abstract void paintDrawableView(DV drawableView, CC canvasContext);
 
 }

@@ -36,11 +36,11 @@ public abstract class DrawableViewBase
         return drawable;
     }
 
-    protected void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
+    void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
         Properties.runOnPropertiesChange(property -> requestUpdate(drawingRequester, property), properties);
     }
 
-    protected void requestUpdate(DrawingRequester drawingRequester, Property changedProperty) {
+    private void requestUpdate(DrawingRequester drawingRequester, Property changedProperty) {
         drawingRequester.requestDrawableViewUpdate(drawable, changedProperty);
     }
 
@@ -49,7 +49,7 @@ public abstract class DrawableViewBase
         return false;
     }
 
-    protected <T> boolean updateProperty(Property<T> property, Property changedProperty, Consumer<T> updater) {
+    <T> boolean updateProperty(Property<T> property, Property changedProperty, Consumer<T> updater) {
         boolean hitChangedProperty = property == changedProperty;
         if (hitChangedProperty || changedProperty == null)
             updater.accept(property.getValue());
