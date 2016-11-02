@@ -1,36 +1,44 @@
 package naga.providers.toolkit.html.drawing.view;
 
-import elemental2.Element;
 import javafx.beans.property.Property;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
-import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
+import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
+import naga.toolkit.drawing.spi.view.mixin.TextShapeViewMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class SvgTextShapeView extends TextShapeViewImplBase implements SvgDrawableView {
+public class SvgTextShapeView extends SvgShapeView<TextShape, TextShapeViewBase> implements TextShapeViewMixin {
 
-    private final SvgShapeUpdater svgShapeUpdater = new SvgShapeUpdater(SvgUtil.createSvgText());
+    public SvgTextShapeView() {
+        super(SvgUtil.createSvgText());
+    }
+
+    private final TextShapeViewBase base = new TextShapeViewBase();
+    @Override
+    public TextShapeViewBase getDrawableViewBase() {
+        return base;
+    }
 
     @Override
     public boolean update(SvgDrawing svgDrawing, Property changedProperty) {
-        TextShape ts = drawable;
-        return svgShapeUpdater.update(ts, changedProperty, svgDrawing)
-            || svgShapeUpdater.updateSvgTextContent(ts.textProperty(), changedProperty)
+        TextShape ts = getDrawableViewBase().getDrawable();
+        return super.update(svgDrawing, changedProperty)
+            || updateSvgTextContent(ts.textProperty(), changedProperty)
             || updateXAttribute(changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("y", ts.yProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("width", ts.wrappingWidthProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgStringAttribute("text-anchor", ts.textAlignmentProperty(), SvgShapeUpdater::textAlignmentToSvgTextAnchor, changedProperty)
-            || svgShapeUpdater.updateSvgStringAttribute("dominant-baseline", ts.textOriginProperty(), SvgShapeUpdater::vPosToSvgAlignmentBaseLine, changedProperty)
-            || svgShapeUpdater.updateSvgFontAttributes(ts.fontProperty(), changedProperty);
+            || updateSvgDoubleAttribute("y", ts.yProperty(), changedProperty)
+            || updateSvgDoubleAttribute("width", ts.wrappingWidthProperty(), changedProperty)
+            || updateSvgStringAttribute("text-anchor", ts.textAlignmentProperty(), SvgShapeView::textAlignmentToSvgTextAnchor, changedProperty)
+            || updateSvgStringAttribute("dominant-baseline", ts.textOriginProperty(), SvgShapeView::vPosToSvgAlignmentBaseLine, changedProperty)
+            || updateSvgFontAttributes(ts.fontProperty(), changedProperty);
     }
 
     boolean updateXAttribute(Property changedProperty) {
-        TextShape ts = drawable;
+        TextShape ts = getDrawableViewBase().getDrawable();
         boolean hitProperty = changedProperty == ts.xProperty();
         if (hitProperty || changedProperty == null || changedProperty == ts.wrappingWidthProperty() || changedProperty == ts.textAlignmentProperty()) {
             double x = Numbers.doubleValue(ts.getX());
@@ -43,14 +51,8 @@ public class SvgTextShapeView extends TextShapeViewImplBase implements SvgDrawab
                 else if (textAlignment == TextAlignment.RIGHT)
                     x = x + wrappingWidth;
             }
-            svgShapeUpdater.setSvgAttribute("x", x);
+            setSvgAttribute("x", x);
         }
         return hitProperty;
     }
-
-    @Override
-    public Element getElement() {
-        return svgShapeUpdater.getSvgShapeElement();
-    }
-
 }

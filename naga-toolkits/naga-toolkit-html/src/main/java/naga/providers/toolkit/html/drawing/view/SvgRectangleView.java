@@ -1,33 +1,36 @@
 package naga.providers.toolkit.html.drawing.view;
 
-import elemental2.Element;
 import javafx.beans.property.Property;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.toolkit.drawing.shapes.Rectangle;
-import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
+import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
+import naga.toolkit.drawing.spi.view.mixin.RectangleViewMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class SvgRectangleView extends RectangleViewImplBase implements SvgDrawableView {
+public class SvgRectangleView extends SvgShapeView<Rectangle, RectangleViewBase> implements RectangleViewMixin {
 
-    private final SvgShapeUpdater svgShapeUpdater = new SvgShapeUpdater(SvgUtil.createSvgRectangle());
+    public SvgRectangleView() {
+        super(SvgUtil.createSvgRectangle());
+    }
 
+    private final RectangleViewBase base = new RectangleViewBase();
     @Override
-    public boolean update(SvgDrawing svgDrawingNode, Property changedProperty) {
-        Rectangle r = drawable;
-        return svgShapeUpdater.update(r, changedProperty, svgDrawingNode)
-            || svgShapeUpdater.updateSvgDoubleAttribute("x", r.xProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("y", r.yProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("width", r.widthProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("height", r.heightProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("rx", r.arcWidthProperty(), changedProperty)
-            || svgShapeUpdater.updateSvgDoubleAttribute("ry", r.arcHeightProperty(), changedProperty);
+    public RectangleViewBase getDrawableViewBase() {
+        return base;
     }
 
     @Override
-    public Element getElement() {
-        return svgShapeUpdater.getSvgShapeElement();
+    public boolean update(SvgDrawing svgDrawingNode, Property changedProperty) {
+        Rectangle r = getDrawableViewBase().getDrawable();
+        return super.update(svgDrawingNode, changedProperty)
+            || updateSvgDoubleAttribute("x", r.xProperty(), changedProperty)
+            || updateSvgDoubleAttribute("y", r.yProperty(), changedProperty)
+            || updateSvgDoubleAttribute("width", r.widthProperty(), changedProperty)
+            || updateSvgDoubleAttribute("height", r.heightProperty(), changedProperty)
+            || updateSvgDoubleAttribute("rx", r.arcWidthProperty(), changedProperty)
+            || updateSvgDoubleAttribute("ry", r.arcHeightProperty(), changedProperty);
     }
 }
