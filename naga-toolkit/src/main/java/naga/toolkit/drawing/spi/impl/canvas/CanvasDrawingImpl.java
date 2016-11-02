@@ -41,8 +41,8 @@ public abstract class CanvasDrawingImpl
     private void paintDrawables(Collection<Drawable> drawables, CC canvasContext) {
         CT parentTransform = getCanvasTransform(canvasContext);
         for (Drawable drawable : drawables) {
-            setCanvasTransform(parentTransform, canvasContext);
             paintDrawable(drawable, canvasContext);
+            setCanvasTransform(parentTransform, canvasContext);
         }
     }
 
