@@ -2,7 +2,7 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
-import naga.toolkit.drawing.spi.view.mixin.RectangleViewMixin;
+import naga.toolkit.drawing.spi.view.base.RectangleViewMixin;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -11,17 +11,47 @@ import java.awt.geom.RoundRectangle2D;
 /**
  * @author Bruno Salmon
  */
-public class SwingRectangleView extends SwingShapeView<Rectangle> implements RectangleViewMixin {
+public class SwingRectangleView
+        extends SwingShapeView<Rectangle, RectangleViewBase, RectangleViewMixin>
+        implements RectangleViewMixin {
 
-    private final RectangleViewBase base = new RectangleViewBase();
+    public SwingRectangleView() {
+        super(new RectangleViewBase());
+    }
+
     @Override
-    public RectangleViewBase getDrawableViewBase() {
-        return base;
+    public void updateX(Double x) {
+
+    }
+
+    @Override
+    public void updateY(Double y) {
+
+    }
+
+    @Override
+    public void updateWidth(Double width) {
+
+    }
+
+    @Override
+    public void updateHeight(Double height) {
+
+    }
+
+    @Override
+    public void updateArcWidth(Double arcWidth) {
+
+    }
+
+    @Override
+    public void updateArcHeight(Double arcHeight) {
+
     }
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        Rectangle r = drawable;
+        Rectangle r = getDrawable();
         Double arcWidth = r.getArcWidth();
         Double arcHeight = r.getArcHeight();
         if (arcWidth != null && arcHeight != null && arcWidth != 0 && arcHeight != 0)
@@ -31,7 +61,8 @@ public class SwingRectangleView extends SwingShapeView<Rectangle> implements Rec
 
     @Override
     public void paint(Graphics2D g) {
+        Rectangle r = getDrawable();
         prepareGraphics(g);
-        paintSwingShape(drawable.getWidth(), drawable.getHeight(), g);
+        paintSwingShape(r.getWidth(), r.getHeight(), g);
     }
 }

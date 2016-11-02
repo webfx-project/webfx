@@ -1,23 +1,25 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import javafx.beans.property.Property;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.drawing.shapes.Group;
 import naga.toolkit.drawing.spi.view.base.GroupViewBase;
+import naga.toolkit.drawing.spi.view.base.GroupViewMixin;
 
 import java.awt.*;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingGroupView extends GroupViewBase implements SwingDrawableView<Group> {
+public class SwingGroupView
+        extends SwingDrawableView<Group, GroupViewBase, GroupViewMixin>
+        implements GroupViewMixin {
 
-    @Override
-    public void update(Property changedProperty) {
+    public SwingGroupView() {
+        super(new GroupViewBase());
     }
 
     @Override
     public void paint(Graphics2D g) {
-        g.setTransform(SwingTransforms.toSwingTransform(drawable.getTransforms()));
+        g.setTransform(SwingTransforms.toSwingTransform(getDrawable().getTransforms()));
     }
 }

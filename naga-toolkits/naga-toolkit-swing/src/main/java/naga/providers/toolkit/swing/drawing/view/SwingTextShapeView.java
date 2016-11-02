@@ -2,48 +2,84 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingFonts;
-import naga.toolkit.drawing.shapes.TextAlignment;
-import naga.toolkit.drawing.shapes.TextShape;
-import naga.toolkit.drawing.shapes.VPos;
+import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
-import naga.toolkit.drawing.spi.view.mixin.TextShapeViewMixin;
+import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin;
 
 import java.awt.*;
+import java.awt.Font;
+import java.awt.Shape;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingTextShapeView extends SwingShapeView<TextShape> implements TextShapeViewMixin {
+public class SwingTextShapeView
+        extends SwingShapeView<TextShape, TextShapeViewBase, TextShapeViewMixin>
+        implements TextShapeViewMixin {
 
-    private final TextShapeViewBase base = new TextShapeViewBase();
+    public SwingTextShapeView() {
+        super(new TextShapeViewBase());
+    }
+
     @Override
-    public TextShapeViewBase getDrawableViewBase() {
-        return base;
+    public void updateText(String text) {
+
+    }
+
+    @Override
+    public void updateTextOrigin(VPos textOrigin) {
+
+    }
+
+    @Override
+    public void updateX(Double x) {
+
+    }
+
+    @Override
+    public void updateY(Double y) {
+
+    }
+
+    @Override
+    public void updateWrappingWidth(Double wrappingWidth) {
+
+    }
+
+    @Override
+    public void updateTextAlignment(TextAlignment textAlignment) {
+
+    }
+
+    @Override
+    public void updateFont(naga.toolkit.drawing.shapes.Font font) {
+
     }
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), drawable.getText()).getOutline();
+        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), getDrawable().getText()).getOutline();
     }
 
     private Font getShapeSwingFont() {
-        return SwingFonts.toSwingFont(drawable.getFont());
+        return SwingFonts.toSwingFont(getDrawable().getFont());
     }
 
     @Override
     public void paint(Graphics2D g) {
-        double x = Numbers.doubleValue(drawable.getX());
-        double wrappingWidth = Numbers.doubleValue(drawable.getWrappingWidth());
+        TextShape ts = getDrawable();
+        double x = Numbers.doubleValue(ts.getX());
+        double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
         if (wrappingWidth > 0) {
-            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(drawable.getText());
-            TextAlignment textAlignment = drawable.getTextAlignment();
+            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(ts.getText());
+            TextAlignment textAlignment = ts.getTextAlignment();
             if (textAlignment == TextAlignment.CENTER)
                 x += (wrappingWidth - textWidth) / 2;
             else if (textAlignment == TextAlignment.RIGHT)
                 x += (wrappingWidth - textWidth);
         }
-        g.translate(x, drawable.getY() + vPosToBaselineOffset(drawable.getTextOrigin(), g));
+        g.translate(x, ts.getY() + vPosToBaselineOffset(ts.getTextOrigin(), g));
         prepareGraphicsAndPaintShape(g);
     }
 

@@ -1,6 +1,5 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import javafx.beans.property.Property;
 import naga.providers.toolkit.swing.util.SwingPaints;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.shapes.Shape;
@@ -12,14 +11,11 @@ import java.awt.*;
  */
 class SwingPaintUpdater {
 
-    Paint swingPaint;
+    private Paint swingPaint;
     private LinearGradient linearGradient;
 
-    protected boolean updateFromShape(Shape shape, Property changedProperty) {
-        boolean hitChangedProperty = false;
-        if (changedProperty == null || (hitChangedProperty = changedProperty == shape.fillProperty()))
-            updateFromPaint(shape.getFill());
-        return hitChangedProperty;
+    void updateFromShape(Shape shape) {
+        updateFromPaint(shape.getFill());
     }
 
     void updateFromPaint(naga.toolkit.drawing.paint.Paint paint) {
@@ -36,4 +32,7 @@ class SwingPaintUpdater {
             swingPaint = SwingPaints.toSwingLinearGradient(linearGradient, width.floatValue(), height.floatValue());
     }
 
+    public Paint getSwingPaint() {
+        return swingPaint;
+    }
 }
