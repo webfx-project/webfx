@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.drawing.view;
 
+import naga.commons.util.Numbers;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
 import naga.toolkit.drawing.spi.view.base.RectangleViewMixin;
@@ -23,16 +24,22 @@ public class SwingRectangleView
     @Override
     protected Shape createSwingShape(Graphics2D g) {
         Rectangle r = getDrawable();
-        Double arcWidth = r.getArcWidth();
-        Double arcHeight = r.getArcHeight();
-        if (arcWidth != null && arcHeight != null && arcWidth != 0 && arcHeight != 0)
-            return new RoundRectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight(), arcWidth, arcHeight);
-        return new Rectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+        double arcWidth = Numbers.doubleValue(r.getArcWidth());
+        double arcHeight = Numbers.doubleValue(r.getArcHeight());
+        if (arcWidth != 0 && arcHeight != 0)
+            return new RoundRectangle2D.Double(0, 0, r.getWidth(), r.getHeight(), arcWidth, arcHeight);
+        return new Rectangle2D.Double(0, 0, r.getWidth(), r.getHeight());
+    }
+
+    @Override
+    public void prepareCanvasContext(Graphics2D g) {
+        super.prepareCanvasContext(g);
+        Rectangle r = getDrawable();
+        g.translate(r.getX(), r.getY());
     }
 
     @Override
     public void paint(Graphics2D g) {
-        prepareGraphics(g);
         Rectangle r = getDrawable();
         paintSwingShape(r.getWidth(), r.getHeight(), g);
     }

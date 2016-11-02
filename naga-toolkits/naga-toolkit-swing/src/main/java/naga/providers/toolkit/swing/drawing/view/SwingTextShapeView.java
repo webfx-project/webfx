@@ -2,13 +2,13 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingFonts;
+import naga.toolkit.drawing.shapes.Font;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.shapes.VPos;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin2;
-import naga.toolkit.drawing.shapes.Font;
 
 import java.awt.*;
 
@@ -42,7 +42,8 @@ public class SwingTextShapeView
     }
 
     @Override
-    public void paint(Graphics2D g) {
+    public void prepareCanvasContext(Graphics2D g) {
+        super.prepareCanvasContext(g);
         TextShape ts = getDrawable();
         double x = Numbers.doubleValue(ts.getX());
         double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
@@ -55,9 +56,7 @@ public class SwingTextShapeView
             else if (textAlignment == TextAlignment.RIGHT)
                 x += (wrappingWidth - textWidth);
         }
-        prepareGraphics(g);
         g.translate(x, ts.getY() + vPosToBaselineOffset(ts.getTextOrigin(), g));
-        paintSwingShape(g);
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {

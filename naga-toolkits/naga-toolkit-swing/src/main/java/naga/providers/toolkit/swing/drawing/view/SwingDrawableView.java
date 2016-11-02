@@ -34,16 +34,16 @@ public abstract class SwingDrawableView
     }
 
     @Override
-    public void paint(Graphics2D g) {
-        prepareGraphics(g);
-    }
-
-    void prepareGraphics(Graphics2D g) {
+    public void prepareCanvasContext(Graphics2D g) {
         if (swingTransform != null) {
             AffineTransform tx = new AffineTransform(g.getTransform());
             tx.concatenate(swingTransform);
             g.setTransform(tx);
         }
+    }
+
+    @Override
+    public void paint(Graphics2D g) {
     }
 
 }

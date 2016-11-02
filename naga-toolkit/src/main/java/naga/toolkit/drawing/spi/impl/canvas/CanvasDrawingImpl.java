@@ -54,6 +54,7 @@ public abstract class CanvasDrawingImpl
     }
 
     private void paintDrawableView(DV drawableView, CC canvasContext) {
+        drawableView.prepareCanvasContext(canvasContext);
         drawableView.paint(canvasContext);
     }
 

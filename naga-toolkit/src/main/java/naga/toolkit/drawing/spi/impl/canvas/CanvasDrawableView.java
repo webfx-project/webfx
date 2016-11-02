@@ -10,6 +10,8 @@ public interface CanvasDrawableView
         <D extends Drawable, CC>
         extends DrawableView<D> {
 
+    void prepareCanvasContext(CC c);
+
     void paint(CC c);
 
 }

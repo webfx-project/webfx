@@ -24,7 +24,7 @@ abstract class SwingShapeView
     private final SwingStrokeUpdater swingStrokeUpdater = new SwingStrokeUpdater();
     private java.awt.Shape swingShape;
 
-    public SwingShapeView(DV base) {
+    SwingShapeView(DV base) {
         super(base);
     }
 
@@ -82,7 +82,7 @@ abstract class SwingShapeView
 
     @Override
     public void paint(Graphics2D g) {
-        prepareGraphicsAndPaintShape(g);
+        paintSwingShape(g);
     }
 
     private java.awt.Shape getOrCreateSwingShape(Graphics2D g) {
@@ -93,30 +93,23 @@ abstract class SwingShapeView
 
     protected abstract java.awt.Shape createSwingShape(Graphics2D g);
 
-    void prepareGraphics(Graphics2D g) {
-        super.prepareGraphics(g);
+    public void prepareCanvasContext(Graphics2D g) {
+        super.prepareCanvasContext(g);
         D drawable = getDrawable();
         boolean smooth = drawable.isSmooth();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, smooth ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, smooth ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
     }
 
-    void prepareGraphicsAndPaintShape(Graphics2D g) {
-        prepareGraphics(g);
-        paintSwingShape(g);
-    }
-
     void paintSwingShape(Graphics2D g) {
-        getOrCreateSwingShape(g);
-        Rectangle2D bounds2D = swingShape.getBounds2D();
+        Rectangle2D bounds2D = getOrCreateSwingShape(g).getBounds2D();
         paintSwingShape(bounds2D.getWidth(), bounds2D.getHeight(), g);
     }
 
     void paintSwingShape(Double width, Double height, Graphics2D g) {
-        getOrCreateSwingShape(g);
         swingPaintUpdater.updateProportionalGradient(width, height);
         g.setPaint(swingPaintUpdater.getSwingPaint());
-        g.fill(swingShape);
+        g.fill(getOrCreateSwingShape(g));
         if (swingStrokeUpdater.getSwingStroke() != null) {
             g.setStroke(swingStrokeUpdater.getSwingStroke());
             swingStrokeUpdater.updateProportionalGradient(width, height);
