@@ -1,8 +1,6 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
-import javafx.beans.property.Property;
-import naga.commons.util.function.Converter;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.drawing.SvgUtil;
 import naga.providers.toolkit.html.util.HtmlPaints;
@@ -11,7 +9,9 @@ import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
+import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
+import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,33 +20,20 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public abstract class SvgDrawableView<S extends Drawable> implements DrawableView<S> {
+public abstract class SvgDrawableView
+        <D extends Drawable, DV extends DrawableViewBase<D, DV, DM>, DM extends DrawableViewMixin<D, DV, DM>>
+        extends DrawableViewImpl<D, DV, DM> {
 
     private final Element svgElement;
     private Map<String, Element> svgLinearGradients;
 
-    SvgDrawableView(Element svgElement) {
+    SvgDrawableView(DV base, Element svgElement) {
+        super(base);
         this.svgElement = svgElement;
     }
 
     public Element getElement() {
         return svgElement;
-    }
-
-    public abstract boolean update(Property changedProperty);
-
-    <T> boolean updateSvgStringAttribute(String name, Property<T> property, Converter<T, String> converter, Property changedProperty) {
-        boolean hitChangedProperty = property == changedProperty;
-        if (hitChangedProperty || changedProperty == null)
-            svgElement.setAttribute(name, converter.convert(property.getValue()));
-        return hitChangedProperty;
-    }
-
-    boolean updateSvgDoubleAttribute(String name, Property<Double> property, Property changedProperty) {
-        boolean hitChangedProperty = property == changedProperty;
-        if (hitChangedProperty || changedProperty == null)
-            svgElement.setAttribute(name, property.getValue());
-        return hitChangedProperty;
     }
 
     void setSvgAttribute(String name, String value) {
@@ -82,27 +69,19 @@ public abstract class SvgDrawableView<S extends Drawable> implements DrawableVie
             svgElement.setAttribute(name, value);
     }
 
-    boolean updateSvgFontAttributes(Property<Font> property, Property changedProperty) {
-        boolean hitProperty = property == changedProperty;
-        if (hitProperty || changedProperty == null) {
-            Font font = property.getValue();
-            setSvgAttribute("font-family", font.getFamily());
-            setSvgAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal", "normal");
-            setSvgAttribute("font-weight", font.getWeight() == null ? 0 : font.getWeight().getWeight(), 0);
-            setSvgAttribute("font-size", font.getSize());
-        }
-        return hitProperty;
+    void setSvgFontAttributes(Font font) {
+        setSvgAttribute("font-family", font.getFamily());
+        setSvgAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal", "normal");
+        setSvgAttribute("font-weight", font.getWeight() == null ? 0 : font.getWeight().getWeight(), 0);
+        setSvgAttribute("font-size", font.getSize());
     }
 
-    boolean updateSvgTextContent(Property<String> property, Property changedProperty) {
-        boolean hitProperty = property == changedProperty;
-        if (hitProperty || changedProperty == null)
-            svgElement.textContent = property.getValue();
-        return hitProperty;
+    void setSvgTextContent(String textContent) {
+        svgElement.textContent = textContent;
     }
 
-    boolean updateSvgPaintAttribute(String name, Property<Paint> property, Property changedProperty) {
-        return updateSvgStringAttribute(name, property, paint -> toPaintAttribute(name, paint), changedProperty);
+    void setPaintAttribute(String name, Paint paint) {
+        setSvgAttribute(name, toPaintAttribute(name, paint));
     }
 
     private String toPaintAttribute(String name, Paint paint) {
