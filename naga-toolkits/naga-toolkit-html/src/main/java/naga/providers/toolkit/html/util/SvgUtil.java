@@ -1,9 +1,7 @@
-package naga.providers.toolkit.html.drawing;
+package naga.providers.toolkit.html.util;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.util.HtmlPaints;
-import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.CycleMethod;
 import naga.toolkit.drawing.paint.LinearGradient;

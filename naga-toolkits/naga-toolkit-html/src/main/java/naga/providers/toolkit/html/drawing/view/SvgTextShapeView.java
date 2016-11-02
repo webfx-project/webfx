@@ -1,7 +1,7 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import naga.commons.util.Numbers;
-import naga.providers.toolkit.html.drawing.SvgUtil;
+import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.shapes.Font;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;

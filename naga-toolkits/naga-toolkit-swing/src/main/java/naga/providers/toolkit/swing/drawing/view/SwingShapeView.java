@@ -93,6 +93,7 @@ abstract class SwingShapeView
     protected abstract java.awt.Shape createSwingShape(Graphics2D g);
 
     void prepareGraphics(Graphics2D g) {
+        super.prepareGraphics(g);
         D drawable = getDrawable();
         boolean smooth = drawable.isSmooth();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, smooth ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);

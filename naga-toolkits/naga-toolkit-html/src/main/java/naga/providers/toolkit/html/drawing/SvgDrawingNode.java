@@ -2,6 +2,7 @@ package naga.providers.toolkit.html.drawing;
 
 import elemental2.Element;
 import naga.providers.toolkit.html.nodes.HtmlParent;
+import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;

@@ -1,6 +1,7 @@
 package naga.toolkit.drawing.spi.view;
 
 import javafx.beans.property.Property;
+import javafx.collections.ObservableList;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingRequester;
 
@@ -13,5 +14,7 @@ public interface DrawableView<D extends Drawable> {
 
     void unbind();
 
-    boolean update(Property changedProperty);
+    boolean updateProperty(Property changedProperty);
+
+    boolean updateList(ObservableList changedList);
 }

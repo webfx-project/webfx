@@ -2,7 +2,7 @@ package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.drawing.SvgUtil;
+import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.StrokeLineCap;

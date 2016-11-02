@@ -9,14 +9,14 @@ import java.awt.geom.AffineTransform;
 /**
  * @author Bruno Salmon
  */
-class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphics2D, AffineTransform> {
+public class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphics2D, AffineTransform> {
 
     SwingDrawing(SwingDrawingNode drawingNode) {
         super(drawingNode, SwingDrawableViewFactory.SINGLETON);
     }
 
     @Override
-    protected void requestCanvasRepaint() {
+    public void requestCanvasRepaint() {
         ((Component) drawingNode.unwrapToNativeNode()).repaint();
     }
 

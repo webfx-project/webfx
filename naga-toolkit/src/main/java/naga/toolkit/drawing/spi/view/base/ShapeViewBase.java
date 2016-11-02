@@ -29,10 +29,10 @@ public abstract class ShapeViewBase
     }
 
     @Override
-    public boolean update(Property changedProperty) {
+    public boolean updateProperty(Property changedProperty) {
         D s = drawable;
         mixin.updateStrokeDashArray(s.getStrokeDashArray());
-        return super.update(changedProperty)
+        return super.updateProperty(changedProperty)
                 || updateProperty(s.fillProperty(), changedProperty, mixin::updateFill)
                 || updateProperty(s.smoothProperty(), changedProperty, mixin::updateSmooth)
                 || updateProperty(s.strokeProperty(), changedProperty, mixin::updateStroke)

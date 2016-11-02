@@ -2,7 +2,8 @@ package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
-import naga.providers.toolkit.html.drawing.SvgUtil;
+import naga.providers.toolkit.html.util.SvgTransforms;
+import naga.providers.toolkit.html.util.SvgUtil;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.LinearGradient;
@@ -12,8 +13,10 @@ import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
+import naga.toolkit.transform.Transform;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -34,6 +37,10 @@ public abstract class SvgDrawableView
 
     public Element getElement() {
         return svgElement;
+    }
+
+    @Override
+    public void updateTransforms(List<Transform> transforms) {
     }
 
     void setSvgAttribute(String name, String value) {

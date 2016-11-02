@@ -1,6 +1,7 @@
 package naga.toolkit.drawing.spi.impl;
 
 import javafx.beans.property.Property;
+import javafx.collections.ObservableList;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
@@ -34,9 +35,16 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         }
 
         @Override
-        public void requestDrawableViewUpdate(Drawable drawable, Property changedProperty) {
+        public void requestDrawableViewUpdateProperty(Drawable drawable, Property changedProperty) {
             drawingThreadLocal.set(DrawingImpl.this);
-            updateDrawableView(drawable, changedProperty);
+            updateDrawableViewProperty(drawable, changedProperty);
+            drawingThreadLocal.set(null);
+        }
+
+        @Override
+        public void requestDrawableViewUpdateList(Drawable drawable, ObservableList changedList) {
+            drawingThreadLocal.set(DrawingImpl.this);
+            updateDrawableViewList(drawable, changedList);
             drawingThreadLocal.set(null);
         }
     };
@@ -68,12 +76,20 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         updateDrawableChildrenViews(drawableParent.getDrawableChildren());
     }
 
-    protected boolean updateDrawableView(Drawable drawable, Property changedProperty) {
-        return updateDrawableView(getOrCreateAndBindDrawableView(drawable), changedProperty);
+    protected boolean updateDrawableViewProperty(Drawable drawable, Property changedProperty) {
+        return updateDrawableViewProperty(getOrCreateAndBindDrawableView(drawable), changedProperty);
     }
 
-    protected boolean updateDrawableView(DrawableView drawableView, Property changedProperty) {
-        return drawableView.update(changedProperty);
+    private boolean updateDrawableViewProperty(DrawableView drawableView, Property changedProperty) {
+        return drawableView.updateProperty(changedProperty);
+    }
+
+    protected boolean updateDrawableViewList(Drawable drawable, ObservableList changedList) {
+        return updateDrawableViewList(getOrCreateAndBindDrawableView(drawable), changedList);
+    }
+
+    private boolean updateDrawableViewList(DrawableView drawableView, ObservableList changedList) {
+        return drawableView.updateList(changedList);
     }
 
     private void updateDrawableChildrenViews(Collection<Drawable> drawables) {
@@ -93,7 +109,6 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
             drawableView.bind(drawable, drawingRequester);
             if (drawable instanceof DrawableParent)
                 keepDrawableParentAndChildrenViewsUpdated((DrawableParent) drawable);
-            updateDrawableView(drawable, null);
         }
         return drawableView;
     }

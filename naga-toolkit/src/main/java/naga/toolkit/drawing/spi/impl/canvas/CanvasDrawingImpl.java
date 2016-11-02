@@ -12,7 +12,9 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public abstract class CanvasDrawingImpl<DV extends CanvasDrawableView<?, CC>, CC, CT> extends DrawingImpl {
+public abstract class CanvasDrawingImpl
+        <DV extends CanvasDrawableView<?, CC>, CC, CT>
+        extends DrawingImpl {
 
     public CanvasDrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
         super(drawingNode, drawableViewFactory);
@@ -25,8 +27,8 @@ public abstract class CanvasDrawingImpl<DV extends CanvasDrawableView<?, CC>, CC
     }
 
     @Override
-    protected boolean updateDrawableView(Drawable drawable, Property changedProperty) {
-        boolean hitChangedProperty = super.updateDrawableView(drawable, changedProperty);
+    protected boolean updateDrawableViewProperty(Drawable drawable, Property changedProperty) {
+        boolean hitChangedProperty = super.updateDrawableViewProperty(drawable, changedProperty);
         if (hitChangedProperty || changedProperty == null)
             requestCanvasRepaint();
         return hitChangedProperty;
@@ -55,7 +57,7 @@ public abstract class CanvasDrawingImpl<DV extends CanvasDrawableView<?, CC>, CC
         drawableView.paint(canvasContext);
     }
 
-    protected abstract void requestCanvasRepaint();
+    public abstract void requestCanvasRepaint();
 
     protected abstract CT getCanvasTransform(CC canvasContext);
 

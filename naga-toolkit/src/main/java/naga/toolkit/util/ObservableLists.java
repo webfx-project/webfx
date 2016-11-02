@@ -36,7 +36,10 @@ public class ObservableLists {
 
     public static void runNowAndOnListChange(Runnable runnable, ObservableList list) {
         runnable.run();
-        list.addListener((ListChangeListener) c -> runnable.run());
+        runOnListChange(runnable, list);
     }
 
+    public static void runOnListChange(Runnable runnable, ObservableList list) {
+        list.addListener((ListChangeListener) c -> runnable.run());
+    }
 }

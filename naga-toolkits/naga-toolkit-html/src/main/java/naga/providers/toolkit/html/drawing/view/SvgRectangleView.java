@@ -1,6 +1,6 @@
 package naga.providers.toolkit.html.drawing.view;
 
-import naga.providers.toolkit.html.drawing.SvgUtil;
+import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
 import naga.toolkit.drawing.spi.view.base.RectangleViewMixin;

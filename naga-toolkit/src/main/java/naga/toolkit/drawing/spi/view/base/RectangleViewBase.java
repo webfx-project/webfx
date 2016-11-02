@@ -25,9 +25,9 @@ public class RectangleViewBase
     }
 
     @Override
-    public boolean update(Property changedProperty) {
+    public boolean updateProperty(Property changedProperty) {
         Rectangle r = drawable;
-        return super.update(changedProperty)
+        return super.updateProperty(changedProperty)
                 || updateProperty(r.xProperty(), changedProperty, mixin::updateX)
                 || updateProperty(r.yProperty(), changedProperty, mixin::updateY)
                 || updateProperty(r.widthProperty(), changedProperty, mixin::updateWidth)

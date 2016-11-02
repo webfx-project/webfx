@@ -5,6 +5,7 @@ import elemental2.Node;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.drawing.view.SvgDrawableView;
 import naga.providers.toolkit.html.util.HtmlUtil;
+import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
