@@ -32,8 +32,8 @@ public class SwingRectangleView
 
     @Override
     public void paint(Graphics2D g) {
-        Rectangle r = getDrawable();
         prepareGraphics(g);
+        Rectangle r = getDrawable();
         paintSwingShape(r.getWidth(), r.getHeight(), g);
     }
 }

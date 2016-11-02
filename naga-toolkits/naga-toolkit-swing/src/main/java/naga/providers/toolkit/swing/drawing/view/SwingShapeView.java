@@ -16,6 +16,7 @@ import java.util.List;
  */
 abstract class SwingShapeView
         <D extends Shape, DV extends ShapeViewBase<D, DV, DM>, DM extends ShapeViewMixin<D, DV, DM>>
+
         extends SwingDrawableView<D, DV, DM>
         implements ShapeViewMixin<D, DV, DM> {
 

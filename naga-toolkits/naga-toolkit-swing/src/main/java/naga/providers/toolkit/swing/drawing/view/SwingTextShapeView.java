@@ -55,8 +55,9 @@ public class SwingTextShapeView
             else if (textAlignment == TextAlignment.RIGHT)
                 x += (wrappingWidth - textWidth);
         }
+        prepareGraphics(g);
         g.translate(x, ts.getY() + vPosToBaselineOffset(ts.getTextOrigin(), g));
-        prepareGraphicsAndPaintShape(g);
+        paintSwingShape(g);
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {

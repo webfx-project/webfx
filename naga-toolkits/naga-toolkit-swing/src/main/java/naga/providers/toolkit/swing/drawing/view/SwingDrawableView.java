@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.drawing.view;
 
+import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawableView;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
@@ -29,6 +30,7 @@ public abstract class SwingDrawableView
 
     @Override
     public void updateTransforms(List<Transform> transforms) {
+        swingTransform = SwingTransforms.toSwingTransform(transforms);
     }
 
     @Override
