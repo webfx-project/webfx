@@ -12,7 +12,7 @@ public abstract class ShapeViewBase<S extends Shape> extends DrawableViewBase<S>
     @Override
     public void bind(S shape, DrawingRequester drawingRequester) {
         super.bind(shape, drawingRequester);
-        requestDrawableViewUpdateOnPropertiesChange(shape, drawingRequester,
+        requestDrawableViewUpdateOnPropertiesChange(drawingRequester,
                 shape.fillProperty(),
                 shape.smoothProperty(),
                 shape.strokeProperty(),

@@ -12,7 +12,7 @@ public class RectangleViewBase extends ShapeViewBase<Rectangle> implements Recta
     @Override
     public void bind(Rectangle r, DrawingRequester drawingRequester) {
         super.bind(r, drawingRequester);
-        requestDrawableViewUpdateOnPropertiesChange(r, drawingRequester,
+        requestDrawableViewUpdateOnPropertiesChange(drawingRequester,
                 r.xProperty(),
                 r.yProperty(),
                 r.widthProperty(),

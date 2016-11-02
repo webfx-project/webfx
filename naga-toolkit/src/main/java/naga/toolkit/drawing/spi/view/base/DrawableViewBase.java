@@ -16,7 +16,7 @@ public abstract class DrawableViewBase<D extends Drawable> implements DrawableVi
     @Override
     public void bind(D drawable, DrawingRequester drawingRequester) {
         this.drawable = drawable;
-        requestDrawableViewUpdate(drawable, null, drawingRequester);
+        requestDrawableViewUpdate(drawingRequester, null);
     }
 
     @Override
@@ -28,11 +28,11 @@ public abstract class DrawableViewBase<D extends Drawable> implements DrawableVi
         return drawable;
     }
 
-    protected void requestDrawableViewUpdateOnPropertiesChange(D drawable, DrawingRequester drawingRequester, Property... properties) {
-        Properties.runOnPropertiesChange(property -> this.requestDrawableViewUpdate(drawable, property, drawingRequester), properties);
+    protected void requestDrawableViewUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
+        Properties.runOnPropertiesChange(property -> requestDrawableViewUpdate(drawingRequester, property), properties);
     }
 
-    protected void requestDrawableViewUpdate(D drawable, Property changedProperty, DrawingRequester drawingRequester) {
+    protected void requestDrawableViewUpdate(DrawingRequester drawingRequester, Property changedProperty) {
         drawingRequester.requestDrawableViewUpdate(drawable, changedProperty);
     }
 

@@ -12,7 +12,7 @@ public class TextShapeViewBase extends ShapeViewBase<TextShape> implements TextS
     @Override
     public void bind(TextShape ts, DrawingRequester drawingRequester) {
         super.bind(ts, drawingRequester);
-        requestDrawableViewUpdateOnPropertiesChange(ts, drawingRequester,
+        requestDrawableViewUpdateOnPropertiesChange(drawingRequester,
                 ts.textProperty(),
                 ts.textOriginProperty(),
                 ts.wrappingWidthProperty(),
