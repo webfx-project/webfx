@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.spi.view.implbase;
+package naga.toolkit.drawing.spi.view.base;
 
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.spi.DrawingRequester;
@@ -7,7 +7,7 @@ import naga.toolkit.drawing.spi.view.DrawableView;
 /**
  * @author Bruno Salmon
  */
-abstract class ShapeViewImplBase<S extends Shape> extends DrawableViewImplBase<S> implements DrawableView<S> {
+public abstract class ShapeViewBase<S extends Shape> extends DrawableViewBase<S> implements DrawableView<S> {
 
     @Override
     public void bind(S shape, DrawingRequester drawingRequester) {

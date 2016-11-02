@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.spi.view.implbase;
+package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Drawable;
@@ -9,7 +9,7 @@ import naga.toolkit.util.Properties;
 /**
  * @author Bruno Salmon
  */
-abstract class DrawableViewImplBase <D extends Drawable> implements DrawableView<D> {
+public abstract class DrawableViewBase<D extends Drawable> implements DrawableView<D> {
 
     protected D drawable;
 
@@ -22,6 +22,10 @@ abstract class DrawableViewImplBase <D extends Drawable> implements DrawableView
     @Override
     public void unbind() {
         drawable = null;
+    }
+
+    public D getDrawable() {
+        return drawable;
     }
 
     protected void requestDrawableViewUpdateOnPropertiesChange(D drawable, DrawingRequester drawingRequester, Property... properties) {

@@ -5,5 +5,5 @@ import naga.toolkit.drawing.shapes.Rectangle;
 /**
  * @author Bruno Salmon
  */
-public interface RectangleView extends DrawableView<Rectangle> {
+public interface RectangleView extends ShapeView<Rectangle> {
 }

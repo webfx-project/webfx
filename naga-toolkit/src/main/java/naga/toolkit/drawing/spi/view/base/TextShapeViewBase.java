@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.spi.view.implbase;
+package naga.toolkit.drawing.spi.view.base;
 
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.spi.DrawingRequester;
@@ -7,7 +7,7 @@ import naga.toolkit.drawing.spi.view.TextShapeView;
 /**
  * @author Bruno Salmon
  */
-public class TextShapeViewImplBase extends ShapeViewImplBase<TextShape> implements TextShapeView {
+public class TextShapeViewBase extends ShapeViewBase<TextShape> implements TextShapeView {
 
     @Override
     public void bind(TextShape ts, DrawingRequester drawingRequester) {

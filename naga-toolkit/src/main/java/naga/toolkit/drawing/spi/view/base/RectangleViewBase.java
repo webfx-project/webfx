@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.spi.view.implbase;
+package naga.toolkit.drawing.spi.view.base;
 
 import naga.toolkit.drawing.shapes.Rectangle;
 import naga.toolkit.drawing.spi.DrawingRequester;
@@ -7,7 +7,7 @@ import naga.toolkit.drawing.spi.view.RectangleView;
 /**
  * @author Bruno Salmon
  */
-public class RectangleViewImplBase extends ShapeViewImplBase<Rectangle> implements RectangleView {
+public class RectangleViewBase extends ShapeViewBase<Rectangle> implements RectangleView {
 
     @Override
     public void bind(Rectangle r, DrawingRequester drawingRequester) {
