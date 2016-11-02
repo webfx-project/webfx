@@ -3,14 +3,14 @@ package naga.providers.toolkit.swing.drawing.view;
 import javafx.beans.property.Property;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.drawing.shapes.Group;
-import naga.toolkit.drawing.spi.view.implbase.GroupViewImplBase;
+import naga.toolkit.drawing.spi.view.base.GroupViewBase;
 
 import java.awt.*;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingGroupView extends GroupViewImplBase implements SwingDrawableView<Group> {
+public class SwingGroupView extends GroupViewBase implements SwingDrawableView<Group> {
 
     @Override
     public void update(Property changedProperty) {

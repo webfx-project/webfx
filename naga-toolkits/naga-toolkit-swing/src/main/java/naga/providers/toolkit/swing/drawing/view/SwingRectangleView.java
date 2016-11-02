@@ -1,8 +1,8 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Rectangle;
-import naga.toolkit.drawing.spi.view.implbase.RectangleViewImplBase;
+import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
+import naga.toolkit.drawing.spi.view.mixin.RectangleViewMixin;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -11,24 +11,27 @@ import java.awt.geom.RoundRectangle2D;
 /**
  * @author Bruno Salmon
  */
-public class SwingRectangleView extends RectangleViewImplBase implements SwingDrawableView<Rectangle> {
+public class SwingRectangleView extends SwingShapeView<Rectangle> implements RectangleViewMixin {
 
-    private final SwingShapeUpdaterPainter swingShapeUpdaterPainter = new SwingShapeUpdaterPainter((g) -> {
-        Double arcWidth = drawable.getArcWidth();
-        Double arcHeight = drawable.getArcHeight();
-        if (arcWidth != null && arcHeight != null && arcWidth != 0 && arcHeight != 0)
-            return new RoundRectangle2D.Double(drawable.getX(), drawable.getY(), drawable.getWidth(), drawable.getHeight(), arcWidth, arcHeight);
-        return new Rectangle2D.Double(drawable.getX(), drawable.getY(), drawable.getWidth(), drawable.getHeight());
-    });
+    private final RectangleViewBase base = new RectangleViewBase();
+    @Override
+    public RectangleViewBase getDrawableViewBase() {
+        return base;
+    }
 
     @Override
-    public void update(Property changedProperty) {
-        swingShapeUpdaterPainter.updateSwingShape(drawable, changedProperty);
+    protected Shape createSwingShape(Graphics2D g) {
+        Rectangle r = drawable;
+        Double arcWidth = r.getArcWidth();
+        Double arcHeight = r.getArcHeight();
+        if (arcWidth != null && arcHeight != null && arcWidth != 0 && arcHeight != 0)
+            return new RoundRectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight(), arcWidth, arcHeight);
+        return new Rectangle2D.Double(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
     @Override
     public void paint(Graphics2D g) {
-        swingShapeUpdaterPainter.prepareGraphics(drawable, g);
-        swingShapeUpdaterPainter.paintSwingShape(drawable.getWidth(), drawable.getHeight(), g);
+        prepareGraphics(g);
+        paintSwingShape(drawable.getWidth(), drawable.getHeight(), g);
     }
 }

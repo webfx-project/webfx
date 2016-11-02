@@ -1,31 +1,33 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import javafx.beans.property.Property;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.drawing.shapes.TextAlignment;
 import naga.toolkit.drawing.shapes.TextShape;
 import naga.toolkit.drawing.shapes.VPos;
-import naga.toolkit.drawing.spi.view.implbase.TextShapeViewImplBase;
+import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
+import naga.toolkit.drawing.spi.view.mixin.TextShapeViewMixin;
 
 import java.awt.*;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDrawableView<TextShape> {
+public class SwingTextShapeView extends SwingShapeView<TextShape> implements TextShapeViewMixin {
 
-    private final SwingShapeUpdaterPainter swingShapeUpdaterPainter = new SwingShapeUpdaterPainter((g) ->
-        getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), drawable.getText()).getOutline()
-    );
-
-    private Font getShapeSwingFont() {
-        return SwingFonts.toSwingFont(drawable.getFont());
+    private final TextShapeViewBase base = new TextShapeViewBase();
+    @Override
+    public TextShapeViewBase getDrawableViewBase() {
+        return base;
     }
 
     @Override
-    public void update(Property changedProperty) {
-        swingShapeUpdaterPainter.updateSwingShape(drawable, changedProperty);
+    protected Shape createSwingShape(Graphics2D g) {
+        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), drawable.getText()).getOutline();
+    }
+
+    private Font getShapeSwingFont() {
+        return SwingFonts.toSwingFont(drawable.getFont());
     }
 
     @Override
@@ -42,7 +44,7 @@ public class SwingTextShapeView extends TextShapeViewImplBase implements SwingDr
                 x += (wrappingWidth - textWidth);
         }
         g.translate(x, drawable.getY() + vPosToBaselineOffset(drawable.getTextOrigin(), g));
-        swingShapeUpdaterPainter.prepareGraphicsAndPaintShape(drawable, g);
+        prepareGraphicsAndPaintShape(g);
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {
