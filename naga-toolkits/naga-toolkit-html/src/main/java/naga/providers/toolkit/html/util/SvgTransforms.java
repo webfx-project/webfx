@@ -2,6 +2,7 @@ package naga.providers.toolkit.html.util;
 
 import naga.commons.util.collection.Collections;
 import naga.toolkit.transform.Rotate;
+import naga.toolkit.transform.Scale;
 import naga.toolkit.transform.Transform;
 import naga.toolkit.transform.Translate;
 
@@ -30,6 +31,8 @@ public class SvgTransforms {
             return toSvgTranslate((Translate) transform, sb);
         if (transform instanceof Rotate)
             return toSvgRotate((Rotate) transform, sb);
+        if (transform instanceof Scale)
+            return toSvgScale((Scale) transform, sb);
         return sb;
     }
 
@@ -39,6 +42,10 @@ public class SvgTransforms {
 
     private static StringBuilder toSvgRotate(Rotate rotate, StringBuilder sb) {
         return sb.append("rotate(").append(rotate.getAngle()).append(' ').append(rotate.getPivotX()).append(' ').append(rotate.getPivotY()).append(')');
+    }
+
+    private static StringBuilder toSvgScale(Scale scale, StringBuilder sb) {
+        return sb.append("scale(").append(scale.getX()).append(' ').append(scale.getY()).append(')');
     }
 
 }
