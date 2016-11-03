@@ -11,7 +11,9 @@ import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawingImpl;
 import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.transform.Rotate;
+import naga.toolkit.transform.Scale;
 import naga.toolkit.transform.Transform;
+import naga.toolkit.transform.Translate;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
 
@@ -85,14 +87,23 @@ public abstract class DrawableViewBase
 
     private void bindTransform(Transform transform) {
         DrawingImpl drawing = DrawingImpl.getThreadLocalDrawing();
-        if (transform instanceof Rotate) {
+        Property[] properties = null;
+        if (transform instanceof Translate) {
+            Translate translate = (Translate) transform;
+            properties = new Property[]{translate.xProperty(), translate.yProperty()};
+        } else if (transform instanceof Rotate) {
             Rotate rotate = (Rotate) transform;
+            properties = new Property[]{rotate.angleProperty(), rotate.pivotXProperty(), rotate.pivotYProperty()};
+        } else if (transform instanceof Scale) {
+            Scale scale = (Scale) transform;
+            properties = new Property[]{scale.xProperty(), scale.yProperty()};
+        }
+        if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(drawable.getTransforms());
                 if (drawing instanceof CanvasDrawingImpl)
                     ((CanvasDrawingImpl) drawing).requestCanvasRepaint();
-            }, rotate.angleProperty());
-        }
+            }, properties);
     }
 
 
