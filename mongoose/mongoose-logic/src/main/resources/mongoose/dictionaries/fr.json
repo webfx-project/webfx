@@ -214,6 +214,25 @@
   "UsedMemory": "Mémoire utilisée",
   "TotalMemory": "Mémoire totale",
   "SystemLoadAverage": "Moyenne de la charge serveur",
-  "ProcessCpuLoad": "Utilisation du processeur par KBS"
+  "ProcessCpuLoad": "Utilisation du processeur par KBS",
+  "MONDAY": "Lundi",
+  "TUESDAY": "Mardi",
+  "WEDNESDAY": "Mercredi",
+  "THURSDAY": "Jeudi",
+  "FRIDAY": "Vendredi",
+  "SATURDAY": "Samedi",
+  "SUNDAY": "Dimanche",
+  "JANUARY": "Janvier",
+  "FEBRUARY": "Février",
+  "MARCH": "Mars",
+  "APRIL": "Avril",
+  "MAY": "Mai",
+  "JUNE": "Juin",
+  "JULY": "Juillet",
+  "AUGUST": "Août",
+  "SEPTEMBER": "Septembre",
+  "OCTOBER": "Octobre",
+  "NOVEMBER": "Novembre",
+  "DECEMBER": "Décembre"
 
 }
