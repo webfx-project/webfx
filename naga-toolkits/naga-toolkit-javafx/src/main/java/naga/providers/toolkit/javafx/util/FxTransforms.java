@@ -1,6 +1,7 @@
 package naga.providers.toolkit.javafx.util;
 
 import naga.toolkit.transform.Rotate;
+import naga.toolkit.transform.Scale;
 import naga.toolkit.transform.Transform;
 import naga.toolkit.transform.Translate;
 
@@ -14,6 +15,8 @@ public class FxTransforms {
             return toFxTranslate((Translate) transform);
         if (transform instanceof Rotate)
             return toFxRotate((Rotate) transform);
+        if (transform instanceof Scale)
+            return toFxScale((Scale) transform);
         return null;
     }
 
@@ -31,4 +34,12 @@ public class FxTransforms {
         fxRotate.pivotYProperty().bind(rotate.pivotYProperty());
         return fxRotate;
     }
+
+    private static javafx.scene.transform.Scale toFxScale(Scale scale) {
+        javafx.scene.transform.Scale fxScale = new javafx.scene.transform.Scale();
+        fxScale.xProperty().bind(scale.xProperty());
+        fxScale.yProperty().bind(scale.yProperty());
+        return fxScale;
+    }
+
 }
