@@ -97,7 +97,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
             rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
             rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
-                rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n, this));
+                rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n));
         }
         DisplayResultSet rs = rsb.build();
         dateInfoDisplayResultSetProperty.setValue(rs);

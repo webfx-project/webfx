@@ -6,6 +6,7 @@ import mongoose.entities.DateInfo;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
+import mongoose.services.EventService;
 import naga.commons.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -14,10 +15,10 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class FeesGroupBuilder {
+class FeesGroupBuilder {
 
+    private final EventService eventService;
     private DateInfo dateInfo;
-    private Event event;
     private Object id;
     private Label label;
     private Label feesBottomLabel;
@@ -27,7 +28,11 @@ public class FeesGroupBuilder {
     private Iterable<Option> defaultOptions;
     private Iterable<Option> accommodationOptions;
 
-    public FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
+    FeesGroupBuilder(EventService eventService) {
+        this.eventService = eventService;
+    }
+
+    FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
         this.dateInfo = dateInfo;
         if (dateInfo != null) {
             id = dateInfo.getId();
@@ -39,23 +44,16 @@ public class FeesGroupBuilder {
         return this;
     }
 
-    public FeesGroupBuilder setEvent(Event event) {
-        this.event = event;
-        return this;
-    }
-
     private Event getEvent() {
-        if (event == null)
-            event = dateInfo.getEvent();
-        return event;
+        return eventService.getEvent();
     }
 
-    public FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
+    FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
         this.defaultOptions = defaultOptions;
         return this;
     }
 
-    public FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
+    FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
         this.accommodationOptions = accommodationOptions;
         return this;
     }
@@ -64,24 +62,26 @@ public class FeesGroupBuilder {
         return !getEvent().getName().contains("Overnight");
     }
 
-    public FeesGroup build() {
+    FeesGroup build() {
         String dateTimeRange = dateInfo == null ? null : dateInfo.getDateTimeRange();
         if (dateTimeRange == null)
             dateTimeRange = getEvent().getDateTimeRange();
         List<OptionsPreselection> optionsPreselections = new ArrayList<>();
         if (accommodationOptions != null)
             for (Option accommodationOption : accommodationOptions)
-                Collections.addIfNotNull(new OptionsPreselectionBuilder(dateTimeRange)
-                        .addDefaultOptions(defaultOptions)
-                        .addAccommodationOption(accommodationOption)
-                        .build(), optionsPreselections);
+                addOptionsPreselection(accommodationOption, dateTimeRange, optionsPreselections);
         // Adding Course or No accommodation option
         if (optionsPreselections.isEmpty() || // Ex: a day course or a section with no accommodation (like Food for Thought)
                 includeNoAccommodation())     // If there are accommodation options, checking we can offer no accommodation (not the case for Refresh and Revive Overnighter)
-            optionsPreselections.add(new OptionsPreselectionBuilder(dateTimeRange)
-                    .addDefaultOptions(defaultOptions)
-                    .build());
+            addOptionsPreselection(null, dateTimeRange, optionsPreselections);
 
-        return new FeesGroup(id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
+        return new FeesGroup(getEvent(), id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
+    }
+
+    private void addOptionsPreselection(Option accommodationOption, String dateTimeRange, List<OptionsPreselection> optionsPreselections) {
+        Collections.addIfNotNull(new OptionsPreselectionBuilder(eventService, dateTimeRange)
+                .addDefaultOptions(defaultOptions)
+                .addAccommodationOption(accommodationOption)
+                .build(), optionsPreselections);
     }
 }

@@ -86,9 +86,8 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
     }
 
     private FeesGroup createFeesGroup(DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions) {
-        return new FeesGroupBuilder()
+        return new FeesGroupBuilder(getEventService())
                 .setDateInfo(dateInfo)
-                .setEvent(getEvent())
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
                 .build();

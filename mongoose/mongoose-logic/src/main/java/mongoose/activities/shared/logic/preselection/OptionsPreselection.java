@@ -21,10 +21,12 @@ import java.util.List;
  */
 public class OptionsPreselection {
 
+    private final EventService eventService;
     private final Label label;
     private final List<OptionPreselection> optionPreselections;
 
-    OptionsPreselection(Label label, List<OptionPreselection> optionPreselections) {
+    public OptionsPreselection(EventService eventService, Label label, List<OptionPreselection> optionPreselections) {
+        this.eventService = eventService;
         this.label = label;
         this.optionPreselections = optionPreselections;
     }
@@ -34,7 +36,7 @@ public class OptionsPreselection {
     }
 
     private WorkingDocument workingDocument;
-    public WorkingDocument initializeNewWorkingDocument(EventService eventService) {
+    public WorkingDocument initializeNewWorkingDocument() {
         if (workingDocument == null)
             workingDocument = new WorkingDocument(eventService, Collections.convert(optionPreselections, WorkingDocumentLine::new));
         else
@@ -43,11 +45,13 @@ public class OptionsPreselection {
     }
 
     public WorkingDocument getWorkingDocument() {
+        if (workingDocument == null)
+            initializeNewWorkingDocument();
         return workingDocument;
     }
 
     public WorkingDocumentLine getAccommodationLine() {
-        return workingDocument.getAccommodationLine();
+        return getWorkingDocument().getAccommodationLine();
     }
 
     public boolean hasAccommodation() {
@@ -69,8 +73,8 @@ public class OptionsPreselection {
         return accommodationOption != null && Booleans.isTrue(accommodationOption.isForceSoldout());
     }
 
-    public int computePrice(EventService eventService) {
-        return DocumentPricing.computeDocumentPrice(initializeNewWorkingDocument(eventService).applyBusinessRules());
+    public int computePrice() {
+        return DocumentPricing.computeDocumentPrice(initializeNewWorkingDocument().applyBusinessRules());
     }
 
     public String getDisplayName(I18n i18n) {
@@ -81,14 +85,14 @@ public class OptionsPreselection {
         return Labels.instantTranslateLabel(label, language, "NoAccommodation");
     }
 
-    public Object getDisplayPrice(EventService eventService) {
-        return PriceFormatter.SINGLETON.format(computePrice(eventService), false) + " €";
+    public Object getDisplayPrice() {
+        return PriceFormatter.SINGLETON.format(computePrice(), false) + " €";
     }
 
     public Object getDisplayAvailability(EventService eventService) {
         QueryResultSet rs = eventService.getEventAvailabilities();
         if (rs != null) {
-            WorkingDocumentLine accommodationLine = workingDocument.getAccommodationLine();
+            WorkingDocumentLine accommodationLine = getWorkingDocument().getAccommodationLine();
             if (accommodationLine != null) {
                 Object sitePk = accommodationLine.getSite().getPrimaryKey();
                 Object itemPk = accommodationLine.getItem().getPrimaryKey();

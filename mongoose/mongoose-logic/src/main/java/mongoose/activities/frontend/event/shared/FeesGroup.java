@@ -2,6 +2,7 @@ package mongoose.activities.frontend.event.shared;
 
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
 import mongoose.util.Labels;
@@ -20,6 +21,7 @@ import naga.toolkit.spi.nodes.controls.Button;
  * @author Bruno Salmon
  */
 public class FeesGroup {
+    private final Event event;
     private final Object id;
     private final Label label;
     private final Label feesBottomLabel;
@@ -27,7 +29,8 @@ public class FeesGroup {
     private final boolean forceSoldout;
     private final OptionsPreselection[] optionsPreselections;
 
-    FeesGroup(Object id, Label label, Label feesBottomLabel, Label feesPopupLabel, boolean forceSoldout, OptionsPreselection[] optionsPreselections) {
+    FeesGroup(Event event, Object id, Label label, Label feesBottomLabel, Label feesPopupLabel, boolean forceSoldout, OptionsPreselection[] optionsPreselections) {
+        this.event = event;
         this.id = id;
         this.label = label;
         this.feesBottomLabel = feesBottomLabel;
@@ -36,27 +39,27 @@ public class FeesGroup {
         this.optionsPreselections = optionsPreselections;
     }
 
-    Object getId() {
+    public Object getId() {
         return id;
     }
 
-    Label getLabel() {
+    public Label getLabel() {
         return label;
     }
 
-    Label getFeesBottomLabel() {
+    public Label getFeesBottomLabel() {
         return feesBottomLabel;
     }
 
-    Label getFeesPopupLabel() {
+    public Label getFeesPopupLabel() {
         return feesPopupLabel;
     }
 
-    boolean isForceSoldout() {
+    public boolean isForceSoldout() {
         return forceSoldout;
     }
 
-    OptionsPreselection[] getOptionsPreselections() {
+    public OptionsPreselection[] getOptionsPreselections() {
         return optionsPreselections;
     }
 
@@ -64,7 +67,7 @@ public class FeesGroup {
         return Labels.instantTranslateLabel(label, i18n, "Fees");
     }
 
-    String getDisplayName(Object language) {
+    public String getDisplayName(Object language) {
         return Labels.instantTranslateLabel(label, language);
     }
 
@@ -99,14 +102,14 @@ public class FeesGroup {
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
             rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(eventService.getEvent())), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
-            rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice(eventService));
+            rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice());
             rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
         }
         return rsb.build();
     }
 
-    public String getFeesBottomText(I18n i18n, EventService eventService) {
-        Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), eventService.getEvent().getFeesBottomLabel());
+    public String getFeesBottomText(I18n i18n) {
+        Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), event.getFeesBottomLabel());
         return Labels.instantTranslateLabel(feesBottomLabel, i18n, "FeesExplanation");
     }
 

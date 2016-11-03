@@ -4,6 +4,7 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
+import mongoose.services.EventService;
 import mongoose.util.Labels;
 
 import java.util.ArrayList;
@@ -14,13 +15,15 @@ import java.util.List;
  */
 public class OptionsPreselectionBuilder {
 
-    private Label label;
-    private final List<OptionPreselection> optionPreselections = new ArrayList<>();
+    private final EventService eventService;
     private final String dateTimeRange;
+    private final List<OptionPreselection> optionPreselections = new ArrayList<>();
+    private Label label;
     private boolean hasAccommodation;
     private boolean nightIsCovered;
 
-    public OptionsPreselectionBuilder(String dateTimeRange) {
+    public OptionsPreselectionBuilder(EventService eventService, String dateTimeRange) {
+        this.eventService = eventService;
         this.dateTimeRange = dateTimeRange;
     }
 
@@ -55,7 +58,7 @@ public class OptionsPreselectionBuilder {
     }
 
     public OptionsPreselection build() {
-        return hasAccommodation && !nightIsCovered ? null : new OptionsPreselection(label, optionPreselections);
+        return hasAccommodation && !nightIsCovered ? null : new OptionsPreselection(eventService, label, optionPreselections);
     }
 
 }
