@@ -1,5 +1,7 @@
 package mongoose.activities.shared.logic.work;
 
+import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.Document;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
@@ -11,6 +13,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
@@ -46,6 +49,20 @@ public class WorkingDocument {
 
     public List<WorkingDocumentLine> getWorkingDocumentLines() {
         return workingDocumentLines;
+    }
+
+    private DateTimeRange dateTimeRange;
+    public DateTimeRange getDateTimeRange() {
+        if (dateTimeRange == null) {
+            long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
+            for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
+                TimeInterval interval = wdl.getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.DAYS);
+                includedStart = Math.min(includedStart, interval.getIncludedStart());
+                excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
+            }
+            dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.DAYS));
+        }
+        return dateTimeRange;
     }
 
     public WorkingDocument applyBusinessRules() {
