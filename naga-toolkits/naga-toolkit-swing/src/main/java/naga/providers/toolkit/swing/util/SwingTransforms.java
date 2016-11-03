@@ -3,6 +3,7 @@ package naga.providers.toolkit.swing.util;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.transform.Rotate;
 import naga.toolkit.transform.Transform;
+import naga.toolkit.transform.Translate;
 
 import java.awt.geom.AffineTransform;
 import java.util.List;
@@ -19,9 +20,15 @@ public class SwingTransforms {
     }
 
     private static AffineTransform toSwingTransform(Transform transform) {
+        if (transform instanceof Translate)
+            return toSwingTranslate((Translate) transform);
         if (transform instanceof Rotate)
             return toSwingRotate((Rotate) transform);
         return null;
+    }
+
+    private static AffineTransform toSwingTranslate(Translate translate) {
+        return AffineTransform.getTranslateInstance(translate.getX(), translate.getY());
     }
 
     private static AffineTransform toSwingRotate(Rotate rotate) {
