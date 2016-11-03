@@ -5,5 +5,5 @@ import naga.toolkit.transform.Transform;
 /**
  * @author Bruno Salmon
  */
-public class TransformImpl implements Transform {
+abstract class TransformImpl implements Transform {
 }
