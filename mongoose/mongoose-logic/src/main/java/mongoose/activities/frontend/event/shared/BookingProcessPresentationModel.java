@@ -1,4 +1,4 @@
-package mongoose.activities.frontend.event.booking;
+package mongoose.activities.frontend.event.shared;
 
 import mongoose.activities.shared.generic.EventDependentPresentationModel;
 

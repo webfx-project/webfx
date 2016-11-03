@@ -1,6 +1,6 @@
 package mongoose.activities.frontend.event.options;
 
-import mongoose.activities.frontend.event.booking.BookingsProcessViewModelBuilder;
+import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder;
 
 /**
  * @author Bruno Salmon

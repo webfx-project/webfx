@@ -1,6 +1,6 @@
 package mongoose.activities.frontend.event.terms;
 
-import mongoose.activities.frontend.event.booking.BookingProcessActivity;
+import mongoose.activities.frontend.event.shared.BookingProcessActivity;
 
 /**
  * @author Bruno Salmon

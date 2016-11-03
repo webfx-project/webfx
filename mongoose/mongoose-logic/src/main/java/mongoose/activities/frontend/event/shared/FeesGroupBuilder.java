@@ -1,4 +1,4 @@
-package mongoose.activities.frontend.event.fees;
+package mongoose.activities.frontend.event.shared;
 
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.preselection.OptionsPreselectionBuilder;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-class FeesGroupBuilder {
+public class FeesGroupBuilder {
 
     private DateInfo dateInfo;
     private Event event;
@@ -27,7 +27,7 @@ class FeesGroupBuilder {
     private Iterable<Option> defaultOptions;
     private Iterable<Option> accommodationOptions;
 
-    FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
+    public FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
         this.dateInfo = dateInfo;
         if (dateInfo != null) {
             id = dateInfo.getId();
@@ -39,7 +39,7 @@ class FeesGroupBuilder {
         return this;
     }
 
-    FeesGroupBuilder setEvent(Event event) {
+    public FeesGroupBuilder setEvent(Event event) {
         this.event = event;
         return this;
     }
@@ -50,12 +50,12 @@ class FeesGroupBuilder {
         return event;
     }
 
-    FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
+    public FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
         this.defaultOptions = defaultOptions;
         return this;
     }
 
-    FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
+    public FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
         this.accommodationOptions = accommodationOptions;
         return this;
     }
@@ -64,7 +64,7 @@ class FeesGroupBuilder {
         return !getEvent().getName().contains("Overnight");
     }
 
-    FeesGroup build() {
+    public FeesGroup build() {
         String dateTimeRange = dateInfo == null ? null : dateInfo.getDateTimeRange();
         if (dateTimeRange == null)
             dateTimeRange = getEvent().getDateTimeRange();

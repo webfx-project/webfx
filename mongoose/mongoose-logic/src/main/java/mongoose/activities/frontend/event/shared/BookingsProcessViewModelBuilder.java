@@ -1,4 +1,4 @@
-package mongoose.activities.frontend.event.booking;
+package mongoose.activities.frontend.event.shared;
 
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.i18n.I18n;

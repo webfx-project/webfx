@@ -1,6 +1,6 @@
 package mongoose.activities.frontend.event.fees;
 
-import mongoose.activities.frontend.event.booking.BookingsProcessViewModelBuilder;
+import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import naga.framework.ui.i18n.I18n;

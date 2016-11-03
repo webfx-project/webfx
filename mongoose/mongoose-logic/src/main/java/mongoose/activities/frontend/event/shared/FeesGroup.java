@@ -1,4 +1,4 @@
-package mongoose.activities.frontend.event.fees;
+package mongoose.activities.frontend.event.shared;
 
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
@@ -19,7 +19,7 @@ import naga.toolkit.spi.nodes.controls.Button;
 /**
  * @author Bruno Salmon
  */
-class FeesGroup {
+public class FeesGroup {
     private final Object id;
     private final Label label;
     private final Label feesBottomLabel;
@@ -60,7 +60,7 @@ class FeesGroup {
         return optionsPreselections;
     }
 
-    String getDisplayName(I18n i18n) {
+    public String getDisplayName(I18n i18n) {
         return Labels.instantTranslateLabel(label, i18n, "Fees");
     }
 
@@ -68,7 +68,7 @@ class FeesGroup {
         return Labels.instantTranslateLabel(label, language);
     }
 
-    DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
+    public DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
         boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
@@ -105,7 +105,7 @@ class FeesGroup {
         return rsb.build();
     }
 
-    String getFeesBottomText(I18n i18n, EventService eventService) {
+    public String getFeesBottomText(I18n i18n, EventService eventService) {
         Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), eventService.getEvent().getFeesBottomLabel());
         return Labels.instantTranslateLabel(feesBottomLabel, i18n, "FeesExplanation");
     }

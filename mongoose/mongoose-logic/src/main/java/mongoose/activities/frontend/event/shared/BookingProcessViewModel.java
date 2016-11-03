@@ -1,4 +1,4 @@
-package mongoose.activities.frontend.event.booking;
+package mongoose.activities.frontend.event.shared;
 
 import naga.framework.ui.presentation.AbstractViewModel;
 import naga.toolkit.spi.nodes.GuiNode;
