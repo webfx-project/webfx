@@ -158,13 +158,20 @@ public class HtmlUtil {
     public static void replaceNode(Node oldChild, Node newChild, boolean observeIfNotYetAttached) {
         if (oldChild.parentNode != null)
             oldChild.parentNode.replaceChild(newChild, oldChild);
-        else if (observeIfNotYetAttached) {
+        else if (observeIfNotYetAttached)
+            runOnAttached(oldChild, () -> oldChild.parentNode.replaceChild(newChild, oldChild));
+    }
+
+    public static void runOnAttached(Node node, Runnable runnable) {
+        if (node.parentNode != null)
+            runnable.run();
+        else {
 /* Commented as can't make it work (just crashes) TODO: Make it work
             new MutationObserver((mutationRecords, mutationObserver) -> {
                 Platform.log("mutationRecords");
-                if (oldChild.parentNode != null) {
-                    oldChild.parentNode.replaceChild(newChild, oldChild);
+                if (node.parentNode != null) {
                     mutationObserver.disconnect();
+                    runnable.run();
                 }
                 return null;
             }).observe(oldChild);
@@ -172,9 +179,9 @@ public class HtmlUtil {
             // Using an alternative way with a periodic scan (quite ugly but works)
             Unit<Scheduled> scheduled = new Unit<>();
             scheduled.set(Toolkit.get().scheduler().schedulePeriodic(100, () -> {
-                if (oldChild.parentNode != null) {
-                    oldChild.parentNode.replaceChild(newChild, oldChild);
+                if (node.parentNode != null) {
                     scheduled.get().cancel();
+                    runnable.run();
                 }
             }));
         }
