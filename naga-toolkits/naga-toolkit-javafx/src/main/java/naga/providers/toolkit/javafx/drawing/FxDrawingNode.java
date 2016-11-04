@@ -1,5 +1,7 @@
 package naga.providers.toolkit.javafx.drawing;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Region;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.drawing.spi.Drawing;
@@ -20,6 +22,14 @@ public class FxDrawingNode extends FxNode<Region> implements DrawingNode<Region>
     public FxDrawingNode(Region node) {
         super(node);
         drawing = new FxDrawing(this);
+        //widthProperty.bind(node.widthProperty());
+        node.widthProperty().addListener((observable, oldValue, newWidth) -> widthProperty.setValue(newWidth.doubleValue()));
+    }
+
+    private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> widthProperty() {
+        return widthProperty;
     }
 
     @Override
