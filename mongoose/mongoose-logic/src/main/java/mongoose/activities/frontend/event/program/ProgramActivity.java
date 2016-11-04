@@ -7,6 +7,7 @@ import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import naga.platform.spi.Platform;
+import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +30,7 @@ public class ProgramActivity extends BookingProcessActivity<ProgramViewModel, Pr
 
     private void showCalendarIfBothLogicAndViewAreReady() {
         if (programCalendarGraphic != null && programViewModel != null)
-            programViewModel.getCalendarPanel().setCenter(programCalendarGraphic.getDrawingNode());
+            Toolkit.get().scheduler().runInUiThread(() -> programViewModel.getCalendarPanel().setCenter(programCalendarGraphic.getDrawingNode()));
     }
 
     private CalendarGraphic programCalendarGraphic;
