@@ -39,9 +39,9 @@ public class SvgTextShapeView
         if (wrappingWidth > 0) {
             TextAlignment textAlignment = ts.getTextAlignment();
             if (textAlignment == TextAlignment.CENTER)
-                x = x + wrappingWidth / 2;
+                x += wrappingWidth / 2;
             else if (textAlignment == TextAlignment.RIGHT)
-                x = x + wrappingWidth;
+                x += wrappingWidth;
         }
         setSvgAttribute("x", x);
     }
@@ -54,6 +54,7 @@ public class SvgTextShapeView
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
         setSvgAttribute("width", wrappingWidth);
+        updateX(getDrawable().getX());
     }
 
     @Override
