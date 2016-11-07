@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public class TimeSeries {
+public final class TimeSeries {
 
     private final TimeInterval[] array;
     private final TimeUnit timeUnit;
@@ -76,7 +76,7 @@ public class TimeSeries {
         return seriesIntersectSeries(this, series2, new TimeSeriesBuilder(timeUnit)).build();
     }
 
-    TimeSeries intersect(DayTimeRange dayTimeRange) {
+    public TimeSeries intersect(DayTimeRange dayTimeRange) {
         return seriesIntersectDayTimeRange(this, dayTimeRange, new TimeSeriesBuilder(timeUnit)).build();
     }
 
