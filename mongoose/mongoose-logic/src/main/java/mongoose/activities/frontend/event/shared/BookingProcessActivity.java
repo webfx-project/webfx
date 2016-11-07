@@ -1,5 +1,10 @@
 package mongoose.activities.frontend.event.shared;
 
+import mongoose.activities.shared.logic.calendar.Calendar;
+import mongoose.activities.shared.logic.calendar.CalendarExtractor;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
@@ -91,5 +96,22 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
                 .build();
+    }
+
+    protected CalendarGraphic createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection, CalendarGraphic calendarGraphic) {
+        return createOrUpdateCalendarGraphicFromWorkingDocument(optionsPreselection.getWorkingDocument(), calendarGraphic);
+    }
+
+    protected CalendarGraphic createOrUpdateCalendarGraphicFromWorkingDocument(WorkingDocument workingDocument, CalendarGraphic calendarGraphic) {
+        Calendar calendar = createCalendarFromWorkingDocument(workingDocument);
+        if (calendarGraphic == null)
+            calendarGraphic = CalendarGraphic.create(calendar, getI18n());
+        else
+            calendarGraphic.setCalendar(calendar);
+        return calendarGraphic;
+    }
+
+    private Calendar createCalendarFromWorkingDocument(WorkingDocument workingDocument) {
+        return CalendarExtractor.createFromWorkingDocument(workingDocument, getI18n());
     }
 }
