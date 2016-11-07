@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public class DateTimeRange {
+public final class DateTimeRange {
 
     private String text;
     private TimeSeries series;
@@ -58,6 +58,8 @@ public class DateTimeRange {
         if (series == null) {
             if (text != null)
                 series = TimeSeries.parse(text);
+            else if (daysArray != null)
+                series = daysArray.toSeries();
             else
                 series = interval.toSeries();
         }
