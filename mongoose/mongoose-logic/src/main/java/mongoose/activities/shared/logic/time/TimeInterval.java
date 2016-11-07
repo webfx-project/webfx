@@ -7,7 +7,7 @@ import static mongoose.activities.shared.logic.time.TimeConverter.*;
 /**
  * @author Bruno Salmon
  */
-public class TimeInterval {
+public final class TimeInterval {
 
     static TimeInterval EMPTY_INTERVAL = new TimeInterval(0, 0, TimeUnit.MINUTES);
 
@@ -70,5 +70,26 @@ public class TimeInterval {
         if (!endText.equals(startText))
             sb.append(" - ").append(endText);
         return sb;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TimeInterval interval = (TimeInterval) o;
+
+        if (includedStart != interval.includedStart) return false;
+        if (excludedEnd != interval.excludedEnd) return false;
+        return timeUnit == interval.timeUnit;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (includedStart ^ (includedStart >>> 32));
+        result = 31 * result + (int) (excludedEnd ^ (excludedEnd >>> 32));
+        result = 31 * result + timeUnit.hashCode();
+        return result;
     }
 }
