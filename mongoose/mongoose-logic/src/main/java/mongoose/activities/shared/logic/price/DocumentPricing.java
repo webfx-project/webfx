@@ -15,7 +15,7 @@ public class DocumentPricing {
     public static int computeDocumentPrice(WorkingDocument workingDocument) {
         HashList<SiteRateItemBlock> siteRateItemBlocks = new HashList<>();
         for (WorkingDocumentLine wdl : workingDocument.getWorkingDocumentLines()) {
-            if (!wdl.isCancelled()) {
+            if (!wdl.isCancelled() && wdl.isConcrete()) {
                 Site site = wdl.getSite();
                 Item item = wdl.getItem();
                 item = Objects.coalesce(item.getRateAliasItem(), item);
