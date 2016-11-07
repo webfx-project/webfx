@@ -7,7 +7,7 @@ import mongoose.activities.frontend.event.program.ProgramActivity;
 import mongoose.activities.frontend.event.terms.TermsActivity;
 import mongoose.html.frontend.activities.container.ContainerUi;
 import mongoose.html.frontend.activities.event.fees.HtmlFeesViewModelBuilder;
-import mongoose.html.frontend.activities.event.options.OptionsUi;
+import mongoose.html.frontend.activities.event.options.HtmlOptionsViewModelBuilder;
 import mongoose.html.frontend.activities.event.program.HtmlProgramViewModelBuilder;
 import mongoose.html.frontend.activities.event.terms.HtmlTermsViewModelBuilder;
 import mongoose.html.frontend.activities.highlevelcomponents.HtmlHighLevelComponentsFactory;
@@ -31,6 +31,6 @@ public class MongooseFrontendHtmlApplication extends MongooseFrontendWebApplicat
         PresentationActivity.registerViewBuilder(FeesActivity.class, new HtmlFeesViewModelBuilder());
         PresentationActivity.registerViewBuilder(TermsActivity.class, new HtmlTermsViewModelBuilder());
         PresentationActivity.registerViewBuilder(ProgramActivity.class, new HtmlProgramViewModelBuilder());
-        PresentationActivity.registerViewBuilder(OptionsActivity.class, OptionsUi::buildView);
+        PresentationActivity.registerViewBuilder(OptionsActivity.class, new HtmlOptionsViewModelBuilder());
     }
 }
