@@ -5,7 +5,6 @@ import elemental2.Event;
 import elemental2.EventTarget;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.platform.spi.Platform;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
@@ -30,13 +29,13 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
         super(svg);
         if (!svg.hasAttribute("width"))
             svg.setAttribute("width", "100%");
+        heightProperty().addListener((observable, oldValue, newHeight) -> svg.setAttribute("height", "" + newHeight + "px"));
         drawing = new SvgDrawing(this);
         HtmlUtil.runOnAttached(node, () -> {
             updateWidthProperty();
             window.addEventListener("resize", new EventTarget.AddEventListenerListenerCallback() {
                 @Override
                 public boolean onInvoke(Event a) {
-                    Platform.log("onInvoke");
                     updateWidthProperty();
                     return true;
                 }
@@ -64,4 +63,11 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
     public Property<Double> widthProperty() {
         return widthProperty;
     }
+
+    private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> heightProperty() {
+        return heightProperty;
+    }
+
 }
