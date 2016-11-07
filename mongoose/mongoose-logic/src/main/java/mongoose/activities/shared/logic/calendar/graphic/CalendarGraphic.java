@@ -14,6 +14,8 @@ public interface CalendarGraphic {
 
     DrawingNode getDrawingNode();
 
+    void setCalendar(Calendar calendar);
+
     static CalendarGraphic create(Calendar calendar, I18n i18n) {
         return new CalendarGraphicImpl(calendar, i18n);
     }
