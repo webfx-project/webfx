@@ -18,12 +18,17 @@ public class HtmlProgramViewModelBuilder extends ProgramViewModelBuilder {
 
     @Override
     protected void buildComponents(Toolkit toolkit, I18n i18n) {
-        super.buildComponents(toolkit, i18n);
         HtmlView htmlView = toolkit.createHtmlView(R.programHtml().getText());
         Element rootElement = (Element) htmlView.unwrapToNativeNode();
-        setChild(getElementById(rootElement, "content"), (Node) panelsVBox.unwrapToNativeNode());
         previousButton = toolkit.wrapNativeNode(getElementById(rootElement, "previousButton"));
         contentNode = htmlView;
+        super.buildComponents(toolkit, i18n);
     }
 
+    @Override
+    protected void assembleComponentsIntoContentNode(Toolkit toolkit) {
+        HtmlView htmlView = (HtmlView) contentNode;
+        Element rootElement = (Element) htmlView.unwrapToNativeNode();
+        setChild(getElementById(rootElement, "content"), (Node) panelsVBox.unwrapToNativeNode());
+    }
 }
