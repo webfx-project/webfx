@@ -2,16 +2,17 @@ package mongoose.activities.shared.logic.calendar;
 
 import mongoose.activities.shared.logic.calendar.impl.document.WorkingDocumentCalendarExtractor;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import naga.framework.ui.i18n.I18n;
 
 /**
  * @author Bruno Salmon
  */
 public interface CalendarExtractor<T> {
 
-    Calendar extractCalendar(T object);
+    Calendar extractCalendar(T object, I18n i18n);
 
-    static Calendar fromWorkingDocument(WorkingDocument wd) {
-        return WorkingDocumentCalendarExtractor.get().extractCalendar(wd);
+    static Calendar createFromWorkingDocument(WorkingDocument wd, I18n i18n) {
+        return WorkingDocumentCalendarExtractor.get().extractCalendar(wd, i18n);
     }
 
 }

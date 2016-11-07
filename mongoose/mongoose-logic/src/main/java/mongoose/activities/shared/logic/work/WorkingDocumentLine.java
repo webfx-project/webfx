@@ -112,6 +112,10 @@ public class WorkingDocumentLine {
         return item;
     }
 
+    public boolean isConcrete() {
+        return option == null || option.isConcrete();
+    }
+
     public DateTimeRange getDateTimeRange() {
         return dateTimeRange;
     }

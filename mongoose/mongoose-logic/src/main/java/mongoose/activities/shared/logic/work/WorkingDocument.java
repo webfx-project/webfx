@@ -56,9 +56,12 @@ public class WorkingDocument {
         if (dateTimeRange == null) {
             long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
             for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
-                TimeInterval interval = wdl.getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.DAYS);
-                includedStart = Math.min(includedStart, interval.getIncludedStart());
-                excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
+                DateTimeRange wdlDateTimeRange = wdl.getDateTimeRange();
+                if (wdlDateTimeRange != null) {
+                    TimeInterval interval = wdlDateTimeRange.getInterval().changeTimeUnit(TimeUnit.DAYS);
+                    includedStart = Math.min(includedStart, interval.getIncludedStart());
+                    excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
+                }
             }
             dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.DAYS));
         }

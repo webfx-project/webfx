@@ -4,25 +4,24 @@ import javafx.beans.property.Property;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
+import naga.toolkit.drawing.paint.Paint;
 
 /**
  * @author Bruno Salmon
  */
 public class CalendarTimelineImpl implements CalendarTimeline {
 
-    private final Property<String> displayNameProperty;
     private final DateTimeRange dateTimeRange;
     private final DayTimeRange dayTimeRange;
+    private final Property<String> displayNameProperty;
+    private final Paint timelineFill;
 
-    public CalendarTimelineImpl(Property<String> displayNameProperty, DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
-        this.displayNameProperty = displayNameProperty;
+
+    public CalendarTimelineImpl(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange, Property<String> displayNameProperty, Paint timelineFill) {
         this.dateTimeRange = dateTimeRange;
         this.dayTimeRange = dayTimeRange;
-    }
-
-    @Override
-    public Property<String> displayNameProperty() {
-        return displayNameProperty;
+        this.displayNameProperty = displayNameProperty;
+        this.timelineFill = timelineFill;
     }
 
     @Override
@@ -33,5 +32,15 @@ public class CalendarTimelineImpl implements CalendarTimeline {
     @Override
     public DayTimeRange getDayTimeRange() {
         return dayTimeRange;
+    }
+
+    @Override
+    public Property<String> displayNameProperty() {
+        return displayNameProperty;
+    }
+
+    @Override
+    public Paint getTimelineFill() {
+        return timelineFill;
     }
 }
