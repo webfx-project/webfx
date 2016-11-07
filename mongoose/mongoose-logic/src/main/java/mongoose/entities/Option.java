@@ -10,7 +10,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public interface Option extends Entity, EntityHasParent<Option>, EntityHasEvent, EntityHasName, EntityHasLabel, EntityHasSite, EntityHasItem, HasItemFamilyType, EntityHasDateTimeRange {
+public interface Option extends Entity,
+        EntityHasParent<Option>,
+        EntityHasEvent,
+        EntityHasName,
+        EntityHasLabel,
+        EntityHasSiteAndItem,
+        HasItemFamilyType,
+        EntityHasDateTimeRange {
 
     //// Domain fields
 
@@ -58,6 +65,14 @@ public interface Option extends Entity, EntityHasParent<Option>, EntityHasEvent,
         return getForeignEntity("itemFamily");
     }
 
+    default void setFloating(Boolean floating) {
+        setFieldValue("floating", floating);
+    }
+
+    default Boolean isFloating() {
+        return getBooleanFieldValue("floating");
+    }
+
     //// Enriched fields and methods
 
     @Override
@@ -73,7 +88,12 @@ public interface Option extends Entity, EntityHasParent<Option>, EntityHasEvent,
     }
 
     default boolean isConcrete() {
-        return !isFolder() && getSite() != null && getItem() != null;
+        return !isFolder() && hasSiteAndItem();
+    }
+
+    default boolean isIncludedByDefault() {
+        return isConcrete() ||
+                hasItem() && hasTimeRange(); // Ex: Prayers -> to include in the working document so it is displayed in the calendar
     }
 
     default boolean isBreakfast() {

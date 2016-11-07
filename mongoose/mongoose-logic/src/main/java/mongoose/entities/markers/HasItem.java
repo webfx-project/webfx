@@ -14,4 +14,8 @@ public interface HasItem {
 
     Item getItem();
 
+    default boolean hasItem() {
+        return getItem() != null;
+    }
+
 }

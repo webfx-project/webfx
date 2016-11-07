@@ -14,4 +14,8 @@ public interface HasSite {
 
     Site getSite();
 
+    default boolean hasSite() {
+        return getSite() != null;
+    }
+
 }
