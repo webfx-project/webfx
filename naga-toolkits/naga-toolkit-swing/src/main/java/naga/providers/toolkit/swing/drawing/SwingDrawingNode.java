@@ -34,11 +34,21 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
         return node.widthProperty;
     }
 
+    @Override
+    public Property<Double> heightProperty() {
+        return node.heightProperty;
+    }
+
     static class DrawingPanel extends JPanel {
 
         private SwingDrawing drawing;
         private int lastWidth;
         private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
+        private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
+
+        {
+            heightProperty.addListener((observable, oldValue, newHeight) -> setPreferredSize(new Dimension(getWidth(), newHeight.intValue())));
+        }
 
         @Override
         protected void paintComponent(Graphics g) {
