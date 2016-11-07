@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
@@ -95,5 +96,11 @@ public interface EventService {
     }
 
     QueryResultSet getEventAvailabilities();
+
+    // Setter and getter to store the booking process working document
+
+    void setWorkingDocument(WorkingDocument workingDocument);
+
+    WorkingDocument getWorkingDocument();
 
 }

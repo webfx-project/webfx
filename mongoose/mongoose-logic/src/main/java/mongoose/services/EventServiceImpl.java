@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.commons.util.Numbers;
 import naga.commons.util.Objects;
@@ -97,7 +98,7 @@ class EventServiceImpl implements EventService {
     }
 
     public List<Option> selectDefaultOptions() {
-        return selectOptions(o -> o.isConcrete() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
+        return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
     }
 
     private boolean mealsAreIncludedByDefault() {
@@ -208,5 +209,18 @@ class EventServiceImpl implements EventService {
             this.queryString = queryString;
             this.parameters = parameters;
         }
+    }
+
+    //
+
+    private WorkingDocument workingDocument;
+    @Override
+    public void setWorkingDocument(WorkingDocument workingDocument) {
+        this.workingDocument = workingDocument;
+    }
+
+    @Override
+    public WorkingDocument getWorkingDocument() {
+        return workingDocument;
     }
 }

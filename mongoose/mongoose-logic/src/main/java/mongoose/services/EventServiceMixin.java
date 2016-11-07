@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.commons.util.async.Future;
 import naga.commons.util.function.Predicate;
@@ -108,5 +109,15 @@ public interface EventServiceMixin extends EventService {
     @Override
     default QueryResultSet getEventAvailabilities() {
         return getEventService().getEventAvailabilities();
+    }
+
+    @Override
+    default void setWorkingDocument(WorkingDocument workingDocument) {
+        getEventService().setWorkingDocument(workingDocument);
+    }
+
+    @Override
+    default WorkingDocument getWorkingDocument() {
+        return getEventService().getWorkingDocument();
     }
 }
