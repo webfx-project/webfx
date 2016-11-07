@@ -6,6 +6,7 @@ import naga.framework.ui.presentation.ViewBuilder;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
  * @author Bruno Salmon
@@ -25,8 +26,17 @@ public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessV
     protected abstract VM createViewModel();
 
     protected void buildComponents(Toolkit toolkit, I18n i18n) {
-        previousButton = toolkit.createButton();
-        nextButton = toolkit.createButton();
-        contentNode = toolkit.createVPage().setFooter(toolkit.createHBox(previousButton, nextButton));
+        if (previousButton == null)
+            previousButton = toolkit.createButton();
+        if (nextButton == null)
+            nextButton = toolkit.createButton();
+        if (contentNode == null)
+            contentNode = toolkit.createVPage();
+        assembleComponentsIntoContentNode(toolkit);
+    }
+
+    protected void assembleComponentsIntoContentNode(Toolkit toolkit) {
+        if (contentNode instanceof VPage)
+            ((VPage) contentNode).setFooter(toolkit.createHBox(previousButton, nextButton));
     }
 }
