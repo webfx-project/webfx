@@ -23,6 +23,7 @@ import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.RadioButton;
+import naga.toolkit.util.Properties;
 import rx.Observable;
 
 /**
@@ -55,10 +56,8 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     protected void bindPresentationModelWithLogic(FeesPresentationModel pm) {
-        // Load and display fees groups now
-        loadAndDisplayFeesGroups(pm);
-        // But also on event change
-        pm.eventIdProperty().addListener((observable, oldValue, newValue) -> loadAndDisplayFeesGroups(pm));
+        // Load and display fees groups now but also on event change
+        Properties.runNowAndOnPropertiesChange(property -> loadAndDisplayFeesGroups(pm), pm.eventIdProperty());
     }
 
     private void loadAndDisplayFeesGroups(FeesPresentationModel pm) {
@@ -150,7 +149,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {
-        Platform.log("Booking " + optionsPreselection);
+        setWorkingDocument(optionsPreselection.getWorkingDocument());
         onNextButtonPressed(null);
     }
 }
