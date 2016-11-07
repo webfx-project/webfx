@@ -24,12 +24,19 @@ public class FxDrawingNode extends FxNode<Region> implements DrawingNode<Region>
         drawing = new FxDrawing(this);
         //widthProperty.bind(node.widthProperty());
         node.widthProperty().addListener((observable, oldValue, newWidth) -> widthProperty.setValue(newWidth.doubleValue()));
+        node.prefHeightProperty().bind(heightProperty());
     }
 
     private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> widthProperty() {
         return widthProperty;
+    }
+
+    private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> heightProperty() {
+        return heightProperty;
     }
 
     @Override
