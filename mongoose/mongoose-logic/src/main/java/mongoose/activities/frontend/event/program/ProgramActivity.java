@@ -2,12 +2,11 @@ package mongoose.activities.frontend.event.program;
 
 import mongoose.activities.frontend.event.shared.BookingProcessActivity;
 import mongoose.activities.frontend.event.shared.FeesGroup;
-import mongoose.activities.shared.logic.calendar.Calendar;
-import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
+import naga.toolkit.util.Properties;
 
 /**
  * @author Bruno Salmon
@@ -20,11 +19,12 @@ public class ProgramActivity extends BookingProcessActivity<ProgramViewModel, Pr
     }
 
     private ProgramViewModel programViewModel;
+    private CalendarGraphic programCalendarGraphic;
 
     @Override
-    protected void bindViewModelWithPresentationModel(ProgramViewModel programViewModel, ProgramPresentationModel programPresentationModel) {
-        super.bindViewModelWithPresentationModel(programViewModel, programPresentationModel);
-        this.programViewModel = programViewModel;
+    protected void bindViewModelWithPresentationModel(ProgramViewModel vm, ProgramPresentationModel pm) {
+        super.bindViewModelWithPresentationModel(vm, pm);
+        this.programViewModel = vm;
         showCalendarIfBothLogicAndViewAreReady();
     }
 
@@ -33,16 +33,18 @@ public class ProgramActivity extends BookingProcessActivity<ProgramViewModel, Pr
             Toolkit.get().scheduler().runInUiThread(() -> programViewModel.getCalendarPanel().setCenter(programCalendarGraphic.getDrawingNode()));
     }
 
-    private CalendarGraphic programCalendarGraphic;
     @Override
-    protected void bindPresentationModelWithLogic(ProgramPresentationModel programPresentationModel) {
+    protected void bindPresentationModelWithLogic(ProgramPresentationModel pm) {
+        // Doing now but also on event change
+        Properties.runNowAndOnPropertiesChange(property -> bindPresentationModelWithLogicNow(), pm.eventIdProperty());
+    }
+
+    private void bindPresentationModelWithLogicNow() {
         onFeesGroup().setHandler(async -> {
             if (async.failed())
                 Platform.log(async.cause());
             else {
-                OptionsPreselection noAccommodationOptionsPreselection = findNoAccommodationOptionsPreselection(async.result());
-                Calendar programCalendar = CalendarExtractor.fromWorkingDocument(noAccommodationOptionsPreselection.getWorkingDocument());
-                programCalendarGraphic = CalendarGraphic.create(programCalendar, getI18n());
+                programCalendarGraphic = createOrUpdateCalendarGraphicFromOptionsPreselection(findNoAccommodationOptionsPreselection(async.result()), programCalendarGraphic);
                 showCalendarIfBothLogicAndViewAreReady();
             }
         });
