@@ -2,6 +2,8 @@ package naga.toolkit.transform.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.drawing.shapes.Point2D;
+import naga.toolkit.transform.Transform;
 import naga.toolkit.transform.Translate;
 
 /**
@@ -33,4 +35,18 @@ public class TranslateImpl extends TransformImpl implements Translate {
         return yProperty;
     }
 
+    @Override
+    public Point2D transform(double x, double y) {
+        return new Point2D(x + getX(), y + getY());
+    }
+
+    @Override
+    public Transform createInverse() {
+        return new TranslateImpl(-getX(), -getY());
+    }
+
+    @Override
+    protected Property[] propertiesInvalidatingCache() {
+        return new Property[]{xProperty, yProperty};
+    }
 }
