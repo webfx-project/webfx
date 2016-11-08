@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.commons.util.async.Future;
@@ -98,6 +99,10 @@ public interface EventService {
     QueryResultSet getEventAvailabilities();
 
     // Setter and getter to store the booking process working document
+
+    void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection);
+
+    OptionsPreselection getSelectedOptionsPreselection();
 
     void setWorkingDocument(WorkingDocument workingDocument);
 

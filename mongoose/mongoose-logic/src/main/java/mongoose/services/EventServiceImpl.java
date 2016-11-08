@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.commons.util.Numbers;
@@ -213,6 +214,17 @@ class EventServiceImpl implements EventService {
 
     //
 
+    private OptionsPreselection selectedOptionsPreselection;
+    @Override
+    public void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection) {
+        this.selectedOptionsPreselection = selectedOptionsPreselection;
+    }
+
+    @Override
+    public OptionsPreselection getSelectedOptionsPreselection() {
+        return selectedOptionsPreselection;
+    }
+
     private WorkingDocument workingDocument;
     @Override
     public void setWorkingDocument(WorkingDocument workingDocument) {
@@ -221,6 +233,8 @@ class EventServiceImpl implements EventService {
 
     @Override
     public WorkingDocument getWorkingDocument() {
+        if (workingDocument == null && selectedOptionsPreselection != null)
+            workingDocument = selectedOptionsPreselection.getWorkingDocument();
         return workingDocument;
     }
 }

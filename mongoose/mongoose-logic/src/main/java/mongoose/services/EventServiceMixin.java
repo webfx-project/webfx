@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
 import naga.commons.util.async.Future;
@@ -109,6 +110,17 @@ public interface EventServiceMixin extends EventService {
     @Override
     default QueryResultSet getEventAvailabilities() {
         return getEventService().getEventAvailabilities();
+    }
+
+
+    @Override
+    default void setSelectedOptionsPreselection(OptionsPreselection selectedOptionsPreselection) {
+        getEventService().setSelectedOptionsPreselection(selectedOptionsPreselection);
+    }
+
+    @Override
+    default OptionsPreselection getSelectedOptionsPreselection() {
+        return getEventService().getSelectedOptionsPreselection();
     }
 
     @Override
