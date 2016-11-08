@@ -2,9 +2,10 @@ package naga.providers.toolkit.html.drawing.view;
 
 import elemental2.Element;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
+import naga.providers.toolkit.html.events.HtmlMouseEvent;
+import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.SvgTransforms;
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
@@ -13,6 +14,8 @@ import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
+import naga.toolkit.spi.events.MouseEvent;
+import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
 
 import java.util.HashMap;
@@ -42,6 +45,14 @@ public abstract class SvgDrawableView
     @Override
     public void updateTransforms(List<Transform> transforms) {
         setSvgAttribute("transform", SvgTransforms.toSvgTransforms(transforms));
+    }
+
+    @Override
+    public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
+        svgElement.onclick = onMouseClicked == null ? null : e -> {
+            onMouseClicked.handle(new HtmlMouseEvent(e));
+            return null;
+        };
     }
 
     void setSvgAttribute(String name, String value) {
