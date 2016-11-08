@@ -1,6 +1,7 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
 import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.view.DrawableView;
 
 /**
@@ -13,5 +14,7 @@ public interface CanvasDrawableView
     void prepareCanvasContext(CC c);
 
     void paint(CC c);
+
+    boolean containsPoint(Point2D point);
 
 }
