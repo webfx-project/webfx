@@ -39,6 +39,7 @@ public abstract class DrawableViewBase
         requestUpdateProperty(drawingRequester, null);
         requestUpdateList(drawingRequester, null);
         requestUpdateOnListChange(drawingRequester, drawable.getTransforms());
+        requestUpdateOnPropertiesChange(drawingRequester, drawable.onMouseClickedProperty());
     }
 
     @Override
@@ -72,7 +73,7 @@ public abstract class DrawableViewBase
 
     @Override
     public boolean updateProperty(Property changedProperty) {
-        return false;
+        return updateProperty(drawable.onMouseClickedProperty(), changedProperty, mixin::updateOnMouseClicked);
     }
 
     @Override

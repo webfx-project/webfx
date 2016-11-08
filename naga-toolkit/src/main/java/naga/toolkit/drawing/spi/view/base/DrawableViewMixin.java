@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.spi.events.MouseEvent;
+import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
 
 import java.util.List;
@@ -39,4 +41,7 @@ public interface DrawableViewMixin
     }
 
     void updateTransforms(List<Transform> transforms);
+
+    void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked);
+
 }
