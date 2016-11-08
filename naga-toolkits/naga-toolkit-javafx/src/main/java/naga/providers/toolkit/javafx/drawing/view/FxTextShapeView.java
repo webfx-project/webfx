@@ -24,6 +24,7 @@ public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements
         fxDrawableNode.textAlignmentProperty().bind(new ConvertedProperty<>(ts.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
         fxDrawableNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
         fxDrawableNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
+        fxDrawableNode.setMouseTransparent(true); // temporary as text shapes are usually not clickale in Mongoose
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

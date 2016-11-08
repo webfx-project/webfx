@@ -5,11 +5,9 @@ import naga.toolkit.spi.events.ActionEvent;
 /**
  * @author Bruno Salmon
  */
-public class FxActionEvent implements ActionEvent {
+public class FxActionEvent extends FxEvent<javafx.event.ActionEvent> implements ActionEvent {
 
-    private final javafx.event.ActionEvent fxActionEvent;
-
-    public FxActionEvent(javafx.event.ActionEvent fxActionEvent) {
-        this.fxActionEvent = fxActionEvent;
+    public FxActionEvent(javafx.event.ActionEvent fxEvent) {
+        super(fxEvent);
     }
 }
