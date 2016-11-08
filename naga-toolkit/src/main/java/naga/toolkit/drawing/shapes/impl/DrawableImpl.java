@@ -1,8 +1,12 @@
 package naga.toolkit.drawing.shapes.impl;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.spi.events.MouseEvent;
+import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
 
 /**
@@ -14,5 +18,11 @@ public class DrawableImpl implements Drawable {
     @Override
     public ObservableList<Transform> getTransforms() {
         return transforms;
+    }
+
+    private final ObjectProperty onMouseClickedProperty = new SimpleObjectProperty();
+    @Override
+    public ObjectProperty<UiEventHandler<? super MouseEvent>> onMouseClickedProperty() {
+        return onMouseClickedProperty;
     }
 }
