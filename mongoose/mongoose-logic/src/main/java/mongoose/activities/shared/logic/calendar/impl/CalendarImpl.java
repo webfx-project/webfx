@@ -18,10 +18,6 @@ public class CalendarImpl implements Calendar {
     private final TimeInterval period;
     private final Collection<CalendarTimeline> timelines;
 
-    public CalendarImpl(Collection<CalendarTimeline> timelines) {
-        this(null, timelines);
-    }
-
     public CalendarImpl(TimeInterval period, Collection<CalendarTimeline> timelines) {
         this.period = period;
         this.timelines = timelines;
@@ -37,7 +33,7 @@ public class CalendarImpl implements Calendar {
         return timelines;
     }
 
-    Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty = new SimpleObjectProperty<>();
+    private final Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty() {
         return calendarClickHandlerProperty;

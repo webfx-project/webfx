@@ -28,12 +28,18 @@ public class WorkingDocumentLine {
     private DaysArray daysArray;
 
     public WorkingDocumentLine(OptionPreselection optionPreselection) {
+        this(optionPreselection, null);
+    }
+
+    public WorkingDocumentLine(OptionPreselection optionPreselection, DateTimeRange workingDocumentDateTimeRange) {
         this.optionPreselection = optionPreselection;
         option = optionPreselection.getOption();
         site = option.getSite();
         item = option.getItem();
         dayTimeRange = optionPreselection.getDayTimeRange();
-        dateTimeRange = cropDateTimeRange(optionPreselection.getDateTimeRange(), dayTimeRange);
+        DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange == null ? optionPreselection.getDateTimeRange()
+                : workingDocumentDateTimeRange.intersect(optionPreselection.getDateTimeRange());
+        dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
         daysArray = dateTimeRange.getDaysArray(dayTimeRange);
         documentLine = null;
         attendances = null;

@@ -1,11 +1,19 @@
 package mongoose.activities.frontend.event.options;
 
 import mongoose.activities.frontend.event.shared.BookingProcessActivity;
+import mongoose.activities.shared.logic.calendar.CalendarCell;
+import mongoose.activities.shared.logic.calendar.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
+import mongoose.activities.shared.logic.price.DocumentPricing;
+import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.domainmodel.format.PriceFormatter;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.Properties;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
@@ -37,8 +45,23 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null) {
             workingDocumentCalendarGraphic = createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, workingDocumentCalendarGraphic);
+            workingDocumentCalendarGraphic.getCalendar().setCalendarClickHandler(this::onCalendarClick);
             showCalendarIfBothLogicAndViewAreReady();
         }
+    }
+
+    private void onCalendarClick(CalendarClickEvent event) {
+        updateArrivalDateTime(event);
+    }
+
+    private void updateArrivalDateTime(CalendarClickEvent event) {
+        CalendarCell cell = event.getCalendarCell();
+        DateTimeRange workingDocumentDateTimeRange = getWorkingDocument().getDateTimeRange();
+        TimeInterval newArrivalToDocumentEndInterval = new TimeInterval(cell.getEpochDay() * 24 * 60 + cell.getDayTimeMinuteInterval().getIncludedStart(), workingDocumentDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES).getExcludedEnd(), TimeUnit.MINUTES);
+        workingDocumentDateTimeRange = workingDocumentDateTimeRange.intersect(newArrivalToDocumentEndInterval.toSeries());
+        setWorkingDocument(getSelectedOptionsPreselection().createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules());
+        createAndShowCalendarIfBothLogicAndViewAreReady();
+        Platform.log("Price: " + PriceFormatter.SINGLETON.format(DocumentPricing.computeDocumentPrice(getWorkingDocument())));
     }
 
     private void showCalendarIfBothLogicAndViewAreReady() {

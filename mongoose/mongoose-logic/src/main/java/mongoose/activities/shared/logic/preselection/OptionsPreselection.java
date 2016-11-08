@@ -1,6 +1,7 @@
 package mongoose.activities.shared.logic.preselection;
 
 import mongoose.activities.shared.logic.price.DocumentPricing;
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
@@ -38,7 +39,7 @@ public class OptionsPreselection {
     private WorkingDocument workingDocument;
     public WorkingDocument initializeNewWorkingDocument() {
         if (workingDocument == null)
-            workingDocument = new WorkingDocument(eventService, Collections.convert(optionPreselections, WorkingDocumentLine::new));
+            workingDocument = createNewWorkingDocument(null);
         else
             workingDocument.syncPersonDetails(PersonService.get(eventService.getEventDataSourceModel()).getPreselectionProfilePerson());
         return workingDocument;
@@ -48,6 +49,10 @@ public class OptionsPreselection {
         if (workingDocument == null)
             initializeNewWorkingDocument();
         return workingDocument;
+    }
+
+    public WorkingDocument createNewWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
+        return new WorkingDocument(eventService, Collections.convert(optionPreselections, optionPreselection -> new WorkingDocumentLine(optionPreselection, workingDocumentDateTimeRange)));
     }
 
     public WorkingDocumentLine getAccommodationLine() {

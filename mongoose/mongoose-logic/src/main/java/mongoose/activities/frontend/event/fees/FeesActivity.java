@@ -149,6 +149,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {
+        setSelectedOptionsPreselection(optionsPreselection);
         setWorkingDocument(optionsPreselection.getWorkingDocument());
         onNextButtonPressed(null);
     }

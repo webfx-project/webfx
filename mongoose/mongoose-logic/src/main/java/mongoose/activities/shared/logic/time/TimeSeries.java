@@ -80,7 +80,7 @@ public final class TimeSeries {
         return seriesIntersectDayTimeRange(this, dayTimeRange, new TimeSeriesBuilder(timeUnit)).build();
     }
 
-    TimeSeries intersect(TimeInterval interval) {
+    public TimeSeries intersect(TimeInterval interval) {
         return seriesIntersectInterval(this, interval, new TimeSeriesBuilder(timeUnit)).build();
     }
 
