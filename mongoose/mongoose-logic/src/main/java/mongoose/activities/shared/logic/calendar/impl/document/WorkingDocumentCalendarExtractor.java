@@ -52,9 +52,9 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
                     DateTimeRange dateTimeRange = new DateTimeRange(daysArray);
                     DayTimeRange dayTimeRange = DayTimeRange.parse(optionTimeRange);
                     Label label = Labels.bestLabelOrName(!o.isAccommodation() ? o : o.getParent() /* normally: night */);
-                    Property<String> translation = Labels.translateLabel(label, i18n);
+                    Property<String> displayNameProperty = Labels.translateLabel(label, i18n);
                     Paint fill = o.isTeaching() ? TEACHING_FILL : o.isAccommodation() ? ACCOMMODATION_FILL : o.isMeals() ? MEALS_FILL : UNKNOWN_FILL;
-                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, translation, fill));
+                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill));
                 }
             }
         }

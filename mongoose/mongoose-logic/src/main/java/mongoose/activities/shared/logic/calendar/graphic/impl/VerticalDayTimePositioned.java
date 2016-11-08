@@ -1,13 +1,11 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
-import mongoose.activities.shared.logic.time.TimeInterval;
+import mongoose.activities.shared.logic.calendar.HasDayTimeMinuteInterval;
 
 /**
  * @author Bruno Salmon
  */
-interface VerticalDayTimePositioned {
-
-    TimeInterval getDayTimeMinuteInterval();
+interface VerticalDayTimePositioned extends HasDayTimeMinuteInterval {
 
     void setYAndHeight(double y, double height);
 }

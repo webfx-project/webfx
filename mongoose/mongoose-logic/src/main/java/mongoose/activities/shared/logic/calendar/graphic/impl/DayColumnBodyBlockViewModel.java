@@ -1,15 +1,17 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
+import mongoose.activities.shared.logic.calendar.Calendar;
+import mongoose.activities.shared.logic.calendar.CalendarCell;
+import mongoose.activities.shared.logic.calendar.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.transform.Translate;
 
 /**
  * @author Bruno Salmon
  */
-class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDayTimePositioned {
+class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDayTimePositioned, CalendarCell {
 
     private final static Font slotFont = Font.font("Verdana", 13);
 
@@ -29,11 +31,15 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         group.getTransforms().setAll(translate);
     }
 
-    DayColumnBodyBlockViewModel(long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline) {
+    DayColumnBodyBlockViewModel(Calendar calendar, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline) {
         this.epochDay = epochDay;
         this.dayTimeMinuteInterval = dayTimeMinuteInterval;
         blockText.textProperty().bind(timeline.displayNameProperty());
         rectangle.setFill(timeline.getTimelineFill());
+        rectangle.setOnMouseClicked(event -> {
+            if (calendar.getCalendarClickHandler() != null)
+                calendar.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
+        });
     }
 
     public Group getGroup() {

@@ -130,7 +130,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Drawable createBlockDrawable(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {
-        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(epochDay, minuteInterval, timeline);
+        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(calendar, epochDay, minuteInterval, timeline);
         horizontalDayPositioner.addHorizontalDayPositioned(model);
         verticalDayPositioner.addVerticalDayTimePositioned(model);
         return model.getGroup();
