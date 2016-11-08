@@ -5,11 +5,9 @@ import naga.toolkit.spi.events.ActionEvent;
 /**
  * @author Bruno Salmon
  */
-public class SwingActionEvent implements ActionEvent {
+public class SwingActionEvent extends SwingEvent<java.awt.event.ActionEvent> implements ActionEvent {
 
-    private final java.awt.event.ActionEvent event;
-
-    public SwingActionEvent(java.awt.event.ActionEvent event) {
-        this.event = event;
+    public SwingActionEvent(java.awt.event.ActionEvent swEvent) {
+        super(swEvent);
     }
 }
