@@ -1,6 +1,7 @@
 package naga.providers.toolkit.swing.drawing.view;
 
 import naga.toolkit.drawing.paint.Paint;
+import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.StrokeLineCap;
 import naga.toolkit.drawing.shapes.StrokeLineJoin;
@@ -127,4 +128,8 @@ abstract class SwingShapeView
         }
     }
 
+    @Override
+    public boolean containsPoint(Point2D point) {
+        return swingShape != null && swingShape.contains(point.getX(), point.getY());
+    }
 }
