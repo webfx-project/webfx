@@ -37,7 +37,7 @@ public class DaysArrayBuilder {
         includedFirstDay = convertTime(includedFirstDay, intervalTimeUnit, timeUnit);
         excludedLastDay = convertTime(excludedLastDay, intervalTimeUnit, timeUnit);
         if (dayTimeRange != null) {
-            if (firstDayTime > dayTimeRange.getDayTimeInterval(includedFirstDay, intervalTimeUnit).getExcludedEnd())
+            if (firstDayTime >= dayTimeRange.getDayTimeInterval(includedFirstDay, intervalTimeUnit).getExcludedEnd())
                 includedFirstDay += oneDay;
             if (lastDayTime < dayTimeRange.getDayTimeInterval(excludedLastDay, intervalTimeUnit).getIncludedStart())
                 excludedLastDay -= oneDay;
