@@ -2,13 +2,18 @@ package naga.providers.toolkit.swing.drawing;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.nodes.SwingNode;
+import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * @author Bruno Salmon
@@ -48,6 +53,17 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         {
             heightProperty.addListener((observable, oldValue, newHeight) -> setPreferredSize(new Dimension(getWidth(), newHeight.intValue())));
+            addMouseListener(new MouseAdapter() {
+                // Using mouseReleased() instead of mouseClicked() because for any reason the later miss some clicks (when the mouse is moving at the same time)
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    Drawable drawable = drawing.pickDrawable(new Point2D(e.getX(), e.getY()));
+                    if (drawable != null) {
+                        if (drawable.getOnMouseClicked() != null)
+                            drawable.getOnMouseClicked().handle(new SwingMouseEvent(e));
+                    }
+                }
+            });
         }
 
         @Override
