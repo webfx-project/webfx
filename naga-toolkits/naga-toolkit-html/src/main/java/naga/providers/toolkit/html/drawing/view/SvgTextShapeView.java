@@ -18,6 +18,7 @@ public class SvgTextShapeView
 
     public SvgTextShapeView() {
         super(new TextShapeViewBase(), SvgUtil.createSvgText());
+        setSvgAttribute("style", "pointer-events: none;"); // To make it mouse transparent
     }
 
     @Override
