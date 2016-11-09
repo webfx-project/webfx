@@ -47,20 +47,22 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
 
     protected void bindPresentationModelWithLogic(EventsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where: 'live', orderBy: 'startDate desc,id desc'}")
+        createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where: 'live', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 .combine(pm.organizationIdProperty(), o -> o == null ? null : "{where: 'organization=" + o + "'}")
                 // Limit condition
-                .combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
+                //.combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
-                        "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
+                        //"{label: 'Image', expression: 'image({url: `images/calendar.svg`, width: (bookingsCount > 1 ? 32 : 16), height: (bookingsCount > 1 ? 32 : 16)})'}," +
+                        //"{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
+                        "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate)`'}" +
                         "]")
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> {
                     if (event != null)
-                        getHistory().push("/event/" + event.getId().getPrimaryKey() + "/bookings");
+                        getHistory().push("/event/" + event.getPrimaryKey() + "/bookings");
                 }).start();
     }
 }
