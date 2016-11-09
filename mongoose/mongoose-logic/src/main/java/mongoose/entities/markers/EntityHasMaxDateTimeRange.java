@@ -1,5 +1,6 @@
 package mongoose.entities.markers;
 
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import naga.framework.orm.entity.Entity;
 
 /**
@@ -16,4 +17,9 @@ public interface EntityHasMaxDateTimeRange extends Entity, HasMaxDateTimeRange {
     default String getMaxDateTimeRange() {
         return getStringFieldValue("maxDateTimeRange");
     }
+
+    default DateTimeRange getParsedMaxDateTimeRange() { // Should be overridden by implementing class to have a cached value
+        return DateTimeRange.parse(getMaxDateTimeRange());
+    }
+
 }

@@ -1,5 +1,6 @@
 package mongoose.entities;
 
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.entities.markers.*;
 import naga.framework.orm.entity.Entity;
@@ -118,4 +119,8 @@ public interface Option extends Entity,
     default String getDateTimeRangeOrParent() {
         return getStringFieldValueOrParent("dateTimeRange");
     }
+
+    DayTimeRange getParsedTimeRangeOrParent();
+
+    DateTimeRange getParsedDateTimeRangeOrParent();
 }
