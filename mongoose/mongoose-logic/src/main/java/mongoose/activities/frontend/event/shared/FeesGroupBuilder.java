@@ -2,6 +2,7 @@ package mongoose.activities.frontend.event.shared;
 
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.preselection.OptionsPreselectionBuilder;
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
@@ -63,9 +64,9 @@ class FeesGroupBuilder {
     }
 
     FeesGroup build() {
-        String dateTimeRange = dateInfo == null ? null : dateInfo.getDateTimeRange();
+        DateTimeRange dateTimeRange = dateInfo == null ? null : dateInfo.getParsedDateTimeRange();
         if (dateTimeRange == null)
-            dateTimeRange = getEvent().getDateTimeRange();
+            dateTimeRange = getEvent().getParsedDateTimeRange();
         List<OptionsPreselection> optionsPreselections = new ArrayList<>();
         if (accommodationOptions != null)
             for (Option accommodationOption : accommodationOptions)
@@ -78,7 +79,7 @@ class FeesGroupBuilder {
         return new FeesGroup(getEvent(), id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
     }
 
-    private void addOptionsPreselection(Option accommodationOption, String dateTimeRange, List<OptionsPreselection> optionsPreselections) {
+    private void addOptionsPreselection(Option accommodationOption, DateTimeRange dateTimeRange, List<OptionsPreselection> optionsPreselections) {
         Collections.addIfNotNull(new OptionsPreselectionBuilder(eventService, dateTimeRange)
                 .addDefaultOptions(defaultOptions)
                 .addAccommodationOption(accommodationOption)

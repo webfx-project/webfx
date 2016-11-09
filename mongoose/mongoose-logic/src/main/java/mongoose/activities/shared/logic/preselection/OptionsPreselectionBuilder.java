@@ -16,13 +16,13 @@ import java.util.List;
 public class OptionsPreselectionBuilder {
 
     private final EventService eventService;
-    private final String dateTimeRange;
+    private final DateTimeRange dateTimeRange;
     private final List<OptionPreselection> optionPreselections = new ArrayList<>();
     private Label label;
     private boolean hasAccommodation;
     private boolean nightIsCovered;
 
-    public OptionsPreselectionBuilder(EventService eventService, String dateTimeRange) {
+    public OptionsPreselectionBuilder(EventService eventService, DateTimeRange dateTimeRange) {
         this.eventService = eventService;
         this.dateTimeRange = dateTimeRange;
     }
@@ -44,11 +44,11 @@ public class OptionsPreselectionBuilder {
     }
 
     private boolean addOption(Option option) {
-        String optionDateTimeRange = option.getDateTimeRangeOrParent();
-        DateTimeRange finalDateTimeRange = DateTimeRange.parse(dateTimeRange);
+        DateTimeRange optionDateTimeRange = option.getParsedDateTimeRangeOrParent();
+        DateTimeRange finalDateTimeRange = dateTimeRange;
         if (optionDateTimeRange != null)
-            finalDateTimeRange = finalDateTimeRange.intersect(DateTimeRange.parse(optionDateTimeRange));
-        DayTimeRange dayTimeRange = DayTimeRange.parse(option.getTimeRangeOrParent());
+            finalDateTimeRange = finalDateTimeRange.intersect(optionDateTimeRange);
+        DayTimeRange dayTimeRange = option.getParsedTimeRangeOrParent();
         if (dayTimeRange != null)
             finalDateTimeRange = finalDateTimeRange.intersect(dayTimeRange);
         if (finalDateTimeRange.isEmpty())
