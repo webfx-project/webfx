@@ -1,8 +1,10 @@
 package mongoose.activities.shared.application;
 
 import mongoose.activities.frontend.cart.CartActivity;
-import mongoose.activities.backend.events.EventsActivity;
-import mongoose.activities.backend.organizations.OrganizationsActivity;
+import mongoose.activities.frontend.event.fees.FeesActivity;
+import mongoose.activities.frontend.event.options.OptionsActivity;
+import mongoose.activities.frontend.event.program.ProgramActivity;
+import mongoose.activities.frontend.event.terms.TermsActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiDomainActivityContext;
@@ -29,9 +31,10 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
 
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter
-            .route("/organizations", OrganizationsActivity::new)
-            .route("/events", EventsActivity::new)
-            .route("/organization/:organizationId/events", EventsActivity::new)
+            .route("/event/:eventId/fees",    FeesActivity::new)
+            .route("/event/:eventId/terms",   TermsActivity::new)
+            .route("/event/:eventId/program", ProgramActivity::new)
+            .route("/event/:eventId/options", OptionsActivity::new)
             .route("/cart/:cartUuid", CartActivity::new);
     }
 

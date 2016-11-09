@@ -3,7 +3,9 @@ package mongoose.activities.backend.application;
 import mongoose.activities.backend.container.BackendContainerActivity;
 import mongoose.activities.backend.event.bookings.BookingsActivity;
 import mongoose.activities.backend.event.letters.LettersActivity;
+import mongoose.activities.backend.events.EventsActivity;
 import mongoose.activities.backend.monitor.MonitorActivity;
+import mongoose.activities.backend.organizations.OrganizationsActivity;
 import mongoose.activities.backend.tester.TesterActivity;
 import mongoose.activities.backend.tester.testset.TestSetActivity;
 import mongoose.activities.shared.application.MongooseApplication;
@@ -25,6 +27,9 @@ public class MongooseBackendApplication extends MongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter)
+                .route("/organizations", OrganizationsActivity::new)
+                .route("/events", EventsActivity::new)
+                .route("/organization/:organizationId/events", EventsActivity::new)
                 .route("/event/:eventId/bookings", BookingsActivity::new)
                 .route("/event/:eventId/letters", LettersActivity::new)
                 .route("/monitor", MonitorActivity::new)
