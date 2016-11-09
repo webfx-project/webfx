@@ -1,5 +1,6 @@
 package mongoose.activities.shared.container;
 
+import mongoose.activities.frontend.container.FrontendContainerActivity;
 import naga.commons.util.function.Factory;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
@@ -27,7 +28,8 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
         Button eventsButton = toolkit.createButton();
         Button englishButton = toolkit.createButton();
         Button frenchButton = toolkit.createButton();
-        return (VM) new ContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton)),
+        boolean isFrontend = this instanceof FrontendContainerActivity;
+        return (VM) new ContainerViewModel(toolkit.createVPage().setHeader(toolkit.createHBox(backButton, forwardButton, isFrontend ? null : organizationsButton, isFrontend ? null : eventsButton, englishButton, frenchButton)),
                 backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
     }
 

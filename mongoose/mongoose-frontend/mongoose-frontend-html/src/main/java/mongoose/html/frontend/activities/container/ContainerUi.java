@@ -28,7 +28,7 @@ public class ContainerUi {
         Button frenchButton = toolkit.createButton();
         Property mountNodeProperty = new HtmlVPage(getElementById(rootElement, "subview")).centerProperty();
         return new FrontendContainerViewModel(toolkit.createVPage()
-                .setHeader(toolkit.createHBox(backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton))
+                .setHeader(toolkit.createHBox(backButton, forwardButton, /*organizationsButton, eventsButton,*/ englishButton, frenchButton))
                 .setCenter(new HtmlNode(getElementById(rootElement, "container"))),
                 backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton,
                 mountNodeProperty);
