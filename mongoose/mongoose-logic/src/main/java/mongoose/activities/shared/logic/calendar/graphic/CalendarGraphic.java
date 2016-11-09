@@ -8,7 +8,7 @@ import naga.toolkit.drawing.spi.DrawingNode;
 /**
  * @author Bruno Salmon
  */
-public interface CalendarGraphic {
+public interface CalendarGraphic extends HasCalendarClickHandlerProperty {
 
     Calendar getCalendar();
 

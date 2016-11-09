@@ -1,12 +1,8 @@
 package mongoose.activities.shared.logic.calendar.impl;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.shared.logic.calendar.Calendar;
-import mongoose.activities.shared.logic.calendar.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import naga.commons.util.async.Handler;
 
 import java.util.Collection;
 
@@ -31,11 +27,5 @@ public class CalendarImpl implements Calendar {
     @Override
     public Collection<CalendarTimeline> getTimelines() {
         return timelines;
-    }
-
-    private final Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty = new SimpleObjectProperty<>();
-    @Override
-    public Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty() {
-        return calendarClickHandlerProperty;
     }
 }

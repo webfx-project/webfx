@@ -1,8 +1,8 @@
 package mongoose.activities.frontend.event.options;
 
 import mongoose.activities.frontend.event.shared.BookingProcessActivity;
-import mongoose.activities.shared.logic.calendar.CalendarCell;
-import mongoose.activities.shared.logic.calendar.CalendarClickEvent;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
@@ -45,7 +45,7 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null) {
             workingDocumentCalendarGraphic = createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, workingDocumentCalendarGraphic);
-            workingDocumentCalendarGraphic.getCalendar().setCalendarClickHandler(this::onCalendarClick);
+            workingDocumentCalendarGraphic.setCalendarClickHandler(this::onCalendarClick);
             showCalendarIfBothLogicAndViewAreReady();
         }
     }

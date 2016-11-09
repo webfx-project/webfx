@@ -1,9 +1,9 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
-import mongoose.activities.shared.logic.calendar.Calendar;
-import mongoose.activities.shared.logic.calendar.CalendarCell;
-import mongoose.activities.shared.logic.calendar.CalendarClickEvent;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.transform.Translate;
@@ -31,14 +31,14 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         group.getTransforms().setAll(translate);
     }
 
-    DayColumnBodyBlockViewModel(Calendar calendar, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline) {
+    DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline) {
         this.epochDay = epochDay;
         this.dayTimeMinuteInterval = dayTimeMinuteInterval;
         blockText.textProperty().bind(timeline.displayNameProperty());
         rectangle.setFill(timeline.getTimelineFill());
         rectangle.setOnMouseClicked(event -> {
-            if (calendar.getCalendarClickHandler() != null)
-                calendar.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
+            if (calendarGraphic.getCalendarClickHandler() != null)
+                calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
         });
     }
 

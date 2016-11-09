@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.calendar;
+package mongoose.activities.shared.logic.calendar.graphic;
 
 /**
  * @author Bruno Salmon

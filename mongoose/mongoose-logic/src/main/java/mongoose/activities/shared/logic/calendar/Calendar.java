@@ -7,7 +7,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public interface Calendar extends HasCalendarClickHandlerProperty {
+public interface Calendar {
 
     TimeInterval getPeriod();
 

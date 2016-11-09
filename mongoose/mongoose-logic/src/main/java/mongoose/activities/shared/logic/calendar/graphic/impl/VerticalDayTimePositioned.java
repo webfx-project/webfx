@@ -1,6 +1,6 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
-import mongoose.activities.shared.logic.calendar.HasDayTimeMinuteInterval;
+import mongoose.activities.shared.logic.calendar.graphic.HasDayTimeMinuteInterval;
 
 /**
  * @author Bruno Salmon

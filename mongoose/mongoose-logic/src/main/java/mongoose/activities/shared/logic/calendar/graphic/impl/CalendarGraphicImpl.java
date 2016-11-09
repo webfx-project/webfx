@@ -1,12 +1,16 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.shared.logic.calendar.Calendar;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.time.TimeSeries;
+import naga.commons.util.async.Handler;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.animation.Animation;
@@ -48,6 +52,12 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         this.calendar = calendar;
         if (drawingNode != null)
             createOrUpdateDrawingNodeCalendar();
+    }
+
+    private final Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty() {
+        return calendarClickHandlerProperty;
     }
 
     @Override
@@ -130,7 +140,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Drawable createBlockDrawable(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {
-        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(calendar, epochDay, minuteInterval, timeline);
+        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline);
         horizontalDayPositioner.addHorizontalDayPositioned(model);
         verticalDayPositioner.addVerticalDayTimePositioned(model);
         return model.getGroup();

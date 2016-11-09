@@ -1,6 +1,6 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
-import mongoose.activities.shared.logic.calendar.HasEpochDay;
+import mongoose.activities.shared.logic.calendar.graphic.HasEpochDay;
 
 /**
  * @author Bruno Salmon

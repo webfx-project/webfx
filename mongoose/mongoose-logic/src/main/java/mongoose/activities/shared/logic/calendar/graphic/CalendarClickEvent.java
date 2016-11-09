@@ -1,5 +1,6 @@
-package mongoose.activities.shared.logic.calendar;
+package mongoose.activities.shared.logic.calendar.graphic;
 
+import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import naga.toolkit.spi.events.MouseEvent;
 
 /**
