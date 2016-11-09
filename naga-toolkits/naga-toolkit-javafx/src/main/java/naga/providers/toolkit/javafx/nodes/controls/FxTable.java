@@ -1,18 +1,20 @@
 package naga.providers.toolkit.javafx.nodes.controls;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
-import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.nodes.FxSelectableDisplayResultSetNode;
+import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.toolkit.adapters.grid.GridFiller;
 import naga.toolkit.adapters.grid.ImageTextGridAdapter;
 import naga.toolkit.adapters.rowstyle.RowAdapter;
@@ -25,6 +27,7 @@ import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.Table;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +94,9 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
             node.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
             Toolkit.get().scheduler().scheduleDelay(100, () -> node.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
         }
+        // Workaround to make the table height fit with its content if it is not within a BorderPane
+        if (!(node.getParent() instanceof BorderPane))
+            fitHeightToContent(node);
     }
 
 
@@ -164,4 +170,48 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
             return row;
         };
     }
+
+    private static void fitHeightToContent(final Control control) {
+        // Quick ugly hacked code to make the table height fit with the content
+        Skin<?> skin = control.getSkin();
+        if (skin == null)
+            control.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+                @Override
+                public void changed(ObservableValue<? extends Skin<?>> observableValue, Skin<?> skin, Skin<?> skin2) {
+                    control.skinProperty().removeListener(this);
+                    fitHeightToContent(control);
+                }
+            });
+        else {
+            ObservableList<Node> children = null;
+            if (skin instanceof Parent) // happens in java 7
+                children = ((Parent) skin).getChildrenUnmodifiable();
+            else if (skin instanceof SkinBase) // happens in java 8
+                children = ((SkinBase) skin).getChildren();
+            if (children != null) {
+                double h = 2; // border
+                for (Node node : new ArrayList<>(children)) {
+                    double nodePrefHeight = 0;
+                    if (node instanceof VirtualFlow) { // the problem with Virtual Flow is that it limits the computation to the first 10 rows
+                        VirtualFlow flow = (VirtualFlow) node;
+                        if (control instanceof TableView) {
+                            int size = ((TableView) control).getItems().size();
+                            try {
+                                Method m = flow.getClass().getDeclaredMethod("getCellLength", int.class);
+                                m.setAccessible(true);
+                                for (int i = 0; i < size; i++)
+                                    nodePrefHeight +=  (Double) m.invoke(flow, i);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }
+                    if (nodePrefHeight == 0)
+                        nodePrefHeight = node.prefHeight(-1);
+                    h += nodePrefHeight;
+                }
+                control.setMinHeight(h);
+            }
+        }
+    }
+
 }
