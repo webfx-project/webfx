@@ -8,10 +8,12 @@ import javafx.beans.property.Property;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import naga.commons.util.Strings;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.commons.util.Strings;
 
 public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
 
@@ -23,6 +25,7 @@ public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
                 getChildren().addAll(new TextField(), new Button());
                 setMinHeight(24);
                 //setPrefSize(200, 24);
+                HBox.setHgrow(this, Priority.ALWAYS); // temporary setting which is better for the demos
                 setMaxSize(Double.MAX_VALUE, 24);
                 try {
                     getStylesheets().add(getClass().getResource("/css/search-box.css").toExternalForm());
