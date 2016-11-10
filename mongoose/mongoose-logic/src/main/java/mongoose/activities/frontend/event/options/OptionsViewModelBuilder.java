@@ -4,6 +4,7 @@ import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.spi.Toolkit;
+import naga.toolkit.spi.nodes.controls.TextView;
 import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
@@ -12,14 +13,16 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 public class OptionsViewModelBuilder extends BookingsProcessViewModelBuilder<OptionsViewModel> {
 
     protected VPage calendarPanel;
+    protected TextView priceTextField;
 
     @Override
     protected OptionsViewModel createViewModel() {
-        return new OptionsViewModel(contentNode, calendarPanel, previousButton, nextButton);
+        return new OptionsViewModel(contentNode, calendarPanel, priceTextField, previousButton, nextButton);
     }
 
     protected void buildComponents(Toolkit toolkit, I18n i18n) {
         calendarPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/calendar.svg', width: 16, height: 16}", "Attendance", i18n);
+        priceTextField = toolkit.createTextView();
         super.buildComponents(toolkit, i18n);
     }
 

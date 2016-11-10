@@ -4,9 +4,11 @@ import mongoose.activities.frontend.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
+import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.domainmodel.format.PriceFormatter;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.Properties;
@@ -55,7 +57,7 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
         long fromArrival = Math.abs(workingDocumentInterval.getIncludedStart() - clickedCellMinuteStart);
         long fromDeparture = Math.abs(workingDocumentInterval.getExcludedEnd() - clickedCellMinuteStart);
         updateArrivalOrDepartureDateTime(event, fromArrival < fromDeparture);
-        //Platform.log("Price: " + PriceFormatter.SINGLETON.format(DocumentPricing.computeDocumentPrice(getWorkingDocument())));
+        computeAndDisplayWorkingTotalPrice();
     }
 
     private void updateArrivalOrDepartureDateTime(CalendarClickEvent event, boolean arrival) {
@@ -71,9 +73,16 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
         createAndShowCalendarIfBothLogicAndViewAreReady();
     }
 
+    protected void computeAndDisplayWorkingTotalPrice() {
+        optionsViewModel.getPriceTextView().setText(PriceFormatter.SINGLETON.formatWithCurrency(DocumentPricing.computeDocumentPrice(getWorkingDocument()), getEvent()));
+    }
+
     private void showCalendarIfBothLogicAndViewAreReady() {
         if (workingDocumentCalendarGraphic != null && optionsViewModel != null)
-            Toolkit.get().scheduler().runInUiThread(() -> optionsViewModel.getCalendarPanel().setCenter(workingDocumentCalendarGraphic.getDrawingNode()));
+            Toolkit.get().scheduler().runInUiThread(() -> {
+                optionsViewModel.getCalendarPanel().setCenter(Toolkit.get().createVBox(optionsViewModel.getPriceTextView(), workingDocumentCalendarGraphic.getDrawingNode()));
+                computeAndDisplayWorkingTotalPrice();
+            });
     }
 
     @Override

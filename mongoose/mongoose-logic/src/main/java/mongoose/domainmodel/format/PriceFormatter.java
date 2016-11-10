@@ -1,9 +1,10 @@
 package mongoose.domainmodel.format;
 
+import mongoose.entities.Event;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
-import naga.framework.ui.format.Formatter;
 import naga.commons.util.Numbers;
+import naga.framework.ui.format.Formatter;
 
 /**
  * @author Bruno Salmon
@@ -34,5 +35,12 @@ public class PriceFormatter implements Formatter {
             case 2 : return "0." + cents;
             default: return cents.substring(0, cents.length() - 2) + (!show00cents && cents.endsWith("00") ? "" : "." + cents.substring(cents.length() - 2));
         }
+    }
+
+    public String formatWithCurrency(Object value, Event event) {
+        Object price = PriceFormatter.SINGLETON.format(value, false);
+        // Temporary hard coded
+        boolean isKMCF = Numbers.toInteger(event.getOrganizationId().getPrimaryKey()) == 2;
+        return isKMCF ? price + " €" : "£" + price;
     }
 }

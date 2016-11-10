@@ -11,7 +11,6 @@ import mongoose.services.EventService;
 import mongoose.services.PersonService;
 import mongoose.util.Labels;
 import naga.commons.util.Booleans;
-import naga.commons.util.Numbers;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.services.query.QueryResultSet;
@@ -96,10 +95,7 @@ public class OptionsPreselection {
     }
 
     public Object getDisplayPrice() {
-        Object price = PriceFormatter.SINGLETON.format(computePrice(), false);
-        // Temporary hard coded
-        boolean isKMCF = Numbers.toInteger(eventService.getEvent().getOrganizationId().getPrimaryKey()) == 2;
-        return isKMCF ? price + " €" : "£" + price;
+        return PriceFormatter.SINGLETON.formatWithCurrency(computePrice(), eventService.getEvent());
     }
 
     public Object getDisplayAvailability(EventService eventService) {
