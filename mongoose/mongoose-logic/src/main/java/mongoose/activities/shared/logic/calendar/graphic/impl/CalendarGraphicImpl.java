@@ -36,10 +36,11 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     private Calendar calendar;
     private final I18n i18n;
     private DrawingNode drawingNode;
+    private long firstEpochDay;
 
     public CalendarGraphicImpl(Calendar calendar, I18n i18n) {
-        this.calendar = calendar;
         this.i18n = i18n;
+        setCalendar(calendar);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     @Override
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+        firstEpochDay = calendar.getPeriod().getIncludedStart(TimeUnit.DAYS);
         if (drawingNode != null)
             createOrUpdateDrawingNodeCalendar();
     }
@@ -137,7 +139,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Drawable createBlockDrawable(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {
-        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline);
+        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
         horizontalDayPositioner.addHorizontalDayPositioned(model);
         verticalDayPositioner.addVerticalDayTimePositioned(model);
         return model.getGroup();
