@@ -63,10 +63,18 @@ public final class TimeInterval {
         return toText(new StringBuilder()).toString();
     }
 
+    public String getStartText() {
+        return formatTime(getIncludedStart(), timeUnit, false);
+    }
+
+    public String getEndText() {
+        return formatTime(getExcludedEnd(), timeUnit, true);
+    }
+
     StringBuilder toText(StringBuilder sb) {
-        String startText = formatTime(getIncludedStart(), timeUnit, false);
+        String startText = getStartText();
         sb.append(startText);
-        String endText = formatTime(getExcludedEnd(), timeUnit, true);
+        String endText = getEndText();
         if (!endText.equals(startText))
             sb.append(" - ").append(endText);
         return sb;
