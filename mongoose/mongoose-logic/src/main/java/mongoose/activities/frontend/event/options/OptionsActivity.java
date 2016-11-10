@@ -49,17 +49,26 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
     }
 
     private void onCalendarClick(CalendarClickEvent event) {
-        updateArrivalDateTime(event);
+        CalendarCell cell = event.getCalendarCell();
+        long clickedCellMinuteStart = cell.getEpochDay() * 24 * 60 + cell.getDayTimeMinuteInterval().getIncludedStart();
+        TimeInterval workingDocumentInterval = getWorkingDocument().getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.MINUTES);
+        long fromArrival = Math.abs(workingDocumentInterval.getIncludedStart() - clickedCellMinuteStart);
+        long fromDeparture = Math.abs(workingDocumentInterval.getExcludedEnd() - clickedCellMinuteStart);
+        updateArrivalOrDepartureDateTime(event, fromArrival < fromDeparture);
+        //Platform.log("Price: " + PriceFormatter.SINGLETON.format(DocumentPricing.computeDocumentPrice(getWorkingDocument())));
     }
 
-    private void updateArrivalDateTime(CalendarClickEvent event) {
+    private void updateArrivalOrDepartureDateTime(CalendarClickEvent event, boolean arrival) {
         CalendarCell cell = event.getCalendarCell();
-        DateTimeRange workingDocumentDateTimeRange = getWorkingDocument().getDateTimeRange();
-        TimeInterval newArrivalToDocumentEndInterval = new TimeInterval(cell.getEpochDay() * 24 * 60 + cell.getDayTimeMinuteInterval().getIncludedStart(), workingDocumentDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES).getExcludedEnd(), TimeUnit.MINUTES);
-        workingDocumentDateTimeRange = getEventMaxDateTimeRange().intersect(newArrivalToDocumentEndInterval.toSeries());
-        setWorkingDocument(createNewDateTimeRangeWorkingDocument(workingDocumentDateTimeRange));
+        TimeInterval dayTimeMinuteInterval = cell.getDayTimeMinuteInterval();
+        long clickedDayMinute = cell.getEpochDay() * 24 * 60;
+        TimeInterval currentWorkingDocumentInterval = getWorkingDocument().getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.MINUTES);
+        TimeInterval newRequestedDocumentInterval =
+                arrival ? new TimeInterval(clickedDayMinute + dayTimeMinuteInterval.getIncludedStart(), currentWorkingDocumentInterval.getExcludedEnd(), TimeUnit.MINUTES)
+                :         new TimeInterval(currentWorkingDocumentInterval.getIncludedStart(), clickedDayMinute + cell.getDayTimeMinuteInterval().getExcludedEnd(), TimeUnit.MINUTES);
+        DateTimeRange newWorkingDocumentDateTimeRange = getEventMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
+        setWorkingDocument(createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange));
         createAndShowCalendarIfBothLogicAndViewAreReady();
-        //Platform.log("Price: " + PriceFormatter.SINGLETON.format(DocumentPricing.computeDocumentPrice(getWorkingDocument())));
     }
 
     private void showCalendarIfBothLogicAndViewAreReady() {
