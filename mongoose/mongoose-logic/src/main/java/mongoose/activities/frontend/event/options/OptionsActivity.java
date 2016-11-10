@@ -4,11 +4,9 @@ import mongoose.activities.frontend.event.shared.BookingProcessActivity;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
-import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.domainmodel.format.PriceFormatter;
 import naga.platform.spi.Platform;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.Properties;
@@ -58,10 +56,10 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
         CalendarCell cell = event.getCalendarCell();
         DateTimeRange workingDocumentDateTimeRange = getWorkingDocument().getDateTimeRange();
         TimeInterval newArrivalToDocumentEndInterval = new TimeInterval(cell.getEpochDay() * 24 * 60 + cell.getDayTimeMinuteInterval().getIncludedStart(), workingDocumentDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES).getExcludedEnd(), TimeUnit.MINUTES);
-        workingDocumentDateTimeRange = workingDocumentDateTimeRange.intersect(newArrivalToDocumentEndInterval.toSeries());
-        setWorkingDocument(getSelectedOptionsPreselection().createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules());
+        workingDocumentDateTimeRange = getEventMaxDateTimeRange().intersect(newArrivalToDocumentEndInterval.toSeries());
+        setWorkingDocument(createNewDateTimeRangeWorkingDocument(workingDocumentDateTimeRange));
         createAndShowCalendarIfBothLogicAndViewAreReady();
-        Platform.log("Price: " + PriceFormatter.SINGLETON.format(DocumentPricing.computeDocumentPrice(getWorkingDocument())));
+        //Platform.log("Price: " + PriceFormatter.SINGLETON.format(DocumentPricing.computeDocumentPrice(getWorkingDocument())));
     }
 
     private void showCalendarIfBothLogicAndViewAreReady() {

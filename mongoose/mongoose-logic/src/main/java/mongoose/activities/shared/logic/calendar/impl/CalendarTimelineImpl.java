@@ -6,6 +6,8 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import naga.toolkit.drawing.paint.Paint;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Bruno Salmon
  */
@@ -18,7 +20,7 @@ public class CalendarTimelineImpl implements CalendarTimeline {
 
 
     public CalendarTimelineImpl(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange, Property<String> displayNameProperty, Paint timelineFill) {
-        this.dateTimeRange = dateTimeRange;
+        this.dateTimeRange = dateTimeRange.changeTimeUnit(TimeUnit.DAYS);
         this.dayTimeRange = dayTimeRange;
         this.displayNameProperty = displayNameProperty;
         this.timelineFill = timelineFill;

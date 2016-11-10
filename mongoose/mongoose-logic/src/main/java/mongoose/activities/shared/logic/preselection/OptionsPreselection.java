@@ -37,6 +37,10 @@ public class OptionsPreselection {
         return label;
     }
 
+    public List<OptionPreselection> getOptionPreselections() {
+        return optionPreselections;
+    }
+
     private WorkingDocument workingDocument;
     public WorkingDocument initializeNewWorkingDocument() {
         if (workingDocument == null)

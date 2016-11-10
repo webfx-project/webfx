@@ -3,13 +3,11 @@ package mongoose.activities.shared.logic.calendar.graphic.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.shared.logic.calendar.Calendar;
-import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
+import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.DayTimeRange;
-import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import mongoose.activities.shared.logic.time.TimeSeries;
 import naga.commons.util.async.Handler;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
@@ -17,7 +15,9 @@ import naga.toolkit.animation.Animation;
 import naga.toolkit.animation.KeyFrame;
 import naga.toolkit.animation.KeyValue;
 import naga.toolkit.animation.Timeline;
-import naga.toolkit.drawing.shapes.*;
+import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.DrawableFactory;
+import naga.toolkit.drawing.shapes.Group;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.transform.Rotate;
@@ -127,16 +127,13 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private void addTimelineDrawables(CalendarTimeline timeline, Collection<Drawable> destCollection) {
-        DayTimeRange dayTimeRange = timeline.getDayTimeRange();
-        TimeSeries series = timeline.getDateTimeRange().getSeries().intersect(dayTimeRange);
-        DaysArray daysArray = series.toDaysArray(dayTimeRange).changeTimeUnit(TimeUnit.DAYS);
-        Collections.forEach(daysArray, epochDay -> addBlockDrawables(epochDay, dayTimeRange, timeline, destCollection));
+        Collections.forEach(timeline.getDateTimeRange().changeTimeUnit(TimeUnit.DAYS).getDaysArray(),
+                epochDay -> addBlockDrawables(epochDay, timeline.getDayTimeRange(), timeline, destCollection));
     }
 
     private void addBlockDrawables(long epochDay, DayTimeRange dayTimeRange, CalendarTimeline timeline, Collection<Drawable> destCollection) {
-        for (TimeInterval dayTimeInterval : dayTimeRange.getDayTimeSeries(epochDay, TimeUnit.DAYS).getArray()) {
+        for (TimeInterval dayTimeInterval : dayTimeRange.getDayTimeSeries(epochDay, TimeUnit.DAYS).getArray())
             destCollection.add(createBlockDrawable(epochDay, dayTimeInterval, timeline));
-        }
     }
 
     private Drawable createBlockDrawable(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {

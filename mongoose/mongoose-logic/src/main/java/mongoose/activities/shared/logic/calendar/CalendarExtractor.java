@@ -15,4 +15,7 @@ public interface CalendarExtractor<T> {
         return WorkingDocumentCalendarExtractor.get().extractCalendar(wd, i18n);
     }
 
+    static Calendar createFromWorkingDocument(WorkingDocument wd, WorkingDocument maxWd, I18n i18n) {
+        return WorkingDocumentCalendarExtractor.get().extractCalendar(wd, maxWd, i18n);
+    }
 }

@@ -38,6 +38,14 @@ public final class DateTimeRange {
         return series == this.series ? this : new DateTimeRange(series);
     }
 
+    private DateTimeRange from(DaysArray daysArray) {
+        return daysArray == this.daysArray ? this : new DateTimeRange(daysArray);
+    }
+
+    private DateTimeRange from(TimeInterval interval) {
+        return interval == this.interval ? this : new DateTimeRange(interval);
+    }
+
     public TimeInterval getInterval() {
         if (interval == null)
             interval = getSeries().toInterval();
@@ -76,6 +84,16 @@ public final class DateTimeRange {
         return Arrays.isEmpty(getSeries().getArray());
     }
 
+    public DateTimeRange changeTimeUnit(TimeUnit newTimeUnit) {
+        if (series != null)
+            return from(series.changeTimeUnit(newTimeUnit));
+        if (daysArray != null)
+            return from(daysArray.changeTimeUnit(newTimeUnit));
+        if (interval != null)
+            return from(interval.changeTimeUnit(newTimeUnit));
+        return from(getSeries().changeTimeUnit(newTimeUnit));
+    }
+
     public boolean containsInterval(TimeInterval interval) {
         return containsInterval(interval.getIncludedStart(), interval.getExcludedEnd(), interval.getTimeUnit());
     }
@@ -94,7 +112,7 @@ public final class DateTimeRange {
     }
 
     public DateTimeRange intersect(DateTimeRange dateTimeRange) {
-        return intersect(dateTimeRange.getSeries());
+        return dateTimeRange == null ? this : intersect(dateTimeRange.getSeries());
     }
 
     public DateTimeRange intersect(TimeSeries series) {

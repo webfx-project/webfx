@@ -1,5 +1,6 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
+import javafx.beans.property.Property;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
@@ -34,7 +35,9 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
     DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline) {
         this.epochDay = epochDay;
         this.dayTimeMinuteInterval = dayTimeMinuteInterval;
-        blockText.textProperty().bind(timeline.displayNameProperty());
+        Property<String> displayNameProperty = timeline.displayNameProperty();
+        if (displayNameProperty != null)
+            blockText.textProperty().bind(displayNameProperty);
         rectangle.setFill(timeline.getTimelineFill());
         rectangle.setOnMouseClicked(event -> {
             if (calendarGraphic.getCalendarClickHandler() != null)

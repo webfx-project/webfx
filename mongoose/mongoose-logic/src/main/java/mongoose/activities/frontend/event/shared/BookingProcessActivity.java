@@ -4,11 +4,14 @@ import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.DateInfo;
+import mongoose.entities.Event;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
 import mongoose.services.EventServiceMixin;
+import naga.commons.util.Objects;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Factory;
@@ -98,6 +101,20 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
                 .build();
     }
 
+    protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
+        OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
+        return selectedOptionsPreselection == null ? null : selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
+    }
+
+    protected WorkingDocument createNewMaxDateTimeRangeWorkingDocument() {
+        return createNewDateTimeRangeWorkingDocument(getEventMaxDateTimeRange());
+    }
+
+    protected DateTimeRange getEventMaxDateTimeRange() {
+        Event event = getEvent();
+        return Objects.coalesce(event.getParsedMaxDateTimeRange(), event.getParsedDateTimeRange());
+    }
+
     protected CalendarGraphic createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection, CalendarGraphic calendarGraphic) {
         return createOrUpdateCalendarGraphicFromWorkingDocument(optionsPreselection.getWorkingDocument(), calendarGraphic);
     }
@@ -112,6 +129,7 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
     }
 
     private Calendar createCalendarFromWorkingDocument(WorkingDocument workingDocument) {
-        return CalendarExtractor.createFromWorkingDocument(workingDocument, getI18n());
+        return CalendarExtractor.createFromWorkingDocument(workingDocument, createNewMaxDateTimeRangeWorkingDocument(), getI18n());
     }
+
 }
