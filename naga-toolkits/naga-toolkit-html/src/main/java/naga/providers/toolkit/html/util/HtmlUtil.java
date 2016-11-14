@@ -42,7 +42,17 @@ public class HtmlUtil {
         return appendChildren(removeChildren(parent), children);
     }
 
+    public static <N extends Node> N setChildren(N parent, Node... children) {
+        return appendChildren(removeChildren(parent), children);
+    }
+
     public static <N extends Node> N appendChildren(N parent, Iterable<? extends Node> children) {
+        for (Node child : children)
+            appendChild(parent, child);
+        return parent;
+    }
+
+    public static <N extends Node> N appendChildren(N parent, Node... children) {
         for (Node child : children)
             appendChild(parent, child);
         return parent;
