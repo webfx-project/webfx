@@ -8,7 +8,7 @@ import naga.toolkit.drawing.shapes.DrawableParent;
 /**
  * @author Bruno Salmon
  */
-public class DrawableParentImpl implements DrawableParent {
+public class DrawableParentImpl extends DrawableImpl implements DrawableParent {
 
     private final ObservableList<Drawable> drawableChildren = FXCollections.observableArrayList();
     @Override

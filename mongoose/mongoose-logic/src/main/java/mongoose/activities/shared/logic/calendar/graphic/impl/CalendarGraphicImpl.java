@@ -82,7 +82,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         horizontalDayPositioner = new HorizontalDayPositioner(calendar);
         verticalDayPositioner = new VerticalDayTimePositioner(drawingNode.heightProperty());
         Group calendarGroup = createCalendarGroup();
-        drawingNode.getDrawableChildren().setAll(calendarGroup);
+        drawingNode.setRootDrawable(calendarGroup);
         updateTotalWidth(drawingNode.getWidth());
         Rotate rotate = null; // Rotate.create();
         if (rotate != null) {

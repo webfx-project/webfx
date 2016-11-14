@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 /**
  * @author Bruno Salmon
  */
-public interface DrawableParent {
+public interface DrawableParent extends Drawable {
 
     ObservableList<Drawable> getDrawableChildren();
 }

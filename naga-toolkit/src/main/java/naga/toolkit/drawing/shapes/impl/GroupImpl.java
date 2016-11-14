@@ -5,5 +5,5 @@ import naga.toolkit.drawing.shapes.Group;
 /**
  * @author Bruno Salmon
  */
-public class GroupImpl extends DrawableParentDrawableImpl implements Group {
+public class GroupImpl extends DrawableParentImpl implements Group {
 }

@@ -40,7 +40,7 @@ public abstract class CanvasDrawingImpl
     }
 
     public void paintCanvas(CC canvasContext) {
-        paintDrawables(getDrawableChildren(), canvasContext);
+        paintDrawable(getRootDrawable(), canvasContext);
     }
 
     private void paintDrawables(Collection<Drawable> drawables, CC canvasContext) {
@@ -64,7 +64,7 @@ public abstract class CanvasDrawingImpl
     }
 
     public Drawable pickDrawable(Point2D point) {
-        return pickFromDrawables(point, getDrawableChildren());
+        return pickFromDrawable(point, getRootDrawable());
     }
 
     private Drawable pickFromDrawables(Point2D point, List<Drawable> drawables) {

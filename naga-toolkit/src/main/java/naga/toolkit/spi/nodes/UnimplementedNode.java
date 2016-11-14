@@ -172,10 +172,10 @@ public class UnimplementedNode<N> implements
     public void requestFocus() {
     }
 
-    private final ObservableList<Drawable> drawableChildren = FXCollections.observableArrayList();
+    private final Property<Drawable> rootDrawableProperty = new SimpleObjectProperty<>();
     @Override
-    public ObservableList<Drawable> getDrawableChildren() {
-        return drawableChildren;
+    public Property<Drawable> rootDrawableProperty() {
+        return rootDrawableProperty;
     }
 
     public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {

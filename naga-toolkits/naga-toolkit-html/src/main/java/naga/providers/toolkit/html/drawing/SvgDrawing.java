@@ -27,12 +27,16 @@ public class SvgDrawing extends DrawingImpl {
     }
 
     @Override
+    protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
+        super.createAndBindRootDrawableViewAndChildren(rootDrawable);
+        Node parent = (Node) drawingNode.unwrapToNativeNode();
+        HtmlUtil.setChildren(parent, defsElement, getSvgDrawableElement(rootDrawable));
+    }
+
+    @Override
     protected void updateDrawableParentAndChildrenViews(DrawableParent drawableParent) {
-        boolean isRoot = isDrawableParentRoot(drawableParent);
-        Node parent = isRoot ? (Node) drawingNode.unwrapToNativeNode() : getSvgDrawableElement((Drawable) drawableParent);
+        Node parent = getSvgDrawableElement(drawableParent);
         HtmlUtil.setChildren(parent, Collections.convert(drawableParent.getDrawableChildren(), this::getSvgDrawableElement));
-        if (isRoot)
-            HtmlUtil.appendFirstChild(parent, defsElement);
     }
 
     private SvgDrawableView getOrCreateAndBindSvgDrawableView(Drawable drawable) {

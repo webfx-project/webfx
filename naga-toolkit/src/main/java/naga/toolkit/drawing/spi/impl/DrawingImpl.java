@@ -1,17 +1,18 @@
 package naga.toolkit.drawing.spi.impl;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
-import naga.toolkit.drawing.shapes.impl.DrawableParentImpl;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 import naga.toolkit.util.ObservableLists;
+import naga.toolkit.util.Properties;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -20,11 +21,17 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class DrawingImpl extends DrawableParentImpl implements Drawing {
+public abstract class DrawingImpl implements Drawing {
 
     protected final DrawingNode drawingNode;
     private DrawableViewFactory drawableViewFactory;
     private final Map<Drawable, DrawableView> drawableViews = new HashMap<>();
+    private final Property<Drawable> rootDrawableProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Drawable> rootDrawableProperty() {
+        return rootDrawableProperty;
+    }
+
     private final DrawingRequester drawingRequester = new DrawingRequester() {
 
         @Override
@@ -52,7 +59,7 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
     protected DrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
         this.drawingNode = drawingNode;
         this.drawableViewFactory = drawableViewFactory;
-        keepDrawableParentAndChildrenViewsUpdated(this);
+        Properties.runOnPropertiesChange(drawableProperty -> createAndBindRootDrawableViewAndChildren(getRootDrawable()), rootDrawableProperty());
     }
 
     private final static ThreadLocal<DrawingImpl> drawingThreadLocal = new ThreadLocal<>();
@@ -68,7 +75,7 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         this.drawableViewFactory = drawableViewFactory;
     }
 
-    private void keepDrawableParentAndChildrenViewsUpdated(DrawableParent drawableParent) {
+    protected void keepDrawableParentAndChildrenViewsUpdated(DrawableParent drawableParent) {
         ObservableLists.runNowAndOnListChange(() -> updateDrawableParentAndChildrenViews(drawableParent), drawableParent.getDrawableChildren());
     }
 
@@ -84,7 +91,7 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         return drawableView.updateProperty(changedProperty);
     }
 
-    protected boolean updateDrawableViewList(Drawable drawable, ObservableList changedList) {
+    private boolean updateDrawableViewList(Drawable drawable, ObservableList changedList) {
         return updateDrawableViewList(getOrCreateAndBindDrawableView(drawable), changedList);
     }
 
@@ -94,6 +101,10 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
 
     private void updateDrawableChildrenViews(Collection<Drawable> drawables) {
         Collections.forEach(drawables, this::createAndBindDrawableViewAndChildren);
+    }
+
+    protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
+        createAndBindDrawableViewAndChildren(rootDrawable);
     }
 
     private void createAndBindDrawableViewAndChildren(Drawable drawable) {
@@ -113,7 +124,7 @@ public abstract class DrawingImpl extends DrawableParentImpl implements Drawing 
         return drawableView;
     }
 
-    protected boolean isDrawableParentRoot(DrawableParent drawableParent) {
-        return drawableParent == drawingNode || drawableParent == this;
+    protected boolean isRootDrawable(Drawable drawable) {
+        return drawable == getRootDrawable();
     }
 }

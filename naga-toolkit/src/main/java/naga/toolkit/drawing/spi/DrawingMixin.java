@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi;
 
-import javafx.collections.ObservableList;
+import javafx.beans.property.Property;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.view.DrawableViewFactory;
 
@@ -16,7 +16,17 @@ public interface DrawingMixin extends Drawing {
     }
 
     @Override
-    default ObservableList<Drawable> getDrawableChildren() {
-        return getDrawing().getDrawableChildren();
+    default Property<Drawable> rootDrawableProperty() {
+        return getDrawing().rootDrawableProperty();
+    }
+
+    @Override
+    default void setRootDrawable(Drawable rootDrawable) {
+        getDrawing().setRootDrawable(rootDrawable);
+    }
+
+    @Override
+    default Drawable getRootDrawable() {
+        return getDrawing().getRootDrawable();
     }
 }
