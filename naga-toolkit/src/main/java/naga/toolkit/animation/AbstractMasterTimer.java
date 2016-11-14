@@ -284,8 +284,8 @@ public abstract class AbstractMasterTimer {
             boolean newInactive = (animationTimersLength == 0 && receiversLength == 0);
             if (inactive != newInactive) {
                 inactive = newInactive;
-                DelayedRunnable animationRunnable = inactive? null : this;
-                postUpdateAnimationRunnable(animationRunnable);
+                if (!inactive)
+                    postUpdateAnimationRunnable(this);
             }
         }
     }
