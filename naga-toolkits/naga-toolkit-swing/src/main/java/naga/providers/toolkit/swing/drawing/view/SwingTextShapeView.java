@@ -1,6 +1,7 @@
 package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.Numbers;
+import naga.commons.util.Objects;
 import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.drawing.shapes.Font;
 import naga.toolkit.drawing.shapes.TextAlignment;
@@ -44,7 +45,7 @@ public class SwingTextShapeView
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), getDrawable().getText()).getOutline();
+        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), Objects.coalesce(getDrawable().getText(), "")).getOutline();
     }
 
     @Override
@@ -55,7 +56,7 @@ public class SwingTextShapeView
         double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
         if (wrappingWidth > 0) {
-            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(ts.getText());
+            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(Objects.coalesce(ts.getText(), ""));
             TextAlignment textAlignment = ts.getTextAlignment();
             if (textAlignment == TextAlignment.CENTER)
                 x += (wrappingWidth - textWidth) / 2;
