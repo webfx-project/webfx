@@ -1,11 +1,8 @@
 package mongoose.web.activities.shared.application;
 
 import com.google.gwt.core.client.EntryPoint;
-import naga.framework.activity.client.UiApplicationContext;
-import naga.framework.ui.rx.RxUi;
-import naga.platform.bus.call.PendingBusCall;
+import mongoose.activities.shared.application.MongooseApplication;
 import naga.providers.platform.client.gwt.GwtPlatform;
-import rx.Observable;
 
 /**
  * @author Bruno Salmon
@@ -19,11 +16,7 @@ public abstract class MongooseWebApplication implements EntryPoint {
         registerResourceBundles();
         registerCustomViewBuilders();
         startMongooseApplicationLogic();
-        Observable.combineLatest(
-                RxUi.observe(UiApplicationContext.getUiApplicationContext().windowBoundProperty()),
-                RxUi.observe(PendingBusCall.pendingCallsCountProperty()),
-                (windowBound, pendingCallsCount) -> !windowBound || pendingCallsCount > 0
-        ).subscribe(MongooseWebApplication::setLoadingSpinnerVisible);
+        MongooseApplication.setLoadingSpinnerVisibleConsumer(MongooseWebApplication::setLoadingSpinnerVisible);
     }
 
     protected abstract void startMongooseApplicationLogic();

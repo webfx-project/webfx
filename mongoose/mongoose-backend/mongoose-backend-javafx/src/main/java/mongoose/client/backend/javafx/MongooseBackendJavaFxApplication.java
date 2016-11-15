@@ -4,15 +4,10 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.MongooseBackendApplication;
-import naga.framework.activity.client.UiApplicationContext;
-import naga.framework.ui.rx.RxScheduler;
-import naga.framework.ui.rx.RxUi;
-import naga.platform.bus.call.PendingBusCall;
-import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
+import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.GuiNode;
-import rx.Observable;
 
 
 /**
@@ -24,12 +19,7 @@ public class MongooseBackendJavaFxApplication {
         installJavaFxHooks();
         // Once hooks are set, we can start the application
         MongooseBackendApplication.main(args);
-        Observable.combineLatest(
-                RxUi.observe(UiApplicationContext.getUiApplicationContext().windowBoundProperty()),
-                RxUi.observe(PendingBusCall.pendingCallsCountProperty()),
-                (windowBound, pendingCallsCount) -> !windowBound || pendingCallsCount > 0)
-                .observeOn(RxScheduler.UI_SCHEDULER)
-                .subscribe(MongooseBackendJavaFxApplication::setLoadingSpinnerVisible);
+        MongooseBackendApplication.setLoadingSpinnerVisibleConsumer(MongooseBackendJavaFxApplication::setLoadingSpinnerVisible);
     }
 
     private static void installJavaFxHooks() {
