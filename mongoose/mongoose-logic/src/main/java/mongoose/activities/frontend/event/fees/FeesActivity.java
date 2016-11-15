@@ -10,8 +10,6 @@ import naga.commons.type.SpecializedTextType;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
-import naga.framework.ui.rx.RxScheduler;
-import naga.framework.ui.rx.RxUi;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
@@ -24,7 +22,6 @@ import naga.toolkit.spi.events.ActionEvent;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.controls.RadioButton;
 import naga.toolkit.util.Properties;
-import rx.Observable;
 
 /**
  * @author Bruno Salmon
@@ -68,13 +65,10 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 FeesGroup[] feesGroups = async.result();
                 Property<DisplayResultSet> dateInfoDisplayResultSetProperty = pm.dateInfoDisplayResultSetProperty();
                 I18n i18n = getI18n();
-                Observable.combineLatest(
-                        RxUi.observe(i18n.dictionaryProperty()),
-                        RxUi.observe(activeProperty()),
-                        (dictionary, active) -> active)
-                        .filter(active -> active)
-                        .observeOn(RxScheduler.UI_SCHEDULER)
-                        .subscribe(active -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
+                Properties.consumeInUiThread(Properties.filter(Properties.combine(i18n.dictionaryProperty(), activeProperty(),
+                        (dictionary, active) -> active), // combine function
+                        active -> active), // filter function
+                        active -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
                 onEventAvailabilities().setHandler(ar -> {
                     if (ar.succeeded())
                         Toolkit.get().scheduler().runInUiThread(() -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
