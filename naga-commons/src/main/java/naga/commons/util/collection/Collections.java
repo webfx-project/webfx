@@ -71,6 +71,10 @@ public class Collections {
         return true;
     }
 
+    public static <T> boolean allNonNulls(List<T> list) {
+        return list.indexOf(null) == -1;
+    }
+
     public static <T> Iterator<T> iterator(Iterable<T> iterable) {
         return iterable == null ? null : iterable.iterator();
     }
