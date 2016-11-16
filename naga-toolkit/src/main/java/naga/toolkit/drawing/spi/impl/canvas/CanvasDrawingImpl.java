@@ -63,21 +63,21 @@ public abstract class CanvasDrawingImpl
         drawableView.paint(canvasContext);
     }
 
-    public Drawable pickDrawable(Point2D point) {
+    public PickResult pickDrawable(Point2D point) {
         return pickFromDrawable(point, getRootDrawable());
     }
 
-    private Drawable pickFromDrawables(Point2D point, List<Drawable> drawables) {
+    private PickResult pickFromDrawables(Point2D point, List<Drawable> drawables) {
         // Looping in inverse order because last drawables are painted above of previous ones so they are priorities for picking
         for (int i = drawables.size() - 1; i >=0; i--) {
-            Drawable pickedDrawable = pickFromDrawable(point, drawables.get(i));
-            if (pickedDrawable != null)
-                return pickedDrawable;
+            PickResult pickResult = pickFromDrawable(point, drawables.get(i));
+            if (pickResult != null)
+                return pickResult;
         }
         return null;
     }
 
-    private Drawable pickFromDrawable(Point2D point, Drawable drawable) {
+    private PickResult pickFromDrawable(Point2D point, Drawable drawable) {
         // The passed point is actually expressed in the coordinates space after the transformation has been applied.
         // Before going further, we need to express it in the drawable coordinates space (ie before transformation).
         ObservableList<Transform> transforms = drawable.getTransforms();
@@ -89,7 +89,7 @@ public abstract class CanvasDrawingImpl
             return pickFromDrawables(point, ((DrawableParent) drawable).getDrawableChildren());
         // Otherwise we ask its view if it contains the point and return this drawable if this is the case
         DV drawableView = (DV) getOrCreateAndBindDrawableView(drawable);
-        return drawableView.containsPoint(point) ? drawable : null;
+        return drawableView.containsPoint(point) ? new PickResult(drawable, drawableView, point) : null;
     }
 
 
