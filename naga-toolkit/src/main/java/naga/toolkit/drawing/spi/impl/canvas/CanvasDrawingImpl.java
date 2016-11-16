@@ -81,7 +81,8 @@ public abstract class CanvasDrawingImpl
         // The passed point is actually expressed in the coordinates space after the transformation has been applied.
         // Before going further, we need to express it in the drawable coordinates space (ie before transformation).
         ObservableList<Transform> transforms = drawable.getTransforms();
-        for (int i = Collections.size(transforms) - 1; i >=0; i--)
+        int n = Collections.size(transforms);
+        for (int i = 0; i < n; i++)
             point = transforms.get(i).inverseTransform(point);
         // If the drawable is a parent, we return the pick result from its children
         if (drawable instanceof DrawableParent)
