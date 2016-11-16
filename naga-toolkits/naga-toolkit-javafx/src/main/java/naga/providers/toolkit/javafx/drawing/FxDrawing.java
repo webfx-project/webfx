@@ -8,6 +8,7 @@ import naga.providers.toolkit.javafx.drawing.view.FxDrawableView;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
+import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.util.ObservableLists;
 
 import java.lang.reflect.Method;
@@ -29,7 +30,7 @@ class FxDrawing extends DrawingImpl {
             Method getChildren = Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
             ObservableList<Node> children = (ObservableList<Node>) getChildren.invoke(parent);
-            children.setAll(getFxDrawableNode(rootDrawable));
+            ObservableLists.setAllNonNulls(children, getFxDrawableNode(rootDrawable));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,13 +43,17 @@ class FxDrawing extends DrawingImpl {
             Method getChildren = Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
             ObservableList<Node> children = (ObservableList<Node>) getChildren.invoke(parent);
-            ObservableLists.setAllConverted(drawableParent.getDrawableChildren(), this::getFxDrawableNode, children);
+            ObservableLists.setAllNonNullsConverted(drawableParent.getDrawableChildren(), this::getFxDrawableNode, children);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private Node getFxDrawableNode(Drawable drawable) {
-        return ((FxDrawableView) getOrCreateAndBindDrawableView(drawable)).getFxDrawableNode();
+        DrawableView drawableView = getOrCreateAndBindDrawableView(drawable);
+        if (drawableView instanceof FxDrawableView) // Should be a FxDrawableView
+            return((FxDrawableView) drawableView).getFxDrawableNode();
+        // Shouldn't happen unless no view factory is registered for this drawable (probably UnimplementedDrawableView was returned)
+        return null; // returning null in this case to indicate there is no node to show
     }
 }

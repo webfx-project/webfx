@@ -4,6 +4,7 @@ import naga.commons.util.function.Factory;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.drawing.spi.view.UnimplementedDrawableView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,8 +21,11 @@ public class DrawableViewFactoryImpl implements DrawableViewFactory {
     }
 
     @Override
-    public <D extends Drawable, V extends DrawableView<D>> V createDrawableView(D drawableInterface) {
-        Factory<? extends DrawableView> factory = drawableViewFactories.get(drawableInterface.getClass());
-        return (V) factory.create();
+    public <D extends Drawable, V extends DrawableView<D>> V createDrawableView(D drawable) {
+        Factory<? extends DrawableView> factory = drawableViewFactories.get(drawable.getClass());
+        if (factory != null)
+            return (V) factory.create();
+        System.out.println("WARNING: No DrawableView factory registered for " + drawable.getClass() + " in " + getClass());
+        return (V) new UnimplementedDrawableView();
     }
 }

@@ -9,6 +9,7 @@ import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
+import naga.toolkit.drawing.spi.view.DrawableView;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +30,7 @@ public class SvgDrawing extends DrawingImpl {
     @Override
     protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
         super.createAndBindRootDrawableViewAndChildren(rootDrawable);
-        Node parent = (Node) drawingNode.unwrapToNativeNode();
+        Node parent = drawingNode.unwrapToNativeNode();
         HtmlUtil.setChildren(parent, defsElement, getSvgDrawableElement(rootDrawable));
     }
 
@@ -40,11 +41,16 @@ public class SvgDrawing extends DrawingImpl {
     }
 
     private SvgDrawableView getOrCreateAndBindSvgDrawableView(Drawable drawable) {
-        return (SvgDrawableView) getOrCreateAndBindDrawableView(drawable);
+        DrawableView drawableView = getOrCreateAndBindDrawableView(drawable); // Should be a FxDrawableView (but may be UnimplementedDrawableView if no view factory is registered for this drawable)
+        if (drawableView instanceof SvgDrawableView) // Should be a SvgDrawableView
+            return (SvgDrawableView) drawableView;
+        // Shouldn't happen unless no view factory is registered for this drawable (probably UnimplementedDrawableView was returned)
+        return null; // returning null in this case to indicate there is no view to show
     }
 
     private Element getSvgDrawableElement(Drawable drawable) {
-        return getOrCreateAndBindSvgDrawableView(drawable).getElement();
+        SvgDrawableView svgDrawableView = getOrCreateAndBindSvgDrawableView(drawable);
+        return svgDrawableView == null ? null : svgDrawableView.getElement();
     }
 
 }
