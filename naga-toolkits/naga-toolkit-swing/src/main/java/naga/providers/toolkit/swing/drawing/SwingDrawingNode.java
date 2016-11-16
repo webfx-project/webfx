@@ -6,11 +6,11 @@ import naga.providers.toolkit.swing.drawing.view.SwingEmbedDrawableView;
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.nodes.SwingNode;
 import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.EmbedDrawable;
 import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
+import naga.toolkit.drawing.spi.impl.canvas.PickResult;
 import naga.toolkit.drawing.spi.view.DrawableView;
 
 import javax.swing.*;
@@ -59,59 +59,81 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         {
             heightProperty.addListener((observable, oldValue, newHeight) -> setPreferredSize(new Dimension(getWidth(), newHeight.intValue())));
-            MouseAdapter mouseAdapter = new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) { handleMouseEvent(e);}
-                public void mousePressed(MouseEvent e) { handleMouseEvent(e);}
-                public void mouseReleased(MouseEvent e) { handleMouseEvent(e);}
+            MouseAdapter canvasMouseAdapter = new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    handleMouseEvent(e);
+                }
+
+                public void mousePressed(MouseEvent e) {
+                    handleMouseEvent(e);
+                }
+
+                public void mouseReleased(MouseEvent e) {
+                    handleMouseEvent(e);
+                }
+
                 //public void mouseEntered(MouseEvent e) { handleMouseEvent(e);}
-                public void mouseExited(MouseEvent e) { handleMouseEvent(e);}
-                public void mouseWheelMoved(MouseWheelEvent e) { handleMouseEvent(e);}
-                public void mouseDragged(MouseEvent e) { handleMouseEvent(e);}
-                public void mouseMoved(MouseEvent e) { handleMouseEvent(e);}
+                public void mouseExited(MouseEvent e) {
+                    handleMouseEvent(e);
+                }
+
+                public void mouseWheelMoved(MouseWheelEvent e) {
+                    handleMouseEvent(e);
+                }
+
+                public void mouseDragged(MouseEvent e) {
+                    handleMouseEvent(e);
+                }
+
+                public void mouseMoved(MouseEvent e) {
+                    handleMouseEvent(e);
+                }
 
                 private JComponent lastEmbedTarget;
 
                 private void handleMouseEvent(MouseEvent e) {
+                    PickResult pickResult = null;
                     JComponent embedTarget = null;
+                    Point2D canvasPoint = new Point2D(e.getX(), e.getY());
                     if (e.getID() != MouseEvent.MOUSE_EXITED) {
-                        Drawable drawable = drawing.pickDrawable(new Point2D(e.getX(), e.getY()));
-                        if (drawable != null) {
+                        pickResult = drawing.pickDrawable(canvasPoint);
+                        if (pickResult != null) {
+                            Drawable drawable = pickResult.getDrawable();
                             if (e.getID() == MouseEvent.MOUSE_CLICKED && drawable.getOnMouseClicked() != null)
                                 drawable.getOnMouseClicked().handle(new SwingMouseEvent(e));
-                            if (drawable instanceof EmbedDrawable) {
-                                DrawableView drawableView = drawing.getOrCreateAndBindDrawableView(drawable);
-                                if (drawableView instanceof SwingEmbedDrawableView)
-                                    embedTarget = ((SwingEmbedDrawableView) drawableView).getEmbedSwingComponent();
-                            }
+                            DrawableView drawableView = pickResult.getDrawableView();
+                            if (drawableView instanceof SwingEmbedDrawableView)
+                                embedTarget = ((SwingEmbedDrawableView) drawableView).getEmbedSwingComponent();
                         }
                     }
                     if (embedTarget != lastEmbedTarget) {
                         if (lastEmbedTarget != null)
-                            redispatchEvent(e, MouseEvent.MOUSE_EXITED, lastEmbedTarget);
+                            redispatchEvent(e, MouseEvent.MOUSE_EXITED, pickResult != null ? pickResult.getDrawableLocalPoint() : canvasPoint, lastEmbedTarget);
                         if (embedTarget != null)
-                            redispatchEvent(e, MouseEvent.MOUSE_ENTERED, embedTarget);
+                            redispatchEvent(e, MouseEvent.MOUSE_ENTERED, pickResult.getDrawableLocalPoint(), embedTarget);
                         lastEmbedTarget = embedTarget;
                     }
                     if (embedTarget != null)
-                        redispatchEvent(e, e.getID(), embedTarget);
+                        redispatchEvent(e, e.getID(), pickResult.getDrawableLocalPoint(), embedTarget);
                 }
 
-                private void redispatchEvent(MouseEvent e, int id, JComponent target) {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(target, new MouseEvent(target,
-                            id,
-                            e.getWhen(),
-                            e.getModifiers(),
-                            getX(), e.getY(),
-                            e.getClickCount(),
-                            e.isPopupTrigger(),
-                            e.getButton()));
+                private void redispatchEvent(MouseEvent e, int id, Point2D point, JComponent target) {
+                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(target,
+                            new MouseEvent(target,
+                                    id,
+                                    e.getWhen(),
+                                    e.getModifiers(),
+                                    (int) point.getX(), (int) point.getY(),
+                                    e.getClickCount(),
+                                    e.isPopupTrigger(),
+                                    e.getButton()));
                     lastEmbedTargetEventTime = e.getWhen();
                     drawing.requestCanvasRepaint();
                 }
             };
-            addMouseListener(mouseAdapter);
-            addMouseMotionListener(mouseAdapter);
-            addMouseWheelListener(mouseAdapter);
+            addMouseListener(canvasMouseAdapter);
+            addMouseMotionListener(canvasMouseAdapter);
+            addMouseWheelListener(canvasMouseAdapter);
         }
 
         @Override
