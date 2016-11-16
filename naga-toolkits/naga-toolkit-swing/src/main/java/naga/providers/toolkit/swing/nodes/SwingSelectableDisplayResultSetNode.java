@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public abstract class SwingSelectableDisplayResultSetNode<N extends Component> extends SwingDisplayResultSetNode<N> implements SelectableDisplayResultSetNode<N> {
+public abstract class SwingSelectableDisplayResultSetNode<N extends Component> extends SwingDisplayResultSetNode<N> implements SelectableDisplayResultSetNode {
 
     public SwingSelectableDisplayResultSetNode(N node) {
         super(node);

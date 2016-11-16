@@ -1,13 +1,12 @@
 package naga.providers.toolkit.gwt.nodes.charts;
 
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
 import naga.toolkit.spi.nodes.charts.LineChart;
 
 /**
  * @author Bruno Salmon
  */
-public class GwtLineChart extends GwtChart implements LineChart<SimpleLayoutPanel> {
+public class GwtLineChart extends GwtChart implements LineChart {
 
     @Override
     protected CoreChartWidget createChartWidget() {

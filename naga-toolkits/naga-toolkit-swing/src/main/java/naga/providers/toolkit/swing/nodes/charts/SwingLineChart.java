@@ -12,7 +12,7 @@ import static org.knowm.xchart.style.colors.XChartSeriesColors.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingLineChart extends SwingChart implements LineChart<XChartJPanel> {
+public class SwingLineChart extends SwingChart implements LineChart {
 
     @Override
     protected XYChart createChart() {

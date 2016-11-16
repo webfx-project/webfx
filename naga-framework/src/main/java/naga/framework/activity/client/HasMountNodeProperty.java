@@ -6,10 +6,10 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface HasMountNodeProperty<N> {
+public interface HasMountNodeProperty {
 
-    Property<GuiNode<N>> mountNodeProperty();
-    default HasMountNodeProperty setMountNode(GuiNode node) { mountNodeProperty().setValue(node); return this; }
-    default GuiNode<N> getMountNode() { return mountNodeProperty().getValue(); }
+    Property<GuiNode> mountNodeProperty();
+    default void setMountNode(GuiNode node) { mountNodeProperty().setValue(node); }
+    default GuiNode getMountNode() { return mountNodeProperty().getValue(); }
 
 }

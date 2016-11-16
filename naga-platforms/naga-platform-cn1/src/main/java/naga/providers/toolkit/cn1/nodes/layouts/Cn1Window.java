@@ -11,7 +11,7 @@ import naga.toolkit.spi.nodes.layouts.Window;
 /**
  * @author Bruno Salmon
  */
-public class Cn1Window implements Window<Component> {
+public class Cn1Window implements Window {
 
     private final Form form;
 
@@ -31,9 +31,9 @@ public class Cn1Window implements Window<Component> {
         form.show();
     }
 
-    private final Property<GuiNode<Component>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

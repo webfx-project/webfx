@@ -12,7 +12,7 @@ import naga.commons.util.collection.IdentityList;
 /**
  * @author Bruno Salmon
  */
-public class GwtTable extends GwtSelectableDisplayResultSetNode<AbstractCellTable<Integer>> implements Table<AbstractCellTable<Integer>> {
+public class GwtTable extends GwtSelectableDisplayResultSetNode<AbstractCellTable<Integer>> implements Table {
 
     public GwtTable() {
         this(new DataGrid<>()); // CellTable for height automatically set to the number of rows, DataGrid for fixed height with scroll bar

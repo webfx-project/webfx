@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-abstract class Cn1DisplayResultSetNode<N extends Component> extends Cn1Node<N> implements DisplayResultSetNode<N> {
+abstract class Cn1DisplayResultSetNode<N extends Component> extends Cn1Node<N> implements DisplayResultSetNode {
 
     Cn1DisplayResultSetNode(N node) {
         super(node);

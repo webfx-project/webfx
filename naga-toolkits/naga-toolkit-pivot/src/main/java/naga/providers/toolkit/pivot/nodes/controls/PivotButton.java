@@ -15,7 +15,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * @author Bruno Salmon
  */
-public class PivotButton extends PivotButtonBase<PushButton> implements Button<PushButton> {
+public class PivotButton extends PivotButtonBase<PushButton> implements Button {
 
     public PivotButton() {
         this(new PushButton());

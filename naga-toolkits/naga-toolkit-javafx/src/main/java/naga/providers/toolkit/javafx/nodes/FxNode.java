@@ -6,7 +6,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class FxNode<N extends Node> implements GuiNode<N> {
+public class FxNode<N extends Node> implements GuiNode {
 
     protected final N node;
 

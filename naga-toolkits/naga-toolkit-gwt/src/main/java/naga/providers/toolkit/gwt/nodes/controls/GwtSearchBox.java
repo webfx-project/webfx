@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.SearchBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtSearchBox extends GwtNode<TextBox> implements SearchBox<TextBox> {
+public class GwtSearchBox extends GwtNode<TextBox> implements SearchBox {
 
     public GwtSearchBox() {
         this(new TextBox());

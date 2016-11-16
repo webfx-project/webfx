@@ -8,7 +8,7 @@ import naga.toolkit.spi.nodes.controls.TextView;
 /**
  * @author Bruno Salmon
  */
-public class FxTextView extends FxNode<Text> implements TextView<Text> {
+public class FxTextView extends FxNode<Text> implements TextView {
 
     public FxTextView() {
         this(createText());

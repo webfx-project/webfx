@@ -5,6 +5,6 @@ import naga.toolkit.spi.nodes.gauges.Gauge;
 /**
  * @author Bruno Salmon
  */
-public interface Slider<N> extends Gauge<N> {
+public interface Slider extends Gauge {
 
 }

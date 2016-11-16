@@ -12,23 +12,23 @@ import org.apache.pivot.wtk.Container;
 /**
  * @author Bruno Salmon
  */
-public class PivotParent<P extends Container> extends PivotNode<P> implements Parent<P, Component> {
+public class PivotParent<P extends Container> extends PivotNode<P> implements Parent {
 
     public PivotParent(P parent) {
         super(parent);
         children.addListener(this::onChanged);
     }
 
-    private final ObservableList<GuiNode<Component>> children = FXCollections.observableArrayList();
+    private final ObservableList<GuiNode> children = FXCollections.observableArrayList();
 
     @Override
-    public ObservableList<GuiNode<Component>> getChildren() {
+    public ObservableList<GuiNode> getChildren() {
         return children;
     }
 
-    private void onChanged(ListChangeListener.Change<? extends GuiNode<Component>> change) {
+    private void onChanged(ListChangeListener.Change<? extends GuiNode> change) {
         node.removeAll();
-        for (GuiNode<Component> child : children)
+        for (GuiNode child : children)
             node.add(prepareChildComponent(child.unwrapToNativeNode()));
     }
 

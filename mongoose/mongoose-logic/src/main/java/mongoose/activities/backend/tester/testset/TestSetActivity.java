@@ -18,8 +18,8 @@ public class TestSetActivity extends PresentationActivity<TestSetViewModel, Test
 
     protected TestSetViewModel buildView(Toolkit toolkit) {
         // TextFields
-        TextField<String> testName = toolkit.createTextField();
-        TextField<String> testComment = toolkit.createTextField();
+        TextField testName = toolkit.createTextField();
+        TextField testComment = toolkit.createTextField();
         Button saveTest = toolkit.createButton();
         testName.setPlaceholder("Test name");
         testComment.setPlaceholder("Comments");
@@ -29,7 +29,6 @@ public class TestSetActivity extends PresentationActivity<TestSetViewModel, Test
         // Arranging in a box
         VBox vBox = toolkit.createVBox();
         vBox.getChildren().setAll(testName, testComment);
-
 
         return new TestSetViewModel(toolkit.createVPage()
                 .setHeader(vBox)

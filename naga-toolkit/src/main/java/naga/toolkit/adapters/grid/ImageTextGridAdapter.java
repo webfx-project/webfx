@@ -6,9 +6,9 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface ImageTextGridAdapter<C, N> extends GridAdapter<C, N> {
+public interface ImageTextGridAdapter<C> extends GridAdapter<C> {
 
-    default void setCellContent(C cell, GuiNode<N> content, DisplayColumn displayColumn) {
+    default void setCellContent(C cell, GuiNode content, DisplayColumn displayColumn) {
         setCellImageAndTextContent(cell, content, null, displayColumn);
     }
 
@@ -16,6 +16,6 @@ public interface ImageTextGridAdapter<C, N> extends GridAdapter<C, N> {
         setCellImageAndTextContent(cell, null, text, displayColumn);
     }
 
-    void setCellImageAndTextContent(C cell, GuiNode<N> image, String text, DisplayColumn displayColumn);
+    void setCellImageAndTextContent(C cell, GuiNode image, String text, DisplayColumn displayColumn);
 
 }

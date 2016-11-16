@@ -5,7 +5,7 @@ import naga.toolkit.spi.nodes.charts.BarChart;
 /**
  * @author Bruno Salmon
  */
-public class FxBarChart extends FxXYChart<javafx.scene.chart.BarChart> implements BarChart<javafx.scene.chart.BarChart> {
+public class FxBarChart extends FxXYChart<javafx.scene.chart.BarChart> implements BarChart {
 
     public FxBarChart() {
         this(createBarChart());

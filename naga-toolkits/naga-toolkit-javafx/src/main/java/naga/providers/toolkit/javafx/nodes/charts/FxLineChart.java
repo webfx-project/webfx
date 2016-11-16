@@ -5,7 +5,7 @@ import naga.toolkit.spi.nodes.charts.LineChart;
 /**
  * @author Bruno Salmon
  */
-public class FxLineChart extends FxXYChart<javafx.scene.chart.LineChart> implements LineChart<javafx.scene.chart.LineChart> {
+public class FxLineChart extends FxXYChart<javafx.scene.chart.LineChart> implements LineChart {
 
     public FxLineChart() {
         this(createLineChart());

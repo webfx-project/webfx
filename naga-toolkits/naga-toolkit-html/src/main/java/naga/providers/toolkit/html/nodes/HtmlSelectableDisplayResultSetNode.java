@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.SelectableDisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class HtmlSelectableDisplayResultSetNode<N extends Node> extends HtmlDisplayResultSetNode<N> implements SelectableDisplayResultSetNode<N> {
+public abstract class HtmlSelectableDisplayResultSetNode<N extends Node> extends HtmlDisplayResultSetNode<N> implements SelectableDisplayResultSetNode {
 
     public HtmlSelectableDisplayResultSetNode(N node) {
         super(node);

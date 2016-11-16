@@ -15,7 +15,7 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widget> {
+public class GwtPolymerVPage extends GwtNode<Panel> implements VPage {
 
     public GwtPolymerVPage() {
         this(new LayoutFlowPanel());
@@ -33,7 +33,7 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
             doc.getHead().insertFirst(styleElement);
             return null;
         });
-        ChangeListener<GuiNode<Widget>> onAnyNodePropertyChange = (observable, oldValue, newValue) -> updateNodesOnceAttached();
+        ChangeListener<GuiNode> onAnyNodePropertyChange = (observable, oldValue, newValue) -> updateNodesOnceAttached();
         headerProperty.addListener(onAnyNodePropertyChange);
         footerProperty.addListener(onAnyNodePropertyChange);
         centerProperty.addListener(onAnyNodePropertyChange);
@@ -55,10 +55,10 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
             attachHandlerRegistration = null;
         }
         node.clear();
-        GuiNode<Widget> topPropertyValue = headerProperty.getValue();
+        GuiNode topPropertyValue = headerProperty.getValue();
         if (topPropertyValue != null)
             node.add(topPropertyValue.unwrapToNativeNode());
-        GuiNode<Widget> centerPropertyValue = centerProperty.getValue();
+        GuiNode centerPropertyValue = centerProperty.getValue();
         if (centerPropertyValue != null) {
             Widget widget = centerPropertyValue.unwrapToNativeNode();
             widget.setWidth("100%");
@@ -66,29 +66,29 @@ public class GwtPolymerVPage extends GwtNode<Panel> implements VPage<Panel, Widg
             widget.addStyleName("flex");
             node.add(widget);
         }
-        GuiNode<Widget> bottomPropertyValue = footerProperty.getValue();
+        GuiNode bottomPropertyValue = footerProperty.getValue();
         if (bottomPropertyValue != null)
             node.add(bottomPropertyValue.unwrapToNativeNode());
     }
 
-    private final Property<GuiNode<Widget>> headerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> headerProperty = new SimpleObjectProperty<>();
 
     @Override
-    public Property<GuiNode<Widget>> headerProperty() {
+    public Property<GuiNode> headerProperty() {
         return headerProperty;
     }
 
-    private final Property<GuiNode<Widget>> centerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> centerProperty = new SimpleObjectProperty<>();
 
     @Override
-    public Property<GuiNode<Widget>> centerProperty() {
+    public Property<GuiNode> centerProperty() {
         return centerProperty;
     }
 
-    private final Property<GuiNode<Widget>> footerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> footerProperty = new SimpleObjectProperty<>();
 
     @Override
-    public Property<GuiNode<Widget>> footerProperty() {
+    public Property<GuiNode> footerProperty() {
         return footerProperty;
     }
 }

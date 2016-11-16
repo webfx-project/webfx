@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * @author Bruno Salmon
  */
-public class GwtButton extends GwtButtonBase<com.google.gwt.user.client.ui.Button> implements naga.toolkit.spi.nodes.controls.Button<com.google.gwt.user.client.ui.Button> {
+public class GwtButton extends GwtButtonBase<com.google.gwt.user.client.ui.Button> implements naga.toolkit.spi.nodes.controls.Button {
 
     public GwtButton() {
         this(new com.google.gwt.user.client.ui.Button());

@@ -13,7 +13,7 @@ import static naga.providers.toolkit.html.util.HtmlUtil.*;
 /**
  * @author Bruno Salmon
  */
-public class HtmlImage extends HtmlNode<Element> implements naga.toolkit.spi.nodes.controls.Image<Element> {
+public class HtmlImage extends HtmlNode<Element> implements naga.toolkit.spi.nodes.controls.Image {
 
     public HtmlImage() {
         this(createImageElement());

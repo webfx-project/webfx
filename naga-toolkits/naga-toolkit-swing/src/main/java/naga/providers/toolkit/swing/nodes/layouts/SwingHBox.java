@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingHBox extends SwingParent<Box> implements HBox<Box, Component> {
+public class SwingHBox extends SwingParent<Box> implements HBox {
 
     public SwingHBox() {
         this(Box.createHorizontalBox());
@@ -25,5 +25,14 @@ public class SwingHBox extends SwingParent<Box> implements HBox<Box, Component> 
         if (childComponent instanceof JComponent)
             ((JComponent) childComponent).setAlignmentX(Component.CENTER_ALIGNMENT);
         return childComponent;
+    }
+
+    @Override
+    protected void addChild(Component child) {
+/*
+        if (node.getComponentCount() > 0)
+            node.add(Box.createRigidArea(new Dimension(5,0)));
+*/
+        super.addChild(child);
     }
 }

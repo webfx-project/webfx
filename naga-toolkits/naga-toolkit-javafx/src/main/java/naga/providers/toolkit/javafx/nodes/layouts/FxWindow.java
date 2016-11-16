@@ -15,7 +15,7 @@ import naga.toolkit.spi.nodes.layouts.Window;
 /**
  * @author Bruno Salmon
  */
-public class FxWindow implements Window<Parent> {
+public class FxWindow implements Window {
 
     protected Stage stage;
 
@@ -52,9 +52,9 @@ public class FxWindow implements Window<Parent> {
         return new Scene(rootComponent, width, height);
     }
 
-    private final Property<GuiNode<Parent>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Parent>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

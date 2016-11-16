@@ -9,9 +9,9 @@ import naga.toolkit.spi.nodes.controls.ButtonBase;
 /**
  * @author Bruno Salmon
  */
-public class HtmlButtonBase<N extends Element> extends HtmlNode<N> implements ButtonBase<N> {
+class HtmlButtonBase<N extends Element> extends HtmlNode<N> implements ButtonBase {
 
-    public HtmlButtonBase(N button) {
+    HtmlButtonBase(N button) {
         super(button);
         textProperty.setValue(button.textContent);
         textProperty.addListener((observable, oldValue, newValue) -> updateHtmlContent());

@@ -5,5 +5,5 @@ import naga.toolkit.properties.markers.HasSelectedProperty;
 /**
  * @author Bruno Salmon
  */
-public interface SelectableButton<N> extends ButtonBase<N>, HasSelectedProperty {
+public interface SelectableButton extends ButtonBase, HasSelectedProperty {
 }

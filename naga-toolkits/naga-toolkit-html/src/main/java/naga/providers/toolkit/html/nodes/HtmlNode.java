@@ -8,7 +8,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class HtmlNode<N extends Node> implements GuiNode<N> {
+public class HtmlNode<N extends Node> implements GuiNode {
 
     protected N node;
 

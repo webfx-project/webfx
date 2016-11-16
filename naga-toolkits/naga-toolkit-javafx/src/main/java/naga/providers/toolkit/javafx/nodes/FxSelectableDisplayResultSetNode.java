@@ -10,7 +10,7 @@ import naga.toolkit.display.DisplaySelection;
 /**
  * @author Bruno Salmon
  */
-public abstract class FxSelectableDisplayResultSetNode<N extends Node> extends FxDisplayResultSetNode<N> implements SelectableDisplayResultSetNode<N> {
+public abstract class FxSelectableDisplayResultSetNode<N extends Node> extends FxDisplayResultSetNode<N> implements SelectableDisplayResultSetNode {
 
     public FxSelectableDisplayResultSetNode(N node) {
         super(node);

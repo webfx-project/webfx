@@ -28,12 +28,12 @@ import naga.toolkit.spi.nodes.charts.Chart;
 /**
  * @author Bruno Salmon
  */
-public abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleLayoutPanel> implements Chart<SimpleLayoutPanel> {
+abstract class GwtChart extends GwtSelectableDisplayResultSetNode<SimpleLayoutPanel> implements Chart {
 
     private CoreChartWidget<?> chartWidget;
     private DisplayResultSet readyDisplayResultSet;
 
-    public GwtChart() {
+    GwtChart() {
         super(new SimpleLayoutPanel());
         ChartApiLoader.onChartApiLoaded(() -> {
             chartWidget = createChartWidget();

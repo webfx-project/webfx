@@ -11,7 +11,7 @@ import naga.toolkit.spi.nodes.charts.Chart;
 /**
  * @author Bruno Salmon
  */
-public abstract class FxChart<N extends javafx.scene.chart.Chart> extends FxSelectableDisplayResultSetNode<N> implements Chart<N>, ChartAdapter {
+public abstract class FxChart<N extends javafx.scene.chart.Chart> extends FxSelectableDisplayResultSetNode<N> implements Chart, ChartAdapter {
 
     private final ChartFiller chartFiller = new ChartFiller(this, this);
 

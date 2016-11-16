@@ -6,6 +6,6 @@ import naga.toolkit.properties.markers.HasTitleProperty;
 /**
  * @author Bruno Salmon
  */
-public interface Window<N> extends HasNodeProperty<N>, HasTitleProperty {
+public interface Window extends HasNodeProperty, HasTitleProperty {
 
 }

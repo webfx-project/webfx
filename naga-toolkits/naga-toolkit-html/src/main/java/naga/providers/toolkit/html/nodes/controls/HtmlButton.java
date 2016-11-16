@@ -17,7 +17,7 @@ import static naga.providers.toolkit.html.util.HtmlUtil.createButtonElement;
 /**
  * @author Bruno Salmon
  */
-public class HtmlButton extends HtmlButtonBase<HTMLButtonElement> implements Button<HTMLButtonElement> {
+public class HtmlButton extends HtmlButtonBase<HTMLButtonElement> implements Button {
 
     public HtmlButton() {
         this(createButtonElement());

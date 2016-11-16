@@ -7,7 +7,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class GwtNode <N extends UIObject> implements GuiNode<N> {
+public class GwtNode<N extends UIObject> implements GuiNode {
 
     protected final N node;
 

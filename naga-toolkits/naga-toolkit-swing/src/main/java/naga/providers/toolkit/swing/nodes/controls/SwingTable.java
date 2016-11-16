@@ -22,7 +22,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane> implements Table<JScrollPane> {
+public class SwingTable extends SwingSelectableDisplayResultSetNode<JScrollPane> implements Table {
 
     private final JTable table;
     private final DisplayTableModel tableModel = new DisplayTableModel();

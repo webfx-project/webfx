@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.controls.SearchBox;
 /**
  * @author Bruno Salmon
  */
-public class HtmlSearchBox extends HtmlNode<HTMLInputElement> implements SearchBox<HTMLInputElement> {
+public class HtmlSearchBox extends HtmlNode<HTMLInputElement> implements SearchBox {
 
     public HtmlSearchBox() {
         this(HtmlUtil.createTextInput());

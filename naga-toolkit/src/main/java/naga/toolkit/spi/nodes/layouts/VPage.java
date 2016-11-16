@@ -7,18 +7,18 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface VPage<BP, N> extends GuiNode<BP> {
+public interface VPage extends GuiNode {
 
-    Property<GuiNode<N>> headerProperty();
+    Property<GuiNode> headerProperty();
     default VPage setHeader(GuiNode node) { headerProperty().setValue(node); return this;}
-    default GuiNode<N> getHeader() { return headerProperty().getValue(); }
+    default GuiNode getHeader() { return headerProperty().getValue(); }
 
-    Property<GuiNode<N>> centerProperty();
+    Property<GuiNode> centerProperty();
     default VPage setCenter(GuiNode node) { centerProperty().setValue(node); return this; }
-    default GuiNode<N> getCenter() { return centerProperty().getValue(); }
+    default GuiNode getCenter() { return centerProperty().getValue(); }
 
-    Property<GuiNode<N>> footerProperty();
+    Property<GuiNode> footerProperty();
     default VPage setFooter(GuiNode node) { footerProperty().setValue(node); return this; }
-    default GuiNode<N> getFooter() { return footerProperty().getValue(); }
+    default GuiNode getFooter() { return footerProperty().getValue(); }
 
 }

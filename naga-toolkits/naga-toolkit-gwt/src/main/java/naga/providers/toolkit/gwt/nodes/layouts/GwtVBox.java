@@ -7,7 +7,7 @@ import naga.toolkit.spi.nodes.layouts.VBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtVBox extends GwtParent<Panel> implements VBox<Panel, Widget> {
+public class GwtVBox extends GwtParent<Panel> implements VBox {
 
     public GwtVBox() {
         this(createPanel());

@@ -12,7 +12,7 @@ import naga.toolkit.spi.nodes.layouts.HBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerHBox extends GwtParent<Panel> implements HBox<Panel, Widget> {
+public class GwtPolymerHBox extends GwtParent<Panel> implements HBox {
 
     public GwtPolymerHBox() {
         this(new LayoutFlowPanel());

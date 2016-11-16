@@ -10,7 +10,7 @@ import naga.toolkit.properties.conversion.ConvertedProperty;
 /**
  * @author Bruno Salmon
  */
-public class FxGauge extends FxNode<Gauge> implements naga.toolkit.spi.nodes.gauges.Gauge<Gauge> {
+public class FxGauge extends FxNode<Gauge> implements naga.toolkit.spi.nodes.gauges.Gauge {
 
     public FxGauge() {
         this(createGauge());

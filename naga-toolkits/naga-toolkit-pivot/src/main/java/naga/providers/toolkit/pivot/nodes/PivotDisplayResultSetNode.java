@@ -10,7 +10,7 @@ import org.apache.pivot.wtk.Component;
 /**
  * @author Bruno Salmon
  */
-abstract class PivotDisplayResultSetNode<N extends Component> extends PivotNode<N> implements DisplayResultSetNode<N> {
+abstract class PivotDisplayResultSetNode<N extends Component> extends PivotNode<N> implements DisplayResultSetNode {
 
     PivotDisplayResultSetNode(N node) {
         super(node);

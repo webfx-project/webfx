@@ -6,8 +6,8 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface GridAdapter<C, N> {
+public interface GridAdapter<C> {
 
-    void setCellContent(C cell, GuiNode<N> content, DisplayColumn displayColumn);
+    void setCellContent(C cell, GuiNode content, DisplayColumn displayColumn);
 
 }

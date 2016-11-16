@@ -10,7 +10,7 @@ import org.apache.pivot.wtk.TextInputContentListener;
 /**
  * @author Bruno Salmon
  */
-public class PivotSearchBox extends PivotNode<TextInput> implements SearchBox<TextInput> {
+public class PivotSearchBox extends PivotNode<TextInput> implements SearchBox {
 
     public PivotSearchBox() {
         this(new TextInput());

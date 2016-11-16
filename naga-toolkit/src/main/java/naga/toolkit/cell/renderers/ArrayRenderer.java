@@ -7,27 +7,27 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class ArrayRenderer<N> implements ValueRenderer<N> {
+public class ArrayRenderer implements ValueRenderer {
 
     private final ValueRenderer[] valueRenderers;
-    private NodeCollator<N> collator;
+    private NodeCollator collator;
 
-    public ArrayRenderer(ValueRenderer[] valueRenderers, NodeCollator<N> collator) {
+    public ArrayRenderer(ValueRenderer[] valueRenderers, NodeCollator collator) {
         this.valueRenderers = valueRenderers;
         this.collator = collator;
     }
 
-    public void setCollator(NodeCollator<N> collator) {
+    public void setCollator(NodeCollator collator) {
         this.collator = collator;
     }
 
     @Override
-    public GuiNode<N> renderCellValue(Object value) {
+    public GuiNode renderCellValue(Object value) {
         return renderCellValue(value, valueRenderers, collator);
     }
 
-    public static <N> GuiNode<N> renderCellValue(Object value, ValueRenderer[] valueRenderers, NodeCollator<N> collator) {
-        GuiNode<N>[] nodes = null;
+    public static GuiNode renderCellValue(Object value, ValueRenderer[] valueRenderers, NodeCollator collator) {
+        GuiNode[] nodes = null;
         if (value instanceof Object[]) {
             Object[] array = (Object[]) value;
             int n = Math.min(Arrays.length(array), Arrays.length(valueRenderers));

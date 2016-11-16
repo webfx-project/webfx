@@ -14,7 +14,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * @author Bruno Salmon
  */
-public class FxButton extends FxButtonBase<javafx.scene.control.Button> implements Button<javafx.scene.control.Button> {
+public class FxButton extends FxButtonBase<javafx.scene.control.Button> implements Button {
 
 
     public FxButton() {

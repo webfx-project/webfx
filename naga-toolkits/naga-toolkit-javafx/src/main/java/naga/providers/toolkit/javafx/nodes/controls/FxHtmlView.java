@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.HtmlView;
 /**
  * @author Bruno Salmon
  */
-public class FxHtmlView extends FxNode<WebView> implements HtmlView<WebView> {
+public class FxHtmlView extends FxNode<WebView> implements HtmlView {
 
     public FxHtmlView() {
         this(createWebView());

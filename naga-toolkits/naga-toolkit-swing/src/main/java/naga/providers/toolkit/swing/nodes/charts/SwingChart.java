@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class SwingChart extends SwingSelectableDisplayResultSetNode<XChartJPanel> implements naga.toolkit.spi.nodes.charts.Chart<XChartJPanel> {
+public abstract class SwingChart extends SwingSelectableDisplayResultSetNode<XChartJPanel> implements naga.toolkit.spi.nodes.charts.Chart {
 
     public SwingChart() {
         this(new XChartJPanel());

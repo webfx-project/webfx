@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.SearchBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerSearchBox extends GwtNode<PaperInput> implements SearchBox<PaperInput> {
+public class GwtPolymerSearchBox extends GwtNode<PaperInput> implements SearchBox {
 
     public GwtPolymerSearchBox() {
         this(new PaperInput());

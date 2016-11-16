@@ -15,7 +15,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingButton extends SwingButtonBase<JButton> implements Button<JButton> {
+public class SwingButton extends SwingButtonBase<JButton> implements Button {
 
 
     public SwingButton() {

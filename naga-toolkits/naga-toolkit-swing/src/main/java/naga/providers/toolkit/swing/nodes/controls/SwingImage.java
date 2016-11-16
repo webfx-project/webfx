@@ -13,7 +13,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingImage extends SwingNode<JLabel> implements Image<JLabel> {
+public class SwingImage extends SwingNode<JLabel> implements Image {
 
     public SwingImage() {
         this(new JGradientLabel());

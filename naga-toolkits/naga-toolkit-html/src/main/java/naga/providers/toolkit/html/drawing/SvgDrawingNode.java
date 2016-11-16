@@ -17,7 +17,7 @@ import static elemental2.Global.window;
 /**
  * @author Bruno Salmon
  */
-public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implements DrawingNode<Element>, DrawingMixin {
+public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implements DrawingNode, DrawingMixin {
 
     private final Drawing drawing;
 

@@ -8,5 +8,5 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface Image<N> extends GuiNode<N>, HasUrlProperty, HasWidthProperty, HasHeightProperty {
+public interface Image extends GuiNode, HasUrlProperty, HasWidthProperty, HasHeightProperty {
 }

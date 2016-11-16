@@ -6,6 +6,7 @@ import naga.toolkit.properties.markers.HasSelectionModeProperty;
 /**
  * @author Bruno Salmon
  */
-public interface SelectableDisplayResultSetNode<N> extends DisplayResultSetNode<N>,
-        HasDisplaySelectionProperty, HasSelectionModeProperty {
+public interface SelectableDisplayResultSetNode extends DisplayResultSetNode,
+        HasDisplaySelectionProperty,
+        HasSelectionModeProperty {
 }

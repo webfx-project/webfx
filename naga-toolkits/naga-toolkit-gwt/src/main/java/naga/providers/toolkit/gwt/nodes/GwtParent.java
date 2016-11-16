@@ -14,7 +14,7 @@ import naga.toolkit.spi.nodes.Parent;
 /**
  * @author Bruno Salmon
  */
-public class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<P, Widget> {
+public class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent{
 
     private HandlerRegistration attachHandlerRegistration;
 
@@ -27,9 +27,9 @@ public class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<
         }
     }
 
-    private final ObservableList<GuiNode<Widget>> children = FXCollections.observableArrayList();
+    private final ObservableList<GuiNode> children = FXCollections.observableArrayList();
     @Override
-    public ObservableList<GuiNode<Widget>> getChildren() {
+    public ObservableList<GuiNode> getChildren() {
         return children;
     }
 
@@ -41,12 +41,12 @@ public class GwtParent<P extends UIObject> extends GwtNode<P> implements Parent<
         }
     }
 
-    private void onChanged(ListChangeListener.Change<? extends GuiNode<Widget>> change) {
+    private void onChanged(ListChangeListener.Change<? extends GuiNode> change) {
         HasWidgets childContainer = attachHandlerRegistration != null ? null : getGwtChildContainer();
         if (childContainer != null) {
             childContainer.clear();
             //Platform.log("Adding " + children.size() + " children to childContainer");
-            for (GuiNode<Widget> child : children)
+            for (GuiNode child : children)
                 childContainer.add(prepareChildWidget(child.unwrapToNativeNode()));
         }
     }

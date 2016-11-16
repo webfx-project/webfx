@@ -12,15 +12,15 @@ import naga.toolkit.display.DisplayResultSet;
  */
 public abstract class GridFiller<C> {
 
-    private final GridAdapter<C, ?> gridAdapter;
-    private final ImageTextGridAdapter<C, ?> imageTextGridAdapter;
+    private final GridAdapter<C> gridAdapter;
+    private final ImageTextGridAdapter<C> imageTextGridAdapter;
     private DisplayResultSet rs;
     private int rowStyleColumnIndex;
     protected int gridColumnCount;
 
-    protected GridFiller(GridAdapter<C, ?> gridAdapter) {
+    protected GridFiller(GridAdapter<C> gridAdapter) {
         this.gridAdapter = gridAdapter;
-        imageTextGridAdapter = gridAdapter instanceof ImageTextGridAdapter ? (ImageTextGridAdapter<C, ?>) gridAdapter : null;
+        imageTextGridAdapter = gridAdapter instanceof ImageTextGridAdapter ? (ImageTextGridAdapter<C>) gridAdapter : null;
     }
 
     public void setDisplayResultSet(DisplayResultSet rs) {

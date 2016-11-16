@@ -5,7 +5,7 @@ import naga.toolkit.spi.nodes.charts.AreaChart;
 /**
  * @author Bruno Salmon
  */
-public class FxAreaChart extends FxXYChart<javafx.scene.chart.AreaChart> implements AreaChart<javafx.scene.chart.AreaChart> {
+public class FxAreaChart extends FxXYChart<javafx.scene.chart.AreaChart> implements AreaChart {
 
     public FxAreaChart() {
         this(createAreaChart());

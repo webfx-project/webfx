@@ -14,7 +14,7 @@ import static naga.providers.toolkit.html.util.HtmlUtil.*;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableElement> implements Table<HTMLTableElement> {
+public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableElement> implements Table {
 
     public HtmlTable() {
         this(createTableElement());

@@ -7,7 +7,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingNode<N extends Component> implements GuiNode<N> {
+public class SwingNode<N extends Component> implements GuiNode {
 
     protected final N node;
 

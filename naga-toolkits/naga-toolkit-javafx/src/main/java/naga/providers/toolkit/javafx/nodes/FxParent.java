@@ -11,9 +11,9 @@ import java.lang.reflect.Field;
 /**
  * @author Bruno Salmon
  */
-public class FxParent<P extends javafx.scene.Parent> extends FxNode<P> implements Parent<P, Node> {
+public class FxParent<P extends javafx.scene.Parent> extends FxNode<P> implements Parent {
 
-    protected final ObservableList<GuiNode<Node>> children;
+    protected final ObservableList<GuiNode> children;
 
     public FxParent(P parent) {
         super(parent);
@@ -29,7 +29,7 @@ public class FxParent<P extends javafx.scene.Parent> extends FxNode<P> implement
     }
 
     @Override
-    public ObservableList<GuiNode<Node>> getChildren() {
+    public ObservableList<GuiNode> getChildren() {
         return children;
     }
 }

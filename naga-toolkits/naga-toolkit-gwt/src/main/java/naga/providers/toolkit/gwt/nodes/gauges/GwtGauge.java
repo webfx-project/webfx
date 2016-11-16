@@ -15,7 +15,7 @@ import naga.providers.toolkit.gwt.nodes.charts.ChartApiLoader;
 /**
  * @author Bruno Salmon
  */
-public class GwtGauge extends GwtNode<SimpleLayoutPanel> implements Gauge<SimpleLayoutPanel> {
+public class GwtGauge extends GwtNode<SimpleLayoutPanel> implements Gauge {
 
     private com.googlecode.gwt.charts.client.gauge.Gauge gaugeWidget;
     private GaugeOptions options;

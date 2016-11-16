@@ -9,7 +9,7 @@ import naga.toolkit.properties.conversion.ConvertedProperty;
 /**
  * @author Bruno Salmon
  */
-public class FxSlider extends FxNode<Slider> implements naga.toolkit.spi.nodes.controls.Slider<javafx.scene.control.Slider> {
+public class FxSlider extends FxNode<Slider> implements naga.toolkit.spi.nodes.controls.Slider {
 
     public FxSlider() {
         this(createSlider());

@@ -5,6 +5,6 @@ import naga.toolkit.properties.markers.HasPlaceholderProperty;
 /**
  * @author Bruno Salmon
  */
-public interface TextField<N> extends TextView<N>, HasPlaceholderProperty {
+public interface TextField extends TextView, HasPlaceholderProperty {
 
 }

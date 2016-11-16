@@ -10,7 +10,7 @@ import naga.providers.toolkit.gwt.nodes.GwtNode;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerSlider extends GwtNode<PaperSlider> implements Slider<PaperSlider> {
+public class GwtPolymerSlider extends GwtNode<PaperSlider> implements Slider {
 
     public GwtPolymerSlider() {
         this(createPaperSlider());

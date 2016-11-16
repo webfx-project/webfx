@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.SearchBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtMaterialSearchBox extends GwtNode<MaterialSearch> implements SearchBox<MaterialSearch> {
+public class GwtMaterialSearchBox extends GwtNode<MaterialSearch> implements SearchBox {
 
     public GwtMaterialSearchBox() {
         this(new MaterialSearch());

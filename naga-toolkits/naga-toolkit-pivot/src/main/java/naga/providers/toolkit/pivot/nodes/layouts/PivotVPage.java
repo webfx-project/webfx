@@ -2,18 +2,17 @@ package naga.providers.toolkit.pivot.nodes.layouts;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.providers.toolkit.pivot.nodes.PivotNode;
 import naga.toolkit.spi.nodes.GuiNode;
 import naga.toolkit.spi.nodes.layouts.VPage;
-import naga.providers.toolkit.pivot.nodes.PivotNode;
 import org.apache.pivot.wtk.BoxPane;
-import org.apache.pivot.wtk.Component;
 import org.apache.pivot.wtk.Orientation;
 
 
 /**
  * @author Bruno Salmon
  */
-public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Component> {
+public class PivotVPage extends PivotNode<BoxPane> implements VPage {
 
     public PivotVPage() {
         super(new BoxPane());
@@ -37,21 +36,21 @@ public class PivotVPage extends PivotNode<BoxPane> implements VPage<BoxPane, Com
     }
 
 
-    private final Property<GuiNode<Component>> headerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> headerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> headerProperty() {
+    public Property<GuiNode> headerProperty() {
         return headerProperty;
     }
 
-    private final Property<GuiNode<Component>> centerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> centerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> centerProperty() {
+    public Property<GuiNode> centerProperty() {
         return centerProperty;
     }
 
-    private final Property<GuiNode<Component>> footerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> footerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> footerProperty() {
+    public Property<GuiNode> footerProperty() {
         return footerProperty;
     }
 }

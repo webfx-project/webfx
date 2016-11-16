@@ -24,35 +24,35 @@ import rx.Observable;
 /**
  * @author Bruno Salmon
  */
-public class UnimplementedNode<N> implements
-        HBox<N, N>,
-        VBox<N, N>,
-        VPage<N, N>,
-        FlowPane<N, N>,
-        Button<N>,
-        CheckBox<N>,
-        RadioButton<N>,
-        SearchBox<N>,
-        Slider<N>,
-        Gauge<N>,
-        Table<N>,
-        TextView<N>,
-        TextField<N>,
-        Image<N>,
-        HtmlView<N>,
-        ToggleSwitch<N>,
-        LineChart<N>,
-        BarChart<N>,
-        PieChart<N>,
-        AreaChart<N>,
-        ScatterChart<N>,
-        DrawingNode<N> {
+public class UnimplementedNode implements
+        HBox,
+        VBox,
+        VPage,
+        FlowPane,
+        Button,
+        CheckBox,
+        RadioButton,
+        SearchBox,
+        Slider,
+        Gauge,
+        Table,
+        TextView,
+        TextField,
+        Image,
+        HtmlView,
+        ToggleSwitch,
+        LineChart,
+        BarChart,
+        PieChart,
+        AreaChart,
+        ScatterChart,
+        DrawingNode {
 
-    private final N node;
+    private final Object node;
     public UnimplementedNode() {
         Button button = Toolkit.get().createButton();
         button.setText("Unimplemented node");
-        node = (N) button.unwrapToNativeNode();
+        node = button.unwrapToNativeNode();
     }
 
     private Observable<ActionEvent> actionEventObservable = Observable.never();
@@ -121,27 +121,27 @@ public class UnimplementedNode<N> implements
         return urlProperty;
     }
 
-    private Property<GuiNode<N>> headerProperty = new SimpleObjectProperty<>();
+    private Property<GuiNode> headerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<N>> headerProperty() {
+    public Property<GuiNode> headerProperty() {
         return headerProperty;
     }
 
-    private Property<GuiNode<N>> centerProperty = new SimpleObjectProperty<>();
+    private Property<GuiNode> centerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<N>> centerProperty() {
+    public Property<GuiNode> centerProperty() {
         return centerProperty;
     }
 
-    private Property<GuiNode<N>> footerProperty = new SimpleObjectProperty<>();
+    private Property<GuiNode> footerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<N>> footerProperty() {
+    public Property<GuiNode> footerProperty() {
         return footerProperty;
     }
 
-    private ObservableList<GuiNode<N>> children = FXCollections.observableArrayList();
+    private ObservableList<GuiNode> children = FXCollections.observableArrayList();
     @Override
-    public ObservableList<GuiNode<N>> getChildren() {
+    public ObservableList<GuiNode> getChildren() {
         return children;
     }
 
@@ -164,8 +164,8 @@ public class UnimplementedNode<N> implements
     }
 
     @Override
-    public N unwrapToNativeNode() {
-        return node;
+    public <T> T unwrapToNativeNode() {
+        return (T) node;
     }
 
     @Override

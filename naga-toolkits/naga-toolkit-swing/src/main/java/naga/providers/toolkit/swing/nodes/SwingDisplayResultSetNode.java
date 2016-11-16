@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<N> implements DisplayResultSetNode<N> {
+abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<N> implements DisplayResultSetNode {
 
     SwingDisplayResultSetNode(N node) {
         super(node);
@@ -23,5 +23,5 @@ abstract class SwingDisplayResultSetNode<N extends Component> extends SwingNode<
         return displayResultProperty;
     }
 
-    protected abstract void syncVisualDisplayResult(DisplayResultSet displayResultSet);
+    protected abstract void syncVisualDisplayResult(DisplayResultSet rs);
 }

@@ -15,7 +15,7 @@ import rx.subjects.BehaviorSubject;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerButton extends GwtNode<PaperButton> implements Button<PaperButton> {
+public class GwtPolymerButton extends GwtNode<PaperButton> implements Button {
 
     public GwtPolymerButton() {
         this(new PaperButton());

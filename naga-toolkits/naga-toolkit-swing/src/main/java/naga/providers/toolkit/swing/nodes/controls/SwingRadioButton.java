@@ -7,7 +7,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingRadioButton extends SwingButtonBase<JRadioButton> implements RadioButton<JRadioButton> {
+public class SwingRadioButton extends SwingButtonBase<JRadioButton> implements RadioButton {
 
     public SwingRadioButton() {
         this(new JRadioButton());

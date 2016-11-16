@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.SelectableButton;
 /**
  * @author Bruno Salmon
  */
-public class GwtSelectableButton<N extends ButtonBase> extends GwtButtonBase<N> implements SelectableButton<N> {
+public class GwtSelectableButton<N extends ButtonBase> extends GwtButtonBase<N> implements SelectableButton {
 
     public GwtSelectableButton(N button) {
         super(button);

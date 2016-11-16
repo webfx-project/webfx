@@ -6,5 +6,5 @@ import naga.toolkit.properties.markers.HasTextProperty;
 /**
  * @author Bruno Salmon
  */
-public interface ButtonBase<N> extends GuiNode<N>, HasTextProperty {
+public interface ButtonBase extends GuiNode, HasTextProperty {
 }

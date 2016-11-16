@@ -9,14 +9,14 @@ import naga.toolkit.spi.nodes.controls.TextView;
 /**
  * @author Bruno Salmon
  */
-public class ImageTextRenderer<N> implements ValueRenderer<N> {
+public class ImageTextRenderer implements ValueRenderer {
 
     public static ImageTextRenderer SINGLETON = new ImageTextRenderer();
 
     private ImageTextRenderer() {}
 
     @Override
-    public GuiNode<N> renderCellValue(Object value) {
+    public GuiNode renderCellValue(Object value) {
         Object[] array = getAndCheckArray(value);
         return array == null ? null : Toolkit.get().createHBox(getImage(array), getTextView(array));
     }

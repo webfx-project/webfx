@@ -10,9 +10,9 @@ import org.apache.pivot.wtk.content.ButtonData;
 /**
  * @author Bruno Salmon
  */
-public class PivotButtonBase<N extends Button> extends PivotNode<N> implements SelectableButton<N> {
+class PivotButtonBase<N extends Button> extends PivotNode<N> implements SelectableButton {
 
-    public PivotButtonBase(N button) {
+    PivotButtonBase(N button) {
         super(button);
         ButtonData buttonData = new ButtonData();
         textProperty.setValue(buttonData.getText());

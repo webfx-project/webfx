@@ -14,7 +14,7 @@ import javax.swing.event.DocumentListener;
 /**
  * @author Bruno Salmon
  */
-public class SwingSearchBox extends SwingNode<JTextField> implements SearchBox<JTextField> {
+public class SwingSearchBox extends SwingNode<JTextField> implements SearchBox {
 
     public SwingSearchBox() {
         this(new JPlaceholderTextField());

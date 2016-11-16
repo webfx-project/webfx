@@ -5,8 +5,8 @@ import javafx.collections.ObservableList;
 /**
  * @author Bruno Salmon
  */
-public interface Parent<P, N> extends GuiNode<P> {
+public interface Parent extends GuiNode {
 
-    ObservableList<GuiNode<N>> getChildren();
+    ObservableList<GuiNode> getChildren();
 
 }

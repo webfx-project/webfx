@@ -9,7 +9,7 @@ import naga.providers.toolkit.gwt.nodes.GwtNode;
 /**
  * @author Bruno Salmon
  */
-public class GwtImage extends GwtNode<Image> implements naga.toolkit.spi.nodes.controls.Image<Image> {
+public class GwtImage extends GwtNode<Image> implements naga.toolkit.spi.nodes.controls.Image {
 
     public GwtImage() {
         this(new Image());

@@ -14,7 +14,7 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 /**
  * @author Bruno Salmon
  */
-public class FxVPage extends FxNode<BorderPane> implements VPage<BorderPane, Node> {
+public class FxVPage extends FxNode<BorderPane> implements VPage {
 
     public FxVPage() {
         this(createBorderPane());
@@ -32,14 +32,14 @@ public class FxVPage extends FxNode<BorderPane> implements VPage<BorderPane, Nod
 
     private NodeProperty<Node> headerProperty;
     @Override
-    public Property<GuiNode<Node>> headerProperty() {
+    public Property<GuiNode> headerProperty() {
         if (headerProperty == null) headerProperty = new NodeProperty<>(node.topProperty());
         return headerProperty;
     }
 
     private NodeProperty<Node> centerProperty;
     @Override
-    public Property<GuiNode<Node>> centerProperty() {
+    public Property<GuiNode> centerProperty() {
         if (centerProperty == null) centerProperty = new NodeProperty<>(node.centerProperty(), FxVPage::embedInScrollPaneWhenNecessary);
         return centerProperty;
     }
@@ -60,7 +60,7 @@ public class FxVPage extends FxNode<BorderPane> implements VPage<BorderPane, Nod
 
     private NodeProperty<Node> footerProperty;
     @Override
-    public Property<GuiNode<Node>> footerProperty() {
+    public Property<GuiNode> footerProperty() {
         if (footerProperty == null) footerProperty = new NodeProperty<>(node.bottomProperty());
         return footerProperty;
     }

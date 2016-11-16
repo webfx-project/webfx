@@ -10,15 +10,15 @@ import naga.toolkit.spi.nodes.controls.SelectableButton;
 /**
  * @author Bruno Salmon
  */
-public class HtmlSelectableButton extends HtmlButtonBase<HTMLLabelElement> implements SelectableButton<HTMLLabelElement> {
+ class HtmlSelectableButton extends HtmlButtonBase<HTMLLabelElement> implements SelectableButton {
 
     private final HTMLInputElement button;
 
-    public HtmlSelectableButton(HTMLInputElement button) {
+    HtmlSelectableButton(HTMLInputElement button) {
         this(button, HtmlUtil.createLabelElement());
     }
 
-    public HtmlSelectableButton(HTMLInputElement button, HTMLLabelElement label) {
+    HtmlSelectableButton(HTMLInputElement button, HTMLLabelElement label) {
         super(label);
         this.button = button;
         HtmlUtil.appendStyle(label, "margin-top: 0; margin-bottom: 0");

@@ -12,46 +12,46 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingVPage extends SwingNode<JPanel> implements VPage<JPanel, Component> {
+public class SwingVPage extends SwingNode<JPanel> implements VPage {
 
     public SwingVPage() {
         super(new JPanel(new BorderLayout()));
         headerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                node.remove(oldValue.unwrapToNativeNode());
+                node.remove((Component) oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.NORTH);
             node.updateUI();
         });
         centerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                node.remove(oldValue.unwrapToNativeNode());
+                node.remove((Component) oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.CENTER);
             node.updateUI();
         });
         footerProperty.addListener((observable, oldValue, newValue) -> {
             if (oldValue != null)
-                node.remove(oldValue.unwrapToNativeNode());
+                node.remove((Component) oldValue.unwrapToNativeNode());
             node.add(newValue.unwrapToNativeNode(), BorderLayout.SOUTH);
             node.updateUI();
         });
     }
 
 
-    private final Property<GuiNode<Component>> headerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> headerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> headerProperty() {
+    public Property<GuiNode> headerProperty() {
         return headerProperty;
     }
 
-    private final Property<GuiNode<Component>> centerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> centerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> centerProperty() {
+    public Property<GuiNode> centerProperty() {
         return centerProperty;
     }
 
-    private final Property<GuiNode<Component>> footerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> footerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> footerProperty() {
+    public Property<GuiNode> footerProperty() {
         return footerProperty;
     }
 }

@@ -10,7 +10,7 @@ import naga.toolkit.properties.markers.SelectionMode;
 /**
  * @author Bruno Salmon
  */
-public abstract class GwtSelectableDisplayResultSetNode<N extends UIObject> extends GwtDisplayResultSetNode<N> implements SelectableDisplayResultSetNode<N> {
+public abstract class GwtSelectableDisplayResultSetNode<N extends UIObject> extends GwtDisplayResultSetNode<N> implements SelectableDisplayResultSetNode {
 
     public GwtSelectableDisplayResultSetNode(N node) {
         super(node);

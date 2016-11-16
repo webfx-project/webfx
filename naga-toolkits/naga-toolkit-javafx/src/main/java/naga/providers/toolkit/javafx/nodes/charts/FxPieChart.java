@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.charts.PieChart;
 /**
  * @author Bruno Salmon
  */
-public class FxPieChart extends FxChart<javafx.scene.chart.PieChart> implements PieChart<javafx.scene.chart.PieChart> {
+public class FxPieChart extends FxChart<javafx.scene.chart.PieChart> implements PieChart {
 
     private ObservableList<javafx.scene.chart.PieChart.Data> pieData;
     private Function<Integer, String> seriesNameGetter;

@@ -7,7 +7,7 @@ import naga.providers.toolkit.javafx.nodes.controlsfx.ToggleSwitch;
 /**
  * @author Bruno Salmon
  */
-public class FxToggleSwitch extends FxNode<ToggleSwitch> implements naga.toolkit.spi.nodes.controls.ToggleSwitch<ToggleSwitch> {
+public class FxToggleSwitch extends FxNode<ToggleSwitch> implements naga.toolkit.spi.nodes.controls.ToggleSwitch {
 
     public FxToggleSwitch() {
         this(createToggleSwitch());

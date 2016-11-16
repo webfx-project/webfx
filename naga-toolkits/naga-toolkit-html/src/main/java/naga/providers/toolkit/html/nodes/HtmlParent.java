@@ -10,22 +10,22 @@ import naga.toolkit.spi.nodes.Parent;
 /**
  * @author Bruno Salmon
  */
-public class HtmlParent<P extends Element> extends HtmlNode<P> implements Parent<P, Element> {
+public class HtmlParent<P extends Element> extends HtmlNode<P> implements Parent {
 
     public HtmlParent(P node) {
         super(node);
         children.addListener(this::onChanged);
     }
 
-    private final ObservableList<GuiNode<Element>> children = FXCollections.observableArrayList();
+    private final ObservableList<GuiNode> children = FXCollections.observableArrayList();
     @Override
-    public ObservableList<GuiNode<Element>> getChildren() {
+    public ObservableList<GuiNode> getChildren() {
         return children;
     }
 
-    private void onChanged(ListChangeListener.Change<? extends GuiNode<Element>> change) {
+    private void onChanged(ListChangeListener.Change<? extends GuiNode> change) {
         removeChildren();
-        for (GuiNode<Element> child : children)
+        for (GuiNode child : children)
             node.appendChild(prepareChild(child.unwrapToNativeNode()));
     }
 

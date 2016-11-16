@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>> implements Table<TableView<Integer>> {
+public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>> implements Table {
 
     public FxTable() {
         this(createTableView());
@@ -100,7 +100,7 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     }
 
 
-    private final GridFiller gridFiller = new GridFiller<TableCell>((ImageTextGridAdapter<TableCell, Node>) (cell, image, text, displayColumn) -> {
+    private final GridFiller gridFiller = new GridFiller<TableCell>((ImageTextGridAdapter<TableCell>) (cell, image, text, displayColumn) -> {
         cell.setGraphic(Toolkit.unwrapToNativeNode(image));
         cell.setText(text);
     }) {

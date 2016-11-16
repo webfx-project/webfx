@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.controls.SearchBox;
 /**
  * @author Bruno Salmon
  */
-public class Cn1SearchBox extends Cn1Node<TextField> implements SearchBox<TextField> {
+public class Cn1SearchBox extends Cn1Node<TextField> implements SearchBox {
 
     public Cn1SearchBox() {
         this(new TextField());

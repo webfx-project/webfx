@@ -6,7 +6,7 @@ import javafx.scene.control.CheckBox;
 /**
  * @author Bruno Salmon
  */
-public class FxCheckBox extends FxButtonBase<CheckBox> implements naga.toolkit.spi.nodes.controls.CheckBox<CheckBox> {
+public class FxCheckBox extends FxButtonBase<CheckBox> implements naga.toolkit.spi.nodes.controls.CheckBox {
 
     public FxCheckBox() {
         this(createCheckBox());

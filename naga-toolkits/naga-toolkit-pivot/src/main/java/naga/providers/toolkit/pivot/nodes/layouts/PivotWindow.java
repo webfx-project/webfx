@@ -11,7 +11,7 @@ import org.apache.pivot.wtk.DesktopApplicationContext;
 /**
  * @author Bruno Salmon
  */
-public class PivotWindow implements Window<Component> {
+public class PivotWindow implements Window {
 
     private final org.apache.pivot.wtk.Window pWindow;
 
@@ -35,9 +35,9 @@ public class PivotWindow implements Window<Component> {
         }
     }
 
-    private final Property<GuiNode<Component>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

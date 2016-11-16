@@ -6,14 +6,14 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-class ImageRenderer<N> implements ValueRenderer<N> {
+class ImageRenderer implements ValueRenderer {
 
     public static ImageRenderer SINGLETON = new ImageRenderer();
 
     private ImageRenderer() {}
 
     @Override
-    public GuiNode<N> renderCellValue(Object value) {
+    public GuiNode renderCellValue(Object value) {
         return Toolkit.get().createImage(value);
     }
 }

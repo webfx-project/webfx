@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class GwtDisplayResultSetNode<N extends UIObject> extends GwtNode<N> implements DisplayResultSetNode<N> {
+public abstract class GwtDisplayResultSetNode<N extends UIObject> extends GwtNode<N> implements DisplayResultSetNode {
 
     public GwtDisplayResultSetNode(N node) {
         super(node);

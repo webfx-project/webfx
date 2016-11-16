@@ -6,7 +6,7 @@ import org.apache.pivot.wtk.Component;
 /**
  * @author Bruno Salmon
  */
-public class PivotNode<N extends Component> implements GuiNode<N> {
+public class PivotNode<N extends Component> implements GuiNode {
 
     protected final N node;
 

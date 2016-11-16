@@ -9,9 +9,9 @@ import naga.toolkit.spi.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class HtmlDisplayResultSetNode<N extends Node> extends HtmlNode<N> implements DisplayResultSetNode<N> {
+abstract class HtmlDisplayResultSetNode<N extends Node> extends HtmlNode<N> implements DisplayResultSetNode {
 
-    public HtmlDisplayResultSetNode(N node) {
+    HtmlDisplayResultSetNode(N node) {
         super(node);
         displayResultProperty.addListener((observable, oldValue, newValue) -> {
             try {

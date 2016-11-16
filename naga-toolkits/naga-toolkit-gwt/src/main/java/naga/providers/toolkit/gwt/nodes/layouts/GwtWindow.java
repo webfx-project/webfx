@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.layouts.Window;
 /**
  * @author Bruno Salmon
  */
-public class GwtWindow implements Window<Widget> {
+public class GwtWindow implements Window {
 
     private final RootLayoutPanel rootLayoutPanel;
 
@@ -32,9 +32,9 @@ public class GwtWindow implements Window<Widget> {
         //Platform.log("Ok");
     }
 
-    private final Property<GuiNode<Widget>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Widget>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

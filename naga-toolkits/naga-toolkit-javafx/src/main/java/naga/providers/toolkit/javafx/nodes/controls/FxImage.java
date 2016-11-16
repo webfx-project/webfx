@@ -10,7 +10,7 @@ import naga.providers.toolkit.javafx.util.FxImageStore;
 /**
  * @author Bruno Salmon
  */
-public class FxImage extends FxNode<ImageView> implements naga.toolkit.spi.nodes.controls.Image<ImageView> {
+public class FxImage extends FxNode<ImageView> implements naga.toolkit.spi.nodes.controls.Image {
 
     public FxImage() {
         this(createImageView());

@@ -14,7 +14,7 @@ import org.apache.pivot.wtk.TableViewHeader;
 /**
  * @author Bruno Salmon
  */
-public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> implements Table<ScrollPane> {
+public class PivotTable extends PivotSelectableDisplayResultSetNode<ScrollPane> implements Table {
 
     private TableView tableView;
 

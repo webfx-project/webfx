@@ -11,7 +11,7 @@ import naga.toolkit.drawing.spi.DrawingNode;
 /**
  * @author Bruno Salmon
  */
-public class FxDrawingNode extends FxNode<Region> implements DrawingNode<Region>, DrawingMixin {
+public class FxDrawingNode extends FxNode<Region> implements DrawingNode, DrawingMixin {
 
     private final Drawing drawing;
 

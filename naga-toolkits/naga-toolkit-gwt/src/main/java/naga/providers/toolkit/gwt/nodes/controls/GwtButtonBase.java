@@ -8,7 +8,7 @@ import naga.providers.toolkit.gwt.nodes.GwtNode;
 /**
  * @author Bruno Salmon
  */
-public class GwtButtonBase<N extends ButtonBase> extends GwtNode<N> implements naga.toolkit.spi.nodes.controls.ButtonBase<N> {
+public class GwtButtonBase<N extends ButtonBase> extends GwtNode<N> implements naga.toolkit.spi.nodes.controls.ButtonBase {
 
     public GwtButtonBase(N button) {
         super(button);

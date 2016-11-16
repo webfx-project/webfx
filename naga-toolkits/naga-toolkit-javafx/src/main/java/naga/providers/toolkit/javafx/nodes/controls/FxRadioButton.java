@@ -6,7 +6,7 @@ import javafx.scene.control.RadioButton;
 /**
  * @author Bruno Salmon
  */
-public class FxRadioButton extends FxButtonBase<RadioButton> implements naga.toolkit.spi.nodes.controls.RadioButton<RadioButton> {
+public class FxRadioButton extends FxButtonBase<RadioButton> implements naga.toolkit.spi.nodes.controls.RadioButton {
 
     public FxRadioButton() {
         this(createRadioButton());

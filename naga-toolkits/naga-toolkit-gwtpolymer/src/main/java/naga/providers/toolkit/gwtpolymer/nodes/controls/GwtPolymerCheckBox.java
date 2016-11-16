@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.controls.ToggleSwitch;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerCheckBox extends GwtNode<PaperCheckbox> implements CheckBox<PaperCheckbox>, ToggleSwitch<PaperCheckbox> {
+public class GwtPolymerCheckBox extends GwtNode<PaperCheckbox> implements CheckBox, ToggleSwitch {
 
     public GwtPolymerCheckBox() {
         this(new PaperCheckbox());

@@ -10,7 +10,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingSlider extends SwingNode<JSlider> implements Slider<JSlider> {
+public class SwingSlider extends SwingNode<JSlider> implements Slider {
 
     public SwingSlider() {
         this(createSlider());

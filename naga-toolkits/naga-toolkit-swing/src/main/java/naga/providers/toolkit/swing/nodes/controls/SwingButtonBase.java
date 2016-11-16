@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingButtonBase<N extends AbstractButton> extends SwingNode<N> implements SelectableButton<N> {
+public class SwingButtonBase<N extends AbstractButton> extends SwingNode<N> implements SelectableButton {
 
     public SwingButtonBase(N button) {
         super(button);

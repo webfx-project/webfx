@@ -11,7 +11,7 @@ import naga.toolkit.spi.nodes.layouts.HBox;
 /**
  * @author Bruno Salmon
  */
-public class HtmlHBox extends HtmlParent<HTMLElement> implements HBox<HTMLElement, Element> {
+public class HtmlHBox extends HtmlParent<HTMLElement> implements HBox {
 
     public HtmlHBox() {
         this(HtmlUtil.createSpanElement());

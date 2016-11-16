@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.SelectableDisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public abstract class Cn1SelectableDisplayResultSetNode<N extends Component> extends Cn1DisplayResultSetNode<N> implements SelectableDisplayResultSetNode<N> {
+public abstract class Cn1SelectableDisplayResultSetNode<N extends Component> extends Cn1DisplayResultSetNode<N> implements SelectableDisplayResultSetNode {
 
     public Cn1SelectableDisplayResultSetNode(N node) {
         super(node);

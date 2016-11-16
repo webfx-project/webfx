@@ -15,7 +15,7 @@ import naga.commons.util.Strings;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.spi.nodes.controls.SearchBox;
 
-public class FxSearchBox extends FxNode<Region> implements SearchBox<Region> {
+public class FxSearchBox extends FxNode<Region> implements SearchBox {
 
     private final FxTextField fxTextField;
 

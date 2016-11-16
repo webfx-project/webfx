@@ -31,7 +31,7 @@ public class GwtPolymerToolkit extends GwtToolkit {
                 "    font-size: 16px;\n" +
                 "    font-weight: 400;\n" +
                 "    line-height: 24px;\n";
-        addStyleElement("vaadin-grid, .vaadin-grid-header.vaadin-grid th.vaadin-grid {\n" + sharedCss + "}\n");
+        addStyleElement(".vaadin-grid-0, .vaadin-grid-0 .vaadin-grid-header.vaadin-grid th.vaadin-grid {\n" + sharedCss + "}\n");
         addStyleElement("paper-checkbox {\n" + sharedCss + "}\n");
         addStyleElement("paper-button {\n" + sharedCss + "}\n");
     }

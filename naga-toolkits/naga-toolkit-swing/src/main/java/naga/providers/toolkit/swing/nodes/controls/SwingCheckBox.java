@@ -8,7 +8,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingCheckBox extends SwingButtonBase<JCheckBox> implements CheckBox<JCheckBox>, ToggleSwitch<JCheckBox> {
+public class SwingCheckBox extends SwingButtonBase<JCheckBox> implements CheckBox, ToggleSwitch {
 
     public SwingCheckBox() {
         this(new JCheckBox());

@@ -10,7 +10,7 @@ import static naga.providers.toolkit.html.util.HtmlUtil.*;
 /**
  * @author Bruno Salmon
  */
-public class HtmlVBox extends HtmlParent<HTMLDivElement> implements VBox<HTMLDivElement, Element> {
+public class HtmlVBox extends HtmlParent<HTMLDivElement> implements VBox {
 
     public HtmlVBox() {
         this(createDiv());

@@ -3,9 +3,9 @@ package naga.toolkit.spi.nodes;
 /**
  * @author Bruno Salmon
  */
-public interface GuiNode<N> {
+public interface GuiNode {
 
-    N unwrapToNativeNode();
+    <T> T unwrapToNativeNode();
 
     void requestFocus();
 

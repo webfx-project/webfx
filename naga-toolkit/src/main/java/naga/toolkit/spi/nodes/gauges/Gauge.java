@@ -8,5 +8,5 @@ import naga.toolkit.properties.markers.HasValueProperty;
 /**
  * @author Bruno Salmon
  */
-public interface Gauge<N> extends GuiNode<N>, HasMinProperty, HasValueProperty, HasMaxProperty {
+public interface Gauge extends GuiNode, HasMinProperty, HasValueProperty, HasMaxProperty {
 }

@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.controls.HtmlView;
 /**
  * @author Bruno Salmon
  */
-public class HtmlHtmlView extends HtmlNode<HTMLElement> implements HtmlView<HTMLElement> {
+public class HtmlHtmlView extends HtmlNode<HTMLElement> implements HtmlView {
 
     public HtmlHtmlView() {
         this(HtmlUtil.createDivElement());

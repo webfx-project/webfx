@@ -48,7 +48,7 @@ public abstract class Toolkit {
         if (nodeFactory != null)
             return (T) nodeFactory.create();
         System.out.println("WARNING: No factory node registered for " + nodeInterface + " in " + getClass());
-        return (T) new UnimplementedNode<>();
+        return (T) new UnimplementedNode();
     }
 
     public <N> void registerNativeNodeWrapper(Class<N> nativeNodeClass, Converter<N, GuiNode> nativeNodeWrapper) {
@@ -62,14 +62,16 @@ public abstract class Toolkit {
 
     public <T extends GuiNode, N> T wrapNativeNode(N toolkitNode) {
         Converter guiNodeConverter = nativeNodeWrappers.get(toolkitNode.getClass());
+        if (guiNodeConverter == null)
+            return null;
         return (T) guiNodeConverter.convert(toolkitNode);
     }
 
-    public static <N> N unwrapToNativeNode(GuiNode<N> guiNode) {
+    public static <N> N unwrapToNativeNode(GuiNode guiNode) {
         return guiNode == null ? null : guiNode.unwrapToNativeNode();
     }
 
-    public <N> ObservableList<GuiNode<N>> wrapNativeObservableList(ObservableList<N> nativeList) {
+    public <N> ObservableList<GuiNode> wrapNativeObservableList(ObservableList<N> nativeList) {
         return ConvertedObservableList.create(nativeList, this::wrapNativeNode, Toolkit::unwrapToNativeNode);
     }
 

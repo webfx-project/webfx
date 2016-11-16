@@ -10,7 +10,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingVBox extends SwingParent<Box> implements VBox<Box, Component> {
+public class SwingVBox extends SwingParent<Box> implements VBox {
 
     public SwingVBox() {
         this(Box.createVerticalBox());

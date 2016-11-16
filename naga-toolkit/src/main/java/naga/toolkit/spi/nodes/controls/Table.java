@@ -5,5 +5,5 @@ import naga.toolkit.spi.nodes.SelectableDisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-public interface Table<N> extends SelectableDisplayResultSetNode<N> {
+public interface Table extends SelectableDisplayResultSetNode {
 }

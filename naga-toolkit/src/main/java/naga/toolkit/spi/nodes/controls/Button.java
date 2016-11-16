@@ -6,5 +6,5 @@ import naga.toolkit.properties.markers.HasImageProperty;
 /**
  * @author Bruno Salmon
  */
-public interface Button<N> extends ButtonBase<N>, HasImageProperty, HasActionEventObservable {
+public interface Button extends ButtonBase, HasImageProperty, HasActionEventObservable {
 }

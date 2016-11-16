@@ -5,5 +5,5 @@ import naga.toolkit.spi.nodes.Parent;
 /**
  * @author Bruno Salmon
  */
-public interface FlowPane<HB, N> extends Parent<HB, N> {
+public interface FlowPane extends Parent {
 }

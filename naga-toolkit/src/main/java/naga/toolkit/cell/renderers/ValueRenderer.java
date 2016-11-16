@@ -8,9 +8,9 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface ValueRenderer<N> {
+public interface ValueRenderer {
 
-    GuiNode<N> renderCellValue(Object value);
+    GuiNode renderCellValue(Object value);
 
     static ValueRenderer create(Type type) {
         return ValueRendererFactory.getDefault().createCellRenderer(type);

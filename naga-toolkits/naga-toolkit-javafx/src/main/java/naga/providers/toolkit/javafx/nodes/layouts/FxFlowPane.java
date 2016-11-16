@@ -1,14 +1,13 @@
 package naga.providers.toolkit.javafx.nodes.layouts;
 
 
-import javafx.scene.Node;
 import naga.providers.toolkit.javafx.nodes.FxParent;
 import naga.toolkit.spi.nodes.layouts.FlowPane;
 
 /**
  * @author Bruno Salmon
  */
-public class FxFlowPane extends FxParent<javafx.scene.layout.FlowPane> implements FlowPane<javafx.scene.layout.FlowPane, Node> {
+public class FxFlowPane extends FxParent<javafx.scene.layout.FlowPane> implements FlowPane {
 
     public FxFlowPane() {
         this(createFlowPane());

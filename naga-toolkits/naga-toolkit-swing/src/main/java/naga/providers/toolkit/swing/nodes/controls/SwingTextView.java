@@ -11,7 +11,7 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingTextView extends SwingNode<JLabel> implements TextView<JLabel> {
+public class SwingTextView extends SwingNode<JLabel> implements TextView {
 
     public SwingTextView() {
         this(new JGradientLabel());

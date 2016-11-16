@@ -7,7 +7,7 @@ import naga.providers.toolkit.javafx.nodes.FxNode;
 /**
  * @author Bruno Salmon
  */
-public class FxTextField extends FxNode<TextField> implements naga.toolkit.spi.nodes.controls.TextField<TextField> {
+public class FxTextField extends FxNode<TextField> implements naga.toolkit.spi.nodes.controls.TextField {
 
     public FxTextField() {
         this(createTextField());

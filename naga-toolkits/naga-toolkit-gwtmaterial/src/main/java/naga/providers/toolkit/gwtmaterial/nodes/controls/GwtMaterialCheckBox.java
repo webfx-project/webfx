@@ -8,7 +8,7 @@ import naga.toolkit.spi.nodes.controls.ToggleSwitch;
 /**
  * @author Bruno Salmon
  */
-public class GwtMaterialCheckBox extends GwtSelectableButton<MaterialCheckBox> implements CheckBox<MaterialCheckBox>, ToggleSwitch<MaterialCheckBox> {
+public class GwtMaterialCheckBox extends GwtSelectableButton<MaterialCheckBox> implements CheckBox, ToggleSwitch {
 
     public GwtMaterialCheckBox() {
         this(new MaterialCheckBox());

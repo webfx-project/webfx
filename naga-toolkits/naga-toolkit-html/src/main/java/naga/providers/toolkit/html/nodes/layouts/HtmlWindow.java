@@ -12,7 +12,7 @@ import static elemental2.Global.document;
 /**
  * @author Bruno Salmon
  */
-public class HtmlWindow implements Window<Element> {
+public class HtmlWindow implements Window {
 
     public HtmlWindow() {
         nodeProperty.addListener((observable, oldValue, newValue) -> { if (newValue != null) setWindowContent(newValue.unwrapToNativeNode()); });
@@ -25,9 +25,9 @@ public class HtmlWindow implements Window<Element> {
         //Platform.log("Ok");
     }
 
-    private final Property<GuiNode<Element>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Element>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

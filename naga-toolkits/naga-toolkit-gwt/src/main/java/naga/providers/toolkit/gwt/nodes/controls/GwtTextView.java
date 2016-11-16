@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.TextView;
 /**
  * @author Bruno Salmon
  */
-public class GwtTextView extends GwtNode<Label> implements TextView<Label> {
+public class GwtTextView extends GwtNode<Label> implements TextView {
 
     public GwtTextView() {
         this(new Label());

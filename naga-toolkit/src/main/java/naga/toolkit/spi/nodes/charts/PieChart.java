@@ -7,5 +7,5 @@ package naga.toolkit.spi.nodes.charts;
  *
  * @author Bruno Salmon
  */
-public interface PieChart<N> extends Chart<N> {
+public interface PieChart extends Chart {
 }

@@ -7,7 +7,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class Cn1Node<N extends Component> implements GuiNode<N> {
+public class Cn1Node<N extends Component> implements GuiNode {
 
     protected final N node;
 

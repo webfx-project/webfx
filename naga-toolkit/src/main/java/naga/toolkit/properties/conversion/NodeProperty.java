@@ -8,7 +8,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class NodeProperty<N> extends ConvertedProperty<GuiNode<N>, N> {
+public class NodeProperty<N> extends ConvertedProperty<GuiNode, N> {
 
     public NodeProperty(Property<N> property) {
         this(property, node -> node);

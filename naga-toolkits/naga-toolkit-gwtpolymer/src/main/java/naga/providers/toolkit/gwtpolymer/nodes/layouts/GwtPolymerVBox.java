@@ -12,7 +12,7 @@ import naga.toolkit.spi.nodes.layouts.VBox;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerVBox extends GwtParent<Panel> implements VBox<Panel, Widget> {
+public class GwtPolymerVBox extends GwtParent<Panel> implements VBox {
 
     public GwtPolymerVBox() {
         this(new LayoutFlowPanel());

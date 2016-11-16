@@ -12,7 +12,7 @@ import naga.toolkit.display.DisplayResultSet;
 /**
  * @author Bruno Salmon
  */
-public class Cn1Table extends Cn1SelectableDisplayResultSetNode<com.codename1.ui.table.Table> implements naga.toolkit.spi.nodes.controls.Table<com.codename1.ui.table.Table> {
+public class Cn1Table extends Cn1SelectableDisplayResultSetNode<com.codename1.ui.table.Table> implements naga.toolkit.spi.nodes.controls.Table {
 
     private final DisplayTableModel tableModel = new DisplayTableModel();
 

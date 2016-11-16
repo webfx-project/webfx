@@ -5,8 +5,8 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface NodeCollator<N> {
+public interface NodeCollator {
 
-    GuiNode<N> collateNodes(GuiNode<N>[] nodes);
+    GuiNode collateNodes(GuiNode[] nodes);
 
 }

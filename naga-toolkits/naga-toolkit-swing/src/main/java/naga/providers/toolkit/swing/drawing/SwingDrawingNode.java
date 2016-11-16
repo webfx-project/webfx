@@ -18,7 +18,7 @@ import java.awt.event.MouseEvent;
 /**
  * @author Bruno Salmon
  */
-public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> implements DrawingNode<SwingDrawingNode.DrawingPanel>, DrawingMixin {
+public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> implements DrawingNode, DrawingMixin {
 
     public SwingDrawingNode() {
         this(new DrawingPanel());

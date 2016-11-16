@@ -89,5 +89,5 @@ import naga.toolkit.spi.nodes.SelectableDisplayResultSetNode;
  *
  * @author Bruno Salmon
  */
-public interface Chart<N> extends SelectableDisplayResultSetNode<N> {
+public interface Chart extends SelectableDisplayResultSetNode {
 }

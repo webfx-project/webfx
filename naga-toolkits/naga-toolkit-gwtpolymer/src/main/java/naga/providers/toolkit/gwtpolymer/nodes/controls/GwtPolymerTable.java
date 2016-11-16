@@ -27,7 +27,7 @@ import naga.toolkit.spi.nodes.controls.Table;
 /**
  * @author Bruno Salmon
  */
-public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGrid> implements Table<VaadinGrid> {
+public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGrid> implements Table {
 
     public GwtPolymerTable() {
         this(new VaadinGrid());
@@ -98,16 +98,16 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
         });
     }
 
-    private final GridFiller gridFiller = new GridFiller<Cell>(new ImageTextGridAdapter<Cell, UIObject>() {
+    private final GridFiller gridFiller = new GridFiller<Cell>(new ImageTextGridAdapter<Cell>() {
         @Override
-        public void setCellContent(Cell cell, GuiNode<UIObject> content, DisplayColumn displayColumn) {
+        public void setCellContent(Cell cell, GuiNode content, DisplayColumn displayColumn) {
             // In case the content is a GWT widget with children (GwtParent) its addition to the dom won't trigger the
             // traditional GWT attach event (because we add its element and not the widget itself as the cell is not a
             // GWT object). This can be problematic if the GwtParent is waiting for this event to add its children (like
             // a newly created GwtHBox or GwtVBox collator with pending children).
             if (content instanceof GwtParent) // So in this case
                 ((GwtParent) content).onAttached(null); // we simulate the attach event to cause the children addition
-            Element e = content.unwrapToNativeNode().getElement();
+            Element e = ((UIObject) content.unwrapToNativeNode()).getElement();
             if (content instanceof Image)
                 e.setAttribute("style", Strings.appendToken(e.getAttribute("style"), "margin-left: auto; margin-right: auto;", "; "));
             Element cellElement = cell.getElement().cast();
@@ -126,10 +126,10 @@ public class GwtPolymerTable extends GwtSelectableDisplayResultSetNode<VaadinGri
         }
 
         @Override
-        public void setCellImageAndTextContent(Cell cell, GuiNode<UIObject> image, String text, DisplayColumn displayColumn) {
+        public void setCellImageAndTextContent(Cell cell, GuiNode image, String text, DisplayColumn displayColumn) {
             Document document = Document.get();
             SpanElement span = document.createSpanElement();
-            Element img = image.unwrapToNativeNode().getElement();
+            Element img = ((UIObject) image.unwrapToNativeNode()).getElement();
             img.setAttribute("style", "vertical-align: middle; margin-right: 5px;");
             span.appendChild(img);
             SpanElement textElement = document.createSpanElement();

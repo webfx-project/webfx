@@ -5,7 +5,7 @@ import naga.toolkit.spi.nodes.charts.ScatterChart;
 /**
  * @author Bruno Salmon
  */
-public class FxScatterChart extends FxXYChart<javafx.scene.chart.ScatterChart> implements ScatterChart<javafx.scene.chart.ScatterChart> {
+public class FxScatterChart extends FxXYChart<javafx.scene.chart.ScatterChart> implements ScatterChart {
 
     public FxScatterChart() {
         this(createScatterChart());

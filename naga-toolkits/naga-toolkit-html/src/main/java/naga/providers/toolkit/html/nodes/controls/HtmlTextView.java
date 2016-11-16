@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.controls.TextView;
 /**
  * @author Bruno Salmon
  */
-public class HtmlTextView extends HtmlNode<HTMLElement> implements TextView<HTMLElement> {
+public class HtmlTextView extends HtmlNode<HTMLElement> implements TextView {
 
     public HtmlTextView() {
         this(HtmlUtil.createSpanElement());

@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingWindow implements Window<Component> {
+public class SwingWindow implements Window {
 
     private final JFrame frame;
 
@@ -39,9 +39,9 @@ public class SwingWindow implements Window<Component> {
         }
     }
 
-    private final Property<GuiNode<Component>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<Component>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

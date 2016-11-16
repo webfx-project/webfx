@@ -11,28 +11,32 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingParent<P extends Container> extends SwingNode<P> implements Parent<P, Component> {
+public class SwingParent<P extends Container> extends SwingNode<P> implements Parent {
 
     public SwingParent(P parent) {
         super(parent);
         children.addListener(this::onChanged);
     }
 
-    private final ObservableList<GuiNode<Component>> children = FXCollections.observableArrayList();
+    private final ObservableList<GuiNode> children = FXCollections.observableArrayList();
 
     @Override
-    public ObservableList<GuiNode<Component>> getChildren() {
+    public ObservableList<GuiNode> getChildren() {
         return children;
     }
 
-    private void onChanged(ListChangeListener.Change<? extends GuiNode<Component>> change) {
+    private void onChanged(ListChangeListener.Change<? extends GuiNode> change) {
         node.removeAll();
-        for (GuiNode<Component> child : children)
-            node.add(prepareChildComponent(child.unwrapToNativeNode()));
+        for (GuiNode child : children)
+            addChild(prepareChildComponent(child.unwrapToNativeNode()));
     }
 
     protected Component prepareChildComponent(Component child) {
         return child;
+    }
+
+    protected void addChild(Component child) {
+        node.add(child);
     }
 
 }

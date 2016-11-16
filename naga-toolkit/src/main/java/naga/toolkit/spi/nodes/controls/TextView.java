@@ -6,6 +6,6 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface TextView<N> extends GuiNode<N>, HasTextProperty {
+public interface TextView extends GuiNode, HasTextProperty {
 
 }

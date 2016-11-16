@@ -5,5 +5,5 @@ import naga.toolkit.spi.nodes.Parent;
 /**
  * @author Bruno Salmon
  */
-public interface VBox<VB, N> extends Parent<VB, N> {
+public interface VBox extends Parent {
 }

@@ -8,7 +8,7 @@ import naga.providers.toolkit.pivot.nodes.PivotNode;
 /**
  * @author Bruno Salmon
  */
-public class PivotSlider extends PivotNode<org.apache.pivot.wtk.Slider> implements Slider<org.apache.pivot.wtk.Slider> {
+public class PivotSlider extends PivotNode<org.apache.pivot.wtk.Slider> implements Slider {
 
     public PivotSlider() {
         this(createPivotSlider());

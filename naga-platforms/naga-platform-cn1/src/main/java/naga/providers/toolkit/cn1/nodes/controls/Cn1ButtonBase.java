@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.controls.SelectableButton;
 /**
  * @author Bruno Salmon
  */
-class Cn1ButtonBase<N extends Button> extends Cn1Node<N> implements SelectableButton<N> {
+class Cn1ButtonBase<N extends Button> extends Cn1Node<N> implements SelectableButton {
 
     Cn1ButtonBase(N button) {
         super(button);

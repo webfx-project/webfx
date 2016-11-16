@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-abstract class FxDisplayResultSetNode<N extends Node> extends FxNode<N> implements DisplayResultSetNode<N> {
+abstract class FxDisplayResultSetNode<N extends Node> extends FxNode<N> implements DisplayResultSetNode {
 
     FxDisplayResultSetNode(N node) {
         super(node);

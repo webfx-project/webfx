@@ -5,5 +5,5 @@ import naga.toolkit.spi.nodes.Parent;
 /**
  * @author Bruno Salmon
  */
-public interface HBox<HB, N> extends Parent<HB, N> {
+public interface HBox extends Parent {
 }
