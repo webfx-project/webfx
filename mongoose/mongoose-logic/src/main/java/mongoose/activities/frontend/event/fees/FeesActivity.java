@@ -66,9 +66,9 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 Property<DisplayResultSet> dateInfoDisplayResultSetProperty = pm.dateInfoDisplayResultSetProperty();
                 I18n i18n = getI18n();
                 Properties.consumeInUiThread(Properties.filter(Properties.combine(i18n.dictionaryProperty(), activeProperty(),
-                        (dictionary, active) -> active), // combine function
-                        active -> active), // filter function
-                        active -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
+                        Pair::new), // combine function
+                        pair -> pair.get2()), // filter function (GWT doesn't compile method reference in this case)
+                        pair -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
                 onEventAvailabilities().setHandler(ar -> {
                     if (ar.succeeded())
                         Toolkit.get().scheduler().runInUiThread(() -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
