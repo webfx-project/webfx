@@ -141,8 +141,7 @@ public class TimelineClipCore {
             final int fromKF = (lastKF == UNDEFINED_KEYFRAME) ? 0
                     : (keyFrameTicks[lastKF] <= curTicks) ? lastKF + 1
                     : lastKF;
-            final int toKF = keyFrames.length;
-            for (int fi = fromKF; fi < toKF; fi++) {
+            for (int fi = fromKF, toKF = keyFrames.length; fi < toKF; fi++) {
                 final long kfTicks = keyFrameTicks[fi];
                 if (kfTicks > ticks) {
                     lastKF = fi - 1;

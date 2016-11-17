@@ -354,12 +354,9 @@ public final class SequentialTransition extends Transition {
             }
             startTimes[end] = cycleTicks;
             childrenChanged = false;
-        } else if (forceSync) {
-            final int n = forceChildSync.length;
-            for (int i=0; i<n; i++) {
+        } else if (forceSync)
+            for (int i = 0, n = forceChildSync.length; i < n; i++)
                 forceChildSync[i] = true;
-            }
-        }
     }
 
     @Override

@@ -19,8 +19,7 @@ public class QueryResultSetToEntityListGenerator {
         EntityList entityList = store.getOrCreateEntityList(listId);
         entityList.clear();
         // Now iterating along the query result to create one entity per record
-        int rowCount = rs.getRowCount();
-        for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+        for (int rowIndex = 0, rowCount = rs.getRowCount(); rowIndex < rowCount; rowIndex++) {
             // Retrieving the primary key of this record
             Object primaryKey = rs.getValue(rowIndex, rowMapping.getPrimaryKeyColumnIndex());
             // Creating the entity (empty for now)

@@ -117,13 +117,9 @@ class GeneralClipInterpolator extends ClipInterpolator {
                 }
             }
             invalid = false;
-        } else if (forceSync) {
-            final int n = undefinedStartValues.length;
-            for (int i = 0; i < n; i++) {
-                final int index = undefinedStartValues[i];
+        } else if (forceSync)
+            for (int index : undefinedStartValues)
                 interval[index][0].recalculateStartValue();
-            }
-        }
     }
 
     @Override

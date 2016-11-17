@@ -37,8 +37,7 @@ public interface JsonFormatter extends JsonWrapper {
         sb.append('{');
         boolean first = true;
         JsonArray keys = json.keys();
-        int size = keys.size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0, size = keys.size(); i < size; i++) {
             String key = keys.getString(i);
             if (!first)
                 sb.append(',');

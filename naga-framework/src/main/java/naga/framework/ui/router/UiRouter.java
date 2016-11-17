@@ -177,8 +177,7 @@ public class UiRouter extends HistoryRouter {
             WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
             // TODO: move this code into a apply() method in WritableJsonObject
             JsonArray keys = routingContextParams.keys();
-            int size = keys.size();
-            for (int i = 0; i < size; i++) {
+            for (int i = 0, size = keys.size(); i < size; i++) {
                 String key = keys.getString(i);
                 appParams.setNativeElement(key, routingContextParams.getNativeElement(key));
             }

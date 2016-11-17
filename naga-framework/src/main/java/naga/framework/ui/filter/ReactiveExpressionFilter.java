@@ -356,8 +356,7 @@ public class ReactiveExpressionFilter {
     }
 
     private void applyDisplayResultSets(DisplayResultSet[] displayResultSets) {
-        int n = displayResultSets.length;
-        for (int i = 0; i < n; i++)
+        for (int i = 0, n = displayResultSets.length; i < n; i++)
             filterDisplays.get(i).setDisplayResultSet(displayResultSets[i]);
     }
 

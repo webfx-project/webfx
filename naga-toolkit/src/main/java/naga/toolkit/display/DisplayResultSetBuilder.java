@@ -55,8 +55,7 @@ public class DisplayResultSetBuilder {
         int rowCount = rs.getRowCount();
         int columnCount = rs.getColumnCount();
         Object[] convertedValues = new Object[rowCount * columnCount];
-        int inlineIndex = 0;
-        for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
+        for (int columnIndex = 0, inlineIndex = 0; columnIndex < columnCount; columnIndex++)
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
                 convertedValues[inlineIndex++] = valueConverter.convert(rs.getValue(rowIndex, columnIndex));
         return new DisplayResultSetImpl(rowCount, convertedValues, rs.getColumns());

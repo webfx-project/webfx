@@ -83,8 +83,7 @@ public class Arrays {
     }
 
     public static <T> int indexOfNull(T[] array) {
-        int n = length(array);
-        for (int i = 0; i < n; i++)
+        for (int i = 0, n = length(array); i < n; i++)
             if (array[i] == null)
                 return i;
         return -1;

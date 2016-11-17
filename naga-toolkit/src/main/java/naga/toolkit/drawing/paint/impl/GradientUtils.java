@@ -205,8 +205,7 @@ class GradientUtils {
             // for each run of adjacent color-stops without positions,
             // set their positions so that they are evenly spaced
             // between the preceding and following color-stops with positions.
-            int firstIndex = -1;
-            for (int i = 1; i < offsets.length; i++) {
+            for (int i = 1, firstIndex = -1; i < offsets.length; i++) {
                 double offset = offsets[i];
                 if (offset < 0 && firstIndex < 0)
                     firstIndex = i;

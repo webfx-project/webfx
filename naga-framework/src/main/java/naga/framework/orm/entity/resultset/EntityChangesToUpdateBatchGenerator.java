@@ -83,8 +83,7 @@ public class EntityChangesToUpdateBatchGenerator {
                     UpdateArgument arg = updateArguments.get(batchIndex);
                     if (arg != null) {
                         Object[] parameters = arg.getParameters();
-                        int length = Arrays.length(parameters);
-                        for (int parameterIndex = 0; parameterIndex < length; parameterIndex++) {
+                        for (int parameterIndex = 0, length = Arrays.length(parameters); parameterIndex < length; parameterIndex++) {
                             Object value = parameters[parameterIndex];
                             if (value instanceof EntityId) {
                                 EntityId entityId = (EntityId) value;

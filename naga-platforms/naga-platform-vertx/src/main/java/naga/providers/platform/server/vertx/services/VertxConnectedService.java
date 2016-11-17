@@ -196,8 +196,7 @@ public class VertxConnectedService implements QueryService, UpdateService {
             Future<UpdateResult> statementFuture = Future.future();
             // Replacing GeneratedKeyBatchIndex parameters with their actual generated keys
             Object[] parameters = arg.getParameters();
-            int length = Arrays.length(parameters);
-            for (int i = 0; i < length; i++) {
+            for (int i = 0, length = Arrays.length(parameters); i < length; i++) {
                 Object value = parameters[i];
                 if (value instanceof GeneratedKeyBatchIndex)
                     parameters[i] = batchIndexGeneratedKeys.get(((GeneratedKeyBatchIndex) value).getBatchIndex());

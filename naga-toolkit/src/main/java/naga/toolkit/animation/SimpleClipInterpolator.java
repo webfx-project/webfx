@@ -93,13 +93,9 @@ class SimpleClipInterpolator extends ClipInterpolator {
             }
 
             invalid = false;
-        } else if (forceSync) {
-            // iterate through keyValues with undefined start value
-            final int n = interval.length;
-            for (int i = n - undefinedStartValueCount; i < n; i++) {
+        } else if (forceSync) // iterate through keyValues with undefined start value
+            for (int n = interval.length, i = n - undefinedStartValueCount; i < n; i++)
                 interval[i].recalculateStartValue();
-            }
-        }
     }
 
     @Override
