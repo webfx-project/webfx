@@ -21,5 +21,6 @@ public class SvgEmbedDrawingView extends SvgDrawableView<EmbedDrawable, EmbedDra
         setSvgAttribute("width", "100%");
         setSvgAttribute("height", "100%");
         HtmlUtil.setChild(getElement(), drawable.getGuiNode().unwrapToNativeNode());
+        getDrawableViewBase().bind(drawable, drawingRequester);
     }
 }

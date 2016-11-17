@@ -18,8 +18,8 @@ import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -43,8 +43,8 @@ public abstract class SvgDrawableView
     }
 
     @Override
-    public void updateTransforms(List<Transform> transforms) {
-        setSvgAttribute("transform", SvgTransforms.toSvgTransforms(transforms));
+    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+        setSvgAttribute("transform", SvgTransforms.toSvgTransforms(localToParentTransforms));
     }
 
     @Override
