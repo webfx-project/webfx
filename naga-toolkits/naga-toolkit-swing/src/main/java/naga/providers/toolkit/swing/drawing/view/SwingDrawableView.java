@@ -41,12 +41,16 @@ public abstract class SwingDrawableView
     }
 
     @Override
-    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
-        swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
+    public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
     }
 
     @Override
-    public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
+    public void updateVisible(Boolean visible) {
+    }
+
+    @Override
+    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+        swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 
     @Override
