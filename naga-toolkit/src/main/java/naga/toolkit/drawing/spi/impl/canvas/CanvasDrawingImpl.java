@@ -50,10 +50,12 @@ public abstract class CanvasDrawingImpl
     }
 
     private void paintDrawable(Drawable drawable, CC canvasContext) {
-        DV drawableView = (DV) getOrCreateAndBindDrawableView(drawable);
-        paintDrawableView(drawableView, canvasContext);
-        if (drawable instanceof DrawableParent)
-            paintDrawables(((DrawableParent) drawable).getDrawableChildren(), canvasContext);
+        if (drawable.isVisible()) {
+            DV drawableView = (DV) getOrCreateAndBindDrawableView(drawable);
+            paintDrawableView(drawableView, canvasContext);
+            if (drawable instanceof DrawableParent)
+                paintDrawables(((DrawableParent) drawable).getDrawableChildren(), canvasContext);
+        }
     }
 
     private void paintDrawableView(DV drawableView, CC canvasContext) {
@@ -76,6 +78,8 @@ public abstract class CanvasDrawingImpl
     }
 
     private PickResult pickFromDrawable(Point2D point, Drawable drawable) {
+        if (!drawable.isVisible())
+            return null;
         // The passed point is actually expressed in the parent coordinates space (after the transforms have been applied).
         // Before going further, we need to express it in the drawable local coordinates space (by applying inverse transforms).
         for (Transform transform : drawable.localToParentTransforms())

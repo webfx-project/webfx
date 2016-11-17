@@ -43,15 +43,17 @@ public interface DrawableViewMixin
 
     void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked);
 
-    default void updateTransforms(List<Transform> transforms) {
-        updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
-    }
+    void updateVisible(Boolean visible);
 
     default void updateLayoutX(Double layoutX) {
         updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
     }
 
     default void updateLayoutY(Double layoutY) {
+        updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
+    }
+
+    default void updateTransforms(List<Transform> transforms) {
         updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
     }
 

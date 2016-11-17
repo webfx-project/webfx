@@ -26,6 +26,12 @@ class DrawableImpl implements Drawable {
         return onMouseClickedProperty;
     }
 
+    private final Property<Boolean> visibleProperty = new SimpleObjectProperty<>(true);
+    @Override
+    public Property<Boolean> visibleProperty() {
+        return visibleProperty;
+    }
+
     private final Property<Double> layoutXProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> layoutXProperty() {

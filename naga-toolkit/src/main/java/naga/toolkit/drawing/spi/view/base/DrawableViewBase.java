@@ -74,6 +74,7 @@ public abstract class DrawableViewBase
     @Override
     public boolean updateProperty(Property changedProperty) {
         return updateProperty(drawable.onMouseClickedProperty(), changedProperty, mixin::updateOnMouseClicked)
+                || updateProperty(drawable.visibleProperty(), changedProperty, mixin::updateVisible)
                 || updateProperty(drawable.layoutXProperty(), changedProperty, mixin::updateLayoutX)
                 || updateProperty(drawable.layoutYProperty(), changedProperty, mixin::updateLayoutY);
     }

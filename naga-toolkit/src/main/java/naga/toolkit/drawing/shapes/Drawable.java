@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import naga.toolkit.properties.markers.HasLayoutXProperty;
 import naga.toolkit.properties.markers.HasLayoutYProperty;
 import naga.toolkit.properties.markers.HasOnMouseClickedProperty;
+import naga.toolkit.properties.markers.HasVisibleProperty;
 import naga.toolkit.transform.Transform;
 
 import java.util.Collection;
@@ -14,7 +15,8 @@ import java.util.Collection;
 public interface Drawable extends
         HasOnMouseClickedProperty,
         HasLayoutXProperty,
-        HasLayoutYProperty {
+        HasLayoutYProperty,
+        HasVisibleProperty {
 
     ObservableList<Transform> getTransforms();
 
