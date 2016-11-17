@@ -45,6 +45,8 @@ public interface DrawableViewMixin
 
     void updateVisible(Boolean visible);
 
+    void updateOpacity(Double opacity);
+
     default void updateLayoutX(Double layoutX) {
         updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
     }
