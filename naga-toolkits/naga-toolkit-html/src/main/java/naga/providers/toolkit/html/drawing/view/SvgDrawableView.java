@@ -48,6 +48,11 @@ public abstract class SvgDrawableView
     }
 
     @Override
+    public void updateOpacity(Double opacity) {
+        setSvgAttribute("opacity", opacity == 1d ? null : opacity);
+    }
+
+    @Override
     public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
         setSvgAttribute("transform", SvgTransforms.toSvgTransforms(localToParentTransforms));
     }
