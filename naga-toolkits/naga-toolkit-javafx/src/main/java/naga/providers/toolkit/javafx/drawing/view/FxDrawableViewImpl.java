@@ -22,6 +22,8 @@ abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements
     void setAndBindDrawableProperties(D drawable, N fxDrawableNode) {
         this.fxDrawableNode = fxDrawableNode;
         ObservableLists.bindConverted(fxDrawableNode.getTransforms(), drawable.getTransforms(), FxTransforms::toFxTransform);
+        fxDrawableNode.layoutXProperty().bind(drawable.layoutXProperty());
+        fxDrawableNode.layoutYProperty().bind(drawable.layoutYProperty());
         fxDrawableNode.onMouseClickedProperty().bind(new ConvertedProperty<>(drawable.onMouseClickedProperty(), FxDrawableViewImpl::toFxMouseEventHandler));
     }
 
