@@ -7,14 +7,14 @@ import naga.toolkit.transform.Transform;
 import naga.toolkit.transform.Translate;
 
 import java.awt.geom.AffineTransform;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author Bruno Salmon
  */
 public class SwingTransforms {
 
-    public static AffineTransform toSwingTransform(List<Transform> transforms) {
+    public static AffineTransform toSwingTransform(Collection<Transform> transforms) {
         if (Collections.isEmpty(transforms))
             return null;
         return transforms.stream().map(SwingTransforms::toSwingTransform).reduce(SwingTransforms::concatenate).get();

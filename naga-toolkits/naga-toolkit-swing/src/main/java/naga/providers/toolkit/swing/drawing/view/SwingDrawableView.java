@@ -13,7 +13,7 @@ import naga.toolkit.transform.Transform;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.List;
+import java.util.Collection;
 
 
 /**
@@ -41,8 +41,8 @@ public abstract class SwingDrawableView
     }
 
     @Override
-    public void updateTransforms(List<Transform> transforms) {
-        swingTransform = SwingTransforms.toSwingTransform(transforms);
+    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+        swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 
     @Override
@@ -50,7 +50,7 @@ public abstract class SwingDrawableView
     }
 
     @Override
-    public void paint(Graphics2D c) {
+    public void paint(Graphics2D g) {
     }
 
     @Override
