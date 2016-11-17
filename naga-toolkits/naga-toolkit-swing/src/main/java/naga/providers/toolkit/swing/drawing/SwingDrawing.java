@@ -6,12 +6,11 @@ import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawingImpl;
 import naga.toolkit.drawing.spi.view.DrawableView;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 
 /**
  * @author Bruno Salmon
  */
-class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphics2D, AffineTransform> {
+class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphics2D, SwingGraphicState> {
 
     SwingDrawing(SwingDrawingNode drawingNode) {
         super(drawingNode, SwingDrawableViewFactory.SINGLETON);
@@ -23,13 +22,14 @@ class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphic
     }
 
     @Override
-    protected AffineTransform getCanvasTransform(Graphics2D g) {
-        return g.getTransform();
+    protected SwingGraphicState captureGraphicState(Graphics2D g) {
+        return new SwingGraphicState(g.getTransform(), g.getComposite());
     }
 
     @Override
-    protected void setCanvasTransform(AffineTransform transform, Graphics2D g) {
-        g.setTransform(transform);
+    protected void restoreGraphicState(SwingGraphicState graphicState, Graphics2D g) {
+        g.setTransform(graphicState.getTransform());
+        g.setComposite(graphicState.getComposite());
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class CanvasDrawingImpl
-        <DV extends CanvasDrawableView<?, CC>, CC, CT>
+        <DV extends CanvasDrawableView<?, CC>, CC, GS>
         extends DrawingImpl {
 
     public CanvasDrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
@@ -42,10 +42,10 @@ public abstract class CanvasDrawingImpl
     }
 
     private void paintDrawables(Collection<Drawable> drawables, CC canvasContext) {
-        CT parentTransform = getCanvasTransform(canvasContext);
+        GS parentTransform = captureGraphicState(canvasContext);
         for (Drawable drawable : drawables) {
             paintDrawable(drawable, canvasContext);
-            setCanvasTransform(parentTransform, canvasContext);
+            restoreGraphicState(parentTransform, canvasContext);
         }
     }
 
@@ -95,8 +95,8 @@ public abstract class CanvasDrawingImpl
 
     public abstract void requestCanvasRepaint();
 
-    protected abstract CT getCanvasTransform(CC canvasContext);
+    protected abstract GS captureGraphicState(CC canvasContext);
 
-    protected abstract void setCanvasTransform(CT transform, CC canvasContext);
+    protected abstract void restoreGraphicState(GS canvasState, CC canvasContext);
 
 }

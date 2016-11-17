@@ -26,6 +26,7 @@ public abstract class SwingDrawableView
         implements CanvasDrawableView<D, Graphics2D> {
 
     private AffineTransform swingTransform;
+    private AlphaComposite swingAlphaComposite;
 
     SwingDrawableView(DV base) {
         super(base);
@@ -38,6 +39,15 @@ public abstract class SwingDrawableView
             tx.concatenate(swingTransform);
             g.setTransform(tx);
         }
+        if (swingAlphaComposite != null) {
+            Composite composite = g.getComposite();
+            if (composite instanceof AlphaComposite) {
+                AlphaComposite alphaComposite = (AlphaComposite) composite;
+                g.setComposite(alphaComposite.derive(swingAlphaComposite.getAlpha() * alphaComposite.getAlpha()));
+            } else
+                g.setComposite(swingAlphaComposite);
+        }
+
     }
 
     @Override
@@ -46,6 +56,11 @@ public abstract class SwingDrawableView
 
     @Override
     public void updateVisible(Boolean visible) {
+    }
+
+    @Override
+    public void updateOpacity(Double opacity) {
+        swingAlphaComposite = opacity != null && opacity != 1d ? AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity.floatValue()) : null;
     }
 
     @Override
