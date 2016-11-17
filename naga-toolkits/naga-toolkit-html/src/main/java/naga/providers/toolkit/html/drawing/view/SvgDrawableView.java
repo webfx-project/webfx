@@ -43,6 +43,11 @@ public abstract class SvgDrawableView
     }
 
     @Override
+    public void updateVisible(Boolean visible) {
+        setSvgAttribute("visibility", visible ? null : "hidden");
+    }
+
+    @Override
     public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
         setSvgAttribute("transform", SvgTransforms.toSvgTransforms(localToParentTransforms));
     }
