@@ -9,6 +9,7 @@ import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,8 +41,19 @@ public interface DrawableViewMixin
         return getDrawableViewBase().updateList(changedList);
     }
 
-    void updateTransforms(List<Transform> transforms);
-
     void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked);
 
+    default void updateTransforms(List<Transform> transforms) {
+        updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
+    }
+
+    default void updateLayoutX(Double layoutX) {
+        updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
+    }
+
+    default void updateLayoutY(Double layoutY) {
+        updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
+    }
+
+    void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms);
 }

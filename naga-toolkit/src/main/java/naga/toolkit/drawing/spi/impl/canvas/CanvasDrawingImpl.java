@@ -1,8 +1,6 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
 import javafx.beans.property.Property;
-import javafx.collections.ObservableList;
-import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.DrawableParent;
 import naga.toolkit.drawing.shapes.Point2D;
@@ -78,12 +76,10 @@ public abstract class CanvasDrawingImpl
     }
 
     private PickResult pickFromDrawable(Point2D point, Drawable drawable) {
-        // The passed point is actually expressed in the coordinates space after the transformation has been applied.
-        // Before going further, we need to express it in the drawable coordinates space (ie before transformation).
-        ObservableList<Transform> transforms = drawable.getTransforms();
-        int n = Collections.size(transforms);
-        for (int i = 0; i < n; i++)
-            point = transforms.get(i).inverseTransform(point);
+        // The passed point is actually expressed in the parent coordinates space (after the transforms have been applied).
+        // Before going further, we need to express it in the drawable local coordinates space (by applying inverse transforms).
+        for (Transform transform : drawable.localToParentTransforms())
+            point = transform.inverseTransform(point);
         // If the drawable is a parent, we return the pick result from its children
         if (drawable instanceof DrawableParent)
             return pickFromDrawables(point, ((DrawableParent) drawable).getDrawableChildren());
