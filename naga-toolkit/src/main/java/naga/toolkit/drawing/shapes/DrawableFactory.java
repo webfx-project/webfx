@@ -17,6 +17,14 @@ public interface DrawableFactory {
         return new RectangleImpl();
     }
 
+    default Rectangle createRectangle(double width, double height) {
+        return new RectangleImpl(width, height);
+    }
+
+    default Rectangle createRectangle(double x, double y, double width, double height) {
+        return new RectangleImpl(x, y, width, height);
+    }
+
     default TextShape createText() {
         return new TextShapeImpl();
     }

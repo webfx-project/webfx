@@ -9,6 +9,20 @@ import naga.toolkit.drawing.shapes.Rectangle;
  */
 public class RectangleImpl extends ShapeImpl implements Rectangle {
 
+    public RectangleImpl() {
+    }
+
+    public RectangleImpl(double width, double height) {
+        this(0, 0, width, height);
+    }
+
+    public RectangleImpl(double x, double y, double width, double height) {
+        setX(x);
+        setY(y);
+        setWidth(width);
+        setHeight(height);
+    }
+
     private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> xProperty() {
