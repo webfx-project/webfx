@@ -6,7 +6,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public interface HasNodeProperty<N> {
+public interface HasNodeProperty {
 
     Property<GuiNode> nodeProperty();
     default HasNodeProperty setNode(GuiNode node) { nodeProperty().setValue(node); return this; }
