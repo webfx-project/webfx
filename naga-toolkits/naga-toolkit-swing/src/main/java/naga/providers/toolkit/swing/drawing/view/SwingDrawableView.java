@@ -3,7 +3,10 @@ package naga.providers.toolkit.swing.drawing.view;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.shapes.Point2D;
+import naga.toolkit.drawing.spi.DrawingRequester;
+import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawableView;
+import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
@@ -27,9 +30,18 @@ public abstract class SwingDrawableView
 
     private AffineTransform swingTransform;
     private AlphaComposite swingAlphaComposite;
+    private DrawingImpl drawing;
+    private SwingShapeView swingClipView;
+    private Shape swingClip;
 
     SwingDrawableView(DV base) {
         super(base);
+    }
+
+    @Override
+    public void bind(D drawable, DrawingRequester drawingRequester) {
+        drawing = DrawingImpl.getThreadLocalDrawing();
+        getDrawableViewBase().bind(drawable, drawingRequester);
     }
 
     @Override
@@ -47,7 +59,11 @@ public abstract class SwingDrawableView
             } else
                 g.setComposite(swingAlphaComposite);
         }
-
+        if (swingClipView != null) {
+            if (swingClip == null)
+                swingClip = swingClipView.createSwingShape(g);
+            g.setClip(swingClip);
+        }
     }
 
     @Override
@@ -61,6 +77,19 @@ public abstract class SwingDrawableView
     @Override
     public void updateOpacity(Double opacity) {
         swingAlphaComposite = opacity != null && opacity != 1d ? AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity.floatValue()) : null;
+    }
+
+    @Override
+    public void updateClip(Drawable clip) {
+        swingClip = null;
+        swingClipView = null;
+        if (clip != null) {
+            if (drawing == null)
+                drawing = DrawingImpl.getThreadLocalDrawing();
+            DrawableView drawableView = drawing.getOrCreateAndBindDrawableView(clip);
+            if (drawableView instanceof SwingShapeView)
+                swingClipView = (SwingShapeView) drawableView;
+        }
     }
 
     @Override

@@ -9,10 +9,12 @@ import java.awt.geom.AffineTransform;
 class SwingGraphicState {
     private final AffineTransform transform;
     private final Composite composite;
+    private final Shape clip;
 
-    SwingGraphicState(AffineTransform transform, Composite composite) {
+    public SwingGraphicState(AffineTransform transform, Composite composite, Shape clip) {
         this.transform = transform;
         this.composite = composite;
+        this.clip = clip;
     }
 
     AffineTransform getTransform() {
@@ -21,5 +23,9 @@ class SwingGraphicState {
 
     Composite getComposite() {
         return composite;
+    }
+
+    public Shape getClip() {
+        return clip;
     }
 }

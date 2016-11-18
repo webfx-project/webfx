@@ -104,7 +104,9 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
+        drawingThreadLocal.set(DrawingImpl.this);
         createAndBindDrawableViewAndChildren(rootDrawable);
+        drawingThreadLocal.set(null);
     }
 
     private void createAndBindDrawableViewAndChildren(Drawable drawable) {
@@ -113,7 +115,7 @@ public abstract class DrawingImpl implements Drawing {
             updateDrawableChildrenViews(((DrawableParent) drawableView).getDrawableChildren());
     }
 
-    protected DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
+    public DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
         DrawableView drawableView = drawableViews.get(drawable);
         if (drawableView == null) {
             drawableViews.put(drawable, drawableView = drawableViewFactory.createDrawableView(drawable));

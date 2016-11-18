@@ -1,9 +1,7 @@
 package naga.providers.toolkit.swing.drawing;
 
 import naga.providers.toolkit.swing.drawing.view.SwingDrawableView;
-import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
 
 import java.awt.*;
 
@@ -23,17 +21,13 @@ class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphic
 
     @Override
     protected SwingGraphicState captureGraphicState(Graphics2D g) {
-        return new SwingGraphicState(g.getTransform(), g.getComposite());
+        return new SwingGraphicState(g.getTransform(), g.getComposite(), g.getClip());
     }
 
     @Override
     protected void restoreGraphicState(SwingGraphicState graphicState, Graphics2D g) {
         g.setTransform(graphicState.getTransform());
         g.setComposite(graphicState.getComposite());
-    }
-
-    @Override
-    public DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
-        return super.getOrCreateAndBindDrawableView(drawable);
+        g.setClip(graphicState.getClip());
     }
 }
