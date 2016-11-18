@@ -15,7 +15,7 @@ import naga.toolkit.drawing.shapes.StrokeLineJoin;
  */
 public class ShapeImpl extends DrawableImpl implements Shape {
 
-    private final Property<Paint> fillProperty = new SimpleObjectProperty<>(Color.TRANSPARENT);
+    private final Property<Paint> fillProperty = new SimpleObjectProperty<>(Color.BLACK);
     @Override
     public Property<Paint> fillProperty() {
         return fillProperty;
