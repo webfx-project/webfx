@@ -38,6 +38,12 @@ class DrawableImpl implements Drawable {
         return opacityProperty;
     }
 
+    private final Property<Drawable> clipProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Drawable> clipProperty() {
+        return clipProperty;
+    }
+
     private final Property<Double> layoutXProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> layoutXProperty() {

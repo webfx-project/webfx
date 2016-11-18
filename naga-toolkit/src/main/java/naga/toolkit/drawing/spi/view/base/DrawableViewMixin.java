@@ -47,6 +47,8 @@ public interface DrawableViewMixin
 
     void updateOpacity(Double opacity);
 
+    void updateClip(Drawable clip);
+
     default void updateLayoutX(Double layoutX) {
         updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
     }
