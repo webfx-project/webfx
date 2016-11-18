@@ -38,11 +38,11 @@ public class SvgRectangleView
 
     @Override
     public void updateArcWidth(Double arcWidth) {
-        setSvgAttribute("rx", arcWidth);
+        setSvgAttribute("rx", arcWidth == null ? null : arcWidth / 2);
     }
 
     @Override
     public void updateArcHeight(Double arcHeight) {
-        setSvgAttribute("ry", arcHeight);
+        setSvgAttribute("ry", arcHeight == null ? null : arcHeight / 2);
     }
 }
