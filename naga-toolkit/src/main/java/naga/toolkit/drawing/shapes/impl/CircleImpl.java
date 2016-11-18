@@ -9,6 +9,19 @@ import naga.toolkit.drawing.shapes.Circle;
  */
 public class CircleImpl extends ShapeImpl implements Circle {
 
+    public CircleImpl() {
+    }
+
+    public CircleImpl(double radius) {
+        this(0, 0, radius);
+    }
+
+    public CircleImpl(double centerX, double centerY, double radius) {
+        setCenterX(centerX);
+        setCenterY(centerY);
+        setRadius(radius);
+    }
+
     private final Property<Double> centerXProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Double> centerXProperty() {

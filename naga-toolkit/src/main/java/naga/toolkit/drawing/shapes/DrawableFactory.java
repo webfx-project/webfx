@@ -33,6 +33,14 @@ public interface DrawableFactory {
         return new CircleImpl();
     }
 
+    default Circle createCircle(double radius) {
+        return new CircleImpl(radius);
+    }
+
+    default Circle createCircle(double centerX, double centerY, double radius) {
+        return new CircleImpl(centerX, centerY, radius);
+    }
+
     default Group createGroup() {
         return new GroupImpl();
     }
