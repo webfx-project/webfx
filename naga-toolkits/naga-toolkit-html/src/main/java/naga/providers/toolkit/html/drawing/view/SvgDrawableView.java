@@ -4,6 +4,7 @@ import elemental2.Element;
 import naga.providers.toolkit.html.drawing.SvgDrawing;
 import naga.providers.toolkit.html.events.HtmlMouseEvent;
 import naga.providers.toolkit.html.util.HtmlPaints;
+import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgTransforms;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.paint.Color;
@@ -11,6 +12,7 @@ import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
+import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
@@ -32,6 +34,7 @@ public abstract class SvgDrawableView
 
     private final Element svgElement;
     private Map<String, Element> svgLinearGradients;
+    private Element svgClipPath;
 
     SvgDrawableView(DV base, Element svgElement) {
         super(base);
@@ -50,6 +53,24 @@ public abstract class SvgDrawableView
     @Override
     public void updateOpacity(Double opacity) {
         setSvgAttribute("opacity", opacity == 1d ? null : opacity);
+    }
+
+    @Override
+    public void updateClip(Drawable clip) {
+        setSvgAttribute("clip-path", toClipAttribute(clip));
+    }
+
+    private String toClipAttribute(Drawable clip) {
+        String value = null;
+        if (clip != null) {
+            SvgDrawing drawing = (SvgDrawing) DrawingImpl.getThreadLocalDrawing();
+            DrawableView drawableView = drawing.getOrCreateAndBindDrawableView(clip);
+            if (svgClipPath == null)
+                svgClipPath = drawing.addDef(SvgUtil.createClipPath());
+            HtmlUtil.setChild(svgClipPath, ((SvgDrawableView) drawableView).getElement());
+            value = "url(#" + svgClipPath.getAttribute("id") + ")";
+        }
+        return value;
     }
 
     @Override

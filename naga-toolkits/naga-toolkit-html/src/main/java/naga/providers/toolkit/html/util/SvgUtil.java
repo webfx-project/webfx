@@ -42,6 +42,11 @@ public class SvgUtil {
         return createSvgElement("g");
     }
 
+    private static int clipSeq;
+    public static Element createClipPath() {
+        return HtmlUtil.setAttribute(createSvgElement("clipPath"), "id", "CLIP" + ++clipSeq);
+    }
+
     private static int lgSeq;
     public static Element createLinearGradient() {
         return HtmlUtil.setAttribute(createSvgElement("linearGradient"), "id", "LG" + ++lgSeq);
