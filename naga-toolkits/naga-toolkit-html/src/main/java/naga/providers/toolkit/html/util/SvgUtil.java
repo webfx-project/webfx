@@ -46,6 +46,10 @@ public class SvgUtil {
         return createSvgElement("g");
     }
 
+    public static String getDefUrl(Element defElement) {
+        return defElement == null ? null : "url(#" + defElement.getAttribute("id") + ")";
+    }
+
     private static int clipSeq;
     public static Element createClipPath() {
         return HtmlUtil.setAttribute(createSvgElement("clipPath"), "id", "CLIP" + ++clipSeq);
@@ -54,6 +58,11 @@ public class SvgUtil {
     private static int lgSeq;
     public static Element createLinearGradient() {
         return HtmlUtil.setAttribute(createSvgElement("linearGradient"), "id", "LG" + ++lgSeq);
+    }
+
+    private static int filterSeq;
+    public static Element createFilter() {
+        return HtmlUtil.setAttribute(createSvgElement("filter"), "id", "F" + ++filterSeq);
     }
 
     public static Element updateLinearGradient(LinearGradient lg, Element svgLg) {

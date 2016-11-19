@@ -16,6 +16,8 @@ import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
+import naga.toolkit.effect.Effect;
+import naga.toolkit.effect.GaussianBlur;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
@@ -68,7 +70,7 @@ public abstract class SvgDrawableView
             if (svgClipPath == null)
                 svgClipPath = drawing.addDef(SvgUtil.createClipPath());
             HtmlUtil.setChild(svgClipPath, ((SvgDrawableView) drawableView).getElement());
-            value = "url(#" + svgClipPath.getAttribute("id") + ")";
+            value = SvgUtil.getDefUrl(svgClipPath);
         }
         return value;
     }
@@ -77,6 +79,35 @@ public abstract class SvgDrawableView
     public void updateBlendMode(BlendMode blendMode) {
         String svgBlend = toSvgBlendMode(blendMode);
         setSvgAttribute("style", svgBlend == null ? null : "mix-blend-mode:" + svgBlend);
+    }
+
+    @Override
+    public void updateEffect(Effect effect) {
+        setSvgAttribute("filter", effect == null ? null : toSvgEffectFilterUrl(effect));
+    }
+
+    private static String toSvgEffectFilterUrl(Effect effect) {
+        return SvgUtil.getDefUrl(toSvgEffectFilter(effect));
+    }
+
+    private static Element toSvgEffectFilter(Effect effect) {
+        Element filterPrimitive = toSvgEffectFilterPrimitive(effect);
+        if (filterPrimitive == null)
+            return null;
+        SvgDrawing drawing = (SvgDrawing) DrawingImpl.getThreadLocalDrawing();
+        return drawing.addDef(HtmlUtil.appendChild(SvgUtil.createFilter(), filterPrimitive));
+    }
+
+    private static Element toSvgEffectFilterPrimitive(Effect effect) {
+        if (effect == null)
+            return null;
+        if (effect instanceof GaussianBlur) {
+            Element fe = SvgUtil.createSvgElement("feGaussianBlur");
+            fe.setAttribute("in", "SourceGraphic");
+            fe.setAttribute("stdDeviation", ((GaussianBlur) effect).getSigma());
+            return fe;
+        }
+        return null;
     }
 
     @Override
@@ -151,7 +182,7 @@ public abstract class SvgDrawableView
             if (svgLinearGradient == null)
                 svgLinearGradients.put(name, svgLinearGradient = ((SvgDrawing) DrawingImpl.getThreadLocalDrawing()).addDef(SvgUtil.createLinearGradient()));
             SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
-            value = "url(#" + svgLinearGradient.getAttribute("id") + ")";
+            value = SvgUtil.getDefUrl(svgLinearGradient);
         }
         return value;
     }
