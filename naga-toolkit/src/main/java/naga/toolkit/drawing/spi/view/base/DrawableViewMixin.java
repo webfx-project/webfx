@@ -6,6 +6,7 @@ import naga.toolkit.drawing.shapes.BlendMode;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
@@ -51,6 +52,8 @@ public interface DrawableViewMixin
     void updateClip(Drawable clip);
 
     void updateBlendMode(BlendMode blendMode);
+
+    void updateEffect(Effect effect);
 
     default void updateLayoutX(Double layoutX) {
         updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());
