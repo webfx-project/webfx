@@ -10,6 +10,8 @@ import naga.toolkit.drawing.shapes.BlendMode;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.effect.GaussianBlur;
+import naga.toolkit.effect.Effect;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -31,6 +33,7 @@ abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements
         DrawingImpl drawing = DrawingImpl.getThreadLocalDrawing();
         Properties.runNowAndOnPropertiesChange((clipProperty) -> fxDrawableNode.setClip(getDrawableFxNode(drawable.getClip(), drawing)), drawable.clipProperty());
         Properties.runNowAndOnPropertiesChange((blendMode) -> fxDrawableNode.setBlendMode(toFxBlendMode(drawable.getBlendMode())), drawable.blendModeProperty());
+        Properties.runNowAndOnPropertiesChange((effect) -> fxDrawableNode.setEffect(toFxEffect(drawable.getEffect())), drawable.effectProperty());
         fxDrawableNode.layoutXProperty().bind(drawable.layoutXProperty());
         fxDrawableNode.layoutYProperty().bind(drawable.layoutYProperty());
         fxDrawableNode.onMouseClickedProperty().bind(new ConvertedProperty<>(drawable.onMouseClickedProperty(), FxDrawableViewImpl::toFxMouseEventHandler));
@@ -80,6 +83,16 @@ abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements
                 case GREEN: return javafx.scene.effect.BlendMode.GREEN;
                 case BLUE: return javafx.scene.effect.BlendMode.BLUE;
             }
+        return null;
+    }
+
+    private static javafx.scene.effect.Effect toFxEffect(Effect effect) {
+        if (effect == null)
+            return null;
+        if (effect instanceof GaussianBlur) {
+            GaussianBlur b = (GaussianBlur) effect;
+            return new javafx.scene.effect.GaussianBlur(b.getRadius());
+        }
         return null;
     }
 
