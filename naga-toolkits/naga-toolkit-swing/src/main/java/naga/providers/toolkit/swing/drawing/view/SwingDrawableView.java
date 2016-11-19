@@ -12,6 +12,7 @@ import naga.toolkit.drawing.spi.view.DrawableView;
 import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
 import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
 import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
+import naga.toolkit.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
@@ -86,6 +87,11 @@ public abstract class SwingDrawableView
     @Override
     public void updateBlendMode(BlendMode blendMode) {
         updateComposite();
+    }
+
+    @Override
+    public void updateEffect(Effect effect) {
+        // Not yet implemented
     }
 
     private void updateComposite() {
