@@ -2,6 +2,7 @@ package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
+import naga.toolkit.drawing.shapes.BlendMode;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.DrawableView;
@@ -48,6 +49,8 @@ public interface DrawableViewMixin
     void updateOpacity(Double opacity);
 
     void updateClip(Drawable clip);
+
+    void updateBlendMode(BlendMode blendMode);
 
     default void updateLayoutX(Double layoutX) {
         updateLocalToParentTransforms(getDrawableViewBase().getDrawable().localToParentTransforms());

@@ -5,6 +5,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import naga.toolkit.drawing.shapes.BlendMode;
 import naga.toolkit.drawing.shapes.Drawable;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -42,6 +43,12 @@ class DrawableImpl implements Drawable {
     @Override
     public Property<Drawable> clipProperty() {
         return clipProperty;
+    }
+
+    private final Property<BlendMode> blendModeProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<BlendMode> blendModeProperty() {
+        return blendModeProperty;
     }
 
     private final Property<Double> layoutXProperty = new SimpleObjectProperty<>(0d);

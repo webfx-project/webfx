@@ -43,6 +43,7 @@ public abstract class DrawableViewBase
                 drawable.visibleProperty(),
                 drawable.opacityProperty(),
                 drawable.clipProperty(),
+                drawable.blendModeProperty(),
                 drawable.layoutXProperty(),
                 drawable.layoutYProperty(),
                 drawable.onMouseClickedProperty());
@@ -83,6 +84,7 @@ public abstract class DrawableViewBase
                 || updateProperty(drawable.visibleProperty(), changedProperty, mixin::updateVisible)
                 || updateProperty(drawable.opacityProperty(), changedProperty, mixin::updateOpacity)
                 || updateProperty(drawable.clipProperty(), changedProperty, mixin::updateClip)
+                || updateProperty(drawable.blendModeProperty(), changedProperty, mixin::updateBlendMode)
                 || updateProperty(drawable.layoutXProperty(), changedProperty, mixin::updateLayoutX)
                 || updateProperty(drawable.layoutYProperty(), changedProperty, mixin::updateLayoutY);
     }

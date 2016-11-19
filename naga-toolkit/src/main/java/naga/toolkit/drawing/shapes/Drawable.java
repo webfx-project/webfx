@@ -15,7 +15,8 @@ public interface Drawable extends
         HasLayoutYProperty,
         HasVisibleProperty,
         HasOpacityProperty,
-        HasClipProperty {
+        HasClipProperty,
+        HasBlendModeProperty {
 
     ObservableList<Transform> getTransforms();
 
