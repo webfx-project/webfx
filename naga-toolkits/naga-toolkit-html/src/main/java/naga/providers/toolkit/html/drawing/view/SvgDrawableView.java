@@ -74,6 +74,12 @@ public abstract class SvgDrawableView
     }
 
     @Override
+    public void updateBlendMode(BlendMode blendMode) {
+        String svgBlend = toSvgBlendMode(blendMode);
+        setSvgAttribute("style", svgBlend == null ? null : "mix-blend-mode:" + svgBlend);
+    }
+
+    @Override
     public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
         setSvgAttribute("transform", SvgTransforms.toSvgTransforms(localToParentTransforms));
     }
@@ -167,6 +173,30 @@ public abstract class SvgDrawableView
                 case LEFT: return "start";
                 case CENTER: return "middle";
                 case RIGHT: return "end";
+            }
+        return null;
+    }
+
+    static String toSvgBlendMode(BlendMode blendMode) {
+        if (blendMode != null)
+            switch (blendMode) {
+                case SRC_OVER: return "";
+                case SRC_ATOP: return "";
+                case ADD: return "";
+                case MULTIPLY: return "multiply";
+                case SCREEN: return "screen";
+                case OVERLAY: return "overlay";
+                case DARKEN: return "darken";
+                case LIGHTEN: return "lighten";
+                case COLOR_DODGE: return "color-dodge";
+                case COLOR_BURN: return "color-burn";
+                case HARD_LIGHT: return "hard-light";
+                case SOFT_LIGHT: return "soft-light";
+                case DIFFERENCE: return "difference";
+                case EXCLUSION: return "exclusion";
+                case RED: return "";
+                case GREEN: return "";
+                case BLUE: return "";
             }
         return null;
     }
