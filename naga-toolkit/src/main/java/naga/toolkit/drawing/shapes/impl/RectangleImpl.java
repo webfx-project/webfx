@@ -2,6 +2,7 @@ package naga.toolkit.drawing.shapes.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.Rectangle;
 
 /**
@@ -13,14 +14,24 @@ public class RectangleImpl extends ShapeImpl implements Rectangle {
     }
 
     public RectangleImpl(double width, double height) {
-        this(0, 0, width, height);
+        this(width, height, null);
+    }
+
+    public RectangleImpl(double width, double height, Paint fill) {
+        this(0, 0, width, height, fill);
     }
 
     public RectangleImpl(double x, double y, double width, double height) {
+        this(x, y, width, height, null);
+    }
+
+    public RectangleImpl(double x, double y, double width, double height, Paint fill) {
         setX(x);
         setY(y);
         setWidth(width);
         setHeight(height);
+        if (fill != null)
+            setFill(fill);
     }
 
     private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);

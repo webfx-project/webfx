@@ -22,11 +22,11 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
     private final static Font monthTextFont = dayOfWeekTextFont;
 
     private final long epochDay;
-    private final Rectangle r = DrawableFactory.get().createRectangle();
-    private final TextShape dayOfWeekText = DrawableFactory.get().createText();
-    private final TextShape dayOfMonthText = DrawableFactory.get().createText();
-    private final TextShape monthText = DrawableFactory.get().createText();
-    final Group group = DrawableFactory.get().createGroup();
+    private final Rectangle r = Rectangle.create();
+    private final TextShape dayOfWeekText = TextShape.create();
+    private final TextShape dayOfMonthText = TextShape.create();
+    private final TextShape monthText = TextShape.create();
+    final Group group = Group.create();
     private final Translate translate = Translate.create();
 
     {

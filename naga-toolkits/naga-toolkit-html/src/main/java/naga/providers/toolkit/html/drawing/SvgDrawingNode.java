@@ -29,6 +29,8 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
         super(svg);
         if (!svg.hasAttribute("width"))
             svg.setAttribute("width", "100%");
+        if (!svg.hasAttribute("height"))
+            svg.setAttribute("height", "600px");
         heightProperty().addListener((observable, oldValue, newHeight) -> svg.setAttribute("height", "" + newHeight + "px"));
         drawing = new SvgDrawing(this);
         HtmlUtil.runOnAttached(node, () -> {

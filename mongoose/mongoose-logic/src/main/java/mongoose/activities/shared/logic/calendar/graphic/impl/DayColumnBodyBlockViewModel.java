@@ -22,11 +22,11 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
 
     private final long epochDay;
     private final TimeInterval dayTimeMinuteInterval;
-    private final Rectangle rectangle = DrawableFactory.get().createRectangle();
-    private final TextShape blockText = DrawableFactory.get().createText();
+    private final Rectangle rectangle = Rectangle.create();
+    private final TextShape blockText = TextShape.create();
     private final TextShape startTimeText;
     private final TextShape endTimeText;
-    private final Group group = DrawableFactory.get().createGroup();
+    private final Group group = Group.create();
     private final Translate translate = Translate.create();
 
     {
@@ -50,14 +50,14 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
                 calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
         });
         if (displayTimes) {
-            startTimeText = DrawableFactory.get().createText();
+            startTimeText = TextShape.create();
             startTimeText.setFont(timeFont);
             startTimeText.setTextAlignment(TextAlignment.LEFT);
             startTimeText.setFill(timeFill);
             startTimeText.setTextOrigin(VPos.TOP);
             startTimeText.setY(1d);
             startTimeText.setText(dayTimeMinuteInterval.getStartText());
-            endTimeText = DrawableFactory.get().createText();
+            endTimeText = TextShape.create();
             endTimeText.setFont(timeFont);
             endTimeText.setTextAlignment(TextAlignment.LEFT);
             endTimeText.setFill(timeFill);

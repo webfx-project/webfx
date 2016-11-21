@@ -16,7 +16,6 @@ import naga.toolkit.animation.KeyFrame;
 import naga.toolkit.animation.KeyValue;
 import naga.toolkit.animation.Timeline;
 import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.DrawableFactory;
 import naga.toolkit.drawing.shapes.Group;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.spi.Toolkit;
@@ -103,7 +102,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Group createCalendarGroup() {
-        Group calendarGroup = DrawableFactory.get().createGroup();
+        Group calendarGroup = Group.create();
         Group headersGroup = createDayColumnHeadersGroup();
         Group bodyGroup = createBodyGroup();
         bodyGroup.getTransforms().setAll(Translate.create(0d, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
@@ -112,7 +111,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Group createDayColumnHeadersGroup() {
-        Group daysHeadGroup = DrawableFactory.get().createGroup();
+        Group daysHeadGroup = Group.create();
         for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
             DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
             horizontalDayPositioner.addHorizontalDayPositioned(model);
@@ -122,7 +121,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Group createBodyGroup() {
-        Group bodyGroup = DrawableFactory.get().createGroup();
+        Group bodyGroup = Group.create();
         Collections.forEach(calendar.getTimelines(), timeline -> addTimelineDrawables(timeline, bodyGroup.getDrawableChildren()));
         verticalDayPositioner.updateVerticalPositions();
         return bodyGroup;

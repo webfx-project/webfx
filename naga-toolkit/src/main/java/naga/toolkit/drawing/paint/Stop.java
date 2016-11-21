@@ -20,7 +20,7 @@ public interface Stop {
      * the focus point to the edge of the outermost/largest circle.
      *
      * @return position of the Stop within the gradient
-     *         (ranging from {@code 0} to {@code 1})
+     * (ranging from {@code 0} to {@code 1})
      */
     double getOffset();
 
@@ -31,9 +31,9 @@ public interface Stop {
     }
 
     List<Stop> NO_STOPS = Collections.unmodifiableList(Arrays.asList(
-                    Stop.create(0.0, Color.TRANSPARENT),
-                    Stop.create(1.0, Color.TRANSPARENT)
-            ));
+            Stop.create(0.0, Color.TRANSPARENT),
+            Stop.create(1.0, Color.TRANSPARENT)
+    ));
 
     static List<Stop> normalize(Stop stops[]) {
         return normalize((stops == null ? null : Arrays.asList(stops)));
@@ -59,12 +59,12 @@ public interface Stop {
                     Stop s2 = newlist.get(i);
                     if (s2.getOffset() <= off) {
                         if (s2.getOffset() == off) {
-                            if (i > 0 && newlist.get(i-1).getOffset() == off)
+                            if (i > 0 && newlist.get(i - 1).getOffset() == off)
                                 newlist.set(i, s);
                             else
-                                newlist.add(i+1, s);
+                                newlist.add(i + 1, s);
                         } else
-                            newlist.add(i+1, s);
+                            newlist.add(i + 1, s);
                         s = null;
                         break;
                     }
@@ -96,7 +96,7 @@ public interface Stop {
         newlist.add(0, zerostop);
 
         if (onestop == null)
-            onestop = new StopImpl(1.0, newlist.get(newlist.size()-1).getColor());
+            onestop = new StopImpl(1.0, newlist.get(newlist.size() - 1).getColor());
         else if (onestop.getOffset() > 1.0)
             onestop = new StopImpl(1.0, onestop.getColor());
         newlist.add(onestop);

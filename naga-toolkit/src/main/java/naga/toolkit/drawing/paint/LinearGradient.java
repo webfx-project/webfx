@@ -131,4 +131,9 @@ public interface LinearGradient extends Paint {
     static LinearGradient valueOf(String value) {
         return LinearGradientImpl.valueOf(value);
     }
+
+    static LinearGradient create(double startX, double startY, double endX, double endY, boolean proportional, CycleMethod cycleMethod, Stop... stops) {
+        return new LinearGradientImpl(startX, startY, endX, endY, proportional, cycleMethod, stops);
+    }
+
 }
