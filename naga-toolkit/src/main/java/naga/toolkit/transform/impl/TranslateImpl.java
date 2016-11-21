@@ -37,7 +37,7 @@ public class TranslateImpl extends TransformImpl implements Translate {
 
     @Override
     public Point2D transform(double x, double y) {
-        return new Point2D(x + getX(), y + getY());
+        return Point2D.create(x + getX(), y + getY());
     }
 
     @Override

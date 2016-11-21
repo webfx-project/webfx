@@ -33,7 +33,7 @@ public class ScaleImpl extends TransformImpl implements Scale {
 
     @Override
     public Point2D transform(double x, double y) {
-        return new Point2D(x * getX(), y * getY());
+        return Point2D.create(x * getX(), y * getY());
     }
 
     @Override

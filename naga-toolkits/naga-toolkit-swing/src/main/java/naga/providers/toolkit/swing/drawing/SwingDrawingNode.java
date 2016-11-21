@@ -94,7 +94,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                 private void handleMouseEvent(MouseEvent e) {
                     PickResult pickResult = null;
                     JComponent embedTarget = null;
-                    Point2D canvasPoint = new Point2D(e.getX(), e.getY());
+                    Point2D canvasPoint = Point2D.create(e.getX(), e.getY());
                     if (e.getID() != MouseEvent.MOUSE_EXITED) {
                         pickResult = drawing.pickDrawable(canvasPoint);
                         if (pickResult != null) {
