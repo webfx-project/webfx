@@ -58,6 +58,18 @@ public class HtmlUtil {
         return parent;
     }
 
+    public static HTMLBodyElement setBodyContent(Node content) {
+        return appendChild(removeChildrenUpToScripts(document.body), content);
+    }
+
+    public static <N extends Node> N removeChildrenUpToScripts(N node) {
+        if (node != null)
+            while (node.firstChild != null && !(node.firstChild instanceof HTMLScriptElement))
+                node.removeChild(node.firstChild);
+        return node;
+    }
+
+
     public static <E extends Element> E setAttribute(E e, String name, String value) {
         e.setAttribute(name, value);
         return e;

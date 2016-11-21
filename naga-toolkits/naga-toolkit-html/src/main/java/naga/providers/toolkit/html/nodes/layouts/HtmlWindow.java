@@ -1,6 +1,6 @@
 package naga.providers.toolkit.html.nodes.layouts;
 
-import elemental2.Element;
+import elemental2.Node;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.html.util.HtmlUtil;
@@ -19,9 +19,9 @@ public class HtmlWindow implements Window {
         titleProperty().addListener((observable, oldValue, newValue) -> document.title = newValue);
     }
 
-    private void setWindowContent(Element content) {
+    private void setWindowContent(Node content) {
         //Platform.log("Setting window root " + content);
-        HtmlUtil.setChild(document.body, content);
+        HtmlUtil.setBodyContent(content);
         //Platform.log("Ok");
     }
 
