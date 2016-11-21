@@ -7,7 +7,7 @@ import naga.toolkit.drawing.spi.view.GroupView;
  * @author Bruno Salmon
  */
 public class GroupViewBase
-        extends DrawableViewBase<Group, GroupViewBase, GroupViewMixin>
+        extends NodeViewBase<Group, GroupViewBase, GroupViewMixin>
         implements GroupView {
 
 }

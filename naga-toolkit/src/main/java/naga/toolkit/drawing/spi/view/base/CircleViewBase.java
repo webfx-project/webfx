@@ -23,7 +23,7 @@ public class CircleViewBase
 
     @Override
     public boolean updateProperty(Property changedProperty) {
-        Circle c = drawable;
+        Circle c = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(c.centerXProperty(), changedProperty, mixin::updateCenterX)
                 || updateProperty(c.centerYProperty(), changedProperty, mixin::updateCenterY)

@@ -16,11 +16,11 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class SvgShapeView
-        <D extends Shape, DV extends ShapeViewBase<D, DV, DM>, DM extends ShapeViewMixin<D, DV, DM>>
-        extends SvgDrawableView<D, DV, DM>
-        implements ShapeViewMixin<D, DV, DM> {
+        <N extends Shape, NV extends ShapeViewBase<N, NV, NM>, NM extends ShapeViewMixin<N, NV, NM>>
+        extends SvgNodeView<N, NV, NM>
+        implements ShapeViewMixin<N, NV, NM> {
 
-    public SvgShapeView(DV base, Element svgElement) {
+    public SvgShapeView(NV base, Element svgElement) {
         super(base, svgElement);
     }
 

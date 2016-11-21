@@ -3,13 +3,12 @@ package naga.providers.toolkit.javafx.drawing.view;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import naga.providers.toolkit.javafx.events.FxMouseEvent;
 import naga.providers.toolkit.javafx.util.FxTransforms;
 import naga.toolkit.drawing.shapes.BlendMode;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.effect.GaussianBlur;
 import naga.toolkit.effect.Effect;
 import naga.toolkit.properties.conversion.ConvertedProperty;
@@ -21,22 +20,22 @@ import naga.toolkit.util.Properties;
 /**
  * @author Bruno Salmon
  */
-abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements FxDrawableView<D, N> {
+abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> implements FxNodeView<N, FxN> {
 
-    N fxDrawableNode;
+    FxN fxNode;
 
-    void setAndBindDrawableProperties(D drawable, N fxDrawableNode) {
-        this.fxDrawableNode = fxDrawableNode;
-        ObservableLists.bindConverted(fxDrawableNode.getTransforms(), drawable.getTransforms(), FxTransforms::toFxTransform);
-        fxDrawableNode.visibleProperty().bind(drawable.visibleProperty());
-        fxDrawableNode.opacityProperty().bind(drawable.opacityProperty());
+    void setAndBindNodeProperties(N node, FxN fxNode) {
+        this.fxNode = fxNode;
+        ObservableLists.bindConverted(fxNode.getTransforms(), node.getTransforms(), FxTransforms::toFxTransform);
+        fxNode.visibleProperty().bind(node.visibleProperty());
+        fxNode.opacityProperty().bind(node.opacityProperty());
         DrawingImpl drawing = DrawingImpl.getThreadLocalDrawing();
-        Properties.runNowAndOnPropertiesChange((clipProperty) -> fxDrawableNode.setClip(getDrawableFxNode(drawable.getClip(), drawing)), drawable.clipProperty());
-        Properties.runNowAndOnPropertiesChange((blendMode) -> fxDrawableNode.setBlendMode(toFxBlendMode(drawable.getBlendMode())), drawable.blendModeProperty());
-        Properties.runNowAndOnPropertiesChange((effect) -> fxDrawableNode.setEffect(toFxEffect(drawable.getEffect())), drawable.effectProperty());
-        fxDrawableNode.layoutXProperty().bind(drawable.layoutXProperty());
-        fxDrawableNode.layoutYProperty().bind(drawable.layoutYProperty());
-        fxDrawableNode.onMouseClickedProperty().bind(new ConvertedProperty<>(drawable.onMouseClickedProperty(), FxDrawableViewImpl::toFxMouseEventHandler));
+        Properties.runNowAndOnPropertiesChange((clipProperty) -> fxNode.setClip(getDrawableFxNode(node.getClip(), drawing)), node.clipProperty());
+        Properties.runNowAndOnPropertiesChange((blendMode) -> fxNode.setBlendMode(toFxBlendMode(node.getBlendMode())), node.blendModeProperty());
+        Properties.runNowAndOnPropertiesChange((effect) -> fxNode.setEffect(toFxEffect(node.getEffect())), node.effectProperty());
+        fxNode.layoutXProperty().bind(node.layoutXProperty());
+        fxNode.layoutYProperty().bind(node.layoutYProperty());
+        fxNode.onMouseClickedProperty().bind(new ConvertedProperty<>(node.onMouseClickedProperty(), FxNodeViewImpl::toFxMouseEventHandler));
     }
 
     @Override
@@ -46,7 +45,7 @@ abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements
 
     @Override
     public void unbind() {
-        fxDrawableNode = null;
+        fxNode = null;
     }
 
     @Override
@@ -54,8 +53,8 @@ abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements
         return false;
     }
 
-    public N getFxDrawableNode() {
-        return fxDrawableNode;
+    public FxN getFxNode() {
+        return fxNode;
     }
 
     private static EventHandler<? super javafx.scene.input.MouseEvent> toFxMouseEventHandler(UiEventHandler<? super MouseEvent> mouseEventHandler) {
@@ -96,11 +95,11 @@ abstract class FxDrawableViewImpl<D extends Drawable, N extends Node> implements
         return null;
     }
 
-    private static Node getDrawableFxNode(Drawable drawable, DrawingImpl drawing) {
-        if (drawable != null) {
-            DrawableView drawableView = drawing.getOrCreateAndBindDrawableView(drawable);
-            if (drawableView instanceof FxDrawableView)
-                return ((FxDrawableView) drawableView).getFxDrawableNode();
+    private static javafx.scene.Node getDrawableFxNode(Node node, DrawingImpl drawing) {
+        if (node != null) {
+            NodeView nodeView = drawing.getOrCreateAndBindNodeView(node);
+            if (nodeView instanceof FxNodeView)
+                return ((FxNodeView) nodeView).getFxNode();
         }
         return null;
     }

@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public interface Drawable extends
+public interface Node extends
         HasOnMouseClickedProperty,
         HasLayoutXProperty,
         HasLayoutYProperty,

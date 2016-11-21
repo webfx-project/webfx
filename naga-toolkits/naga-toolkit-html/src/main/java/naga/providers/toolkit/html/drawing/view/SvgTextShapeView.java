@@ -33,7 +33,7 @@ public class SvgTextShapeView
 
     @Override
     public void updateX(Double X) {
-        TextShape ts = getDrawableViewBase().getDrawable();
+        TextShape ts = getNodeViewBase().getNode();
         double x = Numbers.doubleValue(X);
         double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
@@ -55,7 +55,7 @@ public class SvgTextShapeView
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
         setSvgAttribute("width", wrappingWidth);
-        updateX(getDrawable().getX());
+        updateX(getNode().getX());
     }
 
     @Override

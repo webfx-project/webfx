@@ -6,9 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.spi.DrawingNode;
-import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.drawing.spi.view.NodeViewFactory;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
@@ -172,12 +172,12 @@ public class UnimplementedNode implements
     public void requestFocus() {
     }
 
-    private final Property<Drawable> rootDrawableProperty = new SimpleObjectProperty<>();
+    private final Property<Node> rootDrawableProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Drawable> rootDrawableProperty() {
+    public Property<Node> rootNodeProperty() {
         return rootDrawableProperty;
     }
 
-    public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
+    public void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
     }
 }

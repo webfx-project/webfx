@@ -8,11 +8,11 @@ import naga.toolkit.util.ObservableLists;
 /**
  * @author Bruno Salmon
  */
-public class FxGroupView extends FxDrawableViewImpl<Group, javafx.scene.Group> implements GroupView {
+public class FxGroupView extends FxNodeViewImpl<Group, javafx.scene.Group> implements GroupView {
 
     @Override
     public void bind(Group g, DrawingRequester drawingRequester) {
-        setAndBindDrawableProperties(g, new javafx.scene.Group());
-        ObservableLists.runNowAndOnListChange(() -> drawingRequester.requestDrawableParentAndChildrenViewsUpdate(g), g.getDrawableChildren());
+        setAndBindNodeProperties(g, new javafx.scene.Group());
+        ObservableLists.runNowAndOnListChange(() -> drawingRequester.requestParentAndChildrenViewsUpdate(g), g.getNodeChildren());
     }
 }

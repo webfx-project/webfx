@@ -2,18 +2,18 @@ package naga.toolkit.drawing.spi.view;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.DrawingRequester;
-import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawableView;
+import naga.toolkit.drawing.spi.impl.canvas.CanvasNodeView;
 
 /**
  * @author Bruno Salmon
  */
-public class UnimplementedDrawableView implements CanvasDrawableView<Drawable, Object> {
+public class UnimplementedNodeView implements CanvasNodeView<Node, Object> {
 
     @Override
-    public void bind(Drawable drawable, DrawingRequester drawingRequester) {
+    public void bind(Node node, DrawingRequester drawingRequester) {
     }
 
     @Override

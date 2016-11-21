@@ -1,9 +1,9 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import naga.toolkit.drawing.shapes.EmbedDrawable;
+import naga.toolkit.drawing.shapes.EmbedGuiNode;
 import naga.toolkit.drawing.shapes.Point2D;
-import naga.toolkit.drawing.spi.view.base.EmbedDrawableViewBase;
-import naga.toolkit.drawing.spi.view.base.EmbedDrawableViewMixin;
+import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewBase;
+import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewMixin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,14 +11,14 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingEmbedDrawableView extends SwingDrawableView<EmbedDrawable, EmbedDrawableViewBase, EmbedDrawableViewMixin> {
+public class SwingEmbedGuiNodeView extends SwingNodeView<EmbedGuiNode, EmbedGuiNodeViewBase, EmbedGuiNodeViewMixin> {
 
-    public SwingEmbedDrawableView() {
-        super(new EmbedDrawableViewBase());
+    public SwingEmbedGuiNodeView() {
+        super(new EmbedGuiNodeViewBase());
     }
 
     public JComponent getEmbedSwingComponent() {
-        return getDrawable().getGuiNode().unwrapToNativeNode();
+        return getNode().getGuiNode().unwrapToNativeNode();
     }
 
     @Override

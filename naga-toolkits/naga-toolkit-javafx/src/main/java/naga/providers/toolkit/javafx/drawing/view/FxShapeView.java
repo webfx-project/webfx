@@ -5,6 +5,6 @@ import naga.toolkit.drawing.shapes.Shape;
 /**
  * @author Bruno Salmon
  */
-public interface FxShapeView<D extends Shape, N extends javafx.scene.shape.Shape> extends FxDrawableView<D, N> {
+public interface FxShapeView<N extends Shape, FxN extends javafx.scene.shape.Shape> extends FxNodeView<N, FxN> {
 
 }

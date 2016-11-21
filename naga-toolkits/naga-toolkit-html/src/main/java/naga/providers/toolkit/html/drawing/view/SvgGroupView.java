@@ -9,7 +9,7 @@ import naga.toolkit.drawing.spi.view.base.GroupViewMixin;
  * @author Bruno Salmon
  */
 public class SvgGroupView
-        extends SvgDrawableView<Group, GroupViewBase, GroupViewMixin>
+        extends SvgNodeView<Group, GroupViewBase, GroupViewMixin>
         implements GroupViewMixin {
 
     public SvgGroupView() {

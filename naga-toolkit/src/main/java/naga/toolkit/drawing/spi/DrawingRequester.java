@@ -2,18 +2,18 @@ package naga.toolkit.drawing.spi;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.shapes.Parent;
 
 /**
  * @author Bruno Salmon
  */
 public interface DrawingRequester {
 
-    void requestDrawableParentAndChildrenViewsUpdate(DrawableParent drawableParent);
+    void requestParentAndChildrenViewsUpdate(Parent parent);
 
-    void requestDrawableViewUpdateProperty(Drawable drawable, Property changedProperty);
+    void requestViewPropertyUpdate(Node node, Property changedProperty);
 
-    void requestDrawableViewUpdateList(Drawable drawable, ObservableList changedList);
+    void requestViewListUpdate(Node node, ObservableList changedList);
 
 }

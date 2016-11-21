@@ -1,6 +1,6 @@
 package naga.providers.toolkit.swing.drawing;
 
-import naga.providers.toolkit.swing.drawing.view.SwingDrawableView;
+import naga.providers.toolkit.swing.drawing.view.SwingNodeView;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawingImpl;
 
 import java.awt.*;
@@ -8,10 +8,10 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-class SwingDrawing extends CanvasDrawingImpl<SwingDrawableView<?, ?, ?>, Graphics2D, SwingGraphicState> {
+class SwingDrawing extends CanvasDrawingImpl<SwingNodeView<?, ?, ?>, Graphics2D, SwingGraphicState> {
 
     SwingDrawing(SwingDrawingNode drawingNode) {
-        super(drawingNode, SwingDrawableViewFactory.SINGLETON);
+        super(drawingNode, SwingNodeViewFactory.SINGLETON);
     }
 
     @Override

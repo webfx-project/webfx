@@ -1,12 +1,12 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.drawing.spi.view.NodeViewFactory;
 import naga.toolkit.transform.Transform;
 
 import java.util.Collection;
@@ -16,80 +16,80 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class CanvasDrawingImpl
-        <DV extends CanvasDrawableView<?, CC>, CC, GS>
+        <NV extends CanvasNodeView<?, CC>, CC, GS>
         extends DrawingImpl {
 
-    public CanvasDrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
-        super(drawingNode, drawableViewFactory);
+    public CanvasDrawingImpl(DrawingNode drawingNode, NodeViewFactory nodeViewFactory) {
+        super(drawingNode, nodeViewFactory);
     }
 
     @Override
-    protected void updateDrawableParentAndChildrenViews(DrawableParent drawableParent) {
-        super.updateDrawableParentAndChildrenViews(drawableParent);
+    protected void updateParentAndChildrenViews(Parent parent) {
+        super.updateParentAndChildrenViews(parent);
         requestCanvasRepaint();
     }
 
     @Override
-    protected boolean updateDrawableViewProperty(Drawable drawable, Property changedProperty) {
-        boolean hitChangedProperty = super.updateDrawableViewProperty(drawable, changedProperty);
+    protected boolean updateViewProperty(Node node, Property changedProperty) {
+        boolean hitChangedProperty = super.updateViewProperty(node, changedProperty);
         if (hitChangedProperty || changedProperty == null)
             requestCanvasRepaint();
         return hitChangedProperty;
     }
 
     public void paintCanvas(CC canvasContext) {
-        paintDrawable(getRootDrawable(), canvasContext);
+        paintNode(getRootNode(), canvasContext);
     }
 
-    private void paintDrawables(Collection<Drawable> drawables, CC canvasContext) {
+    private void paintNodes(Collection<Node> nodes, CC canvasContext) {
         GS parentTransform = captureGraphicState(canvasContext);
-        for (Drawable drawable : drawables) {
-            paintDrawable(drawable, canvasContext);
+        for (Node node : nodes) {
+            paintNode(node, canvasContext);
             restoreGraphicState(parentTransform, canvasContext);
         }
     }
 
-    private void paintDrawable(Drawable drawable, CC canvasContext) {
-        if (drawable.isVisible()) {
-            DV drawableView = (DV) getOrCreateAndBindDrawableView(drawable);
-            paintDrawableView(drawableView, canvasContext);
-            if (drawable instanceof DrawableParent)
-                paintDrawables(((DrawableParent) drawable).getDrawableChildren(), canvasContext);
+    private void paintNode(Node node, CC canvasContext) {
+        if (node.isVisible()) {
+            NV nodeView = (NV) getOrCreateAndBindNodeView(node);
+            paintNodeView(nodeView, canvasContext);
+            if (node instanceof Parent)
+                paintNodes(((Parent) node).getNodeChildren(), canvasContext);
         }
     }
 
-    private void paintDrawableView(DV drawableView, CC canvasContext) {
-        drawableView.prepareCanvasContext(canvasContext);
-        drawableView.paint(canvasContext);
+    private void paintNodeView(NV nodeView, CC canvasContext) {
+        nodeView.prepareCanvasContext(canvasContext);
+        nodeView.paint(canvasContext);
     }
 
-    public PickResult pickDrawable(Point2D point) {
-        return pickFromDrawable(point, getRootDrawable());
+    public PickResult pickNode(Point2D point) {
+        return pickFromNode(point, getRootNode());
     }
 
-    private PickResult pickFromDrawables(Point2D point, List<Drawable> drawables) {
-        // Looping in inverse order because last drawables are painted above of previous ones so they are priorities for picking
-        for (int i = drawables.size() - 1; i >=0; i--) {
-            PickResult pickResult = pickFromDrawable(point, drawables.get(i));
+    private PickResult pickFromNodes(Point2D point, List<Node> nodes) {
+        // Looping in inverse order because last nodes are painted above of previous ones so they are priorities for picking
+        for (int i = nodes.size() - 1; i >=0; i--) {
+            PickResult pickResult = pickFromNode(point, nodes.get(i));
             if (pickResult != null)
                 return pickResult;
         }
         return null;
     }
 
-    private PickResult pickFromDrawable(Point2D point, Drawable drawable) {
-        if (!drawable.isVisible())
+    private PickResult pickFromNode(Point2D point, Node node) {
+        if (!node.isVisible())
             return null;
         // The passed point is actually expressed in the parent coordinates space (after the transforms have been applied).
-        // Before going further, we need to express it in the drawable local coordinates space (by applying inverse transforms).
-        for (Transform transform : drawable.localToParentTransforms())
+        // Before going further, we need to express it in the node local coordinates space (by applying inverse transforms).
+        for (Transform transform : node.localToParentTransforms())
             point = transform.inverseTransform(point);
-        // If the drawable is a parent, we return the pick result from its children
-        if (drawable instanceof DrawableParent)
-            return pickFromDrawables(point, ((DrawableParent) drawable).getDrawableChildren());
-        // Otherwise we ask its view if it contains the point and return this drawable if this is the case
-        DV drawableView = (DV) getOrCreateAndBindDrawableView(drawable);
-        return drawableView.containsPoint(point) ? new PickResult(drawable, drawableView, point) : null;
+        // If the node is a parent, we return the pick result from its children
+        if (node instanceof Parent)
+            return pickFromNodes(point, ((Parent) node).getNodeChildren());
+        // Otherwise we ask its view if it contains the point and return this node if this is the case
+        NV nodeView = (NV) getOrCreateAndBindNodeView(node);
+        return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 
 

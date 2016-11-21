@@ -34,7 +34,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         blockText.setTextAlignment(TextAlignment.CENTER);
         blockText.setFill(DayColumnHeaderViewModel.dayColumnHeaderTextColor);
         blockText.setTextOrigin(VPos.CENTER);
-        group.getDrawableChildren().setAll(rectangle, blockText);
+        group.getNodeChildren().setAll(rectangle, blockText);
         group.getTransforms().setAll(translate);
     }
 
@@ -63,7 +63,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
             endTimeText.setFill(timeFill);
             endTimeText.setTextOrigin(VPos.BOTTOM);
             endTimeText.setText(dayTimeMinuteInterval.getEndText());
-            group.getDrawableChildren().addAll(startTimeText, endTimeText);
+            group.getNodeChildren().addAll(startTimeText, endTimeText);
         } else
             startTimeText = endTimeText = null;
     }

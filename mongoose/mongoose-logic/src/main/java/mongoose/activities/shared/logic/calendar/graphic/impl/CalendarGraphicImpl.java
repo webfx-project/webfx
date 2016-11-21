@@ -15,7 +15,7 @@ import naga.toolkit.animation.Animation;
 import naga.toolkit.animation.KeyFrame;
 import naga.toolkit.animation.KeyValue;
 import naga.toolkit.animation.Timeline;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Group;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.spi.Toolkit;
@@ -81,7 +81,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         horizontalDayPositioner = new HorizontalDayPositioner(calendar);
         verticalDayPositioner = new VerticalDayTimePositioner(drawingNode.heightProperty());
         Group calendarGroup = createCalendarGroup();
-        drawingNode.setRootDrawable(calendarGroup);
+        drawingNode.setRootNode(calendarGroup);
         updateTotalWidth(drawingNode.getWidth());
         Rotate rotate = null; // Rotate.create();
         if (rotate != null) {
@@ -106,7 +106,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         Group headersGroup = createDayColumnHeadersGroup();
         Group bodyGroup = createBodyGroup();
         bodyGroup.getTransforms().setAll(Translate.create(0d, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
-        calendarGroup.getDrawableChildren().setAll(headersGroup, bodyGroup);
+        calendarGroup.getNodeChildren().setAll(headersGroup, bodyGroup);
         return calendarGroup;
     }
 
@@ -115,29 +115,29 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
             DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
             horizontalDayPositioner.addHorizontalDayPositioned(model);
-            daysHeadGroup.getDrawableChildren().add(model.group);
+            daysHeadGroup.getNodeChildren().add(model.group);
         }
         return daysHeadGroup;
     }
 
     private Group createBodyGroup() {
         Group bodyGroup = Group.create();
-        Collections.forEach(calendar.getTimelines(), timeline -> addTimelineDrawables(timeline, bodyGroup.getDrawableChildren()));
+        Collections.forEach(calendar.getTimelines(), timeline -> addTimelineNodes(timeline, bodyGroup.getNodeChildren()));
         verticalDayPositioner.updateVerticalPositions();
         return bodyGroup;
     }
 
-    private void addTimelineDrawables(CalendarTimeline timeline, Collection<Drawable> destCollection) {
+    private void addTimelineNodes(CalendarTimeline timeline, Collection<Node> destCollection) {
         Collections.forEach(timeline.getDateTimeRange().changeTimeUnit(TimeUnit.DAYS).getDaysArray(),
-                epochDay -> addBlockDrawables(epochDay, timeline.getDayTimeRange(), timeline, destCollection));
+                epochDay -> addBlockNodes(epochDay, timeline.getDayTimeRange(), timeline, destCollection));
     }
 
-    private void addBlockDrawables(long epochDay, DayTimeRange dayTimeRange, CalendarTimeline timeline, Collection<Drawable> destCollection) {
+    private void addBlockNodes(long epochDay, DayTimeRange dayTimeRange, CalendarTimeline timeline, Collection<Node> destCollection) {
         for (TimeInterval dayTimeInterval : dayTimeRange.getDayTimeSeries(epochDay, TimeUnit.DAYS).getArray())
-            destCollection.add(createBlockDrawable(epochDay, dayTimeInterval, timeline));
+            destCollection.add(createBlockNode(epochDay, dayTimeInterval, timeline));
     }
 
-    private Drawable createBlockDrawable(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {
+    private Node createBlockNode(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {
         DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
         horizontalDayPositioner.addHorizontalDayPositioned(model);
         verticalDayPositioner.addVerticalDayTimePositioned(model);

@@ -1,8 +1,8 @@
 package naga.toolkit.drawing.spi;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.spi.view.NodeViewFactory;
 
 /**
  * @author Bruno Salmon
@@ -11,22 +11,22 @@ public interface DrawingMixin extends Drawing {
 
     Drawing getDrawing();
 
-    default void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
-        getDrawing().setDrawableViewFactory(drawableViewFactory);
+    default void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
+        getDrawing().setNodeViewFactory(nodeViewFactory);
     }
 
     @Override
-    default Property<Drawable> rootDrawableProperty() {
-        return getDrawing().rootDrawableProperty();
+    default Property<Node> rootNodeProperty() {
+        return getDrawing().rootNodeProperty();
     }
 
     @Override
-    default void setRootDrawable(Drawable rootDrawable) {
-        getDrawing().setRootDrawable(rootDrawable);
+    default void setRootNode(Node rootNode) {
+        getDrawing().setRootNode(rootNode);
     }
 
     @Override
-    default Drawable getRootDrawable() {
-        return getDrawing().getRootDrawable();
+    default Node getRootNode() {
+        return getDrawing().getRootNode();
     }
 }

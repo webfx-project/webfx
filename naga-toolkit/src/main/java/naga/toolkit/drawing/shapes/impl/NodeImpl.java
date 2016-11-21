@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.drawing.shapes.BlendMode;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-class DrawableImpl implements Drawable {
+class NodeImpl implements Node {
 
     private final ObjectProperty<UiEventHandler<? super MouseEvent>> onMouseClickedProperty = new SimpleObjectProperty<>();
     @Override
@@ -40,9 +40,9 @@ class DrawableImpl implements Drawable {
         return opacityProperty;
     }
 
-    private final Property<Drawable> clipProperty = new SimpleObjectProperty<>();
+    private final Property<Node> clipProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Drawable> clipProperty() {
+    public Property<Node> clipProperty() {
         return clipProperty;
     }
 

@@ -1,15 +1,15 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Point2D;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.NodeView;
 
 /**
  * @author Bruno Salmon
  */
-public interface CanvasDrawableView
-        <D extends Drawable, CC>
-        extends DrawableView<D> {
+public interface CanvasNodeView
+        <N extends Node, CC>
+        extends NodeView<N> {
 
     void prepareCanvasContext(CC c);
 

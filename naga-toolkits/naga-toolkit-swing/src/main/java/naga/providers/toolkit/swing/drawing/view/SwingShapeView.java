@@ -16,16 +16,16 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class SwingShapeView
-        <D extends Shape, DV extends ShapeViewBase<D, DV, DM>, DM extends ShapeViewMixin<D, DV, DM>>
+        <N extends Shape, NV extends ShapeViewBase<N, NV, NM>, NM extends ShapeViewMixin<N, NV, NM>>
 
-        extends SwingDrawableView<D, DV, DM>
-        implements ShapeViewMixin<D, DV, DM> {
+        extends SwingNodeView<N, NV, NM>
+        implements ShapeViewMixin<N, NV, NM> {
 
     private final SwingPaintUpdater swingPaintUpdater = new SwingPaintUpdater();
     private final SwingStrokeUpdater swingStrokeUpdater = new SwingStrokeUpdater();
     private java.awt.Shape swingShape;
 
-    SwingShapeView(DV base) {
+    SwingShapeView(NV base) {
         super(base);
     }
 
@@ -74,11 +74,11 @@ abstract class SwingShapeView
     }
 
     private void updatePaint() {
-        swingPaintUpdater.updateFromShape(getDrawable());
+        swingPaintUpdater.updateFromShape(getNode());
     }
 
     private void updateStroke() {
-        swingStrokeUpdater.updateFromShape(getDrawable());
+        swingStrokeUpdater.updateFromShape(getNode());
     }
 
     protected void updateSwingShape() {
@@ -100,8 +100,8 @@ abstract class SwingShapeView
 
     public void prepareCanvasContext(Graphics2D g) {
         super.prepareCanvasContext(g);
-        D drawable = getDrawable();
-        boolean smooth = drawable.isSmooth();
+        N node = getNode();
+        boolean smooth = node.isSmooth();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, smooth ? RenderingHints.VALUE_ANTIALIAS_ON : RenderingHints.VALUE_ANTIALIAS_OFF);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, smooth ? RenderingHints.VALUE_TEXT_ANTIALIAS_ON : RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
     }

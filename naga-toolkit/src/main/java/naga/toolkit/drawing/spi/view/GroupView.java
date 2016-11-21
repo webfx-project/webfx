@@ -5,6 +5,6 @@ import naga.toolkit.drawing.shapes.Group;
 /**
  * @author Bruno Salmon
  */
-public interface GroupView extends DrawableView<Group> {
+public interface GroupView extends NodeView<Group> {
 }
 

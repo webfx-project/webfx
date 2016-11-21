@@ -3,15 +3,15 @@ package naga.providers.toolkit.swing.drawing.view;
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.drawing.shapes.BlendMode;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawableView;
-import naga.toolkit.drawing.spi.view.DrawableView;
-import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
-import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
-import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
+import naga.toolkit.drawing.spi.impl.canvas.CanvasNodeView;
+import naga.toolkit.drawing.spi.view.NodeView;
+import naga.toolkit.drawing.spi.view.base.NodeViewBase;
+import naga.toolkit.drawing.spi.view.base.NodeViewImpl;
+import naga.toolkit.drawing.spi.view.base.NodeViewMixin;
 import naga.toolkit.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -25,11 +25,11 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public abstract class SwingDrawableView
-        <D extends Drawable, DV extends DrawableViewBase<D, DV, DM>, DM extends DrawableViewMixin<D, DV, DM>>
+public abstract class SwingNodeView
+        <N extends Node, NV extends NodeViewBase<N, NV, NM>, NM extends NodeViewMixin<N, NV, NM>>
 
-        extends DrawableViewImpl<D, DV, DM>
-        implements CanvasDrawableView<D, Graphics2D> {
+        extends NodeViewImpl<N, NV, NM>
+        implements CanvasNodeView<N, Graphics2D> {
 
     private AffineTransform swingTransform;
     private Composite swingComposite;
@@ -37,14 +37,14 @@ public abstract class SwingDrawableView
     private SwingShapeView swingClipView;
     private Shape swingClip;
 
-    SwingDrawableView(DV base) {
+    SwingNodeView(NV base) {
         super(base);
     }
 
     @Override
-    public void bind(D drawable, DrawingRequester drawingRequester) {
+    public void bind(N node, DrawingRequester drawingRequester) {
         drawing = DrawingImpl.getThreadLocalDrawing();
-        getDrawableViewBase().bind(drawable, drawingRequester);
+        getNodeViewBase().bind(node, drawingRequester);
     }
 
     @Override
@@ -95,20 +95,20 @@ public abstract class SwingDrawableView
     }
 
     private void updateComposite() {
-        D drawable = getDrawable();
-        swingComposite = SwingBlendModes.toComposite(drawable.getBlendMode(), drawable.getOpacity());
+        N node = getNode();
+        swingComposite = SwingBlendModes.toComposite(node.getBlendMode(), node.getOpacity());
     }
 
     @Override
-    public void updateClip(Drawable clip) {
+    public void updateClip(Node clip) {
         swingClip = null;
         swingClipView = null;
         if (clip != null) {
             if (drawing == null)
                 drawing = DrawingImpl.getThreadLocalDrawing();
-            DrawableView drawableView = drawing.getOrCreateAndBindDrawableView(clip);
-            if (drawableView instanceof SwingShapeView)
-                swingClipView = (SwingShapeView) drawableView;
+            NodeView nodeView = drawing.getOrCreateAndBindNodeView(clip);
+            if (nodeView instanceof SwingShapeView)
+                swingClipView = (SwingShapeView) nodeView;
         }
     }
 

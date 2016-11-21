@@ -9,13 +9,13 @@ import naga.toolkit.drawing.spi.view.ShapeView;
  * @author Bruno Salmon
  */
 public abstract class ShapeViewBase
-        <D extends Shape, DV extends ShapeViewBase<D, DV, DM>, DM extends ShapeViewMixin<D, DV, DM>>
+        <N extends Shape, NV extends ShapeViewBase<N, NV, NM>, NM extends ShapeViewMixin<N, NV, NM>>
 
-        extends DrawableViewBase<D, DV, DM>
-        implements ShapeView<D> {
+        extends NodeViewBase<N, NV, NM>
+        implements ShapeView<N> {
 
     @Override
-    public void bind(D shape, DrawingRequester drawingRequester) {
+    public void bind(N shape, DrawingRequester drawingRequester) {
         super.bind(shape, drawingRequester);
         requestUpdateOnPropertiesChange(drawingRequester,
                 shape.fillProperty(),
@@ -30,7 +30,7 @@ public abstract class ShapeViewBase
 
     @Override
     public boolean updateProperty(Property changedProperty) {
-        D s = drawable;
+        N s = node;
         mixin.updateStrokeDashArray(s.getStrokeDashArray());
         return super.updateProperty(changedProperty)
                 || updateProperty(s.fillProperty(), changedProperty, mixin::updateFill)

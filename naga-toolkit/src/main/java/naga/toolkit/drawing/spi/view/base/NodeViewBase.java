@@ -5,11 +5,11 @@ import javafx.collections.ObservableList;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.transform.Rotate;
 import naga.toolkit.transform.Scale;
 import naga.toolkit.transform.Transform;
@@ -22,41 +22,41 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class DrawableViewBase
-        <D extends Drawable, DV extends DrawableViewBase<D, DV, DM>, DM extends DrawableViewMixin<D, DV, DM>>
-        implements DrawableView<D> {
+public abstract class NodeViewBase
+        <N extends Node, NV extends NodeViewBase<N, NV, NM>, NM extends NodeViewMixin<N, NV, NM>>
+        implements NodeView<N> {
 
-    protected D drawable;
-    protected DM mixin;
+    protected N node;
+    protected NM mixin;
 
-    public void setMixin(DM mixin) {
+    public void setMixin(NM mixin) {
         this.mixin = mixin;
     }
 
     @Override
-    public void bind(D drawable, DrawingRequester drawingRequester) {
-        this.drawable = drawable;
+    public void bind(N node, DrawingRequester drawingRequester) {
+        this.node = node;
         requestUpdateProperty(drawingRequester, null);
         requestUpdateList(drawingRequester, null);
-        requestUpdateOnListChange(drawingRequester, drawable.getTransforms());
+        requestUpdateOnListChange(drawingRequester, node.getTransforms());
         requestUpdateOnPropertiesChange(drawingRequester,
-                drawable.visibleProperty(),
-                drawable.opacityProperty(),
-                drawable.clipProperty(),
-                drawable.blendModeProperty(),
-                drawable.effectProperty(),
-                drawable.layoutXProperty(),
-                drawable.layoutYProperty(),
-                drawable.onMouseClickedProperty());
+                node.visibleProperty(),
+                node.opacityProperty(),
+                node.clipProperty(),
+                node.blendModeProperty(),
+                node.effectProperty(),
+                node.layoutXProperty(),
+                node.layoutYProperty(),
+                node.onMouseClickedProperty());
     }
 
     @Override
     public void unbind() {
-        drawable = null;
+        node = null;
     }
 
-    public D getDrawable() {
-        return drawable;
+    public N getNode() {
+        return node;
     }
 
     void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
@@ -64,7 +64,7 @@ public abstract class DrawableViewBase
     }
 
     private void requestUpdateProperty(DrawingRequester drawingRequester, Property changedProperty) {
-        drawingRequester.requestDrawableViewUpdateProperty(drawable, changedProperty);
+        drawingRequester.requestViewPropertyUpdate(node, changedProperty);
     }
 
     void requestUpdateOnListsChange(DrawingRequester drawingRequester, ObservableList... lists) {
@@ -76,24 +76,24 @@ public abstract class DrawableViewBase
     }
 
     void requestUpdateList(DrawingRequester drawingRequester, ObservableList changedList) {
-        drawingRequester.requestDrawableViewUpdateList(drawable, changedList);
+        drawingRequester.requestViewListUpdate(node, changedList);
     }
 
     @Override
     public boolean updateProperty(Property changedProperty) {
-        return updateProperty(drawable.onMouseClickedProperty(), changedProperty, mixin::updateOnMouseClicked)
-                || updateProperty(drawable.visibleProperty(), changedProperty, mixin::updateVisible)
-                || updateProperty(drawable.opacityProperty(), changedProperty, mixin::updateOpacity)
-                || updateProperty(drawable.clipProperty(), changedProperty, mixin::updateClip)
-                || updateProperty(drawable.blendModeProperty(), changedProperty, mixin::updateBlendMode)
-                || updateProperty(drawable.effectProperty(), changedProperty, mixin::updateEffect)
-                || updateProperty(drawable.layoutXProperty(), changedProperty, mixin::updateLayoutX)
-                || updateProperty(drawable.layoutYProperty(), changedProperty, mixin::updateLayoutY);
+        return updateProperty(node.onMouseClickedProperty(), changedProperty, mixin::updateOnMouseClicked)
+                || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
+                || updateProperty(node.opacityProperty(), changedProperty, mixin::updateOpacity)
+                || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
+                || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
+                || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
+                || updateProperty(node.layoutXProperty(), changedProperty, mixin::updateLayoutX)
+                || updateProperty(node.layoutYProperty(), changedProperty, mixin::updateLayoutY);
     }
 
     @Override
     public boolean updateList(ObservableList changedList) {
-        return updateList(drawable.getTransforms(), changedList, this::updateTransforms);
+        return updateList(node.getTransforms(), changedList, this::updateTransforms);
     }
 
     private void updateTransforms(List<Transform> transforms) {
@@ -116,7 +116,7 @@ public abstract class DrawableViewBase
         }
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
-                mixin.updateTransforms(drawable.getTransforms());
+                mixin.updateTransforms(node.getTransforms());
                 if (drawing instanceof CanvasDrawingImpl)
                     ((CanvasDrawingImpl) drawing).requestCanvasRepaint();
             }, properties);

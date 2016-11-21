@@ -12,10 +12,10 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public interface ShapeViewMixin
-        <D extends Shape, DV extends ShapeViewBase<D, DV, DM>, DM extends ShapeViewMixin<D, DV, DM>>
+        <N extends Shape, NV extends ShapeViewBase<N, NV, NM>, NM extends ShapeViewMixin<N, NV, NM>>
 
-        extends ShapeView<D>,
-                DrawableViewMixin<D, DV, DM> {
+        extends ShapeView<N>,
+        NodeViewMixin<N, NV, NM> {
 
     void updateFill(Paint fill);
 

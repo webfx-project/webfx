@@ -1,17 +1,17 @@
 package naga.toolkit.drawing.shapes.impl;
 
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Group;
 
 /**
  * @author Bruno Salmon
  */
-public class GroupImpl extends DrawableParentImpl implements Group {
+public class GroupImpl extends ParentImpl implements Group {
 
     public GroupImpl() {
     }
 
-    public GroupImpl(Drawable... drawables) {
-        super(drawables);
+    public GroupImpl(Node... nodes) {
+        super(nodes);
     }
 }

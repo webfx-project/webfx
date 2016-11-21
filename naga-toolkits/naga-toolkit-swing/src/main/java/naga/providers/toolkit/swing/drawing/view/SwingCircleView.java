@@ -35,7 +35,7 @@ public class SwingCircleView
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        Circle c = getDrawable();
+        Circle c = getNode();
         Double radius = c.getRadius();
         return new Ellipse2D.Double(c.getCenterX() - radius, c.getCenterY() - radius, 2 * radius, 2 * radius);
     }

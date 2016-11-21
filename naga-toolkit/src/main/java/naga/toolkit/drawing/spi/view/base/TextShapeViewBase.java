@@ -25,7 +25,7 @@ public class TextShapeViewBase
 
     @Override
     public boolean updateProperty(Property changedProperty) {
-        TextShape ts = drawable;
+        TextShape ts = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(ts.textProperty(), changedProperty, mixin::updateText)
                 || updateProperty(ts.xProperty(), changedProperty, mixin::updateX)

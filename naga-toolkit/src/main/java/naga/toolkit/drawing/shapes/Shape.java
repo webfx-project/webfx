@@ -6,7 +6,7 @@ import naga.toolkit.properties.markers.*;
 /**
  * @author Bruno Salmon
  */
-public interface Shape extends Drawable,
+public interface Shape extends Node,
         HasFillProperty,
         HasSmoothProperty,
         HasStrokeProperty,

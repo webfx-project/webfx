@@ -1,14 +1,14 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasClipProperty {
 
-    Property<Drawable> clipProperty();
-    default void setClip(Drawable node) { clipProperty().setValue(node); }
-    default Drawable getClip() { return clipProperty().getValue(); }
+    Property<Node> clipProperty();
+    default void setClip(Node node) { clipProperty().setValue(node); }
+    default Node getClip() { return clipProperty().getValue(); }
 }

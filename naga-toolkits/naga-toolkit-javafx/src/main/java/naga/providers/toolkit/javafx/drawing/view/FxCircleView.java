@@ -11,9 +11,9 @@ public class FxCircleView extends FxShapeViewImpl<Circle, javafx.scene.shape.Cir
 
     @Override
     public void bind(Circle c, DrawingRequester drawingRequester) {
-        setAndBindDrawableProperties(c, new javafx.scene.shape.Circle());
-        fxDrawableNode.centerXProperty().bind(c.centerXProperty());
-        fxDrawableNode.centerYProperty().bind(c.centerYProperty());
-        fxDrawableNode.radiusProperty().bind(c.radiusProperty());
+        setAndBindNodeProperties(c, new javafx.scene.shape.Circle());
+        fxNode.centerXProperty().bind(c.centerXProperty());
+        fxNode.centerYProperty().bind(c.centerYProperty());
+        fxNode.radiusProperty().bind(c.radiusProperty());
     }
 }

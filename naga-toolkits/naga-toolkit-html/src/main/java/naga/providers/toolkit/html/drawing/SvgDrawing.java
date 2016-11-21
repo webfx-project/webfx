@@ -1,15 +1,14 @@
 package naga.providers.toolkit.html.drawing;
 
 import elemental2.Element;
-import elemental2.Node;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.drawing.view.SvgDrawableView;
+import naga.providers.toolkit.html.drawing.view.SvgNodeView;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.NodeView;
 
 /**
  * @author Bruno Salmon
@@ -19,7 +18,7 @@ public class SvgDrawing extends DrawingImpl {
     private final Element defsElement = SvgUtil.createSvgDefs();
 
     SvgDrawing(SvgDrawingNode svgDrawingNode) {
-        super(svgDrawingNode, SvgDrawableViewFactory.SINGLETON);
+        super(svgDrawingNode, SvgNodeViewFactory.SINGLETON);
     }
 
     public Element addDef(Element def) {
@@ -28,28 +27,28 @@ public class SvgDrawing extends DrawingImpl {
     }
 
     @Override
-    protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
-        super.createAndBindRootDrawableViewAndChildren(rootDrawable);
-        Node parent = drawingNode.unwrapToNativeNode();
-        HtmlUtil.setChildren(parent, defsElement, getSvgDrawableElement(rootDrawable));
+    protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
+        super.createAndBindRootNodeViewAndChildren(rootNode);
+        elemental2.Node parent = drawingNode.unwrapToNativeNode();
+        HtmlUtil.setChildren(parent, defsElement, getSvgNodeElement(rootNode));
     }
 
     @Override
-    protected void updateDrawableParentAndChildrenViews(DrawableParent drawableParent) {
-        Node parent = getSvgDrawableElement(drawableParent);
-        HtmlUtil.setChildren(parent, Collections.convert(drawableParent.getDrawableChildren(), this::getSvgDrawableElement));
+    protected void updateParentAndChildrenViews(Parent parent) {
+        elemental2.Node svgParent = getSvgNodeElement(parent);
+        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getNodeChildren(), this::getSvgNodeElement));
     }
 
-    private SvgDrawableView getOrCreateAndBindSvgDrawableView(Drawable drawable) {
-        DrawableView drawableView = getOrCreateAndBindDrawableView(drawable); // Should be a FxDrawableView (but may be UnimplementedDrawableView if no view factory is registered for this drawable)
-        if (drawableView instanceof SvgDrawableView) // Should be a SvgDrawableView
-            return (SvgDrawableView) drawableView;
-        // Shouldn't happen unless no view factory is registered for this drawable (probably UnimplementedDrawableView was returned)
+    private SvgNodeView getOrCreateAndBindSvgDrawableView(Node node) {
+        NodeView nodeView = getOrCreateAndBindNodeView(node); // Should be a FxDrawableView (but may be UnimplementedNodeView if no view factory is registered for this node)
+        if (nodeView instanceof SvgNodeView) // Should be a SvgNodeView
+            return (SvgNodeView) nodeView;
+        // Shouldn't happen unless no view factory is registered for this node (probably UnimplementedNodeView was returned)
         return null; // returning null in this case to indicate there is no view to show
     }
 
-    private Element getSvgDrawableElement(Drawable drawable) {
-        SvgDrawableView svgDrawableView = getOrCreateAndBindSvgDrawableView(drawable);
+    private Element getSvgNodeElement(Node node) {
+        SvgNodeView svgDrawableView = getOrCreateAndBindSvgDrawableView(node);
         return svgDrawableView == null ? null : svgDrawableView.getElement();
     }
 

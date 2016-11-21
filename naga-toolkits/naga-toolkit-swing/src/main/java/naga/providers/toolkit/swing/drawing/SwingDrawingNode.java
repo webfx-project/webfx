@@ -2,16 +2,16 @@ package naga.providers.toolkit.swing.drawing;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.providers.toolkit.swing.drawing.view.SwingEmbedDrawableView;
+import naga.providers.toolkit.swing.drawing.view.SwingEmbedGuiNodeView;
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.nodes.SwingNode;
-import naga.toolkit.drawing.shapes.Drawable;
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Point2D;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.impl.canvas.PickResult;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.NodeView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,25 +96,25 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                     JComponent embedTarget = null;
                     Point2D canvasPoint = Point2D.create(e.getX(), e.getY());
                     if (e.getID() != MouseEvent.MOUSE_EXITED) {
-                        pickResult = drawing.pickDrawable(canvasPoint);
+                        pickResult = drawing.pickNode(canvasPoint);
                         if (pickResult != null) {
-                            Drawable drawable = pickResult.getDrawable();
-                            if (e.getID() == MouseEvent.MOUSE_CLICKED && drawable.getOnMouseClicked() != null)
-                                drawable.getOnMouseClicked().handle(new SwingMouseEvent(e));
-                            DrawableView drawableView = pickResult.getDrawableView();
-                            if (drawableView instanceof SwingEmbedDrawableView)
-                                embedTarget = ((SwingEmbedDrawableView) drawableView).getEmbedSwingComponent();
+                            Node node = pickResult.getNode();
+                            if (e.getID() == MouseEvent.MOUSE_CLICKED && node.getOnMouseClicked() != null)
+                                node.getOnMouseClicked().handle(new SwingMouseEvent(e));
+                            NodeView nodeView = pickResult.getNodeView();
+                            if (nodeView instanceof SwingEmbedGuiNodeView)
+                                embedTarget = ((SwingEmbedGuiNodeView) nodeView).getEmbedSwingComponent();
                         }
                     }
                     if (embedTarget != lastEmbedTarget) {
                         if (lastEmbedTarget != null)
-                            redispatchEvent(e, MouseEvent.MOUSE_EXITED, pickResult != null ? pickResult.getDrawableLocalPoint() : canvasPoint, lastEmbedTarget);
+                            redispatchEvent(e, MouseEvent.MOUSE_EXITED, pickResult != null ? pickResult.getNodeLocalPoint() : canvasPoint, lastEmbedTarget);
                         if (embedTarget != null)
-                            redispatchEvent(e, MouseEvent.MOUSE_ENTERED, pickResult.getDrawableLocalPoint(), embedTarget);
+                            redispatchEvent(e, MouseEvent.MOUSE_ENTERED, pickResult.getNodeLocalPoint(), embedTarget);
                         lastEmbedTarget = embedTarget;
                     }
                     if (embedTarget != null)
-                        redispatchEvent(e, e.getID(), pickResult.getDrawableLocalPoint(), embedTarget);
+                        redispatchEvent(e, e.getID(), pickResult.getNodeLocalPoint(), embedTarget);
                 }
 
                 private void redispatchEvent(MouseEvent e, int id, Point2D point, JComponent target) {

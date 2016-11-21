@@ -1,22 +1,22 @@
 package naga.toolkit.drawing.spi;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.spi.view.NodeViewFactory;
 
 /**
  * @author Bruno Salmon
  */
 public interface Drawing {
 
-    void setDrawableViewFactory(DrawableViewFactory drawableViewFactory);
+    void setNodeViewFactory(NodeViewFactory nodeViewFactory);
 
-    Property<Drawable> rootDrawableProperty();
-    default void setRootDrawable(Drawable rootDrawable) {
-        rootDrawableProperty().setValue(rootDrawable);
+    Property<Node> rootNodeProperty();
+    default void setRootNode(Node rootNode) {
+        rootNodeProperty().setValue(rootNode);
     }
-    default Drawable getRootDrawable() {
-        return rootDrawableProperty().getValue();
+    default Node getRootNode() {
+        return rootNodeProperty().getValue();
     }
 
 }

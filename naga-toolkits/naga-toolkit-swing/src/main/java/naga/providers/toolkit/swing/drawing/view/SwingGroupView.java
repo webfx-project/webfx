@@ -8,7 +8,7 @@ import naga.toolkit.drawing.spi.view.base.GroupViewMixin;
  * @author Bruno Salmon
  */
 public class SwingGroupView
-        extends SwingDrawableView<Group, GroupViewBase, GroupViewMixin>
+        extends SwingNodeView<Group, GroupViewBase, GroupViewMixin>
         implements GroupViewMixin {
 
     public SwingGroupView() {

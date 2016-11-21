@@ -43,7 +43,7 @@ public class SwingRectangleView
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        Rectangle r = getDrawable();
+        Rectangle r = getNode();
         double arcWidth = Numbers.doubleValue(r.getArcWidth());
         double arcHeight = Numbers.doubleValue(r.getArcHeight());
         if (arcWidth != 0 && arcHeight != 0)
@@ -54,13 +54,13 @@ public class SwingRectangleView
     @Override
     public void prepareCanvasContext(Graphics2D g) {
         super.prepareCanvasContext(g);
-        Rectangle r = getDrawable();
+        Rectangle r = getNode();
         g.translate(r.getX(), r.getY());
     }
 
     @Override
     public void paint(Graphics2D g) {
-        Rectangle r = getDrawable();
+        Rectangle r = getNode();
         paintSwingShape(r.getWidth(), r.getHeight(), g);
     }
 }

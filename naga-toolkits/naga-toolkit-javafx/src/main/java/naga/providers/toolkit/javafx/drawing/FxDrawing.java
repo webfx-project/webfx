@@ -1,14 +1,12 @@
 package naga.providers.toolkit.javafx.drawing;
 
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.layout.Region;
-import naga.providers.toolkit.javafx.drawing.view.FxDrawableView;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.providers.toolkit.javafx.drawing.view.FxNodeView;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
+import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.util.ObservableLists;
 
 import java.lang.reflect.Method;
@@ -19,41 +17,41 @@ import java.lang.reflect.Method;
 class FxDrawing extends DrawingImpl {
 
     FxDrawing(FxDrawingNode fxDrawingNode) {
-        super(fxDrawingNode, FxDrawableViewFactory.SINGLETON);
+        super(fxDrawingNode, FxNodeViewFactory.SINGLETON);
     }
 
     @Override
-    protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
-        super.createAndBindRootDrawableViewAndChildren(rootDrawable);
-        Region parent = ((FxDrawingNode) drawingNode).unwrapToNativeNode();
+    protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
+        super.createAndBindRootNodeViewAndChildren(rootNode);
+        Region fxParent = ((FxDrawingNode) drawingNode).unwrapToNativeNode();
         try {
-            Method getChildren = Parent.class.getDeclaredMethod("getChildren");
+            Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
-            ObservableList<Node> children = (ObservableList<Node>) getChildren.invoke(parent);
-            ObservableLists.setAllNonNulls(children, getFxDrawableNode(rootDrawable));
+            ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
+            ObservableLists.setAllNonNulls(children, getFxDrawableNode(rootNode));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    protected void updateDrawableParentAndChildrenViews(DrawableParent drawableParent) {
-        Parent parent = (Parent) getFxDrawableNode(drawableParent);
+    protected void updateParentAndChildrenViews(Parent parent) {
+        javafx.scene.Parent fxParent = (javafx.scene.Parent) getFxDrawableNode(parent);
         try {
-            Method getChildren = Parent.class.getDeclaredMethod("getChildren");
+            Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
-            ObservableList<Node> children = (ObservableList<Node>) getChildren.invoke(parent);
-            ObservableLists.setAllNonNullsConverted(drawableParent.getDrawableChildren(), this::getFxDrawableNode, children);
+            ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
+            ObservableLists.setAllNonNullsConverted(parent.getNodeChildren(), this::getFxDrawableNode, children);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private Node getFxDrawableNode(Drawable drawable) {
-        DrawableView drawableView = getOrCreateAndBindDrawableView(drawable);
-        if (drawableView instanceof FxDrawableView) // Should be a FxDrawableView
-            return((FxDrawableView) drawableView).getFxDrawableNode();
-        // Shouldn't happen unless no view factory is registered for this drawable (probably UnimplementedDrawableView was returned)
+    private javafx.scene.Node getFxDrawableNode(Node node) {
+        NodeView nodeView = getOrCreateAndBindNodeView(node);
+        if (nodeView instanceof FxNodeView) // Should be a FxNodeView
+            return((FxNodeView) nodeView).getFxNode();
+        // Shouldn't happen unless no view factory is registered for this node (probably UnimplementedNodeView was returned)
         return null; // returning null in this case to indicate there is no node to show
     }
 }

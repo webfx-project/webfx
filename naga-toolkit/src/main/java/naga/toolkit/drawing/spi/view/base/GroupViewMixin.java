@@ -8,6 +8,6 @@ import naga.toolkit.drawing.spi.view.GroupView;
  */
 public interface GroupViewMixin
         extends GroupView,
-        DrawableViewMixin<Group, GroupViewBase, GroupViewMixin> {
+        NodeViewMixin<Group, GroupViewBase, GroupViewMixin> {
 
 }

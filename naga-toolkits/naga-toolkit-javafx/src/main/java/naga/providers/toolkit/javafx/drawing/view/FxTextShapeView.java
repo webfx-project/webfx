@@ -16,15 +16,15 @@ public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements
 
     @Override
     public void bind(TextShape ts, DrawingRequester drawingRequester) {
-        setAndBindDrawableProperties(ts, new Text());
-        fxDrawableNode.xProperty().bind(ts.xProperty());
-        fxDrawableNode.yProperty().bind(ts.yProperty());
-        fxDrawableNode.textProperty().bind(ts.textProperty());
-        fxDrawableNode.textOriginProperty().bind(new ConvertedProperty<>(ts.textOriginProperty(), FxTextShapeView::toFxVpos));
-        fxDrawableNode.textAlignmentProperty().bind(new ConvertedProperty<>(ts.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
-        fxDrawableNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
-        fxDrawableNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
-        fxDrawableNode.setMouseTransparent(true); // temporary as text shapes are usually not clickale in Mongoose
+        setAndBindNodeProperties(ts, new Text());
+        fxNode.xProperty().bind(ts.xProperty());
+        fxNode.yProperty().bind(ts.yProperty());
+        fxNode.textProperty().bind(ts.textProperty());
+        fxNode.textOriginProperty().bind(new ConvertedProperty<>(ts.textOriginProperty(), FxTextShapeView::toFxVpos));
+        fxNode.textAlignmentProperty().bind(new ConvertedProperty<>(ts.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
+        fxNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
+        fxNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
+        fxNode.setMouseTransparent(true); // temporary as text shapes are usually not clickale in Mongoose
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

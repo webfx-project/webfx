@@ -12,10 +12,10 @@ import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
-import naga.toolkit.drawing.spi.view.DrawableView;
-import naga.toolkit.drawing.spi.view.base.DrawableViewBase;
-import naga.toolkit.drawing.spi.view.base.DrawableViewImpl;
-import naga.toolkit.drawing.spi.view.base.DrawableViewMixin;
+import naga.toolkit.drawing.spi.view.NodeView;
+import naga.toolkit.drawing.spi.view.base.NodeViewBase;
+import naga.toolkit.drawing.spi.view.base.NodeViewImpl;
+import naga.toolkit.drawing.spi.view.base.NodeViewMixin;
 import naga.toolkit.effect.Effect;
 import naga.toolkit.effect.GaussianBlur;
 import naga.toolkit.spi.events.MouseEvent;
@@ -30,15 +30,15 @@ import java.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public abstract class SvgDrawableView
-        <D extends Drawable, DV extends DrawableViewBase<D, DV, DM>, DM extends DrawableViewMixin<D, DV, DM>>
-        extends DrawableViewImpl<D, DV, DM> {
+public abstract class SvgNodeView
+        <N extends Node, NV extends NodeViewBase<N, NV, NM>, NM extends NodeViewMixin<N, NV, NM>>
+        extends NodeViewImpl<N, NV, NM> {
 
     private final Element svgElement;
     private Map<String, Element> svgLinearGradients;
     private Element svgClipPath;
 
-    SvgDrawableView(DV base, Element svgElement) {
+    SvgNodeView(NV base, Element svgElement) {
         super(base);
         this.svgElement = svgElement;
     }
@@ -58,18 +58,18 @@ public abstract class SvgDrawableView
     }
 
     @Override
-    public void updateClip(Drawable clip) {
+    public void updateClip(Node clip) {
         setSvgAttribute("clip-path", toClipAttribute(clip));
     }
 
-    private String toClipAttribute(Drawable clip) {
+    private String toClipAttribute(Node clip) {
         String value = null;
         if (clip != null) {
             SvgDrawing drawing = (SvgDrawing) DrawingImpl.getThreadLocalDrawing();
-            DrawableView drawableView = drawing.getOrCreateAndBindDrawableView(clip);
+            NodeView nodeView = drawing.getOrCreateAndBindNodeView(clip);
             if (svgClipPath == null)
                 svgClipPath = drawing.addDef(SvgUtil.createClipPath());
-            HtmlUtil.setChild(svgClipPath, ((SvgDrawableView) drawableView).getElement());
+            HtmlUtil.setChild(svgClipPath, ((SvgNodeView) nodeView).getElement());
             value = SvgUtil.getDefUrl(svgClipPath);
         }
         return value;

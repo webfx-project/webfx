@@ -4,13 +4,13 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import naga.commons.util.collection.Collections;
-import naga.toolkit.drawing.shapes.Drawable;
-import naga.toolkit.drawing.shapes.DrawableParent;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.DrawingRequester;
-import naga.toolkit.drawing.spi.view.DrawableView;
-import naga.toolkit.drawing.spi.view.DrawableViewFactory;
+import naga.toolkit.drawing.spi.view.NodeView;
+import naga.toolkit.drawing.spi.view.NodeViewFactory;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
 
@@ -24,42 +24,42 @@ import java.util.Map;
 public abstract class DrawingImpl implements Drawing {
 
     protected final DrawingNode drawingNode;
-    private DrawableViewFactory drawableViewFactory;
-    private final Map<Drawable, DrawableView> drawableViews = new HashMap<>();
-    private final Property<Drawable> rootDrawableProperty = new SimpleObjectProperty<>();
+    private NodeViewFactory nodeViewFactory;
+    private final Map<Node, NodeView> nodeViews = new HashMap<>();
+    private final Property<Node> rootNodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Drawable> rootDrawableProperty() {
-        return rootDrawableProperty;
+    public Property<Node> rootNodeProperty() {
+        return rootNodeProperty;
     }
 
     private final DrawingRequester drawingRequester = new DrawingRequester() {
 
         @Override
-        public void requestDrawableParentAndChildrenViewsUpdate(DrawableParent drawableParent) {
+        public void requestParentAndChildrenViewsUpdate(Parent parent) {
             drawingThreadLocal.set(DrawingImpl.this);
-            updateDrawableParentAndChildrenViews(drawableParent);
+            updateParentAndChildrenViews(parent);
             drawingThreadLocal.set(null);
         }
 
         @Override
-        public void requestDrawableViewUpdateProperty(Drawable drawable, Property changedProperty) {
+        public void requestViewPropertyUpdate(Node node, Property changedProperty) {
             drawingThreadLocal.set(DrawingImpl.this);
-            updateDrawableViewProperty(drawable, changedProperty);
+            updateViewProperty(node, changedProperty);
             drawingThreadLocal.set(null);
         }
 
         @Override
-        public void requestDrawableViewUpdateList(Drawable drawable, ObservableList changedList) {
+        public void requestViewListUpdate(Node node, ObservableList changedList) {
             drawingThreadLocal.set(DrawingImpl.this);
-            updateDrawableViewList(drawable, changedList);
+            updateViewList(node, changedList);
             drawingThreadLocal.set(null);
         }
     };
 
-    protected DrawingImpl(DrawingNode drawingNode, DrawableViewFactory drawableViewFactory) {
+    protected DrawingImpl(DrawingNode drawingNode, NodeViewFactory nodeViewFactory) {
         this.drawingNode = drawingNode;
-        this.drawableViewFactory = drawableViewFactory;
-        Properties.runOnPropertiesChange(drawableProperty -> createAndBindRootDrawableViewAndChildren(getRootDrawable()), rootDrawableProperty());
+        this.nodeViewFactory = nodeViewFactory;
+        Properties.runOnPropertiesChange(nodeProperty -> createAndBindRootNodeViewAndChildren(getRootNode()), rootNodeProperty());
     }
 
     private final static ThreadLocal<DrawingImpl> drawingThreadLocal = new ThreadLocal<>();
@@ -67,66 +67,66 @@ public abstract class DrawingImpl implements Drawing {
         return drawingThreadLocal.get();
     }
 
-    public void setDrawableViewFactory(DrawableViewFactory drawableViewFactory) {
-        if (this.drawableViewFactory != null) {
-            Collections.forEach(drawableViews.values(), DrawableView::unbind);
-            drawableViews.clear();
+    public void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
+        if (this.nodeViewFactory != null) {
+            Collections.forEach(nodeViews.values(), NodeView::unbind);
+            nodeViews.clear();
         }
-        this.drawableViewFactory = drawableViewFactory;
+        this.nodeViewFactory = nodeViewFactory;
     }
 
-    protected void keepDrawableParentAndChildrenViewsUpdated(DrawableParent drawableParent) {
-        ObservableLists.runNowAndOnListChange(() -> updateDrawableParentAndChildrenViews(drawableParent), drawableParent.getDrawableChildren());
+    protected void keepParentAndChildrenViewsUpdated(Parent parent) {
+        ObservableLists.runNowAndOnListChange(() -> updateParentAndChildrenViews(parent), parent.getNodeChildren());
     }
 
-    protected void updateDrawableParentAndChildrenViews(DrawableParent drawableParent) {
-        updateDrawableChildrenViews(drawableParent.getDrawableChildren());
+    protected void updateParentAndChildrenViews(Parent parent) {
+        updateChildrenViews(parent.getNodeChildren());
     }
 
-    protected boolean updateDrawableViewProperty(Drawable drawable, Property changedProperty) {
-        return updateDrawableViewProperty(getOrCreateAndBindDrawableView(drawable), changedProperty);
+    protected boolean updateViewProperty(Node node, Property changedProperty) {
+        return updateViewProperty(getOrCreateAndBindNodeView(node), changedProperty);
     }
 
-    private boolean updateDrawableViewProperty(DrawableView drawableView, Property changedProperty) {
-        return drawableView.updateProperty(changedProperty);
+    private boolean updateViewProperty(NodeView nodeView, Property changedProperty) {
+        return nodeView.updateProperty(changedProperty);
     }
 
-    private boolean updateDrawableViewList(Drawable drawable, ObservableList changedList) {
-        return updateDrawableViewList(getOrCreateAndBindDrawableView(drawable), changedList);
+    private boolean updateViewList(Node node, ObservableList changedList) {
+        return updateViewList(getOrCreateAndBindNodeView(node), changedList);
     }
 
-    private boolean updateDrawableViewList(DrawableView drawableView, ObservableList changedList) {
-        return drawableView.updateList(changedList);
+    private boolean updateViewList(NodeView nodeView, ObservableList changedList) {
+        return nodeView.updateList(changedList);
     }
 
-    private void updateDrawableChildrenViews(Collection<Drawable> drawables) {
-        Collections.forEach(drawables, this::createAndBindDrawableViewAndChildren);
+    private void updateChildrenViews(Collection<Node> nodes) {
+        Collections.forEach(nodes, this::createAndBindNodeViewAndChildren);
     }
 
-    protected void createAndBindRootDrawableViewAndChildren(Drawable rootDrawable) {
+    protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
         drawingThreadLocal.set(DrawingImpl.this);
-        createAndBindDrawableViewAndChildren(rootDrawable);
+        createAndBindNodeViewAndChildren(rootNode);
         drawingThreadLocal.set(null);
     }
 
-    private void createAndBindDrawableViewAndChildren(Drawable drawable) {
-        DrawableView drawableView = getOrCreateAndBindDrawableView(drawable);
-        if (drawableView instanceof DrawableParent)
-            updateDrawableChildrenViews(((DrawableParent) drawableView).getDrawableChildren());
+    private void createAndBindNodeViewAndChildren(Node node) {
+        NodeView nodeView = getOrCreateAndBindNodeView(node);
+        if (nodeView instanceof Parent)
+            updateChildrenViews(((Parent) nodeView).getNodeChildren());
     }
 
-    public DrawableView getOrCreateAndBindDrawableView(Drawable drawable) {
-        DrawableView drawableView = drawableViews.get(drawable);
-        if (drawableView == null) {
-            drawableViews.put(drawable, drawableView = drawableViewFactory.createDrawableView(drawable));
-            drawableView.bind(drawable, drawingRequester);
-            if (drawable instanceof DrawableParent)
-                keepDrawableParentAndChildrenViewsUpdated((DrawableParent) drawable);
+    public NodeView getOrCreateAndBindNodeView(Node node) {
+        NodeView nodeView = nodeViews.get(node);
+        if (nodeView == null) {
+            nodeViews.put(node, nodeView = nodeViewFactory.createNodeView(node));
+            nodeView.bind(node, drawingRequester);
+            if (node instanceof Parent)
+                keepParentAndChildrenViewsUpdated((Parent) node);
         }
-        return drawableView;
+        return nodeView;
     }
 
-    protected boolean isRootDrawable(Drawable drawable) {
-        return drawable == getRootDrawable();
+    protected boolean isRootNode(Node node) {
+        return node == getRootNode();
     }
 }

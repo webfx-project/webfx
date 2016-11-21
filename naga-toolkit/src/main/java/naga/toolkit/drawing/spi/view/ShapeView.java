@@ -5,5 +5,5 @@ import naga.toolkit.drawing.shapes.Shape;
 /**
  * @author Bruno Salmon
  */
-public interface ShapeView<S extends Shape> extends DrawableView<S> {
+public interface ShapeView<S extends Shape> extends NodeView<S> {
 }

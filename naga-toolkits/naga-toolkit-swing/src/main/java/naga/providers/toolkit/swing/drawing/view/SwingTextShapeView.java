@@ -39,19 +39,19 @@ public class SwingTextShapeView
 
     private java.awt.Font getShapeSwingFont() {
         if (swingFont == null)
-            swingFont = SwingFonts.toSwingFont(getDrawable().getFont());
+            swingFont = SwingFonts.toSwingFont(getNode().getFont());
         return swingFont;
     }
 
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), Objects.coalesce(getDrawable().getText(), "")).getOutline();
+        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), Objects.coalesce(getNode().getText(), "")).getOutline();
     }
 
     @Override
     public void prepareCanvasContext(Graphics2D g) {
         super.prepareCanvasContext(g);
-        TextShape ts = getDrawable();
+        TextShape ts = getNode();
         double x = Numbers.doubleValue(ts.getX());
         double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
