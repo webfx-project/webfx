@@ -36,7 +36,7 @@ public class SvgDrawing extends DrawingImpl {
     @Override
     protected void updateParentAndChildrenViews(Parent parent) {
         elemental2.Node svgParent = getSvgNodeElement(parent);
-        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getNodeChildren(), this::getSvgNodeElement));
+        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), this::getSvgNodeElement));
     }
 
     private SvgNodeView getOrCreateAndBindSvgDrawableView(Node node) {

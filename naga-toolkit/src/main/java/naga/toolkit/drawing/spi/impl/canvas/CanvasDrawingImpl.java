@@ -54,7 +54,7 @@ public abstract class CanvasDrawingImpl
             NV nodeView = (NV) getOrCreateAndBindNodeView(node);
             paintNodeView(nodeView, canvasContext);
             if (node instanceof Parent)
-                paintNodes(((Parent) node).getNodeChildren(), canvasContext);
+                paintNodes(((Parent) node).getChildren(), canvasContext);
         }
     }
 
@@ -86,7 +86,7 @@ public abstract class CanvasDrawingImpl
             point = transform.inverseTransform(point);
         // If the node is a parent, we return the pick result from its children
         if (node instanceof Parent)
-            return pickFromNodes(point, ((Parent) node).getNodeChildren());
+            return pickFromNodes(point, ((Parent) node).getChildren());
         // Otherwise we ask its view if it contains the point and return this node if this is the case
         NV nodeView = (NV) getOrCreateAndBindNodeView(node);
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;

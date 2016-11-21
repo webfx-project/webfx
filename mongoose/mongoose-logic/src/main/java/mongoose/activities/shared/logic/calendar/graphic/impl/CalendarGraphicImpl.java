@@ -106,7 +106,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         Group headersGroup = createDayColumnHeadersGroup();
         Group bodyGroup = createBodyGroup();
         bodyGroup.getTransforms().setAll(Translate.create(0d, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
-        calendarGroup.getNodeChildren().setAll(headersGroup, bodyGroup);
+        calendarGroup.getChildren().setAll(headersGroup, bodyGroup);
         return calendarGroup;
     }
 
@@ -115,14 +115,14 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
             DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
             horizontalDayPositioner.addHorizontalDayPositioned(model);
-            daysHeadGroup.getNodeChildren().add(model.group);
+            daysHeadGroup.getChildren().add(model.group);
         }
         return daysHeadGroup;
     }
 
     private Group createBodyGroup() {
         Group bodyGroup = Group.create();
-        Collections.forEach(calendar.getTimelines(), timeline -> addTimelineNodes(timeline, bodyGroup.getNodeChildren()));
+        Collections.forEach(calendar.getTimelines(), timeline -> addTimelineNodes(timeline, bodyGroup.getChildren()));
         verticalDayPositioner.updateVerticalPositions();
         return bodyGroup;
     }

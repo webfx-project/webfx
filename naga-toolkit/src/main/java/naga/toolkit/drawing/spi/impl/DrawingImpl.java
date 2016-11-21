@@ -76,11 +76,11 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     protected void keepParentAndChildrenViewsUpdated(Parent parent) {
-        ObservableLists.runNowAndOnListChange(() -> updateParentAndChildrenViews(parent), parent.getNodeChildren());
+        ObservableLists.runNowAndOnListChange(() -> updateParentAndChildrenViews(parent), parent.getChildren());
     }
 
     protected void updateParentAndChildrenViews(Parent parent) {
-        updateChildrenViews(parent.getNodeChildren());
+        updateChildrenViews(parent.getChildren());
     }
 
     protected boolean updateViewProperty(Node node, Property changedProperty) {
@@ -112,7 +112,7 @@ public abstract class DrawingImpl implements Drawing {
     private void createAndBindNodeViewAndChildren(Node node) {
         NodeView nodeView = getOrCreateAndBindNodeView(node);
         if (nodeView instanceof Parent)
-            updateChildrenViews(((Parent) nodeView).getNodeChildren());
+            updateChildrenViews(((Parent) nodeView).getChildren());
     }
 
     public NodeView getOrCreateAndBindNodeView(Node node) {

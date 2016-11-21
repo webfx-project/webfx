@@ -15,12 +15,12 @@ public class ParentImpl extends NodeImpl implements Parent {
     }
 
     public ParentImpl(Node... nodes) {
-        ObservableLists.setAllNonNulls(getNodeChildren(), nodes);
+        ObservableLists.setAllNonNulls(getChildren(), nodes);
     }
 
-    private final ObservableList<Node> nodeChildren = FXCollections.observableArrayList();
-    public ObservableList<Node> getNodeChildren() {
-        return nodeChildren;
+    private final ObservableList<Node> children = FXCollections.observableArrayList();
+    public ObservableList<Node> getChildren() {
+        return children;
     }
 
 }

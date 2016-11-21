@@ -51,7 +51,7 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
         monthText.setFont(monthTextFont);
         monthText.setFill(dayColumnHeaderTextColor);
         monthText.setTextOrigin(VPos.BOTTOM);
-        group.getNodeChildren().setAll(r, dayOfWeekText, dayOfMonthText, monthText);
+        group.getChildren().setAll(r, dayOfWeekText, dayOfMonthText, monthText);
         group.getTransforms().setAll(translate);
     }
 

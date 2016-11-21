@@ -7,5 +7,5 @@ import javafx.collections.ObservableList;
  */
 public interface Parent extends Node {
 
-    ObservableList<Node> getNodeChildren();
+    ObservableList<Node> getChildren();
 }

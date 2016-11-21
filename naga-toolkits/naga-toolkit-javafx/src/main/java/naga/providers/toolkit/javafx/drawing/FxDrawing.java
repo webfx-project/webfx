@@ -41,7 +41,7 @@ class FxDrawing extends DrawingImpl {
             Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
             ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
-            ObservableLists.setAllNonNullsConverted(parent.getNodeChildren(), this::getFxDrawableNode, children);
+            ObservableLists.setAllNonNullsConverted(parent.getChildren(), this::getFxDrawableNode, children);
         } catch (Exception e) {
             e.printStackTrace();
         }

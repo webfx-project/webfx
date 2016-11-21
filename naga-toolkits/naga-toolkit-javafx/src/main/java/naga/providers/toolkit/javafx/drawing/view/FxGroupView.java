@@ -13,6 +13,6 @@ public class FxGroupView extends FxNodeViewImpl<Group, javafx.scene.Group> imple
     @Override
     public void bind(Group g, DrawingRequester drawingRequester) {
         setAndBindNodeProperties(g, new javafx.scene.Group());
-        ObservableLists.runNowAndOnListChange(() -> drawingRequester.requestParentAndChildrenViewsUpdate(g), g.getNodeChildren());
+        ObservableLists.runNowAndOnListChange(() -> drawingRequester.requestParentAndChildrenViewsUpdate(g), g.getChildren());
     }
 }
