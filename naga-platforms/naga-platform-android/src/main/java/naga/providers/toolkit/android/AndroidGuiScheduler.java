@@ -24,7 +24,7 @@ import naga.commons.util.tuples.Unit;
 
 final class AndroidGuiScheduler implements Scheduler {
 
-    public static AndroidGuiScheduler SINGLETON = new AndroidGuiScheduler();
+    static AndroidGuiScheduler SINGLETON = new AndroidGuiScheduler();
 
     private final android.os.Handler handler = new android.os.Handler(Looper.getMainLooper());
 

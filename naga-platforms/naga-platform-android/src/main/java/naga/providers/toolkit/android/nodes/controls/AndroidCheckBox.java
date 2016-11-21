@@ -7,7 +7,7 @@ import naga.providers.toolkit.android.AndroidToolkit;
 /**
  * @author Bruno Salmon
  */
-public class AndroidCheckBox extends AndroidButtonBase<android.widget.CheckBox> implements naga.toolkit.spi.nodes.controls.CheckBox<android.widget.CheckBox>, ToggleSwitch<android.widget.CheckBox> {
+public class AndroidCheckBox extends AndroidButtonBase<android.widget.CheckBox> implements naga.toolkit.spi.nodes.controls.CheckBox, ToggleSwitch {
 
     public AndroidCheckBox() {
         this(AndroidToolkit.currentActivity);

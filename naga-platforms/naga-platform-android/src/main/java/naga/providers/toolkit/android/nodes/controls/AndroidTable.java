@@ -18,7 +18,7 @@ import naga.commons.util.collection.IdentityList;
 /**
  * @author Bruno Salmon
  */
-public class AndroidTable extends AndroidSelectableDisplayResultSetNode<TableView<Integer>> implements Table<TableView<Integer>> {
+public class AndroidTable extends AndroidSelectableDisplayResultSetNode<TableView<Integer>> implements Table {
 
     public AndroidTable() {
         super(new TableView<>(AndroidToolkit.currentActivity));

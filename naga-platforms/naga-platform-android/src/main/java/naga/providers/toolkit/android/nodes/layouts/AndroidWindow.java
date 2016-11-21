@@ -10,7 +10,7 @@ import naga.toolkit.spi.nodes.layouts.Window;
 /**
  * @author Bruno Salmon
  */
-public class AndroidWindow implements Window<View> {
+public class AndroidWindow implements Window {
 
     private final Activity activity;
 
@@ -24,9 +24,9 @@ public class AndroidWindow implements Window<View> {
         activity.setContentView(rootComponent);
     }
 
-    private final Property<GuiNode<View>> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<View>> nodeProperty() {
+    public Property<GuiNode> nodeProperty() {
         return nodeProperty;
     }
 

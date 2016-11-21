@@ -6,7 +6,7 @@ import naga.toolkit.spi.nodes.GuiNode;
 /**
  * @author Bruno Salmon
  */
-public class AndroidNode<N extends View> implements GuiNode<N> {
+public class AndroidNode<N extends View> implements GuiNode {
 
     protected final N node;
 

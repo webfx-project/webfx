@@ -14,7 +14,7 @@ import naga.commons.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class AndroidSearchBox extends AndroidNode<EditText> implements SearchBox<EditText> {
+public class AndroidSearchBox extends AndroidNode<EditText> implements SearchBox {
 
     public AndroidSearchBox() {
         this(AndroidToolkit.currentActivity);

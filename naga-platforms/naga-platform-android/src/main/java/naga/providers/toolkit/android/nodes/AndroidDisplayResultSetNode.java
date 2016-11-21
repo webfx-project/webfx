@@ -9,7 +9,7 @@ import naga.toolkit.spi.nodes.DisplayResultSetNode;
 /**
  * @author Bruno Salmon
  */
-abstract class AndroidDisplayResultSetNode<N extends View> extends AndroidNode<N> implements DisplayResultSetNode<N> {
+abstract class AndroidDisplayResultSetNode<N extends View> extends AndroidNode<N> implements DisplayResultSetNode {
 
     AndroidDisplayResultSetNode(N node) {
         super(node);

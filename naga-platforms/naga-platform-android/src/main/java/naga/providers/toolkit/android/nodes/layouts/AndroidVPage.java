@@ -13,7 +13,7 @@ import naga.providers.toolkit.android.AndroidToolkit;
 /**
  * @author Bruno Salmon
  */
-public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<RelativeLayout, View> {
+public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage {
 
     public AndroidVPage() {
         this(AndroidToolkit.currentActivity);
@@ -38,16 +38,16 @@ public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<R
             if (oldValue != null)
                 node.removeView(oldValue.unwrapToNativeNode());
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-            GuiNode<View> top = getHeader();
+            GuiNode top = getHeader();
             if (top != null)
-                params.addRule(RelativeLayout.BELOW, top.unwrapToNativeNode().getId());
+                params.addRule(RelativeLayout.BELOW, ((View) top.unwrapToNativeNode()).getId());
             else
                 params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            GuiNode<View> bottom = getFooter();
+            GuiNode bottom = getFooter();
             if (bottom != null)
-                params.addRule(RelativeLayout.ABOVE, bottom.unwrapToNativeNode().getId());
+                params.addRule(RelativeLayout.ABOVE, ((View) bottom.unwrapToNativeNode()).getId());
             else
                 params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             node.addView(newValue.unwrapToNativeNode(), params);
@@ -64,21 +64,21 @@ public class AndroidVPage extends AndroidNode<RelativeLayout> implements VPage<R
     }
 
 
-    private final Property<GuiNode<View>> headerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> headerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<View>> headerProperty() {
+    public Property<GuiNode> headerProperty() {
         return headerProperty;
     }
 
-    private final Property<GuiNode<View>> centerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> centerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<View>> centerProperty() {
+    public Property<GuiNode> centerProperty() {
         return centerProperty;
     }
 
-    private final Property<GuiNode<View>> footerProperty = new SimpleObjectProperty<>();
+    private final Property<GuiNode> footerProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode<View>> footerProperty() {
+    public Property<GuiNode> footerProperty() {
         return footerProperty;
     }
 }

@@ -10,7 +10,7 @@ import naga.providers.toolkit.android.nodes.AndroidNode;
 /**
  * @author Bruno Salmon
  */
-public class AndroidButtonBase<N extends Button> extends AndroidNode<N> implements SelectableButton<N> {
+public class AndroidButtonBase<N extends Button> extends AndroidNode<N> implements SelectableButton {
 
     public AndroidButtonBase(N button) {
         super(button);

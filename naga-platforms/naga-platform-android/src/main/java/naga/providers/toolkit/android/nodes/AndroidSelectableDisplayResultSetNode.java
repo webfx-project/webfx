@@ -10,7 +10,7 @@ import naga.toolkit.display.DisplaySelection;
 /**
  * @author Bruno Salmon
  */
-public abstract class AndroidSelectableDisplayResultSetNode<N extends View> extends AndroidDisplayResultSetNode<N> implements SelectableDisplayResultSetNode<N> {
+public abstract class AndroidSelectableDisplayResultSetNode<N extends View> extends AndroidDisplayResultSetNode<N> implements SelectableDisplayResultSetNode {
 
     public AndroidSelectableDisplayResultSetNode(N node) {
         super(node);
