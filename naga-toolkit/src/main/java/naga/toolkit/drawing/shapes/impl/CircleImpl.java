@@ -3,6 +3,8 @@ package naga.toolkit.drawing.shapes.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.paint.Paint;
+import naga.toolkit.drawing.shapes.BoundingBox;
+import naga.toolkit.drawing.shapes.Bounds;
 import naga.toolkit.drawing.shapes.Circle;
 
 /**
@@ -33,22 +35,27 @@ public class CircleImpl extends ShapeImpl implements Circle {
             setFill(fill);
     }
 
-    private final Property<Double> centerXProperty = new SimpleObjectProperty<>();
+    private final Property<Double> centerXProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> centerXProperty() {
         return centerXProperty;
     }
 
-    private final Property<Double> centerYProperty = new SimpleObjectProperty<>();
+    private final Property<Double> centerYProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> centerYProperty() {
         return centerYProperty;
     }
 
-    private final Property<Double> radiusProperty = new SimpleObjectProperty<>();
+    private final Property<Double> radiusProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> radiusProperty() {
         return radiusProperty;
     }
 
+    @Override
+    public Bounds getLayoutBounds() {
+        Double radius = getRadius();
+        return BoundingBox.create(getCenterX() - radius, getCenterY() - radius, 2 * radius, 2 * radius);
+    }
 }

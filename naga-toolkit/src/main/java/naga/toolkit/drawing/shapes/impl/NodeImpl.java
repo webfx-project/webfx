@@ -5,8 +5,8 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.BlendMode;
-import naga.toolkit.drawing.shapes.Node;
+import javafx.collections.ObservableMap;
+import naga.toolkit.drawing.shapes.*;
 import naga.toolkit.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -15,12 +15,41 @@ import naga.toolkit.transform.Translate;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * @author Bruno Salmon
  */
-class NodeImpl implements Node {
+abstract class NodeImpl implements Node {
+
+    private final Property<Parent> parentProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Parent> parentProperty() {
+        return parentProperty;
+    }
+
+    private final Property<Boolean> managedProperty = new SimpleObjectProperty<Boolean>(true) {
+        @Override
+        protected void invalidated() {
+            Parent parent = getParent();
+            if (parent instanceof ParentImpl) {
+                ((ParentImpl) parent).managedChildChanged();
+            }
+            notifyManagedChanged();
+        }
+    };
+    @Override
+    public Property<Boolean> managedProperty() {
+        return managedProperty;
+    }
+
+    /**
+     * Called whenever the "managed" flag has changed. This is only
+     * used by Parent as an optimization to keep track of whether a
+     * Parent node is a layout root or not.
+     */
+    void notifyManagedChanged() { }
 
     private final ObjectProperty<UiEventHandler<? super MouseEvent>> onMouseClickedProperty = new SimpleObjectProperty<>();
     @Override
@@ -90,4 +119,60 @@ class NodeImpl implements Node {
         allTransforms.addAll(getTransforms());
         return allTransforms;
     }
+
+    @Override
+    public Bounds getLayoutBounds() {
+        return null;
+    }
+
+    @Override
+    public void autosize() {
+        if (isResizable()) {
+            Orientation contentBias = getContentBias();
+            double w, h;
+            if (contentBias == null) {
+                w = boundedSize(prefWidth(-1), minWidth(-1), maxWidth(-1));
+                h = boundedSize(prefHeight(-1), minHeight(-1), maxHeight(-1));
+            } else if (contentBias == Orientation.HORIZONTAL) {
+                w = boundedSize(prefWidth(-1), minWidth(-1), maxWidth(-1));
+                h = boundedSize(prefHeight(w), minHeight(w), maxHeight(w));
+            } else { // bias == VERTICAL
+                h = boundedSize(prefHeight(-1), minHeight(-1), maxHeight(-1));
+                w = boundedSize(prefWidth(h), minWidth(h), maxWidth(h));
+            }
+            resize(w, h);
+        }
+    }
+
+    static double boundedSize(double value, double min, double max) {
+        // if max < value, return max
+        // if min > value, return min
+        // if min > max, return min
+        return Math.min(Math.max(value, min), Math.max(min,max));
+    }
+
+    private ObservableMap<Object, Object> properties;
+
+    /**
+     * Returns an observable map of properties on this node for use primarily
+     * by application developers.
+     *
+     * @return an observable map of properties on this node for use primarily
+     * by application developers
+     */
+    public final ObservableMap<Object, Object> getProperties() {
+        if (properties == null)
+            properties = FXCollections.observableMap(new HashMap<>());
+        return properties;
+    }
+
+    /**
+     * Tests if Node has properties.
+     * @return true if node has properties.
+     */
+    public boolean hasProperties() {
+        return properties != null && !properties.isEmpty();
+    }
+
+
 }

@@ -11,6 +11,7 @@ import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.drawing.spi.view.NodeViewFactory;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
 
@@ -120,8 +121,12 @@ public abstract class DrawingImpl implements Drawing {
         if (nodeView == null) {
             nodeViews.put(node, nodeView = nodeViewFactory.createNodeView(node));
             nodeView.bind(node, drawingRequester);
-            if (node instanceof Parent)
-                keepParentAndChildrenViewsUpdated((Parent) node);
+            if (node instanceof Parent) {
+                Parent parent = (Parent) node;
+                keepParentAndChildrenViewsUpdated(parent);
+                if (isRootNode(parent))
+                    Toolkit.get().scheduler().schedulePeriodicPulse(parent::layout);
+            }
         }
         return nodeView;
     }

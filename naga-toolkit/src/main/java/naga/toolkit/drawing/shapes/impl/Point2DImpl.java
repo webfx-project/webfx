@@ -18,9 +18,11 @@ public class Point2DImpl implements Point2D {
      */
     private double y;
 
+    Point2DImpl() {
+    }
+
     public Point2DImpl(double x, double y) {
-        this.x = x;
-        this.y = y;
+        set(x, y);
     }
 
     /**
@@ -39,6 +41,11 @@ public class Point2DImpl implements Point2D {
     @Override
     public final double getY() {
         return y;
+    }
+
+    void set(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
