@@ -1,13 +1,11 @@
 package naga.toolkit.animation;
 
-import naga.toolkit.spi.Toolkit;
-
 import java.util.Arrays;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class AbstractMasterTimer {
+abstract class AbstractMasterTimer {
 
     private static boolean fullspeed = false; // Settings.getBoolean(FULLSPEED_PROP);
 
@@ -135,9 +133,8 @@ public abstract class AbstractMasterTimer {
             receiversLocked = false;
         }
         receivers[receiversLength++] = target;
-        if (receiversLength == 1) {
+        if (receiversLength == 1)
             theMaster.updateAnimationRunnable();
-        }
     }
 
     public void removePulseReceiver(PulseReceiver target) {
@@ -147,9 +144,9 @@ public abstract class AbstractMasterTimer {
         }
         for (int i = 0; i < receiversLength; ++i) {
             if (target == receivers[i]) {
-                if (i == receiversLength - 1) {
+                if (i == receiversLength - 1)
                     receivers[i] = null;
-                } else {
+                else {
                     System.arraycopy(receivers, i + 1, receivers, i, receiversLength - i - 1);
                     receivers[receiversLength - 1] = null;
                 }
@@ -157,9 +154,8 @@ public abstract class AbstractMasterTimer {
                 break;
             }
         }
-        if (receiversLength == 0) {
+        if (receiversLength == 0)
             theMaster.updateAnimationRunnable();
-        }
     }
 
     public void addAnimationTimer(TimerReceiver timer) {
@@ -169,9 +165,8 @@ public abstract class AbstractMasterTimer {
             animationTimersLocked = false;
         }
         animationTimers[animationTimersLength++] = timer;
-        if (animationTimersLength == 1) {
+        if (animationTimersLength == 1)
             theMaster.updateAnimationRunnable();
-        }
     }
 
     public void removeAnimationTimer(TimerReceiver timer) {
@@ -181,9 +176,9 @@ public abstract class AbstractMasterTimer {
         }
         for (int i = 0; i < animationTimersLength; ++i) {
             if (timer == animationTimers[i]) {
-                if (i == animationTimersLength - 1) {
+                if (i == animationTimersLength - 1)
                     animationTimers[i] = null;
-                } else {
+                else {
                     System.arraycopy(animationTimers, i + 1, animationTimers, i, animationTimersLength - i - 1);
                     animationTimers[animationTimersLength - 1] = null;
                 }
@@ -222,31 +217,29 @@ public abstract class AbstractMasterTimer {
 
         @Override
         public void run() {
-            if (paused) {
+            if (paused)
                 return;
-            }
-            final long now = nanos();
+            long now = nanos();
             recordStart((nextPulseTime - now) / 1000000);
             timePulseImpl(now);
             recordEnd();
             updateNextPulseTime(now);
             // reschedule animation runnable if needed
             updateAnimationRunnable();
-            postUpdateAnimationRunnable(this);
         }
 
         @Override
         public long getDelay() {
-            final long now = nanos();
-            final long timeUntilPulse = (nextPulseTime - now) / 1000000;
+            long now = nanos();
+            long timeUntilPulse = (nextPulseTime - now) / 1000000;
             return Math.max(0, timeUntilPulse);
         }
 
         private void updateNextPulseTime(long pulseStarted) {
             final long now = nanos();
-            if (fullspeed) {
+            if (fullspeed)
                 nextPulseTime = now;
-            } else {
+            else {
                 if (useAdaptivePulse) {
                     // Estimate the next pulse time such that we wake up just
                     // early enough to finish up the painting and call swap
@@ -260,33 +253,28 @@ public abstract class AbstractMasterTimer {
                     // try to halve the next anticipated duration (but not
                     // closer
                     // than 2ms within the next expected pulse)
-                    if (pulseDuration - lastPulseDuration > 500000) {
+                    if (pulseDuration - lastPulseDuration > 500000)
                         pulseDuration /= 2;
-                    }
-                    if (pulseDuration < 2000000) {
+                    if (pulseDuration < 2000000)
                         pulseDuration = 2000000;
-                    }
                     // if the pulse took longer than pulse_duration_ns we
                     // probably missed the vsync
-                    if (pulseDuration >= PULSE_DURATION_NS) {
+                    if (pulseDuration >= PULSE_DURATION_NS)
                         pulseDuration = 3 * PULSE_DURATION_NS / 4;
-                    }
                     lastPulseDuration = pulseDuration;
                     nextPulseTime = nextPulseTime - pulseDuration;
-                } else {
+                } else
                     nextPulseTime = ((nextPulseTime + PULSE_DURATION_NS) / PULSE_DURATION_NS)
                             * PULSE_DURATION_NS;
-                }
             }
         }
 
         private void updateAnimationRunnable() {
             boolean newInactive = (animationTimersLength == 0 && receiversLength == 0);
-            if (inactive != newInactive) {
+            if (inactive != newInactive)
                 inactive = newInactive;
-                if (!inactive)
-                    postUpdateAnimationRunnable(this);
-            }
+            if (!inactive)
+                postUpdateAnimationRunnable(this);
         }
     }
 
@@ -299,46 +287,26 @@ public abstract class AbstractMasterTimer {
             debugNanos += fixedPulseLength;
             now = debugNanos;
         }
-        final PulseReceiver receiversSnapshot[] = receivers;
-        final int rLength = receiversLength;
+        PulseReceiver receiversSnapshot[] = receivers;
+        int rLength = receiversLength;
         try {
             receiversLocked = true;
-            for (int i = 0; i < rLength; i++) {
+            for (int i = 0; i < rLength; i++)
                 receiversSnapshot[i].timePulse(TickCalculation.fromNano(now));
-            }
         } finally {
             receiversLocked = false;
         }
         recordAnimationEnd();
 
-        final TimerReceiver animationTimersSnapshot[] = animationTimers;
-        final int aTLength = animationTimersLength;
+        TimerReceiver animationTimersSnapshot[] = animationTimers;
+        int aTLength = animationTimersLength;
         try {
             animationTimersLocked = true;
             // After every frame, call any frame jobs
-            for (int i = 0; i < aTLength; i++) {
+            for (int i = 0; i < aTLength; i++)
                 animationTimersSnapshot[i].handle(now);
-            }
         } finally {
             animationTimersLocked = false;
         }
     }
-
-    private static AbstractMasterTimer INSTANCE;
-    public static AbstractMasterTimer get() {
-        if (INSTANCE == null)
-            INSTANCE = new AbstractMasterTimer() {
-                @Override
-                protected void postUpdateAnimationRunnable(DelayedRunnable animationRunnable) {
-                    Toolkit.get().scheduler().scheduleDelay(animationRunnable.getDelay(), animationRunnable);
-                }
-
-                @Override
-                protected int getPulseDuration(int precision) {
-                    return 17;
-                }
-            };
-        return INSTANCE;
-    }
-
 }

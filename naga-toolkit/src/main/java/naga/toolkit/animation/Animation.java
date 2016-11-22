@@ -41,8 +41,6 @@ import static naga.toolkit.animation.TickCalculation.fromDuration;
  *
  * @see Timeline
  * @see Transition
- *
- * @since JavaFX 2.0
  */
 public abstract class Animation {
 
@@ -174,8 +172,6 @@ public abstract class Animation {
      * The parent of this {@code Animation}. If this animation has not been
      * added to another animation, such as {@link ParallelTransition} and
      * {@link SequentialTransition}, then parent will be null.
-     *
-     * @defaultValue null
      */
     Animation parent = null;
 
@@ -202,16 +198,13 @@ public abstract class Animation {
      * Inverting the rate of a running {@code Animation} will cause the
      * {@code Animation} to reverse direction in place and play back over the
      * portion of the {@code Animation} that has already elapsed.
-     *
-     * @defaultValue 1.0
      */
     private Property<Double> rate;
     private static final double DEFAULT_RATE = 1.0;
 
     public final void setRate(double value) {
-        if ((rate != null) || (Math.abs(value - DEFAULT_RATE) > EPSILON)) {
+        if ((rate != null) || (Math.abs(value - DEFAULT_RATE) > EPSILON))
             rateProperty().setValue(value);
-        }
     }
 
     public final double getRate() {
@@ -219,29 +212,27 @@ public abstract class Animation {
     }
 
     public final Property<Double> rateProperty() {
-        if (rate == null) {
+        if (rate == null)
             rate = new SimpleObjectProperty<Double>(DEFAULT_RATE) {
 
                 @Override
                 public void invalidated() {
                     final double newRate = getRate();
                     if (isRunningEmbedded()) {
-                        if (isBound()) {
+                        if (isBound())
                             unbind();
-                        }
                         set(oldRate);
                         throw new IllegalArgumentException("Cannot set rate of embedded animation while running.");
                     } else {
                         if (Math.abs(newRate) < EPSILON) {
-                            if (getStatus() == Status.RUNNING) {
+                            if (getStatus() == Status.RUNNING)
                                 lastPlayedForward = (Math.abs(getCurrentRate()
                                         - oldRate) < EPSILON);
-                            }
                             setCurrentRate(0.0);
                             pauseReceiver();
                         } else {
                             if (getStatus() == Status.RUNNING) {
-                                final double currentRate = getCurrentRate();
+                                double currentRate = getCurrentRate();
                                 if (Math.abs(currentRate) < EPSILON) {
                                     setCurrentRate(lastPlayedForward ? newRate : -newRate);
                                     resumeReceiver();
@@ -266,15 +257,11 @@ public abstract class Animation {
                     return "rate";
                 }
             };
-        }
         return rate;
     }
 
     private boolean isRunningEmbedded() {
-        if (parent == null) {
-            return false;
-        }
-        return parent.getStatus() != Status.STOPPED || parent.isRunningEmbedded();
+        return parent != null && (parent.getStatus() != Status.STOPPED || parent.isRunningEmbedded());
     }
 
     private double oldRate = 1.0;
@@ -286,16 +273,13 @@ public abstract class Animation {
      * {@code currentRate} is set to {@code 0.0} when animation is paused or
      * stopped. {@code currentRate} may also point to different direction during
      * reverse cycles when {@code autoReverse} is {@code true}
-     *
-     * @defaultValue 0.0
      */
     private ReadOnlyProperty<Double> currentRate;
     private static final double DEFAULT_CURRENT_RATE = 0.0;
 
     private void setCurrentRate(double value) {
-        if ((currentRate != null) || (Math.abs(value - DEFAULT_CURRENT_RATE) > EPSILON)) {
+        if ((currentRate != null) || (Math.abs(value - DEFAULT_CURRENT_RATE) > EPSILON))
             ((CurrentRateProperty)currentRateProperty()).set(value);
-        }
     }
 
     public final Double getCurrentRate() {
@@ -303,9 +287,8 @@ public abstract class Animation {
     }
 
     public final ReadOnlyProperty<Double> currentRateProperty() {
-        if (currentRate == null) {
+        if (currentRate == null)
             currentRate = new CurrentRateProperty();
-        }
         return currentRate;
     }
 
@@ -314,8 +297,6 @@ public abstract class Animation {
      * {@code Animation}: the time it takes to play from time 0 to the
      * end of the Animation (at the default {@code rate} of
      * 1.0).
-     *
-     * @defaultValue 0ms
      */
     private ReadOnlyObjectProperty<Duration> cycleDuration;
     private static final Duration DEFAULT_CYCLE_DURATION = Duration.ZERO;
@@ -334,9 +315,8 @@ public abstract class Animation {
     }
 
     public final ReadOnlyObjectProperty<Duration> cycleDurationProperty() {
-        if (cycleDuration == null) {
+        if (cycleDuration == null)
             cycleDuration = new AnimationReadOnlyProperty<>("cycleDuration", DEFAULT_CYCLE_DURATION);
-        }
         return cycleDuration;
     }
 
@@ -348,8 +328,6 @@ public abstract class Animation {
      *
      * <p>
      * This is set to cycleDuration * cycleCount.
-     *
-     * @defaultValue 0ms
      */
     private ReadOnlyObjectProperty<Duration> totalDuration;
     private static final Duration DEFAULT_TOTAL_DURATION = Duration.ZERO;
@@ -359,9 +337,8 @@ public abstract class Animation {
     }
 
     public final ReadOnlyObjectProperty<Duration> totalDurationProperty() {
-        if (totalDuration == null) {
-            totalDuration = new AnimationReadOnlyProperty<Duration>("totalDuration", DEFAULT_TOTAL_DURATION);
-        }
+        if (totalDuration == null)
+            totalDuration = new AnimationReadOnlyProperty<>("totalDuration", DEFAULT_TOTAL_DURATION);
         return totalDuration;
     }
 
@@ -373,21 +350,17 @@ public abstract class Animation {
         Duration newTotalDuration = Duration.ZERO.equals(cycleDuration) ? Duration.ZERO
                 : (cycleCount == Animation.INDEFINITE) ? INDEFINITE_DURATION
                 : (cycleCount <= 1) ? cycleDuration : Duration.ofMillis(cycleDuration.toMillis() * cycleCount);
-        if ((totalDuration != null) || (!DEFAULT_TOTAL_DURATION.equals(newTotalDuration))) {
+        if ((totalDuration != null) || (!DEFAULT_TOTAL_DURATION.equals(newTotalDuration)))
             ((AnimationReadOnlyProperty<Duration>)totalDurationProperty()).set(newTotalDuration);
-        }
         if (getStatus() == Status.STOPPED) {
             syncClipEnvelope();
-            if (newTotalDuration.compareTo(getCurrentTime()) < 0) {
+            if (newTotalDuration.compareTo(getCurrentTime()) < 0)
                 clipEnvelope.jumpTo(fromDuration(newTotalDuration));
-            }
         }
     }
 
     /**
      * Defines the {@code Animation}'s play head position.
-     *
-     * @defaultValue 0ms
      */
     private CurrentTimeProperty currentTime;
     private long currentTicks;
@@ -430,16 +403,13 @@ public abstract class Animation {
      * Delays the start of an animation.
      *
      * Cannot be negative. Setting to a negative number will result in {@link IllegalArgumentException}.
-     *
-     * @defaultValue 0ms
      */
     private ObjectProperty<Duration> delay;
     private static final Duration DEFAULT_DELAY = Duration.ZERO;
 
     public final void setDelay(Duration value) {
-        if ((delay != null) || (!DEFAULT_DELAY.equals(value))) {
+        if ((delay != null) || (!DEFAULT_DELAY.equals(value)))
             delayProperty().set(value);
-        }
     }
 
     public final Duration getDelay() {
@@ -447,7 +417,7 @@ public abstract class Animation {
     }
 
     public final ObjectProperty<Duration> delayProperty() {
-        if (delay == null) {
+        if (delay == null)
             delay = new ObjectPropertyBase<Duration>(DEFAULT_DELAY) {
 
                 @Override
@@ -464,16 +434,13 @@ public abstract class Animation {
                 protected void invalidated() {
                     final Duration newDuration = get();
                     if (newDuration.isNegative()) {
-                        if (isBound()) {
+                        if (isBound())
                             unbind();
-                        }
                         set(Duration.ZERO);
                         throw new IllegalArgumentException("Cannot set delay to negative value. Setting to Duration.ZERO");
                     }
                 }
-
             };
-        }
         return delay;
     }
 
@@ -487,16 +454,13 @@ public abstract class Animation {
      * running {@code Animation}, the animation has to be stopped and started again to pick
      * up the new value.
      *
-     * @defaultValue 1.0
-     *
      */
     private Property<Integer> cycleCount;
     private static final int DEFAULT_CYCLE_COUNT = 1;
 
     public final void setCycleCount(int value) {
-        if ((cycleCount != null) || (value != DEFAULT_CYCLE_COUNT)) {
+        if ((cycleCount != null) || (value != DEFAULT_CYCLE_COUNT))
             cycleCountProperty().setValue(value);
-        }
     }
 
     public final int getCycleCount() {
@@ -521,16 +485,13 @@ public abstract class Animation {
      * {@code Animation}. If the value of {@code autoReverse} is changed for a
      * running {@code Animation}, the animation has to be stopped and started again to pick
      * up the new value.
-     *
-     * @defaultValue false
      */
     private Property<Boolean> autoReverse;
     private static final boolean DEFAULT_AUTO_REVERSE = false;
 
     public final void setAutoReverse(boolean value) {
-        if ((autoReverse != null) || (value != DEFAULT_AUTO_REVERSE)) {
+        if ((autoReverse != null) || (value != DEFAULT_AUTO_REVERSE))
             autoReverseProperty().setValue(value);
-        }
     }
 
     public final boolean isAutoReverse() {
@@ -538,9 +499,8 @@ public abstract class Animation {
     }
 
     public final Property<Boolean> autoReverseProperty() {
-        if (autoReverse == null) {
+        if (autoReverse == null)
             autoReverse = new SimpleObjectProperty<>(this, "autoReverse", DEFAULT_AUTO_REVERSE);
-        }
         return autoReverse;
     }
 
@@ -554,9 +514,8 @@ public abstract class Animation {
     private static final Status DEFAULT_STATUS = Status.STOPPED;
 
     protected final void setStatus(Status value) {
-        if ((status != null) || (!DEFAULT_STATUS.equals(value))) {
+        if ((status != null) || (!DEFAULT_STATUS.equals(value)))
             ((AnimationReadOnlyProperty<Status>)statusProperty()).set(value);
-        }
     }
 
     public final Status getStatus() {
@@ -564,9 +523,8 @@ public abstract class Animation {
     }
 
     public final ReadOnlyObjectProperty<Status> statusProperty() {
-        if (status == null) {
+        if (status == null)
             status = new AnimationReadOnlyProperty<>("status", Status.STOPPED);
-        }
         return status;
     }
 
@@ -589,16 +547,13 @@ public abstract class Animation {
 
     /**
      * The action to be executed at the conclusion of this {@code Animation}.
-     *
-     * @defaultValue null
      */
     private ObjectProperty<Handler<ActionEvent>> onFinished;
     private static final Handler<ActionEvent> DEFAULT_ON_FINISHED = null;
 
     public final void setOnFinished(Handler<ActionEvent> value) {
-        if ((onFinished != null) || (value != null /* DEFAULT_ON_FINISHED */)) {
+        if ((onFinished != null) || (value != null /* DEFAULT_ON_FINISHED */))
             onFinishedProperty().set(value);
-        }
     }
 
     public final Handler<ActionEvent> getOnFinished() {
@@ -606,9 +561,8 @@ public abstract class Animation {
     }
 
     public final ObjectProperty<Handler<ActionEvent>> onFinishedProperty() {
-        if (onFinished == null) {
+        if (onFinished == null)
             onFinished = new SimpleObjectProperty<>(this, "onFinished", DEFAULT_ON_FINISHED);
-        }
         return onFinished;
     }
 
@@ -652,27 +606,24 @@ public abstract class Animation {
      *                such as {@link SequentialTransition} or {@link ParallelTransition}
      */
     public void jumpTo(Duration time) {
-        if (time == null) {
+        if (time == null)
             throw new NullPointerException("Time needs to be specified.");
-        }
 /*
         if (time.isUnknown()) {
             throw new IllegalArgumentException("The time is invalid");
         }
 */
-        if (parent != null) {
+        if (parent != null)
             throw new IllegalStateException("Cannot jump when embedded in another animation");
-        }
 
         lastPlayedFinished = false;
 
-        final Duration totalDuration = getTotalDuration();
+        Duration totalDuration = getTotalDuration();
         time = time.isNegative() ? Duration.ZERO : time.compareTo(totalDuration) > 0 ? totalDuration : time;
-        final long ticks = fromDuration(time);
+        long ticks = fromDuration(time);
 
-        if (getStatus() == Status.STOPPED) {
+        if (getStatus() == Status.STOPPED)
             syncClipEnvelope();
-        }
         clipEnvelope.jumpTo(ticks);
     }
 
@@ -702,18 +653,16 @@ public abstract class Animation {
      * @see #getCuePoints()
      */
     public void jumpTo(String cuePoint) {
-        if (cuePoint == null) {
+        if (cuePoint == null)
             throw new NullPointerException("CuePoint needs to be specified");
-        }
-        if ("start".equalsIgnoreCase(cuePoint)) {
+        if ("start".equalsIgnoreCase(cuePoint))
             jumpTo(Duration.ZERO);
-        } else if ("end".equalsIgnoreCase(cuePoint)) {
+        else if ("end".equalsIgnoreCase(cuePoint))
             jumpTo(getTotalDuration());
-        } else {
-            final Duration target = getCuePoints().get(cuePoint);
-            if (target != null) {
+        else {
+            Duration target = getCuePoints().get(cuePoint);
+            if (target != null)
                 jumpTo(target);
-            }
         }
     }
 
@@ -803,31 +752,27 @@ public abstract class Animation {
      *                such as {@link SequentialTransition} or {@link ParallelTransition}
      */
     public void play() {
-        if (parent != null) {
+        if (parent != null)
             throw new IllegalStateException("Cannot start when embedded in another animation");
-        }
         switch (getStatus()) {
             case STOPPED:
                 if (impl_startable(true)) {
-                    final double rate = getRate();
-                    if (lastPlayedFinished) {
+                    double rate = getRate();
+                    if (lastPlayedFinished)
                         jumpTo((rate < 0)? getTotalDuration() : Duration.ZERO);
-                    }
                     impl_start(true);
                     startReceiver(fromDuration(getDelay()));
-                    if (Math.abs(rate) < EPSILON) {
+                    if (Math.abs(rate) < EPSILON)
                         pauseReceiver();
-                    } else {
-
+                    else {
                     }
                 } else
                     callOnFinishedHandler();
                 break;
             case PAUSED:
                 impl_resume();
-                if (Math.abs(getRate()) >= EPSILON) {
+                if (Math.abs(getRate()) >= EPSILON)
                     resumeReceiver();
-                }
                 break;
         }
     }
@@ -879,9 +824,8 @@ public abstract class Animation {
      *                such as {@link SequentialTransition} or {@link ParallelTransition}
      */
     public void stop() {
-        if (parent != null) {
+        if (parent != null)
             throw new IllegalStateException("Cannot stop when embedded in another animation");
-        }
         if (getStatus() != Status.STOPPED) {
             clipEnvelope.abortCurrentPulse();
             impl_stop();
@@ -901,9 +845,8 @@ public abstract class Animation {
      *                such as {@link SequentialTransition} or {@link ParallelTransition}
      */
     public void pause() {
-        if (parent != null) {
+        if (parent != null)
             throw new IllegalStateException("Cannot pause when embedded in another animation");
-        }
         if (getStatus() == Status.RUNNING) {
             clipEnvelope.abortCurrentPulse();
             pauseReceiver();
@@ -924,7 +867,7 @@ public abstract class Animation {
         this.targetFramerate = targetFramerate;
         this.resolution = (int) Math.max(1, Math.round(TickCalculation.TICKS_PER_SECOND / targetFramerate));
         this.clipEnvelope = ClipEnvelope.create(this);
-        this.timer = AbstractMasterTimer.get();
+        this.timer = MasterTimer.get();
     }
 
     /**
@@ -932,9 +875,9 @@ public abstract class Animation {
      */
     protected Animation() {
         this.resolution = 1;
-        this.targetFramerate = TickCalculation.TICKS_PER_SECOND / AbstractMasterTimer.get().getDefaultResolution();
+        this.targetFramerate = TickCalculation.TICKS_PER_SECOND / MasterTimer.get().getDefaultResolution();
         this.clipEnvelope = ClipEnvelope.create(this);
-        this.timer = AbstractMasterTimer.get();
+        this.timer = MasterTimer.get();
     }
 
     // These constructors are only for testing purposes
@@ -959,14 +902,13 @@ public abstract class Animation {
     }
 
     void impl_sync(boolean forceSync) {
-        if (forceSync || !clipEnvelope.wasSynched()) {
+        if (forceSync || !clipEnvelope.wasSynched())
             syncClipEnvelope();
-        }
     }
 
     private void syncClipEnvelope() {
-        final int publicCycleCount = getCycleCount();
-        final int internalCycleCount = (publicCycleCount <= 0)
+        int publicCycleCount = getCycleCount();
+        int internalCycleCount = (publicCycleCount <= 0)
                 && (publicCycleCount != INDEFINITE) ? 1 : publicCycleCount;
         clipEnvelope = clipEnvelope.setCycleCount(internalCycleCount);
         clipEnvelope.setCycleDuration(getCycleDuration());
@@ -983,9 +925,8 @@ public abstract class Animation {
 
     void impl_pause() {
         final double currentRate = getCurrentRate();
-        if (Math.abs(currentRate) >= EPSILON) {
+        if (Math.abs(currentRate) >= EPSILON)
             lastPlayedForward = Math.abs(getCurrentRate() - getRate()) < EPSILON;
-        }
         setCurrentRate(0.0);
         setStatus(Status.PAUSED);
     }
@@ -996,17 +937,16 @@ public abstract class Animation {
     }
 
     void impl_stop() {
-        if (!paused) {
+        if (!paused)
             timer.removePulseReceiver(pulseReceiver);
-        }
         setStatus(Status.STOPPED);
         setCurrentRate(0.0);
     }
 
     void impl_timePulse(long elapsedTime) {
-        if (resolution == 1) { // fullspeed
+        if (resolution == 1) // fullspeed
             clipEnvelope.timePulse(elapsedTime);
-        } else if (elapsedTime - lastPulse >= resolution) {
+        else if (elapsedTime - lastPulse >= resolution) {
             lastPulse = (elapsedTime / resolution) * resolution;
             clipEnvelope.timePulse(elapsedTime);
         }
@@ -1018,9 +958,8 @@ public abstract class Animation {
 
     void impl_setCurrentTicks(long ticks) {
         currentTicks = ticks;
-        if (currentTime != null) {
+        if (currentTime != null)
             currentTime.fireValueChangedEvent();
-        }
     }
 
     void impl_setCurrentRate(double currentRate) {
