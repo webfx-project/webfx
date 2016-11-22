@@ -1,5 +1,6 @@
 package naga.providers.toolkit.javafx;
 
+import com.sun.javafx.tk.TKPulseListener;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -50,6 +51,19 @@ class FxScheduler implements Scheduler {
     @Override
     public boolean isUiThread() {
         return Toolkit.get().isReady() && Platform.isFxApplicationThread();
+    }
+
+    @Override
+    public Scheduled schedulePeriodicPulse(Runnable runnable) {
+        Toolkit toolkit = Toolkit.get();
+        if (!toolkit.isApplicationWindowCreated())
+            return schedulePeriodic(60, runnable);
+        TKPulseListener listener = runnable::run;
+        com.sun.javafx.tk.Toolkit.getToolkit().addSceneTkPulseListener(listener);
+        return () -> {
+            com.sun.javafx.tk.Toolkit.getToolkit().removeSceneTkPulseListener(listener);
+            return true;
+        };
     }
 
     private static class FxScheduled implements Scheduled {

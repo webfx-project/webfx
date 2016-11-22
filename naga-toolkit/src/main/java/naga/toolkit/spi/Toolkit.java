@@ -81,6 +81,10 @@ public abstract class Toolkit {
         return applicationWindow;
     }
 
+    public boolean isApplicationWindowCreated() {
+        return applicationWindow != null;
+    }
+
     public boolean isReady() {
         return true;
     }
