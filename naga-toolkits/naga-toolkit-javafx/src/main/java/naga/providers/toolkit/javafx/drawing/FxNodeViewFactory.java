@@ -17,5 +17,6 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextShapeImpl.class, FxTextShapeView::new);
         registerNodeViewFactory(GroupImpl.class, FxGroupView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, FxEmbedGuiNodeView::new);
+        registerNodeViewFactory(VBoxImpl.class, FxVBoxView::new);
     }
 }

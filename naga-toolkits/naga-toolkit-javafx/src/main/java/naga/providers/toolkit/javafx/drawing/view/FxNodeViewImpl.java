@@ -7,6 +7,7 @@ import naga.providers.toolkit.javafx.events.FxMouseEvent;
 import naga.providers.toolkit.javafx.util.FxTransforms;
 import naga.toolkit.drawing.shapes.BlendMode;
 import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.effect.GaussianBlur;
@@ -23,6 +24,13 @@ import naga.toolkit.util.Properties;
 abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> implements FxNodeView<N, FxN> {
 
     FxN fxNode;
+
+    @Override
+    public void bind(N node, DrawingRequester drawingRequester) {
+        setAndBindNodeProperties(node, createFxNode(node));
+    }
+
+    abstract FxN createFxNode(N node);
 
     void setAndBindNodeProperties(N node, FxN fxNode) {
         this.fxNode = fxNode;

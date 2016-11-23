@@ -16,7 +16,7 @@ public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements
 
     @Override
     public void bind(TextShape ts, DrawingRequester drawingRequester) {
-        setAndBindNodeProperties(ts, new Text());
+        super.bind(ts, drawingRequester);
         fxNode.xProperty().bind(ts.xProperty());
         fxNode.yProperty().bind(ts.yProperty());
         fxNode.textProperty().bind(ts.textProperty());
@@ -25,6 +25,11 @@ public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements
         fxNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
         fxNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
         fxNode.setMouseTransparent(true); // temporary as text shapes are usually not clickale in Mongoose
+    }
+
+    @Override
+    Text createFxNode(TextShape node) {
+        return new Text();
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

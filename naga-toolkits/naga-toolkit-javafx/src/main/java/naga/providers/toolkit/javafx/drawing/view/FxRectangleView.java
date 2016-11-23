@@ -11,7 +11,7 @@ public class FxRectangleView extends FxShapeViewImpl<Rectangle, javafx.scene.sha
 
     @Override
     public void bind(Rectangle r, DrawingRequester drawingRequester) {
-        setAndBindNodeProperties(r, new javafx.scene.shape.Rectangle());
+        super.bind(r, drawingRequester);
         fxNode.xProperty().bind(r.xProperty());
         fxNode.yProperty().bind(r.yProperty());
         fxNode.widthProperty().bind(r.widthProperty());
@@ -20,4 +20,8 @@ public class FxRectangleView extends FxShapeViewImpl<Rectangle, javafx.scene.sha
         fxNode.arcHeightProperty().bind(r.arcHeightProperty());
     }
 
+    @Override
+    javafx.scene.shape.Rectangle createFxNode(Rectangle node) {
+        return new javafx.scene.shape.Rectangle();
+    }
 }
