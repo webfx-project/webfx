@@ -7,12 +7,12 @@ import naga.toolkit.drawing.shapes.Bounds;
  */
 public abstract class BoundsImpl implements Bounds {
 
-    private double minX;
-    private double minY;
-    private double width;
-    private double height;
-    private double maxX;
-    private double maxY;
+    private final double minX;
+    private final double minY;
+    private final double width;
+    private final double height;
+    private final double maxX;
+    private final double maxY;
 
     @Override
     public final double getMinX() { return minX; }
