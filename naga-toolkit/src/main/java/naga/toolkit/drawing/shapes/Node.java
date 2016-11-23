@@ -27,8 +27,9 @@ public interface Node extends
     Collection<Transform> localToParentTransforms();
 
     default void relocate(double x, double y) {
-        setLayoutX(x);
-        setLayoutY(y);
+        Bounds layoutBounds = getLayoutBounds();
+        setLayoutX(x - layoutBounds.getMinX());
+        setLayoutY(y - layoutBounds.getMinY());
     }
 
     default boolean isResizable() {
@@ -93,11 +94,9 @@ public interface Node extends
      * @return offset of text baseline from layoutBounds.minY for non-resizable Nodes or {@link #BASELINE_OFFSET_SAME_AS_HEIGHT} otherwise
      */
     default double getBaselineOffset() {
-        if (isResizable()) {
+        if (isResizable())
             return BASELINE_OFFSET_SAME_AS_HEIGHT;
-        } else {
-            return getLayoutBounds().getHeight();
-        }
+        return getLayoutBounds().getHeight();
     }
 
     /**
