@@ -23,7 +23,7 @@ class ParentImpl extends NodeImpl implements Parent {
     private final ObservableList<Node> children = FXCollections.observableArrayList();
 
     {
-        children.addListener((ListChangeListener) c -> requestLayout());
+        children.addListener((ListChangeListener<Node>) c -> requestLayout());
     }
 
     ParentImpl() {
@@ -406,7 +406,7 @@ class ParentImpl extends NodeImpl implements Parent {
     public Bounds getLayoutBounds() {
         int n = children.size();
         if (n == 0)
-            return BoundingBox.create(0, 0, 0, 0);
+            return BoundingBox.EMPTY;
         Bounds bounds = children.get(0).getLayoutBounds();
         if (n == 1)
             return bounds;

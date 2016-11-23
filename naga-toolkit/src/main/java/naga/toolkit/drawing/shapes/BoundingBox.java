@@ -9,6 +9,11 @@ import naga.toolkit.drawing.shapes.impl.BoundingBoxImpl;
 public interface BoundingBox extends Bounds {
 
     /**
+     * Empty BoundingBox. An {@code BoundingBox} instance with all fields equal to zero.
+     */
+    BoundingBox EMPTY = create(0, 0, 0, 0);
+
+    /**
      * Creates a new instance of 2D {@code BoundingBox}.
      * @param minX the X coordinate of the upper-left corner
      * @param minY the Y coordinate of the upper-left corner
