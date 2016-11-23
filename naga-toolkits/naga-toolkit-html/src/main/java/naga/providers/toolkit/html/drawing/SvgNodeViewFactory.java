@@ -17,5 +17,6 @@ class SvgNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextShapeImpl.class, SvgTextShapeView::new);
         registerNodeViewFactory(GroupImpl.class, SvgGroupView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, SvgEmbedGuiNodeView::new);
+        registerNodeViewFactory(VBoxImpl.class, SvgVBoxView::new);
     }
 }
