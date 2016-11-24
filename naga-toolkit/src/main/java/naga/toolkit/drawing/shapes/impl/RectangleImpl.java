@@ -2,9 +2,9 @@ package naga.toolkit.drawing.shapes.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.drawing.geom.BaseBounds;
+import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.BoundingBox;
-import naga.toolkit.drawing.shapes.Bounds;
 import naga.toolkit.drawing.shapes.Rectangle;
 
 /**
@@ -73,7 +73,8 @@ public class RectangleImpl extends ShapeImpl implements Rectangle {
     }
 
     @Override
-    public Bounds getLayoutBounds() {
-        return BoundingBox.create(getX(), getY(), getWidth(), getHeight());
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        bounds.setBoundsAndSort(getX(), getY(), 0, getX() + getWidth(), getY() + getHeight(), 0);
+        return bounds;
     }
 }

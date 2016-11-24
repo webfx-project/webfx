@@ -11,18 +11,16 @@ public class Point2DImpl implements Point2D {
     /**
      * The x coordinate.
      */
-    private double x;
+    private final double x;
 
     /**
      * The y coordinate.
      */
-    private double y;
-
-    Point2DImpl() {
-    }
+    private final double y;
 
     public Point2DImpl(double x, double y) {
-        set(x, y);
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -41,11 +39,6 @@ public class Point2DImpl implements Point2D {
     @Override
     public final double getY() {
         return y;
-    }
-
-    void set(double x, double y) {
-        this.x = x;
-        this.y = y;
     }
 
     /**

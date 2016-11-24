@@ -3,6 +3,13 @@ package naga.toolkit.drawing.shapes.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Callback;
+import naga.commons.util.function.Function;
+import naga.toolkit.drawing.geom.BaseBounds;
+import naga.toolkit.drawing.geom.TempState;
+import naga.toolkit.drawing.geom.Vec2d;
+import naga.toolkit.drawing.geom.transform.BaseTransform;
+import naga.toolkit.drawing.geometry.BoundingBox;
+import naga.toolkit.drawing.geometry.Bounds;
 import naga.toolkit.drawing.shapes.*;
 
 import java.util.List;
@@ -19,7 +26,12 @@ public class RegionImpl extends ParentImpl implements Region {
         super(nodes);
     }
 
-    private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> widthProperty = new SimpleObjectProperty<Double>(0d) {
+        @Override
+        protected void invalidated() {
+            widthOrHeightChanged();
+        }
+    };
     @Override
     public Property<Double> widthProperty() {
         return widthProperty;
@@ -31,37 +43,37 @@ public class RegionImpl extends ParentImpl implements Region {
         return heightProperty;
     }
 
-    private final Property<Double> maxWidthProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> maxWidthProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
     @Override
     public Property<Double> maxWidthProperty() {
         return maxWidthProperty;
     }
 
-    private final Property<Double> minWidthProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> minWidthProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
     @Override
     public Property<Double> minWidthProperty() {
         return minWidthProperty;
     }
 
-    private final Property<Double> maxHeightProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> maxHeightProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
     @Override
     public Property<Double> maxHeightProperty() {
         return maxHeightProperty;
     }
 
-    private final Property<Double> minHeightProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> minHeightProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
     @Override
     public Property<Double> minHeightProperty() {
         return minHeightProperty;
     }
 
-    private final Property<Double> prefWidthProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> prefWidthProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
     @Override
     public Property<Double> prefWidthProperty() {
         return prefWidthProperty;
     }
 
-    private final Property<Double> prefHeightProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> prefHeightProperty = new SimpleObjectProperty<>(USE_COMPUTED_SIZE);
     @Override
     public Property<Double> prefHeightProperty() {
         return prefHeightProperty;
@@ -80,9 +92,98 @@ public class RegionImpl extends ParentImpl implements Region {
             requestParentLayout();
         }
     };
+
     @Override
     public Property<Boolean> snapToPixelProperty() {
         return snapToPixelProperty;
+    }
+
+    private void widthOrHeightChanged() {
+        // It is possible that somebody sets the width of the region to a value which
+        // it previously held. If this is the case, we want to avoid excessive layouts.
+        // Note that I have biased this for layout over binding, because the widthProperty
+        // is now going to recompute the width eagerly. The cost of excessive and
+        // unnecessary bounds changes, however, is relatively high.
+        //cornersValid = false;
+        boundingBox = null;
+        //impl_layoutBoundsChanged();
+        //impl_geomChanged();
+        //impl_markDirty(DirtyBits.NODE_GEOMETRY);
+        setNeedsLayout(true);
+        requestParentLayout();
+    }
+
+
+    @Override
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        // Unlike Group, a Region has its own intrinsic geometric bounds, even if it has no children.
+        // The bounds of the Region must take into account any backgrounds and borders and how
+        // they are used to draw the Region. The geom bounds must always take into account
+        // all pixels drawn (because the geom bounds forms the basis of the dirty regions).
+        // Note that the layout bounds of a Region is not based on the geom bounds.
+
+        // Define some variables to hold the top-left and bottom-right corners of the bounds
+        double bx1 = 0;
+        double by1 = 0;
+        double bx2 = getWidth();
+        double by2 = getHeight();
+
+/*
+        // If the shape is defined, then the top-left and bottom-right corner positions
+        // need to be redefined
+        if (_shape != null && isScaleShape() == false) {
+            // We will hijack the bounds here temporarily just to compute the shape bounds
+            final BaseBounds shapeBounds = computeShapeBounds(bounds);
+            final double shapeWidth = shapeBounds.getWidth();
+            final double shapeHeight = shapeBounds.getHeight();
+            if (isCenterShape()) {
+                bx1 = (bx2 - shapeWidth) / 2;
+                by1 = (by2 - shapeHeight) / 2;
+                bx2 = bx1 + shapeWidth;
+                by2 = by1 + shapeHeight;
+            } else {
+                bx1 = shapeBounds.getMinX();
+                by1 = shapeBounds.getMinY();
+                bx2 = shapeBounds.getMaxX();
+                by2 = shapeBounds.getMaxY();
+            }
+        } else {
+            // Expand the bounds to include the outsets from the background and border.
+            // The outsets are the opposite of insets -- a measure of distance from the
+            // edge of the Region outward. The outsets cannot, however, be negative.
+            final Background background = getBackground();
+            final Border border = getBorder();
+            final Insets backgroundOutsets = background == null ? Insets.EMPTY : background.getOutsets();
+            final Insets borderOutsets = border == null ? Insets.EMPTY : border.getOutsets();
+            bx1 -= Math.max(backgroundOutsets.getLeft(), borderOutsets.getLeft());
+            by1 -= Math.max(backgroundOutsets.getTop(), borderOutsets.getTop());
+            bx2 += Math.max(backgroundOutsets.getRight(), borderOutsets.getRight());
+            by2 += Math.max(backgroundOutsets.getBottom(), borderOutsets.getBottom());
+        }
+*/
+        // NOTE: Okay to call impl_computeGeomBounds with tx even in the 3D case
+        // since Parent.impl_computeGeomBounds does handle 3D correctly.
+        BaseBounds cb = super.impl_computeGeomBounds(bounds, tx);
+        /*
+         * This is a work around for RT-7680. Parent returns invalid bounds from
+         * impl_computeGeomBounds when it has no children or if all its children
+         * have invalid bounds. If RT-7680 were fixed, then we could omit this
+         * first branch of the if and only use the else since the correct value
+         * would be computed.
+         */
+        if (cb.isEmpty()) {
+            // There are no children bounds, so
+            bounds = bounds.deriveWithNewBounds(bx1, by1, 0, bx2, by2, 0);
+            bounds = tx.transform(bounds, bounds);
+            return bounds;
+        } else {
+            // Union with children's bounds
+            BaseBounds tempBounds = TempState.getInstance().bounds;
+            tempBounds = tempBounds.deriveWithNewBounds(bx1, by1, 0, bx2, by2, 0);
+            BaseBounds bb = tx.transform(tempBounds, tempBounds);
+            cb = cb.deriveWithUnion(bb);
+            return cb;
+        }
     }
 
     /**
@@ -391,6 +492,19 @@ public class RegionImpl extends ParentImpl implements Region {
         return Double.MAX_VALUE;
     }
 
+
+    private Bounds boundingBox;
+
+    /**
+     * The layout bounds of this region: {@code 0, 0  width x height}
+     */
+    @Override
+    protected final Bounds impl_computeLayoutBounds() {
+        if (boundingBox == null)
+            // we reuse the bounding box if the width and height haven't changed.
+            boundingBox = new BoundingBox(0, 0, 0, getWidth(), getHeight(), 0);
+        return boundingBox;
+    }
 
     /**
      * Utility method to get the top inset which includes padding and border
@@ -722,6 +836,65 @@ public class RegionImpl extends ParentImpl implements Region {
         return max;
     }
 
+    double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+                                 Function<Integer, Double> positionToWidth,
+                                 double areaHeight, final boolean fillHeight, double minComplement) {
+        return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, fillHeight, minComplement, isSnapToPixel());
+    }
+
+    static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+                                        Function<Integer, Double> positionToWidth,
+                                        double areaHeight, final boolean fillHeight, double minComplement, boolean snapToPixel) {
+        return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, t -> fillHeight, minComplement, snapToPixel);
+    }
+
+    double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+                                 Function<Integer, Double> positionToWidth,
+                                 double areaHeight, Function<Integer, Boolean> fillHeight, double minComplement) {
+        return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, fillHeight, minComplement, isSnapToPixel());
+    }
+
+    /**
+     * Returns the baseline offset of provided children, with respect to the minimum complement, computed
+     * by {@link #getMinBaselineComplement(java.util.List)} from the same set of children.
+     * @param children the children with baseline alignment
+     * @param margins their margins (callback)
+     * @param positionToWidth callback for children widths (can return -1 if no bias is used)
+     * @param areaHeight height of the area to layout in
+     * @param fillHeight callback to specify children that has fillHeight constraint
+     * @param minComplement minimum complement
+     */
+    static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+                                        Function<Integer, Double> positionToWidth,
+                                        double areaHeight, Function<Integer, Boolean> fillHeight, double minComplement, boolean snapToPixel) {
+        double b = 0;
+        for (int i = 0;i < children.size(); ++i) {
+            Node n = children.get(i);
+            Insets margin = margins.call(n);
+            double top = margin != null? snapSpace(margin.getTop(), snapToPixel) : 0;
+            double bottom = (margin != null? snapSpace(margin.getBottom(), snapToPixel) : 0);
+            final double bo = n.getBaselineOffset();
+            if (bo == BASELINE_OFFSET_SAME_AS_HEIGHT) {
+                double alt = -1;
+                if (n.getContentBias() == Orientation.HORIZONTAL) {
+                    alt = positionToWidth.apply(i);
+                }
+                if (fillHeight.apply(i)) {
+                    // If the children fills it's height, than it's "preferred" height is the area without the complement and insets
+                    b = Math.max(b, top + boundedSize(n.minHeight(alt), areaHeight - minComplement - top - bottom,
+                            n.maxHeight(alt)));
+                } else {
+                    // Otherwise, we must use the area without complement and insets as a maximum for the Node
+                    b = Math.max(b, top + boundedSize(n.minHeight(alt), n.prefHeight(alt),
+                            Math.min(n.maxHeight(alt), areaHeight - minComplement - top - bottom)));
+                }
+            } else {
+                b = Math.max(b, top + bo);
+            }
+        }
+        return b;
+    }
+
     /**
      * Utility method which positions the child within an area of this
      * region defined by {@code areaX}, {@code areaY}, {@code areaWidth} x {@code areaHeight},
@@ -1040,9 +1213,9 @@ public class RegionImpl extends ParentImpl implements Region {
         }
 
         if (child.isResizable()) {
-            Point2D size = boundedNodeSizeWithBias(child, areaWidth - left - right, areaHeight - top - bottom,
+            Vec2d size = boundedNodeSizeWithBias(child, areaWidth - left - right, areaHeight - top - bottom,
                     fillWidth, fillHeight, TEMP_VEC2D);
-            child.resize(snapSize(size.getX(), isSnapToPixel),snapSize(size.getY(), isSnapToPixel));
+            child.resize(snapSize(size.x, isSnapToPixel),snapSize(size.y, isSnapToPixel));
         }
         position(child, areaX, areaY, areaWidth, areaHeight, areaBaselineOffset,
                 top, right, bottom, left, halignment, valignment, isSnapToPixel);
@@ -1071,7 +1244,7 @@ public class RegionImpl extends ParentImpl implements Region {
         child.relocate(x,y);
     }
 
-    static Point2DImpl TEMP_VEC2D = new Point2DImpl();
+    static Vec2d TEMP_VEC2D = new Vec2d();
 
     /**
      * Returns the size of a Node that should be placed in an area of the specified size,
@@ -1085,15 +1258,16 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param result Vec2d object for the result or null if new one should be created
      * @return Vec2d object with width(x parameter) and height (y parameter)
      */
-    static Point2DImpl boundedNodeSizeWithBias(Node node, double areaWidth, double areaHeight,
-                                         boolean fillWidth, boolean fillHeight, Point2DImpl result) {
-        if (result == null)
-            result = new Point2DImpl();
+    static Vec2d boundedNodeSizeWithBias(Node node, double areaWidth, double areaHeight,
+                                         boolean fillWidth, boolean fillHeight, Vec2d result) {
+        if (result == null) {
+            result = new Vec2d();
+        }
 
         Orientation bias = node.getContentBias();
 
-        double childWidth;
-        double childHeight;
+        double childWidth = 0;
+        double childHeight = 0;
 
         if (bias == null) {
             childWidth = boundedSize(
@@ -1131,6 +1305,48 @@ public class RegionImpl extends ParentImpl implements Region {
     }
 
 
+    /**
+     * Return the minimum complement of baseline
+     * @param children
+     * @return
+     */
+    static double getMinBaselineComplement(List<Node> children) {
+        return getBaselineComplement(children, true, false);
+    }
+
+    /**
+     * Return the preferred complement of baseline
+     * @param children
+     * @return
+     */
+    static double getPrefBaselineComplement(List<Node> children) {
+        return getBaselineComplement(children, false, false);
+    }
+
+    /**
+     * Return the maximal complement of baseline
+     * @param children
+     * @return
+     */
+    static double getMaxBaselineComplement(List<Node> children) {
+        return getBaselineComplement(children, false, true);
+    }
+
+    private static double getBaselineComplement(List<Node> children, boolean min, boolean max) {
+        double bc = 0;
+        for (Node n : children) {
+            final double bo = n.getBaselineOffset();
+            if (bo == BASELINE_OFFSET_SAME_AS_HEIGHT) {
+                continue;
+            }
+            if (n.isResizable()) {
+                bc = Math.max(bc, (min ? n.minHeight(-1) : max ? n.maxHeight(-1) : n.prefHeight(-1)) - bo);
+            } else {
+                bc = Math.max(bc, n.getLayoutBounds().getHeight() - bo);
+            }
+        }
+        return bc;
+    }
     static double computeXOffset(double width, double contentWidth, HPos hpos) {
         switch(hpos) {
             case LEFT:

@@ -1,5 +1,7 @@
 package naga.toolkit.drawing.shapes.impl;
 
+import naga.toolkit.drawing.geom.BaseBounds;
+import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.shapes.EmbedGuiNode;
 import naga.toolkit.spi.nodes.GuiNode;
 
@@ -18,4 +20,10 @@ public class EmbedGuiNodeImpl extends NodeImpl implements EmbedGuiNode {
     public GuiNode getGuiNode() {
         return guiNode;
     }
+
+    @Override
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        throw new UnsupportedOperationException("TextShapeImpl.impl_computeGeomBounds() not implemented");
+    }
+
 }

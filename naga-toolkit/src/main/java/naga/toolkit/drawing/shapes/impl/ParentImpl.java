@@ -5,13 +5,15 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.BoundingBox;
-import naga.toolkit.drawing.shapes.Bounds;
+import naga.toolkit.drawing.geom.BaseBounds;
+import naga.toolkit.drawing.geom.RectBounds;
+import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.properties.markers.HasManagedProperty;
 import naga.toolkit.util.ObservableLists;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -402,26 +404,253 @@ class ParentImpl extends NodeImpl implements Parent {
         return sceneRoot;
     }
 
+    /***************************************************************************
+     *                                                                         *
+     *                         Bounds Computations                             *
+     *                                                                         *
+     *  This code originated in GroupBoundsHelper (part of javafx-sg-common)   *
+     *  but has been ported here to the FX side since we cannot rely on the PG *
+     *  side for computing the bounds (due to the decoupling of the two        *
+     *  scenegraphs for threading and other purposes).                         *
+     *                                                                         *
+     *  Unfortunately, we cannot simply reuse GroupBoundsHelper without some  *
+     *  major (and hacky) modification due to the fact that GroupBoundsHelper  *
+     *  relies on PG state and we need to do similar things here that rely on  *
+     *  core scenegraph state. Unfortunately, that means we made a port.       *
+     *                                                                         *
+     **************************************************************************/
+
+    private BaseBounds tmp = new RectBounds();
+
+    /**
+     * The cached bounds for the Group. If the cachedBounds are invalid
+     * then we have no history of what the bounds are, or were.
+     */
+    private BaseBounds cachedBounds = new RectBounds();
+
+    /**
+     * Indicates that the cachedBounds is invalid (or old) and need to be recomputed.
+     * If cachedBoundsInvalid is true and dirtyChildrenCount is non-zero,
+     * then when we recompute the cachedBounds we can consider the
+     * values in cachedBounds to represent the last valid bounds for the group.
+     * This is useful for several fast paths.
+     */
+    private boolean cachedBoundsInvalid;
+
+    /**
+     * The number of dirty children which bounds haven't been incorporated
+     * into the cached bounds yet. Can be used even when dirtyChildren is null.
+     */
+    private int dirtyChildrenCount;
+
+    /**
+     * This set is used to track all of the children of this group which are
+     * dirty. It is only used in cases where the number of children is > some
+     * value (currently 10). For very wide trees, this can provide a very
+     * important speed boost. For the sake of memory consumption, this is
+     * null unless the number of children ever crosses the threshold where
+     * it will be activated.
+     */
+    private ArrayList<Node> dirtyChildren;
+
+    private Node top;
+    private Node left;
+    private Node bottom;
+    private Node right;
+    private Node near;
+    private Node far;
+
     @Override
-    public Bounds getLayoutBounds() {
-        int n = children.size();
-        if (n == 0)
-            return BoundingBox.EMPTY;
-        Bounds bounds = children.get(0).getLayoutBounds();
-        if (n == 1)
-            return bounds;
-        double minX = bounds.getMinX();
-        double maxX = bounds.getMaxX();
-        double minY = bounds.getMinY();
-        double maxY = bounds.getMaxY();
-        for (int i = 1; i < n; i++) {
-            Node node = children.get(i);
-            bounds = node.getLayoutBounds();
-            minX = Math.min(minX, bounds.getMinX());
-            maxX = Math.max(maxX, bounds.getMaxX());
-            minY = Math.min(minY, bounds.getMinY());
-            maxY = Math.max(maxY, bounds.getMaxY());
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        // If we have no children, our bounds are invalid
+        if (children.isEmpty()) {
+            return bounds.makeEmpty();
         }
-        return BoundingBox.create(minX, minY, maxX - minX, maxY - minY);
+
+        if (tx.isTranslateOrIdentity()) {
+            // this is a transform which is only doing translations, or nothing
+            // at all (no scales, rotates, or shears)
+            // so in this case we can easily use the cached bounds
+            if (true || cachedBoundsInvalid) {
+                recomputeBounds();
+
+                if (dirtyChildren != null) {
+                    dirtyChildren.clear();
+                }
+                cachedBoundsInvalid = false;
+                dirtyChildrenCount = 0;
+            }
+            if (!tx.isIdentity()) {
+                throw new UnsupportedOperationException("Transform other than Identity not supported in Parent.impl_computeGeomBounds()");
+/*
+                bounds = bounds.deriveWithNewBounds((float)(cachedBounds.getMinX() + tx.getMxt()),
+                        (float)(cachedBounds.getMinY() + tx.getMyt()),
+                        (float)(cachedBounds.getMinZ() + tx.getMzt()),
+                        (float)(cachedBounds.getMaxX() + tx.getMxt()),
+                        (float)(cachedBounds.getMaxY() + tx.getMyt()),
+                        (float)(cachedBounds.getMaxZ() + tx.getMzt()));
+*/
+            } else {
+                bounds = bounds.deriveWithNewBounds(cachedBounds);
+            }
+
+            return bounds;
+        } else {
+            // there is a scale, shear, or rotation happening, so need to
+            // do the full transform!
+            double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE, minZ = Double.MAX_VALUE;
+            double maxX = Double.MIN_VALUE, maxY = Double.MIN_VALUE, maxZ = Double.MIN_VALUE;
+            boolean first = true;
+            for (int i=0, max=children.size(); i<max; i++) {
+                NodeImpl node = (NodeImpl) children.get(i);
+                if (node.isVisible()) {
+                    bounds = getChildTransformedBounds(node, tx, bounds);
+                    // if the bounds of the child are invalid, we don't want
+                    // to use those in the remaining computations.
+                    if (bounds.isEmpty()) continue;
+                    if (first) {
+                        minX = bounds.getMinX();
+                        minY = bounds.getMinY();
+                        minZ = bounds.getMinZ();
+                        maxX = bounds.getMaxX();
+                        maxY = bounds.getMaxY();
+                        maxZ = bounds.getMaxZ();
+                        first = false;
+                    } else {
+                        minX = Math.min(bounds.getMinX(), minX);
+                        minY = Math.min(bounds.getMinY(), minY);
+                        minZ = Math.min(bounds.getMinZ(), minZ);
+                        maxX = Math.max(bounds.getMaxX(), maxX);
+                        maxY = Math.max(bounds.getMaxY(), maxY);
+                        maxZ = Math.max(bounds.getMaxZ(), maxZ);
+                    }
+                }
+            }
+            // if "first" is still true, then we didn't have any children with
+            // non-empty bounds and thus we must return an empty bounds,
+            // otherwise we have non-empty bounds so go for it.
+            if (first)
+                bounds.makeEmpty();
+            else
+                bounds = bounds.deriveWithNewBounds(minX, minY, minZ, maxX, maxY, maxZ);
+
+            return bounds;
+        }
     }
+
+    /**
+     * Recomputes the bounds from scratch and saves the cached bounds.
+     */
+    private void recomputeBounds() {
+        // fast path for case of no children
+        if (children.isEmpty()) {
+            cachedBounds.makeEmpty();
+            return;
+        }
+
+        // fast path for case of 1 child
+        if (children.size() == 1) {
+            NodeImpl node = (NodeImpl) children.get(0);
+            node.boundsChanged = false;
+            if (node.isVisible()) {
+                cachedBounds = getChildTransformedBounds(node, BaseTransform.IDENTITY_TRANSFORM, cachedBounds);
+                top = left = bottom = right = near = far = node;
+            } else {
+                cachedBounds.makeEmpty();
+                // no need to null edge nodes here, it was done in childExcluded
+                // top = left = bottom = right = near = far = null;
+            }
+            return;
+        }
+
+/*
+        if ((dirtyChildrenCount == 0) ||
+                !updateCachedBounds(dirtyChildren != null
+                                ? dirtyChildren : children,
+                        dirtyChildrenCount))
+*/
+            // failed to update cached bounds, recreate them
+            createCachedBounds(children);
+    }
+
+    // Note: this marks the currently processed child in terms of transformed bounds. In rare situations like
+    // in RT-37879, it might happen that the child bounds will be marked as invalid. Due to optimizations,
+    // the invalidation must *always* be propagated to the parent, because the parent with some transformation
+    // calls child's getTransformedBounds non-idenitity transform and the child's transformed bounds are thus not validated.
+    // This does not apply to the call itself however, because the call will yield the correct result even if something
+    // was invalidated during the computation. We can safely ignore such invalidations from that Node in this case
+    private Node currentlyProcessedChild;
+
+    private BaseBounds getChildTransformedBounds(NodeImpl node, BaseTransform tx, BaseBounds bounds) {
+        currentlyProcessedChild = node;
+        bounds = node.getTransformedBounds(bounds, tx);
+        currentlyProcessedChild = null;
+        return bounds;
+    }
+
+    private void createCachedBounds(final List<Node> fromNodes) {
+        // These indicate the bounds of the Group as computed by this function
+        double minX, minY, minZ;
+        double maxX, maxY, maxZ;
+
+        int nodeCount = fromNodes.size();
+        int i;
+
+        // handle first visible non-empty node
+        for (i = 0; i < nodeCount; ++i) {
+            NodeImpl node = (NodeImpl) fromNodes.get(i);
+            node.boundsChanged = false;
+            if (node.isVisible()) {
+                tmp = node.getTransformedBounds(
+                        tmp, BaseTransform.IDENTITY_TRANSFORM);
+                if (!tmp.isEmpty()) {
+                    left = top = near = right = bottom = far = node;
+                    break;
+                }
+            }
+        }
+
+        if (i == nodeCount) {
+            left = top = near = right = bottom = far = null;
+            cachedBounds.makeEmpty();
+            return;
+        }
+
+        minX = tmp.getMinX();
+        minY = tmp.getMinY();
+        minZ = tmp.getMinZ();
+        maxX = tmp.getMaxX();
+        maxY = tmp.getMaxY();
+        maxZ = tmp.getMaxZ();
+
+        // handle remaining visible non-empty nodes
+        for (++i; i < nodeCount; ++i) {
+            final NodeImpl node = (NodeImpl) fromNodes.get(i);
+            node.boundsChanged = false;
+            if (node.isVisible()) {
+                tmp = node.getTransformedBounds(
+                        tmp, BaseTransform.IDENTITY_TRANSFORM);
+                if (!tmp.isEmpty()) {
+                    double tmpx = tmp.getMinX();
+                    double tmpy = tmp.getMinY();
+                    double tmpz = tmp.getMinZ();
+                    double tmpx2 = tmp.getMaxX();
+                    double tmpy2 = tmp.getMaxY();
+                    double tmpz2 = tmp.getMaxZ();
+
+                    if (tmpx < minX) { minX = tmpx; left = node; }
+                    if (tmpy < minY) { minY = tmpy; top = node; }
+                    if (tmpz < minZ) { minZ = tmpz; near = node; }
+                    if (tmpx2 > maxX) { maxX = tmpx2; right = node; }
+                    if (tmpy2 > maxY) { maxY = tmpy2; bottom = node; }
+                    if (tmpz2 > maxZ) { maxZ = tmpz2; far = node; }
+                }
+            }
+        }
+
+        cachedBounds = cachedBounds.deriveWithNewBounds(minX, minY, minZ,
+                maxX, maxY, maxZ);
+    }
+
+
 }

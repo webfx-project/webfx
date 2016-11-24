@@ -2,9 +2,9 @@ package naga.toolkit.drawing.shapes.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.drawing.geom.BaseBounds;
+import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.BoundingBox;
-import naga.toolkit.drawing.shapes.Bounds;
 import naga.toolkit.drawing.shapes.Circle;
 
 /**
@@ -54,8 +54,10 @@ public class CircleImpl extends ShapeImpl implements Circle {
     }
 
     @Override
-    public Bounds getLayoutBounds() {
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         Double radius = getRadius();
-        return BoundingBox.create(getCenterX() - radius, getCenterY() - radius, 2 * radius, 2 * radius);
+        Double centerX = getCenterX();
+        Double centerY = getCenterY();
+        return bounds.deriveWithNewBounds(centerX - radius, centerY - radius, 0d, centerX + radius, centerY + radius, 0d);
     }
 }

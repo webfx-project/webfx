@@ -13,7 +13,7 @@ import naga.toolkit.drawing.shapes.StrokeLineJoin;
 /**
  * @author Bruno Salmon
  */
-class ShapeImpl extends NodeImpl implements Shape {
+abstract class ShapeImpl extends NodeImpl implements Shape {
 
     private final Property<Paint> fillProperty = new SimpleObjectProperty<>(Color.BLACK);
     @Override
