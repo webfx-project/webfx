@@ -1,7 +1,5 @@
 package naga.toolkit.drawing.geom;
 
-import naga.toolkit.drawing.shapes.Point2D;
-
 /**
  * Base class for mutable bounds objects. There are two concrete specializations,
  * BoxBounds (3D) and RectBounds (2D). Various "derive" methods exist which are

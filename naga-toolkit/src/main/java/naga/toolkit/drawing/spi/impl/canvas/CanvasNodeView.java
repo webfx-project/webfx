@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
 import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Point2D;
+import naga.toolkit.drawing.geom.Point2D;
 import naga.toolkit.drawing.spi.view.NodeView;
 
 /**

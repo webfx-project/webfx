@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.geometry;
 
-import naga.toolkit.drawing.shapes.Point2D;
+import naga.toolkit.drawing.geom.Point2D;
 
 /**
  * The base class for objects that are used to describe the bounds of a node or

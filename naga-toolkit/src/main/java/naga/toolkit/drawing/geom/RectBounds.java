@@ -1,7 +1,5 @@
 package naga.toolkit.drawing.geom;
 
-import naga.toolkit.drawing.shapes.Point2D;
-
 /**
  * A simple object which carries bounds information as doubles, and
  * has no Z components.

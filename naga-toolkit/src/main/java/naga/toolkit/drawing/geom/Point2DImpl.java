@@ -1,12 +1,10 @@
-package naga.toolkit.drawing.shapes.impl;
-
-import naga.toolkit.drawing.shapes.Point2D;
+package naga.toolkit.drawing.geom;
 
 /**
  * A 2D geometric point that usually represents the x, y coordinates.
  * It can also represent a relative magnitude vector's x, y magnitudes.
  */
-public class Point2DImpl implements Point2D {
+class Point2DImpl implements Point2D {
 
     /**
      * The x coordinate.

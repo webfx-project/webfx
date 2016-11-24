@@ -1,6 +1,4 @@
-package naga.toolkit.drawing.shapes;
-
-import naga.toolkit.drawing.shapes.impl.Point2DImpl;
+package naga.toolkit.drawing.geom;
 
 /**
  * A 2D geometric point that usually represents the x, y coordinates.

@@ -1,6 +1,6 @@
 package naga.toolkit.drawing;
 
-import naga.toolkit.drawing.shapes.Point2D;
+import naga.toolkit.drawing.geom.Point2D;
 
 /**
  * @author Bruno Salmon
