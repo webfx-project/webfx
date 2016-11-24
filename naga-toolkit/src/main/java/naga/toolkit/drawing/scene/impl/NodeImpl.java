@@ -359,10 +359,11 @@ public abstract class NodeImpl implements Node {
      * to promote from a RectBounds to a BoxBounds (3D).
      */
     BaseBounds getLocalBounds(BaseBounds bounds, BaseTransform tx) {
-        if (getEffect() == null && getClip() == null)
+        System.out.println("Warning: effect or clip not implemented in getLocalBounds()");
+        //if (getEffect() == null && getClip() == null)
             return getGeomBounds(bounds, tx);
 
-        throw new UnsupportedOperationException("Effect or clip not implemented in getLocalBounds()");
+        //throw new UnsupportedOperationException("Effect or clip not implemented in getLocalBounds()");
 /*
         if (tx.isTranslateOrIdentity()) {
             // we can take a fast path since we know tx is either a simple
