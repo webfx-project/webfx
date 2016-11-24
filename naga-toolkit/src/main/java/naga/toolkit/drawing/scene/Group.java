@@ -1,6 +1,6 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.scene;
 
-import naga.toolkit.drawing.shapes.impl.GroupImpl;
+import naga.toolkit.drawing.scene.impl.GroupImpl;
 
 /**
  * @author Bruno Salmon

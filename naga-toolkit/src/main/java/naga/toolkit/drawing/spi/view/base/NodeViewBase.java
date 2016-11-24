@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasDrawingImpl;

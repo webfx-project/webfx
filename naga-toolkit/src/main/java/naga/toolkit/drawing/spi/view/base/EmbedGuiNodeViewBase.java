@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.EmbedGuiNode;
+import naga.toolkit.drawing.scene.EmbedGuiNode;
 import naga.toolkit.drawing.spi.view.EmbedGuiNodeView;
 
 /**

@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.scene;
 
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;

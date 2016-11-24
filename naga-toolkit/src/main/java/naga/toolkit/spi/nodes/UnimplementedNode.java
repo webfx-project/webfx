@@ -6,7 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.view.NodeViewFactory;
 import naga.toolkit.properties.markers.SelectionMode;

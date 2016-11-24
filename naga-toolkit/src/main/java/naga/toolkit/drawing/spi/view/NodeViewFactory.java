@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view;
 
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 
 /**
  * @author Bruno Salmon

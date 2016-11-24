@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.impl;
 
 import naga.commons.util.function.Factory;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.drawing.spi.view.NodeViewFactory;
 import naga.toolkit.drawing.spi.view.UnimplementedNodeView;

@@ -1,6 +1,7 @@
 package naga.toolkit.drawing.shapes;
 
 import javafx.collections.ObservableList;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.properties.markers.*;
 
 /**

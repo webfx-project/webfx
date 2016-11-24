@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.view.NodeViewFactory;
 
 /**

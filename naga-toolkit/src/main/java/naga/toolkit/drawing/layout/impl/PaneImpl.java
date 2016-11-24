@@ -1,8 +1,8 @@
 package naga.toolkit.drawing.layout.impl;
 
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.layout.Pane;
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Parent;
 
 /**
  * @author Bruno Salmon

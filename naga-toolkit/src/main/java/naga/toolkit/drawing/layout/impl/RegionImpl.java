@@ -11,8 +11,8 @@ import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.geometry.*;
 import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.layout.Region;
-import naga.toolkit.drawing.shapes.*;
-import naga.toolkit.drawing.shapes.impl.ParentImpl;
+import naga.toolkit.drawing.scene.Node;
+import naga.toolkit.drawing.scene.impl.ParentImpl;
 
 import java.util.List;
 

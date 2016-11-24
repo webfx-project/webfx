@@ -2,8 +2,8 @@ package naga.toolkit.drawing.spi;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Node;
+import naga.toolkit.drawing.scene.Parent;
 
 /**
  * @author Bruno Salmon

@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.scene.impl;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
@@ -13,9 +13,9 @@ import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.geometry.BoundingBox;
 import naga.toolkit.drawing.geometry.Bounds;
 import naga.toolkit.drawing.effect.BlendMode;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.geometry.Orientation;
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-abstract class NodeImpl implements Node {
+public abstract class NodeImpl implements Node {
 
     private final Property<Parent> parentProperty = new SimpleObjectProperty<>();
     @Override

@@ -1,8 +1,8 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Node;
+import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.geom.Point2D;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;

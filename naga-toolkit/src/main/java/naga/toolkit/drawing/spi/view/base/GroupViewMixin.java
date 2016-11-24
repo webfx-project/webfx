@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.Group;
+import naga.toolkit.drawing.scene.Group;
 import naga.toolkit.drawing.spi.view.GroupView;
 
 /**

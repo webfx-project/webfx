@@ -1,8 +1,8 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.scene.impl;
 
 import naga.toolkit.drawing.geom.BaseBounds;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
-import naga.toolkit.drawing.shapes.EmbedGuiNode;
+import naga.toolkit.drawing.scene.EmbedGuiNode;
 import naga.toolkit.spi.nodes.GuiNode;
 
 /**

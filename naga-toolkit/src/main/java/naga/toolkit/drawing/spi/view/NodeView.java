@@ -2,7 +2,7 @@ package naga.toolkit.drawing.spi.view;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.DrawingRequester;
 
 /**

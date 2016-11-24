@@ -3,7 +3,7 @@ package naga.toolkit.drawing.spi.view.base;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import naga.toolkit.drawing.effect.BlendMode;
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.drawing.effect.Effect;

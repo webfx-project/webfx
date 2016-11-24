@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.scene.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,8 +9,8 @@ import naga.toolkit.drawing.geom.BaseBounds;
 import naga.toolkit.drawing.geom.RectBounds;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.layout.impl.LayoutFlags;
-import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Node;
+import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.properties.markers.HasManagedProperty;
 import naga.toolkit.util.ObservableLists;
 

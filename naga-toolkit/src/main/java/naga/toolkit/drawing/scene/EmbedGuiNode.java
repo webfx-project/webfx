@@ -1,6 +1,6 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.scene;
 
-import naga.toolkit.drawing.shapes.impl.EmbedGuiNodeImpl;
+import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.spi.nodes.GuiNode;
 
 /**

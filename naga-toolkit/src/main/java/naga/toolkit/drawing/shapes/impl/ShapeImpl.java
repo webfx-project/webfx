@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.Paint;
+import naga.toolkit.drawing.scene.impl.NodeImpl;
 import naga.toolkit.drawing.shapes.Shape;
 import naga.toolkit.drawing.shapes.StrokeLineCap;
 import naga.toolkit.drawing.shapes.StrokeLineJoin;
