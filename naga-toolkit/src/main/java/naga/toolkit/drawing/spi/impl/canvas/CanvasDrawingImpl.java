@@ -1,9 +1,9 @@
 package naga.toolkit.drawing.spi.impl.canvas;
 
 import javafx.beans.property.Property;
+import naga.toolkit.drawing.geom.Point2D;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.Parent;
-import naga.toolkit.drawing.geom.Point2D;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.NodeViewFactory;
@@ -92,6 +92,26 @@ public abstract class CanvasDrawingImpl
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 
+    private boolean pulseRunning;
+    @Override
+    public boolean isPulseRunning() {
+        return pulseRunning;
+    }
+
+    @Override
+    protected void startPulse() {
+        pulseRunning = true;
+    }
+
+    @Override
+    public void pulse() {
+        super.pulse();
+    }
+
+    @Override
+    protected void stopPulse() {
+        pulseRunning = false;
+    }
 
     public abstract void requestCanvasRepaint();
 

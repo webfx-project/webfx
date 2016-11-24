@@ -16,7 +16,7 @@ class MasterTimer extends AbstractMasterTimer {
 
     @Override
     protected void postUpdateAnimationRunnable(DelayedRunnable animationRunnable) {
-        Toolkit.get().scheduler().requestAnimationFrame(animationRunnable.getDelay(), animationRunnable);
+        Toolkit.get().scheduler().scheduleAnimationFrame(animationRunnable.getDelay(), animationRunnable);
     }
 
     @Override

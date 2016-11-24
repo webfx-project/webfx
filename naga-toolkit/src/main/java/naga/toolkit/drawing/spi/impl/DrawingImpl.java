@@ -3,6 +3,7 @@ package naga.toolkit.drawing.spi.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
+import naga.commons.scheduler.Scheduled;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.Parent;
@@ -124,14 +125,41 @@ public abstract class DrawingImpl implements Drawing {
             if (node instanceof Parent) {
                 Parent parent = (Parent) node;
                 keepParentAndChildrenViewsUpdated(parent);
-                if (isRootNode(parent))
-                    Toolkit.get().scheduler().schedulePeriodicPulse(parent::layout);
             }
+            if (!isPulseRunning() && isPulseRequiredForNode(node))
+                startPulse();
         }
         return nodeView;
     }
 
     protected boolean isRootNode(Node node) {
         return node == getRootNode();
+    }
+
+    private boolean isPulseRequiredForNode(Node node) {
+        return node instanceof Parent;
+    }
+
+    protected boolean isPulseRunning() {
+        return pulseScheduled != null;
+    }
+
+    private Scheduled pulseScheduled;
+    protected void startPulse() {
+        if (pulseScheduled == null)
+            pulseScheduled = Toolkit.get().scheduler().schedulePeriodicAnimationFrame(this::pulse);
+    }
+
+    protected void pulse() {
+        Node rootNode = getRootNode();
+        if (rootNode instanceof Parent)
+            ((Parent) rootNode).layout();
+    }
+
+    protected void stopPulse() {
+        if (pulseScheduled != null) {
+            pulseScheduled.cancel();
+            pulseScheduled = null;
+        }
     }
 }

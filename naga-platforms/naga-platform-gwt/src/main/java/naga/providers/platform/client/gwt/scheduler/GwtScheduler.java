@@ -1,5 +1,6 @@
 package naga.providers.platform.client.gwt.scheduler;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.Scheduler;
@@ -42,6 +43,51 @@ public final class GwtScheduler implements Scheduler {
     public boolean isUiThread() {
         return true;
     }
+
+    @Override
+    public Scheduled scheduleAnimationFrame(long delayMs, Runnable runnable) {
+        if (delayMs > 0)
+            return scheduleDelay(delayMs, runnable);
+        return schedulePulse(runnable, false);
+    }
+
+    @Override
+    public Scheduled schedulePeriodicAnimationFrame(Runnable runnable) {
+        return schedulePulse(runnable, true);
+    }
+
+    private Scheduled schedulePulse(Runnable runnable, boolean periodic) {
+        return new Scheduled() {
+            JavaScriptObject id = programNextPulse();
+            boolean cancelled;
+
+            private JavaScriptObject programNextPulse() {
+                return id = requestAnimationFrame(this::onPulse);
+            }
+
+            private void onPulse() {
+                if (!cancelled) {
+                    runnable.run();
+                    if (periodic)
+                        programNextPulse();
+                }
+            }
+
+            @Override
+            public boolean cancel() {
+                cancelAnimationFrame(id);
+                return cancelled = true;
+            }
+        };
+    }
+
+    private native JavaScriptObject requestAnimationFrame(Runnable runnable) /*-{
+        return $wnd.requestAnimationFrame(runnable.@java.lang.Runnable::run().bind(runnable));
+    }-*/;
+
+    private native void cancelAnimationFrame(JavaScriptObject id) /*-{
+        return $wnd.cancelAnimationFrame(id);
+    }-*/;
 
     private static class GwtScheduled implements Scheduled {
         private final Timer gwtTimer;

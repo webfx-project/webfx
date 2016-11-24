@@ -138,6 +138,8 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         @Override
         protected void paintComponent(Graphics g) {
+            if (drawing.isPulseRunning())
+                drawing.pulse();
             super.paintComponent(g);
             drawing.paintCanvas((Graphics2D) g);
             int width = getWidth();

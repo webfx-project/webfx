@@ -63,11 +63,11 @@ public interface Scheduler {
 
     boolean isUiThread();
 
-    default void requestAnimationFrame(long delayMs, Runnable runnable) {
-        scheduleDelay(delayMs, runnable);
+    default Scheduled scheduleAnimationFrame(long delayMs, Runnable runnable) {
+        return scheduleDelay(delayMs, runnable);
     }
 
-    default Scheduled schedulePeriodicPulse(Runnable runnable) {
+    default Scheduled schedulePeriodicAnimationFrame(Runnable runnable) {
         return schedulePeriodic(60, runnable);
     }
 }
