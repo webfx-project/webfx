@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.HBox;
+import naga.toolkit.drawing.layout.HBox;
 import naga.toolkit.drawing.spi.view.HBoxView;
 
 /**

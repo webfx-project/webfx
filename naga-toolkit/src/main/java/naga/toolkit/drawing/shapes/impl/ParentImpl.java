@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import naga.toolkit.drawing.geom.BaseBounds;
 import naga.toolkit.drawing.geom.RectBounds;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
+import naga.toolkit.drawing.layout.impl.LayoutFlags;
 import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.properties.markers.HasManagedProperty;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 /**
  * @author Bruno Salmon
  */
-class ParentImpl extends NodeImpl implements Parent {
+public class ParentImpl extends NodeImpl implements Parent {
 
     private final ObservableList<Node> children = FXCollections.observableArrayList();
 
@@ -28,10 +29,10 @@ class ParentImpl extends NodeImpl implements Parent {
         children.addListener((ListChangeListener<Node>) c -> requestLayout());
     }
 
-    ParentImpl() {
+    public ParentImpl() {
     }
 
-    ParentImpl(Node... nodes) {
+    public ParentImpl(Node... nodes) {
         ObservableLists.setAllNonNulls(getChildren(), nodes);
     }
 

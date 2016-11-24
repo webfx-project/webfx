@@ -148,7 +148,7 @@ abstract class NodeImpl implements Node {
         }
     }
 
-    static double boundedSize(double value, double min, double max) {
+    public static double boundedSize(double value, double min, double max) {
         // if max < value, return max
         // if min > value, return min
         // if min > max, return min

@@ -1,8 +1,14 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.layout.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Callback;
+import naga.toolkit.drawing.geometry.HPos;
+import naga.toolkit.drawing.geometry.Orientation;
+import naga.toolkit.drawing.geometry.Pos;
+import naga.toolkit.drawing.geometry.VPos;
+import naga.toolkit.drawing.layout.Priority;
+import naga.toolkit.drawing.layout.VBox;
 import naga.toolkit.drawing.shapes.*;
 
 import java.util.List;

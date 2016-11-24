@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.VBox;
+import naga.toolkit.drawing.layout.VBox;
 import naga.toolkit.drawing.spi.view.VBoxView;
 
 /**

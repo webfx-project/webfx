@@ -1,6 +1,8 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.layout;
 
-import naga.toolkit.drawing.shapes.impl.RegionImpl;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.layout.impl.RegionImpl;
 import naga.toolkit.properties.markers.HasInsetsProperty;
 import naga.toolkit.properties.markers.HasSnapToPixelProperty;
 

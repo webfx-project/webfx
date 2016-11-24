@@ -1,5 +1,6 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.layout;
 
+import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.properties.markers.*;
 
 /**

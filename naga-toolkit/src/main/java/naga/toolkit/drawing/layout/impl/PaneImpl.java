@@ -1,7 +1,7 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.layout.impl;
 
 import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Pane;
+import naga.toolkit.drawing.layout.Pane;
 import naga.toolkit.drawing.shapes.Parent;
 
 /**

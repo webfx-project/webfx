@@ -1,6 +1,8 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.layout;
 
-import naga.toolkit.drawing.shapes.impl.HBoxImpl;
+import naga.toolkit.drawing.shapes.Insets;
+import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.layout.impl.HBoxImpl;
 import naga.toolkit.properties.markers.HasAlignmentProperty;
 import naga.toolkit.properties.markers.HasFillHeightProperty;
 import naga.toolkit.properties.markers.HasSpacingProperty;
