@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shape.Shape;
 
 /**
  * @author Bruno Salmon

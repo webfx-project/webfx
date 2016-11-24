@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.util.ObservableLists;
 

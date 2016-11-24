@@ -1,7 +1,7 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
 import javafx.scene.Node;
-import naga.toolkit.drawing.shapes.EmbedGuiNode;
+import naga.toolkit.drawing.scene.EmbedGuiNode;
 import naga.toolkit.drawing.spi.view.EmbedGuiNodeView;
 
 /**

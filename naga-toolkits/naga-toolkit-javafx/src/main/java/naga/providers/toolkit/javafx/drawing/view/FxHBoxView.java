@@ -1,7 +1,7 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
 import javafx.scene.layout.Region;
-import naga.toolkit.drawing.shapes.HBox;
+import naga.toolkit.drawing.layout.HBox;
 import naga.toolkit.drawing.spi.view.HBoxView;
 
 /**

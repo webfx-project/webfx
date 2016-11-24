@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import naga.toolkit.drawing.shapes.Rectangle;
+import naga.toolkit.drawing.shape.Rectangle;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.RectangleView;
 

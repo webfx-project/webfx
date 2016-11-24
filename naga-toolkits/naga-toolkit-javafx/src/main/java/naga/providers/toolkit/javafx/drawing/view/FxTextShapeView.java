@@ -2,9 +2,9 @@ package naga.providers.toolkit.javafx.drawing.view;
 
 import javafx.scene.text.Text;
 import naga.providers.toolkit.javafx.util.FxFonts;
-import naga.toolkit.drawing.shapes.TextAlignment;
-import naga.toolkit.drawing.shapes.TextShape;
-import naga.toolkit.drawing.shapes.VPos;
+import naga.toolkit.drawing.text.TextAlignment;
+import naga.toolkit.drawing.text.TextShape;
+import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.TextShapeView;
 import naga.toolkit.properties.conversion.ConvertedProperty;

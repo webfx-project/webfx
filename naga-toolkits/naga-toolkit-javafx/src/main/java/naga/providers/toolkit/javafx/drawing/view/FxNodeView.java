@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import naga.toolkit.drawing.shapes.Node;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.view.NodeView;
 
 /**

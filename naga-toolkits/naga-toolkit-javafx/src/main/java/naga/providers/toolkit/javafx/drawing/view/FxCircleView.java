@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import naga.toolkit.drawing.shapes.Circle;
+import naga.toolkit.drawing.shape.Circle;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.CircleView;
 
