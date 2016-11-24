@@ -2,12 +2,9 @@ package naga.toolkit.drawing.layout.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.util.Callback;
 import naga.toolkit.drawing.geometry.HPos;
-import naga.toolkit.drawing.geometry.Orientation;
-import naga.toolkit.drawing.geometry.Pos;
-import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.geometry.Insets;
+import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.layout.Priority;
 import naga.toolkit.drawing.layout.VBox;
 import naga.toolkit.drawing.scene.Node;
@@ -17,17 +14,12 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class VBoxImpl extends PaneImpl implements VBox {
+public class VBoxImpl extends BoxImpl implements VBox {
 
-    private boolean biasDirty = true;
-    private boolean performingLayout = false;
-    private Orientation bias;
-    private double[][] tempArray;
 
     /********************************************************************
      *  BEGIN static methods
      ********************************************************************/
-    private static final String MARGIN_CONSTRAINT = "vbox-margin";
     private static final String VGROW_CONSTRAINT = "vbox-vgrow";
 
     public static void setVgrow(Node child, Priority value) {
@@ -37,16 +29,6 @@ public class VBoxImpl extends PaneImpl implements VBox {
     public static Priority getVgrow(Node child) {
         return (Priority)getConstraint(child, VGROW_CONSTRAINT);
     }
-
-    public static void setMargin(Node child, Insets value) {
-        setConstraint(child, MARGIN_CONSTRAINT, value);
-    }
-
-    public static Insets getMargin(Node child) {
-        return (Insets)getConstraint(child, MARGIN_CONSTRAINT);
-    }
-
-    private static final Callback<Node, Insets> marginAccessor = n -> getMargin(n);
 
     public static void clearConstraints(Node child) {
         setVgrow(child, null);
@@ -62,64 +44,21 @@ public class VBoxImpl extends PaneImpl implements VBox {
     }
 
     public VBoxImpl(double spacing) {
-        this();
-        setSpacing(spacing);
+        super(spacing);
     }
 
     public VBoxImpl(Node... children) {
-        super();
-        getChildren().addAll(children);
+        super(children);
     }
 
     public VBoxImpl(double spacing, Node... children) {
-        this();
-        setSpacing(spacing);
-        getChildren().addAll(children);
-    }
-
-    private final Property<Double> spacingProperty = new SimpleObjectProperty<>(0d);
-    @Override
-    public Property<Double> spacingProperty() {
-        return spacingProperty;
-    }
-
-    private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.TOP_LEFT);
-    @Override
-    public Property<Pos> alignmentProperty() {
-        return alignmentProperty;
-    }
-
-    private Pos getAlignmentInternal() {
-        Pos localPos = getAlignment();
-        return localPos == null ? Pos.TOP_LEFT : localPos;
+        super(spacing, children);
     }
 
     private final Property<Boolean> fillWidthProperty = new SimpleObjectProperty<>(true);
     @Override
     public Property<Boolean> fillWidthProperty() {
         return fillWidthProperty;
-    }
-
-    /**
-     *
-     * @return null unless one of its children has a content bias.
-     */
-    @Override
-    public Orientation getContentBias() {
-        if (biasDirty) {
-            bias = null;
-            List<Node> children = getManagedChildren();
-            for (Node child : children) {
-                Orientation contentBias = child.getContentBias();
-                if (contentBias != null) {
-                    bias = contentBias;
-                    if (contentBias == Orientation.HORIZONTAL)
-                        break;
-                }
-            }
-            biasDirty = false;
-        }
-        return bias;
     }
 
     @Override
@@ -164,15 +103,6 @@ public class VBoxImpl extends PaneImpl implements VBox {
         return snapSpace(insets.getTop()) +
                 computeContentHeight(getManagedChildren(), width, false) +
                 snapSpace(insets.getBottom());
-    }
-
-    @Override
-    public void requestLayout() {
-        if (!performingLayout) {
-            biasDirty = true;
-            bias = null;
-            super.requestLayout();
-        }
     }
 
     @Override
@@ -253,7 +183,7 @@ public class VBoxImpl extends PaneImpl implements VBox {
     }
 
     private double growOrShrinkAreaHeights(List<Node>managed, double areaHeights[][], Priority priority, double extraHeight, double width) {
-        final boolean shrinking = extraHeight < 0;
+        boolean shrinking = extraHeight < 0;
         int adjustingNumber = 0;
 
         double[] usedHeights = areaHeights[0];
@@ -300,21 +230,5 @@ public class VBoxImpl extends PaneImpl implements VBox {
     private double computeContentHeight(List<Node> managedChildren, double width, boolean minimum) {
         return sum(getAreaHeights(managedChildren, width, minimum)[0], managedChildren.size())
                 + (managedChildren.size()-1)*snapSpace(getSpacing());
-    }
-
-    private static double sum(double[] array, int size) {
-        int i = 0;
-        double res = 0;
-        while (i != size)
-            res += array[i++];
-        return res;
-    }
-
-    private double[][] getTempArray(int size) {
-        if (tempArray == null)
-            tempArray = new double[2][size]; // First array for the result, second for temporary computations
-        else if (tempArray[0].length < size)
-            tempArray = new double[2][Math.max(tempArray.length * 3, size)];
-        return tempArray;
     }
 }

@@ -1,18 +1,14 @@
 package naga.toolkit.drawing.layout;
 
 import naga.toolkit.drawing.geometry.Insets;
-import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.layout.impl.HBoxImpl;
-import naga.toolkit.properties.markers.HasAlignmentProperty;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.properties.markers.HasFillHeightProperty;
-import naga.toolkit.properties.markers.HasSpacingProperty;
 
 /**
  * @author Bruno Salmon
  */
-public interface HBox extends Pane,
-        HasSpacingProperty,
-        HasAlignmentProperty,
+public interface HBox extends Box,
         HasFillHeightProperty {
 
     /**

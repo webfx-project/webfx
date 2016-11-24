@@ -1,13 +1,12 @@
 package naga.toolkit.drawing.layout.impl;
 
-import javafx.beans.property.*;
-import javafx.util.Callback;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.geometry.HPos;
-import naga.toolkit.drawing.geometry.Orientation;
+import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.geometry.Pos;
 import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.layout.HBox;
-import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.layout.Priority;
 import naga.toolkit.drawing.scene.Node;
 
@@ -16,19 +15,14 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class HBoxImpl extends PaneImpl implements HBox {
+public class HBoxImpl extends BoxImpl implements HBox {
 
-    private boolean biasDirty = true;
-    private boolean performingLayout = false;
     private double minBaselineComplement = Double.NaN;
     private double prefBaselineComplement = Double.NaN;
-    private Orientation bias;
-    private double[][] tempArray;
 
     /********************************************************************
      *  BEGIN static methods
      ********************************************************************/
-    private static final String MARGIN_CONSTRAINT = "hbox-margin";
     private static final String HGROW_CONSTRAINT = "hbox-hgrow";
 
     /**
@@ -57,28 +51,6 @@ public class HBoxImpl extends PaneImpl implements HBox {
     }
 
     /**
-     * Sets the margin for the child when contained by an hbox.
-     * If set, the hbox will layout the child with the margin space around it.
-     * Setting the value to null will remove the constraint.
-     * @param child the child mode of the hbox
-     * @param value the margin of space around the child
-     */
-    public static void setMargin(Node child, Insets value) {
-        setConstraint(child, MARGIN_CONSTRAINT, value);
-    }
-
-    /**
-     * Returns the child's margin constraint if set.
-     * @param child the child node of an hbox
-     * @return the margin for the child or null if no margin was set
-     */
-    public static Insets getMargin(Node child) {
-        return (Insets)getConstraint(child, MARGIN_CONSTRAINT);
-    }
-
-    private static final Callback<Node, Insets> marginAccessor = n -> getMargin(n);
-
-    /**
      * Removes all hbox constraints from the child node.
      * @param child the child node
      */
@@ -103,8 +75,7 @@ public class HBoxImpl extends PaneImpl implements HBox {
      * @param spacing the amount of horizontal space between each child
      */
     public HBoxImpl(double spacing) {
-        this();
-        setSpacing(spacing);
+        super(spacing);
     }
 
     /**
@@ -112,8 +83,7 @@ public class HBoxImpl extends PaneImpl implements HBox {
      * @param children The initial set of children for this pane.
      */
     public HBoxImpl(Node... children) {
-        super();
-        getChildren().addAll(children);
+        super(children);
     }
 
     /**
@@ -122,26 +92,7 @@ public class HBoxImpl extends PaneImpl implements HBox {
      * @param children The initial set of children for this pane.
      */
     public HBoxImpl(double spacing, Node... children) {
-        this();
-        setSpacing(spacing);
-        getChildren().addAll(children);
-    }
-
-    private final Property<Double> spacingProperty = new SimpleObjectProperty<>(0d);
-    @Override
-    public Property<Double> spacingProperty() {
-        return spacingProperty;
-    }
-
-    private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.TOP_LEFT);
-    @Override
-    public Property<Pos> alignmentProperty() {
-        return alignmentProperty;
-    }
-
-    private Pos getAlignmentInternal() {
-        Pos localPos = getAlignment();
-        return localPos == null ? Pos.TOP_LEFT : localPos;
+        super(spacing, children);
     }
 
     private final Property<Boolean> fillHeightProperty = new SimpleObjectProperty<>(true);
@@ -155,39 +106,19 @@ public class HBoxImpl extends PaneImpl implements HBox {
         return isFillHeight() && getAlignmentInternal().getVpos() != VPos.BASELINE;
     }
 
-    /**
-     *
-     * @return null unless one of its children has a content bias.
-     */
-    @Override public Orientation getContentBias() {
-        if (biasDirty) {
-            bias = null;
-            final List<Node> children = getManagedChildren();
-            for (Node child : children) {
-                Orientation contentBias = child.getContentBias();
-                if (contentBias != null) {
-                    bias = contentBias;
-                    if (contentBias == Orientation.HORIZONTAL) {
-                        break;
-                    }
-                }
-            }
-            biasDirty = false;
-        }
-        return bias;
-    }
-
-    @Override protected double computeMinWidth(double height) {
+    @Override
+    protected double computeMinWidth(double height) {
         Insets insets = getInsets();
         return snapSpace(insets.getLeft()) +
                 computeContentWidth(getManagedChildren(), height, true) +
                 snapSpace(insets.getRight());
     }
 
-    @Override protected double computeMinHeight(double width) {
+    @Override
+    protected double computeMinHeight(double width) {
         Insets insets = getInsets();
         List<Node>managed = getManagedChildren();
-        double contentHeight = 0;
+        double contentHeight;
         if (width != -1 && getContentBias() != null) {
             double prefWidths[][] = getAreaWidths(managed, -1, false);
             adjustAreaWidths(managed, prefWidths, width, -1);
@@ -200,17 +131,19 @@ public class HBoxImpl extends PaneImpl implements HBox {
                 snapSpace(insets.getBottom());
     }
 
-    @Override protected double computePrefWidth(double height) {
+    @Override
+    protected double computePrefWidth(double height) {
         Insets insets = getInsets();
         return snapSpace(insets.getLeft()) +
                 computeContentWidth(getManagedChildren(), height, false) +
                 snapSpace(insets.getRight());
     }
 
-    @Override protected double computePrefHeight(double width) {
+    @Override
+    protected double computePrefHeight(double width) {
         Insets insets = getInsets();
         List<Node>managed = getManagedChildren();
-        double contentHeight = 0;
+        double contentHeight;
         if (width != -1 && getContentBias() != null) {
             double prefWidths[][] = getAreaWidths(managed, -1, false);
             adjustAreaWidths(managed, prefWidths, width, -1);
@@ -226,9 +159,9 @@ public class HBoxImpl extends PaneImpl implements HBox {
     private double[][] getAreaWidths(List<Node>managed, double height, boolean minimum) {
         // height could be -1
         double[][] temp = getTempArray(managed.size());
-        final double insideHeight = height == -1? -1 : height -
+        double insideHeight = height == -1? -1 : height -
                 snapSpace(getInsets().getTop()) - snapSpace(getInsets().getBottom());
-        final boolean shouldFillHeight = shouldFillHeight();
+        boolean shouldFillHeight = shouldFillHeight();
         for (int i = 0, size = managed.size(); i < size; i++) {
             Node child = managed.get(i);
             Insets margin = getMargin(child);
@@ -251,7 +184,7 @@ public class HBoxImpl extends PaneImpl implements HBox {
                 snapSpace(insets.getLeft()) - snapSpace(insets.getRight()) - contentWidth;
 
         if (extraWidth != 0) {
-            final double refHeight = shouldFillHeight() && height != -1? height - top - bottom : -1;
+            double refHeight = shouldFillHeight() && height != -1? height - top - bottom : -1;
             double remaining = growOrShrinkAreaWidths(managed, areaWidths, Priority.ALWAYS, extraWidth, refHeight);
             remaining = growOrShrinkAreaWidths(managed, areaWidths, Priority.SOMETIMES, remaining, refHeight);
             contentWidth += (extraWidth - remaining);
@@ -260,22 +193,22 @@ public class HBoxImpl extends PaneImpl implements HBox {
     }
 
     private double growOrShrinkAreaWidths(List<Node>managed, double areaWidths[][], Priority priority, double extraWidth, double height) {
-        final boolean shrinking = extraWidth < 0;
+        boolean shrinking = extraWidth < 0;
         int adjustingNumber = 0;
 
         double[] usedWidths = areaWidths[0];
         double[] temp = areaWidths[1];
-        final boolean shouldFillHeight = shouldFillHeight();
+        boolean shouldFillHeight = shouldFillHeight();
 
         if (shrinking) {
             adjustingNumber = managed.size();
             for (int i = 0, size = managed.size(); i < size; i++) {
-                final Node child = managed.get(i);
+                Node child = managed.get(i);
                 temp[i] = computeChildMinAreaWidth(child, getMinBaselineComplement(), getMargin(child), height, shouldFillHeight);
             }
         } else {
             for (int i = 0, size = managed.size(); i < size; i++) {
-                final Node child = managed.get(i);
+                Node child = managed.get(i);
                 if (getHgrow(child) == priority) {
                     temp[i] = computeChildMaxAreaWidth(child, getMinBaselineComplement(), getMargin(child), height, shouldFillHeight);
                     adjustingNumber++;
@@ -287,13 +220,13 @@ public class HBoxImpl extends PaneImpl implements HBox {
 
         double available = extraWidth; // will be negative in shrinking case
         outer:while (Math.abs(available) > 1 && adjustingNumber > 0) {
-            final double portion = snapPortion(available / adjustingNumber); // negative in shrinking case
+            double portion = snapPortion(available / adjustingNumber); // negative in shrinking case
             for (int i = 0, size = managed.size(); i < size; i++) {
                 if (temp[i] == -1) {
                     continue;
                 }
-                final double limit = temp[i] - usedWidths[i]; // negative in shrinking case
-                final double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
+                double limit = temp[i] - usedWidths[i]; // negative in shrinking case
+                double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
                 usedWidths[i] += change;
                 available -= change;
                 if (Math.abs(available) < 1) {
@@ -314,45 +247,31 @@ public class HBoxImpl extends PaneImpl implements HBox {
                 + (managedChildren.size()-1)*snapSpace(getSpacing());
     }
 
-    private static double sum(double[] array, int size) {
-        int i = 0;
-        double res = 0;
-        while (i != size) {
-            res += array[i++];
+    @Override
+    public void requestLayout() {
+        if (!performingLayout) {
+            minBaselineComplement = Double.NaN;
+            prefBaselineComplement = Double.NaN;
+            super.requestLayout();
         }
-        return res;
-    }
-
-    @Override public void requestLayout() {
-        if (performingLayout) {
-            return;
-        }
-        biasDirty = true;
-        bias = null;
-        minBaselineComplement = Double.NaN;
-        prefBaselineComplement = Double.NaN;
-        baselineOffset = Double.NaN;
-        super.requestLayout();
     }
 
     private double getMinBaselineComplement() {
         if (Double.isNaN(minBaselineComplement)) {
-            if (getAlignmentInternal().getVpos() == VPos.BASELINE) {
+            if (getAlignmentInternal().getVpos() == VPos.BASELINE)
                 minBaselineComplement = getMinBaselineComplement(getManagedChildren());
-            } else {
+            else
                 minBaselineComplement = -1;
-            }
         }
         return minBaselineComplement;
     }
 
     private double getPrefBaselineComplement() {
         if (Double.isNaN(prefBaselineComplement)) {
-            if (getAlignmentInternal().getVpos() == VPos.BASELINE) {
+            if (getAlignmentInternal().getVpos() == VPos.BASELINE)
                 prefBaselineComplement = getPrefBaselineComplement(getManagedChildren());
-            } else {
+            else
                 prefBaselineComplement = -1;
-            }
         }
         return prefBaselineComplement;
     }
@@ -362,15 +281,13 @@ public class HBoxImpl extends PaneImpl implements HBox {
     @Override
     public double getBaselineOffset() {
         List<Node> managed = getManagedChildren();
-        if (managed.isEmpty()) {
+        if (managed.isEmpty())
             return BASELINE_OFFSET_SAME_AS_HEIGHT;
-        }
         if (Double.isNaN(baselineOffset)) {
             VPos vpos = getAlignmentInternal().getVpos();
             if (vpos == VPos.BASELINE) {
                 double max = 0;
-                for (int i =0, sz = managed.size(); i < sz; ++i) {
-                    final Node child = managed.get(i);
+                for (Node child : managed) {
                     double offset = child.getBaselineOffset();
                     if (offset == BASELINE_OFFSET_SAME_AS_HEIGHT) {
                         baselineOffset = BASELINE_OFFSET_SAME_AS_HEIGHT;
@@ -382,9 +299,8 @@ public class HBoxImpl extends PaneImpl implements HBox {
                     }
                 }
                 baselineOffset = max + snappedTopInset();
-            } else {
+            } else
                 baselineOffset = BASELINE_OFFSET_SAME_AS_HEIGHT;
-            }
         }
         return baselineOffset;
     }
@@ -405,7 +321,7 @@ public class HBoxImpl extends PaneImpl implements HBox {
         double space = snapSpace(getSpacing());
         boolean shouldFillHeight = shouldFillHeight();
 
-        final double[][] actualAreaWidths = getAreaWidths(managed, height, false);
+        double[][] actualAreaWidths = getAreaWidths(managed, height, false);
         double contentWidth = adjustAreaWidths(managed, actualAreaWidths, width, height);
         double contentHeight = height - top - bottom;
 
@@ -427,15 +343,5 @@ public class HBoxImpl extends PaneImpl implements HBox {
             x += actualAreaWidths[0][i] + space;
         }
         performingLayout = false;
-    }
-
-    private double[][] getTempArray(int size) {
-        if (tempArray == null) {
-            tempArray = new double[2][size]; // First array for the result, second for temporary computations
-        } else if (tempArray[0].length < size) {
-            tempArray = new double[2][Math.max(tempArray.length * 3, size)];
-        }
-        return tempArray;
-
     }
 }

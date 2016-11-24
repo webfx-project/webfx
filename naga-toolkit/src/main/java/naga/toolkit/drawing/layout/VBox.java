@@ -1,18 +1,14 @@
 package naga.toolkit.drawing.layout;
 
 import naga.toolkit.drawing.geometry.Insets;
-import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.layout.impl.VBoxImpl;
-import naga.toolkit.properties.markers.HasAlignmentProperty;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.properties.markers.HasFillWidthProperty;
-import naga.toolkit.properties.markers.HasSpacingProperty;
 
 /**
  * @author Bruno Salmon
  */
-public interface VBox extends Pane,
-        HasSpacingProperty,
-        HasAlignmentProperty,
+public interface VBox extends Box,
         HasFillWidthProperty {
 
     /**
