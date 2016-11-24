@@ -14,7 +14,7 @@ import naga.toolkit.drawing.geometry.BoundingBox;
 import naga.toolkit.drawing.geometry.Bounds;
 import naga.toolkit.drawing.shapes.BlendMode;
 import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Orientation;
+import naga.toolkit.drawing.geometry.Orientation;
 import naga.toolkit.drawing.shapes.Parent;
 import naga.toolkit.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;

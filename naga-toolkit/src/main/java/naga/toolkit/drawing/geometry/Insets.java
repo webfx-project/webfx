@@ -1,6 +1,6 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.geometry;
 
-import naga.toolkit.drawing.shapes.impl.InsetsImpl;
+import naga.toolkit.drawing.geometry.impl.InsetsImpl;
 
 /**
  * @author Bruno Salmon

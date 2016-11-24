@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.layout;
 
-import naga.toolkit.drawing.shapes.Insets;
+import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.shapes.Node;
 import naga.toolkit.drawing.layout.impl.VBoxImpl;
 import naga.toolkit.properties.markers.HasAlignmentProperty;

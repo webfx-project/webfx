@@ -7,6 +7,7 @@ import naga.toolkit.drawing.geometry.Orientation;
 import naga.toolkit.drawing.geometry.Pos;
 import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.layout.HBox;
+import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.layout.Priority;
 import naga.toolkit.drawing.shapes.*;
 

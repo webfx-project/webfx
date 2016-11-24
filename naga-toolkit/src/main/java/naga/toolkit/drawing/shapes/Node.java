@@ -3,6 +3,7 @@ package naga.toolkit.drawing.shapes;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import naga.toolkit.drawing.geometry.Bounds;
+import naga.toolkit.drawing.geometry.Orientation;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.transform.Transform;
 

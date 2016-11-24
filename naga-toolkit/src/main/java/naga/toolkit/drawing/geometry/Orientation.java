@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.geometry;
 
 /**
  * @author Bruno Salmon

@@ -1,4 +1,4 @@
-package naga.toolkit.drawing;
+package naga.toolkit.drawing.geometry;
 
 import naga.toolkit.drawing.geom.Point2D;
 

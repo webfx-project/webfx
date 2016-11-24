@@ -1,10 +1,4 @@
-package naga.toolkit.drawing.shapes;
-
-import static naga.toolkit.drawing.shapes.HPos.LEFT;
-import static naga.toolkit.drawing.shapes.HPos.RIGHT;
-import static naga.toolkit.drawing.shapes.VPos.BASELINE;
-import static naga.toolkit.drawing.shapes.VPos.BOTTOM;
-import static naga.toolkit.drawing.shapes.VPos.TOP;
+package naga.toolkit.drawing.geometry;
 
 /**
  * A set of values for describing vertical and horizontal positioning and
@@ -17,22 +11,22 @@ public enum Pos {
     /**
      * Represents positioning on the top vertically and on the left horizontally.
      */
-    TOP_LEFT(TOP, LEFT),
+    TOP_LEFT(VPos.TOP, HPos.LEFT),
 
     /**
      * Represents positioning on the top vertically and on the center horizontally.
      */
-    TOP_CENTER(TOP, HPos.CENTER),
+    TOP_CENTER(VPos.TOP, HPos.CENTER),
 
     /**
      * Represents positioning on the top vertically and on the right horizontally.
      */
-    TOP_RIGHT(TOP, RIGHT),
+    TOP_RIGHT(VPos.TOP, HPos.RIGHT),
 
     /**
      * Represents positioning on the center vertically and on the left horizontally.
      */
-    CENTER_LEFT(VPos.CENTER, LEFT),
+    CENTER_LEFT(VPos.CENTER, HPos.LEFT),
 
     /**
      * Represents positioning on the center both vertically and horizontally.
@@ -42,37 +36,37 @@ public enum Pos {
     /**
      * Represents positioning on the center vertically and on the right horizontally.
      */
-    CENTER_RIGHT(VPos.CENTER, RIGHT),
+    CENTER_RIGHT(VPos.CENTER, HPos.RIGHT),
 
     /**
      * Represents positioning on the bottom vertically and on the left horizontally.
      */
-    BOTTOM_LEFT(BOTTOM, LEFT),
+    BOTTOM_LEFT(VPos.BOTTOM, HPos.LEFT),
 
     /**
      * Represents positioning on the bottom vertically and on the center horizontally.
      */
-    BOTTOM_CENTER(BOTTOM, HPos.CENTER),
+    BOTTOM_CENTER(VPos.BOTTOM, HPos.CENTER),
 
     /**
      * Represents positioning on the bottom vertically and on the right horizontally.
      */
-    BOTTOM_RIGHT(BOTTOM, RIGHT),
+    BOTTOM_RIGHT(VPos.BOTTOM, HPos.RIGHT),
 
     /**
      * Represents positioning on the baseline vertically and on the left horizontally.
      */
-    BASELINE_LEFT(BASELINE, LEFT),
+    BASELINE_LEFT(VPos.BASELINE, HPos.LEFT),
 
     /**
      * Represents positioning on the baseline vertically and on the center horizontally.
      */
-    BASELINE_CENTER(BASELINE, HPos.CENTER),
+    BASELINE_CENTER(VPos.BASELINE, HPos.CENTER),
 
     /**
      * Represents positioning on the baseline vertically and on the right horizontally.
      */
-    BASELINE_RIGHT(BASELINE, RIGHT);
+    BASELINE_RIGHT(VPos.BASELINE, HPos.RIGHT);
 
     private final VPos vpos;
     private final HPos hpos;

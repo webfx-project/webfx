@@ -8,7 +8,7 @@ import naga.toolkit.drawing.shapes.impl.ShapeImpl;
 import naga.toolkit.drawing.text.Font;
 import naga.toolkit.drawing.text.TextAlignment;
 import naga.toolkit.drawing.text.TextShape;
-import naga.toolkit.drawing.shapes.VPos;
+import naga.toolkit.drawing.geometry.VPos;
 
 /**
  * @author Bruno Salmon

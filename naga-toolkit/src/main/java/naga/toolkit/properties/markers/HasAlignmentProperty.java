@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Pos;
+import naga.toolkit.drawing.geometry.Pos;
 
 /**
  * @author Bruno Salmon

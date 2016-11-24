@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.geometry;
 
 /**
  * A set of values for describing horizontal positioning and alignment.

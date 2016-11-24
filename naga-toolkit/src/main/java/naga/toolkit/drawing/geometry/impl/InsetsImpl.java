@@ -1,6 +1,6 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.geometry.impl;
 
-import naga.toolkit.drawing.shapes.Insets;
+import naga.toolkit.drawing.geometry.Insets;
 
 /**
  * A set of inside offsets for the 4 side of a rectangular area

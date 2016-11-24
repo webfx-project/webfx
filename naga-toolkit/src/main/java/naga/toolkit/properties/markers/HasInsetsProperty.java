@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Insets;
+import naga.toolkit.drawing.geometry.Insets;
 
 /**
  * @author Bruno Salmon
