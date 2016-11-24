@@ -1,6 +1,6 @@
-package naga.toolkit.effect.impl;
+package naga.toolkit.drawing.effect.impl;
 
-import naga.toolkit.effect.GaussianBlur;
+import naga.toolkit.drawing.effect.GaussianBlur;
 
 /**
  * @author Bruno Salmon

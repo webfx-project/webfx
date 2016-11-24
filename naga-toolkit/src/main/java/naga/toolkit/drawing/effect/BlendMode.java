@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.effect;
 
 /**
  * A blending mode defines the manner in which the inputs of a Blend

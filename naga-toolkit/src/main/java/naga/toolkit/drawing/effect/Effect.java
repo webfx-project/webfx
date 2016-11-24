@@ -1,4 +1,4 @@
-package naga.toolkit.effect;
+package naga.toolkit.drawing.effect;
 
 /**
  * @author Bruno Salmon
