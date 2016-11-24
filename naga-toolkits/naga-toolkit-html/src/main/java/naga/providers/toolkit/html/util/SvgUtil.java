@@ -6,8 +6,8 @@ import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.CycleMethod;
 import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.paint.Stop;
-import naga.toolkit.drawing.shapes.StrokeLineCap;
-import naga.toolkit.drawing.shapes.StrokeLineJoin;
+import naga.toolkit.drawing.shape.StrokeLineCap;
+import naga.toolkit.drawing.shape.StrokeLineJoin;
 
 import static elemental2.Global.document;
 

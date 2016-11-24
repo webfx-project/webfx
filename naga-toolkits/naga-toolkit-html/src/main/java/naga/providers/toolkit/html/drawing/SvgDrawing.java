@@ -5,8 +5,8 @@ import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.drawing.view.SvgNodeView;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.toolkit.drawing.shapes.Node;
-import naga.toolkit.drawing.shapes.Parent;
+import naga.toolkit.drawing.scene.Node;
+import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.view.NodeView;
 

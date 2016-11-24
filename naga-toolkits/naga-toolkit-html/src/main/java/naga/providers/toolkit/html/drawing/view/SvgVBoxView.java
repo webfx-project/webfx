@@ -1,7 +1,7 @@
 package naga.providers.toolkit.html.drawing.view;
 
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.toolkit.drawing.shapes.VBox;
+import naga.toolkit.drawing.layout.VBox;
 import naga.toolkit.drawing.spi.view.base.VBoxViewBase;
 import naga.toolkit.drawing.spi.view.base.VBoxViewMixin;
 
