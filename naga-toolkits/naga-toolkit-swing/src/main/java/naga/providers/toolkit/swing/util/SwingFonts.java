@@ -1,8 +1,8 @@
 package naga.providers.toolkit.swing.util;
 
-import naga.toolkit.drawing.shapes.Font;
-import naga.toolkit.drawing.shapes.FontPosture;
-import naga.toolkit.drawing.shapes.FontWeight;
+import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.FontPosture;
+import naga.toolkit.drawing.text.FontWeight;
 
 import static java.awt.Font.*;
 

@@ -1,7 +1,7 @@
 package naga.providers.toolkit.swing.drawing.view;
 
-import naga.toolkit.drawing.shapes.EmbedGuiNode;
-import naga.toolkit.drawing.shapes.Point2D;
+import naga.toolkit.drawing.scene.EmbedGuiNode;
+import naga.toolkit.drawing.geom.Point2D;
 import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewBase;
 import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewMixin;
 

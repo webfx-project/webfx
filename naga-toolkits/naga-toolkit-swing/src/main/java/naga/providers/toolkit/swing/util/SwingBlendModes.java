@@ -1,6 +1,6 @@
 package naga.providers.toolkit.swing.util;
 
-import naga.toolkit.drawing.shapes.BlendMode;
+import naga.toolkit.drawing.effect.BlendMode;
 
 import java.awt.*;
 import java.awt.image.ColorModel;

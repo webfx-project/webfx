@@ -1,7 +1,7 @@
 package naga.providers.toolkit.swing.drawing.view;
 
 import naga.commons.util.Numbers;
-import naga.toolkit.drawing.shapes.Rectangle;
+import naga.toolkit.drawing.shape.Rectangle;
 import naga.toolkit.drawing.spi.view.base.RectangleViewBase;
 import naga.toolkit.drawing.spi.view.base.RectangleViewMixin;
 import naga.toolkit.drawing.spi.view.base.RectangleViewMixin2;

@@ -2,7 +2,7 @@ package naga.providers.toolkit.swing.drawing.view;
 
 import naga.providers.toolkit.swing.util.SwingPaints;
 import naga.toolkit.drawing.paint.LinearGradient;
-import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shape.Shape;
 
 import java.awt.*;
 

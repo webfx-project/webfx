@@ -1,10 +1,10 @@
 package naga.providers.toolkit.swing.drawing.view;
 
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.Point2D;
-import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.drawing.shapes.StrokeLineCap;
-import naga.toolkit.drawing.shapes.StrokeLineJoin;
+import naga.toolkit.drawing.geom.Point2D;
+import naga.toolkit.drawing.shape.Shape;
+import naga.toolkit.drawing.shape.StrokeLineCap;
+import naga.toolkit.drawing.shape.StrokeLineJoin;
 import naga.toolkit.drawing.spi.view.base.ShapeViewBase;
 import naga.toolkit.drawing.spi.view.base.ShapeViewMixin;
 

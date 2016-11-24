@@ -1,8 +1,8 @@
 package naga.providers.toolkit.swing.util;
 
 import naga.commons.util.collection.Collections;
-import naga.toolkit.drawing.shapes.StrokeLineCap;
-import naga.toolkit.drawing.shapes.StrokeLineJoin;
+import naga.toolkit.drawing.shape.StrokeLineCap;
+import naga.toolkit.drawing.shape.StrokeLineJoin;
 
 import java.awt.*;
 import java.util.List;
