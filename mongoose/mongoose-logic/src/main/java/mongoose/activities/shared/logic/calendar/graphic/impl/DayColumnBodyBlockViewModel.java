@@ -6,9 +6,14 @@ import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.TimeInterval;
+import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.*;
+import naga.toolkit.drawing.scene.Group;
+import naga.toolkit.drawing.shape.*;
+import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.TextAlignment;
+import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.transform.Translate;
 
 /**
