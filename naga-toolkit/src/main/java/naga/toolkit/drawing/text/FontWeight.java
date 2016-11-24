@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.text;
 
 /**
  * Specifies different font weights which can be used when searching for a

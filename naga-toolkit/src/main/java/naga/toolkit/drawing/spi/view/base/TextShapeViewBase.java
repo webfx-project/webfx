@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.TextShape;
+import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.TextShapeView;
 

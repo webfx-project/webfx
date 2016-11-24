@@ -1,6 +1,7 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.text;
 
-import naga.toolkit.drawing.shapes.impl.TextShapeImpl;
+import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.text.impl.TextShapeImpl;
 import naga.toolkit.properties.markers.*;
 
 /**

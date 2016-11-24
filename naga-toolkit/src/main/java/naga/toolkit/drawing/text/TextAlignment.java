@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.text;
 
 /**
  * The {@code TextAlignment} enum represents the horizontal text alignment.

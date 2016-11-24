@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view;
 
-import naga.toolkit.drawing.shapes.TextShape;
+import naga.toolkit.drawing.text.TextShape;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.TextAlignment;
+import naga.toolkit.drawing.text.TextAlignment;
 
 /**
  * @author Bruno Salmon

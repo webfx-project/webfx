@@ -1,6 +1,6 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.text;
 
-import naga.toolkit.drawing.shapes.impl.FontImpl;
+import naga.toolkit.drawing.text.impl.FontImpl;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.Font;
-import naga.toolkit.drawing.shapes.TextAlignment;
+import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.TextAlignment;
 import naga.toolkit.drawing.shapes.VPos;
 
 /**
