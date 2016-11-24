@@ -1,7 +1,7 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.shape;
 
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.impl.RectangleImpl;
+import naga.toolkit.drawing.shape.impl.RectangleImpl;
 import naga.toolkit.properties.markers.*;
 
 /**

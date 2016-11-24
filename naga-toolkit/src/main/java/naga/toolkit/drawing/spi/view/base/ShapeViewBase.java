@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Shape;
+import naga.toolkit.drawing.shape.Shape;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.ShapeView;
 

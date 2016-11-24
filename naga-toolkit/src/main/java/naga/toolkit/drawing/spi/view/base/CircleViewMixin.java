@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.Circle;
+import naga.toolkit.drawing.shape.Circle;
 import naga.toolkit.drawing.spi.view.CircleView;
 
 /**

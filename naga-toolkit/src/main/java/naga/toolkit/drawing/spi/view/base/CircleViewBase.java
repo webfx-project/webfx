@@ -1,7 +1,7 @@
 package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.shapes.Circle;
+import naga.toolkit.drawing.shape.Circle;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.CircleView;
 

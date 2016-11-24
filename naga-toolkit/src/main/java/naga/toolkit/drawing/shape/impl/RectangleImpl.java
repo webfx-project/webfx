@@ -1,11 +1,11 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.shape.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.geom.BaseBounds;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.Rectangle;
+import naga.toolkit.drawing.shape.Rectangle;
 
 /**
  * @author Bruno Salmon

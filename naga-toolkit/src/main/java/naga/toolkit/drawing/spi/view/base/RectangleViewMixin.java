@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.spi.view.base;
 
-import naga.toolkit.drawing.shapes.Rectangle;
+import naga.toolkit.drawing.shape.Rectangle;
 import naga.toolkit.drawing.spi.view.RectangleView;
 
 /**

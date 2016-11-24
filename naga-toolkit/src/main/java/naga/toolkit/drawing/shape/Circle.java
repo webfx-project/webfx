@@ -1,7 +1,7 @@
-package naga.toolkit.drawing.shapes;
+package naga.toolkit.drawing.shape;
 
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.shapes.impl.CircleImpl;
+import naga.toolkit.drawing.shape.impl.CircleImpl;
 import naga.toolkit.properties.markers.HasCenterXProperty;
 import naga.toolkit.properties.markers.HasCenterYProperty;
 import naga.toolkit.properties.markers.HasRadiusProperty;

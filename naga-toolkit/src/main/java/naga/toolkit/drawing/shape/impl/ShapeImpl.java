@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.shapes.impl;
+package naga.toolkit.drawing.shape.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -7,9 +7,9 @@ import javafx.collections.ObservableList;
 import naga.toolkit.drawing.paint.Color;
 import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.scene.impl.NodeImpl;
-import naga.toolkit.drawing.shapes.Shape;
-import naga.toolkit.drawing.shapes.StrokeLineCap;
-import naga.toolkit.drawing.shapes.StrokeLineJoin;
+import naga.toolkit.drawing.shape.Shape;
+import naga.toolkit.drawing.shape.StrokeLineCap;
+import naga.toolkit.drawing.shape.StrokeLineJoin;
 
 /**
  * @author Bruno Salmon
