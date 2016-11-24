@@ -1375,4 +1375,21 @@ public class RegionImpl extends ParentImpl implements Region {
                 throw new AssertionError("Unhandled vPos");
         }
     }
+
+    double adjustWidthByMargin(double width, Insets margin) {
+        if (margin == null || margin == Insets.EMPTY) {
+            return width;
+        }
+        boolean isSnapToPixel = isSnapToPixel();
+        return width - snapSpace(margin.getLeft(), isSnapToPixel) - snapSpace(margin.getRight(), isSnapToPixel);
+    }
+
+    double adjustHeightByMargin(double height, Insets margin) {
+        if (margin == null || margin == Insets.EMPTY) {
+            return height;
+        }
+        boolean isSnapToPixel = isSnapToPixel();
+        return height - snapSpace(margin.getTop(), isSnapToPixel) - snapSpace(margin.getBottom(), isSnapToPixel);
+    }
+
 }
