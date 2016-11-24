@@ -1,4 +1,4 @@
-package naga.toolkit.animation;
+package naga.toolkit.drawing.animation;
 
 import com.sun.javafx.collections.TrackableObservableList;
 import com.sun.javafx.collections.VetoableListDecorator;
@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static naga.toolkit.animation.TickCalculation.*;
+import static naga.toolkit.drawing.animation.TickCalculation.*;
 
 /**
  * This {@link Transition} plays a list of {@link javafx.animation.Animation

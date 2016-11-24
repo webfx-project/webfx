@@ -1,4 +1,4 @@
-package naga.toolkit.animation;
+package naga.toolkit.drawing.animation;
 
 import javafx.beans.value.*;
 

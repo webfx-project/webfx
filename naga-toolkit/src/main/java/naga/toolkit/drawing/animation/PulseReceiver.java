@@ -1,4 +1,4 @@
-package naga.toolkit.animation;
+package naga.toolkit.drawing.animation;
 
 /**
  * A PulseReceiver can receive regular pulses from the MasterTimer. Removing

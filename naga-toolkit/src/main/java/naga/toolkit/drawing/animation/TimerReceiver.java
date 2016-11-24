@@ -1,4 +1,4 @@
-package naga.toolkit.animation;
+package naga.toolkit.drawing.animation;
 
 /**
  * A TimerReceiver receives per-frame pulses from the MasterTimer.

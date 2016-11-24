@@ -1,4 +1,4 @@
-package naga.toolkit.animation;
+package naga.toolkit.drawing.animation;
 
 import naga.commons.util.async.Handler;
 import naga.toolkit.spi.events.ActionEvent;

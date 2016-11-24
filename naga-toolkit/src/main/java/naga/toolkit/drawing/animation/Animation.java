@@ -1,4 +1,4 @@
-package naga.toolkit.animation;
+package naga.toolkit.drawing.animation;
 
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -9,7 +9,7 @@ import naga.toolkit.spi.events.ActionEvent;
 import java.time.Duration;
 import java.util.HashMap;
 
-import static naga.toolkit.animation.TickCalculation.fromDuration;
+import static naga.toolkit.drawing.animation.TickCalculation.fromDuration;
 
 /**
  * The class {@code Animation} provides the core functionality of all animations
