@@ -1,8 +1,8 @@
-package naga.providers.toolkit.html.drawing;
+package naga.providers.toolkit.html.drawing.svg;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
-import naga.providers.toolkit.html.drawing.view.SvgNodeView;
+import naga.providers.toolkit.html.drawing.svg.view.SvgNodeView;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.scene.Node;

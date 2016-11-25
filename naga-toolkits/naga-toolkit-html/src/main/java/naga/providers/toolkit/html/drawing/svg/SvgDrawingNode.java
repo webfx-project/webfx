@@ -1,7 +1,6 @@
-package naga.providers.toolkit.html.drawing;
+package naga.providers.toolkit.html.drawing.svg;
 
 import elemental2.Element;
-import elemental2.Event;
 import elemental2.EventTarget;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -35,12 +34,9 @@ public class SvgDrawingNode extends HtmlParent</*SVGElement*/ Element> implement
         drawing = new SvgDrawing(this);
         HtmlUtil.runOnAttached(node, () -> {
             updateWidthProperty();
-            window.addEventListener("resize", new EventTarget.AddEventListenerListenerCallback() {
-                @Override
-                public boolean onInvoke(Event a) {
-                    updateWidthProperty();
-                    return true;
-                }
+            window.addEventListener("resize", (EventTarget.AddEventListenerListenerCallback) a -> {
+                updateWidthProperty();
+                return true;
             }, false);
         });
     }

@@ -1,6 +1,6 @@
-package naga.providers.toolkit.html.drawing;
+package naga.providers.toolkit.html.drawing.svg;
 
-import naga.providers.toolkit.html.drawing.view.*;
+import naga.providers.toolkit.html.drawing.svg.view.*;
 import naga.toolkit.drawing.layout.impl.BorderPaneImpl;
 import naga.toolkit.drawing.layout.impl.HBoxImpl;
 import naga.toolkit.drawing.layout.impl.VBoxImpl;

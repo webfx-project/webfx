@@ -1,4 +1,4 @@
-package naga.providers.toolkit.html.drawing.view;
+package naga.providers.toolkit.html.drawing.svg.view;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;

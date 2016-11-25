@@ -1,7 +1,7 @@
-package naga.providers.toolkit.html.drawing.view;
+package naga.providers.toolkit.html.drawing.svg.view;
 
 import elemental2.Element;
-import naga.providers.toolkit.html.drawing.SvgDrawing;
+import naga.providers.toolkit.html.drawing.svg.SvgDrawing;
 import naga.providers.toolkit.html.events.HtmlMouseEvent;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;

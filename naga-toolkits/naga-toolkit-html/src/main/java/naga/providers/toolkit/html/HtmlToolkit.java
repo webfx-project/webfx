@@ -2,7 +2,7 @@ package naga.providers.toolkit.html;
 
 import elemental2.HTMLButtonElement;
 import naga.platform.spi.Platform;
-import naga.providers.toolkit.html.drawing.SvgDrawingNode;
+import naga.providers.toolkit.html.drawing.svg.SvgDrawingNode;
 import naga.providers.toolkit.html.nodes.controls.*;
 import naga.providers.toolkit.html.nodes.layouts.HtmlHBox;
 import naga.providers.toolkit.html.nodes.layouts.HtmlVBox;
