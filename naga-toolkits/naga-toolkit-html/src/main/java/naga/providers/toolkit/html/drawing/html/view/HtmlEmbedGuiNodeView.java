@@ -1,7 +1,6 @@
-package naga.providers.toolkit.html.drawing.svg.view;
+package naga.providers.toolkit.html.drawing.html.view;
 
 import naga.providers.toolkit.html.util.HtmlUtil;
-import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.scene.EmbedGuiNode;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewBase;
@@ -10,10 +9,10 @@ import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewMixin;
 /**
  * @author Bruno Salmon
  */
-public class SvgEmbedGuiNodeView extends SvgNodeView<EmbedGuiNode, EmbedGuiNodeViewBase, EmbedGuiNodeViewMixin> {
+public class HtmlEmbedGuiNodeView extends HtmlNodeView<EmbedGuiNode, EmbedGuiNodeViewBase, EmbedGuiNodeViewMixin> {
 
-    public SvgEmbedGuiNodeView() {
-        super(new EmbedGuiNodeViewBase(), SvgUtil.createSvgElement("foreignObject"));
+    public HtmlEmbedGuiNodeView() {
+        super(new EmbedGuiNodeViewBase(), HtmlUtil.createAbsolutePositionDiv());
     }
 
     @Override

@@ -161,6 +161,16 @@ public class HtmlUtil {
         return createElement("div");
     }
 
+
+    public static HTMLDivElement createAbsolutePositionDiv() {
+        return absolutePosition(createDivElement());
+    }
+
+    public static <E extends HTMLElement> E absolutePosition(E e) {
+        e.style.position = "absolute";
+        return e;
+    }
+
     public static <E extends Node> E createNodeFromHtml(String innerHTML) {
         HTMLDivElement div = createDivElement();
         div.innerHTML = innerHTML;
@@ -169,6 +179,10 @@ public class HtmlUtil {
 
     public static HTMLElement createSpanElement() {
         return createElement("span");
+    }
+
+    public static HTMLElement createAbsolutePositionSpan() {
+        return absolutePosition(createSpanElement());
     }
 
     public static HTMLInputElement createInputElement(String type) {

@@ -18,16 +18,16 @@ public class SvgCircleView
 
     @Override
     public void updateCenterX(Double centerX) {
-        setSvgAttribute("cx", centerX);
+        setElementAttribute("cx", centerX);
     }
 
     @Override
     public void updateCenterY(Double centerY) {
-        setSvgAttribute("cy", centerY);
+        setElementAttribute("cy", centerY);
     }
 
     @Override
     public void updateRadius(Double radius) {
-        setSvgAttribute("r", radius);
+        setElementAttribute("r", radius);
     }
 }

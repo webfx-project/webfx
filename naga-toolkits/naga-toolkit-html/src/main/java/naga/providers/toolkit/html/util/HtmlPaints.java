@@ -9,11 +9,19 @@ import java.util.List;
  */
 public class HtmlPaints {
 
-    public static String toCssPaint(Paint paint) {
+    public static String toHtmlCssPaint(Paint paint) {
+        return toCssPaint(paint, DomType.HTML);
+    }
+
+    public static String toSvgCssPaint(Paint paint) {
+        return toCssPaint(paint, DomType.SVG);
+    }
+
+    public static String toCssPaint(Paint paint, DomType domType) {
         if (paint instanceof Color)
             return toCssColor((Color) paint);
         if (paint instanceof LinearGradient)
-            return toCssLinearGradient((LinearGradient) paint);
+            return toCssLinearGradient((LinearGradient) paint, domType);
         return null;
     }
 
@@ -45,11 +53,14 @@ public class HtmlPaints {
                 .append(color.getOpacity()).append(')');
     }
 
-    public static String toCssLinearGradient(LinearGradient lg) {
+    public static String toCssLinearGradient(LinearGradient lg, DomType domType) {
         CycleMethod m = lg.getCycleMethod();
         StringBuilder sb = new StringBuilder(m == CycleMethod.REPEAT ? "repeating-" : "");
         sb.append("linear-gradient(");
-        sb.append(lg.getAngleDegree()).append("deg");
+        double angleDegree = lg.getAngleDegree();
+        if (domType == DomType.HTML)
+            angleDegree = angleDegree + 90;
+        sb.append(angleDegree).append("deg");
         toCssStops(lg.getStops(), lg.getLength(), lg.isProportional(), sb);
         sb.append(')');
         return sb.toString();

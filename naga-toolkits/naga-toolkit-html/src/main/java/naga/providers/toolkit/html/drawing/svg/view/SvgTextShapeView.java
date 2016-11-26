@@ -1,13 +1,14 @@
 package naga.providers.toolkit.html.drawing.svg.view;
 
+import elemental2.HTMLElement;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.toolkit.drawing.text.Font;
-import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
 import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin;
+import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.TextAlignment;
+import naga.toolkit.drawing.text.TextShape;
 
 /**
  * @author Bruno Salmon
@@ -18,7 +19,9 @@ public class SvgTextShapeView
 
     public SvgTextShapeView() {
         super(new TextShapeViewBase(), SvgUtil.createSvgText());
-        setSvgAttribute("style", "pointer-events: none;"); // To make it mouse transparent
+        HTMLElement element = (HTMLElement) getElement();
+        element.style.pointerEvents = "none";
+        setElementAttribute("style", "pointer-events: none;"); // To make it mouse transparent
     }
 
     @Override
@@ -28,7 +31,7 @@ public class SvgTextShapeView
 
     @Override
     public void updateTextOrigin(VPos textOrigin) {
-        setSvgAttribute("dominant-baseline", vPosToSvgAlignmentBaseLine(textOrigin));
+        setElementAttribute("dominant-baseline", vPosToSvgAlignmentBaseLine(textOrigin));
     }
 
     @Override
@@ -44,23 +47,23 @@ public class SvgTextShapeView
             else if (textAlignment == TextAlignment.RIGHT)
                 x += wrappingWidth;
         }
-        setSvgAttribute("x", x);
+        setElementAttribute("x", x);
     }
 
     @Override
     public void updateY(Double y) {
-        setSvgAttribute("y", y);
+        setElementAttribute("y", y);
     }
 
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
-        setSvgAttribute("width", wrappingWidth);
+        setElementAttribute("width", wrappingWidth);
         updateX(getNode().getX());
     }
 
     @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
-        setSvgAttribute("text-anchor", textAlignmentToSvgTextAnchor(textAlignment));
+        setElementAttribute("text-anchor", textAlignmentToSvgTextAnchor(textAlignment));
     }
 
     @Override

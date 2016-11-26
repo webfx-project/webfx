@@ -39,32 +39,32 @@ public abstract class SvgNodeView
         <N extends Node, NV extends NodeViewBase<N, NV, NM>, NM extends NodeViewMixin<N, NV, NM>>
         extends NodeViewImpl<N, NV, NM> {
 
-    private final Element svgElement;
+    private final Element element;
     private Map<String, Element> svgLinearGradients;
     private Element svgClipPath;
 
-    SvgNodeView(NV base, Element svgElement) {
+    SvgNodeView(NV base, Element element) {
         super(base);
-        this.svgElement = svgElement;
+        this.element = element;
     }
 
     public Element getElement() {
-        return svgElement;
+        return element;
     }
 
     @Override
     public void updateVisible(Boolean visible) {
-        setSvgAttribute("visibility", visible ? null : "hidden");
+        setElementAttribute("visibility", visible ? null : "hidden");
     }
 
     @Override
     public void updateOpacity(Double opacity) {
-        setSvgAttribute("opacity", opacity == 1d ? null : opacity);
+        setElementAttribute("opacity", opacity == 1d ? null : opacity);
     }
 
     @Override
     public void updateClip(Node clip) {
-        setSvgAttribute("clip-path", toClipAttribute(clip));
+        setElementAttribute("clip-path", toClipAttribute(clip));
     }
 
     private String toClipAttribute(Node clip) {
@@ -83,12 +83,12 @@ public abstract class SvgNodeView
     @Override
     public void updateBlendMode(BlendMode blendMode) {
         String svgBlend = toSvgBlendMode(blendMode);
-        setSvgAttribute("style", svgBlend == null ? null : "mix-blend-mode:" + svgBlend);
+        setElementAttribute("style", svgBlend == null ? null : "mix-blend-mode:" + svgBlend);
     }
 
     @Override
     public void updateEffect(Effect effect) {
-        setSvgAttribute("filter", effect == null ? null : toSvgEffectFilterUrl(effect));
+        setElementAttribute("filter", effect == null ? null : toSvgEffectFilterUrl(effect));
     }
 
     private static String toSvgEffectFilterUrl(Effect effect) {
@@ -117,69 +117,69 @@ public abstract class SvgNodeView
 
     @Override
     public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
-        setSvgAttribute("transform", SvgTransforms.toSvgTransforms(localToParentTransforms));
+        setElementAttribute("transform", SvgTransforms.toSvgTransforms(localToParentTransforms));
     }
 
     @Override
     public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
-        svgElement.onclick = onMouseClicked == null ? null : e -> {
+        element.onclick = onMouseClicked == null ? null : e -> {
             onMouseClicked.handle(new HtmlMouseEvent(e));
             return null;
         };
     }
 
-    void setSvgAttribute(String name, String value) {
-        setSvgAttribute(name, value, null);
+    void setElementAttribute(String name, String value) {
+        setElementAttribute(name, value, null);
     }
 
-    void setSvgAttribute(String name, String value, String skipValue) {
+    void setElementAttribute(String name, String value, String skipValue) {
         if (Objects.equals(value, skipValue))
-            svgElement.removeAttribute(name);
+            element.removeAttribute(name);
         else
-            svgElement.setAttribute(name, value);
+            element.setAttribute(name, value);
     }
 
-    void setSvgAttribute(String name, Double value) {
-        setSvgAttribute(name, value, null);
+    void setElementAttribute(String name, Double value) {
+        setElementAttribute(name, value, null);
     }
 
-    void setSvgAttribute(String name, Double value, Double skipValue) {
+    void setElementAttribute(String name, Double value, Double skipValue) {
         if (Objects.equals(value, skipValue))
-            svgElement.removeAttribute(name);
+            element.removeAttribute(name);
         else
-            svgElement.setAttribute(name, value);
+            element.setAttribute(name, value);
     }
 
-    void setSvgAttribute(String name, Integer value) {
-        setSvgAttribute(name, value, null);
+    void setElementAttribute(String name, Integer value) {
+        setElementAttribute(name, value, null);
     }
 
-    void setSvgAttribute(String name, Integer value, Integer skipValue) {
+    void setElementAttribute(String name, Integer value, Integer skipValue) {
         if (Objects.equals(value, skipValue))
-            svgElement.removeAttribute(name);
+            element.removeAttribute(name);
         else
-            svgElement.setAttribute(name, value);
+            element.setAttribute(name, value);
     }
 
     void setSvgFontAttributes(Font font) {
-        setSvgAttribute("font-family", font.getFamily());
-        setSvgAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal", "normal");
-        setSvgAttribute("font-weight", font.getWeight() == null ? 0 : font.getWeight().getWeight(), 0);
-        setSvgAttribute("font-size", font.getSize());
+        setElementAttribute("font-family", font.getFamily());
+        setElementAttribute("font-style", font.getPosture() == FontPosture.ITALIC ? "italic" : "normal", "normal");
+        setElementAttribute("font-weight", font.getWeight() == null ? 0 : font.getWeight().getWeight(), 0);
+        setElementAttribute("font-size", font.getSize());
     }
 
     void setSvgTextContent(String textContent) {
-        svgElement.textContent = textContent;
+        element.textContent = textContent;
     }
 
     void setPaintAttribute(String name, Paint paint) {
-        setSvgAttribute(name, toPaintAttribute(name, paint));
+        setElementAttribute(name, toPaintAttribute(name, paint));
     }
 
     private String toPaintAttribute(String name, Paint paint) {
         String value = null;
         if (paint instanceof Color)
-            value = HtmlPaints.toCssPaint(paint);
+            value = HtmlPaints.toSvgCssPaint(paint);
         else if (paint instanceof LinearGradient) {
             if (svgLinearGradients == null)
                 svgLinearGradients = new HashMap<>();
