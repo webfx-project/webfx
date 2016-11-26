@@ -40,4 +40,6 @@ public interface Transform {
     default Point2D inverseTransform(Point2D point) /*throws NonInvertibleTransformException*/ {
         return inverseTransform(point.getX(), point.getY());
     }
+
+    Affine toAffine();
 }

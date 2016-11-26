@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.geometry.GeometryUtil;
 import naga.toolkit.drawing.geom.Point2D;
+import naga.toolkit.transform.Affine;
 import naga.toolkit.transform.Rotate;
 import naga.toolkit.transform.Transform;
 
@@ -52,5 +53,21 @@ public class RotateImpl extends TransformImpl implements Rotate {
     @Override
     protected Property[] propertiesInvalidatingCache() {
         return new Property[]{angleProperty, pivotXProperty, pivotYProperty};
+    }
+
+    @Override
+    public Affine toAffine() {
+        double rads = Math.toRadians(getAngle());
+        double px = getPivotX();
+        double py = getPivotY();
+        double sin = Math.sin(rads);
+        double cos = Math.cos(rads);
+        double mxx = cos;
+        double mxy = -sin;
+        double tx = px * (1 - cos) + py * sin;
+        double myx = sin;
+        double myy = cos;
+        double ty = py * (1 - cos) - px * sin;
+        return new AffineImpl(mxx, mxy, myx, myy, tx, ty);
     }
 }
