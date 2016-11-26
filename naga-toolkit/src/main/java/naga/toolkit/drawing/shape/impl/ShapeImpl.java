@@ -28,7 +28,7 @@ public abstract class ShapeImpl extends NodeImpl implements Shape {
         return smoothProperty;
     }
 
-    private final Property<Paint> stokeProperty = new SimpleObjectProperty<>(Color.TRANSPARENT);
+    private final Property<Paint> stokeProperty = new SimpleObjectProperty<>();
     @Override
     public Property<Paint> strokeProperty() {
         return stokeProperty;
