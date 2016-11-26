@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.util;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.*;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.Strings;
@@ -7,6 +8,8 @@ import naga.commons.util.tuples.Unit;
 import naga.toolkit.spi.Toolkit;
 
 import java.lang.Iterable;
+import java.util.HashMap;
+import java.util.Map;
 
 import static elemental2.Global.document;
 
@@ -99,19 +102,40 @@ public class HtmlUtil {
         return setPseudoClass(e, Strings.replaceAll(e.className, pseudoClass, ""));
     }
 
-    public static <E extends HTMLElement> E setStyle(E e, String style) {
+    public static <E extends Element> E setStyle(E e, String style) {
         return setAttribute(e, "style", style);
     }
 
-    public static <E extends Node> E appendStyle(E e, String style) {
-        if (e instanceof HTMLElement)
-            return (E) appendStyle((HTMLElement) e, style);
+    private final static Map<String, String[]> browserPrefixedAttributeNames = new HashMap<>();
+    private final static String[] browserPrefixes = {"-webkit-", "-moz-"};
+    static {
+        browserPrefixedAttributeNames.put("clip-path", browserPrefixes);
+    }
+
+    public static <N extends Node> N setStyleAttribute(N node, String name, Object value) {
+        if (node instanceof HTMLElement)
+            setStyleAttribute((HTMLElement) node, name, value);
+        return node;
+    }
+
+    public static <E extends HTMLElement> E setStyleAttribute(E e, String name, Object value) {
+        String[] prefixes = browserPrefixedAttributeNames.get(name);
+        if (prefixes != null)
+            for (String prefix: prefixes)
+                setPrefixedStyleAttribute(e, prefix + name, value);
+        return setPrefixedStyleAttribute(e, name, value);
+    }
+
+    private static <E extends HTMLElement> E setPrefixedStyleAttribute(E e, String name, Object value) {
+        //e.style.setProperty(name, Strings.toString(value));
+        setJsAttribute(((JavaScriptObject) (Object) e.style), name, Strings.toString(value));
         return e;
     }
 
-    public static <E extends HTMLElement> E appendStyle(E e, String style) {
-        return appendAttribute(e, "style", style, "; ");
-    }
+
+    private static native void setJsAttribute(JavaScriptObject o, String name, String value) /*-{
+        o[name] = value;
+    }-*/;
 
     public static <E extends Element> E createElement(String tagName) {
         return (E) document.createElement(tagName);

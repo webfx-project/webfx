@@ -23,9 +23,8 @@ public class HtmlHBox extends HtmlParent<HTMLElement> implements HBox {
 
     @Override
     protected Element prepareChild(Element child) {
-        String style = "vertical-align: middle";
         if (child != Toolkit.unwrapToNativeNode(Collections.last(getChildren())))
-            style += "; margin-right: 5px";
-        return HtmlUtil.appendStyle(child, style);
+            HtmlUtil.setStyleAttribute(child, "margin-right", "5px");
+        return HtmlUtil.setStyleAttribute(child, "vertical-align", "middle");
     }
 }

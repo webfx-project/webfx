@@ -55,7 +55,7 @@ public class HtmlVPage extends HtmlNode<HTMLDivElement> implements VPage {
     }
 
     protected Node prepareChild(Node child) {
-        return appendChild(createDiv(), appendStyle(child, "width: 100%"));
+        return appendChild(createDiv(), setStyleAttribute(child, "width", "100%"));
     }
 
 

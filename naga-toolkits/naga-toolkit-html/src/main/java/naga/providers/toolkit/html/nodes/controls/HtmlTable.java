@@ -86,13 +86,13 @@ public class HtmlTable extends HtmlSelectableDisplayResultSetNode<HTMLTableEleme
         DisplayStyle style = displayColumn.getStyle();
         String textAlign = style.getTextAlign();
         if (textAlign != null)
-            setStyle(cell, "text-align: " + textAlign);
+            setStyleAttribute(cell, "text-align", textAlign);
         Double prefWidth = style.getPrefWidth();
         if (prefWidth != null) {
             if (displayColumn.getLabel().getText() != null)
                 prefWidth = prefWidth * 2.75; // factor compared to JavaFx style (temporary hardcoded)
             //prefWidth = prefWidth + 10; // because of the 5px left and right padding
-            appendStyle(cell, "width: " + prefWidth + "px");
+            setStyleAttribute(cell, "width", prefWidth + "px");
         }
         cell.appendChild((Node) content.unwrapToNativeNode());
     }) {

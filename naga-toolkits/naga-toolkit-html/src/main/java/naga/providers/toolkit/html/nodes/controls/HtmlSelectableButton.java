@@ -21,8 +21,10 @@ import naga.toolkit.spi.nodes.controls.SelectableButton;
     HtmlSelectableButton(HTMLInputElement button, HTMLLabelElement label) {
         super(label);
         this.button = button;
-        HtmlUtil.appendStyle(label, "margin-top: 0; margin-bottom: 0");
-        HtmlUtil.appendStyle(button, "vertical-align: middle; margin: 0 5px 0 0");
+        HtmlUtil.setStyleAttribute(label, "margin-top", "0");
+        HtmlUtil.setStyleAttribute(label, "margin-bottom", "0");
+        HtmlUtil.setStyleAttribute(button, "vertical-align", "middle");
+        HtmlUtil.setStyleAttribute(button, "margin", " 0 5px 0 0");
         selectedProperty.setValue(button.checked);
         button.onclick = event -> {
             selectedProperty.setValue(button.checked);
