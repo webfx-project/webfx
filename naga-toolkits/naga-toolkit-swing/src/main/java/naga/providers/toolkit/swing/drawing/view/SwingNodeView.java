@@ -76,6 +76,10 @@ public abstract class SwingNodeView
     }
 
     @Override
+    public void updateMouseTransparent(Boolean mouseTransparent) {
+    }
+
+    @Override
     public void updateVisible(Boolean visible) {
     }
 

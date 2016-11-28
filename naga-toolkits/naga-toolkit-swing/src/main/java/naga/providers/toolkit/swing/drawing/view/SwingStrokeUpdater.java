@@ -20,8 +20,8 @@ class SwingStrokeUpdater extends SwingPaintUpdater {
         this.shape = shape;
     }
 
-    public Stroke getSwingStroke() {
-        if (swingStroke == null && shape != null) {
+    Stroke getSwingStroke() {
+        if (swingStroke == null && shape != null && shape.getStroke() != null) {
             updateFromPaint(shape.getStroke());
             swingStroke = new BasicStroke(shape.getStrokeWidth().intValue(),
                     SwingStrokes.toSwingStrokeLineCap(shape.getStrokeLineCap()),
