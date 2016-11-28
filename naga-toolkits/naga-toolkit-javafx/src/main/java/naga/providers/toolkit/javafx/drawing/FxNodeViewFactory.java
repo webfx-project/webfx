@@ -4,6 +4,7 @@ import naga.providers.toolkit.javafx.drawing.view.*;
 import naga.toolkit.drawing.layout.impl.BorderPaneImpl;
 import naga.toolkit.drawing.layout.impl.HBoxImpl;
 import naga.toolkit.drawing.layout.impl.VBoxImpl;
+import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.shape.impl.CircleImpl;
@@ -27,5 +28,6 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(VBoxImpl.class, FxRegionView::new);
         registerNodeViewFactory(HBoxImpl.class, FxRegionView::new);
         registerNodeViewFactory(BorderPaneImpl.class, FxRegionView::new);
+        registerNodeViewFactory(ButtonImpl.class, FxButtonView::new);
     }
 }
