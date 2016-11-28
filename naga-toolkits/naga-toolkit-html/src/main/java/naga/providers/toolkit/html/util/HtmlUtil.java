@@ -8,8 +8,6 @@ import naga.commons.util.tuples.Unit;
 import naga.toolkit.spi.Toolkit;
 
 import java.lang.Iterable;
-import java.util.HashMap;
-import java.util.Map;
 
 import static elemental2.Global.document;
 
@@ -106,32 +104,42 @@ public class HtmlUtil {
         return setAttribute(e, "style", style);
     }
 
-    private final static Map<String, String[]> browserPrefixedAttributeNames = new HashMap<>();
     private final static String[] browserPrefixes = {"-webkit-", "-moz-"};
-    static {
-        browserPrefixedAttributeNames.put("clip-path", browserPrefixes);
+    private static String[] getAttributeBrowserPrefixes(String name) {
+        switch (name) {
+            case "clip-path":
+                return browserPrefixes;
+        }
+        return null;
     }
 
     public static <N extends Node> N setStyleAttribute(N node, String name, Object value) {
-        if (node instanceof HTMLElement)
-            setStyleAttribute((HTMLElement) node, name, value);
+        if (node instanceof Element)
+            setStyleAttribute((Element) node, name, value);
         return node;
     }
 
-    public static <E extends HTMLElement> E setStyleAttribute(E e, String name, Object value) {
-        String[] prefixes = browserPrefixedAttributeNames.get(name);
+    public static <E extends Element> E setStyleAttribute(E e, String name, Object value) {
+        String[] prefixes = getAttributeBrowserPrefixes(name);
         if (prefixes != null)
             for (String prefix: prefixes)
                 setPrefixedStyleAttribute(e, prefix + name, value);
         return setPrefixedStyleAttribute(e, name, value);
     }
 
-    private static <E extends HTMLElement> E setPrefixedStyleAttribute(E e, String name, Object value) {
+    private static <E extends Element> E setPrefixedStyleAttribute(E e, String name, Object value) {
         //e.style.setProperty(name, Strings.toString(value));
-        setJsAttribute(((JavaScriptObject) (Object) e.style), name, Strings.toString(value));
+        String s = Strings.toString(value);
+        if (e instanceof HTMLElement)
+            setJsAttribute(((JavaScriptObject) (Object) ((HTMLElement) e).style), name, s);
+        else
+            appendStyle(e, name + ": " + value);
         return e;
     }
 
+    public static <E extends Element> E appendStyle(E e, String style) {
+        return appendAttribute(e, "style", style, "; ");
+    }
 
     private static native void setJsAttribute(JavaScriptObject o, String name, String value) /*-{
         o[name] = value;

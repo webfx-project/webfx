@@ -7,6 +7,7 @@ import naga.commons.scheduler.Scheduled;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.Parent;
+import naga.toolkit.drawing.scene.control.Control;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.DrawingRequester;
@@ -120,9 +121,9 @@ public abstract class DrawingImpl implements Drawing {
     public NodeView getOrCreateAndBindNodeView(Node node) {
         NodeView nodeView = nodeViews.get(node);
         if (nodeView == null) {
-            nodeViews.put(node, nodeView = nodeViewFactory.createNodeView(node));
+            nodeViews.put(node, nodeView = createNodeView(node));
             nodeView.bind(node, drawingRequester);
-            if (node instanceof Parent) {
+            if (node instanceof Parent && !(node instanceof Control)) {
                 Parent parent = (Parent) node;
                 keepParentAndChildrenViewsUpdated(parent);
             }
@@ -130,6 +131,10 @@ public abstract class DrawingImpl implements Drawing {
                 startPulse();
         }
         return nodeView;
+    }
+
+    protected NodeView<Node> createNodeView(Node node) {
+        return nodeViewFactory.createNodeView(node);
     }
 
     protected boolean isRootNode(Node node) {

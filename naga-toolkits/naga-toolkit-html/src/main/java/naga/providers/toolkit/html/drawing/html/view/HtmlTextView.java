@@ -74,7 +74,7 @@ public class HtmlTextView
 
     @Override
     public void updateFont(Font font) {
-        setHtmlFontAttributes(font);
+        setFontAttributes(font);
         updateY();
     }
 }

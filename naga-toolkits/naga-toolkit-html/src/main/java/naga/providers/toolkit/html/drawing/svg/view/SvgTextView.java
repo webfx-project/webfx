@@ -22,7 +22,7 @@ public class SvgTextView
 
     @Override
     public void updateText(String text) {
-        setSvgTextContent(text);
+        setElementTextContent(text);
     }
 
     @Override
@@ -64,6 +64,6 @@ public class SvgTextView
 
     @Override
     public void updateFont(Font font) {
-        setSvgFontAttributes(font);
+        setFontAttributes(font);
     }
 }

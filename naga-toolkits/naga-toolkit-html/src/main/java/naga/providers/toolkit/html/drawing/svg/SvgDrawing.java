@@ -1,7 +1,9 @@
 package naga.providers.toolkit.html.drawing.svg;
 
 import elemental2.Element;
+import elemental2.HTMLElement;
 import naga.commons.util.collection.Collections;
+import naga.providers.toolkit.html.drawing.html.view.HtmlNodeView;
 import naga.providers.toolkit.html.drawing.svg.view.SvgNodeView;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
@@ -30,26 +32,37 @@ public class SvgDrawing extends DrawingImpl {
     protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
         super.createAndBindRootNodeViewAndChildren(rootNode);
         elemental2.Node parent = drawingNode.unwrapToNativeNode();
-        HtmlUtil.setChildren(parent, defsElement, getNodeElement(rootNode));
+        HtmlUtil.setChildren(parent, defsElement, getNodeElementForParent(rootNode));
     }
 
     @Override
     protected void updateParentAndChildrenViews(Parent parent) {
-        elemental2.Node svgParent = getNodeElement(parent);
-        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), this::getNodeElement));
+        elemental2.Node svgParent = getNodeElementForParent(parent);
+        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), this::getNodeElementForParent));
     }
 
-    private SvgNodeView getOrCreateAndBindAndCastNodeView(Node node) {
-        NodeView nodeView = getOrCreateAndBindNodeView(node); // Should be a FxDrawableView (but may be UnimplementedNodeView if no view factory is registered for this node)
-        if (nodeView instanceof SvgNodeView) // Should be a SvgNodeView
-            return (SvgNodeView) nodeView;
+    private Element getNodeElementForParent(Node node) {
+        NodeView nodeView = getOrCreateAndBindNodeView(node); // Should be a SvgNodeView or a HtmlNodeView
+        if (nodeView instanceof SvgNodeView) // SvgNodeView case
+            return ((SvgNodeView) nodeView).getElement();
+        if (nodeView instanceof HtmlNodeView) // HtmlNodeView case
+            return ((HtmlNodeView) nodeView).getContainer();
         // Shouldn't happen unless no view factory is registered for this node (probably UnimplementedNodeView was returned)
         return null; // returning null in this case to indicate there is no view to show
     }
 
-    private Element getNodeElement(Node node) {
-        SvgNodeView nodeView = getOrCreateAndBindAndCastNodeView(node);
-        return nodeView == null ? null : nodeView.getElement();
+    @Override
+    protected NodeView<Node> createNodeView(Node node) {
+        NodeView<Node> nodeView = super.createNodeView(node);
+        if (nodeView instanceof HtmlNodeView) {
+            HtmlNodeView htmlNodeView = (HtmlNodeView) nodeView;
+            HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
+            Element foreignObject = SvgUtil.createSvgElement("foreignObject");
+            foreignObject.setAttribute("width", "100%");
+            foreignObject.setAttribute("height", "100%");
+            HtmlUtil.setChild(foreignObject, htmlElement);
+            htmlNodeView.setContainer(foreignObject);
+        }
+        return nodeView;
     }
-
 }
