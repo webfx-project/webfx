@@ -1,31 +1,31 @@
 package naga.toolkit.drawing.spi.view.base;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.text.TextShape;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.spi.DrawingRequester;
-import naga.toolkit.drawing.spi.view.TextShapeView;
+import naga.toolkit.drawing.spi.view.TextView;
 
 /**
  * @author Bruno Salmon
  */
-public class TextShapeViewBase
-        extends ShapeViewBase<TextShape, TextShapeViewBase, TextShapeViewMixin>
-        implements TextShapeView {
+public class TextViewBase
+        extends ShapeViewBase<Text, TextViewBase, TextViewMixin>
+        implements TextView {
 
     @Override
-    public void bind(TextShape ts, DrawingRequester drawingRequester) {
-        super.bind(ts, drawingRequester);
+    public void bind(Text t, DrawingRequester drawingRequester) {
+        super.bind(t, drawingRequester);
         requestUpdateOnPropertiesChange(drawingRequester,
-                ts.textProperty(),
-                ts.textOriginProperty(),
-                ts.wrappingWidthProperty(),
-                ts.textAlignmentProperty(),
-                ts.fontProperty());
+                t.textProperty(),
+                t.textOriginProperty(),
+                t.wrappingWidthProperty(),
+                t.textAlignmentProperty(),
+                t.fontProperty());
     }
 
     @Override
     public boolean updateProperty(Property changedProperty) {
-        TextShape ts = node;
+        Text ts = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(ts.textProperty(), changedProperty, mixin::updateText)
                 || updateProperty(ts.xProperty(), changedProperty, mixin::updateX)

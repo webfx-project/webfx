@@ -46,7 +46,14 @@ class HorizontalDayPositioner {
     void setTotalWidth(double totalWidth) {
         long totalDisplayedDays = lastDisplayedEpochDay - firstDisplayedEpochDay + 1;
         double dayWidth = totalWidth / totalDisplayedDays;
-        for (HorizontalDayPositioned horizontalDayPositioned : horizontalDayPositionedCollection)
-            horizontalDayPositioned.setXAndWidth((horizontalDayPositioned.getEpochDay() - firstDisplayedEpochDay) * dayWidth, dayWidth - 1);
+        for (HorizontalDayPositioned horizontalDayPositioned : horizontalDayPositionedCollection) {
+            double x = (horizontalDayPositioned.getEpochDay() - firstDisplayedEpochDay) * dayWidth;
+            double snapX = snap(x);
+            horizontalDayPositioned.setXAndWidth(snapX, snap(x + dayWidth - 1) - snapX);
+        }
+    }
+
+    private static double snap(double value) {
+        return Math.round(value);
     }
 }

@@ -9,7 +9,7 @@ import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.shape.impl.CircleImpl;
 import naga.toolkit.drawing.shape.impl.RectangleImpl;
 import naga.toolkit.drawing.spi.impl.NodeViewFactoryImpl;
-import naga.toolkit.drawing.text.impl.TextShapeImpl;
+import naga.toolkit.drawing.text.impl.TextImpl;
 
 /**
  * @author Bruno Salmon
@@ -21,7 +21,7 @@ class SvgNodeViewFactory extends NodeViewFactoryImpl {
     private SvgNodeViewFactory() {
         registerNodeViewFactory(RectangleImpl.class, SvgRectangleView::new);
         registerNodeViewFactory(CircleImpl.class, SvgCircleView::new);
-        registerNodeViewFactory(TextShapeImpl.class, SvgTextShapeView::new);
+        registerNodeViewFactory(TextImpl.class, SvgTextView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, SvgEmbedGuiNodeView::new);
         registerNodeViewFactory(GroupImpl.class, SvgGroupView::new);
         registerNodeViewFactory(VBoxImpl.class, SvgRegionView::new);

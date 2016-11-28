@@ -4,26 +4,26 @@ import naga.commons.util.Numbers;
 import naga.commons.util.Objects;
 import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.drawing.geometry.VPos;
-import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
-import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin;
-import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin2;
+import naga.toolkit.drawing.spi.view.base.TextViewBase;
+import naga.toolkit.drawing.spi.view.base.TextViewMixin;
+import naga.toolkit.drawing.spi.view.base.TextViewMixin2;
 
 import java.awt.*;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingTextShapeView
-        extends SwingShapeView<TextShape, TextShapeViewBase, TextShapeViewMixin>
-        implements TextShapeViewMixin2 {
+public class SwingTextView
+        extends SwingShapeView<Text, TextViewBase, TextViewMixin>
+        implements TextViewMixin2 {
 
     private java.awt.Font swingFont;
 
-    public SwingTextShapeView() {
-        super(new TextShapeViewBase());
+    public SwingTextView() {
+        super(new TextViewBase());
     }
 
     @Override
@@ -51,19 +51,19 @@ public class SwingTextShapeView
     @Override
     public void prepareCanvasContext(Graphics2D g) {
         super.prepareCanvasContext(g);
-        TextShape ts = getNode();
-        double x = Numbers.doubleValue(ts.getX());
-        double wrappingWidth = Numbers.doubleValue(ts.getWrappingWidth());
+        Text t = getNode();
+        double x = Numbers.doubleValue(t.getX());
+        double wrappingWidth = Numbers.doubleValue(t.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
         if (wrappingWidth > 0) {
-            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(Objects.coalesce(ts.getText(), ""));
-            TextAlignment textAlignment = ts.getTextAlignment();
+            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(Objects.coalesce(t.getText(), ""));
+            TextAlignment textAlignment = t.getTextAlignment();
             if (textAlignment == TextAlignment.CENTER)
                 x += (wrappingWidth - textWidth) / 2;
             else if (textAlignment == TextAlignment.RIGHT)
                 x += (wrappingWidth - textWidth);
         }
-        g.translate(x, ts.getY() + vPosToBaselineOffset(ts.getTextOrigin(), g));
+        g.translate(x, t.getY() + vPosToBaselineOffset(t.getTextOrigin(), g));
     }
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {

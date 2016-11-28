@@ -12,8 +12,8 @@ import naga.toolkit.drawing.paint.Paint;
 import naga.toolkit.drawing.scene.Group;
 import naga.toolkit.drawing.shape.*;
 import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.transform.Translate;
 
 /**
@@ -28,9 +28,9 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
     private final long epochDay;
     private final TimeInterval dayTimeMinuteInterval;
     private final Rectangle rectangle = Rectangle.create();
-    private final TextShape blockText = TextShape.create();
-    private final TextShape startTimeText;
-    private final TextShape endTimeText;
+    private final Text blockText = Text.create();
+    private final Text startTimeText;
+    private final Text endTimeText;
     private final Group group = Group.create();
     private final Translate translate = Translate.create();
 
@@ -39,6 +39,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         blockText.setTextAlignment(TextAlignment.CENTER);
         blockText.setFill(DayColumnHeaderViewModel.dayColumnHeaderTextColor);
         blockText.setTextOrigin(VPos.CENTER);
+        blockText.setMouseTransparent(true);
         group.getChildren().setAll(rectangle, blockText);
         group.getTransforms().setAll(translate);
     }
@@ -55,19 +56,21 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
                 calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
         });
         if (displayTimes) {
-            startTimeText = TextShape.create();
+            startTimeText = Text.create();
             startTimeText.setFont(timeFont);
             startTimeText.setTextAlignment(TextAlignment.LEFT);
             startTimeText.setFill(timeFill);
             startTimeText.setTextOrigin(VPos.TOP);
             startTimeText.setY(1d);
             startTimeText.setText(dayTimeMinuteInterval.getStartText());
-            endTimeText = TextShape.create();
+            startTimeText.setMouseTransparent(true);
+            endTimeText = Text.create();
             endTimeText.setFont(timeFont);
             endTimeText.setTextAlignment(TextAlignment.LEFT);
             endTimeText.setFill(timeFill);
             endTimeText.setTextOrigin(VPos.BOTTOM);
             endTimeText.setText(dayTimeMinuteInterval.getEndText());
+            endTimeText.setMouseTransparent(true);
             group.getChildren().addAll(startTimeText, endTimeText);
         } else
             startTimeText = endTimeText = null;

@@ -7,14 +7,14 @@ import naga.toolkit.drawing.geom.BoxBounds;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.shape.impl.ShapeImpl;
 import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.drawing.geometry.VPos;
 
 /**
  * @author Bruno Salmon
  */
-public class TextShapeImpl extends ShapeImpl implements TextShape {
+public class TextImpl extends ShapeImpl implements Text {
 
     private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
     @Override
@@ -60,8 +60,8 @@ public class TextShapeImpl extends ShapeImpl implements TextShape {
 
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        System.out.println("Warning: TextShapeImpl.impl_computeGeomBounds() not implemented");
+        System.out.println("Warning: TextImpl.impl_computeGeomBounds() not implemented");
         return new BoxBounds();
-        //throw new UnsupportedOperationException("TextShapeImpl.impl_computeGeomBounds() not implemented");
+        //throw new UnsupportedOperationException("TextImpl.impl_computeGeomBounds() not implemented");
     }
 }

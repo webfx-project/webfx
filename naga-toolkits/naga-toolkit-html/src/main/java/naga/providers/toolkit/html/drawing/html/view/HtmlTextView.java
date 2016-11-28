@@ -4,21 +4,21 @@ import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.paint.Paint;
-import naga.toolkit.drawing.spi.view.base.TextShapeViewBase;
-import naga.toolkit.drawing.spi.view.base.TextShapeViewMixin;
+import naga.toolkit.drawing.spi.view.base.TextViewBase;
+import naga.toolkit.drawing.spi.view.base.TextViewMixin;
 import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 
 /**
  * @author Bruno Salmon
  */
-public class HtmlTextShapeView
-        extends HtmlShapeView<TextShape, TextShapeViewBase, TextShapeViewMixin>
-        implements TextShapeViewMixin {
+public class HtmlTextView
+        extends HtmlShapeView<Text, TextViewBase, TextViewMixin>
+        implements TextViewMixin {
 
-    public HtmlTextShapeView() {
-        super(new TextShapeViewBase(), HtmlUtil.createAbsolutePositionSpan());
+    public HtmlTextView() {
+        super(new TextViewBase(), HtmlUtil.createAbsolutePositionSpan());
         setElementStyleAttribute("line-height", "100%");
     }
 

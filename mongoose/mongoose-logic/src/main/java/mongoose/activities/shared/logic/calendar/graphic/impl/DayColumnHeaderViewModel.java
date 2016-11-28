@@ -7,8 +7,8 @@ import naga.toolkit.drawing.paint.LinearGradient;
 import naga.toolkit.drawing.scene.Group;
 import naga.toolkit.drawing.shape.*;
 import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.transform.Translate;
 
 import java.time.LocalDate;
@@ -28,9 +28,9 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
 
     private final long epochDay;
     private final Rectangle r = Rectangle.create();
-    private final TextShape dayOfWeekText = TextShape.create();
-    private final TextShape dayOfMonthText = TextShape.create();
-    private final TextShape monthText = TextShape.create();
+    private final Text dayOfWeekText = Text.create();
+    private final Text dayOfMonthText = Text.create();
+    private final Text monthText = Text.create();
     final Group group = Group.create();
     private final Translate translate = Translate.create();
 

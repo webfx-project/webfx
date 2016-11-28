@@ -1,17 +1,17 @@
 package naga.toolkit.drawing.spi.view.base;
 
 import naga.toolkit.drawing.text.Font;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.drawing.geometry.VPos;
-import naga.toolkit.drawing.spi.view.TextShapeView;
+import naga.toolkit.drawing.spi.view.TextView;
 
 /**
  * @author Bruno Salmon
  */
-public interface TextShapeViewMixin
-        extends TextShapeView,
-                ShapeViewMixin<TextShape, TextShapeViewBase, TextShapeViewMixin> {
+public interface TextViewMixin
+        extends TextView,
+                ShapeViewMixin<Text, TextViewBase, TextViewMixin> {
 
     void updateText(String text);
 

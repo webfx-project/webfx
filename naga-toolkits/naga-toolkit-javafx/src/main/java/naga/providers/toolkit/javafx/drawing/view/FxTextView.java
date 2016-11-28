@@ -1,35 +1,34 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import javafx.scene.text.Text;
 import naga.providers.toolkit.javafx.util.FxFonts;
+import naga.toolkit.drawing.text.Text;
 import naga.toolkit.drawing.text.TextAlignment;
-import naga.toolkit.drawing.text.TextShape;
 import naga.toolkit.drawing.geometry.VPos;
 import naga.toolkit.drawing.spi.DrawingRequester;
-import naga.toolkit.drawing.spi.view.TextShapeView;
+import naga.toolkit.drawing.spi.view.TextView;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 
 /**
  * @author Bruno Salmon
  */
-public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements TextShapeView {
+public class FxTextView extends FxShapeViewImpl<Text, javafx.scene.text.Text> implements TextView {
 
     @Override
-    public void bind(TextShape ts, DrawingRequester drawingRequester) {
-        super.bind(ts, drawingRequester);
-        fxNode.xProperty().bind(ts.xProperty());
-        fxNode.yProperty().bind(ts.yProperty());
-        fxNode.textProperty().bind(ts.textProperty());
-        fxNode.textOriginProperty().bind(new ConvertedProperty<>(ts.textOriginProperty(), FxTextShapeView::toFxVpos));
-        fxNode.textAlignmentProperty().bind(new ConvertedProperty<>(ts.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
-        fxNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
-        fxNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
-        fxNode.mouseTransparentProperty().bind(ts.mouseTransparentProperty());
+    public void bind(Text t, DrawingRequester drawingRequester) {
+        super.bind(t, drawingRequester);
+        fxNode.xProperty().bind(t.xProperty());
+        fxNode.yProperty().bind(t.yProperty());
+        fxNode.textProperty().bind(t.textProperty());
+        fxNode.textOriginProperty().bind(new ConvertedProperty<>(t.textOriginProperty(), FxTextView::toFxVpos));
+        fxNode.textAlignmentProperty().bind(new ConvertedProperty<>(t.textAlignmentProperty(), FxTextView::toFxTextAlignment));
+        fxNode.wrappingWidthProperty().bind(t.wrappingWidthProperty());
+        fxNode.fontProperty().bind(new ConvertedProperty<>(t.fontProperty(), FxFonts::toFxFont));
+        fxNode.mouseTransparentProperty().bind(t.mouseTransparentProperty());
     }
 
     @Override
-    Text createFxNode(TextShape node) {
-        return new Text();
+    javafx.scene.text.Text createFxNode(Text node) {
+        return new javafx.scene.text.Text();
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

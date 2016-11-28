@@ -1,13 +1,13 @@
 package naga.toolkit.drawing.text;
 
 import naga.toolkit.drawing.shape.Shape;
-import naga.toolkit.drawing.text.impl.TextShapeImpl;
+import naga.toolkit.drawing.text.impl.TextImpl;
 import naga.toolkit.properties.markers.*;
 
 /**
  * @author Bruno Salmon
  */
-public interface TextShape extends Shape,
+public interface Text extends Shape,
         HasXProperty,
         HasYProperty,
         HasTextProperty,
@@ -16,8 +16,8 @@ public interface TextShape extends Shape,
         HasWrappingWidthProperty,
         HasFontProperty {
 
-    static TextShape create() {
-        return new TextShapeImpl();
+    static Text create() {
+        return new TextImpl();
     }
 
 }

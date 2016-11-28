@@ -7,7 +7,7 @@ import naga.toolkit.drawing.geometry.VPos;
 /**
  * @author Bruno Salmon
  */
-public interface TextShapeViewMixin2 extends TextShapeViewMixin {
+public interface TextViewMixin2 extends TextViewMixin {
 
     default void updateText(String text) {}
 

@@ -9,7 +9,7 @@ import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.shape.impl.CircleImpl;
 import naga.toolkit.drawing.shape.impl.RectangleImpl;
 import naga.toolkit.drawing.spi.impl.NodeViewFactoryImpl;
-import naga.toolkit.drawing.text.impl.TextShapeImpl;
+import naga.toolkit.drawing.text.impl.TextImpl;
 
 /**
  * @author Bruno Salmon
@@ -21,7 +21,7 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
     private FxNodeViewFactory() {
         registerNodeViewFactory(RectangleImpl.class, FxRectangleView::new);
         registerNodeViewFactory(CircleImpl.class, FxCircleView::new);
-        registerNodeViewFactory(TextShapeImpl.class, FxTextShapeView::new);
+        registerNodeViewFactory(TextImpl.class, FxTextView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, FxEmbedGuiNodeView::new);
         registerNodeViewFactory(GroupImpl.class, FxGroupView::new);
         registerNodeViewFactory(VBoxImpl.class, FxRegionView::new);
