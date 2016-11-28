@@ -19,7 +19,6 @@ public class HtmlTextShapeView
 
     public HtmlTextShapeView() {
         super(new TextShapeViewBase(), HtmlUtil.createAbsolutePositionSpan());
-        setElementStyleAttribute("pointer-events", "none"); // To make it mouse transparent
         setElementStyleAttribute("line-height", "100%");
     }
 

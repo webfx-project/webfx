@@ -53,6 +53,11 @@ public abstract class SvgNodeView
     }
 
     @Override
+    public void updateMouseTransparent(Boolean mouseTransparent) {
+        setElementAttribute("pointer-events", mouseTransparent ? "none" : null);
+    }
+
+    @Override
     public void updateVisible(Boolean visible) {
         setElementAttribute("visibility", visible ? null : "hidden");
     }
@@ -83,7 +88,7 @@ public abstract class SvgNodeView
     @Override
     public void updateBlendMode(BlendMode blendMode) {
         String svgBlend = toSvgBlendMode(blendMode);
-        setElementAttribute("style", svgBlend == null ? null : "mix-blend-mode:" + svgBlend);
+        setElementStyleAttribute("mix-blend-mode", svgBlend == null ? null : svgBlend);
     }
 
     @Override
@@ -159,6 +164,10 @@ public abstract class SvgNodeView
             element.removeAttribute(name);
         else
             element.setAttribute(name, value);
+    }
+
+    void setElementStyleAttribute(String name, Object value) {
+        HtmlUtil.setStyleAttribute(element, name, value);
     }
 
     void setSvgFontAttributes(Font font) {

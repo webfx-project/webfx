@@ -43,6 +43,11 @@ public abstract class HtmlNodeView
     }
 
     @Override
+    public void updateMouseTransparent(Boolean mouseTransparent) {
+        getElement().style.pointerEvents = mouseTransparent ? "none" : null;
+    }
+
+    @Override
     public void updateVisible(Boolean visible) {
         getElement().style.visibility = visible ? null : "hidden";
     }

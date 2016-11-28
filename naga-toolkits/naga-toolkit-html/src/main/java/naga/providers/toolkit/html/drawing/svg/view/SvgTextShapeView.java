@@ -1,6 +1,5 @@
 package naga.providers.toolkit.html.drawing.svg.view;
 
-import elemental2.HTMLElement;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.drawing.geometry.VPos;
@@ -19,9 +18,6 @@ public class SvgTextShapeView
 
     public SvgTextShapeView() {
         super(new TextShapeViewBase(), SvgUtil.createSvgText());
-        HTMLElement element = (HTMLElement) getElement();
-        element.style.pointerEvents = "none";
-        setElementAttribute("style", "pointer-events: none;"); // To make it mouse transparent
     }
 
     @Override
