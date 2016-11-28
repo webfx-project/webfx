@@ -53,6 +53,12 @@ public abstract class NodeImpl implements Node {
         return managedProperty;
     }
 
+    private final Property<Boolean> mouseTransparentProperty = new SimpleObjectProperty<>(false);
+    @Override
+    public Property<Boolean> mouseTransparentProperty() {
+        return mouseTransparentProperty;
+    }
+
     /**
      * Called whenever the "managed" flag has changed. This is only
      * used by Parent as an optimization to keep track of whether a

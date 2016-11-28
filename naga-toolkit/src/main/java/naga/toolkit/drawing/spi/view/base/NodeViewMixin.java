@@ -45,6 +45,8 @@ public interface NodeViewMixin
 
     void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked);
 
+    void updateMouseTransparent(Boolean mouseTransparent);
+
     void updateVisible(Boolean visible);
 
     void updateOpacity(Double opacity);

@@ -15,6 +15,7 @@ import java.util.Collection;
 public interface Node extends
         HasParentProperty,
         HasManagedProperty,
+        HasMouseTransparentProperty,
         HasOnMouseClickedProperty,
         HasLayoutXProperty,
         HasLayoutYProperty,

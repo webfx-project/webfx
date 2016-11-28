@@ -502,10 +502,9 @@ public class ParentImpl extends NodeImpl implements Parent {
             double minX = Double.MAX_VALUE, minY = Double.MAX_VALUE, minZ = Double.MAX_VALUE;
             double maxX = Double.MIN_VALUE, maxY = Double.MIN_VALUE, maxZ = Double.MIN_VALUE;
             boolean first = true;
-            for (int i=0, max=children.size(); i<max; i++) {
-                NodeImpl node = (NodeImpl) children.get(i);
+            for (Node node : children) {
                 if (node.isVisible()) {
-                    bounds = getChildTransformedBounds(node, tx, bounds);
+                    bounds = getChildTransformedBounds((NodeImpl) node, tx, bounds);
                     // if the bounds of the child are invalid, we don't want
                     // to use those in the remaining computations.
                     if (bounds.isEmpty()) continue;
@@ -652,6 +651,4 @@ public class ParentImpl extends NodeImpl implements Parent {
         cachedBounds = cachedBounds.deriveWithNewBounds(minX, minY, minZ,
                 maxX, maxY, maxZ);
     }
-
-
 }

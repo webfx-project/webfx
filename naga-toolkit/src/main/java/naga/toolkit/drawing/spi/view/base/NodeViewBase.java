@@ -47,7 +47,8 @@ public abstract class NodeViewBase
                 node.effectProperty(),
                 node.layoutXProperty(),
                 node.layoutYProperty(),
-                node.onMouseClickedProperty());
+                node.onMouseClickedProperty(),
+                node.mouseTransparentProperty());
     }
 
     @Override
@@ -82,6 +83,7 @@ public abstract class NodeViewBase
     @Override
     public boolean updateProperty(Property changedProperty) {
         return updateProperty(node.onMouseClickedProperty(), changedProperty, mixin::updateOnMouseClicked)
+                || updateProperty(node.mouseTransparentProperty(), changedProperty, mixin::updateMouseTransparent)
                 || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
                 || updateProperty(node.opacityProperty(), changedProperty, mixin::updateOpacity)
                 || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
