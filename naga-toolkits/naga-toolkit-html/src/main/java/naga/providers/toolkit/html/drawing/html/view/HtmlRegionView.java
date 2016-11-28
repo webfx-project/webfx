@@ -8,11 +8,11 @@ import naga.toolkit.drawing.spi.view.base.RegionViewMixin;
 /**
  * @author Bruno Salmon
  */
-public class HtmlRegionView
-        extends HtmlNodeView<Region, RegionViewBase, RegionViewMixin>
-        implements RegionViewMixin {
+public class HtmlRegionView<R extends Region>
+        extends HtmlNodeView<R, RegionViewBase<R>, RegionViewMixin<R>>
+        implements RegionViewMixin<R> {
 
     public HtmlRegionView() {
-        super(new RegionViewBase(), HtmlUtil.createAbsolutePositionDiv());
+        super(new RegionViewBase<>(), HtmlUtil.createAbsolutePositionDiv());
     }
 }

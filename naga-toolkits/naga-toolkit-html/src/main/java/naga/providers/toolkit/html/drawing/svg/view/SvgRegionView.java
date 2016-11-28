@@ -8,11 +8,11 @@ import naga.toolkit.drawing.spi.view.base.RegionViewMixin;
 /**
  * @author Bruno Salmon
  */
-public class SvgRegionView
-        extends SvgNodeView<Region, RegionViewBase, RegionViewMixin>
-        implements RegionViewMixin {
+public class SvgRegionView<R extends Region>
+        extends SvgNodeView<R, RegionViewBase<R>, RegionViewMixin<R>>
+        implements RegionViewMixin<R> {
 
     public SvgRegionView() {
-        super(new RegionViewBase(), SvgUtil.createSvgGroup());
+        super(new RegionViewBase<>(), SvgUtil.createSvgGroup());
     }
 }

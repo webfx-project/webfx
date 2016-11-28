@@ -5,5 +5,5 @@ import naga.toolkit.drawing.layout.Region;
 /**
  * @author Bruno Salmon
  */
-public interface RegionView extends NodeView<Region>  {
+public interface RegionView<R extends Region> extends NodeView<R>  {
 }

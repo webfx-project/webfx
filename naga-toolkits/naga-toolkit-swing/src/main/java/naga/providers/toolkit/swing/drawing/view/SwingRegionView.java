@@ -7,11 +7,11 @@ import naga.toolkit.drawing.spi.view.base.RegionViewMixin;
 /**
  * @author Bruno Salmon
  */
-public class SwingRegionView
-        extends SwingNodeView<Region, RegionViewBase, RegionViewMixin>
-        implements RegionViewMixin {
+public class SwingRegionView<R extends Region>
+        extends SwingNodeView<R, RegionViewBase<R>, RegionViewMixin<R>>
+        implements RegionViewMixin<R> {
 
     public SwingRegionView() {
-        super(new RegionViewBase());
+        super(new RegionViewBase<>());
     }
 }

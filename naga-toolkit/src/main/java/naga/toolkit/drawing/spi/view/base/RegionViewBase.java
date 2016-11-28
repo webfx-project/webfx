@@ -6,7 +6,7 @@ import naga.toolkit.drawing.spi.view.RegionView;
 /**
  * @author Bruno Salmon
  */
-public class RegionViewBase
-        extends NodeViewBase<Region, RegionViewBase, RegionViewMixin>
-        implements RegionView {
+public class RegionViewBase<R extends Region>
+        extends NodeViewBase<R, RegionViewBase<R>, RegionViewMixin<R>>
+        implements RegionView<R> {
 }

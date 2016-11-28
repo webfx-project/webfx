@@ -6,8 +6,8 @@ import naga.toolkit.drawing.spi.view.RegionView;
 /**
  * @author Bruno Salmon
  */
-public interface RegionViewMixin
-        extends RegionView,
-        NodeViewMixin<Region, RegionViewBase, RegionViewMixin> {
+public interface RegionViewMixin<R extends Region>
+        extends RegionView<R>,
+        NodeViewMixin<R, RegionViewBase<R>, RegionViewMixin<R>> {
 
 }
