@@ -2,11 +2,11 @@ package naga.providers.toolkit.swing.drawing;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.providers.toolkit.swing.drawing.view.SwingEmbedGuiNodeView;
+import naga.providers.toolkit.swing.drawing.view.SwingEmbedComponentView;
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.nodes.SwingNode;
-import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.geom.Point2D;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
@@ -102,8 +102,8 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                             if (e.getID() == MouseEvent.MOUSE_CLICKED && node.getOnMouseClicked() != null)
                                 node.getOnMouseClicked().handle(new SwingMouseEvent(e));
                             NodeView nodeView = pickResult.getNodeView();
-                            if (nodeView instanceof SwingEmbedGuiNodeView)
-                                embedTarget = ((SwingEmbedGuiNodeView) nodeView).getEmbedSwingComponent();
+                            if (nodeView instanceof SwingEmbedComponentView)
+                                embedTarget = ((SwingEmbedComponentView) nodeView).getEmbedSwingComponent();
                         }
                     }
                     if (embedTarget != lastEmbedTarget) {

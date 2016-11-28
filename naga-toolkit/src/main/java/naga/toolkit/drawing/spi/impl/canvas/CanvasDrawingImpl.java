@@ -84,9 +84,12 @@ public abstract class CanvasDrawingImpl
         // Before going further, we need to express it in the node local coordinates space (by applying inverse transforms).
         for (Transform transform : node.localToParentTransforms())
             point = transform.inverseTransform(point);
-        // If the node is a parent, we return the pick result from its children
-        if (node instanceof Parent)
-            return pickFromNodes(point, ((Parent) node).getChildren());
+        // If the node is a parent, we return the pick result from its children if any
+        if (node instanceof Parent) {
+            PickResult pickResult = pickFromNodes(point, ((Parent) node).getChildren());
+            if (pickResult != null)
+                return pickResult;
+        }
         // Otherwise we ask its view if it contains the point and return this node if this is the case
         NV nodeView = (NV) getOrCreateAndBindNodeView(node);
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;

@@ -4,6 +4,7 @@ import naga.providers.toolkit.swing.drawing.view.*;
 import naga.toolkit.drawing.layout.impl.BorderPaneImpl;
 import naga.toolkit.drawing.layout.impl.HBoxImpl;
 import naga.toolkit.drawing.layout.impl.VBoxImpl;
+import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.shape.impl.CircleImpl;
@@ -27,5 +28,6 @@ class SwingNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(VBoxImpl.class, SwingRegionView::new);
         registerNodeViewFactory(HBoxImpl.class, SwingRegionView::new);
         registerNodeViewFactory(BorderPaneImpl.class, SwingRegionView::new);
+        registerNodeViewFactory(ButtonImpl.class, SwingButtonView::new);
     }
 }

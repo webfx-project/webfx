@@ -3,8 +3,8 @@ package naga.providers.toolkit.swing.drawing.view;
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.drawing.effect.BlendMode;
+import naga.toolkit.drawing.effect.Effect;
 import naga.toolkit.drawing.scene.Node;
-import naga.toolkit.drawing.geom.Point2D;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.impl.DrawingImpl;
 import naga.toolkit.drawing.spi.impl.canvas.CanvasNodeView;
@@ -12,7 +12,6 @@ import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.drawing.spi.view.base.NodeViewBase;
 import naga.toolkit.drawing.spi.view.base.NodeViewImpl;
 import naga.toolkit.drawing.spi.view.base.NodeViewMixin;
-import naga.toolkit.drawing.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
@@ -121,12 +120,4 @@ public abstract class SwingNodeView
         swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 
-    @Override
-    public void paint(Graphics2D g) {
-    }
-
-    @Override
-    public boolean containsPoint(Point2D point) {
-        return false;
-    }
 }
