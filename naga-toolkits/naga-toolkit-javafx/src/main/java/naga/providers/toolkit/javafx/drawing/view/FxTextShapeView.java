@@ -24,7 +24,7 @@ public class FxTextShapeView extends FxShapeViewImpl<TextShape, Text> implements
         fxNode.textAlignmentProperty().bind(new ConvertedProperty<>(ts.textAlignmentProperty(), FxTextShapeView::toFxTextAlignment));
         fxNode.wrappingWidthProperty().bind(ts.wrappingWidthProperty());
         fxNode.fontProperty().bind(new ConvertedProperty<>(ts.fontProperty(), FxFonts::toFxFont));
-        fxNode.setMouseTransparent(true); // temporary as text shapes are usually not clickale in Mongoose
+        fxNode.mouseTransparentProperty().bind(ts.mouseTransparentProperty());
     }
 
     @Override
