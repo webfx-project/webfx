@@ -4,6 +4,7 @@ import naga.providers.toolkit.html.drawing.html.view.*;
 import naga.toolkit.drawing.layout.impl.BorderPaneImpl;
 import naga.toolkit.drawing.layout.impl.HBoxImpl;
 import naga.toolkit.drawing.layout.impl.VBoxImpl;
+import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.shape.impl.CircleImpl;
@@ -27,5 +28,6 @@ class HtmlNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(VBoxImpl.class, HtmlRegionView::new);
         registerNodeViewFactory(HBoxImpl.class, HtmlRegionView::new);
         registerNodeViewFactory(BorderPaneImpl.class, HtmlRegionView::new);
+        registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new);
     }
 }

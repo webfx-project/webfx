@@ -1,0 +1,23 @@
+package naga.providers.toolkit.html.drawing.html.view;
+
+import naga.providers.toolkit.html.util.HtmlUtil;
+import naga.toolkit.drawing.scene.control.Button;
+import naga.toolkit.drawing.spi.view.base.ButtonViewBase;
+import naga.toolkit.drawing.spi.view.base.ButtonViewMixin;
+
+/**
+ * @author Bruno Salmon
+ */
+public class HtmlButtonView
+        extends HtmlNodeView<Button, ButtonViewBase, ButtonViewMixin>
+        implements ButtonViewMixin {
+
+    public HtmlButtonView() {
+        super(new ButtonViewBase(), HtmlUtil.createButtonElement());
+    }
+
+    @Override
+    public void updateText(String text) {
+        setElementTextContent(text);
+    }
+}
