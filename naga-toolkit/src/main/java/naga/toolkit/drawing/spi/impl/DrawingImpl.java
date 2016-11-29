@@ -122,6 +122,7 @@ public abstract class DrawingImpl implements Drawing {
         NodeView nodeView = nodeViews.get(node);
         if (nodeView == null) {
             nodeViews.put(node, nodeView = createNodeView(node));
+            node.setNodeView(nodeView);
             nodeView.bind(node, drawingRequester);
             if (node instanceof Parent && !(node instanceof Control)) {
                 Parent parent = (Parent) node;

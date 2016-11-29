@@ -135,9 +135,9 @@ public class RegionImpl extends ParentImpl implements Region {
         // need to be redefined
         if (_shape != null && isScaleShape() == false) {
             // We will hijack the bounds here temporarily just to compute the shape bounds
-            final BaseBounds shapeBounds = computeShapeBounds(bounds);
-            final double shapeWidth = shapeBounds.getWidth();
-            final double shapeHeight = shapeBounds.getHeight();
+            BaseBounds shapeBounds = computeShapeBounds(bounds);
+            double shapeWidth = shapeBounds.getWidth();
+            double shapeHeight = shapeBounds.getHeight();
             if (isCenterShape()) {
                 bx1 = (bx2 - shapeWidth) / 2;
                 by1 = (by2 - shapeHeight) / 2;
@@ -153,10 +153,10 @@ public class RegionImpl extends ParentImpl implements Region {
             // Expand the bounds to include the outsets from the background and border.
             // The outsets are the opposite of insets -- a measure of distance from the
             // edge of the Region outward. The outsets cannot, however, be negative.
-            final Background background = getBackground();
-            final Border border = getBorder();
-            final Insets backgroundOutsets = background == null ? Insets.EMPTY : background.getOutsets();
-            final Insets borderOutsets = border == null ? Insets.EMPTY : border.getOutsets();
+            Background background = getBackground();
+            Border border = getBorder();
+            Insets backgroundOutsets = background == null ? Insets.EMPTY : background.getOutsets();
+            Insets borderOutsets = border == null ? Insets.EMPTY : border.getOutsets();
             bx1 -= Math.max(backgroundOutsets.getLeft(), borderOutsets.getLeft());
             by1 -= Math.max(backgroundOutsets.getTop(), borderOutsets.getTop());
             bx2 += Math.max(backgroundOutsets.getRight(), borderOutsets.getRight());
@@ -309,12 +309,12 @@ public class RegionImpl extends ParentImpl implements Region {
      * @return the minimum width that this node should be resized to during layout
      */
     @Override
-    public final double minWidth(double height) {
+    protected final double impl_minWidth(double height) {
         double override = getMinWidth();
         if (override == USE_COMPUTED_SIZE)
-            return super.minWidth(height);
+            return super.impl_minWidth(height);
         if (override == USE_PREF_SIZE)
-            return prefWidth(height);
+            return impl_prefWidth(height);
         return Double.isNaN(override) || override < 0 ? 0 : override;
     }
 
@@ -327,12 +327,12 @@ public class RegionImpl extends ParentImpl implements Region {
      * @return the minimum height that this node should be resized to during layout
      */
     @Override
-    public final double minHeight(double width) {
+    protected final double impl_minHeight(double width) {
         double override = getMinHeight();
         if (override == USE_COMPUTED_SIZE)
-            return super.minHeight(width);
+            return super.impl_minHeight(width);
         if (override == USE_PREF_SIZE)
-            return prefHeight(width);
+            return impl_prefHeight(width);
         return Double.isNaN(override) || override < 0 ? 0 : override;
     }
 
@@ -345,10 +345,10 @@ public class RegionImpl extends ParentImpl implements Region {
      * @return the preferred width that this node should be resized to during layout
      */
     @Override
-    public final double prefWidth(double height) {
+    protected final double impl_prefWidth(double height) {
         double override = getPrefWidth();
         if (override == USE_COMPUTED_SIZE)
-            return super.prefWidth(height);
+            return super.impl_prefWidth(height);
         return Double.isNaN(override) || override < 0 ? 0 : override;
     }
 
@@ -361,10 +361,10 @@ public class RegionImpl extends ParentImpl implements Region {
      * @return the preferred height that this node should be resized to during layout
      */
     @Override
-    public final double prefHeight(double width) {
+    protected final double impl_prefHeight(double width) {
         double override = getPrefHeight();
         if (override == USE_COMPUTED_SIZE)
-            return super.prefHeight(width);
+            return super.impl_prefHeight(width);
         return Double.isNaN(override) || override < 0 ? 0 : override;
     }
 
@@ -377,12 +377,12 @@ public class RegionImpl extends ParentImpl implements Region {
      * @return the maximum width that this node should be resized to during layout
      */
     @Override
-    public final double maxWidth(double height) {
+    protected final double impl_maxWidth(double height) {
         double override = getMaxWidth();
         if (override == USE_COMPUTED_SIZE)
             return computeMaxWidth(height);
         if (override == USE_PREF_SIZE)
-            return prefWidth(height);
+            return impl_prefWidth(height);
         return Double.isNaN(override) || override < 0 ? 0 : override;
     }
 
@@ -395,12 +395,12 @@ public class RegionImpl extends ParentImpl implements Region {
      * @return the maximum height that this node should be resized to during layout
      */
     @Override
-    public final double maxHeight(double width) {
+    protected final double impl_maxHeight(double width) {
         double override = getMaxHeight();
         if (override == USE_COMPUTED_SIZE)
             return computeMaxHeight(width);
         if (override == USE_PREF_SIZE)
-            return prefHeight(width);
+            return impl_prefHeight(width);
         return Double.isNaN(override) || override < 0 ? 0 : override;
     }
 
@@ -840,13 +840,13 @@ public class RegionImpl extends ParentImpl implements Region {
 
     double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
                                  Function<Integer, Double> positionToWidth,
-                                 double areaHeight, final boolean fillHeight, double minComplement) {
+                                 double areaHeight, boolean fillHeight, double minComplement) {
         return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, fillHeight, minComplement, isSnapToPixel());
     }
 
     static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
                                         Function<Integer, Double> positionToWidth,
-                                        double areaHeight, final boolean fillHeight, double minComplement, boolean snapToPixel) {
+                                        double areaHeight, boolean fillHeight, double minComplement, boolean snapToPixel) {
         return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, t -> fillHeight, minComplement, snapToPixel);
     }
 
@@ -875,24 +875,21 @@ public class RegionImpl extends ParentImpl implements Region {
             Insets margin = margins.call(n);
             double top = margin != null? snapSpace(margin.getTop(), snapToPixel) : 0;
             double bottom = (margin != null? snapSpace(margin.getBottom(), snapToPixel) : 0);
-            final double bo = n.getBaselineOffset();
+            double bo = n.getBaselineOffset();
             if (bo == BASELINE_OFFSET_SAME_AS_HEIGHT) {
                 double alt = -1;
-                if (n.getContentBias() == Orientation.HORIZONTAL) {
+                if (n.getContentBias() == Orientation.HORIZONTAL)
                     alt = positionToWidth.apply(i);
-                }
-                if (fillHeight.apply(i)) {
+                if (fillHeight.apply(i))
                     // If the children fills it's height, than it's "preferred" height is the area without the complement and insets
                     b = Math.max(b, top + boundedSize(n.minHeight(alt), areaHeight - minComplement - top - bottom,
                             n.maxHeight(alt)));
-                } else {
+                else
                     // Otherwise, we must use the area without complement and insets as a maximum for the Node
                     b = Math.max(b, top + boundedSize(n.minHeight(alt), n.prefHeight(alt),
                             Math.min(n.maxHeight(alt), areaHeight - minComplement - top - bottom)));
-                }
-            } else {
+            } else
                 b = Math.max(b, top + bo);
-            }
         }
         return b;
     }
@@ -1262,14 +1259,13 @@ public class RegionImpl extends ParentImpl implements Region {
      */
     static Vec2d boundedNodeSizeWithBias(Node node, double areaWidth, double areaHeight,
                                          boolean fillWidth, boolean fillHeight, Vec2d result) {
-        if (result == null) {
+        if (result == null)
             result = new Vec2d();
-        }
 
         Orientation bias = node.getContentBias();
 
-        double childWidth = 0;
-        double childHeight = 0;
+        double childWidth;
+        double childHeight;
 
         if (bias == null) {
             childWidth = boundedSize(
@@ -1309,8 +1305,6 @@ public class RegionImpl extends ParentImpl implements Region {
 
     /**
      * Return the minimum complement of baseline
-     * @param children
-     * @return
      */
     static double getMinBaselineComplement(List<Node> children) {
         return getBaselineComplement(children, true, false);
@@ -1318,8 +1312,6 @@ public class RegionImpl extends ParentImpl implements Region {
 
     /**
      * Return the preferred complement of baseline
-     * @param children
-     * @return
      */
     static double getPrefBaselineComplement(List<Node> children) {
         return getBaselineComplement(children, false, false);
@@ -1327,8 +1319,6 @@ public class RegionImpl extends ParentImpl implements Region {
 
     /**
      * Return the maximal complement of baseline
-     * @param children
-     * @return
      */
     static double getMaxBaselineComplement(List<Node> children) {
         return getBaselineComplement(children, false, true);
@@ -1337,10 +1327,9 @@ public class RegionImpl extends ParentImpl implements Region {
     private static double getBaselineComplement(List<Node> children, boolean min, boolean max) {
         double bc = 0;
         for (Node n : children) {
-            final double bo = n.getBaselineOffset();
-            if (bo == BASELINE_OFFSET_SAME_AS_HEIGHT) {
+            double bo = n.getBaselineOffset();
+            if (bo == BASELINE_OFFSET_SAME_AS_HEIGHT)
                 continue;
-            }
             if (n.isResizable()) {
                 bc = Math.max(bc, (min ? n.minHeight(-1) : max ? n.maxHeight(-1) : n.prefHeight(-1)) - bo);
             } else {
@@ -1376,18 +1365,49 @@ public class RegionImpl extends ParentImpl implements Region {
         }
     }
 
+    /***************************************************************************
+     *                                                                         *
+     * Static convenience methods for layout                                   *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Computes the value based on the given min and max values. We encode in this
+     * method the logic surrounding various edge cases, such as when the min is
+     * specified as greater than the max, or the max less than the min, or a pref
+     * value that exceeds either the max or min in their extremes.
+     * <p/>
+     * If the min is greater than the max, then we want to make sure the returned
+     * value is the min. In other words, in such a case, the min becomes the only
+     * acceptable return value.
+     * <p/>
+     * If the min and max values are well ordered, and the pref is less than the min
+     * then the min is returned. Likewise, if the values are well ordered and the
+     * pref is greater than the max, then the max is returned. If the pref lies
+     * between the min and the max, then the pref is returned.
+     *
+     *
+     * @param min The minimum bound
+     * @param pref The value to be clamped between the min and max
+     * @param max the maximum bound
+     * @return the size bounded by min, pref, and max.
+     */
+    static double boundedSize(double min, double pref, double max) {
+        double a = pref >= min ? pref : min;
+        double b = min >= max ? min : max;
+        return a <= b ? a : b;
+    }
+
     double adjustWidthByMargin(double width, Insets margin) {
-        if (margin == null || margin == Insets.EMPTY) {
+        if (margin == null || margin == Insets.EMPTY)
             return width;
-        }
         boolean isSnapToPixel = isSnapToPixel();
         return width - snapSpace(margin.getLeft(), isSnapToPixel) - snapSpace(margin.getRight(), isSnapToPixel);
     }
 
     double adjustHeightByMargin(double height, Insets margin) {
-        if (margin == null || margin == Insets.EMPTY) {
+        if (margin == null || margin == Insets.EMPTY)
             return height;
-        }
         boolean isSnapToPixel = isSnapToPixel();
         return height - snapSpace(margin.getTop(), isSnapToPixel) - snapSpace(margin.getBottom(), isSnapToPixel);
     }

@@ -29,7 +29,7 @@ public class ParentImpl extends NodeImpl implements Parent {
         children.addListener((ListChangeListener<Node>) c -> requestLayout());
     }
 
-    public ParentImpl() {
+    ParentImpl() {
     }
 
     public ParentImpl(Node... nodes) {
@@ -190,7 +190,7 @@ public class ParentImpl extends NodeImpl implements Parent {
     }
 
     @Override
-    public double prefWidth(double height) {
+    protected double impl_prefWidth(double height) {
         if (height == -1) {
             if (prefWidthCache == -1) {
                 prefWidthCache = computePrefWidth(-1);
@@ -205,7 +205,7 @@ public class ParentImpl extends NodeImpl implements Parent {
     }
 
     @Override
-    public double prefHeight(double width) {
+    protected double impl_prefHeight(double width) {
         if (width == -1) {
             if (prefHeightCache == -1) {
                 prefHeightCache = computePrefHeight(-1);
@@ -220,7 +220,7 @@ public class ParentImpl extends NodeImpl implements Parent {
     }
 
     @Override
-    public double minWidth(double height) {
+    protected double impl_minWidth(double height) {
         if (height == -1) {
             if (minWidthCache == -1) {
                 minWidthCache = computeMinWidth(-1);
@@ -235,7 +235,7 @@ public class ParentImpl extends NodeImpl implements Parent {
     }
 
     @Override
-    public double minHeight(double width) {
+    protected double impl_minHeight(double width) {
         if (width == -1) {
             if (minHeightCache == -1) {
                 minHeightCache = computeMinHeight(-1);
@@ -321,7 +321,8 @@ public class ParentImpl extends NodeImpl implements Parent {
      *
      * @return baseline offset
      */
-    @Override public double getBaselineOffset() {
+    @Override
+    public double getBaselineOffset() {
         for (Node child : children) {
             if (child.isManaged()) {
                 double offset = child.getBaselineOffset();
@@ -338,6 +339,7 @@ public class ParentImpl extends NodeImpl implements Parent {
      *
      * Calling this method while the Parent is doing layout is a no-op.
      */
+    @Override
     public final void layout() {
         switch(layoutFlag) {
             case CLEAN:

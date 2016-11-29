@@ -18,10 +18,10 @@ public class GroupImpl extends ParentImpl implements Group {
         super(nodes);
     }
 
-    private final Property<Boolean> autoSizeProperty = new SimpleObjectProperty<>(true);
+    private final Property<Boolean> autoSizeChildrenProperty = new SimpleObjectProperty<>(true);
     @Override
     public Property<Boolean> autoSizeChildrenProperty() {
-        return autoSizeProperty;
+        return autoSizeChildrenProperty;
     }
 
     /**
@@ -47,11 +47,10 @@ public class GroupImpl extends ParentImpl implements Group {
      * @return The layout bounds width
      */
     @Override
-    public double prefWidth(double height) {
+    protected double impl_prefWidth(double height) {
         if (isAutoSizeChildren())
             layout();
-        double result = getLayoutBounds().getWidth();
-        return Double.isNaN(result) || result < 0 ? 0 : result;
+        return super.impl_prefWidth(height);
     }
 
     /**
@@ -66,22 +65,21 @@ public class GroupImpl extends ParentImpl implements Group {
      * @return The layout bounds height
      */
     @Override
-    public double prefHeight(double width) {
+    protected double impl_prefHeight(double width) {
         if (isAutoSizeChildren())
             layout();
-        double result = getLayoutBounds().getHeight();
-        return Double.isNaN(result) || result < 0 ? 0 : result;
+        return super.impl_prefWidth(width);
     }
 
 
     @Override
-    public double minHeight(double width) {
-        return prefHeight(width);
+    protected double impl_minHeight(double width) {
+        return impl_prefHeight(width);
     }
 
     @Override
-    public double minWidth(double height) {
-        return prefWidth(height);
+    protected double impl_minWidth(double height) {
+        return impl_prefWidth(height);
     }
 
     /**
@@ -89,7 +87,8 @@ public class GroupImpl extends ParentImpl implements Group {
      * size, if the child is resizable. Non-resizable children are simply left alone.
      * If {@link #autoSizeChildren} is false, then Group does nothing in this method.
      */
-    @Override protected void layoutChildren() {
+    @Override
+    protected void layoutChildren() {
         if (isAutoSizeChildren())
             super.layoutChildren();
     }

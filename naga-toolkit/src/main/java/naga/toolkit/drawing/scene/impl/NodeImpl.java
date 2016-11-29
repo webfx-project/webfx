@@ -13,10 +13,12 @@ import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.geometry.BoundingBox;
 import naga.toolkit.drawing.geometry.Bounds;
 import naga.toolkit.drawing.effect.BlendMode;
+import naga.toolkit.drawing.scene.LayoutMeasurable;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.geometry.Orientation;
 import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.effect.Effect;
+import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.transform.Transform;
@@ -42,9 +44,8 @@ public abstract class NodeImpl implements Node {
         @Override
         protected void invalidated() {
             Parent parent = getParent();
-            if (parent instanceof ParentImpl) {
+            if (parent instanceof ParentImpl)
                 ((ParentImpl) parent).managedChildChanged();
-            }
             notifyManagedChanged();
         }
     };
@@ -154,7 +155,7 @@ public abstract class NodeImpl implements Node {
         }
     }
 
-    public static double boundedSize(double value, double min, double max) {
+    static double boundedSize(double value, double min, double max) {
         // if max < value, return max
         // if min > value, return min
         // if min > max, return min
@@ -184,6 +185,53 @@ public abstract class NodeImpl implements Node {
         return properties != null && !properties.isEmpty();
     }
 
+    private NodeView nodeView;
+    @Override
+    public NodeView getNodeView() {
+        return nodeView;
+    }
+
+    @Override
+    public void setNodeView(NodeView nodeView) {
+        this.nodeView = nodeView;
+        if (nodeView instanceof LayoutMeasurable)
+            layoutMeasurable = (LayoutMeasurable) nodeView;
+        else
+            layoutMeasurable = new LayoutMeasurable() {
+                public Bounds getLayoutBounds() { return impl_getLayoutBounds(); }
+
+                public double minWidth(double height) {
+                    return impl_minWidth(height);
+                }
+
+                public double maxWidth(double height) {
+                    return impl_maxWidth(height);
+                }
+
+                public double minHeight(double width) {
+                    return impl_minHeight(width);
+                }
+
+                public double maxHeight(double width) {
+                    return impl_maxHeight(width);
+                }
+
+                public double prefWidth(double height) {
+                    return impl_prefWidth(height);
+                }
+
+                public double prefHeight(double width) {
+                    return impl_prefHeight(width);
+                }
+            };
+    }
+
+    private LayoutMeasurable layoutMeasurable;
+
+    public LayoutMeasurable getLayoutMeasurable() {
+        return layoutMeasurable;
+    }
+
     /**
      * This special flag is used only by Parent to flag whether or not
      * the *parent* has processed the fact that bounds have changed for this
@@ -197,9 +245,34 @@ public abstract class NodeImpl implements Node {
      */
     boolean boundsChanged;
 
-    @Override
-    public Bounds getLayoutBounds() {
+    protected Bounds impl_getLayoutBounds() {
         return impl_computeLayoutBounds();
+    }
+
+    protected double impl_minWidth(double height) {
+        return impl_prefWidth(height);
+    }
+
+    protected double impl_maxWidth(double height) {
+        return impl_prefWidth(height);
+    }
+
+    protected double impl_minHeight(double width) {
+        return impl_prefHeight(width);
+    }
+
+    protected double impl_maxHeight(double width) {
+        return impl_prefHeight(width);
+    }
+
+    protected double impl_prefWidth(double height) {
+        double result = getLayoutBounds().getWidth();
+        return Double.isNaN(result) || result < 0 ? 0 : result;
+    }
+
+    protected double impl_prefHeight(double width) {
+        double result = getLayoutBounds().getHeight();
+        return Double.isNaN(result) || result < 0 ? 0 : result;
     }
 
     /**

@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import naga.toolkit.drawing.geometry.Bounds;
 import naga.toolkit.drawing.geometry.Orientation;
+import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.transform.Transform;
 
@@ -13,6 +14,7 @@ import java.util.Collection;
  * @author Bruno Salmon
  */
 public interface Node extends
+        LayoutMeasurableMixin,
         HasParentProperty,
         HasManagedProperty,
         HasMouseTransparentProperty,
@@ -41,34 +43,6 @@ public interface Node extends
 
     default Orientation getContentBias() {
         return null;
-    }
-
-    Bounds getLayoutBounds();
-
-    default double minWidth(double height) {
-        return prefWidth(height);
-    }
-
-    default double maxWidth(double height) {
-        return prefWidth(height);
-    }
-
-    default double minHeight(double width) {
-        return prefHeight(width);
-    }
-
-    default double maxHeight(double width) {
-        return prefHeight(width);
-    }
-
-    default double prefWidth(double height) {
-        final double result = getLayoutBounds().getWidth();
-        return Double.isNaN(result) || result < 0 ? 0 : result;
-    }
-
-    default double prefHeight(double width) {
-        final double result = getLayoutBounds().getHeight();
-        return Double.isNaN(result) || result < 0 ? 0 : result;
     }
 
     default void resize(double width, double height) {
@@ -117,5 +91,7 @@ public interface Node extends
      */
     boolean hasProperties();
 
+    NodeView getNodeView();
 
+    void setNodeView(NodeView nodeView);
 }
