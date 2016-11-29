@@ -18,12 +18,12 @@ public class SvgRectangleView
 
     @Override
     public void updateX(Double x) {
-        setElementAttribute("x", x);
+        setElementAttribute("x", x, 0d);
     }
 
     @Override
     public void updateY(Double y) {
-        setElementAttribute("y", y);
+        setElementAttribute("y", y, 0d);
     }
 
     @Override
@@ -38,11 +38,11 @@ public class SvgRectangleView
 
     @Override
     public void updateArcWidth(Double arcWidth) {
-        setElementAttribute("rx", arcWidth == null ? null : arcWidth / 2);
+        setElementAttribute("rx", arcWidth == null ? null : arcWidth / 2, 0d);
     }
 
     @Override
     public void updateArcHeight(Double arcHeight) {
-        setElementAttribute("ry", arcHeight == null ? null : arcHeight / 2);
+        setElementAttribute("ry", arcHeight == null ? null : arcHeight / 2, 0d);
     }
 }

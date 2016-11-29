@@ -36,36 +36,49 @@ abstract class SvgShapeView
 
     @Override
     public void updateStroke(Paint stroke) {
-        setPaintAttribute("stroke", stroke);
+        updateSvgStroke();
     }
 
     @Override
     public void updateStrokeWidth(Double strokeWidth) {
-        setElementAttribute("stroke-width", strokeWidth);
+        updateSvgStroke();
     }
 
     @Override
     public void updateStrokeLineCap(StrokeLineCap strokeLineCap) {
-        setElementAttribute("stroke-linecap", SvgUtil.toSvgStrokeLineCap(strokeLineCap));
+        updateSvgStroke();
     }
 
     @Override
     public void updateStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
-        setElementAttribute("stroke-linejoin", SvgUtil.toSvgStrokeLineJoin(strokeLineJoin));
+        updateSvgStroke();
     }
 
     @Override
     public void updateStrokeMiterLimit(Double strokeMiterLimit) {
-        setElementAttribute("stroke-miterlimit", strokeMiterLimit);
+        updateSvgStroke();
     }
 
     @Override
     public void updateStrokeDashOffset(Double strokeDashOffset) {
-        setElementAttribute("stroke-dashoffset", strokeDashOffset);
+        updateSvgStroke();
     }
 
     @Override
     public void updateStrokeDashArray(List<Double> dashArray) {
-        setElementAttribute("stroke-dasharray", Collections.toStringWithNoBrackets(dashArray));
+        updateSvgStroke();
+    }
+
+    private void updateSvgStroke() {
+        N n = getNode();
+        Paint stroke = n.getStroke();
+        boolean hasStroke = stroke != null && getNode().getStrokeWidth() > 0;
+        setPaintAttribute("stroke", stroke);
+        setElementAttribute("stroke-width", hasStroke ? n.getStrokeWidth() : null);
+        setElementAttribute("stroke-linecap", hasStroke ? SvgUtil.toSvgStrokeLineCap(n.getStrokeLineCap()) : null);
+        setElementAttribute("stroke-linejoin", hasStroke ? SvgUtil.toSvgStrokeLineJoin(n.getStrokeLineJoin()) : null);
+        setElementAttribute("stroke-miterlimit", hasStroke ? n.getStrokeMiterLimit() : null);
+        setElementAttribute("stroke-dashoffset", hasStroke ? n.getStrokeDashOffset() : null);
+        setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringWithNoBrackets(n.getStrokeDashArray()) : null);
     }
 }
