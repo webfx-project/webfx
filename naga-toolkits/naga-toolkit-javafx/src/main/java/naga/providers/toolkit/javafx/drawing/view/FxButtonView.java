@@ -5,7 +5,7 @@ import naga.toolkit.drawing.scene.control.Button;
 /**
  * @author Bruno Salmon
  */
-public class FxButtonView<N extends Button> extends FxNodeViewImpl<N, javafx.scene.control.Button> {
+public class FxButtonView<N extends Button> extends FxNodeViewImpl<N, javafx.scene.control.Button> implements FxLayoutMeasurable {
 
     @Override
     javafx.scene.control.Button createFxNode(N node) {

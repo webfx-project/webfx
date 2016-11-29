@@ -38,7 +38,7 @@ abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> imp
         fxNode.visibleProperty().bind(node.visibleProperty());
         fxNode.opacityProperty().bind(node.opacityProperty());
         DrawingImpl drawing = DrawingImpl.getThreadLocalDrawing();
-        Properties.runNowAndOnPropertiesChange((clipProperty) -> fxNode.setClip(getDrawableFxNode(node.getClip(), drawing)), node.clipProperty());
+        Properties.runNowAndOnPropertiesChange((clipProperty) -> fxNode.setClip(getFxNode(node.getClip(), drawing)), node.clipProperty());
         Properties.runNowAndOnPropertiesChange((blendMode) -> fxNode.setBlendMode(toFxBlendMode(node.getBlendMode())), node.blendModeProperty());
         Properties.runNowAndOnPropertiesChange((effect) -> fxNode.setEffect(toFxEffect(node.getEffect())), node.effectProperty());
         fxNode.layoutXProperty().bind(node.layoutXProperty());
@@ -103,7 +103,7 @@ abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> imp
         return null;
     }
 
-    private static javafx.scene.Node getDrawableFxNode(Node node, DrawingImpl drawing) {
+    private static javafx.scene.Node getFxNode(Node node, DrawingImpl drawing) {
         if (node != null) {
             NodeView nodeView = drawing.getOrCreateAndBindNodeView(node);
             if (nodeView instanceof FxNodeView)
