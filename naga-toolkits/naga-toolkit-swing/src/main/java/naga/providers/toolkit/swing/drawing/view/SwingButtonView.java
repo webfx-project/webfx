@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 public class SwingButtonView
         extends SwingNodeView<Button, ButtonViewBase, ButtonViewMixin>
-        implements ButtonViewMixin, SwingEmbedComponentView<Button> {
+        implements ButtonViewMixin, SwingEmbedComponentView<Button>, SwingLayoutMeasurable {
 
     private JButton swingButton = new JButton();
 
@@ -40,6 +40,11 @@ public class SwingButtonView
 
     @Override
     public JComponent getEmbedSwingComponent() {
+        return swingButton;
+    }
+
+    @Override
+    public JComponent getSwingComponent() {
         return swingButton;
     }
 
