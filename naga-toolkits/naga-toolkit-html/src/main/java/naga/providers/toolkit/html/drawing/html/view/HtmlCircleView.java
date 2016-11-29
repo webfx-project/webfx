@@ -14,7 +14,7 @@ public class HtmlCircleView
         implements CircleViewMixin {
 
     public HtmlCircleView() {
-        super(new CircleViewBase(), HtmlUtil.createAbsolutePositionDiv());
+        super(new CircleViewBase(), HtmlUtil.createDivElement());
     }
 
     @Override

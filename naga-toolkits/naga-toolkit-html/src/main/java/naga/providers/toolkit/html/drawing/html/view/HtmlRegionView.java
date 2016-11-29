@@ -13,6 +13,6 @@ public class HtmlRegionView<R extends Region>
         implements RegionViewMixin<R> {
 
     public HtmlRegionView() {
-        super(new RegionViewBase<>(), HtmlUtil.createAbsolutePositionDiv());
+        super(new RegionViewBase<>(), HtmlUtil.createDivElement());
     }
 }

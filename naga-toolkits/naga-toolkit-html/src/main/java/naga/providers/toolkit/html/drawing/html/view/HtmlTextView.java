@@ -18,7 +18,7 @@ public class HtmlTextView
         implements TextViewMixin {
 
     public HtmlTextView() {
-        super(new TextViewBase(), HtmlUtil.createAbsolutePositionSpan());
+        super(new TextViewBase(), HtmlUtil.createSpanElement());
         setElementStyleAttribute("line-height", "100%");
     }
 

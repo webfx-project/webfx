@@ -13,7 +13,7 @@ public class HtmlRectangleView
         implements RectangleViewMixin {
 
     public HtmlRectangleView() {
-        super(new RectangleViewBase(), HtmlUtil.createAbsolutePositionDiv());
+        super(new RectangleViewBase(), HtmlUtil.createDivElement());
     }
 
     @Override

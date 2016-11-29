@@ -12,7 +12,7 @@ import naga.toolkit.drawing.spi.view.base.EmbedGuiNodeViewMixin;
 public class HtmlEmbedGuiNodeView extends HtmlNodeView<EmbedGuiNode, EmbedGuiNodeViewBase, EmbedGuiNodeViewMixin> {
 
     public HtmlEmbedGuiNodeView() {
-        super(new EmbedGuiNodeViewBase(), HtmlUtil.createAbsolutePositionDiv());
+        super(new EmbedGuiNodeViewBase(), HtmlUtil.createDivElement());
     }
 
     @Override

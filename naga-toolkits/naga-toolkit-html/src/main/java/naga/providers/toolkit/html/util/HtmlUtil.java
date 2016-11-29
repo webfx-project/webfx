@@ -132,7 +132,7 @@ public class HtmlUtil {
         String s = Strings.toString(value);
         if (e instanceof HTMLElement)
             setJsAttribute(((JavaScriptObject) (Object) ((HTMLElement) e).style), name, s);
-        else
+        else if (value != null)
             appendStyle(e, name + ": " + value);
         return e;
     }
@@ -170,10 +170,6 @@ public class HtmlUtil {
     }
 
 
-    public static HTMLDivElement createAbsolutePositionDiv() {
-        return absolutePosition(createDivElement());
-    }
-
     public static <E extends HTMLElement> E absolutePosition(E e) {
         e.style.position = "absolute";
         return e;
@@ -187,10 +183,6 @@ public class HtmlUtil {
 
     public static HTMLElement createSpanElement() {
         return createElement("span");
-    }
-
-    public static HTMLElement createAbsolutePositionSpan() {
-        return absolutePosition(createSpanElement());
     }
 
     public static HTMLInputElement createInputElement(String type) {

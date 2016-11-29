@@ -13,6 +13,6 @@ public class HtmlGroupView
         implements GroupViewMixin {
 
     public HtmlGroupView() {
-        super(new GroupViewBase(), HtmlUtil.createAbsolutePositionDiv());
+        super(new GroupViewBase(), HtmlUtil.createDivElement());
     }
 }
