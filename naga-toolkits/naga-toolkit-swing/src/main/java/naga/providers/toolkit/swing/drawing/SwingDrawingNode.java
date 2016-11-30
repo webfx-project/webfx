@@ -52,13 +52,13 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         private SwingDrawing drawing;
         private int lastWidth;
+        private int lastHeight;
         private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
         private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
         private long lastEmbedTargetEventTime;
         private static long maxSwingEmbedTargetAnimatedTransitionTime = 500;
 
         {
-            heightProperty.addListener((observable, oldValue, newHeight) -> setPreferredSize(new Dimension(getWidth(), newHeight.intValue())));
             MouseAdapter canvasMouseAdapter = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     handleMouseEvent(e);
@@ -140,13 +140,28 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
         protected void paintComponent(Graphics g) {
             if (drawing.isPulseRunning())
                 drawing.pulse();
+            updateWidthAndHeight();
             super.paintComponent(g);
             drawing.paintCanvas((Graphics2D) g);
+            if (System.currentTimeMillis() < lastEmbedTargetEventTime + maxSwingEmbedTargetAnimatedTransitionTime)
+                repaint(); // requesting a repaint while last transition animation (triggered by mouse events on embed swing native components) may not be finished
+        }
+
+        private void updateWidthAndHeight() {
+            // Binding the width property to the actual component width
             int width = getWidth();
             if (width != lastWidth)
                 widthProperty.setValue((double) (lastWidth = width));
-            if (System.currentTimeMillis() < lastEmbedTargetEventTime + maxSwingEmbedTargetAnimatedTransitionTime)
-                repaint(); // requesting a repaint while last transition animation (triggered by mouse events on embed swing native components) may not be finished
+            // Binding the component height to the height property
+            int height = heightProperty.getValue().intValue();
+            if (height != lastHeight) {
+                setSize(width, lastHeight = height);
+                Dimension size = getSize();
+                setMinimumSize(size);
+                setPreferredSize(size);
+                setMaximumSize(size);
+                getParent().doLayout();
+            }
         }
     }
 }
