@@ -38,7 +38,9 @@ public abstract class CanvasDrawingImpl
     }
 
     public void paintCanvas(CC canvasContext) {
-        paintNode(getRootNode(), canvasContext);
+        Node rootNode = getRootNode();
+        if (rootNode != null)
+            paintNode(rootNode, canvasContext);
     }
 
     private void paintNodes(Collection<Node> nodes, CC canvasContext) {
@@ -64,7 +66,8 @@ public abstract class CanvasDrawingImpl
     }
 
     public PickResult pickNode(Point2D point) {
-        return pickFromNode(point, getRootNode());
+        Node rootNode = getRootNode();
+        return rootNode == null ? null : pickFromNode(point, rootNode);
     }
 
     private PickResult pickFromNodes(Point2D point, List<Node> nodes) {
