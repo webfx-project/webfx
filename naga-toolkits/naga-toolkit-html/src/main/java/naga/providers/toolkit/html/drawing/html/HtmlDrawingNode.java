@@ -5,11 +5,13 @@ import elemental2.EventTarget;
 import elemental2.HTMLElement;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.nodes.HtmlParent;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingMixin;
 import naga.toolkit.drawing.spi.DrawingNode;
+import naga.toolkit.util.Properties;
 
 import static elemental2.Global.window;
 
@@ -26,10 +28,8 @@ public class HtmlDrawingNode extends HtmlParent<HTMLElement> implements DrawingN
 
     public HtmlDrawingNode(HTMLElement container) {
         super(container);
-        HtmlUtil.setStyleAttribute(container, "clip-path", "inset(0 0% 0% 0)");
+        //HtmlUtil.setStyleAttribute(container, "clip-path", "inset(0 0% 0% 0)"); // Doesn't seem to work with absolute position
         HtmlUtil.setStyleAttribute(container, "width", "100%");
-        HtmlUtil.setStyleAttribute(container, "height", "600px");
-        heightProperty().addListener((observable, oldValue, newHeight) -> HtmlUtil.setStyleAttribute(container, "height", "" + newHeight + "px"));
         drawing = new HtmlDrawing(this);
         HtmlUtil.runOnAttached(node, () -> {
             updateWidthProperty();
@@ -38,6 +38,7 @@ public class HtmlDrawingNode extends HtmlParent<HTMLElement> implements DrawingN
                 return true;
             }, false);
         });
+        Properties.runNowAndOnPropertiesChange(property -> HtmlUtil.setStyleAttribute(container, "height", (Numbers.doubleValue(getHeight()) > 0 ? getHeight() : getDrawing().getRootNode() == null ? 0 : getDrawing().getRootNode().prefHeight(-1)) + "px"), heightProperty());
     }
 
     private void updateWidthProperty() {
