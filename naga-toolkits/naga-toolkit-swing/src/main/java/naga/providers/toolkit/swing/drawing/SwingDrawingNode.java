@@ -163,5 +163,20 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                 getParent().doLayout();
             }
         }
+
+        @Override
+        protected void paintChildren(Graphics g) {
+            // DrawingPanel was initially designed to have no children because all the nodes tree is already painted by
+            // the canvas in paintComponent() (this includes embed Swing components which can in this way be transformed
+            // (ex: rotated), overlapped, etc...) as opposed to the standard Swing paint process.
+            // However some SwingLayoutMeasurable components may have been added to the Swing structure (which is
+            // necessary so they can report correct layout measures - see createNodeView.createNodeView()).
+            // So we override this method to avoid they are painted again in an incorrect way (not transformed, on top
+            // of nodes that should overlap them, etc...).
+            // Also to avoid any unwelcome direct mouse interaction with such children (which may result in painting
+            // them), we move them out of the visible part.
+            for (int i = 0, n = getComponentCount(); i < n; i++)
+                getComponent(i).setLocation(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        }
     }
 }
