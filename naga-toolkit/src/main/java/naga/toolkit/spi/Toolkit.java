@@ -8,6 +8,7 @@ import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 import naga.toolkit.display.DisplayResultSet;
+import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.properties.conversion.ConvertedObservableList;
 import naga.toolkit.properties.markers.HasTextProperty;
@@ -270,5 +271,11 @@ public abstract class Toolkit {
 
     public DrawingNode createDrawingNode() {
         return createNode(DrawingNode.class);
+    }
+
+    public DrawingNode createDrawingNode(Node rootNode) {
+        DrawingNode drawingNode = createDrawingNode();
+        drawingNode.setRootNode(rootNode);
+        return drawingNode;
     }
 }
