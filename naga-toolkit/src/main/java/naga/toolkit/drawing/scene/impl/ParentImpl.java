@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import naga.toolkit.drawing.geom.BaseBounds;
 import naga.toolkit.drawing.geom.RectBounds;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
+import naga.toolkit.drawing.layout.PreferenceResizableNode;
 import naga.toolkit.drawing.layout.impl.LayoutFlags;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.Parent;
@@ -173,7 +174,7 @@ public class ParentImpl extends NodeImpl implements Parent {
     protected final void requestParentLayout() {
         if (!layoutRoot) {
             Parent parent = getParent();
-            if (parent instanceof ParentImpl && !((ParentImpl) parent).performingLayout)
+            if (parent != null)
                 parent.requestLayout();
         }
 
@@ -326,9 +327,8 @@ public class ParentImpl extends NodeImpl implements Parent {
         for (Node child : children) {
             if (child.isManaged()) {
                 double offset = child.getBaselineOffset();
-                if (offset == BASELINE_OFFSET_SAME_AS_HEIGHT)
-                    continue;
-                return child.getLayoutBounds().getMinY() + child.getLayoutY() + offset;
+                if (offset != BASELINE_OFFSET_SAME_AS_HEIGHT)
+                    return child.getLayoutBounds().getMinY() + child.getLayoutY() + offset;
             }
         }
         return super.getBaselineOffset();
@@ -371,9 +371,28 @@ public class ParentImpl extends NodeImpl implements Parent {
                 }
                 setLayoutFlag(LayoutFlags.CLEAN);
                 performingLayout = false;
+                // Temporary naga code to automatically bind the height to the preferred height
+                if (bindHeightToPrefHeight) {
+                    PreferenceResizableNode resizableNode = (PreferenceResizableNode) this;
+                    double prefHeight = resizableNode.getPrefHeight();
+                    if (prefHeight == -1)
+                        prefHeight = resizableNode.prefHeight(resizableNode.getWidth());
+                    resizableNode.setHeight(prefHeight);
+                }
                 break;
         }
     }
+
+    // Temporary naga field to automatically bind the height to the preferred height
+    private boolean bindHeightToPrefHeight;
+
+    public void setBindHeightToPrefHeight(boolean bindHeightToPrefHeight) {
+        if (this instanceof PreferenceResizableNode)
+            this.bindHeightToPrefHeight = bindHeightToPrefHeight;
+        else
+            throw new IllegalStateException("ParentImpl.setBindHeightToPrefHeight() can be called only if implementing PreferenceResizableNode");
+    }
+
 
     /**
      * Invoked during the layout pass to layout the children in this
@@ -477,9 +496,8 @@ public class ParentImpl extends NodeImpl implements Parent {
             if (true || cachedBoundsInvalid) {
                 recomputeBounds();
 
-                if (dirtyChildren != null) {
+                if (dirtyChildren != null)
                     dirtyChildren.clear();
-                }
                 cachedBoundsInvalid = false;
                 dirtyChildrenCount = 0;
             }
@@ -493,9 +511,8 @@ public class ParentImpl extends NodeImpl implements Parent {
                         (float)(cachedBounds.getMaxY() + tx.getMyt()),
                         (float)(cachedBounds.getMaxZ() + tx.getMzt()));
 */
-            } else {
+            } else
                 bounds = bounds.deriveWithNewBounds(cachedBounds);
-            }
 
             return bounds;
         } else {
@@ -650,7 +667,6 @@ public class ParentImpl extends NodeImpl implements Parent {
             }
         }
 
-        cachedBounds = cachedBounds.deriveWithNewBounds(minX, minY, minZ,
-                maxX, maxY, maxZ);
+        cachedBounds = cachedBounds.deriveWithNewBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 }

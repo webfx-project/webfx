@@ -5,14 +5,18 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.collection.Collections;
+import naga.toolkit.drawing.layout.PreferenceResizableNode;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.scene.control.Control;
+import naga.toolkit.drawing.scene.impl.ParentImpl;
 import naga.toolkit.drawing.spi.Drawing;
 import naga.toolkit.drawing.spi.DrawingNode;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.NodeView;
 import naga.toolkit.drawing.spi.view.NodeViewFactory;
+import naga.toolkit.properties.markers.HasHeightProperty;
+import naga.toolkit.properties.markers.HasWidthProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
@@ -29,7 +33,25 @@ public abstract class DrawingImpl implements Drawing {
     protected final DrawingNode drawingNode;
     private NodeViewFactory nodeViewFactory;
     private final Map<Node, NodeView> nodeViews = new HashMap<>();
-    private final Property<Node> rootNodeProperty = new SimpleObjectProperty<>();
+    private final Property<Node> rootNodeProperty = new SimpleObjectProperty<Node>() {
+        // Temporary code to automatically assume the following behaviour:
+        // - the root node width is bound to the drawing node width
+        // - the drawing node height is bound to the root node height (which eventually is bound to the preferred height)
+        @Override
+        protected void invalidated() {
+            Node rootNode = getValue();
+            // Binding the root node width to the drawing node width
+            if (rootNode instanceof HasWidthProperty)
+                ((HasWidthProperty) rootNode).widthProperty().bind(drawingNode.widthProperty());
+            // Binding the drawing node height to the root node height
+            if (rootNode instanceof HasHeightProperty) {
+                HasHeightProperty root = (HasHeightProperty) rootNode;
+                drawingNode.heightProperty().bind(root.heightProperty());
+                if (root instanceof ParentImpl && root instanceof PreferenceResizableNode)
+                    ((ParentImpl) root).setBindHeightToPrefHeight(true);
+            }
+        }
+    };
     @Override
     public Property<Node> rootNodeProperty() {
         return rootNodeProperty;
@@ -79,7 +101,12 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     protected void keepParentAndChildrenViewsUpdated(Parent parent) {
-        ObservableLists.runNowAndOnListChange(() -> updateParentAndChildrenViews(parent), parent.getChildren());
+        ObservableLists.runNowAndOnListChange(() -> {
+            // Setting the parent to all children
+            for (Node child : parent.getChildren())
+                child.setParent(parent);
+            updateParentAndChildrenViews(parent);
+        }, parent.getChildren());
     }
 
     protected void updateParentAndChildrenViews(Parent parent) {
