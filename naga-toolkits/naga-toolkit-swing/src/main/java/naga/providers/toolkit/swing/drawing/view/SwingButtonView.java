@@ -1,6 +1,7 @@
 package naga.providers.toolkit.swing.drawing.view;
 
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
+import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.toolkit.drawing.scene.control.Button;
 import naga.toolkit.drawing.spi.DrawingRequester;
 import naga.toolkit.drawing.spi.view.base.ButtonViewBase;
@@ -21,6 +22,12 @@ public class SwingButtonView
 
     public SwingButtonView() {
         super(new ButtonViewBase());
+        swingButton.setFont(StyleUtil.getFont(false, false));
+        swingButton.addActionListener(e -> {
+            UiEventHandler<? super MouseEvent> onMouseClicked = getNode().getOnMouseClicked();
+            if (onMouseClicked != null)
+                onMouseClicked.handle(new SwingMouseEvent(null));
+        });
     }
 
     @Override
@@ -30,12 +37,6 @@ public class SwingButtonView
 
     @Override
     public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
-        swingButton.setAction(onMouseClicked == null ? null : new AbstractAction() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent event) {
-                onMouseClicked.handle(new SwingMouseEvent(null));
-            }
-        });
     }
 
     @Override
