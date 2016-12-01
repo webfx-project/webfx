@@ -219,7 +219,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param value the space value to be snapped
      * @return value rounded to nearest pixel
      */
-    protected double snapSpace(double value) {
+    double snapSpace(double value) {
         return snapSpace(value, isSnapToPixel());
     }
 
@@ -261,7 +261,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param value the size value to be snapped
      * @return value ceiled to nearest pixel
      */
-    protected double snapSize(double value) {
+    double snapSize(double value) {
         return snapSize(value, isSnapToPixel());
     }
 
@@ -515,7 +515,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @since JavaFX 8.0
      * @return Rounded up insets top
      */
-    public final double snappedTopInset() {
+    final double snappedTopInset() {
         return snappedTopInset;
     }
 
@@ -840,11 +840,24 @@ public class RegionImpl extends ParentImpl implements Region {
 
     double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
                                  Function<Integer, Double> positionToWidth,
+                                 double areaHeight, boolean fillHeight) {
+        return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, fillHeight, isSnapToPixel());
+    }
+
+    private static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+                                        Function<Integer, Double> positionToWidth,
+                                        double areaHeight, boolean fillHeight, boolean snapToPixel) {
+        return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, fillHeight,
+                getMinBaselineComplement(children), snapToPixel);
+    }
+
+    double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+                                 Function<Integer, Double> positionToWidth,
                                  double areaHeight, boolean fillHeight, double minComplement) {
         return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, fillHeight, minComplement, isSnapToPixel());
     }
 
-    static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+    private static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
                                         Function<Integer, Double> positionToWidth,
                                         double areaHeight, boolean fillHeight, double minComplement, boolean snapToPixel) {
         return getAreaBaselineOffset(children, margins, positionToWidth, areaHeight, t -> fillHeight, minComplement, snapToPixel);
@@ -866,7 +879,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param fillHeight callback to specify children that has fillHeight constraint
      * @param minComplement minimum complement
      */
-    static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
+    private static double getAreaBaselineOffset(List<Node> children, Callback<Node, Insets> margins,
                                         Function<Integer, Double> positionToWidth,
                                         double areaHeight, Function<Integer, Boolean> fillHeight, double minComplement, boolean snapToPixel) {
         double b = 0;
@@ -955,7 +968,7 @@ public class RegionImpl extends ParentImpl implements Region {
      *
      * @since JavaFX 8.0
      */
-    public static void positionInArea(Node child, double areaX, double areaY, double areaWidth, double areaHeight,
+    static void positionInArea(Node child, double areaX, double areaY, double areaWidth, double areaHeight,
                                       double areaBaselineOffset, Insets margin, HPos halignment, VPos valignment, boolean isSnapToPixel) {
         Insets childMargin = margin != null? margin : Insets.EMPTY;
 
@@ -1066,7 +1079,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param halignment the horizontal alignment for the child within the area
      * @param valignment the vertical alignment for the child within the area
      */
-    protected void layoutInArea(Node child, double areaX, double areaY,
+    void layoutInArea(Node child, double areaX, double areaY,
                                 double areaWidth, double areaHeight,
                                 double areaBaselineOffset,
                                 Insets margin,
@@ -1125,7 +1138,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param halignment the horizontal alignment for the child within the area
      * @param valignment the vertical alignment for the child within the area
      */
-    protected void layoutInArea(Node child, double areaX, double areaY,
+    void layoutInArea(Node child, double areaX, double areaY,
                                 double areaWidth, double areaHeight,
                                 double areaBaselineOffset,
                                 Insets margin, boolean fillWidth, boolean fillHeight,
@@ -1185,7 +1198,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param isSnapToPixel whether to snap size and position to pixels
      * @since JavaFX 8.0
      */
-    public static void layoutInArea(Node child, double areaX, double areaY,
+    private static void layoutInArea(Node child, double areaX, double areaY,
                                     double areaWidth, double areaHeight,
                                     double areaBaselineOffset,
                                     Insets margin, boolean fillWidth, boolean fillHeight,
@@ -1392,7 +1405,7 @@ public class RegionImpl extends ParentImpl implements Region {
      * @param max the maximum bound
      * @return the size bounded by min, pref, and max.
      */
-    static double boundedSize(double min, double pref, double max) {
+    private static double boundedSize(double min, double pref, double max) {
         double a = pref >= min ? pref : min;
         double b = min >= max ? min : max;
         return a <= b ? a : b;
@@ -1411,5 +1424,4 @@ public class RegionImpl extends ParentImpl implements Region {
         boolean isSnapToPixel = isSnapToPixel();
         return height - snapSpace(margin.getTop(), isSnapToPixel) - snapSpace(margin.getBottom(), isSnapToPixel);
     }
-
 }
