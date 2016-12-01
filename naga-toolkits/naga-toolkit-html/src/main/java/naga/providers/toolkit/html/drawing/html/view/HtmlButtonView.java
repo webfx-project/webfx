@@ -9,15 +9,10 @@ import naga.toolkit.drawing.spi.view.base.ButtonViewMixin;
  * @author Bruno Salmon
  */
 public class HtmlButtonView
-        extends HtmlNodeView<Button, ButtonViewBase, ButtonViewMixin>
+        extends HtmlButtonBaseView<Button, ButtonViewBase, ButtonViewMixin>
         implements ButtonViewMixin, HtmlLayoutMeasurable {
 
     public HtmlButtonView() {
         super(new ButtonViewBase(), HtmlUtil.createButtonElement());
-    }
-
-    @Override
-    public void updateText(String text) {
-        setElementTextContent(text);
     }
 }

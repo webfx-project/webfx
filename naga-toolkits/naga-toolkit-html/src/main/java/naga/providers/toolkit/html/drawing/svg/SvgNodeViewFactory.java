@@ -1,8 +1,10 @@
 package naga.providers.toolkit.html.drawing.svg;
 
 import naga.providers.toolkit.html.drawing.html.view.HtmlButtonView;
+import naga.providers.toolkit.html.drawing.html.view.HtmlCheckBoxView;
 import naga.providers.toolkit.html.drawing.svg.view.*;
 import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
+import naga.toolkit.drawing.scene.control.impl.CheckBoxImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
@@ -32,5 +34,6 @@ class SvgNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(BorderPaneImpl.class, SvgRegionView::new);
         registerNodeViewFactory(FlowPaneImpl.class, SvgRegionView::new);
         registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new); // Will be embed in a foreignObject
+        registerNodeViewFactory(CheckBoxImpl.class, HtmlCheckBoxView::new); // Will be embed in a foreignObject
     }
 }

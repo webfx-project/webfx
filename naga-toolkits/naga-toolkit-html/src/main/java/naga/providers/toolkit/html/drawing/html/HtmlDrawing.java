@@ -3,6 +3,7 @@ package naga.providers.toolkit.html.drawing.html;
 import elemental2.Element;
 import elemental2.HTMLButtonElement;
 import elemental2.HTMLElement;
+import elemental2.HTMLLabelElement;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.drawing.html.view.HtmlNodeView;
 import naga.providers.toolkit.html.drawing.svg.view.SvgNodeView;
@@ -51,7 +52,7 @@ public class HtmlDrawing extends DrawingImpl {
             HtmlNodeView htmlNodeView = (HtmlNodeView) nodeView;
             HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
             HtmlUtil.absolutePosition(htmlElement);
-            if (htmlElement instanceof HTMLButtonElement)
+            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement)
                 htmlElement.style.whiteSpace = "nowrap";
         }
         return nodeView;
