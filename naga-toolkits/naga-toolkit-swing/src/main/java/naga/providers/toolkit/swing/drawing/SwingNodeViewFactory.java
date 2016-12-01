@@ -3,6 +3,7 @@ package naga.providers.toolkit.swing.drawing;
 import naga.providers.toolkit.swing.drawing.view.*;
 import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
 import naga.toolkit.drawing.scene.control.impl.CheckBoxImpl;
+import naga.toolkit.drawing.scene.control.impl.TextFieldImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
@@ -32,6 +33,7 @@ class SwingNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(BorderPaneImpl.class, SwingRegionView::new);
         registerNodeViewFactory(FlowPaneImpl.class, SwingRegionView::new);
         registerNodeViewFactory(ButtonImpl.class, SwingButtonView::new);
+        registerNodeViewFactory(TextFieldImpl.class, SwingTextFieldView::new);
         registerNodeViewFactory(CheckBoxImpl.class, SwingCheckBoxView::new);
     }
 }
