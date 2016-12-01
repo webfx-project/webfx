@@ -44,6 +44,7 @@ abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> imp
         fxNode.layoutXProperty().bind(node.layoutXProperty());
         fxNode.layoutYProperty().bind(node.layoutYProperty());
         fxNode.onMouseClickedProperty().bind(new ConvertedProperty<>(node.onMouseClickedProperty(), FxNodeViewImpl::toFxMouseEventHandler));
+        fxNode.mouseTransparentProperty().bind(node.mouseTransparentProperty());
     }
 
     @Override

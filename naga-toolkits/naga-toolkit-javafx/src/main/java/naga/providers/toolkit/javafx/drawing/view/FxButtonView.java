@@ -1,11 +1,12 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
 import naga.toolkit.drawing.scene.control.Button;
+import naga.toolkit.drawing.spi.view.ButtonView;
 
 /**
  * @author Bruno Salmon
  */
-public class FxButtonView extends FxButtonBaseView<Button, javafx.scene.control.Button> implements FxLayoutMeasurable {
+public class FxButtonView extends FxButtonBaseView<Button, javafx.scene.control.Button> implements ButtonView, FxLayoutMeasurable {
 
     @Override
     javafx.scene.control.Button createFxNode(Button node) {

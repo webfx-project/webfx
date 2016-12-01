@@ -23,7 +23,6 @@ public class FxTextView extends FxShapeViewImpl<Text, javafx.scene.text.Text> im
         fxNode.textAlignmentProperty().bind(new ConvertedProperty<>(t.textAlignmentProperty(), FxTextView::toFxTextAlignment));
         fxNode.wrappingWidthProperty().bind(t.wrappingWidthProperty());
         fxNode.fontProperty().bind(new ConvertedProperty<>(t.fontProperty(), FxFonts::toFxFont));
-        fxNode.mouseTransparentProperty().bind(t.mouseTransparentProperty());
     }
 
     @Override

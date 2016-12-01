@@ -10,7 +10,7 @@ import naga.toolkit.drawing.text.FontWeight;
 public class FxFonts {
 
     public static javafx.scene.text.Font toFxFont(Font font) {
-        return javafx.scene.text.Font.font(font.getFamily(), toFxFontWeight(font.getWeight()), toFxFontPosture(font.getPosture()), font.getSize());
+        return font == null ? null : javafx.scene.text.Font.font(font.getFamily(), toFxFontWeight(font.getWeight()), toFxFontPosture(font.getPosture()), font.getSize());
     }
 
     private static javafx.scene.text.FontWeight toFxFontWeight(FontWeight weight) {
