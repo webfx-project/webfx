@@ -2,6 +2,7 @@ package naga.providers.toolkit.javafx.drawing;
 
 import naga.providers.toolkit.javafx.drawing.view.*;
 import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
+import naga.toolkit.drawing.scene.control.impl.CheckBoxImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
 import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
@@ -31,5 +32,6 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(BorderPaneImpl.class, FxRegionView::new);
         registerNodeViewFactory(FlowPaneImpl.class, FxRegionView::new);
         registerNodeViewFactory(ButtonImpl.class, FxButtonView::new);
+        registerNodeViewFactory(CheckBoxImpl.class, FxCheckBoxView::new);
     }
 }
