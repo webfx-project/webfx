@@ -2,12 +2,13 @@ package naga.providers.toolkit.html.drawing.svg;
 
 import naga.providers.toolkit.html.drawing.html.view.HtmlButtonView;
 import naga.providers.toolkit.html.drawing.svg.view.*;
-import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
-import naga.toolkit.drawing.scene.layout.impl.HBoxImpl;
-import naga.toolkit.drawing.scene.layout.impl.VBoxImpl;
 import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;
+import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
+import naga.toolkit.drawing.scene.layout.impl.FlowPaneImpl;
+import naga.toolkit.drawing.scene.layout.impl.HBoxImpl;
+import naga.toolkit.drawing.scene.layout.impl.VBoxImpl;
 import naga.toolkit.drawing.shape.impl.CircleImpl;
 import naga.toolkit.drawing.shape.impl.RectangleImpl;
 import naga.toolkit.drawing.spi.impl.NodeViewFactoryImpl;
@@ -29,6 +30,7 @@ class SvgNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(VBoxImpl.class, SvgRegionView::new);
         registerNodeViewFactory(HBoxImpl.class, SvgRegionView::new);
         registerNodeViewFactory(BorderPaneImpl.class, SvgRegionView::new);
+        registerNodeViewFactory(FlowPaneImpl.class, SvgRegionView::new);
         registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new); // Will be embed in a foreignObject
     }
 }
