@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.scene.control;
 
-import naga.toolkit.drawing.layout.Region;
+import naga.toolkit.drawing.scene.layout.Region;
 
 /**
  * @author Bruno Salmon

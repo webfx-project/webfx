@@ -1,8 +1,8 @@
-package naga.toolkit.drawing.layout;
+package naga.toolkit.drawing.scene.layout;
 
 import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.geometry.Pos;
-import naga.toolkit.drawing.layout.impl.BorderPaneImpl;
+import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.properties.markers.*;
 

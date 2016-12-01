@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.layout.impl;
+package naga.toolkit.drawing.scene.layout.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -6,7 +6,7 @@ import javafx.util.Callback;
 import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.geometry.Orientation;
 import naga.toolkit.drawing.geometry.Pos;
-import naga.toolkit.drawing.layout.Box;
+import naga.toolkit.drawing.scene.layout.Box;
 import naga.toolkit.drawing.scene.Node;
 
 import java.util.List;

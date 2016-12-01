@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.layout.impl;
+package naga.toolkit.drawing.scene.layout.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -10,7 +10,7 @@ import naga.toolkit.drawing.geom.Vec2d;
 import naga.toolkit.drawing.geom.transform.BaseTransform;
 import naga.toolkit.drawing.geometry.*;
 import naga.toolkit.drawing.geometry.Insets;
-import naga.toolkit.drawing.layout.Region;
+import naga.toolkit.drawing.scene.layout.Region;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.impl.ParentImpl;
 

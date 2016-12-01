@@ -18,14 +18,14 @@ public interface SwingEmbedComponentView
 
     default void paint(Graphics2D g) {
         JComponent component = getEmbedSwingComponent();
-        component.setSize(component.getPreferredSize());
+        //component.setSize(component.getPreferredSize());
         component.paint(g);
     }
 
     default boolean containsPoint(Point2D point) {
         //System.out.println("x = " + point.getX() + ", y =" + point.getY());
         JComponent component = getEmbedSwingComponent();
-        component.setSize(component.getPreferredSize());
+        //component.setSize(component.getPreferredSize());
         return component.contains((int) point.getX(), (int) point.getY());
     }
 }

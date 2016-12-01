@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.drawing.view;
 
-import naga.toolkit.drawing.layout.Region;
+import naga.toolkit.drawing.scene.layout.Region;
 
 /**
  * @author Bruno Salmon

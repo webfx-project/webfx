@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.collection.Collections;
-import naga.toolkit.drawing.layout.PreferenceResizableNode;
+import naga.toolkit.drawing.scene.layout.PreferenceResizableNode;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.drawing.scene.Parent;
 import naga.toolkit.drawing.scene.control.Control;

@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.layout;
+package naga.toolkit.drawing.scene.layout;
 
 /**
  * Enumeration used to determine the grow (or shrink) priority of a given node's

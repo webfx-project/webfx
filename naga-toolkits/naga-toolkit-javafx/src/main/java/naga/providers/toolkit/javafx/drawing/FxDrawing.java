@@ -28,7 +28,7 @@ class FxDrawing extends DrawingImpl {
             Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
             ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
-            ObservableLists.setAllNonNulls(children, getFxDrawableNode(rootNode));
+            ObservableLists.setAllNonNulls(children, getFxNode(rootNode));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,18 +36,18 @@ class FxDrawing extends DrawingImpl {
 
     @Override
     protected void updateParentAndChildrenViews(Parent parent) {
-        javafx.scene.Parent fxParent = (javafx.scene.Parent) getFxDrawableNode(parent);
+        javafx.scene.Parent fxParent = (javafx.scene.Parent) getFxNode(parent);
         try {
             Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
             ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
-            ObservableLists.setAllNonNullsConverted(parent.getChildren(), this::getFxDrawableNode, children);
+            ObservableLists.setAllNonNullsConverted(parent.getChildren(), this::getFxNode, children);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private javafx.scene.Node getFxDrawableNode(Node node) {
+    private javafx.scene.Node getFxNode(Node node) {
         NodeView nodeView = getOrCreateAndBindNodeView(node);
         if (nodeView instanceof FxNodeView) // Should be a FxNodeView
             return((FxNodeView) nodeView).getFxNode();

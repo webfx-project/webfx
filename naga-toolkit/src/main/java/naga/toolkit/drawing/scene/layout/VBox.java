@@ -1,7 +1,7 @@
-package naga.toolkit.drawing.layout;
+package naga.toolkit.drawing.scene.layout;
 
 import naga.toolkit.drawing.geometry.Insets;
-import naga.toolkit.drawing.layout.impl.VBoxImpl;
+import naga.toolkit.drawing.scene.layout.impl.VBoxImpl;
 import naga.toolkit.drawing.scene.Node;
 import naga.toolkit.properties.markers.HasFillWidthProperty;
 

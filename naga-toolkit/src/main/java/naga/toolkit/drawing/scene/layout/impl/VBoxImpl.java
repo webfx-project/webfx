@@ -1,12 +1,12 @@
-package naga.toolkit.drawing.layout.impl;
+package naga.toolkit.drawing.scene.layout.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.drawing.geometry.HPos;
 import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.geometry.VPos;
-import naga.toolkit.drawing.layout.Priority;
-import naga.toolkit.drawing.layout.VBox;
+import naga.toolkit.drawing.scene.layout.Priority;
+import naga.toolkit.drawing.scene.layout.VBox;
 import naga.toolkit.drawing.scene.Node;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package naga.providers.toolkit.swing.drawing;
 
 import naga.providers.toolkit.swing.drawing.view.*;
-import naga.toolkit.drawing.layout.impl.BorderPaneImpl;
-import naga.toolkit.drawing.layout.impl.HBoxImpl;
-import naga.toolkit.drawing.layout.impl.VBoxImpl;
+import naga.toolkit.drawing.scene.layout.impl.BorderPaneImpl;
+import naga.toolkit.drawing.scene.layout.impl.HBoxImpl;
+import naga.toolkit.drawing.scene.layout.impl.VBoxImpl;
 import naga.toolkit.drawing.scene.control.impl.ButtonImpl;
 import naga.toolkit.drawing.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.drawing.scene.impl.GroupImpl;

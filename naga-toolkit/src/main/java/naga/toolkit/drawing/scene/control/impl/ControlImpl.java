@@ -1,6 +1,6 @@
 package naga.toolkit.drawing.scene.control.impl;
 
-import naga.toolkit.drawing.layout.impl.RegionImpl;
+import naga.toolkit.drawing.scene.layout.impl.RegionImpl;
 import naga.toolkit.drawing.scene.control.Control;
 
 /**

@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.layout.impl;
+package naga.toolkit.drawing.scene.layout.impl;
 
 /**
  * @author Bruno Salmon

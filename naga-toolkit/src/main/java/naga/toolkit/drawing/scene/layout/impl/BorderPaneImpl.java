@@ -1,11 +1,11 @@
-package naga.toolkit.drawing.layout.impl;
+package naga.toolkit.drawing.scene.layout.impl;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.ListChangeListener;
 import naga.toolkit.drawing.geom.Vec2d;
 import naga.toolkit.drawing.geometry.*;
-import naga.toolkit.drawing.layout.BorderPane;
+import naga.toolkit.drawing.scene.layout.BorderPane;
 import naga.toolkit.drawing.scene.Node;
 
 import java.util.List;

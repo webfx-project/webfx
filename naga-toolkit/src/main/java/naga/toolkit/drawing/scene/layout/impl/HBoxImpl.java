@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.layout.impl;
+package naga.toolkit.drawing.scene.layout.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -6,8 +6,8 @@ import naga.toolkit.drawing.geometry.HPos;
 import naga.toolkit.drawing.geometry.Insets;
 import naga.toolkit.drawing.geometry.Pos;
 import naga.toolkit.drawing.geometry.VPos;
-import naga.toolkit.drawing.layout.HBox;
-import naga.toolkit.drawing.layout.Priority;
+import naga.toolkit.drawing.scene.layout.HBox;
+import naga.toolkit.drawing.scene.layout.Priority;
 import naga.toolkit.drawing.scene.Node;
 
 import java.util.List;
@@ -142,15 +142,14 @@ public class HBoxImpl extends BoxImpl implements HBox {
     @Override
     protected double computePrefHeight(double width) {
         Insets insets = getInsets();
-        List<Node>managed = getManagedChildren();
+        List<Node> managed = getManagedChildren();
         double contentHeight;
         if (width != -1 && getContentBias() != null) {
             double prefWidths[][] = getAreaWidths(managed, -1, false);
             adjustAreaWidths(managed, prefWidths, width, -1);
             contentHeight = computeMaxPrefAreaHeight(managed, marginAccessor, prefWidths[0], getAlignmentInternal().getVpos());
-        } else {
+        } else
             contentHeight = computeMaxPrefAreaHeight(managed, marginAccessor, getAlignmentInternal().getVpos());
-        }
         return snapSpace(insets.getTop()) +
                 contentHeight +
                 snapSpace(insets.getBottom());
@@ -165,11 +164,10 @@ public class HBoxImpl extends BoxImpl implements HBox {
         for (int i = 0, size = managed.size(); i < size; i++) {
             Node child = managed.get(i);
             Insets margin = getMargin(child);
-            if (minimum) {
+            if (minimum)
                 temp[0][i] = computeChildMinAreaWidth(child, getMinBaselineComplement(), margin, insideHeight, shouldFillHeight);
-            } else {
+            else
                 temp[0][i] = computeChildPrefAreaWidth(child, getPrefBaselineComplement(), margin, insideHeight, shouldFillHeight);
-            }
         }
         return temp;
     }
@@ -212,9 +210,8 @@ public class HBoxImpl extends BoxImpl implements HBox {
                 if (getHgrow(child) == priority) {
                     temp[i] = computeChildMaxAreaWidth(child, getMinBaselineComplement(), getMargin(child), height, shouldFillHeight);
                     adjustingNumber++;
-                } else {
+                } else
                     temp[i] = -1;
-                }
             }
         }
 
@@ -222,16 +219,14 @@ public class HBoxImpl extends BoxImpl implements HBox {
         outer:while (Math.abs(available) > 1 && adjustingNumber > 0) {
             double portion = snapPortion(available / adjustingNumber); // negative in shrinking case
             for (int i = 0, size = managed.size(); i < size; i++) {
-                if (temp[i] == -1) {
+                if (temp[i] == -1)
                     continue;
-                }
                 double limit = temp[i] - usedWidths[i]; // negative in shrinking case
                 double change = Math.abs(limit) <= Math.abs(portion)? limit : portion;
                 usedWidths[i] += change;
                 available -= change;
-                if (Math.abs(available) < 1) {
+                if (Math.abs(available) < 1)
                     break outer;
-                }
                 if (Math.abs(change) < Math.abs(portion)) {
                     temp[i] = -1;
                     adjustingNumber--;
@@ -305,7 +300,8 @@ public class HBoxImpl extends BoxImpl implements HBox {
         return baselineOffset;
     }
 
-    @Override protected void layoutChildren() {
+    @Override
+    protected void layoutChildren() {
         performingLayout = true;
         List<Node> managed = getManagedChildren();
         Insets insets = getInsets();

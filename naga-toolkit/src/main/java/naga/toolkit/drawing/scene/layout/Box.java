@@ -1,4 +1,4 @@
-package naga.toolkit.drawing.layout;
+package naga.toolkit.drawing.scene.layout;
 
 import naga.toolkit.properties.markers.HasAlignmentProperty;
 import naga.toolkit.properties.markers.HasSpacingProperty;
