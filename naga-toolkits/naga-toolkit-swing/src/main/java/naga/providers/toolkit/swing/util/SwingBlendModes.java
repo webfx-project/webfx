@@ -1,6 +1,6 @@
 package naga.providers.toolkit.swing.util;
 
-import naga.toolkit.fx.effect.BlendMode;
+import naga.toolkit.fx.scene.effect.BlendMode;
 
 import java.awt.*;
 import java.awt.image.ColorModel;

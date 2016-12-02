@@ -2,8 +2,8 @@ package naga.providers.toolkit.swing.fx.view;
 
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
-import naga.toolkit.fx.effect.BlendMode;
-import naga.toolkit.fx.effect.Effect;
+import naga.toolkit.fx.scene.effect.BlendMode;
+import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.impl.DrawingImpl;

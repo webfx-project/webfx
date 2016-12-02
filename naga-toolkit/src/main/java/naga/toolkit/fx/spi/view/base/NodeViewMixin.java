@@ -2,11 +2,11 @@ package naga.toolkit.fx.spi.view.base;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
-import naga.toolkit.fx.effect.BlendMode;
+import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.view.NodeView;
-import naga.toolkit.fx.effect.Effect;
+import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.fx.scene.transform.Transform;

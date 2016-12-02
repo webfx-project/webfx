@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.effect.BlendMode;
+import naga.toolkit.fx.scene.effect.BlendMode;
 
 /**
  * @author Bruno Salmon

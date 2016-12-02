@@ -1,4 +1,4 @@
-package naga.toolkit.fx.effect;
+package naga.toolkit.fx.scene.effect;
 
 /**
  * A blending mode defines the manner in which the inputs of a Blend

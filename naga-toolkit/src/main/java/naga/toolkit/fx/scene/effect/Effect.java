@@ -1,4 +1,4 @@
-package naga.toolkit.fx.effect;
+package naga.toolkit.fx.scene.effect;
 
 /**
  * @author Bruno Salmon

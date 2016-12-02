@@ -1,6 +1,6 @@
-package naga.toolkit.fx.effect.impl;
+package naga.toolkit.fx.scene.effect.impl;
 
-import naga.toolkit.fx.effect.GaussianBlur;
+import naga.toolkit.fx.scene.effect.GaussianBlur;
 
 /**
  * @author Bruno Salmon

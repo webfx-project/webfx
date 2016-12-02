@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.effect.Effect;
+import naga.toolkit.fx.scene.effect.Effect;
 
 /**
  * @author Bruno Salmon
