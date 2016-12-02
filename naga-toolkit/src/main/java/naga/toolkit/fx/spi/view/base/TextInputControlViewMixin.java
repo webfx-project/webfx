@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.view.base;
 
 import naga.toolkit.fx.scene.control.TextInputControl;
 import naga.toolkit.fx.spi.view.TextInputControlView;
-import naga.toolkit.fx.text.Font;
+import naga.toolkit.fx.scene.text.Font;
 
 /**
  * @author Bruno Salmon

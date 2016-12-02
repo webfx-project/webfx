@@ -1,6 +1,6 @@
-package naga.toolkit.fx.text;
+package naga.toolkit.fx.scene.text;
 
-import naga.toolkit.fx.text.impl.FontImpl;
+import naga.toolkit.fx.scene.text.impl.FontImpl;
 
 /**
  * @author Bruno Salmon

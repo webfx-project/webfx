@@ -1,8 +1,8 @@
 package naga.toolkit.fx.spi.view.base;
 
-import naga.toolkit.fx.text.Font;
-import naga.toolkit.fx.text.Text;
-import naga.toolkit.fx.text.TextAlignment;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.spi.view.TextView;
 

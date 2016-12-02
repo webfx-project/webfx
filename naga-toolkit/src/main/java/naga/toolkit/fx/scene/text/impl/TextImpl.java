@@ -1,4 +1,4 @@
-package naga.toolkit.fx.text.impl;
+package naga.toolkit.fx.scene.text.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -6,9 +6,9 @@ import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.BoxBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.shape.impl.ShapeImpl;
-import naga.toolkit.fx.text.Font;
-import naga.toolkit.fx.text.Text;
-import naga.toolkit.fx.text.TextAlignment;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.geometry.VPos;
 
 /**

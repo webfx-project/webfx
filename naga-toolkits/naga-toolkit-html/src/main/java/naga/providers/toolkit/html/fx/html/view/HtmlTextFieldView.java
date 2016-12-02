@@ -5,7 +5,7 @@ import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.spi.view.base.TextFieldViewBase;
 import naga.toolkit.fx.spi.view.base.TextFieldViewMixin;
-import naga.toolkit.fx.text.Font;
+import naga.toolkit.fx.scene.text.Font;
 
 /**
  * @author Bruno Salmon

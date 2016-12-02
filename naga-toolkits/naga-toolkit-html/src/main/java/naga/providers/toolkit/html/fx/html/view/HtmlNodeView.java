@@ -10,7 +10,7 @@ import naga.toolkit.fx.scene.shape.Circle;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.view.base.NodeViewBase;
 import naga.toolkit.fx.spi.view.base.NodeViewMixin;
-import naga.toolkit.fx.text.TextAlignment;
+import naga.toolkit.fx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon

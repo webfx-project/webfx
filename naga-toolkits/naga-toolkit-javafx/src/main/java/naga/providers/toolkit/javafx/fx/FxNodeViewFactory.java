@@ -13,7 +13,7 @@ import naga.toolkit.fx.scene.layout.impl.VBoxImpl;
 import naga.toolkit.fx.scene.shape.impl.CircleImpl;
 import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
 import naga.toolkit.fx.spi.impl.NodeViewFactoryImpl;
-import naga.toolkit.fx.text.impl.TextImpl;
+import naga.toolkit.fx.scene.text.impl.TextImpl;
 
 /**
  * @author Bruno Salmon

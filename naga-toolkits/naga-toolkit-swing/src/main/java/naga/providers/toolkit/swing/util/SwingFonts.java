@@ -1,8 +1,8 @@
 package naga.providers.toolkit.swing.util;
 
-import naga.toolkit.fx.text.Font;
-import naga.toolkit.fx.text.FontPosture;
-import naga.toolkit.fx.text.FontWeight;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.FontPosture;
+import naga.toolkit.fx.scene.text.FontWeight;
 
 import static java.awt.Font.*;
 

@@ -5,9 +5,9 @@ import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.spi.view.base.TextViewBase;
 import naga.toolkit.fx.spi.view.base.TextViewMixin;
-import naga.toolkit.fx.text.Font;
-import naga.toolkit.fx.text.Text;
-import naga.toolkit.fx.text.TextAlignment;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.fx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon

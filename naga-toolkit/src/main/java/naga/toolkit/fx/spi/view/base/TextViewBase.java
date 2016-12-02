@@ -1,7 +1,7 @@
 package naga.toolkit.fx.spi.view.base;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.text.Text;
+import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.view.TextView;
 

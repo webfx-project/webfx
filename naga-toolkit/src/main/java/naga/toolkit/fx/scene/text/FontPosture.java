@@ -1,4 +1,4 @@
-package naga.toolkit.fx.text;
+package naga.toolkit.fx.scene.text;
 
 /**
  * Specifies whether the font is italicized

@@ -1,4 +1,4 @@
-package naga.toolkit.fx.text;
+package naga.toolkit.fx.scene.text;
 
 /**
  * Specifies different font weights which can be used when searching for a

@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.view;
 
-import naga.toolkit.fx.text.Text;
+import naga.toolkit.fx.scene.text.Text;
 
 /**
  * @author Bruno Salmon

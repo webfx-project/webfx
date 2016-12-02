@@ -6,7 +6,7 @@ import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.spi.view.base.TextFieldViewBase;
 import naga.toolkit.fx.spi.view.base.TextFieldViewMixin;
-import naga.toolkit.fx.text.Font;
+import naga.toolkit.fx.scene.text.Font;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

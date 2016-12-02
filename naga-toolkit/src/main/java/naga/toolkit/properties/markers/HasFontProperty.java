@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.text.Font;
+import naga.toolkit.fx.scene.text.Font;
 
 /**
  * @author Bruno Salmon

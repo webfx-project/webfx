@@ -3,7 +3,7 @@ package naga.toolkit.fx.scene.control.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.scene.control.TextInputControl;
-import naga.toolkit.fx.text.Font;
+import naga.toolkit.fx.scene.text.Font;
 
 /**
  * @author Bruno Salmon

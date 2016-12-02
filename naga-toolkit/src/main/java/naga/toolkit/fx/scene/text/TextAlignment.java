@@ -1,4 +1,4 @@
-package naga.toolkit.fx.text;
+package naga.toolkit.fx.scene.text;
 
 /**
  * The {@code TextAlignment} enum represents the horizontal text alignment.
