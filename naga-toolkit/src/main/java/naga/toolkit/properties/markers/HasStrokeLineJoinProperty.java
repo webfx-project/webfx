@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeLineJoin;
 
 /**
  * @author Bruno Salmon

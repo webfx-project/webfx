@@ -2,7 +2,7 @@ package naga.providers.toolkit.swing.fx.view;
 
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.swing.util.SwingStrokes;
-import naga.toolkit.fx.shape.Shape;
+import naga.toolkit.fx.scene.shape.Shape;
 
 import java.awt.*;
 

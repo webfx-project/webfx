@@ -1,7 +1,7 @@
-package naga.toolkit.fx.shape;
+package naga.toolkit.fx.scene.shape;
 
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.shape.impl.RectangleImpl;
+import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
 import naga.toolkit.properties.markers.*;
 
 /**

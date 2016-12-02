@@ -2,7 +2,7 @@ package naga.providers.toolkit.swing.fx.view;
 
 import naga.providers.toolkit.swing.util.SwingPaints;
 import naga.toolkit.fx.scene.paint.LinearGradient;
-import naga.toolkit.fx.shape.Shape;
+import naga.toolkit.fx.scene.shape.Shape;
 
 import java.awt.*;
 

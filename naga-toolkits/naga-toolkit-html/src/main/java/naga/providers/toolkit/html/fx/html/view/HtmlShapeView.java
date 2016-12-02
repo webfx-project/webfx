@@ -3,9 +3,9 @@ package naga.providers.toolkit.html.fx.html.view;
 import elemental2.HTMLElement;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.shape.Shape;
-import naga.toolkit.fx.shape.StrokeLineCap;
-import naga.toolkit.fx.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.Shape;
+import naga.toolkit.fx.scene.shape.StrokeLineCap;
+import naga.toolkit.fx.scene.shape.StrokeLineJoin;
 import naga.toolkit.fx.spi.view.base.ShapeViewBase;
 import naga.toolkit.fx.spi.view.base.ShapeViewMixin;
 

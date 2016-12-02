@@ -2,7 +2,7 @@ package naga.providers.toolkit.javafx.fx.view;
 
 import naga.providers.toolkit.javafx.util.FxPaints;
 import naga.providers.toolkit.javafx.util.FxStrokes;
-import naga.toolkit.fx.shape.Shape;
+import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.util.ObservableLists;
 

@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.shape.StrokeLineCap;
+import naga.toolkit.fx.scene.shape.StrokeLineCap;
 
 /**
  * @author Bruno Salmon

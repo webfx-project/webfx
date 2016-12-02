@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.fx.view;
 
-import naga.toolkit.fx.shape.Shape;
+import naga.toolkit.fx.scene.shape.Shape;
 
 /**
  * @author Bruno Salmon

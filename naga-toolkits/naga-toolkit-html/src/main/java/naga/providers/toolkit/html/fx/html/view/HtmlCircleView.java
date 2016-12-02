@@ -2,7 +2,7 @@ package naga.providers.toolkit.html.fx.html.view;
 
 import elemental2.CSSStyleDeclaration;
 import naga.providers.toolkit.html.util.HtmlUtil;
-import naga.toolkit.fx.shape.Circle;
+import naga.toolkit.fx.scene.shape.Circle;
 import naga.toolkit.fx.spi.view.base.CircleViewBase;
 import naga.toolkit.fx.spi.view.base.CircleViewMixin;
 

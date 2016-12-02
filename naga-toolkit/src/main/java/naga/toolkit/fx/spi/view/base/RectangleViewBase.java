@@ -1,7 +1,7 @@
 package naga.toolkit.fx.spi.view.base;
 
 import javafx.beans.property.Property;
-import naga.toolkit.fx.shape.Rectangle;
+import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.view.RectangleView;
 

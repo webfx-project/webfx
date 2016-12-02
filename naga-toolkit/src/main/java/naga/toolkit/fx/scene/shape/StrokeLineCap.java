@@ -1,4 +1,4 @@
-package naga.toolkit.fx.shape;
+package naga.toolkit.fx.scene.shape;
 
 /**
  * @author Bruno Salmon

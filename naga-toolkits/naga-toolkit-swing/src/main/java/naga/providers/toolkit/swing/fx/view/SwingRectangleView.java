@@ -1,7 +1,7 @@
 package naga.providers.toolkit.swing.fx.view;
 
 import naga.commons.util.Numbers;
-import naga.toolkit.fx.shape.Rectangle;
+import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.view.base.RectangleViewBase;
 import naga.toolkit.fx.spi.view.base.RectangleViewMixin;
 import naga.toolkit.fx.spi.view.base.RectangleViewMixin2;

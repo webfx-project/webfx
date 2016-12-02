@@ -1,7 +1,7 @@
 package naga.providers.toolkit.html.fx.svg.view;
 
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.toolkit.fx.shape.Rectangle;
+import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.view.base.RectangleViewBase;
 import naga.toolkit.fx.spi.view.base.RectangleViewMixin;
 

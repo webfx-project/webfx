@@ -6,8 +6,8 @@ import naga.toolkit.fx.scene.paint.Color;
 import naga.toolkit.fx.scene.paint.CycleMethod;
 import naga.toolkit.fx.scene.paint.LinearGradient;
 import naga.toolkit.fx.scene.paint.Stop;
-import naga.toolkit.fx.shape.StrokeLineCap;
-import naga.toolkit.fx.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeLineCap;
+import naga.toolkit.fx.scene.shape.StrokeLineJoin;
 
 import static elemental2.Global.document;
 

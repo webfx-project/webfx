@@ -1,7 +1,7 @@
 package naga.providers.toolkit.javafx.util;
 
-import naga.toolkit.fx.shape.StrokeLineCap;
-import naga.toolkit.fx.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeLineCap;
+import naga.toolkit.fx.scene.shape.StrokeLineJoin;
 
 /**
  * @author Bruno Salmon

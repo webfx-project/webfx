@@ -2,9 +2,9 @@ package naga.providers.toolkit.swing.fx.view;
 
 import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.geom.Point2D;
-import naga.toolkit.fx.shape.Shape;
-import naga.toolkit.fx.shape.StrokeLineCap;
-import naga.toolkit.fx.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.Shape;
+import naga.toolkit.fx.scene.shape.StrokeLineCap;
+import naga.toolkit.fx.scene.shape.StrokeLineJoin;
 import naga.toolkit.fx.spi.view.base.ShapeViewBase;
 import naga.toolkit.fx.spi.view.base.ShapeViewMixin;
 

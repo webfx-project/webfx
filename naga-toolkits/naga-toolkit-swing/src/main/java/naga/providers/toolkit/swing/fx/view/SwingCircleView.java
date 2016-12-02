@@ -1,6 +1,6 @@
 package naga.providers.toolkit.swing.fx.view;
 
-import naga.toolkit.fx.shape.Circle;
+import naga.toolkit.fx.scene.shape.Circle;
 import naga.toolkit.fx.spi.view.base.CircleViewBase;
 import naga.toolkit.fx.spi.view.base.CircleViewMixin;
 
