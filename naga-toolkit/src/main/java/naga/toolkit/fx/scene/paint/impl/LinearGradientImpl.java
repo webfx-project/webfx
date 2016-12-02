@@ -1,8 +1,8 @@
-package naga.toolkit.fx.paint.impl;
+package naga.toolkit.fx.scene.paint.impl;
 
-import naga.toolkit.fx.paint.CycleMethod;
-import naga.toolkit.fx.paint.LinearGradient;
-import naga.toolkit.fx.paint.Stop;
+import naga.toolkit.fx.scene.paint.CycleMethod;
+import naga.toolkit.fx.scene.paint.LinearGradient;
+import naga.toolkit.fx.scene.paint.Stop;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package naga.providers.toolkit.swing.fx.view;
 
-import naga.toolkit.fx.paint.Paint;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.shape.Shape;
 import naga.toolkit.fx.shape.StrokeLineCap;

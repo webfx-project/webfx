@@ -3,7 +3,7 @@ package naga.providers.toolkit.html.fx.svg.view;
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.util.SvgUtil;
-import naga.toolkit.fx.paint.Paint;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.shape.Shape;
 import naga.toolkit.fx.shape.StrokeLineCap;
 import naga.toolkit.fx.shape.StrokeLineJoin;

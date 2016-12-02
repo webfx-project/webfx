@@ -1,8 +1,8 @@
-package naga.toolkit.fx.paint.impl;
+package naga.toolkit.fx.scene.paint.impl;
 
 import naga.commons.util.collection.Collections;
-import naga.toolkit.fx.paint.Color;
-import naga.toolkit.fx.paint.Stop;
+import naga.toolkit.fx.scene.paint.Color;
+import naga.toolkit.fx.scene.paint.Stop;
 
 import java.util.LinkedList;
 import java.util.List;

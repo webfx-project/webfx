@@ -1,6 +1,6 @@
-package naga.toolkit.fx.paint.impl;
+package naga.toolkit.fx.scene.paint.impl;
 
-import naga.toolkit.fx.paint.Color;
+import naga.toolkit.fx.scene.paint.Color;
 
 /**
  * @author Bruno Salmon

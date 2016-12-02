@@ -1,6 +1,6 @@
-package naga.toolkit.fx.paint;
+package naga.toolkit.fx.scene.paint;
 
-import naga.toolkit.fx.paint.impl.LinearGradientImpl;
+import naga.toolkit.fx.scene.paint.impl.LinearGradientImpl;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package naga.toolkit.fx.paint;
+package naga.toolkit.fx.scene.paint;
 
 /**
  * @author Bruno Salmon

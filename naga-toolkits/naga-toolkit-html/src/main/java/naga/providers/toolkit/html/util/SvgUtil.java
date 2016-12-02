@@ -2,10 +2,10 @@ package naga.providers.toolkit.html.util;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
-import naga.toolkit.fx.paint.Color;
-import naga.toolkit.fx.paint.CycleMethod;
-import naga.toolkit.fx.paint.LinearGradient;
-import naga.toolkit.fx.paint.Stop;
+import naga.toolkit.fx.scene.paint.Color;
+import naga.toolkit.fx.scene.paint.CycleMethod;
+import naga.toolkit.fx.scene.paint.LinearGradient;
+import naga.toolkit.fx.scene.paint.Stop;
 import naga.toolkit.fx.shape.StrokeLineCap;
 import naga.toolkit.fx.shape.StrokeLineJoin;
 

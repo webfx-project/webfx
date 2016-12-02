@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
-import naga.toolkit.fx.paint.Paint;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.shape.Circle;
 
 /**

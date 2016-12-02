@@ -1,7 +1,7 @@
-package naga.toolkit.fx.paint.impl;
+package naga.toolkit.fx.scene.paint.impl;
 
-import naga.toolkit.fx.paint.Color;
-import naga.toolkit.fx.paint.Stop;
+import naga.toolkit.fx.scene.paint.Color;
+import naga.toolkit.fx.scene.paint.Stop;
 
 /**
  * Defines one element of the ramp of colors to use on a gradient.

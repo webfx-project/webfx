@@ -3,7 +3,7 @@ package naga.providers.toolkit.html.fx.html.view;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.geometry.VPos;
-import naga.toolkit.fx.paint.Paint;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.spi.view.base.TextViewBase;
 import naga.toolkit.fx.spi.view.base.TextViewMixin;
 import naga.toolkit.fx.text.Font;

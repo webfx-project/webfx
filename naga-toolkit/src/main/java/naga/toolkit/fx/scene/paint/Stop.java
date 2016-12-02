@@ -1,6 +1,6 @@
-package naga.toolkit.fx.paint;
+package naga.toolkit.fx.scene.paint;
 
-import naga.toolkit.fx.paint.impl.StopImpl;
+import naga.toolkit.fx.scene.paint.impl.StopImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;

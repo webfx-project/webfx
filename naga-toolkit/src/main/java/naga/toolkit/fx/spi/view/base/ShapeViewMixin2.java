@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.view.base;
 
-import naga.toolkit.fx.paint.Paint;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.shape.Shape;
 import naga.toolkit.fx.shape.StrokeLineCap;
 import naga.toolkit.fx.shape.StrokeLineJoin;
