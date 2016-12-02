@@ -10,10 +10,10 @@ import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
 import naga.toolkit.fx.spi.view.NodeView;
-import naga.toolkit.transform.Rotate;
-import naga.toolkit.transform.Scale;
-import naga.toolkit.transform.Transform;
-import naga.toolkit.transform.Translate;
+import naga.toolkit.fx.scene.transform.Rotate;
+import naga.toolkit.fx.scene.transform.Scale;
+import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.fx.scene.transform.Translate;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
 

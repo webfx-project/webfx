@@ -1,4 +1,4 @@
-package naga.toolkit.transform;
+package naga.toolkit.fx.scene.transform;
 
 import naga.toolkit.fx.geom.Point2D;
 

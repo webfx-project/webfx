@@ -6,7 +6,7 @@ import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.geometry.Orientation;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.properties.markers.*;
-import naga.toolkit.transform.Transform;
+import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 

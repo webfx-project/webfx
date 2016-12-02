@@ -1,9 +1,9 @@
-package naga.toolkit.transform;
+package naga.toolkit.fx.scene.transform;
 
 import naga.toolkit.properties.markers.HasAngleProperty;
 import naga.toolkit.properties.markers.HasPivotXProperty;
 import naga.toolkit.properties.markers.HasPivotYProperty;
-import naga.toolkit.transform.impl.RotateImpl;
+import naga.toolkit.fx.scene.transform.impl.RotateImpl;
 
 /**
  * @author Bruno Salmon

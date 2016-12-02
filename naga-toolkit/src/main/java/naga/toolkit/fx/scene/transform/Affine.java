@@ -1,4 +1,4 @@
-package naga.toolkit.transform;
+package naga.toolkit.fx.scene.transform;
 
 /**
  * @author Bruno Salmon

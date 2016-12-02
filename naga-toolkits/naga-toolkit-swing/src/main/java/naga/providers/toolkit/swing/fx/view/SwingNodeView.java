@@ -14,7 +14,7 @@ import naga.toolkit.fx.spi.view.base.NodeViewImpl;
 import naga.toolkit.fx.spi.view.base.NodeViewMixin;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
-import naga.toolkit.transform.Transform;
+import naga.toolkit.fx.scene.transform.Transform;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

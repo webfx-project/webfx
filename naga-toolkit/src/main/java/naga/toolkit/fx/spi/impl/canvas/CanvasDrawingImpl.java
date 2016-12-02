@@ -7,7 +7,7 @@ import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.view.NodeViewFactory;
-import naga.toolkit.transform.Transform;
+import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 import java.util.List;

@@ -9,7 +9,7 @@ import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
-import naga.toolkit.transform.Transform;
+import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 import java.util.List;

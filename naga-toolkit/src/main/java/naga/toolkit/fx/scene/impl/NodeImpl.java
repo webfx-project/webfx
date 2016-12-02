@@ -21,8 +21,8 @@ import naga.toolkit.fx.effect.Effect;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
-import naga.toolkit.transform.Transform;
-import naga.toolkit.transform.Translate;
+import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.fx.scene.transform.Translate;
 
 import java.util.ArrayList;
 import java.util.Collection;

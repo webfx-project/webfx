@@ -1,6 +1,6 @@
-package naga.toolkit.transform.impl;
+package naga.toolkit.fx.scene.transform.impl;
 
-import naga.toolkit.transform.Affine;
+import naga.toolkit.fx.scene.transform.Affine;
 
 /**
  * @author Bruno Salmon

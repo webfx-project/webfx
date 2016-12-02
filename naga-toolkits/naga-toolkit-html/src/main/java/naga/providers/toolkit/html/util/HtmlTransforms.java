@@ -1,7 +1,7 @@
 package naga.providers.toolkit.html.util;
 
 import naga.commons.util.collection.Collections;
-import naga.toolkit.transform.*;
+import naga.toolkit.fx.scene.transform.*;
 
 import java.util.Collection;
 

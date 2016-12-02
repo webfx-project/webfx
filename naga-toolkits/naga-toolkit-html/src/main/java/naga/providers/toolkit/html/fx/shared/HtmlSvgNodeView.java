@@ -17,7 +17,7 @@ import naga.toolkit.fx.text.Font;
 import naga.toolkit.fx.text.FontPosture;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
-import naga.toolkit.transform.Transform;
+import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 import java.util.Objects;

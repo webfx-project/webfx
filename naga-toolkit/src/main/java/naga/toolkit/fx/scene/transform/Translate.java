@@ -1,8 +1,8 @@
-package naga.toolkit.transform;
+package naga.toolkit.fx.scene.transform;
 
 import naga.toolkit.properties.markers.HasXProperty;
 import naga.toolkit.properties.markers.HasYProperty;
-import naga.toolkit.transform.impl.TranslateImpl;
+import naga.toolkit.fx.scene.transform.impl.TranslateImpl;
 
 /**
  * @author Bruno Salmon
