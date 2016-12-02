@@ -5,6 +5,7 @@ import naga.commons.util.Strings;
 import naga.framework.ui.i18n.impl.I18nImpl;
 import naga.framework.ui.i18n.impl.ResourceDictionaryLoader;
 import naga.toolkit.properties.markers.HasPlaceholderProperty;
+import naga.toolkit.properties.markers.HasPromptTextProperty;
 import naga.toolkit.properties.markers.HasTextProperty;
 
 /**
@@ -62,6 +63,15 @@ public interface I18n {
     default <T extends HasPlaceholderProperty> T translatePlaceholder(T hasPlaceholderProperty, Object key) {
         translatePlaceholderFluent(hasPlaceholderProperty, key);
         return hasPlaceholderProperty;
+    }
+
+    default I18n translatePromptTextFluent(HasPromptTextProperty hasPromptTextProperty, Object key) {
+        return translateString(hasPromptTextProperty.promptTextProperty(), key);
+    }
+
+    default <T extends HasPromptTextProperty> T translatePromptText(T hasPromptTextProperty, Object key) {
+        translatePromptTextFluent(hasPromptTextProperty, key);
+        return hasPromptTextProperty;
     }
 
     static I18n create(String langResourcePathPattern) {
