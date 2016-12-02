@@ -1,13 +1,13 @@
 package naga.providers.toolkit.swing;
 
-import naga.providers.toolkit.swing.drawing.SwingDrawingNode;
+import naga.providers.toolkit.swing.fx.SwingDrawingNode;
 import naga.providers.toolkit.swing.nodes.charts.SwingLineChart;
 import naga.providers.toolkit.swing.nodes.controls.*;
 import naga.providers.toolkit.swing.nodes.layouts.SwingHBox;
 import naga.providers.toolkit.swing.nodes.layouts.SwingVBox;
 import naga.providers.toolkit.swing.nodes.layouts.SwingVPage;
 import naga.providers.toolkit.swing.nodes.layouts.SwingWindow;
-import naga.toolkit.drawing.spi.DrawingNode;
+import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
 import naga.toolkit.spi.nodes.controls.*;

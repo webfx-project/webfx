@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.paint.Paint;
+import naga.toolkit.fx.paint.Paint;
 
 /**
  * @author Bruno Salmon

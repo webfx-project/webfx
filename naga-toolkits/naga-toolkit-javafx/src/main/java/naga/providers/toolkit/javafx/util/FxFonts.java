@@ -1,8 +1,8 @@
 package naga.providers.toolkit.javafx.util;
 
-import naga.toolkit.drawing.text.Font;
-import naga.toolkit.drawing.text.FontPosture;
-import naga.toolkit.drawing.text.FontWeight;
+import naga.toolkit.fx.text.Font;
+import naga.toolkit.fx.text.FontPosture;
+import naga.toolkit.fx.text.FontWeight;
 
 /**
  * @author Bruno Salmon

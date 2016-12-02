@@ -2,9 +2,9 @@ package naga.providers.toolkit.swing.util;
 
 
 import naga.commons.util.collection.Collections;
-import naga.toolkit.drawing.paint.Color;
-import naga.toolkit.drawing.paint.*;
-import naga.toolkit.drawing.paint.Paint;
+import naga.toolkit.fx.paint.Color;
+import naga.toolkit.fx.paint.*;
+import naga.toolkit.fx.paint.Paint;
 
 import java.awt.*;
 import java.util.stream.Collectors;

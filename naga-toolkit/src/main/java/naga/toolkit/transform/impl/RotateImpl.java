@@ -2,8 +2,8 @@ package naga.toolkit.transform.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.drawing.geometry.GeometryUtil;
-import naga.toolkit.drawing.geom.Point2D;
+import naga.toolkit.fx.geometry.GeometryUtil;
+import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.transform.Affine;
 import naga.toolkit.transform.Rotate;
 import naga.toolkit.transform.Transform;

@@ -1,7 +1,7 @@
 package naga.providers.toolkit.javafx.util;
 
 
-import naga.toolkit.drawing.paint.*;
+import naga.toolkit.fx.paint.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

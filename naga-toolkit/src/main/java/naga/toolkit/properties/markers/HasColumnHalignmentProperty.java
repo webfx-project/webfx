@@ -1,7 +1,7 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.geometry.HPos;
+import naga.toolkit.fx.geometry.HPos;
 
 /**
  * @author Bruno Salmon

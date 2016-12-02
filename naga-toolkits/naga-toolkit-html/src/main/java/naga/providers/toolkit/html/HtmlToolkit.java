@@ -2,13 +2,13 @@ package naga.providers.toolkit.html;
 
 import elemental2.HTMLButtonElement;
 import naga.platform.spi.Platform;
-import naga.providers.toolkit.html.drawing.html.HtmlDrawingNode;
+import naga.providers.toolkit.html.fx.html.HtmlDrawingNode;
 import naga.providers.toolkit.html.nodes.controls.*;
 import naga.providers.toolkit.html.nodes.layouts.HtmlHBox;
 import naga.providers.toolkit.html.nodes.layouts.HtmlVBox;
 import naga.providers.toolkit.html.nodes.layouts.HtmlVPage;
 import naga.providers.toolkit.html.nodes.layouts.HtmlWindow;
-import naga.toolkit.drawing.spi.DrawingNode;
+import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.controls.*;
 import naga.toolkit.spi.nodes.layouts.HBox;

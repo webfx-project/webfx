@@ -1,6 +1,6 @@
 package naga.toolkit.transform;
 
-import naga.toolkit.drawing.geom.Point2D;
+import naga.toolkit.fx.geom.Point2D;
 
 /**
  * @author Bruno Salmon

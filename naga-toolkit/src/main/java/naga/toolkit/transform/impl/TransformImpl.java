@@ -1,7 +1,7 @@
 package naga.toolkit.transform.impl;
 
 import javafx.beans.property.Property;
-import naga.toolkit.drawing.geom.Point2D;
+import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.transform.Transform;
 import naga.toolkit.util.Properties;
 

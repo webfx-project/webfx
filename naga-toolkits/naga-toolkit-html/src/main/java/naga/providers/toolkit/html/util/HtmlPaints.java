@@ -1,6 +1,6 @@
 package naga.providers.toolkit.html.util;
 
-import naga.toolkit.drawing.paint.*;
+import naga.toolkit.fx.paint.*;
 
 import java.util.List;
 
