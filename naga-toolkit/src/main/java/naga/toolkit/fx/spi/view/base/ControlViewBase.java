@@ -11,7 +11,7 @@ import naga.toolkit.fx.spi.view.ControlView;
 public abstract class ControlViewBase
         <N extends Control, NV extends ControlViewBase<N, NV, NM>, NM extends ControlViewMixin<N, NV, NM>>
 
-        extends NodeViewBase<N, NV, NM>
+        extends RegionViewBase<N, NV, NM>
         implements ControlView<N> {
 
     @Override

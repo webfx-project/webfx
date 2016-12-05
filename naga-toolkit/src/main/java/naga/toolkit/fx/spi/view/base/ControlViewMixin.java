@@ -10,5 +10,5 @@ public interface ControlViewMixin
         <N extends Control, NV extends ControlViewBase<N, NV, NM>, NM extends ControlViewMixin<N, NV, NM>>
 
         extends ControlView<N>,
-        NodeViewMixin<N, NV, NM> {
+        RegionViewMixin<N, NV, NM> {
 }
