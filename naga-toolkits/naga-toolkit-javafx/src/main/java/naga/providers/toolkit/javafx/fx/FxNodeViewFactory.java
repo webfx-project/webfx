@@ -28,10 +28,10 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextImpl.class, FxTextView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, FxEmbedGuiNodeView::new);
         registerNodeViewFactory(GroupImpl.class, FxGroupView::new);
-        registerNodeViewFactory(VBoxImpl.class, FxRegionView::new);
-        registerNodeViewFactory(HBoxImpl.class, FxRegionView::new);
-        registerNodeViewFactory(BorderPaneImpl.class, FxRegionView::new);
-        registerNodeViewFactory(FlowPaneImpl.class, FxRegionView::new);
+        registerNodeViewFactory(VBoxImpl.class, FxLayoutView::new);
+        registerNodeViewFactory(HBoxImpl.class, FxLayoutView::new);
+        registerNodeViewFactory(BorderPaneImpl.class, FxLayoutView::new);
+        registerNodeViewFactory(FlowPaneImpl.class, FxLayoutView::new);
         registerNodeViewFactory(ButtonImpl.class, FxButtonView::new);
         registerNodeViewFactory(CheckBoxImpl.class, FxCheckBoxView::new);
         registerNodeViewFactory(TextFieldImpl.class, FxTextFieldView::new);
