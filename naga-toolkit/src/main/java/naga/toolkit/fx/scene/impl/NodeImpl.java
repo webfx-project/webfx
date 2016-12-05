@@ -12,22 +12,26 @@ import naga.toolkit.fx.geom.TempState;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.geometry.BoundingBox;
 import naga.toolkit.fx.geometry.Bounds;
-import naga.toolkit.fx.scene.effect.BlendMode;
+import naga.toolkit.fx.geometry.Orientation;
 import naga.toolkit.fx.scene.LayoutMeasurable;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.geometry.Orientation;
 import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
-import naga.toolkit.fx.spi.view.NodeView;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
+import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.properties.markers.*;
+import naga.toolkit.spi.events.MouseEvent;
+import naga.toolkit.spi.events.UiEventHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import static naga.toolkit.fx.scene.layout.PreferenceResizableNode.USE_COMPUTED_SIZE;
+import static naga.toolkit.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
 
 /**
  * @author Bruno Salmon
@@ -194,42 +198,85 @@ public abstract class NodeImpl implements Node {
     @Override
     public void setNodeView(NodeView nodeView) {
         this.nodeView = nodeView;
-        if (nodeView instanceof LayoutMeasurable)
-            layoutMeasurable = (LayoutMeasurable) nodeView;
-        else
-            layoutMeasurable = new LayoutMeasurable() {
-                public Bounds getLayoutBounds() { return impl_getLayoutBounds(); }
-
-                public double minWidth(double height) {
-                    return impl_minWidth(height);
-                }
-
-                public double maxWidth(double height) {
-                    return impl_maxWidth(height);
-                }
-
-                public double minHeight(double width) {
-                    return impl_minHeight(width);
-                }
-
-                public double maxHeight(double width) {
-                    return impl_maxHeight(width);
-                }
-
-                public double prefWidth(double height) {
-                    return impl_prefWidth(height);
-                }
-
-                public double prefHeight(double width) {
-                    return impl_prefHeight(width);
-                }
-            };
+        createLayoutMeasurable(nodeView);
     }
 
     private LayoutMeasurable layoutMeasurable;
 
     public LayoutMeasurable getLayoutMeasurable() {
         return layoutMeasurable;
+    }
+
+    protected void createLayoutMeasurable(Object proposedLayoutMeasurable) {
+        // Always creating a new LayoutMeasurable (even when proposedLayoutMeasurable is valid) so that min/pref/max
+        // width/height user values are returned in priority whenever they have been set.
+        layoutMeasurable = new LayoutMeasurable() {
+            private LayoutMeasurable acceptedLayoutMeasurable = proposedLayoutMeasurable instanceof LayoutMeasurable ? (LayoutMeasurable) proposedLayoutMeasurable : null;
+
+            public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.getLayoutBounds() : impl_getLayoutBounds(); }
+
+            public double minWidth(double height) {
+                if (NodeImpl.this instanceof HasMinWidthProperty) {
+                    Double minWidth = ((HasMinWidthProperty) NodeImpl.this).getMinWidth();
+                    if (minWidth == USE_PREF_SIZE)
+                        return prefWidth(height);
+                    if (minWidth != USE_COMPUTED_SIZE)
+                        return minWidth;
+                }
+                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.minWidth(height) : impl_minWidth(height);
+            }
+
+            public double maxWidth(double height) {
+                if (NodeImpl.this instanceof HasMaxWidthProperty) {
+                    Double maxWidth = ((HasMaxWidthProperty) NodeImpl.this).getMaxWidth();
+                    if (maxWidth == USE_PREF_SIZE)
+                        return prefWidth(height);
+                    if (maxWidth != USE_COMPUTED_SIZE)
+                        return maxWidth;
+                }
+                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.maxWidth(height) : impl_maxWidth(height);
+            }
+
+            public double minHeight(double width) {
+                if (NodeImpl.this instanceof HasMinHeightProperty) {
+                    Double minHeight = ((HasMinHeightProperty) NodeImpl.this).getMinHeight();
+                    if (minHeight == USE_PREF_SIZE)
+                        return prefHeight(width);
+                    if (minHeight != USE_COMPUTED_SIZE)
+                        return minHeight;
+                }
+                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.minHeight(width) : impl_minHeight(width);
+            }
+
+            public double maxHeight(double width) {
+                if (NodeImpl.this instanceof HasMaxHeightProperty) {
+                    Double maxHeight = ((HasMaxHeightProperty) NodeImpl.this).getMaxHeight();
+                    if (maxHeight == USE_PREF_SIZE)
+                        return prefHeight(width);
+                    if (maxHeight != USE_COMPUTED_SIZE)
+                        return maxHeight;
+                }
+                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.maxHeight(width) : impl_maxHeight(width);
+            }
+
+            public double prefWidth(double height) {
+                if (NodeImpl.this instanceof HasPrefWidthProperty) {
+                    Double prefWidth = ((HasPrefWidthProperty) NodeImpl.this).getPrefWidth();
+                    if (prefWidth != USE_COMPUTED_SIZE)
+                        return prefWidth;
+                }
+                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.prefWidth(height) : impl_prefWidth(height);
+            }
+
+            public double prefHeight(double width) {
+                if (NodeImpl.this instanceof HasPrefHeightProperty) {
+                    Double prefHeight = ((HasPrefHeightProperty) NodeImpl.this).getPrefHeight();
+                    if (prefHeight != USE_COMPUTED_SIZE)
+                        return prefHeight;
+                }
+                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.prefHeight(width) : impl_prefHeight(width);
+            }
+        };
     }
 
     /**
