@@ -11,7 +11,7 @@ import naga.toolkit.fx.scene.text.Font;
  * @author Bruno Salmon
  */
 public class HtmlTextFieldView
-        extends HtmlNodeView<TextField, TextFieldViewBase, TextFieldViewMixin>
+        extends HtmlRegionView<TextField, TextFieldViewBase, TextFieldViewMixin>
         implements TextFieldViewMixin, HtmlLayoutMeasurable {
 
     public HtmlTextFieldView() {

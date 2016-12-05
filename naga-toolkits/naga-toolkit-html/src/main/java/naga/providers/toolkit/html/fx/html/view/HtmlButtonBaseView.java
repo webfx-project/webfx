@@ -10,7 +10,7 @@ import naga.toolkit.fx.spi.view.base.ButtonBaseViewMixin;
  */
 abstract class HtmlButtonBaseView
         <N extends ButtonBase, NV extends ButtonBaseViewBase<N, NV, NM>, NM extends ButtonBaseViewMixin<N, NV, NM>>
-        extends HtmlNodeView<N, NV, NM>
+        extends HtmlRegionView<N, NV, NM>
         implements ButtonBaseViewMixin<N, NV, NM> {
 
     HtmlButtonBaseView(NV base, HTMLElement element) {
