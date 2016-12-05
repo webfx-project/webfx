@@ -28,10 +28,10 @@ class HtmlNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextImpl.class, HtmlTextView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, HtmlEmbedGuiNodeView::new);
         registerNodeViewFactory(GroupImpl.class, HtmlGroupView::new);
-        registerNodeViewFactory(VBoxImpl.class, HtmlRegionView::new);
-        registerNodeViewFactory(HBoxImpl.class, HtmlRegionView::new);
-        registerNodeViewFactory(BorderPaneImpl.class, HtmlRegionView::new);
-        registerNodeViewFactory(FlowPaneImpl.class, HtmlRegionView::new);
+        registerNodeViewFactory(VBoxImpl.class, HtmlLayoutView::new);
+        registerNodeViewFactory(HBoxImpl.class, HtmlLayoutView::new);
+        registerNodeViewFactory(BorderPaneImpl.class, HtmlLayoutView::new);
+        registerNodeViewFactory(FlowPaneImpl.class, HtmlLayoutView::new);
         registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new);
         registerNodeViewFactory(CheckBoxImpl.class, HtmlCheckBoxView::new);
         registerNodeViewFactory(TextFieldImpl.class, HtmlTextFieldView::new);
