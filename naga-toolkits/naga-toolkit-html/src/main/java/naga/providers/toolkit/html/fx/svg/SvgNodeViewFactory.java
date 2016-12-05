@@ -31,10 +31,10 @@ class SvgNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextImpl.class, SvgTextView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, SvgEmbedGuiNodeView::new);
         registerNodeViewFactory(GroupImpl.class, SvgGroupView::new);
-        registerNodeViewFactory(VBoxImpl.class, SvgRegionView::new);
-        registerNodeViewFactory(HBoxImpl.class, SvgRegionView::new);
-        registerNodeViewFactory(BorderPaneImpl.class, SvgRegionView::new);
-        registerNodeViewFactory(FlowPaneImpl.class, SvgRegionView::new);
+        registerNodeViewFactory(VBoxImpl.class, SvgLayoutView::new);
+        registerNodeViewFactory(HBoxImpl.class, SvgLayoutView::new);
+        registerNodeViewFactory(BorderPaneImpl.class, SvgLayoutView::new);
+        registerNodeViewFactory(FlowPaneImpl.class, SvgLayoutView::new);
         registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new); // Will be embed in a foreignObject
         registerNodeViewFactory(CheckBoxImpl.class, HtmlCheckBoxView::new); // Will be embed in a foreignObject
         registerNodeViewFactory(TextFieldImpl.class, HtmlTextFieldView::new); // Will be embed in a foreignObject
