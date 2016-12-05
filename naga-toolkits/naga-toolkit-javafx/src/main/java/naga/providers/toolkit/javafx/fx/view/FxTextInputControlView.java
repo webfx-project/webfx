@@ -6,7 +6,7 @@ import naga.toolkit.fx.spi.view.TextInputControlView;
 /**
  * @author Bruno Salmon
  */
-abstract class FxTextInputControlView<N extends TextInputControl, FxN extends javafx.scene.control.TextInputControl> extends FxNodeViewImpl<N, FxN> implements TextInputControlView<N> {
+abstract class FxTextInputControlView<N extends TextInputControl, FxN extends javafx.scene.control.TextInputControl> extends FxRegionView<N, FxN> implements TextInputControlView<N> {
 
     @Override
     void setAndBindNodeProperties(N textInputControl, FxN fxTextInputControl) {

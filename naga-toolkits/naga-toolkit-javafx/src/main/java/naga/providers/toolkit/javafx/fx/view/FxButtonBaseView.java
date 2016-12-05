@@ -6,7 +6,7 @@ import naga.toolkit.fx.spi.view.ButtonBaseView;
 /**
  * @author Bruno Salmon
  */
-abstract class FxButtonBaseView<N extends ButtonBase, FxN extends javafx.scene.control.ButtonBase> extends FxNodeViewImpl<N, FxN> implements ButtonBaseView<N> {
+abstract class FxButtonBaseView<N extends ButtonBase, FxN extends javafx.scene.control.ButtonBase> extends FxRegionView<N, FxN> implements ButtonBaseView<N> {
 
     @Override
     void setAndBindNodeProperties(N buttonBase, FxN fxButtonBase) {
