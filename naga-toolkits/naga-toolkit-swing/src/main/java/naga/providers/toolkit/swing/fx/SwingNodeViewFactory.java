@@ -28,10 +28,10 @@ class SwingNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextImpl.class, SwingTextView::new);
         registerNodeViewFactory(EmbedGuiNodeImpl.class, SwingEmbedGuiNodeView::new);
         registerNodeViewFactory(GroupImpl.class, SwingGroupView::new);
-        registerNodeViewFactory(VBoxImpl.class, SwingRegionView::new);
-        registerNodeViewFactory(HBoxImpl.class, SwingRegionView::new);
-        registerNodeViewFactory(BorderPaneImpl.class, SwingRegionView::new);
-        registerNodeViewFactory(FlowPaneImpl.class, SwingRegionView::new);
+        registerNodeViewFactory(VBoxImpl.class, SwingLayoutView::new);
+        registerNodeViewFactory(HBoxImpl.class, SwingLayoutView::new);
+        registerNodeViewFactory(BorderPaneImpl.class, SwingLayoutView::new);
+        registerNodeViewFactory(FlowPaneImpl.class, SwingLayoutView::new);
         registerNodeViewFactory(ButtonImpl.class, SwingButtonView::new);
         registerNodeViewFactory(TextFieldImpl.class, SwingTextFieldView::new);
         registerNodeViewFactory(CheckBoxImpl.class, SwingCheckBoxView::new);
