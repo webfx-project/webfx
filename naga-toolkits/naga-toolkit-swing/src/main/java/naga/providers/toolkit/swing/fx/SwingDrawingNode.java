@@ -58,7 +58,8 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
         private long lastEmbedTargetEventTime;
         private static long maxSwingEmbedTargetAnimatedTransitionTime = 500;
 
-        {
+        DrawingPanel() {
+            super(null); // No layout needed is it is done by NagaFx
             MouseAdapter canvasMouseAdapter = new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     handleMouseEvent(e);
