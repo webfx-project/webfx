@@ -13,14 +13,14 @@ import javax.swing.*;
 /**
  * @author Bruno Salmon
  */
-public class SwingButtonBaseView
+class SwingButtonBaseView
         <N extends ButtonBase, NV extends ButtonBaseViewBase<N, NV, NM>, NM extends ButtonBaseViewMixin<N, NV, NM>>
-        extends SwingNodeView<N, NV, NM>
+        extends SwingRegionView<N, NV, NM>
         implements ButtonBaseViewMixin<N, NV, NM>, SwingEmbedComponentView<N>, SwingLayoutMeasurable {
 
     private final AbstractButton swingButtonBase;
 
-    public SwingButtonBaseView(NV base, AbstractButton swingButtonBase) {
+    SwingButtonBaseView(NV base, AbstractButton swingButtonBase) {
         super(base);
         this.swingButtonBase = swingButtonBase;
         swingButtonBase.setFont(StyleUtil.getFont(false, false));
@@ -39,6 +39,10 @@ public class SwingButtonBaseView
     @Override
     public JComponent getSwingComponent() {
         return swingButtonBase;
+    }
+
+    protected void updateSize() {
+        swingButtonBase.setSize(getNode().getWidth().intValue(), getNode().getHeight().intValue());
     }
 
     @Override

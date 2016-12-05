@@ -17,7 +17,7 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingTextFieldView
-        extends SwingNodeView<TextField, TextFieldViewBase, TextFieldViewMixin>
+        extends SwingRegionView<TextField, TextFieldViewBase, TextFieldViewMixin>
         implements TextFieldViewMixin, SwingEmbedComponentView<TextField>, SwingLayoutMeasurable {
 
     private final JPlaceholderTextField swingTextField = new JPlaceholderTextField();
