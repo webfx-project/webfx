@@ -357,6 +357,14 @@ public class ParentImpl extends NodeImpl implements Parent {
                     break;
                 }
                 performingLayout = true;
+                // Temporary naga code to automatically bind the height to the preferred height
+                if (bindHeightToPrefHeight) {
+                    PreferenceResizableNode resizableNode = (PreferenceResizableNode) this;
+                    double prefHeight = resizableNode.getPrefHeight();
+                    if (prefHeight == -1)
+                        prefHeight = resizableNode.prefHeight(resizableNode.getWidth());
+                    resizableNode.setHeight(prefHeight);
+                }
                 layoutChildren();
                 // Intended fall-through
             case DIRTY_BRANCH:
@@ -371,14 +379,6 @@ public class ParentImpl extends NodeImpl implements Parent {
                 }
                 setLayoutFlag(LayoutFlags.CLEAN);
                 performingLayout = false;
-                // Temporary naga code to automatically bind the height to the preferred height
-                if (bindHeightToPrefHeight) {
-                    PreferenceResizableNode resizableNode = (PreferenceResizableNode) this;
-                    double prefHeight = resizableNode.getPrefHeight();
-                    if (prefHeight == -1)
-                        prefHeight = resizableNode.prefHeight(resizableNode.getWidth());
-                    resizableNode.setHeight(prefHeight);
-                }
                 break;
         }
     }
