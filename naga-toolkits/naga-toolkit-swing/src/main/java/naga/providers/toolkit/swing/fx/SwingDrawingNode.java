@@ -139,13 +139,15 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         @Override
         protected void paintComponent(Graphics g) {
-            if (drawing.isPulseRunning())
-                drawing.pulse();
-            updateWidthAndHeight();
-            super.paintComponent(g);
-            drawing.paintCanvas((Graphics2D) g);
-            if (getComponentCount() > 0 || System.currentTimeMillis() < lastEmbedTargetEventTime + maxSwingEmbedTargetAnimatedTransitionTime)
-                repaint(); // requesting a repaint while last transition animation (triggered by mouse events on embed swing native components) may not be finished
+            if (drawing.isPulseRunning()) { // Waiting the drawing is ready and pulse is scheduled
+                updateWidthAndHeight(); // The width update may cause a layout request (good to check before calling pulse)
+                drawing.pulse(); // This call to pulse() will consider changes in the scene graph and do the layout pass
+                updateWidthAndHeight(); // In case the drawing height has been updated during the pulse
+                super.paintComponent(g); // Erasing the graphic buffer
+                drawing.paintCanvas((Graphics2D) g); // Painting all nodes from the scene graph
+                if (getComponentCount() > 0 || System.currentTimeMillis() < lastEmbedTargetEventTime + maxSwingEmbedTargetAnimatedTransitionTime)
+                    repaint(); // requesting a repaint while last transition animation (triggered by mouse events on embed swing native components) may not be finished
+            }
         }
 
         private void updateWidthAndHeight() {
