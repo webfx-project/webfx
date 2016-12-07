@@ -4,6 +4,8 @@ import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.spi.view.base.RegionViewBase;
 import naga.toolkit.fx.spi.view.base.RegionViewMixin;
 
+import javax.swing.*;
+
 /**
  * @author Bruno Salmon
  */
@@ -29,5 +31,14 @@ public abstract class SwingRegionView
     }
 
     protected void updateSize() {
+        N node = getNode();
+        updateSize(node.getWidth().intValue(), node.getHeight().intValue());
+    }
+
+    protected void updateSize(int width, int height) {
+        if (this instanceof SwingEmbedComponentView) {
+            JComponent component = ((SwingEmbedComponentView) this).getSwingComponent();
+            component.setSize(width, height);
+        }
     }
 }

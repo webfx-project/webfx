@@ -3,15 +3,14 @@ package naga.providers.toolkit.swing.fx.view;
 import naga.toolkit.fx.geometry.BoundingBox;
 import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.scene.LayoutMeasurable;
+import naga.toolkit.fx.scene.Node;
 
 import javax.swing.*;
 
 /**
  * @author Bruno Salmon
  */
-public interface SwingLayoutMeasurable extends LayoutMeasurable {
-
-    JComponent getSwingComponent();
+public interface SwingLayoutMeasurable<N extends Node> extends LayoutMeasurable, SwingEmbedComponentView<N> {
 
     default Bounds getLayoutBounds() {
         JComponent c = getSwingComponent();

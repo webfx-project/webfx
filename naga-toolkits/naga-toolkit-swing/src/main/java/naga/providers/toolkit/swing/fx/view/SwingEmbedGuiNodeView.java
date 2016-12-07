@@ -16,7 +16,7 @@ public class SwingEmbedGuiNodeView extends SwingNodeView<EmbedGuiNode, EmbedGuiN
         super(new EmbedGuiNodeViewBase());
     }
 
-    public JComponent getEmbedSwingComponent() {
+    public JComponent getSwingComponent() {
         return getNode().getGuiNode().unwrapToNativeNode();
     }
 }

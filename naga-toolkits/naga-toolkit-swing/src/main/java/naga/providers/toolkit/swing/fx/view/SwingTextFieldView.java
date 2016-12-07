@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.fx.view;
 
+import naga.commons.util.Objects;
 import naga.providers.toolkit.swing.util.JPlaceholderTextField;
 import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.providers.toolkit.swing.util.SwingFonts;
@@ -18,7 +19,7 @@ import java.awt.*;
  */
 public class SwingTextFieldView
         extends SwingRegionView<TextField, TextFieldViewBase, TextFieldViewMixin>
-        implements TextFieldViewMixin, SwingEmbedComponentView<TextField>, SwingLayoutMeasurable {
+        implements TextFieldViewMixin, SwingEmbedComponentView<TextField>, SwingLayoutMeasurable<TextField> {
 
     private final JPlaceholderTextField swingTextField = new JPlaceholderTextField();
 
@@ -26,12 +27,9 @@ public class SwingTextFieldView
         super(new TextFieldViewBase());
         swingTextField.setPreferredSize(new Dimension(200, (int) swingTextField.getMinimumSize().getHeight()));
         swingTextField.getDocument().addDocumentListener(new DocumentListener() {
-            public void changedUpdate(DocumentEvent e) { updateProperty(); }
-            public void removeUpdate(DocumentEvent e) { updateProperty(); }
-            public void insertUpdate(DocumentEvent e) { updateProperty(); }
-            private void updateProperty() {
-                getNode().setText(swingTextField.getText());
-            }
+            public void changedUpdate(DocumentEvent e) { updateNodeText(); }
+            public void removeUpdate(DocumentEvent e) { updateNodeText(); }
+            public void insertUpdate(DocumentEvent e) { updateNodeText(); }
         });
     }
 
@@ -41,18 +39,19 @@ public class SwingTextFieldView
     }
 
     @Override
-    public JComponent getEmbedSwingComponent() {
-        return swingTextField;
-    }
-
-    @Override
     public void updateFont(Font font) {
         swingTextField.setFont(font != null ? SwingFonts.toSwingFont(font) : StyleUtil.getFont(false, false));
     }
 
+    private void updateNodeText() {
+        getNode().setText(swingTextField.getText());
+    }
+
     @Override
     public void updateText(String text) {
-        swingTextField.setText(text);
+        // Checking the text has really changed (Swing raises an exception if setText() is called during a document change notification)
+        if (!Objects.areEquals(text, swingTextField.getText()))
+            swingTextField.setText(text);
     }
 
     @Override

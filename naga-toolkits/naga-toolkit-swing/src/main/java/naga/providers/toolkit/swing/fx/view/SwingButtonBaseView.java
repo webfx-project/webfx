@@ -16,7 +16,7 @@ import javax.swing.*;
 class SwingButtonBaseView
         <N extends ButtonBase, NV extends ButtonBaseViewBase<N, NV, NM>, NM extends ButtonBaseViewMixin<N, NV, NM>>
         extends SwingRegionView<N, NV, NM>
-        implements ButtonBaseViewMixin<N, NV, NM>, SwingEmbedComponentView<N>, SwingLayoutMeasurable {
+        implements ButtonBaseViewMixin<N, NV, NM>, SwingEmbedComponentView<N>, SwingLayoutMeasurable<N> {
 
     private final AbstractButton swingButtonBase;
 
@@ -32,17 +32,8 @@ class SwingButtonBaseView
     }
 
     @Override
-    public JComponent getEmbedSwingComponent() {
-        return swingButtonBase;
-    }
-
-    @Override
     public JComponent getSwingComponent() {
         return swingButtonBase;
-    }
-
-    protected void updateSize() {
-        swingButtonBase.setSize(getNode().getWidth().intValue(), getNode().getHeight().intValue());
     }
 
     @Override
