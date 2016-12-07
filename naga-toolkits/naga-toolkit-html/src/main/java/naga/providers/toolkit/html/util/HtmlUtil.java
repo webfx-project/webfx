@@ -145,6 +145,10 @@ public class HtmlUtil {
         o[name] = value;
     }-*/;
 
+    public static native CSSStyleDeclaration getComputedStyle(Element e) /*-{
+        return $wnd.getComputedStyle(e);
+    }-*/;
+
     public static <E extends Element> E createElement(String tagName) {
         return (E) document.createElement(tagName);
     }
