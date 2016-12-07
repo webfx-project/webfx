@@ -23,8 +23,6 @@ import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -33,7 +31,6 @@ public abstract class DrawingImpl implements Drawing {
 
     protected final DrawingNode drawingNode;
     private NodeViewFactory nodeViewFactory;
-    private final Map<Node, NodeView> nodeViews = new HashMap<>();
     private final Property<Node> rootNodeProperty = new SimpleObjectProperty<Node>() {
         // Temporary code to automatically assume the following behaviour:
         // - the root node width is bound to the drawing node width
@@ -83,10 +80,12 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     public void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
+/*
         if (this.nodeViewFactory != null) {
             Collections.forEach(nodeViews.values(), NodeView::unbind);
             nodeViews.clear();
         }
+*/
         this.nodeViewFactory = nodeViewFactory;
     }
 
@@ -134,11 +133,10 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     public NodeView getOrCreateAndBindNodeView(Node node) {
-        NodeView nodeView = nodeViews.get(node);
+        NodeView nodeView = node.getNodeView();
         if (nodeView == null) {
-            nodeViews.put(node, nodeView = createNodeView(node));
             NodeImpl nodeImpl = (NodeImpl) node;
-            nodeImpl.setNodeView(nodeView);
+            nodeImpl.setNodeView(nodeView = createNodeView(node));
             nodeImpl.setDrawing(this);
             nodeView.bind(node, drawingRequester);
             if (node instanceof Parent && !(node instanceof Control)) {
