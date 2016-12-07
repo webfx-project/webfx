@@ -88,15 +88,17 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
     @Override
     protected void syncVisualDisplayResult(DisplayResultSet rs) {
         rs = JavaFxToolkit.transformDisplayResultSetValuesToProperties(rs);
-        gridFiller.fillGrid(rs);
-        node.getItems().setAll(new IdentityList(rs.getRowCount()));
-        if (rs.getRowCount() > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
-            node.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-            Toolkit.get().scheduler().scheduleDelay(100, () -> node.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
+        synchronized (gridFiller) {
+            gridFiller.fillGrid(rs);
+            node.getItems().setAll(new IdentityList(rs.getRowCount()));
+            if (rs.getRowCount() > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
+                node.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+                Toolkit.get().scheduler().scheduleDelay(100, () -> node.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
+            }
+            // Workaround to make the table height fit with its content if it is not within a BorderPane
+            if (!(node.getParent() instanceof BorderPane))
+                fitHeightToContent(node);
         }
-        // Workaround to make the table height fit with its content if it is not within a BorderPane
-        if (!(node.getParent() instanceof BorderPane))
-            fitHeightToContent(node);
     }
 
 
@@ -108,14 +110,16 @@ public class FxTable extends FxSelectableDisplayResultSetNode<TableView<Integer>
 
         @Override
         public void fillGrid(DisplayResultSet rs) {
-            currentColumns = node.getColumns();
-            newColumns = new ArrayList<>();
-            // Clearing the columns to completely rebuild them when table was empty (as the columns widths were not considering the content)
-            if (node.getItems().isEmpty() && rs.getRowCount() > 0)
-                currentColumns.clear();
-            super.fillGrid(rs);
-            node.getColumns().setAll(newColumns);
-            // currentColumns = newColumns = null; // Commented as may cause NPE in setUpGridColumn() TODO: check if it's a bug
+            synchronized (this) {
+                currentColumns = node.getColumns();
+                newColumns = new ArrayList<>();
+                // Clearing the columns to completely rebuild them when table was empty (as the columns widths were not considering the content)
+                if (node.getItems().isEmpty() && rs.getRowCount() > 0)
+                    currentColumns.clear();
+                super.fillGrid(rs);
+                node.getColumns().setAll(newColumns);
+                // currentColumns = newColumns = null; // Commented as may cause NPE in setUpGridColumn() TODO: check if it's a bug
+            }
         }
 
         @Override
