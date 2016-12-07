@@ -4,9 +4,10 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.geometry.Orientation;
+import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.properties.markers.*;
-import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 
@@ -91,7 +92,10 @@ public interface Node extends
      */
     boolean hasProperties();
 
+    Drawing getDrawing();
+
     NodeView getNodeView();
 
-    void setNodeView(NodeView nodeView);
+    NodeView getOrCreateAndBindNodeView();
+
 }

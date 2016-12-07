@@ -8,7 +8,6 @@ import naga.providers.toolkit.javafx.util.FxTransforms;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.scene.effect.GaussianBlur;
 import naga.toolkit.fx.scene.effect.Effect;
@@ -37,8 +36,7 @@ abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> imp
         ObservableLists.bindConverted(fxNode.getTransforms(), node.getTransforms(), FxTransforms::toFxTransform);
         fxNode.visibleProperty().bind(node.visibleProperty());
         fxNode.opacityProperty().bind(node.opacityProperty());
-        DrawingImpl drawing = DrawingImpl.getThreadLocalDrawing();
-        Properties.runNowAndOnPropertiesChange((clipProperty) -> fxNode.setClip(getFxNode(node.getClip(), drawing)), node.clipProperty());
+        Properties.runNowAndOnPropertiesChange((clipProperty) -> fxNode.setClip(getFxNode(node.getClip())), node.clipProperty());
         Properties.runNowAndOnPropertiesChange((blendMode) -> fxNode.setBlendMode(toFxBlendMode(node.getBlendMode())), node.blendModeProperty());
         Properties.runNowAndOnPropertiesChange((effect) -> fxNode.setEffect(toFxEffect(node.getEffect())), node.effectProperty());
         fxNode.layoutXProperty().bind(node.layoutXProperty());
@@ -104,9 +102,9 @@ abstract class FxNodeViewImpl<N extends Node, FxN extends javafx.scene.Node> imp
         return null;
     }
 
-    private static javafx.scene.Node getFxNode(Node node, DrawingImpl drawing) {
+    private static javafx.scene.Node getFxNode(Node node) {
         if (node != null) {
-            NodeView nodeView = drawing.getOrCreateAndBindNodeView(node);
+            NodeView nodeView = node.getOrCreateAndBindNodeView();
             if (nodeView instanceof FxNodeView)
                 return ((FxNodeView) nodeView).getFxNode();
         }

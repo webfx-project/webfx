@@ -2,11 +2,11 @@ package naga.providers.toolkit.swing.fx.view;
 
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
-import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.impl.canvas.CanvasNodeView;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.spi.view.base.NodeViewBase;
@@ -14,7 +14,6 @@ import naga.toolkit.fx.spi.view.base.NodeViewImpl;
 import naga.toolkit.fx.spi.view.base.NodeViewMixin;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
-import naga.toolkit.fx.scene.transform.Transform;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -32,7 +31,6 @@ public abstract class SwingNodeView
 
     private AffineTransform swingTransform;
     private Composite swingComposite;
-    private DrawingImpl drawing;
     private SwingShapeView swingClipView;
     private Shape swingClip;
 
@@ -42,7 +40,6 @@ public abstract class SwingNodeView
 
     @Override
     public void bind(N node, DrawingRequester drawingRequester) {
-        drawing = DrawingImpl.getThreadLocalDrawing();
         getNodeViewBase().bind(node, drawingRequester);
     }
 
@@ -107,9 +104,7 @@ public abstract class SwingNodeView
         swingClip = null;
         swingClipView = null;
         if (clip != null) {
-            if (drawing == null)
-                drawing = DrawingImpl.getThreadLocalDrawing();
-            NodeView nodeView = drawing.getOrCreateAndBindNodeView(clip);
+            NodeView nodeView = clip.getOrCreateAndBindNodeView();
             if (nodeView instanceof SwingShapeView)
                 swingClipView = (SwingShapeView) nodeView;
         }

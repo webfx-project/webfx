@@ -6,14 +6,14 @@ import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
-import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
-import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.scene.transform.Rotate;
 import naga.toolkit.fx.scene.transform.Scale;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
+import naga.toolkit.fx.spi.Drawing;
+import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
+import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
 
@@ -104,7 +104,6 @@ public abstract class NodeViewBase
     }
 
     private void bindTransform(Transform transform) {
-        DrawingImpl drawing = DrawingImpl.getThreadLocalDrawing();
         Property[] properties = null;
         if (transform instanceof Translate) {
             Translate translate = (Translate) transform;
@@ -119,6 +118,7 @@ public abstract class NodeViewBase
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(node.getTransforms());
+                Drawing drawing = node.getDrawing();
                 if (drawing instanceof CanvasDrawingImpl)
                     ((CanvasDrawingImpl) drawing).requestCanvasRepaint();
             }, properties);

@@ -5,11 +5,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.collection.Collections;
-import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.control.Control;
+import naga.toolkit.fx.scene.impl.NodeImpl;
 import naga.toolkit.fx.scene.impl.ParentImpl;
+import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
 import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.DrawingRequester;
@@ -61,23 +62,17 @@ public abstract class DrawingImpl implements Drawing {
 
         @Override
         public void requestParentAndChildrenViewsUpdate(Parent parent) {
-            drawingThreadLocal.set(DrawingImpl.this);
             updateParentAndChildrenViews(parent);
-            drawingThreadLocal.set(null);
         }
 
         @Override
         public void requestViewPropertyUpdate(Node node, Property changedProperty) {
-            drawingThreadLocal.set(DrawingImpl.this);
             updateViewProperty(node, changedProperty);
-            drawingThreadLocal.set(null);
         }
 
         @Override
         public void requestViewListUpdate(Node node, ObservableList changedList) {
-            drawingThreadLocal.set(DrawingImpl.this);
             updateViewList(node, changedList);
-            drawingThreadLocal.set(null);
         }
     };
 
@@ -85,11 +80,6 @@ public abstract class DrawingImpl implements Drawing {
         this.drawingNode = drawingNode;
         this.nodeViewFactory = nodeViewFactory;
         Properties.runOnPropertiesChange(nodeProperty -> createAndBindRootNodeViewAndChildren(getRootNode()), rootNodeProperty());
-    }
-
-    private final static ThreadLocal<DrawingImpl> drawingThreadLocal = new ThreadLocal<>();
-    public static DrawingImpl getThreadLocalDrawing() {
-        return drawingThreadLocal.get();
     }
 
     public void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
@@ -134,9 +124,7 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
-        drawingThreadLocal.set(DrawingImpl.this);
         createAndBindNodeViewAndChildren(rootNode);
-        drawingThreadLocal.set(null);
     }
 
     private void createAndBindNodeViewAndChildren(Node node) {
@@ -149,7 +137,9 @@ public abstract class DrawingImpl implements Drawing {
         NodeView nodeView = nodeViews.get(node);
         if (nodeView == null) {
             nodeViews.put(node, nodeView = createNodeView(node));
-            node.setNodeView(nodeView);
+            NodeImpl nodeImpl = (NodeImpl) node;
+            nodeImpl.setNodeView(nodeView);
+            nodeImpl.setDrawing(this);
             nodeView.bind(node, drawingRequester);
             if (node instanceof Parent && !(node instanceof Control)) {
                 Parent parent = (Parent) node;

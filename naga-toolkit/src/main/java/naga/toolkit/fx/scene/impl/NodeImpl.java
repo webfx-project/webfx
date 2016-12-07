@@ -20,6 +20,8 @@ import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
+import naga.toolkit.fx.spi.Drawing;
+import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.spi.events.MouseEvent;
@@ -89,7 +91,12 @@ public abstract class NodeImpl implements Node {
         return opacityProperty;
     }
 
-    private final Property<Node> clipProperty = new SimpleObjectProperty<>();
+    private final Property<Node> clipProperty = new SimpleObjectProperty<Node>() {
+        @Override
+        protected void invalidated() {
+            setDrawing(drawing); // This will propagate the drawing into the clip
+        }
+    };
     @Override
     public Property<Node> clipProperty() {
         return clipProperty;
@@ -190,20 +197,41 @@ public abstract class NodeImpl implements Node {
     }
 
     private NodeView nodeView;
+
     @Override
     public NodeView getNodeView() {
         return nodeView;
     }
 
     @Override
+    public NodeView getOrCreateAndBindNodeView() {
+        return drawing.getOrCreateAndBindNodeView(this);
+    }
+
     public void setNodeView(NodeView nodeView) {
         this.nodeView = nodeView;
         createLayoutMeasurable(nodeView);
     }
 
+    private DrawingImpl drawing;
+
+    @Override
+    public Drawing getDrawing() {
+        return drawing;
+    }
+
+    public void setDrawing(DrawingImpl drawing) {
+        this.drawing = drawing;
+        Node clip = getClip();
+        if (clip != null)
+            ((NodeImpl) clip).setDrawing(drawing);
+    }
+
     private LayoutMeasurable layoutMeasurable;
 
     public LayoutMeasurable getLayoutMeasurable() {
+        if (layoutMeasurable == null) // Happens when the node view is not yet created
+            createLayoutMeasurable(null); // Temporary using the implementation based on the model
         return layoutMeasurable;
     }
 

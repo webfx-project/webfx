@@ -6,18 +6,17 @@ import naga.providers.toolkit.html.fx.svg.SvgDrawing;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
+import naga.toolkit.fx.geometry.VPos;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.effect.GaussianBlur;
-import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.paint.Color;
 import naga.toolkit.fx.scene.paint.LinearGradient;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.spi.view.base.NodeViewBase;
 import naga.toolkit.fx.spi.view.base.NodeViewMixin;
-import naga.toolkit.fx.scene.text.TextAlignment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,14 +39,17 @@ public abstract class SvgNodeView
     protected String toClipPath(Node clip) {
         String value = null;
         if (clip != null) {
-            SvgDrawing drawing = (SvgDrawing) DrawingImpl.getThreadLocalDrawing();
-            NodeView nodeView = drawing.getOrCreateAndBindNodeView(clip);
+            NodeView nodeView = clip.getOrCreateAndBindNodeView();
             if (svgClipPath == null)
-                svgClipPath = drawing.addDef(SvgUtil.createClipPath());
+                svgClipPath = getSvgDrawing().addDef(SvgUtil.createClipPath());
             HtmlUtil.setChild(svgClipPath, ((SvgNodeView) nodeView).getElement());
             value = SvgUtil.getDefUrl(svgClipPath);
         }
         return value;
+    }
+
+    private SvgDrawing getSvgDrawing() {
+        return ((SvgDrawing) getNode().getDrawing());
     }
 
     @Override
@@ -55,12 +57,11 @@ public abstract class SvgNodeView
         return SvgUtil.getDefUrl(toSvgEffectFilter(effect));
     }
 
-    private static Element toSvgEffectFilter(Effect effect) {
+    private Element toSvgEffectFilter(Effect effect) {
         Element filterPrimitive = toSvgEffectFilterPrimitive(effect);
         if (filterPrimitive == null)
             return null;
-        SvgDrawing drawing = (SvgDrawing) DrawingImpl.getThreadLocalDrawing();
-        return drawing.addDef(HtmlUtil.appendChild(SvgUtil.createFilter(), filterPrimitive));
+        return getSvgDrawing().addDef(HtmlUtil.appendChild(SvgUtil.createFilter(), filterPrimitive));
     }
 
     private static Element toSvgEffectFilterPrimitive(Effect effect) {
@@ -88,7 +89,7 @@ public abstract class SvgNodeView
                 svgLinearGradients = new HashMap<>();
             Element svgLinearGradient = svgLinearGradients.get(name);
             if (svgLinearGradient == null)
-                svgLinearGradients.put(name, svgLinearGradient = ((SvgDrawing) DrawingImpl.getThreadLocalDrawing()).addDef(SvgUtil.createLinearGradient()));
+                svgLinearGradients.put(name, svgLinearGradient = getSvgDrawing().addDef(SvgUtil.createLinearGradient()));
             SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
             value = SvgUtil.getDefUrl(svgLinearGradient);
         }
