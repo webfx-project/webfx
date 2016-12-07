@@ -2,8 +2,8 @@ package naga.providers.toolkit.swing.fx;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.providers.toolkit.swing.fx.view.SwingEmbedComponentView;
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
+import naga.providers.toolkit.swing.fx.view.SwingEmbedComponentView;
 import naga.providers.toolkit.swing.nodes.SwingNode;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.Node;
@@ -15,9 +15,7 @@ import naga.toolkit.fx.spi.view.NodeView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
+import java.awt.event.*;
 
 /**
  * @author Bruno Salmon
@@ -60,81 +58,10 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         DrawingPanel() {
             super(null); // No layout needed is it is done by NagaFx
-            MouseAdapter canvasMouseAdapter = new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                public void mousePressed(MouseEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                public void mouseReleased(MouseEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                //public void mouseEntered(MouseEvent e) { handleMouseEvent(e);}
-                public void mouseExited(MouseEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                public void mouseWheelMoved(MouseWheelEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                public void mouseDragged(MouseEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                public void mouseMoved(MouseEvent e) {
-                    handleMouseEvent(e);
-                }
-
-                private JComponent lastEmbedTarget;
-
-                private void handleMouseEvent(MouseEvent e) {
-                    PickResult pickResult = null;
-                    JComponent embedTarget = null;
-                    Point2D canvasPoint = Point2D.create(e.getX(), e.getY());
-                    if (e.getID() != MouseEvent.MOUSE_EXITED) {
-                        pickResult = drawing.pickNode(canvasPoint);
-                        if (pickResult != null) {
-                            Node node = pickResult.getNode();
-                            if (e.getID() == MouseEvent.MOUSE_CLICKED && node.getOnMouseClicked() != null)
-                                node.getOnMouseClicked().handle(new SwingMouseEvent(e));
-                            NodeView nodeView = pickResult.getNodeView();
-                            if (nodeView instanceof SwingEmbedComponentView)
-                                embedTarget = ((SwingEmbedComponentView) nodeView).getEmbedSwingComponent();
-                        }
-                    }
-                    if (embedTarget != lastEmbedTarget) {
-                        if (lastEmbedTarget != null)
-                            redispatchEvent(e, MouseEvent.MOUSE_EXITED, pickResult != null ? pickResult.getNodeLocalPoint() : canvasPoint, lastEmbedTarget);
-                        if (embedTarget != null)
-                            redispatchEvent(e, MouseEvent.MOUSE_ENTERED, pickResult.getNodeLocalPoint(), embedTarget);
-                        lastEmbedTarget = embedTarget;
-                    }
-                    if (embedTarget != null)
-                        redispatchEvent(e, e.getID(), pickResult.getNodeLocalPoint(), embedTarget);
-                }
-
-                private void redispatchEvent(MouseEvent e, int id, Point2D point, JComponent target) {
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(target,
-                            new MouseEvent(target,
-                                    id,
-                                    e.getWhen(),
-                                    e.getModifiers(),
-                                    (int) point.getX(), (int) point.getY(),
-                                    e.getClickCount(),
-                                    e.isPopupTrigger(),
-                                    e.getButton()));
-                    lastEmbedTargetEventTime = e.getWhen();
-                    drawing.requestCanvasRepaint();
-                }
-            };
-            addMouseListener(canvasMouseAdapter);
-            addMouseMotionListener(canvasMouseAdapter);
-            addMouseWheelListener(canvasMouseAdapter);
+            EventListener eventListener = new EventListener();
+            addMouseListener(eventListener);
+            addMouseMotionListener(eventListener);
+            addMouseWheelListener(eventListener);
         }
 
         @Override
@@ -152,13 +79,31 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         private void updateWidthAndHeight() {
             // Binding the width property to the actual component width
-            int width = getWidth();
-            if (width != lastWidth)
-                widthProperty.setValue((double) (lastWidth = width));
+            boolean sizeChanged = false;
+            if (widthProperty.isBound()) {
+                int width = widthProperty.getValue().intValue();
+                if (width != lastWidth) {
+                    setSize(lastWidth = width, lastHeight);
+                    sizeChanged = true;
+                }
+            } else {
+                int width = getWidth();
+                if (width != lastWidth)
+                    widthProperty.setValue((double) (lastWidth = width));
+            }
             // Binding the component height to the height property
-            int height = heightProperty.getValue().intValue();
-            if (height != lastHeight) {
-                setSize(width, lastHeight = height);
+            if (heightProperty.isBound()) {
+                int height = heightProperty.getValue().intValue();
+                if (height != lastHeight) {
+                    setSize(lastWidth, lastHeight = height);
+                    sizeChanged = true;
+                }
+            } else {
+                int height = getHeight();
+                if (height != lastHeight)
+                    heightProperty.setValue((double) (lastHeight = height));
+            }
+            if (sizeChanged) {
                 Dimension size = getSize();
                 setMinimumSize(size);
                 setPreferredSize(size);
@@ -180,6 +125,109 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
             // them), we move them out of the visible part.
             for (int i = 0, n = getComponentCount(); i < n; i++)
                 getComponent(i).setLocation(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        }
+
+        private class EventListener extends MouseAdapter {
+            public void mouseClicked(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+            public void mousePressed(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+            public void mouseReleased(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+            //public void mouseEntered(MouseEvent e) { handleMouseEvent(e);}
+            public void mouseExited(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                handleMouseEvent(e);
+            }
+            public void mouseDragged(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+            public void mouseMoved(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+
+            private Component lastEmbedTarget;
+
+            private void handleMouseEvent(MouseEvent e) {
+                PickResult pickResult = null;
+                Component embedTarget = null;
+                Point2D canvasPoint = Point2D.create(e.getX(), e.getY());
+                int eventId = e.getID();
+                if (eventId != MouseEvent.MOUSE_EXITED) {
+                    pickResult = drawing.pickNode(canvasPoint);
+                    if (pickResult != null) {
+                        Node node = pickResult.getNode();
+                        if (eventId == MouseEvent.MOUSE_CLICKED && node.getOnMouseClicked() != null)
+                            node.getOnMouseClicked().handle(new SwingMouseEvent(e));
+                        NodeView nodeView = pickResult.getNodeView();
+                        if (nodeView instanceof SwingEmbedComponentView)
+                            embedTarget = ((SwingEmbedComponentView) nodeView).getSwingComponent();
+                    }
+                }
+                int x, y;
+                if (embedTarget != null) {
+                    Point2D nodeLocalPoint = pickResult.getNodeLocalPoint();
+                    x = (int) nodeLocalPoint.getX();
+                    y = (int) nodeLocalPoint.getY();
+                    while (true) {
+                        Component childTarget = embedTarget.getComponentAt(x, y);
+                        if (childTarget == null || childTarget == embedTarget)
+                            break;
+                        x -= childTarget.getX();
+                        y -= childTarget.getY();
+                        embedTarget = childTarget;
+                    }
+                } else {
+                    x = (int) canvasPoint.getX();
+                    y = (int) canvasPoint.getY();
+                }
+                if (embedTarget != lastEmbedTarget) {
+                    if (lastEmbedTarget != null)
+                        redispatchEvent(e, MouseEvent.MOUSE_EXITED, x, y, lastEmbedTarget);
+                    if (embedTarget != null)
+                        redispatchEvent(e, MouseEvent.MOUSE_ENTERED, x, y, embedTarget);
+                    lastEmbedTarget = embedTarget;
+                }
+                if (embedTarget != null) {
+                    redispatchEvent(e, eventId, x, y, embedTarget);
+                    setCursor(embedTarget.getCursor());
+                }
+            }
+
+            private void redispatchEvent(AWTEvent event, int eventId, int x, int y, Component target) {
+                if (event instanceof MouseWheelEvent) {
+                    MouseWheelEvent e = (MouseWheelEvent) event;
+                    event = new MouseWheelEvent(target,
+                            eventId,
+                            lastEmbedTargetEventTime = e.getWhen(),
+                            e.getModifiers(),
+                            x, y,
+                            e.getClickCount(),
+                            e.isPopupTrigger(),
+                            e.getScrollType(),
+                            e.getScrollAmount(),
+                            e.getWheelRotation());
+                } else if (event instanceof MouseEvent) {
+                    MouseEvent e = (MouseEvent) event;
+                    event = new MouseEvent(target,
+                            eventId,
+                            lastEmbedTargetEventTime = e.getWhen(),
+                            e.getModifiers(),
+                            x, y,
+                            e.getClickCount(),
+                            e.isPopupTrigger(),
+                            e.getButton());
+                } else {
+                    System.out.println("Unknown AWT event in SwingDrawingNode");
+                }
+                KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(target, event);
+                drawing.requestCanvasRepaint();
+            }
         }
     }
 }
