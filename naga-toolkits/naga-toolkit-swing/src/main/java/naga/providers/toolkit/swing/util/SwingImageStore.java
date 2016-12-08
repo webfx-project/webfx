@@ -16,7 +16,7 @@ public final class SwingImageStore {
 
     private static final Map<String, Image> imageCache = new WeakHashMap<>();
 
-    public static Image getImage(String url) {
+    private static Image getImage(String url) {
         if (url == null)
             return null;
         Image image = imageCache.get(url);
@@ -32,9 +32,8 @@ public final class SwingImageStore {
     }
 
     public static Icon getIcon(String url, int width, int height) {
-        if (url.endsWith(".svg"))
-            try {
-                InputStream is = SwingImageStore.class.getClassLoader().getResourceAsStream(url);
+        if (url != null && url.endsWith(".svg"))
+            try (InputStream is = SwingImageStore.class.getClassLoader().getResourceAsStream(url)) {
                 return new BatikSvgIcon(is, width, height);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -44,7 +43,7 @@ public final class SwingImageStore {
         return image == null ? null : new ImageIcon(image);
     }
 
-    public static Font getFont(String url) {
+    static Font getFont(String url) {
         InputStream is = SwingImageStore.class.getResourceAsStream(url);
         Font font = null;
         try {
