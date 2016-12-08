@@ -16,6 +16,10 @@ public class Strings {
         return value == null ? null : value.toString();
     }
 
+    public static String toSafeString(Object value) {
+        return value == null ? "" : value.toString();
+    }
+
     public static String stringValue(Object value) {
         return value == null ? null : value.toString();
     }
