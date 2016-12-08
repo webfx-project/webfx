@@ -1,40 +1,55 @@
 package naga.providers.toolkit.javafx.fx.view;
 
-import javafx.beans.property.Property;
 import naga.toolkit.fx.scene.layout.Region;
-import naga.toolkit.fx.spi.view.RegionView;
+import naga.toolkit.fx.spi.view.base.RegionViewBase;
+import naga.toolkit.fx.spi.view.base.RegionViewMixin;
 
 import java.lang.reflect.Method;
 
 /**
  * @author Bruno Salmon
  */
-abstract class FxRegionView<N extends Region, FxN extends javafx.scene.layout.Region> extends FxNodeViewImpl<N, FxN> implements RegionView<N> {
+abstract class FxRegionView
+        <FxN extends javafx.scene.layout.Region, N extends Region, NV extends RegionViewBase<N, NV, NM>, NM extends RegionViewMixin<N, NV, NM>>
 
-    @Override
-    void setAndBindNodeProperties(N buttonBase, FxN fxButtonBase) {
-        super.setAndBindNodeProperties(buttonBase, fxButtonBase);
-        fxButtonBase.minWidthProperty().bind(buttonBase.minWidthProperty());
-        fxButtonBase.maxWidthProperty().bind(buttonBase.maxWidthProperty());
-        fxButtonBase.minHeightProperty().bind(buttonBase.minHeightProperty());
-        fxButtonBase.maxHeightProperty().bind(buttonBase.maxHeightProperty());
-        fxButtonBase.prefWidthProperty().bind(buttonBase.prefWidthProperty());
-        fxButtonBase.prefHeightProperty().bind(buttonBase.prefHeightProperty());
-        bindRegionSetterToProperty("setWidth", buttonBase.widthProperty());
-        bindRegionSetterToProperty("setHeight", buttonBase.heightProperty());
+        extends FxNodeView<FxN, N, NV, NM>
+        implements RegionViewMixin<N, NV, NM> {
+
+
+    FxRegionView(NV base) {
+        super(base);
+/*
+        FxN region = getFxNode();
+        fxNode.minWidthProperty().bind(region.minWidthProperty());
+        fxNode.maxWidthProperty().bind(region.maxWidthProperty());
+        fxNode.minHeightProperty().bind(region.minHeightProperty());
+        fxNode.maxHeightProperty().bind(region.maxHeightProperty());
+        fxNode.prefWidthProperty().bind(region.prefWidthProperty());
+        fxNode.prefHeightProperty().bind(region.prefHeightProperty());
+*/
     }
 
-    private void bindRegionSetterToProperty(String setterName, Property<Double> property) {
+    @Override
+    public void updateWidth(Double width) {
+        if (width != getFxNode().getWidth())
+            callRegionSetter("setWidth", width);
+    }
+
+    @Override
+    public void updateHeight(Double height) {
+        if (height != getFxNode().getHeight())
+            callRegionSetter("setHeight", height);
+    }
+
+    private void callRegionSetter(String setterName, Double value) {
         try {
             Method regionSetter = javafx.scene.layout.Region.class.getDeclaredMethod(setterName, double.class);
             regionSetter.setAccessible(true);
-            property.addListener((observable, oldValue, newWidth) -> {
-                try {
-                    regionSetter.invoke(getFxNode(), newWidth);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
+            try {
+                regionSetter.invoke(getFxNode(), value);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

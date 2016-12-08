@@ -1,24 +1,37 @@
 package naga.providers.toolkit.javafx.fx.view;
 
 import naga.toolkit.fx.scene.shape.Circle;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.view.CircleView;
+import naga.toolkit.fx.spi.view.base.CircleViewBase;
+import naga.toolkit.fx.spi.view.base.CircleViewMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class FxCircleView extends FxShapeViewImpl<Circle, javafx.scene.shape.Circle> implements CircleView {
+public class FxCircleView
+        extends FxShapeView<javafx.scene.shape.Circle, Circle, CircleViewBase, CircleViewMixin>
+        implements CircleViewMixin {
 
-    @Override
-    public void bind(Circle c, DrawingRequester drawingRequester) {
-        super.bind(c, drawingRequester);
-        fxNode.centerXProperty().bind(c.centerXProperty());
-        fxNode.centerYProperty().bind(c.centerYProperty());
-        fxNode.radiusProperty().bind(c.radiusProperty());
+    public FxCircleView() {
+        super(new CircleViewBase());
     }
 
     @Override
-    javafx.scene.shape.Circle createFxNode(Circle node) {
+    javafx.scene.shape.Circle createFxNode() {
         return new javafx.scene.shape.Circle();
+    }
+
+    @Override
+    public void updateCenterX(Double centerX) {
+        getFxNode().setCenterX(centerX);
+    }
+
+    @Override
+    public void updateCenterY(Double centerY) {
+        getFxNode().setCenterY(centerY);
+    }
+
+    @Override
+    public void updateRadius(Double radius) {
+        getFxNode().setRadius(radius);
     }
 }

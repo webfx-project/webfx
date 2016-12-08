@@ -5,12 +5,20 @@ import naga.toolkit.fx.scene.transform.Scale;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
 
+import java.util.Collection;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 /**
  * @author Bruno Salmon
  */
 public class FxTransforms {
 
-    public static javafx.scene.transform.Transform toFxTransform(Transform transform) {
+    public static Collection<javafx.scene.transform.Transform> toFxTransforms(Collection<Transform> transforms) {
+        return transforms.stream().map(FxTransforms::toFxTransform).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    private static javafx.scene.transform.Transform toFxTransform(Transform transform) {
         if (transform instanceof Translate)
             return toFxTranslate((Translate) transform);
         if (transform instanceof Rotate)

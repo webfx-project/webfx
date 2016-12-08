@@ -1,17 +1,23 @@
 package naga.providers.toolkit.javafx.fx.view;
 
 import naga.toolkit.fx.scene.control.ButtonBase;
-import naga.toolkit.fx.spi.view.ButtonBaseView;
+import naga.toolkit.fx.spi.view.base.ButtonBaseViewBase;
+import naga.toolkit.fx.spi.view.base.ButtonBaseViewMixin;
 
 /**
  * @author Bruno Salmon
  */
-abstract class FxButtonBaseView<N extends ButtonBase, FxN extends javafx.scene.control.ButtonBase> extends FxRegionView<N, FxN> implements ButtonBaseView<N> {
+abstract class FxButtonBaseView
+        <FxN extends javafx.scene.control.ButtonBase, N extends ButtonBase, NV extends ButtonBaseViewBase<N, NV, NM>, NM extends ButtonBaseViewMixin<N, NV, NM>>
+        extends FxRegionView<FxN, N, NV, NM>
+        implements ButtonBaseViewMixin<N, NV, NM> {
+
+    FxButtonBaseView(NV base) {
+        super(base);
+    }
 
     @Override
-    void setAndBindNodeProperties(N buttonBase, FxN fxButtonBase) {
-        super.setAndBindNodeProperties(buttonBase, fxButtonBase);
-        fxButtonBase.textProperty().bind(buttonBase.textProperty());
-        //buttonBase.imageProperty().addListener((observable, oldValue, image) -> fxButtonBase.setGraphic((Node) Toolkit.unwrapToNativeNode(image)));
+    public void updateText(String text) {
+        getFxNode().setText(text);
     }
 }

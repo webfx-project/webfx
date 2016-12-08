@@ -1,33 +1,62 @@
 package naga.providers.toolkit.javafx.fx.view;
 
 import naga.providers.toolkit.javafx.util.FxFonts;
+import naga.toolkit.fx.geometry.VPos;
+import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
-import naga.toolkit.fx.geometry.VPos;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.view.TextView;
-import naga.toolkit.properties.conversion.ConvertedProperty;
+import naga.toolkit.fx.spi.view.base.TextViewBase;
+import naga.toolkit.fx.spi.view.base.TextViewMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class FxTextView extends FxShapeViewImpl<Text, javafx.scene.text.Text> implements TextView {
+public class FxTextView
+        extends FxShapeView<javafx.scene.text.Text, Text, TextViewBase, TextViewMixin>
+        implements TextViewMixin {
 
-    @Override
-    public void bind(Text t, DrawingRequester drawingRequester) {
-        super.bind(t, drawingRequester);
-        fxNode.xProperty().bind(t.xProperty());
-        fxNode.yProperty().bind(t.yProperty());
-        fxNode.textProperty().bind(t.textProperty());
-        fxNode.textOriginProperty().bind(new ConvertedProperty<>(t.textOriginProperty(), FxTextView::toFxVpos));
-        fxNode.textAlignmentProperty().bind(new ConvertedProperty<>(t.textAlignmentProperty(), FxTextView::toFxTextAlignment));
-        fxNode.wrappingWidthProperty().bind(t.wrappingWidthProperty());
-        fxNode.fontProperty().bind(new ConvertedProperty<>(t.fontProperty(), FxFonts::toFxFont));
+    public FxTextView() {
+        super(new TextViewBase());
     }
 
     @Override
-    javafx.scene.text.Text createFxNode(Text node) {
+    javafx.scene.text.Text createFxNode() {
         return new javafx.scene.text.Text();
+    }
+
+    @Override
+    public void updateText(String text) {
+        getFxNode().setText(text);
+    }
+
+    @Override
+    public void updateFont(Font font) {
+        getFxNode().setFont(FxFonts.toFxFont(font));
+    }
+
+    @Override
+    public void updateTextOrigin(VPos textOrigin) {
+        getFxNode().setTextOrigin(toFxVpos(textOrigin));
+    }
+
+    @Override
+    public void updateX(Double x) {
+        getFxNode().setX(x);
+    }
+
+    @Override
+    public void updateY(Double y) {
+        getFxNode().setY(y);
+    }
+
+    @Override
+    public void updateWrappingWidth(Double wrappingWidth) {
+        getFxNode().setWrappingWidth(wrappingWidth);
+    }
+
+    @Override
+    public void updateTextAlignment(TextAlignment textAlignment) {
+        getFxNode().setTextAlignment(toFxTextAlignment(textAlignment));
     }
 
     private static javafx.geometry.VPos toFxVpos(VPos vpos) {

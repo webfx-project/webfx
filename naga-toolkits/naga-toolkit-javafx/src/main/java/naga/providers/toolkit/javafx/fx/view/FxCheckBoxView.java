@@ -1,20 +1,29 @@
 package naga.providers.toolkit.javafx.fx.view;
 
 import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.spi.view.base.CheckBoxViewBase;
+import naga.toolkit.fx.spi.view.base.CheckBoxViewMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class FxCheckBoxView extends FxButtonBaseView<CheckBox, javafx.scene.control.CheckBox> implements FxLayoutMeasurable {
+public class FxCheckBoxView
+        extends FxButtonBaseView<javafx.scene.control.CheckBox, CheckBox, CheckBoxViewBase, CheckBoxViewMixin>
+        implements CheckBoxViewMixin, FxLayoutMeasurable {
 
-    @Override
-    javafx.scene.control.CheckBox createFxNode(CheckBox node) {
-        return new javafx.scene.control.CheckBox();
+    public FxCheckBoxView() {
+        super(new CheckBoxViewBase());
     }
 
     @Override
-    void setAndBindNodeProperties(CheckBox checkBox, javafx.scene.control.CheckBox fxCheckBox) {
-        super.setAndBindNodeProperties(checkBox, fxCheckBox);
-        fxCheckBox.selectedProperty().bindBidirectional(checkBox.selectedProperty());
+    javafx.scene.control.CheckBox createFxNode() {
+        javafx.scene.control.CheckBox checkBox = new javafx.scene.control.CheckBox();
+        checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> getNode().setSelected(newValue));
+        return checkBox;
+    }
+
+    @Override
+    public void updateSelected(Boolean selected) {
+        getFxNode().setSelected(selected);
     }
 }
