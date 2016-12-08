@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.fx.shared;
 
 import elemental2.Element;
+import naga.commons.util.Strings;
 import naga.providers.toolkit.html.fx.svg.view.SvgNodeView;
 import naga.providers.toolkit.html.events.HtmlMouseEvent;
 import naga.providers.toolkit.html.util.DomType;
@@ -109,7 +110,7 @@ public abstract class HtmlSvgNodeView
     }
 
     protected void setElementTextContent(String textContent) {
-        element.textContent = textContent;
+        element.textContent = Strings.toSafeString(textContent); // Using a safe string to avoid "undefined" with IE
     }
 
     /* String attributes */
@@ -163,6 +164,10 @@ public abstract class HtmlSvgNodeView
             setElementAttribute("font-weight", font.getWeight() == null ? 0d : font.getWeight().getWeight());
             setElementAttribute("font-size", toPx(font.getSize()));
         }
+    }
+
+    public void removeChildren() {
+        HtmlUtil.removeChildren(element);
     }
 
     private static String toSvgBlendMode(BlendMode blendMode) {
