@@ -4,6 +4,7 @@ import naga.providers.toolkit.html.fx.html.view.*;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
 import naga.toolkit.fx.scene.control.impl.TextFieldImpl;
+import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
 import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.fx.scene.impl.GroupImpl;
 import naga.toolkit.fx.scene.layout.impl.BorderPaneImpl;
@@ -12,8 +13,8 @@ import naga.toolkit.fx.scene.layout.impl.HBoxImpl;
 import naga.toolkit.fx.scene.layout.impl.VBoxImpl;
 import naga.toolkit.fx.scene.shape.impl.CircleImpl;
 import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
-import naga.toolkit.fx.spi.impl.NodeViewFactoryImpl;
 import naga.toolkit.fx.scene.text.impl.TextImpl;
+import naga.toolkit.fx.spi.impl.NodeViewFactoryImpl;
 
 /**
  * @author Bruno Salmon
@@ -35,5 +36,6 @@ class HtmlNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new);
         registerNodeViewFactory(CheckBoxImpl.class, HtmlCheckBoxView::new);
         registerNodeViewFactory(TextFieldImpl.class, HtmlTextFieldView::new);
+        registerNodeViewFactory(ImageViewImpl.class, HtmlImageViewView::new);
     }
 }
