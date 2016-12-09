@@ -1,6 +1,7 @@
 package naga.providers.toolkit.swing.fx;
 
 import naga.providers.toolkit.swing.fx.view.*;
+import naga.toolkit.fx.ext.chart.impl.LineChartImpl;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
@@ -39,5 +40,6 @@ class SwingNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(CheckBoxImpl.class, SwingCheckBoxView::new);
         registerNodeViewFactory(ImageViewImpl.class, SwingImageViewView::new);
         registerNodeViewFactory(DataGridImpl.class, SwingDataGridView::new);
+        registerNodeViewFactory(LineChartImpl.class, SwingLineChartView::new);
     }
 }
