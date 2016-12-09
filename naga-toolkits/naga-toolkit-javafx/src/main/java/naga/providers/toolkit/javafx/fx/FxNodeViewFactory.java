@@ -1,6 +1,7 @@
 package naga.providers.toolkit.javafx.fx;
 
 import naga.providers.toolkit.javafx.fx.view.*;
+import naga.toolkit.fx.ext.chart.impl.*;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
@@ -39,5 +40,10 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(TextFieldImpl.class, FxTextFieldView::new);
         registerNodeViewFactory(ImageViewImpl.class, FxImageViewView::new);
         registerNodeViewFactory(DataGridImpl.class, FxDataGridView::new);
+        registerNodeViewFactory(AreaChartImpl.class, FxAreaChartView::new);
+        registerNodeViewFactory(BarChartImpl.class, FxBarChartView::new);
+        registerNodeViewFactory(LineChartImpl.class, FxLineChartView::new);
+        registerNodeViewFactory(PieChartImpl.class, FxPieChartView::new);
+        registerNodeViewFactory(ScatterChartImpl.class, FxScatterChartView::new);
     }
 }
