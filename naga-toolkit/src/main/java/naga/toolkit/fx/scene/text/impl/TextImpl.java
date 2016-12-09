@@ -16,6 +16,13 @@ import naga.toolkit.fx.geometry.VPos;
  */
 public class TextImpl extends ShapeImpl implements Text {
 
+    public TextImpl() {
+    }
+
+    public TextImpl(String text) {
+        setText(text);
+    }
+
     private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> xProperty() {
@@ -34,7 +41,7 @@ public class TextImpl extends ShapeImpl implements Text {
         return textAlignmentProperty;
     }
 
-    private final Property<Double> wrappingWidthProperty = new SimpleObjectProperty<>();
+    private final Property<Double> wrappingWidthProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> wrappingWidthProperty() {
         return wrappingWidthProperty;

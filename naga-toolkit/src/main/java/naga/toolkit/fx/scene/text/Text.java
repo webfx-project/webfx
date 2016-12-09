@@ -20,4 +20,7 @@ public interface Text extends Shape,
         return new TextImpl();
     }
 
+    static Text create(String text) {
+        return new TextImpl(text);
+    }
 }
