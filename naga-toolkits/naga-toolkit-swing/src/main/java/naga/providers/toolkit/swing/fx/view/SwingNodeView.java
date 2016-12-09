@@ -1,12 +1,19 @@
 package naga.providers.toolkit.swing.fx.view;
 
+import naga.providers.toolkit.swing.util.JGradientLabel;
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
+import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
+import naga.toolkit.fx.scene.impl.NodeImpl;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
 import naga.toolkit.fx.spi.impl.canvas.CanvasNodeView;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.spi.view.base.NodeViewBase;
@@ -15,6 +22,7 @@ import naga.toolkit.fx.spi.view.base.NodeViewMixin;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
@@ -115,4 +123,34 @@ public abstract class SwingNodeView
         swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 
+    protected JComponent toSwingComponent() {
+        return toSwingComponent(getNode(), getNode().getDrawing(), null);
+    }
+
+    protected static JComponent toSwingComponent(Node node, Drawing drawing, TextAlignment textAlignment) {
+        NodeImpl renderedNode = (NodeImpl) node;
+        CanvasDrawingImpl canvasDrawing = (CanvasDrawingImpl) drawing;
+        renderedNode.setDrawing(canvasDrawing);
+        NodeView renderedView = renderedNode.getOrCreateAndBindNodeView();
+        if (renderedView instanceof SwingEmbedComponentView)
+            return ((SwingEmbedComponentView) renderedView).getSwingComponent();
+        if (renderedView instanceof SwingShapeView) {
+            return new JGradientLabel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    Insets insets = getInsets(null);
+                    g.translate(insets.left, insets.top);
+                    if (renderedNode instanceof Text) {
+                        Text textNode = (Text) renderedNode;
+                        textNode.setWrappingWidth((double) getWidth() - insets.right - insets.left);
+                        textNode.setTextOrigin(VPos.TOP);
+                        textNode.setTextAlignment(textAlignment);
+                    }
+                    canvasDrawing.paintNode(renderedNode, g);
+                }
+            };
+        }
+        return null;
+    }
 }
