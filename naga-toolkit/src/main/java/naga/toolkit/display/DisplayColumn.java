@@ -44,7 +44,9 @@ public interface DisplayColumn {
     /**
      * @return The value renderer to be used for this column to transform the cell values into graphical nodes.
      */
-    ValueRenderer getValueRenderer();
+    ValueRenderer getValueRenderer(); // Old way
+
+    naga.toolkit.fx.ext.cell.renderer.ValueRenderer getFxValueRenderer(); // New way
 
     /**
      * Quick factory method for a simple DisplayColumn creation with just a label and type. Use the DisplayColumnBuilder
@@ -55,11 +57,14 @@ public interface DisplayColumn {
     }
 
     static DisplayColumn create(Object label, Type type, DisplayStyle style) {
-        return new DisplayColumnImpl(label, label, type, null, style, null);
+        return new DisplayColumnImpl(label, label, type, null, style, null, null);
     }
 
     static DisplayColumn create(ValueRenderer valueRenderer) {
-        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer);
+        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer, null);
     }
 
+    static DisplayColumn createFx(naga.toolkit.fx.ext.cell.renderer.ValueRenderer valueRenderer) {
+        return new DisplayColumnImpl(null, null, null, null, null, null, valueRenderer);
+    }
 }
