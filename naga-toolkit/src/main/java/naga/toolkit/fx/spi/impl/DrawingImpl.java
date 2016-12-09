@@ -4,9 +4,11 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import naga.commons.scheduler.Scheduled;
+import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Control;
 import naga.toolkit.fx.scene.impl.NodeImpl;
 import naga.toolkit.fx.scene.impl.ParentImpl;
@@ -16,8 +18,7 @@ import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.spi.view.NodeViewFactory;
-import naga.toolkit.properties.markers.HasHeightProperty;
-import naga.toolkit.properties.markers.HasWidthProperty;
+import naga.toolkit.properties.markers.*;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
@@ -138,21 +139,37 @@ public abstract class DrawingImpl implements Drawing {
             NodeImpl nodeImpl = (NodeImpl) node;
             nodeImpl.setDrawing(this);
             nodeImpl.setNodeView(nodeView = createNodeView(node));
-            if (nodeView != null) {
+            if (nodeView == null) // The node view factory was unable to create a view for this node!
+                nodeImpl.setNodeView(nodeView = createUnimplementedNodeView(node)); // Displaying a "Unimplemented..." button instead
+            else { // Standard case (the node view was successfully created)
                 nodeView.bind(node, drawingRequester);
                 if (node instanceof Parent && !(node instanceof Control)) {
                     Parent parent = (Parent) node;
                     keepParentAndChildrenViewsUpdated(parent);
                 }
-                if (!isPulseRunning() && isPulseRequiredForNode(node))
-                    startPulse();
             }
+            if (!isPulseRunning() && isPulseRequiredForNode(node))
+                startPulse();
         }
         return nodeView;
     }
 
+
     protected NodeView<Node> createNodeView(Node node) {
         return nodeViewFactory.createNodeView(node);
+    }
+
+    private NodeView createUnimplementedNodeView(Node node) {
+        // Creating a button as replacement (assuming the target toolkit at least implements a button view!)
+        Button button = Button.create("Unimplemented " + Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " view");
+        // Binding to allow the button to respond to the original node layout
+        button.layoutXProperty().bind(node.layoutXProperty());
+        button.layoutYProperty().bind(node.layoutYProperty());
+        if (node instanceof HasWidthProperty)
+            button.widthProperty().bind(((HasWidthProperty) node).widthProperty());
+        if (node instanceof HasHeightProperty)
+            button.heightProperty().bind(((HasHeightProperty) node).heightProperty());
+        return getOrCreateAndBindNodeView(button); // Finally retuning the button view
     }
 
     protected boolean isRootNode(Node node) {
