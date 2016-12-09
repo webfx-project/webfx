@@ -1,12 +1,12 @@
 package naga.providers.toolkit.swing.fx.view;
 
 import naga.commons.util.Numbers;
-import naga.commons.util.Objects;
+import naga.commons.util.Strings;
 import naga.providers.toolkit.swing.util.SwingFonts;
+import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
-import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.spi.view.base.TextViewBase;
 import naga.toolkit.fx.spi.view.base.TextViewMixin;
 import naga.toolkit.fx.spi.view.base.TextViewMixin2;
@@ -43,9 +43,22 @@ public class SwingTextView
         return swingFont;
     }
 
+    private java.awt.Font getShapeSwingFont(Graphics2D g) {
+        java.awt.Font font = getShapeSwingFont();
+        return font != null ? font : g.getFont();
+    }
+
+    private FontMetrics getFontMetrics(Graphics2D g) {
+        return g.getFontMetrics(getShapeSwingFont(g));
+    }
+
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        return getShapeSwingFont().createGlyphVector(g.getFontRenderContext(), Objects.coalesce(getNode().getText(), "")).getOutline();
+        return getShapeSwingFont(g).createGlyphVector(g.getFontRenderContext(), getSafeNodeText()).getOutline();
+    }
+
+    private String getSafeNodeText() {
+        return Strings.toSafeString(getNode().getText());
     }
 
     @Override
@@ -56,7 +69,7 @@ public class SwingTextView
         double wrappingWidth = Numbers.doubleValue(t.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
         if (wrappingWidth > 0) {
-            int textWidth = g.getFontMetrics(getShapeSwingFont()).stringWidth(Objects.coalesce(t.getText(), ""));
+            int textWidth = getFontMetrics(g).stringWidth(getSafeNodeText());
             TextAlignment textAlignment = t.getTextAlignment();
             if (textAlignment == TextAlignment.CENTER)
                 x += (wrappingWidth - textWidth) / 2;
@@ -68,7 +81,7 @@ public class SwingTextView
 
     private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {
         if (vpos != null && vpos != VPos.BASELINE) {
-            FontMetrics fontMetrics = g.getFontMetrics(getShapeSwingFont());
+            FontMetrics fontMetrics = getFontMetrics(g);
             switch (vpos) {
                 case TOP:
                     return fontMetrics.getAscent();
