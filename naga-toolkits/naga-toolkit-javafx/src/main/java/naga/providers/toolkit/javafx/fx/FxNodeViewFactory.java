@@ -1,6 +1,7 @@
 package naga.providers.toolkit.javafx.fx;
 
 import naga.providers.toolkit.javafx.fx.view.*;
+import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
 import naga.toolkit.fx.scene.control.impl.TextFieldImpl;
@@ -37,5 +38,6 @@ class FxNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(CheckBoxImpl.class, FxCheckBoxView::new);
         registerNodeViewFactory(TextFieldImpl.class, FxTextFieldView::new);
         registerNodeViewFactory(ImageViewImpl.class, FxImageViewView::new);
+        registerNodeViewFactory(DataGridImpl.class, FxDataGridView::new);
     }
 }

@@ -2,6 +2,7 @@ package naga.toolkit.adapters.rowstyle;
 
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
+import naga.commons.util.function.Function;
 import naga.toolkit.adapters.grid.GridFiller;
 
 /**
@@ -9,20 +10,24 @@ import naga.toolkit.adapters.grid.GridFiller;
  */
 public class RowStyleUpdater {
     private final RowAdapter row;
-    private final GridFiller gridFiller;
+    private final Function<Integer, Object[]> rowStyleClassesGetter;
     private Object[] styles;
 
     public RowStyleUpdater(RowAdapter row) {
-        this(row, null);
+        this(row,(Function<Integer, Object[]>) null);
     }
 
     public RowStyleUpdater(RowAdapter row, GridFiller gridFiller) {
+        this(row, gridFiller::getRowStyleClasses);
+    }
+
+    public RowStyleUpdater(RowAdapter row, Function<Integer, Object[]> rowStyleClassesGetter) {
         this.row = row;
-        this.gridFiller = gridFiller;
+        this.rowStyleClassesGetter = rowStyleClassesGetter;
     }
 
     public void update() {
-        update(gridFiller.getRowStyleClasses(row.getRowIndex()));
+        update(rowStyleClassesGetter.apply(row.getRowIndex()));
     }
 
     public void update(Object[] newStyles) {
