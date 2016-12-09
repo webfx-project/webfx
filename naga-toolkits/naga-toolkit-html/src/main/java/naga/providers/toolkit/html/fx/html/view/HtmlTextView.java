@@ -15,7 +15,7 @@ import naga.toolkit.fx.scene.text.TextAlignment;
  */
 public class HtmlTextView
         extends HtmlShapeView<Text, TextViewBase, TextViewMixin>
-        implements TextViewMixin {
+        implements TextViewMixin, HtmlLayoutMeasurable {
 
     public HtmlTextView() {
         super(new TextViewBase(), HtmlUtil.createSpanElement());
