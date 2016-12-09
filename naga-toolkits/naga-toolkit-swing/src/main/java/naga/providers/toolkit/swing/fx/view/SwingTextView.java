@@ -9,7 +9,6 @@ import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.spi.view.base.TextViewBase;
 import naga.toolkit.fx.spi.view.base.TextViewMixin;
-import naga.toolkit.fx.spi.view.base.TextViewMixin2;
 
 import java.awt.*;
 
@@ -18,7 +17,7 @@ import java.awt.*;
  */
 public class SwingTextView
         extends SwingShapeView<Text, TextViewBase, TextViewMixin>
-        implements TextViewMixin2 {
+        implements TextViewMixin {
 
     private java.awt.Font swingFont;
 
@@ -35,6 +34,31 @@ public class SwingTextView
     public void updateFont(Font font) {
         swingFont = null;
         updateSwingShape();
+    }
+
+    @Override
+    public void updateTextOrigin(VPos textOrigin) {
+        // Doesn't affect the shape, textOrigin will be used in prepareCanvasContext() translation
+    }
+
+    @Override
+    public void updateX(Double x) {
+        // Doesn't affect the shape, x will be used in prepareCanvasContext() translation
+    }
+
+    @Override
+    public void updateY(Double y) {
+        // Doesn't affect the shape, y will be used in prepareCanvasContext() translation
+    }
+
+    @Override
+    public void updateWrappingWidth(Double wrappingWidth) {
+        // Doesn't affect the shape, wrappingWidth will be used in prepareCanvasContext() translation
+    }
+
+    @Override
+    public void updateTextAlignment(TextAlignment textAlignment) {
+        // Doesn't affect the shape, textAlignment will be used in prepareCanvasContext() translation
     }
 
     private java.awt.Font getShapeSwingFont() {

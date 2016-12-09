@@ -4,7 +4,6 @@ import naga.commons.util.Numbers;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.view.base.RectangleViewBase;
 import naga.toolkit.fx.spi.view.base.RectangleViewMixin;
-import naga.toolkit.fx.spi.view.base.RectangleViewMixin2;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -15,7 +14,7 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class SwingRectangleView
         extends SwingShapeView<Rectangle, RectangleViewBase, RectangleViewMixin>
-        implements RectangleViewMixin2 {
+        implements RectangleViewMixin {
 
     public SwingRectangleView() {
         super(new RectangleViewBase());
@@ -39,6 +38,16 @@ public class SwingRectangleView
     @Override
     public void updateArcHeight(Double arcHeight) {
         updateSwingShape();
+    }
+
+    @Override
+    public void updateX(Double x) {
+        // Doesn't affect the shape, x will be used in prepareCanvasContext() translation
+    }
+
+    @Override
+    public void updateY(Double y) {
+        // Doesn't affect the shape, y will be used in prepareCanvasContext() translation
     }
 
     @Override
