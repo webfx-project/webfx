@@ -2,23 +2,28 @@ package naga.providers.toolkit.html.fx.shared;
 
 import elemental2.Element;
 import naga.commons.util.Strings;
-import naga.providers.toolkit.html.fx.svg.view.SvgNodeView;
 import naga.providers.toolkit.html.events.HtmlMouseEvent;
+import naga.providers.toolkit.html.fx.html.view.HtmlNodeView;
+import naga.providers.toolkit.html.fx.svg.view.SvgNodeView;
 import naga.providers.toolkit.html.util.DomType;
 import naga.providers.toolkit.html.util.HtmlTransforms;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgTransforms;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
-import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.impl.NodeImpl;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.FontPosture;
+import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.fx.spi.Drawing;
+import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.spi.view.base.NodeViewBase;
 import naga.toolkit.fx.spi.view.base.NodeViewImpl;
 import naga.toolkit.fx.spi.view.base.NodeViewMixin;
-import naga.toolkit.fx.scene.text.Font;
-import naga.toolkit.fx.scene.text.FontPosture;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
-import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -202,4 +207,14 @@ public abstract class HtmlSvgNodeView
         return Math.round(position);
     }
 
+    public static Element toElement(Node node, Drawing drawing) {
+        ((NodeImpl) node).setDrawing((DrawingImpl) drawing);
+        NodeView nodeView = node.getOrCreateAndBindNodeView();
+        if (nodeView instanceof SvgNodeView) // SvgNodeView case
+            return ((SvgNodeView) nodeView).getElement();
+        if (nodeView instanceof HtmlNodeView) // HtmlNodeView case
+            return ((HtmlNodeView) nodeView).getContainer();
+        // Shouldn't happen unless no view factory is registered for this node
+        return null; // returning null in this case to indicate there is no view to show
+    }
 }

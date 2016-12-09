@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.fx.html;
 
 import naga.providers.toolkit.html.fx.html.view.*;
+import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
 import naga.toolkit.fx.scene.control.impl.TextFieldImpl;
@@ -37,5 +38,6 @@ class HtmlNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(CheckBoxImpl.class, HtmlCheckBoxView::new);
         registerNodeViewFactory(TextFieldImpl.class, HtmlTextFieldView::new);
         registerNodeViewFactory(ImageViewImpl.class, HtmlImageViewView::new);
+        registerNodeViewFactory(DataGridImpl.class, HtmlDataGridView::new);
     }
 }

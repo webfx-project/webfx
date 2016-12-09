@@ -1,12 +1,9 @@
 package naga.providers.toolkit.html.fx.html;
 
-import elemental2.Element;
-import elemental2.HTMLButtonElement;
-import elemental2.HTMLElement;
-import elemental2.HTMLLabelElement;
+import elemental2.*;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.fx.html.view.HtmlNodeView;
-import naga.providers.toolkit.html.fx.svg.view.SvgNodeView;
+import naga.providers.toolkit.html.fx.shared.HtmlSvgNodeView;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
@@ -26,23 +23,13 @@ public class HtmlDrawing extends DrawingImpl {
     protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
         super.createAndBindRootNodeViewAndChildren(rootNode);
         elemental2.Node parent = drawingNode.unwrapToNativeNode();
-        HtmlUtil.setChildren(parent, getNodeElementForParent(rootNode));
+        HtmlUtil.setChildren(parent, HtmlSvgNodeView.toElement(rootNode, this));
     }
 
     @Override
     protected void updateParentAndChildrenViews(Parent parent) {
-        elemental2.Node parentNode = getNodeElementForParent(parent);
-        HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), this::getNodeElementForParent));
-    }
-
-    private Element getNodeElementForParent(Node node) {
-        NodeView nodeView = getOrCreateAndBindNodeView(node); // Should be a SvgNodeView or a HtmlNodeView
-        if (nodeView instanceof SvgNodeView) // SvgNodeView case
-            return ((SvgNodeView) nodeView).getElement();
-        if (nodeView instanceof HtmlNodeView) // HtmlNodeView case
-            return ((HtmlNodeView) nodeView).getContainer();
-        // Shouldn't happen unless no view factory is registered for this node (probably UnimplementedNodeView was returned)
-        return null; // returning null in this case to indicate there is no view to show
+        elemental2.Node parentNode = HtmlSvgNodeView.toElement(parent, this);
+        HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), node -> HtmlSvgNodeView.toElement(node, this)));
     }
 
     @Override
@@ -52,7 +39,7 @@ public class HtmlDrawing extends DrawingImpl {
             HtmlNodeView htmlNodeView = (HtmlNodeView) nodeView;
             HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
             HtmlUtil.absolutePosition(htmlElement);
-            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement)
+            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN"))
                 htmlElement.style.whiteSpace = "nowrap";
         }
         return nodeView;
