@@ -10,4 +10,8 @@ public interface Button extends ButtonBase {
     static Button create() {
         return new ButtonImpl();
     }
+
+    static Button create(String text) {
+        return new ButtonImpl(text);
+    }
 }
