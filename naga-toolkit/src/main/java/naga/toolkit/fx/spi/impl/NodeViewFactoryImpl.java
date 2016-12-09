@@ -4,7 +4,6 @@ import naga.commons.util.function.Factory;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.view.NodeView;
 import naga.toolkit.fx.spi.view.NodeViewFactory;
-import naga.toolkit.fx.spi.view.UnimplementedNodeView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +25,6 @@ public class NodeViewFactoryImpl implements NodeViewFactory {
         if (factory != null)
             return (V) factory.create();
         System.out.println("WARNING: No NodeView factory registered for " + nodeInterface.getClass() + " in " + getClass());
-        return (V) new UnimplementedNodeView();
+        return null; // (V) new UnimplementedNodeView();
     }
 }

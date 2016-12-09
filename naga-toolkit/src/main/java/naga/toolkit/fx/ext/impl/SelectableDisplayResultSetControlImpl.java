@@ -11,7 +11,7 @@ import static naga.toolkit.properties.markers.SelectionMode.SINGLE;
 /**
  * @author Bruno Salmon
  */
-abstract class SelectableDisplayResultSetControlImpl extends DisplayResultSetControlImpl implements SelectableDisplayResultSetControl {
+public abstract class SelectableDisplayResultSetControlImpl extends DisplayResultSetControlImpl implements SelectableDisplayResultSetControl {
 
     private Property<DisplaySelection> displaySelectionProperty = new SimpleObjectProperty<>();
     @Override
