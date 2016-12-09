@@ -51,7 +51,7 @@ public abstract class CanvasDrawingImpl
         }
     }
 
-    private void paintNode(Node node, CC canvasContext) {
+    public void paintNode(Node node, CC canvasContext) {
         if (node.isVisible()) {
             NV nodeView = (NV) getOrCreateAndBindNodeView(node);
             paintNodeView(nodeView, canvasContext);
