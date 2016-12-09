@@ -51,7 +51,6 @@ class FxDrawing extends DrawingImpl {
         NodeView nodeView = getOrCreateAndBindNodeView(node);
         if (nodeView instanceof FxNodeView) // Should be a FxNodeView
             return((FxNodeView) nodeView).getFxNode();
-        // Shouldn't happen unless no view factory is registered for this node (probably UnimplementedNodeView was returned)
-        return null; // returning null in this case to indicate there is no node to show
+        return null; // Shouldn't happen...
     }
 }

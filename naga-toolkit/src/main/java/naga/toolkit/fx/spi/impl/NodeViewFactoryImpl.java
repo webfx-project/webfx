@@ -25,6 +25,6 @@ public class NodeViewFactoryImpl implements NodeViewFactory {
         if (factory != null)
             return (V) factory.create();
         System.out.println("WARNING: No NodeView factory registered for " + nodeInterface.getClass() + " in " + getClass());
-        return null; // (V) new UnimplementedNodeView();
+        return null;
     }
 }

@@ -4,7 +4,7 @@ import elemental2.Element;
 import elemental2.HTMLElement;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.fx.html.view.HtmlNodeView;
-import naga.providers.toolkit.html.fx.svg.view.SvgNodeView;
+import naga.providers.toolkit.html.fx.shared.HtmlSvgNodeView;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.fx.scene.Node;
@@ -32,23 +32,13 @@ public class SvgDrawing extends DrawingImpl {
     protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
         super.createAndBindRootNodeViewAndChildren(rootNode);
         elemental2.Node parent = drawingNode.unwrapToNativeNode();
-        HtmlUtil.setChildren(parent, defsElement, getNodeElementForParent(rootNode));
+        HtmlUtil.setChildren(parent, defsElement, HtmlSvgNodeView.toElement(rootNode, this));
     }
 
     @Override
     protected void updateParentAndChildrenViews(Parent parent) {
-        elemental2.Node svgParent = getNodeElementForParent(parent);
-        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), this::getNodeElementForParent));
-    }
-
-    private Element getNodeElementForParent(Node node) {
-        NodeView nodeView = getOrCreateAndBindNodeView(node); // Should be a SvgNodeView or a HtmlNodeView
-        if (nodeView instanceof SvgNodeView) // SvgNodeView case
-            return ((SvgNodeView) nodeView).getElement();
-        if (nodeView instanceof HtmlNodeView) // HtmlNodeView case
-            return ((HtmlNodeView) nodeView).getContainer();
-        // Shouldn't happen unless no view factory is registered for this node (probably UnimplementedNodeView was returned)
-        return null; // returning null in this case to indicate there is no view to show
+        elemental2.Node svgParent = HtmlSvgNodeView.toElement(parent, this);
+        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), node -> HtmlSvgNodeView.toElement(node, this)));
     }
 
     @Override

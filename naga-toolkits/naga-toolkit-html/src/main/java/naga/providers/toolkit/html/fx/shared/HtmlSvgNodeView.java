@@ -214,7 +214,6 @@ public abstract class HtmlSvgNodeView
             return ((SvgNodeView) nodeView).getElement();
         if (nodeView instanceof HtmlNodeView) // HtmlNodeView case
             return ((HtmlNodeView) nodeView).getContainer();
-        // Shouldn't happen unless no view factory is registered for this node
-        return null; // returning null in this case to indicate there is no view to show
+        return null; // Shouldn't happen...
     }
 }
