@@ -89,7 +89,7 @@ public abstract class DrawingImpl implements Drawing {
         this.nodeViewFactory = nodeViewFactory;
     }
 
-    protected void keepParentAndChildrenViewsUpdated(Parent parent) {
+    void keepParentAndChildrenViewsUpdated(Parent parent) {
         ObservableLists.runNowAndOnListChange(() -> {
             // Setting the parent to all children
             for (Node child : parent.getChildren())
@@ -136,15 +136,17 @@ public abstract class DrawingImpl implements Drawing {
         NodeView nodeView = node.getNodeView();
         if (nodeView == null) {
             NodeImpl nodeImpl = (NodeImpl) node;
-            nodeImpl.setNodeView(nodeView = createNodeView(node));
             nodeImpl.setDrawing(this);
-            nodeView.bind(node, drawingRequester);
-            if (node instanceof Parent && !(node instanceof Control)) {
-                Parent parent = (Parent) node;
-                keepParentAndChildrenViewsUpdated(parent);
+            nodeImpl.setNodeView(nodeView = createNodeView(node));
+            if (nodeView != null) {
+                nodeView.bind(node, drawingRequester);
+                if (node instanceof Parent && !(node instanceof Control)) {
+                    Parent parent = (Parent) node;
+                    keepParentAndChildrenViewsUpdated(parent);
+                }
+                if (!isPulseRunning() && isPulseRequiredForNode(node))
+                    startPulse();
             }
-            if (!isPulseRunning() && isPulseRequiredForNode(node))
-                startPulse();
         }
         return nodeView;
     }
