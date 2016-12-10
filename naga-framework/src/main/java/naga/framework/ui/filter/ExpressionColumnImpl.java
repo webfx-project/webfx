@@ -61,11 +61,14 @@ class ExpressionColumnImpl implements ExpressionColumn {
             }
             String textAlign = null;
             ValueRenderer valueRenderer = null;
+            naga.toolkit.fx.ext.cell.renderer.ValueRenderer fxValueRenderer = null;
             if (json != null) {
                 textAlign = json.getString("textAlign");
                 String collator = json.getString("collator");
-                if (collator != null)
+                if (collator != null) {
                     valueRenderer = ValueRenderer.create(displayType, collator);
+                    fxValueRenderer = naga.toolkit.fx.ext.cell.renderer.ValueRenderer.create(displayType, collator);
+                }
                 json = null;
             }
             if (textAlign == null)
@@ -73,6 +76,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
             displayColumn = DisplayColumnBuilder.create(label, displayType)
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
                     .setValueRenderer(valueRenderer)
+                    .setFxValueRenderer(fxValueRenderer)
                     .build();
         }
         return displayColumn;
