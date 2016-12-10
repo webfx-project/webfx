@@ -18,13 +18,12 @@ public class SwingSlider extends SwingNode<JSlider> implements Slider {
 
     public SwingSlider(JSlider slider) {
         super(slider);
-        minProperty.addListener((observable, oldValue, newValue) -> node.setMinimum(newValue));
-        maxProperty.addListener((observable, oldValue, newValue) -> node.setMaximum(newValue));
-        valueProperty.addListener((observable, oldValue, newValue) -> node.setValue(newValue));
+        minProperty.addListener((observable, oldValue, newValue) -> node.setMinimum(newValue.intValue()));
+        maxProperty.addListener((observable, oldValue, newValue) -> node.setMaximum(newValue.intValue()));
+        valueProperty.addListener((observable, oldValue, newValue) -> node.setValue(newValue.intValue()));
         node.addChangeListener(e -> {
-            minProperty.setValue(node.getMinimum());
-            maxProperty.setValue(node.getMaximum());
-            valueProperty.setValue(node.getValue());
+            if (!valueProperty.isBound())
+                valueProperty.setValue((double) node.getValue());
         });
     }
 
@@ -45,22 +44,21 @@ public class SwingSlider extends SwingNode<JSlider> implements Slider {
         return slider;
     }
 
-    private Property<Integer> valueProperty = new SimpleObjectProperty<>(0);
+    private Property<Double> valueProperty = new SimpleObjectProperty<>(0d);
     @Override
-    public Property<Integer> valueProperty() {
+    public Property<Double> valueProperty() {
         return valueProperty;
     }
 
-    private Property<Integer> minProperty = new SimpleObjectProperty<>(0);
+    private Property<Double> minProperty = new SimpleObjectProperty<>(0d);
     @Override
-    public Property<Integer> minProperty() {
+    public Property<Double> minProperty() {
         return minProperty;
     }
 
-    private Property<Integer> maxProperty = new SimpleObjectProperty<>(0);
+    private Property<Double> maxProperty = new SimpleObjectProperty<>(100d);
     @Override
-    public Property<Integer> maxProperty() {
+    public Property<Double> maxProperty() {
         return maxProperty;
     }
-
 }

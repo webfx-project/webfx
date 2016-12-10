@@ -47,29 +47,29 @@ public class GwtPolymerSlider extends GwtNode<PaperSlider> implements Slider {
     private void syncValueFromVisual() {
         // If the value property is not bound, we update it to reflect the visual value that the user just changed
         if (!valueProperty().isBound())
-            setValue((int) node.getImmediateValue());
+            setValue(node.getImmediateValue());
         else // otherwise (meaning the user tried to change the value whereas he shouldn't since the property is bound)
             syncValueToVisual(); // we do the opposite: we reset the slider value from the value property
     }
 
-    private final Property<Integer> maxProperty = new SimpleObjectProperty<>(100);
+    private final Property<Double> maxProperty = new SimpleObjectProperty<>(100d);
 
     @Override
-    public Property<Integer> maxProperty() {
+    public Property<Double> maxProperty() {
         return maxProperty;
     }
 
-    private final Property<Integer> minProperty = new SimpleObjectProperty<>(0);
+    private final Property<Double> minProperty = new SimpleObjectProperty<>(0d);
 
     @Override
-    public Property<Integer> minProperty() {
+    public Property<Double> minProperty() {
         return minProperty;
     }
 
-    private final Property<Integer> valueProperty = new SimpleObjectProperty<>(0);
+    private final Property<Double> valueProperty = new SimpleObjectProperty<>(0d);
 
     @Override
-    public Property<Integer> valueProperty() {
+    public Property<Double> valueProperty() {
         return valueProperty;
     }
 }

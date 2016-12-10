@@ -7,8 +7,8 @@ import javafx.beans.property.Property;
  */
 public interface HasMaxProperty {
 
-    Property<Integer> maxProperty();
-    default void setMax(Integer value) { maxProperty().setValue(value); }
-    default Integer getMax() { return maxProperty().getValue(); }
+    Property<Double> maxProperty();
+    default void setMax(Double value) { maxProperty().setValue(value); }
+    default Double getMax() { return maxProperty().getValue(); }
 
 }

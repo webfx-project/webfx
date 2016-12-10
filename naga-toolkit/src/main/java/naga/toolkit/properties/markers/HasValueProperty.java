@@ -7,8 +7,8 @@ import javafx.beans.property.Property;
  */
 public interface HasValueProperty {
 
-    Property<Integer> valueProperty();
-    default void setValue(Integer value) { valueProperty().setValue(value); }
-    default Integer getValue() { return valueProperty().getValue(); }
+    Property<Double> valueProperty();
+    default void setValue(Double value) { valueProperty().setValue(value); }
+    default Double getValue() { return valueProperty().getValue(); }
 
 }

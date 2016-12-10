@@ -73,15 +73,15 @@ public class UnimplementedNode implements
         return displaySelectionProperty;
     }
 
-    private Property<Integer> maxProperty = new SimpleObjectProperty<>();
+    private Property<Double> maxProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Integer> maxProperty() {
+    public Property<Double> maxProperty() {
         return maxProperty;
     }
 
-    private Property<Integer> minProperty = new SimpleObjectProperty<>();
+    private Property<Double> minProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Integer> minProperty() {
+    public Property<Double> minProperty() {
         return minProperty;
     }
 
@@ -109,9 +109,9 @@ public class UnimplementedNode implements
         return textProperty;
     }
 
-    private Property<Integer> valueProperty = new SimpleObjectProperty<>();
+    private Property<Double> valueProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<Integer> valueProperty() {
+    public Property<Double> valueProperty() {
         return valueProperty;
     }
 

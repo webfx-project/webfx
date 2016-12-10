@@ -2,7 +2,6 @@ package naga.providers.toolkit.javafx;
 
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
@@ -18,7 +17,6 @@ import naga.providers.toolkit.javafx.nodes.layouts.*;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
 import naga.toolkit.fx.spi.DrawingNode;
-import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.*;
 import naga.toolkit.spi.nodes.controls.*;
@@ -118,9 +116,5 @@ public class JavaFxToolkit extends Toolkit {
                 applicationWindow.setStage(primaryStage);
             executeReadyRunnables();
         }
-    }
-
-    public static ConvertedProperty<Integer, Number> numberToIntegerProperty(Property<Number> numberProperty) {
-        return new ConvertedProperty<>(numberProperty, Integer::doubleValue, Number::intValue);
     }
 }

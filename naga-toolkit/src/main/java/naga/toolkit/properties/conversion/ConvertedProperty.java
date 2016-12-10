@@ -64,4 +64,21 @@ public class ConvertedProperty<A, B> extends ConvertedObservableValue<A, B> impl
         System.out.println("ConvertedProperty.unbindBidirectional() not yet implemented");
         //TODO property.unbindBidirectional(new ConvertedProperty<>(other, bToAConverter, aToBConverter));
     }
+
+    public static ConvertedProperty<Integer, Number> numberToIntegerProperty(Property<Number> numberProperty) {
+        return new ConvertedProperty<>(numberProperty, Integer::doubleValue, Number::intValue);
+    }
+
+    public static ConvertedProperty<Integer, Double> doubleToIntegerProperty(Property<Double> doubleProperty) {
+        return new ConvertedProperty<>(doubleProperty, Integer::doubleValue, Double::intValue);
+    }
+
+    public static ConvertedProperty<Double, Number> numberToDoubleProperty(Property<Number> numberProperty) {
+        return new ConvertedProperty<>(numberProperty, Double::doubleValue, Number::doubleValue);
+    }
+
+    public static ConvertedProperty<Double, Integer> integerToDoubleProperty(Property<Integer> numberProperty) {
+        return new ConvertedProperty<>(numberProperty, Double::intValue, Integer::doubleValue);
+    }
+
 }

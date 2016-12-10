@@ -3,6 +3,7 @@ package mongoose.activities.backend.tester;
 import mongoose.activities.backend.tester.drive.Drive;
 import mongoose.activities.backend.tester.drive.model.ConnectionChartGenerator;
 import naga.framework.ui.presentation.PresentationActivity;
+import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.charts.LineChart;
 import naga.toolkit.spi.nodes.controls.Button;
@@ -51,12 +52,12 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
 //            pm.chartDisplayResultSetProperty().bind(connectionChartGenerator.connectionListProperty());
         });
         // Sliders
-        vm.getStartedSlider().setMin(0);
-        vm.getStartedSlider().setMax(3000);
-        vm.getRequestSlider().setMin(0);
-        vm.getRequestSlider().setMax(3000);
-        pm.requestedConnectionsProperty().bind(vm.getRequestSlider().valueProperty());
-        vm.getStartedSlider().valueProperty().bind(pm.startedConnectionsProperty());
+        vm.getStartedSlider().setMin(0d);
+        vm.getStartedSlider().setMax(3000d);
+        vm.getRequestSlider().setMin(0d);
+        vm.getRequestSlider().setMax(3000d);
+        pm.requestedConnectionsProperty().bind(ConvertedProperty.doubleToIntegerProperty(vm.getRequestSlider().valueProperty()));
+        vm.getStartedSlider().valueProperty().bind(ConvertedProperty.integerToDoubleProperty(pm.startedConnectionsProperty()));
 //        DisplayResultSet rs = new DisplayResultSet(6, new Object[]{"Europe", "NA", "Asia", "SA", "Oceania", "Africa", 1757, 597, 159, 127, 103, 21}, new DisplayColumn[]{new DisplayColumn("Continent", PrimType.STRING), new DisplayColumn("Nb", PrimType.INTEGER)});
 //        chart.setDisplayResultSet(rs);
         // Charts

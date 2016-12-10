@@ -3,7 +3,6 @@ package naga.providers.toolkit.javafx.nodes.gauges;
 import eu.hansolo.medusa.Gauge;
 import eu.hansolo.medusa.GaugeBuilder;
 import javafx.beans.property.Property;
-import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 
@@ -25,21 +24,21 @@ public class FxGauge extends FxNode<Gauge> implements naga.toolkit.spi.nodes.gau
     }
 
 
-    private ConvertedProperty<Integer, Number> valueProperty = JavaFxToolkit.numberToIntegerProperty(node.valueProperty());
+    private ConvertedProperty<Double, Number> valueProperty = ConvertedProperty.numberToDoubleProperty(node.valueProperty());
     @Override
-    public Property<Integer> valueProperty() {
+    public Property<Double> valueProperty() {
         return valueProperty;
     }
 
-    private ConvertedProperty<Integer, Number> minProperty = JavaFxToolkit.numberToIntegerProperty(node.minValueProperty());
+    private ConvertedProperty<Double, Number> minProperty = ConvertedProperty.numberToDoubleProperty(node.minValueProperty());
     @Override
-    public Property<Integer> minProperty() {
+    public Property<Double> minProperty() {
         return minProperty;
     }
 
-    private ConvertedProperty<Integer, Number> maxProperty = JavaFxToolkit.numberToIntegerProperty(node.maxValueProperty());
+    private ConvertedProperty<Double, Number> maxProperty = ConvertedProperty.numberToDoubleProperty(node.maxValueProperty());
     @Override
-    public Property<Integer> maxProperty() {
+    public Property<Double> maxProperty() {
         return maxProperty;
     }
 

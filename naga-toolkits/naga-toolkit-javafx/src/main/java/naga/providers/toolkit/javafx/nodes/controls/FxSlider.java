@@ -2,7 +2,6 @@ package naga.providers.toolkit.javafx.nodes.controls;
 
 import javafx.beans.property.Property;
 import javafx.scene.control.Slider;
-import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.nodes.FxNode;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 
@@ -29,21 +28,21 @@ public class FxSlider extends FxNode<Slider> implements naga.toolkit.spi.nodes.c
     }
 
 
-    private ConvertedProperty<Integer, Number> valueProperty = JavaFxToolkit.numberToIntegerProperty(node.valueProperty());
+    private ConvertedProperty<Double, Number> valueProperty = ConvertedProperty.numberToDoubleProperty(node.valueProperty());
     @Override
-    public Property<Integer> valueProperty() {
+    public Property<Double> valueProperty() {
         return valueProperty;
     }
 
-    private ConvertedProperty<Integer, Number> minProperty = JavaFxToolkit.numberToIntegerProperty(node.minProperty());
+    private ConvertedProperty<Double, Number> minProperty = ConvertedProperty.numberToDoubleProperty(node.minProperty());
     @Override
-    public Property<Integer> minProperty() {
+    public Property<Double> minProperty() {
         return minProperty;
     }
 
-    private ConvertedProperty<Integer, Number> maxProperty = JavaFxToolkit.numberToIntegerProperty(node.maxProperty());
+    private ConvertedProperty<Double, Number> maxProperty = ConvertedProperty.numberToDoubleProperty(node.maxProperty());
     @Override
-    public Property<Integer> maxProperty() {
+    public Property<Double> maxProperty() {
         return maxProperty;
     }
 

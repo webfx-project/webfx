@@ -69,29 +69,29 @@ public class GwtGauge extends GwtNode<SimpleLayoutPanel> implements Gauge {
     }
 
     private void syncValueToVisual() {
-        Integer value = getValue();
+        Double value = getValue();
         dataTable.setValue(0, 0, value == null ? 0 : value);
         gaugeWidget.draw(dataTable, options);
     }
 
-    private final Property<Integer> maxProperty = new SimpleObjectProperty<>();
+    private final Property<Double> maxProperty = new SimpleObjectProperty<>(100d);
 
     @Override
-    public Property<Integer> maxProperty() {
+    public Property<Double> maxProperty() {
         return maxProperty;
     }
 
-    private final Property<Integer> minProperty = new SimpleObjectProperty<>();
+    private final Property<Double> minProperty = new SimpleObjectProperty<>(0d);
 
     @Override
-    public Property<Integer> minProperty() {
+    public Property<Double> minProperty() {
         return minProperty;
     }
 
-    private final Property<Integer> valueProperty = new SimpleObjectProperty<>();
+    private final Property<Double> valueProperty = new SimpleObjectProperty<>(0d);
 
     @Override
-    public Property<Integer> valueProperty() {
+    public Property<Double> valueProperty() {
         return valueProperty;
     }
 }
