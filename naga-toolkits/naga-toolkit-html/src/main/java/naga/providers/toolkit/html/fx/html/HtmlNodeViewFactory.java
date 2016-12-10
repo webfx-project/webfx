@@ -4,6 +4,7 @@ import naga.providers.toolkit.html.fx.html.view.*;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
+import naga.toolkit.fx.scene.control.impl.SliderImpl;
 import naga.toolkit.fx.scene.control.impl.TextFieldImpl;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
 import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
@@ -36,6 +37,7 @@ class HtmlNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(FlowPaneImpl.class, HtmlLayoutView::new);
         registerNodeViewFactory(ButtonImpl.class, HtmlButtonView::new);
         registerNodeViewFactory(CheckBoxImpl.class, HtmlCheckBoxView::new);
+        registerNodeViewFactory(SliderImpl.class, HtmlSliderView::new);
         registerNodeViewFactory(TextFieldImpl.class, HtmlTextFieldView::new);
         registerNodeViewFactory(ImageViewImpl.class, HtmlImageViewView::new);
         registerNodeViewFactory(DataGridImpl.class, HtmlDataGridView::new);
