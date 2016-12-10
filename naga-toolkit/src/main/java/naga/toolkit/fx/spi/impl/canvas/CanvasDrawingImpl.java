@@ -6,7 +6,7 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
-import naga.toolkit.fx.spi.view.NodeViewFactory;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
@@ -16,16 +16,16 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class CanvasDrawingImpl
-        <NV extends CanvasNodeView<?, CC>, CC, GS>
+        <NV extends CanvasNodeViewer<?, CC>, CC, GS>
         extends DrawingImpl {
 
-    public CanvasDrawingImpl(DrawingNode drawingNode, NodeViewFactory nodeViewFactory) {
-        super(drawingNode, nodeViewFactory);
+    public CanvasDrawingImpl(DrawingNode drawingNode, NodeViewerFactory nodeViewerFactory) {
+        super(drawingNode, nodeViewerFactory);
     }
 
     @Override
-    protected void updateParentAndChildrenViews(Parent parent) {
-        super.updateParentAndChildrenViews(parent);
+    protected void updateParentAndChildrenViewers(Parent parent) {
+        super.updateParentAndChildrenViewers(parent);
         requestCanvasRepaint();
     }
 
@@ -53,7 +53,7 @@ public abstract class CanvasDrawingImpl
 
     public void paintNode(Node node, CC canvasContext) {
         if (node.isVisible()) {
-            NV nodeView = (NV) getOrCreateAndBindNodeView(node);
+            NV nodeView = (NV) getOrCreateAndBindNodeViewer(node);
             paintNodeView(nodeView, canvasContext);
             if (node instanceof Parent)
                 paintNodes(((Parent) node).getChildren(), canvasContext);
@@ -94,7 +94,7 @@ public abstract class CanvasDrawingImpl
                 return pickResult;
         }
         // Otherwise we ask its view if it contains the point and return this node if this is the case
-        NV nodeView = (NV) getOrCreateAndBindNodeView(node);
+        NV nodeView = (NV) getOrCreateAndBindNodeViewer(node);
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 

@@ -2,11 +2,11 @@ package naga.providers.toolkit.javafx.fx;
 
 import javafx.collections.ObservableList;
 import javafx.scene.layout.Region;
-import naga.providers.toolkit.javafx.fx.view.FxNodeView;
+import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
-import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.util.ObservableLists;
 
 import java.lang.reflect.Method;
@@ -17,12 +17,12 @@ import java.lang.reflect.Method;
 class FxDrawing extends DrawingImpl {
 
     FxDrawing(FxDrawingNode fxDrawingNode) {
-        super(fxDrawingNode, FxNodeViewFactory.SINGLETON);
+        super(fxDrawingNode, FxNodeViewerFactory.SINGLETON);
     }
 
     @Override
-    protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
-        super.createAndBindRootNodeViewAndChildren(rootNode);
+    protected void createAndBindRootNodeViewerAndChildren(Node rootNode) {
+        super.createAndBindRootNodeViewerAndChildren(rootNode);
         Region fxParent = ((FxDrawingNode) drawingNode).unwrapToNativeNode();
         try {
             Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
@@ -35,7 +35,7 @@ class FxDrawing extends DrawingImpl {
     }
 
     @Override
-    protected void updateParentAndChildrenViews(Parent parent) {
+    protected void updateParentAndChildrenViewers(Parent parent) {
         javafx.scene.Parent fxParent = (javafx.scene.Parent) getFxNode(parent);
         try {
             Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
@@ -48,9 +48,9 @@ class FxDrawing extends DrawingImpl {
     }
 
     private javafx.scene.Node getFxNode(Node node) {
-        NodeView nodeView = getOrCreateAndBindNodeView(node);
-        if (nodeView instanceof FxNodeView) // Should be a FxNodeView
-            return((FxNodeView) nodeView).getFxNode();
+        NodeViewer nodeViewer = getOrCreateAndBindNodeViewer(node);
+        if (nodeViewer instanceof FxNodeViewer) // Should be a FxNodeViewer
+            return((FxNodeViewer) nodeViewer).getFxNode();
         return null; // Shouldn't happen...
     }
 }

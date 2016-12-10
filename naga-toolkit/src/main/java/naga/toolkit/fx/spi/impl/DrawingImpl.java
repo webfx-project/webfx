@@ -16,8 +16,8 @@ import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
 import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.view.NodeView;
-import naga.toolkit.fx.spi.view.NodeViewFactory;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.ObservableLists;
@@ -31,7 +31,7 @@ import java.util.Collection;
 public abstract class DrawingImpl implements Drawing {
 
     protected final DrawingNode drawingNode;
-    private NodeViewFactory nodeViewFactory;
+    private NodeViewerFactory nodeViewerFactory;
     private final Property<Node> rootNodeProperty = new SimpleObjectProperty<Node>() {
         // Temporary code to automatically assume the following behaviour:
         // - the root node width is bound to the drawing node width
@@ -60,7 +60,7 @@ public abstract class DrawingImpl implements Drawing {
 
         @Override
         public void requestParentAndChildrenViewsUpdate(Parent parent) {
-            updateParentAndChildrenViews(parent);
+            updateParentAndChildrenViewers(parent);
         }
 
         @Override
@@ -74,92 +74,92 @@ public abstract class DrawingImpl implements Drawing {
         }
     };
 
-    protected DrawingImpl(DrawingNode drawingNode, NodeViewFactory nodeViewFactory) {
+    protected DrawingImpl(DrawingNode drawingNode, NodeViewerFactory nodeViewerFactory) {
         this.drawingNode = drawingNode;
-        this.nodeViewFactory = nodeViewFactory;
-        Properties.runOnPropertiesChange(nodeProperty -> createAndBindRootNodeViewAndChildren(getRootNode()), rootNodeProperty());
+        this.nodeViewerFactory = nodeViewerFactory;
+        Properties.runOnPropertiesChange(nodeProperty -> createAndBindRootNodeViewerAndChildren(getRootNode()), rootNodeProperty());
     }
 
-    public void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
+    public void setNodeViewerFactory(NodeViewerFactory nodeViewerFactory) {
 /*
-        if (this.nodeViewFactory != null) {
-            Collections.forEach(nodeViews.values(), NodeView::unbind);
+        if (this.nodeViewerFactory != null) {
+            Collections.forEach(nodeViews.values(), NodeViewer::unbind);
             nodeViews.clear();
         }
 */
-        this.nodeViewFactory = nodeViewFactory;
+        this.nodeViewerFactory = nodeViewerFactory;
     }
 
-    void keepParentAndChildrenViewsUpdated(Parent parent) {
+    private void keepParentAndChildrenViewersUpdated(Parent parent) {
         ObservableLists.runNowAndOnListChange(() -> {
             // Setting the parent to all children
             for (Node child : parent.getChildren())
                 child.setParent(parent);
-            updateParentAndChildrenViews(parent);
+            updateParentAndChildrenViewers(parent);
         }, parent.getChildren());
     }
 
-    protected void updateParentAndChildrenViews(Parent parent) {
-        updateChildrenViews(parent.getChildren());
+    protected void updateParentAndChildrenViewers(Parent parent) {
+        updateChildrenViewers(parent.getChildren());
     }
 
     protected boolean updateViewProperty(Node node, Property changedProperty) {
-        return updateViewProperty(getOrCreateAndBindNodeView(node), changedProperty);
+        return updateViewProperty(getOrCreateAndBindNodeViewer(node), changedProperty);
     }
 
-    private boolean updateViewProperty(NodeView nodeView, Property changedProperty) {
-        return nodeView.updateProperty(changedProperty);
+    private boolean updateViewProperty(NodeViewer nodeViewer, Property changedProperty) {
+        return nodeViewer.updateProperty(changedProperty);
     }
 
     private boolean updateViewList(Node node, ObservableList changedList) {
-        return updateViewList(getOrCreateAndBindNodeView(node), changedList);
+        return updateViewList(getOrCreateAndBindNodeViewer(node), changedList);
     }
 
-    private boolean updateViewList(NodeView nodeView, ObservableList changedList) {
-        return nodeView.updateList(changedList);
+    private boolean updateViewList(NodeViewer nodeViewer, ObservableList changedList) {
+        return nodeViewer.updateList(changedList);
     }
 
-    private void updateChildrenViews(Collection<Node> nodes) {
-        Collections.forEach(nodes, this::createAndBindNodeViewAndChildren);
+    private void updateChildrenViewers(Collection<Node> nodes) {
+        Collections.forEach(nodes, this::createAndBindNodeViewerAndChildren);
     }
 
-    protected void createAndBindRootNodeViewAndChildren(Node rootNode) {
-        createAndBindNodeViewAndChildren(rootNode);
+    protected void createAndBindRootNodeViewerAndChildren(Node rootNode) {
+        createAndBindNodeViewerAndChildren(rootNode);
     }
 
-    private void createAndBindNodeViewAndChildren(Node node) {
-        NodeView nodeView = getOrCreateAndBindNodeView(node);
-        if (nodeView instanceof Parent)
-            updateChildrenViews(((Parent) nodeView).getChildren());
+    private void createAndBindNodeViewerAndChildren(Node node) {
+        NodeViewer nodeViewer = getOrCreateAndBindNodeViewer(node);
+        if (nodeViewer instanceof Parent)
+            updateChildrenViewers(((Parent) nodeViewer).getChildren());
     }
 
-    public NodeView getOrCreateAndBindNodeView(Node node) {
-        NodeView nodeView = node.getNodeView();
-        if (nodeView == null) {
+    public NodeViewer getOrCreateAndBindNodeViewer(Node node) {
+        NodeViewer nodeViewer = node.getNodeViewer();
+        if (nodeViewer == null) {
             NodeImpl nodeImpl = (NodeImpl) node;
             nodeImpl.setDrawing(this);
-            nodeImpl.setNodeView(nodeView = createNodeView(node));
-            if (nodeView == null) // The node view factory was unable to create a view for this node!
-                nodeImpl.setNodeView(nodeView = createUnimplementedNodeView(node)); // Displaying a "Unimplemented..." button instead
+            nodeImpl.setNodeViewer(nodeViewer = createNodeViewer(node));
+            if (nodeViewer == null) // The node view factory was unable to create a view for this node!
+                nodeImpl.setNodeViewer(nodeViewer = createUnimplementedNodeViewer(node)); // Displaying a "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
-                nodeView.bind(node, drawingRequester);
+                nodeViewer.bind(node, drawingRequester);
                 if (node instanceof Parent && !(node instanceof Control)) {
                     Parent parent = (Parent) node;
-                    keepParentAndChildrenViewsUpdated(parent);
+                    keepParentAndChildrenViewersUpdated(parent);
                 }
             }
             if (!isPulseRunning() && isPulseRequiredForNode(node))
                 startPulse();
         }
-        return nodeView;
+        return nodeViewer;
     }
 
 
-    protected NodeView<Node> createNodeView(Node node) {
-        return nodeViewFactory.createNodeView(node);
+    protected NodeViewer<Node> createNodeViewer(Node node) {
+        return nodeViewerFactory.createNodeViewer(node);
     }
 
-    private NodeView createUnimplementedNodeView(Node node) {
+    private NodeViewer createUnimplementedNodeViewer(Node node) {
         // Creating a button as replacement (assuming the target toolkit at least implements a button view!)
         Button button = Button.create("Unimplemented " + Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " view");
         // Binding to allow the button to respond to the original node layout
@@ -169,7 +169,7 @@ public abstract class DrawingImpl implements Drawing {
             button.widthProperty().bind(((HasWidthProperty) node).widthProperty());
         if (node instanceof HasHeightProperty)
             button.heightProperty().bind(((HasHeightProperty) node).heightProperty());
-        return getOrCreateAndBindNodeView(button); // Finally retuning the button view
+        return getOrCreateAndBindNodeViewer(button); // Finally retuning the button view
     }
 
     protected boolean isRootNode(Node node) {

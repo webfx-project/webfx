@@ -22,7 +22,7 @@ import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
 import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
-import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
@@ -196,21 +196,20 @@ public abstract class NodeImpl implements Node {
         return properties != null && !properties.isEmpty();
     }
 
-    private NodeView nodeView;
+    private NodeViewer nodeViewer;
 
-    @Override
-    public NodeView getNodeView() {
-        return nodeView;
+    public NodeViewer getNodeViewer() {
+        return nodeViewer;
     }
 
     @Override
-    public NodeView getOrCreateAndBindNodeView() {
-        return drawing.getOrCreateAndBindNodeView(this);
+    public NodeViewer getOrCreateAndBindNodeViewer() {
+        return drawing.getOrCreateAndBindNodeViewer(this);
     }
 
-    public void setNodeView(NodeView nodeView) {
-        this.nodeView = nodeView;
-        createLayoutMeasurable(nodeView);
+    public void setNodeViewer(NodeViewer nodeViewer) {
+        this.nodeViewer = nodeViewer;
+        createLayoutMeasurable(nodeViewer);
     }
 
     private DrawingImpl drawing;

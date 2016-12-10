@@ -1,10 +1,10 @@
 package naga.providers.toolkit.swing.fx;
 
-import naga.providers.toolkit.swing.fx.view.SwingLayoutMeasurable;
-import naga.providers.toolkit.swing.fx.view.SwingNodeView;
+import naga.providers.toolkit.swing.fx.viewer.SwingLayoutMeasurable;
+import naga.providers.toolkit.swing.fx.viewer.SwingNodeViewer;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
-import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +12,10 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-class SwingDrawing extends CanvasDrawingImpl<SwingNodeView<?, ?, ?>, Graphics2D, SwingGraphicState> {
+class SwingDrawing extends CanvasDrawingImpl<SwingNodeViewer<?, ?, ?>, Graphics2D, SwingGraphicState> {
 
     SwingDrawing(SwingDrawingNode drawingNode) {
-        super(drawingNode, SwingNodeViewFactory.SINGLETON);
+        super(drawingNode, SwingNodeViewerFactory.SINGLETON);
     }
 
     @Override
@@ -36,14 +36,14 @@ class SwingDrawing extends CanvasDrawingImpl<SwingNodeView<?, ?, ?>, Graphics2D,
     }
 
     @Override
-    protected NodeView<Node> createNodeView(Node node) {
-        NodeView<Node> nodeView = super.createNodeView(node);
+    protected NodeViewer<Node> createNodeViewer(Node node) {
+        NodeViewer<Node> nodeViewer = super.createNodeViewer(node);
         // SwingLayoutMeasurable components must be added to the Swing structure so they can report correct layout measures
-        if (nodeView instanceof SwingLayoutMeasurable) {
-            JComponent swingComponent = ((SwingLayoutMeasurable) nodeView).getSwingComponent();
+        if (nodeViewer instanceof SwingLayoutMeasurable) {
+            JComponent swingComponent = ((SwingLayoutMeasurable) nodeViewer).getSwingComponent();
             ((JComponent) drawingNode.unwrapToNativeNode()).add(swingComponent);
             // But they won't be displayed by Swing (they will be painted by the canvas) - See SwingDrawingNode.DrawingPanel.paintChildren()
         }
-        return nodeView;
+        return nodeViewer;
     }
 }

@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.impl.canvas;
 
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.geom.Point2D;
-import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
 
 /**
  * @author Bruno Salmon
@@ -10,12 +10,12 @@ import naga.toolkit.fx.spi.view.NodeView;
 public class PickResult {
 
     private final Node node;
-    private final NodeView nodeView;
+    private final NodeViewer nodeViewer;
     private final Point2D nodeLocalPoint; // expressed in the node coordinates space - ie without transformation
 
-    PickResult(Node node, NodeView nodeView, Point2D nodeLocalPoint) {
+    PickResult(Node node, NodeViewer nodeViewer, Point2D nodeLocalPoint) {
         this.node = node;
-        this.nodeView = nodeView;
+        this.nodeViewer = nodeViewer;
         this.nodeLocalPoint = nodeLocalPoint;
     }
 
@@ -23,8 +23,8 @@ public class PickResult {
         return node;
     }
 
-    public NodeView getNodeView() {
-        return nodeView;
+    public NodeViewer getNodeViewer() {
+        return nodeViewer;
     }
 
     public Point2D getNodeLocalPoint() {

@@ -8,7 +8,7 @@ import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.DrawingNode;
-import naga.toolkit.fx.spi.view.NodeViewFactory;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.ActionEvent;
@@ -178,6 +178,6 @@ public class UnimplementedNode implements
         return rootDrawableProperty;
     }
 
-    public void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
+    public void setNodeViewerFactory(NodeViewerFactory nodeViewerFactory) {
     }
 }

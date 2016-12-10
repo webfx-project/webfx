@@ -6,7 +6,7 @@ import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.geometry.Orientation;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.spi.Drawing;
-import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.properties.markers.*;
 
 import java.util.Collection;
@@ -94,8 +94,8 @@ public interface Node extends
 
     Drawing getDrawing();
 
-    NodeView getNodeView();
+    NodeViewer getNodeViewer();
 
-    NodeView getOrCreateAndBindNodeView();
+    NodeViewer getOrCreateAndBindNodeViewer();
 
 }

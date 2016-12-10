@@ -2,14 +2,14 @@ package naga.toolkit.fx.spi;
 
 import javafx.beans.property.Property;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.view.NodeViewFactory;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 
 /**
  * @author Bruno Salmon
  */
 public interface Drawing {
 
-    void setNodeViewFactory(NodeViewFactory nodeViewFactory);
+    void setNodeViewerFactory(NodeViewerFactory nodeViewerFactory);
 
     Property<Node> rootNodeProperty();
     default void setRootNode(Node rootNode) {

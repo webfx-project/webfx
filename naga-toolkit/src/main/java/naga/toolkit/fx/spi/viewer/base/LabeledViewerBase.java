@@ -1,0 +1,33 @@
+package naga.toolkit.fx.spi.viewer.base;
+
+import javafx.beans.property.Property;
+import naga.toolkit.fx.scene.control.Labeled;
+import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.spi.viewer.LabeledViewer;
+
+/**
+ * @author Bruno Salmon
+ */
+public abstract class LabeledViewerBase
+        <N extends Labeled, NV extends LabeledViewerBase<N, NV, NM>, NM extends LabeledViewerMixin<N, NV, NM>>
+
+        extends ControlViewerBase<N, NV, NM>
+        implements LabeledViewer<N> {
+
+    @Override
+    public void bind(N labeled, DrawingRequester drawingRequester) {
+        super.bind(labeled, drawingRequester);
+        requestUpdateOnPropertiesChange(drawingRequester,
+                node.textProperty(),
+                node.imageProperty());
+    }
+
+    @Override
+    public boolean updateProperty(Property changedProperty) {
+        N c = getNode();
+        return super.updateProperty(changedProperty)
+                || updateProperty(c.textProperty(), changedProperty, mixin::updateText)
+                //|| updateProperty(c.imageProperty(), changedProperty, mixin::updateImage)
+                ;
+    }
+}

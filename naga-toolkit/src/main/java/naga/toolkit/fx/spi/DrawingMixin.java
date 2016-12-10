@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi;
 
 import javafx.beans.property.Property;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.view.NodeViewFactory;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 
 /**
  * @author Bruno Salmon
@@ -11,8 +11,8 @@ public interface DrawingMixin extends Drawing {
 
     Drawing getDrawing();
 
-    default void setNodeViewFactory(NodeViewFactory nodeViewFactory) {
-        getDrawing().setNodeViewFactory(nodeViewFactory);
+    default void setNodeViewerFactory(NodeViewerFactory nodeViewerFactory) {
+        getDrawing().setNodeViewerFactory(nodeViewerFactory);
     }
 
     @Override

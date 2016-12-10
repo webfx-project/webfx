@@ -3,7 +3,7 @@ package naga.providers.toolkit.swing.fx;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
-import naga.providers.toolkit.swing.fx.view.SwingEmbedComponentView;
+import naga.providers.toolkit.swing.fx.viewer.SwingEmbedComponentViewer;
 import naga.providers.toolkit.swing.nodes.SwingNode;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.Node;
@@ -11,7 +11,7 @@ import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.DrawingMixin;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.impl.canvas.PickResult;
-import naga.toolkit.fx.spi.view.NodeView;
+import naga.toolkit.fx.spi.viewer.NodeViewer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -164,9 +164,9 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                         Node node = pickResult.getNode();
                         if (eventId == MouseEvent.MOUSE_CLICKED && node.getOnMouseClicked() != null)
                             node.getOnMouseClicked().handle(new SwingMouseEvent(e));
-                        NodeView nodeView = pickResult.getNodeView();
-                        if (nodeView instanceof SwingEmbedComponentView)
-                            embedTarget = ((SwingEmbedComponentView) nodeView).getSwingComponent();
+                        NodeViewer nodeViewer = pickResult.getNodeViewer();
+                        if (nodeViewer instanceof SwingEmbedComponentViewer)
+                            embedTarget = ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();
                     }
                 }
                 int x, y;
