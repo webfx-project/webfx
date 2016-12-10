@@ -512,6 +512,7 @@ public class ReactiveExpressionFilter {
         }
 
         DisplayResultSet emptyDisplayResultSet() {
+            columnsPersistentTerms = null; // Some expressions may have not been parsed (for any reason) so forcing collectColumnsPersistentTerms() re-computation
             return entitiesListToDisplayResultSet(EntityList.create(listId, store));
         }
 
@@ -519,9 +520,9 @@ public class ReactiveExpressionFilter {
         List<Expression> collectColumnsPersistentTerms() {
             if (columnsPersistentTerms == null) {
                 columnsPersistentTerms = new ArrayList<>();
-                DomainModel domainModel = dataSourceModel.getDomainModel();
                 if (expressionColumns != null)
                     try {
+                        DomainModel domainModel = dataSourceModel.getDomainModel();
                         ThreadLocalReferenceResolver.pushReferenceResolver(getRootAliasReferenceResolver());
                         // Now that the ReferenceResolver is ready, we can parse the expression columns
                         for (ExpressionColumn expressionColumn : expressionColumns) {
