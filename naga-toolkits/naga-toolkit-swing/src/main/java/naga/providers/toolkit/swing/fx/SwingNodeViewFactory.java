@@ -5,6 +5,7 @@ import naga.toolkit.fx.ext.chart.impl.LineChartImpl;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
+import naga.toolkit.fx.scene.control.impl.SliderImpl;
 import naga.toolkit.fx.scene.control.impl.TextFieldImpl;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
 import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
@@ -38,6 +39,7 @@ class SwingNodeViewFactory extends NodeViewFactoryImpl {
         registerNodeViewFactory(ButtonImpl.class, SwingButtonView::new);
         registerNodeViewFactory(TextFieldImpl.class, SwingTextFieldView::new);
         registerNodeViewFactory(CheckBoxImpl.class, SwingCheckBoxView::new);
+        registerNodeViewFactory(SliderImpl.class, SwingSliderView::new);
         registerNodeViewFactory(ImageViewImpl.class, SwingImageViewView::new);
         registerNodeViewFactory(DataGridImpl.class, SwingDataGridView::new);
         registerNodeViewFactory(LineChartImpl.class, SwingLineChartView::new);
