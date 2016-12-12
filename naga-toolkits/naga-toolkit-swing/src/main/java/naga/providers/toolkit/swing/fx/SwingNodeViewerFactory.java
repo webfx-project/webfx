@@ -3,6 +3,7 @@ package naga.providers.toolkit.swing.fx;
 import naga.providers.toolkit.swing.fx.viewer.*;
 import naga.toolkit.fx.ext.chart.impl.LineChartImpl;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
+import naga.toolkit.fx.ext.impl.HtmlTextImpl;
 import naga.toolkit.fx.scene.control.impl.*;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
 import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
@@ -35,6 +36,7 @@ class SwingNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(FlowPaneImpl.class, SwingLayoutViewer::new);
         registerNodeViewerFactory(ButtonImpl.class, SwingButtonViewer::new);
         registerNodeViewerFactory(TextFieldImpl.class, SwingTextFieldViewer::new);
+        registerNodeViewerFactory(HtmlTextImpl.class, SwingHtmlTextViewer::new);
         registerNodeViewerFactory(CheckBoxImpl.class, SwingCheckBoxViewer::new);
         registerNodeViewerFactory(RadioButtonImpl.class, SwingRadioButtonViewer::new);
         registerNodeViewerFactory(SliderImpl.class, SwingSliderViewer::new);
