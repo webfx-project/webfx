@@ -3,6 +3,7 @@ package naga.providers.toolkit.javafx.fx;
 import naga.providers.toolkit.javafx.fx.viewer.*;
 import naga.toolkit.fx.ext.chart.impl.*;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
+import naga.toolkit.fx.ext.impl.HtmlTextImpl;
 import naga.toolkit.fx.scene.control.impl.*;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
 import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
@@ -38,6 +39,7 @@ class FxNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(RadioButtonImpl.class, FxRadioButtonViewer::new);
         registerNodeViewerFactory(TextFieldImpl.class, FxTextFieldViewer::new);
         registerNodeViewerFactory(ImageViewImpl.class, FxImageViewViewer::new);
+        registerNodeViewerFactory(HtmlTextImpl.class, FxHtmlTextViewer::new);
         registerNodeViewerFactory(SliderImpl.class, FxSliderViewer::new);
         registerNodeViewerFactory(DataGridImpl.class, FxDataGridViewer::new);
         registerNodeViewerFactory(AreaChartImpl.class, FxAreaChartViewer::new);
