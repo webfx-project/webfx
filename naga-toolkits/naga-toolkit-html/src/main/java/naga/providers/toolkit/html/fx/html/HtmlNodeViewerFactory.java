@@ -2,6 +2,7 @@ package naga.providers.toolkit.html.fx.html;
 
 import naga.providers.toolkit.html.fx.html.viewer.*;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
+import naga.toolkit.fx.ext.impl.HtmlTextImpl;
 import naga.toolkit.fx.scene.control.impl.*;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
 import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
@@ -37,6 +38,7 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(RadioButtonImpl.class, HtmlRadioButtonViewer::new);
         registerNodeViewerFactory(SliderImpl.class, HtmlSliderViewer::new);
         registerNodeViewerFactory(TextFieldImpl.class, HtmlTextFieldViewer::new);
+        registerNodeViewerFactory(HtmlTextImpl.class, HtmlHtmlTextViewer::new);
         registerNodeViewerFactory(ImageViewImpl.class, HtmlImageViewViewer::new);
         registerNodeViewerFactory(DataGridImpl.class, HtmlDataGridViewer::new);
     }
