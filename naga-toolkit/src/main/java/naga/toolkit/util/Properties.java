@@ -2,6 +2,7 @@ package naga.toolkit.util;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Func2;
 import naga.commons.util.function.Predicate;
@@ -12,13 +13,13 @@ import naga.toolkit.spi.Toolkit;
  */
 public class Properties {
 
-    public static void runNowAndOnPropertiesChange(Consumer<Property> runnable, Property... properties) {
+    public static void runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
         runnable.accept(null);
         runOnPropertiesChange(runnable, properties);
     }
 
-    public static void runOnPropertiesChange(Consumer<Property> runnable, Property... properties) {
-        for (Property property : properties)
+    public static void runOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
+        for (ObservableValue property : properties)
             property.addListener((observable, oldValue, newValue) -> runnable.accept(property));
     }
 
@@ -40,5 +41,10 @@ public class Properties {
 
     public static <T> void consumeInUiThread(Property<T> property, Consumer<T> consumer) {
         consume(property, arg -> Toolkit.get().scheduler().scheduleDeferred(() -> consumer.accept(arg)));
+    }
+
+    public static <T> void safeSetProperty(Property<T> property, T value) {
+        if (!property.isBound())
+            property.setValue(value);
     }
 }
