@@ -15,6 +15,7 @@ import java.util.WeakHashMap;
 public final class SwingImageStore {
 
     private static final Map<String, Image> imageCache = new WeakHashMap<>();
+    private static final Map<String, Icon> iconCache = new WeakHashMap<>();
 
     private static Image getImage(String url) {
         if (url == null)
@@ -32,9 +33,13 @@ public final class SwingImageStore {
     }
 
     public static Icon getIcon(String url, int width, int height) {
+        Icon icon = iconCache.get(url);
+        if (icon != null && (width == 0 || icon.getIconWidth() == width) && (height == 0 || icon.getIconHeight() == height))
+            return icon;
         if (url != null && url.endsWith(".svg"))
             try (InputStream is = SwingImageStore.class.getClassLoader().getResourceAsStream(url)) {
-                return new BatikSvgIcon(is, width, height);
+                iconCache.put(url, icon = new BatikSvgIcon(is, width, height));
+                return icon;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
