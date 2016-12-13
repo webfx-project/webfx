@@ -9,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
 import naga.providers.toolkit.javafx.util.FxImageStore;
@@ -107,9 +106,18 @@ public class FxDataGridViewer
                 Toolkit.get().scheduler().scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
             }
             // Workaround to make the table height fit with its content if it is not within a BorderPane
-            if (!(tableView.getParent() instanceof BorderPane))
+            if (!(getNode().getParent() instanceof naga.toolkit.fx.scene.layout.BorderPane)) {
                 fitHeightToContent(tableView);
+                addStylesheet("css/tableview-no-vertical-scrollbar.css");
+                addStylesheet("css/tableview-no-horizontal-scrollbar.css");
+            }
         }
+    }
+
+    private void addStylesheet(String css) {
+        ObservableList<String> stylesheets = getFxNode().getStylesheets();
+        if (!stylesheets.contains(css))
+            stylesheets.add(css);
     }
 
     private static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet rs) {
@@ -125,11 +133,6 @@ public class FxDataGridViewer
         gridColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();
         if (prefWidth != null) {
-/*
-            // Applying same prefWidth transformation as the PolymerTable
-            if (label.getText() != null)
-                prefWidth = prefWidth * 2.75;
-*/
             prefWidth = prefWidth + 10; // because of the 5px left and right padding
             gridColumn.setPrefWidth(prefWidth);
             gridColumn.setMinWidth(prefWidth);
