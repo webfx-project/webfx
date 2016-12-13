@@ -2,12 +2,12 @@ package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.providers.toolkit.swing.util.JGradientLabel;
 import naga.providers.toolkit.swing.util.StyleUtil;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.ext.cell.renderer.ImageTextRenderer;
 import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 import naga.toolkit.fx.ext.control.DataGrid;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.text.TextAlignment;
@@ -61,6 +61,12 @@ public class SwingDataGridViewer
     @Override
     public JComponent getSwingComponent() {
         return scrollPane;
+    }
+
+    // Adjusted the pref height to fit the table height (body + header + extra pixels)
+    @Override
+    public double prefHeight(double width) {
+        return table.getPreferredSize().getHeight() + table.getTableHeader().getHeight() + 2;
     }
 
     @Override
