@@ -5,6 +5,7 @@ import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.impl.NodeImpl;
@@ -19,8 +20,11 @@ import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerMixin;
+import naga.toolkit.properties.markers.HasHeightProperty;
+import naga.toolkit.properties.markers.HasWidthProperty;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
+import naga.toolkit.util.Properties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -127,14 +131,18 @@ public abstract class SwingNodeViewer
         return toSwingComponent(getNode(), getNode().getDrawing(), null);
     }
 
-    protected static JComponent toSwingComponent(Node node, Drawing drawing, TextAlignment textAlignment) {
+    public static JComponent toSwingComponent(Node node) {
+        return node == null ? null : toSwingComponent(node, node.getDrawing(), null);
+    }
+
+    static JComponent toSwingComponent(Node node, Drawing drawing, TextAlignment textAlignment) {
         NodeImpl renderedNode = (NodeImpl) node;
         CanvasDrawingImpl canvasDrawing = (CanvasDrawingImpl) drawing;
         renderedNode.setDrawing(canvasDrawing);
-        NodeViewer renderedView = renderedNode.getOrCreateAndBindNodeViewer();
-        if (renderedView instanceof SwingEmbedComponentViewer)
-            return ((SwingEmbedComponentViewer) renderedView).getSwingComponent();
-        if (renderedView instanceof SwingShapeViewer) {
+        NodeViewer nodeViewer = renderedNode.getOrCreateAndBindNodeViewer();
+        if (nodeViewer instanceof SwingEmbedComponentViewer)
+            return ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();
+        if (nodeViewer instanceof SwingShapeViewer) {
             return new JGradientLabel() {
                 @Override
                 protected void paintComponent(Graphics g) {
@@ -151,6 +159,26 @@ public abstract class SwingNodeViewer
                 }
             };
         }
+        if (nodeViewer instanceof SwingLayoutViewer) {
+            // The reason to ask a Swing component for a Layout viewer is probably to paint it inside a table cell
+            return new JComponent() {
+                @Override
+                protected void paintChildren(Graphics g) {
+                    fitNodeSizeToSwingComponentAndLayout(node, this);
+                    canvasDrawing.paintNode(node, g);
+                }
+            };
+        }
         return null;
+    }
+
+    private static JComponent fitNodeSizeToSwingComponentAndLayout(Node node, JComponent component) {
+        if (node instanceof HasWidthProperty)
+            Properties.safeSetProperty(((HasWidthProperty) node).widthProperty(), (double) component.getWidth());
+        if (node instanceof HasHeightProperty)
+            Properties.safeSetProperty(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
+        if (node instanceof Parent)
+            ((Parent) node).layout();
+        return component;
     }
 }
