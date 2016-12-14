@@ -14,7 +14,7 @@ class GradientUtil {
 
     static void paintVerticalGradient(JComponent c, Graphics g, boolean selected) {
         Color baseColor = c.getBackground();
-        if (baseColor == Color.WHITE) {
+        if (baseColor == Color.WHITE || baseColor == null) {
             if (selected)
                 paintGradient(c, g, (Paint) SELECTION_GRADIENT);
         } else if (selected)

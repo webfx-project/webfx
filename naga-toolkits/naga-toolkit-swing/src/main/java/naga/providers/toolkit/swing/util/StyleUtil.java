@@ -21,6 +21,8 @@ public class StyleUtil {
     private static final Font font = SwingImageStore.getFont(fontStartPath + "-Regular.ttf").deriveFont(fontSize);
 
     public static void styleCellComponent(Component cellComponent, String rowStyle, boolean header, String textAlign, boolean selected) {
+        if (cellComponent == null)
+            return;
         JComponent jComponent = cellComponent instanceof JComponent ? (JComponent) cellComponent : null;
         if (jComponent != null)
             jComponent.setBorder(header ? cellHeaderBorder : cellPaddingBorder);
