@@ -16,7 +16,7 @@ public class FxButtonViewer
     }
 
     @Override
-    javafx.scene.control.Button createFxNode() {
+    protected  javafx.scene.control.Button createFxNode() {
         return new javafx.scene.control.Button();
     }
 }

@@ -16,7 +16,7 @@ public class FxLineChartViewer
     }
 
     @Override
-    javafx.scene.chart.LineChart createFxNode() {
+    protected javafx.scene.chart.LineChart createFxNode() {
         javafx.scene.chart.LineChart lineChart = new javafx.scene.chart.LineChart(createNumberAxis(), createNumberAxis());
         lineChart.setCreateSymbols(false);
         return lineChart;

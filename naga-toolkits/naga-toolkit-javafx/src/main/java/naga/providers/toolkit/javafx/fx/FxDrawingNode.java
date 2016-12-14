@@ -14,7 +14,7 @@ import naga.toolkit.fx.spi.DrawingNode;
  */
 public class FxDrawingNode extends FxNode<Node> implements DrawingNode, DrawingMixin {
 
-    private final Drawing drawing;
+    private final FxDrawing drawing;
 
     public FxDrawingNode() {
         this(new BorderPane());
@@ -22,12 +22,16 @@ public class FxDrawingNode extends FxNode<Node> implements DrawingNode, DrawingM
 
     public FxDrawingNode(Node node) {
         super(node);
-        drawing = new FxDrawing(this);
+        this.drawing = createDrawing();
         //widthProperty.bind(node.widthProperty());
 /*
         node.widthProperty().addListener((observable, oldValue, newWidth) -> widthProperty.setValue(newWidth.doubleValue()));
         node.heightProperty().addListener((observable, oldValue, newWidth) -> widthProperty.setValue(newWidth.doubleValue()));
 */
+    }
+
+    protected FxDrawing createDrawing() {
+        return new FxDrawing(this);
     }
 
     private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);

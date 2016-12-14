@@ -18,7 +18,7 @@ public class FxEmbedGuiNodeViewer
     }
 
     @Override
-    Node createFxNode() {
+    protected Node createFxNode() {
         return getNode().getGuiNode().unwrapToNativeNode();
     }
 }

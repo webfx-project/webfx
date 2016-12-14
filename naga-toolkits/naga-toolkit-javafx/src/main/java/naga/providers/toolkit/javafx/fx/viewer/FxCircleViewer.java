@@ -16,7 +16,7 @@ public class FxCircleViewer
     }
 
     @Override
-    javafx.scene.shape.Circle createFxNode() {
+    protected javafx.scene.shape.Circle createFxNode() {
         return new javafx.scene.shape.Circle();
     }
 

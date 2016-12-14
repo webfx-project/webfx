@@ -26,7 +26,7 @@ public class FxHtmlTextViewer
     }
 
     @Override
-    FxN createFxNode() {
+    protected FxN createFxNode() {
         return (FxN) webView;
     }
 

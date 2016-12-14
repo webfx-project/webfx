@@ -16,7 +16,7 @@ public class FxLayoutViewer
     }
 
     @Override
-    javafx.scene.layout.Region createFxNode() {
+    protected javafx.scene.layout.Region createFxNode() {
         // We override the children layout since the layout is now done by NagaFx (and not JavaFx)
         return new javafx.scene.layout.Pane() {
             @Override

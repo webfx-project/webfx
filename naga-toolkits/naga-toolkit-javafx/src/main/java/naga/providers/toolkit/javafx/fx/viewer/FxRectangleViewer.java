@@ -16,7 +16,7 @@ public class FxRectangleViewer
     }
 
     @Override
-    javafx.scene.shape.Rectangle createFxNode() {
+    protected javafx.scene.shape.Rectangle createFxNode() {
         return new javafx.scene.shape.Rectangle();
     }
 

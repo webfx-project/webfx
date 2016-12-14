@@ -16,7 +16,7 @@ public class FxGroupViewer
     }
 
     @Override
-    javafx.scene.Group createFxNode() {
+    protected javafx.scene.Group createFxNode() {
         return new javafx.scene.Group();
     }
 }

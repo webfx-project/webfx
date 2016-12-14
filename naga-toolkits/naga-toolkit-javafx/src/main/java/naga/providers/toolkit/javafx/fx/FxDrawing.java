@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 /**
  * @author Bruno Salmon
  */
-class FxDrawing extends DrawingImpl {
+public class FxDrawing extends DrawingImpl {
 
     FxDrawing(FxDrawingNode fxDrawingNode) {
         this(fxDrawingNode, FxNodeViewerFactory.SINGLETON);

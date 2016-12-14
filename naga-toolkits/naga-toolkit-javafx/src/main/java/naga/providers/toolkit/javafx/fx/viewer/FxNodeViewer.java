@@ -42,7 +42,7 @@ public abstract class FxNodeViewer
         return fxNode;
     }
 
-    abstract FxN createFxNode();
+    protected abstract FxN createFxNode();
 
     @Override
     public void bind(N node, DrawingRequester drawingRequester) {

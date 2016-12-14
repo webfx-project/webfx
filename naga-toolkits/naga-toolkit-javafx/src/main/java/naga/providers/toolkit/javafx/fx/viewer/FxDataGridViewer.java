@@ -42,7 +42,7 @@ public class FxDataGridViewer
     }
 
     @Override
-    TableView<Integer> createFxNode() {
+    protected TableView<Integer> createFxNode() {
         TableView<Integer> tableView = new TableView<>();
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableView.setRowFactory(createRowFactory());

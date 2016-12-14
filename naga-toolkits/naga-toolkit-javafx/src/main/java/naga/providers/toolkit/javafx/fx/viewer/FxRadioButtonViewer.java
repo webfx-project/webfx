@@ -16,7 +16,7 @@ public class FxRadioButtonViewer
     }
 
     @Override
-    javafx.scene.control.RadioButton createFxNode() {
+    protected javafx.scene.control.RadioButton createFxNode() {
         javafx.scene.control.RadioButton checkBox = new javafx.scene.control.RadioButton();
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> getNode().setSelected(newValue));
         return checkBox;

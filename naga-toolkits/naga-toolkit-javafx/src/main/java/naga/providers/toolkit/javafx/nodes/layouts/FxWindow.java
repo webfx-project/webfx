@@ -2,6 +2,7 @@ package naga.providers.toolkit.javafx.nodes.layouts;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import naga.toolkit.util.Properties;
 public class FxWindow implements Window {
 
     protected Stage stage;
+    private final DrawingNode drawingNode = naga.toolkit.spi.Toolkit.get().createDrawingNode();
 
     public FxWindow(Stage stage) {
         setStage(stage);
@@ -31,21 +33,29 @@ public class FxWindow implements Window {
         if (stage != null) {
             Properties.runNowAndOnPropertiesChange(property -> setWindowContent(getNode()), nodeProperty);
             titleProperty().addListener((observable, oldValue, newValue) -> stage.setTitle(newValue));
+            setWindowContent((Parent) ((FxDrawingNode) drawingNode).unwrapToNativeNode());
+            ObservableDoubleValue fitContentWidthProperty = getFitContentWidthProperty();
+            drawingNode.setWidth(fitContentWidthProperty.get());
+            fitContentWidthProperty.addListener((observable, oldValue, newValue) -> drawingNode.setWidth(fitContentWidthProperty.get()));
+            ObservableDoubleValue fitContentHeightProperty = getFitContentHeightProperty();
+            drawingNode.setHeight(fitContentHeightProperty.get());
+            fitContentHeightProperty.addListener((observable, oldValue, newValue) -> drawingNode.setHeight(fitContentHeightProperty.get()));
         }
     }
 
     private void setWindowContent(Node node) {
-        DrawingNode drawingNode = naga.toolkit.spi.Toolkit.get().createDrawingNode();
         drawingNode.setRootNode(node);
-        setWindowContent((Parent) ((FxDrawingNode) drawingNode).unwrapToNativeNode());
-        Scene scene = stage.getScene();
-        drawingNode.setWidth(scene.getWidth());
-        scene.widthProperty().addListener((observable, oldValue, newValue) -> drawingNode.setWidth(scene.getWidth()));
-        drawingNode.setHeight(scene.getHeight());
-        scene.heightProperty().addListener((observable, oldValue, newValue) -> drawingNode.setHeight(scene.getHeight()));
     }
 
-    private void setWindowContent(Parent rootComponent) {
+    protected ObservableDoubleValue getFitContentWidthProperty() {
+        return stage.getScene().widthProperty();
+    }
+
+    protected ObservableDoubleValue getFitContentHeightProperty() {
+        return stage.getScene().heightProperty();
+    }
+
+    protected void setWindowContent(Parent rootComponent) {
         Scene scene = stage.getScene();
         if (scene != null)
             scene.setRoot(rootComponent);
@@ -56,8 +66,8 @@ public class FxWindow implements Window {
             Consumer<Scene> sceneHook = JavaFxToolkit.getSceneHook();
             if (sceneHook != null)
                 sceneHook.accept(scene);
+            stage.show();
         }
-        stage.show();
     }
 
     protected Scene createScene(Parent rootComponent, double width, double height) {

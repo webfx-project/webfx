@@ -24,7 +24,7 @@ public class FxPieChartViewer
     }
 
     @Override
-    javafx.scene.chart.PieChart createFxNode() {
+    protected javafx.scene.chart.PieChart createFxNode() {
         javafx.scene.chart.PieChart pieChart = new javafx.scene.chart.PieChart();
         pieChart.setStartAngle(90);
         return pieChart;

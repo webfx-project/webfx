@@ -16,7 +16,7 @@ public class FxBarChartViewer
     }
 
     @Override
-    javafx.scene.chart.BarChart createFxNode() {
+    protected javafx.scene.chart.BarChart createFxNode() {
         return new javafx.scene.chart.BarChart(createNumberAxis(), createNumberAxis());
     }
 }

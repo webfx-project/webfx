@@ -17,7 +17,7 @@ public class FxImageViewViewer
     }
 
     @Override
-    javafx.scene.image.ImageView createFxNode() {
+    protected javafx.scene.image.ImageView createFxNode() {
         return new javafx.scene.image.ImageView();
     }
 

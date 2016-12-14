@@ -16,7 +16,7 @@ public class FxCheckBoxViewer
     }
 
     @Override
-    javafx.scene.control.CheckBox createFxNode() {
+    protected  javafx.scene.control.CheckBox createFxNode() {
         javafx.scene.control.CheckBox checkBox = new javafx.scene.control.CheckBox();
         checkBox.selectedProperty().addListener((observable, oldValue, newValue) -> getNode().setSelected(newValue));
         return checkBox;
