@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module type="JAVA_MODULE" version="4">
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android" name="Android">
       <configuration>
@@ -50,7 +50,7 @@
     <orderEntry type="module" module-name="naga-abstractplatform-java" />
     <orderEntry type="module" module-name="naga-platform" />
     <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
-    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
+    <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.android:android:4.1.1.4" level="project" />

@@ -32,26 +32,8 @@
                 <module>mongoose-backend-swing</module>
             </modules>
         </profile>
-        <profile>
-            <id>mongoose-backend-pivot</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-backend-pivot</module>
-            </modules>
-        </profile>
 
         <!-- Web profiles (GWT, TeaVM) -->
-        <profile>
-            <id>mongoose-backend-gwt</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-backend-gwt</module>
-            </modules>
-        </profile>
         <profile>
             <id>mongoose-backend-html</id>
             <activation>
@@ -61,26 +43,7 @@
                 <module>mongoose-backend-html</module>
             </modules>
         </profile>
-        <profile>
-            <id>mongoose-backend-teavm</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-backend-teavm</module>
-            </modules>
-        </profile>
 
-        <!-- Mobile profiles (CodenameOne) -->
-        <profile>
-            <id>mongoose-backend-cn1</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-backend-cn1</module>
-            </modules>
-        </profile>
     </profiles>
 
 

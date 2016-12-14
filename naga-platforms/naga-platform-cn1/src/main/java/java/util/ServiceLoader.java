@@ -1,7 +1,5 @@
 package java.util;
 
-import naga.toolkit.spi.Toolkit;
-import naga.providers.toolkit.cn1.CodenameOneToolkit;
 import naga.platform.spi.Platform;
 import naga.providers.platform.client.cn1.CodenameOnePlatform;
 
@@ -16,8 +14,6 @@ public class ServiceLoader<S> {
     public static <S> ServiceLoader<S> load(Class<S> service) {
         if (service.equals(Platform.class))
             return new ServiceLoader<>(new CodenameOnePlatform());
-        if (service.equals(Toolkit.class))
-            return new ServiceLoader<>(new CodenameOneToolkit());
         return null;
     }
 
