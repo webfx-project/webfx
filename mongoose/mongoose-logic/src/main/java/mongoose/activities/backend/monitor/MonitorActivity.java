@@ -1,8 +1,9 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.charts.Chart;
+import naga.toolkit.fx.ext.chart.LineChart;
+import naga.toolkit.fx.scene.layout.VBox;
+import naga.toolkit.fx.ext.chart.Chart;
 
 /**
  * @author Bruno Salmon
@@ -13,12 +14,12 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
         super(MonitorPresentationModel::new); // Passing the presentation model factory
     }
 
-    protected MonitorViewModel buildView(Toolkit toolkit) {
+    protected MonitorViewModel buildView() {
         // Charts
-        Chart memoryChart = toolkit.createLineChart();
-        Chart cpuChart = toolkit.createLineChart();
+        Chart memoryChart = LineChart.create(), cpuChart = LineChart.create();
+        memoryChart.setMaxWidth(Double.MAX_VALUE);
         // Building the content node and returning the view model
-        return new MonitorViewModel(toolkit.createVPage().setCenter(toolkit.createVBox(memoryChart, cpuChart)),
+        return new MonitorViewModel(VBox.create(memoryChart, cpuChart),
                 memoryChart, cpuChart);
     }
 
@@ -34,6 +35,7 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
                 .displayResultSetInto(pm.memoryDisplayResultSetProperty())
                 .nextDisplay()
                 .setExpressionColumns("['0 + id','systemLoadAverage','processCpuLoad']")
+                //.combine("{columns: '0 + id,systemLoadAverage,processCpuLoad'}")
                 .displayResultSetInto(pm.cpuDisplayResultSetProperty())
                 .setAutoRefresh(true)
                 .start();
