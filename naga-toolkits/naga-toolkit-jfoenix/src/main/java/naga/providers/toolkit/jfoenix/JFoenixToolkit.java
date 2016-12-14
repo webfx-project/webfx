@@ -1,13 +1,10 @@
 package naga.providers.toolkit.jfoenix;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.providers.toolkit.javafx.nodes.controls.FxButton;
-import naga.providers.toolkit.javafx.nodes.controls.FxCheckBox;
+import naga.providers.toolkit.javafx.fx.FxDrawing;
+import naga.providers.toolkit.javafx.fx.FxDrawingNode;
 import naga.providers.toolkit.jfoenix.nodes.layouts.JFoenixWindow;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.CheckBox;
+import naga.toolkit.fx.spi.DrawingNode;
 
 /**
  * @author Bruno Salmon
@@ -26,8 +23,11 @@ public class JFoenixToolkit extends JavaFxToolkit {
 
     public JFoenixToolkit() {
         super(() -> JavaFxToolkit.FxApplication.applicationWindow = new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage));
-        registerNodeFactoryAndWrapper(CheckBox.class, () -> new FxCheckBox(new JFXCheckBox()), JFXCheckBox.class,FxCheckBox::new);
-        registerNodeFactoryAndWrapper(Button.class, () -> new FxButton(new JFXButton()), JFXButton.class, FxButton::new);
-        //registerNodeFactory(ToggleSwitch.class, () -> new FxToggleSwitch(new JFXToggleButton()));
+        registerNodeFactory(DrawingNode.class, () -> new FxDrawingNode() {
+            @Override
+            protected FxDrawing createDrawing() {
+                return new FxDrawing(this, JFoenixNodeViewerFactory.SINGLETON);
+            }
+        });
     }
 }
