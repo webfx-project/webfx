@@ -66,6 +66,12 @@ public class Arrays {
         return list;
     }
 
+    public static <T> T[] nonNulls(IntFunction<T[]> arrayGenerator, T... array) {
+        if (allNonNulls(array))
+            return array;
+        return Collections.toArray(collectNonNulls(array, new ArrayList<>(array.length)), arrayGenerator);
+    }
+
     public static <A, B> B[] convert(A[] aArray, Converter<A, B> aToBConverter, IntFunction<B[]> arrayGenerator) {
         int length = aArray.length;
         B[] bArray = arrayGenerator.apply(length);
@@ -98,7 +104,7 @@ public class Arrays {
     }
 
     public static <T> T getValue(T[] array, int index) {
-        return array == null ? null : array[index];
+        return array == null || index >= array.length ? null : array[index];
     }
 
     public static <T> String getString(T[] array, int index) {
