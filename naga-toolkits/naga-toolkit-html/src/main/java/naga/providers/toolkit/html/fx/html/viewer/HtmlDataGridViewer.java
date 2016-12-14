@@ -23,8 +23,33 @@ public class HtmlDataGridViewer
         implements DataGridViewerMixin<HTMLTableCellElement>, HtmlLayoutMeasurable {
 
 
+    private final HTMLTableElement table = HtmlUtil.createTableElement();
+    private final HTMLTableSectionElement tHead = (HTMLTableSectionElement) table.createTHead();
+    private HTMLTableRowElement tHeadRow = (HTMLTableRowElement) tHead.insertRow(0);
+    private final HTMLTableSectionElement tBody = createElement("tbody");
+
     public HtmlDataGridViewer() {
-        super(new DataGridViewerBase<>(), HtmlUtil.createTableElement());
+        super(new DataGridViewerBase<>(), HtmlUtil.createDivElement());
+        table.appendChild(tBody);
+        table.appendChild(tBody);
+        setChild(getElement(), table);
+        setElementStyleAttribute("overflow-y", "auto");
+        setStyleAttribute(table, "width", "100%");
+    }
+
+    @Override
+    public double minWidth(double height) {
+        return 0;
+    }
+
+    @Override
+    public double minHeight(double width) {
+        return 0;
+    }
+
+    @Override
+    public double maxWidth(double height) {
+        return Double.MAX_VALUE;
     }
 
     @Override
@@ -48,32 +73,26 @@ public class HtmlDataGridViewer
     }
 
     private void applyVisualSelectionRange(int firstRow, int lastRow, boolean selected) {
-        HTMLCollection<HTMLTableRowElement> rows = ((HTMLTableElement) getElement()).rows;
+        HTMLCollection<HTMLTableRowElement> rows = table.rows;
         firstRow = firstRow + 1;
         lastRow = Math.min(lastRow + 1, (int) rows.getLength() - 1);
         for (int trIndex = firstRow; trIndex <= lastRow; trIndex++)
             setPseudoClass(rows.get(trIndex), "selected", selected);
     }
 
-    private HTMLTableRowElement tHeadRow;
-
     @Override
     public void updateResultSet(DisplayResultSet rs) {
-        removeChildren();
         DataGrid node = getNode();
         node.setDisplaySelection(null);
-        HTMLTableElement table = (HTMLTableElement) getElement();
-        HTMLTableSectionElement tHead = (HTMLTableSectionElement) table.createTHead();
-        tHeadRow = (HTMLTableRowElement) tHead.insertRow(0);
         DataGridViewerBase<HTMLTableCellElement> base = getNodeViewerBase();
+        HtmlUtil.removeChildren(tHeadRow);
+        HtmlUtil.removeChildren(tBody);
         base.fillGrid(rs);
-        HTMLTableSectionElement tbody = createElement("tbody");
-        table.appendChild(tbody);
         if (rs != null) {
             int rowCount = rs.getRowCount();
             int columnCount = rs.getColumnCount();
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-                HTMLTableRowElement tBodyRow = (HTMLTableRowElement) tbody.insertRow(-1);
+                HTMLTableRowElement tBodyRow = (HTMLTableRowElement) tBody.insertRow(-1);
                 int finalRowIndex = rowIndex;
                 tBodyRow.onclick = a -> {
                     DisplaySelection displaySelection = node.getDisplaySelection();
