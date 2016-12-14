@@ -1,5 +1,6 @@
 package naga.toolkit.fx.ext.impl;
 
+import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.fx.ext.control.DataGrid;
 
 /**
@@ -7,5 +8,11 @@ import naga.toolkit.fx.ext.control.DataGrid;
  */
 public class DataGridImpl extends SelectableDisplayResultSetControlImpl implements DataGrid {
 
+    public DataGridImpl() {
+    }
+
+    public DataGridImpl(DisplayResultSet rs) {
+        setDisplayResultSet(rs);
+    }
 
 }
