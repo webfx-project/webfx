@@ -34,8 +34,8 @@ public class HtmlRadioButtonViewer
     }
 
     @Override
-    public void updateText(String text) {
-        super.updateText(text);
+    protected void updateHtmlContent() {
+        super.updateHtmlContent();
         HtmlUtil.appendFirstChild(getElement(), radioButtonElement);
     }
 }

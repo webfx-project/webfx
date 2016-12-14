@@ -2,9 +2,11 @@ package naga.toolkit.fx.scene.control.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.control.Labeled;
-import naga.toolkit.spi.nodes.controls.Image;
+import naga.toolkit.fx.scene.impl.NodeImpl;
+import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.util.Properties;
 
 /**
@@ -18,10 +20,15 @@ public class LabeledImpl extends ControlImpl implements Labeled {
         return textProperty;
     }
 
-    private final Property<Image> imageProperty = new SimpleObjectProperty<>();
+    private final Property<Node> graphicProperty = new SimpleObjectProperty<Node>() {
+        @Override
+        protected void invalidated() {
+            setDrawing((DrawingImpl) getDrawing()); // This will propagate the drawing into the graphic
+        }
+    };
     @Override
-    public Property<Image> imageProperty() {
-        return imageProperty;
+    public Property<Node> graphicProperty() {
+        return graphicProperty;
     }
 
     {
@@ -30,6 +37,14 @@ public class LabeledImpl extends ControlImpl implements Labeled {
             Parent parent = getParent();
             if (parent != null)
                 parent.requestLayout();
-        }, textProperty, imageProperty);
+        }, textProperty, graphicProperty);
+    }
+
+    @Override
+    public void setDrawing(DrawingImpl drawing) {
+        super.setDrawing(drawing);
+        Node graphic = getGraphic();
+        if (graphic != null)
+            ((NodeImpl) graphic).setDrawing(drawing);
     }
 }

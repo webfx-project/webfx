@@ -1,5 +1,6 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.ButtonBase;
 import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerMixin;
@@ -19,5 +20,10 @@ abstract class FxButtonBaseViewer
     @Override
     public void updateText(String text) {
         getFxNode().setText(text);
+    }
+
+    @Override
+    public void updateGraphic(Node graphic) {
+        getFxNode().setGraphic(toFxNode(graphic));
     }
 }

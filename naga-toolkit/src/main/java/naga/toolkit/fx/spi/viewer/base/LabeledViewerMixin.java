@@ -1,5 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Labeled;
 import naga.toolkit.fx.spi.viewer.ControlViewer;
 
@@ -14,6 +15,6 @@ public interface LabeledViewerMixin
 
     void updateText(String text);
 
-    //void updateImage(Image image);
+    void updateGraphic(Node graphic);
 
 }

@@ -1,6 +1,6 @@
 package naga.toolkit.fx.scene.control;
 
-import naga.toolkit.properties.markers.HasImageProperty;
+import naga.toolkit.properties.markers.HasGraphicProperty;
 import naga.toolkit.properties.markers.HasTextProperty;
 
 /**
@@ -8,5 +8,5 @@ import naga.toolkit.properties.markers.HasTextProperty;
  */
 public interface Labeled extends Control,
         HasTextProperty,
-        HasImageProperty {
+        HasGraphicProperty {
 }

@@ -2,6 +2,7 @@ package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.util.StyleUtil;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.ButtonBase;
 import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerMixin;
@@ -39,5 +40,12 @@ class SwingButtonBaseViewer
     @Override
     public void updateText(String text) {
         swingButtonBase.setText(text);
+    }
+
+    @Override
+    public void updateGraphic(Node graphic) {
+        JComponent swingGraphic = toSwingComponent(graphic);
+        if (swingGraphic instanceof JLabel)
+            swingButtonBase.setIcon(((JLabel) swingGraphic).getIcon());
     }
 }
