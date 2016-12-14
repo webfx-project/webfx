@@ -39,7 +39,12 @@ public class RegionImpl extends ParentImpl implements Region {
         return widthProperty;
     }
 
-    private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> heightProperty = new SimpleObjectProperty<Double>(0d) {
+        @Override
+        protected void invalidated() {
+            widthOrHeightChanged();
+        }
+    };
     @Override
     public Property<Double> heightProperty() {
         return heightProperty;
