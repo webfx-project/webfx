@@ -1,6 +1,6 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
-import javafx.scene.image.Image;
+import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerMixin;
@@ -23,6 +23,16 @@ public class FxImageViewViewer
 
     @Override
     public void updateImageUrl(String imageUrl) {
-        getFxNode().setImage(imageUrl == null ? null : new Image(imageUrl));
+        getFxNode().setImage(FxImageStore.getImage(imageUrl, getNode().getFitWidth().intValue(), getNode().getFitHeight().intValue()));
+    }
+
+    @Override
+    public void updateFitWidth(Double fitWidth) {
+        getFxNode().setFitWidth(fitWidth);
+    }
+
+    @Override
+    public void updateFitHeight(Double fitHeight) {
+        getFxNode().setFitHeight(fitHeight);
     }
 }

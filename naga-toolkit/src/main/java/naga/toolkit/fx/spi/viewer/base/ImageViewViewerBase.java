@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.ImageViewViewer;
@@ -16,16 +16,20 @@ public class ImageViewViewerBase
     public void bind(ImageView node, DrawingRequester drawingRequester) {
         super.bind(node, drawingRequester);
         requestUpdateOnPropertiesChange(drawingRequester,
-                node.imageUrlProperty(),
                 node.xProperty(),
-                node.yProperty()
+                node.yProperty(),
+                node.fitWidthProperty(),
+                node.fitHeightProperty(),
+                node.imageUrlProperty()
         );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.imageUrlProperty(), changedProperty, mixin::updateImageUrl)
+                || updateProperty(node.fitWidthProperty(), changedProperty, mixin::updateFitWidth)
+                || updateProperty(node.fitHeightProperty(), changedProperty, mixin::updateFitHeight)
                 ;
     }
 }

@@ -11,4 +11,8 @@ public interface ImageViewViewerMixin
         NodeViewerMixin<ImageView, ImageViewViewerBase, ImageViewViewerMixin> {
 
     void updateImageUrl(String imageUrl);
+
+    void updateFitWidth(Double fitWidth);
+
+    void updateFitHeight(Double fitHeight);
 }

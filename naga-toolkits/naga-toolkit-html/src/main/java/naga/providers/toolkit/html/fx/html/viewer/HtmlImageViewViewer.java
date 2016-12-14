@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
 import elemental2.Element;
+import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.platform.spi.Platform;
 import naga.toolkit.fx.scene.image.ImageView;
@@ -28,6 +29,16 @@ public class HtmlImageViewViewer
         if (tryInlineSvg(imageUrl))
             return;
         setElementAttribute("src", imageUrl);
+    }
+
+    @Override
+    public void updateFitWidth(Double fitWidth) {
+        setElementAttribute("width", Numbers.doubleValue(fitWidth) == 0 ? null : toPx(fitWidth));
+    }
+
+    @Override
+    public void updateFitHeight(Double fitHeight) {
+        setElementAttribute("height", Numbers.doubleValue(fitHeight) == 0 ? null : toPx(fitHeight));
     }
 
     boolean tryInlineSvg(String url) {
