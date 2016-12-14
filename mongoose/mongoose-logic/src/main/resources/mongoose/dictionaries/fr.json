@@ -207,6 +207,7 @@
   "Tester": "Testeur",
   "WithEvents": "Avec évènements",
   "WithBookings": "Avec inscriptions",
+  "NewBooking": "Nouvelle inscription",
   "LimitTo100": "Limiter à 100",
   "GenericSearchPlaceholder": "Entrez votre recherche ici pour réduire la liste",
   "EventSearchPlaceholder": "Entrez le nom de l'évènement pour réduire la liste",
@@ -234,5 +235,4 @@
   "OCTOBER": "Octobre",
   "NOVEMBER": "Novembre",
   "DECEMBER": "Décembre"
-
 }
