@@ -25,7 +25,7 @@ public class FxTextViewer
     }
 
     @Override
-    FxN createFxNode() {
+    protected FxN createFxNode() {
         return (FxN) new javafx.scene.text.Text();
     }
 

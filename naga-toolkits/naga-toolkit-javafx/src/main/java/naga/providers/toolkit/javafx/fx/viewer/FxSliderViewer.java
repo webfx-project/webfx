@@ -16,7 +16,7 @@ public class FxSliderViewer
     }
 
     @Override
-    javafx.scene.control.Slider createFxNode() {
+    protected javafx.scene.control.Slider createFxNode() {
         javafx.scene.control.Slider slider = new javafx.scene.control.Slider();
         slider.setShowTickMarks(true);
         slider.setShowTickLabels(true);

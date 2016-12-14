@@ -16,7 +16,7 @@ public class FxScatterChartViewer
     }
 
     @Override
-    javafx.scene.chart.ScatterChart createFxNode() {
+    protected javafx.scene.chart.ScatterChart createFxNode() {
         return new javafx.scene.chart.ScatterChart(createNumberAxis(), createNumberAxis());
     }
 }
