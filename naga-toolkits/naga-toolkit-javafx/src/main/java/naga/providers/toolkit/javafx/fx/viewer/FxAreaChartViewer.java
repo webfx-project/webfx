@@ -16,7 +16,7 @@ public class FxAreaChartViewer
     }
 
     @Override
-    javafx.scene.chart.AreaChart createFxNode() {
+    protected javafx.scene.chart.AreaChart createFxNode() {
         javafx.scene.chart.AreaChart<Number, Number> areaChart = new javafx.scene.chart.AreaChart<>(createNumberAxis(), createNumberAxis());
         areaChart.setCreateSymbols(false);
         return areaChart;

@@ -2,10 +2,12 @@ package mongoose.activities.backend.organizations;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
 import naga.framework.ui.i18n.I18n;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.scene.control.TextField;
+import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.toolkit.fx.scene.layout.HBox;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
 
 /**
  * @author Bruno Salmon
@@ -18,15 +20,23 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
 
     protected OrganizationsViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        SearchBox searchBox = toolkit.createSearchBox();
-        Table table = toolkit.createTable();
-        CheckBox withEventsCheckBox = toolkit.createCheckBox();
-        CheckBox limitCheckBox = toolkit.createCheckBox();
+        TextField searchBox = TextField.create();
+        DataGrid table = DataGrid.create();
+        CheckBox withEventsCheckBox = CheckBox.create();
+        CheckBox limitCheckBox = CheckBox.create();
 
-        return new OrganizationsViewModel(toolkit.createVPage()
-                .setHeader(searchBox)
-                .setCenter(table)
-                .setFooter(toolkit.createHBox(withEventsCheckBox, limitCheckBox))
+        searchBox.setPrefWidth(Double.MAX_VALUE);
+        searchBox.setMaxWidth(Double.MAX_VALUE);
+        table.setMaxWidth(Double.MAX_VALUE);
+        table.setMaxHeight(Double.MAX_VALUE);
+
+        return new OrganizationsViewModel(BorderPane.create(
+                table, // center
+                searchBox, // top
+                null, // right
+                HBox.create(10, withEventsCheckBox, limitCheckBox), // bottom
+                null // left
+                )
                 , searchBox, table, withEventsCheckBox, limitCheckBox);
     }
 
@@ -34,7 +44,7 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
         super.bindViewModelWithPresentationModel(vm, pm);
         // Hard coded initialization
         I18n i18n = getI18n();
-        i18n.translatePlaceholder(vm.getSearchBox(), "YourCentrePlaceholder");
+        i18n.translatePromptTextFluent(vm.getSearchBox(), "YourCentrePlaceholder");
         CheckBox withEventsCheckBox = i18n.translateText(vm.getWithEventsCheckBox(), "WithEvents");
 
         // Initialization from the presentation model current state

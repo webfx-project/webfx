@@ -10,7 +10,7 @@ import naga.platform.activity.ActivityContextImpl;
 import naga.platform.activity.HasActivityContext;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
@@ -61,15 +61,15 @@ public class UiActivityContextImpl<C extends UiActivityContextImpl<C>> extends A
         return null;
     }
 
-    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<Node> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode> nodeProperty() {
+    public Property<Node> nodeProperty() {
         return nodeProperty;
     }
 
-    private final Property<GuiNode> mountNodeProperty = new SimpleObjectProperty<>();
+    private final Property<Node> mountNodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode> mountNodeProperty() {
+    public Property<Node> mountNodeProperty() {
         return mountNodeProperty;
     }
 

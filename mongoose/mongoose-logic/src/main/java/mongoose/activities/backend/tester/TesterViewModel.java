@@ -1,27 +1,22 @@
 package mongoose.activities.backend.tester;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.charts.Chart;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.Slider;
-import naga.toolkit.spi.nodes.gauges.Gauge;
+import naga.toolkit.fx.ext.chart.Chart;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.control.Slider;
 
 /**
  * @author Bruno Salmon
  */
-class TesterViewModel extends AbstractViewModel {
+class TesterViewModel extends AbstractViewModel<Node> {
 
     private final Button saveTest;
     private final Chart connectionsChart;
     private final Slider requestSlider ;
-    private final Gauge startedSlider ;
+    private final Slider startedSlider ;
 
-    TesterViewModel(GuiNode contentNode,
-                           Button saveTest,
-                           Chart connectionsChart,
-                           Slider requestSlider,
-                           Gauge startedSlider) {
+    TesterViewModel(Node contentNode, Button saveTest, Chart connectionsChart, Slider requestSlider, Slider startedSlider) {
         super(contentNode);
         this.saveTest = saveTest;
         this.connectionsChart = connectionsChart;
@@ -41,7 +36,7 @@ class TesterViewModel extends AbstractViewModel {
         return requestSlider;
     }
 
-    Gauge getStartedSlider() {
+    Slider getStartedSlider() {
         return startedSlider;
     }
 }

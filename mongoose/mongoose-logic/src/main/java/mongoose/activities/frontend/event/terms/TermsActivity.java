@@ -15,7 +15,7 @@ public class TermsActivity extends BookingProcessActivity<TermsViewModel, TermsP
     @Override
     protected void bindViewModelWithPresentationModel(TermsViewModel vm, TermsPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
-        vm.getTermsLetterDisplayResultSetNode().displayResultSetProperty().bind(pm.termsLetterDisplayResultSetProperty());
+        vm.getTermsLetterDisplayResultSetControl().displayResultSetProperty().bind(pm.termsLetterDisplayResultSetProperty());
     }
 
     @Override

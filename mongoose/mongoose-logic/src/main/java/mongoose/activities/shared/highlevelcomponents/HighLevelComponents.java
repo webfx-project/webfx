@@ -2,9 +2,9 @@ package mongoose.activities.shared.highlevelcomponents;
 
 import mongoose.activities.shared.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon
@@ -23,19 +23,19 @@ public class HighLevelComponents {
         return builder;
     }
 
-    public static VPage createSectionPanel(SectionPanelStyleOptions options) {
+    public static BorderPane createSectionPanel(SectionPanelStyleOptions options) {
         return getBuilder().createSectionPanel(options);
     }
 
-    public static VPage createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
+    public static BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
         return getBuilder().createSectionPanel(options, iconImageUrl, translationKey, i18n);
     }
 
-    public static VPage createSectionPanel(SectionPanelStyleOptions options, GuiNode... headerNodes) {
+    public static BorderPane createSectionPanel(SectionPanelStyleOptions options, Node... headerNodes) {
         return getBuilder().createSectionPanel(options, headerNodes);
     }
 
-    public static GuiNode createBadge(GuiNode... badgeNodes) {
+    public static Node createBadge(Node... badgeNodes) {
         return getBuilder().createBadge(badgeNodes);
     }
 

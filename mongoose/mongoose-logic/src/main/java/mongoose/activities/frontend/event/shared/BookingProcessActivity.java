@@ -17,8 +17,8 @@ import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Factory;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.spi.events.ActionEvent;
-import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.spi.events.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,17 +39,17 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
     protected void bindViewModelWithPresentationModel(VM vm, PM pm) {
         Button previousButton = vm.getPreviousButton();
         if (previousButton != null)
-            getI18n().translateText(previousButton, "Back").actionEventObservable().subscribe(this::onPreviousButtonPressed);
+            getI18n().translateText(previousButton, "Back").setOnMouseClicked(this::onPreviousButtonPressed);
         Button nextButton = vm.getNextButton();
         if (nextButton != null)
-            getI18n().translateText(nextButton, "Next").actionEventObservable().subscribe(this::onNextButtonPressed);
+            getI18n().translateText(nextButton, "Next").setOnMouseClicked(this::onNextButtonPressed);
     }
 
-    private void onPreviousButtonPressed(ActionEvent actionEvent) {
+    private void onPreviousButtonPressed(MouseEvent event) {
         getHistory().goBack();
     }
 
-    protected void onNextButtonPressed(ActionEvent actionEvent) {
+    protected void onNextButtonPressed(MouseEvent event) {
         goToNextBookingProcessPage(nextPage);
     }
 

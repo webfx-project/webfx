@@ -1,23 +1,23 @@
 package mongoose.activities.frontend.event.terms;
 
 import mongoose.activities.frontend.event.shared.BookingProcessViewModel;
-import naga.toolkit.spi.nodes.DisplayResultSetNode;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.fx.ext.DisplayResultSetControl;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
 
 /**
  * @author Bruno Salmon
  */
-public class TermsViewModel extends BookingProcessViewModel {
+public class TermsViewModel extends BookingProcessViewModel<Node> {
 
-    private final DisplayResultSetNode termsLetterDisplayResultSetNode;
+    private final DisplayResultSetControl termsLetterDisplayResultSetControl;
 
-    public TermsViewModel(GuiNode contentNode, DisplayResultSetNode termsLetterDisplayResultSetNode, Button previousButton) {
+    public TermsViewModel(Node contentNode, DisplayResultSetControl termsLetterDisplayResultSetControl, Button previousButton) {
         super(contentNode, previousButton, null);
-        this.termsLetterDisplayResultSetNode = termsLetterDisplayResultSetNode;
+        this.termsLetterDisplayResultSetControl = termsLetterDisplayResultSetControl;
     }
 
-    DisplayResultSetNode getTermsLetterDisplayResultSetNode() {
-        return termsLetterDisplayResultSetNode;
+    DisplayResultSetControl getTermsLetterDisplayResultSetControl() {
+        return termsLetterDisplayResultSetControl;
     }
 }

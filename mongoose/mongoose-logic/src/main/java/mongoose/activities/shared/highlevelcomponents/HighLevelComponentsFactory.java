@@ -2,27 +2,29 @@ package mongoose.activities.shared.highlevelcomponents;
 
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.fx.ext.cell.collator.NodeCollatorRegistry;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon
  */
 public interface HighLevelComponentsFactory {
 
-    VPage createSectionPanel(SectionPanelStyleOptions options);
+    BorderPane createSectionPanel(SectionPanelStyleOptions options);
 
-    default VPage createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
-        return createSectionPanel(options, PresentationActivity.createImage(iconImageUrl), PresentationActivity.createTextView(translationKey, i18n));
+    default BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
+        return createSectionPanel(options, PresentationActivity.createImageView(iconImageUrl), PresentationActivity.createTextView(translationKey, i18n));
     }
 
-    default VPage createSectionPanel(SectionPanelStyleOptions options, GuiNode... headerNodes) {
-        return createSectionPanel(options).setHeader(Toolkit.get().createHBox(headerNodes));
+    default BorderPane createSectionPanel(SectionPanelStyleOptions options, Node... headerNodes) {
+        BorderPane panel = createSectionPanel(options);
+        panel.setTop(NodeCollatorRegistry.hBoxCollator().collateNodes(headerNodes));
+        return panel;
     }
 
-    GuiNode createBadge(GuiNode... badgeNodes);
+    Node createBadge(Node... badgeNodes);
 
     Button createBookButton();
 

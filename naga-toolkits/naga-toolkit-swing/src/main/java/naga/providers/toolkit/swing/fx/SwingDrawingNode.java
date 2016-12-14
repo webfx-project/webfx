@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.fx.viewer.SwingEmbedComponentViewer;
 import naga.providers.toolkit.swing.nodes.SwingNode;
+import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.Drawing;
@@ -58,6 +59,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
 
         DrawingPanel() {
             super(null); // No layout needed is it is done by NagaFx
+            setFont(StyleUtil.getFont(false, false));
             EventListener eventListener = new EventListener();
             addMouseListener(eventListener);
             addMouseMotionListener(eventListener);
@@ -69,7 +71,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
             if (drawing.isPulseRunning()) { // Waiting the drawing is ready and pulse is scheduled
                 updateWidthAndHeight(); // The width update may cause a layout request (good to check before calling pulse)
                 drawing.pulse(); // This call to pulse() will consider changes in the scene graph and do the layout pass
-                updateWidthAndHeight(); // In case the drawing height has been updated during the pulse
+                //updateWidthAndHeight(); // In case the drawing height has been updated during the pulse
                 super.paintComponent(g); // Erasing the graphic buffer
                 drawing.paintCanvas((Graphics2D) g); // Painting all nodes from the scene graph
                 if (getComponentCount() > 0 || System.currentTimeMillis() < lastEmbedTargetEventTime + maxSwingEmbedTargetAnimatedTransitionTime)
@@ -80,7 +82,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
         private void updateWidthAndHeight() {
             // Binding the width property to the actual component width
             boolean sizeChanged = false;
-            if (widthProperty.isBound()) {
+            if (true || widthProperty.isBound()) {
                 int width = widthProperty.getValue().intValue();
                 if (width != lastWidth) {
                     setSize(lastWidth = width, lastHeight);
@@ -92,7 +94,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                     widthProperty.setValue((double) (lastWidth = width));
             }
             // Binding the component height to the height property
-            if (heightProperty.isBound()) {
+            if (true || heightProperty.isBound()) {
                 int height = heightProperty.getValue().intValue();
                 if (height != lastHeight) {
                     setSize(lastWidth, lastHeight = height);
@@ -108,7 +110,7 @@ public class SwingDrawingNode extends SwingNode<SwingDrawingNode.DrawingPanel> i
                 setMinimumSize(size);
                 setPreferredSize(size);
                 setMaximumSize(size);
-                getParent().doLayout();
+                //getParent().doLayout();
             }
         }
 

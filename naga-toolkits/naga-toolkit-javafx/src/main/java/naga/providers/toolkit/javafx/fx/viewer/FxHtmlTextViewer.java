@@ -18,11 +18,11 @@ public class FxHtmlTextViewer
 
     public FxHtmlTextViewer() {
         this((NV) new HtmlTextViewerBase());
-        updateText(null);
     }
 
     FxHtmlTextViewer(NV base) {
         super(base);
+        updateText(null);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class FxHtmlTextViewer
     }
 
     private double webViewHeight(double documentHeight) {
-        return documentHeight + 22;
+        return documentHeight + 25;
     }
 
     @Override

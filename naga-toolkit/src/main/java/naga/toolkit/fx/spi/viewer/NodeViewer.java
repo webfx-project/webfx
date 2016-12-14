@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.DrawingRequester;
@@ -14,7 +14,7 @@ public interface NodeViewer<N extends Node> {
 
     void unbind();
 
-    boolean updateProperty(Property changedProperty);
+    boolean updateProperty(ObservableValue changedProperty);
 
     boolean updateList(ObservableList changedList);
 }

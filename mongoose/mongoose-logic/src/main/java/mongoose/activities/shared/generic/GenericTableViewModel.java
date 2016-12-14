@@ -1,32 +1,32 @@
 package mongoose.activities.shared.generic;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.scene.control.TextField;
 
 /**
  * @author Bruno Salmon
  */
 public class GenericTableViewModel extends AbstractViewModel {
 
-    private final SearchBox searchBox;
-    private final Table table;
+    private final TextField searchBox;
+    private final DataGrid table;
     private final CheckBox limitCheckBox;
 
-    protected GenericTableViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox) {
+    protected GenericTableViewModel(Node contentNode, TextField searchBox, DataGrid table, CheckBox limitCheckBox) {
         super(contentNode);
         this.searchBox = searchBox;
         this.table = table;
         this.limitCheckBox = limitCheckBox;
     }
 
-    public SearchBox getSearchBox() {
+    public TextField getSearchBox() {
         return searchBox;
     }
 
-    public Table getTable() {
+    public DataGrid getTable() {
         return table;
     }
 

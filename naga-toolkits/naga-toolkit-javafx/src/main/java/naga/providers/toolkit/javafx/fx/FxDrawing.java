@@ -1,12 +1,14 @@
 package naga.providers.toolkit.javafx.fx;
 
 import javafx.collections.ObservableList;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.BorderPane;
 import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 import naga.toolkit.util.ObservableLists;
 
 import java.lang.reflect.Method;
@@ -17,13 +19,19 @@ import java.lang.reflect.Method;
 class FxDrawing extends DrawingImpl {
 
     FxDrawing(FxDrawingNode fxDrawingNode) {
-        super(fxDrawingNode, FxNodeViewerFactory.SINGLETON);
+        this(fxDrawingNode, FxNodeViewerFactory.SINGLETON);
+    }
+
+    public FxDrawing(DrawingNode drawingNode, NodeViewerFactory nodeViewerFactory) {
+        super(drawingNode, nodeViewerFactory);
     }
 
     @Override
     protected void createAndBindRootNodeViewerAndChildren(Node rootNode) {
         super.createAndBindRootNodeViewerAndChildren(rootNode);
-        Region fxParent = ((FxDrawingNode) drawingNode).unwrapToNativeNode();
+        BorderPane fxParent = (BorderPane) ((FxDrawingNode) drawingNode).unwrapToNativeNode();
+        fxParent.setCenter(getFxNode(rootNode));
+/*
         try {
             Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
             getChildren.setAccessible(true);
@@ -32,6 +40,7 @@ class FxDrawing extends DrawingImpl {
         } catch (Exception e) {
             e.printStackTrace();
         }
+*/
     }
 
     @Override

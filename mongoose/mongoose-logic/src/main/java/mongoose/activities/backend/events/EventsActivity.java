@@ -2,10 +2,11 @@ package mongoose.activities.backend.events;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
 import naga.framework.ui.i18n.I18n;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.scene.control.TextField;
+import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
 
 /**
  * @author Bruno Salmon
@@ -18,23 +19,30 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
 
     protected EventsViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        SearchBox searchBox = toolkit.createSearchBox();
-        Table table = toolkit.createTable();
-        CheckBox withBookingsCheckBox = toolkit.createCheckBox();
-        CheckBox limitCheckBox = toolkit.createCheckBox();
+        TextField searchBox = TextField.create();
+        DataGrid table = DataGrid.create();
+        CheckBox withBookingsCheckBox = CheckBox.create();
+        CheckBox limitCheckBox = CheckBox.create();
 
-        return new EventsViewModel(toolkit.createVPage()
-                .setHeader(searchBox)
-                .setCenter(table)
-                .setFooter(toolkit.createHBox(withBookingsCheckBox, limitCheckBox))
-                , searchBox, table, withBookingsCheckBox, limitCheckBox);
+        searchBox.setPrefWidth(Double.MAX_VALUE);
+        searchBox.setMaxWidth(Double.MAX_VALUE);
+        table.setMaxWidth(Double.MAX_VALUE);
+        table.setMaxHeight(Double.MAX_VALUE);
+
+        return new EventsViewModel(BorderPane.create(
+                table, // center
+                searchBox, // top
+                null, // right
+                limitCheckBox, // bottom
+                null // left
+        ), searchBox, table, withBookingsCheckBox, limitCheckBox);
     }
 
     protected void bindViewModelWithPresentationModel(EventsViewModel vm, EventsPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
         // Hard coded initialization
         I18n i18n = getI18n();
-        i18n.translatePlaceholder(vm.getSearchBox(), "EventSearchPlaceholder");
+        i18n.translatePromptText(vm.getSearchBox(), "EventSearchPlaceholder");
         CheckBox withBookingsCheckBox = i18n.translateText(vm.getWithBookingsCheckBox(), "WithBookings");
 
         // Initialization from the presentation model current state
@@ -55,7 +63,7 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
                 //.combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .combine(pm.limitProperty(), "{limit: '100'}")
                 .setExpressionColumns("[" +
-                        //"{label: 'Image', expression: 'image({url: `images/calendar.svg`, width: (bookingsCount > 1 ? 32 : 16), height: (bookingsCount > 1 ? 32 : 16)})'}," +
+                        //"{label: 'Image', expression: 'image(`images/calendar.svg`)'}," +
                         //"{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
                         "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate)`'}" +
                         "]")

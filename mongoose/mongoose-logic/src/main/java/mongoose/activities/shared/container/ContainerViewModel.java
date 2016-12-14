@@ -3,14 +3,14 @@ package mongoose.activities.shared.container;
 import javafx.beans.property.Property;
 import naga.framework.activity.client.HasMountNodeProperty;
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon
  */
-public class ContainerViewModel extends AbstractViewModel<VPage> implements HasMountNodeProperty {
+public class ContainerViewModel extends AbstractViewModel<BorderPane> implements HasMountNodeProperty {
 
     private final Button backButton;
     private final Button forwardButton;
@@ -18,13 +18,13 @@ public class ContainerViewModel extends AbstractViewModel<VPage> implements HasM
     private final Button eventsButton;
     private final Button englishButton;
     private final Button frenchButton;
-    private final Property<GuiNode> mountNodeProperty;
+    private final Property<Node> mountNodeProperty;
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton) {
+    public ContainerViewModel(BorderPane contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton) {
         this(contentNode, backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton, contentNode.centerProperty());
     }
 
-    public ContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Property<GuiNode> mountNodeProperty) {
+    public ContainerViewModel(BorderPane contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Property<Node> mountNodeProperty) {
         super(contentNode);
         this.backButton = backButton;
         this.forwardButton = forwardButton;
@@ -60,7 +60,7 @@ public class ContainerViewModel extends AbstractViewModel<VPage> implements HasM
     }
 
     @Override
-    public Property<GuiNode> mountNodeProperty() {
+    public Property<Node> mountNodeProperty() {
         return mountNodeProperty;
     }
 }

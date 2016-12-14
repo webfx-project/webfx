@@ -2,10 +2,10 @@ package mongoose.activities.shared.highlevelcomponents.impl;
 
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponentsFactory;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.toolkit.fx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon
@@ -13,22 +13,22 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 public class HighLevelComponentsFactoryImpl implements HighLevelComponentsFactory {
 
     @Override
-    public VPage createSectionPanel(SectionPanelStyleOptions options) {
-        return Toolkit.get().createVPage();
+    public BorderPane createSectionPanel(SectionPanelStyleOptions options) {
+        return BorderPane.create();
     }
 
     @Override
-    public GuiNode createBadge(GuiNode... badgeNodes) {
-        return Toolkit.get().createHBox(badgeNodes);
+    public Node createBadge(Node... badgeNodes) {
+        return HBox.create(badgeNodes);
     }
 
     @Override
     public Button createBookButton() {
-        return Toolkit.get().createButton();
+        return Button.create();
     }
 
     @Override
     public Button createSoldoutButton() {
-        return Toolkit.get().createButton();
+        return Button.create();
     }
 }

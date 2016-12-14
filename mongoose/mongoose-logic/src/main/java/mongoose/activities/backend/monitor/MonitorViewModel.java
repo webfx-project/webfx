@@ -1,8 +1,8 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.charts.Chart;
+import naga.toolkit.fx.ext.chart.Chart;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
@@ -12,7 +12,7 @@ class MonitorViewModel extends AbstractViewModel {
     private final Chart memoryChart;
     private final Chart cpuChart;
 
-    public MonitorViewModel(GuiNode contentNode, Chart memoryChart, Chart cpuChart) {
+    MonitorViewModel(Node contentNode, Chart memoryChart, Chart cpuChart) {
         super(contentNode);
         this.memoryChart = memoryChart;
         this.cpuChart = cpuChart;

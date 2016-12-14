@@ -12,27 +12,29 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-class SwingDrawing extends CanvasDrawingImpl<SwingNodeViewer<?, ?, ?>, Graphics2D, SwingGraphicState> {
+public class SwingDrawing extends CanvasDrawingImpl<SwingNodeViewer<?, ?, ?>, Graphics2D> {
 
     SwingDrawing(SwingDrawingNode drawingNode) {
         super(drawingNode, SwingNodeViewerFactory.SINGLETON);
     }
 
+    public JComponent getDrawingComponent() {
+        return (JComponent) drawingNode.unwrapToNativeNode();
+    }
+
     @Override
     public void requestCanvasRepaint() {
-        ((Component) drawingNode.unwrapToNativeNode()).repaint();
+        getDrawingComponent().repaint();
     }
 
     @Override
-    protected SwingGraphicState captureGraphicState(Graphics2D g) {
-        return new SwingGraphicState(g.getTransform(), g.getComposite(), g.getClip());
+    protected Graphics2D createCanvasContext(Graphics2D g) {
+        return (Graphics2D) g.create();
     }
 
     @Override
-    protected void restoreGraphicState(SwingGraphicState graphicState, Graphics2D g) {
-        g.setTransform(graphicState.getTransform());
-        g.setComposite(graphicState.getComposite());
-        g.setClip(graphicState.getClip());
+    protected void disposeCanvasContext(Graphics2D canvasContext) {
+        canvasContext.dispose();
     }
 
     @Override
@@ -41,7 +43,7 @@ class SwingDrawing extends CanvasDrawingImpl<SwingNodeViewer<?, ?, ?>, Graphics2
         // SwingLayoutMeasurable components must be added to the Swing structure so they can report correct layout measures
         if (nodeViewer instanceof SwingLayoutMeasurable) {
             JComponent swingComponent = ((SwingLayoutMeasurable) nodeViewer).getSwingComponent();
-            ((JComponent) drawingNode.unwrapToNativeNode()).add(swingComponent);
+            getDrawingComponent().add(swingComponent);
             // But they won't be displayed by Swing (they will be painted by the canvas) - See SwingDrawingNode.DrawingPanel.paintChildren()
         }
         return nodeViewer;

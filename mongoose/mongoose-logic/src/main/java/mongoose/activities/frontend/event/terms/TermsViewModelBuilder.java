@@ -3,9 +3,9 @@ package mongoose.activities.frontend.event.terms;
 import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.cell.collators.GridCollator;
+import naga.toolkit.fx.ext.cell.collator.GridCollator;
+import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +13,7 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 public class TermsViewModelBuilder extends BookingsProcessViewModelBuilder<TermsViewModel> {
 
     protected GridCollator termsLetterCollator;
-    protected VPage termsPanel;
+    protected BorderPane termsPanel;
 
     @Override
     protected TermsViewModel createViewModel() {
@@ -22,11 +22,8 @@ public class TermsViewModelBuilder extends BookingsProcessViewModelBuilder<Terms
 
     protected void buildComponents(Toolkit toolkit, I18n i18n) {
         super.buildComponents(toolkit, i18n);
-        termsLetterCollator = new GridCollator("vbox", "hbox");
-        termsPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions", i18n)
-                .setCenter(termsLetterCollator);
-        contentNode = toolkit.createVPage()
-                .setCenter(termsPanel)
-                .setFooter(previousButton);
+        termsPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions", i18n);
+        termsPanel.setCenter(termsLetterCollator = new GridCollator("first", "first"));
+        contentNode = BorderPane.create(termsPanel, null, null, previousButton, null);
     }
 }

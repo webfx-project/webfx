@@ -3,10 +3,11 @@ package mongoose.activities.frontend.event.shared;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.ViewBuilder;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.toolkit.fx.scene.layout.HBox;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
 
 /**
  * @author Bruno Salmon
@@ -15,7 +16,7 @@ public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessV
 
     protected Button previousButton;
     protected Button nextButton;
-    protected GuiNode contentNode;
+    protected Node contentNode;
 
     @Override
     public VM buildView(Toolkit toolkit) {
@@ -27,16 +28,16 @@ public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessV
 
     protected void buildComponents(Toolkit toolkit, I18n i18n) {
         if (previousButton == null)
-            previousButton = toolkit.createButton();
+            previousButton = Button.create();
         if (nextButton == null)
-            nextButton = toolkit.createButton();
+            nextButton = Button.create();
         if (contentNode == null)
-            contentNode = toolkit.createVPage();
+            contentNode = BorderPane.create();
         assembleComponentsIntoContentNode(toolkit);
     }
 
     protected void assembleComponentsIntoContentNode(Toolkit toolkit) {
-        if (contentNode instanceof VPage)
-            ((VPage) contentNode).setFooter(toolkit.createHBox(previousButton, nextButton));
+        if (contentNode instanceof BorderPane)
+            ((BorderPane) contentNode).setBottom(HBox.create(previousButton, nextButton));
     }
 }

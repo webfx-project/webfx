@@ -2,10 +2,11 @@ package mongoose.activities.backend.tester.testset;
 
 import mongoose.activities.backend.tester.drive.Drive;
 import naga.framework.ui.presentation.PresentationActivity;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.control.TextField;
+import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.toolkit.fx.scene.layout.VBox;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.TextField;
-import naga.toolkit.spi.nodes.layouts.VBox;
 
 /**
  * @author Jean-Pierre Alonso.
@@ -18,37 +19,27 @@ public class TestSetActivity extends PresentationActivity<TestSetViewModel, Test
 
     protected TestSetViewModel buildView(Toolkit toolkit) {
         // TextFields
-        TextField testName = toolkit.createTextField();
-        TextField testComment = toolkit.createTextField();
-        Button saveTest = toolkit.createButton();
-        testName.setPlaceholder("Test name");
-        testComment.setPlaceholder("Comments");
+        TextField testName = TextField.create();
+        TextField testComment = TextField.create();
+        Button saveTest = Button.create();
+        testName.setPromptText("Test name");
+        testComment.setPromptText("Comments");
         saveTest.setText("Save Test");
-        testName.requestFocus();
+        //testName.requestFocus();
 
-        // Arranging in a box
-        VBox vBox = toolkit.createVBox();
-        vBox.getChildren().setAll(testName, testComment);
-
-        return new TestSetViewModel(toolkit.createVPage()
-                .setHeader(vBox)
-                .setFooter(saveTest),
-                testName,
-                testComment,
-                saveTest);
+        return new TestSetViewModel(BorderPane.create(null, VBox.create(testName, testComment), null, saveTest, null), testName, testComment, saveTest);
     }
 
     protected void bindViewModelWithPresentationModel(TestSetViewModel vm, TestSetPresentationModel pm) {
         // Test description
         pm.testNameProperty().bind(vm.getTestName().textProperty());
         pm.testCommentProperty().bind(vm.getTestComment().textProperty());
-        vm.getSaveTest().actionEventObservable().subscribe(actionEvent -> {
+        vm.getSaveTest().setOnMouseClicked(e -> {
             Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue());
             getHistory().goBack();
         });
     }
 
     protected void bindPresentationModelWithLogic(TestSetPresentationModel pm) {
-
     }
 }

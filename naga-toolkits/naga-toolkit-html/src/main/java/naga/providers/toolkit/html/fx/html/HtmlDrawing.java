@@ -1,10 +1,13 @@
 package naga.providers.toolkit.html.fx.html;
 
-import elemental2.*;
+import elemental2.HTMLButtonElement;
+import elemental2.HTMLElement;
+import elemental2.HTMLLabelElement;
 import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.fx.html.viewer.HtmlNodeViewer;
 import naga.providers.toolkit.html.fx.shared.HtmlSvgNodeViewer;
 import naga.providers.toolkit.html.util.HtmlUtil;
+import naga.toolkit.fx.ext.control.HtmlText;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
@@ -28,8 +31,10 @@ public class HtmlDrawing extends DrawingImpl {
 
     @Override
     protected void updateParentAndChildrenViewers(Parent parent) {
-        elemental2.Node parentNode = HtmlSvgNodeViewer.toElement(parent, this);
-        HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), node -> HtmlSvgNodeViewer.toElement(node, this)));
+        if (!(parent instanceof HtmlText)) {
+            elemental2.Node parentNode = HtmlSvgNodeViewer.toElement(parent, this);
+            HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), node -> HtmlSvgNodeViewer.toElement(node, this)));
+        }
     }
 
     @Override
@@ -39,7 +44,7 @@ public class HtmlDrawing extends DrawingImpl {
             HtmlNodeViewer htmlNodeView = (HtmlNodeViewer) nodeViewer;
             HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
             HtmlUtil.absolutePosition(htmlElement);
-            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN"))
+            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN") && !(node instanceof HtmlText))
                 htmlElement.style.whiteSpace = "nowrap";
         }
         return nodeViewer;

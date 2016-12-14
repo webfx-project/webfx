@@ -11,10 +11,11 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.activity.Activity;
 import naga.platform.json.Json;
-import naga.toolkit.properties.markers.HasImageProperty;
+import naga.platform.json.spi.JsonObject;
+import naga.toolkit.fx.scene.image.ImageView;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.properties.markers.HasGraphicProperty;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.Image;
-import naga.toolkit.spi.nodes.controls.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,7 +106,10 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             bindViewModelWithPresentationModel(viewModel, presentationModel);
             viewBoundWithPresentationModel = true;
         }
-        toolkit.scheduler().runInUiThread(() -> activityContext.setNode(viewModel.getContentNode()));
+        toolkit.scheduler().runInUiThread(() -> {
+            onShow();
+            activityContext.setNode(viewModel.getContentNode());
+        });
     }
 
     @Override
@@ -119,7 +123,10 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         viewBoundWithPresentationModel = false;
     }
 
-    protected PM buildPresentationModel() { throw new RuntimeException();}
+    protected void onShow() {
+    }
+
+    protected PM buildPresentationModel() { return null;}
 
     protected void initializePresentationModel(PM pm) {}
 
@@ -133,17 +140,26 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     /** Helpers **/
 
-    public static TextView createTextView(String translationKey, I18n i18n) {
-        return i18n.translateText(Toolkit.get().createTextView(), translationKey);
+    public static Text createTextView(String translationKey, I18n i18n) {
+        return i18n.translateText(Text.create(), translationKey);
     }
 
-    public static Image createImage(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
-        return Toolkit.get().createImage(Strings.startsWith(urlOrJson, "{") ? Json.parseObject(urlOrJson) : urlOrJson);
+    public static ImageView createImageView(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
+        if (!Strings.startsWith(urlOrJson, "{"))
+            return ImageView.create(urlOrJson);
+        return createImageView(Json.parseObject(urlOrJson));
     }
 
-    public static  <T extends HasImageProperty> T setImage(T hasImageProperty, String urlOrJson) {
-        hasImageProperty.setImage(createImage(urlOrJson));
-        return hasImageProperty;
+    public static ImageView createImageView(JsonObject json) {
+        ImageView imageView = ImageView.create(json.getString("url"));
+        imageView.setFitWidth(json.getDouble("width"));
+        imageView.setFitHeight(json.getDouble("height"));
+        return imageView;
+    }
+
+    public static <T extends HasGraphicProperty> T setGraphic(T hasGraphicProperty, String urlOrJson) {
+        hasGraphicProperty.setGraphic(createImageView(urlOrJson));
+        return hasGraphicProperty;
     }
 
     protected ReactiveExpressionFilter createReactiveExpressionFilter() {

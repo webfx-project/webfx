@@ -1,14 +1,14 @@
 package naga.toolkit.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasNodeProperty {
 
-    Property<GuiNode> nodeProperty();
-    default HasNodeProperty setNode(GuiNode node) { nodeProperty().setValue(node); return this; }
-    default GuiNode getNode() { return nodeProperty().getValue(); }
+    Property<Node> nodeProperty();
+    default HasNodeProperty setNode(Node node) { nodeProperty().setValue(node); return this; }
+    default Node getNode() { return nodeProperty().getValue(); }
 }

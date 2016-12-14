@@ -6,7 +6,7 @@ import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextMixin;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
@@ -28,10 +28,10 @@ public interface UiActivityContextMixin<C extends UiActivityContext<C>> extends 
     }
 
     @Override
-    default Property<GuiNode> nodeProperty() { return getActivityContext().nodeProperty(); }
+    default Property<Node> nodeProperty() { return getActivityContext().nodeProperty(); }
 
     @Override
-    default Property<GuiNode> mountNodeProperty() { return getActivityContext().mountNodeProperty(); }
+    default Property<Node> mountNodeProperty() { return getActivityContext().mountNodeProperty(); }
 
     @Override
     default I18n getI18n() { return getActivityContext().getI18n(); }

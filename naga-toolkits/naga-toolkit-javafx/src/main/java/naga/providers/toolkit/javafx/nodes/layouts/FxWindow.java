@@ -9,8 +9,11 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.providers.toolkit.javafx.fx.FxDrawingNode;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.spi.nodes.layouts.Window;
+import naga.toolkit.util.Properties;
 
 /**
  * @author Bruno Salmon
@@ -26,11 +29,20 @@ public class FxWindow implements Window {
     public void setStage(Stage stage) {
         this.stage = stage;
         if (stage != null) {
-            if (nodeProperty.getValue() != null)
-                setWindowContent(nodeProperty.getValue().unwrapToNativeNode());
-            nodeProperty.addListener((observable, oldValue, newValue) -> { if (newValue != null) setWindowContent(newValue.unwrapToNativeNode()); });
+            Properties.runNowAndOnPropertiesChange(property -> setWindowContent(getNode()), nodeProperty);
             titleProperty().addListener((observable, oldValue, newValue) -> stage.setTitle(newValue));
         }
+    }
+
+    private void setWindowContent(Node node) {
+        DrawingNode drawingNode = naga.toolkit.spi.Toolkit.get().createDrawingNode();
+        drawingNode.setRootNode(node);
+        setWindowContent((Parent) ((FxDrawingNode) drawingNode).unwrapToNativeNode());
+        Scene scene = stage.getScene();
+        drawingNode.setWidth(scene.getWidth());
+        scene.widthProperty().addListener((observable, oldValue, newValue) -> drawingNode.setWidth(scene.getWidth()));
+        drawingNode.setHeight(scene.getHeight());
+        scene.heightProperty().addListener((observable, oldValue, newValue) -> drawingNode.setHeight(scene.getHeight()));
     }
 
     private void setWindowContent(Parent rootComponent) {
@@ -52,9 +64,9 @@ public class FxWindow implements Window {
         return new Scene(rootComponent, width, height);
     }
 
-    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<Node> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode> nodeProperty() {
+    public Property<Node> nodeProperty() {
         return nodeProperty;
     }
 

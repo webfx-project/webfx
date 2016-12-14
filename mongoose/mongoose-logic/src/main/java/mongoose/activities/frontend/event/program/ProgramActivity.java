@@ -30,7 +30,7 @@ public class ProgramActivity extends BookingProcessActivity<ProgramViewModel, Pr
 
     private void showCalendarIfBothLogicAndViewAreReady() {
         if (programCalendarGraphic != null && programViewModel != null)
-            Toolkit.get().scheduler().runInUiThread(() -> programViewModel.getCalendarPanel().setCenter(programCalendarGraphic.getDrawingNode()));
+            Toolkit.get().scheduler().runInUiThread(() -> programViewModel.getCalendarPanel().setCenter(programCalendarGraphic.getNode()));
     }
 
     @Override

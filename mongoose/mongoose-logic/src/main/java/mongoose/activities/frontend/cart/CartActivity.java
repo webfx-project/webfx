@@ -3,8 +3,9 @@ package mongoose.activities.frontend.cart;
 import naga.framework.orm.entity.Entity;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.presentation.PresentationActivity;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.layout.VBox;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.Table;
 
 /**
  * @author Bruno Salmon
@@ -18,12 +19,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     @Override
     protected CartViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        Table documentTable = toolkit.createTable();
-        Table documentLineTable = toolkit.createTable();
-        Table paymentTable = toolkit.createTable();
+        DataGrid documentTable = DataGrid.create();
+        DataGrid documentLineTable = DataGrid.create();
+        DataGrid paymentTable = DataGrid.create();
 
         // Displaying the UI
-        return new CartViewModel(toolkit.createVBox(documentTable, documentLineTable, paymentTable),
+        return new CartViewModel(VBox.create(documentTable, documentLineTable, paymentTable),
                 documentTable, documentLineTable, paymentTable);
     }
 

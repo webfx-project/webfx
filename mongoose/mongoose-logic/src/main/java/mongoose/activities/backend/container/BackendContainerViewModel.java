@@ -1,8 +1,8 @@
 package mongoose.activities.backend.container;
 
 import mongoose.activities.shared.container.ContainerViewModel;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.layouts.VPage;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon
@@ -14,7 +14,7 @@ class BackendContainerViewModel extends ContainerViewModel {
     private final Button monitorButton;
     private final Button testerButton;
 
-    public BackendContainerViewModel(VPage contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
+    public BackendContainerViewModel(BorderPane contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
         super(contentNode, backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
         this.bookingsButton = bookingsButton;
         this.lettersButton = lettersButton;

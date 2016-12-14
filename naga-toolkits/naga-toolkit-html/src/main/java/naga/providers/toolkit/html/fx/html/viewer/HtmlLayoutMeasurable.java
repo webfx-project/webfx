@@ -15,7 +15,7 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
 
     default Bounds getLayoutBounds() {
         HTMLElement e = getElement();
-        return new BoundingBox(0, 0, 0, e.offsetWidth, e.offsetHeight, 0);
+        return new BoundingBox(0, 0, 0, measure(e, true), measure(e, false), 0);
     }
 
     default double minWidth(double height) {
@@ -43,23 +43,27 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
     }
 
     default double measureWidth(double height) {
-        return measure(height, true);
+        return sizeAndMeasure(height, true);
     }
 
     default double measureHeight(double width) {
-        return measure(width, false);
+        return sizeAndMeasure(width, false);
     }
 
-    default double measure(double value, boolean width) {
+    default double sizeAndMeasure(double value, boolean width) {
         HTMLElement e = getElement();
         CSSStyleDeclaration style = e.style;
         Object styleWidth = style.width;
         Object styleHeight = style.height;
         style.width =   width && value >= 0 ? value : null;
         style.height = !width && value >= 0 ? value : null;
-        double result = width ? e.offsetWidth : e.offsetHeight;
+        double result = measure(e, width);
         style.width = styleWidth;
         style.height = styleHeight;
         return result;
+    }
+
+    default double measure(HTMLElement e, boolean width) {
+        return width ? e.offsetWidth : e.offsetHeight;
     }
 }

@@ -1,13 +1,13 @@
 package naga.toolkit.fx.spi.impl.canvas;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
-import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class CanvasDrawingImpl
-        <NV extends CanvasNodeViewer<?, CC>, CC, GS>
+        <NV extends CanvasNodeViewer<?, CC>, CC>
         extends DrawingImpl {
 
     public CanvasDrawingImpl(DrawingNode drawingNode, NodeViewerFactory nodeViewerFactory) {
@@ -30,7 +30,7 @@ public abstract class CanvasDrawingImpl
     }
 
     @Override
-    protected boolean updateViewProperty(Node node, Property changedProperty) {
+    protected boolean updateViewProperty(Node node, ObservableValue changedProperty) {
         boolean hitChangedProperty = super.updateViewProperty(node, changedProperty);
         if (hitChangedProperty || changedProperty == null)
             requestCanvasRepaint();
@@ -44,19 +44,18 @@ public abstract class CanvasDrawingImpl
     }
 
     private void paintNodes(Collection<Node> nodes, CC canvasContext) {
-        GS parentTransform = captureGraphicState(canvasContext);
-        for (Node node : nodes) {
+        for (Node node : nodes)
             paintNode(node, canvasContext);
-            restoreGraphicState(parentTransform, canvasContext);
-        }
     }
 
     public void paintNode(Node node, CC canvasContext) {
         if (node.isVisible()) {
             NV nodeView = (NV) getOrCreateAndBindNodeViewer(node);
-            paintNodeView(nodeView, canvasContext);
+            CC nodeCanvasContext = createCanvasContext(canvasContext);
+            paintNodeView(nodeView, nodeCanvasContext);
             if (node instanceof Parent)
-                paintNodes(((Parent) node).getChildren(), canvasContext);
+                paintNodes(((Parent) node).getChildren(), nodeCanvasContext);
+            disposeCanvasContext(nodeCanvasContext);
         }
     }
 
@@ -121,8 +120,8 @@ public abstract class CanvasDrawingImpl
 
     public abstract void requestCanvasRepaint();
 
-    protected abstract GS captureGraphicState(CC canvasContext);
+    protected abstract CC createCanvasContext(CC canvasContext);
 
-    protected abstract void restoreGraphicState(GS canvasState, CC canvasContext);
+    protected abstract void disposeCanvasContext(CC canvasContext);
 
 }

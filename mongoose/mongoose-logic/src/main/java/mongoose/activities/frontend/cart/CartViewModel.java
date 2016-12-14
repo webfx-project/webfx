@@ -1,34 +1,34 @@
 package mongoose.activities.frontend.cart;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
 class CartViewModel extends AbstractViewModel {
 
-    private final Table documentTable;
-    private final Table documentLineTable;
-    private final Table paymentTable;
+    private final DataGrid documentTable;
+    private final DataGrid documentLineTable;
+    private final DataGrid paymentTable;
 
-    CartViewModel(GuiNode contentNode, Table documentTable, Table documentLineTable, Table paymentTable) {
+    CartViewModel(Node contentNode, DataGrid documentTable, DataGrid documentLineTable, DataGrid paymentTable) {
         super(contentNode);
         this.documentTable = documentTable;
         this.documentLineTable = documentLineTable;
         this.paymentTable = paymentTable;
     }
 
-    Table getDocumentTable() {
+    DataGrid getDocumentTable() {
         return documentTable;
     }
 
-    Table getDocumentLineTable() {
+    DataGrid getDocumentLineTable() {
         return documentLineTable;
     }
 
-    Table getPaymentTable() {
+    DataGrid getPaymentTable() {
         return paymentTable;
     }
 }

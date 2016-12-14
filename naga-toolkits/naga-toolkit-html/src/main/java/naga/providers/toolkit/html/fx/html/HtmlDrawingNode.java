@@ -26,18 +26,30 @@ public class HtmlDrawingNode extends HtmlParent<HTMLElement> implements DrawingN
         super(container);
         //HtmlUtil.setStyleAttribute(container, "clip-path", "inset(0 0% 0% 0)"); // Doesn't seem to work with absolute position
         HtmlUtil.setStyleAttribute(container, "width", "100%");
-        drawing = new HtmlDrawing(this) {
+        drawing = new HtmlDrawing(this)/* {
             @Override
             protected void pulse() {
                 updateWidthProperty(container);
                 super.pulse();
             }
-        };
+        }*/;
+        Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(container), widthProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(container), heightProperty());
     }
 
     private void updateWidthProperty(HTMLElement container) {
         setWidth(container.clientWidth);
+    }
+
+    private void updateContainerWidth(HTMLElement container) {
+        double width = Numbers.doubleValue(getWidth());
+        HtmlUtil.setStyleAttribute(container, "width",
+                (width > 0 ?
+                        width :
+                        getDrawing().getRootNode() != null ?
+                                getDrawing().getRootNode().prefWidth(-1) :
+                                0)
+                        + "px");
     }
 
     private void updateContainerHeight(HTMLElement container) {
@@ -46,8 +58,8 @@ public class HtmlDrawingNode extends HtmlParent<HTMLElement> implements DrawingN
                 (height > 0 ?
                         height :
                         getDrawing().getRootNode() != null ?
-                        getDrawing().getRootNode().prefHeight(-1) :
-                        0)
+                                getDrawing().getRootNode().prefHeight(-1) :
+                                0)
                         + "px");
     }
 

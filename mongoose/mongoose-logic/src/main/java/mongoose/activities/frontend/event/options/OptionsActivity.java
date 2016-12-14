@@ -10,6 +10,7 @@ import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
 import naga.platform.spi.Platform;
+import naga.toolkit.fx.scene.layout.VBox;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.Properties;
 
@@ -74,13 +75,13 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
     }
 
     protected void computeAndDisplayWorkingTotalPrice() {
-        optionsViewModel.getPriceTextView().setText(PriceFormatter.SINGLETON.formatWithCurrency(DocumentPricing.computeDocumentPrice(getWorkingDocument()), getEvent()));
+        optionsViewModel.getPriceText().setText(PriceFormatter.SINGLETON.formatWithCurrency(DocumentPricing.computeDocumentPrice(getWorkingDocument()), getEvent()));
     }
 
     private void showCalendarIfBothLogicAndViewAreReady() {
         if (workingDocumentCalendarGraphic != null && optionsViewModel != null)
             Toolkit.get().scheduler().runInUiThread(() -> {
-                optionsViewModel.getCalendarPanel().setCenter(Toolkit.get().createVBox(optionsViewModel.getPriceTextView(), workingDocumentCalendarGraphic.getDrawingNode()));
+                optionsViewModel.getCalendarPanel().setCenter(VBox.create(optionsViewModel.getPriceText(), workingDocumentCalendarGraphic.getNode()));
                 computeAndDisplayWorkingTotalPrice();
             });
     }

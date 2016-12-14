@@ -15,10 +15,9 @@ import naga.toolkit.fx.animation.Animation;
 import naga.toolkit.fx.animation.KeyFrame;
 import naga.toolkit.fx.animation.KeyValue;
 import naga.toolkit.fx.animation.Timeline;
-import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Group;
-import naga.toolkit.fx.spi.DrawingNode;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.scene.transform.Rotate;
 import naga.toolkit.fx.scene.transform.Translate;
 import naga.toolkit.util.Properties;
@@ -34,7 +33,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
 
     private Calendar calendar;
     private final I18n i18n;
-    private DrawingNode drawingNode;
+    private Region drawingNode;
     private long firstEpochDay;
 
     public CalendarGraphicImpl(Calendar calendar, I18n i18n) {
@@ -62,14 +61,14 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     @Override
-    public DrawingNode getDrawingNode() {
+    public Node getNode() {
         if (drawingNode == null)
             createDrawingNode();
         return drawingNode;
     }
 
     private void createDrawingNode() {
-        drawingNode = Toolkit.get().createDrawingNode();
+        drawingNode = Region.create();
         drawingNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth));
         createOrUpdateDrawingNodeCalendar();
     }
@@ -81,7 +80,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         horizontalDayPositioner = new HorizontalDayPositioner(calendar);
         verticalDayPositioner = new VerticalDayTimePositioner(drawingNode.heightProperty());
         Group calendarGroup = createCalendarGroup();
-        drawingNode.setRootNode(calendarGroup);
+        drawingNode.getChildren().setAll(calendarGroup);
         updateTotalWidth(drawingNode.getWidth());
         Rotate rotate = null; // Rotate.create();
         if (rotate != null) {

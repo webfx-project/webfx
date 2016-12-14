@@ -3,19 +3,19 @@ package mongoose.activities.backend.tester;
 import mongoose.activities.backend.tester.drive.Drive;
 import mongoose.activities.backend.tester.drive.model.ConnectionChartGenerator;
 import naga.framework.ui.presentation.PresentationActivity;
+import naga.toolkit.fx.ext.chart.LineChart;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.control.Slider;
+import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.toolkit.fx.scene.layout.VBox;
 import naga.toolkit.properties.conversion.ConvertedProperty;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.charts.LineChart;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.Slider;
-import naga.toolkit.spi.nodes.gauges.Gauge;
-import naga.toolkit.spi.nodes.layouts.VBox;
 
 /**
  * @author Bruno Salmon
  */
 public class TesterActivity extends PresentationActivity<TesterViewModel, TesterPresentationModel> {
-    ConnectionChartGenerator connectionChartGenerator = new ConnectionChartGenerator();
+    private ConnectionChartGenerator connectionChartGenerator = new ConnectionChartGenerator();
 
     public TesterActivity() {
         super(TesterPresentationModel::new);
@@ -23,29 +23,22 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
 
     protected TesterViewModel buildView(Toolkit toolkit) {
         // Sliders
-        Slider requestedSlider = toolkit.createSlider();
-        Gauge startedSlider = toolkit.createGauge();
+        Slider requestedSlider = Slider.create();
+        Slider startedSlider = Slider.create();
         // Charts
-        LineChart connectionsChart = toolkit.createLineChart();
+        LineChart connectionsChart = LineChart.create();
         // Arranging in boxes
-        VBox vBox = toolkit.createVBox();
+        VBox vBox = VBox.create();
         vBox.getChildren().setAll(requestedSlider, startedSlider);
         // Buttons
-        Button saveTest = toolkit.createButton();
-        saveTest.setText("Save Test");
+        Button saveTest = Button.create("Save Test");
         // Building the UI components
-        return new TesterViewModel(toolkit.createVPage()
-                    .setHeader(vBox)
-                    .setCenter(connectionsChart)
-                    .setFooter(saveTest),
-                saveTest,
-                connectionsChart,
-                requestedSlider,
-                startedSlider);
+        return new TesterViewModel(BorderPane.create(connectionsChart, vBox, null, saveTest, null),
+                saveTest, connectionsChart, requestedSlider, startedSlider);
     }
 
     protected void bindViewModelWithPresentationModel(TesterViewModel vm, TesterPresentationModel pm) {
-        vm.getSaveTest().actionEventObservable().subscribe(actionEvent -> {
+        vm.getSaveTest().setOnMouseClicked(e -> {
             getHistory().push("/testSet");
 //            Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue());
             connectionChartGenerator.reset();

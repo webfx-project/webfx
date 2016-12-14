@@ -3,8 +3,8 @@ package mongoose.activities.shared.generic;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.ui.presentation.PresentationModel;
-import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.display.DisplayResultSet;
 
 /**
  * @author Bruno Salmon

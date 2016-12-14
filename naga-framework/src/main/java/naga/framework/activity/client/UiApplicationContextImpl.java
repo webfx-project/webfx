@@ -12,19 +12,19 @@ import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.GuiNode;
 
 /**
  * @author Bruno Salmon
  */
 public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> extends ApplicationContextImpl<C> implements UiApplicationContext<C> {
 
-    protected UiApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
+    UiApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);
-        nodeProperty().addListener(new ChangeListener<GuiNode>() {
+        nodeProperty().addListener(new ChangeListener<Node>() {
             @Override
-            public void changed(ObservableValue<? extends GuiNode> observable, GuiNode oldValue, GuiNode newValue) {
+            public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
                 observable.removeListener(this);
                 //Platform.log("Binding application window node property");
                 Toolkit.get().getApplicationWindow().nodeProperty().bind(observable);
@@ -62,14 +62,14 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
         return params;
     }
 
-    private final Property<GuiNode> nodeProperty = new SimpleObjectProperty<>();
+    private final Property<Node> nodeProperty = new SimpleObjectProperty<>();
     @Override
-    public Property<GuiNode> nodeProperty() {
+    public Property<Node> nodeProperty() {
         return nodeProperty;
     }
 
     @Override
-    public Property<GuiNode> mountNodeProperty() {
+    public Property<Node> mountNodeProperty() {
         return null;
     }
 

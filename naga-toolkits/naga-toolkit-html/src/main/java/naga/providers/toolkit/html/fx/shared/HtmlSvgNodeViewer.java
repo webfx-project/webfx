@@ -171,10 +171,6 @@ public abstract class HtmlSvgNodeViewer
         }
     }
 
-    public void removeChildren() {
-        HtmlUtil.removeChildren(element);
-    }
-
     private static String toSvgBlendMode(BlendMode blendMode) {
         if (blendMode != null)
             switch (blendMode) {

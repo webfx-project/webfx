@@ -2,6 +2,7 @@ package naga.toolkit.fx.spi.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.Strings;
@@ -11,14 +12,13 @@ import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Control;
 import naga.toolkit.fx.scene.impl.NodeImpl;
-import naga.toolkit.fx.scene.impl.ParentImpl;
-import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
 import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.properties.markers.HasHeightProperty;
+import naga.toolkit.properties.markers.HasWidthProperty;
 import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
@@ -44,10 +44,13 @@ public abstract class DrawingImpl implements Drawing {
                 ((HasWidthProperty) rootNode).widthProperty().bind(drawingNode.widthProperty());
             // Binding the drawing node height to the root node height
             if (rootNode instanceof HasHeightProperty) {
+                ((HasHeightProperty) rootNode).heightProperty().bind(drawingNode.heightProperty());
+/*
                 HasHeightProperty root = (HasHeightProperty) rootNode;
                 drawingNode.heightProperty().bind(root.heightProperty());
                 if (root instanceof ParentImpl && root instanceof PreferenceResizableNode)
                     ((ParentImpl) root).setBindHeightToPrefHeight(true);
+*/
             }
         }
     };
@@ -64,7 +67,7 @@ public abstract class DrawingImpl implements Drawing {
         }
 
         @Override
-        public void requestViewPropertyUpdate(Node node, Property changedProperty) {
+        public void requestViewPropertyUpdate(Node node, ObservableValue changedProperty) {
             updateViewProperty(node, changedProperty);
         }
 
@@ -90,6 +93,10 @@ public abstract class DrawingImpl implements Drawing {
         this.nodeViewerFactory = nodeViewerFactory;
     }
 
+    public DrawingRequester getDrawingRequester() {
+        return drawingRequester;
+    }
+
     private void keepParentAndChildrenViewersUpdated(Parent parent) {
         ObservableLists.runNowAndOnListChange(() -> {
             // Setting the parent to all children
@@ -103,11 +110,11 @@ public abstract class DrawingImpl implements Drawing {
         updateChildrenViewers(parent.getChildren());
     }
 
-    protected boolean updateViewProperty(Node node, Property changedProperty) {
+    protected boolean updateViewProperty(Node node, ObservableValue changedProperty) {
         return updateViewProperty(getOrCreateAndBindNodeViewer(node), changedProperty);
     }
 
-    private boolean updateViewProperty(NodeViewer nodeViewer, Property changedProperty) {
+    private boolean updateViewProperty(NodeViewer nodeViewer, ObservableValue changedProperty) {
         return nodeViewer.updateProperty(changedProperty);
     }
 
@@ -134,10 +141,11 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     public NodeViewer getOrCreateAndBindNodeViewer(Node node) {
+        NodeImpl nodeImpl = (NodeImpl) node;
+        if (node.getDrawing() != this)
+            nodeImpl.setDrawing(this);
         NodeViewer nodeViewer = node.getNodeViewer();
         if (nodeViewer == null) {
-            NodeImpl nodeImpl = (NodeImpl) node;
-            nodeImpl.setDrawing(this);
             nodeImpl.setNodeViewer(nodeViewer = createNodeViewer(node));
             if (nodeViewer == null) // The node view factory was unable to create a view for this node!
                 nodeImpl.setNodeViewer(nodeViewer = createUnimplementedNodeViewer(node)); // Displaying a "Unimplemented..." button instead
@@ -161,7 +169,7 @@ public abstract class DrawingImpl implements Drawing {
 
     private NodeViewer createUnimplementedNodeViewer(Node node) {
         // Creating a button as replacement (assuming the target toolkit at least implements a button view!)
-        Button button = Button.create("Unimplemented " + Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " view");
+        Button button = Button.create(Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " viewer not provided");
         // Binding to allow the button to respond to the original node layout
         button.layoutXProperty().bind(node.layoutXProperty());
         button.layoutYProperty().bind(node.layoutYProperty());

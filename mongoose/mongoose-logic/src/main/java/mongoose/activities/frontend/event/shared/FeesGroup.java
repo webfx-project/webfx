@@ -12,10 +12,13 @@ import naga.commons.util.Objects;
 import naga.commons.util.async.Handler;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.cell.renderers.TextRenderer;
 import naga.toolkit.display.*;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.Button;
+import naga.toolkit.fx.ext.cell.collator.NodeCollatorRegistry;
+import naga.toolkit.fx.ext.cell.renderer.TextRenderer;
+import naga.toolkit.fx.geometry.Pos;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.image.ImageView;
+import naga.toolkit.fx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon
@@ -79,10 +82,10 @@ public class FeesGroup {
                 DisplayColumn.create(i18n.instantTranslate(singleOption ? "Course" : "Accommodation"), PrimType.STRING),
                 DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
                 DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE)
-                        .setValueRenderer(p -> {
+                        .setFxValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventService.areEventAvailabilitiesLoaded())
-                                return Toolkit.get().createImage("images/16/spinner.gif");
+                                return ImageView.create("images/16/spinner.gif");
                             Object availability = pair.get1();
                             OptionsPreselection optionsPreselection = pair.get2();
                             // Availability is null when there is no online room at all. In this case...
@@ -94,14 +97,16 @@ public class FeesGroup {
                             if (soldout)
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
                             Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book");
-                            button.actionEventObservable().subscribe(actionEvent -> bookHandler.handle(optionsPreselection));
+                            button.setOnMouseClicked(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
-                            return Toolkit.get().createHBox(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
+                            HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
+                            hBox.setAlignment(Pos.CENTER);
+                            return hBox;
                         }).build()});
         int rowIndex = 0;
         for (OptionsPreselection optionsPreselection : optionsPreselections) {
-            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(eventService.getEvent())), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
+            rsb.setValue(rowIndex,   0, singleOption ? /* Showing course name instead of 'NoAccommodation' when single line */ Labels.instantTranslateLabel(Objects.coalesce(label, Labels.bestLabelOrName(event)), i18n) : /* Otherwise showing accommodation type */ optionsPreselection.getDisplayName(i18n));
             rsb.setValue(rowIndex,   1, optionsPreselection.getDisplayPrice());
             rsb.setValue(rowIndex++, 2, new Pair<>(optionsPreselection.getDisplayAvailability(eventService), optionsPreselection));
         }

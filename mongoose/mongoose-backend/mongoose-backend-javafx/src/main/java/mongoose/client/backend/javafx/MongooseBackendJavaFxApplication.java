@@ -1,13 +1,13 @@
 package mongoose.client.backend.javafx;
 
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.MongooseBackendApplication;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
+import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.providers.toolkit.javafx.util.FxImageStore;
+import naga.toolkit.fx.scene.Node;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.GuiNode;
 
 
 /**
@@ -30,11 +30,11 @@ public class MongooseBackendJavaFxApplication {
     private static ImageView spinner;
 
     private static void setLoadingSpinnerVisible(boolean visible) {
-        GuiNode guiNode = Toolkit.get().getApplicationWindow().getNode();
-        if (guiNode != null) {
-            Node node = (Node) guiNode.unwrapToNativeNode();
-            if (node instanceof Pane) {
-                Pane rootPane = (Pane) node;
+        Node node = Toolkit.get().getApplicationWindow().getNode();
+        if (node != null) {
+            javafx.scene.Node fxNode = ((FxNodeViewer) node.getOrCreateAndBindNodeViewer()).getFxNode();
+            if (fxNode instanceof Pane) {
+                Pane rootPane = (Pane) fxNode;
                 if (!visible) {
                     rootPane.getChildren().remove(spinner);
                 } else if (!rootPane.getChildren().contains(spinner)) {

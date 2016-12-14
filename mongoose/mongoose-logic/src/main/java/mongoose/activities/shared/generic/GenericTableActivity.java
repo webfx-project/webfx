@@ -3,10 +3,11 @@ package mongoose.activities.shared.generic;
 import naga.commons.util.function.Factory;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.scene.control.TextField;
+import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
 
 /**
  * @author Bruno Salmon
@@ -23,15 +24,17 @@ public abstract class GenericTableActivity<VM extends GenericTableViewModel, PM 
 
     protected VM buildView(Toolkit toolkit) {
         // Building the UI components
-        SearchBox searchBox = toolkit.createSearchBox();
-        Table table = toolkit.createTable();
-        CheckBox limitCheckBox = toolkit.createCheckBox();
+        TextField searchBox = TextField.create();
+        DataGrid table = DataGrid.create();
+        CheckBox limitCheckBox = CheckBox.create();
 
-        return (VM) new GenericTableViewModel(toolkit.createVPage()
-                .setHeader(searchBox)
-                .setCenter(table)
-                .setFooter(limitCheckBox)
-                , searchBox, table, limitCheckBox);
+        return (VM) new GenericTableViewModel(BorderPane.create(
+                table, // center
+                searchBox, // top
+                null, // right
+                limitCheckBox, // bottom
+                null // left
+        ), searchBox, table, limitCheckBox);
     }
 
     protected void initializePresentationModel(PM pm) {
@@ -43,13 +46,13 @@ public abstract class GenericTableActivity<VM extends GenericTableViewModel, PM 
 
     protected void bindViewModelWithPresentationModel(VM vm, PM pm) {
         // Hard coded initialization
-        SearchBox searchBox = vm.getSearchBox();
+        TextField searchBox = vm.getSearchBox();
         CheckBox limitCheckBox = vm.getLimitCheckBox();
         // Initialization from the presentation model current state
         I18n i18n = getI18n();
-        i18n.translatePlaceholder(searchBox, "GenericSearchPlaceholder").setText(pm.searchTextProperty().getValue());
+        i18n.translatePromptText(searchBox, "GenericSearchPlaceholder").setText(pm.searchTextProperty().getValue());
         i18n.translateText(limitCheckBox, "LimitTo100").setSelected(pm.limitProperty().getValue());
-        searchBox.requestFocus();
+        //searchBox.requestFocus();
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model

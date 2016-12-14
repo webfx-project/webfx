@@ -7,6 +7,7 @@ import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Person;
 import mongoose.services.PersonService;
 import naga.commons.type.SpecializedTextType;
+import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
@@ -17,10 +18,15 @@ import naga.platform.spi.Platform;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.geometry.Insets;
+import naga.toolkit.fx.geometry.Pos;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.RadioButton;
+import naga.toolkit.fx.scene.layout.FlowPane;
+import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.events.ActionEvent;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.RadioButton;
+import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.util.Properties;
 
 /**
@@ -37,18 +43,18 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     protected void bindViewModelWithPresentationModel(FeesViewModel vm, FeesPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
         I18n i18n = getI18n();
-        i18n.translateText(setImage(vm.getProgramButton(), "{url: 'images/calendar.svg', width: 16, height: 16}"), "Program")
-                .actionEventObservable().subscribe(this::onProgramButtonPressed);
-        i18n.translateText(setImage(vm.getTermsButton(), "{url: 'images/certificate.svg', width: 16, height: 16}"), "TermsAndConditions")
-                .actionEventObservable().subscribe(this::onTermsButtonPressed);
+        i18n.translateText(setGraphic(vm.getProgramButton(), "{url: 'images/calendar.svg', width: 16, height: 16}"), "Program")
+                .setOnMouseClicked(this::onProgramButtonPressed);
+        i18n.translateText(setGraphic(vm.getTermsButton(), "{url: 'images/certificate.svg', width: 16, height: 16}"), "TermsAndConditions")
+                .setOnMouseClicked(this::onTermsButtonPressed);
         vm.getDateInfoCollator().displayResultSetProperty().bind(pm.dateInfoDisplayResultSetProperty());
     }
 
-    private void onProgramButtonPressed(ActionEvent actionEvent) {
+    private void onProgramButtonPressed(MouseEvent e) {
         goToNextBookingProcessPage("program");
     }
 
-    private void onTermsButtonPressed(ActionEvent actionEvent) {
+    private void onTermsButtonPressed(MouseEvent e) {
         goToNextBookingProcessPage("terms");
     }
 
@@ -78,10 +84,12 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     private void displayFeesGroups(FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
+        if (getEvent() == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
+            return; // We return to avoid NPE (this method will be called again once the event is loaded)
         int n = feesGroups.length;
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(n, new DisplayColumn[]{
-                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, dateInfoDisplayResultSetProperty)),
-                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
+                DisplayColumn.createFx(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, dateInfoDisplayResultSetProperty)),
+                DisplayColumn.createFx(value -> renderFeesGroupBody((DisplayResultSet) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
         WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");
@@ -96,15 +104,14 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         dateInfoDisplayResultSetProperty.setValue(rs);
     }
 
-    private GuiNode renderFeesGroupHeader(Pair<JsonObject, String> pair, FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
-        Toolkit toolkit = Toolkit.get();
+    private Node renderFeesGroupHeader(Pair<JsonObject, String> pair, FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
         I18n i18n = getI18n();
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates ?   i18n.instantTranslateText(toolkit.createRadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate ?  i18n.instantTranslateText(toolkit.createRadioButton(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(toolkit.createRadioButton(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates ?   i18n.instantTranslateText(RadioButton.create(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate ?  i18n.instantTranslateText(RadioButton.create(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(RadioButton.create(), "FacilityFeeDiscount") : null;
         PersonService personService = PersonService.get(getDataSourceModel());
         Person person = personService.getPreselectionProfilePerson();
         if (unemployedRadio != null) {
@@ -135,11 +142,17 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
             });
         }
-        return toolkit.createHBox(toolkit.createImage(pair.get1()), toolkit.createTextView(pair.get2()), noDiscountRadio, unemployedRadio, facilityFeeRadio);
+        Text feesGroupText = Text.create(pair.get2());
+        Node[] nodes = {createImageView(pair.get1()), feesGroupText, noDiscountRadio, unemployedRadio, facilityFeeRadio};
+        FlowPane header = FlowPane.create(Arrays.nonNulls(Node[]::new, nodes));
+        header.setHgap(5d);
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setInsets(Insets.create(5, 5, 5, 5));
+        return header;
     }
 
-    private GuiNode renderFeesGroupBody(DisplayResultSet rs) {
-        return Toolkit.get().createTable(rs);
+    private Node renderFeesGroupBody(DisplayResultSet rs) {
+        return DataGrid.create(rs);
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {

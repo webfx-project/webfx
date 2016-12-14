@@ -6,11 +6,14 @@ import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.i18n.I18n;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.scene.control.TextField;
+import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.toolkit.fx.scene.layout.HBox;
+import naga.toolkit.fx.scene.layout.Priority;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
 
 /**
  * @author Bruno Salmon
@@ -24,16 +27,27 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
     @Override
     protected BookingsViewModel buildView(Toolkit toolkit) {
         // Building the UI components
-        SearchBox searchBox = toolkit.createSearchBox();
-        Table table = toolkit.createTable();
-        Button newBookingButton = toolkit.createButton();
-        CheckBox limitCheckBox = toolkit.createCheckBox();
+        TextField searchBox = TextField.create();
+        DataGrid table = DataGrid.create();
+        Button newBookingButton = Button.create();
+        CheckBox limitCheckBox = CheckBox.create();
 
-        return new BookingsViewModel(toolkit.createVPage()
-                .setHeader(toolkit.createHBox(newBookingButton, searchBox))
-                .setCenter(table)
-                .setFooter(limitCheckBox)
-                , searchBox, table, limitCheckBox, newBookingButton);
+        HBox hBox = HBox.create(newBookingButton, searchBox);
+        HBox.setHgrow(searchBox, Priority.ALWAYS);
+        searchBox.setMaxWidth(Double.MAX_VALUE);
+        searchBox.setMaxHeight(Double.MAX_VALUE);
+        hBox.setPrefWidth(Double.MAX_VALUE);
+        hBox.setMaxWidth(Double.MAX_VALUE);
+        table.setMaxWidth(Double.MAX_VALUE);
+        table.setMaxHeight(Double.MAX_VALUE);
+
+        return new BookingsViewModel(BorderPane.create(
+                table, // center
+                hBox, // top
+                null, // right
+                limitCheckBox, // bottom
+                null // left
+        ), searchBox, table, limitCheckBox, newBookingButton);
     }
 
     @Override
@@ -41,7 +55,7 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         super.bindViewModelWithPresentationModel(vm, pm);
         // Hard coded initialization
         I18n i18n = getI18n();
-        i18n.translateText(vm.getNewBookingButton(), "NewBooking").actionEventObservable().subscribe(actionEvent -> getHistory().push("/event/" + pm.getEventId() + "/fees"));
+        i18n.translateText(vm.getNewBookingButton(), "NewBooking").setOnMouseClicked(event -> getHistory().push("/event/" + pm.getEventId() + "/fees"));
     }
 
     protected void bindPresentationModelWithLogic(GenericTableEventDependentPresentationModel pm) {

@@ -1,11 +1,11 @@
 package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.GenericTableViewModel;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.controls.Button;
-import naga.toolkit.spi.nodes.controls.CheckBox;
-import naga.toolkit.spi.nodes.controls.SearchBox;
-import naga.toolkit.spi.nodes.controls.Table;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.control.CheckBox;
+import naga.toolkit.fx.scene.control.TextField;
 
 /**
  * @author Bruno Salmon
@@ -14,7 +14,7 @@ class BookingsViewModel extends GenericTableViewModel {
 
     private final Button newBookingButton;
 
-    public BookingsViewModel(GuiNode contentNode, SearchBox searchBox, Table table, CheckBox limitCheckBox, Button newBookingButton) {
+    BookingsViewModel(Node contentNode, TextField searchBox, DataGrid table, CheckBox limitCheckBox, Button newBookingButton) {
         super(contentNode, searchBox, table, limitCheckBox);
         this.newBookingButton = newBookingButton;
     }

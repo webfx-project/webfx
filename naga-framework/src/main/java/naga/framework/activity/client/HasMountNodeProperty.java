@@ -1,15 +1,15 @@
 package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasMountNodeProperty {
 
-    Property<GuiNode> mountNodeProperty();
-    default void setMountNode(GuiNode node) { mountNodeProperty().setValue(node); }
-    default GuiNode getMountNode() { return mountNodeProperty().getValue(); }
+    Property<Node> mountNodeProperty();
+    default void setMountNode(Node node) { mountNodeProperty().setValue(node); }
+    default Node getMountNode() { return mountNodeProperty().getValue(); }
 
 }
