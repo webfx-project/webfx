@@ -9,7 +9,6 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.HBox;
-import naga.toolkit.spi.Toolkit;
 
 
 /**
@@ -26,7 +25,7 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
     }
 
     @Override
-    protected VM buildView(Toolkit toolkit) {
+    protected VM buildView() {
         Button backButton = Button.create();
         Button forwardButton = Button.create();
         Button organizationsButton = Button.create();

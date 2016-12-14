@@ -13,7 +13,6 @@ import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.HBox;
 import naga.toolkit.fx.scene.layout.Priority;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -25,7 +24,7 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
     }
 
     @Override
-    protected BookingsViewModel buildView(Toolkit toolkit) {
+    protected BookingsViewModel buildView() {
         // Building the UI components
         TextField searchBox = TextField.create();
         DataGrid table = DataGrid.create();

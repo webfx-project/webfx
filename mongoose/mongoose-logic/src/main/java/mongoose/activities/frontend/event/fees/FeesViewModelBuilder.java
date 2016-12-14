@@ -12,7 +12,6 @@ import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.HBox;
 import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -30,8 +29,8 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
     }
 
     @Override
-    protected void buildComponents(Toolkit toolkit, I18n i18n) {
-        super.buildComponents(toolkit, i18n);
+    protected void buildComponents(I18n i18n) {
+        super.buildComponents(i18n);
         termsButton = Button.create();
         programButton = Button.create();
         feesGroupsCollator = new GridCollator(this::toFeesGroupPanel, NodeCollatorRegistry.vBoxCollator());

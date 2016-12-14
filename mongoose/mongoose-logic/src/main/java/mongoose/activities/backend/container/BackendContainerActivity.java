@@ -5,7 +5,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.FlowPane;
-import naga.toolkit.spi.Toolkit;
+
 /**
  * @author Bruno Salmon
  */
@@ -16,7 +16,7 @@ public class BackendContainerActivity extends ContainerActivity<BackendContainer
     }
 
     @Override
-    protected BackendContainerViewModel buildView(Toolkit toolkit) {
+    protected BackendContainerViewModel buildView() {
         Button backButton = Button.create();
         Button forwardButton = Button.create();
         Button organizationsButton = Button.create();

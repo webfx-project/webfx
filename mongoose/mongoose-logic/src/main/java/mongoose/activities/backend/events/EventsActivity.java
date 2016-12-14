@@ -6,7 +6,6 @@ import naga.toolkit.fx.ext.control.DataGrid;
 import naga.toolkit.fx.scene.control.CheckBox;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -17,7 +16,7 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
         super(EventsPresentationModel::new);
     }
 
-    protected EventsViewModel buildView(Toolkit toolkit) {
+    protected EventsViewModel buildView() {
         // Building the UI components
         TextField searchBox = TextField.create();
         DataGrid table = DataGrid.create();
@@ -35,7 +34,7 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
                 null, // right
                 limitCheckBox, // bottom
                 null // left
-        ), searchBox, table, withBookingsCheckBox, limitCheckBox);
+        ), searchBox, table, limitCheckBox, withBookingsCheckBox);
     }
 
     protected void bindViewModelWithPresentationModel(EventsViewModel vm, EventsPresentationModel pm) {

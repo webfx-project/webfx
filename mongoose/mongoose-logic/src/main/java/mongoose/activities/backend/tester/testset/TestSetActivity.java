@@ -6,7 +6,6 @@ import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Jean-Pierre Alonso.
@@ -17,7 +16,7 @@ public class TestSetActivity extends PresentationActivity<TestSetViewModel, Test
         super(TestSetPresentationModel::new);
     }
 
-    protected TestSetViewModel buildView(Toolkit toolkit) {
+    protected TestSetViewModel buildView() {
         // TextFields
         TextField testName = TextField.create();
         TextField testComment = TextField.create();

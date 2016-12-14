@@ -9,7 +9,6 @@ import naga.toolkit.fx.scene.control.Slider;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.VBox;
 import naga.toolkit.properties.conversion.ConvertedProperty;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -21,7 +20,7 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         super(TesterPresentationModel::new);
     }
 
-    protected TesterViewModel buildView(Toolkit toolkit) {
+    protected TesterViewModel buildView() {
         // Sliders
         Slider requestedSlider = Slider.create();
         Slider startedSlider = Slider.create();

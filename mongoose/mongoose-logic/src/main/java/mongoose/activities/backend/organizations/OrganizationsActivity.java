@@ -7,7 +7,6 @@ import naga.toolkit.fx.scene.control.CheckBox;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.HBox;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -18,7 +17,7 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
         super(OrganizationsPresentationModel::new);
     }
 
-    protected OrganizationsViewModel buildView(Toolkit toolkit) {
+    protected OrganizationsViewModel buildView() {
         // Building the UI components
         TextField searchBox = TextField.create();
         DataGrid table = DataGrid.create();

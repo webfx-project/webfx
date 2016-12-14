@@ -5,7 +5,6 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.fx.ext.control.DataGrid;
 import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -17,7 +16,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     }
 
     @Override
-    protected CartViewModel buildView(Toolkit toolkit) {
+    protected CartViewModel buildView() {
         // Building the UI components
         DataGrid documentTable = DataGrid.create();
         DataGrid documentLineTable = DataGrid.create();

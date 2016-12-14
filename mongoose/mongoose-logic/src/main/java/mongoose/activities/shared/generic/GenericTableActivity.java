@@ -7,7 +7,6 @@ import naga.toolkit.fx.ext.control.DataGrid;
 import naga.toolkit.fx.scene.control.CheckBox;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -22,7 +21,7 @@ public abstract class GenericTableActivity<VM extends GenericTableViewModel, PM 
         super(presentationModelFactory);
     }
 
-    protected VM buildView(Toolkit toolkit) {
+    protected VM buildView() {
         // Building the UI components
         TextField searchBox = TextField.create();
         DataGrid table = DataGrid.create();

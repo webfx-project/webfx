@@ -7,7 +7,6 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.HBox;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -19,24 +18,24 @@ public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessV
     protected Node contentNode;
 
     @Override
-    public VM buildView(Toolkit toolkit) {
-        buildComponents(toolkit, UiApplicationContext.getUiApplicationContext().getI18n());
+    public VM buildView() {
+        buildComponents(UiApplicationContext.getUiApplicationContext().getI18n());
         return createViewModel();
     }
 
     protected abstract VM createViewModel();
 
-    protected void buildComponents(Toolkit toolkit, I18n i18n) {
+    protected void buildComponents(I18n i18n) {
         if (previousButton == null)
             previousButton = Button.create();
         if (nextButton == null)
             nextButton = Button.create();
         if (contentNode == null)
             contentNode = BorderPane.create();
-        assembleComponentsIntoContentNode(toolkit);
+        assembleComponentsIntoContentNode();
     }
 
-    protected void assembleComponentsIntoContentNode(Toolkit toolkit) {
+    protected void assembleComponentsIntoContentNode() {
         if (contentNode instanceof BorderPane)
             ((BorderPane) contentNode).setBottom(HBox.create(previousButton, nextButton));
     }

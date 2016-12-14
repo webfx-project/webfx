@@ -92,11 +92,10 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     public void onResume() {
         initializePresentationModel(presentationModel); // Doing it again, in case the params have changed on a later resume
         setActive(true);
-        Toolkit toolkit = Toolkit.get();
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
             ViewBuilder<VM> viewBuilder = viewBuilders.get(getClass());
-            viewModel = viewBuilder != null ? viewBuilder.buildView(toolkit) : buildView(toolkit);
+            viewModel = viewBuilder != null ? viewBuilder.buildView() : buildView();
         }
         if (!viewBoundWithPresentationModel) {
             // Binding the mount node property so that child sub routed pages are displayed
@@ -106,7 +105,7 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             bindViewModelWithPresentationModel(viewModel, presentationModel);
             viewBoundWithPresentationModel = true;
         }
-        toolkit.scheduler().runInUiThread(() -> {
+        Toolkit.get().scheduler().runInUiThread(() -> {
             onShow();
             activityContext.setNode(viewModel.getContentNode());
         });
@@ -132,7 +131,7 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     protected abstract void bindPresentationModelWithLogic(PM pm);
 
-    protected VM buildView(Toolkit toolkit) {
+    protected VM buildView() {
         return null;
     }
 

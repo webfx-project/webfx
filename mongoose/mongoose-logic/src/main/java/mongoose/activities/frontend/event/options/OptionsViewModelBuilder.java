@@ -5,7 +5,6 @@ import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -20,15 +19,15 @@ public class OptionsViewModelBuilder extends BookingsProcessViewModelBuilder<Opt
         return new OptionsViewModel(contentNode, calendarPanel, priceText, previousButton, nextButton);
     }
 
-    protected void buildComponents(Toolkit toolkit, I18n i18n) {
+    protected void buildComponents(I18n i18n) {
         calendarPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/calendar.svg', width: 16, height: 16}", "Attendance", i18n);
         priceText = Text.create();
-        super.buildComponents(toolkit, i18n);
+        super.buildComponents(i18n);
     }
 
     @Override
-    protected void assembleComponentsIntoContentNode(Toolkit toolkit) {
-        super.assembleComponentsIntoContentNode(toolkit); // footer
+    protected void assembleComponentsIntoContentNode() {
+        super.assembleComponentsIntoContentNode(); // footer
         if (contentNode instanceof BorderPane)
             ((BorderPane) contentNode).setCenter(calendarPanel);
     }
