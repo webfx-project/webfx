@@ -2,7 +2,10 @@ package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
+import naga.providers.toolkit.swing.fx.SwingDrawing;
 import naga.providers.toolkit.swing.util.SwingFonts;
+import naga.toolkit.fx.geometry.BoundingBox;
+import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
@@ -11,29 +14,36 @@ import naga.toolkit.fx.spi.viewer.base.TextViewerBase;
 import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
 
 import java.awt.*;
+import java.awt.font.GlyphVector;
+import java.awt.geom.Rectangle2D;
 
 /**
  * @author Bruno Salmon
  */
 public class SwingTextViewer
-        extends SwingShapeViewer<Text, TextViewerBase, TextViewerMixin>
-        implements TextViewerMixin {
+        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
+        extends SwingShapeViewer<N, NV, NM>
+        implements TextViewerMixin<N, NV, NM> {
 
     private java.awt.Font swingFont;
 
     public SwingTextViewer() {
-        super(new TextViewerBase());
+        this((NV) new TextViewerBase());
+    }
+
+    SwingTextViewer(NV base) {
+        super(base);
     }
 
     @Override
     public void updateText(String text) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
     public void updateFont(Font font) {
         swingFont = null;
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
@@ -76,9 +86,11 @@ public class SwingTextViewer
         return g.getFontMetrics(getShapeSwingFont(g));
     }
 
+    private GlyphVector glyphVector;
     @Override
     protected Shape createSwingShape(Graphics2D g) {
-        return getShapeSwingFont(g).createGlyphVector(g.getFontRenderContext(), getSafeNodeText()).getOutline();
+        glyphVector = getShapeSwingFont(g).createGlyphVector(g.getFontRenderContext(), getSafeNodeText());
+        return glyphVector.getOutline();
     }
 
     private String getSafeNodeText() {
@@ -89,7 +101,7 @@ public class SwingTextViewer
     public void prepareCanvasContext(Graphics2D g) {
         super.prepareCanvasContext(g);
         Text t = getNode();
-        double x = Numbers.doubleValue(t.getX());
+        double x = t.getX();
         double wrappingWidth = Numbers.doubleValue(t.getWrappingWidth());
         // Partial implementation that doesn't support multi-line text wrapping. TODO: Add multi-line wrapping support
         if (wrappingWidth > 0) {
@@ -100,10 +112,10 @@ public class SwingTextViewer
             else if (textAlignment == TextAlignment.RIGHT)
                 x += (wrappingWidth - textWidth);
         }
-        g.translate(x, t.getY() + vPosToBaselineOffset(t.getTextOrigin(), g));
+        g.translate(x, t.getY() + textOriginToBaselineOffset(t.getTextOrigin(), g));
     }
 
-    private double vPosToBaselineOffset(VPos vpos, Graphics2D g) {
+    private double textOriginToBaselineOffset(VPos vpos, Graphics2D g) {
         if (vpos != null && vpos != VPos.BASELINE) {
             FontMetrics fontMetrics = getFontMetrics(g);
             switch (vpos) {
@@ -116,5 +128,17 @@ public class SwingTextViewer
             }
         }
         return 0;
+    }
+
+    @Override
+    protected Bounds createLayoutBounds() {
+        if (glyphVector == null) {
+            SwingDrawing drawing = (SwingDrawing) getNode().getDrawing();
+            Graphics2D g = (Graphics2D) drawing.getDrawingComponent().getGraphics();
+            g.setFont(getShapeSwingFont(g));
+            getOrCreateSwingShape(g);
+        }
+        Rectangle2D vb = glyphVector.getVisualBounds();
+        return new BoundingBox(vb.getMinX(), vb.getMinY(), vb.getWidth(), vb.getHeight());
     }
 }

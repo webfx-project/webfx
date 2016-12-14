@@ -20,17 +20,17 @@ public class SwingCircleViewer
 
     @Override
     public void updateCenterX(Double centerX) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
     public void updateCenterY(Double centerY) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
     public void updateRadius(Double radius) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override

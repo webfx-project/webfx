@@ -1,5 +1,8 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
+import naga.toolkit.fx.geometry.BoundingBox;
+import naga.toolkit.fx.geometry.Bounds;
+import naga.toolkit.fx.scene.LayoutMeasurable;
 import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.shape.Shape;
@@ -19,11 +22,12 @@ abstract class SwingShapeViewer
         <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
 
         extends SwingNodeViewer<N, NV, NM>
-        implements ShapeViewerMixin<N, NV, NM> {
+        implements ShapeViewerMixin<N, NV, NM>, LayoutMeasurable {
 
     private final SwingPaintUpdater swingPaintUpdater = new SwingPaintUpdater();
     private final SwingStrokeUpdater swingStrokeUpdater = new SwingStrokeUpdater();
     private java.awt.Shape swingShape;
+    private Bounds layoutBounds;
 
     SwingShapeViewer(NV base) {
         super(base);
@@ -81,13 +85,16 @@ abstract class SwingShapeViewer
         swingStrokeUpdater.updateFromShape(getNode());
     }
 
-    protected void updateSwingShape() {
+    protected void invalidateSwingShape() {
         swingShape = null;
+        layoutBounds = null;
     }
 
-    private java.awt.Shape getOrCreateSwingShape(Graphics2D g) {
-        if (swingShape == null)
-            swingShape =  createSwingShape(g);
+    protected java.awt.Shape getOrCreateSwingShape(Graphics2D g) {
+        if (swingShape == null) {
+            swingShape = createSwingShape(g);
+            layoutBounds = null;
+        }
         return swingShape;
     }
 
@@ -131,5 +138,49 @@ abstract class SwingShapeViewer
     @Override
     public boolean containsPoint(Point2D point) {
         return swingShape != null && swingShape.contains(point.getX(), point.getY());
+    }
+
+    @Override
+    public Bounds getLayoutBounds() {
+        if (layoutBounds == null)
+            layoutBounds = createLayoutBounds();
+        return layoutBounds;
+    }
+
+    protected Bounds createLayoutBounds() {
+        if (swingShape == null)
+            return new BoundingBox(0, 0, 0, 0);
+        Rectangle bounds = swingShape.getBounds();
+        return new BoundingBox(0, 0, bounds.getWidth(), bounds.getHeight());
+    }
+
+    @Override
+    public double minWidth(double height) {
+        return getLayoutBounds().getWidth();
+    }
+
+    @Override
+    public double maxWidth(double height) {
+        return getLayoutBounds().getWidth();
+    }
+
+    @Override
+    public double minHeight(double width) {
+        return getLayoutBounds().getHeight();
+    }
+
+    @Override
+    public double maxHeight(double width) {
+        return getLayoutBounds().getHeight();
+    }
+
+    @Override
+    public double prefWidth(double height) {
+        return getLayoutBounds().getWidth();
+    }
+
+    @Override
+    public double prefHeight(double width) {
+        return getLayoutBounds().getHeight();
     }
 }

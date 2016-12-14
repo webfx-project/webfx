@@ -22,22 +22,22 @@ public class SwingRectangleViewer
 
     @Override
     public void updateWidth(Double width) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
     public void updateHeight(Double height) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
     public void updateArcWidth(Double arcWidth) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
     public void updateArcHeight(Double arcHeight) {
-        updateSwingShape();
+        invalidateSwingShape();
     }
 
     @Override
