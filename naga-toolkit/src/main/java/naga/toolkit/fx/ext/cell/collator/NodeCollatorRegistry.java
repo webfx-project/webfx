@@ -1,6 +1,7 @@
 package naga.toolkit.fx.ext.cell.collator;
 
 import naga.commons.util.Arrays;
+import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.scene.layout.FlowPane;
 import naga.toolkit.fx.scene.layout.HBox;
 import naga.toolkit.fx.scene.layout.VBox;
@@ -15,7 +16,11 @@ public class NodeCollatorRegistry {
 
     private static Map<String, NodeCollator> collators = new HashMap<>();
 
-    private static NodeCollator hBoxCollator = nodes -> HBox.create(5, nodes);
+    private static NodeCollator hBoxCollator = nodes -> {
+        HBox hBox = HBox.create(5, nodes);
+        hBox.setAlignment(Pos.CENTER_LEFT);
+        return hBox;
+    };
     private static NodeCollator vBoxCollator = VBox::create;
     private static NodeCollator flowPaneCollator = FlowPane::create;
     private static NodeCollator firstCollator = nodes -> Arrays.getValue(nodes, 0);
@@ -27,7 +32,7 @@ public class NodeCollatorRegistry {
         registerCollator("first", firstCollator);
     }
 
-    public static void registerCollator(String name, NodeCollator collator) {
+    private static void registerCollator(String name, NodeCollator collator) {
         collators.put(name.toLowerCase(), collator);
     }
 
