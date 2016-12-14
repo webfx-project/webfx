@@ -4,6 +4,8 @@ import elemental2.Element;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.platform.spi.Platform;
+import naga.toolkit.fx.geometry.BoundingBox;
+import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerMixin;
@@ -67,5 +69,47 @@ public class HtmlImageViewViewer
             }
         }
         return false;
+    }
+
+    // Overriding HtmlLayoutMeasurer for the inline svg case -> 2 problems in this case:
+    // 1) the element to measure is the container (svg node) and not the element (empty img)
+    // 2) there is no SvgLayoutMeasurer at the moment (should be based on getBBox)
+    // For now, we run with the following code that at least works when fitWith and fitHeight are set
+
+    @Override
+    public Bounds getLayoutBounds() {
+        return new BoundingBox(0, 0, 0, prefWidth(-1), prefHeight(-1), 0);
+    }
+
+    @Override
+    public double minWidth(double height) {
+        return prefWidth(height);
+    }
+
+    @Override
+    public double maxWidth(double height) {
+        return prefWidth(height);
+    }
+
+    @Override
+    public double minHeight(double width) {
+        return prefHeight(width);
+    }
+
+    @Override
+    public double maxHeight(double width) {
+        return prefHeight(width);
+    }
+
+    @Override
+    public double prefWidth(double height) {
+        double fitWidth = getNode().getFitWidth();
+        return fitWidth > 0 ? fitWidth : measureWidth(height);
+    }
+
+    @Override
+    public double prefHeight(double width) {
+        double fitHeight = getNode().getFitHeight();
+        return fitHeight > 0 ? fitHeight : measureHeight(width);
     }
 }
