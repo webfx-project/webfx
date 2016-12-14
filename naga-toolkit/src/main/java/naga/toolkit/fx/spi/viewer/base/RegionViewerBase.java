@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.RegionViewer;
@@ -16,13 +16,14 @@ public class RegionViewerBase
     @Override
     public void bind(N node, DrawingRequester drawingRequester) {
         super.bind(node, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                node.widthProperty(),
-                node.heightProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , node.widthProperty()
+                , node.heightProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.widthProperty(), changedProperty, mixin::updateWidth)
                 || updateProperty(node.heightProperty(), changedProperty, mixin::updateHeight)

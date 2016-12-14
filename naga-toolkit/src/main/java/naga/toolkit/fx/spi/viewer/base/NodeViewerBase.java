@@ -1,6 +1,7 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
@@ -39,16 +40,17 @@ public abstract class NodeViewerBase
         requestUpdateProperty(drawingRequester, null);
         requestUpdateList(drawingRequester, null);
         requestUpdateOnListChange(drawingRequester, node.getTransforms());
-        requestUpdateOnPropertiesChange(drawingRequester,
-                node.visibleProperty(),
-                node.opacityProperty(),
-                node.clipProperty(),
-                node.blendModeProperty(),
-                node.effectProperty(),
-                node.layoutXProperty(),
-                node.layoutYProperty(),
-                node.onMouseClickedProperty(),
-                node.mouseTransparentProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , node.visibleProperty()
+                , node.opacityProperty()
+                , node.clipProperty()
+                , node.blendModeProperty()
+                , node.effectProperty()
+                , node.layoutXProperty()
+                , node.layoutYProperty()
+                , node.onMouseClickedProperty()
+                , node.mouseTransparentProperty()
+        );
     }
 
     @Override
@@ -60,11 +62,11 @@ public abstract class NodeViewerBase
         return node;
     }
 
-    void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, Property... properties) {
+    void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, ObservableValue... properties) {
         Properties.runOnPropertiesChange(property -> requestUpdateProperty(drawingRequester, property), properties);
     }
 
-    private void requestUpdateProperty(DrawingRequester drawingRequester, Property changedProperty) {
+    private void requestUpdateProperty(DrawingRequester drawingRequester, ObservableValue changedProperty) {
         drawingRequester.requestViewPropertyUpdate(node, changedProperty);
     }
 
@@ -81,7 +83,7 @@ public abstract class NodeViewerBase
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         return updateProperty(node.onMouseClickedProperty(), changedProperty, mixin::updateOnMouseClicked)
                 || updateProperty(node.mouseTransparentProperty(), changedProperty, mixin::updateMouseTransparent)
                 || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
@@ -90,7 +92,8 @@ public abstract class NodeViewerBase
                 || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
                 || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
                 || updateProperty(node.layoutXProperty(), changedProperty, mixin::updateLayoutX)
-                || updateProperty(node.layoutYProperty(), changedProperty, mixin::updateLayoutY);
+                || updateProperty(node.layoutYProperty(), changedProperty, mixin::updateLayoutY)
+                ;
     }
 
     @Override
@@ -125,7 +128,7 @@ public abstract class NodeViewerBase
     }
 
 
-    <T> boolean updateProperty(Property<T> property, Property changedProperty, Consumer<T> updater) {
+    <T> boolean updateProperty(Property<T> property, ObservableValue changedProperty, Consumer<T> updater) {
         boolean hitChangedProperty = property == changedProperty;
         if (hitChangedProperty || changedProperty == null)
             updater.accept(property.getValue());

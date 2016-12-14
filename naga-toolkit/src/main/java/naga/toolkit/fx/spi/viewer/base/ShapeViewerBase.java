@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.ShapeViewer;
@@ -17,19 +17,20 @@ public abstract class ShapeViewerBase
     @Override
     public void bind(N shape, DrawingRequester drawingRequester) {
         super.bind(shape, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                shape.fillProperty(),
-                shape.smoothProperty(),
-                shape.strokeProperty(),
-                shape.strokeWidthProperty(),
-                shape.strokeLineCapProperty(),
-                shape.strokeLineJoinProperty(),
-                shape.strokeMiterLimitProperty(),
-                shape.strokeDashOffsetProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , shape.fillProperty()
+                , shape.smoothProperty()
+                , shape.strokeProperty()
+                , shape.strokeWidthProperty()
+                , shape.strokeLineCapProperty()
+                , shape.strokeLineJoinProperty()
+                , shape.strokeMiterLimitProperty()
+                , shape.strokeDashOffsetProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         N s = node;
         mixin.updateStrokeDashArray(s.getStrokeDashArray());
         return super.updateProperty(changedProperty)
@@ -40,6 +41,7 @@ public abstract class ShapeViewerBase
                 || updateProperty(s.strokeLineCapProperty(), changedProperty, mixin::updateStrokeLineCap)
                 || updateProperty(s.strokeLineJoinProperty(), changedProperty, mixin::updateStrokeLineJoin)
                 || updateProperty(s.strokeMiterLimitProperty(), changedProperty, mixin::updateStrokeMiterLimit)
-                || updateProperty(s.strokeDashOffsetProperty(), changedProperty, mixin::updateStrokeDashOffset);
+                || updateProperty(s.strokeDashOffsetProperty(), changedProperty, mixin::updateStrokeDashOffset)
+                ;
     }
 }

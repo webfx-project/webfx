@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.ext.DisplayResultSetControl;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.DisplayResultSetControlViewer;
@@ -17,12 +17,13 @@ public class DisplayResultSetControlViewerBase
     @Override
     public void bind(N shape, DrawingRequester drawingRequester) {
         super.bind(shape, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                node.displayResultSetProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , node.displayResultSetProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.displayResultSetProperty(), changedProperty, mixin::updateResultSet)
                 ;

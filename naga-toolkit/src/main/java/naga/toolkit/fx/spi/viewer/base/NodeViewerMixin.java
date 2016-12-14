@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.Node;
@@ -34,7 +34,7 @@ public interface NodeViewerMixin
     }
 
     @Override
-    default boolean updateProperty(Property changedProperty) {
+    default boolean updateProperty(ObservableValue changedProperty) {
         return getNodeViewerBase().updateProperty(changedProperty);
     }
 

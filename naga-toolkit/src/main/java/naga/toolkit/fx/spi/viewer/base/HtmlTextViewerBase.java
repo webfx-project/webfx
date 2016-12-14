@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.ext.control.HtmlText;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.HtmlTextViewer;
@@ -16,13 +16,13 @@ public class HtmlTextViewerBase
     @Override
     public void bind(N t, DrawingRequester drawingRequester) {
         super.bind(t, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                t.textProperty()
+        requestUpdateOnPropertiesChange(drawingRequester
+                , t.textProperty()
         );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         N n = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(n.textProperty(), changedProperty, mixin::updateText)

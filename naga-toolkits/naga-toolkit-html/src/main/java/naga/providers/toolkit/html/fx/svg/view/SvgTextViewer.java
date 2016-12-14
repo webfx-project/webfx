@@ -3,21 +3,26 @@ package naga.providers.toolkit.html.fx.svg.view;
 import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.fx.geometry.VPos;
-import naga.toolkit.fx.spi.viewer.base.TextViewerBase;
-import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
+import naga.toolkit.fx.spi.viewer.base.TextViewerBase;
+import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
 
 /**
  * @author Bruno Salmon
  */
 public class SvgTextViewer
-        extends SvgShapeViewer<Text, TextViewerBase, TextViewerMixin>
-        implements TextViewerMixin {
+        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
+        extends SvgShapeViewer<N, NV, NM>
+        implements TextViewerMixin<N, NV, NM> {
 
     public SvgTextViewer() {
-        super(new TextViewerBase(), SvgUtil.createSvgText());
+        this((NV) new TextViewerBase());
+    }
+
+    public SvgTextViewer(NV base) {
+        super(base, SvgUtil.createSvgText());
     }
 
     @Override

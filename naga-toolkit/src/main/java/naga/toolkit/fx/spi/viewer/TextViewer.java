@@ -5,5 +5,5 @@ import naga.toolkit.fx.scene.text.Text;
 /**
  * @author Bruno Salmon
  */
-public interface TextViewer extends ShapeViewer<Text> {
+public interface TextViewer<N extends Text> extends ShapeViewer<N> {
 }

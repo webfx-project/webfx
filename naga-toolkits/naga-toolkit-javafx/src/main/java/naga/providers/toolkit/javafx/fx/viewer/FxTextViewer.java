@@ -12,16 +12,21 @@ import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
  * @author Bruno Salmon
  */
 public class FxTextViewer
-        extends FxShapeViewer<javafx.scene.text.Text, Text, TextViewerBase, TextViewerMixin>
-        implements TextViewerMixin {
+        <FxN extends javafx.scene.text.Text, N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
+        extends FxShapeViewer<FxN, N, NV, NM>
+        implements TextViewerMixin<N, NV, NM> {
 
     public FxTextViewer() {
-        super(new TextViewerBase());
+        this((NV) new TextViewerBase());
+    }
+
+    FxTextViewer(NV base) {
+        super(base);
     }
 
     @Override
-    javafx.scene.text.Text createFxNode() {
-        return new javafx.scene.text.Text();
+    FxN createFxNode() {
+        return (FxN) new javafx.scene.text.Text();
     }
 
     @Override

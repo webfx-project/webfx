@@ -4,21 +4,26 @@ import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.spi.viewer.base.TextViewerBase;
-import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
+import naga.toolkit.fx.spi.viewer.base.TextViewerBase;
+import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
 
 /**
  * @author Bruno Salmon
  */
 public class HtmlTextViewer
-        extends HtmlShapeViewer<Text, TextViewerBase, TextViewerMixin>
-        implements TextViewerMixin, HtmlLayoutMeasurable {
+        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
+        extends HtmlShapeViewer<N, NV, NM>
+        implements TextViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
 
     public HtmlTextViewer() {
-        super(new TextViewerBase(), HtmlUtil.createSpanElement());
+        this((NV) new TextViewerBase());
+    }
+
+    public HtmlTextViewer(NV base) {
+        super(base, HtmlUtil.createSpanElement());
         setElementStyleAttribute("line-height", "100%");
     }
 

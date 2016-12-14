@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.control.ToggleButton;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.ToggleButtonViewer;
@@ -16,14 +16,16 @@ public class ToggleButtonViewerBase
     @Override
     public void bind(N toggleButton, DrawingRequester drawingRequester) {
         super.bind(toggleButton, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                node.selectedProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , node.selectedProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         N tb = getNode();
         return super.updateProperty(changedProperty)
-                || updateProperty(tb.selectedProperty(), changedProperty, mixin::updateSelected);
+                || updateProperty(tb.selectedProperty(), changedProperty, mixin::updateSelected)
+                ;
     }
 }

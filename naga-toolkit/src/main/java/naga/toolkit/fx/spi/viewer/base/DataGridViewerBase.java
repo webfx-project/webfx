@@ -1,12 +1,12 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import naga.commons.util.Strings;
+import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.fx.ext.cell.renderer.ImageTextRenderer;
 import naga.toolkit.fx.ext.cell.renderer.TextRenderer;
 import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 import naga.toolkit.fx.ext.control.DataGrid;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.fx.spi.viewer.DataGridViewer;
 
 /**

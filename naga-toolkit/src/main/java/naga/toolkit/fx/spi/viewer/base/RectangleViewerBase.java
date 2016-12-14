@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.RectangleViewer;
@@ -15,17 +15,18 @@ public class RectangleViewerBase
     @Override
     public void bind(Rectangle r, DrawingRequester drawingRequester) {
         super.bind(r, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                r.xProperty(),
-                r.yProperty(),
-                r.widthProperty(),
-                r.heightProperty(),
-                r.arcWidthProperty(),
-                r.arcHeightProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , r.xProperty()
+                , r.yProperty()
+                , r.widthProperty()
+                , r.heightProperty()
+                , r.arcWidthProperty()
+                , r.arcHeightProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         Rectangle r = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(r.xProperty(), changedProperty, mixin::updateX)
@@ -33,6 +34,7 @@ public class RectangleViewerBase
                 || updateProperty(r.widthProperty(), changedProperty, mixin::updateWidth)
                 || updateProperty(r.heightProperty(), changedProperty, mixin::updateHeight)
                 || updateProperty(r.arcWidthProperty(), changedProperty, mixin::updateArcWidth)
-                || updateProperty(r.arcHeightProperty(), changedProperty, mixin::updateArcHeight);
+                || updateProperty(r.arcHeightProperty(), changedProperty, mixin::updateArcHeight)
+                ;
     }
 }

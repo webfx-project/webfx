@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.ext.SelectableDisplayResultSetControl;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.SelectableDisplayResultSetControlViewer;
@@ -17,13 +17,14 @@ public abstract class SelectableDisplayResultSetControlViewerBase
     @Override
     public void bind(N shape, DrawingRequester drawingRequester) {
         super.bind(shape, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                node.selectionModeProperty(),
-                node.displaySelectionProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , node.selectionModeProperty()
+                , node.displaySelectionProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.selectionModeProperty(), changedProperty, mixin::updateSelectionMode)
                 || updateProperty(node.displaySelectionProperty(), changedProperty, mixin::updateDisplaySelection)

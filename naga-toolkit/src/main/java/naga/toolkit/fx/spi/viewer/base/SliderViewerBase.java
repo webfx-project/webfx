@@ -1,6 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.control.Slider;
 import naga.toolkit.fx.spi.DrawingRequester;
 import naga.toolkit.fx.spi.viewer.SliderViewer;
@@ -15,18 +15,20 @@ public class SliderViewerBase
     @Override
     public void bind(Slider s, DrawingRequester drawingRequester) {
         super.bind(s, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
-                s.minProperty(),
-                s.maxProperty(),
-                s.valueProperty());
+        requestUpdateOnPropertiesChange(drawingRequester
+                , s.minProperty()
+                , s.maxProperty()
+                , s.valueProperty()
+        );
     }
 
     @Override
-    public boolean updateProperty(Property changedProperty) {
+    public boolean updateProperty(ObservableValue changedProperty) {
         Slider s = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(s.minProperty(), changedProperty, mixin::updateMin)
                 || updateProperty(s.maxProperty(), changedProperty, mixin::updateMax)
-                || updateProperty(s.valueProperty(), changedProperty, mixin::updateValue);
+                || updateProperty(s.valueProperty(), changedProperty, mixin::updateValue)
+                ;
     }
 }
