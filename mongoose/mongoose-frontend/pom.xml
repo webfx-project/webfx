@@ -34,27 +34,6 @@
             </modules>
         </profile>
 
-        <!--profile>
-            <id>pivot</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-frontend-pivot</module>
-            </modules>
-        </profile-->
-
-        <!-- Web profiles (GWT, TeaVM) -->
-        <profile>
-            <id>mongoose-frontend-gwt</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-frontend-gwt</module>
-            </modules>
-        </profile>
-
         <profile>
             <id>mongoose-frontend-html</id>
             <activation>
@@ -64,37 +43,6 @@
                 <module>mongoose-frontend-html</module>
             </modules>
         </profile>
-
-        <!--profile>
-            <id>teavm</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-frontend-teavm</module>
-            </modules>
-        </profile-->
-
-        <!-- Mobile profiles (Android, CodenameOne) -->
-        <!--profile>
-            <id>android</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-frontend-android</module>
-            </modules>
-        </profile-->
-
-        <!--profile>
-            <id>cn1</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-frontend-cn1</module>
-            </modules>
-        </profile-->
 
     </profiles>
 
