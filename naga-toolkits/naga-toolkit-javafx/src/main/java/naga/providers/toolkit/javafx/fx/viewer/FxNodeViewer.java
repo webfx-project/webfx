@@ -82,7 +82,7 @@ public abstract class FxNodeViewer
 
     @Override
     public void updateClip(Node clip) {
-        fxNode.setClip(getFxNode(clip));
+        fxNode.setClip(toFxNode(clip));
     }
 
     @Override
@@ -143,11 +143,11 @@ public abstract class FxNodeViewer
         return null;
     }
 
-    static javafx.scene.Node getFxNode(Node node) {
-        return getFxNode(node, null);
+    static javafx.scene.Node toFxNode(Node node) {
+        return toFxNode(node, null);
     }
 
-    static javafx.scene.Node getFxNode(Node node, Drawing drawing) {
+    static javafx.scene.Node toFxNode(Node node, Drawing drawing) {
         if (node != null) {
             if (drawing != null)
                 ((NodeImpl) node).setDrawing((DrawingImpl) drawing);

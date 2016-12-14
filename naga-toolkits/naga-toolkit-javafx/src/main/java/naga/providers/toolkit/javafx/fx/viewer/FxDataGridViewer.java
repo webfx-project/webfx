@@ -153,7 +153,7 @@ public class FxDataGridViewer
 
     @Override
     public void setCellImageAndTextContent(TableCell cell, Node image, String text, DisplayColumn displayColumn) {
-        cell.setGraphic(getFxNode(image, getNode().getDrawing()));
+        cell.setGraphic(toFxNode(image, getNode().getDrawing()));
         cell.setText(text);
     }
 
