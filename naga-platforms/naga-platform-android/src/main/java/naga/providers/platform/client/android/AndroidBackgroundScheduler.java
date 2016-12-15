@@ -17,7 +17,6 @@
  */
 package naga.providers.platform.client.android;
 
-import android.os.Looper;
 import naga.providers.platform.abstr.java.scheduler.JavaScheduler;
 
 /*
@@ -28,8 +27,10 @@ import naga.providers.platform.abstr.java.scheduler.JavaScheduler;
  */
 final class AndroidBackgroundScheduler extends JavaScheduler {
 
+/* Moved to UiScheduler (not yet implemented for Android)
     @Override
     public boolean isUiThread() {
         return Looper.myLooper() == Looper.getMainLooper();
     }
+*/
 }

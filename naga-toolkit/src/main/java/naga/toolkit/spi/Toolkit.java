@@ -2,7 +2,7 @@ package naga.toolkit.spi;
 
 import javafx.collections.ObservableList;
 import naga.commons.keyobject.KeyObject;
-import naga.commons.scheduler.Scheduler;
+import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.Strings;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
@@ -31,11 +31,11 @@ public abstract class Toolkit {
 
     private Map<Class<? extends GuiNode>, Factory<GuiNode>> nodeFactories = new HashMap<>();
     private Map<Class<?>, Converter<?, GuiNode>> nativeNodeWrappers = new HashMap<>();
-    private final Scheduler uiScheduler;
+    private final UiScheduler uiScheduler;
     private final Factory<Window> windowFactory;
     private Window applicationWindow;
 
-    public Toolkit(Scheduler uiScheduler, Factory<Window> windowFactory) {
+    public Toolkit(UiScheduler uiScheduler, Factory<Window> windowFactory) {
         this.uiScheduler = uiScheduler;
         this.windowFactory = windowFactory;
     }
@@ -94,7 +94,7 @@ public abstract class Toolkit {
         get().scheduler().runInUiThread(runnable);
     }
 
-    public Scheduler scheduler() {
+    public UiScheduler scheduler() {
         return uiScheduler;
     }
 

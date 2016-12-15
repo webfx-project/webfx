@@ -66,11 +66,6 @@ public class JavaScheduler implements Scheduler {
         return new JavaScheduled(executor.scheduleAtFixedRate(caughtRunnable(runnable), delayMs, delayMs, TimeUnit.MILLISECONDS));
     }
 
-    @Override
-    public boolean isUiThread() {
-        return false;
-    }
-
     private static Runnable caughtRunnable(Runnable runnable) {
         return () -> {
             try {

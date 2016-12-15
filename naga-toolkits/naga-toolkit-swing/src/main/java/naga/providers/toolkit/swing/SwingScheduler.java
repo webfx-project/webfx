@@ -1,16 +1,16 @@
 package naga.providers.toolkit.swing;
 
 import naga.commons.scheduler.Scheduled;
-import naga.commons.scheduler.Scheduler;
+import naga.commons.scheduler.impl.UiSchedulerBase;
 
 import javax.swing.*;
 
 /**
  * @author Bruno Salmon
  */
-public class SwingScheduler implements Scheduler {
+class SwingScheduler extends UiSchedulerBase {
 
-    public static SwingScheduler SINGLETON = new SwingScheduler();
+    static SwingScheduler SINGLETON = new SwingScheduler();
 
     private SwingScheduler() {
     }
@@ -52,6 +52,21 @@ public class SwingScheduler implements Scheduler {
         public boolean cancel() {
             swingTimer.stop();
             return true;
+        }
+    }
+
+    private Scheduled pulseTimer;
+    @Override
+    protected void checkExecuteAnimationPipeIsScheduledForNextAnimationFrame() {
+        if (pulseTimer == null)
+            pulseTimer = schedulePeriodic(1000 / 60, this::executeAnimationPipe);
+    }
+
+    @Override
+    protected void onExecuteAnimationPipeFinished(boolean noMoreAnimationScheduled) {
+        if (noMoreAnimationScheduled && pulseTimer != null) {
+            pulseTimer.cancel();
+            pulseTimer = null;
         }
     }
 }

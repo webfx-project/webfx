@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html;
 
 import elemental2.HTMLButtonElement;
+import naga.commons.scheduler.UiScheduler;
 import naga.platform.spi.Platform;
 import naga.providers.toolkit.html.fx.html.HtmlDrawingNode;
 import naga.providers.toolkit.html.nodes.controls.*;
@@ -21,7 +22,7 @@ import naga.toolkit.spi.nodes.layouts.VPage;
 public class HtmlToolkit extends Toolkit {
 
     public HtmlToolkit() {
-        super(/* TODO: remove this dependency to Platform */Platform.get().scheduler(), HtmlWindow::new);
+        super(/* TODO: remove this dependency to Platform */(UiScheduler) Platform.get().scheduler(), HtmlWindow::new);
         registerNodeFactory(VPage.class, HtmlVPage::new);
         registerNodeFactory(VBox.class, HtmlVBox::new);
         registerNodeFactory(HBox.class, HtmlHBox::new);

@@ -62,6 +62,7 @@ public final class Cn1Scheduler implements Scheduler {
         };
     }
 
+/*
     @Override
     public boolean isUiThread() {
         return Display.getInstance().isEdt();
@@ -71,6 +72,7 @@ public final class Cn1Scheduler implements Scheduler {
     public void runInUiThread(Runnable runnable) {
         Display.getInstance().callSerially(runnable);
     }
+*/
 
     @Override
     public void runInBackground(Runnable runnable) {

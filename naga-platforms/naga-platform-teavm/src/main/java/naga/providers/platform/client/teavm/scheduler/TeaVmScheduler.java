@@ -42,11 +42,6 @@ public final class TeaVmScheduler implements Scheduler {
         return new TeaVmScheduled(timerId);
     }
 
-    @Override
-    public boolean isUiThread() {
-        return true;
-    }
-
     private class TeaVmScheduled implements Scheduled {
         private final int timerId;
 

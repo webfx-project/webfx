@@ -53,21 +53,4 @@ public interface Scheduler {
     default void runInBackground(Runnable runnable) {
         scheduleDeferred(runnable);
     }
-
-    default void runInUiThread(Runnable runnable) {
-        if (isUiThread())
-            runnable.run();
-        else
-            scheduleDeferred(runnable);
-    }
-
-    boolean isUiThread();
-
-    default Scheduled scheduleAnimationFrame(long delayMs, Runnable runnable) {
-        return scheduleDelay(delayMs, runnable);
-    }
-
-    default Scheduled schedulePeriodicAnimationFrame(Runnable runnable) {
-        return schedulePeriodic(60, runnable);
-    }
 }

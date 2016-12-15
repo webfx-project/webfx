@@ -30,11 +30,6 @@ public final class VertxScheduler implements Scheduler {
         return new VertxScheduled(vertx.setPeriodic(delayMs, event -> runnable.run()));
     }
 
-    @Override
-    public boolean isUiThread() {
-        return false;
-    }
-
     private class VertxScheduled implements Scheduled {
         private final long timerId;
 

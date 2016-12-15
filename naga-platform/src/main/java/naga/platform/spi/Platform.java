@@ -141,10 +141,6 @@ public abstract class Platform {
         return get().scheduler().schedulePeriodic(delayMs, runnable);
     }
 
-    public static void runInBackground(Runnable runnable) {
-        get().scheduler().runInBackground(runnable);
-    }
-
     // BusFactory methods
 
     private static Bus BUS;
