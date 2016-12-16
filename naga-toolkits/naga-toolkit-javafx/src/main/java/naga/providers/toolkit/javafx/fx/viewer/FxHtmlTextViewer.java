@@ -30,15 +30,23 @@ public class FxHtmlTextViewer
         return (FxN) webView;
     }
 
+    private Object executeScript(String script) {
+        try {
+            return webView.getEngine().executeScript(script);
+        } catch (Exception e) { // probably the jsFunctions were not injected
+            webView.getEngine().executeScript(jsFunctions);
+            return webView.getEngine().executeScript(script);
+        }
+    }
+
     @Override
     public void updateText(String text) {
         webView.getEngine().loadContent("<div style='margin: 0; padding: 0;'>" + Strings.toSafeString(text) + "</div>");
-        webView.getEngine().executeScript(jsFunctions);
     }
 
     @Override
     public void updateWidth(Double width) {
-        webView.getEngine().executeScript("setDocumentWidth(" + documentWidth(width) + ");");
+        executeScript("setDocumentWidth(" + documentWidth(width) + ");");
         updateResize();
     }
 
@@ -64,7 +72,7 @@ public class FxHtmlTextViewer
 
     @Override
     public double prefHeight(double width) {
-        String heightText = webView.getEngine().executeScript("documentPrefHeight(" + documentWidth(width) + ")").toString();
+        String heightText = executeScript("documentPrefHeight(" + documentWidth(width) + ")").toString();
         return webViewHeight(Double.valueOf(heightText));
     }
 
