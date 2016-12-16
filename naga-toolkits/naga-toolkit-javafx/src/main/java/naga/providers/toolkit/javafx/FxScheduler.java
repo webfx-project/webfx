@@ -1,7 +1,9 @@
 package naga.providers.toolkit.javafx;
 
-import com.sun.javafx.tk.TKPulseListener;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.util.Duration;
 import naga.commons.scheduler.impl.UiSchedulerBase;
 import naga.toolkit.spi.Toolkit;
 
@@ -29,19 +31,26 @@ class FxScheduler extends UiSchedulerBase {
         return Toolkit.get().isReady() && Platform.isFxApplicationThread();
     }
 
-    private TKPulseListener tkPulseListener;
+    private Timeline timeline;
 
     @Override
     protected void checkExecuteAnimationPipeIsScheduledForNextAnimationFrame() {
-        if (tkPulseListener == null)
-            com.sun.javafx.tk.Toolkit.getToolkit().addSceneTkPulseListener(tkPulseListener = this::executeAnimationPipe);
+        synchronized (this) {
+            if (timeline == null) {
+                timeline = new Timeline(new KeyFrame(Duration.millis(1), event -> this.executeAnimationPipe()));
+                timeline.setCycleCount(Integer.MAX_VALUE);
+                timeline.play();
+            }
+        }
     }
 
     @Override
     protected void onExecuteAnimationPipeFinished(boolean noMoreAnimationScheduled) {
-        if (noMoreAnimationScheduled && tkPulseListener != null) {
-            com.sun.javafx.tk.Toolkit.getToolkit().removeSceneTkPulseListener(tkPulseListener);
-            tkPulseListener = null;
+        synchronized (this) {
+            if (noMoreAnimationScheduled && timeline != null) {
+                timeline.stop();
+                timeline = null;
+            }
         }
     }
 }
