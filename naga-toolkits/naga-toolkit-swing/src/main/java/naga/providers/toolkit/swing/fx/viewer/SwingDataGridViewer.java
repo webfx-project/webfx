@@ -111,6 +111,7 @@ public class SwingDataGridViewer
     public void updateResultSet(DisplayResultSet rs) {
         DataGridViewerBase<Object> base = getNodeViewerBase();
         base.initGrid(rs);
+        tableModel.setDisplayResultSet(rs);
         tableModel.fireTableStructureChanged();
         base.fillGrid(rs);
         table.doLayout();
@@ -165,22 +166,30 @@ public class SwingDataGridViewer
     }
 
     private class DisplayTableModel extends AbstractTableModel {
+        private DisplayResultSet rs;
+        private int columnCount;
+        private int rowStyleColumnIndex;
+
+        public void setDisplayResultSet(DisplayResultSet rs) {
+            // Capturing all required info in a safe place (to avoid synchronization problems between application & Swing threads)
+            this.rs = rs;
+            columnCount = getNodeViewerBase().getGridColumnCount();
+            rowStyleColumnIndex = getNodeViewerBase().getRowStyleColumnIndex();
+        }
 
         @Override
         public int getRowCount() {
-            DisplayResultSet rs = getNode().getDisplayResultSet();
             return rs == null ? 0 : rs.getRowCount();
         }
 
         @Override
         public int getColumnCount() {
-            return getNodeViewerBase().getGridColumnCount();
+            return columnCount;
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-            DisplayResultSet rs = getNode().getDisplayResultSet();
-            return rs == null ? null : rs.getValue(rowIndex, getNodeViewerBase().gridColumnIndexToResultSetColumnIndex(columnIndex));
+            return rs == null ? null : rs.getValue(rowIndex, getNodeViewerBase().gridColumnIndexToResultSetColumnIndex(columnIndex, rowStyleColumnIndex));
         }
     }
 }

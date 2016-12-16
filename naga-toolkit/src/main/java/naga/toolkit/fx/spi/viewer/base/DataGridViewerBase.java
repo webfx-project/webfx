@@ -99,7 +99,7 @@ public class DataGridViewerBase<C>
         return rowStyleColumnIndex;
     }
 
-    public int gridColumnIndexToResultSetColumnIndex(int gridColumnIndex) {
+    public int gridColumnIndexToResultSetColumnIndex(int gridColumnIndex, int rowStyleColumnIndex) {
         int rsColumnIndex = gridColumnIndex;
         if (rowStyleColumnIndex == 0 && gridColumnIndex >= rowStyleColumnIndex)
             rsColumnIndex++;
@@ -137,5 +137,4 @@ public class DataGridViewerBase<C>
         }
         return sb.toString().trim();
     }
-
 }
