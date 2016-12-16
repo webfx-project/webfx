@@ -1,5 +1,6 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
+import naga.commons.util.Objects;
 import naga.providers.toolkit.javafx.util.FxFonts;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.text.Font;
@@ -36,7 +37,8 @@ public class FxTextFieldViewer
 
     @Override
     public void updateText(String text) {
-        getFxNode().setText(text);
+        if (!Objects.areEquals(text, getFxNode().getText())) // to avoid caret position reset while typing
+            getFxNode().setText(text);
     }
 
     @Override
