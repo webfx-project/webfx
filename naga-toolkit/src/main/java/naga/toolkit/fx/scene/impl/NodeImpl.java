@@ -18,12 +18,14 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
+import naga.toolkit.fx.scene.layout.impl.LayoutFlags;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
 import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.properties.markers.*;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.spi.events.UiEventHandler;
 
@@ -194,6 +196,25 @@ public abstract class NodeImpl implements Node {
      */
     public boolean hasProperties() {
         return properties != null && !properties.isEmpty();
+    }
+
+    void markDirtyLayoutBranch() {
+        ParentImpl p = (ParentImpl) getParent();
+        while (p != null && p.layoutFlag == LayoutFlags.CLEAN) {
+            p.setLayoutFlag(LayoutFlags.DIRTY_BRANCH);
+            if (p.isSceneRoot())
+                requestNextPulse();
+            p = (ParentImpl) p.getParent();
+        }
+    }
+
+    void requestNextPulse() {
+        Toolkit.get().scheduler().requestNextPulse();
+/*
+        if (getSubScene() != null) {
+            getSubScene().setDirtyLayout(p);
+        }
+*/
     }
 
     private NodeViewer nodeViewer;

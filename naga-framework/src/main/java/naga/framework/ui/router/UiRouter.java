@@ -17,7 +17,6 @@ import naga.platform.client.url.history.baseimpl.SubHistory;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.toolkit.spi.Toolkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -144,8 +143,8 @@ public class UiRouter extends HistoryRouter {
                 previousActivityManager.pause();
             // Now we transit the current activity (which was either paused or newly created) into the resume state and
             // once done we display the activity node by binding it with the hosting context (done in the UI tread)
-            activityManager.resume().setHandler(event -> Toolkit.get().scheduler().runInUiThread(() -> hostingContext.nodeProperty().bind(activityContext.nodeProperty())));
-            /*** Sub routing management ***/
+            activityManager.resume().setHandler(event -> hostingContext.nodeProperty().bind(activityContext.nodeProperty()));
+            /*--- Sub routing management ---*/
             // When the activity is a mount child activity coming from sub routing, we make sure the mount parent activity is displayed
             if (mountParentRouter != null) { // Indicates it is a child sub router
                 mountParentRouter.mountChildSubRouter = UiRouter.this; // Setting the parent router child pointer

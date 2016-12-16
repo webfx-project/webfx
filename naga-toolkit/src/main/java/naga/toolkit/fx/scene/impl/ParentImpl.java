@@ -8,10 +8,10 @@ import javafx.collections.ObservableList;
 import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.RectBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
-import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
-import naga.toolkit.fx.scene.layout.impl.LayoutFlags;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
+import naga.toolkit.fx.scene.layout.impl.LayoutFlags;
 import naga.toolkit.properties.markers.HasManagedProperty;
 import naga.toolkit.util.ObservableLists;
 
@@ -134,16 +134,10 @@ public class ParentImpl extends NodeImpl implements Parent {
     private void markDirtyLayout(boolean local) {
         setLayoutFlag(LayoutFlags.NEEDS_LAYOUT);
         if (local || layoutRoot) {
-/*
-            if (sceneRoot) {
-                Toolkit.getToolkit().requestNextPulse();
-                if (getSubScene() != null) {
-                    getSubScene().setDirtyLayout(this);
-                }
-            } else {
+            if (sceneRoot)
+                requestNextPulse();
+            else
                 markDirtyLayoutBranch();
-            }
-*/
         } else
             requestParentLayout();
     }
@@ -177,7 +171,6 @@ public class ParentImpl extends NodeImpl implements Parent {
             if (parent != null)
                 parent.requestLayout();
         }
-
     }
 
     void clearSizeCache() {
@@ -417,13 +410,20 @@ public class ParentImpl extends NodeImpl implements Parent {
      * whenever the sceneRoot field changes, or whenever the managed
      * property changes.
      */
-    boolean layoutRoot = false;
-    @Override final void notifyManagedChanged() {
+    private boolean layoutRoot = false;
+    @Override
+    final void notifyManagedChanged() {
         layoutRoot = !isManaged() || sceneRoot;
     }
 
     final boolean isSceneRoot() {
         return sceneRoot;
+    }
+
+    // Called by DrawingImpl only
+    public void setSceneRoot(boolean sceneRoot) {
+        this.sceneRoot = sceneRoot;
+        notifyManagedChanged();
     }
 
     /***************************************************************************

@@ -178,7 +178,7 @@ public abstract class SwingNodeViewer
         if (node instanceof HasHeightProperty)
             Properties.safeSetProperty(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
         if (node instanceof Parent)
-            ((Parent) node).layout();
+            naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout);
         return component;
     }
 }

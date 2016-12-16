@@ -25,7 +25,6 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.RadioButton;
 import naga.toolkit.fx.scene.layout.FlowPane;
 import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.util.Properties;
 
@@ -77,7 +76,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                         pair -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
                 onEventAvailabilities().setHandler(ar -> {
                     if (ar.succeeded())
-                        Toolkit.get().scheduler().runInUiThread(() -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
+                        displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
                 });
             }
         });

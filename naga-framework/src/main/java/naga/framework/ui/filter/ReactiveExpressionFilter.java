@@ -23,7 +23,6 @@ import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.framework.ui.rx.RxFuture;
-import naga.framework.ui.rx.RxScheduler;
 import naga.framework.ui.rx.RxUi;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
@@ -33,7 +32,6 @@ import naga.platform.spi.Platform;
 import naga.toolkit.display.DisplayColumnBuilder;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.spi.Toolkit;
 import rx.Observable;
 
 import java.util.*;
@@ -304,7 +302,6 @@ public class ReactiveExpressionFilter {
             entitiesObservable
                 // Finally transforming the EntityList into a DisplayResultSet
                 .map(this::entitiesToDisplayResultSets)
-                .observeOn(RxScheduler.UI_SCHEDULER)
                 .subscribe(this::applyDisplayResultSets);
         else if (entitiesHandler != null)
             entitiesObservable.subscribe(entitiesHandler::handle);
@@ -335,10 +332,8 @@ public class ReactiveExpressionFilter {
     }
 
     private void resetAllDisplayResultSets(boolean empty) {
-        Toolkit.get().scheduler().runInUiThread(() -> {
-            for (FilterDisplay filterDisplay : filterDisplays)
-                filterDisplay.resetDisplayResultSet(empty);
-        });
+        for (FilterDisplay filterDisplay : filterDisplays)
+            filterDisplay.resetDisplayResultSet(empty);
     }
 
     private EntityList queryResultSetToEntities(QueryResultSet rs, SqlCompiled sqlCompiled) {
@@ -512,7 +507,6 @@ public class ReactiveExpressionFilter {
         }
 
         DisplayResultSet emptyDisplayResultSet() {
-            columnsPersistentTerms = null; // Some expressions may have not been parsed (for any reason) so forcing collectColumnsPersistentTerms() re-computation
             return entitiesListToDisplayResultSet(EntityList.create(listId, store));
         }
 

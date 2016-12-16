@@ -15,7 +15,6 @@ import naga.platform.json.spi.JsonObject;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.properties.markers.HasGraphicProperty;
-import naga.toolkit.spi.Toolkit;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,10 +104,8 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             bindViewModelWithPresentationModel(viewModel, presentationModel);
             viewBoundWithPresentationModel = true;
         }
-        Toolkit.get().scheduler().runInUiThread(() -> {
-            onShow();
-            activityContext.setNode(viewModel.getContentNode());
-        });
+        onShow();
+        activityContext.setNode(viewModel.getContentNode());
     }
 
     @Override

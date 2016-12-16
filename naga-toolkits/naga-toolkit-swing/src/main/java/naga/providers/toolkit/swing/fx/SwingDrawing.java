@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.fx;
 
+import javafx.beans.property.Property;
 import naga.providers.toolkit.swing.fx.viewer.SwingLayoutMeasurable;
 import naga.providers.toolkit.swing.fx.viewer.SwingNodeViewer;
 import naga.toolkit.fx.scene.Node;
@@ -22,10 +23,63 @@ public class SwingDrawing extends CanvasDrawingImpl<SwingNodeViewer<?, ?, ?>, Gr
         return (JComponent) drawingNode.unwrapToNativeNode();
     }
 
+    private boolean canvasRepaint;
     @Override
     public void requestCanvasRepaint() {
-        getDrawingComponent().repaint();
+        canvasRepaint = true;
     }
+
+    @Override
+    public void pulse() {
+        updateWidthAndHeight(); // The width update may cause a layout request (good to check before calling pulse)
+        super.pulse(); // This call to pulse() will consider changes in the scene graph and do the layout pass
+        if (canvasRepaint) {
+            canvasRepaint = false;
+            getDrawingComponent().repaint();
+        }
+    }
+
+    private int lastWidth;
+    private int lastHeight;
+
+    private void updateWidthAndHeight() {
+        JComponent c = getDrawingComponent();
+        // Binding the width property to the actual component width
+        boolean sizeChanged = false;
+        Property<Double> widthProperty = drawingNode.widthProperty();
+        if (true || widthProperty.isBound()) {
+            int width = widthProperty.getValue().intValue();
+            if (width != lastWidth) {
+                c.setSize(lastWidth = width, lastHeight);
+                sizeChanged = true;
+            }
+        } else {
+            int width = c.getWidth();
+            if (width != lastWidth)
+                widthProperty.setValue((double) (lastWidth = width));
+        }
+        // Binding the component height to the height property
+        Property<Double> heightProperty = drawingNode.heightProperty();
+        if (true || heightProperty.isBound()) {
+            int height = heightProperty.getValue().intValue();
+            if (height != lastHeight) {
+                c.setSize(lastWidth, lastHeight = height);
+                sizeChanged = true;
+            }
+        } else {
+            int height = c.getHeight();
+            if (height != lastHeight)
+                heightProperty.setValue((double) (lastHeight = height));
+        }
+        if (sizeChanged) {
+            Dimension size = c.getSize();
+            c.setMinimumSize(size);
+            c.setPreferredSize(size);
+            c.setMaximumSize(size);
+            //getParent().doLayout();
+        }
+    }
+
 
     @Override
     protected Graphics2D createCanvasContext(Graphics2D g) {

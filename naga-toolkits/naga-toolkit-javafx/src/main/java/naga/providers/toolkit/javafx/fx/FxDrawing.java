@@ -9,6 +9,7 @@ import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.impl.DrawingImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.util.ObservableLists;
 
 import java.lang.reflect.Method;
@@ -45,15 +46,17 @@ public class FxDrawing extends DrawingImpl {
 
     @Override
     protected void updateParentAndChildrenViewers(Parent parent) {
-        javafx.scene.Parent fxParent = (javafx.scene.Parent) getFxNode(parent);
-        try {
-            Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
-            getChildren.setAccessible(true);
-            ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
-            ObservableLists.setAllNonNullsConverted(parent.getChildren(), this::getFxNode, children);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Toolkit.get().scheduler().runInUiThread(() -> { // Because this method might be called from a non UI thread
+            javafx.scene.Parent fxParent = (javafx.scene.Parent) getFxNode(parent);
+            try {
+                Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
+                getChildren.setAccessible(true);
+                ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
+                ObservableLists.setAllNonNullsConverted(parent.getChildren(), this::getFxNode, children);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private javafx.scene.Node getFxNode(Node node) {

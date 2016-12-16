@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.commons.scheduler.Scheduled;
+import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
 import naga.toolkit.fx.scene.Node;
@@ -12,6 +13,7 @@ import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Control;
 import naga.toolkit.fx.scene.impl.NodeImpl;
+import naga.toolkit.fx.scene.impl.ParentImpl;
 import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.DrawingNode;
 import naga.toolkit.fx.spi.DrawingRequester;
@@ -38,7 +40,9 @@ public abstract class DrawingImpl implements Drawing {
         // - the drawing node height is bound to the root node height (which eventually is bound to the preferred height)
         @Override
         protected void invalidated() {
-            Node rootNode = getValue();
+            ParentImpl rootNode = (ParentImpl) getValue();
+            rootNode.setDrawing(DrawingImpl.this);
+            rootNode.setSceneRoot(true);
             // Binding the root node width to the drawing node width
             if (rootNode instanceof HasWidthProperty)
                 ((HasWidthProperty) rootNode).widthProperty().bind(drawingNode.widthProperty());
@@ -63,17 +67,25 @@ public abstract class DrawingImpl implements Drawing {
 
         @Override
         public void requestParentAndChildrenViewsUpdate(Parent parent) {
-            updateParentAndChildrenViewers(parent);
+            execute(() -> updateParentAndChildrenViewers(parent));
         }
 
         @Override
         public void requestViewPropertyUpdate(Node node, ObservableValue changedProperty) {
-            updateViewProperty(node, changedProperty);
+            execute(() -> updateViewProperty(node, changedProperty));
         }
 
         @Override
         public void requestViewListUpdate(Node node, ObservableList changedList) {
-            updateViewList(node, changedList);
+            execute(() -> updateViewList(node, changedList));
+        }
+
+        private void execute(Runnable runnable) {
+            UiScheduler uiScheduler = Toolkit.get().scheduler();
+            if (uiScheduler.isAnimationFrame())
+                runnable.run();
+            else
+                uiScheduler.scheduleAnimationFrame(runnable);
         }
     };
 
@@ -193,9 +205,10 @@ public abstract class DrawingImpl implements Drawing {
     }
 
     private Scheduled pulseScheduled;
+
     protected void startPulse() {
         if (pulseScheduled == null)
-            pulseScheduled = Toolkit.get().scheduler().schedulePeriodicAnimationFrame(this::pulse);
+            pulseScheduled = Toolkit.get().scheduler().schedulePeriodicAnimationFrame(this::pulse, true);
     }
 
     protected void pulse() {

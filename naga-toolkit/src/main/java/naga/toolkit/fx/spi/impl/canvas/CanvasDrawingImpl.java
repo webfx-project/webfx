@@ -97,27 +97,6 @@ public abstract class CanvasDrawingImpl
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 
-    private boolean pulseRunning;
-    @Override
-    public boolean isPulseRunning() {
-        return pulseRunning;
-    }
-
-    @Override
-    protected void startPulse() {
-        pulseRunning = true;
-    }
-
-    @Override
-    public void pulse() {
-        super.pulse();
-    }
-
-    @Override
-    protected void stopPulse() {
-        pulseRunning = false;
-    }
-
     public abstract void requestCanvasRepaint();
 
     protected abstract CC createCanvasContext(CC canvasContext);
