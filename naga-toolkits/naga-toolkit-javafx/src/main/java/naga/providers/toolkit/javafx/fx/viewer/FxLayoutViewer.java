@@ -1,8 +1,11 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
+import javafx.scene.control.Cell;
+import naga.commons.scheduler.UiScheduler;
 import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerBase;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
+import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -27,13 +30,21 @@ public class FxLayoutViewer
                 // so we take the opportunity of this JavaFx call to do it now.
                 // First, we resize the NagaFx node to match the JavaFx one (typically the visual rectangle computed by
                 // JavaFx within the table cell where the node must be drawn).
-                N node = getNode();
-                if (!node.widthProperty().isBound())
-                    node.setWidth(getWidth());
-                if (!node.heightProperty().isBound())
-                    node.setHeight(getHeight());
-                // Then we ask NagaFx to layout the children (this will update the children viewers which actually hold
-                node.layout(); // the JavaFx children of this layout Region).
+                boolean isCellContent = getParent() instanceof Cell;
+                UiScheduler scheduler = Toolkit.get().scheduler();
+                boolean isAnimationFrame = scheduler.isAnimationFrame();
+                if (isCellContent && !isAnimationFrame)
+                    scheduler.scheduleAnimationFrame(this::layoutChildren);
+                else {
+                    N node = getNode();
+                    if (!node.widthProperty().isBound())
+                        node.setWidth(getWidth());
+                    if (!node.heightProperty().isBound())
+                        node.setHeight(getHeight());
+                    if (isAnimationFrame)
+                        // Then we ask NagaFx to layout the children (this will update the children viewers which actually hold
+                        node.layout(); // the JavaFx children of this layout Region).
+                }
             }
         };
     }
