@@ -23,40 +23,45 @@ public abstract class UiSchedulerBase implements UiScheduler {
 
     @Override
     public Scheduled schedulePeriodic(long delayMs, Runnable runnable) {
-        return new AnimationFrameScheduled(delayMs, runnable, true);
+        return new AnimationScheduled(delayMs, runnable, true, false);
     }
 
     @Override
     public Scheduled scheduleAnimationFrame(long delayMs, Runnable runnable) {
-        return new AnimationFrameScheduled(delayMs, runnable, false);
+        return new AnimationScheduled(delayMs, runnable, false, false);
     }
 
     @Override
-    public Scheduled schedulePeriodicAnimationFrame(Runnable runnable) {
-        return new AnimationFrameScheduled(runnable, true);
+    public Scheduled schedulePeriodicAnimationFrame(Runnable runnable, boolean isPulse) {
+        return new AnimationScheduled(runnable, true, isPulse);
     }
 
-    public class AnimationFrameScheduled implements Scheduled {
+    @Override
+    public void requestNextPulse() {
+        checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
+    }
+
+    public class AnimationScheduled implements Scheduled {
         private final Runnable runnable;
         private final long delayMs;
         private final boolean periodic;
         private long nextExecutionTime;
         private boolean cancelled;
 
-        private AnimationFrameScheduled(Runnable runnable) {
-            this(runnable,false);
+        private AnimationScheduled(Runnable runnable) {
+            this(runnable, false, false);
         }
 
-        private AnimationFrameScheduled(Runnable runnable, boolean periodic) {
-            this(0, runnable, periodic);
+        private AnimationScheduled(Runnable runnable, boolean periodic, boolean isPulse) {
+            this(0, runnable, periodic, isPulse);
         }
 
-        public AnimationFrameScheduled(long delayMs, Runnable runnable, boolean periodic) {
+        public AnimationScheduled(long delayMs, Runnable runnable, boolean periodic, boolean isPulse) {
             this.runnable = runnable;
             this.delayMs = delayMs;
             this.periodic = periodic;
             nextExecutionTime = delayMs == 0 ? 0 : System.currentTimeMillis() + delayMs;
-            animations.add(this);
+            (isPulse ? pulseAnimations : generalAnimations).add(this);
             checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
         }
 
@@ -84,16 +89,34 @@ public abstract class UiSchedulerBase implements UiScheduler {
         }
     }
 
-    private final List<AnimationFrameScheduled> animations = new ArrayList<>();
+    private final List<AnimationScheduled> generalAnimations = new ArrayList<>();
+    private final List<AnimationScheduled> pulseAnimations = new ArrayList<>();
 
     protected abstract void checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
 
     protected void onExecuteAnimationPipeFinished(boolean noMoreAnimationScheduled) {
     }
 
+    private boolean animationFrame;
+    @Override
+    public boolean isAnimationFrame() {
+        return animationFrame;
+    }
+
     protected void executeAnimationPipe() {
+        animationFrame = true;
+        executeAnimations(generalAnimations);
+        executeAnimations(pulseAnimations);
+        animationFrame = false;
+        boolean noMoreAnimationScheduled = generalAnimations.isEmpty();
+        onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
+        if (!noMoreAnimationScheduled)
+            checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
+    }
+
+    private void executeAnimations(List<AnimationScheduled> animations) {
         for (int i = 0; i < animations.size(); i++) {
-            AnimationFrameScheduled scheduled = animations.get(i);
+            AnimationScheduled scheduled = animations.get(i);
             if (scheduled.isCancelled())
                 animations.remove(i--);
             else if (scheduled.shouldExecuteNow()) {
@@ -102,10 +125,13 @@ public abstract class UiSchedulerBase implements UiScheduler {
                     animations.remove(i--);
             }
         }
-        boolean noMoreAnimationScheduled = animations.isEmpty();
-        onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
-        if (!noMoreAnimationScheduled)
-            checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
+    }
+
+    public void runLikeAnimationFrame(Runnable runnable) {
+        boolean af = animationFrame;
+        animationFrame = true;
+        runnable.run();
+        animationFrame = af;
     }
 }
 
