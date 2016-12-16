@@ -22,6 +22,7 @@ import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
 import naga.toolkit.properties.markers.SelectionMode;
 import naga.toolkit.spi.events.UiEventHandler;
+import naga.toolkit.util.ObservableLists;
 
 import java.util.Collection;
 import java.util.List;
@@ -116,7 +117,7 @@ public class GridCollator extends DataGridImpl {
             }
             Node finalNode = rowCollator.collateNodes(rowNodes);
             container.setCenter(finalNode);
-            getChildren().setAll(finalNode);
+            ObservableLists.setAllNonNulls(getChildren(), finalNode);
         }
 
         @Override
