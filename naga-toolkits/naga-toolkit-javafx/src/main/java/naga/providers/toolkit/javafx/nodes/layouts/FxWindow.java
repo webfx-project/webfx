@@ -13,6 +13,7 @@ import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.fx.FxDrawingNode;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.DrawingNode;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.nodes.layouts.Window;
 import naga.toolkit.util.Properties;
 
@@ -31,20 +32,37 @@ public class FxWindow implements Window {
     public void setStage(Stage stage) {
         this.stage = stage;
         if (stage != null) {
-            Properties.runNowAndOnPropertiesChange(property -> setWindowContent(getNode()), nodeProperty);
+            Properties.runNowAndOnPropertiesChange(property -> drawingNode.setRootNode(getNode()), nodeProperty);
             titleProperty().addListener((observable, oldValue, newValue) -> stage.setTitle(newValue));
             setWindowContent((Parent) ((FxDrawingNode) drawingNode).unwrapToNativeNode());
-            ObservableDoubleValue fitContentWidthProperty = getFitContentWidthProperty();
-            drawingNode.setWidth(fitContentWidthProperty.get());
-            fitContentWidthProperty.addListener((observable, oldValue, newValue) -> drawingNode.setWidth(fitContentWidthProperty.get()));
-            ObservableDoubleValue fitContentHeightProperty = getFitContentHeightProperty();
-            drawingNode.setHeight(fitContentHeightProperty.get());
-            fitContentHeightProperty.addListener((observable, oldValue, newValue) -> drawingNode.setHeight(fitContentHeightProperty.get()));
         }
     }
 
-    private void setWindowContent(Node node) {
-        drawingNode.setRootNode(node);
+    protected void setWindowContent(Parent rootComponent) {
+        Toolkit.get().scheduler().runInUiThread(() -> {
+            Scene scene = stage.getScene();
+            if (scene != null)
+                scene.setRoot(rootComponent);
+            else { // Creating the scene if not yet done
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                stage.setScene(scene = createScene(rootComponent, screenBounds.getWidth() * 0.8, screenBounds.getHeight() * 0.9));
+                // Calling the scene hook is specified
+                Consumer<Scene> sceneHook = JavaFxToolkit.getSceneHook();
+                if (sceneHook != null)
+                    sceneHook.accept(scene);
+                stage.show();
+            }
+            fitWidthAndHeightWithContent();
+        });
+    }
+
+    private void fitWidthAndHeightWithContent() {
+        ObservableDoubleValue fitContentWidthProperty = getFitContentWidthProperty();
+        ObservableDoubleValue fitContentHeightProperty = getFitContentHeightProperty();
+        drawingNode.setWidth(fitContentWidthProperty.get());
+        fitContentWidthProperty.addListener((observable, oldValue, newValue) -> drawingNode.setWidth(fitContentWidthProperty.get()));
+        drawingNode.setHeight(fitContentHeightProperty.get());
+        fitContentHeightProperty.addListener((observable, oldValue, newValue) -> drawingNode.setHeight(fitContentHeightProperty.get()));
     }
 
     protected ObservableDoubleValue getFitContentWidthProperty() {
@@ -53,21 +71,6 @@ public class FxWindow implements Window {
 
     protected ObservableDoubleValue getFitContentHeightProperty() {
         return stage.getScene().heightProperty();
-    }
-
-    protected void setWindowContent(Parent rootComponent) {
-        Scene scene = stage.getScene();
-        if (scene != null)
-            scene.setRoot(rootComponent);
-        else { // Creating the scene if not yet done
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            stage.setScene(scene = createScene(rootComponent, screenBounds.getWidth() * 0.8, screenBounds.getHeight() * 0.9));
-            // Calling the scene hook is specified
-            Consumer<Scene> sceneHook = JavaFxToolkit.getSceneHook();
-            if (sceneHook != null)
-                sceneHook.accept(scene);
-            stage.show();
-        }
     }
 
     protected Scene createScene(Parent rootComponent, double width, double height) {

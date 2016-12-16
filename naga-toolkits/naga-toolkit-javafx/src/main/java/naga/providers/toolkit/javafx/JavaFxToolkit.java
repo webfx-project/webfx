@@ -35,7 +35,7 @@ public class JavaFxToolkit extends Toolkit {
     private static List<Runnable> readyRunnables = new ArrayList<>();
 
     public JavaFxToolkit() {
-        this(() -> FxApplication.applicationWindow = new FxWindow(FxApplication.primaryStage));
+        this(() -> new FxWindow(FxApplication.primaryStage));
     }
 
     protected JavaFxToolkit(Factory<Window> windowFactory) {
@@ -72,7 +72,7 @@ public class JavaFxToolkit extends Toolkit {
 
     @Override
     public void onReady(Runnable runnable) {
-        synchronized (readyRunnables) {
+        synchronized (JavaFxToolkit.class) {
             if (readyRunnables != null)
                 readyRunnables.add(runnable);
             else
@@ -81,7 +81,7 @@ public class JavaFxToolkit extends Toolkit {
     }
 
     private static void executeReadyRunnables() {
-        synchronized (readyRunnables) {
+        synchronized (JavaFxToolkit.class) {
             if (readyRunnables != null) {
                 List<Runnable> runnables = readyRunnables;
                 readyRunnables = null;
@@ -102,18 +102,27 @@ public class JavaFxToolkit extends Toolkit {
         return DisplayResultSetBuilder.convertDisplayResultSet(rs, SimpleObjectProperty::new);
     }
 
+    @Override
+    public Window getApplicationWindow() {
+        synchronized (FxApplication.class) {
+            return FxApplication.fxApplicationWindow = (FxWindow) super.getApplicationWindow();
+        }
+    }
+
     public static class FxApplication extends Application {
         public static Stage primaryStage;
-        public static FxWindow applicationWindow;
+        private static FxWindow fxApplicationWindow;
 
         @Override
         public void start(Stage primaryStage) throws Exception {
             // Activating SVG support
             SvgImageLoaderFactory.install();
-            FxApplication.primaryStage = primaryStage;
-            primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
-            if (applicationWindow != null)
-                applicationWindow.setStage(primaryStage);
+            synchronized (FxApplication.class) {
+                FxApplication.primaryStage = primaryStage;
+                primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
+                if (fxApplicationWindow != null)
+                    fxApplicationWindow.setStage(primaryStage);
+            }
             executeReadyRunnables();
         }
     }

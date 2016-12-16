@@ -22,7 +22,7 @@ public class JFoenixToolkit extends JavaFxToolkit {
     }*/
 
     public JFoenixToolkit() {
-        super(() -> JavaFxToolkit.FxApplication.applicationWindow = new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage));
+        super(() -> new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage));
         registerNodeFactory(DrawingNode.class, () -> new FxDrawingNode() {
             @Override
             protected FxDrawing createDrawing() {
