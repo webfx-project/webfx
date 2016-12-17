@@ -7,14 +7,23 @@ import javafx.util.Duration;
 import naga.commons.scheduler.impl.UiSchedulerBase;
 import naga.toolkit.spi.Toolkit;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author Bruno Salmon
  */
 class FxScheduler extends UiSchedulerBase {
 
     static FxScheduler SINGLETON = new FxScheduler();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     private FxScheduler() {
+    }
+
+    @Override
+    public void runInBackground(Runnable runnable) {
+        executor.execute(runnable);
     }
 
     @Override

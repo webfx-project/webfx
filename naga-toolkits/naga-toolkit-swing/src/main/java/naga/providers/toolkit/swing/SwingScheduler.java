@@ -4,6 +4,8 @@ import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.impl.UiSchedulerBase;
 
 import javax.swing.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author Bruno Salmon
@@ -11,8 +13,14 @@ import javax.swing.*;
 class SwingScheduler extends UiSchedulerBase {
 
     static SwingScheduler SINGLETON = new SwingScheduler();
+    private final ExecutorService executor = Executors.newCachedThreadPool();
 
     private SwingScheduler() {
+    }
+
+    @Override
+    public void runInBackground(Runnable runnable) {
+        executor.execute(runnable);
     }
 
     @Override
