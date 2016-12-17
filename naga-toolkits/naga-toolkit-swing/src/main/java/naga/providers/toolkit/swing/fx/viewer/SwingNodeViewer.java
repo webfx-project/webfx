@@ -1,5 +1,6 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
+import naga.commons.util.tuples.Unit;
 import naga.providers.toolkit.swing.util.JGradientLabel;
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
@@ -127,11 +128,7 @@ public abstract class SwingNodeViewer
         swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 
-    protected JComponent toSwingComponent() {
-        return toSwingComponent(getNode(), getNode().getDrawing(), null);
-    }
-
-    public static JComponent toSwingComponent(Node node) {
+    static JComponent toSwingComponent(Node node) {
         return node == null ? null : toSwingComponent(node, node.getDrawing(), null);
     }
 
@@ -139,7 +136,12 @@ public abstract class SwingNodeViewer
         NodeImpl renderedNode = (NodeImpl) node;
         CanvasDrawingImpl canvasDrawing = (CanvasDrawingImpl) drawing;
         renderedNode.setDrawing(canvasDrawing);
-        NodeViewer nodeViewer = renderedNode.getOrCreateAndBindNodeViewer();
+        // A difficulty to face with Swing: the requested component might be for cell rendering and needs to be ready to
+        // for painting immediately (whereas Naga normally defers the property changes and layout pass to the next
+        // animation frame). So we call getOrCreateAndBindNodeViewer() as if in an animation frame (to turn off deferring)
+        Unit<NodeViewer> nodeViewerUnit = new Unit<>();
+        naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(() -> nodeViewerUnit.set(renderedNode.getOrCreateAndBindNodeViewer()));
+        NodeViewer nodeViewer = nodeViewerUnit.get();
         if (nodeViewer instanceof SwingEmbedComponentViewer)
             return ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();
         if (nodeViewer instanceof SwingShapeViewer) {
@@ -178,7 +180,7 @@ public abstract class SwingNodeViewer
         if (node instanceof HasHeightProperty)
             Properties.safeSetProperty(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
         if (node instanceof Parent)
-            naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout);
+            naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
         return component;
     }
 }
