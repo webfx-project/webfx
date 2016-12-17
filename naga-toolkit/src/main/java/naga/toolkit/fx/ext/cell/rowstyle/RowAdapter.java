@@ -1,4 +1,4 @@
-package naga.toolkit.adapters.rowstyle;
+package naga.toolkit.fx.ext.cell.rowstyle;
 
 /**
  * @author Bruno Salmon

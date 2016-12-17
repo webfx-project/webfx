@@ -1,8 +1,8 @@
 package naga.toolkit.display;
 
 import naga.commons.type.Type;
-import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.impl.DisplayColumnImpl;
+import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 
 /**
  * @author Bruno Salmon
@@ -15,7 +15,6 @@ public class DisplayColumnBuilder {
     private String role;
     private DisplayStyle style;
     private ValueRenderer valueRenderer;
-    private naga.toolkit.fx.ext.cell.renderer.ValueRenderer fxValueRenderer;
 
     private DisplayColumnBuilder(Object label, Type type) {
         this.label = headerValue = label;
@@ -47,18 +46,13 @@ public class DisplayColumnBuilder {
         return this;
     }
 
-    public DisplayColumnBuilder setValueRenderer(ValueRenderer valueRenderer) {
+    public DisplayColumnBuilder setValueRenderer(naga.toolkit.fx.ext.cell.renderer.ValueRenderer valueRenderer) {
         this.valueRenderer = valueRenderer;
         return this;
     }
 
-    public DisplayColumnBuilder setFxValueRenderer(naga.toolkit.fx.ext.cell.renderer.ValueRenderer fxValueRenderer) {
-        this.fxValueRenderer = fxValueRenderer;
-        return this;
-    }
-
     public DisplayColumn build() {
-        return new DisplayColumnImpl(headerValue, label, type, role, style, valueRenderer, fxValueRenderer);
+        return new DisplayColumnImpl(headerValue, label, type, role, style, valueRenderer);
     }
 
     public static DisplayColumnBuilder create(Object label) {

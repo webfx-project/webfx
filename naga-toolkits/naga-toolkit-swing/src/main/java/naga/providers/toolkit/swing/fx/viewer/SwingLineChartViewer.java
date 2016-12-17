@@ -1,6 +1,5 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
-import naga.providers.toolkit.swing.nodes.charts.XChartJPanel;
 import naga.toolkit.fx.ext.chart.LineChart;
 import naga.toolkit.fx.spi.viewer.base.LineChartViewerBase;
 import naga.toolkit.fx.spi.viewer.base.LineChartViewerMixin;

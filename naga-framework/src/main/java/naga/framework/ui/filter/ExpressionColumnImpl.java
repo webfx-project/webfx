@@ -10,10 +10,10 @@ import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.ui.format.Formatter;
 import naga.platform.json.spi.JsonObject;
-import naga.toolkit.cell.renderers.ValueRenderer;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayColumnBuilder;
 import naga.toolkit.display.DisplayStyleBuilder;
+import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 
 /**
  * @author Bruno Salmon
@@ -60,14 +60,12 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 displayType = topRightExpression.getType();
             }
             String textAlign = null;
-            ValueRenderer valueRenderer = null;
-            naga.toolkit.fx.ext.cell.renderer.ValueRenderer fxValueRenderer = null;
+            ValueRenderer fxValueRenderer = null;
             if (json != null) {
                 textAlign = json.getString("textAlign");
                 String collator = json.getString("collator");
                 if (collator != null) {
-                    valueRenderer = ValueRenderer.create(displayType, collator);
-                    fxValueRenderer = naga.toolkit.fx.ext.cell.renderer.ValueRenderer.create(displayType, collator);
+                    fxValueRenderer = ValueRenderer.create(displayType, collator);
                 }
                 json = null;
             }
@@ -75,8 +73,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
             displayColumn = DisplayColumnBuilder.create(label, displayType)
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
-                    .setValueRenderer(valueRenderer)
-                    .setFxValueRenderer(fxValueRenderer)
+                    .setValueRenderer(fxValueRenderer)
                     .build();
         }
         return displayColumn;

@@ -122,7 +122,7 @@ public class GridCollator extends DataGridImpl {
 
         @Override
         public void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
-            renderers[gridColumnIndex] = displayColumn.getFxValueRenderer();
+            renderers[gridColumnIndex] = displayColumn.getValueRenderer();
             rsColumnIndexes[gridColumnIndex] = rsColumnIndex;
         }
 

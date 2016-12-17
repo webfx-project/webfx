@@ -3,7 +3,6 @@ package naga.providers.toolkit.swing.fx.viewer;
 import naga.commons.type.Type;
 import naga.commons.util.function.Function;
 import naga.commons.util.tuples.Triplet;
-import naga.providers.toolkit.swing.nodes.charts.XChartJPanel;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.ext.chart.Chart;
 import naga.toolkit.fx.spi.viewer.base.ChartViewerBase;

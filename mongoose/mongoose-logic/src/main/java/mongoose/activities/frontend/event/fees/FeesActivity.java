@@ -91,8 +91,8 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     private void displayFeesGroupsNow(FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
         int n = feesGroups.length;
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(n, new DisplayColumn[]{
-                DisplayColumn.createFx(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, dateInfoDisplayResultSetProperty)),
-                DisplayColumn.createFx(value -> renderFeesGroupBody((DisplayResultSet) value)),
+                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, dateInfoDisplayResultSetProperty)),
+                DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
         WritableJsonObject jsonImage = Json.parseObject("{url: 'images/price-tag.svg', width: 16, height: 16}");

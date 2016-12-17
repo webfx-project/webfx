@@ -134,7 +134,7 @@ public class SwingDataGridViewer
             tableColumn.setMinWidth(width);
             tableColumn.setMaxWidth(width);
         }
-        tableColumn.setCellRenderer(createTableCellRenderer(displayColumn.getFxValueRenderer(), displayColumn, false));
+        tableColumn.setCellRenderer(createTableCellRenderer(displayColumn.getValueRenderer(), displayColumn, false));
     }
 
     @Override

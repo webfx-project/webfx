@@ -31,12 +31,6 @@
             <artifactId>javafxsvg</artifactId>
         </dependency>
 
-        <!-- Gauges for JavaFx -->
-        <dependency>
-            <artifactId>Medusa</artifactId>
-            <groupId>eu.hansolo</groupId>
-        </dependency>
-
     </dependencies>
 
 </project>

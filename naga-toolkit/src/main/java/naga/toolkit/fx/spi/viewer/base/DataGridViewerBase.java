@@ -76,7 +76,7 @@ public class DataGridViewerBase<C>
     }
 
     public void fillCell(C cell, Object cellValue, DisplayColumn displayColumn) {
-        fillCell(cell, cellValue, displayColumn, displayColumn.getFxValueRenderer());
+        fillCell(cell, cellValue, displayColumn, displayColumn.getValueRenderer());
     }
 
     public void fillCell(C cell, Object cellValue, DisplayColumn displayColumn, ValueRenderer valueRenderer) {

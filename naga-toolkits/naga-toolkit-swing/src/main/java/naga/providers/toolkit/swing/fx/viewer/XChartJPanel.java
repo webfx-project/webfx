@@ -1,4 +1,4 @@
-package naga.providers.toolkit.swing.nodes.charts;
+package naga.providers.toolkit.swing.fx.viewer;
 
 import org.knowm.xchart.internal.chartpart.Chart;
 
@@ -8,11 +8,11 @@ import java.awt.*;
 /**
  * @author Bruno Salmon
  */
-public class XChartJPanel extends JPanel {
+class XChartJPanel extends JPanel {
 
     private Chart chart;
 
-    public void setChart(Chart chart) {
+    void setChart(Chart chart) {
         this.chart = chart;
         repaint();
     }
