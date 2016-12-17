@@ -48,15 +48,11 @@ public abstract class UiSchedulerBase implements UiScheduler {
         private long nextExecutionTime;
         private boolean cancelled;
 
-        private AnimationScheduled(Runnable runnable) {
-            this(runnable, false, false);
-        }
-
         private AnimationScheduled(Runnable runnable, boolean periodic, boolean isPulse) {
             this(0, runnable, periodic, isPulse);
         }
 
-        public AnimationScheduled(long delayMs, Runnable runnable, boolean periodic, boolean isPulse) {
+        private AnimationScheduled(long delayMs, Runnable runnable, boolean periodic, boolean isPulse) {
             this.runnable = runnable;
             this.delayMs = delayMs;
             this.periodic = periodic;
@@ -84,7 +80,7 @@ public abstract class UiSchedulerBase implements UiScheduler {
 
         private void execute() {
             runnable.run();
-            if (nextExecutionTime !=0 && periodic)
+            if (nextExecutionTime != 0 && periodic)
                 nextExecutionTime += delayMs;
         }
     }
@@ -97,17 +93,23 @@ public abstract class UiSchedulerBase implements UiScheduler {
     protected void onExecuteAnimationPipeFinished(boolean noMoreAnimationScheduled) {
     }
 
-    private boolean animationFrame;
+    private final ThreadLocal<Boolean> animationFrame = new ThreadLocal<>();
     @Override
     public boolean isAnimationFrame() {
-        return animationFrame;
+        return animationFrame.get() == Boolean.TRUE;
     }
 
     protected void executeAnimationPipe() {
-        animationFrame = true;
+        animationFrame.set(Boolean.TRUE);
+        long t0 = System.currentTimeMillis();
         executeAnimations(generalAnimations);
+        long t1 = System.currentTimeMillis();
         executeAnimations(pulseAnimations);
-        animationFrame = false;
+        long t2 = System.currentTimeMillis();
+        long t = t2 - t0;
+        if (t > 16)
+            System.out.println("Long animation: " + t + "ms = " + (t1 - t0) + "ms properties + " + (t2 - t1) + "ms layout/pulse (60 FPS = 16ms)");
+        animationFrame.set(Boolean.FALSE);
         boolean noMoreAnimationScheduled = generalAnimations.isEmpty();
         onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
         if (!noMoreAnimationScheduled)
@@ -128,10 +130,10 @@ public abstract class UiSchedulerBase implements UiScheduler {
     }
 
     public void runLikeAnimationFrame(Runnable runnable) {
-        boolean af = animationFrame;
-        animationFrame = true;
+        Boolean af = animationFrame.get();
+        animationFrame.set(Boolean.TRUE);
         runnable.run();
-        animationFrame = af;
+        animationFrame.set(af);
     }
 }
 
