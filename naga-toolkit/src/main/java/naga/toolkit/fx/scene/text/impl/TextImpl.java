@@ -65,9 +65,13 @@ public class TextImpl extends ShapeImpl implements Text {
         return fontProperty;
     }
 
+    private static boolean warned;
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        System.out.println("Warning: TextImpl.impl_computeGeomBounds() not implemented");
+        if (!warned) {
+            System.out.println("Warning: TextImpl.impl_computeGeomBounds() not implemented");
+            warned = true;
+        }
         return new BoxBounds();
         //throw new UnsupportedOperationException("TextImpl.impl_computeGeomBounds() not implemented");
     }
