@@ -14,7 +14,7 @@ import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
 public class FxTextViewer
         <FxN extends javafx.scene.text.Text, N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
         extends FxShapeViewer<FxN, N, NV, NM>
-        implements TextViewerMixin<N, NV, NM> {
+        implements TextViewerMixin<N, NV, NM>, FxLayoutMeasurable {
 
     public FxTextViewer() {
         this((NV) new TextViewerBase());
