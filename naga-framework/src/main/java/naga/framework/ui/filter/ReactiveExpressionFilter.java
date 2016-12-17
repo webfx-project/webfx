@@ -2,9 +2,11 @@ package naga.framework.ui.filter;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableValue;
 import naga.commons.type.PrimType;
 import naga.commons.util.async.Handler;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Converter;
 import naga.framework.expression.Expression;
 import naga.framework.expression.builder.ReferenceResolver;
@@ -277,7 +279,17 @@ public class ReactiveExpressionFilter {
             resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
-            i18n.dictionaryProperty().addListener((observable, oldValue, newValue) -> resetAllDisplayResultSets(false));
+            naga.toolkit.util.Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
+                private boolean dictionaryChanged;
+                @Override
+                public void accept(ObservableValue p) {
+                    dictionaryChanged |= p == i18n.dictionaryProperty();
+                    if (dictionaryChanged && isActive()) {
+                        resetAllDisplayResultSets(false);
+                        dictionaryChanged = false;
+                    }
+                }
+            }, i18n.dictionaryProperty(), activeProperty);
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
         Observable<StringFilter> resultingStringFilterObservable = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
@@ -426,10 +438,12 @@ public class ReactiveExpressionFilter {
 
         void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
             // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
-            onEachChangeProperty.addListener(observable -> {
-                displaySelectionProperty.setValue(null);
-                selectFirstRowOnFirstDisplay();
-            });
+            naga.toolkit.util.Properties.runOnPropertiesChange(p -> {
+                if (isActive()) {
+                    displaySelectionProperty.setValue(null);
+                    selectFirstRowOnFirstDisplay();
+                }
+            }, onEachChangeProperty, activeProperty);
             selectFirstRowOnFirstDisplay(displaySelectionProperty);
         }
 
