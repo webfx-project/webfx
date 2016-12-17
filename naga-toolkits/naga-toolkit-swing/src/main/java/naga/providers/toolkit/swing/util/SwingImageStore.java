@@ -21,31 +21,51 @@ public final class SwingImageStore {
         if (url == null)
             return null;
         Image image = imageCache.get(url);
-        if (image == null) {
-            URL resource = SwingImageStore.class.getClassLoader().getResource(url);
-            imageCache.put(url, image = Toolkit.getDefaultToolkit().getImage(resource));
-        }
+        if (image == null)
+            synchronized (imageCache) {
+                image = imageCache.get(url);
+                if (image == null) {
+                    long t0 = System.currentTimeMillis();
+                    URL resource = SwingImageStore.class.getClassLoader().getResource(url);
+                    imageCache.put(url, image = Toolkit.getDefaultToolkit().getImage(resource));
+                    long t = System.currentTimeMillis() - t0;
+                    System.out.println("Image " + url + " loaded in " + t + "ms");
+                }
+            }
         return image;
     }
 
-    public static Icon getIcon(String url) {
-        return getIcon(url, 0, 0);
-    }
-
     public static Icon getIcon(String url, int width, int height) {
-        Icon icon = iconCache.get(url);
-        if (icon != null && (width == 0 || icon.getIconWidth() == width) && (height == 0 || icon.getIconHeight() == height))
+        Icon icon = getIconFromCache(url, width, height);
+        if (icon != null)
             return icon;
         if (url != null && url.endsWith(".svg"))
-            try (InputStream is = SwingImageStore.class.getClassLoader().getResourceAsStream(url)) {
-                iconCache.put(url, icon = new BatikSvgIcon(is, width, height));
-                return icon;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+            synchronized (iconCache) {
+                icon = getIconFromCache(url, width, height);
+                if (icon == null) {
+                    long t0 = System.currentTimeMillis();
+                    try (InputStream is = SwingImageStore.class.getClassLoader().getResourceAsStream(url)) {
+                        iconCache.put(url, icon = new BatikSvgIcon(is, width, height));
+                        long t = System.currentTimeMillis() - t0;
+                        System.out.println("Svg image " + url + " loaded in " + t + "ms");
+                        return icon;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
             }
         Image image = getImage(url);
-        return image == null ? null : new ImageIcon(image);
+        if (image != null)
+            iconCache.put(url, icon = new ImageIcon(image));
+        return icon;
+    }
+
+    public static Icon getIconFromCache(String url, int w, int h) {
+        Icon icon = iconCache.get(url);
+        if (icon != null && (w != 0 && icon.getIconWidth() != w && icon.getIconWidth() > 0 || h != 0 && icon.getIconHeight() != h && icon.getIconHeight() > 0))
+            icon = null;
+        return icon;
     }
 
     static Font getFont(String url) {
