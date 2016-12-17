@@ -91,7 +91,7 @@ public class FeesGroup {
                             // Availability is null when there is no online room at all. In this case...
                             if (availability == null && optionsPreselection.hasAccommodationExcludingSharing()) // ... if it's an accommodation option (but not just sharing)
                                 availability = 0; // we show it as soldout - otherwise (if it's a sharing option or no accommodation) we show it as available
-                            boolean soldout = Numbers.isZero(availability) || // Showing soldout if the availability is zero
+                            boolean soldout = availability != null && Numbers.doubleValue(availability) <= 0 || // Showing soldout if the availability is zero
                                     optionsPreselection.isForceSoldout() || // or if the option has been forced as soldout in the backend
                                     isForceSoldout(); // or if the whole FeesGroup has been forced as soldout
                             if (soldout)
