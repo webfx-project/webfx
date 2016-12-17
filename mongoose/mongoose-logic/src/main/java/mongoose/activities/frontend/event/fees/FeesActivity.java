@@ -25,6 +25,7 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.RadioButton;
 import naga.toolkit.fx.scene.layout.FlowPane;
 import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.spi.Toolkit;
 import naga.toolkit.spi.events.MouseEvent;
 import naga.toolkit.util.Properties;
 
@@ -70,7 +71,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 FeesGroup[] feesGroups = async.result();
                 Property<DisplayResultSet> dateInfoDisplayResultSetProperty = pm.dateInfoDisplayResultSetProperty();
                 I18n i18n = getI18n();
-                Properties.consumeInUiThread(Properties.filter(Properties.combine(i18n.dictionaryProperty(), activeProperty(),
+                Properties.consume(Properties.filter(Properties.combine(i18n.dictionaryProperty(), activeProperty(),
                         Pair::new), // combine function
                         pair -> pair.get2()), // filter function (GWT doesn't compile method reference in this case)
                         pair -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
@@ -81,10 +82,13 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
             }
         });
     }
-
     private void displayFeesGroups(FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
         if (getEvent() == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
             return; // We return to avoid NPE (this method will be called again once the event is loaded)
+        Toolkit.get().scheduler().runInBackground(() -> displayFeesGroupsNow(feesGroups, dateInfoDisplayResultSetProperty));
+    }
+
+    private void displayFeesGroupsNow(FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
         int n = feesGroups.length;
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(n, new DisplayColumn[]{
                 DisplayColumn.createFx(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, dateInfoDisplayResultSetProperty)),
