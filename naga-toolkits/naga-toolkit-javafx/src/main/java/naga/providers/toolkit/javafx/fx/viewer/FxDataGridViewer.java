@@ -99,7 +99,8 @@ public class FxDataGridViewer
                 currentColumns.clear();
             getNodeViewerBase().fillGrid(rs);
             tableView.getColumns().setAll(newColumns);
-            // currentColumns = newColumns = null; // Commented as may cause NPE in setUpGridColumn() TODO: check if it's a bug
+            currentColumns = newColumns = null;
+            tableView.getSelectionModel().clearSelection(); // Clearing selection otherwise an undesired selection event is triggered on new items
             tableView.getItems().setAll(new IdentityList(rs.getRowCount()));
             if (rs.getRowCount() > 0) { // Workaround for the JavaFx wrong resize columns problem when vertical scroll bar appears
                 tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
