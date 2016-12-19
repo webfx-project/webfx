@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.spi.events.MouseEvent;
@@ -24,8 +24,8 @@ public interface NodeViewerMixin
     DV getNodeViewerBase();
 
     @Override
-    default void bind(D node, DrawingRequester drawingRequester) {
-        getNodeViewerBase().bind(node, drawingRequester);
+    default void bind(D node, SceneRequester sceneRequester) {
+        getNodeViewerBase().bind(node, sceneRequester);
     }
 
     @Override

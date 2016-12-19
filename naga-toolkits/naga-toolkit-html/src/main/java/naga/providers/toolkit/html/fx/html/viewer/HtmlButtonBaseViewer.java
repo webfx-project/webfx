@@ -40,7 +40,7 @@ abstract class HtmlButtonBaseViewer
         HtmlUtil.setChild(getElement(), spanElement);
         Node graphic = node.getGraphic();
         if (graphic != null) {
-            Element graphicElement = toElement(graphic, node.getDrawing());
+            Element graphicElement = toElement(graphic, node.getScene());
             HtmlUtil.setStyleAttribute(graphicElement, "margin", " 0 5px 0 0");
             HtmlUtil.setStyleAttribute(graphicElement, "vertical-align", "middle");
             HtmlUtil.appendFirstChild(getElement(), graphicElement);

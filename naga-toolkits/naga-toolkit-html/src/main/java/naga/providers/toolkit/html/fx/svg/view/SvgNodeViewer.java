@@ -2,7 +2,7 @@ package naga.providers.toolkit.html.fx.svg.view;
 
 import elemental2.Element;
 import naga.providers.toolkit.html.fx.shared.HtmlSvgNodeViewer;
-import naga.providers.toolkit.html.fx.svg.SvgDrawing;
+import naga.providers.toolkit.html.fx.svg.SvgScene;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
@@ -48,8 +48,8 @@ public abstract class SvgNodeViewer
         return value;
     }
 
-    private SvgDrawing getSvgDrawing() {
-        return ((SvgDrawing) getNode().getDrawing());
+    private SvgScene getSvgDrawing() {
+        return ((SvgScene) getNode().getScene());
     }
 
     @Override

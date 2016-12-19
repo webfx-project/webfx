@@ -1,10 +1,6 @@
 package naga.providers.toolkit.jfoenix;
 
 import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.providers.toolkit.javafx.fx.FxDrawing;
-import naga.providers.toolkit.javafx.fx.FxDrawingNode;
-import naga.providers.toolkit.jfoenix.nodes.layouts.JFoenixWindow;
-import naga.toolkit.fx.spi.DrawingNode;
 
 /**
  * @author Bruno Salmon
@@ -22,12 +18,6 @@ public class JFoenixToolkit extends JavaFxToolkit {
     }*/
 
     public JFoenixToolkit() {
-        super(() -> new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage));
-        registerNodeFactory(DrawingNode.class, () -> new FxDrawingNode() {
-            @Override
-            protected FxDrawing createDrawing() {
-                return new FxDrawing(this, JFoenixNodeViewerFactory.SINGLETON);
-            }
-        });
+        super(() -> new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage), JFoenixNodeViewerFactory.SINGLETON);
     }
 }

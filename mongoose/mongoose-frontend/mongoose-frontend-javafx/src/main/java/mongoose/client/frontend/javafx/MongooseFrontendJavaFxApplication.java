@@ -6,6 +6,8 @@ import mongoose.activities.frontend.application.MongooseFrontendApplication;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.providers.toolkit.javafx.util.FxImageStore;
+import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.spi.Toolkit;
 
 /**
@@ -28,9 +30,10 @@ public class MongooseFrontendJavaFxApplication {
     private static ImageView spinner;
 
     private static void setLoadingSpinnerVisible(boolean visible) {
-        naga.toolkit.fx.scene.Node node = Toolkit.get().getApplicationWindow().getNode();
-        if (node != null) {
-            javafx.scene.Node fxNode = ((FxNodeViewer) node.getOrCreateAndBindNodeViewer()).getFxNode();
+        Scene scene = Toolkit.get().getApplicationWindow().getScene();
+        Node root = scene == null ? null : scene.getRoot();
+        if (root != null) {
+            javafx.scene.Node fxNode = ((FxNodeViewer) root.getOrCreateAndBindNodeViewer()).getFxNode();
             if (fxNode instanceof Pane) {
                 Pane rootPane = (Pane) fxNode;
                 if (!visible) {

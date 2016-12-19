@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.shape.Rectangle;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.RectangleViewer;
 
 /**
@@ -13,9 +13,9 @@ public class RectangleViewerBase
         implements RectangleViewer {
 
     @Override
-    public void bind(Rectangle r, DrawingRequester drawingRequester) {
-        super.bind(r, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(Rectangle r, SceneRequester sceneRequester) {
+        super.bind(r, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , r.xProperty()
                 , r.yProperty()
                 , r.widthProperty()

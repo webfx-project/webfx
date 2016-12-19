@@ -9,7 +9,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -123,20 +123,20 @@ public final class SequentialTransition extends Transition {
      * running {@code Transition}, the animation has to be stopped and started again to
      * pick up the new value.
      */
-    private ObjectProperty<GuiNode> node;
-    private static final GuiNode DEFAULT_NODE = null;
+    private ObjectProperty<Node> node;
+    private static final Node DEFAULT_NODE = null;
 
-    public final void setNode(GuiNode value) {
+    public final void setNode(Node value) {
         if ((node != null) || (value != null /* DEFAULT_NODE */)) {
             nodeProperty().set(value);
         }
     }
 
-    public final GuiNode getNode() {
+    public final Node getNode() {
         return (node == null)? DEFAULT_NODE : node.get();
     }
 
-    public final ObjectProperty<GuiNode> nodeProperty() {
+    public final ObjectProperty<Node> nodeProperty() {
         if (node == null) {
             node = new SimpleObjectProperty<>(this, "node", DEFAULT_NODE);
         }
@@ -234,7 +234,7 @@ public final class SequentialTransition extends Transition {
      *            The child {@link javafx.animation.Animation Animations} of
      *            this {@code SequentialTransition}
      */
-    public SequentialTransition(GuiNode node, Animation... children) {
+    public SequentialTransition(Node node, Animation... children) {
         setInterpolator(Interpolator.LINEAR);
         setNode(node);
         getChildren().setAll(children);
@@ -259,7 +259,7 @@ public final class SequentialTransition extends Transition {
      *            {@link Transition Transitions} that have no {@code Node} specified
      *            themselves
      */
-    public SequentialTransition(GuiNode node) {
+    public SequentialTransition(Node node) {
         setInterpolator(Interpolator.LINEAR);
         setNode(node);
     }
@@ -268,7 +268,7 @@ public final class SequentialTransition extends Transition {
      * The constructor of {@code SequentialTransition}.
      */
     public SequentialTransition() {
-        this((GuiNode) null);
+        this((Node) null);
     }
 
     // For testing purposes
@@ -281,8 +281,8 @@ public final class SequentialTransition extends Transition {
      * {@inheritDoc}
      */
     @Override
-    protected GuiNode getParentTargetNode() {
-        final GuiNode _node = getNode();
+    protected Node getParentTargetNode() {
+        final Node _node = getNode();
         return (_node != null) ? _node : ((parent != null && parent instanceof Transition) ?
                 ((Transition)parent).getParentTargetNode() : null);
     }

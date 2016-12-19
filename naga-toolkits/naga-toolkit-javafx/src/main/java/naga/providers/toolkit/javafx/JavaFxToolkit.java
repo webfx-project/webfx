@@ -2,18 +2,16 @@ package naga.providers.toolkit.javafx;
 
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Factory;
-import naga.providers.toolkit.javafx.fx.FxDrawingNode;
-import naga.providers.toolkit.javafx.nodes.layouts.FxWindow;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
-import naga.toolkit.fx.spi.DrawingNode;
+import naga.providers.toolkit.javafx.fx.FxNodeViewerFactory;
+import naga.providers.toolkit.javafx.fx.FxScene;
+import naga.providers.toolkit.javafx.fx.stage.FxWindow;
+import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
+import naga.toolkit.fx.stage.Window;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.nodes.layouts.Window;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +25,12 @@ public class JavaFxToolkit extends Toolkit {
     private static List<Runnable> readyRunnables = new ArrayList<>();
 
     public JavaFxToolkit() {
-        this(() -> new FxWindow(FxApplication.primaryStage));
+        this(() -> new FxWindow(FxApplication.primaryStage), FxNodeViewerFactory.SINGLETON);
     }
 
-    protected JavaFxToolkit(Factory<Window> windowFactory) {
-        super(FxScheduler.SINGLETON, windowFactory);
+    protected JavaFxToolkit(Factory<Window> windowFactory, NodeViewerFactory nodeViewerFactory) {
+        super(FxScheduler.SINGLETON, windowFactory, () -> new FxScene(nodeViewerFactory));
         new Thread(() -> Application.launch(FxApplication.class), "JavaFxToolkit-Launcher").start();
-        registerNodeFactory(DrawingNode.class, FxDrawingNode::new);
     }
 
     @Override
@@ -67,10 +64,6 @@ public class JavaFxToolkit extends Toolkit {
 
     public static Consumer<Scene> getSceneHook() {
         return sceneHook;
-    }
-
-    public static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet rs) {
-        return DisplayResultSetBuilder.convertDisplayResultSet(rs, SimpleObjectProperty::new);
     }
 
     @Override

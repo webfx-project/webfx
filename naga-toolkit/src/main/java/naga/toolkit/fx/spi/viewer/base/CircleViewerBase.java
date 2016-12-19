@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.shape.Circle;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.CircleViewer;
 
 /**
@@ -13,9 +13,9 @@ public class CircleViewerBase
         implements CircleViewer {
 
     @Override
-    public void bind(Circle c, DrawingRequester drawingRequester) {
-        super.bind(c, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(Circle c, SceneRequester sceneRequester) {
+        super.bind(c, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , c.centerXProperty()
                 , c.centerYProperty()
                 , c.radiusProperty()

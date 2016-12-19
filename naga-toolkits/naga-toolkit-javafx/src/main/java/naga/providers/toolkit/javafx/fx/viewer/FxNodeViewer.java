@@ -9,9 +9,9 @@ import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.effect.GaussianBlur;
 import naga.toolkit.fx.scene.impl.NodeImpl;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.spi.Drawing;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.scene.SceneRequester;
+import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
@@ -45,9 +45,9 @@ public abstract class FxNodeViewer
     protected abstract FxN createFxNode();
 
     @Override
-    public void bind(N node, DrawingRequester drawingRequester) {
+    public void bind(N node, SceneRequester sceneRequester) {
         fxNode = createFxNode();
-        getNodeViewerBase().bind(node, drawingRequester);
+        getNodeViewerBase().bind(node, sceneRequester);
     }
 
     @Override
@@ -147,10 +147,10 @@ public abstract class FxNodeViewer
         return toFxNode(node, null);
     }
 
-    static javafx.scene.Node toFxNode(Node node, Drawing drawing) {
+    static javafx.scene.Node toFxNode(Node node, Scene scene) {
         if (node != null) {
-            if (drawing != null)
-                ((NodeImpl) node).setDrawing((DrawingImpl) drawing);
+            if (scene != null)
+                ((NodeImpl) node).setScene((SceneImpl) scene);
             NodeViewer nodeViewer = node.getOrCreateAndBindNodeViewer();
             if (nodeViewer instanceof FxNodeViewer)
                 return ((FxNodeViewer) nodeViewer).getFxNode();

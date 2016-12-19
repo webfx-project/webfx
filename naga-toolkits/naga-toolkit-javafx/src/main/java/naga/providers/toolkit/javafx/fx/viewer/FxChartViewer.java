@@ -3,7 +3,7 @@ package naga.providers.toolkit.javafx.fx.viewer;
 import javafx.scene.chart.NumberAxis;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.ext.chart.Chart;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.base.ChartViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ChartViewerMixin;
 import naga.toolkit.properties.markers.SelectionMode;
@@ -21,8 +21,8 @@ abstract class FxChartViewer
     }
 
     @Override
-    public void bind(N node, DrawingRequester drawingRequester) {
-        super.bind(node, drawingRequester);
+    public void bind(N node, SceneRequester sceneRequester) {
+        super.bind(node, sceneRequester);
         getFxNode().setAnimated(false);
     }
 

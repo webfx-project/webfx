@@ -2,7 +2,7 @@ package naga.toolkit.fx.animation;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * An abstract class that contains the basic functionalities required by all
@@ -127,11 +127,11 @@ public abstract class Transition extends Animation {
     }
 
     /**
-     * Returns the target {@link GuiNode} for animation of this {@code Transition}.
+     * Returns the target {@link Node} for animation of this {@code Transition}.
      * This method returns {@code node} if it is set, else returns its
      * {@code parent.getTargetNode()} otherwise null.
      */
-    protected GuiNode getParentTargetNode() {
+    protected Node getParentTargetNode() {
         return (parent != null && parent instanceof Transition) ?
                 ((Transition)parent).getParentTargetNode() : null;
     }

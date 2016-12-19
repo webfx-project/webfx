@@ -10,14 +10,14 @@ import naga.providers.toolkit.html.util.HtmlTransforms;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgTransforms;
 import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.impl.NodeImpl;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.FontPosture;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.spi.Drawing;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
@@ -203,8 +203,8 @@ public abstract class HtmlSvgNodeViewer
         return Math.round(position);
     }
 
-    public static Element toElement(Node node, Drawing drawing) {
-        ((NodeImpl) node).setDrawing((DrawingImpl) drawing);
+    public static Element toElement(Node node, Scene scene) {
+        ((NodeImpl) node).setScene((SceneImpl) scene);
         NodeViewer nodeViewer = node.getOrCreateAndBindNodeViewer();
         if (nodeViewer instanceof SvgNodeViewer) // SvgNodeViewer case
             return ((SvgNodeViewer) nodeViewer).getElement();

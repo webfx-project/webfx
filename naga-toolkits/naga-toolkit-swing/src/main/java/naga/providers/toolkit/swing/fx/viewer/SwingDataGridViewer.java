@@ -147,12 +147,12 @@ public class SwingDataGridViewer
             Component cellComponent;
             String textAlign = displayColumn.getStyle().getTextAlign();
             if (valueRenderer != ImageTextRenderer.SINGLETON)
-                cellComponent = toSwingComponent(valueRenderer.renderCellValue(value), getNode().getDrawing(), header || "center".equals(textAlign) ? TextAlignment.CENTER : "right".equals(textAlign) ? TextAlignment.RIGHT  : TextAlignment.LEFT);
+                cellComponent = toSwingComponent(valueRenderer.renderCellValue(value), getNode().getScene(), header || "center".equals(textAlign) ? TextAlignment.CENTER : "right".equals(textAlign) ? TextAlignment.RIGHT  : TextAlignment.LEFT);
             else {
                 ImageTextRenderer renderer = ImageTextRenderer.SINGLETON;
                 Object[] array = renderer.getAndCheckArray(value);
                 ImageView imageView = renderer.getImage(array);
-                JLabel imageLabel = (JLabel) toSwingComponent(imageView, getNode().getDrawing(), TextAlignment.LEFT);
+                JLabel imageLabel = (JLabel) toSwingComponent(imageView, getNode().getScene(), TextAlignment.LEFT);
                 Icon icon = imageLabel == null ? null : imageLabel.getIcon();
                 JGradientLabel gradientLabel = new JGradientLabel(renderer.getText(array), icon, SwingConstants.CENTER);
                 if (header)

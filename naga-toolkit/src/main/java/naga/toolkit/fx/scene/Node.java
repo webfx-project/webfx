@@ -5,7 +5,6 @@ import javafx.collections.ObservableMap;
 import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.geometry.Orientation;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.spi.Drawing;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.properties.markers.*;
 
@@ -92,7 +91,7 @@ public interface Node extends
      */
     boolean hasProperties();
 
-    Drawing getDrawing();
+    Scene getScene();
 
     NodeViewer getNodeViewer();
 

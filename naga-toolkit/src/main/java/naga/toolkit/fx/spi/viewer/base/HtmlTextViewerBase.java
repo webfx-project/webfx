@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.ext.control.HtmlText;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.HtmlTextViewer;
 
 /**
@@ -14,9 +14,9 @@ public class HtmlTextViewerBase
         implements HtmlTextViewer<N> {
 
     @Override
-    public void bind(N t, DrawingRequester drawingRequester) {
-        super.bind(t, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(N t, SceneRequester sceneRequester) {
+        super.bind(t, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , t.textProperty()
         );
     }

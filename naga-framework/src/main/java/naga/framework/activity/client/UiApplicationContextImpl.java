@@ -13,6 +13,9 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;
 import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.stage.Window;
 import naga.toolkit.spi.Toolkit;
 
 /**
@@ -27,7 +30,15 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
                 observable.removeListener(this);
                 //Platform.log("Binding application window node property");
-                Toolkit.get().getApplicationWindow().nodeProperty().bind(observable);
+                Window window = Toolkit.get().getApplicationWindow();
+                Scene scene = window.getScene();
+                if (scene == null) {
+                    scene = Toolkit.get().createScene();
+                    scene.widthProperty().bind(window.widthProperty());
+                    scene.heightProperty().bind(window.heightProperty());
+                    window.setScene(scene);
+                }
+                scene.rootProperty().bind((ObservableValue<? extends Parent>) observable);
                 windowBoundProperty.setValue(true);
             }
         });

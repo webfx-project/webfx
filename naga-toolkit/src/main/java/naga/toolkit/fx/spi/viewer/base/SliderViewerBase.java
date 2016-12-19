@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.control.Slider;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.SliderViewer;
 
 /**
@@ -13,9 +13,9 @@ public class SliderViewerBase
         implements SliderViewer {
 
     @Override
-    public void bind(Slider s, DrawingRequester drawingRequester) {
-        super.bind(s, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(Slider s, SceneRequester sceneRequester) {
+        super.bind(s, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , s.minProperty()
                 , s.maxProperty()
                 , s.valueProperty()

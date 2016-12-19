@@ -3,46 +3,27 @@ package naga.toolkit.spi;
 import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
-import naga.toolkit.fx.spi.DrawingNode;
-import naga.toolkit.spi.nodes.GuiNode;
-import naga.toolkit.spi.nodes.layouts.Window;
-
-import java.util.HashMap;
-import java.util.Map;
+import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.stage.Window;
 
 /**
  * @author Bruno Salmon
  */
 public abstract class Toolkit {
 
-    private Map<Class<? extends GuiNode>, Factory<GuiNode>> nodeFactories = new HashMap<>();
     private final UiScheduler uiScheduler;
     private final Factory<Window> windowFactory;
+    private final Factory<Scene> sceneFactory;
     private Window applicationWindow;
 
-    public Toolkit(UiScheduler uiScheduler, Factory<Window> windowFactory) {
+    public Toolkit(UiScheduler uiScheduler, Factory<Window> windowFactory, Factory<Scene> sceneFactory) {
         this.uiScheduler = uiScheduler;
         this.windowFactory = windowFactory;
+        this.sceneFactory = sceneFactory;
     }
 
-    protected  <T extends GuiNode> void registerNodeFactory(Class<T> nodeInterface, Factory<GuiNode> nodeFactory) {
-        nodeFactories.put(nodeInterface, nodeFactory);
-    }
-
-    private <T extends GuiNode> T createNode(Class<T> nodeInterface) {
-        Factory<GuiNode> nodeFactory = nodeFactories.get(nodeInterface);
-        if (nodeFactory != null)
-            return (T) nodeFactory.create();
-        System.out.println("WARNING: No factory node registered for " + nodeInterface + " in " + getClass());
-        return null;
-    }
-
-    public <T extends GuiNode, N> T wrapNativeNode(N toolkitNode) {
-        return null;
-    }
-
-    public static <N> N unwrapToNativeNode(GuiNode guiNode) {
-        return guiNode == null ? null : guiNode.unwrapToNativeNode();
+    public Scene createScene() {
+        return sceneFactory.create();
     }
 
     public Window getApplicationWindow() {
@@ -76,10 +57,6 @@ public abstract class Toolkit {
             //Platform.log("Toolkit ok");
         }
         return TOOLKIT;
-    }
-
-    public DrawingNode createDrawingNode() {
-        return createNode(DrawingNode.class);
     }
 
 }

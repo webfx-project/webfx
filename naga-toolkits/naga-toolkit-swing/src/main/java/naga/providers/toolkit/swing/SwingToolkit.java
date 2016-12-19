@@ -1,8 +1,7 @@
 package naga.providers.toolkit.swing;
 
-import naga.providers.toolkit.swing.fx.SwingDrawingNode;
-import naga.providers.toolkit.swing.nodes.layouts.SwingWindow;
-import naga.toolkit.fx.spi.DrawingNode;
+import naga.providers.toolkit.swing.fx.SwingScene;
+import naga.providers.toolkit.swing.fx.stage.SwingWindow;
 import naga.toolkit.spi.Toolkit;
 
 import javax.swing.*;
@@ -19,7 +18,6 @@ public class SwingToolkit extends Toolkit {
     }
 
     public SwingToolkit() {
-        super(SwingScheduler.SINGLETON, SwingWindow::new);
-        registerNodeFactory(DrawingNode.class, SwingDrawingNode::new);
+        super(SwingScheduler.SINGLETON, SwingWindow::new, SwingScene::new);
     }
 }

@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.image.ImageView;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.ImageViewViewer;
 
 /**
@@ -13,9 +13,9 @@ public class ImageViewViewerBase
         implements ImageViewViewer {
 
     @Override
-    public void bind(ImageView node, DrawingRequester drawingRequester) {
-        super.bind(node, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester,
+    public void bind(ImageView node, SceneRequester sceneRequester) {
+        super.bind(node, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester,
                 node.xProperty(),
                 node.yProperty(),
                 node.fitWidthProperty(),

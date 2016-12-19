@@ -21,8 +21,7 @@ import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.layout.impl.LayoutFlags;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
-import naga.toolkit.fx.spi.Drawing;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.spi.Toolkit;
@@ -96,7 +95,7 @@ public abstract class NodeImpl implements Node {
     private final Property<Node> clipProperty = new SimpleObjectProperty<Node>() {
         @Override
         protected void invalidated() {
-            setDrawing(drawing); // This will propagate the drawing into the clip
+            setScene(scene); // This will propagate the scene into the clip
         }
     };
     @Override
@@ -225,7 +224,7 @@ public abstract class NodeImpl implements Node {
 
     @Override
     public NodeViewer getOrCreateAndBindNodeViewer() {
-        return drawing.getOrCreateAndBindNodeViewer(this);
+        return scene.getOrCreateAndBindNodeViewer(this);
     }
 
     public void setNodeViewer(NodeViewer nodeViewer) {
@@ -233,18 +232,18 @@ public abstract class NodeImpl implements Node {
         createLayoutMeasurable(nodeViewer);
     }
 
-    private DrawingImpl drawing;
+    private SceneImpl scene;
 
     @Override
-    public Drawing getDrawing() {
-        return drawing;
+    public Scene getScene() {
+        return scene;
     }
 
-    public void setDrawing(DrawingImpl drawing) {
-        this.drawing = drawing;
+    public void setScene(SceneImpl scene) {
+        this.scene = scene;
         Node clip = getClip();
         if (clip != null)
-            ((NodeImpl) clip).setDrawing(drawing);
+            ((NodeImpl) clip).setScene(scene);
     }
 
     private LayoutMeasurable layoutMeasurable;

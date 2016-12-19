@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.control.CheckBox;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.CheckBoxViewer;
 
 /**
@@ -13,9 +13,9 @@ public class CheckBoxViewerBase
         implements CheckBoxViewer {
 
     @Override
-    public void bind(CheckBox checkBox, DrawingRequester drawingRequester) {
-        super.bind(checkBox, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(CheckBox checkBox, SceneRequester sceneRequester) {
+        super.bind(checkBox, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , node.selectedProperty()
         );
     }

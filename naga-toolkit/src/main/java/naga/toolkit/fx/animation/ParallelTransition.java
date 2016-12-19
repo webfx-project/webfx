@@ -8,16 +8,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import naga.toolkit.spi.nodes.GuiNode;
+import naga.toolkit.fx.scene.Node;
 
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static naga.toolkit.fx.animation.TickCalculation.add;
-import static naga.toolkit.fx.animation.TickCalculation.fromDuration;
-import static naga.toolkit.fx.animation.TickCalculation.sub;
+import static naga.toolkit.fx.animation.TickCalculation.*;
 
 /**
  * This {@link Transition} plays a list of {@link javafx.animation.Animation
@@ -118,20 +116,20 @@ public final class ParallelTransition extends Transition {
      * {@code Transition}, the animation has to be stopped and started again to
      * pick up the new value.
      */
-    private ObjectProperty<GuiNode> node;
-    private static final GuiNode DEFAULT_NODE = null;
+    private ObjectProperty<Node> node;
+    private static final Node DEFAULT_NODE = null;
 
-    public final void setNode(GuiNode value) {
+    public final void setNode(Node value) {
         if ((node != null) || (value != null /* DEFAULT_NODE */)) {
             nodeProperty().set(value);
         }
     }
 
-    public final GuiNode getNode() {
+    public final Node getNode() {
         return (node == null)? DEFAULT_NODE : node.get();
     }
 
-    public final ObjectProperty<GuiNode> nodeProperty() {
+    public final ObjectProperty<Node> nodeProperty() {
         if (node == null) {
             node = new javafx.beans.property.SimpleObjectProperty<>(this, "node", DEFAULT_NODE);
         }
@@ -231,7 +229,7 @@ public final class ParallelTransition extends Transition {
      *            The child {@link javafx.animation.Animation Animations} of
      *            this {@code ParallelTransition}
      */
-    public ParallelTransition(GuiNode node, Animation... children) {
+    public ParallelTransition(Node node, Animation... children) {
         setInterpolator(Interpolator.LINEAR);
         setNode(node);
         getChildren().setAll(children);
@@ -256,7 +254,7 @@ public final class ParallelTransition extends Transition {
      *            {@link Transition Transitions} that have no {@code Node} specified
      *            themselves
      */
-    public ParallelTransition(GuiNode node) {
+    public ParallelTransition(Node node) {
         setInterpolator(Interpolator.LINEAR);
         setNode(node);
     }
@@ -265,7 +263,7 @@ public final class ParallelTransition extends Transition {
      * The constructor of {@code ParallelTransition}.
      */
     public ParallelTransition() {
-        this((GuiNode) null);
+        this((Node) null);
     }
 
     // For testing purposes
@@ -278,8 +276,8 @@ public final class ParallelTransition extends Transition {
      * {@inheritDoc}
      */
     @Override
-    protected GuiNode getParentTargetNode() {
-        final GuiNode node = getNode();
+    protected Node getParentTargetNode() {
+        final Node node = getNode();
         return (node != null) ? node : (parent != null && parent instanceof Transition) ?
                 ((Transition)parent).getParentTargetNode() : null;
     }

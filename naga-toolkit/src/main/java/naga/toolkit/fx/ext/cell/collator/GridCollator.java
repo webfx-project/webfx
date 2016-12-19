@@ -9,14 +9,13 @@ import naga.toolkit.fx.ext.cell.renderer.ArrayRenderer;
 import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.impl.BorderPaneImpl;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.scene.SceneRequester;
+import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
@@ -50,23 +49,20 @@ public class GridCollator extends DataGridImpl {
     public NodeViewer getNodeViewer() {
         NodeViewer nodeViewer = super.getNodeViewer();
         if (nodeViewer == null) {
-            DrawingImpl drawing = (DrawingImpl) getDrawing();
-            ((BorderPaneImpl) container).setDrawing(drawing);
+            SceneImpl drawing = (SceneImpl) getScene();
+            ((BorderPaneImpl) container).setScene(drawing);
             NodeViewer containerViewer = container.getOrCreateAndBindNodeViewer();
             setNodeViewer(nodeViewer = containerViewer);
             gridCollatorViewer = new GridCollatorViewer();
-            gridCollatorViewer.bind(this, new DrawingRequester() {
-                @Override
-                public void requestParentAndChildrenViewsUpdate(Parent parent) {
-                }
+            gridCollatorViewer.bind(this, new SceneRequester() {
 
                 @Override
-                public void requestViewPropertyUpdate(Node node, ObservableValue changedProperty) {
+                public void requestNodeViewerPropertyUpdate(Node node, ObservableValue changedProperty) {
                     gridCollatorViewer.updateProperty(changedProperty);
                 }
 
                 @Override
-                public void requestViewListUpdate(Node node, ObservableList changedList) {
+                public void requestNodeViewerListUpdate(Node node, ObservableList changedList) {
                     gridCollatorViewer.updateList(changedList);
                 }
             });

@@ -133,7 +133,7 @@ public class HtmlDataGridViewer
             if (textAlign == null)
                 setStyleAttribute(cell, "text-align", "center");
         }
-        Element contentViewElement = toElement(content, getNode().getDrawing());
+        Element contentViewElement = toElement(content, getNode().getScene());
         if (contentViewElement != null) {
             setStyleAttribute(contentViewElement, "position", "relative");
             setStyleAttribute(contentViewElement, "width", null);

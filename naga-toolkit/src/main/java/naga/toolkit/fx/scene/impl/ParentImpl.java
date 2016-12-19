@@ -361,7 +361,8 @@ public class ParentImpl extends NodeImpl implements Parent {
                 layoutChildren();
                 // Intended fall-through
             case DIRTY_BRANCH:
-                for (Node child : children) {
+                setLayoutFlag(LayoutFlags.CLEAN);
+                for (Node child : new ArrayList<>(children)) {
                     if (child instanceof ParentImpl) {
                         ((ParentImpl) child).layout();
 /*
@@ -370,7 +371,6 @@ public class ParentImpl extends NodeImpl implements Parent {
 */
                     }
                 }
-                setLayoutFlag(LayoutFlags.CLEAN);
                 performingLayout = false;
                 break;
         }
@@ -420,7 +420,7 @@ public class ParentImpl extends NodeImpl implements Parent {
         return sceneRoot;
     }
 
-    // Called by DrawingImpl only
+    // Called by SceneImpl only
     public void setSceneRoot(boolean sceneRoot) {
         this.sceneRoot = sceneRoot;
         notifyManagedChanged();

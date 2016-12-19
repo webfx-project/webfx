@@ -6,7 +6,6 @@ import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.ext.impl.HtmlTextImpl;
 import naga.toolkit.fx.scene.control.impl.*;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
-import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.fx.scene.impl.GroupImpl;
 import naga.toolkit.fx.scene.layout.impl.*;
 import naga.toolkit.fx.scene.shape.impl.CircleImpl;
@@ -19,13 +18,12 @@ import naga.toolkit.fx.spi.impl.NodeViewerFactoryImpl;
  */
 public class FxNodeViewerFactory extends NodeViewerFactoryImpl {
 
-    final static FxNodeViewerFactory SINGLETON = new FxNodeViewerFactory();
+    public final static FxNodeViewerFactory SINGLETON = new FxNodeViewerFactory();
 
     protected FxNodeViewerFactory() {
         registerNodeViewerFactory(RectangleImpl.class, FxRectangleViewer::new);
         registerNodeViewerFactory(CircleImpl.class, FxCircleViewer::new);
         registerNodeViewerFactory(TextImpl.class, FxTextViewer::new);
-        registerNodeViewerFactory(EmbedGuiNodeImpl.class, FxEmbedGuiNodeViewer::new);
         registerNodeViewerFactory(GroupImpl.class, FxGroupViewer::new);
         registerNodeViewerFactory(RegionImpl.class, FxLayoutViewer::new);
         registerNodeViewerFactory(VBoxImpl.class, FxLayoutViewer::new);

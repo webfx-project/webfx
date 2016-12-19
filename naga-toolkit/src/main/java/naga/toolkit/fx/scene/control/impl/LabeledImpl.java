@@ -6,7 +6,7 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.control.Labeled;
 import naga.toolkit.fx.scene.impl.NodeImpl;
-import naga.toolkit.fx.spi.impl.DrawingImpl;
+import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.util.Properties;
 
 /**
@@ -23,7 +23,7 @@ public class LabeledImpl extends ControlImpl implements Labeled {
     private final Property<Node> graphicProperty = new SimpleObjectProperty<Node>() {
         @Override
         protected void invalidated() {
-            setDrawing((DrawingImpl) getDrawing()); // This will propagate the drawing into the graphic
+            setScene((SceneImpl) getScene()); // This will propagate the drawing into the graphic
         }
     };
     @Override
@@ -41,10 +41,10 @@ public class LabeledImpl extends ControlImpl implements Labeled {
     }
 
     @Override
-    public void setDrawing(DrawingImpl drawing) {
-        super.setDrawing(drawing);
+    public void setScene(SceneImpl scene) {
+        super.setScene(scene);
         Node graphic = getGraphic();
         if (graphic != null)
-            ((NodeImpl) graphic).setDrawing(drawing);
+            ((NodeImpl) graphic).setScene(scene);
     }
 }

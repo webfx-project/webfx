@@ -5,7 +5,6 @@ import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.ext.impl.HtmlTextImpl;
 import naga.toolkit.fx.scene.control.impl.*;
 import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
-import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.fx.scene.impl.GroupImpl;
 import naga.toolkit.fx.scene.layout.impl.*;
 import naga.toolkit.fx.scene.shape.impl.CircleImpl;
@@ -24,7 +23,6 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(RectangleImpl.class, HtmlRectangleViewer::new);
         registerNodeViewerFactory(CircleImpl.class, HtmlCircleViewer::new);
         registerNodeViewerFactory(TextImpl.class, HtmlTextViewer::new);
-        registerNodeViewerFactory(EmbedGuiNodeImpl.class, HtmlEmbedGuiNodeViewer::new);
         registerNodeViewerFactory(GroupImpl.class, HtmlGroupViewer::new);
         registerNodeViewerFactory(RegionImpl.class, HtmlLayoutViewer::new);
         registerNodeViewerFactory(VBoxImpl.class, HtmlLayoutViewer::new);

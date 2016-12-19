@@ -13,10 +13,10 @@ import naga.toolkit.fx.scene.impl.NodeImpl;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.spi.Drawing;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
-import naga.toolkit.fx.spi.impl.canvas.CanvasNodeViewer;
+import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.scene.SceneRequester;
+import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
+import naga.toolkit.fx.spi.viewer.CanvasNodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
@@ -52,8 +52,8 @@ public abstract class SwingNodeViewer
     }
 
     @Override
-    public void bind(N node, DrawingRequester drawingRequester) {
-        getNodeViewerBase().bind(node, drawingRequester);
+    public void bind(N node, SceneRequester sceneRequester) {
+        getNodeViewerBase().bind(node, sceneRequester);
     }
 
     @Override
@@ -129,13 +129,13 @@ public abstract class SwingNodeViewer
     }
 
     static JComponent toSwingComponent(Node node) {
-        return node == null ? null : toSwingComponent(node, node.getDrawing(), null);
+        return node == null ? null : toSwingComponent(node, node.getScene(), null);
     }
 
-    static JComponent toSwingComponent(Node node, Drawing drawing, TextAlignment textAlignment) {
+    static JComponent toSwingComponent(Node node, Scene scene, TextAlignment textAlignment) {
         NodeImpl renderedNode = (NodeImpl) node;
-        CanvasDrawingImpl canvasDrawing = (CanvasDrawingImpl) drawing;
-        renderedNode.setDrawing(canvasDrawing);
+        CanvasSceneImpl canvasScene = (CanvasSceneImpl) scene;
+        renderedNode.setScene(canvasScene);
         // A difficulty to face with Swing: the requested component might be for cell rendering and needs to be ready to
         // for painting immediately (whereas Naga normally defers the property changes and layout pass to the next
         // animation frame). So we call getOrCreateAndBindNodeViewer() as if in an animation frame (to turn off deferring)
@@ -157,7 +157,7 @@ public abstract class SwingNodeViewer
                         textNode.setTextOrigin(VPos.TOP);
                         textNode.setTextAlignment(textAlignment);
                     }
-                    canvasDrawing.paintNode(renderedNode, g);
+                    canvasScene.paintNode(renderedNode, g);
                 }
             };
         }
@@ -167,7 +167,7 @@ public abstract class SwingNodeViewer
                 @Override
                 protected void paintChildren(Graphics g) {
                     fitNodeSizeToSwingComponentAndLayout(node, this);
-                    canvasDrawing.paintNode(node, g);
+                    canvasScene.paintNode(node, g);
                 }
             };
         }

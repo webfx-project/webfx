@@ -7,13 +7,13 @@ import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
 import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.scene.transform.Rotate;
 import naga.toolkit.fx.scene.transform.Scale;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
-import naga.toolkit.fx.spi.Drawing;
-import naga.toolkit.fx.spi.DrawingRequester;
-import naga.toolkit.fx.spi.impl.canvas.CanvasDrawingImpl;
+import naga.toolkit.fx.scene.SceneRequester;
+import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
@@ -35,12 +35,12 @@ public abstract class NodeViewerBase
     }
 
     @Override
-    public void bind(N node, DrawingRequester drawingRequester) {
+    public void bind(N node, SceneRequester sceneRequester) {
         this.node = node;
-        requestUpdateProperty(drawingRequester, null);
-        requestUpdateList(drawingRequester, null);
-        requestUpdateOnListChange(drawingRequester, node.getTransforms());
-        requestUpdateOnPropertiesChange(drawingRequester
+        requestUpdateProperty(sceneRequester, null);
+        requestUpdateList(sceneRequester, null);
+        requestUpdateOnListChange(sceneRequester, node.getTransforms());
+        requestUpdateOnPropertiesChange(sceneRequester
                 , node.visibleProperty()
                 , node.opacityProperty()
                 , node.clipProperty()
@@ -62,24 +62,24 @@ public abstract class NodeViewerBase
         return node;
     }
 
-    void requestUpdateOnPropertiesChange(DrawingRequester drawingRequester, ObservableValue... properties) {
-        Properties.runOnPropertiesChange(property -> requestUpdateProperty(drawingRequester, property), properties);
+    void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
+        Properties.runOnPropertiesChange(property -> requestUpdateProperty(sceneRequester, property), properties);
     }
 
-    private void requestUpdateProperty(DrawingRequester drawingRequester, ObservableValue changedProperty) {
-        drawingRequester.requestViewPropertyUpdate(node, changedProperty);
+    private void requestUpdateProperty(SceneRequester sceneRequester, ObservableValue changedProperty) {
+        sceneRequester.requestNodeViewerPropertyUpdate(node, changedProperty);
     }
 
-    void requestUpdateOnListsChange(DrawingRequester drawingRequester, ObservableList... lists) {
-        Arrays.forEach(lists, list -> requestUpdateOnListChange(drawingRequester, list));
+    void requestUpdateOnListsChange(SceneRequester sceneRequester, ObservableList... lists) {
+        Arrays.forEach(lists, list -> requestUpdateOnListChange(sceneRequester, list));
     }
 
-    void requestUpdateOnListChange(DrawingRequester drawingRequester, ObservableList list) {
-        ObservableLists.runOnListChange(() -> requestUpdateList(drawingRequester, list), list);
+    void requestUpdateOnListChange(SceneRequester sceneRequester, ObservableList list) {
+        ObservableLists.runOnListChange(() -> requestUpdateList(sceneRequester, list), list);
     }
 
-    void requestUpdateList(DrawingRequester drawingRequester, ObservableList changedList) {
-        drawingRequester.requestViewListUpdate(node, changedList);
+    void requestUpdateList(SceneRequester sceneRequester, ObservableList changedList) {
+        sceneRequester.requestNodeViewerListUpdate(node, changedList);
     }
 
     @Override
@@ -121,9 +121,9 @@ public abstract class NodeViewerBase
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(node.getTransforms());
-                Drawing drawing = node.getDrawing();
-                if (drawing instanceof CanvasDrawingImpl)
-                    ((CanvasDrawingImpl) drawing).requestCanvasRepaint();
+                Scene scene = node.getScene();
+                if (scene instanceof CanvasSceneImpl)
+                    ((CanvasSceneImpl) scene).requestCanvasRepaint();
             }, properties);
     }
 

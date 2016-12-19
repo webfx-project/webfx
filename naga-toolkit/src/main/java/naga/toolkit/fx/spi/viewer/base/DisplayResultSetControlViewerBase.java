@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.ext.DisplayResultSetControl;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.DisplayResultSetControlViewer;
 
 /**
@@ -15,9 +15,9 @@ public class DisplayResultSetControlViewerBase
         implements DisplayResultSetControlViewer<N> {
 
     @Override
-    public void bind(N shape, DrawingRequester drawingRequester) {
-        super.bind(shape, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(N shape, SceneRequester sceneRequester) {
+        super.bind(shape, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , node.displayResultSetProperty()
         );
     }

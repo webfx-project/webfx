@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.TextViewer;
 
 /**
@@ -14,9 +14,9 @@ public class TextViewerBase
         implements TextViewer<N> {
 
     @Override
-    public void bind(N t, DrawingRequester drawingRequester) {
-        super.bind(t, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(N t, SceneRequester sceneRequester) {
+        super.bind(t, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , t.textProperty()
                 , t.textOriginProperty()
                 , t.wrappingWidthProperty()

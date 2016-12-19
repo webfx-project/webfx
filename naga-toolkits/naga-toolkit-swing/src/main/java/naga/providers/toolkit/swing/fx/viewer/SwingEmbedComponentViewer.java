@@ -2,7 +2,7 @@ package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.impl.canvas.CanvasNodeViewer;
+import naga.toolkit.fx.spi.viewer.CanvasNodeViewer;
 
 import javax.swing.*;
 import java.awt.*;

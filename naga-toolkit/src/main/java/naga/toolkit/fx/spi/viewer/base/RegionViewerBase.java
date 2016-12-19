@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.layout.Region;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.RegionViewer;
 
 /**
@@ -14,9 +14,9 @@ public class RegionViewerBase
         implements RegionViewer<N> {
 
     @Override
-    public void bind(N node, DrawingRequester drawingRequester) {
-        super.bind(node, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(N node, SceneRequester sceneRequester) {
+        super.bind(node, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , node.widthProperty()
                 , node.heightProperty()
         );

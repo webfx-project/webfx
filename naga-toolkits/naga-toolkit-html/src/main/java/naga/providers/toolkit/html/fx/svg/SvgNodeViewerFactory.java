@@ -7,7 +7,6 @@ import naga.providers.toolkit.html.fx.svg.view.*;
 import naga.toolkit.fx.scene.control.impl.ButtonImpl;
 import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
 import naga.toolkit.fx.scene.control.impl.TextFieldImpl;
-import naga.toolkit.fx.scene.impl.EmbedGuiNodeImpl;
 import naga.toolkit.fx.scene.impl.GroupImpl;
 import naga.toolkit.fx.scene.layout.impl.BorderPaneImpl;
 import naga.toolkit.fx.scene.layout.impl.FlowPaneImpl;
@@ -15,8 +14,8 @@ import naga.toolkit.fx.scene.layout.impl.HBoxImpl;
 import naga.toolkit.fx.scene.layout.impl.VBoxImpl;
 import naga.toolkit.fx.scene.shape.impl.CircleImpl;
 import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
-import naga.toolkit.fx.spi.impl.NodeViewerFactoryImpl;
 import naga.toolkit.fx.scene.text.impl.TextImpl;
+import naga.toolkit.fx.spi.impl.NodeViewerFactoryImpl;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +28,6 @@ class SvgNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(RectangleImpl.class, SvgRectangleViewer::new);
         registerNodeViewerFactory(CircleImpl.class, SvgCircleViewer::new);
         registerNodeViewerFactory(TextImpl.class, SvgTextViewer::new);
-        registerNodeViewerFactory(EmbedGuiNodeImpl.class, SvgEmbedGuiNodeViewer::new);
         registerNodeViewerFactory(GroupImpl.class, SvgGroupViewer::new);
         registerNodeViewerFactory(VBoxImpl.class, SvgLayoutViewer::new);
         registerNodeViewerFactory(HBoxImpl.class, SvgLayoutViewer::new);

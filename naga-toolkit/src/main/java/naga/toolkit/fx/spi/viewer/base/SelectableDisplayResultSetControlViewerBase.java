@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.ext.SelectableDisplayResultSetControl;
-import naga.toolkit.fx.spi.DrawingRequester;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.SelectableDisplayResultSetControlViewer;
 
 /**
@@ -15,9 +15,9 @@ public abstract class SelectableDisplayResultSetControlViewerBase
         implements SelectableDisplayResultSetControlViewer<N> {
 
     @Override
-    public void bind(N shape, DrawingRequester drawingRequester) {
-        super.bind(shape, drawingRequester);
-        requestUpdateOnPropertiesChange(drawingRequester
+    public void bind(N shape, SceneRequester sceneRequester) {
+        super.bind(shape, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
                 , node.selectionModeProperty()
                 , node.displaySelectionProperty()
         );
