@@ -4,6 +4,7 @@ import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
 import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.stage.Screen;
 import naga.toolkit.fx.stage.Window;
 
 /**
@@ -25,6 +26,15 @@ public abstract class Toolkit {
     public Scene createScene() {
         return sceneFactory.create();
     }
+
+    public Scene createScene(double width, double height) {
+        Scene scene = createScene();
+        scene.setWidth(width);
+        scene.setHeight(height);
+        return scene;
+    }
+
+    public abstract Screen getPrimaryScreen();
 
     public Window getPrimaryWindow() {
         if (primaryWindow == null)

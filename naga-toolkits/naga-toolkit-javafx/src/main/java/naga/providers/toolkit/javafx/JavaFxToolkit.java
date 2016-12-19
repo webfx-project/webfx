@@ -2,6 +2,7 @@ package naga.providers.toolkit.javafx;
 
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
@@ -9,7 +10,10 @@ import naga.commons.util.function.Factory;
 import naga.providers.toolkit.javafx.fx.FxNodeViewerFactory;
 import naga.providers.toolkit.javafx.fx.FxScene;
 import naga.providers.toolkit.javafx.fx.stage.FxWindow;
+import naga.toolkit.fx.geometry.BoundingBox;
+import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
+import naga.toolkit.fx.stage.Screen;
 import naga.toolkit.fx.stage.Window;
 import naga.toolkit.spi.Toolkit;
 
@@ -64,6 +68,25 @@ public class JavaFxToolkit extends Toolkit {
 
     public static Consumer<Scene> getSceneHook() {
         return sceneHook;
+    }
+
+    @Override
+    public Screen getPrimaryScreen() {
+        return new Screen() {
+            @Override
+            public Bounds getBounds() {
+                return toBounds(javafx.stage.Screen.getPrimary().getBounds());
+            }
+
+            @Override
+            public Bounds getVisualBounds() {
+                return toBounds(javafx.stage.Screen.getPrimary().getVisualBounds());
+            }
+
+            private Bounds toBounds(Rectangle2D r) {
+                return new BoundingBox(r.getMinX(), r.getMinY(), 0, r.getWidth(), r.getHeight(), 0);
+            }
+        };
     }
 
     @Override
