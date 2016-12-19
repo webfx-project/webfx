@@ -1,5 +1,7 @@
 package naga.providers.toolkit.html.fx;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.html.fx.html.HtmlScene;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.impl.WindowImpl;
@@ -12,15 +14,27 @@ import static elemental2.Global.window;
  */
 public class HtmlWindow extends WindowImpl {
 
+    // withProperty and heightProperty will be bound (to make them unmodifiable) to these final properties
+    private final Property<Double> htmlWidthProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> htmlHeightProperty = new SimpleObjectProperty<>(0d);
+
+
     public HtmlWindow() {
         document.body.style.overflow = "hidden";
-        setWidth(window.innerWidth);
-        setHeight(window.innerHeight);
+        // Binding withProperty and heightProperty (to make them unmodifiable)
+        widthProperty().bind(htmlWidthProperty);
+        heightProperty().bind(htmlHeightProperty);
+        // Making their value to the actual browser window
+        updateHtmlDimensions();
         window.onresize = a -> {
-            setWidth(window.innerWidth);
-            setHeight(window.innerHeight);
+            updateHtmlDimensions();
             return null;
         };
+    }
+
+    private void updateHtmlDimensions() {
+        htmlWidthProperty.setValue(window.innerWidth);
+        htmlHeightProperty.setValue(window.innerHeight);
     }
 
     @Override
@@ -34,9 +48,7 @@ public class HtmlWindow extends WindowImpl {
     }
 
     private void setWindowContent(elemental2.Node content) {
-        //Platform.log("Setting window root " + content);
         HtmlUtil.setBodyContent(content);
-        //Platform.log("Ok");
     }
 
 }

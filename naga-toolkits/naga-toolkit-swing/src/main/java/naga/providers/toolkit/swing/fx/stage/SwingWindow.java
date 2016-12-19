@@ -19,7 +19,7 @@ public class SwingWindow extends WindowImpl {
         this(new JFrame());
     }
 
-    SwingWindow(JFrame frame) {
+    private SwingWindow(JFrame frame) {
         this.frame = frame;
         frame.addComponentListener(new ComponentAdapter() {
             @Override
@@ -37,7 +37,8 @@ public class SwingWindow extends WindowImpl {
 
     @Override
     protected void onSceneRootUpdate() {
-        setWindowContent(((SwingScene) getScene()).getSceneComponent());
+        if (getScene().getRoot() != null)
+            setWindowContent(((SwingScene) getScene()).getSceneComponent());
     }
 
     private void setWindowContent(Component rootComponent) {
@@ -46,8 +47,7 @@ public class SwingWindow extends WindowImpl {
         contentPane.removeAll();
         contentPane.add(rootComponent);
         if (firstShown) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            frame.setSize((int) (screenSize.getWidth() * 0.8), (int) (screenSize.getHeight() * 0.9));
+            frame.setSize(getScene().getWidth().intValue(), getScene().getHeight().intValue());
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);

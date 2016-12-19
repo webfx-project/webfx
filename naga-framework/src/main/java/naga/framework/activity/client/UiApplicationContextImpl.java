@@ -10,9 +10,11 @@ import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;
+import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.stage.Screen;
 import naga.toolkit.fx.stage.Window;
 import naga.toolkit.spi.Toolkit;
 
@@ -26,8 +28,15 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
         nodeProperty().addListener((observable, oldValue, node) -> {
             Window window = Toolkit.get().getPrimaryWindow();
             Scene scene = window.getScene();
-            if (scene == null)
-                window.setScene(scene = Toolkit.get().createScene());
+            if (scene == null) {
+                Scene finalScene;
+                window.setScene(scene = finalScene = Toolkit.get().createScene());
+                Toolkit.get().onReady(() -> {
+                    Bounds screenVisualBounds = Screen.getPrimary().getVisualBounds();
+                    finalScene.setWidth(screenVisualBounds.getWidth() * 0.8);
+                    finalScene.setHeight(screenVisualBounds.getHeight() * 0.9);
+                });
+            }
             scene.setRoot((Parent) node);
             windowBoundProperty.setValue(true);
         });

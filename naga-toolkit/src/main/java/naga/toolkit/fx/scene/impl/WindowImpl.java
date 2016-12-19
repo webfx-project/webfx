@@ -2,6 +2,8 @@ package naga.toolkit.fx.scene.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.stage.Window;
 import naga.toolkit.util.Properties;
@@ -47,17 +49,31 @@ public abstract class WindowImpl implements Window {
 
     protected abstract void onTitleUpdate();
 
-    protected void onSceneUpdate() {
+    private void onSceneUpdate() {
         Scene scene = getScene();
         if (scene != null) {
-            // Initially the window size is set to the scene size (if possible - will work on desktop but not on browser)
-            setWidth(scene.getWidth());
-            setHeight(scene.getHeight());
-            // Then the scene size is bound to the window size
-            scene.widthProperty().bind(widthProperty());
-            scene.heightProperty().bind(heightProperty());
+            // Binding the scene dimensions to the window dimensions (however the window dimension is initialized with the scene dimension if possible)
+            bindSceneDimension(getScene().widthProperty(), widthProperty);
+            bindSceneDimension(getScene().heightProperty(), heightProperty);
             // Finally binding the root node
             Properties.runNowAndOnPropertiesChange(p -> onSceneRootUpdate(), scene.rootProperty());
+        }
+    }
+
+    private void bindSceneDimension(Property<Double> sceneDimension, Property<Double> windowDimension) {
+        if (sceneDimension.getValue() == 0) // means that the scene dimension has not been set yet
+            sceneDimension.addListener(new ChangeListener<Double>() {
+                @Override
+                public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
+                    observable.removeListener(this);
+                    bindSceneDimension(sceneDimension, windowDimension);
+                }
+            });
+        else {
+            // Initially the window dimension is set to the scene dimension (if possible - will work on desktop but not on browser)
+            Properties.safeSetProperty(windowDimension, sceneDimension.getValue());
+            // Then the scene dimension is bound to the window dimension (if the user resize the window, this will resize the scene)
+            sceneDimension.bind(windowDimension);
         }
     }
 
