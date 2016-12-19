@@ -2,8 +2,6 @@ package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextFactory;
@@ -25,22 +23,13 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
 
     UiApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);
-        nodeProperty().addListener(new ChangeListener<Node>() {
-            @Override
-            public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newValue) {
-                observable.removeListener(this);
-                //Platform.log("Binding application window node property");
-                Window window = Toolkit.get().getApplicationWindow();
-                Scene scene = window.getScene();
-                if (scene == null) {
-                    scene = Toolkit.get().createScene();
-                    scene.widthProperty().bind(window.widthProperty());
-                    scene.heightProperty().bind(window.heightProperty());
-                    window.setScene(scene);
-                }
-                scene.rootProperty().bind((ObservableValue<? extends Parent>) observable);
-                windowBoundProperty.setValue(true);
-            }
+        nodeProperty().addListener((observable, oldValue, node) -> {
+            Window window = Toolkit.get().getPrimaryWindow();
+            Scene scene = window.getScene();
+            if (scene == null)
+                window.setScene(scene = Toolkit.get().createScene());
+            scene.setRoot((Parent) node);
+            windowBoundProperty.setValue(true);
         });
     }
 

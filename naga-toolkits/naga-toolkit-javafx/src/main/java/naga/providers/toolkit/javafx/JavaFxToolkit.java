@@ -67,15 +67,15 @@ public class JavaFxToolkit extends Toolkit {
     }
 
     @Override
-    public Window getApplicationWindow() {
+    public Window getPrimaryWindow() {
         synchronized (FxApplication.class) {
-            return FxApplication.fxApplicationWindow = (FxWindow) super.getApplicationWindow();
+            return FxApplication.fxWindow = (FxWindow) super.getPrimaryWindow();
         }
     }
 
     public static class FxApplication extends Application {
         public static Stage primaryStage;
-        private static FxWindow fxApplicationWindow;
+        private static FxWindow fxWindow;
 
         @Override
         public void start(Stage primaryStage) throws Exception {
@@ -84,8 +84,8 @@ public class JavaFxToolkit extends Toolkit {
             synchronized (FxApplication.class) {
                 FxApplication.primaryStage = primaryStage;
                 primaryStage.setOnCloseRequest(windowEvent -> System.exit(0));
-                if (fxApplicationWindow != null)
-                    fxApplicationWindow.setStage(primaryStage);
+                if (fxWindow != null)
+                    fxWindow.setStage(primaryStage);
             }
             executeReadyRunnables();
         }

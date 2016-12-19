@@ -14,7 +14,7 @@ public abstract class Toolkit {
     private final UiScheduler uiScheduler;
     private final Factory<Window> windowFactory;
     private final Factory<Scene> sceneFactory;
-    private Window applicationWindow;
+    private Window primaryWindow;
 
     public Toolkit(UiScheduler uiScheduler, Factory<Window> windowFactory, Factory<Scene> sceneFactory) {
         this.uiScheduler = uiScheduler;
@@ -26,10 +26,10 @@ public abstract class Toolkit {
         return sceneFactory.create();
     }
 
-    public Window getApplicationWindow() {
-        if (applicationWindow == null)
-            applicationWindow = windowFactory.create();
-        return applicationWindow;
+    public Window getPrimaryWindow() {
+        if (primaryWindow == null)
+            primaryWindow = windowFactory.create();
+        return primaryWindow;
     }
 
     public boolean isReady() {

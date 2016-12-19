@@ -48,7 +48,17 @@ public abstract class WindowImpl implements Window {
     protected abstract void onTitleUpdate();
 
     protected void onSceneUpdate() {
-        Properties.runNowAndOnPropertiesChange(p -> onSceneRootUpdate(), getScene().rootProperty());
+        Scene scene = getScene();
+        if (scene != null) {
+            // Initially the window size is set to the scene size (if possible - will work on desktop but not on browser)
+            setWidth(scene.getWidth());
+            setHeight(scene.getHeight());
+            // Then the scene size is bound to the window size
+            scene.widthProperty().bind(widthProperty());
+            scene.heightProperty().bind(heightProperty());
+            // Finally binding the root node
+            Properties.runNowAndOnPropertiesChange(p -> onSceneRootUpdate(), scene.rootProperty());
+        }
     }
 
     protected abstract void onSceneRootUpdate();
