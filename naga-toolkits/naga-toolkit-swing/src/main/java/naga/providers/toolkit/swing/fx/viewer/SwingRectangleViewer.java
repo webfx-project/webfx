@@ -13,11 +13,17 @@ import java.awt.geom.RoundRectangle2D;
  * @author Bruno Salmon
  */
 public class SwingRectangleViewer
-        extends SwingShapeViewer<Rectangle, RectangleViewerBase, RectangleViewerMixin>
-        implements RectangleViewerMixin {
+        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+
+        extends SwingShapeViewer<N, NV, NM>
+        implements RectangleViewerMixin<N, NV, NM> {
 
     public SwingRectangleViewer() {
-        super(new RectangleViewerBase());
+        this((NV) new RectangleViewerBase());
+    }
+
+    public SwingRectangleViewer(NV base) {
+        super(base);
     }
 
     @Override

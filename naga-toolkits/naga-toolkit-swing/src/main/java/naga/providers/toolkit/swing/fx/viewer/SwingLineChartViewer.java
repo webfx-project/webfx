@@ -10,18 +10,18 @@ import org.knowm.xchart.style.XYStyler;
 import java.awt.*;
 
 import static org.knowm.xchart.style.colors.XChartSeriesColors.*;
-import static org.knowm.xchart.style.colors.XChartSeriesColors.BLACK;
-import static org.knowm.xchart.style.colors.XChartSeriesColors.BROWN;
 
 /**
  * @author Bruno Salmon
  */
 public class SwingLineChartViewer
-        extends SwingChartViewer<LineChart, LineChartViewerBase<XChartJPanel>, LineChartViewerMixin<XChartJPanel>>
-        implements LineChartViewerMixin<XChartJPanel> {
+        <N extends LineChart, NV extends LineChartViewerBase<XChartJPanel, N, NV, NM>, NM extends LineChartViewerMixin<XChartJPanel, N, NV, NM>>
+
+        extends SwingChartViewer<N, NV, NM>
+        implements LineChartViewerMixin<XChartJPanel, N, NV, NM> {
 
     public SwingLineChartViewer() {
-        super(new LineChartViewerBase<>());
+        super((NV) new LineChartViewerBase());
     }
 
     @Override

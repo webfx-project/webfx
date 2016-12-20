@@ -8,17 +8,19 @@ import naga.toolkit.fx.spi.viewer.base.AreaChartViewerMixin;
  * @author Bruno Salmon
  */
 public class FxAreaChartViewer
-        extends FxXYChartViewer<javafx.scene.chart.AreaChart, AreaChart, AreaChartViewerBase<javafx.scene.chart.AreaChart>, AreaChartViewerMixin<javafx.scene.chart.AreaChart>>
-        implements AreaChartViewerMixin<javafx.scene.chart.AreaChart> {
+        <FxN extends javafx.scene.chart.AreaChart, N extends AreaChart, NV extends AreaChartViewerBase<FxN, N, NV, NM>, NM extends AreaChartViewerMixin<FxN, N, NV, NM>>
+
+        extends FxXYChartViewer<FxN, N, NV, NM>
+        implements AreaChartViewerMixin<FxN, N, NV, NM> {
 
     public FxAreaChartViewer() {
-        super(new AreaChartViewerBase<>());
+        super((NV) new AreaChartViewerBase());
     }
 
     @Override
-    protected javafx.scene.chart.AreaChart createFxNode() {
+    protected FxN createFxNode() {
         javafx.scene.chart.AreaChart<Number, Number> areaChart = new javafx.scene.chart.AreaChart<>(createNumberAxis(), createNumberAxis());
         areaChart.setCreateSymbols(false);
-        return areaChart;
+        return (FxN) areaChart;
     }
 }

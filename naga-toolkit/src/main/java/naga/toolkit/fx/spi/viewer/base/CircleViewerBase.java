@@ -8,10 +8,12 @@ import naga.toolkit.fx.scene.shape.Circle;
  * @author Bruno Salmon
  */
 public class CircleViewerBase
-        extends ShapeViewerBase<Circle, CircleViewerBase, CircleViewerMixin> {
+        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+
+        extends ShapeViewerBase<N, NV, NM> {
 
     @Override
-    public void bind(Circle c, SceneRequester sceneRequester) {
+    public void bind(N c, SceneRequester sceneRequester) {
         super.bind(c, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
                 , c.centerXProperty()
@@ -22,7 +24,7 @@ public class CircleViewerBase
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
-        Circle c = node;
+        N c = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(c.centerXProperty(), changedProperty, mixin::updateCenterX)
                 || updateProperty(c.centerYProperty(), changedProperty, mixin::updateCenterY)

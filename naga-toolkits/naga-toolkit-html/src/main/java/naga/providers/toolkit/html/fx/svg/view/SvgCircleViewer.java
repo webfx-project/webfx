@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.svg.view;
 
+import elemental2.Element;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.fx.scene.shape.Circle;
 import naga.toolkit.fx.spi.viewer.base.CircleViewerBase;
@@ -9,11 +10,17 @@ import naga.toolkit.fx.spi.viewer.base.CircleViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgCircleViewer
-        extends SvgShapeViewer<Circle, CircleViewerBase, CircleViewerMixin>
-        implements CircleViewerMixin {
+        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+
+        extends SvgShapeViewer<N, NV, NM>
+        implements CircleViewerMixin<N, NV, NM> {
 
     public SvgCircleViewer() {
-        super(new CircleViewerBase(), SvgUtil.createSvgCircle());
+        this((NV) new CircleViewerBase(), SvgUtil.createSvgCircle());
+    }
+
+    public SvgCircleViewer(NV base, Element element) {
+        super(base, element);
     }
 
     @Override

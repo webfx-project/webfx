@@ -8,15 +8,17 @@ import naga.toolkit.fx.spi.viewer.base.ButtonViewerMixin;
  * @author Bruno Salmon
  */
 public class FxButtonViewer
-        extends FxButtonBaseViewer<javafx.scene.control.Button, Button, ButtonViewerBase, ButtonViewerMixin>
-        implements ButtonViewerMixin, FxLayoutMeasurable {
+        <FxN extends javafx.scene.control.Button, N extends Button, NV extends ButtonViewerBase<N, NV, NM>, NM extends ButtonViewerMixin<N, NV, NM>>
+
+        extends FxButtonBaseViewer<FxN, N, NV, NM>
+        implements ButtonViewerMixin<N, NV, NM>, FxLayoutMeasurable {
 
     public FxButtonViewer() {
-        super(new ButtonViewerBase());
+        super((NV) new ButtonViewerBase());
     }
 
     @Override
-    protected  javafx.scene.control.Button createFxNode() {
-        return new javafx.scene.control.Button();
+    protected FxN createFxNode() {
+        return (FxN) new javafx.scene.control.Button();
     }
 }

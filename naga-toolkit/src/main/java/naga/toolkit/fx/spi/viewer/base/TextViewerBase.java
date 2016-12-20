@@ -9,6 +9,7 @@ import naga.toolkit.fx.scene.text.Text;
  */
 public class TextViewerBase
         <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
+
         extends ShapeViewerBase<N, NV, NM> {
 
     @Override

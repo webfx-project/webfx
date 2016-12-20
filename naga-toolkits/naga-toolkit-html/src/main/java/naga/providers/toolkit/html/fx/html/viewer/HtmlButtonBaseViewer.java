@@ -14,6 +14,7 @@ import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerMixin;
  */
 abstract class HtmlButtonBaseViewer
         <N extends ButtonBase, NV extends ButtonBaseViewerBase<N, NV, NM>, NM extends ButtonBaseViewerMixin<N, NV, NM>>
+
         extends HtmlRegionViewer<N, NV, NM>
         implements ButtonBaseViewerMixin<N, NV, NM> {
 

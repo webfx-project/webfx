@@ -7,8 +7,10 @@ import naga.toolkit.fx.scene.Node;
 /**
  * @author Bruno Salmon
  */
-public interface DataGridViewerMixin<C>
-        extends SelectableDisplayResultSetControlViewerMixin<C, DataGrid, DataGridViewerBase<C>, DataGridViewerMixin<C>> {
+public interface DataGridViewerMixin
+        <C, N extends DataGrid, NV extends DataGridViewerBase<C, N, NV, NM>, NM extends DataGridViewerMixin<C, N, NV, NM>>
+
+        extends SelectableDisplayResultSetControlViewerMixin<C, N, NV, NM> {
 
     void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn);
 

@@ -6,7 +6,9 @@ import naga.toolkit.fx.scene.shape.Circle;
  * @author Bruno Salmon
  */
 public interface CircleViewerMixin
-        extends ShapeViewerMixin<Circle, CircleViewerBase, CircleViewerMixin> {
+        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+
+        extends ShapeViewerMixin<N, NV, NM> {
 
     void updateCenterX(Double centerX);
 

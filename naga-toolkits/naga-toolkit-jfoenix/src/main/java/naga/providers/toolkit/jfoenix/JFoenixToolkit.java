@@ -18,6 +18,6 @@ public class JFoenixToolkit extends JavaFxToolkit {
     }*/
 
     public JFoenixToolkit() {
-        super(() -> new JFoenixWindow(JavaFxToolkit.FxApplication.primaryStage), JFoenixNodeViewerFactory.SINGLETON);
+        super(() -> new JFXWindow(JavaFxToolkit.FxApplication.primaryStage), JFXNodeViewerFactory.SINGLETON);
     }
 }

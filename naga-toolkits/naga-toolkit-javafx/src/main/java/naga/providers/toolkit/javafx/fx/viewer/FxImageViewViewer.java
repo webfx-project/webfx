@@ -11,16 +11,18 @@ import naga.toolkit.spi.Toolkit;
  * @author Bruno Salmon
  */
 public class FxImageViewViewer
-        extends FxNodeViewer<javafx.scene.image.ImageView, ImageView, ImageViewViewerBase, ImageViewViewerMixin>
-        implements ImageViewViewerMixin {
+        <FxN extends javafx.scene.image.ImageView, N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+
+        extends FxNodeViewer<FxN, N, NV, NM>
+        implements ImageViewViewerMixin<N, NV, NM> {
 
     public FxImageViewViewer() {
-        super(new ImageViewViewerBase());
+        super((NV) new ImageViewViewerBase());
     }
 
     @Override
-    protected javafx.scene.image.ImageView createFxNode() {
-        return new javafx.scene.image.ImageView();
+    protected FxN createFxNode() {
+        return (FxN) new javafx.scene.image.ImageView();
     }
 
     @Override

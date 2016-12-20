@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
+import elemental2.HTMLElement;
 import elemental2.HTMLInputElement;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
@@ -12,11 +13,17 @@ import naga.toolkit.fx.spi.viewer.base.SliderViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlSliderViewer
-        extends HtmlRegionViewer<Slider, SliderViewerBase, SliderViewerMixin>
-        implements SliderViewerMixin, HtmlLayoutMeasurable {
+        <N extends Slider, NV extends SliderViewerBase<N, NV, NM>, NM extends SliderViewerMixin<N, NV, NM>>
+
+        extends HtmlRegionViewer<N, NV, NM>
+        implements SliderViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
 
     public HtmlSliderViewer() {
-        super(new SliderViewerBase(), HtmlUtil.createInputElement("range"));
+        this((NV) new SliderViewerBase(), HtmlUtil.createInputElement("range"));
+    }
+
+    public HtmlSliderViewer(NV base, HTMLElement element) {
+        super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.onchange = e -> {
             updateNodeValue(Numbers.doubleValue(inputElement.value));

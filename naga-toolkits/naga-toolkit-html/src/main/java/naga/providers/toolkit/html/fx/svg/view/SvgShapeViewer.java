@@ -17,6 +17,7 @@ import java.util.List;
  */
 abstract class SvgShapeViewer
         <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+
         extends SvgNodeViewer<N, NV, NM>
         implements ShapeViewerMixin<N, NV, NM> {
 

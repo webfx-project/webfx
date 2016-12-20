@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
 import elemental2.CSSStyleDeclaration;
+import elemental2.HTMLElement;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.shape.Circle;
 import naga.toolkit.fx.spi.viewer.base.CircleViewerBase;
@@ -10,11 +11,17 @@ import naga.toolkit.fx.spi.viewer.base.CircleViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlCircleViewer
-        extends HtmlShapeViewer<Circle, CircleViewerBase, CircleViewerMixin>
-        implements CircleViewerMixin {
+        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+
+        extends HtmlShapeViewer<N, NV, NM>
+        implements CircleViewerMixin<N, NV, NM> {
 
     public HtmlCircleViewer() {
-        super(new CircleViewerBase(), HtmlUtil.createDivElement());
+        this((NV) new CircleViewerBase(), HtmlUtil.createDivElement());
+    }
+
+    public HtmlCircleViewer(NV base, HTMLElement element) {
+        super(base, element);
     }
 
     @Override

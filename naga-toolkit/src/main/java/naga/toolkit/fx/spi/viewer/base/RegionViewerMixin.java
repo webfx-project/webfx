@@ -7,6 +7,7 @@ import naga.toolkit.fx.scene.layout.Region;
  */
 public interface RegionViewerMixin
         <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+
         extends NodeViewerMixin<N, NV, NM> {
 
     void updateWidth(Double width);

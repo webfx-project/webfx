@@ -7,7 +7,9 @@ import naga.toolkit.fx.scene.control.Slider;
  * @author Bruno Salmon
  */
 public interface SliderViewerMixin
-        extends ControlViewerMixin<Slider, SliderViewerBase, SliderViewerMixin> {
+        <N extends Slider, NV extends SliderViewerBase<N, NV, NM>, NM extends SliderViewerMixin<N, NV, NM>>
+
+        extends ControlViewerMixin<N, NV, NM> {
 
     void updateMin(Double min);
 

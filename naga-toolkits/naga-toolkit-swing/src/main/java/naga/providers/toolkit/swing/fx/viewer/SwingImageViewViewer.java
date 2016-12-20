@@ -18,13 +18,19 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingImageViewViewer
-        extends SwingNodeViewer<ImageView, ImageViewViewerBase, ImageViewViewerMixin>
-        implements ImageViewViewerMixin, SwingEmbedComponentViewer<ImageView>, LayoutMeasurable {
+        <N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+
+        extends SwingNodeViewer<N, NV, NM>
+        implements ImageViewViewerMixin<N, NV, NM>, SwingEmbedComponentViewer<N>, LayoutMeasurable {
 
     private final JGradientLabel swingImage = new JGradientLabel();
 
     public SwingImageViewViewer() {
-        super(new ImageViewViewerBase());
+        this((NV) new ImageViewViewerBase());
+    }
+
+    public SwingImageViewViewer(NV base) {
+        super(base);
         swingImage.setBackground(null); // transparent background
     }
 

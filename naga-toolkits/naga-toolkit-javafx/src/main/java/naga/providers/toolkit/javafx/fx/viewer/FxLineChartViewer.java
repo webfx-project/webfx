@@ -8,17 +8,19 @@ import naga.toolkit.fx.spi.viewer.base.LineChartViewerMixin;
  * @author Bruno Salmon
  */
 public class FxLineChartViewer
-        extends FxXYChartViewer<javafx.scene.chart.LineChart, LineChart, LineChartViewerBase<javafx.scene.chart.LineChart>, LineChartViewerMixin<javafx.scene.chart.LineChart>>
-        implements LineChartViewerMixin<javafx.scene.chart.LineChart> {
+        <FxN extends javafx.scene.chart.LineChart, N extends LineChart, NV extends LineChartViewerBase<FxN, N, NV, NM>, NM extends LineChartViewerMixin<FxN, N, NV, NM>>
+
+        extends FxXYChartViewer<FxN, N, NV, NM>
+        implements LineChartViewerMixin<FxN, N, NV, NM> {
 
     public FxLineChartViewer() {
-        super(new LineChartViewerBase<>());
+        super((NV) new LineChartViewerBase());
     }
 
     @Override
-    protected javafx.scene.chart.LineChart createFxNode() {
+    protected FxN createFxNode() {
         javafx.scene.chart.LineChart lineChart = new javafx.scene.chart.LineChart(createNumberAxis(), createNumberAxis());
         lineChart.setCreateSymbols(false);
-        return lineChart;
+        return (FxN) lineChart;
     }
 }

@@ -16,6 +16,7 @@ import java.util.List;
  */
 abstract class HtmlShapeViewer
         <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+
         extends HtmlNodeViewer<N, NV, NM>
         implements ShapeViewerMixin<N, NV, NM> {
 

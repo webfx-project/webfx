@@ -11,11 +11,17 @@ import java.awt.geom.Ellipse2D;
  * @author Bruno Salmon
  */
 public class SwingCircleViewer
-        extends SwingShapeViewer<Circle, CircleViewerBase, CircleViewerMixin>
-        implements CircleViewerMixin {
+        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+
+        extends SwingShapeViewer<N, NV, NM>
+        implements CircleViewerMixin<N, NV, NM> {
 
     public SwingCircleViewer() {
-        super(new CircleViewerBase());
+        this((NV) new CircleViewerBase());
+    }
+
+    public SwingCircleViewer(NV base) {
+        super(base);
     }
 
     @Override

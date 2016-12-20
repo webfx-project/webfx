@@ -19,6 +19,7 @@ import java.util.List;
  */
 abstract class SwingChartViewer
         <N extends Chart, NV extends ChartViewerBase<XChartJPanel, N, NV, NM>, NM extends ChartViewerMixin<XChartJPanel, N, NV, NM>>
+
         extends SwingRegionViewer<N, NV, NM>
         implements ChartViewerMixin<XChartJPanel, N, NV, NM>, SwingLayoutMeasurable<N> {
 

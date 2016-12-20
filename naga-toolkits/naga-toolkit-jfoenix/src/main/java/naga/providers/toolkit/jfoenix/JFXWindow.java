@@ -13,9 +13,9 @@ import naga.providers.toolkit.javafx.fx.stage.FxWindow;
 /**
  * @author Bruno Salmon
  */
-public class JFoenixWindow extends FxWindow {
+public class JFXWindow extends FxWindow {
 
-    JFoenixWindow(Stage stage) {
+    JFXWindow(Stage stage) {
         super(stage);
     }
 

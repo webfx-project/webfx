@@ -17,6 +17,7 @@ import naga.toolkit.fx.scene.text.TextAlignment;
  */
 public abstract class HtmlNodeViewer
         <N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
+
         extends HtmlSvgNodeViewer<HTMLElement, N, NV, NM> {
 
     HtmlNodeViewer(NV base, HTMLElement element) {

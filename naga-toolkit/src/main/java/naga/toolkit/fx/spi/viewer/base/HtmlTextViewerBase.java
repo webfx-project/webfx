@@ -9,6 +9,7 @@ import naga.toolkit.fx.scene.SceneRequester;
  */
 public class HtmlTextViewerBase
         <N extends HtmlText, NV extends HtmlTextViewerBase<N, NV, NM>, NM extends HtmlTextViewerMixin<N, NV, NM>>
+
         extends RegionViewerBase<N, NV, NM> {
 
     @Override

@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
 import elemental2.CSSStyleDeclaration;
+import elemental2.HTMLElement;
 import elemental2.HTMLInputElement;
 import naga.commons.util.Strings;
 import naga.providers.toolkit.html.util.HtmlUtil;
@@ -13,11 +14,17 @@ import naga.toolkit.fx.spi.viewer.base.TextFieldViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlTextFieldViewer
-        extends HtmlRegionViewer<TextField, TextFieldViewerBase, TextFieldViewerMixin>
-        implements TextFieldViewerMixin, HtmlLayoutMeasurable {
+        <N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+
+        extends HtmlRegionViewer<N, NV, NM>
+        implements TextFieldViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
 
     public HtmlTextFieldViewer() {
-        super(new TextFieldViewerBase(), HtmlUtil.createTextInput());
+        this((NV) new TextFieldViewerBase(), HtmlUtil.createTextInput());
+    }
+
+    public HtmlTextFieldViewer(NV base, HTMLElement element) {
+        super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.oninput = e -> {
             getNode().setText(inputElement.value);
@@ -25,7 +32,7 @@ public class HtmlTextFieldViewer
         };
     }
 
-/*
+    /*
     The behaviour when setting the style width/height on a text input seems different than on other html elements.
     On other html elements (ex: a button) this will size the outer visual box (including padding and border) to the
     specified width/height. On a text input, this will size the inner visual box (excluding the padding and border).

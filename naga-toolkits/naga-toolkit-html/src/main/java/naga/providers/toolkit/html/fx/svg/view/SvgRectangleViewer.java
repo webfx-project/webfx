@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.svg.view;
 
+import elemental2.Element;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.viewer.base.RectangleViewerBase;
@@ -9,11 +10,17 @@ import naga.toolkit.fx.spi.viewer.base.RectangleViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgRectangleViewer
-        extends SvgShapeViewer<Rectangle, RectangleViewerBase, RectangleViewerMixin>
-        implements RectangleViewerMixin {
+        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+
+        extends SvgShapeViewer<N, NV, NM>
+        implements RectangleViewerMixin<N, NV, NM> {
 
     public SvgRectangleViewer() {
-        super(new RectangleViewerBase(), SvgUtil.createSvgRectangle());
+        this((NV) new RectangleViewerBase(), SvgUtil.createSvgRectangle());
+    }
+
+    public SvgRectangleViewer(NV base, Element element) {
+        super(base, element);
     }
 
     @Override

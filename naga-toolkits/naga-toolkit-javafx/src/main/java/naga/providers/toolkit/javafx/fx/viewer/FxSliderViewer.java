@@ -8,22 +8,24 @@ import naga.toolkit.fx.spi.viewer.base.SliderViewerMixin;
  * @author Bruno Salmon
  */
 public class FxSliderViewer
-        extends FxControlViewer<javafx.scene.control.Slider, Slider, SliderViewerBase, SliderViewerMixin>
-        implements SliderViewerMixin, FxLayoutMeasurable {
+        <FxN extends javafx.scene.control.Slider, N extends Slider, NV extends SliderViewerBase<N, NV, NM>, NM extends SliderViewerMixin<N, NV, NM>>
+
+        extends FxControlViewer<FxN, N, NV, NM>
+        implements SliderViewerMixin<N, NV, NM>, FxLayoutMeasurable {
 
     public FxSliderViewer() {
-        super(new SliderViewerBase());
+        super((NV) new SliderViewerBase());
     }
 
     @Override
-    protected javafx.scene.control.Slider createFxNode() {
+    protected FxN createFxNode() {
         javafx.scene.control.Slider slider = new javafx.scene.control.Slider();
         slider.setShowTickMarks(true);
         slider.setShowTickLabels(true);
         slider.setMinorTickCount(4);
         slider.setMajorTickUnit(500);
         slider.valueProperty().addListener((observable, oldValue, newValue) -> updateNodeValue(newValue.doubleValue()));
-        return slider;
+        return (FxN) slider;
     }
 
     @Override

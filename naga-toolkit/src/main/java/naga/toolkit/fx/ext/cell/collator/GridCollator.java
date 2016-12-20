@@ -7,6 +7,7 @@ import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.ext.cell.renderer.ArrayRenderer;
 import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
+import naga.toolkit.fx.ext.control.DataGrid;
 import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.effect.BlendMode;
@@ -77,14 +78,17 @@ public class GridCollator extends DataGridImpl {
 
     private GridCollatorViewer gridCollatorViewer;
 
-    private class GridCollatorViewer extends DataGridViewerBase<GridCollator>
-        implements DataGridViewerMixin<GridCollator> {
+    private class GridCollatorViewer
+            <N extends DataGrid, NV extends DataGridViewerBase<GridCollator, N, NV, NM>, NM extends DataGridViewerMixin<GridCollator, N, NV, NM>>
+
+    extends DataGridViewerBase<GridCollator, N, NV, NM>
+        implements DataGridViewerMixin<GridCollator, N, NV, NM> {
 
         private ValueRenderer[] renderers;
         private int[] rsColumnIndexes;
 
         {
-            setMixin(this);
+            setMixin((NM) this);
         }
 
         @Override
@@ -138,8 +142,8 @@ public class GridCollator extends DataGridImpl {
         }
 
         @Override
-        public DataGridViewerBase<GridCollator> getNodeViewerBase() {
-            return this;
+        public NV getNodeViewerBase() {
+            return (NV) this;
         }
 
         @Override

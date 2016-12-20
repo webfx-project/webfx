@@ -26,6 +26,7 @@ import java.util.Map;
  */
 public abstract class SvgNodeViewer
         <N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
+
         extends HtmlSvgNodeViewer<Element, N, NV, NM> {
 
     private Map<String, Element> svgLinearGradients;

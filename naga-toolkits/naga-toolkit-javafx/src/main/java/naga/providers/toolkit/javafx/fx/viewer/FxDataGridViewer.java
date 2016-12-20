@@ -12,12 +12,12 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
 import naga.providers.toolkit.javafx.util.FxImageStore;
-import naga.toolkit.fx.ext.cell.rowstyle.RowAdapter;
-import naga.toolkit.fx.ext.cell.rowstyle.RowStyleUpdater;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
 import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.fx.ext.cell.rowstyle.RowAdapter;
+import naga.toolkit.fx.ext.cell.rowstyle.RowStyleUpdater;
 import naga.toolkit.fx.ext.control.DataGrid;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
@@ -34,11 +34,13 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public class FxDataGridViewer
-        extends FxRegionViewer<TableView<Integer>, DataGrid, DataGridViewerBase<TableCell>, DataGridViewerMixin<TableCell>>
-        implements DataGridViewerImageTextMixin<TableCell>, FxLayoutMeasurable {
+        <N extends DataGrid, NV extends DataGridViewerBase<TableCell, N, NV, NM>, NM extends DataGridViewerMixin<TableCell, N, NV, NM>>
+
+        extends FxRegionViewer<TableView<Integer>, N, NV, NM>
+        implements DataGridViewerImageTextMixin<TableCell, N, NV, NM>, FxLayoutMeasurable {
 
     public FxDataGridViewer() {
-        super(new DataGridViewerBase<>());
+        super((NV) new DataGridViewerBase());
     }
 
     @Override
@@ -173,7 +175,7 @@ public class FxDataGridViewer
     }
 
     private Object[] getRowStyleClasses(int rowIndex) {
-        DataGridViewerBase<TableCell> base = getNodeViewerBase();
+        NV base = getNodeViewerBase();
         Object value = base.getRowStyleResultSetValue(rowIndex);
         if (value instanceof ObservableValue)
             value = ((ObservableValue) value).getValue();

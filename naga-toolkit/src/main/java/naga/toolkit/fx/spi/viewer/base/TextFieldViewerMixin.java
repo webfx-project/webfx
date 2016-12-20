@@ -6,5 +6,7 @@ import naga.toolkit.fx.scene.control.TextField;
  * @author Bruno Salmon
  */
 public interface TextFieldViewerMixin
-        extends TextInputControlViewerMixin<TextField, TextFieldViewerBase, TextFieldViewerMixin> {
+        <N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+
+        extends TextInputControlViewerMixin<N, NV, NM> {
 }

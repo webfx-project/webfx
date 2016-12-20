@@ -8,10 +8,12 @@ import naga.toolkit.fx.scene.shape.Rectangle;
  * @author Bruno Salmon
  */
 public class RectangleViewerBase
-        extends ShapeViewerBase<Rectangle, RectangleViewerBase, RectangleViewerMixin> {
+        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+
+        extends ShapeViewerBase<N, NV, NM> {
 
     @Override
-    public void bind(Rectangle r, SceneRequester sceneRequester) {
+    public void bind(N r, SceneRequester sceneRequester) {
         super.bind(r, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
                 , r.xProperty()
@@ -25,7 +27,7 @@ public class RectangleViewerBase
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
-        Rectangle r = node;
+        N r = node;
         return super.updateProperty(changedProperty)
                 || updateProperty(r.xProperty(), changedProperty, mixin::updateX)
                 || updateProperty(r.yProperty(), changedProperty, mixin::updateY)

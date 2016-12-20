@@ -5,9 +5,9 @@ import naga.providers.toolkit.swing.util.JPlaceholderTextField;
 import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.providers.toolkit.swing.util.SwingFonts;
 import naga.toolkit.fx.scene.control.TextField;
+import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.spi.viewer.base.TextFieldViewerBase;
 import naga.toolkit.fx.spi.viewer.base.TextFieldViewerMixin;
-import naga.toolkit.fx.scene.text.Font;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -18,13 +18,19 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingTextFieldViewer
-        extends SwingRegionViewer<TextField, TextFieldViewerBase, TextFieldViewerMixin>
-        implements TextFieldViewerMixin, SwingEmbedComponentViewer<TextField>, SwingLayoutMeasurable<TextField> {
+        <N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+
+        extends SwingRegionViewer<N, NV, NM>
+        implements TextFieldViewerMixin<N, NV, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
 
     private final JPlaceholderTextField swingTextField = new JPlaceholderTextField();
 
     public SwingTextFieldViewer() {
-        super(new TextFieldViewerBase());
+        this((NV) new TextFieldViewerBase());
+    }
+
+    public SwingTextFieldViewer(NV base) {
+        super(base);
         swingTextField.setPreferredSize(new Dimension(200, (int) swingTextField.getMinimumSize().getHeight()));
         swingTextField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) { updateNodeText(); }

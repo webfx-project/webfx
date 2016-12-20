@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
+import elemental2.HTMLElement;
 import elemental2.HTMLInputElement;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.control.CheckBox;
@@ -10,13 +11,19 @@ import naga.toolkit.fx.spi.viewer.base.CheckBoxViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlCheckBoxViewer
-        extends HtmlButtonBaseViewer<CheckBox, CheckBoxViewerBase, CheckBoxViewerMixin>
-        implements CheckBoxViewerMixin, HtmlLayoutMeasurable {
+        <N extends CheckBox, NV extends CheckBoxViewerBase<N, NV, NM>, NM extends CheckBoxViewerMixin<N, NV, NM>>
+
+        extends HtmlButtonBaseViewer<N, NV, NM>
+        implements CheckBoxViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
 
     private final HTMLInputElement checkBox;
 
     public HtmlCheckBoxViewer() {
-        super(new CheckBoxViewerBase(), HtmlUtil.createLabelElement());
+        this((NV) new CheckBoxViewerBase(), HtmlUtil.createLabelElement());
+    }
+
+    public HtmlCheckBoxViewer(NV base, HTMLElement element) {
+        super(base, element);
         checkBox = HtmlUtil.createCheckBox();
         checkBox.onclick = event -> {
             getNode().setSelected(checkBox.checked);

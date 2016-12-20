@@ -6,6 +6,7 @@ import naga.toolkit.fx.scene.Group;
  * @author Bruno Salmon
  */
 public interface GroupViewerMixin
-        extends NodeViewerMixin<Group, GroupViewerBase, GroupViewerMixin> {
+        <N extends Group, NV extends GroupViewerBase<N, NV, NM>, NM extends GroupViewerMixin<N, NV, NM>>
 
+        extends NodeViewerMixin<N, NV, NM> {
 }

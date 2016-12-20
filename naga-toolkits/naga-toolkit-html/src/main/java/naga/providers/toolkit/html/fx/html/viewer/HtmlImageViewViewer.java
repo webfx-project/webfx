@@ -1,6 +1,7 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
 import elemental2.Element;
+import elemental2.HTMLElement;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.platform.spi.Platform;
@@ -17,11 +18,17 @@ import static naga.providers.toolkit.html.util.HtmlUtil.createNodeFromHtml;
  * @author Bruno Salmon
  */
 public class HtmlImageViewViewer
-        extends HtmlNodeViewer<ImageView, ImageViewViewerBase, ImageViewViewerMixin>
-        implements ImageViewViewerMixin, HtmlLayoutMeasurable {
+        <N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+
+        extends HtmlNodeViewer<N, NV, NM>
+        implements ImageViewViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
 
     public HtmlImageViewViewer() {
-        super(new ImageViewViewerBase(), createImageElement());
+        this((NV) new ImageViewViewerBase(), createImageElement());
+    }
+
+    public HtmlImageViewViewer(NV base, HTMLElement element) {
+        super(base, element);
     }
 
     @Override

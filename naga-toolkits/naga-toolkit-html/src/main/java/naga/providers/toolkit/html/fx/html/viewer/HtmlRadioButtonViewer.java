@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
+import elemental2.HTMLElement;
 import elemental2.HTMLInputElement;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.control.RadioButton;
@@ -10,13 +11,19 @@ import naga.toolkit.fx.spi.viewer.base.RadioButtonViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlRadioButtonViewer
-        extends HtmlButtonBaseViewer<RadioButton, RadioButtonViewerBase, RadioButtonViewerMixin>
-        implements RadioButtonViewerMixin, HtmlLayoutMeasurable {
+        <N extends RadioButton, NV extends RadioButtonViewerBase<N, NV, NM>, NM extends RadioButtonViewerMixin<N, NV, NM>>
+
+        extends HtmlButtonBaseViewer<N, NV, NM>
+        implements RadioButtonViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
 
     private final HTMLInputElement radioButtonElement;
 
     public HtmlRadioButtonViewer() {
-        super(new RadioButtonViewerBase(), HtmlUtil.createLabelElement());
+        this((NV) new RadioButtonViewerBase(), HtmlUtil.createLabelElement());
+    }
+
+    public HtmlRadioButtonViewer(NV base, HTMLElement element) {
+        super(base, element);
         radioButtonElement = HtmlUtil.createRadioButton();
         radioButtonElement.onclick = event -> {
             getNode().setSelected(radioButtonElement.checked);

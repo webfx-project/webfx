@@ -8,15 +8,17 @@ import naga.toolkit.fx.spi.viewer.base.ScatterChartViewerMixin;
  * @author Bruno Salmon
  */
 public class FxScatterChartViewer
-        extends FxXYChartViewer<javafx.scene.chart.ScatterChart, ScatterChart, ScatterChartViewerBase<javafx.scene.chart.ScatterChart>, ScatterChartViewerMixin<javafx.scene.chart.ScatterChart>>
-        implements ScatterChartViewerMixin<javafx.scene.chart.ScatterChart> {
+        <FxN extends javafx.scene.chart.ScatterChart, N extends ScatterChart, NV extends ScatterChartViewerBase<FxN, N, NV, NM>, NM extends ScatterChartViewerMixin<FxN, N, NV, NM>>
+
+        extends FxXYChartViewer<FxN, N, NV, NM>
+        implements ScatterChartViewerMixin<FxN, N, NV, NM> {
 
     public FxScatterChartViewer() {
-        super(new ScatterChartViewerBase<>());
+        super((NV) new ScatterChartViewerBase());
     }
 
     @Override
-    protected javafx.scene.chart.ScatterChart createFxNode() {
-        return new javafx.scene.chart.ScatterChart(createNumberAxis(), createNumberAxis());
+    protected FxN createFxNode() {
+        return (FxN) new javafx.scene.chart.ScatterChart(createNumberAxis(), createNumberAxis());
     }
 }

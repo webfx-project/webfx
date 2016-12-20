@@ -11,18 +11,20 @@ import naga.toolkit.fx.spi.viewer.base.TextFieldViewerMixin;
  * @author Bruno Salmon
  */
 public class FxTextFieldViewer
-        extends FxTextInputControlViewer<javafx.scene.control.TextField, TextField, TextFieldViewerBase, TextFieldViewerMixin>
-        implements TextFieldViewerMixin, FxLayoutMeasurable {
+        <FxN extends javafx.scene.control.TextField, N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+
+        extends FxTextInputControlViewer<FxN, N, NV, NM>
+        implements TextFieldViewerMixin<N, NV, NM>, FxLayoutMeasurable {
 
     public FxTextFieldViewer() {
-        super(new TextFieldViewerBase());
+        super((NV) new TextFieldViewerBase());
     }
 
     @Override
-    protected javafx.scene.control.TextField createFxNode() {
+    protected FxN createFxNode() {
         javafx.scene.control.TextField textField = new javafx.scene.control.TextField();
         textField.textProperty().addListener((observable, oldValue, newValue) -> updateNodeText(newValue));
-        return textField;
+        return (FxN) textField;
     }
 
     @Override

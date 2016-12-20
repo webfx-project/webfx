@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
+import elemental2.HTMLElement;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.spi.viewer.base.RectangleViewerBase;
@@ -9,11 +10,17 @@ import naga.toolkit.fx.spi.viewer.base.RectangleViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlRectangleViewer
-        extends HtmlShapeViewer<Rectangle, RectangleViewerBase, RectangleViewerMixin>
-        implements RectangleViewerMixin {
+        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+
+        extends HtmlShapeViewer<N, NV, NM>
+        implements RectangleViewerMixin<N, NV, NM> {
 
     public HtmlRectangleViewer() {
-        super(new RectangleViewerBase(), HtmlUtil.createDivElement());
+        this((NV) new RectangleViewerBase(), HtmlUtil.createDivElement());
+    }
+
+    public HtmlRectangleViewer(NV base, HTMLElement element) {
+        super(base, element);
     }
 
     @Override
