@@ -1,15 +1,15 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
-import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.util.StyleUtil;
+import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.ButtonBase;
+import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerMixin;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author Bruno Salmon
@@ -20,21 +20,24 @@ class SwingButtonBaseViewer
         implements ButtonBaseViewerMixin<N, NV, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
 
     private final AbstractButton swingButtonBase;
+    private ActionListener actionListener;
 
     SwingButtonBaseViewer(NV base, AbstractButton swingButtonBase) {
         super(base);
         this.swingButtonBase = swingButtonBase;
         swingButtonBase.setFont(StyleUtil.getFont(false, false));
-        swingButtonBase.addActionListener(e -> {
-            UiEventHandler<? super MouseEvent> onMouseClicked = getNode().getOnMouseClicked();
-            if (onMouseClicked != null)
-                onMouseClicked.handle(new SwingMouseEvent(null));
-        });
     }
 
     @Override
     public JComponent getSwingComponent() {
         return swingButtonBase;
+    }
+
+    @Override
+    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
+        swingButtonBase.removeActionListener(actionListener);
+        if (onMouseClicked != null)
+            swingButtonBase.addActionListener(actionListener = toActionListener(onMouseClicked));
     }
 
     @Override

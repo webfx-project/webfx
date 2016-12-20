@@ -4,7 +4,7 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import naga.commons.util.async.Handler;
-import naga.toolkit.spi.events.ActionEvent;
+import naga.toolkit.fx.event.ActionEvent;
 
 import java.time.Duration;
 import java.util.HashMap;

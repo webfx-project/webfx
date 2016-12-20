@@ -7,8 +7,8 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.scene.effect.Effect;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
+import naga.toolkit.fx.scene.input.MouseEvent;
+import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.fx.scene.transform.Transform;
 
 import java.util.Collection;
@@ -43,7 +43,7 @@ public interface NodeViewerMixin
         return getNodeViewerBase().updateList(changedList);
     }
 
-    void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked);
+    void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked);
 
     void updateMouseTransparent(Boolean mouseTransparent);
 

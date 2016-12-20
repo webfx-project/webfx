@@ -1,23 +1,21 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
-import javafx.event.EventHandler;
-import naga.providers.toolkit.javafx.events.FxMouseEvent;
 import naga.providers.toolkit.javafx.util.FxTransforms;
+import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.effect.GaussianBlur;
 import naga.toolkit.fx.scene.impl.NodeImpl;
-import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.scene.impl.SceneImpl;
+import naga.toolkit.fx.scene.input.MouseEvent;
+import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerMixin;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
 
 import java.util.Collection;
 import java.util.List;
@@ -51,7 +49,7 @@ public abstract class FxNodeViewer
     }
 
     @Override
-    public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
+    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
         getFxNode().setOnMouseClicked(toFxMouseEventHandler(onMouseClicked));
     }
 
@@ -105,8 +103,12 @@ public abstract class FxNodeViewer
         // never called
     }
 
-    private static EventHandler<? super javafx.scene.input.MouseEvent> toFxMouseEventHandler(UiEventHandler<? super MouseEvent> mouseEventHandler) {
-        return mouseEventHandler == null ? null : (EventHandler<javafx.scene.input.MouseEvent>) event -> mouseEventHandler.handle(new FxMouseEvent(event));
+    private static javafx.event.EventHandler toFxMouseEventHandler(EventHandler<? super MouseEvent> mouseEventHandler) {
+        return mouseEventHandler == null ? null : event -> mouseEventHandler.handle(toMouseEvent((javafx.scene.input.MouseEvent) event));
+    }
+
+    private static MouseEvent toMouseEvent(javafx.scene.input.MouseEvent mouseEvent) {
+        return new MouseEvent();
     }
 
     private static javafx.scene.effect.BlendMode toFxBlendMode(BlendMode blendMode) {

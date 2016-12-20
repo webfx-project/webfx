@@ -1,6 +1,6 @@
 package naga.toolkit.properties.markers;
 
-import naga.toolkit.spi.events.ActionEvent;
+import naga.toolkit.fx.event.ActionEvent;
 import rx.Observable;
 
 /**

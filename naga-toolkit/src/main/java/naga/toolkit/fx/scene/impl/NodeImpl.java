@@ -25,8 +25,8 @@ import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.properties.markers.*;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
+import naga.toolkit.fx.scene.input.MouseEvent;
+import naga.toolkit.fx.event.EventHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,9 +74,9 @@ public abstract class NodeImpl implements Node {
      */
     void notifyManagedChanged() { }
 
-    private final ObjectProperty<UiEventHandler<? super MouseEvent>> onMouseClickedProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<EventHandler<? super MouseEvent>> onMouseClickedProperty = new SimpleObjectProperty<>();
     @Override
-    public ObjectProperty<UiEventHandler<? super MouseEvent>> onMouseClickedProperty() {
+    public ObjectProperty<EventHandler<? super MouseEvent>> onMouseClickedProperty() {
         return onMouseClickedProperty;
     }
 

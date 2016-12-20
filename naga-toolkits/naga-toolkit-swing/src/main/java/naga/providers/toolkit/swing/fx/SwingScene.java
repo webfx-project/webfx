@@ -1,7 +1,6 @@
 package naga.providers.toolkit.swing.fx;
 
 import javafx.beans.property.Property;
-import naga.providers.toolkit.swing.events.SwingMouseEvent;
 import naga.providers.toolkit.swing.fx.viewer.SwingEmbedComponentViewer;
 import naga.providers.toolkit.swing.fx.viewer.SwingLayoutMeasurable;
 import naga.providers.toolkit.swing.fx.viewer.SwingNodeViewer;
@@ -187,7 +186,7 @@ public class SwingScene extends CanvasSceneImpl<SwingNodeViewer<?, ?, ?>, Graphi
                     if (pickResult != null) {
                         Node node = pickResult.getNode();
                         if (eventId == MouseEvent.MOUSE_CLICKED && node.getOnMouseClicked() != null)
-                            node.getOnMouseClicked().handle(new SwingMouseEvent(e));
+                            node.getOnMouseClicked().handle(SwingNodeViewer.toMouseEvent(e));
                         NodeViewer nodeViewer = pickResult.getNodeViewer();
                         if (nodeViewer instanceof SwingEmbedComponentViewer)
                             embedTarget = ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();

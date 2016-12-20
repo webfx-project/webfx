@@ -26,7 +26,7 @@ import naga.toolkit.fx.scene.control.RadioButton;
 import naga.toolkit.fx.scene.layout.FlowPane;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.spi.Toolkit;
-import naga.toolkit.spi.events.MouseEvent;
+import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.util.Properties;
 
 /**

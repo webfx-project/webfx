@@ -1,29 +1,29 @@
 package naga.providers.toolkit.html.fx.shared;
 
 import elemental2.Element;
+import elemental2.Event;
 import naga.commons.util.Strings;
-import naga.providers.toolkit.html.events.HtmlMouseEvent;
 import naga.providers.toolkit.html.fx.html.viewer.HtmlNodeViewer;
 import naga.providers.toolkit.html.fx.svg.view.SvgNodeViewer;
 import naga.providers.toolkit.html.util.DomType;
 import naga.providers.toolkit.html.util.HtmlTransforms;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgTransforms;
+import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.impl.NodeImpl;
+import naga.toolkit.fx.scene.impl.SceneImpl;
+import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.FontPosture;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerMixin;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -107,11 +107,15 @@ public abstract class HtmlSvgNodeViewer
     }
 
     @Override
-    public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
+    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
         element.onclick = onMouseClicked == null ? null : e -> {
-            onMouseClicked.handle(new HtmlMouseEvent(e));
+            onMouseClicked.handle(toMouseEvent(e));
             return null;
         };
+    }
+
+    private static MouseEvent toMouseEvent(Event e) {
+        return new MouseEvent();
     }
 
     protected void setElementTextContent(String textContent) {

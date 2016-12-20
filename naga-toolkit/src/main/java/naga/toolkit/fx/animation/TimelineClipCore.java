@@ -1,7 +1,7 @@
 package naga.toolkit.fx.animation;
 
 import naga.commons.util.async.Handler;
-import naga.toolkit.spi.events.ActionEvent;
+import naga.toolkit.fx.event.ActionEvent;
 
 import java.time.Duration;
 import java.util.Arrays;

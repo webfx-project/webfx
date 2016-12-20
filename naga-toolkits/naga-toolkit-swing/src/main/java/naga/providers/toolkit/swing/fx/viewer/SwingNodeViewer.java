@@ -4,18 +4,20 @@ import naga.commons.util.tuples.Unit;
 import naga.providers.toolkit.swing.util.JGradientLabel;
 import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
+import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
+import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
+import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
 import naga.toolkit.fx.scene.impl.NodeImpl;
+import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
 import naga.toolkit.fx.spi.viewer.CanvasNodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
@@ -23,12 +25,11 @@ import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerMixin;
 import naga.toolkit.properties.markers.HasHeightProperty;
 import naga.toolkit.properties.markers.HasWidthProperty;
-import naga.toolkit.spi.events.MouseEvent;
-import naga.toolkit.spi.events.UiEventHandler;
 import naga.toolkit.util.Properties;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
 
@@ -81,7 +82,7 @@ public abstract class SwingNodeViewer
     }
 
     @Override
-    public void updateOnMouseClicked(UiEventHandler<? super MouseEvent> onMouseClicked) {
+    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
     }
 
     @Override
@@ -182,5 +183,13 @@ public abstract class SwingNodeViewer
         if (node instanceof Parent)
             naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
         return component;
+    }
+
+    static ActionListener toActionListener(EventHandler<? super MouseEvent> mouseEventHandler) {
+        return e -> mouseEventHandler.handle(toMouseEvent(e));
+    }
+
+    public static MouseEvent toMouseEvent(AWTEvent e) {
+        return new MouseEvent();
     }
 }

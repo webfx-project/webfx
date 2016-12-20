@@ -20,7 +20,7 @@ import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
 import naga.toolkit.properties.markers.SelectionMode;
-import naga.toolkit.spi.events.UiEventHandler;
+import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.util.ObservableLists;
 
 import java.util.Collection;
@@ -143,7 +143,7 @@ public class GridCollator extends DataGridImpl {
         }
 
         @Override
-        public void updateOnMouseClicked(UiEventHandler onMouseClicked) {
+        public void updateOnMouseClicked(EventHandler onMouseClicked) {
             container.setOnMouseClicked(onMouseClicked);
         }
 

@@ -18,7 +18,7 @@ import naga.commons.util.function.Factory;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.spi.events.MouseEvent;
+import naga.toolkit.fx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
