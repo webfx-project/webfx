@@ -41,14 +41,14 @@ public abstract class SvgNodeViewer
         if (clip != null) {
             NodeViewer nodeViewer = clip.getOrCreateAndBindNodeViewer();
             if (svgClipPath == null)
-                svgClipPath = getSvgDrawing().addDef(SvgUtil.createClipPath());
+                svgClipPath = getSvgScene().addDef(SvgUtil.createClipPath());
             HtmlUtil.setChild(svgClipPath, ((SvgNodeViewer) nodeViewer).getElement());
             value = SvgUtil.getDefUrl(svgClipPath);
         }
         return value;
     }
 
-    private SvgScene getSvgDrawing() {
+    private SvgScene getSvgScene() {
         return ((SvgScene) getNode().getScene());
     }
 
@@ -61,7 +61,7 @@ public abstract class SvgNodeViewer
         Element filterPrimitive = toSvgEffectFilterPrimitive(effect);
         if (filterPrimitive == null)
             return null;
-        return getSvgDrawing().addDef(HtmlUtil.appendChild(SvgUtil.createFilter(), filterPrimitive));
+        return getSvgScene().addDef(HtmlUtil.appendChild(SvgUtil.createFilter(), filterPrimitive));
     }
 
     private static Element toSvgEffectFilterPrimitive(Effect effect) {
@@ -89,7 +89,7 @@ public abstract class SvgNodeViewer
                 svgLinearGradients = new HashMap<>();
             Element svgLinearGradient = svgLinearGradients.get(name);
             if (svgLinearGradient == null)
-                svgLinearGradients.put(name, svgLinearGradient = getSvgDrawing().addDef(SvgUtil.createLinearGradient()));
+                svgLinearGradients.put(name, svgLinearGradient = getSvgScene().addDef(SvgUtil.createLinearGradient()));
             SvgUtil.updateLinearGradient((LinearGradient) paint, svgLinearGradient);
             value = SvgUtil.getDefUrl(svgLinearGradient);
         }

@@ -33,7 +33,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
 
     private Calendar calendar;
     private final I18n i18n;
-    private Region drawingNode;
+    private Region rootNode;
     private long firstEpochDay;
 
     public CalendarGraphicImpl(Calendar calendar, I18n i18n) {
@@ -50,8 +50,8 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     public void setCalendar(Calendar calendar) {
         this.calendar = calendar;
         firstEpochDay = calendar.getPeriod().getIncludedStart(TimeUnit.DAYS);
-        if (drawingNode != null)
-            createOrUpdateDrawingNodeCalendar();
+        if (rootNode != null)
+            createOrUpdateRootNodeCalendar();
     }
 
     private final Property<Handler<CalendarClickEvent>> calendarClickHandlerProperty = new SimpleObjectProperty<>();
@@ -62,33 +62,33 @@ public class CalendarGraphicImpl implements CalendarGraphic {
 
     @Override
     public Node getNode() {
-        if (drawingNode == null)
-            createDrawingNode();
-        return drawingNode;
+        if (rootNode == null)
+            createRootNode();
+        return rootNode;
     }
 
-    private void createDrawingNode() {
-        drawingNode = Region.create();
-        drawingNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth));
-        createOrUpdateDrawingNodeCalendar();
+    private void createRootNode() {
+        rootNode = Region.create();
+        rootNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth));
+        createOrUpdateRootNodeCalendar();
     }
 
     private HorizontalDayPositioner horizontalDayPositioner;
     private VerticalDayTimePositioner verticalDayPositioner;
 
-    private void createOrUpdateDrawingNodeCalendar() {
+    private void createOrUpdateRootNodeCalendar() {
         horizontalDayPositioner = new HorizontalDayPositioner(calendar);
-        verticalDayPositioner = new VerticalDayTimePositioner(drawingNode.heightProperty());
+        verticalDayPositioner = new VerticalDayTimePositioner(rootNode.heightProperty());
         Group calendarGroup = createCalendarGroup();
-        drawingNode.getChildren().setAll(calendarGroup);
-        updateTotalWidth(drawingNode.getWidth());
+        rootNode.getChildren().setAll(calendarGroup);
+        updateTotalWidth(rootNode.getWidth());
         Rotate rotate = null; // Rotate.create();
         if (rotate != null) {
             calendarGroup.getTransforms().setAll(rotate);
             Properties.runOnPropertiesChange(arg -> {
-                rotate.setPivotX(drawingNode.getWidth() / 2);
-                rotate.setPivotY(drawingNode.getHeight() / 2);
-            }, drawingNode.widthProperty(), drawingNode.heightProperty());
+                rotate.setPivotX(rootNode.getWidth() / 2);
+                rotate.setPivotY(rootNode.getHeight() / 2);
+            }, rootNode.widthProperty(), rootNode.heightProperty());
             Timeline timeline = new Timeline();
             timeline.getKeyFrames().setAll(new KeyFrame(Duration.ofSeconds(5), new KeyValue(rotate.angleProperty(), 360d)));
             timeline.setCycleCount(Animation.INDEFINITE);

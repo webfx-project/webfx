@@ -49,8 +49,8 @@ public class GridCollator extends DataGridImpl {
     public NodeViewer getNodeViewer() {
         NodeViewer nodeViewer = super.getNodeViewer();
         if (nodeViewer == null) {
-            SceneImpl drawing = (SceneImpl) getScene();
-            ((BorderPaneImpl) container).setScene(drawing);
+            SceneImpl scene = (SceneImpl) getScene();
+            ((BorderPaneImpl) container).setScene(scene);
             NodeViewer containerViewer = container.getOrCreateAndBindNodeViewer();
             setNodeViewer(nodeViewer = containerViewer);
             gridCollatorViewer = new GridCollatorViewer();

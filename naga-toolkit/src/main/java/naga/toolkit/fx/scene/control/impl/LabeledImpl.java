@@ -23,7 +23,7 @@ public class LabeledImpl extends ControlImpl implements Labeled {
     private final Property<Node> graphicProperty = new SimpleObjectProperty<Node>() {
         @Override
         protected void invalidated() {
-            setScene((SceneImpl) getScene()); // This will propagate the drawing into the graphic
+            setScene((SceneImpl) getScene()); // This will propagate the scene reference into the graphic
         }
     };
     @Override

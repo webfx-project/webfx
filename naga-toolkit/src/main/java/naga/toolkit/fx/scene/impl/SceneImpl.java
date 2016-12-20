@@ -44,22 +44,22 @@ public abstract class SceneImpl implements Scene {
     private NodeViewerFactory nodeViewerFactory;
     private final Property<Parent> rootProperty = new SimpleObjectProperty<Parent>() {
         // Temporary code to automatically assume the following behaviour:
-        // - the root node width is bound to the drawing node width
-        // - the drawing node height is bound to the root node height (which eventually is bound to the preferred height)
+        // - the root node width is bound to the scene width
+        // - the scene height is bound to the root node height (which eventually is bound to the preferred height)
         @Override
         protected void invalidated() {
             ParentImpl root = (ParentImpl) getValue();
             root.setScene(SceneImpl.this);
             root.setSceneRoot(true);
-            // Binding the root node width to the drawing node width
+            // Binding the root node width to the scene width
             if (root instanceof HasWidthProperty)
                 ((HasWidthProperty) root).widthProperty().bind(widthProperty());
-            // Binding the drawing node height to the root node height
+            // Binding the scene height to the root node height
             if (root instanceof HasHeightProperty) {
                 ((HasHeightProperty) root).heightProperty().bind(heightProperty());
 /*
                 HasHeightProperty root = (HasHeightProperty) root;
-                drawingNode.heightProperty().bind(root.heightProperty());
+                heightProperty().bind(root.heightProperty());
                 if (root instanceof ParentImpl && root instanceof PreferenceResizableNode)
                     ((ParentImpl) root).setBindHeightToPrefHeight(true);
 */
