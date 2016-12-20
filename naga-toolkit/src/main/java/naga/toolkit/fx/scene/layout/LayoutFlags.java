@@ -1,4 +1,4 @@
-package naga.toolkit.fx.scene.layout.impl;
+package naga.toolkit.fx.scene.layout;
 
 /**
  * @author Bruno Salmon

@@ -7,8 +7,8 @@ import naga.providers.toolkit.swing.fx.viewer.SwingNodeViewer;
 import naga.providers.toolkit.swing.util.StyleUtil;
 import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
-import naga.toolkit.fx.scene.impl.PickResult;
+import naga.toolkit.fx.scene.CanvasScene;
+import naga.toolkit.fx.scene.PickResult;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ import java.awt.event.MouseWheelEvent;
 /**
  * @author Bruno Salmon
  */
-public class SwingScene extends CanvasSceneImpl<SwingNodeViewer<?, ?, ?>, Graphics2D> {
+public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D> {
 
     private final CanvasPanel canvasPanel = new CanvasPanel();
     private boolean canvasRepaint;
@@ -179,7 +179,7 @@ public class SwingScene extends CanvasSceneImpl<SwingNodeViewer<?, ?, ?>, Graphi
             private void handleMouseEvent(MouseEvent e) {
                 PickResult pickResult = null;
                 Component embedTarget = null;
-                Point2D canvasPoint = Point2D.create(e.getX(), e.getY());
+                Point2D canvasPoint = new Point2D((double) e.getX(), (double) e.getY());
                 int eventId = e.getID();
                 if (eventId != MouseEvent.MOUSE_EXITED) {
                     pickResult = pickNode(canvasPoint);

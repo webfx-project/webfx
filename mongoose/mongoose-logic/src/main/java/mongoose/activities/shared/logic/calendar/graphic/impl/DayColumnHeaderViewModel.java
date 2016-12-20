@@ -2,9 +2,9 @@ package mongoose.activities.shared.logic.calendar.graphic.impl;
 
 import naga.framework.ui.i18n.I18n;
 import naga.toolkit.fx.geometry.VPos;
+import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.paint.Color;
 import naga.toolkit.fx.scene.paint.LinearGradient;
-import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.shape.*;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
@@ -27,11 +27,11 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
     private final static Font monthTextFont = dayOfWeekTextFont;
 
     private final long epochDay;
-    private final Rectangle r = Rectangle.create();
-    private final Text dayOfWeekText = Text.create();
-    private final Text dayOfMonthText = Text.create();
-    private final Text monthText = Text.create();
-    final Group group = Group.create();
+    private final Rectangle r = new Rectangle();
+    private final Text dayOfWeekText = new Text();
+    private final Text dayOfMonthText = new Text();
+    private final Text monthText = new Text();
+    final Group group = new Group();
     private final Translate translate = Translate.create();
 
     {

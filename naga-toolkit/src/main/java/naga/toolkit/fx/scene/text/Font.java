@@ -1,35 +1,43 @@
 package naga.toolkit.fx.scene.text;
 
-import naga.toolkit.fx.scene.text.impl.FontImpl;
-
 /**
  * @author Bruno Salmon
  */
-public interface Font {
+public class Font {
 
-     /**
-     * Returns the family of this font.
-     */
-    String getFamily();
+    private final String family;
+    private final FontWeight weight;
+    private final FontPosture posture;
+    private final double size;
 
-    FontWeight getWeight();
-
-    FontPosture getPosture();
-
-    /**
-     * The point size for this font. This may be a fractional value such as
-     * {@code 11.5}. If the specified value is < 0 the default size will be
-     * used.
-     */
-    double getSize();
-
-    static Font font(String family, FontWeight weight, FontPosture posture, double size) {
-        return new FontImpl(family, weight, posture, size);
+    public Font(String family, FontWeight weight, FontPosture posture, double size) {
+        this.family = family;
+        this.weight = weight;
+        this.posture = posture;
+        this.size = size;
     }
 
-    static Font font(String family, double size) {
+    public String getFamily() {
+        return family;
+    }
+
+    public FontWeight getWeight() {
+        return weight;
+    }
+
+    public FontPosture getPosture() {
+        return posture;
+    }
+
+    public double getSize() {
+        return size;
+    }
+
+    public static Font font(String family, FontWeight weight, FontPosture posture, double size) {
+        return new Font(family, weight, posture, size);
+    }
+
+    public static Font font(String family, double size) {
         return font(family, null, null, size);
     }
-
-
 }

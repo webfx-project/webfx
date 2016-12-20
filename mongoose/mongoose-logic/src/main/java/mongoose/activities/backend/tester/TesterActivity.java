@@ -22,17 +22,17 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
 
     protected TesterViewModel buildView() {
         // Sliders
-        Slider requestedSlider = Slider.create();
-        Slider startedSlider = Slider.create();
+        Slider requestedSlider = new Slider();
+        Slider startedSlider = new Slider();
         // Charts
-        LineChart connectionsChart = LineChart.create();
+        LineChart connectionsChart = new LineChart();
         // Arranging in boxes
-        VBox vBox = VBox.create();
+        VBox vBox = new VBox();
         vBox.getChildren().setAll(requestedSlider, startedSlider);
         // Buttons
-        Button saveTest = Button.create("Save Test");
+        Button saveTest = new Button("Save Test");
         // Building the UI components
-        return new TesterViewModel(BorderPane.create(connectionsChart, vBox, null, saveTest, null),
+        return new TesterViewModel(new BorderPane(connectionsChart, vBox, null, saveTest, null),
                 saveTest, connectionsChart, requestedSlider, startedSlider);
     }
 

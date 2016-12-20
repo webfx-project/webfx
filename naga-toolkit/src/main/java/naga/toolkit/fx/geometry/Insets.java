@@ -1,7 +1,5 @@
 package naga.toolkit.fx.geometry;
 
-import naga.toolkit.fx.geometry.impl.InsetsImpl;
-
 /**
  * @author Bruno Salmon
  */

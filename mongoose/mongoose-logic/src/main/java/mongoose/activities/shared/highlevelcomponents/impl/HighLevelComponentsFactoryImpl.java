@@ -14,21 +14,21 @@ public class HighLevelComponentsFactoryImpl implements HighLevelComponentsFactor
 
     @Override
     public BorderPane createSectionPanel(SectionPanelStyleOptions options) {
-        return BorderPane.create();
+        return new BorderPane();
     }
 
     @Override
     public Node createBadge(Node... badgeNodes) {
-        return HBox.create(badgeNodes);
+        return new HBox(badgeNodes);
     }
 
     @Override
     public Button createBookButton() {
-        return Button.create();
+        return new Button();
     }
 
     @Override
     public Button createSoldoutButton() {
-        return Button.create();
+        return new Button();
     }
 }

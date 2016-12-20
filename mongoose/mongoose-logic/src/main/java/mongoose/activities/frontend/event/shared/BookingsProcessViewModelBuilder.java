@@ -27,16 +27,16 @@ public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessV
 
     protected void buildComponents(I18n i18n) {
         if (previousButton == null)
-            previousButton = Button.create();
+            previousButton = new Button();
         if (nextButton == null)
-            nextButton = Button.create();
+            nextButton = new Button();
         if (contentNode == null)
-            contentNode = BorderPane.create();
+            contentNode = new BorderPane();
         assembleComponentsIntoContentNode();
     }
 
     protected void assembleComponentsIntoContentNode() {
         if (contentNode instanceof BorderPane)
-            ((BorderPane) contentNode).setBottom(HBox.create(previousButton, nextButton));
+            ((BorderPane) contentNode).setBottom(new HBox(previousButton, nextButton));
     }
 }

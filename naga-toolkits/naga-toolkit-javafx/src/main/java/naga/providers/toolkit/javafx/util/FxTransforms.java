@@ -1,9 +1,6 @@
 package naga.providers.toolkit.javafx.util;
 
-import naga.toolkit.fx.scene.transform.Rotate;
-import naga.toolkit.fx.scene.transform.Scale;
-import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.scene.transform.Translate;
+import naga.toolkit.fx.scene.transform.*;
 
 import java.util.Collection;
 import java.util.Objects;

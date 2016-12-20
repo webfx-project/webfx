@@ -1,17 +1,17 @@
 package naga.providers.toolkit.swing.fx;
 
 import naga.providers.toolkit.swing.fx.viewer.*;
-import naga.toolkit.fx.ext.chart.impl.LineChartImpl;
-import naga.toolkit.fx.ext.impl.DataGridImpl;
-import naga.toolkit.fx.ext.impl.HtmlTextImpl;
-import naga.toolkit.fx.scene.control.impl.*;
-import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
-import naga.toolkit.fx.scene.impl.GroupImpl;
-import naga.toolkit.fx.scene.layout.impl.*;
-import naga.toolkit.fx.scene.shape.impl.CircleImpl;
-import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
-import naga.toolkit.fx.scene.text.impl.TextImpl;
-import naga.toolkit.fx.spi.impl.NodeViewerFactoryImpl;
+import naga.toolkit.fx.ext.chart.LineChart;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.ext.control.HtmlText;
+import naga.toolkit.fx.scene.control.*;
+import naga.toolkit.fx.scene.image.ImageView;
+import naga.toolkit.fx.scene.Group;
+import naga.toolkit.fx.scene.layout.*;
+import naga.toolkit.fx.scene.shape.Circle;
+import naga.toolkit.fx.scene.shape.Rectangle;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.fx.spi.viewer.base.NodeViewerFactoryImpl;
 
 /**
  * @author Bruno Salmon
@@ -21,23 +21,23 @@ public class SwingNodeViewerFactory extends NodeViewerFactoryImpl {
     public final static SwingNodeViewerFactory SINGLETON = new SwingNodeViewerFactory();
 
     private SwingNodeViewerFactory() {
-        registerNodeViewerFactory(RectangleImpl.class, SwingRectangleViewer::new);
-        registerNodeViewerFactory(CircleImpl.class, SwingCircleViewer::new);
-        registerNodeViewerFactory(TextImpl.class, SwingTextViewer::new);
-        registerNodeViewerFactory(GroupImpl.class, SwingGroupViewer::new);
-        registerNodeViewerFactory(RegionImpl.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(VBoxImpl.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(HBoxImpl.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(BorderPaneImpl.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(FlowPaneImpl.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(ButtonImpl.class, SwingButtonViewer::new);
-        registerNodeViewerFactory(TextFieldImpl.class, SwingTextFieldViewer::new);
-        registerNodeViewerFactory(HtmlTextImpl.class, SwingHtmlTextViewer::new);
-        registerNodeViewerFactory(CheckBoxImpl.class, SwingCheckBoxViewer::new);
-        registerNodeViewerFactory(RadioButtonImpl.class, SwingRadioButtonViewer::new);
-        registerNodeViewerFactory(SliderImpl.class, SwingSliderViewer::new);
-        registerNodeViewerFactory(ImageViewImpl.class, SwingImageViewViewer::new);
-        registerNodeViewerFactory(DataGridImpl.class, SwingDataGridViewer::new);
-        registerNodeViewerFactory(LineChartImpl.class, SwingLineChartViewer::new);
+        registerNodeViewerFactory(Rectangle.class, SwingRectangleViewer::new);
+        registerNodeViewerFactory(Circle.class, SwingCircleViewer::new);
+        registerNodeViewerFactory(Text.class, SwingTextViewer::new);
+        registerNodeViewerFactory(Group.class, SwingGroupViewer::new);
+        registerNodeViewerFactory(Region.class, SwingLayoutViewer::new);
+        registerNodeViewerFactory(VBox.class, SwingLayoutViewer::new);
+        registerNodeViewerFactory(HBox.class, SwingLayoutViewer::new);
+        registerNodeViewerFactory(BorderPane.class, SwingLayoutViewer::new);
+        registerNodeViewerFactory(FlowPane.class, SwingLayoutViewer::new);
+        registerNodeViewerFactory(Button.class, SwingButtonViewer::new);
+        registerNodeViewerFactory(TextField.class, SwingTextFieldViewer::new);
+        registerNodeViewerFactory(HtmlText.class, SwingHtmlTextViewer::new);
+        registerNodeViewerFactory(CheckBox.class, SwingCheckBoxViewer::new);
+        registerNodeViewerFactory(RadioButton.class, SwingRadioButtonViewer::new);
+        registerNodeViewerFactory(Slider.class, SwingSliderViewer::new);
+        registerNodeViewerFactory(ImageView.class, SwingImageViewViewer::new);
+        registerNodeViewerFactory(DataGrid.class, SwingDataGridViewer::new);
+        registerNodeViewerFactory(LineChart.class, SwingLineChartViewer::new);
     }
 }

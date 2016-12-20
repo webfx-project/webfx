@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.providers.toolkit.html.fx.html.HtmlScene;
 import naga.providers.toolkit.html.util.HtmlUtil;
-import naga.toolkit.fx.scene.impl.WindowImpl;
+import naga.toolkit.fx.stage.Window;
 
 import static elemental2.Global.document;
 import static elemental2.Global.window;
@@ -12,7 +12,7 @@ import static elemental2.Global.window;
 /**
  * @author Bruno Salmon
  */
-public class HtmlWindow extends WindowImpl {
+public class HtmlWindow extends Window {
 
     // withProperty and heightProperty will be bound (to make them unmodifiable) to these final properties
     private final Property<Double> htmlWidthProperty = new SimpleObjectProperty<>(0d);

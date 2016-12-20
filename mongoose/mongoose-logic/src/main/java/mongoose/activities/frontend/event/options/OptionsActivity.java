@@ -79,7 +79,7 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
 
     private void showCalendarIfBothLogicAndViewAreReady() {
         if (workingDocumentCalendarGraphic != null && optionsViewModel != null) {
-            optionsViewModel.getCalendarPanel().setCenter(VBox.create(optionsViewModel.getPriceText(), workingDocumentCalendarGraphic.getNode()));
+            optionsViewModel.getCalendarPanel().setCenter(new VBox(optionsViewModel.getPriceText(), workingDocumentCalendarGraphic.getNode()));
             computeAndDisplayWorkingTotalPrice();
         }
     }

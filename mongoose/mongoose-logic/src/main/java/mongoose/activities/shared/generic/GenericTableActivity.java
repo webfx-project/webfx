@@ -23,17 +23,11 @@ public abstract class GenericTableActivity<VM extends GenericTableViewModel, PM 
 
     protected VM buildView() {
         // Building the UI components
-        TextField searchBox = TextField.create();
-        DataGrid table = DataGrid.create();
-        CheckBox limitCheckBox = CheckBox.create();
+        TextField searchBox = new TextField();
+        DataGrid table = new DataGrid();
+        CheckBox limitCheckBox = new CheckBox();
 
-        return (VM) new GenericTableViewModel(BorderPane.create(
-                table, // center
-                searchBox, // top
-                null, // right
-                limitCheckBox, // bottom
-                null // left
-        ), searchBox, table, limitCheckBox);
+        return (VM) new GenericTableViewModel(new BorderPane(table, searchBox, null, limitCheckBox, null), searchBox, table, limitCheckBox);
     }
 
     protected void initializePresentationModel(PM pm) {

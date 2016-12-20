@@ -1,17 +1,17 @@
 package naga.providers.toolkit.javafx.fx;
 
 import naga.providers.toolkit.javafx.fx.viewer.*;
-import naga.toolkit.fx.ext.chart.impl.*;
-import naga.toolkit.fx.ext.impl.DataGridImpl;
-import naga.toolkit.fx.ext.impl.HtmlTextImpl;
-import naga.toolkit.fx.scene.control.impl.*;
-import naga.toolkit.fx.scene.image.impl.ImageViewImpl;
-import naga.toolkit.fx.scene.impl.GroupImpl;
-import naga.toolkit.fx.scene.layout.impl.*;
-import naga.toolkit.fx.scene.shape.impl.CircleImpl;
-import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
-import naga.toolkit.fx.scene.text.impl.TextImpl;
-import naga.toolkit.fx.spi.impl.NodeViewerFactoryImpl;
+import naga.toolkit.fx.ext.chart.*;
+import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fx.ext.control.HtmlText;
+import naga.toolkit.fx.scene.control.*;
+import naga.toolkit.fx.scene.image.ImageView;
+import naga.toolkit.fx.scene.Group;
+import naga.toolkit.fx.scene.layout.*;
+import naga.toolkit.fx.scene.shape.Circle;
+import naga.toolkit.fx.scene.shape.Rectangle;
+import naga.toolkit.fx.scene.text.Text;
+import naga.toolkit.fx.spi.viewer.base.NodeViewerFactoryImpl;
 
 /**
  * @author Bruno Salmon
@@ -21,27 +21,27 @@ public class FxNodeViewerFactory extends NodeViewerFactoryImpl {
     public final static FxNodeViewerFactory SINGLETON = new FxNodeViewerFactory();
 
     protected FxNodeViewerFactory() {
-        registerNodeViewerFactory(RectangleImpl.class, FxRectangleViewer::new);
-        registerNodeViewerFactory(CircleImpl.class, FxCircleViewer::new);
-        registerNodeViewerFactory(TextImpl.class, FxTextViewer::new);
-        registerNodeViewerFactory(GroupImpl.class, FxGroupViewer::new);
-        registerNodeViewerFactory(RegionImpl.class, FxLayoutViewer::new);
-        registerNodeViewerFactory(VBoxImpl.class, FxLayoutViewer::new);
-        registerNodeViewerFactory(HBoxImpl.class, FxLayoutViewer::new);
-        registerNodeViewerFactory(BorderPaneImpl.class, FxLayoutViewer::new);
-        registerNodeViewerFactory(FlowPaneImpl.class, FxLayoutViewer::new);
-        registerNodeViewerFactory(ButtonImpl.class, FxButtonViewer::new);
-        registerNodeViewerFactory(CheckBoxImpl.class, FxCheckBoxViewer::new);
-        registerNodeViewerFactory(RadioButtonImpl.class, FxRadioButtonViewer::new);
-        registerNodeViewerFactory(TextFieldImpl.class, FxTextFieldViewer::new);
-        registerNodeViewerFactory(ImageViewImpl.class, FxImageViewViewer::new);
-        registerNodeViewerFactory(HtmlTextImpl.class, FxHtmlTextViewer::new);
-        registerNodeViewerFactory(SliderImpl.class, FxSliderViewer::new);
-        registerNodeViewerFactory(DataGridImpl.class, FxDataGridViewer::new);
-        registerNodeViewerFactory(AreaChartImpl.class, FxAreaChartViewer::new);
-        registerNodeViewerFactory(BarChartImpl.class, FxBarChartViewer::new);
-        registerNodeViewerFactory(LineChartImpl.class, FxLineChartViewer::new);
-        registerNodeViewerFactory(PieChartImpl.class, FxPieChartViewer::new);
-        registerNodeViewerFactory(ScatterChartImpl.class, FxScatterChartViewer::new);
+        registerNodeViewerFactory(Rectangle.class, FxRectangleViewer::new);
+        registerNodeViewerFactory(Circle.class, FxCircleViewer::new);
+        registerNodeViewerFactory(Text.class, FxTextViewer::new);
+        registerNodeViewerFactory(Group.class, FxGroupViewer::new);
+        registerNodeViewerFactory(Region.class, FxLayoutViewer::new);
+        registerNodeViewerFactory(VBox.class, FxLayoutViewer::new);
+        registerNodeViewerFactory(HBox.class, FxLayoutViewer::new);
+        registerNodeViewerFactory(BorderPane.class, FxLayoutViewer::new);
+        registerNodeViewerFactory(FlowPane.class, FxLayoutViewer::new);
+        registerNodeViewerFactory(Button.class, FxButtonViewer::new);
+        registerNodeViewerFactory(CheckBox.class, FxCheckBoxViewer::new);
+        registerNodeViewerFactory(RadioButton.class, FxRadioButtonViewer::new);
+        registerNodeViewerFactory(TextField.class, FxTextFieldViewer::new);
+        registerNodeViewerFactory(ImageView.class, FxImageViewViewer::new);
+        registerNodeViewerFactory(HtmlText.class, FxHtmlTextViewer::new);
+        registerNodeViewerFactory(Slider.class, FxSliderViewer::new);
+        registerNodeViewerFactory(DataGrid.class, FxDataGridViewer::new);
+        registerNodeViewerFactory(AreaChart.class, FxAreaChartViewer::new);
+        registerNodeViewerFactory(BarChart.class, FxBarChartViewer::new);
+        registerNodeViewerFactory(LineChart.class, FxLineChartViewer::new);
+        registerNodeViewerFactory(PieChart.class, FxPieChartViewer::new);
+        registerNodeViewerFactory(ScatterChart.class, FxScatterChartViewer::new);
     }
 }

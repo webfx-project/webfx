@@ -1,10 +1,7 @@
 package naga.providers.toolkit.html.util;
 
 import naga.commons.util.collection.Collections;
-import naga.toolkit.fx.scene.transform.Rotate;
-import naga.toolkit.fx.scene.transform.Scale;
-import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.scene.transform.Translate;
+import naga.toolkit.fx.scene.transform.*;
 
 import java.util.Collection;
 

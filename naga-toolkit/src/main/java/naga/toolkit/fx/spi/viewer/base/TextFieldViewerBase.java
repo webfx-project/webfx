@@ -1,6 +1,5 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import naga.toolkit.fx.scene.control.Slider;
 import naga.toolkit.fx.scene.control.TextField;
 
 /**

@@ -6,14 +6,8 @@ import javafx.collections.ObservableList;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.scene.transform.Rotate;
-import naga.toolkit.fx.scene.transform.Scale;
-import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.fx.scene.transform.Translate;
-import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
+import naga.toolkit.fx.scene.*;
+import naga.toolkit.fx.scene.transform.*;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.util.ObservableLists;
 import naga.toolkit.util.Properties;
@@ -25,6 +19,7 @@ import java.util.List;
  */
 public abstract class NodeViewerBase
         <N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
+
         implements NodeViewer<N> {
 
     protected N node;
@@ -122,8 +117,8 @@ public abstract class NodeViewerBase
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(node.getTransforms());
                 Scene scene = node.getScene();
-                if (scene instanceof CanvasSceneImpl)
-                    ((CanvasSceneImpl) scene).requestCanvasRepaint();
+                if (scene instanceof CanvasScene)
+                    ((CanvasScene) scene).requestCanvasRepaint();
             }, properties);
     }
 

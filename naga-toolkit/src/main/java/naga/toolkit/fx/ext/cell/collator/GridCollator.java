@@ -8,15 +8,13 @@ import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.ext.cell.renderer.ArrayRenderer;
 import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 import naga.toolkit.fx.ext.control.DataGrid;
-import naga.toolkit.fx.ext.impl.DataGridImpl;
 import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.impl.BorderPaneImpl;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
@@ -30,7 +28,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class GridCollator extends DataGridImpl {
+public class GridCollator extends DataGrid {
 
     private final NodeCollator columnCollator;
     private final NodeCollator rowCollator;
@@ -43,15 +41,15 @@ public class GridCollator extends DataGridImpl {
     public GridCollator(NodeCollator columnCollator, NodeCollator rowCollator) {
         this.columnCollator = columnCollator;
         this.rowCollator = rowCollator;
-        this.container = BorderPane.create();
+        this.container = new BorderPane();
     }
 
     @Override
     public NodeViewer getNodeViewer() {
         NodeViewer nodeViewer = super.getNodeViewer();
         if (nodeViewer == null) {
-            SceneImpl scene = (SceneImpl) getScene();
-            ((BorderPaneImpl) container).setScene(scene);
+            Scene scene = getScene();
+            container.setScene(scene);
             NodeViewer containerViewer = container.getOrCreateAndBindNodeViewer();
             setNodeViewer(nodeViewer = containerViewer);
             gridCollatorViewer = new GridCollatorViewer();

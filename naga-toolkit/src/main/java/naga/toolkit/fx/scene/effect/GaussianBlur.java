@@ -1,23 +1,26 @@
 package naga.toolkit.fx.scene.effect;
 
-import naga.toolkit.fx.scene.effect.impl.GaussianBlurImpl;
-
 /**
  * @author Bruno Salmon
  */
-public interface GaussianBlur extends Effect {
+public class GaussianBlur implements Effect {
 
-    double getRadius();
+    private final double radius;
 
-    default double getSigma() {
+    public GaussianBlur() {
+        this(10);
+    }
+
+    public GaussianBlur(double radius) {
+        this.radius = radius;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public double getSigma() {
         return (getRadius() + 1) / Math.sqrt(2 * Math.log(255));
     }
 
-    static GaussianBlur create() {
-        return new GaussianBlurImpl();
-    }
-
-    static GaussianBlur create(double radius) {
-        return new GaussianBlurImpl(radius);
-    }
 }

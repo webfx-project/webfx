@@ -1,7 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.scene.image.ImageView;
 

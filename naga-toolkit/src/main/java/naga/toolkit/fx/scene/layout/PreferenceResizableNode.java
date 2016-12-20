@@ -1,12 +1,12 @@
 package naga.toolkit.fx.scene.layout;
 
-import naga.toolkit.fx.scene.Node;
+import naga.toolkit.fx.scene.INode;
 import naga.toolkit.properties.markers.*;
 
 /**
  * @author Bruno Salmon
  */
-public interface PreferenceResizableNode extends Node,
+public interface PreferenceResizableNode extends INode,
         HasWidthProperty,
         HasMinWidthProperty,
         HasPrefWidthProperty,
@@ -16,7 +16,6 @@ public interface PreferenceResizableNode extends Node,
         HasPrefHeightProperty,
         HasMaxHeightProperty {
 
-    @Override
     default boolean isResizable() {
         return true;
     }

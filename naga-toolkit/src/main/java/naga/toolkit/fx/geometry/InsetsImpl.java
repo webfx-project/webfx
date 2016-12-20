@@ -1,6 +1,4 @@
-package naga.toolkit.fx.geometry.impl;
-
-import naga.toolkit.fx.geometry.Insets;
+package naga.toolkit.fx.geometry;
 
 /**
  * A set of inside offsets for the 4 side of a rectangular area

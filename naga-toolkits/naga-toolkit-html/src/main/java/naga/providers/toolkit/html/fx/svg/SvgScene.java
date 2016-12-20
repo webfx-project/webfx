@@ -10,14 +10,14 @@ import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.providers.toolkit.html.util.SvgUtil;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
-import naga.toolkit.fx.scene.impl.SceneImpl;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.util.Properties;
 
 /**
  * @author Bruno Salmon
  */
-public class SvgScene extends SceneImpl {
+public class SvgScene extends Scene {
 
     private final Element container = SvgUtil.createSvgElement();
     private final Element defsElement = SvgUtil.createSvgDefs();

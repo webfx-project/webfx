@@ -1,16 +1,18 @@
 package naga.toolkit.fx.scene.control;
 
-import naga.toolkit.fx.scene.control.impl.ToggleButtonImpl;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.properties.markers.HasSelectedProperty;
 
 /**
  * @author Bruno Salmon
  */
-public interface ToggleButton extends ButtonBase,
+public abstract class ToggleButton extends ButtonBase implements
         HasSelectedProperty {
 
-    static ToggleButton create() {
-        return new ToggleButtonImpl();
+    private final Property<Boolean> selectedProperty = new SimpleObjectProperty<>(false);
+    @Override
+    public Property<Boolean> selectedProperty() {
+        return selectedProperty;
     }
-
 }

@@ -1,13 +1,16 @@
 package naga.toolkit.fx.scene.shape;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.fx.geom.BaseBounds;
+import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.scene.shape.impl.RectangleImpl;
 import naga.toolkit.properties.markers.*;
 
 /**
  * @author Bruno Salmon
  */
-public interface Rectangle extends Shape,
+public class Rectangle extends Shape implements
         HasXProperty,
         HasYProperty,
         HasWidthProperty,
@@ -15,24 +18,69 @@ public interface Rectangle extends Shape,
         HasArcWidthProperty,
         HasArcHeightProperty {
 
-    static Rectangle create() {
-        return new RectangleImpl();
+    public Rectangle() {
     }
 
-    static Rectangle create(double width, double height) {
-        return new RectangleImpl(width, height);
+    public Rectangle(double width, double height) {
+        this(width, height, null);
     }
 
-    static Rectangle create(double width, double height, Paint fill) {
-        return new RectangleImpl(width, height, fill);
+    public Rectangle(double width, double height, Paint fill) {
+        this(0, 0, width, height, fill);
     }
 
-    static Rectangle create(double x, double y, double width, double height) {
-        return new RectangleImpl(x, y, width, height);
+    public Rectangle(double x, double y, double width, double height) {
+        this(x, y, width, height, null);
     }
 
-    static Rectangle create(double x, double y, double width, double height, Paint fill) {
-        return new RectangleImpl(x, y, width, height, fill);
+    public Rectangle(double x, double y, double width, double height, Paint fill) {
+        setX(x);
+        setY(y);
+        setWidth(width);
+        setHeight(height);
+        if (fill != null)
+            setFill(fill);
     }
 
+    private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> xProperty() {
+        return xProperty;
+    }
+
+    private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> yProperty() {
+        return yProperty;
+    }
+
+    private final Property<Double> widthProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> widthProperty() {
+        return widthProperty;
+    }
+
+    private final Property<Double> heightProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> heightProperty() {
+        return heightProperty;
+    }
+
+    private final Property<Double> arcWidthProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> arcWidthProperty() {
+        return arcWidthProperty;
+    }
+
+    private final Property<Double> arcHeightProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> arcHeightProperty() {
+        return arcHeightProperty;
+    }
+
+    @Override
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        bounds.setBoundsAndSort(getX(), getY(), 0, getX() + getWidth(), getY() + getHeight(), 0);
+        return bounds;
+    }
 }

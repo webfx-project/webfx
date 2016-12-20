@@ -85,7 +85,7 @@ public class FeesGroup {
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventService.areEventAvailabilitiesLoaded())
-                                return ImageView.create("images/16/spinner.gif");
+                                return new ImageView("images/16/spinner.gif");
                             Object availability = pair.get1();
                             OptionsPreselection optionsPreselection = pair.get2();
                             // Availability is null when there is no online room at all. In this case...

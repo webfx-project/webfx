@@ -8,8 +8,6 @@ import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
 import naga.toolkit.fx.scene.effect.GaussianBlur;
-import naga.toolkit.fx.scene.impl.NodeImpl;
-import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
@@ -152,7 +150,7 @@ public abstract class FxNodeViewer
     static javafx.scene.Node toFxNode(Node node, Scene scene) {
         if (node != null) {
             if (scene != null)
-                ((NodeImpl) node).setScene((SceneImpl) scene);
+                node.setScene(scene);
             NodeViewer nodeViewer = node.getOrCreateAndBindNodeViewer();
             if (nodeViewer instanceof FxNodeViewer)
                 return ((FxNodeViewer) nodeViewer).getFxNode();

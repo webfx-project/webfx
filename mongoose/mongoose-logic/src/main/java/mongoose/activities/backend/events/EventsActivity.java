@@ -18,23 +18,17 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
 
     protected EventsViewModel buildView() {
         // Building the UI components
-        TextField searchBox = TextField.create();
-        DataGrid table = DataGrid.create();
-        CheckBox withBookingsCheckBox = CheckBox.create();
-        CheckBox limitCheckBox = CheckBox.create();
+        TextField searchBox = new TextField();
+        DataGrid table = new DataGrid();
+        CheckBox withBookingsCheckBox = new CheckBox();
+        CheckBox limitCheckBox = new CheckBox();
 
         searchBox.setPrefWidth(Double.MAX_VALUE);
         searchBox.setMaxWidth(Double.MAX_VALUE);
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
 
-        return new EventsViewModel(BorderPane.create(
-                table, // center
-                searchBox, // top
-                null, // right
-                limitCheckBox, // bottom
-                null // left
-        ), searchBox, table, limitCheckBox, withBookingsCheckBox);
+        return new EventsViewModel(new BorderPane(table, searchBox, null, limitCheckBox, null), searchBox, table, limitCheckBox, withBookingsCheckBox);
     }
 
     protected void bindViewModelWithPresentationModel(EventsViewModel vm, EventsPresentationModel pm) {

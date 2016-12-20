@@ -1,25 +1,72 @@
 package naga.toolkit.fx.scene.transform;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.properties.markers.HasXProperty;
 import naga.toolkit.properties.markers.HasYProperty;
-import naga.toolkit.fx.scene.transform.impl.TranslateImpl;
 
 /**
  * @author Bruno Salmon
  */
-public interface Translate extends Transform,
+public class Translate extends Transform implements
         HasXProperty,
         HasYProperty {
 
-    static Translate create() {
-        return new TranslateImpl();
+    public Translate() {
     }
 
-    static Translate create(double x) {
-        return new TranslateImpl(x);
+    public Translate(double x) {
+        this(x, 0d);
     }
 
-    static Translate create(double x, double y) {
-        return new TranslateImpl(x, y);
+    public Translate(double x, double y) {
+        setX(x);
+        setY(y);
+    }
+
+    private final Property<Double> xProperty = new SimpleObjectProperty<>(0d);
+
+    public static Translate create() {
+        return new Translate();
+    }
+
+    public static Translate create(double x) {
+        return new Translate(x);
+    }
+
+    public static Translate create(double x, double y) {
+        return new Translate(x, y);
+    }
+
+    @Override
+    public Property<Double> xProperty() {
+        return xProperty;
+    }
+
+    private final Property<Double> yProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> yProperty() {
+        return yProperty;
+    }
+
+    @Override
+    public Point2D transform(double x, double y) {
+        return new Point2D(x + getX(), y + getY());
+    }
+
+    @Override
+    public Transform createInverse() {
+        return new Translate(-getX(), -getY());
+    }
+
+    @Override
+    protected Property[] propertiesInvalidatingCache() {
+        return new Property[]{xProperty, yProperty};
+    }
+
+    @Override
+    public Affine toAffine() {
+        return new Affine(1, 0, 0, 1, getX(), getY());
     }
 }

@@ -4,7 +4,7 @@ import javafx.collections.ObservableList;
 import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
-import naga.toolkit.fx.scene.impl.SceneImpl;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 import naga.toolkit.spi.Toolkit;
@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 /**
  * @author Bruno Salmon
  */
-public class FxScene extends SceneImpl {
+public class FxScene extends Scene {
 
     public FxScene() {
         this(FxNodeViewerFactory.SINGLETON);

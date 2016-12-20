@@ -19,23 +19,17 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
 
     protected OrganizationsViewModel buildView() {
         // Building the UI components
-        TextField searchBox = TextField.create();
-        DataGrid table = DataGrid.create();
-        CheckBox withEventsCheckBox = CheckBox.create();
-        CheckBox limitCheckBox = CheckBox.create();
+        TextField searchBox = new TextField();
+        DataGrid table = new DataGrid();
+        CheckBox withEventsCheckBox = new CheckBox();
+        CheckBox limitCheckBox = new CheckBox();
 
         searchBox.setPrefWidth(Double.MAX_VALUE);
         searchBox.setMaxWidth(Double.MAX_VALUE);
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
 
-        return new OrganizationsViewModel(BorderPane.create(
-                table, // center
-                searchBox, // top
-                null, // right
-                HBox.create(10, withEventsCheckBox, limitCheckBox), // bottom
-                null // left
-                )
+        return new OrganizationsViewModel(new BorderPane(table, searchBox, null, new HBox((double) 10, withEventsCheckBox, limitCheckBox), null)
                 , searchBox, table, withEventsCheckBox, limitCheckBox);
     }
 

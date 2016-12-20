@@ -112,9 +112,9 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates ?   i18n.instantTranslateText(RadioButton.create(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate ?  i18n.instantTranslateText(RadioButton.create(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(RadioButton.create(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates ?   i18n.instantTranslateText(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate ?  i18n.instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
         PersonService personService = PersonService.get(getDataSourceModel());
         Person person = personService.getPreselectionProfilePerson();
         if (unemployedRadio != null) {
@@ -145,9 +145,9 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
                 displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
             });
         }
-        Text feesGroupText = Text.create(pair.get2());
+        Text feesGroupText = new Text(pair.get2());
         Node[] nodes = {createImageView(pair.get1()), feesGroupText, noDiscountRadio, unemployedRadio, facilityFeeRadio};
-        FlowPane header = FlowPane.create(Arrays.nonNulls(Node[]::new, nodes));
+        FlowPane header = new FlowPane(Arrays.nonNulls(Node[]::new, nodes));
         header.setHgap(5d);
         header.setAlignment(Pos.CENTER_LEFT);
         header.setInsets(Insets.create(5, 5, 5, 5));
@@ -155,7 +155,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
     }
 
     private Node renderFeesGroupBody(DisplayResultSet rs) {
-        return DataGrid.create(rs);
+        return new DataGrid(rs);
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {

@@ -26,14 +26,16 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
 
     @Override
     protected VM buildView() {
-        Button backButton = Button.create();
-        Button forwardButton = Button.create();
-        Button organizationsButton = Button.create();
-        Button eventsButton = Button.create();
-        Button englishButton = Button.create();
-        Button frenchButton = Button.create();
+        Button backButton = new Button();
+        Button forwardButton = new Button();
+        Button organizationsButton = new Button();
+        Button eventsButton = new Button();
+        Button englishButton = new Button();
+        Button frenchButton = new Button();
         boolean isFrontend = this instanceof FrontendContainerActivity;
-        return (VM) new ContainerViewModel(BorderPane.create(null, HBox.create(Arrays.nonNulls(Node[]::new, backButton, forwardButton, (Node) (isFrontend ? null : organizationsButton), (Node) (isFrontend ? null : eventsButton), englishButton, frenchButton)), null, null, null),
+        Node[] children = Arrays.nonNulls(Node[]::new, backButton, forwardButton, isFrontend ? null : organizationsButton, (isFrontend ? null : eventsButton), englishButton, frenchButton);
+        Node top = new HBox(children);
+        return (VM) new ContainerViewModel(new BorderPane(null, top, null, null, null),
                 backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
     }
 

@@ -1,6 +1,5 @@
 package naga.toolkit.fx.spi.viewer.base;
 
-import naga.toolkit.fx.ext.chart.PieChart;
 import naga.toolkit.fx.ext.chart.ScatterChart;
 
 /**

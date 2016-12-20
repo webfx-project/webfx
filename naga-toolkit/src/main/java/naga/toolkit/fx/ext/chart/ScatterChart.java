@@ -7,5 +7,5 @@ package naga.toolkit.fx.ext.chart;
  *
  * @author Bruno Salmon
  */
-public interface ScatterChart extends Chart {
+public class ScatterChart extends Chart {
 }

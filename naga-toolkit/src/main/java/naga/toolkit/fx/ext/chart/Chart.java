@@ -1,6 +1,5 @@
 package naga.toolkit.fx.ext.chart;
 
-
 import naga.toolkit.fx.ext.SelectableDisplayResultSetControl;
 
 /**
@@ -90,5 +89,6 @@ import naga.toolkit.fx.ext.SelectableDisplayResultSetControl;
  *
  * @author Bruno Salmon
  */
-public interface Chart extends SelectableDisplayResultSetControl {
+
+public abstract class Chart extends SelectableDisplayResultSetControl {
 }

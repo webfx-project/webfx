@@ -26,12 +26,12 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
     @Override
     protected BookingsViewModel buildView() {
         // Building the UI components
-        TextField searchBox = TextField.create();
-        DataGrid table = DataGrid.create();
-        Button newBookingButton = Button.create();
-        CheckBox limitCheckBox = CheckBox.create();
+        TextField searchBox = new TextField();
+        DataGrid table = new DataGrid();
+        Button newBookingButton = new Button();
+        CheckBox limitCheckBox = new CheckBox();
 
-        HBox hBox = HBox.create(newBookingButton, searchBox);
+        HBox hBox = new HBox(newBookingButton, searchBox);
         HBox.setHgrow(searchBox, Priority.ALWAYS);
         searchBox.setMaxWidth(Double.MAX_VALUE);
         searchBox.setMaxHeight(Double.MAX_VALUE);
@@ -40,13 +40,7 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
 
-        return new BookingsViewModel(BorderPane.create(
-                table, // center
-                hBox, // top
-                null, // right
-                limitCheckBox, // bottom
-                null // left
-        ), searchBox, table, limitCheckBox, newBookingButton);
+        return new BookingsViewModel(new BorderPane(table, hBox, null, limitCheckBox, null), searchBox, table, limitCheckBox, newBookingButton);
     }
 
     @Override

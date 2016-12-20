@@ -137,17 +137,17 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     /** Helpers **/
 
     public static Text createTextView(String translationKey, I18n i18n) {
-        return i18n.translateText(Text.create(), translationKey);
+        return i18n.translateText((Text) new Text(), translationKey);
     }
 
     public static ImageView createImageView(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
         if (!Strings.startsWith(urlOrJson, "{"))
-            return ImageView.create(urlOrJson);
+            return new ImageView(urlOrJson);
         return createImageView(Json.parseObject(urlOrJson));
     }
 
     public static ImageView createImageView(JsonObject json) {
-        ImageView imageView = ImageView.create(json.getString("url"));
+        ImageView imageView = new ImageView(json.getString("url"));
         imageView.setFitWidth(json.getDouble("width"));
         imageView.setFitHeight(json.getDouble("height"));
         return imageView;

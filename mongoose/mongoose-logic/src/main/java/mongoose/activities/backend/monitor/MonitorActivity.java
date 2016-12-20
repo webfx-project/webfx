@@ -1,9 +1,9 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.ui.presentation.PresentationActivity;
+import naga.toolkit.fx.ext.chart.Chart;
 import naga.toolkit.fx.ext.chart.LineChart;
 import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.fx.ext.chart.Chart;
 
 /**
  * @author Bruno Salmon
@@ -16,10 +16,10 @@ public class MonitorActivity extends PresentationActivity<MonitorViewModel, Moni
 
     protected MonitorViewModel buildView() {
         // Charts
-        Chart memoryChart = LineChart.create(), cpuChart = LineChart.create();
+        Chart memoryChart = new LineChart(), cpuChart = new LineChart();
         memoryChart.setMaxWidth(Double.MAX_VALUE);
         // Building the content node and returning the view model
-        return new MonitorViewModel(VBox.create(memoryChart, cpuChart),
+        return new MonitorViewModel(new VBox(memoryChart, cpuChart),
                 memoryChart, cpuChart);
     }
 

@@ -1,21 +1,34 @@
 package naga.toolkit.fx.ext.control;
 
-import naga.toolkit.fx.ext.impl.HtmlTextImpl;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.fx.geom.BaseBounds;
+import naga.toolkit.fx.geom.BoxBounds;
+import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.properties.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon
  */
-public interface HtmlText extends Region,
-        HasTextProperty {
+public class HtmlText extends Region implements HasTextProperty {
 
-    static HtmlText create() {
-        return new HtmlTextImpl();
+    public HtmlText() {
     }
 
-    static HtmlText create(String text) {
-        return new HtmlTextImpl(text);
+    public HtmlText(String text) {
+        setText(text);
     }
 
+    private final Property<String> textProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<String> textProperty() {
+        return textProperty;
+    }
+
+    @Override
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        System.out.println("Warning: HtmlText.impl_computeGeomBounds() not implemented");
+        return new BoxBounds();
+    }
 }

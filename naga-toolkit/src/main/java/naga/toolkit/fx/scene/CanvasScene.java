@@ -1,9 +1,7 @@
-package naga.toolkit.fx.scene.impl;
+package naga.toolkit.fx.scene;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.geom.Point2D;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.spi.viewer.CanvasNodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
@@ -14,11 +12,12 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class CanvasSceneImpl
+public abstract class CanvasScene
         <NB extends CanvasNodeViewer<?, CC>, CC>
-        extends SceneImpl {
 
-    public CanvasSceneImpl(NodeViewerFactory nodeViewerFactory) {
+        extends Scene {
+
+    public CanvasScene(NodeViewerFactory nodeViewerFactory) {
         super(nodeViewerFactory);
     }
 

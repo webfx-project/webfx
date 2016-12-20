@@ -1,7 +1,7 @@
 package naga.providers.toolkit.swing.fx.stage;
 
 import naga.providers.toolkit.swing.fx.SwingScene;
-import naga.toolkit.fx.scene.impl.WindowImpl;
+import naga.toolkit.fx.stage.Window;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.event.ComponentEvent;
 /**
  * @author Bruno Salmon
  */
-public class SwingWindow extends WindowImpl {
+public class SwingWindow extends Window {
 
     private final JFrame frame;
 

@@ -7,5 +7,5 @@ package naga.toolkit.fx.ext.chart;
  *
  * @author Bruno Salmon
  */
-public interface PieChart extends Chart {
+public class PieChart extends Chart {
 }

@@ -6,14 +6,9 @@ import naga.providers.toolkit.swing.util.SwingBlendModes;
 import naga.providers.toolkit.swing.util.SwingTransforms;
 import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.fx.geometry.VPos;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.Parent;
-import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.scene.SceneRequester;
+import naga.toolkit.fx.scene.*;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
-import naga.toolkit.fx.scene.impl.CanvasSceneImpl;
-import naga.toolkit.fx.scene.impl.NodeImpl;
 import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
@@ -134,17 +129,16 @@ public abstract class SwingNodeViewer
     }
 
     static JComponent toSwingComponent(Node node, Scene scene, TextAlignment textAlignment) {
-        NodeImpl renderedNode = (NodeImpl) node;
-        CanvasSceneImpl canvasScene = (CanvasSceneImpl) scene;
-        renderedNode.setScene(canvasScene);
+        node.setScene(scene);
         // A difficulty to face with Swing: the requested component might be for cell rendering and needs to be ready to
         // for painting immediately (whereas Naga normally defers the property changes and layout pass to the next
         // animation frame). So we call getOrCreateAndBindNodeViewer() as if in an animation frame (to turn off deferring)
         Unit<NodeViewer> nodeViewerUnit = new Unit<>();
-        naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(() -> nodeViewerUnit.set(renderedNode.getOrCreateAndBindNodeViewer()));
+        naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(() -> nodeViewerUnit.set(node.getOrCreateAndBindNodeViewer()));
         NodeViewer nodeViewer = nodeViewerUnit.get();
         if (nodeViewer instanceof SwingEmbedComponentViewer)
             return ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();
+        CanvasScene canvasScene = (CanvasScene) scene;
         if (nodeViewer instanceof SwingShapeViewer) {
             return new JGradientLabel() {
                 @Override
@@ -152,13 +146,13 @@ public abstract class SwingNodeViewer
                     super.paintComponent(g);
                     Insets insets = getInsets(null);
                     g.translate(insets.left, insets.top);
-                    if (renderedNode instanceof Text) {
-                        Text textNode = (Text) renderedNode;
+                    if (node instanceof Text) {
+                        Text textNode = (Text) node;
                         textNode.setWrappingWidth((double) getWidth() - insets.right - insets.left);
                         textNode.setTextOrigin(VPos.TOP);
                         textNode.setTextAlignment(textAlignment);
                     }
-                    canvasScene.paintNode(renderedNode, g);
+                    canvasScene.paintNode(node, g);
                 }
             };
         }

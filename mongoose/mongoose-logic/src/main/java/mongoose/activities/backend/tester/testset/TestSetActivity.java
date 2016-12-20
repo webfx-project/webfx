@@ -18,15 +18,15 @@ public class TestSetActivity extends PresentationActivity<TestSetViewModel, Test
 
     protected TestSetViewModel buildView() {
         // TextFields
-        TextField testName = TextField.create();
-        TextField testComment = TextField.create();
-        Button saveTest = Button.create();
+        TextField testName = new TextField();
+        TextField testComment = new TextField();
+        Button saveTest = new Button();
         testName.setPromptText("Test name");
         testComment.setPromptText("Comments");
         saveTest.setText("Save Test");
         //testName.requestFocus();
 
-        return new TestSetViewModel(BorderPane.create(null, VBox.create(testName, testComment), null, saveTest, null), testName, testComment, saveTest);
+        return new TestSetViewModel(new BorderPane(null, new VBox(testName, testComment), null, saveTest, null), testName, testComment, saveTest);
     }
 
     protected void bindViewModelWithPresentationModel(TestSetViewModel vm, TestSetPresentationModel pm) {

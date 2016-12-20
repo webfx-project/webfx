@@ -11,14 +11,14 @@ import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.ext.control.HtmlText;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
-import naga.toolkit.fx.scene.impl.SceneImpl;
+import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.util.Properties;
 
 /**
  * @author Bruno Salmon
  */
-public class HtmlScene extends SceneImpl {
+public class HtmlScene extends Scene {
 
     private final HTMLElement container = HtmlUtil.createDivElement();
 

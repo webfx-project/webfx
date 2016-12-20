@@ -14,8 +14,6 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.scene.effect.BlendMode;
 import naga.toolkit.fx.scene.effect.Effect;
-import naga.toolkit.fx.scene.impl.NodeImpl;
-import naga.toolkit.fx.scene.impl.SceneImpl;
 import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.FontPosture;
@@ -208,7 +206,7 @@ public abstract class HtmlSvgNodeViewer
     }
 
     public static Element toElement(Node node, Scene scene) {
-        ((NodeImpl) node).setScene((SceneImpl) scene);
+        node.setScene(scene);
         NodeViewer nodeViewer = node.getOrCreateAndBindNodeViewer();
         if (nodeViewer instanceof SvgNodeViewer) // SvgNodeViewer case
             return ((SvgNodeViewer) nodeViewer).getElement();

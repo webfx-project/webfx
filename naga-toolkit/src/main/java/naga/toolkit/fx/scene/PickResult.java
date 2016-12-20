@@ -1,4 +1,4 @@
-package naga.toolkit.fx.scene.impl;
+package naga.toolkit.fx.scene;
 
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.geom.Point2D;

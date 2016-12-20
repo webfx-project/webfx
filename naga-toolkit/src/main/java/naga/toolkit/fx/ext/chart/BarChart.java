@@ -7,5 +7,6 @@ package naga.toolkit.fx.ext.chart;
  *
  * @author Bruno Salmon
  */
-public interface BarChart extends Chart {
+
+public class BarChart extends Chart {
 }

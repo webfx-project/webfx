@@ -7,13 +7,13 @@ import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
-import naga.toolkit.fx.scene.impl.WindowImpl;
+import naga.toolkit.fx.stage.Window;
 import naga.toolkit.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
  */
-public class FxWindow extends WindowImpl {
+public class FxWindow extends Window {
 
     protected Stage stage;
 
@@ -37,8 +37,14 @@ public class FxWindow extends WindowImpl {
 
     @Override
     protected void onSceneRootUpdate() {
-        if (stage != null)
-            setWindowContent((Parent) ((FxNodeViewer) getScene().getRoot().getOrCreateAndBindNodeViewer()).getFxNode());
+        if (stage != null) {
+            naga.toolkit.fx.scene.Scene scene = getScene();
+            if (scene != null) {
+                naga.toolkit.fx.scene.Parent root = scene.getRoot();
+                if (root != null)
+                    setWindowContent((Parent) ((FxNodeViewer) root.getOrCreateAndBindNodeViewer()).getFxNode());
+            }
+        }
     }
 
     protected void setWindowContent(Parent rootComponent) {

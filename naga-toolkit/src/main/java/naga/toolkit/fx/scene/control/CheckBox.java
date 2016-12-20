@@ -1,16 +1,18 @@
 package naga.toolkit.fx.scene.control;
 
-import naga.toolkit.fx.scene.control.impl.CheckBoxImpl;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.properties.markers.HasSelectedProperty;
 
 /**
  * @author Bruno Salmon
  */
-public interface CheckBox extends ButtonBase,
+public class CheckBox extends ButtonBase implements
         HasSelectedProperty {
 
-    static CheckBox create() {
-        return new CheckBoxImpl();
+    private final Property<Boolean> selectedProperty = new SimpleObjectProperty<>(false);
+    @Override
+    public Property<Boolean> selectedProperty() {
+        return selectedProperty;
     }
-
 }

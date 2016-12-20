@@ -3,40 +3,70 @@ package naga.toolkit.fx.scene.transform;
 /**
  * @author Bruno Salmon
  */
-public interface Affine {
+public class Affine {
 
-    double getMxx();
+    private double xx;
+    private double xy;
+    //private double xz;
+    private double yx;
+    private double yy;
+    //private double yz;
+    //private double zx;
+    //private double zy;
+    //private double zz;
+    private double xt;
+    private double yt;
+    //private double zt;
 
-    double getMxy();
 
-    double getMyx();
+    public Affine(double xx, double xy, double yx, double yy, double xt, double yt) {
+        this.xx = xx;
+        this.xy = xy;
+        this.yx = yx;
+        this.yy = yy;
+        this.xt = xt;
+        this.yt = yt;
+    }
 
-    double getMyy();
+    public double getMxx() {
+        return xx;
+    }
 
-    //double getMyz();
+    public double getMxy() {
+        return xy;
+    }
 
-    //double getMzx();
+    public double getMyx() {
+        return yx;
+    }
 
-    //double getMzy();
+    public double getMyy() {
+        return yy;
+    }
 
-    //double getMzz();
+    public double getTx() {
+        return xt;
+    }
 
-    double getTx();
+    public double getTy() {
+        return yt;
+    }
 
-    double getTy();
-
-    //double getTz();
-
-    default void append(Affine a) {
+    public void append(Affine a) {
         append(a.getMxx(), a.getMxy(), a.getTx(), a.getMyx(), a.getMyy(), a.getTy());
     }
 
-    void append(double mxx, double mxy, double tx,
-                double myx, double myy, double ty);
+    public void append(double mxx, double mxy, double tx, double myx, double myy, double ty) {
+        double m_xx = getMxx();
+        double m_xy = getMxy();
+        double m_yx = getMyx();
+        double m_yy = getMyy();
 
-/*
-    void append(double mxx, double mxy, double mxz, double tx,
-                double myx, double myy, double myz, double ty,
-                double mzx, double mzy, double mzz, double tz);
-*/
+        xx = (m_xx * mxx + m_xy * myx);
+        xy = (m_xx * mxy + m_xy * myy);
+        xt = (m_xx * tx + m_xy * ty + getTx());
+        yx = (m_yx * mxx + m_yy * myx);
+        yy = (m_yx * mxy + m_yy * myy);
+        yt = (m_yx * tx + m_yy * ty + getTy());
+    }
 }

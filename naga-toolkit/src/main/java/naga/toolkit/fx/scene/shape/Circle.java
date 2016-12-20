@@ -1,7 +1,10 @@
 package naga.toolkit.fx.scene.shape;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.fx.geom.BaseBounds;
+import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.scene.shape.impl.CircleImpl;
 import naga.toolkit.properties.markers.HasCenterXProperty;
 import naga.toolkit.properties.markers.HasCenterYProperty;
 import naga.toolkit.properties.markers.HasRadiusProperty;
@@ -9,29 +12,57 @@ import naga.toolkit.properties.markers.HasRadiusProperty;
 /**
  * @author Bruno Salmon
  */
-public interface Circle extends Shape,
+public class Circle extends Shape implements
         HasCenterXProperty,
         HasCenterYProperty,
         HasRadiusProperty {
 
-    static Circle create() {
-        return new CircleImpl();
+    public Circle() {
     }
 
-    static Circle create(double radius) {
-        return new CircleImpl(radius);
+    public Circle(double radius) {
+        this(radius, null);
     }
 
-    static Circle create(double radius, Paint fill) {
-        return new CircleImpl(radius, fill);
+    public Circle(double radius, Paint fill) {
+        this(0, 0, radius, fill);
     }
 
-    static Circle create(double centerX, double centerY, double radius) {
-        return new CircleImpl(centerX, centerY, radius);
+    public Circle(double centerX, double centerY, double radius) {
+        this(centerX, centerY, radius, null);
     }
 
-    static Circle create(double centerX, double centerY, double radius, Paint fill) {
-        return new CircleImpl(centerX, centerY, radius, fill);
+    public Circle(double centerX, double centerY, double radius, Paint fill) {
+        setCenterX(centerX);
+        setCenterY(centerY);
+        setRadius(radius);
+        if (fill != null)
+            setFill(fill);
     }
 
+    private final Property<Double> centerXProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> centerXProperty() {
+        return centerXProperty;
+    }
+
+    private final Property<Double> centerYProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> centerYProperty() {
+        return centerYProperty;
+    }
+
+    private final Property<Double> radiusProperty = new SimpleObjectProperty<>(0d);
+    @Override
+    public Property<Double> radiusProperty() {
+        return radiusProperty;
+    }
+
+    @Override
+    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        Double radius = getRadius();
+        Double centerX = getCenterX();
+        Double centerY = getCenterY();
+        return bounds.deriveWithNewBounds(centerX - radius, centerY - radius, 0d, centerX + radius, centerY + radius, 0d);
+    }
 }

@@ -1,11 +1,14 @@
 package naga.toolkit.fx.scene.transform;
 
+import javafx.beans.property.Property;
 import naga.toolkit.fx.geom.Point2D;
+import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.util.Properties;
 
 /**
  * @author Bruno Salmon
  */
-public interface Transform {
+public abstract class Transform {
 
     /**
      * Transforms the specified point by this transform.
@@ -14,7 +17,7 @@ public interface Transform {
      * @param y the Y coordinate of the point
      * @return the transformed point
      */
-    Point2D transform(double x, double y);
+    public abstract Point2D transform(double x, double y);
 
     /**
      * Transforms the specified point by this transform.
@@ -23,7 +26,7 @@ public interface Transform {
      * @return the transformed point
      * @throws NullPointerException if the specified {@code point} is null
      */
-    default Point2D transform(Point2D point) {
+    public Point2D transform(Point2D point) {
         return transform(point.getX(), point.getY());
     }
 
@@ -31,15 +34,39 @@ public interface Transform {
      * Returns the inverse transform of this transform.
      * @return the inverse transform
      */
-    Transform createInverse();
+    public abstract Transform createInverse();
 
-    default Point2D inverseTransform(double x, double y) {
-        return createInverse().transform(x, y); // not optimized default method (implementation should cache inverse)
-    }
-
-    default Point2D inverseTransform(Point2D point) /*throws NonInvertibleTransformException*/ {
+    public Point2D inverseTransform(Point2D point) /*throws NonInvertibleTransformException*/ {
         return inverseTransform(point.getX(), point.getY());
     }
 
-    Affine toAffine();
+    public abstract Affine toAffine();
+
+    private Transform inverseCache;
+    private boolean automaticClearInverseCacheSetup;
+
+    private Transform getInverseCache() {
+        if (inverseCache == null) {
+            inverseCache = createInverse();
+            if (!automaticClearInverseCacheSetup) {
+                clearInverseCacheOnPropertyChange(propertiesInvalidatingCache());
+                automaticClearInverseCacheSetup = true;
+            }
+        }
+        return inverseCache;
+    }
+
+    private void clearInverseCacheNow() {
+        inverseCache = null;
+    }
+
+    protected abstract Property[] propertiesInvalidatingCache();
+
+    private void clearInverseCacheOnPropertyChange(Property... properties) {
+        Properties.runOnPropertiesChange(property -> clearInverseCacheNow(), properties);
+    }
+
+    public Point2D inverseTransform(double x, double y)  {
+        return getInverseCache().transform(x, y);
+    }
 }

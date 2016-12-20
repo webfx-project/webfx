@@ -68,7 +68,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private void createRootNode() {
-        rootNode = Region.create();
+        rootNode = new Region();
         rootNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth));
         createOrUpdateRootNodeCalendar();
     }
@@ -101,7 +101,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Group createCalendarGroup() {
-        Group calendarGroup = Group.create();
+        Group calendarGroup = new Group();
         Group headersGroup = createDayColumnHeadersGroup();
         Group bodyGroup = createBodyGroup();
         bodyGroup.getTransforms().setAll(Translate.create(0d, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
@@ -110,7 +110,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Group createDayColumnHeadersGroup() {
-        Group daysHeadGroup = Group.create();
+        Group daysHeadGroup = new Group();
         for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
             DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
             horizontalDayPositioner.addHorizontalDayPositioned(model);
@@ -120,7 +120,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private Group createBodyGroup() {
-        Group bodyGroup = Group.create();
+        Group bodyGroup = new Group();
         Collections.forEach(calendar.getTimelines(), timeline -> addTimelineNodes(timeline, bodyGroup.getChildren()));
         verticalDayPositioner.updateVerticalPositions();
         return bodyGroup;

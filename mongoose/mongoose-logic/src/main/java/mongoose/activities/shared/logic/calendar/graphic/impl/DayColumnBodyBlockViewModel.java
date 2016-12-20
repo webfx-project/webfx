@@ -7,9 +7,9 @@ import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import naga.toolkit.fx.geometry.VPos;
+import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.paint.Color;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.shape.*;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.Text;
@@ -27,11 +27,11 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
 
     private final long epochDay;
     private final TimeInterval dayTimeMinuteInterval;
-    private final Rectangle rectangle = Rectangle.create();
-    private final Text blockText = Text.create();
+    private final Rectangle rectangle = new Rectangle();
+    private final Text blockText = new Text();
     private final Text startTimeText;
     private final Text endTimeText;
-    private final Group group = Group.create();
+    private final Group group = new Group();
     private final Translate translate = Translate.create();
 
     {
@@ -56,7 +56,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
                 calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
         });
         if (displayTimes) {
-            startTimeText = Text.create();
+            startTimeText = new Text();
             startTimeText.setFont(timeFont);
             startTimeText.setTextAlignment(TextAlignment.LEFT);
             startTimeText.setFill(timeFill);
@@ -64,7 +64,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
             startTimeText.setY(1d);
             startTimeText.setText(dayTimeMinuteInterval.getStartText());
             startTimeText.setMouseTransparent(true);
-            endTimeText = Text.create();
+            endTimeText = new Text();
             endTimeText.setFont(timeFont);
             endTimeText.setTextAlignment(TextAlignment.LEFT);
             endTimeText.setFill(timeFill);

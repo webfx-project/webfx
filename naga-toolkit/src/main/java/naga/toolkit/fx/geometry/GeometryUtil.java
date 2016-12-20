@@ -89,7 +89,7 @@ public final class GeometryUtil {
     }
 
     public static Point2D pivotRadian(double pivotX, double pivotY, double angleRad, double distance) {
-        return Point2D.create(pivotX + distance * Math.cos(angleRad), pivotY + distance * Math.sin(angleRad));
+        return new Point2D(pivotX + distance * Math.cos(angleRad), pivotY + distance * Math.sin(angleRad));
     }
 
     public static Point2D rotate(double pivotX, double pivotY, double x, double y, double angleDeg) {
@@ -98,6 +98,6 @@ public final class GeometryUtil {
             if (distance != 0d)
                 return pivot(pivotX, pivotY, angle(pivotX, pivotY, x, y) + angleDeg, distance);
         }
-        return Point2D.create(x, y);
+        return new Point2D(x, y);
     }
 }

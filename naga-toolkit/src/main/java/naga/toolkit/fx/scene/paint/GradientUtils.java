@@ -1,8 +1,6 @@
-package naga.toolkit.fx.scene.paint.impl;
+package naga.toolkit.fx.scene.paint;
 
 import naga.commons.util.collection.Collections;
-import naga.toolkit.fx.scene.paint.Color;
-import naga.toolkit.fx.scene.paint.Stop;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -218,7 +216,7 @@ class GradientUtils {
             }
 
             for (int i = 0; i < stops.length; i++)
-                stops[i] = Stop.create(offsets[i], colors[i]);
+                stops[i] = new Stop(offsets[i], colors[i]);
 
             return stops;
         }

@@ -18,12 +18,12 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
     @Override
     protected CartViewModel buildView() {
         // Building the UI components
-        DataGrid documentTable = DataGrid.create();
-        DataGrid documentLineTable = DataGrid.create();
-        DataGrid paymentTable = DataGrid.create();
+        DataGrid documentTable = new DataGrid();
+        DataGrid documentLineTable = new DataGrid();
+        DataGrid paymentTable = new DataGrid();
 
         // Displaying the UI
-        return new CartViewModel(VBox.create(documentTable, documentLineTable, paymentTable),
+        return new CartViewModel(new VBox(documentTable, documentLineTable, paymentTable),
                 documentTable, documentLineTable, paymentTable);
     }
 

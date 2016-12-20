@@ -14,6 +14,6 @@ public class TextRenderer implements ValueRenderer {
 
     @Override
     public Text renderCellValue(Object value) {
-        return Text.create(Strings.toSafeString(value));
+        return new Text(Strings.toSafeString(value));
     }
 }

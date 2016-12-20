@@ -5,6 +5,6 @@ import naga.toolkit.fx.scene.layout.Region;
 /**
  * @author Bruno Salmon
  */
-public interface Control extends Region {
+public abstract class Control extends Region {
 
 }

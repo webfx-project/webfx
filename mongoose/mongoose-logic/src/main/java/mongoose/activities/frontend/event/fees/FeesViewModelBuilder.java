@@ -31,11 +31,11 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
     @Override
     protected void buildComponents(I18n i18n) {
         super.buildComponents(i18n);
-        termsButton = Button.create();
-        programButton = Button.create();
+        termsButton = new Button();
+        programButton = new Button();
         feesGroupsCollator = new GridCollator(this::toFeesGroupPanel, NodeCollatorRegistry.vBoxCollator());
-        buttonsBox = HBox.create(previousButton, termsButton, programButton, nextButton);
-        contentNode = BorderPane.create(feesGroupsCollator, null, null , buttonsBox, null);
+        buttonsBox = new HBox(previousButton, termsButton, programButton, nextButton);
+        contentNode = new BorderPane(feesGroupsCollator, null, null, buttonsBox, null);
     }
 
     private Node toFeesGroupPanel(Node... nodes) {
@@ -46,7 +46,7 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
         borderPane.setInsets(Insets.create(10, 30, 10, 30));
         return borderPane;
 */
-        VBox vBox = VBox.create(nodes);
+        VBox vBox = new VBox(nodes);
         vBox.setInsets(Insets.create(10, 30, 10, 30));
         return vBox;
     }

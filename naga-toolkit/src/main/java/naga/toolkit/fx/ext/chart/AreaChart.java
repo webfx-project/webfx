@@ -7,5 +7,5 @@ package naga.toolkit.fx.ext.chart;
  *
  * @author Bruno Salmon
  */
-public interface AreaChart extends Chart {
+public class AreaChart extends Chart {
 }

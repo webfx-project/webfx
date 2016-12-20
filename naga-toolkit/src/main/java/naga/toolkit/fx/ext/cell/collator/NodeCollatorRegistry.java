@@ -17,12 +17,12 @@ public class NodeCollatorRegistry {
     private static Map<String, NodeCollator> collators = new HashMap<>();
 
     private static NodeCollator hBoxCollator = nodes -> {
-        HBox hBox = HBox.create(5, nodes);
+        HBox hBox = new HBox((double) 5, nodes);
         hBox.setAlignment(Pos.CENTER_LEFT);
         return hBox;
     };
-    private static NodeCollator vBoxCollator = VBox::create;
-    private static NodeCollator flowPaneCollator = FlowPane::create;
+    private static NodeCollator vBoxCollator = (children) -> new VBox(children);
+    private static NodeCollator flowPaneCollator = (children) -> new FlowPane(children);
     private static NodeCollator firstCollator = nodes -> Arrays.getValue(nodes, 0);
 
     static {

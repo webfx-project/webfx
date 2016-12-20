@@ -17,17 +17,17 @@ public class BackendContainerActivity extends ContainerActivity<BackendContainer
 
     @Override
     protected BackendContainerViewModel buildView() {
-        Button backButton = Button.create();
-        Button forwardButton = Button.create();
-        Button organizationsButton = Button.create();
-        Button eventsButton = Button.create();
-        Button bookingsButton = Button.create();
-        Button lettersButton = Button.create();
-        Button monitorButton = Button.create();
-        Button testerButton = Button.create();
-        Button englishButton = Button.create();
-        Button frenchButton = Button.create();
-        return new BackendContainerViewModel(BorderPane.create(null, FlowPane.create(backButton, forwardButton, organizationsButton, eventsButton, bookingsButton, lettersButton, monitorButton, testerButton, englishButton, frenchButton), null, null, null),
+        Button backButton = new Button();
+        Button forwardButton = new Button();
+        Button organizationsButton = new Button();
+        Button eventsButton = new Button();
+        Button bookingsButton = new Button();
+        Button lettersButton = new Button();
+        Button monitorButton = new Button();
+        Button testerButton = new Button();
+        Button englishButton = new Button();
+        Button frenchButton = new Button();
+        return new BackendContainerViewModel(new BorderPane(null, new FlowPane(backButton, forwardButton, organizationsButton, eventsButton, bookingsButton, lettersButton, monitorButton, testerButton, englishButton, frenchButton), null, null, null),
                 backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton, bookingsButton, lettersButton, monitorButton, testerButton);
     }
 

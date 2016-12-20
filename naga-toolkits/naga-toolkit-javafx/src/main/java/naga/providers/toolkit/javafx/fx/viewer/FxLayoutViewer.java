@@ -12,6 +12,7 @@ import naga.toolkit.spi.Toolkit;
  */
 public class FxLayoutViewer
         <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
+
         extends FxRegionViewer<javafx.scene.layout.Region, N, NB, NM> {
 
     public FxLayoutViewer() {
