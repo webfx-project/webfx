@@ -11,9 +11,9 @@ import naga.toolkit.fx.ext.chart.Chart;
  * @author Bruno Salmon
  */
 public abstract class ChartViewerBase
-        <C, N extends Chart, NV extends ChartViewerBase<C, N, NV, NM>, NM extends ChartViewerMixin<C, N, NV, NM>>
+        <C, N extends Chart, NB extends ChartViewerBase<C, N, NB, NM>, NM extends ChartViewerMixin<C, N, NB, NM>>
 
-        extends SelectableDisplayResultSetControlViewerBase<C, N, NV, NM> {
+        extends SelectableDisplayResultSetControlViewerBase<C, N, NB, NM> {
 
     private final boolean isPieChart = this instanceof PieChartViewerBase;
 

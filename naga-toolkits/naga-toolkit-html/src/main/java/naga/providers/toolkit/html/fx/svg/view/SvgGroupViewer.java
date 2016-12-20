@@ -10,16 +10,16 @@ import naga.toolkit.fx.spi.viewer.base.GroupViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgGroupViewer
-        <N extends Group, NV extends GroupViewerBase<N, NV, NM>, NM extends GroupViewerMixin<N, NV, NM>>
+        <N extends Group, NB extends GroupViewerBase<N, NB, NM>, NM extends GroupViewerMixin<N, NB, NM>>
 
-        extends SvgNodeViewer<N, NV, NM>
-        implements GroupViewerMixin<N, NV, NM> {
+        extends SvgNodeViewer<N, NB, NM>
+        implements GroupViewerMixin<N, NB, NM> {
 
     public SvgGroupViewer() {
-        this((NV) new GroupViewerBase(), SvgUtil.createSvgGroup());
+        this((NB) new GroupViewerBase(), SvgUtil.createSvgGroup());
     }
 
-    public SvgGroupViewer(NV base, Element element) {
+    public SvgGroupViewer(NB base, Element element) {
         super(base, element);
     }
 }

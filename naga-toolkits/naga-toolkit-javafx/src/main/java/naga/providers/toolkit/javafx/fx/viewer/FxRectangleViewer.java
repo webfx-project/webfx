@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.RectangleViewerMixin;
  * @author Bruno Salmon
  */
 public class FxRectangleViewer
-        <FxN extends javafx.scene.shape.Rectangle, N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.shape.Rectangle, N extends Rectangle, NB extends RectangleViewerBase<N, NB, NM>, NM extends RectangleViewerMixin<N, NB, NM>>
 
-        extends FxShapeViewer<FxN, N, NV, NM>
-        implements RectangleViewerMixin<N, NV, NM> {
+        extends FxShapeViewer<FxN, N, NB, NM>
+        implements RectangleViewerMixin<N, NB, NM> {
 
     public FxRectangleViewer() {
-        super((NV) new RectangleViewerBase());
+        super((NB) new RectangleViewerBase());
     }
 
     @Override

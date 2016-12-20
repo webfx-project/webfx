@@ -9,9 +9,9 @@ import naga.toolkit.fx.scene.text.TextAlignment;
  * @author Bruno Salmon
  */
 public interface TextViewerMixin
-        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
+        <N extends Text, NB extends TextViewerBase<N, NB, NM>, NM extends TextViewerMixin<N, NB, NM>>
 
-        extends ShapeViewerMixin<N, NV, NM> {
+        extends ShapeViewerMixin<N, NB, NM> {
 
     void updateText(String text);
 

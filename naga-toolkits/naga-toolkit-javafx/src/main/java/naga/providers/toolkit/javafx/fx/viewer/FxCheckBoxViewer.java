@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.CheckBoxViewerMixin;
  * @author Bruno Salmon
  */
 public class FxCheckBoxViewer
-        <FxN extends javafx.scene.control.CheckBox, N extends CheckBox, NV extends CheckBoxViewerBase<N, NV, NM>, NM extends CheckBoxViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.control.CheckBox, N extends CheckBox, NB extends CheckBoxViewerBase<N, NB, NM>, NM extends CheckBoxViewerMixin<N, NB, NM>>
 
-        extends FxButtonBaseViewer<FxN, N, NV, NM>
-        implements CheckBoxViewerMixin<N, NV, NM>, FxLayoutMeasurable {
+        extends FxButtonBaseViewer<FxN, N, NB, NM>
+        implements CheckBoxViewerMixin<N, NB, NM>, FxLayoutMeasurable {
 
     public FxCheckBoxViewer() {
-        super((NV) new CheckBoxViewerBase());
+        super((NB) new CheckBoxViewerBase());
     }
 
     @Override

@@ -11,11 +11,11 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingLayoutViewer
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
-        extends SwingRegionViewer<N, NV, NM> {
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
+        extends SwingRegionViewer<N, NB, NM> {
 
     public SwingLayoutViewer() {
-        super((NV) new RegionViewerBase<N, NV, NM>());
+        super((NB) new RegionViewerBase<N, NB, NM>());
     }
 
     @Override

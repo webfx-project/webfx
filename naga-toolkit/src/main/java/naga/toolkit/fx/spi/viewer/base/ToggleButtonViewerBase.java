@@ -8,8 +8,8 @@ import naga.toolkit.fx.scene.control.ToggleButton;
  * @author Bruno Salmon
  */
 public class ToggleButtonViewerBase
-        <N extends ToggleButton, NV extends ToggleButtonViewerBase<N, NV, NM>, NM extends ToggleButtonViewerMixin<N, NV, NM>>
-        extends ButtonBaseViewerBase<N, NV, NM> {
+        <N extends ToggleButton, NB extends ToggleButtonViewerBase<N, NB, NM>, NM extends ToggleButtonViewerMixin<N, NB, NM>>
+        extends ButtonBaseViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N toggleButton, SceneRequester sceneRequester) {

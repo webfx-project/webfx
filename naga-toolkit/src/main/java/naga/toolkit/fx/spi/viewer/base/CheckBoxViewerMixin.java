@@ -6,9 +6,9 @@ import naga.toolkit.fx.scene.control.CheckBox;
  * @author Bruno Salmon
  */
 public interface CheckBoxViewerMixin
-        <N extends CheckBox, NV extends CheckBoxViewerBase<N, NV, NM>, NM extends CheckBoxViewerMixin<N, NV, NM>>
+        <N extends CheckBox, NB extends CheckBoxViewerBase<N, NB, NM>, NM extends CheckBoxViewerMixin<N, NB, NM>>
 
-        extends ButtonBaseViewerMixin<N, NV, NM> {
+        extends ButtonBaseViewerMixin<N, NB, NM> {
 
     void updateSelected(Boolean selected);
 }

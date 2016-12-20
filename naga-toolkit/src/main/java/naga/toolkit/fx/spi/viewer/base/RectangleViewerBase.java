@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.shape.Rectangle;
  * @author Bruno Salmon
  */
 public class RectangleViewerBase
-        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+        <N extends Rectangle, NB extends RectangleViewerBase<N, NB, NM>, NM extends RectangleViewerMixin<N, NB, NM>>
 
-        extends ShapeViewerBase<N, NV, NM> {
+        extends ShapeViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N r, SceneRequester sceneRequester) {

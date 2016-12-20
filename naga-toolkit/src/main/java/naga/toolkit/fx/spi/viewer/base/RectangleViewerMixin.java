@@ -6,9 +6,9 @@ import naga.toolkit.fx.scene.shape.Rectangle;
  * @author Bruno Salmon
  */
 public interface RectangleViewerMixin
-        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+        <N extends Rectangle, NB extends RectangleViewerBase<N, NB, NM>, NM extends RectangleViewerMixin<N, NB, NM>>
 
-        extends ShapeViewerMixin<N, NV, NM> {
+        extends ShapeViewerMixin<N, NB, NM> {
 
     void updateX(Double x);
 

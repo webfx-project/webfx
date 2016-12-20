@@ -8,10 +8,10 @@ import naga.toolkit.fx.spi.viewer.base.ControlViewerMixin;
  * @author Bruno Salmon
  */
 abstract class FxControlViewer
-        <FxN extends javafx.scene.control.Control, N extends Control, NV extends ControlViewerBase<N, NV, NM>, NM extends ControlViewerMixin<N, NV, NM>>
-        extends FxRegionViewer<FxN, N, NV, NM> {
+        <FxN extends javafx.scene.control.Control, N extends Control, NB extends ControlViewerBase<N, NB, NM>, NM extends ControlViewerMixin<N, NB, NM>>
+        extends FxRegionViewer<FxN, N, NB, NM> {
 
-    FxControlViewer(NV base) {
+    FxControlViewer(NB base) {
         super(base);
     }
 }

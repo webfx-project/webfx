@@ -10,16 +10,16 @@ import naga.toolkit.fx.spi.viewer.base.CircleViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgCircleViewer
-        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+        <N extends Circle, NB extends CircleViewerBase<N, NB, NM>, NM extends CircleViewerMixin<N, NB, NM>>
 
-        extends SvgShapeViewer<N, NV, NM>
-        implements CircleViewerMixin<N, NV, NM> {
+        extends SvgShapeViewer<N, NB, NM>
+        implements CircleViewerMixin<N, NB, NM> {
 
     public SvgCircleViewer() {
-        this((NV) new CircleViewerBase(), SvgUtil.createSvgCircle());
+        this((NB) new CircleViewerBase(), SvgUtil.createSvgCircle());
     }
 
-    public SvgCircleViewer(NV base, Element element) {
+    public SvgCircleViewer(NB base, Element element) {
         super(base, element);
     }
 

@@ -15,12 +15,12 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class HtmlShapeViewer
-        <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+        <N extends Shape, NB extends ShapeViewerBase<N, NB, NM>, NM extends ShapeViewerMixin<N, NB, NM>>
 
-        extends HtmlNodeViewer<N, NV, NM>
-        implements ShapeViewerMixin<N, NV, NM> {
+        extends HtmlNodeViewer<N, NB, NM>
+        implements ShapeViewerMixin<N, NB, NM> {
 
-    public HtmlShapeViewer(NV base, HTMLElement element) {
+    public HtmlShapeViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 

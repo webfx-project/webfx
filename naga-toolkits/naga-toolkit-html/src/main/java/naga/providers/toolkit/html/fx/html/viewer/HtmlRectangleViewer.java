@@ -10,16 +10,16 @@ import naga.toolkit.fx.spi.viewer.base.RectangleViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlRectangleViewer
-        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+        <N extends Rectangle, NB extends RectangleViewerBase<N, NB, NM>, NM extends RectangleViewerMixin<N, NB, NM>>
 
-        extends HtmlShapeViewer<N, NV, NM>
-        implements RectangleViewerMixin<N, NV, NM> {
+        extends HtmlShapeViewer<N, NB, NM>
+        implements RectangleViewerMixin<N, NB, NM> {
 
     public HtmlRectangleViewer() {
-        this((NV) new RectangleViewerBase(), HtmlUtil.createDivElement());
+        this((NB) new RectangleViewerBase(), HtmlUtil.createDivElement());
     }
 
-    public HtmlRectangleViewer(NV base, HTMLElement element) {
+    public HtmlRectangleViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 

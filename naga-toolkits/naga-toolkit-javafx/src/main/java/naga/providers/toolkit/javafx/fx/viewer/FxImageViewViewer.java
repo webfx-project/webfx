@@ -11,13 +11,13 @@ import naga.toolkit.spi.Toolkit;
  * @author Bruno Salmon
  */
 public class FxImageViewViewer
-        <FxN extends javafx.scene.image.ImageView, N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.image.ImageView, N extends ImageView, NB extends ImageViewViewerBase<N, NB, NM>, NM extends ImageViewViewerMixin<N, NB, NM>>
 
-        extends FxNodeViewer<FxN, N, NV, NM>
-        implements ImageViewViewerMixin<N, NV, NM> {
+        extends FxNodeViewer<FxN, N, NB, NM>
+        implements ImageViewViewerMixin<N, NB, NM> {
 
     public FxImageViewViewer() {
-        super((NV) new ImageViewViewerBase());
+        super((NB) new ImageViewViewerBase());
     }
 
     @Override

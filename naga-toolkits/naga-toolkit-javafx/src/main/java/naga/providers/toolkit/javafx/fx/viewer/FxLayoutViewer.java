@@ -11,11 +11,11 @@ import naga.toolkit.spi.Toolkit;
  * @author Bruno Salmon
  */
 public class FxLayoutViewer
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
-        extends FxRegionViewer<javafx.scene.layout.Region, N, NV, NM> {
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
+        extends FxRegionViewer<javafx.scene.layout.Region, N, NB, NM> {
 
     public FxLayoutViewer() {
-        super((NV) new RegionViewerBase<N, NV, NM>());
+        super((NB) new RegionViewerBase<N, NB, NM>());
     }
 
     @Override

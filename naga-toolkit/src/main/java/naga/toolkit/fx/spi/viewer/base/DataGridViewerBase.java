@@ -12,14 +12,14 @@ import naga.toolkit.fx.ext.control.DataGrid;
  * @author Bruno Salmon
  */
 public class DataGridViewerBase
-        <C, N extends DataGrid, NV extends DataGridViewerBase<C, N, NV, NM>, NM extends DataGridViewerMixin<C, N, NV, NM>>
+        <C, N extends DataGrid, NB extends DataGridViewerBase<C, N, NB, NM>, NM extends DataGridViewerMixin<C, N, NB, NM>>
 
-        extends SelectableDisplayResultSetControlViewerBase<C, N, NV, NM> {
+        extends SelectableDisplayResultSetControlViewerBase<C, N, NB, NM> {
 
     private int rowStyleColumnIndex;
     private int gridColumnCount;
     private DisplayResultSet rs;
-    private DataGridViewerImageTextMixin<C, N, NV, NM> imageTextMixin;
+    private DataGridViewerImageTextMixin<C, N, NB, NM> imageTextMixin;
 
     public int getGridColumnCount() {
         return gridColumnCount;
@@ -32,7 +32,7 @@ public class DataGridViewerBase
     @Override
     public void setMixin(NM mixin) {
         super.setMixin(mixin);
-        imageTextMixin = mixin instanceof DataGridViewerImageTextMixin ? (DataGridViewerImageTextMixin<C, N, NV, NM>) mixin : null;
+        imageTextMixin = mixin instanceof DataGridViewerImageTextMixin ? (DataGridViewerImageTextMixin<C, N, NB, NM>) mixin : null;
     }
 
     public void initGrid(DisplayResultSet rs) {

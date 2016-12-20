@@ -14,15 +14,15 @@ import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlTextViewer
-        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
-        extends HtmlShapeViewer<N, NV, NM>
-        implements TextViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        <N extends Text, NB extends TextViewerBase<N, NB, NM>, NM extends TextViewerMixin<N, NB, NM>>
+        extends HtmlShapeViewer<N, NB, NM>
+        implements TextViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlTextViewer() {
-        this((NV) new TextViewerBase());
+        this((NB) new TextViewerBase());
     }
 
-    public HtmlTextViewer(NV base) {
+    public HtmlTextViewer(NB base) {
         super(base, HtmlUtil.createSpanElement());
         setElementStyleAttribute("line-height", "100%");
     }

@@ -15,13 +15,13 @@ import static org.knowm.xchart.style.colors.XChartSeriesColors.*;
  * @author Bruno Salmon
  */
 public class SwingLineChartViewer
-        <N extends LineChart, NV extends LineChartViewerBase<XChartJPanel, N, NV, NM>, NM extends LineChartViewerMixin<XChartJPanel, N, NV, NM>>
+        <N extends LineChart, NB extends LineChartViewerBase<XChartJPanel, N, NB, NM>, NM extends LineChartViewerMixin<XChartJPanel, N, NB, NM>>
 
-        extends SwingChartViewer<N, NV, NM>
-        implements LineChartViewerMixin<XChartJPanel, N, NV, NM> {
+        extends SwingChartViewer<N, NB, NM>
+        implements LineChartViewerMixin<XChartJPanel, N, NB, NM> {
 
     public SwingLineChartViewer() {
-        super((NV) new LineChartViewerBase());
+        super((NB) new LineChartViewerBase());
     }
 
     @Override

@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.RadioButtonViewerMixin;
  * @author Bruno Salmon
  */
 public class FxRadioButtonViewer
-        <FxN extends javafx.scene.control.RadioButton, N extends RadioButton, NV extends RadioButtonViewerBase<N, NV, NM>, NM extends RadioButtonViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.control.RadioButton, N extends RadioButton, NB extends RadioButtonViewerBase<N, NB, NM>, NM extends RadioButtonViewerMixin<N, NB, NM>>
 
-        extends FxButtonBaseViewer<FxN, N, NV, NM>
-        implements RadioButtonViewerMixin<N, NV, NM>, FxLayoutMeasurable {
+        extends FxButtonBaseViewer<FxN, N, NB, NM>
+        implements RadioButtonViewerMixin<N, NB, NM>, FxLayoutMeasurable {
 
     public FxRadioButtonViewer() {
-        super((NV) new RadioButtonViewerBase());
+        super((NB) new RadioButtonViewerBase());
     }
 
     @Override

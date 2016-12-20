@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.layout.Region;
  * @author Bruno Salmon
  */
 public class RegionViewerBase
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
 
-        extends NodeViewerBase<N, NV, NM> {
+        extends NodeViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {

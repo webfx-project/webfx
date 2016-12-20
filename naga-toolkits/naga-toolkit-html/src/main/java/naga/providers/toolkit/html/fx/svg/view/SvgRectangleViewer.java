@@ -10,16 +10,16 @@ import naga.toolkit.fx.spi.viewer.base.RectangleViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgRectangleViewer
-        <N extends Rectangle, NV extends RectangleViewerBase<N, NV, NM>, NM extends RectangleViewerMixin<N, NV, NM>>
+        <N extends Rectangle, NB extends RectangleViewerBase<N, NB, NM>, NM extends RectangleViewerMixin<N, NB, NM>>
 
-        extends SvgShapeViewer<N, NV, NM>
-        implements RectangleViewerMixin<N, NV, NM> {
+        extends SvgShapeViewer<N, NB, NM>
+        implements RectangleViewerMixin<N, NB, NM> {
 
     public SvgRectangleViewer() {
-        this((NV) new RectangleViewerBase(), SvgUtil.createSvgRectangle());
+        this((NB) new RectangleViewerBase(), SvgUtil.createSvgRectangle());
     }
 
-    public SvgRectangleViewer(NV base, Element element) {
+    public SvgRectangleViewer(NB base, Element element) {
         super(base, element);
     }
 

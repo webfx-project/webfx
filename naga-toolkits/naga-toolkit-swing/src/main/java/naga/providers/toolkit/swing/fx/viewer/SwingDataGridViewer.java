@@ -25,20 +25,20 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingDataGridViewer
-        <N extends DataGrid, NV extends DataGridViewerBase<Object, N, NV, NM>, NM extends DataGridViewerMixin<Object, N, NV, NM>>
+        <N extends DataGrid, NB extends DataGridViewerBase<Object, N, NB, NM>, NM extends DataGridViewerMixin<Object, N, NB, NM>>
 
-        extends SwingRegionViewer<N, NV, NM>
-        implements DataGridViewerMixin<Object, N, NV, NM>, SwingLayoutMeasurable<N> {
+        extends SwingRegionViewer<N, NB, NM>
+        implements DataGridViewerMixin<Object, N, NB, NM>, SwingLayoutMeasurable<N> {
 
     private final JTable table = createTable();
     private final JScrollPane scrollPane = createTransparentScrollPane(table);
     private final DisplayTableModel tableModel = new DisplayTableModel();
 
     public SwingDataGridViewer() {
-        this((NV) new DataGridViewerBase());
+        this((NB) new DataGridViewerBase());
     }
 
-    public SwingDataGridViewer(NV base) {
+    public SwingDataGridViewer(NB base) {
         super(base);
         table.setModel(tableModel);
         table.getSelectionModel().addListSelectionListener(e -> this.updateBackDisplaySelection());
@@ -115,7 +115,7 @@ public class SwingDataGridViewer
 
     @Override
     public void updateResultSet(DisplayResultSet rs) {
-        NV base = getNodeViewerBase();
+        NB base = getNodeViewerBase();
         base.initGrid(rs);
         tableModel.setDisplayResultSet(rs);
         tableModel.fireTableStructureChanged();

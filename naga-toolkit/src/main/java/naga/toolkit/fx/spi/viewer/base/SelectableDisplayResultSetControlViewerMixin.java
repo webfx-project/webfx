@@ -8,9 +8,9 @@ import naga.toolkit.properties.markers.SelectionMode;
  * @author Bruno Salmon
  */
 public interface SelectableDisplayResultSetControlViewerMixin
-        <C, N extends SelectableDisplayResultSetControl, NV extends SelectableDisplayResultSetControlViewerBase<C, N, NV, NM>, NM extends SelectableDisplayResultSetControlViewerMixin<C, N, NV, NM>>
+        <C, N extends SelectableDisplayResultSetControl, NB extends SelectableDisplayResultSetControlViewerBase<C, N, NB, NM>, NM extends SelectableDisplayResultSetControlViewerMixin<C, N, NB, NM>>
 
-        extends DisplayResultSetControlViewerMixin<C, N, NV, NM> {
+        extends DisplayResultSetControlViewerMixin<C, N, NB, NM> {
 
     void updateSelectionMode(SelectionMode mode);
 

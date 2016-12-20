@@ -8,8 +8,8 @@ import naga.toolkit.fx.scene.control.CheckBox;
  * @author Bruno Salmon
  */
 public class CheckBoxViewerBase
-        <N extends CheckBox, NV extends CheckBoxViewerBase<N, NV, NM>, NM extends CheckBoxViewerMixin<N, NV, NM>>
-        extends ButtonBaseViewerBase<N, NV, NM> {
+        <N extends CheckBox, NB extends CheckBoxViewerBase<N, NB, NM>, NM extends CheckBoxViewerMixin<N, NB, NM>>
+        extends ButtonBaseViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N checkBox, SceneRequester sceneRequester) {

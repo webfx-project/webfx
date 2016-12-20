@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.LineChartViewerMixin;
  * @author Bruno Salmon
  */
 public class FxLineChartViewer
-        <FxN extends javafx.scene.chart.LineChart, N extends LineChart, NV extends LineChartViewerBase<FxN, N, NV, NM>, NM extends LineChartViewerMixin<FxN, N, NV, NM>>
+        <FxN extends javafx.scene.chart.LineChart, N extends LineChart, NB extends LineChartViewerBase<FxN, N, NB, NM>, NM extends LineChartViewerMixin<FxN, N, NB, NM>>
 
-        extends FxXYChartViewer<FxN, N, NV, NM>
-        implements LineChartViewerMixin<FxN, N, NV, NM> {
+        extends FxXYChartViewer<FxN, N, NB, NM>
+        implements LineChartViewerMixin<FxN, N, NB, NM> {
 
     public FxLineChartViewer() {
-        super((NV) new LineChartViewerBase());
+        super((NB) new LineChartViewerBase());
     }
 
     @Override

@@ -9,9 +9,9 @@ import naga.toolkit.fx.scene.image.ImageView;
  * @author Bruno Salmon
  */
 public class ImageViewViewerBase
-        <N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+        <N extends ImageView, NB extends ImageViewViewerBase<N, NB, NM>, NM extends ImageViewViewerMixin<N, NB, NM>>
 
-        extends NodeViewerBase<N, NV, NM> {
+        extends NodeViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {

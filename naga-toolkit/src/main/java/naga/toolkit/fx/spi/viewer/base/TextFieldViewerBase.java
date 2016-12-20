@@ -7,8 +7,8 @@ import naga.toolkit.fx.scene.control.TextField;
  * @author Bruno Salmon
  */
 public class TextFieldViewerBase
-        <N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+        <N extends TextField, NB extends TextFieldViewerBase<N, NB, NM>, NM extends TextFieldViewerMixin<N, NB, NM>>
 
-        extends TextInputControlViewerBase<N, NV, NM> {
+        extends TextInputControlViewerBase<N, NB, NM> {
 
 }

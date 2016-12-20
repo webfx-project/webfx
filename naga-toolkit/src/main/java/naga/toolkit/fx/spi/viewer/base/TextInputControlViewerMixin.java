@@ -7,9 +7,9 @@ import naga.toolkit.fx.scene.text.Font;
  * @author Bruno Salmon
  */
 public interface TextInputControlViewerMixin
-        <N extends TextInputControl, NV extends TextInputControlViewerBase<N, NV, NM>, NM extends TextInputControlViewerMixin<N, NV, NM>>
+        <N extends TextInputControl, NB extends TextInputControlViewerBase<N, NB, NM>, NM extends TextInputControlViewerMixin<N, NB, NM>>
 
-        extends ControlViewerMixin<N, NV, NM> {
+        extends ControlViewerMixin<N, NB, NM> {
 
     void updateFont(Font font);
 

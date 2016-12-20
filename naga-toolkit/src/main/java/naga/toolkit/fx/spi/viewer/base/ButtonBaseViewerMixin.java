@@ -6,7 +6,7 @@ import naga.toolkit.fx.scene.control.ButtonBase;
  * @author Bruno Salmon
  */
 public interface ButtonBaseViewerMixin
-        <N extends ButtonBase, NV extends ButtonBaseViewerBase<N, NV, NM>, NM extends ButtonBaseViewerMixin<N, NV, NM>>
+        <N extends ButtonBase, NB extends ButtonBaseViewerBase<N, NB, NM>, NM extends ButtonBaseViewerMixin<N, NB, NM>>
 
-        extends LabeledViewerMixin<N, NV, NM> {
+        extends LabeledViewerMixin<N, NB, NM> {
 }

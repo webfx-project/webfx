@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.CircleViewerMixin;
  * @author Bruno Salmon
  */
 public class FxCircleViewer
-        <FxN extends javafx.scene.shape.Circle, N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.shape.Circle, N extends Circle, NB extends CircleViewerBase<N, NB, NM>, NM extends CircleViewerMixin<N, NB, NM>>
 
-        extends FxShapeViewer<FxN, N, NV, NM>
-        implements CircleViewerMixin<N, NV, NM> {
+        extends FxShapeViewer<FxN, N, NB, NM>
+        implements CircleViewerMixin<N, NB, NM> {
 
     public FxCircleViewer() {
-        super((NV) new CircleViewerBase());
+        super((NB) new CircleViewerBase());
     }
 
     @Override

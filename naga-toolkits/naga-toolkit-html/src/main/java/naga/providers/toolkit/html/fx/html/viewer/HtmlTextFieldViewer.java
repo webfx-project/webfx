@@ -14,16 +14,16 @@ import naga.toolkit.fx.spi.viewer.base.TextFieldViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlTextFieldViewer
-        <N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+        <N extends TextField, NB extends TextFieldViewerBase<N, NB, NM>, NM extends TextFieldViewerMixin<N, NB, NM>>
 
-        extends HtmlRegionViewer<N, NV, NM>
-        implements TextFieldViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlRegionViewer<N, NB, NM>
+        implements TextFieldViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlTextFieldViewer() {
-        this((NV) new TextFieldViewerBase(), HtmlUtil.createTextInput());
+        this((NB) new TextFieldViewerBase(), HtmlUtil.createTextInput());
     }
 
-    public HtmlTextFieldViewer(NV base, HTMLElement element) {
+    public HtmlTextFieldViewer(NB base, HTMLElement element) {
         super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.oninput = e -> {

@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.control.Labeled;
  * @author Bruno Salmon
  */
 public abstract class LabeledViewerBase
-        <N extends Labeled, NV extends LabeledViewerBase<N, NV, NM>, NM extends LabeledViewerMixin<N, NV, NM>>
+        <N extends Labeled, NB extends LabeledViewerBase<N, NB, NM>, NM extends LabeledViewerMixin<N, NB, NM>>
 
-        extends ControlViewerBase<N, NV, NM> {
+        extends ControlViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N labeled, SceneRequester sceneRequester) {

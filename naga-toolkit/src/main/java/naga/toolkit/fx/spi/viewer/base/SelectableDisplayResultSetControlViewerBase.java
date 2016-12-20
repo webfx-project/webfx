@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.SceneRequester;
  * @author Bruno Salmon
  */
 public abstract class SelectableDisplayResultSetControlViewerBase
-        <C, N extends SelectableDisplayResultSetControl, NV extends SelectableDisplayResultSetControlViewerBase<C, N, NV, NM>, NM extends SelectableDisplayResultSetControlViewerMixin<C, N, NV, NM>>
+        <C, N extends SelectableDisplayResultSetControl, NB extends SelectableDisplayResultSetControlViewerBase<C, N, NB, NM>, NM extends SelectableDisplayResultSetControlViewerMixin<C, N, NB, NM>>
 
-        extends DisplayResultSetControlViewerBase<C, N, NV, NM> {
+        extends DisplayResultSetControlViewerBase<C, N, NB, NM> {
 
     @Override
     public void bind(N shape, SceneRequester sceneRequester) {

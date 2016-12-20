@@ -11,9 +11,9 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public interface ShapeViewerMixin
-        <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+        <N extends Shape, NB extends ShapeViewerBase<N, NB, NM>, NM extends ShapeViewerMixin<N, NB, NM>>
 
-        extends NodeViewerMixin<N, NV, NM> {
+        extends NodeViewerMixin<N, NB, NM> {
 
     void updateFill(Paint fill);
 

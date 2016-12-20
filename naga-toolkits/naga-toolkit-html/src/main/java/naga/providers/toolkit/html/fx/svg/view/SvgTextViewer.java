@@ -13,15 +13,15 @@ import naga.toolkit.fx.spi.viewer.base.TextViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgTextViewer
-        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
-        extends SvgShapeViewer<N, NV, NM>
-        implements TextViewerMixin<N, NV, NM> {
+        <N extends Text, NB extends TextViewerBase<N, NB, NM>, NM extends TextViewerMixin<N, NB, NM>>
+        extends SvgShapeViewer<N, NB, NM>
+        implements TextViewerMixin<N, NB, NM> {
 
     public SvgTextViewer() {
-        this((NV) new TextViewerBase());
+        this((NB) new TextViewerBase());
     }
 
-    public SvgTextViewer(NV base) {
+    public SvgTextViewer(NB base) {
         super(base, SvgUtil.createSvgText());
     }
 

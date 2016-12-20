@@ -9,12 +9,12 @@ import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
  * @author Bruno Salmon
  */
 public class SvgLayoutViewer
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
 
-        extends SvgRegionViewer<N, NV, NM> {
+        extends SvgRegionViewer<N, NB, NM> {
 
     public SvgLayoutViewer() {
-        super((NV) new RegionViewerBase<N, NV, NM>(), SvgUtil.createSvgGroup());
+        super((NB) new RegionViewerBase<N, NB, NM>(), SvgUtil.createSvgGroup());
     }
 
 }

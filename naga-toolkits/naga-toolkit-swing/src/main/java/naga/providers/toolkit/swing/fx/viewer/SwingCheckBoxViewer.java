@@ -10,18 +10,18 @@ import javax.swing.*;
  * @author Bruno Salmon
  */
 public class SwingCheckBoxViewer
-        <N extends CheckBox, NV extends CheckBoxViewerBase<N, NV, NM>, NM extends CheckBoxViewerMixin<N, NV, NM>>
+        <N extends CheckBox, NB extends CheckBoxViewerBase<N, NB, NM>, NM extends CheckBoxViewerMixin<N, NB, NM>>
 
-        extends SwingButtonBaseViewer<N, NV, NM>
-        implements CheckBoxViewerMixin<N, NV, NM> {
+        extends SwingButtonBaseViewer<N, NB, NM>
+        implements CheckBoxViewerMixin<N, NB, NM> {
 
     private final JCheckBox swingCheckBox;
 
     public SwingCheckBoxViewer() {
-        this((NV) new CheckBoxViewerBase(), new JCheckBox());
+        this((NB) new CheckBoxViewerBase(), new JCheckBox());
     }
 
-    public SwingCheckBoxViewer(NV base, AbstractButton swingButtonBase) {
+    public SwingCheckBoxViewer(NB base, AbstractButton swingButtonBase) {
         super(base, swingButtonBase);
         swingCheckBox = (JCheckBox) getSwingComponent();
         swingCheckBox.addChangeListener(event -> getNode().setSelected(swingCheckBox.isSelected()));

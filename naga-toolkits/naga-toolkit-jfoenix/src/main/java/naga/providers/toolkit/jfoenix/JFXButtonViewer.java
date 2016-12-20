@@ -10,9 +10,9 @@ import naga.toolkit.fx.spi.viewer.base.ButtonViewerMixin;
  * @author Bruno Salmon
  */
 public class JFXButtonViewer
-        <FxN extends JFXButton, N extends Button, NV extends ButtonViewerBase<N, NV, NM>, NM extends ButtonViewerMixin<N, NV, NM>>
+        <FxN extends JFXButton, N extends Button, NB extends ButtonViewerBase<N, NB, NM>, NM extends ButtonViewerMixin<N, NB, NM>>
 
-        extends FxButtonViewer<FxN, N, NV, NM> {
+        extends FxButtonViewer<FxN, N, NB, NM> {
 
     @Override
     protected FxN createFxNode() {

@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.control.TextInputControl;
  * @author Bruno Salmon
  */
 public abstract class TextInputControlViewerBase
-        <N extends TextInputControl, NV extends TextInputControlViewerBase<N, NV, NM>, NM extends TextInputControlViewerMixin<N, NV, NM>>
+        <N extends TextInputControl, NB extends TextInputControlViewerBase<N, NB, NM>, NM extends TextInputControlViewerMixin<N, NB, NM>>
 
-        extends ControlViewerBase<N, NV, NM> {
+        extends ControlViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N buttonBase, SceneRequester sceneRequester) {

@@ -19,10 +19,10 @@ import static naga.providers.toolkit.html.util.HtmlUtil.*;
  * @author Bruno Salmon
  */
 public class HtmlDataGridViewer
-        <N extends DataGrid, NV extends DataGridViewerBase<HTMLTableCellElement, N, NV, NM>, NM extends DataGridViewerMixin<HTMLTableCellElement, N, NV, NM>>
+        <N extends DataGrid, NB extends DataGridViewerBase<HTMLTableCellElement, N, NB, NM>, NM extends DataGridViewerMixin<HTMLTableCellElement, N, NB, NM>>
 
-        extends HtmlRegionViewer<N, NV, NM>
-        implements DataGridViewerMixin<HTMLTableCellElement, N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlRegionViewer<N, NB, NM>
+        implements DataGridViewerMixin<HTMLTableCellElement, N, NB, NM>, HtmlLayoutMeasurable {
 
 
     private final HTMLTableElement table = HtmlUtil.createTableElement();
@@ -31,10 +31,10 @@ public class HtmlDataGridViewer
     private final HTMLTableSectionElement tBody = createElement("tbody");
 
     public HtmlDataGridViewer() {
-        this((NV) new DataGridViewerBase(), HtmlUtil.createDivElement());
+        this((NB) new DataGridViewerBase(), HtmlUtil.createDivElement());
     }
 
-    public HtmlDataGridViewer(NV base, HTMLElement element) {
+    public HtmlDataGridViewer(NB base, HTMLElement element) {
         super(base, element);
         table.appendChild(tBody);
         table.appendChild(tBody);
@@ -90,7 +90,7 @@ public class HtmlDataGridViewer
     public void updateResultSet(DisplayResultSet rs) {
         DataGrid node = getNode();
         node.setDisplaySelection(null);
-        NV base = getNodeViewerBase();
+        NB base = getNodeViewerBase();
         HtmlUtil.removeChildren(tHeadRow);
         HtmlUtil.removeChildren(tBody);
         base.fillGrid(rs);

@@ -10,16 +10,16 @@ import javax.swing.*;
  * @author Bruno Salmon
  */
 public class SwingButtonViewer
-        <N extends Button, NV extends ButtonViewerBase<N, NV, NM>, NM extends ButtonViewerMixin<N, NV, NM>>
+        <N extends Button, NB extends ButtonViewerBase<N, NB, NM>, NM extends ButtonViewerMixin<N, NB, NM>>
 
-        extends SwingButtonBaseViewer<N, NV, NM>
-        implements ButtonViewerMixin<N, NV, NM> {
+        extends SwingButtonBaseViewer<N, NB, NM>
+        implements ButtonViewerMixin<N, NB, NM> {
 
     public SwingButtonViewer() {
-        this((NV) new ButtonViewerBase(), new JButton());
+        this((NB) new ButtonViewerBase(), new JButton());
     }
 
-    public SwingButtonViewer(NV base, AbstractButton swingButtonBase) {
+    public SwingButtonViewer(NB base, AbstractButton swingButtonBase) {
         super(base, swingButtonBase);
     }
 }

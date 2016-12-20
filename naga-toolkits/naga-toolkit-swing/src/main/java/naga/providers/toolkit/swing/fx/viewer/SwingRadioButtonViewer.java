@@ -10,18 +10,18 @@ import javax.swing.*;
  * @author Bruno Salmon
  */
 public class SwingRadioButtonViewer
-        <N extends RadioButton, NV extends RadioButtonViewerBase<N, NV, NM>, NM extends RadioButtonViewerMixin<N, NV, NM>>
+        <N extends RadioButton, NB extends RadioButtonViewerBase<N, NB, NM>, NM extends RadioButtonViewerMixin<N, NB, NM>>
 
-        extends SwingButtonBaseViewer<N, NV, NM>
-        implements RadioButtonViewerMixin<N, NV, NM> {
+        extends SwingButtonBaseViewer<N, NB, NM>
+        implements RadioButtonViewerMixin<N, NB, NM> {
 
     private final JRadioButton swingRadioButton;
 
     public SwingRadioButtonViewer() {
-        this((NV) new RadioButtonViewerBase(), new JRadioButton());
+        this((NB) new RadioButtonViewerBase(), new JRadioButton());
     }
 
-    public SwingRadioButtonViewer(NV base, AbstractButton swingButtonBase) {
+    public SwingRadioButtonViewer(NB base, AbstractButton swingButtonBase) {
         super(base, swingButtonBase);
         swingRadioButton = (JRadioButton) getSwingComponent();
         swingRadioButton.addChangeListener(event -> getNode().setSelected(swingRadioButton.isSelected()));

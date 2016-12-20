@@ -9,12 +9,12 @@ import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
  * @author Bruno Salmon
  */
 abstract class HtmlRegionViewer
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
 
-        extends HtmlNodeViewer<N, NV, NM>
-        implements RegionViewerMixin<N, NV, NM> {
+        extends HtmlNodeViewer<N, NB, NM>
+        implements RegionViewerMixin<N, NB, NM> {
 
-    HtmlRegionViewer(NV base, HTMLElement element) {
+    HtmlRegionViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 

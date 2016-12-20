@@ -12,11 +12,11 @@ import naga.toolkit.properties.markers.SelectionMode;
  * @author Bruno Salmon
  */
 abstract class FxChartViewer
-        <FxN extends javafx.scene.chart.Chart, N extends Chart, NV extends ChartViewerBase<FxN, N, NV, NM>, NM extends ChartViewerMixin<FxN, N, NV, NM>>
-        extends FxRegionViewer<FxN, N, NV, NM>
-        implements ChartViewerMixin<FxN, N, NV, NM>, FxLayoutMeasurable {
+        <FxN extends javafx.scene.chart.Chart, N extends Chart, NB extends ChartViewerBase<FxN, N, NB, NM>, NM extends ChartViewerMixin<FxN, N, NB, NM>>
+        extends FxRegionViewer<FxN, N, NB, NM>
+        implements ChartViewerMixin<FxN, N, NB, NM>, FxLayoutMeasurable {
 
-    FxChartViewer(NV base) {
+    FxChartViewer(NB base) {
         super(base);
     }
 

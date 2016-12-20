@@ -11,16 +11,16 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingGroupViewer
-        <N extends Group, NV extends GroupViewerBase<N, NV, NM>, NM extends GroupViewerMixin<N, NV, NM>>
+        <N extends Group, NB extends GroupViewerBase<N, NB, NM>, NM extends GroupViewerMixin<N, NB, NM>>
 
-        extends SwingNodeViewer<N, NV, NM>
-        implements GroupViewerMixin<N, NV, NM> {
+        extends SwingNodeViewer<N, NB, NM>
+        implements GroupViewerMixin<N, NB, NM> {
 
     public SwingGroupViewer() {
-        this((NV) new GroupViewerBase());
+        this((NB) new GroupViewerBase());
     }
 
-    public SwingGroupViewer(NV base) {
+    public SwingGroupViewer(NB base) {
         super(base);
     }
 

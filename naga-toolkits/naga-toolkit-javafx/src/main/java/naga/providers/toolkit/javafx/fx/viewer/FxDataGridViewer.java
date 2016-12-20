@@ -34,13 +34,13 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public class FxDataGridViewer
-        <N extends DataGrid, NV extends DataGridViewerBase<TableCell, N, NV, NM>, NM extends DataGridViewerMixin<TableCell, N, NV, NM>>
+        <N extends DataGrid, NB extends DataGridViewerBase<TableCell, N, NB, NM>, NM extends DataGridViewerMixin<TableCell, N, NB, NM>>
 
-        extends FxRegionViewer<TableView<Integer>, N, NV, NM>
-        implements DataGridViewerImageTextMixin<TableCell, N, NV, NM>, FxLayoutMeasurable {
+        extends FxRegionViewer<TableView<Integer>, N, NB, NM>
+        implements DataGridViewerImageTextMixin<TableCell, N, NB, NM>, FxLayoutMeasurable {
 
     public FxDataGridViewer() {
-        super((NV) new DataGridViewerBase());
+        super((NB) new DataGridViewerBase());
     }
 
     @Override
@@ -175,7 +175,7 @@ public class FxDataGridViewer
     }
 
     private Object[] getRowStyleClasses(int rowIndex) {
-        NV base = getNodeViewerBase();
+        NB base = getNodeViewerBase();
         Object value = base.getRowStyleResultSetValue(rowIndex);
         if (value instanceof ObservableValue)
             value = ((ObservableValue) value).getValue();

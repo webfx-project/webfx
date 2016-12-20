@@ -15,7 +15,7 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class CanvasSceneImpl
-        <NV extends CanvasNodeViewer<?, CC>, CC>
+        <NB extends CanvasNodeViewer<?, CC>, CC>
         extends SceneImpl {
 
     public CanvasSceneImpl(NodeViewerFactory nodeViewerFactory) {
@@ -49,7 +49,7 @@ public abstract class CanvasSceneImpl
 
     public void paintNode(Node node, CC canvasContext) {
         if (node.isVisible()) {
-            NV nodeView = (NV) getOrCreateAndBindNodeViewer(node);
+            NB nodeView = (NB) getOrCreateAndBindNodeViewer(node);
             CC nodeCanvasContext = createCanvasContext(canvasContext);
             paintNodeView(nodeView, nodeCanvasContext);
             if (node instanceof Parent)
@@ -58,7 +58,7 @@ public abstract class CanvasSceneImpl
         }
     }
 
-    private void paintNodeView(NV nodeView, CC canvasContext) {
+    private void paintNodeView(NB nodeView, CC canvasContext) {
         nodeView.prepareCanvasContext(canvasContext);
         nodeView.paint(canvasContext);
     }
@@ -92,7 +92,7 @@ public abstract class CanvasSceneImpl
                 return pickResult;
         }
         // Otherwise we ask its view if it contains the point and return this node if this is the case
-        NV nodeView = (NV) getOrCreateAndBindNodeViewer(node);
+        NB nodeView = (NB) getOrCreateAndBindNodeViewer(node);
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 

@@ -13,16 +13,16 @@ import naga.toolkit.fx.spi.viewer.base.PieChartViewerMixin;
  * @author Bruno Salmon
  */
 public class FxPieChartViewer
-        <FxN extends javafx.scene.chart.PieChart, N extends PieChart, NV extends PieChartViewerBase<FxN, N, NV, NM>, NM extends PieChartViewerMixin<FxN, N, NV, NM>>
+        <FxN extends javafx.scene.chart.PieChart, N extends PieChart, NB extends PieChartViewerBase<FxN, N, NB, NM>, NM extends PieChartViewerMixin<FxN, N, NB, NM>>
 
-        extends FxChartViewer<FxN, N, NV, NM>
-        implements PieChartViewerMixin<FxN, N, NV, NM> {
+        extends FxChartViewer<FxN, N, NB, NM>
+        implements PieChartViewerMixin<FxN, N, NB, NM> {
 
     private ObservableList<javafx.scene.chart.PieChart.Data> pieData;
     private Function<Integer, String> seriesNameGetter;
 
     public FxPieChartViewer() {
-        super((NV) new PieChartViewerBase());
+        super((NB) new PieChartViewerBase());
     }
 
     @Override

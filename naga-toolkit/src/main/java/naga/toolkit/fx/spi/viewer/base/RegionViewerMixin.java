@@ -6,9 +6,9 @@ import naga.toolkit.fx.scene.layout.Region;
  * @author Bruno Salmon
  */
 public interface RegionViewerMixin
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
 
-        extends NodeViewerMixin<N, NV, NM> {
+        extends NodeViewerMixin<N, NB, NM> {
 
     void updateWidth(Double width);
 

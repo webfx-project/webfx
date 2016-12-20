@@ -6,9 +6,9 @@ import naga.toolkit.fx.scene.image.ImageView;
  * @author Bruno Salmon
  */
 public interface ImageViewViewerMixin
-        <N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+        <N extends ImageView, NB extends ImageViewViewerBase<N, NB, NM>, NM extends ImageViewViewerMixin<N, NB, NM>>
 
-        extends NodeViewerMixin<N, NV, NM> {
+        extends NodeViewerMixin<N, NB, NM> {
 
     void updateImageUrl(String imageUrl);
 

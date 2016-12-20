@@ -10,17 +10,17 @@ import javax.swing.*;
  * @author Bruno Salmon
  */
 public class SwingHtmlTextViewer
-        <N extends HtmlText, NV extends HtmlTextViewerBase<N, NV, NM>, NM extends HtmlTextViewerMixin<N, NV, NM>>
-        extends SwingRegionViewer<N, NV, NM>
-        implements HtmlTextViewerMixin<N, NV, NM>, SwingLayoutMeasurable<N> {
+        <N extends HtmlText, NB extends HtmlTextViewerBase<N, NB, NM>, NM extends HtmlTextViewerMixin<N, NB, NM>>
+        extends SwingRegionViewer<N, NB, NM>
+        implements HtmlTextViewerMixin<N, NB, NM>, SwingLayoutMeasurable<N> {
 
     private final JEditorPane editorPane = new JEditorPane();
 
     public SwingHtmlTextViewer() {
-        this((NV) new HtmlTextViewerBase());
+        this((NB) new HtmlTextViewerBase());
     }
 
-    SwingHtmlTextViewer(NV base) {
+    SwingHtmlTextViewer(NB base) {
         super(base);
         editorPane.setContentType("text/html");
         editorPane.setEditable(false);

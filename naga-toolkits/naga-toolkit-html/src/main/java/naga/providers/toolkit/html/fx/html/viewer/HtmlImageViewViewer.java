@@ -18,16 +18,16 @@ import static naga.providers.toolkit.html.util.HtmlUtil.createNodeFromHtml;
  * @author Bruno Salmon
  */
 public class HtmlImageViewViewer
-        <N extends ImageView, NV extends ImageViewViewerBase<N, NV, NM>, NM extends ImageViewViewerMixin<N, NV, NM>>
+        <N extends ImageView, NB extends ImageViewViewerBase<N, NB, NM>, NM extends ImageViewViewerMixin<N, NB, NM>>
 
-        extends HtmlNodeViewer<N, NV, NM>
-        implements ImageViewViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlNodeViewer<N, NB, NM>
+        implements ImageViewViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlImageViewViewer() {
-        this((NV) new ImageViewViewerBase(), createImageElement());
+        this((NB) new ImageViewViewerBase(), createImageElement());
     }
 
-    public HtmlImageViewViewer(NV base, HTMLElement element) {
+    public HtmlImageViewViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 

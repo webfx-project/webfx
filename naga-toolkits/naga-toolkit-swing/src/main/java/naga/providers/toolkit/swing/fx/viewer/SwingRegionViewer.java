@@ -10,13 +10,13 @@ import javax.swing.*;
  * @author Bruno Salmon
  */
 public abstract class SwingRegionViewer
-        <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+        <N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
 
-        extends SwingNodeViewer<N, NV, NM>
-        implements RegionViewerMixin<N, NV, NM> {
+        extends SwingNodeViewer<N, NB, NM>
+        implements RegionViewerMixin<N, NB, NM> {
 
 
-    SwingRegionViewer(NV base) {
+    SwingRegionViewer(NB base) {
         super(base);
     }
 

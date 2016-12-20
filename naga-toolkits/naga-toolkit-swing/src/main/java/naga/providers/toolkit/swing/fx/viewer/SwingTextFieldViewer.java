@@ -18,18 +18,18 @@ import java.awt.*;
  * @author Bruno Salmon
  */
 public class SwingTextFieldViewer
-        <N extends TextField, NV extends TextFieldViewerBase<N, NV, NM>, NM extends TextFieldViewerMixin<N, NV, NM>>
+        <N extends TextField, NB extends TextFieldViewerBase<N, NB, NM>, NM extends TextFieldViewerMixin<N, NB, NM>>
 
-        extends SwingRegionViewer<N, NV, NM>
-        implements TextFieldViewerMixin<N, NV, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
+        extends SwingRegionViewer<N, NB, NM>
+        implements TextFieldViewerMixin<N, NB, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
 
     private final JPlaceholderTextField swingTextField = new JPlaceholderTextField();
 
     public SwingTextFieldViewer() {
-        this((NV) new TextFieldViewerBase());
+        this((NB) new TextFieldViewerBase());
     }
 
-    public SwingTextFieldViewer(NV base) {
+    public SwingTextFieldViewer(NB base) {
         super(base);
         swingTextField.setPreferredSize(new Dimension(200, (int) swingTextField.getMinimumSize().getHeight()));
         swingTextField.getDocument().addDocumentListener(new DocumentListener() {

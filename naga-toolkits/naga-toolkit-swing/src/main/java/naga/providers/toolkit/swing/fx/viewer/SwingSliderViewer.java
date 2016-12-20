@@ -10,18 +10,18 @@ import javax.swing.*;
  * @author Bruno Salmon
  */
 public class SwingSliderViewer
-        <N extends Slider, NV extends SliderViewerBase<N, NV, NM>, NM extends SliderViewerMixin<N, NV, NM>>
+        <N extends Slider, NB extends SliderViewerBase<N, NB, NM>, NM extends SliderViewerMixin<N, NB, NM>>
 
-        extends SwingRegionViewer<N, NV, NM>
-        implements SliderViewerMixin<N, NV, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
+        extends SwingRegionViewer<N, NB, NM>
+        implements SliderViewerMixin<N, NB, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
 
     private final JSlider swingSlider = new JSlider();
 
     public SwingSliderViewer() {
-        this((NV) new SliderViewerBase());
+        this((NB) new SliderViewerBase());
     }
 
-    public SwingSliderViewer(NV base) {
+    public SwingSliderViewer(NB base) {
         super(base);
         swingSlider.addChangeListener(e -> updateNodeValue((double) swingSlider.getValue()));
     }

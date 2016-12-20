@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.SliderViewerMixin;
  * @author Bruno Salmon
  */
 public class FxSliderViewer
-        <FxN extends javafx.scene.control.Slider, N extends Slider, NV extends SliderViewerBase<N, NV, NM>, NM extends SliderViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.control.Slider, N extends Slider, NB extends SliderViewerBase<N, NB, NM>, NM extends SliderViewerMixin<N, NB, NM>>
 
-        extends FxControlViewer<FxN, N, NV, NM>
-        implements SliderViewerMixin<N, NV, NM>, FxLayoutMeasurable {
+        extends FxControlViewer<FxN, N, NB, NM>
+        implements SliderViewerMixin<N, NB, NM>, FxLayoutMeasurable {
 
     public FxSliderViewer() {
-        super((NV) new SliderViewerBase());
+        super((NB) new SliderViewerBase());
     }
 
     @Override

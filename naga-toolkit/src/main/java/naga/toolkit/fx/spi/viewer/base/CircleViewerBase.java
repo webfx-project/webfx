@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.shape.Circle;
  * @author Bruno Salmon
  */
 public class CircleViewerBase
-        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+        <N extends Circle, NB extends CircleViewerBase<N, NB, NM>, NM extends CircleViewerMixin<N, NB, NM>>
 
-        extends ShapeViewerBase<N, NV, NM> {
+        extends ShapeViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N c, SceneRequester sceneRequester) {

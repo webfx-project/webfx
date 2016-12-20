@@ -11,16 +11,16 @@ import naga.toolkit.fx.spi.viewer.base.CircleViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlCircleViewer
-        <N extends Circle, NV extends CircleViewerBase<N, NV, NM>, NM extends CircleViewerMixin<N, NV, NM>>
+        <N extends Circle, NB extends CircleViewerBase<N, NB, NM>, NM extends CircleViewerMixin<N, NB, NM>>
 
-        extends HtmlShapeViewer<N, NV, NM>
-        implements CircleViewerMixin<N, NV, NM> {
+        extends HtmlShapeViewer<N, NB, NM>
+        implements CircleViewerMixin<N, NB, NM> {
 
     public HtmlCircleViewer() {
-        this((NV) new CircleViewerBase(), HtmlUtil.createDivElement());
+        this((NB) new CircleViewerBase(), HtmlUtil.createDivElement());
     }
 
-    public HtmlCircleViewer(NV base, HTMLElement element) {
+    public HtmlCircleViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 

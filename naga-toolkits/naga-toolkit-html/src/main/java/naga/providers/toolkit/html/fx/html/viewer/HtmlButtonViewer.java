@@ -10,16 +10,16 @@ import naga.toolkit.fx.spi.viewer.base.ButtonViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlButtonViewer
-        <N extends Button, NV extends ButtonViewerBase<N, NV, NM>, NM extends ButtonViewerMixin<N, NV, NM>>
+        <N extends Button, NB extends ButtonViewerBase<N, NB, NM>, NM extends ButtonViewerMixin<N, NB, NM>>
 
-        extends HtmlButtonBaseViewer<N, NV, NM>
-        implements ButtonViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlButtonBaseViewer<N, NB, NM>
+        implements ButtonViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlButtonViewer() {
-        this((NV) new ButtonViewerBase(), HtmlUtil.createButtonElement());
+        this((NB) new ButtonViewerBase(), HtmlUtil.createButtonElement());
     }
 
-    public HtmlButtonViewer(NV base, HTMLElement element) {
+    public HtmlButtonViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 }

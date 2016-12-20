@@ -6,7 +6,7 @@ import naga.toolkit.fx.ext.chart.PieChart;
  * @author Bruno Salmon
  */
 public class PieChartViewerBase
-        <C, N extends PieChart, NV extends PieChartViewerBase<C, N, NV, NM>, NM extends PieChartViewerMixin<C, N, NV, NM>>
+        <C, N extends PieChart, NB extends PieChartViewerBase<C, N, NB, NM>, NM extends PieChartViewerMixin<C, N, NB, NM>>
 
-        extends ChartViewerBase<C, N, NV, NM> {
+        extends ChartViewerBase<C, N, NB, NM> {
 }

@@ -9,11 +9,11 @@ import naga.toolkit.fx.spi.viewer.base.ButtonBaseViewerMixin;
  * @author Bruno Salmon
  */
 abstract class FxButtonBaseViewer
-        <FxN extends javafx.scene.control.ButtonBase, N extends ButtonBase, NV extends ButtonBaseViewerBase<N, NV, NM>, NM extends ButtonBaseViewerMixin<N, NV, NM>>
-        extends FxRegionViewer<FxN, N, NV, NM>
-        implements ButtonBaseViewerMixin<N, NV, NM> {
+        <FxN extends javafx.scene.control.ButtonBase, N extends ButtonBase, NB extends ButtonBaseViewerBase<N, NB, NM>, NM extends ButtonBaseViewerMixin<N, NB, NM>>
+        extends FxRegionViewer<FxN, N, NB, NM>
+        implements ButtonBaseViewerMixin<N, NB, NM> {
 
-    FxButtonBaseViewer(NV base) {
+    FxButtonBaseViewer(NB base) {
         super(base);
     }
 

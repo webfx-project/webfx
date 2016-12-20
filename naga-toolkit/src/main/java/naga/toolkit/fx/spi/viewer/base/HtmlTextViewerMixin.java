@@ -6,9 +6,9 @@ import naga.toolkit.fx.ext.control.HtmlText;
  * @author Bruno Salmon
  */
 public interface HtmlTextViewerMixin
-        <N extends HtmlText, NV extends HtmlTextViewerBase<N, NV, NM>, NM extends HtmlTextViewerMixin<N, NV, NM>>
+        <N extends HtmlText, NB extends HtmlTextViewerBase<N, NB, NM>, NM extends HtmlTextViewerMixin<N, NB, NM>>
 
-        extends RegionViewerMixin<N, NV, NM> {
+        extends RegionViewerMixin<N, NB, NM> {
 
     void updateText(String text);
 

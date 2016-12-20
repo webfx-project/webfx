@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.Node;
  * @author Bruno Salmon
  */
 public interface DataGridViewerImageTextMixin
-        <C, N extends DataGrid, NV extends DataGridViewerBase<C, N, NV, NM>, NM extends DataGridViewerMixin<C, N, NV, NM>>
+        <C, N extends DataGrid, NB extends DataGridViewerBase<C, N, NB, NM>, NM extends DataGridViewerMixin<C, N, NB, NM>>
 
-        extends DataGridViewerMixin<C, N, NV, NM> {
+        extends DataGridViewerMixin<C, N, NB, NM> {
 
     default void setCellContent(C cell, Node content, DisplayColumn displayColumn) {
         setCellImageAndTextContent(cell, content, null, displayColumn);

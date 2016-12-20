@@ -6,18 +6,18 @@ import naga.toolkit.fx.scene.Node;
  * @author Bruno Salmon
  */
 public abstract class NodeViewerImpl
-        <N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
-        implements NodeViewerMixin<N, NV, NM> {
+        <N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
+        implements NodeViewerMixin<N, NB, NM> {
 
-    private final NV base;
+    private final NB base;
 
-    public NodeViewerImpl(NV base) {
+    public NodeViewerImpl(NB base) {
         this.base = base;
         base.setMixin((NM) this);
     }
 
     @Override
-    public NV getNodeViewerBase() {
+    public NB getNodeViewerBase() {
         return base;
     }
 

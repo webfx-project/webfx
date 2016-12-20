@@ -25,14 +25,14 @@ import java.util.Map;
  * @author Bruno Salmon
  */
 public abstract class SvgNodeViewer
-        <N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
+        <N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
 
-        extends HtmlSvgNodeViewer<Element, N, NV, NM> {
+        extends HtmlSvgNodeViewer<Element, N, NB, NM> {
 
     private Map<String, Element> svgLinearGradients;
     private Element svgClipPath;
 
-    SvgNodeViewer(NV base, Element element) {
+    SvgNodeViewer(NB base, Element element) {
         super(base, element);
     }
 

@@ -38,9 +38,9 @@ import java.util.Collection;
  * @author Bruno Salmon
  */
 public abstract class SwingNodeViewer
-        <N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
+        <N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
 
-        extends NodeViewerImpl<N, NV, NM>
+        extends NodeViewerImpl<N, NB, NM>
         implements CanvasNodeViewer<N, Graphics2D> {
 
     private AffineTransform swingTransform;
@@ -48,7 +48,7 @@ public abstract class SwingNodeViewer
     private SwingShapeViewer swingClipView;
     private Shape swingClip;
 
-    SwingNodeViewer(NV base) {
+    SwingNodeViewer(NB base) {
         super(base);
     }
 

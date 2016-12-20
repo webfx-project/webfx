@@ -10,17 +10,17 @@ import naga.toolkit.fx.spi.viewer.base.HtmlTextViewerMixin;
  * @author Bruno Salmon
  */
 public class FxHtmlTextViewer
-        <FxN extends WebView, N extends HtmlText, NV extends HtmlTextViewerBase<N, NV, NM>, NM extends HtmlTextViewerMixin<N, NV, NM>>
-        extends FxNodeViewer<FxN, N, NV, NM>
-        implements HtmlTextViewerMixin<N, NV, NM>, FxLayoutMeasurable {
+        <FxN extends WebView, N extends HtmlText, NB extends HtmlTextViewerBase<N, NB, NM>, NM extends HtmlTextViewerMixin<N, NB, NM>>
+        extends FxNodeViewer<FxN, N, NB, NM>
+        implements HtmlTextViewerMixin<N, NB, NM>, FxLayoutMeasurable {
 
     private final WebView webView = new WebView();
 
     public FxHtmlTextViewer() {
-        this((NV) new HtmlTextViewerBase());
+        this((NB) new HtmlTextViewerBase());
     }
 
-    FxHtmlTextViewer(NV base) {
+    FxHtmlTextViewer(NB base) {
         super(base);
         updateText(null);
     }

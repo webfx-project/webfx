@@ -25,14 +25,14 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class FxNodeViewer
-        <FxN extends javafx.scene.Node, N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.Node, N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
 
-        extends NodeViewerImpl<N, NV, NM>
-        implements NodeViewerMixin<N, NV, NM> {
+        extends NodeViewerImpl<N, NB, NM>
+        implements NodeViewerMixin<N, NB, NM> {
 
     private FxN fxNode;
 
-    FxNodeViewer(NV base) {
+    FxNodeViewer(NB base) {
         super(base);
     }
 

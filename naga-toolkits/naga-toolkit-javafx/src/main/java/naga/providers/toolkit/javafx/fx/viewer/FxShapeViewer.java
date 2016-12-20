@@ -15,12 +15,12 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class FxShapeViewer
-        <FxN extends javafx.scene.shape.Shape, N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.shape.Shape, N extends Shape, NB extends ShapeViewerBase<N, NB, NM>, NM extends ShapeViewerMixin<N, NB, NM>>
 
-        extends FxNodeViewer<FxN, N, NV, NM>
-        implements ShapeViewerMixin<N, NV, NM>, FxLayoutMeasurable {
+        extends FxNodeViewer<FxN, N, NB, NM>
+        implements ShapeViewerMixin<N, NB, NM>, FxLayoutMeasurable {
 
-    FxShapeViewer(NV base) {
+    FxShapeViewer(NB base) {
         super(base);
     }
 

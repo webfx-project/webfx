@@ -14,13 +14,13 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class FxXYChartViewer
-        <FxN extends javafx.scene.chart.XYChart, N extends Chart, NV extends ChartViewerBase<FxN, N, NV, NM>, NM extends ChartViewerMixin<FxN, N, NV, NM>>
-        extends FxChartViewer<FxN, N, NV, NM> {
+        <FxN extends javafx.scene.chart.XYChart, N extends Chart, NB extends ChartViewerBase<FxN, N, NB, NM>, NM extends ChartViewerMixin<FxN, N, NB, NM>>
+        extends FxChartViewer<FxN, N, NB, NM> {
 
     private List<XYChart.Series> seriesList;
     private Object xValue;
 
-    public FxXYChartViewer(NV base) {
+    public FxXYChartViewer(NB base) {
         super(base);
     }
 

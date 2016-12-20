@@ -10,16 +10,16 @@ import naga.toolkit.fx.spi.viewer.base.GroupViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlGroupViewer
-        <N extends Group, NV extends GroupViewerBase<N, NV, NM>, NM extends GroupViewerMixin<N, NV, NM>>
+        <N extends Group, NB extends GroupViewerBase<N, NB, NM>, NM extends GroupViewerMixin<N, NB, NM>>
 
-        extends HtmlNodeViewer<N, NV, NM>
-        implements GroupViewerMixin<N, NV, NM> {
+        extends HtmlNodeViewer<N, NB, NM>
+        implements GroupViewerMixin<N, NB, NM> {
 
     public HtmlGroupViewer() {
-        this((NV) new GroupViewerBase(), HtmlUtil.createDivElement());
+        this((NB) new GroupViewerBase(), HtmlUtil.createDivElement());
     }
 
-    public HtmlGroupViewer(NV base, HTMLElement element) {
+    public HtmlGroupViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 }

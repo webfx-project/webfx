@@ -19,17 +19,17 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class SwingShapeViewer
-        <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+        <N extends Shape, NB extends ShapeViewerBase<N, NB, NM>, NM extends ShapeViewerMixin<N, NB, NM>>
 
-        extends SwingNodeViewer<N, NV, NM>
-        implements ShapeViewerMixin<N, NV, NM>, LayoutMeasurable {
+        extends SwingNodeViewer<N, NB, NM>
+        implements ShapeViewerMixin<N, NB, NM>, LayoutMeasurable {
 
     private final SwingPaintUpdater swingPaintUpdater = new SwingPaintUpdater();
     private final SwingStrokeUpdater swingStrokeUpdater = new SwingStrokeUpdater();
     private java.awt.Shape swingShape;
     private Bounds layoutBounds;
 
-    SwingShapeViewer(NV base) {
+    SwingShapeViewer(NB base) {
         super(base);
     }
 

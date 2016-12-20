@@ -16,12 +16,12 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class SvgShapeViewer
-        <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+        <N extends Shape, NB extends ShapeViewerBase<N, NB, NM>, NM extends ShapeViewerMixin<N, NB, NM>>
 
-        extends SvgNodeViewer<N, NV, NM>
-        implements ShapeViewerMixin<N, NV, NM> {
+        extends SvgNodeViewer<N, NB, NM>
+        implements ShapeViewerMixin<N, NB, NM> {
 
-    public SvgShapeViewer(NV base, Element element) {
+    public SvgShapeViewer(NB base, Element element) {
         super(base, element);
     }
 

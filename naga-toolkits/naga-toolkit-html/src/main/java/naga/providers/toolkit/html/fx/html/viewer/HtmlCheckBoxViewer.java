@@ -11,18 +11,18 @@ import naga.toolkit.fx.spi.viewer.base.CheckBoxViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlCheckBoxViewer
-        <N extends CheckBox, NV extends CheckBoxViewerBase<N, NV, NM>, NM extends CheckBoxViewerMixin<N, NV, NM>>
+        <N extends CheckBox, NB extends CheckBoxViewerBase<N, NB, NM>, NM extends CheckBoxViewerMixin<N, NB, NM>>
 
-        extends HtmlButtonBaseViewer<N, NV, NM>
-        implements CheckBoxViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlButtonBaseViewer<N, NB, NM>
+        implements CheckBoxViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     private final HTMLInputElement checkBox;
 
     public HtmlCheckBoxViewer() {
-        this((NV) new CheckBoxViewerBase(), HtmlUtil.createLabelElement());
+        this((NB) new CheckBoxViewerBase(), HtmlUtil.createLabelElement());
     }
 
-    public HtmlCheckBoxViewer(NV base, HTMLElement element) {
+    public HtmlCheckBoxViewer(NB base, HTMLElement element) {
         super(base, element);
         checkBox = HtmlUtil.createCheckBox();
         checkBox.onclick = event -> {

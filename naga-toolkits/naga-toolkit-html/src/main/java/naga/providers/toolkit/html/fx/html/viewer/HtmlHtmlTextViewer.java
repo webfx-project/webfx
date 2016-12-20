@@ -10,15 +10,15 @@ import naga.toolkit.fx.spi.viewer.base.HtmlTextViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlHtmlTextViewer
-        <N extends HtmlText, NV extends HtmlTextViewerBase<N, NV, NM>, NM extends HtmlTextViewerMixin<N, NV, NM>>
-        extends HtmlRegionViewer<N, NV, NM>
-        implements HtmlTextViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        <N extends HtmlText, NB extends HtmlTextViewerBase<N, NB, NM>, NM extends HtmlTextViewerMixin<N, NB, NM>>
+        extends HtmlRegionViewer<N, NB, NM>
+        implements HtmlTextViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlHtmlTextViewer() {
-        this((NV) new HtmlTextViewerBase());
+        this((NB) new HtmlTextViewerBase());
     }
 
-    HtmlHtmlTextViewer(NV base) {
+    HtmlHtmlTextViewer(NB base) {
         super(base, HtmlUtil.createSpanElement());
     }
 

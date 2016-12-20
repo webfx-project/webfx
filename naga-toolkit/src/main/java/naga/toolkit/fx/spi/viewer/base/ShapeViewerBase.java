@@ -8,9 +8,9 @@ import naga.toolkit.fx.scene.shape.Shape;
  * @author Bruno Salmon
  */
 public abstract class ShapeViewerBase
-        <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
+        <N extends Shape, NB extends ShapeViewerBase<N, NB, NM>, NM extends ShapeViewerMixin<N, NB, NM>>
 
-        extends NodeViewerBase<N, NV, NM> {
+        extends NodeViewerBase<N, NB, NM> {
 
     @Override
     public void bind(N shape, SceneRequester sceneRequester) {

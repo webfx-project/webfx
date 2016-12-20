@@ -21,17 +21,17 @@ import java.awt.geom.Rectangle2D;
  * @author Bruno Salmon
  */
 public class SwingTextViewer
-        <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
-        extends SwingShapeViewer<N, NV, NM>
-        implements TextViewerMixin<N, NV, NM> {
+        <N extends Text, NB extends TextViewerBase<N, NB, NM>, NM extends TextViewerMixin<N, NB, NM>>
+        extends SwingShapeViewer<N, NB, NM>
+        implements TextViewerMixin<N, NB, NM> {
 
     private java.awt.Font swingFont;
 
     public SwingTextViewer() {
-        this((NV) new TextViewerBase());
+        this((NB) new TextViewerBase());
     }
 
-    SwingTextViewer(NV base) {
+    SwingTextViewer(NB base) {
         super(base);
     }
 

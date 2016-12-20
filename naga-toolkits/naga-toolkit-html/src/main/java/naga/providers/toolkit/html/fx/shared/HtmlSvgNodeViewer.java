@@ -32,14 +32,14 @@ import java.util.Objects;
  * @author Bruno Salmon
  */
 public abstract class HtmlSvgNodeViewer
-        <E extends Element, N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
-        extends NodeViewerImpl<N, NV, NM> {
+        <E extends Element, N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
+        extends NodeViewerImpl<N, NB, NM> {
 
     private final E element;
     private Element container;
     protected DomType containerType;
 
-    public HtmlSvgNodeViewer(NV base, E element) {
+    public HtmlSvgNodeViewer(NB base, E element) {
         super(base);
         this.element = element;
         setContainer(element);

@@ -8,10 +8,10 @@ import naga.toolkit.fx.spi.viewer.base.TextInputControlViewerMixin;
  * @author Bruno Salmon
  */
 abstract class FxTextInputControlViewer
-        <FxN extends javafx.scene.control.TextInputControl, N extends TextInputControl, NV extends TextInputControlViewerBase<N, NV, NM>, NM extends TextInputControlViewerMixin<N, NV, NM>>
-        extends FxControlViewer<FxN, N, NV, NM> {
+        <FxN extends javafx.scene.control.TextInputControl, N extends TextInputControl, NB extends TextInputControlViewerBase<N, NB, NM>, NM extends TextInputControlViewerMixin<N, NB, NM>>
+        extends FxControlViewer<FxN, N, NB, NM> {
 
-    FxTextInputControlViewer(NV base) {
+    FxTextInputControlViewer(NB base) {
         super(base);
     }
 }

@@ -16,11 +16,11 @@ import naga.toolkit.fx.scene.text.TextAlignment;
  * @author Bruno Salmon
  */
 public abstract class HtmlNodeViewer
-        <N extends Node, NV extends NodeViewerBase<N, NV, NM>, NM extends NodeViewerMixin<N, NV, NM>>
+        <N extends Node, NB extends NodeViewerBase<N, NB, NM>, NM extends NodeViewerMixin<N, NB, NM>>
 
-        extends HtmlSvgNodeViewer<HTMLElement, N, NV, NM> {
+        extends HtmlSvgNodeViewer<HTMLElement, N, NB, NM> {
 
-    HtmlNodeViewer(NV base, HTMLElement element) {
+    HtmlNodeViewer(NB base, HTMLElement element) {
         super(base, element);
     }
 

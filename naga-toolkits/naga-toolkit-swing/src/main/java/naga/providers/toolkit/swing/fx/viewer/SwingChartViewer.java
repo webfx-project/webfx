@@ -18,14 +18,14 @@ import java.util.List;
  * @author Bruno Salmon
  */
 abstract class SwingChartViewer
-        <N extends Chart, NV extends ChartViewerBase<XChartJPanel, N, NV, NM>, NM extends ChartViewerMixin<XChartJPanel, N, NV, NM>>
+        <N extends Chart, NB extends ChartViewerBase<XChartJPanel, N, NB, NM>, NM extends ChartViewerMixin<XChartJPanel, N, NB, NM>>
 
-        extends SwingRegionViewer<N, NV, NM>
-        implements ChartViewerMixin<XChartJPanel, N, NV, NM>, SwingLayoutMeasurable<N> {
+        extends SwingRegionViewer<N, NB, NM>
+        implements ChartViewerMixin<XChartJPanel, N, NB, NM>, SwingLayoutMeasurable<N> {
 
     private final XChartJPanel xChartJPanel = new XChartJPanel();
 
-    SwingChartViewer(NV base) {
+    SwingChartViewer(NB base) {
         super(base);
     }
 

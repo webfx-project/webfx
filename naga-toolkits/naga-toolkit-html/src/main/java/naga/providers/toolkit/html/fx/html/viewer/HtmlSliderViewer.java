@@ -13,16 +13,16 @@ import naga.toolkit.fx.spi.viewer.base.SliderViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlSliderViewer
-        <N extends Slider, NV extends SliderViewerBase<N, NV, NM>, NM extends SliderViewerMixin<N, NV, NM>>
+        <N extends Slider, NB extends SliderViewerBase<N, NB, NM>, NM extends SliderViewerMixin<N, NB, NM>>
 
-        extends HtmlRegionViewer<N, NV, NM>
-        implements SliderViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlRegionViewer<N, NB, NM>
+        implements SliderViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlSliderViewer() {
-        this((NV) new SliderViewerBase(), HtmlUtil.createInputElement("range"));
+        this((NB) new SliderViewerBase(), HtmlUtil.createInputElement("range"));
     }
 
-    public HtmlSliderViewer(NV base, HTMLElement element) {
+    public HtmlSliderViewer(NB base, HTMLElement element) {
         super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.onchange = e -> {

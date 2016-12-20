@@ -7,9 +7,9 @@ import naga.toolkit.fx.ext.DisplayResultSetControl;
  * @author Bruno Salmon
  */
 public interface DisplayResultSetControlViewerMixin
-        <C, N extends DisplayResultSetControl, NV extends DisplayResultSetControlViewerBase<C, N, NV, NM>, NM extends DisplayResultSetControlViewerMixin<C, N, NV, NM>>
+        <C, N extends DisplayResultSetControl, NB extends DisplayResultSetControlViewerBase<C, N, NB, NM>, NM extends DisplayResultSetControlViewerMixin<C, N, NB, NM>>
 
-        extends ControlViewerMixin<N, NV, NM> {
+        extends ControlViewerMixin<N, NB, NM> {
 
     void updateResultSet(DisplayResultSet rs);
 

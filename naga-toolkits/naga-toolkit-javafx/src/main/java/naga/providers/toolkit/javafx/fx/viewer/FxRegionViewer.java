@@ -10,13 +10,13 @@ import java.lang.reflect.Method;
  * @author Bruno Salmon
  */
 abstract class FxRegionViewer
-        <FxN extends javafx.scene.layout.Region, N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.layout.Region, N extends Region, NB extends RegionViewerBase<N, NB, NM>, NM extends RegionViewerMixin<N, NB, NM>>
 
-        extends FxNodeViewer<FxN, N, NV, NM>
-        implements RegionViewerMixin<N, NV, NM> {
+        extends FxNodeViewer<FxN, N, NB, NM>
+        implements RegionViewerMixin<N, NB, NM> {
 
 
-    FxRegionViewer(NV base) {
+    FxRegionViewer(NB base) {
         super(base);
 /*
         FxN region = getFxNode();

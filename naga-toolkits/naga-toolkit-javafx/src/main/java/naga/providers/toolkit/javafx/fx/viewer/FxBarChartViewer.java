@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.BarChartViewerMixin;
  * @author Bruno Salmon
  */
 public class FxBarChartViewer
-        <FxN extends javafx.scene.chart.BarChart, N extends BarChart, NV extends BarChartViewerBase<FxN, N, NV, NM>, NM extends BarChartViewerMixin<FxN, N, NV, NM>>
+        <FxN extends javafx.scene.chart.BarChart, N extends BarChart, NB extends BarChartViewerBase<FxN, N, NB, NM>, NM extends BarChartViewerMixin<FxN, N, NB, NM>>
 
-        extends FxXYChartViewer<FxN, N, NV, NM>
-        implements BarChartViewerMixin<FxN, N, NV, NM> {
+        extends FxXYChartViewer<FxN, N, NB, NM>
+        implements BarChartViewerMixin<FxN, N, NB, NM> {
 
     public FxBarChartViewer() {
-        super((NV) new BarChartViewerBase());
+        super((NB) new BarChartViewerBase());
     }
 
     @Override

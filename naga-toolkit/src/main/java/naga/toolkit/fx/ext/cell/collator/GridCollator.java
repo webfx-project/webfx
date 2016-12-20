@@ -79,10 +79,10 @@ public class GridCollator extends DataGridImpl {
     private GridCollatorViewer gridCollatorViewer;
 
     private class GridCollatorViewer
-            <N extends DataGrid, NV extends DataGridViewerBase<GridCollator, N, NV, NM>, NM extends DataGridViewerMixin<GridCollator, N, NV, NM>>
+            <N extends DataGrid, NB extends DataGridViewerBase<GridCollator, N, NB, NM>, NM extends DataGridViewerMixin<GridCollator, N, NB, NM>>
 
-    extends DataGridViewerBase<GridCollator, N, NV, NM>
-        implements DataGridViewerMixin<GridCollator, N, NV, NM> {
+    extends DataGridViewerBase<GridCollator, N, NB, NM>
+        implements DataGridViewerMixin<GridCollator, N, NB, NM> {
 
         private ValueRenderer[] renderers;
         private int[] rsColumnIndexes;
@@ -142,8 +142,8 @@ public class GridCollator extends DataGridImpl {
         }
 
         @Override
-        public NV getNodeViewerBase() {
-            return (NV) this;
+        public NB getNodeViewerBase() {
+            return (NB) this;
         }
 
         @Override

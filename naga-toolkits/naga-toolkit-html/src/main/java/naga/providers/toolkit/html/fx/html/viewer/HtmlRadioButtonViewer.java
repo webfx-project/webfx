@@ -11,18 +11,18 @@ import naga.toolkit.fx.spi.viewer.base.RadioButtonViewerMixin;
  * @author Bruno Salmon
  */
 public class HtmlRadioButtonViewer
-        <N extends RadioButton, NV extends RadioButtonViewerBase<N, NV, NM>, NM extends RadioButtonViewerMixin<N, NV, NM>>
+        <N extends RadioButton, NB extends RadioButtonViewerBase<N, NB, NM>, NM extends RadioButtonViewerMixin<N, NB, NM>>
 
-        extends HtmlButtonBaseViewer<N, NV, NM>
-        implements RadioButtonViewerMixin<N, NV, NM>, HtmlLayoutMeasurable {
+        extends HtmlButtonBaseViewer<N, NB, NM>
+        implements RadioButtonViewerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     private final HTMLInputElement radioButtonElement;
 
     public HtmlRadioButtonViewer() {
-        this((NV) new RadioButtonViewerBase(), HtmlUtil.createLabelElement());
+        this((NB) new RadioButtonViewerBase(), HtmlUtil.createLabelElement());
     }
 
-    public HtmlRadioButtonViewer(NV base, HTMLElement element) {
+    public HtmlRadioButtonViewer(NB base, HTMLElement element) {
         super(base, element);
         radioButtonElement = HtmlUtil.createRadioButton();
         radioButtonElement.onclick = event -> {

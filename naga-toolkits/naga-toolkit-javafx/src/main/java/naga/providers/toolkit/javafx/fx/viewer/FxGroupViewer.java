@@ -8,13 +8,13 @@ import naga.toolkit.fx.spi.viewer.base.GroupViewerMixin;
  * @author Bruno Salmon
  */
 public class FxGroupViewer
-        <FxN extends javafx.scene.Group, N extends Group, NV extends GroupViewerBase<N, NV, NM>, NM extends GroupViewerMixin<N, NV, NM>>
+        <FxN extends javafx.scene.Group, N extends Group, NB extends GroupViewerBase<N, NB, NM>, NM extends GroupViewerMixin<N, NB, NM>>
 
-        extends FxNodeViewer<FxN, N, NV, NM>
-        implements GroupViewerMixin<N, NV, NM> {
+        extends FxNodeViewer<FxN, N, NB, NM>
+        implements GroupViewerMixin<N, NB, NM> {
 
     public FxGroupViewer() {
-        super((NV) new GroupViewerBase());
+        super((NB) new GroupViewerBase());
     }
 
     @Override

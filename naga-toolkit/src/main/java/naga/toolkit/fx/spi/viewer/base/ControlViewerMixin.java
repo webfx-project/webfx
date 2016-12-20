@@ -6,7 +6,7 @@ import naga.toolkit.fx.scene.control.Control;
  * @author Bruno Salmon
  */
 public interface ControlViewerMixin
-        <N extends Control, NV extends ControlViewerBase<N, NV, NM>, NM extends ControlViewerMixin<N, NV, NM>>
+        <N extends Control, NB extends ControlViewerBase<N, NB, NM>, NM extends ControlViewerMixin<N, NB, NM>>
 
-        extends RegionViewerMixin<N, NV, NM> {
+        extends RegionViewerMixin<N, NB, NM> {
 }
