@@ -48,12 +48,11 @@ public final class SwingImageStore {
                         iconCache.put(url, icon = new BatikSvgIcon(is, width, height));
                         long t = System.currentTimeMillis() - t0;
                         System.out.println("Svg image " + url + " loaded in " + t + "ms");
-                        return icon;
                     } catch (Exception e) {
                         e.printStackTrace();
-                        return null;
                     }
                 }
+                return icon;
             }
         Image image = getImage(url);
         if (image != null)
