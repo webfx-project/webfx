@@ -176,9 +176,9 @@ public abstract class SwingNodeViewer
 
     private static JComponent fitNodeSizeToSwingComponentAndLayout(Node node, JComponent component) {
         if (node instanceof HasWidthProperty)
-            Properties.safeSetProperty(((HasWidthProperty) node).widthProperty(), (double) component.getWidth());
+            Properties.setIfNotBound(((HasWidthProperty) node).widthProperty(), (double) component.getWidth());
         if (node instanceof HasHeightProperty)
-            Properties.safeSetProperty(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
+            Properties.setIfNotBound(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
         if (node instanceof Parent)
             naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
         return component;

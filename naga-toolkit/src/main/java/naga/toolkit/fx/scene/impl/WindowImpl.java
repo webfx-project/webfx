@@ -71,7 +71,7 @@ public abstract class WindowImpl implements Window {
             });
         else {
             // Initially the window dimension is set to the scene dimension (if possible - will work on desktop but not on browser)
-            Properties.safeSetProperty(windowDimension, sceneDimension.getValue());
+            Properties.setIfNotBound(windowDimension, sceneDimension.getValue());
             // Then the scene dimension is bound to the window dimension (if the user resize the window, this will resize the scene)
             sceneDimension.bind(windowDimension);
         }

@@ -43,7 +43,7 @@ public class Properties {
         consume(property, arg -> Toolkit.get().scheduler().scheduleDeferred(() -> consumer.accept(arg)));
     }
 
-    public static <T> void safeSetProperty(Property<T> property, T value) {
+    public static <T> void setIfNotBound(Property<T> property, T value) {
         if (!property.isBound())
             property.setValue(value);
     }
