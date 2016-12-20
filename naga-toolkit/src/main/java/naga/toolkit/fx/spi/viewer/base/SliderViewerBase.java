@@ -1,16 +1,14 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.control.Slider;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.SliderViewer;
+import naga.toolkit.fx.scene.control.Slider;
 
 /**
  * @author Bruno Salmon
  */
 public class SliderViewerBase
-        extends ControlViewerBase<Slider, SliderViewerBase, SliderViewerMixin>
-        implements SliderViewer {
+        extends ControlViewerBase<Slider, SliderViewerBase, SliderViewerMixin> {
 
     @Override
     public void bind(Slider s, SceneRequester sceneRequester) {

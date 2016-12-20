@@ -1,17 +1,15 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.control.ToggleButton;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.ToggleButtonViewer;
+import naga.toolkit.fx.scene.control.ToggleButton;
 
 /**
  * @author Bruno Salmon
  */
 public class ToggleButtonViewerBase
         <N extends ToggleButton, NV extends ToggleButtonViewerBase<N, NV, NM>, NM extends ToggleButtonViewerMixin<N, NV, NM>>
-        extends ButtonBaseViewerBase<N, NV, NM>
-        implements ToggleButtonViewer<N> {
+        extends ButtonBaseViewerBase<N, NV, NM> {
 
     @Override
     public void bind(N toggleButton, SceneRequester sceneRequester) {

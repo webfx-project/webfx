@@ -1,9 +1,8 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.ShapeViewer;
+import naga.toolkit.fx.scene.shape.Shape;
 
 /**
  * @author Bruno Salmon
@@ -11,8 +10,7 @@ import naga.toolkit.fx.spi.viewer.ShapeViewer;
 public abstract class ShapeViewerBase
         <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
 
-        extends NodeViewerBase<N, NV, NM>
-        implements ShapeViewer<N> {
+        extends NodeViewerBase<N, NV, NM> {
 
     @Override
     public void bind(N shape, SceneRequester sceneRequester) {

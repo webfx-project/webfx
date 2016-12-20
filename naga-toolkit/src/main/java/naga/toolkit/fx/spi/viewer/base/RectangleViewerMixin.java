@@ -1,14 +1,12 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import naga.toolkit.fx.scene.shape.Rectangle;
-import naga.toolkit.fx.spi.viewer.RectangleViewer;
 
 /**
  * @author Bruno Salmon
  */
 public interface RectangleViewerMixin
-        extends RectangleViewer,
-        ShapeViewerMixin<Rectangle, RectangleViewerBase, RectangleViewerMixin> {
+        extends ShapeViewerMixin<Rectangle, RectangleViewerBase, RectangleViewerMixin> {
 
     void updateX(Double x);
 

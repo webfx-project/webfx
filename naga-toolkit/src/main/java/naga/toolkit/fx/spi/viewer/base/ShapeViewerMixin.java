@@ -4,7 +4,6 @@ import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.fx.scene.shape.StrokeLineCap;
 import naga.toolkit.fx.scene.shape.StrokeLineJoin;
-import naga.toolkit.fx.spi.viewer.ShapeViewer;
 
 import java.util.List;
 
@@ -14,8 +13,7 @@ import java.util.List;
 public interface ShapeViewerMixin
         <N extends Shape, NV extends ShapeViewerBase<N, NV, NM>, NM extends ShapeViewerMixin<N, NV, NM>>
 
-        extends ShapeViewer<N>,
-        NodeViewerMixin<N, NV, NM> {
+        extends NodeViewerMixin<N, NV, NM> {
 
     void updateFill(Paint fill);
 

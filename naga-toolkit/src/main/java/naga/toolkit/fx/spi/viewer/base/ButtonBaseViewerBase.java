@@ -1,7 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import naga.toolkit.fx.scene.control.ButtonBase;
-import naga.toolkit.fx.spi.viewer.ButtonBaseViewer;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +8,6 @@ import naga.toolkit.fx.spi.viewer.ButtonBaseViewer;
 public abstract class ButtonBaseViewerBase
         <N extends ButtonBase, NV extends ButtonBaseViewerBase<N, NV, NM>, NM extends ButtonBaseViewerMixin<N, NV, NM>>
 
-        extends LabeledViewerBase<N, NV, NM>
-        implements ButtonBaseViewer<N> {
+        extends LabeledViewerBase<N, NV, NM> {
 
 }

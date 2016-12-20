@@ -2,14 +2,12 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.property.Property;
 import naga.toolkit.fx.scene.control.Slider;
-import naga.toolkit.fx.spi.viewer.SliderViewer;
 
 /**
  * @author Bruno Salmon
  */
 public interface SliderViewerMixin
-        extends SliderViewer,
-        ControlViewerMixin<Slider, SliderViewerBase, SliderViewerMixin> {
+        extends ControlViewerMixin<Slider, SliderViewerBase, SliderViewerMixin> {
 
     void updateMin(Double min);
 

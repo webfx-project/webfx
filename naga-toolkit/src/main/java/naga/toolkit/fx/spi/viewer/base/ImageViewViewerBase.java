@@ -1,16 +1,14 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.ImageViewViewer;
+import naga.toolkit.fx.scene.image.ImageView;
 
 /**
  * @author Bruno Salmon
  */
 public class ImageViewViewerBase
-        extends NodeViewerBase<ImageView, ImageViewViewerBase, ImageViewViewerMixin>
-        implements ImageViewViewer {
+        extends NodeViewerBase<ImageView, ImageViewViewerBase, ImageViewViewerMixin> {
 
     @Override
     public void bind(ImageView node, SceneRequester sceneRequester) {

@@ -1,17 +1,15 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.RegionViewer;
+import naga.toolkit.fx.scene.layout.Region;
 
 /**
  * @author Bruno Salmon
  */
 public class RegionViewerBase
         <N extends Region, NV extends RegionViewerBase<N, NV, NM>, NM extends RegionViewerMixin<N, NV, NM>>
-        extends NodeViewerBase<N, NV, NM>
-        implements RegionViewer<N> {
+        extends NodeViewerBase<N, NV, NM> {
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {

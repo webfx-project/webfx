@@ -1,16 +1,14 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.RectangleViewer;
+import naga.toolkit.fx.scene.shape.Rectangle;
 
 /**
  * @author Bruno Salmon
  */
 public class RectangleViewerBase
-        extends ShapeViewerBase<Rectangle, RectangleViewerBase, RectangleViewerMixin>
-        implements RectangleViewer {
+        extends ShapeViewerBase<Rectangle, RectangleViewerBase, RectangleViewerMixin> {
 
     @Override
     public void bind(Rectangle r, SceneRequester sceneRequester) {

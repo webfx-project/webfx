@@ -6,7 +6,6 @@ import naga.commons.util.Strings;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.fx.ext.chart.Chart;
-import naga.toolkit.fx.spi.viewer.ChartViewer;
 
 /**
  * @author Bruno Salmon
@@ -14,8 +13,7 @@ import naga.toolkit.fx.spi.viewer.ChartViewer;
 public abstract class ChartViewerBase
         <C, N extends Chart, NV extends ChartViewerBase<C, N, NV, NM>, NM extends ChartViewerMixin<C, N, NV, NM>>
 
-        extends SelectableDisplayResultSetControlViewerBase<C, N, NV, NM>
-        implements ChartViewer<N> {
+        extends SelectableDisplayResultSetControlViewerBase<C, N, NV, NM> {
 
     private final boolean isPieChart = this instanceof PieChartViewerBase;
 

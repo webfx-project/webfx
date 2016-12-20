@@ -1,9 +1,8 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.control.TextInputControl;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.TextInputControlViewer;
+import naga.toolkit.fx.scene.control.TextInputControl;
 
 /**
  * @author Bruno Salmon
@@ -11,8 +10,7 @@ import naga.toolkit.fx.spi.viewer.TextInputControlViewer;
 public abstract class TextInputControlViewerBase
         <N extends TextInputControl, NV extends TextInputControlViewerBase<N, NV, NM>, NM extends TextInputControlViewerMixin<N, NV, NM>>
 
-        extends ControlViewerBase<N, NV, NM>
-        implements TextInputControlViewer<N> {
+        extends ControlViewerBase<N, NV, NM> {
 
     @Override
     public void bind(N buttonBase, SceneRequester sceneRequester) {

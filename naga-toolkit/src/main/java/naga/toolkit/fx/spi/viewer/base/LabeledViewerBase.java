@@ -1,9 +1,8 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.control.Labeled;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.LabeledViewer;
+import naga.toolkit.fx.scene.control.Labeled;
 
 /**
  * @author Bruno Salmon
@@ -11,8 +10,7 @@ import naga.toolkit.fx.spi.viewer.LabeledViewer;
 public abstract class LabeledViewerBase
         <N extends Labeled, NV extends LabeledViewerBase<N, NV, NM>, NM extends LabeledViewerMixin<N, NV, NM>>
 
-        extends ControlViewerBase<N, NV, NM>
-        implements LabeledViewer<N> {
+        extends ControlViewerBase<N, NV, NM> {
 
     @Override
     public void bind(N labeled, SceneRequester sceneRequester) {

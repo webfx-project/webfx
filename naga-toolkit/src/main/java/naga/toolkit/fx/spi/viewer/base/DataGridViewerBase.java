@@ -7,14 +7,12 @@ import naga.toolkit.fx.ext.cell.renderer.ImageTextRenderer;
 import naga.toolkit.fx.ext.cell.renderer.TextRenderer;
 import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
 import naga.toolkit.fx.ext.control.DataGrid;
-import naga.toolkit.fx.spi.viewer.DataGridViewer;
 
 /**
  * @author Bruno Salmon
  */
 public class DataGridViewerBase<C>
-        extends SelectableDisplayResultSetControlViewerBase<C, DataGrid, DataGridViewerBase<C>, DataGridViewerMixin<C>>
-        implements DataGridViewer {
+        extends SelectableDisplayResultSetControlViewerBase<C, DataGrid, DataGridViewerBase<C>, DataGridViewerMixin<C>> {
 
     private int rowStyleColumnIndex;
     private int gridColumnCount;

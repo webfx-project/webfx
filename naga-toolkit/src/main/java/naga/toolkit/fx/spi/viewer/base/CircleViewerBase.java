@@ -1,16 +1,14 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.shape.Circle;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.CircleViewer;
+import naga.toolkit.fx.scene.shape.Circle;
 
 /**
  * @author Bruno Salmon
  */
 public class CircleViewerBase
-        extends ShapeViewerBase<Circle, CircleViewerBase, CircleViewerMixin>
-        implements CircleViewer {
+        extends ShapeViewerBase<Circle, CircleViewerBase, CircleViewerMixin> {
 
     @Override
     public void bind(Circle c, SceneRequester sceneRequester) {

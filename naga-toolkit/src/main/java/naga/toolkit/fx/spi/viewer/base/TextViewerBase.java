@@ -1,17 +1,15 @@
 package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.SceneRequester;
-import naga.toolkit.fx.spi.viewer.TextViewer;
+import naga.toolkit.fx.scene.text.Text;
 
 /**
  * @author Bruno Salmon
  */
 public class TextViewerBase
         <N extends Text, NV extends TextViewerBase<N, NV, NM>, NM extends TextViewerMixin<N, NV, NM>>
-        extends ShapeViewerBase<N, NV, NM>
-        implements TextViewer<N> {
+        extends ShapeViewerBase<N, NV, NM> {
 
     @Override
     public void bind(N t, SceneRequester sceneRequester) {
