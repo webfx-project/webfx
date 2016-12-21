@@ -2,7 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import naga.toolkit.display.DisplaySelection;
 import naga.toolkit.fx.ext.SelectableDisplayResultSetControl;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.display.SelectionMode;
 
 /**
  * @author Bruno Salmon

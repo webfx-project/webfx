@@ -23,7 +23,7 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerImageTextMixin;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.display.SelectionMode;
 import naga.toolkit.spi.Toolkit;
 
 import java.lang.reflect.Method;

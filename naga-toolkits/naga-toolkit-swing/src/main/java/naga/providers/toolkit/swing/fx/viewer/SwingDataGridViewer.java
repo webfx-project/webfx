@@ -13,7 +13,7 @@ import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.display.SelectionMode;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;

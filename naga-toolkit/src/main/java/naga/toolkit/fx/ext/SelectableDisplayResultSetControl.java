@@ -3,11 +3,11 @@ package naga.toolkit.fx.ext;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.properties.markers.HasDisplaySelectionProperty;
-import naga.toolkit.properties.markers.HasSelectionModeProperty;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.display.HasDisplaySelectionProperty;
+import naga.toolkit.display.HasSelectionModeProperty;
+import naga.toolkit.display.SelectionMode;
 
-import static naga.toolkit.properties.markers.SelectionMode.SINGLE;
+import static naga.toolkit.display.SelectionMode.SINGLE;
 
 /**
  * @author Bruno Salmon

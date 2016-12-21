@@ -6,7 +6,7 @@ import naga.toolkit.fx.ext.chart.Chart;
 import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.base.ChartViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ChartViewerMixin;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.display.SelectionMode;
 
 /**
  * @author Bruno Salmon

@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.fx.scene.control.Control;
-import naga.toolkit.properties.markers.HasDisplayResultSetProperty;
+import naga.toolkit.display.HasDisplayResultSetProperty;
 
 /**
  * @author Bruno Salmon

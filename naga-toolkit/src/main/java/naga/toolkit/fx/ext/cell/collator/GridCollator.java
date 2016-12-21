@@ -18,7 +18,7 @@ import naga.toolkit.fx.scene.SceneRequester;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
-import naga.toolkit.properties.markers.SelectionMode;
+import naga.toolkit.display.SelectionMode;
 import naga.toolkit.fx.event.EventHandler;
 import naga.toolkit.util.ObservableLists;
 

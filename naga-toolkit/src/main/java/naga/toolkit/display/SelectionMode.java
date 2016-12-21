@@ -1,4 +1,4 @@
-package naga.toolkit.properties.markers;
+package naga.toolkit.display;
 
 /**
  * @author Bruno Salmon
