@@ -1,8 +1,8 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
-import naga.toolkit.fx.ext.chart.BarChart;
-import naga.toolkit.fx.spi.viewer.base.BarChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.BarChartViewerMixin;
+import naga.toolkit.fxdata.chart.BarChart;
+import naga.toolkit.fxdata.spi.viewer.base.BarChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.BarChartViewerMixin;
 
 /**
  * @author Bruno Salmon

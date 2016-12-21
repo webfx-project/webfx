@@ -7,9 +7,9 @@ import mongoose.activities.backend.monitor.listener.EventListenerImpl;
 import naga.platform.spi.Platform;
 import naga.toolkit.fx.spi.Toolkit;
 import naga.commons.type.PrimType;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.toolkit.fxdata.displaydata.DisplayResultSetBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

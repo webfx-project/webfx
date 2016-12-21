@@ -1,9 +1,9 @@
 package naga.providers.toolkit.swing.fx;
 
 import naga.providers.toolkit.swing.fx.viewer.*;
-import naga.toolkit.fx.ext.chart.LineChart;
-import naga.toolkit.fx.ext.control.DataGrid;
-import naga.toolkit.fx.ext.control.HtmlText;
+import naga.toolkit.fxdata.chart.LineChart;
+import naga.toolkit.fxdata.control.DataGrid;
+import naga.toolkit.fxdata.control.HtmlText;
 import naga.toolkit.fx.scene.control.*;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.Group;

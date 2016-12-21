@@ -57,7 +57,7 @@ public abstract class NodeViewerBase
         return node;
     }
 
-    void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
+    protected void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
         Properties.runOnPropertiesChange(property -> requestUpdateProperty(sceneRequester, property), properties);
     }
 
@@ -123,7 +123,7 @@ public abstract class NodeViewerBase
     }
 
 
-    <T> boolean updateProperty(Property<T> property, ObservableValue changedProperty, Consumer<T> updater) {
+    protected <T> boolean updateProperty(Property<T> property, ObservableValue changedProperty, Consumer<T> updater) {
         boolean hitChangedProperty = property == changedProperty;
         if (hitChangedProperty || changedProperty == null)
             updater.accept(property.getValue());

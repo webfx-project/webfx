@@ -7,10 +7,10 @@ import naga.framework.orm.entity.EntityList;
 import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.format.Formatter;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
-import naga.toolkit.display.Label;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.toolkit.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.toolkit.fxdata.displaydata.Label;
 
 /**
  * @author Bruno Salmon

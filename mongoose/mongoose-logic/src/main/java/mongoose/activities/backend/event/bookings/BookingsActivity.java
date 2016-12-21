@@ -6,7 +6,7 @@ import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fxdata.control.DataGrid;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.CheckBox;
 import naga.toolkit.fx.scene.control.TextField;

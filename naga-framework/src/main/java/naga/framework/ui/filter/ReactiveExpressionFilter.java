@@ -31,9 +31,9 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.toolkit.display.DisplayColumnBuilder;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.fxdata.displaydata.DisplayColumnBuilder;
+import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.toolkit.fxdata.displaydata.DisplaySelection;
 import naga.toolkit.fx.properties.Properties;
 import rx.Observable;
 

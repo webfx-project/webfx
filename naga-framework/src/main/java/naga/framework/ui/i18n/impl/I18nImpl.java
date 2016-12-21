@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class I18nImpl implements I18n {
 
-    private Map<Object, Reference<Property<String>>> translations = new HashMap<>();
+    private final Map<Object, Reference<Property<String>>> translations = new HashMap<>();
     private boolean dictionaryLoadRequired;
     private DictionaryLoader dictionaryLoader;
     private Set<Object> unloadedKeys;
@@ -46,7 +46,9 @@ public class I18nImpl implements I18n {
     public Property<String> translationProperty(Object key) {
         Property<String> translationProperty = getTranslationProperty(key);
         if (translationProperty == null)
-            translations.put(key, new WeakReference<>(translationProperty = createTranslationProperty(key)));
+            synchronized (translations) {
+                translations.put(key, new WeakReference<>(translationProperty = createTranslationProperty(key)));
+            }
         return translationProperty;
     }
 

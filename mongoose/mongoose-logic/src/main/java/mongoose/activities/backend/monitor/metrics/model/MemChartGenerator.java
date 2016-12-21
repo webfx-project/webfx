@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.metrics.Metrics;
 import naga.commons.type.PrimType;
 import naga.platform.spi.Platform;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.toolkit.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.toolkit.fx.spi.Toolkit;
 
 import java.util.ArrayList;

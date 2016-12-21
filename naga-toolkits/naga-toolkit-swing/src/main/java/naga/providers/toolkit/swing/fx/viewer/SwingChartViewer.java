@@ -3,11 +3,11 @@ package naga.providers.toolkit.swing.fx.viewer;
 import naga.commons.type.Type;
 import naga.commons.util.function.Function;
 import naga.commons.util.tuples.Triplet;
-import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.fx.ext.chart.Chart;
-import naga.toolkit.fx.spi.viewer.base.ChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.ChartViewerMixin;
-import naga.toolkit.display.SelectionMode;
+import naga.toolkit.fxdata.displaydata.DisplaySelection;
+import naga.toolkit.fxdata.chart.Chart;
+import naga.toolkit.fxdata.spi.viewer.base.ChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.ChartViewerMixin;
+import naga.toolkit.fxdata.displaydata.SelectionMode;
 import org.knowm.xchart.XYChart;
 
 import javax.swing.*;

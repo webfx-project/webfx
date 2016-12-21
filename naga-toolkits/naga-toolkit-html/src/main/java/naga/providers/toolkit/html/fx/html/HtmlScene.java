@@ -8,7 +8,7 @@ import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.fx.html.viewer.HtmlNodeViewer;
 import naga.providers.toolkit.html.fx.shared.HtmlSvgNodeViewer;
 import naga.providers.toolkit.html.util.HtmlUtil;
-import naga.toolkit.fx.ext.control.HtmlText;
+import naga.toolkit.fxdata.control.HtmlText;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;

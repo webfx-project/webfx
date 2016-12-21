@@ -1,8 +1,8 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
-import naga.toolkit.fx.ext.chart.AreaChart;
-import naga.toolkit.fx.spi.viewer.base.AreaChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.AreaChartViewerMixin;
+import naga.toolkit.fxdata.chart.AreaChart;
+import naga.toolkit.fxdata.spi.viewer.base.AreaChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.AreaChartViewerMixin;
 
 /**
  * @author Bruno Salmon

@@ -5,9 +5,9 @@ import javafx.collections.ObservableList;
 import naga.commons.type.Type;
 import naga.commons.util.Numbers;
 import naga.commons.util.function.Function;
-import naga.toolkit.fx.ext.chart.PieChart;
-import naga.toolkit.fx.spi.viewer.base.PieChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.PieChartViewerMixin;
+import naga.toolkit.fxdata.chart.PieChart;
+import naga.toolkit.fxdata.spi.viewer.base.PieChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.PieChartViewerMixin;
 
 /**
  * @author Bruno Salmon

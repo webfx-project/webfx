@@ -1,7 +1,7 @@
 package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.GenericTableViewModel;
-import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fxdata.control.DataGrid;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.CheckBox;

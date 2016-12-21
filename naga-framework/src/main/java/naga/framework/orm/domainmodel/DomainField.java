@@ -5,8 +5,8 @@ import naga.framework.expression.Expression;
 import naga.framework.expression.terms.Equals;
 import naga.framework.expression.terms.Parameter;
 import naga.framework.expression.terms.Symbol;
-import naga.toolkit.display.HasLabel;
-import naga.toolkit.display.Label;
+import naga.toolkit.fxdata.displaydata.HasLabel;
+import naga.toolkit.fxdata.displaydata.Label;
 
 /**
  * @author Bruno Salmon

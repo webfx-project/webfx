@@ -3,7 +3,7 @@ package naga.framework.ui.rx;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;
@@ -21,7 +21,6 @@ public class RxUi {
             ChangeListener<T> listener = (value, prev, current) -> subscriber.onNext(current);
             observableValue.addListener(listener);
             subscriber.add(unsubscribeInUiThread(() -> observableValue.removeListener(listener)));
-
         });
     }
 

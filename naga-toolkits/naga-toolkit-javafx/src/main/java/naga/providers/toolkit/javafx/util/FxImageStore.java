@@ -2,7 +2,7 @@ package naga.providers.toolkit.javafx.util;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import naga.toolkit.display.Label;
+import naga.toolkit.fxdata.displaydata.Label;
 
 import java.util.Map;
 import java.util.WeakHashMap;

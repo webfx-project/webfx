@@ -3,7 +3,7 @@ package mongoose.activities.shared.generic;
 import naga.commons.util.function.Factory;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fxdata.control.DataGrid;
 import naga.toolkit.fx.scene.control.CheckBox;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;

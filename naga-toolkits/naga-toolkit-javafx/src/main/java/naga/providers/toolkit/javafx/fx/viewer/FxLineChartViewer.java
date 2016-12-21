@@ -1,8 +1,8 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
-import naga.toolkit.fx.ext.chart.LineChart;
-import naga.toolkit.fx.spi.viewer.base.LineChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.LineChartViewerMixin;
+import naga.toolkit.fxdata.chart.LineChart;
+import naga.toolkit.fxdata.spi.viewer.base.LineChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.LineChartViewerMixin;
 
 /**
  * @author Bruno Salmon

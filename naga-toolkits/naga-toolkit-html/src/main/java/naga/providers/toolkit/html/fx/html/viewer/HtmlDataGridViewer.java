@@ -4,14 +4,14 @@ import elemental2.*;
 import naga.commons.util.Strings;
 import naga.commons.util.tuples.Unit;
 import naga.providers.toolkit.html.util.HtmlUtil;
-import naga.toolkit.display.*;
-import naga.toolkit.fx.ext.cell.renderer.ImageTextRenderer;
-import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fxdata.displaydata.*;
+import naga.toolkit.fxdata.cell.renderer.ImageTextRenderer;
+import naga.toolkit.fxdata.control.DataGrid;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.layout.HBox;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
-import naga.toolkit.display.SelectionMode;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerMixin;
+import naga.toolkit.fxdata.displaydata.SelectionMode;
 
 import static naga.providers.toolkit.html.util.HtmlUtil.*;
 

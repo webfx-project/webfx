@@ -10,10 +10,10 @@ import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.ui.format.Formatter;
 import naga.platform.json.spi.JsonObject;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayColumnBuilder;
-import naga.toolkit.display.DisplayStyleBuilder;
-import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayColumnBuilder;
+import naga.toolkit.fxdata.displaydata.DisplayStyleBuilder;
+import naga.toolkit.fxdata.cell.renderer.ValueRenderer;
 
 /**
  * @author Bruno Salmon

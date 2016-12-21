@@ -2,18 +2,18 @@ package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.providers.toolkit.swing.util.JGradientLabel;
 import naga.providers.toolkit.swing.util.StyleUtil;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.fx.ext.cell.renderer.ImageTextRenderer;
-import naga.toolkit.fx.ext.cell.renderer.ValueRenderer;
-import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.toolkit.fxdata.displaydata.DisplaySelection;
+import naga.toolkit.fxdata.cell.renderer.ImageTextRenderer;
+import naga.toolkit.fxdata.cell.renderer.ValueRenderer;
+import naga.toolkit.fxdata.control.DataGrid;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.text.TextAlignment;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
-import naga.toolkit.display.SelectionMode;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerMixin;
+import naga.toolkit.fxdata.displaydata.SelectionMode;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -126,7 +126,7 @@ public class SwingDataGridViewer
     @Override
     public void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
         TableColumn tableColumn = table.getColumnModel().getColumn(gridColumnIndex);
-        naga.toolkit.display.Label label = displayColumn.getLabel();
+        naga.toolkit.fxdata.displaydata.Label label = displayColumn.getLabel();
         tableColumn.setHeaderRenderer(createTableCellRenderer(ImageTextRenderer.SINGLETON, displayColumn, true));
         tableColumn.setHeaderValue(new Object[]{label.getIconPath(), label.getText()});
         Double prefWidth = displayColumn.getStyle().getPrefWidth();

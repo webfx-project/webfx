@@ -6,7 +6,7 @@ import naga.framework.expression.builder.terms.ExpressionBuilder;
 import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainField;
-import naga.toolkit.display.Label;
+import naga.toolkit.fxdata.displaydata.Label;
 
 /**
  * @author Bruno Salmon

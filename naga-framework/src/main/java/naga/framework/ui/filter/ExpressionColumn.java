@@ -7,7 +7,7 @@ import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.expression.Expression;
-import naga.toolkit.display.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
 
 /**
  * @author Bruno Salmon

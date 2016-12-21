@@ -1,8 +1,8 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.fx.ext.chart.Chart;
-import naga.toolkit.fx.ext.chart.LineChart;
+import naga.toolkit.fxdata.chart.Chart;
+import naga.toolkit.fxdata.chart.LineChart;
 import naga.toolkit.fx.scene.layout.VBox;
 
 /**

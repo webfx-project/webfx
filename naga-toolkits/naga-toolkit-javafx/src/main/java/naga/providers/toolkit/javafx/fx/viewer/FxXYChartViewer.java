@@ -3,9 +3,9 @@ package naga.providers.toolkit.javafx.fx.viewer;
 import javafx.scene.chart.XYChart;
 import naga.commons.type.Type;
 import naga.commons.util.function.Function;
-import naga.toolkit.fx.ext.chart.Chart;
-import naga.toolkit.fx.spi.viewer.base.ChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.ChartViewerMixin;
+import naga.toolkit.fxdata.chart.Chart;
+import naga.toolkit.fxdata.spi.viewer.base.ChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.ChartViewerMixin;
 
 import java.util.ArrayList;
 import java.util.List;

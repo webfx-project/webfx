@@ -2,9 +2,9 @@ package naga.providers.toolkit.javafx.fx.viewer;
 
 import javafx.scene.web.WebView;
 import naga.commons.util.Strings;
-import naga.toolkit.fx.ext.control.HtmlText;
-import naga.toolkit.fx.spi.viewer.base.HtmlTextViewerBase;
-import naga.toolkit.fx.spi.viewer.base.HtmlTextViewerMixin;
+import naga.toolkit.fxdata.control.HtmlText;
+import naga.toolkit.fxdata.spi.viewer.base.HtmlTextViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.HtmlTextViewerMixin;
 
 /**
  * @author Bruno Salmon

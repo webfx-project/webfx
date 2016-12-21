@@ -1,7 +1,7 @@
 package mongoose.activities.frontend.event.terms;
 
 import mongoose.activities.frontend.event.shared.BookingProcessViewModel;
-import naga.toolkit.fx.ext.DisplayResultSetControl;
+import naga.toolkit.fxdata.DisplayResultSetControl;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Button;
 

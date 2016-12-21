@@ -1,7 +1,7 @@
 package mongoose.activities.backend.tester;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.fx.ext.chart.Chart;
+import naga.toolkit.fxdata.chart.Chart;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Slider;

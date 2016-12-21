@@ -12,18 +12,18 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
 import naga.providers.toolkit.javafx.util.FxImageStore;
-import naga.toolkit.display.DisplayColumn;
-import naga.toolkit.display.DisplayResultSet;
-import naga.toolkit.display.DisplayResultSetBuilder;
-import naga.toolkit.display.DisplaySelection;
-import naga.toolkit.fx.ext.cell.rowstyle.RowAdapter;
-import naga.toolkit.fx.ext.cell.rowstyle.RowStyleUpdater;
-import naga.toolkit.fx.ext.control.DataGrid;
+import naga.toolkit.fxdata.displaydata.DisplayColumn;
+import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.toolkit.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.toolkit.fxdata.displaydata.DisplaySelection;
+import naga.toolkit.fxdata.cell.rowstyle.RowAdapter;
+import naga.toolkit.fxdata.cell.rowstyle.RowStyleUpdater;
+import naga.toolkit.fxdata.control.DataGrid;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerImageTextMixin;
-import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
-import naga.toolkit.display.SelectionMode;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerImageTextMixin;
+import naga.toolkit.fxdata.spi.viewer.base.DataGridViewerMixin;
+import naga.toolkit.fxdata.displaydata.SelectionMode;
 import naga.toolkit.fx.spi.Toolkit;
 
 import java.lang.reflect.Method;
@@ -131,7 +131,7 @@ public class FxDataGridViewer
     public void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
         TableColumn<Integer, ?> gridColumn = gridColumnIndex < currentColumns.size() ? currentColumns.get(gridColumnIndex) : new TableColumn<>();
         newColumns.add(gridColumn);
-        naga.toolkit.display.Label label = displayColumn.getLabel();
+        naga.toolkit.fxdata.displaydata.Label label = displayColumn.getLabel();
         gridColumn.setText(label.getText());
         gridColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();

@@ -3,7 +3,7 @@ package mongoose.activities.backend.tester;
 import mongoose.activities.backend.tester.drive.Drive;
 import mongoose.activities.backend.tester.drive.model.ConnectionChartGenerator;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.fx.ext.chart.LineChart;
+import naga.toolkit.fxdata.chart.LineChart;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Slider;
 import naga.toolkit.fx.scene.layout.BorderPane;

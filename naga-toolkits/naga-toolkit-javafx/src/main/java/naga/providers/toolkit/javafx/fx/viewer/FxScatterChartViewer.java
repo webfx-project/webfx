@@ -1,8 +1,8 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
-import naga.toolkit.fx.ext.chart.ScatterChart;
-import naga.toolkit.fx.spi.viewer.base.ScatterChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.ScatterChartViewerMixin;
+import naga.toolkit.fxdata.chart.ScatterChart;
+import naga.toolkit.fxdata.spi.viewer.base.ScatterChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.ScatterChartViewerMixin;
 
 /**
  * @author Bruno Salmon

@@ -4,8 +4,8 @@ import naga.commons.util.Booleans;
 import naga.framework.expression.Expression;
 import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.terms.*;
-import naga.toolkit.display.HasLabel;
-import naga.toolkit.display.Label;
+import naga.toolkit.fxdata.displaydata.HasLabel;
+import naga.toolkit.fxdata.displaydata.Label;
 
 import java.util.Map;
 

@@ -1,8 +1,8 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
-import naga.toolkit.fx.ext.control.HtmlText;
-import naga.toolkit.fx.spi.viewer.base.HtmlTextViewerBase;
-import naga.toolkit.fx.spi.viewer.base.HtmlTextViewerMixin;
+import naga.toolkit.fxdata.control.HtmlText;
+import naga.toolkit.fxdata.spi.viewer.base.HtmlTextViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.HtmlTextViewerMixin;
 
 import javax.swing.*;
 

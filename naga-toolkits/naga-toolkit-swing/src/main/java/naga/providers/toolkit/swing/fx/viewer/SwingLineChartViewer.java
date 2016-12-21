@@ -1,8 +1,8 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
-import naga.toolkit.fx.ext.chart.LineChart;
-import naga.toolkit.fx.spi.viewer.base.LineChartViewerBase;
-import naga.toolkit.fx.spi.viewer.base.LineChartViewerMixin;
+import naga.toolkit.fxdata.chart.LineChart;
+import naga.toolkit.fxdata.spi.viewer.base.LineChartViewerBase;
+import naga.toolkit.fxdata.spi.viewer.base.LineChartViewerMixin;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.XYStyler;

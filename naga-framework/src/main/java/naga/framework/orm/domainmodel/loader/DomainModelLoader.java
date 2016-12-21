@@ -14,7 +14,7 @@ import naga.framework.orm.domainmodel.builder.DomainModelBuilder;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.toolkit.display.Label;
+import naga.toolkit.fxdata.displaydata.Label;
 
 import java.util.HashMap;
 import java.util.Map;
