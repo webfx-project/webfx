@@ -11,8 +11,8 @@ import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.geometry.*;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
-import naga.toolkit.properties.markers.HasInsetsProperty;
-import naga.toolkit.properties.markers.HasSnapToPixelProperty;
+import naga.toolkit.fx.properties.markers.HasInsetsProperty;
+import naga.toolkit.fx.properties.markers.HasSnapToPixelProperty;
 
 import java.util.List;
 

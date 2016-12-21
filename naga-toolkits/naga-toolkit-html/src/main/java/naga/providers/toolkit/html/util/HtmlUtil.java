@@ -5,7 +5,7 @@ import elemental2.*;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.Strings;
 import naga.commons.util.tuples.Unit;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.lang.Iterable;
 

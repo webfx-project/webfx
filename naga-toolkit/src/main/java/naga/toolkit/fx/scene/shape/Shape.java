@@ -7,7 +7,7 @@ import javafx.collections.ObservableList;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.paint.Color;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon

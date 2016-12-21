@@ -16,7 +16,7 @@ import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.stage.Screen;
 import naga.toolkit.fx.stage.Window;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

@@ -2,8 +2,7 @@ package naga.toolkit.fx.scene.transform;
 
 import javafx.beans.property.Property;
 import naga.toolkit.fx.geom.Point2D;
-import naga.toolkit.fx.scene.transform.Transform;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

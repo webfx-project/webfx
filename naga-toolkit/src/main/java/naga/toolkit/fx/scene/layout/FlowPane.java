@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Callback;
 import naga.toolkit.fx.geometry.*;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.fx.properties.markers.*;
 
 import java.util.ArrayList;
 import java.util.List;

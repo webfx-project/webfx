@@ -8,7 +8,7 @@ import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 
 /**

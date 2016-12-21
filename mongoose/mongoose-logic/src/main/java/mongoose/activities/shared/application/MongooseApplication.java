@@ -16,7 +16,7 @@ import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.spi.Platform;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

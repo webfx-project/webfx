@@ -14,7 +14,7 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.properties.markers.HasGraphicProperty;
+import naga.toolkit.fx.properties.markers.HasGraphicProperty;
 
 import java.util.HashMap;
 import java.util.Map;

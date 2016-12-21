@@ -3,9 +3,9 @@ package naga.toolkit.fx.scene.control;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.scene.text.Font;
-import naga.toolkit.properties.markers.HasFontProperty;
-import naga.toolkit.properties.markers.HasPromptTextProperty;
-import naga.toolkit.properties.markers.HasTextProperty;
+import naga.toolkit.fx.properties.markers.HasFontProperty;
+import naga.toolkit.fx.properties.markers.HasPromptTextProperty;
+import naga.toolkit.fx.properties.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon

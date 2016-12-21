@@ -8,7 +8,7 @@ import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Slider;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.properties.conversion.ConvertedProperty;
+import naga.toolkit.fx.properties.conversion.ConvertedProperty;
 
 /**
  * @author Bruno Salmon

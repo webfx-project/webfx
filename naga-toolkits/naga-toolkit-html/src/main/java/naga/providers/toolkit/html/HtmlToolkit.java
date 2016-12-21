@@ -7,7 +7,7 @@ import naga.providers.toolkit.html.fx.html.HtmlScene;
 import naga.toolkit.fx.geometry.BoundingBox;
 import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.stage.Screen;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import static elemental2.Global.window;
 

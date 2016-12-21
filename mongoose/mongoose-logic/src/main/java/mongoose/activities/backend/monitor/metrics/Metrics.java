@@ -8,7 +8,7 @@ import mongoose.activities.backend.monitor.metrics.model.SysBean;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.tuples.Unit;
 import naga.platform.spi.Platform;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 
 /**

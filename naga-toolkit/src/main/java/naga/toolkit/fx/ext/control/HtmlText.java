@@ -6,7 +6,7 @@ import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.BoxBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.layout.Region;
-import naga.toolkit.properties.markers.HasTextProperty;
+import naga.toolkit.fx.properties.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon

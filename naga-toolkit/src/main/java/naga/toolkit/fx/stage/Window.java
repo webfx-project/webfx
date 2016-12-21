@@ -5,11 +5,11 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.properties.markers.HasHeightProperty;
-import naga.toolkit.properties.markers.HasSceneProperty;
-import naga.toolkit.properties.markers.HasTitleProperty;
-import naga.toolkit.properties.markers.HasWidthProperty;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.markers.HasHeightProperty;
+import naga.toolkit.fx.properties.markers.HasSceneProperty;
+import naga.toolkit.fx.properties.markers.HasTitleProperty;
+import naga.toolkit.fx.properties.markers.HasWidthProperty;
+import naga.toolkit.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

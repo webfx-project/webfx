@@ -2,9 +2,9 @@ package naga.toolkit.fx.scene.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.properties.markers.HasMaxProperty;
-import naga.toolkit.properties.markers.HasMinProperty;
-import naga.toolkit.properties.markers.HasValueProperty;
+import naga.toolkit.fx.properties.markers.HasMaxProperty;
+import naga.toolkit.fx.properties.markers.HasMinProperty;
+import naga.toolkit.fx.properties.markers.HasValueProperty;
 
 /**
  * @author Bruno Salmon

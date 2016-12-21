@@ -4,8 +4,8 @@ import javafx.beans.property.Property;
 import naga.commons.util.Strings;
 import naga.framework.ui.i18n.impl.I18nImpl;
 import naga.framework.ui.i18n.impl.ResourceDictionaryLoader;
-import naga.toolkit.properties.markers.HasPromptTextProperty;
-import naga.toolkit.properties.markers.HasTextProperty;
+import naga.toolkit.fx.properties.markers.HasPromptTextProperty;
+import naga.toolkit.fx.properties.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon

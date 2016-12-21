@@ -7,8 +7,8 @@ import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.util.ObservableLists;
+import naga.toolkit.fx.spi.Toolkit;
+import naga.toolkit.fx.properties.ObservableLists;
 
 import java.lang.reflect.Method;
 

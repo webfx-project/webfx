@@ -5,7 +5,7 @@ import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContext;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
-import naga.toolkit.properties.markers.HasNodeProperty;
+import naga.toolkit.fx.properties.markers.HasNodeProperty;
 
 /**
  * @author Bruno Salmon

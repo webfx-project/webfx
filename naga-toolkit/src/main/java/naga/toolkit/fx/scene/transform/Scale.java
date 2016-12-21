@@ -3,8 +3,8 @@ package naga.toolkit.fx.scene.transform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.geom.Point2D;
-import naga.toolkit.properties.markers.HasXProperty;
-import naga.toolkit.properties.markers.HasYProperty;
+import naga.toolkit.fx.properties.markers.HasXProperty;
+import naga.toolkit.fx.properties.markers.HasYProperty;
 
 /**
  * @author Bruno Salmon

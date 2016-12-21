@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.properties.markers.HasGraphicProperty;
-import naga.toolkit.properties.markers.HasTextProperty;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.markers.HasGraphicProperty;
+import naga.toolkit.fx.properties.markers.HasTextProperty;
+import naga.toolkit.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

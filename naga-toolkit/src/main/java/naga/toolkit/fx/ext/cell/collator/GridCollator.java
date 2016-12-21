@@ -20,7 +20,7 @@ import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
 import naga.toolkit.display.SelectionMode;
 import naga.toolkit.fx.event.EventHandler;
-import naga.toolkit.util.ObservableLists;
+import naga.toolkit.fx.properties.ObservableLists;
 
 import java.util.Collection;
 import java.util.List;

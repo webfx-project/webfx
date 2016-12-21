@@ -10,8 +10,8 @@ import naga.toolkit.fx.geom.RectBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.layout.LayoutFlags;
 import naga.toolkit.fx.scene.layout.PreferenceResizableNode;
-import naga.toolkit.properties.markers.HasManagedProperty;
-import naga.toolkit.util.ObservableLists;
+import naga.toolkit.fx.properties.markers.HasManagedProperty;
+import naga.toolkit.fx.properties.ObservableLists;
 
 import java.util.ArrayList;
 import java.util.List;

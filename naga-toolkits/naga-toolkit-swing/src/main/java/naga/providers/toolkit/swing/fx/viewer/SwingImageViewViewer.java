@@ -9,7 +9,7 @@ import naga.toolkit.fx.scene.LayoutMeasurable;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerMixin;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import javax.swing.*;
 import java.awt.*;

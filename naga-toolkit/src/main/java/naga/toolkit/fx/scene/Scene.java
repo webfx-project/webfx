@@ -12,12 +12,12 @@ import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Control;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
-import naga.toolkit.properties.markers.HasHeightProperty;
-import naga.toolkit.properties.markers.HasRootProperty;
-import naga.toolkit.properties.markers.HasWidthProperty;
-import naga.toolkit.spi.Toolkit;
-import naga.toolkit.util.ObservableLists;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.markers.HasHeightProperty;
+import naga.toolkit.fx.properties.markers.HasRootProperty;
+import naga.toolkit.fx.properties.markers.HasWidthProperty;
+import naga.toolkit.fx.spi.Toolkit;
+import naga.toolkit.fx.properties.ObservableLists;
+import naga.toolkit.fx.properties.Properties;
 
 import java.util.Collection;
 

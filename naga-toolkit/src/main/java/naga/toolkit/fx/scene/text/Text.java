@@ -7,7 +7,7 @@ import naga.toolkit.fx.geom.BoxBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.shape.Shape;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon

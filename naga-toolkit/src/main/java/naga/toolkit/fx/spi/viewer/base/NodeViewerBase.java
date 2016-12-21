@@ -9,8 +9,8 @@ import naga.commons.util.function.Consumer;
 import naga.toolkit.fx.scene.*;
 import naga.toolkit.fx.scene.transform.*;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
-import naga.toolkit.util.ObservableLists;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.ObservableLists;
+import naga.toolkit.fx.properties.Properties;
 
 import java.util.List;
 

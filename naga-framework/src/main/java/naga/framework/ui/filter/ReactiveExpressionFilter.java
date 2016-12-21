@@ -34,6 +34,7 @@ import naga.platform.spi.Platform;
 import naga.toolkit.display.DisplayColumnBuilder;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplaySelection;
+import naga.toolkit.fx.properties.Properties;
 import rx.Observable;
 
 import java.util.*;
@@ -279,7 +280,7 @@ public class ReactiveExpressionFilter {
             resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
-            naga.toolkit.util.Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
+            naga.toolkit.fx.properties.Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
                 private boolean dictionaryChanged;
                 @Override
                 public void accept(ObservableValue p) {
@@ -438,7 +439,7 @@ public class ReactiveExpressionFilter {
 
         void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
             // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
-            naga.toolkit.util.Properties.runOnPropertiesChange(p -> {
+            Properties.runOnPropertiesChange(p -> {
                 if (isActive()) {
                     displaySelectionProperty.setValue(null);
                     selectFirstRowOnFirstDisplay();

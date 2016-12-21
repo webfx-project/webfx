@@ -1,7 +1,7 @@
 package naga.toolkit.fx.stage;
 
 import naga.toolkit.fx.geometry.Bounds;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

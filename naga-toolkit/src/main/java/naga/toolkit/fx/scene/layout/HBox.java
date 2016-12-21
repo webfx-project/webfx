@@ -7,7 +7,7 @@ import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.fx.properties.markers.*;
 
 import java.util.List;
 

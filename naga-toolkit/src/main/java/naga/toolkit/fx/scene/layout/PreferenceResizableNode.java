@@ -1,7 +1,7 @@
 package naga.toolkit.fx.scene.layout;
 
 import naga.toolkit.fx.scene.INode;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon

@@ -2,7 +2,7 @@ package naga.toolkit.fx.scene.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.properties.markers.HasSelectedProperty;
+import naga.toolkit.fx.properties.markers.HasSelectedProperty;
 
 /**
  * @author Bruno Salmon

@@ -2,7 +2,7 @@ package naga.framework.ui.rx;
 
 import naga.platform.spi.Platform;
 import naga.commons.scheduler.Scheduled;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Action0;

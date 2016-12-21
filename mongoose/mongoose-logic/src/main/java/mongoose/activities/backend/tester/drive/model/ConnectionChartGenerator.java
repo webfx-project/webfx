@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.listener.EventListener;
 import mongoose.activities.backend.monitor.listener.EventListenerImpl;
 import naga.platform.spi.Platform;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 import naga.commons.type.PrimType;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;

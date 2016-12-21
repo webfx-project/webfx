@@ -12,7 +12,7 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

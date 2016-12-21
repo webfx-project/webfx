@@ -5,7 +5,7 @@ import naga.providers.toolkit.javafx.util.FxImageStore;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerMixin;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

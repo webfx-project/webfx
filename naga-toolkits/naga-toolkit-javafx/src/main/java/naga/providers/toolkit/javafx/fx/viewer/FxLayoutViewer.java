@@ -5,7 +5,7 @@ import naga.commons.scheduler.UiScheduler;
 import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerBase;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

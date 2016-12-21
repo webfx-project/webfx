@@ -1,6 +1,6 @@
 package naga.toolkit.fx.animation;
 
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

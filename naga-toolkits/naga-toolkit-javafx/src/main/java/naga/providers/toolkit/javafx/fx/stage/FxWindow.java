@@ -8,7 +8,7 @@ import naga.commons.util.function.Consumer;
 import naga.providers.toolkit.javafx.JavaFxToolkit;
 import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
 import naga.toolkit.fx.stage.Window;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

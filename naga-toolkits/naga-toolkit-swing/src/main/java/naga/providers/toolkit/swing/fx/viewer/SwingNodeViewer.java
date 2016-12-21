@@ -13,14 +13,15 @@ import naga.toolkit.fx.scene.input.MouseEvent;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.scene.transform.Transform;
+import naga.toolkit.fx.spi.Toolkit;
 import naga.toolkit.fx.spi.viewer.CanvasNodeViewer;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerImpl;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerMixin;
-import naga.toolkit.properties.markers.HasHeightProperty;
-import naga.toolkit.properties.markers.HasWidthProperty;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.markers.HasHeightProperty;
+import naga.toolkit.fx.properties.markers.HasWidthProperty;
+import naga.toolkit.fx.properties.Properties;
 
 import javax.swing.*;
 import java.awt.*;
@@ -134,7 +135,7 @@ public abstract class SwingNodeViewer
         // for painting immediately (whereas Naga normally defers the property changes and layout pass to the next
         // animation frame). So we call getOrCreateAndBindNodeViewer() as if in an animation frame (to turn off deferring)
         Unit<NodeViewer> nodeViewerUnit = new Unit<>();
-        naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(() -> nodeViewerUnit.set(node.getOrCreateAndBindNodeViewer()));
+        naga.toolkit.fx.spi.Toolkit.get().scheduler().runLikeAnimationFrame(() -> nodeViewerUnit.set(node.getOrCreateAndBindNodeViewer()));
         NodeViewer nodeViewer = nodeViewerUnit.get();
         if (nodeViewer instanceof SwingEmbedComponentViewer)
             return ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();
@@ -175,7 +176,7 @@ public abstract class SwingNodeViewer
         if (node instanceof HasHeightProperty)
             Properties.setIfNotBound(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
         if (node instanceof Parent)
-            naga.toolkit.spi.Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
+            Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
         return component;
     }
 

@@ -5,7 +5,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
 import naga.commons.scheduler.impl.UiSchedulerBase;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

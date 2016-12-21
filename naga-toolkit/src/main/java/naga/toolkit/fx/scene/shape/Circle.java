@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.paint.Paint;
-import naga.toolkit.properties.markers.HasCenterXProperty;
-import naga.toolkit.properties.markers.HasCenterYProperty;
-import naga.toolkit.properties.markers.HasRadiusProperty;
+import naga.toolkit.fx.properties.markers.HasCenterXProperty;
+import naga.toolkit.fx.properties.markers.HasCenterYProperty;
+import naga.toolkit.fx.properties.markers.HasRadiusProperty;
 
 /**
  * @author Bruno Salmon

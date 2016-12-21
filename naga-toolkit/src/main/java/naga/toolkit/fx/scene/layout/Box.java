@@ -7,8 +7,8 @@ import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fx.geometry.Orientation;
 import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.properties.markers.HasAlignmentProperty;
-import naga.toolkit.properties.markers.HasSpacingProperty;
+import naga.toolkit.fx.properties.markers.HasAlignmentProperty;
+import naga.toolkit.fx.properties.markers.HasSpacingProperty;
 
 import java.util.List;
 

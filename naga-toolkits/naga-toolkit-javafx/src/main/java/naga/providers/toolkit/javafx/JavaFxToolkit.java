@@ -15,7 +15,7 @@ import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.spi.viewer.NodeViewerFactory;
 import naga.toolkit.fx.stage.Screen;
 import naga.toolkit.fx.stage.Window;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.util.ArrayList;
 import java.util.List;

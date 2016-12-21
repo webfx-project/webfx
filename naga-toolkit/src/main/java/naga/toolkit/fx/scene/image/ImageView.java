@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.scene.Node;
-import naga.toolkit.properties.markers.*;
+import naga.toolkit.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon

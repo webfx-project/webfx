@@ -21,8 +21,8 @@ import naga.toolkit.fx.scene.layout.LayoutFlags;
 import naga.toolkit.fx.scene.transform.Transform;
 import naga.toolkit.fx.scene.transform.Translate;
 import naga.toolkit.fx.spi.viewer.NodeViewer;
-import naga.toolkit.properties.markers.*;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.properties.markers.*;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.util.ArrayList;
 import java.util.Collection;

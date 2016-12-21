@@ -8,7 +8,7 @@ import naga.platform.spi.Platform;
 import naga.toolkit.display.DisplayColumn;
 import naga.toolkit.display.DisplayResultSet;
 import naga.toolkit.display.DisplayResultSetBuilder;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.util.ArrayList;
 import java.util.List;

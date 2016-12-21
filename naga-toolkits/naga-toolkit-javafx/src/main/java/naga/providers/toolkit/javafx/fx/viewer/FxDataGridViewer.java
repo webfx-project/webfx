@@ -24,7 +24,7 @@ import naga.toolkit.fx.spi.viewer.base.DataGridViewerBase;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerImageTextMixin;
 import naga.toolkit.fx.spi.viewer.base.DataGridViewerMixin;
 import naga.toolkit.display.SelectionMode;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

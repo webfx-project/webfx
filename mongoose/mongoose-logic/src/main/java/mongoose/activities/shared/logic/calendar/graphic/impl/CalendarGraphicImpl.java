@@ -20,7 +20,7 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.scene.transform.Rotate;
 import naga.toolkit.fx.scene.transform.Translate;
-import naga.toolkit.util.Properties;
+import naga.toolkit.fx.properties.Properties;
 
 import java.time.Duration;
 import java.util.Collection;

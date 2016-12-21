@@ -5,8 +5,8 @@ import naga.toolkit.fx.ext.cell.collator.NodeCollator;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.layout.HBox;
 import naga.toolkit.fx.scene.layout.Priority;
-import naga.toolkit.properties.markers.HasMaxHeightProperty;
-import naga.toolkit.properties.markers.HasMaxWidthProperty;
+import naga.toolkit.fx.properties.markers.HasMaxHeightProperty;
+import naga.toolkit.fx.properties.markers.HasMaxWidthProperty;
 
 /**
  * @author Bruno Salmon

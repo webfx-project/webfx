@@ -11,7 +11,7 @@ import naga.commons.util.numbers.spi.NumbersProvider;
 import naga.platform.spi.Platform;
 import naga.providers.platform.client.gwt.GwtPlatform;
 import naga.providers.toolkit.html.HtmlToolkit;
-import naga.toolkit.spi.Toolkit;
+import naga.toolkit.fx.spi.Toolkit;
 
 public class ServiceLoader<S> {
 

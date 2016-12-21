@@ -4,9 +4,9 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.geometry.GeometryUtil;
 import naga.toolkit.fx.geom.Point2D;
-import naga.toolkit.properties.markers.HasAngleProperty;
-import naga.toolkit.properties.markers.HasPivotXProperty;
-import naga.toolkit.properties.markers.HasPivotYProperty;
+import naga.toolkit.fx.properties.markers.HasAngleProperty;
+import naga.toolkit.fx.properties.markers.HasPivotXProperty;
+import naga.toolkit.fx.properties.markers.HasPivotYProperty;
 
 /**
  * @author Bruno Salmon
