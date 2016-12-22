@@ -39,16 +39,11 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
     }
 
     private Node toFeesGroupPanel(Node... nodes) {
-/*
         BorderPane borderPane = buildFeesSectionPanel(nodes[0]);
         borderPane.setCenter(nodes[1]);
         borderPane.setBottom(nodes[2]);
         borderPane.setInsets(Insets.create(10, 30, 10, 30));
         return borderPane;
-*/
-        VBox vBox = new VBox(nodes);
-        vBox.setInsets(Insets.create(10, 30, 10, 30));
-        return vBox;
     }
 
     private BorderPane buildFeesSectionPanel(Node node) {
