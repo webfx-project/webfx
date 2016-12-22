@@ -88,23 +88,36 @@ public class Dates {
         LocalDateTime localDateTime = asLocalDateTime(value);
         if (localDateTime != null || value == null)
             return localDateTime;
-        localDateTime = parseIsoLocalDateTime(value.toString());
+        localDateTime = toLocalDateTime(asLocalDate(value));
         if (localDateTime != null)
             return localDateTime;
-        Long l = Numbers.toLong(value);
-        if (l != null)
-            return epochMillisUtcToLocalDateTime(l);
-        return null;
+        localDateTime = toLocalDateTime(value.toString());
+        if (localDateTime != null)
+            return localDateTime;
+        return toLocalDateTime(Numbers.toLong(value));
+    }
+
+    public static LocalDateTime toLocalDateTime(LocalDate localDate) {
+        return localDate == null ? null : LocalDateTime.of(localDate.getYear(), localDate.getMonth(), localDate.getDayOfMonth(), 0, 0);
+    }
+
+    public static LocalDateTime toLocalDateTime(String s) {
+        return parseIsoLocalDateTime(s);
+    }
+
+    public static LocalDateTime toLocalDateTime(Long l) {
+        return l == null ? null : epochMillisUtcToLocalDateTime(l);
     }
 
     public static LocalDate toLocalDate(Object value) {
         LocalDate localDate = asLocalDate(value);
         if (localDate != null || value == null)
             return localDate;
-        localDate = parseIsoLocalDate(value.toString());
-        if (localDate != null)
-            return localDate;
-        return null;
+        return toLocalDate(value.toString());
+    }
+
+    public static LocalDate toLocalDate(String s) {
+        return parseIsoLocalDate(s);
     }
 
     public static LocalDateTime epochMillisUtcToLocalDateTime(long epochMillis) {

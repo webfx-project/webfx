@@ -17,6 +17,9 @@ import naga.platform.services.update.UpdateResult;
 
 import java.lang.reflect.Array;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +34,7 @@ public class JsonCodecManager {
     private static final Map<Class, JsonCodec> encoders = new HashMap<>();
     private static final Map<String, JsonCodec> decoders = new HashMap<>();
 
-    public static  <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> codec) {
+    public static <J> void registerJsonCodec(Class<? extends J> javaClass, JsonCodec<J> codec) {
         encoders.put(javaClass, codec);
         decoders.put(codec.getCodecId(), codec);
     }
@@ -58,11 +61,21 @@ public class JsonCodecManager {
     }
 
     public static Object encodeToJson(Object object) {
+        // Keeping null and primitives as is
         if (object == null || object instanceof String || Numbers.isNumber(object) || object instanceof Boolean)
             return object;
+        // Managing date objects (Instant, LocalDate and LocalDateTime)
         Instant instant = Dates.asInstant(object);
+        if (instant == null) {
+            LocalDateTime localDateTime = Dates.asLocalDateTime(object);
+            if (localDateTime == null)
+                localDateTime = Dates.toLocalDateTime(Dates.asLocalDate(object));
+            if (localDateTime != null)
+                instant = localDateTime.toInstant(ZoneOffset.UTC);
+        }
         if (instant != null)
             return Dates.formatIso(instant);
+        // Other java objects are serialized into json
         return encodeToJsonObject(object);
     }
 
@@ -74,7 +87,7 @@ public class JsonCodecManager {
         return encodeJavaObjectToJsonObject(object, Json.createObject());
     }
 
-    public static WritableJsonObject encodeJavaObjectToJsonObject(Object javaObject, WritableJsonObject json) {
+    private static WritableJsonObject encodeJavaObjectToJsonObject(Object javaObject, WritableJsonObject json) {
         JsonCodec encoder = getJsonEncoder(javaObject.getClass());
         if (encoder == null)
             throw new IllegalArgumentException("No JsonCodec for type: " + javaObject.getClass());
@@ -161,9 +174,15 @@ public class JsonCodecManager {
                 Class contentClass = Object.class;
                 if (array.size() > 0) {
                     switch (array.getObject(0).getString(JsonCodecManager.CODEC_ID_KEY)) {
-                        case QueryResultSet.CODEC_ID: contentClass = QueryResultSet.class; break;
-                        case QueryArgument.CODEC_ID: contentClass = QueryArgument.class; break;
-                        case UpdateArgument.CODEC_ID: contentClass = UpdateArgument.class; break;
+                        case QueryResultSet.CODEC_ID:
+                            contentClass = QueryResultSet.class;
+                            break;
+                        case QueryArgument.CODEC_ID:
+                            contentClass = QueryArgument.class;
+                            break;
+                        case UpdateArgument.CODEC_ID:
+                            contentClass = UpdateArgument.class;
+                            break;
                     }
                 }
                 return new Batch<>(decodeFromJsonArray(array, contentClass));
