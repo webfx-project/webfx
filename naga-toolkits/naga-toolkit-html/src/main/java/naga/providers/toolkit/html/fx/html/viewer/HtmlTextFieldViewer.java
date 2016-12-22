@@ -3,6 +3,7 @@ package naga.providers.toolkit.html.fx.html.viewer;
 import elemental2.CSSStyleDeclaration;
 import elemental2.HTMLElement;
 import elemental2.HTMLInputElement;
+import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.scene.control.TextField;
@@ -75,11 +76,18 @@ public class HtmlTextFieldViewer
     @Override
     public void updateText(String text) {
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
-        inputElement.value = Strings.toSafeString(text);
+        String safeText = Strings.toSafeString(text);
+        if (!Objects.areEquals(inputElement.value, safeText)) // To avoid caret position reset
+            inputElement.value = safeText;
     }
 
     @Override
     public void updatePrompt(String prompt) {
         ((HTMLInputElement) getElement()).placeholder = prompt;
+    }
+
+    @Override
+    public double maxWidth(double height) {
+        return Double.MAX_VALUE;
     }
 }
