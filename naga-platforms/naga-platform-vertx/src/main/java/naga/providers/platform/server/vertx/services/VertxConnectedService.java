@@ -126,8 +126,9 @@ public class VertxConnectedService implements QueryService, UpdateService {
 
     private Future<UpdateResult> executeUpdateOnConnection(UpdateArgument updateArgument, SQLConnection connection, boolean close, Future<UpdateResult> future) {
         // Special case: update with a returning clause must be managed differently using query() instead of update()
-        String updateString = updateArgument.getUpdateString();
-        if (updateString.toLowerCase().contains(" returning "))
+        String updateString = updateArgument.getUpdateString().trim();
+        String lowerCaseUpdateString = updateString.toLowerCase();
+        if (lowerCaseUpdateString.startsWith("select ") || lowerCaseUpdateString.contains(" returning "))
             return executeReturningUpdateOnConnection(updateArgument, connection, close, future);
 
         // Calling update() or updateWithParams() depending if parameters are provided or not
