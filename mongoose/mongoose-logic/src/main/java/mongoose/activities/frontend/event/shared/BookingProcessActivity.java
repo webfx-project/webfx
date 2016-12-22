@@ -1,5 +1,6 @@
 package mongoose.activities.frontend.event.shared;
 
+import mongoose.activities.shared.generic.EventDependentActivity;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
@@ -7,16 +8,11 @@ import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.DateInfo;
-import mongoose.entities.Event;
 import mongoose.entities.Option;
-import mongoose.services.EventService;
-import mongoose.services.EventServiceMixin;
-import naga.commons.util.Objects;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Factory;
 import naga.framework.orm.entity.EntityList;
-import naga.framework.ui.presentation.PresentationActivity;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.input.MouseEvent;
 
@@ -26,8 +22,10 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class BookingProcessActivity<VM extends BookingProcessViewModel, PM extends BookingProcessPresentationModel>
-        extends PresentationActivity<VM, PM> implements EventServiceMixin {
+public abstract class BookingProcessActivity
+        <VM extends BookingProcessViewModel, PM extends BookingProcessPresentationModel>
+
+        extends EventDependentActivity<VM, PM> {
 
     private final String nextPage;
 
@@ -57,19 +55,7 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
         getHistory().push("/event/" + getEventId() + "/" + page);
     }
 
-    protected void initializePresentationModel(PM pm) {
-        pm.setEventId(getEventId());
-    }
-
     protected void bindPresentationModelWithLogic(PM pm) {
-    }
-
-    private Object getEventId() {
-        return getParameter("eventId");
-    }
-
-    public EventService getEventService() { // Mainly to make EventServiceMixin work
-        return EventService.getOrCreate(getEventId(), getDataSourceModel());
     }
 
     protected Future<FeesGroup[]> onFeesGroup() {
@@ -108,11 +94,6 @@ public abstract class BookingProcessActivity<VM extends BookingProcessViewModel,
 
     protected WorkingDocument createNewMaxDateTimeRangeWorkingDocument() {
         return createNewDateTimeRangeWorkingDocument(getEventMaxDateTimeRange());
-    }
-
-    protected DateTimeRange getEventMaxDateTimeRange() {
-        Event event = getEvent();
-        return Objects.coalesce(event.getParsedMaxDateTimeRange(), event.getParsedDateTimeRange());
     }
 
     protected CalendarGraphic createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection, CalendarGraphic calendarGraphic) {
