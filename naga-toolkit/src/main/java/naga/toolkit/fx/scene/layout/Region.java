@@ -1413,7 +1413,7 @@ public class Region extends Parent implements
      * @param max the maximum bound
      * @return the size bounded by min, pref, and max.
      */
-    private static double boundedSize(double min, double pref, double max) {
+    protected static double boundedSize(double min, double pref, double max) {
         double a = pref >= min ? pref : min;
         double b = min >= max ? min : max;
         return a <= b ? a : b;
@@ -1431,5 +1431,13 @@ public class Region extends Parent implements
             return height;
         boolean isSnapToPixel = isSnapToPixel();
         return height - snapSpace(margin.getTop(), isSnapToPixel) - snapSpace(margin.getBottom(), isSnapToPixel);
+    }
+
+    static double[] createDoubleArray(int length, double value) {
+        double[] array = new double[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = value;
+        }
+        return array;
     }
 }

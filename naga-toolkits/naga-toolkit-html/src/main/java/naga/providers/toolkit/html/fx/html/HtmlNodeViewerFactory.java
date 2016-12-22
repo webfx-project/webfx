@@ -29,6 +29,7 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(HBox.class, HtmlLayoutViewer::new);
         registerNodeViewerFactory(BorderPane.class, HtmlLayoutViewer::new);
         registerNodeViewerFactory(FlowPane.class, HtmlLayoutViewer::new);
+        registerNodeViewerFactory(GridPane.class, HtmlLayoutViewer::new);
         registerNodeViewerFactory(Button.class, HtmlButtonViewer::new);
         registerNodeViewerFactory(CheckBox.class, HtmlCheckBoxViewer::new);
         registerNodeViewerFactory(RadioButton.class, HtmlRadioButtonViewer::new);

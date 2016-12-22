@@ -30,6 +30,7 @@ public class FxNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(HBox.class, FxLayoutViewer::new);
         registerNodeViewerFactory(BorderPane.class, FxLayoutViewer::new);
         registerNodeViewerFactory(FlowPane.class, FxLayoutViewer::new);
+        registerNodeViewerFactory(GridPane.class, FxLayoutViewer::new);
         registerNodeViewerFactory(Button.class, FxButtonViewer::new);
         registerNodeViewerFactory(CheckBox.class, FxCheckBoxViewer::new);
         registerNodeViewerFactory(RadioButton.class, FxRadioButtonViewer::new);
