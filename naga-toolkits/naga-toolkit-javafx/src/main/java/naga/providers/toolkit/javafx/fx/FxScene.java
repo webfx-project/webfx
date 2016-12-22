@@ -11,6 +11,7 @@ import naga.toolkit.fx.spi.Toolkit;
 import naga.toolkit.fx.properties.ObservableLists;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * @author Bruno Salmon
@@ -33,7 +34,7 @@ public class FxScene extends Scene {
                 Method getChildren = javafx.scene.Parent.class.getDeclaredMethod("getChildren");
                 getChildren.setAccessible(true);
                 ObservableList<javafx.scene.Node> children = (ObservableList<javafx.scene.Node>) getChildren.invoke(fxParent);
-                ObservableLists.setAllNonNullsConverted(parent.getChildren(), this::getFxNode, children);
+                ObservableLists.setAllNonNullsConverted(new ArrayList<>(parent.getChildren()), this::getFxNode, children);
             } catch (Exception e) {
                 e.printStackTrace();
             }

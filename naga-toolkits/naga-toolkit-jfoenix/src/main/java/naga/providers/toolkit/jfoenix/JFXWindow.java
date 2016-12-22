@@ -46,6 +46,11 @@ public class JFXWindow extends FxWindow {
     }
 
     @Override
+    protected void setSceneRoot(Scene scene, Parent root) {
+        foenixStackPane.getChildren().setAll(root);
+    }
+
+    @Override
     protected void setWindowContent(Parent rootComponent) {
         if (foenixStackPane != null)
             foenixStackPane.getChildren().setAll(rootComponent);

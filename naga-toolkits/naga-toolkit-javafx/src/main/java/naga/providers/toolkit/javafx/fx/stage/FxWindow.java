@@ -37,21 +37,25 @@ public class FxWindow extends Window {
 
     @Override
     protected void onSceneRootUpdate() {
-        if (stage != null) {
-            naga.toolkit.fx.scene.Scene scene = getScene();
-            if (scene != null) {
-                naga.toolkit.fx.scene.Parent root = scene.getRoot();
-                if (root != null)
-                    setWindowContent((Parent) ((FxNodeViewer) root.getOrCreateAndBindNodeViewer()).getFxNode());
+        Toolkit.get().scheduler().scheduleDeferred(() -> {
+            if (stage != null) {
+                naga.toolkit.fx.scene.Scene scene = getScene();
+                if (scene != null) {
+                    naga.toolkit.fx.scene.Parent root = scene.getRoot();
+                    if (root != null) {
+                        FxNodeViewer nodeViewer = (FxNodeViewer) root.getOrCreateAndBindNodeViewer();
+                        setWindowContent((Parent) nodeViewer.getFxNode());
+                    }
+                }
             }
-        }
+        });
     }
 
     protected void setWindowContent(Parent rootComponent) {
-        Toolkit.get().scheduler().runInUiThread(() -> {
+        Toolkit.get().scheduler().scheduleDeferred(() -> {
             Scene scene = stage.getScene();
             if (scene != null)
-                scene.setRoot(rootComponent);
+                setSceneRoot(scene, rootComponent);
             else { // Creating the scene if not yet done
                 stage.setScene(scene = createScene(rootComponent, getScene().getWidth(), getScene().getHeight()));
                 // Calling the scene hook is specified
@@ -62,6 +66,10 @@ public class FxWindow extends Window {
             }
             fitWidthAndHeightWithContent();
         });
+    }
+
+    protected void setSceneRoot(Scene scene, Parent root) {
+        scene.setRoot(root);
     }
 
     private void fitWidthAndHeightWithContent() {
