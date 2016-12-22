@@ -90,7 +90,7 @@ public class CartActivity extends PresentationActivity<CartViewModel, CartPresen
                 .combine(pm.cartUuidProperty(), s -> "{where: 'document.cart.uuid=`" + s + "`'}")
                 //.combine("{where: 'document.cart.uuid=?cartUuid'}")
                 .setExpressionColumns("[" +
-                        "{expression: 'date', format: 'date'}," +
+                        "{expression: 'date', format: 'dateTime'}," +
                         "{expression: 'document.ref', label: 'Booking ref'}," +
                         "{expression: 'method.name', label: 'Method'}," +
                         "{expression: 'amount', format: 'price'}," +

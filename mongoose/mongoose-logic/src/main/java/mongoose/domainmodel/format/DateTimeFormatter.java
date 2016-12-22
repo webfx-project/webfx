@@ -9,11 +9,11 @@ import naga.framework.ui.format.Formatter;
 /**
  * @author Bruno Salmon
  */
-public class DateFormatter implements Formatter {
+public class DateTimeFormatter implements Formatter {
 
-    public static final DateFormatter SINGLETON = new DateFormatter();
+    public static final DateTimeFormatter SINGLETON = new DateTimeFormatter();
 
-    private DateFormatter() {
+    private DateTimeFormatter() {
     }
 
     @Override
@@ -23,6 +23,6 @@ public class DateFormatter implements Formatter {
 
     @Override
     public Object format(Object value) {
-        return Dates.format(value, "dd/MM/yyyy");
+        return Dates.format(value, "dd/MM/yyyy HH:mm:ss");
     }
 }

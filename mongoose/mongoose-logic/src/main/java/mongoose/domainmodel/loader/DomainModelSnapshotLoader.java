@@ -1,6 +1,7 @@
 package mongoose.domainmodel.loader;
 
 import mongoose.domainmodel.format.DateFormatter;
+import mongoose.domainmodel.format.DateTimeFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
 import mongoose.entities.impl.*;
@@ -48,6 +49,7 @@ public class DomainModelSnapshotLoader {
             // Registering formats
             registerFormatter("price", PriceFormatter.SINGLETON);
             registerFormatter("date", DateFormatter.SINGLETON);
+            registerFormatter("dateTime", DateTimeFormatter.SINGLETON);
             // Registering entity java classes
             registerEntityFactory(Attendance.class, "Attendance", AttendanceImpl::new);
             registerEntityFactory(DateInfo.class, "DateInfo", DateInfoImpl::new);
