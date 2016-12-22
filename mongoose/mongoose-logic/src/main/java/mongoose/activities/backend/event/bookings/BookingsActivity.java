@@ -29,9 +29,10 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         TextField searchBox = new TextField();
         DataGrid table = new DataGrid();
         Button newBookingButton = new Button();
+        Button cloneEventButton = new Button();
         CheckBox limitCheckBox = new CheckBox();
 
-        HBox hBox = new HBox(newBookingButton, searchBox);
+        HBox hBox = new HBox(newBookingButton, searchBox, cloneEventButton);
         HBox.setHgrow(searchBox, Priority.ALWAYS);
         searchBox.setMaxWidth(Double.MAX_VALUE);
         searchBox.setMaxHeight(Double.MAX_VALUE);
@@ -40,7 +41,7 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
 
-        return new BookingsViewModel(new BorderPane(table, hBox, null, limitCheckBox, null), searchBox, table, limitCheckBox, newBookingButton);
+        return new BookingsViewModel(new BorderPane(table, hBox, null, limitCheckBox, null), searchBox, table, limitCheckBox, newBookingButton, cloneEventButton);
     }
 
     @Override
@@ -49,6 +50,7 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         // Hard coded initialization
         I18n i18n = getI18n();
         i18n.translateText(vm.getNewBookingButton(), "NewBooking").setOnMouseClicked(event -> getHistory().push("/event/" + pm.getEventId() + "/fees"));
+        i18n.translateText(vm.getCloneEventButton(), "CloneEvent").setOnMouseClicked(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
     }
 
     protected void bindPresentationModelWithLogic(GenericTableEventDependentPresentationModel pm) {

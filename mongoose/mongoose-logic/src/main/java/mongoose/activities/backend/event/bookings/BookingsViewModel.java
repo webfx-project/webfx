@@ -13,13 +13,19 @@ import naga.toolkit.fx.scene.control.TextField;
 class BookingsViewModel extends GenericTableViewModel {
 
     private final Button newBookingButton;
+    private final Button cloneEventButton;
 
-    BookingsViewModel(Node contentNode, TextField searchBox, DataGrid table, CheckBox limitCheckBox, Button newBookingButton) {
+    BookingsViewModel(Node contentNode, TextField searchBox, DataGrid table, CheckBox limitCheckBox, Button newBookingButton, Button cloneEventButton) {
         super(contentNode, searchBox, table, limitCheckBox);
         this.newBookingButton = newBookingButton;
+        this.cloneEventButton = cloneEventButton;
     }
 
     Button getNewBookingButton() {
         return newBookingButton;
+    }
+
+    Button getCloneEventButton() {
+        return cloneEventButton;
     }
 }

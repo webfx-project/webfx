@@ -2,8 +2,12 @@ package mongoose.activities.backend.application;
 
 import mongoose.activities.backend.container.BackendContainerActivity;
 import mongoose.activities.backend.event.bookings.BookingsActivity;
+import mongoose.activities.backend.event.clone.CloneEventActivity;
 import mongoose.activities.backend.event.letters.LettersActivity;
 import mongoose.activities.backend.events.EventsActivity;
+import mongoose.activities.backend.fx.clip.ClipActivity;
+import mongoose.activities.backend.fx.colorfulcircles.ColorfulCirclesActivity;
+import mongoose.activities.backend.fx.layout.LayoutActivity;
 import mongoose.activities.backend.monitor.MonitorActivity;
 import mongoose.activities.backend.organizations.OrganizationsActivity;
 import mongoose.activities.backend.tester.TesterActivity;
@@ -32,6 +36,7 @@ public class MongooseBackendApplication extends MongooseApplication {
                 .route("/organization/:organizationId/events", EventsActivity::new)
                 .route("/event/:eventId/bookings", BookingsActivity::new)
                 .route("/event/:eventId/letters", LettersActivity::new)
+                .route("/event/:eventId/clone", CloneEventActivity::new)
                 .route("/monitor", MonitorActivity::new)
                 .route("/tester", TesterActivity::new)
                 .route("/testSet", TestSetActivity::new);
