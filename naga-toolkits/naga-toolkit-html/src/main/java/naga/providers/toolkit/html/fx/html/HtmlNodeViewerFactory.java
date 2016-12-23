@@ -1,16 +1,17 @@
 package naga.providers.toolkit.html.fx.html;
 
 import naga.providers.toolkit.html.fx.html.viewer.*;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fxdata.control.HtmlText;
+import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.control.*;
 import naga.toolkit.fx.scene.image.ImageView;
-import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.layout.*;
 import naga.toolkit.fx.scene.shape.Circle;
+import naga.toolkit.fx.scene.shape.Line;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerFactoryImpl;
+import naga.toolkit.fxdata.control.DataGrid;
+import naga.toolkit.fxdata.control.HtmlText;
 
 /**
  * @author Bruno Salmon
@@ -22,6 +23,7 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
     private HtmlNodeViewerFactory() {
         registerNodeViewerFactory(Rectangle.class, HtmlRectangleViewer::new);
         registerNodeViewerFactory(Circle.class, HtmlCircleViewer::new);
+        registerNodeViewerFactory(Line.class, HtmlLineViewer::new);
         registerNodeViewerFactory(Text.class, HtmlTextViewer::new);
         registerNodeViewerFactory(Group.class, HtmlGroupViewer::new);
         registerNodeViewerFactory(Region.class, HtmlLayoutViewer::new);
