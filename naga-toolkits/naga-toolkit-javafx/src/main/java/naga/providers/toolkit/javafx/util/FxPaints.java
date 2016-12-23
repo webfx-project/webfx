@@ -20,7 +20,7 @@ public class FxPaints {
     }
 
     public static javafx.scene.paint.Color toFxColor(Color color) {
-        return new javafx.scene.paint.Color(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity());
+        return javafx.scene.paint.Color.color(color.getRed(), color.getGreen(), color.getBlue(), color.getOpacity());
     }
 
     public static javafx.scene.paint.LinearGradient toFxLinearGradient(LinearGradient lg) {
