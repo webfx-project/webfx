@@ -1,17 +1,18 @@
 package naga.providers.toolkit.swing.fx;
 
 import naga.providers.toolkit.swing.fx.viewer.*;
-import naga.toolkit.fxdata.chart.LineChart;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fxdata.control.HtmlText;
+import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.control.*;
 import naga.toolkit.fx.scene.image.ImageView;
-import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.layout.*;
 import naga.toolkit.fx.scene.shape.Circle;
+import naga.toolkit.fx.scene.shape.Line;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerFactoryImpl;
+import naga.toolkit.fxdata.chart.LineChart;
+import naga.toolkit.fxdata.control.DataGrid;
+import naga.toolkit.fxdata.control.HtmlText;
 
 /**
  * @author Bruno Salmon
@@ -23,6 +24,7 @@ public class SwingNodeViewerFactory extends NodeViewerFactoryImpl {
     private SwingNodeViewerFactory() {
         registerNodeViewerFactory(Rectangle.class, SwingRectangleViewer::new);
         registerNodeViewerFactory(Circle.class, SwingCircleViewer::new);
+        registerNodeViewerFactory(Line.class, SwingLineViewer::new);
         registerNodeViewerFactory(Text.class, SwingTextViewer::new);
         registerNodeViewerFactory(Group.class, SwingGroupViewer::new);
         registerNodeViewerFactory(Region.class, SwingLayoutViewer::new);
