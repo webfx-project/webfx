@@ -12,6 +12,7 @@ import naga.toolkit.fx.geometry.*;
 import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.paint.Color;
+import naga.toolkit.fx.scene.shape.Line;
 
 import java.util.*;
 
@@ -599,8 +600,7 @@ public class GridPane extends Pane {
         setMargin(child, null);
     }
 
-
-    private static final Color GRID_LINE_COLOR = Color.rgb(30, 30, 30);
+    private static final Color GRID_LINE_COLOR = Color.rgba255(30, 30, 30, 1);
     private static final double GRID_LINE_DASH = 3;
 
     static void createRow(int rowIndex, int columnIndex, Node... nodes) {
@@ -2170,7 +2170,6 @@ public class GridPane extends Pane {
     }
 
     private void layoutGridLines(CompositeSize columnWidths, CompositeSize rowHeights, double x, double y, double columnHeight, double rowWidth) {
-/*
         if (!isGridLinesVisible()) {
             return;
         }
@@ -2205,10 +2204,8 @@ public class GridPane extends Pane {
                 liney += rowHeights.getSize(i);
             }
         }
-*/
     }
 
-/*
     private Line createGridLine(double startX, double startY, double endX, double endY) {
         Line line = new Line();
         line.setStartX(startX);
@@ -2220,7 +2217,6 @@ public class GridPane extends Pane {
 
         return line;
     }
-*/
 
     /**
      * Returns a string representation of this {@code GridPane} object.
