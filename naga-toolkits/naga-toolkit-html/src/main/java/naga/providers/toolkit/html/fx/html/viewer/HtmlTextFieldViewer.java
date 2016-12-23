@@ -83,11 +83,16 @@ public class HtmlTextFieldViewer
 
     @Override
     public void updatePrompt(String prompt) {
-        ((HTMLInputElement) getElement()).placeholder = prompt;
+        ((HTMLInputElement) getElement()).placeholder = Strings.toSafeString(prompt);
     }
 
     @Override
     public double maxWidth(double height) {
         return Double.MAX_VALUE;
+    }
+
+    @Override
+    public double minWidth(double height) {
+        return 0;
     }
 }
