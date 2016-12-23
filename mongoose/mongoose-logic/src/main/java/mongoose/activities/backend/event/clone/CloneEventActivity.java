@@ -3,20 +3,23 @@ package mongoose.activities.backend.event.clone;
 import mongoose.activities.shared.generic.EventDependentActivity;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Event;
-import naga.platform.services.query.QueryArgument;
+import naga.framework.ui.i18n.I18n;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
+import naga.toolkit.fx.geometry.HPos;
+import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.properties.Properties;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.VBox;
+import naga.toolkit.fx.scene.layout.ColumnConstraints;
+import naga.toolkit.fx.scene.layout.GridPane;
+import naga.toolkit.fx.scene.layout.Priority;
+import naga.toolkit.fx.scene.text.Text;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
-import static java.time.temporal.ChronoField.*;
+import static naga.toolkit.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
 
 /**
  * @author Bruno Salmon
@@ -29,18 +32,43 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
 
     @Override
     protected CloneEventViewModel buildView() {
-        TextField nameTextField = new TextField();
-        TextField dateTextField = new TextField();
+        Text nameText = new Text(), dateText = new Text();
+        TextField nameTextField = new TextField(), dateTextField = new TextField();
         Button submitButton = new Button();
-        return new CloneEventViewModel(new BorderPane(new VBox(nameTextField, dateTextField), null, null, submitButton, null),
-                nameTextField, dateTextField, submitButton);
+        GridPane gridPane = new GridPane();
+        gridPane.add(nameText, 0, 0);
+        gridPane.add(nameTextField, 1, 0);
+        gridPane.add(dateText, 0, 1);
+        gridPane.add(dateTextField, 1, 1);
+        gridPane.add(submitButton, 1, 2, 1 , 3);
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        GridPane.setHalignment(nameText, HPos.RIGHT);
+        GridPane.setHalignment(dateText, HPos.RIGHT);
+        GridPane.setHalignment(submitButton, HPos.RIGHT);
+        nameTextField.setMinWidth(150d);
+        dateTextField.setMinWidth(150d);
+        ColumnConstraints cc1 = new ColumnConstraints();
+        cc1.setHgrow(Priority.NEVER);
+        ColumnConstraints cc2 = new ColumnConstraints();
+        cc2.setHgrow(Priority.ALWAYS);
+        gridPane.getColumnConstraints().setAll(cc1, cc2);
+        // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
+        gridPane.setMaxWidth(USE_PREF_SIZE);
+        gridPane.setMaxHeight(USE_PREF_SIZE);
+        // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
+        BorderPane.setAlignment(gridPane, Pos.CENTER);
+        return new CloneEventViewModel(gridPane, nameText, dateText, nameTextField, dateTextField, submitButton);
     }
 
     @Override
     protected void bindViewModelWithPresentationModel(CloneEventViewModel vm, CloneEventPresentationModel pm) {
+        I18n i18n = getI18n();
+        i18n.translateText(vm.getNameText(), "Name");
+        i18n.translateText(vm.getDateText(), "Date");
         vm.getNameTextField().textProperty().bindBidirectional(pm.nameProperty());
         vm.getDateTextField().textProperty().bindBidirectional(pm.dateProperty());
-        getI18n().translateText(vm.getSubmitButton(), "Submit").setOnMouseClicked(event -> {
+        i18n.translateText(vm.getSubmitButton(), "Submit").setOnMouseClicked(event -> {
             String date = pm.getDate();
             int p;
             int dayOfMonth = Integer.parseInt(date.substring(0, p = date.indexOf('/')));
