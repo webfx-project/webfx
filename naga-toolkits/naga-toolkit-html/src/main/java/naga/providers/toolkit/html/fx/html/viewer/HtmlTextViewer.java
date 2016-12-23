@@ -1,5 +1,6 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
+import naga.commons.util.Numbers;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.providers.toolkit.html.util.HtmlUtil;
 import naga.toolkit.fx.geometry.VPos;
@@ -67,8 +68,9 @@ public class HtmlTextViewer
 
     @Override
     public void updateWrappingWidth(Double wrappingWidth) {
-        if (wrappingWidth != null)
-            setElementStyleAttribute("width", toPx(wrappingWidth));
+        double width = Numbers.doubleValue(wrappingWidth);
+        if (width != 0)
+            setElementStyleAttribute("width", toPx(width));
         updateY();
     }
 
