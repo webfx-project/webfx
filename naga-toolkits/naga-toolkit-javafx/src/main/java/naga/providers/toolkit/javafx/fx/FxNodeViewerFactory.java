@@ -1,17 +1,18 @@
 package naga.providers.toolkit.javafx.fx;
 
 import naga.providers.toolkit.javafx.fx.viewer.*;
-import naga.toolkit.fxdata.chart.*;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fxdata.control.HtmlText;
+import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.control.*;
 import naga.toolkit.fx.scene.image.ImageView;
-import naga.toolkit.fx.scene.Group;
 import naga.toolkit.fx.scene.layout.*;
 import naga.toolkit.fx.scene.shape.Circle;
+import naga.toolkit.fx.scene.shape.Line;
 import naga.toolkit.fx.scene.shape.Rectangle;
 import naga.toolkit.fx.scene.text.Text;
 import naga.toolkit.fx.spi.viewer.base.NodeViewerFactoryImpl;
+import naga.toolkit.fxdata.chart.*;
+import naga.toolkit.fxdata.control.DataGrid;
+import naga.toolkit.fxdata.control.HtmlText;
 
 /**
  * @author Bruno Salmon
@@ -23,6 +24,7 @@ public class FxNodeViewerFactory extends NodeViewerFactoryImpl {
     protected FxNodeViewerFactory() {
         registerNodeViewerFactory(Rectangle.class, FxRectangleViewer::new);
         registerNodeViewerFactory(Circle.class, FxCircleViewer::new);
+        registerNodeViewerFactory(Line.class, FxLineViewer::new);
         registerNodeViewerFactory(Text.class, FxTextViewer::new);
         registerNodeViewerFactory(Group.class, FxGroupViewer::new);
         registerNodeViewerFactory(Region.class, FxLayoutViewer::new);
