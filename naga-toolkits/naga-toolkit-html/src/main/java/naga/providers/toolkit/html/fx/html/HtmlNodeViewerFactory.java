@@ -25,6 +25,7 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(Circle.class, HtmlCircleViewer::new);
         registerNodeViewerFactory(Line.class, HtmlLineViewer::new);
         registerNodeViewerFactory(Text.class, HtmlTextViewer::new);
+        registerNodeViewerFactory(Label.class, HtmlLabelViewer::new);
         registerNodeViewerFactory(Group.class, HtmlGroupViewer::new);
         registerNodeViewerFactory(Region.class, HtmlLayoutViewer::new);
         registerNodeViewerFactory(VBox.class, HtmlLayoutViewer::new);
