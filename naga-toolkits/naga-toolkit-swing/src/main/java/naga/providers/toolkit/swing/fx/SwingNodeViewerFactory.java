@@ -26,6 +26,7 @@ public class SwingNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(Circle.class, SwingCircleViewer::new);
         registerNodeViewerFactory(Line.class, SwingLineViewer::new);
         registerNodeViewerFactory(Text.class, SwingTextViewer::new);
+        registerNodeViewerFactory(Label.class, SwingLabelViewer::new);
         registerNodeViewerFactory(Group.class, SwingGroupViewer::new);
         registerNodeViewerFactory(Region.class, SwingLayoutViewer::new);
         registerNodeViewerFactory(VBox.class, SwingLayoutViewer::new);

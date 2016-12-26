@@ -18,7 +18,7 @@ import java.beans.PropertyChangeListener;
 class SwingButtonBaseViewer
         <N extends ButtonBase, NB extends ButtonBaseViewerBase<N, NB, NM>, NM extends ButtonBaseViewerMixin<N, NB, NM>>
 
-        extends SwingRegionViewer<N, NB, NM>
+        extends SwingLabeledViewer<N, NB, NM>
         implements ButtonBaseViewerMixin<N, NB, NM>, SwingEmbedComponentViewer<N>, SwingLayoutMeasurable<N> {
 
     private final AbstractButton swingButtonBase;
