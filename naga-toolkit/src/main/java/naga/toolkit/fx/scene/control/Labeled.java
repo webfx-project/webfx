@@ -2,19 +2,54 @@ package naga.toolkit.fx.scene.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import naga.toolkit.fx.geometry.Pos;
+import naga.toolkit.fx.properties.Properties;
+import naga.toolkit.fx.properties.markers.*;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.properties.markers.HasGraphicProperty;
-import naga.toolkit.fx.properties.markers.HasTextProperty;
-import naga.toolkit.fx.properties.Properties;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon
  */
 public abstract class Labeled extends Control implements
         HasTextProperty,
-        HasGraphicProperty {
+        HasGraphicProperty,
+        HasFontProperty,
+        HasAlignmentProperty,
+        HasTextAlignmentProperty
+        {
+
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Creates a Label with no text and graphic
+     */
+    public Labeled() { }
+
+    /**
+     * Creates a Label with text
+     * @param text The text for the label.
+     */
+    public Labeled(String text) {
+        setText(text);
+    }
+
+    /**
+     * Creates a Label with text and a graphic
+     * @param text The text for the label.
+     * @param graphic The graphic for the label.
+     */
+    public Labeled(String text, Node graphic) {
+        setText(text);
+        setGraphic(graphic);
+    }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();
     @Override
@@ -33,13 +68,31 @@ public abstract class Labeled extends Control implements
         return graphicProperty;
     }
 
+    private final Property<Font> fontProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Font> fontProperty() {
+        return fontProperty;
+    }
+
+    private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
+    @Override
+    public Property<Pos> alignmentProperty() {
+        return alignmentProperty;
+    }
+
+    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    @Override
+    public Property<TextAlignment> textAlignmentProperty() {
+        return textAlignmentProperty;
+    }
+
     {
         // Requesting a new layout pass on text and image properties change
         Properties.runOnPropertiesChange(property -> {
             Parent parent = getParent();
             if (parent != null)
                 parent.requestLayout();
-        }, textProperty, graphicProperty);
+        }, textProperty, graphicProperty, fontProperty(), alignmentProperty(), textAlignmentProperty());
     }
 
     @Override

@@ -2,6 +2,8 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Labeled;
+import naga.toolkit.fx.scene.text.Font;
+import naga.toolkit.fx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon
@@ -15,4 +17,7 @@ public interface LabeledViewerMixin
 
     void updateGraphic(Node graphic);
 
+    void updateFont(Font font);
+
+    void updateTextAlignment(TextAlignment textAlignment);
 }

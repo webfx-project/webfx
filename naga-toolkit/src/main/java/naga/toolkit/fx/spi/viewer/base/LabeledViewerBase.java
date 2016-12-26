@@ -15,17 +15,21 @@ public abstract class LabeledViewerBase
     @Override
     public void bind(N labeled, SceneRequester sceneRequester) {
         super.bind(labeled, sceneRequester);
-        requestUpdateOnPropertiesChange(sceneRequester,
-                node.textProperty(),
-                node.graphicProperty());
+        requestUpdateOnPropertiesChange(sceneRequester
+                , node.textProperty()
+                , node.graphicProperty()
+                , node.fontProperty()
+                , node.textAlignmentProperty()
+        );
     }
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
-        N c = getNode();
         return super.updateProperty(changedProperty)
-                || updateProperty(c.textProperty(), changedProperty, mixin::updateText)
-                || updateProperty(c.graphicProperty(), changedProperty, mixin::updateGraphic)
+                || updateProperty(node.textProperty(), changedProperty, mixin::updateText)
+                || updateProperty(node.graphicProperty(), changedProperty, mixin::updateGraphic)
+                || updateProperty(node.fontProperty(), changedProperty, mixin::updateFont)
+                || updateProperty(node.textAlignmentProperty(), changedProperty, mixin::updateTextAlignment)
                 ;
     }
 }
