@@ -26,6 +26,7 @@ public class FxNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(Circle.class, FxCircleViewer::new);
         registerNodeViewerFactory(Line.class, FxLineViewer::new);
         registerNodeViewerFactory(Text.class, FxTextViewer::new);
+        registerNodeViewerFactory(Label.class, FxLabelViewer::new);
         registerNodeViewerFactory(Group.class, FxGroupViewer::new);
         registerNodeViewerFactory(Region.class, FxLayoutViewer::new);
         registerNodeViewerFactory(VBox.class, FxLayoutViewer::new);
