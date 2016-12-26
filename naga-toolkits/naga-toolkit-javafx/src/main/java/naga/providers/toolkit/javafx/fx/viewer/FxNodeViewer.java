@@ -40,10 +40,14 @@ public abstract class FxNodeViewer
 
     protected abstract FxN createFxNode();
 
+    protected void onFxNodeCreated() {
+    }
+
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         fxNode = createFxNode();
         getNodeViewerBase().bind(node, sceneRequester);
+        onFxNodeCreated();
     }
 
     @Override
