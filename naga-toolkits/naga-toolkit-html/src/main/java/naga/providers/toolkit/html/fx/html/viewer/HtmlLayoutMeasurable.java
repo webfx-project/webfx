@@ -55,8 +55,13 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
         CSSStyleDeclaration style = e.style;
         Object styleWidth = style.width;
         Object styleHeight = style.height;
-        style.width =   width && value >= 0 ? value : null;
-        style.height = !width && value >= 0 ? value : null;
+        if (width) {
+            style.width = null;
+            style.height = value >= 0 ? HtmlNodeViewer.toPx(value) : null;
+        } else {
+            style.width = value >= 0 ? HtmlNodeViewer.toPx(value) : null;
+            style.height = null;
+        }
         double result = measure(e, width);
         style.width = styleWidth;
         style.height = styleHeight;

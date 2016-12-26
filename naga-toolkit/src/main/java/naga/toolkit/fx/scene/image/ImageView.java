@@ -4,13 +4,14 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.toolkit.fx.geom.BaseBounds;
 import naga.toolkit.fx.geom.transform.BaseTransform;
-import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.properties.markers.*;
+import naga.toolkit.fx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
 public class ImageView extends Node implements
+        HasImageProperty,
         HasImageUrlProperty,
         HasFitWidthProperty,
         HasFitHeightProperty,
@@ -24,7 +25,30 @@ public class ImageView extends Node implements
         setImageUrl(imageUrl);
     }
 
-    private final Property<String> imageUrlProperty = new SimpleObjectProperty<>();
+    public ImageView(Image image) {
+        setImage(image);
+    }
+
+
+    private final Property<Image> imageProperty = new SimpleObjectProperty<Image>() {
+        @Override
+        protected void invalidated() {
+            invalidateWidthHeight();
+            //impl_geomChanged();
+            //impl_markDirty(DirtyBits.NODE_CONTENTS);
+        }
+    };
+    @Override
+    public Property<Image> imageProperty() {
+        return imageProperty;
+    }
+
+    private final Property<String> imageUrlProperty = new SimpleObjectProperty<String>() {
+        @Override
+        protected void invalidated() {
+            setImage(new Image(getImageUrl()));
+        }
+    };
     @Override
     public Property<String> imageUrlProperty() {
         return imageUrlProperty;
@@ -54,12 +78,68 @@ public class ImageView extends Node implements
         return yProperty;
     }
 
-    @Override
-    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        // This implementation works only when fitWidth and fitHeight are set. But the node view should measure the
-        // layoutBounds so this method shouldn't be called.
-        bounds = bounds.deriveWithNewBounds(getX(), getY(), 0, getX() + getFitWidth(), getY() + getFitHeight(), 0);
+    private double destWidth, destHeight;
+
+    /**
+     * @treatAsPrivate implementation detail
+     * @deprecated This is an internal API that is not intended for use and will be removed in the next version
+     */
+    @Deprecated
+    @Override public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
+        recomputeWidthHeight();
+
+        bounds = bounds.deriveWithNewBounds(getX(), getY(), 0d, getX() + destWidth, getY() + destHeight, 0d);
         bounds = tx.transform(bounds, bounds);
         return bounds;
+    }
+
+    private boolean validWH;
+
+    private void invalidateWidthHeight() {
+        validWH = false;
+    }
+
+    private void recomputeWidthHeight() {
+        if (validWH)
+            return;
+        Image localImage = getImage();
+        //Rectangle2D localViewport = getViewport();
+
+        double w = 0;
+        double h = 0;
+        /*if (localViewport != null && localViewport.getWidth() > 0 && localViewport.getHeight() > 0) {
+            w = localViewport.getWidth();
+            h = localViewport.getHeight();
+        } else*/ if (localImage != null) {
+            w = localImage.getWidth();
+            h = localImage.getHeight();
+        }
+
+        double localFitWidth = getFitWidth();
+        double localFitHeight = getFitHeight();
+
+        /*if (isPreserveRatio() && w > 0 && h > 0 && (localFitWidth > 0 || localFitHeight > 0)) {
+            if (localFitWidth <= 0 || (localFitHeight > 0 && localFitWidth * h > localFitHeight * w)) {
+                w = w * localFitHeight / h;
+                h = localFitHeight;
+            } else {
+                h = h * localFitWidth / w;
+                w = localFitWidth;
+            }
+        } else*/ {
+            if (localFitWidth > 0f) {
+                w = localFitWidth;
+            }
+            if (localFitHeight > 0f) {
+                h = localFitHeight;
+            }
+        }
+
+        // Store these values for use later in impl_computeContains() to support
+        // Node.contains().
+        destWidth = w;
+        destHeight = h;
+
+        validWH = true;
     }
 }

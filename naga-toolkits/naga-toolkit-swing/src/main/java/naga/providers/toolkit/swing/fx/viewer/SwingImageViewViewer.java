@@ -7,9 +7,9 @@ import naga.toolkit.fx.geometry.BoundingBox;
 import naga.toolkit.fx.geometry.Bounds;
 import naga.toolkit.fx.scene.LayoutMeasurable;
 import naga.toolkit.fx.scene.image.ImageView;
+import naga.toolkit.fx.spi.Toolkit;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerMixin;
-import naga.toolkit.fx.spi.Toolkit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,11 +35,6 @@ public class SwingImageViewViewer
     }
 
     @Override
-    public void updateImageUrl(String imageUrl) {
-        updateIcon();
-    }
-
-    @Override
     public void updateFitWidth(Double fitWidth) {
         updateIcon();
     }
@@ -49,12 +44,27 @@ public class SwingImageViewViewer
         updateIcon();
     }
 
+    @Override
+    public void updateImage(naga.toolkit.fx.scene.image.Image image) {
+        updateIcon();
+    }
+
+    @Override
+    public void updateX(Double x) {
+    }
+
+    @Override
+    public void updateY(Double y) {
+    }
+
     private void updateIcon() {
         // As we are probably in the animation frame we make this call non blocking by either setting the icon
         // immediately if it is already loaded and present in cache, or deferring the icon load in the background
-        String url = getNode().getImageUrl();
-        int fitWidth = getNode().getFitWidth().intValue();
-        int fitHeight = getNode().getFitHeight().intValue();
+        N node = getNode();
+        naga.toolkit.fx.scene.image.Image image = node.getImage();
+        String url = image == null ? null : image.getUrl();
+        int fitWidth = node.getFitWidth().intValue();
+        int fitHeight = node.getFitHeight().intValue();
         Icon cachedIcon = SwingImageStore.getIconFromCache(url, fitWidth, fitHeight);
         if (cachedIcon != null || url == null)
             swingImage.setIcon(cachedIcon); // Setting the image immediately

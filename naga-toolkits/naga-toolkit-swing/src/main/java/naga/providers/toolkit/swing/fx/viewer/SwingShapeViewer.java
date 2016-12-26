@@ -151,7 +151,7 @@ abstract class SwingShapeViewer
         if (swingShape == null)
             return new BoundingBox(0, 0, 0, 0);
         Rectangle bounds = swingShape.getBounds();
-        return new BoundingBox(0, 0, bounds.getWidth(), bounds.getHeight());
+        return new BoundingBox(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
     }
 
     @Override

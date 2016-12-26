@@ -1,5 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
+import naga.toolkit.fx.scene.image.Image;
 import naga.toolkit.fx.scene.image.ImageView;
 
 /**
@@ -10,9 +11,13 @@ public interface ImageViewViewerMixin
 
         extends NodeViewerMixin<N, NB, NM> {
 
-    void updateImageUrl(String imageUrl);
+    void updateImage(Image image);
 
     void updateFitWidth(Double fitWidth);
 
     void updateFitHeight(Double fitHeight);
+
+    void updateX(Double x);
+
+    void updateY(Double y);
 }

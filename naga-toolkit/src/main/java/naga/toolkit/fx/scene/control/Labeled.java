@@ -8,6 +8,7 @@ import naga.toolkit.fx.properties.markers.*;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
+import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.TextAlignment;
 
@@ -17,6 +18,7 @@ import naga.toolkit.fx.scene.text.TextAlignment;
 public abstract class Labeled extends Control implements
         HasTextProperty,
         HasGraphicProperty,
+        HasImageUrlProperty,
         HasFontProperty,
         HasAlignmentProperty,
         HasTextAlignmentProperty
@@ -66,6 +68,18 @@ public abstract class Labeled extends Control implements
     @Override
     public Property<Node> graphicProperty() {
         return graphicProperty;
+    }
+
+    private final Property<String> imageUrlProperty = new SimpleObjectProperty<String>() {
+        @Override
+        protected void invalidated() {
+            String url = getValue();
+            setGraphic(url == null ? null : new ImageView(url));
+        }
+    };
+    @Override
+    public Property<String> imageUrlProperty() {
+        return imageUrlProperty;
     }
 
     private final Property<Font> fontProperty = new SimpleObjectProperty<>();

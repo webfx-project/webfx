@@ -7,6 +7,7 @@ import naga.commons.util.Strings;
 import naga.platform.spi.Platform;
 import naga.toolkit.fx.geometry.BoundingBox;
 import naga.toolkit.fx.geometry.Bounds;
+import naga.toolkit.fx.scene.image.Image;
 import naga.toolkit.fx.scene.image.ImageView;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ImageViewViewerMixin;
@@ -32,9 +33,10 @@ public class HtmlImageViewViewer
     }
 
     @Override
-    public void updateImageUrl(String imageUrl) {
+    public void updateImage(Image image) {
         // Trying to inline svg images when possible to allow css rules such as svg {fill: currentColor} which is useful
         // to have the same color for the image and the text (in a button for example).
+        String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
             return;
         setElementAttribute("src", imageUrl);
@@ -48,6 +50,14 @@ public class HtmlImageViewViewer
     @Override
     public void updateFitHeight(Double fitHeight) {
         setElementAttribute("height", Numbers.doubleValue(fitHeight) == 0 ? null : toPx(fitHeight));
+    }
+
+    @Override
+    public void updateX(Double x) {
+    }
+
+    @Override
+    public void updateY(Double y) {
     }
 
     boolean tryInlineSvg(String url) {

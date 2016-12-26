@@ -2,6 +2,7 @@ package naga.toolkit.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.toolkit.fx.scene.SceneRequester;
+import naga.toolkit.fx.scene.image.Image;
 import naga.toolkit.fx.scene.image.ImageView;
 
 /**
@@ -20,16 +21,22 @@ public class ImageViewViewerBase
                 node.yProperty(),
                 node.fitWidthProperty(),
                 node.fitHeightProperty(),
-                node.imageUrlProperty()
+                node.imageProperty()
         );
     }
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                || updateProperty(node.imageUrlProperty(), changedProperty, mixin::updateImageUrl)
+                || updateProperty(node.imageProperty(), changedProperty, this::updateImage)
+                || updateProperty(node.xProperty(), changedProperty, mixin::updateX)
+                || updateProperty(node.yProperty(), changedProperty, mixin::updateY)
                 || updateProperty(node.fitWidthProperty(), changedProperty, mixin::updateFitWidth)
                 || updateProperty(node.fitHeightProperty(), changedProperty, mixin::updateFitHeight)
                 ;
+    }
+
+    protected void updateImage(Image image) {
+        mixin.updateImage(image);
     }
 }
