@@ -10,12 +10,12 @@ import naga.toolkit.fx.geometry.HPos;
 import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.properties.Properties;
 import naga.toolkit.fx.scene.control.Button;
+import naga.toolkit.fx.scene.control.Label;
 import naga.toolkit.fx.scene.control.TextField;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.ColumnConstraints;
 import naga.toolkit.fx.scene.layout.GridPane;
 import naga.toolkit.fx.scene.layout.Priority;
-import naga.toolkit.fx.scene.text.Text;
 
 import java.time.LocalDate;
 
@@ -32,19 +32,19 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
 
     @Override
     protected CloneEventViewModel buildView() {
-        Text nameText = new Text(), dateText = new Text();
+        Label nameLabel = new Label(), dateLabel = new Label();
         TextField nameTextField = new TextField(), dateTextField = new TextField();
         Button submitButton = new Button();
         GridPane gridPane = new GridPane();
-        gridPane.add(nameText, 0, 0);
+        gridPane.add(nameLabel, 0, 0);
         gridPane.add(nameTextField, 1, 0);
-        gridPane.add(dateText, 0, 1);
+        gridPane.add(dateLabel, 0, 1);
         gridPane.add(dateTextField, 1, 1);
         gridPane.add(submitButton, 1, 2, 1 , 3);
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        GridPane.setHalignment(nameText, HPos.RIGHT);
-        GridPane.setHalignment(dateText, HPos.RIGHT);
+        GridPane.setHalignment(nameLabel, HPos.RIGHT);
+        GridPane.setHalignment(dateLabel, HPos.RIGHT);
         GridPane.setHalignment(submitButton, HPos.RIGHT);
         nameTextField.setMinWidth(150d);
         dateTextField.setMinWidth(150d);
@@ -58,14 +58,14 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         gridPane.setMaxHeight(USE_PREF_SIZE);
         // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
         BorderPane.setAlignment(gridPane, Pos.CENTER);
-        return new CloneEventViewModel(gridPane, nameText, dateText, nameTextField, dateTextField, submitButton);
+        return new CloneEventViewModel(gridPane, nameLabel, dateLabel, nameTextField, dateTextField, submitButton);
     }
 
     @Override
     protected void bindViewModelWithPresentationModel(CloneEventViewModel vm, CloneEventPresentationModel pm) {
         I18n i18n = getI18n();
-        i18n.translateText(vm.getNameText(), "Name");
-        i18n.translateText(vm.getDateText(), "Date");
+        i18n.translateText(vm.getNameLabel(), "Name");
+        i18n.translateText(vm.getDateLabel(), "Date");
         vm.getNameTextField().textProperty().bindBidirectional(pm.nameProperty());
         vm.getDateTextField().textProperty().bindBidirectional(pm.dateProperty());
         i18n.translateText(vm.getSubmitButton(), "Submit").setOnMouseClicked(event -> {
