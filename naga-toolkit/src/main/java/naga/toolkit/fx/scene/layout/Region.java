@@ -32,9 +32,14 @@ public class Region extends Parent implements
     }
 
     private final Property<Double> widthProperty = new SimpleObjectProperty<Double>(0d) {
+        private double lastValue = -1;
         @Override
         protected void invalidated() {
-            widthOrHeightChanged();
+            double value = getValue();
+            if (value != lastValue) { // double check (because it may happen to have a new Double instance but with actual same value as previous one)
+                widthOrHeightChanged();
+                lastValue = value;
+            }
         }
     };
     @Override
@@ -43,9 +48,14 @@ public class Region extends Parent implements
     }
 
     private final Property<Double> heightProperty = new SimpleObjectProperty<Double>(0d) {
+        private double lastValue = -1;
         @Override
         protected void invalidated() {
-            widthOrHeightChanged();
+            double value = getValue();
+            if (value != lastValue) { // double check (because it may happen to have a new Double instance but with actual same value as previous one)
+                widthOrHeightChanged();
+                lastValue = value;
+            }
         }
     };
     @Override
