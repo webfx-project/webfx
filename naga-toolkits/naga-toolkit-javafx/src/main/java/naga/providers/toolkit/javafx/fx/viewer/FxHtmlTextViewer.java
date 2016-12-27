@@ -2,6 +2,7 @@ package naga.providers.toolkit.javafx.fx.viewer;
 
 import javafx.scene.web.WebView;
 import naga.commons.util.Strings;
+import naga.toolkit.fx.scene.layout.Background;
 import naga.toolkit.fxdata.control.HtmlText;
 import naga.toolkit.fxdata.spi.viewer.base.HtmlTextViewerBase;
 import naga.toolkit.fxdata.spi.viewer.base.HtmlTextViewerMixin;
@@ -58,6 +59,10 @@ public class FxHtmlTextViewer
     private void updateResize() {
         N node = getNode();
         webView.resize(node.getWidth(), node.getHeight());
+    }
+
+    @Override
+    public void updateBackground(Background background) {
     }
 
     @Override
