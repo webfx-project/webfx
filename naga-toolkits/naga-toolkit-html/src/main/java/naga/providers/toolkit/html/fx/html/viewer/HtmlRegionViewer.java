@@ -6,6 +6,7 @@ import naga.commons.util.collection.Collections;
 import naga.providers.toolkit.html.util.DomType;
 import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.toolkit.fx.scene.layout.*;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerBase;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
 
@@ -43,12 +44,40 @@ abstract class HtmlRegionViewer
         CornerRadii radii = firstFill == null ? null : firstFill.getRadii();
         if (radii == null)
             style.border = null;
-        else {
-            style.borderTopLeftRadius = toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius()));
-            style.borderTopRightRadius = toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius()));
-            style.borderBottomRightRadius = toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius()));
-            style.borderBottomLeftRadius = toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius()));
+        else
+            applyBorderRadii(radii);
+    }
+
+    @Override
+    public void updateBorder(Border border) {
+        BorderStroke firstStroke = border == null ? null : Collections.get(border.getStrokes(), 0);
+        if (firstStroke != null) {
+            CSSStyleDeclaration style = getElement().style;
+            BorderWidths widths = firstStroke.getWidths();
+            style.borderLeft = toCssBorder(firstStroke.getLeftStroke(), firstStroke.getLeftStyle(), widths.getLeft(), widths.isLeftAsPercentage());
+            style.borderTop = toCssBorder(firstStroke.getTopStroke(), firstStroke.getTopStyle(), widths.getTop(), widths.isTopAsPercentage());
+            style.borderRight = toCssBorder(firstStroke.getRightStroke(), firstStroke.getRightStyle(), widths.getRight(), widths.isRightAsPercentage());
+            style.borderBottom = toCssBorder(firstStroke.getBottomStroke(), firstStroke.getBottomStyle(), widths.getBottom(), widths.isBottomAsPercentage());
+            CornerRadii radii = firstStroke.getRadii();
+            if (radii != null)
+                applyBorderRadii(radii);
         }
+    }
+
+    private void applyBorderRadii(CornerRadii radii) {
+        CSSStyleDeclaration style = getElement().style;
+        style.borderTopLeftRadius = toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius()));
+        style.borderTopRightRadius = toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius()));
+        style.borderBottomRightRadius = toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius()));
+        style.borderBottomLeftRadius = toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius()));
+    }
+
+    private static String toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage) {
+        return toCssBorder(stroke, style, width, isPercentage, new StringBuilder()).toString();
+    }
+
+    private static StringBuilder toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage, StringBuilder sb) {
+        return sb.append(width).append(isPercentage ? "% " : "px ").append("solid ").append(HtmlPaints.toCssPaint(stroke, DomType.HTML));
     }
 
     private static String toCssBackground(Background bg) {
