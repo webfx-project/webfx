@@ -64,6 +64,12 @@ public class Collections {
         return size == 0 ? null : list.get(size - 1);
     }
 
+    public static <T> T get(List<T> list, int i) {
+        if (list == null || i < 0 || i >= list.size())
+            return null;
+        return list.get(i);
+    }
+
     public static <T> boolean addIfNotNull(T element, Collection<T> collection) {
         if (element == null || collection == null)
             return false;
