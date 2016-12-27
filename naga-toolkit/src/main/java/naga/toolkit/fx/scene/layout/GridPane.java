@@ -600,7 +600,7 @@ public class GridPane extends Pane {
         setMargin(child, null);
     }
 
-    private static final Color GRID_LINE_COLOR = Color.rgba255(30, 30, 30, 1);
+    private static final Color GRID_LINE_COLOR = Color.rgb(30, 30, 30, 1);
     private static final double GRID_LINE_DASH = 3;
 
     static void createRow(int rowIndex, int columnIndex, Node... nodes) {
