@@ -7,15 +7,14 @@ import naga.framework.ui.i18n.I18n;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
 import naga.toolkit.fx.geometry.HPos;
-import naga.toolkit.fx.geometry.Pos;
+import naga.toolkit.fx.geometry.Insets;
+import naga.toolkit.fx.geometry.VPos;
 import naga.toolkit.fx.properties.Properties;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.control.Label;
 import naga.toolkit.fx.scene.control.TextField;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.ColumnConstraints;
-import naga.toolkit.fx.scene.layout.GridPane;
-import naga.toolkit.fx.scene.layout.Priority;
+import naga.toolkit.fx.scene.layout.*;
+import naga.toolkit.fx.scene.paint.Color;
 
 import java.time.LocalDate;
 
@@ -35,14 +34,14 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         Label nameLabel = new Label(), dateLabel = new Label();
         TextField nameTextField = new TextField(), dateTextField = new TextField();
         Button submitButton = new Button();
-        GridPane gridPane = new GridPane();
-        gridPane.add(nameLabel, 0, 0);
-        gridPane.add(nameTextField, 1, 0);
-        gridPane.add(dateLabel, 0, 1);
-        gridPane.add(dateTextField, 1, 1);
-        gridPane.add(submitButton, 1, 2, 1 , 3);
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
+        GridPane gp = new GridPane();
+        gp.add(nameLabel, 0, 0);
+        gp.add(nameTextField, 1, 0);
+        gp.add(dateLabel, 0, 1);
+        gp.add(dateTextField, 1, 1);
+        gp.add(submitButton, 1, 2, 1 , 3);
+        gp.setHgap(10);
+        gp.setVgap(10);
         GridPane.setHalignment(nameLabel, HPos.RIGHT);
         GridPane.setHalignment(dateLabel, HPos.RIGHT);
         GridPane.setHalignment(submitButton, HPos.RIGHT);
@@ -52,13 +51,41 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         cc1.setHgrow(Priority.NEVER);
         ColumnConstraints cc2 = new ColumnConstraints();
         cc2.setHgrow(Priority.ALWAYS);
-        gridPane.getColumnConstraints().setAll(cc1, cc2);
+        gp.getColumnConstraints().setAll(cc1, cc2);
         // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
-        gridPane.setMaxWidth(USE_PREF_SIZE);
-        gridPane.setMaxHeight(USE_PREF_SIZE);
+        gp.setMaxWidth(USE_PREF_SIZE);
+        gp.setMaxHeight(USE_PREF_SIZE);
+        gp.setInsets(new Insets(50, 50, 50, 50));
+
+        BorderPane bp = new BorderPane(gp);
+        bp.setBackground(new Background(new BackgroundFill(Color.YELLOWGREEN, new CornerRadii(10), null)));
+        bp.setBorder(new Border(new BorderStroke(Color.ORANGERED, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderStroke.THICK)));
+        bp.setMaxWidth(USE_PREF_SIZE);
+        bp.setMaxHeight(USE_PREF_SIZE);
+
         // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
-        BorderPane.setAlignment(gridPane, Pos.CENTER);
-        return new CloneEventViewModel(gridPane, nameLabel, dateLabel, nameTextField, dateTextField, submitButton);
+        GridPane goldPane = new GridPane();
+        RowConstraints rc1 = new RowConstraints();
+        RowConstraints rc2 = new RowConstraints();
+        RowConstraints rc3 = new RowConstraints();
+        goldPane.getRowConstraints().setAll(rc1, rc2, rc3);
+        ColumnConstraints cc = new ColumnConstraints();
+        cc.setHgrow(Priority.ALWAYS);
+        goldPane.getColumnConstraints().setAll(cc);
+        goldPane.add(bp, 0, 1);
+        goldPane.setBackground(new Background(new BackgroundFill(Color.BLUE, null, null)));
+        goldPane.heightProperty().addListener((observable, oldValue, newHeight) -> {
+            double h2 = bp.getHeight();
+            double remainingHeight = newHeight - h2;
+            double h1 = 100 * remainingHeight / 261;
+            double h3 = remainingHeight - h1;
+            rc1.setPrefHeight(h1);
+            rc3.setPrefHeight(h3);
+        });
+
+        GridPane.setHalignment(bp, HPos.CENTER);
+        GridPane.setValignment(bp, VPos.CENTER);
+        return new CloneEventViewModel(goldPane, nameLabel, dateLabel, nameTextField, dateTextField, submitButton);
     }
 
     @Override
