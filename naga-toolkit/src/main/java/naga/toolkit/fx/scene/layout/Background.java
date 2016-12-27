@@ -210,7 +210,7 @@ public final class Background {
 
         // This ensures that we either have outsets of 0, if all the insets were positive,
         // or a value greater than zero if they were negative.
-        outsets = Insets.create(
+        outsets = new Insets(
                 Math.max(0, -outerTop),
                 Math.max(0, -outerRight),
                 Math.max(0, -outerBottom),

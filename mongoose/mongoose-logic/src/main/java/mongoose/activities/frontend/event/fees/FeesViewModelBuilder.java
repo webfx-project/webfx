@@ -4,14 +4,13 @@ import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import naga.framework.ui.i18n.I18n;
+import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fxdata.cell.collator.GridCollator;
 import naga.toolkit.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Button;
 import naga.toolkit.fx.scene.layout.BorderPane;
 import naga.toolkit.fx.scene.layout.HBox;
-import naga.toolkit.fx.scene.layout.VBox;
 
 /**
  * @author Bruno Salmon
@@ -42,7 +41,7 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
         BorderPane borderPane = buildFeesSectionPanel(nodes[0]);
         borderPane.setCenter(nodes[1]);
         borderPane.setBottom(nodes[2]);
-        borderPane.setInsets(Insets.create(10, 30, 10, 30));
+        borderPane.setInsets(new Insets(10, 30, 10, 30));
         return borderPane;
     }
 

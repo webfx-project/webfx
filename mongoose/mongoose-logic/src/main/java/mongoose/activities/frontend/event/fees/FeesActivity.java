@@ -15,11 +15,11 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.spi.Platform;
+import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fxdata.displaydata.DisplayColumn;
 import naga.toolkit.fxdata.displaydata.DisplayResultSet;
 import naga.toolkit.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.RadioButton;
@@ -150,7 +150,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         FlowPane header = new FlowPane(Arrays.nonNulls(Node[]::new, nodes));
         header.setHgap(5d);
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setInsets(Insets.create(5, 5, 5, 5));
+        header.setInsets(new Insets(5, 5, 5, 5));
         return header;
     }
 
