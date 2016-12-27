@@ -230,4 +230,8 @@ public class Numbers {
         Short number = toShort(value);
         return number == null ? 0 : number;
     }
+
+    public static String twoDigits(int i) {
+        return i < 10 ? "0" + i : Integer.toString(i);
+    }
 }

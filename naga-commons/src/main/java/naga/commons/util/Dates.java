@@ -148,17 +148,17 @@ public class Dates {
             return null;
         String s = pattern;
         if (pattern.contains("dd"))
-            s = Strings.replaceAll(s, "dd", twoDigits(dateTime.getDayOfMonth()));
+            s = Strings.replaceAll(s, "dd", Numbers.twoDigits(dateTime.getDayOfMonth()));
         if (pattern.contains("MM"))
-            s = Strings.replaceAll(s, "MM", twoDigits(dateTime.getMonthValue()));
+            s = Strings.replaceAll(s, "MM", Numbers.twoDigits(dateTime.getMonthValue()));
         if (pattern.contains("yyyy"))
-            s = Strings.replaceAll(s, "yyyy", twoDigits(dateTime.getYear()));
+            s = Strings.replaceAll(s, "yyyy", Numbers.twoDigits(dateTime.getYear()));
         if (pattern.contains("HH"))
-            s = Strings.replaceAll(s, "HH", twoDigits(dateTime.getHour()));
+            s = Strings.replaceAll(s, "HH", Numbers.twoDigits(dateTime.getHour()));
         if (pattern.contains("mm"))
-            s = Strings.replaceAll(s, "mm", twoDigits(dateTime.getMinute()));
+            s = Strings.replaceAll(s, "mm", Numbers.twoDigits(dateTime.getMinute()));
         if (pattern.contains("ss"))
-            s = Strings.replaceAll(s, "ss", twoDigits(dateTime.getSecond()));
+            s = Strings.replaceAll(s, "ss", Numbers.twoDigits(dateTime.getSecond()));
         return s;
     }
 
@@ -168,10 +168,6 @@ public class Dates {
 
     public static String format(Object date, String pattern) {
         return format(toLocalDateTime(date), pattern);
-    }
-
-    private static String twoDigits(int i) {
-        return i < 10 ? "0" + i : Integer.toString(i);
     }
 
 }
