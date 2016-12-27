@@ -41,7 +41,7 @@ public class JFXWindow extends FxWindow {
             e.printStackTrace();
         }
         fitContentWidthProperty = foenixStackPane.widthProperty().subtract(8);
-        fitContentHeightProperty = foenixStackPane.heightProperty().subtract(8);
+        fitContentHeightProperty = foenixStackPane.heightProperty().subtract(4);
         return scene;
     }
 
