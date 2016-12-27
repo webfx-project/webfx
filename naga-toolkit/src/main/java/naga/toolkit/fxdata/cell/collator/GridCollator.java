@@ -3,6 +3,7 @@ package naga.toolkit.fxdata.cell.collator;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.toolkit.fx.scene.layout.Background;
+import naga.toolkit.fx.scene.layout.Border;
 import naga.toolkit.fxdata.displaydata.DisplayColumn;
 import naga.toolkit.fxdata.displaydata.DisplayResultSet;
 import naga.toolkit.fxdata.displaydata.DisplaySelection;
@@ -100,6 +101,10 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateBackground(Background background) {
+        }
+
+        @Override
+        public void updateBorder(Border border) {
         }
 
         @Override

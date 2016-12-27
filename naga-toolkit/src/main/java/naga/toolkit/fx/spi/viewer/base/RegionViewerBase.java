@@ -19,6 +19,7 @@ public class RegionViewerBase
                 , node.widthProperty()
                 , node.heightProperty()
                 , node.backgroundProperty()
+                , node.borderProperty()
         );
     }
 
@@ -28,6 +29,7 @@ public class RegionViewerBase
                 || updateProperty(node.widthProperty(), changedProperty, mixin::updateWidth)
                 || updateProperty(node.heightProperty(), changedProperty, mixin::updateHeight)
                 || updateProperty(node.backgroundProperty(), changedProperty, mixin::updateBackground)
+                || updateProperty(node.borderProperty(), changedProperty, mixin::updateBorder)
                 ;
     }
 }

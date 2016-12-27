@@ -10,6 +10,7 @@ import naga.toolkit.fx.geom.Vec2d;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.geometry.*;
 import naga.toolkit.fx.properties.markers.HasBackgroundProperty;
+import naga.toolkit.fx.properties.markers.HasBorderProperty;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.properties.markers.HasInsetsProperty;
@@ -24,7 +25,8 @@ public class Region extends Parent implements
         PreferenceResizableNode,
         HasInsetsProperty,
         HasSnapToPixelProperty,
-        HasBackgroundProperty {
+        HasBackgroundProperty,
+        HasBorderProperty {
 
     public Region() {
     }
@@ -126,6 +128,12 @@ public class Region extends Parent implements
         return backgroundProperty;
     }
 
+    private final Property<Border> borderProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Border> borderProperty() {
+        return borderProperty;
+    }
+
     private void widthOrHeightChanged() {
         // It is possible that somebody sets the width of the region to a value which
         // it previously held. If this is the case, we want to avoid excessive layouts.
@@ -140,7 +148,6 @@ public class Region extends Parent implements
         setNeedsLayout(true);
         requestParentLayout();
     }
-
 
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
