@@ -1,6 +1,7 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
 import naga.providers.toolkit.javafx.util.FxPaints;
+import naga.providers.toolkit.javafx.util.FxStrokes;
 import naga.toolkit.fx.geometry.Insets;
 import naga.toolkit.fx.geometry.Side;
 import naga.toolkit.fx.scene.image.Image;
@@ -51,6 +52,11 @@ abstract class FxRegionViewer
     public void updateBackground(Background background) {
         if (background != null)
             getFxNode().setBackground(toFxBackground(background));
+    }
+
+    @Override
+    public void updateBorder(Border border) {
+        getFxNode().setBorder(toFxBorder(border));
     }
 
     private static javafx.scene.layout.Background toFxBackground(Background bg) {
@@ -129,6 +135,52 @@ abstract class FxRegionViewer
 
     private static javafx.scene.layout.BackgroundSize toFxBackgroundSize(BackgroundSize bs) {
         return bs == null ? null : new javafx.scene.layout.BackgroundSize(bs.getWidth(), bs.getHeight(), bs.isWidthAsPercentage(), bs.isHeightAsPercentage(), bs.isContain(), bs.isCover());
+    }
+
+    private static javafx.scene.layout.Border toFxBorder(Border border) {
+        return border == null ? null : new javafx.scene.layout.Border(toFxBorderStrokes(border.getStrokes()), toFxBorderImages(border.getImages()));
+    }
+
+    private static List<javafx.scene.layout.BorderStroke> toFxBorderStrokes(List<BorderStroke> strokes) {
+        return strokes == null ? null : strokes.stream().map(FxRegionViewer::toFxBorderStroke).collect(Collectors.toList());
+    }
+
+    private static javafx.scene.layout.BorderStroke toFxBorderStroke(BorderStroke stroke) {
+        return new javafx.scene.layout.BorderStroke(FxPaints.toFxPaint(stroke.getTopStroke()), FxPaints.toFxPaint(stroke.getRightStroke()), FxPaints.toFxPaint(stroke.getBottomStroke()), FxPaints.toFxPaint(stroke.getLeftStroke()),
+                toFxBorderStrokeStyle(stroke.getTopStyle()), toFxBorderStrokeStyle(stroke.getRightStyle()), toFxBorderStrokeStyle(stroke.getBottomStyle()), toFxBorderStrokeStyle(stroke.getLeftStyle()),
+                toFxRadii(stroke.getRadii()), toFxBorderWidths(stroke.getWidths()), toFxInsets(stroke.getInsets()));
+    }
+
+    private static javafx.scene.layout.BorderStrokeStyle toFxBorderStrokeStyle(BorderStrokeStyle bss) {
+        return bss == null ? null :
+                bss == BorderStrokeStyle.NONE ? javafx.scene.layout.BorderStrokeStyle.NONE :
+                bss == BorderStrokeStyle.DASHED ? javafx.scene.layout.BorderStrokeStyle.DASHED :
+                bss == BorderStrokeStyle.DOTTED ? javafx.scene.layout.BorderStrokeStyle.DOTTED :
+                bss == BorderStrokeStyle.SOLID ? javafx.scene.layout.BorderStrokeStyle.SOLID :
+                new javafx.scene.layout.BorderStrokeStyle(FxStrokes.toFxStrokeType(bss.getType()), FxStrokes.toFxStrokeLineJoin(bss.getLineJoin()), FxStrokes.toFxStrokeLineCap(bss.getLineCap()), bss.getMiterLimit(), bss.getDashOffset(), bss.getDashArray());
+    }
+
+    private static javafx.scene.layout.BorderWidths toFxBorderWidths(BorderWidths bw) {
+        return bw == null ? null : new javafx.scene.layout.BorderWidths(bw.getTop(), bw.getRight(), bw.getBottom(), bw.getLeft(), bw.isTopAsPercentage(), bw.isRightAsPercentage(), bw.isBottomAsPercentage(), bw.isLeftAsPercentage());
+    }
+
+    private static List<javafx.scene.layout.BorderImage> toFxBorderImages(List<BorderImage> images) {
+        return images == null ? null : images.stream().map(FxRegionViewer::toFxBorderImage).collect(Collectors.toList());
+    }
+
+    private static javafx.scene.layout.BorderImage toFxBorderImage(BorderImage bi) {
+        return bi == null ? null : new javafx.scene.layout.BorderImage(toFxImage(bi.getImage()), toFxBorderWidths(bi.getWidths()), toFxInsets(bi.getInsets()), toFxBorderWidths(bi.getSlices()), bi.isFilled(), toFxBorderRepeat(bi.getRepeatX()), toFxBorderRepeat(bi.getRepeatY()));
+    }
+
+    private static javafx.scene.layout.BorderRepeat toFxBorderRepeat(BorderRepeat br) {
+        if (br != null)
+            switch (br) {
+                case REPEAT: return javafx.scene.layout.BorderRepeat.REPEAT;
+                case ROUND: return javafx.scene.layout.BorderRepeat.ROUND;
+                case SPACE: return javafx.scene.layout.BorderRepeat.SPACE;
+                case STRETCH: return javafx.scene.layout.BorderRepeat.STRETCH;
+            }
+        return null;
     }
 
     private void callRegionSetter(String setterName, Double value) {
