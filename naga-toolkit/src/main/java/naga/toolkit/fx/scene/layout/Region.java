@@ -9,6 +9,7 @@ import naga.toolkit.fx.geom.TempState;
 import naga.toolkit.fx.geom.Vec2d;
 import naga.toolkit.fx.geom.transform.BaseTransform;
 import naga.toolkit.fx.geometry.*;
+import naga.toolkit.fx.properties.markers.HasBackgroundProperty;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.properties.markers.HasInsetsProperty;
@@ -22,7 +23,8 @@ import java.util.List;
 public class Region extends Parent implements
         PreferenceResizableNode,
         HasInsetsProperty,
-        HasSnapToPixelProperty {
+        HasSnapToPixelProperty,
+        HasBackgroundProperty {
 
     public Region() {
     }
@@ -116,6 +118,12 @@ public class Region extends Parent implements
     @Override
     public Property<Boolean> snapToPixelProperty() {
         return snapToPixelProperty;
+    }
+
+    private final Property<Background> backgroundProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Background> backgroundProperty() {
+        return backgroundProperty;
     }
 
     private void widthOrHeightChanged() {

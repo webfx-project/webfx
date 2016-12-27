@@ -1,5 +1,6 @@
 package naga.toolkit.fx.spi.viewer.base;
 
+import naga.toolkit.fx.scene.layout.Background;
 import naga.toolkit.fx.scene.layout.Region;
 
 /**
@@ -13,4 +14,6 @@ public interface RegionViewerMixin
     void updateWidth(Double width);
 
     void updateHeight(Double height);
+
+    void updateBackground(Background background);
 }

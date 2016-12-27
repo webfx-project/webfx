@@ -18,6 +18,7 @@ public class RegionViewerBase
         requestUpdateOnPropertiesChange(sceneRequester
                 , node.widthProperty()
                 , node.heightProperty()
+                , node.backgroundProperty()
         );
     }
 
@@ -26,6 +27,7 @@ public class RegionViewerBase
         return super.updateProperty(changedProperty)
                 || updateProperty(node.widthProperty(), changedProperty, mixin::updateWidth)
                 || updateProperty(node.heightProperty(), changedProperty, mixin::updateHeight)
+                || updateProperty(node.backgroundProperty(), changedProperty, mixin::updateBackground)
                 ;
     }
 }
