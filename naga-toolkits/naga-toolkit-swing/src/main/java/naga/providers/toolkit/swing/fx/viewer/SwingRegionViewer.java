@@ -1,6 +1,7 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.toolkit.fx.scene.layout.Background;
+import naga.toolkit.fx.scene.layout.Border;
 import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerBase;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
@@ -45,6 +46,11 @@ public abstract class SwingRegionViewer
 
     @Override
     public void updateBackground(Background background) {
+        // Not yet implemented
+    }
+
+    @Override
+    public void updateBorder(Border border) {
         // Not yet implemented
     }
 }
