@@ -7,6 +7,7 @@ import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.fx.scene.shape.StrokeLineCap;
 import naga.toolkit.fx.scene.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeType;
 import naga.toolkit.fx.spi.viewer.base.ShapeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ShapeViewerMixin;
 
@@ -37,6 +38,11 @@ abstract class SvgShapeViewer
 
     @Override
     public void updateStroke(Paint stroke) {
+        updateSvgStroke();
+    }
+
+    @Override
+    public void updateStrokeType(StrokeType strokeType) {
         updateSvgStroke();
     }
 
@@ -81,5 +87,6 @@ abstract class SvgShapeViewer
         setElementAttribute("stroke-miterlimit", hasStroke ? n.getStrokeMiterLimit() : null);
         setElementAttribute("stroke-dashoffset", hasStroke ? n.getStrokeDashOffset() : null);
         setElementAttribute("stroke-dasharray", hasStroke ? Collections.toStringWithNoBrackets(n.getStrokeDashArray()) : null);
+        setElementAttribute("stroke-alignment", hasStroke ? SvgUtil.toSvgStrokeAlignment(n.getStrokeType()) : null);
     }
 }

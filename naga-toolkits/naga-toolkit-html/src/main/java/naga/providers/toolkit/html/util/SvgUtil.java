@@ -8,6 +8,7 @@ import naga.toolkit.fx.scene.paint.LinearGradient;
 import naga.toolkit.fx.scene.paint.Stop;
 import naga.toolkit.fx.scene.shape.StrokeLineCap;
 import naga.toolkit.fx.scene.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeType;
 
 import static elemental2.Global.document;
 
@@ -104,6 +105,16 @@ public class SvgUtil {
                 case BEVEL: return "bevel";
                 case MITER: return "miter";
                 case ROUND: return "round";
+            }
+        return null;
+    }
+
+    public static String toSvgStrokeAlignment(StrokeType strokeType) {
+        if (strokeType != null)
+            switch (strokeType) {
+                case CENTERED: return "center";
+                case INSIDE: return "inner";
+                case OUTSIDE: return "outer";
             }
         return null;
     }
