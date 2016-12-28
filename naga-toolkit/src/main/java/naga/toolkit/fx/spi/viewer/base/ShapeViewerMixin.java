@@ -4,6 +4,7 @@ import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.fx.scene.shape.StrokeLineCap;
 import naga.toolkit.fx.scene.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeType;
 
 import java.util.List;
 
@@ -33,4 +34,5 @@ public interface ShapeViewerMixin
 
     void updateStrokeDashArray(List<Double> dashArray);
 
+    void updateStrokeType(StrokeType strokeType);
 }

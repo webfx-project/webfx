@@ -16,6 +16,7 @@ public abstract class Shape extends Node implements
         HasFillProperty,
         HasSmoothProperty,
         HasStrokeProperty,
+        HasStrokeTypeProperty,
         HasStrokeWidthProperty,
         HasStrokeLineCapProperty,
         HasStrokeLineJoinProperty,
@@ -38,6 +39,12 @@ public abstract class Shape extends Node implements
     @Override
     public Property<Paint> strokeProperty() {
         return stokeProperty;
+    }
+
+    private final Property<StrokeType> strokeTypeProperty = new SimpleObjectProperty<>(StrokeType.CENTERED);
+    @Override
+    public Property<StrokeType> strokeTypeProperty() {
+        return strokeTypeProperty;
     }
 
     private final Property<Double> strokeWidthProperty = new SimpleObjectProperty<>(1d);
