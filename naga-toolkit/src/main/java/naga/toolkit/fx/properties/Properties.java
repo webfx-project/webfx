@@ -2,6 +2,7 @@ package naga.toolkit.fx.properties;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Func2;
@@ -21,6 +22,19 @@ public class Properties {
     public static void runOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
         for (ObservableValue property : properties)
             property.addListener((observable, oldValue, newValue) -> runnable.accept(property));
+    }
+
+    public static void runOnceOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
+        int n = properties.length;
+        ChangeListener[] listeners = new ChangeListener[n];
+        for (int i = 0; i < n; i++) {
+            ObservableValue property = properties[i];
+            property.addListener(listeners[i] = (observable, oldValue, newValue) -> {
+                for (int j = 0; j < n; j++)
+                    properties[j].removeListener(listeners[j]);
+                runnable.accept(property);
+            });
+        }
     }
 
     public static <T1, T2, R> Property<R> combine(Property<? extends T1> p1, Property<? extends T2> p2, Func2<? super T1, ? super T2, ? extends R> combineFunction) {
