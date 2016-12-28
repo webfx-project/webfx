@@ -1,11 +1,15 @@
 package naga.providers.toolkit.swing.fx.viewer;
 
 import naga.providers.toolkit.swing.util.SwingFonts;
+import naga.providers.toolkit.swing.util.SwingPaints;
 import naga.toolkit.fx.scene.control.Labeled;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.spi.viewer.base.LabeledViewerBase;
 import naga.toolkit.fx.spi.viewer.base.LabeledViewerMixin;
+
+import java.awt.*;
 
 /**
  * @author Bruno Salmon
@@ -28,5 +32,10 @@ public abstract class SwingLabeledViewer
 
     @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
+    }
+
+    @Override
+    public void updateTextFill(Paint textFill) {
+        getSwingComponent().setForeground((Color) SwingPaints.toSwingPaint(textFill));
     }
 }
