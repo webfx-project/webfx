@@ -5,8 +5,6 @@ import naga.toolkit.fx.scene.layout.Region;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerBase;
 import naga.toolkit.fx.spi.viewer.base.RegionViewerMixin;
 
-import java.awt.*;
-
 /**
  * @author Bruno Salmon
  */
@@ -16,10 +14,6 @@ public class SwingLayoutViewer
 
     public SwingLayoutViewer() {
         super((NB) new RegionViewerBase<N, NB, NM>());
-    }
-
-    @Override
-    public void paint(Graphics2D c) {
     }
 
     @Override
