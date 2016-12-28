@@ -20,6 +20,7 @@ public abstract class LabeledViewerBase
                 , node.graphicProperty()
                 , node.fontProperty()
                 , node.textAlignmentProperty()
+                , node.textFillProperty()
         );
     }
 
@@ -30,6 +31,7 @@ public abstract class LabeledViewerBase
                 || updateProperty(node.graphicProperty(), changedProperty, mixin::updateGraphic)
                 || updateProperty(node.fontProperty(), changedProperty, mixin::updateFont)
                 || updateProperty(node.textAlignmentProperty(), changedProperty, mixin::updateTextAlignment)
+                || updateProperty(node.textFillProperty(), changedProperty, mixin::updateTextFill)
                 ;
     }
 }

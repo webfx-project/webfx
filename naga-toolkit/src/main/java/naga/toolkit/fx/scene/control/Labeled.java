@@ -9,6 +9,8 @@ import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.Parent;
 import naga.toolkit.fx.scene.Scene;
 import naga.toolkit.fx.scene.image.ImageView;
+import naga.toolkit.fx.scene.paint.Color;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.TextAlignment;
 
@@ -21,7 +23,8 @@ public abstract class Labeled extends Control implements
         HasImageUrlProperty,
         HasFontProperty,
         HasAlignmentProperty,
-        HasTextAlignmentProperty
+        HasTextAlignmentProperty,
+        HasTextFillProperty
         {
 
     /***************************************************************************
@@ -98,6 +101,12 @@ public abstract class Labeled extends Control implements
     @Override
     public Property<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
+    }
+
+    private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(Color.BLACK);
+    @Override
+    public Property<Paint> textFillProperty() {
+        return textFillProperty;
     }
 
     {
