@@ -1,8 +1,10 @@
 package naga.providers.toolkit.html.fx.html.viewer;
 
 import elemental2.HTMLElement;
+import naga.providers.toolkit.html.util.HtmlPaints;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Labeled;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.spi.viewer.base.LabeledViewerBase;
@@ -38,5 +40,10 @@ abstract class HtmlLabeledViewer
     @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         setElementStyleAttribute("text-align", toCssTextAlignment(textAlignment));
+    }
+
+    @Override
+    public void updateTextFill(Paint textFill) {
+        getElement().style.color = HtmlPaints.toHtmlCssPaint(textFill);
     }
 }
