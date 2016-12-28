@@ -1,9 +1,11 @@
 package naga.providers.toolkit.javafx.fx.viewer;
 
 import naga.providers.toolkit.javafx.util.FxFonts;
+import naga.providers.toolkit.javafx.util.FxPaints;
 import naga.toolkit.fx.geometry.Pos;
 import naga.toolkit.fx.scene.Node;
 import naga.toolkit.fx.scene.control.Labeled;
+import naga.toolkit.fx.scene.paint.Paint;
 import naga.toolkit.fx.scene.text.Font;
 import naga.toolkit.fx.scene.text.TextAlignment;
 import naga.toolkit.fx.spi.viewer.base.LabeledViewerBase;
@@ -41,6 +43,11 @@ abstract class FxLabeledViewer
     @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
         getFxNode().setTextAlignment(toFxTextAlignment(textAlignment));
+    }
+
+    @Override
+    public void updateTextFill(Paint textFill) {
+        getFxNode().setTextFill(FxPaints.toFxPaint(textFill));
     }
 
     private static javafx.geometry.Pos toFxPos(Pos pos) {
