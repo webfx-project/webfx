@@ -8,6 +8,7 @@ import naga.toolkit.fx.geom.Point2D;
 import naga.toolkit.fx.scene.shape.Shape;
 import naga.toolkit.fx.scene.shape.StrokeLineCap;
 import naga.toolkit.fx.scene.shape.StrokeLineJoin;
+import naga.toolkit.fx.scene.shape.StrokeType;
 import naga.toolkit.fx.spi.viewer.base.ShapeViewerBase;
 import naga.toolkit.fx.spi.viewer.base.ShapeViewerMixin;
 
@@ -44,6 +45,11 @@ abstract class SwingShapeViewer
 
     @Override
     public void updateStroke(Paint stroke) {
+        updateStroke();
+    }
+
+    @Override
+    public void updateStrokeType(StrokeType strokeType) {
         updateStroke();
     }
 
