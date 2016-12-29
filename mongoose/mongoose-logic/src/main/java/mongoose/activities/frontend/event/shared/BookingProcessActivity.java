@@ -13,8 +13,8 @@ import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Factory;
 import naga.framework.orm.entity.EntityList;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.input.MouseEvent;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;

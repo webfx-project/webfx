@@ -25,7 +25,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-toolkit-swing</artifactId>
+            <artifactId>naga-fx-swing</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

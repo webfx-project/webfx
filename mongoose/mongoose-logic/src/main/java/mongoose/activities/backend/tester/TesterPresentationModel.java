@@ -2,7 +2,7 @@ package mongoose.activities.backend.tester;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.toolkit.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResultSet;
 import naga.framework.ui.presentation.PresentationModel;
 
 /**

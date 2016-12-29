@@ -2,10 +2,10 @@ package mongoose.activities.shared.highlevelcomponents;
 
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.fxdata.cell.collator.NodeCollatorRegistry;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

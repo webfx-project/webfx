@@ -31,10 +31,10 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.toolkit.fxdata.displaydata.DisplayColumnBuilder;
-import naga.toolkit.fxdata.displaydata.DisplayResultSet;
-import naga.toolkit.fxdata.displaydata.DisplaySelection;
-import naga.toolkit.fx.properties.Properties;
+import naga.fxdata.displaydata.DisplayColumnBuilder;
+import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplaySelection;
+import naga.fx.properties.Properties;
 import rx.Observable;
 
 import java.util.*;
@@ -280,7 +280,7 @@ public class ReactiveExpressionFilter {
             resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
-            naga.toolkit.fx.properties.Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
+            naga.fx.properties.Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
                 private boolean dictionaryChanged;
                 @Override
                 public void accept(ObservableValue p) {

@@ -1,15 +1,15 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.geometry.VPos;
-import naga.toolkit.fx.scene.Group;
-import naga.toolkit.fx.scene.paint.Color;
-import naga.toolkit.fx.scene.paint.LinearGradient;
-import naga.toolkit.fx.scene.shape.*;
-import naga.toolkit.fx.scene.text.Font;
-import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.fx.scene.text.TextAlignment;
-import naga.toolkit.fx.scene.transform.Translate;
+import naga.fx.geometry.VPos;
+import naga.fx.scene.Group;
+import naga.fx.scene.paint.Color;
+import naga.fx.scene.paint.LinearGradient;
+import naga.fx.scene.shape.*;
+import naga.fx.scene.text.Font;
+import naga.fx.scene.text.Text;
+import naga.fx.scene.text.TextAlignment;
+import naga.fx.scene.transform.Translate;
 
 import java.time.LocalDate;
 

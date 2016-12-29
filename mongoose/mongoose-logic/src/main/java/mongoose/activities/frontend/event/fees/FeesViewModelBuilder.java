@@ -4,13 +4,13 @@ import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.geometry.Insets;
-import naga.toolkit.fxdata.cell.collator.GridCollator;
-import naga.toolkit.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.HBox;
+import naga.fx.geometry.Insets;
+import naga.fxdata.cell.collator.GridCollator;
+import naga.fxdata.cell.collator.NodeCollatorRegistry;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon

@@ -30,7 +30,7 @@
         </dependency>
 
         <dependency> <!-- Because the application code directly refers to classes such as HtmlUtil -->
-            <artifactId>naga-toolkit-html</artifactId>
+            <artifactId>naga-fx-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <scope>provided</scope>
@@ -59,14 +59,14 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-toolkit-html</artifactId>
+            <artifactId>naga-fx-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
         <dependency>
-            <artifactId>naga-toolkit</artifactId>
+            <artifactId>naga-fx</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>

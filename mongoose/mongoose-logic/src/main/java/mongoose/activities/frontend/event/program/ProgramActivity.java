@@ -5,7 +5,7 @@ import mongoose.activities.frontend.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import naga.platform.spi.Platform;
-import naga.toolkit.fx.properties.Properties;
+import naga.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

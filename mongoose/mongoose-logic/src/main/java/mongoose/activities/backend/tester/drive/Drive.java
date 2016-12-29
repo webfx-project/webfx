@@ -17,7 +17,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.spi.Platform;
-import naga.toolkit.fx.spi.Toolkit;
+import naga.fx.spi.Toolkit;
 
 import java.util.ArrayList;
 import java.util.List;

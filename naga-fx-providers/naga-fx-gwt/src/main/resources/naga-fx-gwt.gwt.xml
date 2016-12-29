@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<module rename-to='naga_fx_gwt'>
+
+    <inherits name="elemental2"/>
+
+    <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
+    <inherits name="naga-platform-gwt"/> <!-- refers to naga-platform-gwt.gwt.xml in naga-platform-gwt -->
+    <inherits name="naga-fx"/> <!-- refers to naga-fx.gwt.xml in naga-fx -->
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/fx/spi/gwt"/>               <!-- source path to naga-fx-gwt -->
+    <super-source path="super"/>        <!-- super-source path to the customized jdk code (not covered by GWT by default) -->
+</module>

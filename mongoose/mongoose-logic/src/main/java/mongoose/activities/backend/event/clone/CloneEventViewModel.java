@@ -1,10 +1,10 @@
 package mongoose.activities.backend.event.clone;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.control.Label;
-import naga.toolkit.fx.scene.control.TextField;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.control.Label;
+import naga.fx.scene.control.TextField;
 
 /**
  * @author Bruno Salmon

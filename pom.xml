@@ -15,11 +15,11 @@
         <module>naga-javalibs</module>
         <module>naga-commons</module>
         <module>naga-platform</module>
-        <module>naga-toolkit</module>
+        <module>naga-fx</module>
         <module>naga-framework</module>
         <module>naga-javaemuls</module>
         <module>naga-platforms</module>
-        <module>naga-toolkits</module>
+        <module>naga-fx-providers</module>
 
         <module>mongoose</module>
     </modules>
@@ -36,13 +36,11 @@
         <!-- libraries versions -->
         <lib.javawebsocket.version>1.3.0</lib.javawebsocket.version>
         <lib.android.version>4.1.1.4</lib.android.version>
-        <lib.teavm.version>0.4.3</lib.teavm.version>
         <lib.gwt.version>2.8.0</lib.gwt.version>
-        <lib.gwt-polymer.version>1.2.3.0</lib.gwt-polymer.version>
+        <lib.teavm.version>0.4.3</lib.teavm.version>
         <lib.vertx.version>3.3.3</lib.vertx.version>
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
-        <lib.gwt-material.version>1.5.0</lib.gwt-material.version>
         <lib.medusa.version>5.5</lib.medusa.version>
         <lib.javafxsvg.version>1.2.1</lib.javafxsvg.version>
         <lib.xchart.version>3.2.0</lib.xchart.version>

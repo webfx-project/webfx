@@ -3,8 +3,8 @@ package mongoose.activities.frontend.event.program;
 import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder;
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.VBox;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.VBox;
 
 /**
  * @author Bruno Salmon

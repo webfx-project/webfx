@@ -6,19 +6,19 @@ import mongoose.entities.Event;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
-import naga.toolkit.fx.geometry.HPos;
-import naga.toolkit.fx.geometry.Insets;
-import naga.toolkit.fx.geometry.Pos;
-import naga.toolkit.fx.properties.Properties;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.control.Label;
-import naga.toolkit.fx.scene.control.TextField;
-import naga.toolkit.fx.scene.layout.*;
-import naga.toolkit.fx.scene.paint.Color;
+import naga.fx.geometry.HPos;
+import naga.fx.geometry.Insets;
+import naga.fx.geometry.Pos;
+import naga.fx.properties.Properties;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.control.Label;
+import naga.fx.scene.control.TextField;
+import naga.fx.scene.layout.*;
+import naga.fx.scene.paint.Color;
 
 import java.time.LocalDate;
 
-import static naga.toolkit.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
+import static naga.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
 
 /**
  * @author Bruno Salmon
@@ -59,6 +59,15 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
 
         nameLabel.setTextFill(Color.WHITE);
         dateLabel.setTextFill(Color.WHITE);
+
+/*
+        Font font = Font.getDefault();
+        nameLabel.setFont(font);
+        dateLabel.setFont(font);
+        nameTextField.setFont(font);
+        dateTextField.setFont(font);
+        submitButton.setFont(font);
+*/
 
         BorderPane bp = new BorderPane(gp);
         bp.setBackground(new Background(new BackgroundFill(Color.grayRgb(42), new CornerRadii(10), null)));

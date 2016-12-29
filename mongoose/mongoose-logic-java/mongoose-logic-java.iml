@@ -15,6 +15,6 @@
     <orderEntry type="module" module-name="naga-framework" />
     <orderEntry type="module" module-name="naga-platform" />
     <orderEntry type="module" module-name="naga-commons" />
-    <orderEntry type="module" module-name="naga-toolkit" />
+    <orderEntry type="module" module-name="naga-fx" />
   </component>
 </module>

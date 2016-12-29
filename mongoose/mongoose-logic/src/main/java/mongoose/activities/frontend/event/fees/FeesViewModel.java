@@ -1,9 +1,9 @@
 package mongoose.activities.frontend.event.fees;
 
 import mongoose.activities.frontend.event.shared.BookingProcessViewModel;
-import naga.toolkit.fxdata.cell.collator.GridCollator;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
+import naga.fxdata.cell.collator.GridCollator;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
 
 /**
  * @author Bruno Salmon

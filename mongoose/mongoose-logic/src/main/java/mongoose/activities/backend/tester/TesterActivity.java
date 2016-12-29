@@ -3,12 +3,12 @@ package mongoose.activities.backend.tester;
 import mongoose.activities.backend.tester.drive.Drive;
 import mongoose.activities.backend.tester.drive.model.ConnectionChartGenerator;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.fxdata.chart.LineChart;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.control.Slider;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.fx.properties.conversion.ConvertedProperty;
+import naga.fxdata.chart.LineChart;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.control.Slider;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.VBox;
+import naga.fx.properties.conversion.ConvertedProperty;
 
 /**
  * @author Bruno Salmon

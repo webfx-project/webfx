@@ -2,9 +2,9 @@ package mongoose.activities.backend.container;
 
 import mongoose.activities.shared.container.ContainerActivity;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.FlowPane;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.FlowPane;
 
 /**
  * @author Bruno Salmon

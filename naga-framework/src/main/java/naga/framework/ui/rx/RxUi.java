@@ -3,7 +3,7 @@ package naga.framework.ui.rx;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import naga.toolkit.fx.spi.Toolkit;
+import naga.fx.spi.Toolkit;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;

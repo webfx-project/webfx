@@ -1,8 +1,8 @@
 package mongoose.activities.frontend.event.shared;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
 
 /**
  * @author Bruno Salmon

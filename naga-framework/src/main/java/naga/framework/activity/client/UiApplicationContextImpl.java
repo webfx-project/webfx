@@ -10,13 +10,13 @@ import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;
-import naga.toolkit.fx.geometry.Bounds;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.Parent;
-import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.stage.Screen;
-import naga.toolkit.fx.stage.Window;
-import naga.toolkit.fx.spi.Toolkit;
+import naga.fx.geometry.Bounds;
+import naga.fx.scene.Node;
+import naga.fx.scene.Parent;
+import naga.fx.scene.Scene;
+import naga.fx.stage.Screen;
+import naga.fx.stage.Window;
+import naga.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon

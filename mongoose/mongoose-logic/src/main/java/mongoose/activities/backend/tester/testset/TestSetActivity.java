@@ -2,10 +2,10 @@ package mongoose.activities.backend.tester.testset;
 
 import mongoose.activities.backend.tester.drive.Drive;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.control.TextField;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.VBox;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.control.TextField;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.VBox;
 
 /**
  * @author Jean-Pierre Alonso.

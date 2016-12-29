@@ -12,9 +12,9 @@ import naga.framework.ui.i18n.I18n;
 import naga.platform.activity.Activity;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
-import naga.toolkit.fx.scene.image.ImageView;
-import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.fx.properties.markers.HasGraphicProperty;
+import naga.fx.scene.image.ImageView;
+import naga.fx.scene.text.Text;
+import naga.fx.properties.markers.HasGraphicProperty;
 
 import java.util.HashMap;
 import java.util.Map;

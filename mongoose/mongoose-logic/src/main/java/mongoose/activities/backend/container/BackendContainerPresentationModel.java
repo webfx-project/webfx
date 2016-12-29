@@ -1,7 +1,7 @@
 package mongoose.activities.backend.container;
 
 import mongoose.activities.shared.container.ContainerPresentationModel;
-import naga.toolkit.fx.event.ActionEvent;
+import naga.fx.event.ActionEvent;
 import rx.subjects.BehaviorSubject;
 
 /**

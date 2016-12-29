@@ -2,10 +2,10 @@ package mongoose.activities.backend.events;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fx.scene.control.CheckBox;
-import naga.toolkit.fx.scene.control.TextField;
-import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.fxdata.control.DataGrid;
+import naga.fx.scene.control.CheckBox;
+import naga.fx.scene.control.TextField;
+import naga.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

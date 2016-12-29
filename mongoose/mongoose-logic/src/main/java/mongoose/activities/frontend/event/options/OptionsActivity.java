@@ -10,8 +10,8 @@ import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
 import naga.platform.spi.Platform;
-import naga.toolkit.fx.scene.layout.VBox;
-import naga.toolkit.fx.properties.Properties;
+import naga.fx.scene.layout.VBox;
+import naga.fx.properties.Properties;
 
 import java.util.concurrent.TimeUnit;
 

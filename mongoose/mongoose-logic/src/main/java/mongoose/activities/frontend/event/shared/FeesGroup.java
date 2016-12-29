@@ -12,13 +12,13 @@ import naga.commons.util.Objects;
 import naga.commons.util.async.Handler;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fxdata.displaydata.*;
-import naga.toolkit.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.toolkit.fxdata.cell.renderer.TextRenderer;
-import naga.toolkit.fx.geometry.Pos;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.image.ImageView;
-import naga.toolkit.fx.scene.layout.HBox;
+import naga.fxdata.displaydata.*;
+import naga.fxdata.cell.collator.NodeCollatorRegistry;
+import naga.fxdata.cell.renderer.TextRenderer;
+import naga.fx.geometry.Pos;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.image.ImageView;
+import naga.fx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon

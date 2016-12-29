@@ -6,13 +6,13 @@ import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.control.CheckBox;
-import naga.toolkit.fx.scene.control.TextField;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.HBox;
-import naga.toolkit.fx.scene.layout.Priority;
+import naga.fxdata.control.DataGrid;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.control.CheckBox;
+import naga.fx.scene.control.TextField;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.HBox;
+import naga.fx.scene.layout.Priority;
 
 /**
  * @author Bruno Salmon

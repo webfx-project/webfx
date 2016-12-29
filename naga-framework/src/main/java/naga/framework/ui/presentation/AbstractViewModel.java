@@ -1,6 +1,6 @@
 package naga.framework.ui.presentation;
 
-import naga.toolkit.fx.scene.Node;
+import naga.fx.scene.Node;
 
 /**
  * @author Bruno Salmon

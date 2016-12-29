@@ -1,10 +1,10 @@
 package mongoose.activities.backend.organizations;
 
 import mongoose.activities.shared.generic.GenericTableViewModel;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.CheckBox;
-import naga.toolkit.fx.scene.control.TextField;
+import naga.fxdata.control.DataGrid;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.CheckBox;
+import naga.fx.scene.control.TextField;
 
 /**
  * @author Bruno Salmon

@@ -3,9 +3,9 @@ package mongoose.activities.shared.container;
 import javafx.beans.property.Property;
 import naga.framework.activity.client.HasMountNodeProperty;
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.spi.Toolkit;
+import naga.fx.spi.Toolkit;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

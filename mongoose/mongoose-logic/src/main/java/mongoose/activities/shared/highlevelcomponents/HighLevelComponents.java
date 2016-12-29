@@ -2,9 +2,9 @@ package mongoose.activities.shared.highlevelcomponents;
 
 import mongoose.activities.shared.highlevelcomponents.impl.HighLevelComponentsFactoryImpl;
 import naga.framework.ui.i18n.I18n;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

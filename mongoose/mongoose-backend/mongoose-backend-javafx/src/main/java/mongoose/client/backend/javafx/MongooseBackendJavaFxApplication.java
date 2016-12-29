@@ -3,12 +3,12 @@ package mongoose.client.backend.javafx;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.MongooseBackendApplication;
-import naga.providers.toolkit.javafx.JavaFxToolkit;
-import naga.providers.toolkit.javafx.fx.viewer.FxNodeViewer;
-import naga.providers.toolkit.javafx.util.FxImageStore;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.Scene;
-import naga.toolkit.fx.spi.Toolkit;
+import naga.fx.spi.javafx.JavaFxToolkit;
+import naga.fx.spi.javafx.fx.viewer.FxNodeViewer;
+import naga.fx.spi.javafx.util.FxImageStore;
+import naga.fx.scene.Node;
+import naga.fx.scene.Scene;
+import naga.fx.spi.Toolkit;
 
 
 /**

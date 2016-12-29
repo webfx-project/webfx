@@ -2,10 +2,10 @@ package mongoose.activities.shared.highlevelcomponents.impl;
 
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponentsFactory;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
-import naga.toolkit.fx.scene.layout.HBox;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
+import naga.fx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon

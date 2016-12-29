@@ -1,8 +1,8 @@
 package mongoose.activities.backend.container;
 
 import mongoose.activities.shared.container.ContainerViewModel;
-import naga.toolkit.fx.scene.control.Button;
-import naga.toolkit.fx.scene.layout.BorderPane;
+import naga.fx.scene.control.Button;
+import naga.fx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

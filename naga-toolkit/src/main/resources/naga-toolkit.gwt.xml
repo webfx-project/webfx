@@ -1,5 +1,0 @@
-<module rename-to="naga_toolkit">
-
-    <!-- Specify the paths for translatable code                    -->
-    <source path="naga/toolkit"/>               <!-- source path to naga-core and naga-platform-gwt -->
-</module>

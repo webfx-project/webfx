@@ -1,0 +1,6 @@
+<module rename-to="naga_fx">
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/fx"/>               <!-- source path to naga-fx -->
+    <source path="naga/fxdata"/>           <!-- source path to naga-fxdata -->
+</module>

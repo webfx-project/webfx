@@ -3,8 +3,8 @@
   <inherits name="mongoose-logic-web"/>
   <inherits name="mongoose-logic"/>
   <inherits name="naga-framework"/>
-  <inherits name="naga-toolkit-html"/>
-  <inherits name="naga-toolkit"/>
+  <inherits name="naga-fx-gwt"/>
+  <inherits name="naga-fx"/>
   <inherits name="naga-platform-gwt"/>
   <inherits name="naga-abstractplatform-web"/>
   <inherits name="naga-platform"/>

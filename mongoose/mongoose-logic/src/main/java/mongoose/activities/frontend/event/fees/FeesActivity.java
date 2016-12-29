@@ -15,19 +15,19 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.spi.Platform;
-import naga.toolkit.fx.geometry.Insets;
-import naga.toolkit.fxdata.displaydata.DisplayColumn;
-import naga.toolkit.fxdata.displaydata.DisplayResultSet;
-import naga.toolkit.fxdata.displaydata.DisplayResultSetBuilder;
-import naga.toolkit.fxdata.control.DataGrid;
-import naga.toolkit.fx.geometry.Pos;
-import naga.toolkit.fx.scene.Node;
-import naga.toolkit.fx.scene.control.RadioButton;
-import naga.toolkit.fx.scene.layout.FlowPane;
-import naga.toolkit.fx.scene.text.Text;
-import naga.toolkit.fx.spi.Toolkit;
-import naga.toolkit.fx.scene.input.MouseEvent;
-import naga.toolkit.fx.properties.Properties;
+import naga.fx.geometry.Insets;
+import naga.fxdata.displaydata.DisplayColumn;
+import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.fxdata.control.DataGrid;
+import naga.fx.geometry.Pos;
+import naga.fx.scene.Node;
+import naga.fx.scene.control.RadioButton;
+import naga.fx.scene.layout.FlowPane;
+import naga.fx.scene.text.Text;
+import naga.fx.spi.Toolkit;
+import naga.fx.scene.input.MouseEvent;
+import naga.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon

@@ -7,7 +7,7 @@ import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.FieldsGroup;
-import naga.toolkit.fxdata.displaydata.Label;
+import naga.fxdata.displaydata.Label;
 
 import java.util.HashMap;
 import java.util.Map;
