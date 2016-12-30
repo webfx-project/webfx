@@ -408,8 +408,9 @@ public final class Background {
         // we could end up caching the result eventually.
         //final Toolkit.ImageAccessor acc = Toolkit.getImageAccessor();
         for (BackgroundImage bi : images) {
-/*
+
             if (bi.opaque == null) {
+/*
                 // If the image is not yet loaded, just skip it
                 // Note: Unit test wants this to be com.sun.javafx.tk.PlatformImage, not com.sun.prism.Image
                 final com.sun.javafx.tk.PlatformImage platformImage = acc.getImageProperty(bi.image).get();
@@ -421,9 +422,11 @@ public final class Background {
                 } else {
                     continue;
                 }
+*/
+                continue;
             }
 
-*/
+
             // At this point we know that we're processing an image which has already been resolved
             // and we know whether it is opaque or not. Of course, we only care about processing
             // opaque images.

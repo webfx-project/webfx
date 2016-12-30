@@ -1,5 +1,6 @@
 package mongoose.activities.shared.generic;
 
+import mongoose.activities.shared.theme.Theme;
 import naga.commons.util.function.Factory;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
@@ -26,6 +27,8 @@ public abstract class GenericTableActivity<VM extends GenericTableViewModel, PM 
         TextField searchBox = new TextField();
         DataGrid table = new DataGrid();
         CheckBox limitCheckBox = new CheckBox();
+
+        limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
         return (VM) new GenericTableViewModel(new BorderPane(table, searchBox, null, limitCheckBox, null), searchBox, table, limitCheckBox);
     }

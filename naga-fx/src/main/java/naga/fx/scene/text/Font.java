@@ -51,7 +51,7 @@ public class Font {
      */
     public static synchronized Font getDefault() {
         if (DEFAULT == null)
-            DEFAULT = font("Verdana", FontWeight.NORMAL, FontPosture.REGULAR, 11d);
+            DEFAULT = font("Roboto", FontWeight.SEMI_BOLD, FontPosture.REGULAR, 15);
         return DEFAULT;
     }
 

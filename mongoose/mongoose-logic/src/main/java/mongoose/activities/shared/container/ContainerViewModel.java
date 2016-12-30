@@ -35,27 +35,27 @@ public class ContainerViewModel extends AbstractViewModel<BorderPane> implements
         this.mountNodeProperty = mountNodeProperty;
     }
 
-    Button getBackButton() {
+    public Button getBackButton() {
         return backButton;
     }
 
-    Button getForwardButton() {
+    public Button getForwardButton() {
         return forwardButton;
     }
 
-    Button getOrganizationsButton() {
+    public Button getOrganizationsButton() {
         return organizationsButton;
     }
 
-    Button getEventsButton() {
+    public Button getEventsButton() {
         return eventsButton;
     }
 
-    Button getEnglishButton() {
+    public Button getEnglishButton() {
         return englishButton;
     }
 
-    Button getFrenchButton() {
+    public Button getFrenchButton() {
         return frenchButton;
     }
 

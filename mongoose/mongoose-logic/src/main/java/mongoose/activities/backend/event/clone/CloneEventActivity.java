@@ -1,11 +1,10 @@
 package mongoose.activities.backend.event.clone;
 
 import mongoose.activities.shared.generic.EventDependentActivity;
+import mongoose.activities.shared.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Event;
 import naga.framework.ui.i18n.I18n;
-import naga.platform.services.update.UpdateArgument;
-import naga.platform.spi.Platform;
 import naga.fx.geometry.HPos;
 import naga.fx.geometry.Insets;
 import naga.fx.geometry.Pos;
@@ -14,7 +13,9 @@ import naga.fx.scene.control.Button;
 import naga.fx.scene.control.Label;
 import naga.fx.scene.control.TextField;
 import naga.fx.scene.layout.*;
-import naga.fx.scene.paint.Color;
+import naga.fx.scene.text.Font;
+import naga.platform.services.update.UpdateArgument;
+import naga.platform.spi.Platform;
 
 import java.time.LocalDate;
 
@@ -57,31 +58,29 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         gp.setMaxHeight(USE_PREF_SIZE);
         gp.setInsets(new Insets(50, 50, 50, 50));
 
-        nameLabel.setTextFill(Color.WHITE);
-        dateLabel.setTextFill(Color.WHITE);
+        nameLabel.textFillProperty().bind(Theme.dialogTextFillProperty());
+        dateLabel.textFillProperty().bind(Theme.dialogTextFillProperty());
 
-/*
         Font font = Font.getDefault();
         nameLabel.setFont(font);
         dateLabel.setFont(font);
         nameTextField.setFont(font);
         dateTextField.setFont(font);
         submitButton.setFont(font);
-*/
 
         BorderPane bp = new BorderPane(gp);
-        bp.setBackground(new Background(new BackgroundFill(Color.grayRgb(42), new CornerRadii(10), null)));
-        bp.setBorder(new Border(new BorderStroke(Color.rgb(237, 162, 57), BorderStrokeStyle.SOLID, new CornerRadii(10), BorderStroke.THICK)));
+        bp.backgroundProperty().bind(Theme.dialogBackgroundProperty());
+        bp.borderProperty().bind(Theme.dialogBorderProperty());
         bp.setMaxWidth(USE_PREF_SIZE);
         bp.setMaxHeight(USE_PREF_SIZE);
 
         // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
         GridPane goldPane = new GridPane();
-        goldPane.setBackground(new Background(new BackgroundFill(Color.web("#101214"), null, null)));
+        //goldPane.backgroundProperty().bind(Theme.mainBackgroundProperty());
         goldPane.setAlignment(Pos.TOP_CENTER);
         RowConstraints rc = new RowConstraints();
         rc.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), bp.heightProperty(),
-                (gpHeight, bpHeight) -> (gpHeight - bpHeight) * 100 / 261));
+                (gpHeight, bpHeight) -> (gpHeight - bpHeight) / 2.61));
         Properties.runOnceOnPropertiesChange((p) -> goldPane.layout(), goldPane.heightProperty());
         goldPane.getRowConstraints().add(rc);
         goldPane.add(bp, 0, 1);

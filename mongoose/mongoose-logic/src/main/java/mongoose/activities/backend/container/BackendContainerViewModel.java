@@ -13,13 +13,21 @@ class BackendContainerViewModel extends ContainerViewModel {
     private final Button lettersButton;
     private final Button monitorButton;
     private final Button testerButton;
+    private final Button lightTheme;
+    private final Button darkTheme;
 
-    public BackendContainerViewModel(BorderPane contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton) {
+    BackendContainerViewModel() {
+        this(new BorderPane(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button(), new Button());
+    }
+
+    public BackendContainerViewModel(BorderPane contentNode, Button backButton, Button forwardButton, Button organizationsButton, Button eventsButton, Button englishButton, Button frenchButton, Button bookingsButton, Button lettersButton, Button monitorButton, Button testerButton, Button lightTheme, Button darkTheme) {
         super(contentNode, backButton, forwardButton, organizationsButton, eventsButton, englishButton, frenchButton);
         this.bookingsButton = bookingsButton;
         this.lettersButton = lettersButton;
         this.monitorButton = monitorButton;
         this.testerButton = testerButton;
+        this.lightTheme = lightTheme;
+        this.darkTheme = darkTheme;
     }
 
     Button getBookingsButton() {
@@ -36,5 +44,13 @@ class BackendContainerViewModel extends ContainerViewModel {
 
     Button getTesterButton() {
         return testerButton;
+    }
+
+    Button getLightTheme() {
+        return lightTheme;
+    }
+
+    Button getDarkTheme() {
+        return darkTheme;
     }
 }

@@ -1,6 +1,7 @@
 package mongoose.activities.backend.organizations;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
+import mongoose.activities.shared.theme.Theme;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.control.DataGrid;
 import naga.fx.scene.control.CheckBox;
@@ -28,6 +29,9 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
         searchBox.setMaxWidth(Double.MAX_VALUE);
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
+
+        withEventsCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
+        limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
         return new OrganizationsViewModel(new BorderPane(table, searchBox, null, new HBox((double) 10, withEventsCheckBox, limitCheckBox), null)
                 , searchBox, table, withEventsCheckBox, limitCheckBox);

@@ -2,17 +2,18 @@ package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
 import mongoose.activities.shared.generic.GenericTableEventDependentPresentationModel;
+import mongoose.activities.shared.theme.Theme;
 import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.i18n.I18n;
-import naga.fxdata.control.DataGrid;
 import naga.fx.scene.control.Button;
 import naga.fx.scene.control.CheckBox;
 import naga.fx.scene.control.TextField;
 import naga.fx.scene.layout.BorderPane;
 import naga.fx.scene.layout.HBox;
 import naga.fx.scene.layout.Priority;
+import naga.fxdata.control.DataGrid;
 
 /**
  * @author Bruno Salmon
@@ -40,6 +41,10 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         hBox.setMaxWidth(Double.MAX_VALUE);
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
+
+        newBookingButton.textFillProperty().bind(Theme.mainTextFillProperty());
+        cloneEventButton.textFillProperty().bind(Theme.mainTextFillProperty());
+        limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
         return new BookingsViewModel(new BorderPane(table, hBox, null, limitCheckBox, null), searchBox, table, limitCheckBox, newBookingButton, cloneEventButton);
     }

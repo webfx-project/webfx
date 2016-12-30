@@ -1,6 +1,7 @@
 package mongoose.activities.backend.events;
 
 import mongoose.activities.shared.generic.GenericTableActivity;
+import mongoose.activities.shared.theme.Theme;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.control.DataGrid;
 import naga.fx.scene.control.CheckBox;
@@ -27,6 +28,9 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
         searchBox.setMaxWidth(Double.MAX_VALUE);
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
+
+        withBookingsCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
+        limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
         return new EventsViewModel(new BorderPane(table, searchBox, null, limitCheckBox, null), searchBox, table, limitCheckBox, withBookingsCheckBox);
     }
