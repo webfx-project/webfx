@@ -1,5 +1,7 @@
 package naga.fxdata.cell.rowstyle;
 
+import naga.fx.scene.paint.Paint;
+
 /**
  * @author Bruno Salmon
  */
@@ -10,5 +12,7 @@ public interface RowAdapter {
     void addStyleClass(String styleClass);
 
     void removeStyleClass(String styleClass);
+
+    void applyBackground(Paint fill);
 
 }

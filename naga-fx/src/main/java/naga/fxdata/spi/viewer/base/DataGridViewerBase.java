@@ -1,12 +1,13 @@
 package naga.fxdata.spi.viewer.base;
 
 import naga.commons.util.Strings;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fx.scene.paint.*;
 import naga.fxdata.cell.renderer.ImageTextRenderer;
 import naga.fxdata.cell.renderer.TextRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.control.DataGrid;
+import naga.fxdata.displaydata.DisplayColumn;
+import naga.fxdata.displaydata.DisplayResultSet;
 
 /**
  * @author Bruno Salmon
@@ -17,6 +18,7 @@ public class DataGridViewerBase
         extends SelectableDisplayResultSetControlViewerBase<C, N, NB, NM> {
 
     private int rowStyleColumnIndex;
+    private int rowBackgroundColumnIndex;
     private int gridColumnCount;
     private DisplayResultSet rs;
     private DataGridViewerImageTextMixin<C, N, NB, NM> imageTextMixin;
@@ -47,7 +49,7 @@ public class DataGridViewerBase
 
 
     public void fillGrid(boolean init) {
-        rowStyleColumnIndex = -1;
+        rowStyleColumnIndex = rowBackgroundColumnIndex = -1;
         gridColumnCount = 0;
         if (rs == null)
             return;
@@ -63,6 +65,8 @@ public class DataGridViewerBase
                 gridColumnIndex++;
             } else if (role.equals("style"))
                 rowStyleColumnIndex = columnIndex;
+            else if (role.equals("background"))
+                rowBackgroundColumnIndex = columnIndex;
         }
         gridColumnCount = gridColumnIndex;
     }
@@ -99,6 +103,14 @@ public class DataGridViewerBase
         return rowStyleColumnIndex;
     }
 
+    public int getRowBackgroundColumnIndex() {
+        return rowBackgroundColumnIndex;
+    }
+
+    public boolean isDataColumn(int columnIndex) {
+        return columnIndex != rowStyleColumnIndex && columnIndex != rowBackgroundColumnIndex;
+    }
+
     public int gridColumnIndexToResultSetColumnIndex(int gridColumnIndex, int rowStyleColumnIndex) {
         int rsColumnIndex = gridColumnIndex;
         if (rowStyleColumnIndex == 0 && gridColumnIndex >= rowStyleColumnIndex)
@@ -107,7 +119,30 @@ public class DataGridViewerBase
     }
 
     public Object getRowStyleResultSetValue(int rowIndex) {
-        int columnIndex = rowStyleColumnIndex;
+        return getSafeResultSetValue(rowIndex, rowStyleColumnIndex);
+    }
+
+    public Object getRowBackgroundResultSetValue(int rowIndex) {
+        return getSafeResultSetValue(rowIndex, rowBackgroundColumnIndex);
+    }
+
+    public Paint getRowBackground(Object value) {
+        if (value instanceof String) {
+            Paint paint = Paint.valueOf(value.toString());
+            if (paint instanceof Color) {
+                Color color = (Color) paint;
+                paint = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, new Stop(0, color.deriveColor(0, 1.0, 1.0 / 0.9, 1.0)), new Stop(1, color.deriveColor(0, 1.0, 0.9, 1.0)));
+            }
+            return paint;
+        }
+        return null;
+    }
+
+    public Paint getRowBackground(int rowIndex) {
+        return getRowBackground(getRowBackgroundResultSetValue(rowIndex));
+    }
+
+    private Object getSafeResultSetValue(int rowIndex, int columnIndex) {
         if (rs == null || rowIndex < 0 || columnIndex < 0 || rowIndex >= rs.getRowCount() || columnIndex >= rs.getColumnCount())
             return null;
         return rs.getValue(rowIndex, columnIndex);

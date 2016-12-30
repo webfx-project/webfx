@@ -1,19 +1,20 @@
 package naga.fx.spi.swing.fx.viewer;
 
-import naga.fx.spi.swing.util.JGradientLabel;
-import naga.fx.spi.swing.util.StyleUtil;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplaySelection;
-import naga.fxdata.cell.renderer.ImageTextRenderer;
-import naga.fxdata.cell.renderer.ValueRenderer;
-import naga.fxdata.control.DataGrid;
 import naga.fx.scene.Node;
 import naga.fx.scene.image.ImageView;
 import naga.fx.scene.text.TextAlignment;
+import naga.fx.spi.swing.util.JGradientLabel;
+import naga.fx.spi.swing.util.StyleUtil;
+import naga.fx.spi.swing.util.SwingPaints;
+import naga.fxdata.cell.renderer.ImageTextRenderer;
+import naga.fxdata.cell.renderer.ValueRenderer;
+import naga.fxdata.control.DataGrid;
+import naga.fxdata.displaydata.DisplayColumn;
+import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplaySelection;
+import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.viewer.base.DataGridViewerBase;
 import naga.fxdata.spi.viewer.base.DataGridViewerMixin;
-import naga.fxdata.displaydata.SelectionMode;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -166,7 +167,7 @@ public class SwingDataGridViewer
                 cellComponent = gradientLabel;
             }
             String rowStyle = getNodeViewerBase().getRowStyle(row);
-            StyleUtil.styleCellComponent(cellComponent, rowStyle, header, textAlign, isSelected);
+            StyleUtil.styleCellComponent(cellComponent, rowStyle, SwingPaints.toSwingPaint(getNodeViewerBase().getRowBackground(row)), header, textAlign, isSelected);
             return cellComponent;
         };
     }

@@ -20,14 +20,14 @@ public class StyleUtil {
     private static final Font boldFont = SwingImageStore.getFont(fontStartPath + "-Bold.ttf").deriveFont(fontSize);
     private static final Font font = SwingImageStore.getFont(fontStartPath + "-Regular.ttf").deriveFont(fontSize);
 
-    public static void styleCellComponent(Component cellComponent, String rowStyle, boolean header, String textAlign, boolean selected) {
+    public static void styleCellComponent(Component cellComponent, String rowStyle, Paint rowBackground, boolean header, String textAlign, boolean selected) {
         if (cellComponent == null)
             return;
         JComponent jComponent = cellComponent instanceof JComponent ? (JComponent) cellComponent : null;
         if (jComponent != null)
             jComponent.setBorder(header ? cellHeaderBorder : cellPaddingBorder);
         cellComponent.setForeground(fontColor);
-        cellComponent.setBackground(getRowColor(rowStyle));
+        cellComponent.setBackground(rowBackground instanceof Color ? (Color) rowBackground : getRowColor(rowStyle));
         boolean bold = header || isRowBold(rowStyle);
         boolean italic = !header && isRowItalic(rowStyle);
         cellComponent.setFont(getFont(bold, italic));

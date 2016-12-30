@@ -9,9 +9,13 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
+import naga.fx.scene.paint.Paint;
 import naga.fx.spi.javafx.util.FxImageStore;
+import naga.fx.spi.javafx.util.FxPaints;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
@@ -167,7 +171,12 @@ public class FxDataGridViewer
                 @Override public int getRowIndex() { return row.getIndex(); }
                 @Override public void addStyleClass(String styleClass) { row.getStyleClass().add(styleClass); }
                 @Override public void removeStyleClass(String styleClass) { row.getStyleClass().remove(styleClass); }
-            }, this::getRowStyleClasses);
+                @Override public void applyBackground(Paint fill) {
+                    if (fill == null)
+                        row.backgroundProperty().unbind();
+                    else
+                        row.backgroundProperty().bind(new SimpleObjectProperty<>(new Background(new BackgroundFill(FxPaints.toFxPaint(fill), null, null))));}
+            }, this::getRowStyleClasses, this::getRowBackground);
             row.getProperties().put("nodeStyleUpdater", rowStyleUpdater); // keeping strong reference to avoid garbage collection
             row.itemProperty().addListener((observable, oldRowIndex, newRowIndex) -> rowStyleUpdater.update());
             return row;
@@ -180,6 +189,14 @@ public class FxDataGridViewer
         if (value instanceof ObservableValue)
             value = ((ObservableValue) value).getValue();
         return base.getRowStyleClasses(value);
+    }
+
+    private Paint getRowBackground(int rowIndex) {
+        NB base = getNodeViewerBase();
+        Object value = base.getRowBackgroundResultSetValue(rowIndex);
+        if (value instanceof ObservableValue)
+            value = ((ObservableValue) value).getValue();
+        return base.getRowBackground(value);
     }
 
     private static void fitHeightToContent(final Control control) {

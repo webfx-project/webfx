@@ -3,12 +3,14 @@ package naga.fx.spi.gwt.html.viewer;
 import elemental2.*;
 import naga.commons.util.Strings;
 import naga.commons.util.tuples.Unit;
-import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fxdata.displaydata.*;
-import naga.fxdata.cell.renderer.ImageTextRenderer;
-import naga.fxdata.control.DataGrid;
 import naga.fx.scene.Node;
 import naga.fx.scene.layout.HBox;
+import naga.fx.spi.gwt.util.DomType;
+import naga.fx.spi.gwt.util.HtmlPaints;
+import naga.fx.spi.gwt.util.HtmlUtil;
+import naga.fxdata.cell.renderer.ImageTextRenderer;
+import naga.fxdata.control.DataGrid;
+import naga.fxdata.displaydata.*;
 import naga.fxdata.spi.viewer.base.DataGridViewerBase;
 import naga.fxdata.spi.viewer.base.DataGridViewerMixin;
 
@@ -109,8 +111,9 @@ public class HtmlDataGridViewer
                     return null;
                 };
                 setPseudoClass(tBodyRow, base.getRowStyle(rowIndex));
+                tBodyRow.style.background = HtmlPaints.toCssPaint(base.getRowBackground(rowIndex), DomType.HTML);
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-                    if (columnIndex != base.getRowStyleColumnIndex())
+                    if (base.isDataColumn(columnIndex))
                         base.fillCell((HTMLTableCellElement) tBodyRow.insertCell(-1), rowIndex, columnIndex);
                 }
             }
