@@ -93,4 +93,9 @@ public class JavaScheduler implements Scheduler {
             return scheduledFuture.cancel(false);
         }
     }
+
+    @Override
+    public long nanoTime() {
+        return System.nanoTime();
+    }
 }

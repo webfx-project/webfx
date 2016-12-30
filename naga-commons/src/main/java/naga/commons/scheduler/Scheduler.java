@@ -53,4 +53,6 @@ public interface Scheduler {
     default void runInBackground(Runnable runnable) {
         scheduleDeferred(runnable);
     }
+
+    long nanoTime(); // because System.nanoTime() is not GWT compatible
 }

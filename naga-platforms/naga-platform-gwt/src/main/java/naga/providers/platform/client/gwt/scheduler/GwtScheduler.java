@@ -10,10 +10,26 @@ import naga.commons.scheduler.impl.UiSchedulerBase;
  */
 public final class GwtScheduler extends UiSchedulerBase {
 
+    private static long NANO_IN_MILLIS = 1000000;
+    private static long startNano = System.currentTimeMillis() * NANO_IN_MILLIS - performanceNano();
+
     @Override
     public boolean isUiThread() {
         return true;
     }
+
+    @Override
+    public long nanoTime() {
+        return startNano + performanceNano();
+    }
+
+    private static long performanceNano() {
+        return (long) (performanceNow() * NANO_IN_MILLIS);
+    }
+
+    private static native double performanceNow() /*-{
+        return performance.now();
+    }-*/;
 
     private static JavaScriptObject animationFrameId;
     private static Timer checkTimer;

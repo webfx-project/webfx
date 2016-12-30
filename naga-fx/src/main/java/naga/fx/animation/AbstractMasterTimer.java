@@ -1,5 +1,7 @@
 package naga.fx.animation;
 
+import naga.fx.spi.Toolkit;
+
 import java.util.Arrays;
 
 /**
@@ -101,8 +103,7 @@ abstract class AbstractMasterTimer {
     }
 
     private long systemNanoTime() {
-        //return System.nanoTime(); // Not GWT compatible
-        return System.currentTimeMillis() * 1000000;
+        return Toolkit.get().scheduler().nanoTime();
     }
 
     public boolean isFullspeed() {

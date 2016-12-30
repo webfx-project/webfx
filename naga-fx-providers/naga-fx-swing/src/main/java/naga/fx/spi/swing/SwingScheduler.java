@@ -49,6 +49,11 @@ class SwingScheduler extends UiSchedulerBase {
         return SwingUtilities.isEventDispatchThread();
     }
 
+    @Override
+    public long nanoTime() {
+        return System.nanoTime();
+    }
+
     private static class SwingScheduled implements Scheduled {
         private final Timer swingTimer;
 

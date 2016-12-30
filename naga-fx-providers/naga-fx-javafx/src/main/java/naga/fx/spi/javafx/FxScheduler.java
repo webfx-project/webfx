@@ -40,6 +40,11 @@ class FxScheduler extends UiSchedulerBase {
         return Toolkit.get().isReady() && Platform.isFxApplicationThread();
     }
 
+    @Override
+    public long nanoTime() {
+        return System.nanoTime();
+    }
+
     private Timeline timeline;
 
     @Override
