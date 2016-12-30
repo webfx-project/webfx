@@ -32,7 +32,7 @@ public abstract class PrimitiveBinaryExpression<T> extends BinaryExpression<T> {
             if (leftValue != null && rightValue != null)
                 switch (leftPrimType) {
                     case BOOLEAN:
-                        return evaluateBoolean(Booleans.booleanValue(leftValue), Booleans.booleanValue(rightValue));
+                        return evaluateBoolean(Booleans.toBoolean(leftValue), Booleans.toBoolean(rightValue));
                     case INTEGER:
                         return evaluateInteger(Numbers.toInteger(leftValue), Numbers.toInteger(rightValue));
                     case LONG:
@@ -50,24 +50,24 @@ public abstract class PrimitiveBinaryExpression<T> extends BinaryExpression<T> {
         return evaluateObject(leftValue, rightValue);
     }
 
-    protected Boolean evaluateBoolean(Boolean a, Boolean b) {
-        return a == null || b == null ? null : evaluateBoolean(a.booleanValue(), b.booleanValue());
+    protected Object evaluateBoolean(Boolean a, Boolean b) {
+        return a == null || b == null ? evaluateObject(a, b) : evaluateBoolean(a.booleanValue(), b.booleanValue());
     }
 
-    protected Integer evaluateInteger(Integer a, Integer b) {
-        return a == null || b == null ? null : evaluateInteger(a.intValue(), b.intValue());
+    protected Object evaluateInteger(Integer a, Integer b) {
+        return a == null || b == null ? evaluateObject(a, b) : evaluateInteger(a.intValue(), b.intValue());
     }
 
-    protected Long evaluateLong(Long a, Long b) {
-        return a == null || b == null ? null : evaluateLong(a.longValue(), b.longValue());
+    protected Object evaluateLong(Long a, Long b) {
+        return a == null || b == null ? evaluateObject(a, b) : evaluateLong(a.longValue(), b.longValue());
     }
 
-    protected Float evaluateFloat(Float a, Float b) {
-        return a == null || b == null ? null : evaluateFloat(a.floatValue(), b.floatValue());
+    protected Object evaluateFloat(Float a, Float b) {
+        return a == null || b == null ? evaluateObject(a, b) : evaluateFloat(a.floatValue(), b.floatValue());
     }
 
-    protected Double evaluateDouble(Float a, Float b) {
-        return a == null | b == null ? null : evaluateDouble(a.doubleValue(), b.doubleValue());
+    protected Object evaluateDouble(Float a, Float b) {
+        return a == null | b == null ? evaluateObject(a, b) : evaluateDouble(a.doubleValue(), b.doubleValue());
     }
 
     protected String evaluateString(String a, String b) { return Strings.toString(evaluateObject(a, b));}
