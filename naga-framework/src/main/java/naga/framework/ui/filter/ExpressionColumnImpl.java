@@ -61,18 +61,20 @@ class ExpressionColumnImpl implements ExpressionColumn {
             }
             String textAlign = null;
             ValueRenderer fxValueRenderer = null;
+            String role = null;
             if (json != null) {
                 textAlign = json.getString("textAlign");
                 String collator = json.getString("collator");
-                if (collator != null) {
+                if (collator != null)
                     fxValueRenderer = ValueRenderer.create(displayType, collator);
-                }
+                role = json.getString("role");
                 json = null;
             }
             if (textAlign == null)
                 textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
             displayColumn = DisplayColumnBuilder.create(label, displayType)
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
+                    .setRole(role)
                     .setValueRenderer(fxValueRenderer)
                     .build();
         }
