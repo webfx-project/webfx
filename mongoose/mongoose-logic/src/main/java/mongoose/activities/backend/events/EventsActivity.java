@@ -62,7 +62,9 @@ public class EventsActivity extends GenericTableActivity<EventsViewModel, Events
                 .setExpressionColumns("[" +
                         //"{label: 'Image', expression: 'image(`images/calendar.svg`)'}," +
                         //"{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate) + ` (` + bookingsCount + `)`'}" +
-                        "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate)`'}" +
+                        "{label: 'Event', expression: 'icon, name + ` ~ ` + dateIntervalFormat(startDate,endDate)`'}," +
+                        "'type'," +
+                        "{role: 'background', expression: 'type.background'}" +
                         "]")
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> {
