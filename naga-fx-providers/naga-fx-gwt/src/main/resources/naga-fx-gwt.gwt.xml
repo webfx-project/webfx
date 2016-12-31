@@ -3,6 +3,7 @@
 <module rename-to='naga_fx_gwt'>
 
     <inherits name="elemental2"/>
+    <inherits name="com.googlecode.gwt.charts.Charts" />
 
     <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
     <inherits name="naga-platform-gwt"/> <!-- refers to naga-platform-gwt.gwt.xml in naga-platform-gwt -->

@@ -10,6 +10,7 @@ import naga.fx.scene.shape.Rectangle;
 import naga.fx.scene.text.Text;
 import naga.fx.spi.gwt.html.viewer.*;
 import naga.fx.spi.viewer.base.NodeViewerFactoryImpl;
+import naga.fxdata.chart.*;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.HtmlText;
 
@@ -41,5 +42,10 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(HtmlText.class, HtmlHtmlTextViewer::new);
         registerNodeViewerFactory(ImageView.class, HtmlImageViewViewer::new);
         registerNodeViewerFactory(DataGrid.class, HtmlDataGridViewer::new);
+        registerNodeViewerFactory(LineChart.class, HtmlLineChartViewer::new);
+        registerNodeViewerFactory(AreaChart.class, HtmlAreaChartViewer::new);
+        registerNodeViewerFactory(BarChart.class, HtmlBarChartViewer::new);
+        registerNodeViewerFactory(PieChart.class, HtmlPieChartViewer::new);
+        registerNodeViewerFactory(ScatterChart.class, HtmlScatterChartViewer::new);
     }
 }

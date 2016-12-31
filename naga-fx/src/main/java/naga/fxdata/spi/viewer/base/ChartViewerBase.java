@@ -17,7 +17,7 @@ public abstract class ChartViewerBase
 
     private final boolean isPieChart = this instanceof PieChartViewerBase;
 
-    void updateResultSet(DisplayResultSet rs) {
+    public void updateResultSet(DisplayResultSet rs) {
         if (rs == null)
             return;
         int rowCount = rs.getRowCount();
