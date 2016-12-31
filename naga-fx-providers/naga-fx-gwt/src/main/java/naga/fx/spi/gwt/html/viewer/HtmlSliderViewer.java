@@ -48,4 +48,14 @@ public class HtmlSliderViewer
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
         inputElement.value = Strings.toString(value);
     }
+
+    @Override
+    public double maxWidth(double height) {
+        return Double.MAX_VALUE;
+    }
+
+    @Override
+    public double maxHeight(double width) {
+        return Double.MAX_VALUE;
+    }
 }
