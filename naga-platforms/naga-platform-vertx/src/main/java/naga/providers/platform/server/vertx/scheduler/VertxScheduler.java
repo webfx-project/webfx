@@ -30,6 +30,11 @@ public final class VertxScheduler implements Scheduler {
         return new VertxScheduled(vertx.setPeriodic(delayMs, event -> runnable.run()));
     }
 
+    @Override
+    public long nanoTime() {
+        return System.nanoTime();
+    }
+
     private class VertxScheduled implements Scheduled {
         private final long timerId;
 
