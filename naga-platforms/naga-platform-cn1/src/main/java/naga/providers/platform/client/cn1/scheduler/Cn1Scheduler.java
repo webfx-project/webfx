@@ -79,6 +79,11 @@ public final class Cn1Scheduler implements Scheduler {
         Display.getInstance().scheduleBackgroundTask(runnable);
     }
 
+    @Override
+    public long nanoTime() {
+        return System.nanoTime();
+    }
+
     private static class TimerTaskScheduled implements Scheduled {
         private final TimerTask timerTask;
 
