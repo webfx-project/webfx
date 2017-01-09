@@ -19,6 +19,15 @@ public class HtmlLabelPeer
 
     public HtmlLabelPeer(NB base) {
         super(base, HtmlUtil.createSpanElement());
-        setElementStyleAttribute("line-height", "100%");
+        // to have the text vertically centered, we need to set the line-height
+        setElementStyleAttribute("line-height", "100%"); // when expressed as %, it's regarding the font height (and not the node height)
+    }
+
+    @Override
+    public void updateHeight(Double height) {
+        super.updateHeight(height);
+        // To keep the text vertically centered, we express the line-height in px
+        if (height != 0)
+            setElementStyleAttribute("line-height", toPx(height)); // Same height as the node
     }
 }
