@@ -1,8 +1,8 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.spi.peer.StagePeer;
 import naga.fx.scene.Scene;
-import naga.fx.stage.*;
+import naga.fx.spi.peer.StagePeer;
+import naga.fx.stage.Stage;
 import naga.fx.stage.Window;
 import naga.fx.sun.tk.TKStageListener;
 
@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * @author Bruno Salmon
@@ -95,7 +97,16 @@ public class SwingStagePeer implements StagePeer {
         if (firstShown) {
             Scene scene = stage.getScene();
             frame.setSize(scene.getWidth().intValue(), scene.getHeight().intValue());
-            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    naga.fx.stage.WindowEvent we = new naga.fx.stage.WindowEvent(stage, naga.fx.stage.WindowEvent.WINDOW_CLOSE_REQUEST);
+                    naga.fx.event.Event.fireEvent(stage, we);
+                    if (we.isConsumed() && stage == naga.fx.spi.Toolkit.get().getPrimaryStage())
+                        System.exit(0);
+                }
+            });
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         }

@@ -503,8 +503,11 @@ public class Window implements EventTarget,
         Scene scene = getScene();
         if (scene != null) {
             scene.impl_setWindow(this);
-            // Finally binding the root node
-            Properties.runNowAndOnPropertiesChange(p -> impl_getPeer().onSceneRootChanged(), scene.rootProperty());
+            // Notifying the peer about the change
+            Properties.runNowAndOnPropertiesChange(p -> {
+                if (impl_peer != null)
+                    impl_peer.onSceneRootChanged();
+            }, scene.rootProperty());
         }
     }
 
