@@ -155,11 +155,6 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateOnMouseClicked(EventHandler onMouseClicked) {
-            container.setOnMouseClicked(onMouseClicked);
-        }
-
-        @Override
         public void updateMouseTransparent(Boolean mouseTransparent) {
             container.setMouseTransparent(mouseTransparent);
         }

@@ -56,11 +56,6 @@ public abstract class FxNodeViewer
     }
 
     @Override
-    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
-        //getFxNode().setOnMouseClicked(toFxMouseEventHandler(onMouseClicked));
-    }
-
-    @Override
     public void updateMouseTransparent(Boolean mouseTransparent) {
         getFxNode().setMouseTransparent(mouseTransparent);
     }

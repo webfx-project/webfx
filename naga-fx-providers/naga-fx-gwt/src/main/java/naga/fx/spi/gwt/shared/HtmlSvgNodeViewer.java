@@ -3,22 +3,21 @@ package naga.fx.spi.gwt.shared;
 import elemental2.Element;
 import elemental2.Event;
 import naga.commons.util.Strings;
-import naga.fx.scene.SceneRequester;
-import naga.fx.spi.gwt.html.viewer.HtmlNodeViewer;
-import naga.fx.spi.gwt.svg.view.SvgNodeViewer;
-import naga.fx.spi.gwt.util.DomType;
-import naga.fx.spi.gwt.util.HtmlTransforms;
-import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.spi.gwt.util.SvgTransforms;
-import naga.fx.event.EventHandler;
 import naga.fx.scene.Node;
 import naga.fx.scene.Scene;
+import naga.fx.scene.SceneRequester;
 import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.effect.Effect;
 import naga.fx.scene.input.MouseEvent;
 import naga.fx.scene.text.Font;
 import naga.fx.scene.text.FontPosture;
 import naga.fx.scene.transform.Transform;
+import naga.fx.spi.gwt.html.viewer.HtmlNodeViewer;
+import naga.fx.spi.gwt.svg.view.SvgNodeViewer;
+import naga.fx.spi.gwt.util.DomType;
+import naga.fx.spi.gwt.util.HtmlTransforms;
+import naga.fx.spi.gwt.util.HtmlUtil;
+import naga.fx.spi.gwt.util.SvgTransforms;
 import naga.fx.spi.viewer.NodeViewer;
 import naga.fx.spi.viewer.base.NodeViewerBase;
 import naga.fx.spi.viewer.base.NodeViewerImpl;
@@ -108,16 +107,6 @@ public abstract class HtmlSvgNodeViewer
     public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
         boolean isSvg = containerType == DomType.SVG;
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
-    }
-
-    @Override
-    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
-/*
-        element.onclick = onMouseClicked == null ? null : e -> {
-            onMouseClicked.handle(toMouseEvent(e));
-            return null;
-        };
-*/
     }
 
     private static MouseEvent toMouseEvent(Event e) {

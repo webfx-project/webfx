@@ -2,14 +2,12 @@ package naga.fx.spi.viewer.base;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.Node;
 import naga.fx.scene.SceneRequester;
-import naga.fx.spi.viewer.NodeViewer;
+import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.effect.Effect;
-import naga.fx.scene.input.MouseEvent;
-import naga.fx.event.EventHandler;
 import naga.fx.scene.transform.Transform;
+import naga.fx.spi.viewer.NodeViewer;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,8 +40,6 @@ public interface NodeViewerMixin
     default boolean updateList(ObservableList changedList) {
         return getNodeViewerBase().updateList(changedList);
     }
-
-    void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked);
 
     void updateMouseTransparent(Boolean mouseTransparent);
 

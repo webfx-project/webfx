@@ -78,10 +78,6 @@ public abstract class SwingNodeViewer
     }
 
     @Override
-    public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
-    }
-
-    @Override
     public void updateMouseTransparent(Boolean mouseTransparent) {
     }
 
