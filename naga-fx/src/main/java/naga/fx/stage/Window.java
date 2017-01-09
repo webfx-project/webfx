@@ -270,6 +270,7 @@ public class Window implements EventTarget,
     private Property<Boolean> showing = new SimpleObjectProperty<Boolean>(false) {
         private boolean oldVisible;
         private Scheduled pulseScheduled;
+        private boolean firstShowing;
 
         @Override protected void invalidated() {
             final boolean newVisible = get();
@@ -310,15 +311,17 @@ public class Window implements EventTarget,
                         getScene().impl_initPeer();
                         //impl_peer.setScene(getScene().getPeer());
                         getScene().impl_preferredSize();
-                        if (getScene().getHeight() == 0) {
+                        // Ugly workaround to fix a possible wrong window positioning that occurs on first showing while the node sizes are not yet correct
+                        if (firstShowing && getScene().getHeight() < 50) {
                             impl_peer.setBounds(Float.MAX_VALUE, Float.MAX_VALUE, true, true, -1, -1, -1, -1, 0, 0);
                             impl_peer.setVisible(true);
                             Toolkit.get().scheduler().scheduleDelay(100, () -> {
-                                x.setValue(Double.NaN);
-                                y.setValue(Double.NaN);
+                                x.setValue(Double.NaN); xExplicit = false;
+                                y.setValue(Double.NaN); yExplicit = false;
                                 peerBoundsConfigurator.setDirty();
                                 invalidated();
                             });
+                            firstShowing = false;
                             return;
                         }
                     }

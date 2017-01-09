@@ -10,9 +10,11 @@ import javafx.collections.ObservableList;
 import naga.fx.event.ActionEvent;
 import naga.fx.geometry.Pos;
 import naga.fx.scene.Node;
+import naga.fx.scene.Parent;
 import naga.fx.scene.image.Image;
 import naga.fx.scene.image.ImageView;
 import naga.fx.scene.layout.*;
+import naga.fx.scene.paint.Color;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -1194,15 +1196,24 @@ public class DialogPane extends Pane {
     }
 */
 
-    boolean rl;
+    private boolean pending;
     @Override
     public void requestLayout() {
-        if (!rl) {
-            rl = true;
+        if (!pending) {
+            pending = true;
             headerTextPanel.requestLayout();
+            Node content = getContent();
+            if (content instanceof Parent)
+                ((GridPane) content).requestLayout();
+            if (buttonBar instanceof Parent)
+                ((Parent) buttonBar).requestLayout();
             super.requestLayout();
-            rl = false;
+            pending = false;
         }
+    }
 
+    {
+        // Hardcoded style for Naga (while css is not yet implemented)
+        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
     }
 }
