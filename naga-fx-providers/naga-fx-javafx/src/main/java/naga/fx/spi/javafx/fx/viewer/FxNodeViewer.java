@@ -1,7 +1,9 @@
 package naga.fx.spi.javafx.fx.viewer;
 
-import naga.fx.spi.javafx.util.FxTransforms;
+import naga.fx.event.ActionEvent;
 import naga.fx.event.EventHandler;
+import naga.fx.event.EventTarget;
+import naga.fx.event.EventType;
 import naga.fx.scene.Node;
 import naga.fx.scene.Scene;
 import naga.fx.scene.SceneRequester;
@@ -10,6 +12,7 @@ import naga.fx.scene.effect.Effect;
 import naga.fx.scene.effect.GaussianBlur;
 import naga.fx.scene.input.MouseEvent;
 import naga.fx.scene.transform.Transform;
+import naga.fx.spi.javafx.util.FxTransforms;
 import naga.fx.spi.viewer.NodeViewer;
 import naga.fx.spi.viewer.base.NodeViewerBase;
 import naga.fx.spi.viewer.base.NodeViewerImpl;
@@ -47,12 +50,14 @@ public abstract class FxNodeViewer
     public void bind(N node, SceneRequester sceneRequester) {
         fxNode = createFxNode();
         getNodeViewerBase().bind(node, sceneRequester);
+        fxNode.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> getNode().fireEvent(toMouseEvent(getNode(), getNode(), event)));
+        fxNode.addEventFilter(javafx.event.ActionEvent.ACTION, event -> getNode().fireEvent(toActionEvent(getNode(), getNode(), event)));
         onFxNodeCreated();
     }
 
     @Override
     public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
-        getFxNode().setOnMouseClicked(toFxMouseEventHandler(onMouseClicked));
+        //getFxNode().setOnMouseClicked(toFxMouseEventHandler(onMouseClicked));
     }
 
     @Override
@@ -109,8 +114,24 @@ public abstract class FxNodeViewer
         return mouseEventHandler == null ? null : event -> mouseEventHandler.handle(toMouseEvent((javafx.scene.input.MouseEvent) event));
     }
 
-    private static MouseEvent toMouseEvent(javafx.scene.input.MouseEvent mouseEvent) {
-        return new MouseEvent();
+    private static MouseEvent toMouseEvent(javafx.scene.input.MouseEvent me) {
+        return toMouseEvent(null, null, me);
+    }
+
+    private static MouseEvent toMouseEvent(Object source, EventTarget target, javafx.scene.input.MouseEvent e) {
+        return new MouseEvent(source, target, toEventType(e.getEventType()), e.getX(), e.getY(), e.getScreenX(), e.getScreenY(), null, e.getClickCount(), e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), null);
+    }
+
+    private static ActionEvent toActionEvent(Object source, EventTarget target, javafx.event.ActionEvent e) {
+        return new ActionEvent(source, target);
+    }
+
+    private static EventType toEventType(javafx.event.EventType fxType) {
+        if (fxType == javafx.scene.input.MouseEvent.MOUSE_CLICKED)
+            return MouseEvent.MOUSE_CLICKED;
+        if (fxType == javafx.event.ActionEvent.ACTION)
+            return ActionEvent.ACTION;
+        return null;
     }
 
     private static javafx.scene.effect.BlendMode toFxBlendMode(BlendMode blendMode) {

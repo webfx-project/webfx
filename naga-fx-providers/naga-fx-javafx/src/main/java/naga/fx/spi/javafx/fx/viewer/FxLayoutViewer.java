@@ -32,6 +32,8 @@ public class FxLayoutViewer
                 // First, we resize the NagaFx node to match the JavaFx one (typically the visual rectangle computed by
                 // JavaFx within the table cell where the node must be drawn).
                 boolean isCellContent = getParent() instanceof Cell;
+                if (!isCellContent)
+                    return;
                 UiScheduler scheduler = Toolkit.get().scheduler();
                 boolean isAnimationFrame = scheduler.isAnimationFrame();
                 if (isCellContent && !isAnimationFrame)
