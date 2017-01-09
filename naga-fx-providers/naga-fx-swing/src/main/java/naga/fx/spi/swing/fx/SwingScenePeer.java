@@ -1,14 +1,15 @@
 package naga.fx.spi.swing.fx;
 
 import javafx.beans.property.Property;
+import naga.fx.geom.Point2D;
+import naga.fx.scene.CanvasScenePeer;
+import naga.fx.scene.Node;
+import naga.fx.scene.PickResult;
+import naga.fx.scene.Scene;
 import naga.fx.spi.swing.fx.viewer.SwingEmbedComponentViewer;
 import naga.fx.spi.swing.fx.viewer.SwingLayoutMeasurable;
 import naga.fx.spi.swing.fx.viewer.SwingNodeViewer;
 import naga.fx.spi.swing.util.StyleUtil;
-import naga.fx.geom.Point2D;
-import naga.fx.scene.Node;
-import naga.fx.scene.CanvasScene;
-import naga.fx.scene.PickResult;
 import naga.fx.spi.viewer.NodeViewer;
 
 import javax.swing.*;
@@ -20,13 +21,13 @@ import java.awt.event.MouseWheelEvent;
 /**
  * @author Bruno Salmon
  */
-public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D> {
+public class SwingScenePeer extends CanvasScenePeer<SwingNodeViewer<?, ?, ?>, Graphics2D> {
 
     private final CanvasPanel canvasPanel = new CanvasPanel();
     private boolean canvasRepaint;
 
-    public SwingScene() {
-        super(SwingNodeViewerFactory.SINGLETON);
+    public SwingScenePeer(Scene scene) {
+        super(scene, SwingNodeViewerFactory.SINGLETON);
     }
 
     @Override
@@ -35,9 +36,12 @@ public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D
     }
 
     @Override
-    public void pulse() {
+    public void onBeforePulse() {
         updateWidthAndHeight(); // The width update may cause a layout request (good to check before calling pulse)
-        super.pulse(); // This call to pulse() will consider changes in the scene graph and do the layout pass
+    }
+
+    @Override
+    public void onAfterPulse() {
         if (canvasRepaint) {
             canvasRepaint = false;
             canvasPanel.repaint();
@@ -50,7 +54,7 @@ public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D
     private void updateWidthAndHeight() {
         // Binding the width property to the actual component width
         boolean sizeChanged = false;
-        Property<Double> widthProperty = widthProperty();
+        Property<Double> widthProperty = scene.widthProperty();
         if (true || widthProperty.isBound()) {
             int width = widthProperty.getValue().intValue();
             if (width != lastWidth) {
@@ -63,7 +67,7 @@ public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D
                 widthProperty.setValue((double) (lastWidth = width));
         }
         // Binding the component height to the height property
-        Property<Double> heightProperty = heightProperty();
+        Property<Double> heightProperty = scene.heightProperty();
         if (true || heightProperty.isBound()) {
             int height = heightProperty.getValue().intValue();
             if (height != lastHeight) {
@@ -95,15 +99,13 @@ public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D
     }
 
     @Override
-    protected NodeViewer<Node> createNodeViewer(Node node) {
-        NodeViewer<Node> nodeViewer = super.createNodeViewer(node);
+    public void onNodeViewerCreated(NodeViewer<Node> nodeViewer) {
         // SwingLayoutMeasurable components must be added to the Swing structure so they can report correct layout measures
         if (nodeViewer instanceof SwingLayoutMeasurable) {
             JComponent swingComponent = ((SwingLayoutMeasurable) nodeViewer).getSwingComponent();
             canvasPanel.add(swingComponent);
             // But they won't be displayed by Swing (they will be painted by the canvas) - See CanvasPanel.paintChildren()
         }
-        return nodeViewer;
     }
 
     private static long maxSwingEmbedTargetAnimatedTransitionTime = 500;
@@ -246,7 +248,7 @@ public class SwingScene extends CanvasScene<SwingNodeViewer<?, ?, ?>, Graphics2D
                             e.isPopupTrigger(),
                             e.getButton());
                 } else {
-                    System.out.println("Unknown AWT event in SwingScene");
+                    System.out.println("Unknown AWT event in SwingScenePeer");
                 }
                 KeyboardFocusManager.getCurrentKeyboardFocusManager().redispatchEvent(target, event);
                 requestCanvasRepaint();

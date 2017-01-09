@@ -139,7 +139,7 @@ public abstract class SwingNodeViewer
         NodeViewer nodeViewer = nodeViewerUnit.get();
         if (nodeViewer instanceof SwingEmbedComponentViewer)
             return ((SwingEmbedComponentViewer) nodeViewer).getSwingComponent();
-        CanvasScene canvasScene = (CanvasScene) scene;
+        CanvasScenePeer canvasScenePeer = (CanvasScenePeer) scene.impl_getPeer();
         if (nodeViewer instanceof SwingShapeViewer) {
             return new JGradientLabel() {
                 @Override
@@ -153,7 +153,7 @@ public abstract class SwingNodeViewer
                         textNode.setTextOrigin(VPos.TOP);
                         textNode.setTextAlignment(textAlignment);
                     }
-                    canvasScene.paintNode(node, g);
+                    canvasScenePeer.paintNode(node, g);
                 }
             };
         }
@@ -163,7 +163,7 @@ public abstract class SwingNodeViewer
                 @Override
                 protected void paintChildren(Graphics g) {
                     fitNodeSizeToSwingComponentAndLayout(node, this);
-                    canvasScene.paintNode(node, g);
+                    canvasScenePeer.paintNode(node, g);
                 }
             };
         }
@@ -185,6 +185,6 @@ public abstract class SwingNodeViewer
     }
 
     public static MouseEvent toMouseEvent(AWTEvent e) {
-        return new MouseEvent();
+        return new MouseEvent(null, 0, 0, 0, 0, null, 0, false, false, false, false, false, false, false, false, false, false, null);
     }
 }

@@ -9,6 +9,7 @@ import naga.fx.scene.shape.Circle;
 import naga.fx.scene.shape.Line;
 import naga.fx.scene.shape.Rectangle;
 import naga.fx.scene.text.Text;
+import naga.fx.spi.viewer.NodeViewer;
 import naga.fx.spi.viewer.base.NodeViewerFactoryImpl;
 import naga.fxdata.chart.LineChart;
 import naga.fxdata.control.DataGrid;
@@ -28,12 +29,6 @@ public class SwingNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(Text.class, SwingTextViewer::new);
         registerNodeViewerFactory(Label.class, SwingLabelViewer::new);
         registerNodeViewerFactory(Group.class, SwingGroupViewer::new);
-        registerNodeViewerFactory(Region.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(VBox.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(HBox.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(BorderPane.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(FlowPane.class, SwingLayoutViewer::new);
-        registerNodeViewerFactory(GridPane.class, SwingLayoutViewer::new);
         registerNodeViewerFactory(Button.class, SwingButtonViewer::new);
         registerNodeViewerFactory(TextField.class, SwingTextFieldViewer::new);
         registerNodeViewerFactory(HtmlText.class, SwingHtmlTextViewer::new);
@@ -43,5 +38,10 @@ public class SwingNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(ImageView.class, SwingImageViewViewer::new);
         registerNodeViewerFactory(DataGrid.class, SwingDataGridViewer::new);
         registerNodeViewerFactory(LineChart.class, SwingLineChartViewer::new);
+    }
+
+    @Override
+    protected NodeViewer<Region> createDefaultRegionViewer(Region node) {
+        return new SwingLayoutViewer<>();
     }
 }

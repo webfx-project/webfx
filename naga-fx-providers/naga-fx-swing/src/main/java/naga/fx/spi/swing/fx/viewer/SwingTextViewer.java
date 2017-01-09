@@ -2,7 +2,7 @@ package naga.fx.spi.swing.fx.viewer;
 
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
-import naga.fx.spi.swing.fx.SwingScene;
+import naga.fx.spi.swing.fx.SwingScenePeer;
 import naga.fx.spi.swing.util.SwingFonts;
 import naga.fx.geometry.BoundingBox;
 import naga.fx.geometry.Bounds;
@@ -133,7 +133,7 @@ public class SwingTextViewer
     @Override
     protected Bounds createLayoutBounds() {
         if (glyphVector == null) {
-            SwingScene scene = (SwingScene) getNode().getScene();
+            SwingScenePeer scene = (SwingScenePeer) getNode().getScene().impl_getPeer();
             Graphics2D g = (Graphics2D) scene.getSceneComponent().getGraphics();
             g.setFont(getShapeSwingFont(g));
             getOrCreateSwingShape(g);

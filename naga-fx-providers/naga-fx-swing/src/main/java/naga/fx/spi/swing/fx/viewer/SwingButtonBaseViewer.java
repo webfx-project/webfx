@@ -1,10 +1,10 @@
 package naga.fx.spi.swing.fx.viewer;
 
-import naga.fx.spi.swing.util.StyleUtil;
 import naga.fx.event.EventHandler;
 import naga.fx.scene.Node;
 import naga.fx.scene.control.ButtonBase;
 import naga.fx.scene.input.MouseEvent;
+import naga.fx.spi.swing.util.StyleUtil;
 import naga.fx.spi.viewer.base.ButtonBaseViewerBase;
 import naga.fx.spi.viewer.base.ButtonBaseViewerMixin;
 
@@ -28,6 +28,10 @@ class SwingButtonBaseViewer
         super(base);
         this.swingButtonBase = swingButtonBase;
         swingButtonBase.setFont(StyleUtil.getFont(false, false));
+        swingButtonBase.addActionListener(e -> {
+            N node = getNode();
+            node.fireEvent(new naga.fx.event.ActionEvent(node, node));
+        });
     }
 
     @Override
