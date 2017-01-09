@@ -294,7 +294,7 @@ public class Region extends Parent implements
      * @param value the size value to be snapped
      * @return value ceiled to nearest pixel
      */
-    double snapSize(double value) {
+    public double snapSize(double value) {
         return snapSize(value, isSnapToPixel());
     }
 
@@ -548,7 +548,7 @@ public class Region extends Parent implements
      * @since JavaFX 8.0
      * @return Rounded up insets top
      */
-    final double snappedTopInset() {
+    public final double snappedTopInset() {
         return snappedTopInset;
     }
 
@@ -1001,7 +1001,7 @@ public class Region extends Parent implements
      *
      * @since JavaFX 8.0
      */
-    static void positionInArea(Node child, double areaX, double areaY, double areaWidth, double areaHeight,
+    public static void positionInArea(Node child, double areaX, double areaY, double areaWidth, double areaHeight,
                                       double areaBaselineOffset, Insets margin, HPos halignment, VPos valignment, boolean isSnapToPixel) {
         Insets childMargin = margin != null? margin : Insets.EMPTY;
 
@@ -1231,7 +1231,7 @@ public class Region extends Parent implements
      * @param isSnapToPixel whether to snap size and position to pixels
      * @since JavaFX 8.0
      */
-    private static void layoutInArea(Node child, double areaX, double areaY,
+    public static void layoutInArea(Node child, double areaX, double areaY,
                                     double areaWidth, double areaHeight,
                                     double areaBaselineOffset,
                                     Insets margin, boolean fillWidth, boolean fillHeight,
