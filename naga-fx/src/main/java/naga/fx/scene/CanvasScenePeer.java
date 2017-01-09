@@ -1,7 +1,7 @@
 package naga.fx.scene;
 
-import javafx.beans.value.ObservableValue;
 import naga.fx.geom.Point2D;
+import naga.fx.naga.tk.ScenePeerBase;
 import naga.fx.scene.transform.Transform;
 import naga.fx.spi.viewer.CanvasNodeViewer;
 import naga.fx.spi.viewer.NodeViewerFactory;
@@ -12,31 +12,28 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class CanvasScene
+public abstract class CanvasScenePeer
         <NB extends CanvasNodeViewer<?, CC>, CC>
 
-        extends Scene {
+        extends ScenePeerBase {
 
-    public CanvasScene(NodeViewerFactory nodeViewerFactory) {
-        super(nodeViewerFactory);
+    public CanvasScenePeer(Scene scene, NodeViewerFactory nodeViewerFactory) {
+        super(scene, nodeViewerFactory);
     }
 
     @Override
-    protected void updateParentAndChildrenViewers(Parent parent) {
-        super.updateParentAndChildrenViewers(parent);
+    public void updateParentAndChildrenViewers(Parent parent) {
+        scene.updateChildrenViewers(parent.getChildren());
         requestCanvasRepaint();
     }
 
     @Override
-    protected boolean updateViewProperty(Node node, ObservableValue changedProperty) {
-        boolean hitChangedProperty = super.updateViewProperty(node, changedProperty);
-        if (hitChangedProperty || changedProperty == null)
-            requestCanvasRepaint();
-        return hitChangedProperty;
+    public void onPropertyHit() {
+        requestCanvasRepaint();
     }
 
     public void paintCanvas(CC canvasContext) {
-        Parent root = getRoot();
+        Parent root = scene.getRoot();
         if (root != null)
             paintNode(root, canvasContext);
     }
@@ -48,7 +45,7 @@ public abstract class CanvasScene
 
     public void paintNode(Node node, CC canvasContext) {
         if (node.isVisible()) {
-            NB nodeView = (NB) getOrCreateAndBindNodeViewer(node);
+            NB nodeView = (NB) scene.getOrCreateAndBindNodeViewer(node);
             CC nodeCanvasContext = createCanvasContext(canvasContext);
             paintNodeView(nodeView, nodeCanvasContext);
             if (node instanceof Parent)
@@ -63,7 +60,7 @@ public abstract class CanvasScene
     }
 
     public PickResult pickNode(Point2D point) {
-        Parent root = getRoot();
+        Parent root = scene.getRoot();
         return root == null ? null : pickFromNode(point, root);
     }
 
@@ -91,7 +88,7 @@ public abstract class CanvasScene
                 return pickResult;
         }
         // Otherwise we ask its view if it contains the point and return this node if this is the case
-        NB nodeView = (NB) getOrCreateAndBindNodeViewer(node);
+        NB nodeView = (NB) scene.getOrCreateAndBindNodeViewer(node);
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 
