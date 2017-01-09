@@ -1,11 +1,12 @@
 package naga.fx.spi;
 
 import naga.commons.scheduler.UiScheduler;
-import naga.commons.util.function.Factory;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
+import naga.fx.naga.tk.StagePeer;
+import naga.fx.naga.tk.WindowPeer;
 import naga.fx.scene.Scene;
-import naga.fx.stage.Screen;
-import naga.fx.stage.Window;
+import naga.fx.naga.tk.ScenePeer;
+import naga.fx.stage.*;
 
 /**
  * @author Bruno Salmon
@@ -13,34 +14,27 @@ import naga.fx.stage.Window;
 public abstract class Toolkit {
 
     private final UiScheduler uiScheduler;
-    private final Factory<Window> windowFactory;
-    private final Factory<Scene> sceneFactory;
-    private Window primaryWindow;
+    private Stage primaryStage;
 
-    public Toolkit(UiScheduler uiScheduler, Factory<Window> windowFactory, Factory<Scene> sceneFactory) {
+    public Toolkit(UiScheduler uiScheduler) {
         this.uiScheduler = uiScheduler;
-        this.windowFactory = windowFactory;
-        this.sceneFactory = sceneFactory;
-    }
-
-    public Scene createScene() {
-        return sceneFactory.create();
-    }
-
-    public Scene createScene(double width, double height) {
-        Scene scene = createScene();
-        scene.setWidth(width);
-        scene.setHeight(height);
-        return scene;
     }
 
     public abstract Screen getPrimaryScreen();
 
-    public Window getPrimaryWindow() {
-        if (primaryWindow == null)
-            primaryWindow = windowFactory.create();
-        return primaryWindow;
+    public Stage getPrimaryStage() {
+        if (primaryStage == null) {
+            primaryStage = new Stage();
+            primaryStage.impl_setPrimary(true);
+        }
+        return primaryStage;
     }
+
+    public abstract StagePeer createStagePeer(Stage stage);
+
+    public abstract WindowPeer createWindowPeer(Window window);
+
+    public abstract ScenePeer createScenePeer(Scene scene);
 
     public boolean isReady() {
         return true;
