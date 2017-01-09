@@ -13,8 +13,9 @@ import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
 import naga.fx.event.EventTarget;
 import naga.fx.geometry.Orientation;
-import naga.fx.naga.tk.ScenePeer;
-import naga.fx.naga.tk.StagePeer;
+import naga.fx.spi.peer.NodePeer;
+import naga.fx.spi.peer.ScenePeer;
+import naga.fx.spi.peer.StagePeer;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasRootProperty;
@@ -23,7 +24,6 @@ import naga.fx.scene.control.Button;
 import naga.fx.scene.control.Skin;
 import naga.fx.scene.control.Skinnable;
 import naga.fx.spi.Toolkit;
-import naga.fx.spi.viewer.NodeViewer;
 import naga.fx.stage.Window;
 import naga.fx.sun.event.EventDispatchChain;
 import naga.fx.sun.event.EventDispatcher;
@@ -108,7 +108,7 @@ public class Scene implements EventTarget,
             Parent root = getValue();
             root.setScene(Scene.this);
             root.setSceneRoot(true);
-            createAndBindRootNodeViewerAndChildren(getRoot());
+            createAndBindRootNodePeerAndChildren(getRoot());
         }
     };
 
@@ -377,12 +377,12 @@ public class Scene implements EventTarget,
     private final SceneRequester sceneRequester = new SceneRequester() {
 
         @Override
-        public void requestNodeViewerPropertyUpdate(Node node, ObservableValue changedProperty) {
+        public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
             execute(() -> updateViewProperty(node, changedProperty));
         }
 
         @Override
-        public void requestNodeViewerListUpdate(Node node, ObservableList changedList) {
+        public void requestNodePeerListUpdate(Node node, ObservableList changedList) {
             execute(() -> updateViewList(node, changedList));
         }
 
@@ -399,63 +399,63 @@ public class Scene implements EventTarget,
         return sceneRequester;
     }
 
-    private void keepParentAndChildrenViewersUpdated(Parent parent) {
+    private void keepParentAndChildrenPeersUpdated(Parent parent) {
         ObservableLists.runNowAndOnListChange(() -> {
             // Setting the parent to all children
             for (Node child : parent.getChildren())
                 child.setParent(parent);
-            updateParentAndChildrenViewers(parent);
+            updateParentAndChildrenPeers(parent);
         }, parent.getChildren());
     }
 
-    private void updateParentAndChildrenViewers(Parent parent) {
-        impl_getPeer().updateParentAndChildrenViewers(parent);
+    private void updateParentAndChildrenPeers(Parent parent) {
+        impl_getPeer().updateParentAndChildrenPeers(parent);
     }
 
     private boolean updateViewProperty(Node node, ObservableValue changedProperty) {
-        boolean hitChangedProperty = updateViewProperty(getOrCreateAndBindNodeViewer(node), changedProperty);
+        boolean hitChangedProperty = updateViewProperty(getOrCreateAndBindNodePeer(node), changedProperty);
         if (hitChangedProperty || changedProperty == null)
             impl_getPeer().onPropertyHit();
         return hitChangedProperty;
     }
 
-    private boolean updateViewProperty(NodeViewer nodeViewer, ObservableValue changedProperty) {
-        return nodeViewer.updateProperty(changedProperty);
+    private boolean updateViewProperty(NodePeer nodePeer, ObservableValue changedProperty) {
+        return nodePeer.updateProperty(changedProperty);
     }
 
     private boolean updateViewList(Node node, ObservableList changedList) {
-        return updateViewList(getOrCreateAndBindNodeViewer(node), changedList);
+        return updateViewList(getOrCreateAndBindNodePeer(node), changedList);
     }
 
-    private boolean updateViewList(NodeViewer nodeViewer, ObservableList changedList) {
-        return nodeViewer.updateList(changedList);
+    private boolean updateViewList(NodePeer nodePeer, ObservableList changedList) {
+        return nodePeer.updateList(changedList);
     }
 
-    public void updateChildrenViewers(Collection<Node> nodes) {
-        Collections.forEach(nodes, this::createAndBindNodeViewerAndChildren);
+    public void updateChildrenPeers(Collection<Node> nodes) {
+        Collections.forEach(nodes, this::createAndBindNodePeerAndChildren);
     }
 
-    private void createAndBindRootNodeViewerAndChildren(Node rootNode) {
-        createAndBindNodeViewerAndChildren(rootNode);
+    private void createAndBindRootNodePeerAndChildren(Node rootNode) {
+        createAndBindNodePeerAndChildren(rootNode);
         impl_getPeer().onRootBound();
     }
 
-    private void createAndBindNodeViewerAndChildren(Node node) {
-        NodeViewer nodeViewer = getOrCreateAndBindNodeViewer(node);
-        if (nodeViewer instanceof Parent)
-            updateChildrenViewers(((Parent) nodeViewer).getChildren());
+    private void createAndBindNodePeerAndChildren(Node node) {
+        NodePeer nodePeer = getOrCreateAndBindNodePeer(node);
+        if (nodePeer instanceof Parent)
+            updateChildrenPeers(((Parent) nodePeer).getChildren());
     }
 
-    public NodeViewer getOrCreateAndBindNodeViewer(Node node) {
+    public NodePeer getOrCreateAndBindNodePeer(Node node) {
         if (node.getScene() != this)
             node.setScene(this);
-        NodeViewer nodeViewer = node.getNodeViewer();
-        if (nodeViewer == null) {
-            node.setNodeViewer(nodeViewer = createNodeViewer(node));
-            if (nodeViewer == null) // The node view factory was unable to create a view for this node!
-                node.setNodeViewer(nodeViewer = createUnimplementedNodeViewer(node)); // Displaying a "Unimplemented..." button instead
+        NodePeer nodePeer = node.getNodePeer();
+        if (nodePeer == null) {
+            node.setNodePeer(nodePeer = createNodePeer(node));
+            if (nodePeer == null) // The node view factory was unable to create a view for this node!
+                node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying a "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
-                nodeViewer.bind(node, sceneRequester);
+                nodePeer.bind(node, sceneRequester);
                 if (node instanceof Parent) {
                     Parent parent = (Parent) node;
                     if (parent instanceof Skinnable) {
@@ -465,30 +465,30 @@ public class Scene implements EventTarget,
                                 @Override
                                 public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
                                     observable.removeListener(this);
-                                    keepParentAndChildrenViewersUpdated(parent);
+                                    keepParentAndChildrenPeersUpdated(parent);
                                 }
                             });
-                            return nodeViewer;
+                            return nodePeer;
                         }
                     }
-                    keepParentAndChildrenViewersUpdated(parent);
+                    keepParentAndChildrenPeersUpdated(parent);
                 }
             }
         }
-        return nodeViewer;
+        return nodePeer;
     }
 
 
-    private NodeViewer<Node> createNodeViewer(Node node) {
+    private NodePeer<Node> createNodePeer(Node node) {
         ScenePeer peer = impl_getPeer();
-        NodeViewer<Node> nodeViewer = peer.getNodeViewerFactory().createNodeViewer(node);
-        peer.onNodeViewerCreated(nodeViewer);
-        return nodeViewer;
+        NodePeer<Node> nodePeer = peer.getNodePeerFactory().createNodePeer(node);
+        peer.onNodePeerCreated(nodePeer);
+        return nodePeer;
     }
 
-    private NodeViewer createUnimplementedNodeViewer(Node node) {
+    private NodePeer createUnimplementedNodePeer(Node node) {
         // Creating a button as replacement (assuming the target toolkit at least implements a button view!)
-        Button button = new Button(Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " viewer not provided");
+        Button button = new Button(Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " peer not provided");
         // Binding to allow the button to respond to the original node layout
         button.layoutXProperty().bind(node.layoutXProperty());
         button.layoutYProperty().bind(node.layoutYProperty());
@@ -496,7 +496,7 @@ public class Scene implements EventTarget,
             button.widthProperty().bind(((HasWidthProperty) node).widthProperty());
         if (node instanceof HasHeightProperty)
             button.heightProperty().bind(((HasHeightProperty) node).heightProperty());
-        return getOrCreateAndBindNodeViewer(button); // Finally retuning the button view
+        return getOrCreateAndBindNodePeer(button); // Finally retuning the button view
     }
 
     private Scheduled pulseScheduled;

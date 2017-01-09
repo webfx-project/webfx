@@ -1,13 +1,13 @@
 package naga.fx.spi.swing;
 
 import naga.fx.geometry.Rectangle2D;
-import naga.fx.naga.tk.ScenePeer;
-import naga.fx.naga.tk.StagePeer;
-import naga.fx.naga.tk.WindowPeer;
+import naga.fx.spi.peer.ScenePeer;
+import naga.fx.spi.peer.StagePeer;
+import naga.fx.spi.peer.WindowPeer;
 import naga.fx.scene.Scene;
 import naga.fx.spi.Toolkit;
-import naga.fx.spi.swing.fx.SwingScenePeer;
-import naga.fx.spi.swing.fx.stage.SwingStagePeer;
+import naga.fx.spi.swing.peer.SwingScenePeer;
+import naga.fx.spi.swing.peer.SwingStagePeer;
 import naga.fx.stage.Screen;
 import naga.fx.stage.Stage;
 import naga.fx.stage.Window;

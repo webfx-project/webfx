@@ -1,10 +1,10 @@
 package naga.fx.scene;
 
 import naga.fx.sun.geom.Point2D;
-import naga.fx.naga.tk.ScenePeerBase;
+import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fx.scene.transform.Transform;
-import naga.fx.spi.viewer.CanvasNodeViewer;
-import naga.fx.spi.viewer.NodeViewerFactory;
+import naga.fx.spi.peer.CanvasNodePeer;
+import naga.fx.spi.peer.NodePeerFactory;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,17 +13,17 @@ import java.util.List;
  * @author Bruno Salmon
  */
 public abstract class CanvasScenePeer
-        <NB extends CanvasNodeViewer<?, CC>, CC>
+        <NB extends CanvasNodePeer<?, CC>, CC>
 
         extends ScenePeerBase {
 
-    public CanvasScenePeer(Scene scene, NodeViewerFactory nodeViewerFactory) {
-        super(scene, nodeViewerFactory);
+    public CanvasScenePeer(Scene scene, NodePeerFactory nodePeerFactory) {
+        super(scene, nodePeerFactory);
     }
 
     @Override
-    public void updateParentAndChildrenViewers(Parent parent) {
-        scene.updateChildrenViewers(parent.getChildren());
+    public void updateParentAndChildrenPeers(Parent parent) {
+        scene.updateChildrenPeers(parent.getChildren());
         requestCanvasRepaint();
     }
 
@@ -45,9 +45,9 @@ public abstract class CanvasScenePeer
 
     public void paintNode(Node node, CC canvasContext) {
         if (node.isVisible()) {
-            NB nodeView = (NB) scene.getOrCreateAndBindNodeViewer(node);
+            NB peer = (NB) scene.getOrCreateAndBindNodePeer(node);
             CC nodeCanvasContext = createCanvasContext(canvasContext);
-            paintNodeView(nodeView, nodeCanvasContext);
+            paintNodeView(peer, nodeCanvasContext);
             if (node instanceof Parent)
                 paintNodes(((Parent) node).getChildren(), nodeCanvasContext);
             disposeCanvasContext(nodeCanvasContext);
@@ -88,7 +88,7 @@ public abstract class CanvasScenePeer
                 return pickResult;
         }
         // Otherwise we ask its view if it contains the point and return this node if this is the case
-        NB nodeView = (NB) scene.getOrCreateAndBindNodeViewer(node);
+        NB nodeView = (NB) scene.getOrCreateAndBindNodePeer(node);
         return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
     }
 

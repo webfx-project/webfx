@@ -8,12 +8,12 @@ import naga.fx.properties.Properties;
 import naga.fx.scene.Node;
 import naga.fx.scene.Parent;
 import naga.fx.scene.Scene;
-import naga.fx.naga.tk.ScenePeerBase;
-import naga.fx.spi.gwt.html.viewer.HtmlNodeViewer;
-import naga.fx.spi.gwt.shared.HtmlSvgNodeViewer;
+import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
+import naga.fx.spi.peer.NodePeer;
+import naga.fx.spi.peer.base.ScenePeerBase;
+import naga.fx.spi.gwt.html.peer.HtmlNodePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.gwt.util.SvgUtil;
-import naga.fx.spi.viewer.NodeViewer;
 
 /**
  * @author Bruno Salmon
@@ -24,7 +24,7 @@ public class SvgScenePeer extends ScenePeerBase {
     private final Element defsElement = SvgUtil.createSvgDefs();
 
     public SvgScenePeer(Scene scene) {
-        super(scene, SvgNodeViewerFactory.SINGLETON);
+        super(scene, SvgNodePeerFactory.SINGLETON);
         HtmlUtil.setAttribute(container, "width", "100%");
         Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
@@ -59,19 +59,19 @@ public class SvgScenePeer extends ScenePeerBase {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, defsElement, HtmlSvgNodeViewer.toElement(scene.getRoot(), scene));
+        HtmlUtil.setChildren(container, defsElement, HtmlSvgNodePeer.toElement(scene.getRoot(), scene));
     }
 
     @Override
-    public void updateParentAndChildrenViewers(Parent parent) {
-        elemental2.Node svgParent = HtmlSvgNodeViewer.toElement(parent, scene);
-        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), node -> HtmlSvgNodeViewer.toElement(node, scene)));
+    public void updateParentAndChildrenPeers(Parent parent) {
+        elemental2.Node svgParent = HtmlSvgNodePeer.toElement(parent, scene);
+        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
     }
 
     @Override
-    public void onNodeViewerCreated(NodeViewer<Node> nodeViewer) {
-        if (nodeViewer instanceof HtmlNodeViewer) {
-            HtmlNodeViewer htmlNodeView = (HtmlNodeViewer) nodeViewer;
+    public void onNodePeerCreated(NodePeer<Node> nodePeer) {
+        if (nodePeer instanceof HtmlNodePeer) {
+            HtmlNodePeer htmlNodeView = (HtmlNodePeer) nodePeer;
             HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
             Element foreignObject = SvgUtil.createSvgElement("foreignObject");
             foreignObject.setAttribute("width", "100%");

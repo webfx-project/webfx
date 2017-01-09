@@ -2,7 +2,7 @@ package naga.fx.spi.gwt;
 
 import elemental2.CSSStyleDeclaration;
 import elemental2.HTMLElement;
-import naga.fx.naga.tk.StagePeer;
+import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.stage.Stage;

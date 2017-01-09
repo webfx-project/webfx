@@ -3,7 +3,7 @@ package naga.fx.stage;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import naga.fx.naga.tk.StagePeer;
+import naga.fx.spi.peer.StagePeer;
 import naga.fx.properties.markers.HasTitleProperty;
 import naga.fx.scene.Scene;
 import naga.fx.spi.Toolkit;

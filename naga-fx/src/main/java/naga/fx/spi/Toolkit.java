@@ -2,10 +2,10 @@ package naga.fx.spi;
 
 import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
-import naga.fx.naga.tk.StagePeer;
-import naga.fx.naga.tk.WindowPeer;
+import naga.fx.spi.peer.StagePeer;
+import naga.fx.spi.peer.WindowPeer;
 import naga.fx.scene.Scene;
-import naga.fx.naga.tk.ScenePeer;
+import naga.fx.spi.peer.ScenePeer;
 import naga.fx.stage.*;
 
 /**

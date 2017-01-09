@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt;
 
-import naga.fx.naga.tk.StagePeer;
+import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.stage.Stage;

@@ -8,8 +8,8 @@ import javafx.collections.ObservableList;
  */
 public interface SceneRequester {
 
-    void requestNodeViewerPropertyUpdate(Node node, ObservableValue changedProperty);
+    void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty);
 
-    void requestNodeViewerListUpdate(Node node, ObservableList changedList);
+    void requestNodePeerListUpdate(Node node, ObservableList changedList);
 
 }

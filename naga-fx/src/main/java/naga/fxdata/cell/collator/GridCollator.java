@@ -4,6 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import naga.fx.scene.layout.Background;
 import naga.fx.scene.layout.Border;
+import naga.fx.spi.peer.NodePeer;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
@@ -17,11 +18,9 @@ import naga.fx.scene.effect.Effect;
 import naga.fx.scene.layout.BorderPane;
 import naga.fx.scene.transform.Transform;
 import naga.fx.scene.SceneRequester;
-import naga.fx.spi.viewer.NodeViewer;
-import naga.fxdata.spi.viewer.base.DataGridViewerBase;
-import naga.fxdata.spi.viewer.base.DataGridViewerMixin;
+import naga.fxdata.spi.peer.base.DataGridPeerBase;
+import naga.fxdata.spi.peer.base.DataGridPeerMixin;
 import naga.fxdata.displaydata.SelectionMode;
-import naga.fx.event.EventHandler;
 import naga.fx.properties.ObservableLists;
 
 import java.util.Collection;
@@ -47,28 +46,28 @@ public class GridCollator extends DataGrid {
     }
 
     @Override
-    public NodeViewer getNodeViewer() {
-        NodeViewer nodeViewer = super.getNodeViewer();
-        if (nodeViewer == null) {
+    public NodePeer getNodePeer() {
+        NodePeer nodePeer = super.getNodePeer();
+        if (nodePeer == null) {
             Scene scene = getScene();
             container.setScene(scene);
-            NodeViewer containerViewer = container.getOrCreateAndBindNodeViewer();
-            setNodeViewer(nodeViewer = containerViewer);
-            gridCollatorViewer = new GridCollatorViewer();
-            gridCollatorViewer.bind(this, new SceneRequester() {
+            NodePeer containerPeer = container.getOrCreateAndBindNodePeer();
+            setNodePeer(nodePeer = containerPeer);
+            gridCollatorPeer = new GridCollatorPeer();
+            gridCollatorPeer.bind(this, new SceneRequester() {
 
                 @Override
-                public void requestNodeViewerPropertyUpdate(Node node, ObservableValue changedProperty) {
-                    gridCollatorViewer.updateProperty(changedProperty);
+                public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
+                    gridCollatorPeer.updateProperty(changedProperty);
                 }
 
                 @Override
-                public void requestNodeViewerListUpdate(Node node, ObservableList changedList) {
-                    gridCollatorViewer.updateList(changedList);
+                public void requestNodePeerListUpdate(Node node, ObservableList changedList) {
+                    gridCollatorPeer.updateList(changedList);
                 }
             });
         }
-        return nodeViewer;
+        return nodePeer;
     }
 
     @Override
@@ -76,13 +75,13 @@ public class GridCollator extends DataGrid {
         container.layout();
     }
 
-    private GridCollatorViewer gridCollatorViewer;
+    private GridCollatorPeer gridCollatorPeer;
 
-    private class GridCollatorViewer
-            <N extends DataGrid, NB extends DataGridViewerBase<GridCollator, N, NB, NM>, NM extends DataGridViewerMixin<GridCollator, N, NB, NM>>
+    private class GridCollatorPeer
+            <N extends DataGrid, NB extends DataGridPeerBase<GridCollator, N, NB, NM>, NM extends DataGridPeerMixin<GridCollator, N, NB, NM>>
 
-    extends DataGridViewerBase<GridCollator, N, NB, NM>
-        implements DataGridViewerMixin<GridCollator, N, NB, NM> {
+    extends DataGridPeerBase<GridCollator, N, NB, NM>
+        implements DataGridPeerMixin<GridCollator, N, NB, NM> {
 
         private ValueRenderer[] renderers;
         private int[] rsColumnIndexes;
@@ -150,7 +149,7 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public NB getNodeViewerBase() {
+        public NB getNodePeerBase() {
             return (NB) this;
         }
 

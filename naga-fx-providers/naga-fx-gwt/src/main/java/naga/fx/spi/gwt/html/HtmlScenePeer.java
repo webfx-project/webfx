@@ -8,11 +8,11 @@ import naga.fx.properties.Properties;
 import naga.fx.scene.Node;
 import naga.fx.scene.Parent;
 import naga.fx.scene.Scene;
-import naga.fx.naga.tk.ScenePeerBase;
-import naga.fx.spi.gwt.html.viewer.HtmlNodeViewer;
-import naga.fx.spi.gwt.shared.HtmlSvgNodeViewer;
+import naga.fx.spi.gwt.html.peer.HtmlNodePeer;
+import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
+import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.spi.viewer.NodeViewer;
+import naga.fx.spi.peer.NodePeer;
 import naga.fxdata.control.HtmlText;
 
 /**
@@ -23,7 +23,7 @@ public class HtmlScenePeer extends ScenePeerBase {
     private final HTMLElement container = HtmlUtil.createDivElement();
 
     public HtmlScenePeer(Scene scene) {
-        super(scene, HtmlNodeViewerFactory.SINGLETON);
+        super(scene, HtmlNodePeerFactory.SINGLETON);
         HtmlUtil.setStyleAttribute(container, "width", "100%");
         Properties.runNowAndOnPropertiesChange(property -> updateContainerWidth(), scene.widthProperty());
         Properties.runNowAndOnPropertiesChange(property -> updateContainerHeight(), scene.heightProperty());
@@ -62,24 +62,24 @@ public class HtmlScenePeer extends ScenePeerBase {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, HtmlSvgNodeViewer.toElement(scene.getRoot(), scene));
+        HtmlUtil.setChildren(container, HtmlSvgNodePeer.toElement(scene.getRoot(), scene));
     }
 
     @Override
-    public void updateParentAndChildrenViewers(Parent parent) {
+    public void updateParentAndChildrenPeers(Parent parent) {
         if (!(parent instanceof HtmlText)) {
-            elemental2.Node parentNode = HtmlSvgNodeViewer.toElement(parent, scene);
-            HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), node -> HtmlSvgNodeViewer.toElement(node, scene)));
+            elemental2.Node parentNode = HtmlSvgNodePeer.toElement(parent, scene);
+            HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
         }
     }
 
     @Override
-    public void onNodeViewerCreated(NodeViewer<Node> nodeViewer) {
-        if (nodeViewer instanceof HtmlNodeViewer) {
-            HtmlNodeViewer htmlNodeView = (HtmlNodeViewer) nodeViewer;
+    public void onNodePeerCreated(NodePeer<Node> nodePeer) {
+        if (nodePeer instanceof HtmlNodePeer) {
+            HtmlNodePeer htmlNodeView = (HtmlNodePeer) nodePeer;
             HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
             HtmlUtil.absolutePosition(htmlElement);
-            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN") && !(((HtmlNodeViewer) nodeViewer).getNode() instanceof HtmlText))
+            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN") && !(((HtmlNodePeer) nodePeer).getNode() instanceof HtmlText))
                 htmlElement.style.whiteSpace = "nowrap";
         }
     }

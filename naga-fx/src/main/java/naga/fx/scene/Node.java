@@ -11,6 +11,7 @@ import naga.fx.event.Event;
 import naga.fx.event.EventHandler;
 import naga.fx.event.EventTarget;
 import naga.fx.event.EventType;
+import naga.fx.spi.peer.NodePeer;
 import naga.fx.sun.geom.BaseBounds;
 import naga.fx.sun.geom.RectBounds;
 import naga.fx.sun.geom.TempState;
@@ -26,7 +27,6 @@ import naga.fx.scene.layout.LayoutFlags;
 import naga.fx.scene.transform.Transform;
 import naga.fx.scene.transform.Translate;
 import naga.fx.spi.Toolkit;
-import naga.fx.spi.viewer.NodeViewer;
 import naga.fx.sun.event.EventDispatchChain;
 import naga.fx.sun.event.EventDispatcher;
 import naga.fx.sun.event.EventHandlerProperties;
@@ -645,19 +645,19 @@ public abstract class Node implements INode, EventTarget {
         Event.fireEvent(this, event);
     }
 
-    private NodeViewer nodeViewer;
+    private NodePeer nodePeer;
 
-    public NodeViewer getNodeViewer() {
-        return nodeViewer;
+    public NodePeer getNodePeer() {
+        return nodePeer;
     }
 
-    public NodeViewer getOrCreateAndBindNodeViewer() {
-        return scene.getOrCreateAndBindNodeViewer(this);
+    public NodePeer getOrCreateAndBindNodePeer() {
+        return scene.getOrCreateAndBindNodePeer(this);
     }
 
-    public void setNodeViewer(NodeViewer nodeViewer) {
-        this.nodeViewer = nodeViewer;
-        createLayoutMeasurable(nodeViewer);
+    public void setNodePeer(NodePeer nodePeer) {
+        this.nodePeer = nodePeer;
+        createLayoutMeasurable(nodePeer);
     }
 
     private Scene scene;

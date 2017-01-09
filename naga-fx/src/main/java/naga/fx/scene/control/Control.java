@@ -7,7 +7,7 @@ import naga.fx.scene.LayoutMeasurable;
 import naga.fx.scene.Node;
 import naga.fx.scene.layout.Region;
 import naga.fx.spi.Toolkit;
-import naga.fx.spi.viewer.NodeViewer;
+import naga.fx.spi.peer.NodePeer;
 
 /**
  * @author Bruno Salmon
@@ -193,9 +193,9 @@ public abstract class Control extends Region implements Skinnable {
             return skinBase.computeMinWidth(height, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
             if (getScene() != null) {
-                NodeViewer nodeViewer = getOrCreateAndBindNodeViewer();
-                if (nodeViewer instanceof LayoutMeasurable)
-                    return ((LayoutMeasurable) nodeViewer).minWidth(height);
+                NodePeer nodePeer = getOrCreateAndBindNodePeer();
+                if (nodePeer instanceof LayoutMeasurable)
+                    return ((LayoutMeasurable) nodePeer).minWidth(height);
             }
             final Node skinNode = getSkinNode();
             return skinNode == null ? 0 : skinNode.minWidth(height);
@@ -217,9 +217,9 @@ public abstract class Control extends Region implements Skinnable {
             return skinBase.computeMinHeight(width, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
             if (getScene() != null) {
-                NodeViewer nodeViewer = getOrCreateAndBindNodeViewer();
-                if (nodeViewer instanceof LayoutMeasurable)
-                    return ((LayoutMeasurable) nodeViewer).minHeight(width);
+                NodePeer nodePeer = getOrCreateAndBindNodePeer();
+                if (nodePeer instanceof LayoutMeasurable)
+                    return ((LayoutMeasurable) nodePeer).minHeight(width);
             }
             final Node skinNode = getSkinNode();
             return skinNode == null ? 0 : skinNode.minHeight(width);
@@ -241,9 +241,9 @@ public abstract class Control extends Region implements Skinnable {
             return skinBase.computeMaxWidth(height, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
             if (getScene() != null) {
-                NodeViewer nodeViewer = getOrCreateAndBindNodeViewer();
-                if (nodeViewer instanceof LayoutMeasurable)
-                    return ((LayoutMeasurable) nodeViewer).maxWidth(height);
+                NodePeer nodePeer = getOrCreateAndBindNodePeer();
+                if (nodePeer instanceof LayoutMeasurable)
+                    return ((LayoutMeasurable) nodePeer).maxWidth(height);
             }
             final Node skinNode = getSkinNode();
             return skinNode == null ? 0 : skinNode.maxWidth(height);
@@ -265,9 +265,9 @@ public abstract class Control extends Region implements Skinnable {
             return skinBase.computeMaxHeight(width, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
             if (getScene() != null) {
-                NodeViewer nodeViewer = getOrCreateAndBindNodeViewer();
-                if (nodeViewer instanceof LayoutMeasurable)
-                    return ((LayoutMeasurable) nodeViewer).maxHeight(width);
+                NodePeer nodePeer = getOrCreateAndBindNodePeer();
+                if (nodePeer instanceof LayoutMeasurable)
+                    return ((LayoutMeasurable) nodePeer).maxHeight(width);
             }
             final Node skinNode = getSkinNode();
             return skinNode == null ? 0 : skinNode.maxHeight(width);
@@ -280,9 +280,9 @@ public abstract class Control extends Region implements Skinnable {
             return skinBase.computePrefWidth(height, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
             if (getScene() != null) {
-                NodeViewer nodeViewer = getOrCreateAndBindNodeViewer();
-                if (nodeViewer instanceof LayoutMeasurable)
-                    return ((LayoutMeasurable) nodeViewer).prefWidth(height);
+                NodePeer nodePeer = getOrCreateAndBindNodePeer();
+                if (nodePeer instanceof LayoutMeasurable)
+                    return ((LayoutMeasurable) nodePeer).prefWidth(height);
             }
             final Node skinNode = getSkinNode();
             return skinNode == null ? 0 : skinNode.prefWidth(height);
@@ -295,9 +295,9 @@ public abstract class Control extends Region implements Skinnable {
             return skinBase.computePrefHeight(width, snappedTopInset(), snappedRightInset(), snappedBottomInset(), snappedLeftInset());
         } else {
             if (getScene() != null) {
-                NodeViewer nodeViewer = getOrCreateAndBindNodeViewer();
-                if (nodeViewer instanceof LayoutMeasurable)
-                    return ((LayoutMeasurable) nodeViewer).prefHeight(width);
+                NodePeer nodePeer = getOrCreateAndBindNodePeer();
+                if (nodePeer instanceof LayoutMeasurable)
+                    return ((LayoutMeasurable) nodePeer).prefHeight(width);
             }
             final Node skinNode = getSkinNode();
             return skinNode == null ? 0 : skinNode.prefHeight(width);

@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import naga.fx.spi.javafx.fx.stage.FxStagePeer;
+import naga.fx.spi.javafx.peer.FxStagePeer;
 
 /**
  * @author Bruno Salmon

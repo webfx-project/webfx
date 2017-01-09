@@ -5,7 +5,7 @@ import javafx.collections.ObservableMap;
 import naga.fx.geometry.Bounds;
 import naga.fx.geometry.Orientation;
 import naga.fx.scene.transform.Transform;
-import naga.fx.spi.viewer.NodeViewer;
+import naga.fx.spi.peer.NodePeer;
 import naga.fx.properties.markers.*;
 
 import java.util.Collection;
@@ -94,8 +94,8 @@ public interface INode extends
 
     Scene getScene();
 
-    NodeViewer getNodeViewer();
+    NodePeer getNodePeer();
 
-    NodeViewer getOrCreateAndBindNodeViewer();
+    NodePeer getOrCreateAndBindNodePeer();
 
 }
