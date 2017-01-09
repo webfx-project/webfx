@@ -7,6 +7,7 @@ import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.i18n.I18n;
+import naga.fx.scene.control.Alert;
 import naga.fx.scene.control.Button;
 import naga.fx.scene.control.CheckBox;
 import naga.fx.scene.control.TextField;
@@ -54,8 +55,8 @@ public class BookingsActivity extends GenericTableActivity<BookingsViewModel, Ge
         super.bindViewModelWithPresentationModel(vm, pm);
         // Hard coded initialization
         I18n i18n = getI18n();
-        i18n.translateText(vm.getNewBookingButton(), "NewBooking").setOnMouseClicked(event -> getHistory().push("/event/" + pm.getEventId() + "/fees"));
-        i18n.translateText(vm.getCloneEventButton(), "CloneEvent").setOnMouseClicked(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
+        i18n.translateText(vm.getNewBookingButton(), "NewBooking").setOnAction(event -> getHistory().push("/event/" + pm.getEventId() + "/fees"));
+        i18n.translateText(vm.getCloneEventButton(), "CloneEvent").setOnAction(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
     }
 
     protected void bindPresentationModelWithLogic(GenericTableEventDependentPresentationModel pm) {

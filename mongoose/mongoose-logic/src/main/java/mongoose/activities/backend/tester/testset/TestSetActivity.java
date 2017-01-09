@@ -33,7 +33,7 @@ public class TestSetActivity extends PresentationActivity<TestSetViewModel, Test
         // Test description
         pm.testNameProperty().bind(vm.getTestName().textProperty());
         pm.testCommentProperty().bind(vm.getTestComment().textProperty());
-        vm.getSaveTest().setOnMouseClicked(e -> {
+        vm.getSaveTest().setOnAction(e -> {
             Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue());
             getHistory().goBack();
         });

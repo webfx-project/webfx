@@ -42,12 +42,12 @@ public class BackendContainerActivity extends ContainerActivity<BackendContainer
     protected void bindViewModelWithPresentationModel(BackendContainerViewModel vm, BackendContainerPresentationModel pm) {
         super.bindViewModelWithPresentationModel(vm, pm);
         I18n i18n = getI18n();
-        i18n.translateText(vm.getBookingsButton(), "Bookings").setOnMouseClicked(event -> getHistory().push("/event/" + getParameter("eventId") + "/bookings"));
-        i18n.translateText(vm.getLettersButton(),  "Letters") .setOnMouseClicked(event -> getHistory().push("/event/" + getParameter("eventId") + "/letters"));
-        i18n.translateText(vm.getMonitorButton(),  "Monitor") .setOnMouseClicked(event -> getHistory().push("/monitor"));
-        i18n.translateText(vm.getTesterButton(),   "Tester")  .setOnMouseClicked(event -> getHistory().push("/tester"));
-        i18n.translateText(vm.getLightTheme(),  "Light") .setOnMouseClicked(e -> new LightTheme().apply());
-        i18n.translateText(vm.getDarkTheme(),   "Dark")  .setOnMouseClicked(e -> new DarkTheme().apply());
+        i18n.translateText(vm.getBookingsButton(), "Bookings").setOnAction(event -> getHistory().push("/event/" + getParameter("eventId") + "/bookings"));
+        i18n.translateText(vm.getLettersButton(),  "Letters") .setOnAction(event -> getHistory().push("/event/" + getParameter("eventId") + "/letters"));
+        i18n.translateText(vm.getMonitorButton(),  "Monitor") .setOnAction(event -> getHistory().push("/monitor"));
+        i18n.translateText(vm.getTesterButton(),   "Tester")  .setOnAction(event -> getHistory().push("/tester"));
+        i18n.translateText(vm.getLightTheme(),  "Light") .setOnAction(e -> new LightTheme().apply());
+        i18n.translateText(vm.getDarkTheme(),   "Dark")  .setOnAction(e -> new DarkTheme().apply());
     }
 
     @Override

@@ -11,23 +11,23 @@ import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonObject;
-import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.spi.Platform;
+import naga.fx.event.ActionEvent;
 import naga.fx.geometry.Insets;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
-import naga.fxdata.control.DataGrid;
 import naga.fx.geometry.Pos;
+import naga.fx.properties.Properties;
 import naga.fx.scene.Node;
 import naga.fx.scene.control.RadioButton;
 import naga.fx.scene.layout.FlowPane;
 import naga.fx.scene.text.Text;
 import naga.fx.spi.Toolkit;
-import naga.fx.scene.input.MouseEvent;
-import naga.fx.properties.Properties;
+import naga.fxdata.control.DataGrid;
+import naga.fxdata.displaydata.DisplayColumn;
+import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.platform.json.Json;
+import naga.platform.json.spi.JsonObject;
+import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -44,17 +44,17 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         super.bindViewModelWithPresentationModel(vm, pm);
         I18n i18n = getI18n();
         i18n.translateText(setGraphic(vm.getProgramButton(), "{url: 'images/calendar.svg', width: 16, height: 16}"), "Program")
-                .setOnMouseClicked(this::onProgramButtonPressed);
+                .setOnAction(this::onProgramButtonPressed);
         i18n.translateText(setGraphic(vm.getTermsButton(), "{url: 'images/certificate.svg', width: 16, height: 16}"), "TermsAndConditions")
-                .setOnMouseClicked(this::onTermsButtonPressed);
+                .setOnAction(this::onTermsButtonPressed);
         vm.getDateInfoCollator().displayResultSetProperty().bind(pm.dateInfoDisplayResultSetProperty());
     }
 
-    private void onProgramButtonPressed(MouseEvent e) {
+    private void onProgramButtonPressed(ActionEvent e) {
         goToNextBookingProcessPage("program");
     }
 
-    private void onTermsButtonPressed(MouseEvent e) {
+    private void onTermsButtonPressed(ActionEvent e) {
         goToNextBookingProcessPage("terms");
     }
 

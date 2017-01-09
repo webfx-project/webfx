@@ -37,7 +37,7 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
     }
 
     protected void bindViewModelWithPresentationModel(TesterViewModel vm, TesterPresentationModel pm) {
-        vm.getSaveTest().setOnMouseClicked(e -> {
+        vm.getSaveTest().setOnAction(e -> {
             getHistory().push("/testSet");
 //            Drive.getInstance().recordTestSet(getDataSourceModel(), pm.testNameProperty().getValue(), pm.testCommentProperty().getValue());
             connectionChartGenerator.reset();

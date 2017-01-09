@@ -95,7 +95,7 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         i18n.translateText(vm.getDateLabel(), "Date");
         vm.getNameTextField().textProperty().bindBidirectional(pm.nameProperty());
         vm.getDateTextField().textProperty().bindBidirectional(pm.dateProperty());
-        i18n.translateText(vm.getSubmitButton(), "Submit").setOnMouseClicked(event -> {
+        i18n.translateText(vm.getSubmitButton(), "Submit").setOnAction(event -> {
             String date = pm.getDate();
             int p;
             int dayOfMonth = Integer.parseInt(date.substring(0, p = date.indexOf('/')));

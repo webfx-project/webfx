@@ -97,7 +97,7 @@ public class FeesGroup {
                             if (soldout)
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
                             Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book");
-                            button.setOnMouseClicked(e -> bookHandler.handle(optionsPreselection));
+                            button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
                             HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);

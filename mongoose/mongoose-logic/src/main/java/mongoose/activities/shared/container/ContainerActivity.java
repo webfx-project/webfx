@@ -44,14 +44,14 @@ public class ContainerActivity<VM extends ContainerViewModel, PM extends Contain
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         I18n i18n = getI18n();
-        i18n.translateText(vm.getBackButton(), "<").setOnMouseClicked(event -> getHistory().goBack());
-        i18n.translateText(vm.getForwardButton(), ">").setOnMouseClicked(event -> getHistory().goForward());
-        i18n.translateText(vm.getOrganizationsButton(), "Organizations").setOnMouseClicked(event ->  getHistory().push("/organizations"));
-        i18n.translateText(vm.getEventsButton(), "Events").setOnMouseClicked(event ->  getHistory().push("/events"));
+        i18n.translateText(vm.getBackButton(), "<").setOnAction(event -> getHistory().goBack());
+        i18n.translateText(vm.getForwardButton(), ">").setOnAction(event -> getHistory().goForward());
+        i18n.translateText(vm.getOrganizationsButton(), "Organizations").setOnAction(event ->  getHistory().push("/organizations"));
+        i18n.translateText(vm.getEventsButton(), "Events").setOnAction(event ->  getHistory().push("/events"));
         vm.getEnglishButton().setText("English");
-        vm.getEnglishButton().setOnMouseClicked(event -> i18n.setLanguage("en"));
+        vm.getEnglishButton().setOnAction(event -> i18n.setLanguage("en"));
         vm.getFrenchButton().setText("Français");
-        vm.getFrenchButton().setOnMouseClicked(event -> i18n.setLanguage("fr"));
+        vm.getFrenchButton().setOnAction(event -> i18n.setLanguage("fr"));
     }
 
     @Override
