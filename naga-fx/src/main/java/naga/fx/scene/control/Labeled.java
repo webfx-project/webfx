@@ -109,6 +109,38 @@ public abstract class Labeled extends Control implements
         return textFillProperty;
     }
 
+
+    /**
+     * If a run of text exceeds the width of the Labeled, then this variable
+     * indicates whether the text should wrap onto another line.
+     */
+    public final Property<Boolean> wrapTextProperty() {
+        if (wrapText == null) {
+            wrapText = new SimpleObjectProperty<>(false)/* {
+
+                @Override
+                public CssMetaData<Labeled,Boolean> getCssMetaData() {
+                    return StyleableProperties.WRAP_TEXT;
+                }
+
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "wrapText";
+                }
+            }*/;
+        }
+        return wrapText;
+    }
+    private Property<Boolean> wrapText;
+    public final void setWrapText(boolean value) { wrapTextProperty().setValue(value); }
+    public final boolean isWrapText() { return wrapText == null ? false : wrapText.getValue(); }
+
+
     {
         // Requesting a new layout pass on text and image properties change
         Properties.runOnPropertiesChange(property -> {
