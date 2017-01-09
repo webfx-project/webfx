@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
+import naga.fx.naga.tk.ScenePeer;
 import naga.fx.scene.*;
 import naga.fx.scene.transform.*;
 import naga.fx.spi.viewer.NodeViewer;
@@ -43,7 +44,7 @@ public abstract class NodeViewerBase
                 , node.effectProperty()
                 , node.layoutXProperty()
                 , node.layoutYProperty()
-                , node.onMouseClickedProperty()
+//                , node.onMouseClickedProperty()
                 , node.mouseTransparentProperty()
         );
     }
@@ -116,9 +117,9 @@ public abstract class NodeViewerBase
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(node.getTransforms());
-                Scene scene = node.getScene();
-                if (scene instanceof CanvasScene)
-                    ((CanvasScene) scene).requestCanvasRepaint();
+                ScenePeer scenePeer = node.getScene().impl_getPeer();
+                if (scenePeer instanceof CanvasScenePeer)
+                    ((CanvasScenePeer) scenePeer).requestCanvasRepaint();
             }, properties);
     }
 

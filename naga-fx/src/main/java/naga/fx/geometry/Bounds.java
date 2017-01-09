@@ -1,6 +1,6 @@
 package naga.fx.geometry;
 
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 
 /**
  * The base class for objects that are used to describe the bounds of a node or

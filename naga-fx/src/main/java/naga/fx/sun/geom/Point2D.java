@@ -1,4 +1,4 @@
-package naga.fx.geom;
+package naga.fx.sun.geom;
 
 /**
  * A 2D geometric point that usually represents the x, y coordinates.

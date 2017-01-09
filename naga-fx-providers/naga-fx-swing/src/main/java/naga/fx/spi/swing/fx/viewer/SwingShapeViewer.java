@@ -4,7 +4,7 @@ import naga.fx.geometry.BoundingBox;
 import naga.fx.geometry.Bounds;
 import naga.fx.scene.LayoutMeasurable;
 import naga.fx.scene.paint.Paint;
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 import naga.fx.scene.shape.Shape;
 import naga.fx.scene.shape.StrokeLineCap;
 import naga.fx.scene.shape.StrokeLineJoin;

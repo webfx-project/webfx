@@ -1,6 +1,6 @@
 package naga.fx.spi.swing.fx.viewer;
 
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 import naga.fx.scene.Group;
 import naga.fx.spi.viewer.base.GroupViewerBase;
 import naga.fx.spi.viewer.base.GroupViewerMixin;

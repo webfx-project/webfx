@@ -1,7 +1,7 @@
 package naga.fx.scene.transform;
 
 import javafx.beans.property.Property;
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 import naga.fx.properties.Properties;
 
 /**

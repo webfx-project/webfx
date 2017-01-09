@@ -14,11 +14,6 @@ import naga.fx.spi.viewer.NodeViewer;
  */
 public abstract class Control extends Region implements Skinnable {
 
-    {
-        // Simulating skin mechanism (normally done during css pass - not yet implemented)
-        Toolkit.get().scheduler().scheduleDeferred(() -> setSkin(createDefaultSkin()));
-    }
-
     /**
      * A private reference directly to the SkinBase instance that is used as the
      * Skin for this Control. A Control's Skin doesn't have to be of type
@@ -373,4 +368,8 @@ public abstract class Control extends Region implements Skinnable {
         return skin == null ? null : skin.getNode();
     }
 
+    {
+        // Simulating skin mechanism (normally done during css pass - not yet implemented)
+        Toolkit.get().scheduler().scheduleDeferred(() -> setSkin(createDefaultSkin()));
+    }
 }

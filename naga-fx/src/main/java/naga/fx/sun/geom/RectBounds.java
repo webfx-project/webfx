@@ -1,4 +1,4 @@
-package naga.fx.geom;
+package naga.fx.sun.geom;
 
 /**
  * A simple object which carries bounds information as doubles, and

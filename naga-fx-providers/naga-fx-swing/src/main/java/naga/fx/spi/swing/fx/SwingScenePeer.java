@@ -1,7 +1,7 @@
 package naga.fx.spi.swing.fx;
 
 import javafx.beans.property.Property;
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 import naga.fx.scene.CanvasScenePeer;
 import naga.fx.scene.Node;
 import naga.fx.scene.PickResult;

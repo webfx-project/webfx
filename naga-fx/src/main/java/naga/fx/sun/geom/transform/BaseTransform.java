@@ -23,9 +23,9 @@
  *
  */
 
-package naga.fx.geom.transform;
+package naga.fx.sun.geom.transform;
 
-import naga.fx.geom.BaseBounds;
+import naga.fx.sun.geom.BaseBounds;
 
 /**
  *

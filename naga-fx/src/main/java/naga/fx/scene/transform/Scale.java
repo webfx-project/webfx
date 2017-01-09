@@ -2,7 +2,7 @@ package naga.fx.scene.transform;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 import naga.fx.properties.markers.HasXProperty;
 import naga.fx.properties.markers.HasYProperty;
 

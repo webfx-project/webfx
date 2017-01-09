@@ -1,4 +1,4 @@
-package naga.fx.geom;
+package naga.fx.sun.geom;
 
 /**
  * A 2-dimensional, double-precision, floating-point vector.

@@ -2,8 +2,8 @@ package naga.fx.scene.shape;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.geom.BaseBounds;
-import naga.fx.geom.transform.BaseTransform;
+import naga.fx.sun.geom.BaseBounds;
+import naga.fx.sun.geom.transform.BaseTransform;
 import naga.fx.scene.paint.Paint;
 import naga.fx.properties.markers.HasCenterXProperty;
 import naga.fx.properties.markers.HasCenterYProperty;

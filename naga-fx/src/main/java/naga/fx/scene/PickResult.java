@@ -1,6 +1,6 @@
 package naga.fx.scene;
 
-import naga.fx.geom.Point2D;
+import naga.fx.sun.geom.Point2D;
 import naga.fx.spi.viewer.NodeViewer;
 
 /**
