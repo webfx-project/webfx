@@ -3,12 +3,13 @@ package naga.fx.spi.gwt.html;
 import naga.fx.scene.Group;
 import naga.fx.scene.control.*;
 import naga.fx.scene.image.ImageView;
-import naga.fx.scene.layout.*;
+import naga.fx.scene.layout.Region;
 import naga.fx.scene.shape.Circle;
 import naga.fx.scene.shape.Line;
 import naga.fx.scene.shape.Rectangle;
 import naga.fx.scene.text.Text;
 import naga.fx.spi.gwt.html.viewer.*;
+import naga.fx.spi.viewer.NodeViewer;
 import naga.fx.spi.viewer.base.NodeViewerFactoryImpl;
 import naga.fxdata.chart.*;
 import naga.fxdata.control.DataGrid;
@@ -28,12 +29,6 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(Text.class, HtmlTextViewer::new);
         registerNodeViewerFactory(Label.class, HtmlLabelViewer::new);
         registerNodeViewerFactory(Group.class, HtmlGroupViewer::new);
-        registerNodeViewerFactory(Region.class, HtmlLayoutViewer::new);
-        registerNodeViewerFactory(VBox.class, HtmlLayoutViewer::new);
-        registerNodeViewerFactory(HBox.class, HtmlLayoutViewer::new);
-        registerNodeViewerFactory(BorderPane.class, HtmlLayoutViewer::new);
-        registerNodeViewerFactory(FlowPane.class, HtmlLayoutViewer::new);
-        registerNodeViewerFactory(GridPane.class, HtmlLayoutViewer::new);
         registerNodeViewerFactory(Button.class, HtmlButtonViewer::new);
         registerNodeViewerFactory(CheckBox.class, HtmlCheckBoxViewer::new);
         registerNodeViewerFactory(RadioButton.class, HtmlRadioButtonViewer::new);
@@ -47,5 +42,10 @@ class HtmlNodeViewerFactory extends NodeViewerFactoryImpl {
         registerNodeViewerFactory(BarChart.class, HtmlBarChartViewer::new);
         registerNodeViewerFactory(PieChart.class, HtmlPieChartViewer::new);
         registerNodeViewerFactory(ScatterChart.class, HtmlScatterChartViewer::new);
+    }
+
+    @Override
+    protected NodeViewer<Region> createDefaultRegionViewer(Region node) {
+        return new HtmlLayoutViewer<>();
     }
 }

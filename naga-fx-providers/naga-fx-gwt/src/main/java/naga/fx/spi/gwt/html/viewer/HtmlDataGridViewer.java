@@ -37,7 +37,7 @@ public class HtmlDataGridViewer
 
     public HtmlDataGridViewer(NB base, HTMLElement element) {
         super(base, element);
-        table.appendChild(tBody);
+        table.appendChild(tHead);
         table.appendChild(tBody);
         setChild(getElement(), table);
         setElementStyleAttribute("overflow-y", "auto");

@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.svg.view;
 
 import elemental2.Element;
 import naga.fx.spi.gwt.shared.HtmlSvgNodeViewer;
-import naga.fx.spi.gwt.svg.SvgScene;
+import naga.fx.spi.gwt.svg.SvgScenePeer;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.gwt.util.SvgUtil;
@@ -49,8 +49,8 @@ public abstract class SvgNodeViewer
         return value;
     }
 
-    private SvgScene getSvgScene() {
-        return ((SvgScene) getNode().getScene());
+    private SvgScenePeer getSvgScene() {
+        return (SvgScenePeer) getNode().getScene().impl_getPeer();
     }
 
     @Override

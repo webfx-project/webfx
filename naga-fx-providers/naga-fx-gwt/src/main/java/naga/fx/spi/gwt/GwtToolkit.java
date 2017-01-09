@@ -1,12 +1,15 @@
 package naga.fx.spi.gwt;
 
 import naga.commons.scheduler.UiScheduler;
-import naga.platform.spi.Platform;
-import naga.fx.spi.gwt.html.HtmlScene;
-import naga.fx.geometry.BoundingBox;
-import naga.fx.geometry.Bounds;
+import naga.fx.geometry.Rectangle2D;
+import naga.fx.naga.tk.StagePeer;
+import naga.fx.naga.tk.WindowPeer;
+import naga.fx.scene.Scene;
+import naga.fx.naga.tk.ScenePeer;
 import naga.fx.spi.Toolkit;
-import naga.fx.stage.Screen;
+import naga.fx.spi.gwt.html.HtmlScenePeer;
+import naga.fx.stage.*;
+import naga.platform.spi.Platform;
 
 import static elemental2.Global.window;
 
@@ -16,25 +19,33 @@ import static elemental2.Global.window;
 public class GwtToolkit extends Toolkit {
 
     public GwtToolkit() {
-        super(/* TODO: remove this dependency to Platform */(UiScheduler) Platform.get().scheduler(), GwtWindow::new, HtmlScene::new);
+        super(/* TODO: remove this dependency to Platform */(UiScheduler) Platform.get().scheduler());
+    }
+
+    @Override
+    public StagePeer createStagePeer(Stage stage) {
+        if (stage == getPrimaryStage())
+            return new GwtPrimaryStagePeer(stage);
+        return new GwtSecondaryStagePeer(stage);
+    }
+
+    @Override
+    public WindowPeer createWindowPeer(Window window) {
+        return null;
+    }
+
+    @Override
+    public ScenePeer createScenePeer(Scene scene) {
+        return new HtmlScenePeer(scene);
     }
 
     @Override
     public Screen getPrimaryScreen() {
-        return new Screen() {
-            @Override
-            public Bounds getBounds() {
-                return toBounds(window.screen.width, window.screen.height);
-            }
+        elemental2.Screen screen = window.screen;
+        return Screen.from(toRectangle2D(screen.width, screen.height), toRectangle2D(screen.availWidth, screen.availHeight));
+    }
 
-            @Override
-            public Bounds getVisualBounds() {
-                return toBounds(window.screen.availWidth, window.screen.availHeight);
-            }
-
-            Bounds toBounds(double width, double height) {
-                return new BoundingBox(0, 0, width, height);
-            }
-        };
+    private static Rectangle2D toRectangle2D(double width, double height) {
+        return new Rectangle2D(0, 0, width, height);
     }
 }

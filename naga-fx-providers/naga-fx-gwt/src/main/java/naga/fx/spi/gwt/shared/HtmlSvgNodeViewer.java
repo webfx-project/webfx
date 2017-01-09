@@ -3,6 +3,7 @@ package naga.fx.spi.gwt.shared;
 import elemental2.Element;
 import elemental2.Event;
 import naga.commons.util.Strings;
+import naga.fx.scene.SceneRequester;
 import naga.fx.spi.gwt.html.viewer.HtmlNodeViewer;
 import naga.fx.spi.gwt.svg.view.SvgNodeViewer;
 import naga.fx.spi.gwt.util.DomType;
@@ -41,6 +42,11 @@ public abstract class HtmlSvgNodeViewer
         super(base);
         this.element = element;
         setContainer(element);
+    }
+
+    @Override
+    public void bind(N node, SceneRequester sceneRequester) {
+        super.bind(node, sceneRequester);
     }
 
     public E getElement() {
@@ -106,14 +112,16 @@ public abstract class HtmlSvgNodeViewer
 
     @Override
     public void updateOnMouseClicked(EventHandler<? super MouseEvent> onMouseClicked) {
+/*
         element.onclick = onMouseClicked == null ? null : e -> {
             onMouseClicked.handle(toMouseEvent(e));
             return null;
         };
+*/
     }
 
     private static MouseEvent toMouseEvent(Event e) {
-        return new MouseEvent();
+        return new MouseEvent(null, 0, 0, 0, 0, null, 0, false, false, false, false, false, false, false, false, false, false, null);
     }
 
     protected void setElementTextContent(String textContent) {

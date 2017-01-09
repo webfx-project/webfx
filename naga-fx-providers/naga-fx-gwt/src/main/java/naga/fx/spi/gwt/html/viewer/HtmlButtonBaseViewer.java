@@ -3,9 +3,11 @@ package naga.fx.spi.gwt.html.viewer;
 import elemental2.Element;
 import elemental2.HTMLElement;
 import naga.commons.util.Strings;
-import naga.fx.spi.gwt.util.HtmlUtil;
+import naga.fx.event.ActionEvent;
 import naga.fx.scene.Node;
+import naga.fx.scene.SceneRequester;
 import naga.fx.scene.control.ButtonBase;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.viewer.base.ButtonBaseViewerBase;
 import naga.fx.spi.viewer.base.ButtonBaseViewerMixin;
 
@@ -20,6 +22,16 @@ abstract class HtmlButtonBaseViewer
 
     HtmlButtonBaseViewer(NB base, HTMLElement element) {
         super(base, element);
+        element.onclick = e -> {
+            N node = getNode();
+            node.fireEvent(new ActionEvent(node, node));
+            return null;
+        };
+    }
+
+    @Override
+    public void bind(N node, SceneRequester sceneRequester) {
+        super.bind(node, sceneRequester);
     }
 
     @Override

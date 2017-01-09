@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.html.viewer;
 
-import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.scene.control.Label;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.viewer.base.LabelViewerBase;
 import naga.fx.spi.viewer.base.LabelViewerMixin;
 
