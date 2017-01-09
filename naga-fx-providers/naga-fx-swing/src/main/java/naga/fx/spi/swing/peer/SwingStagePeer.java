@@ -26,23 +26,49 @@ public class SwingStagePeer implements StagePeer {
     private SwingStagePeer(Stage stage, JFrame frame) {
         this.stage = stage;
         this.frame = frame;
+    }
+
+    @Override
+    public void setTKStageListener(TKStageListener listener) {
         frame.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                listener.changedLocation(frame.getX(), frame.getY());
+            }
+
             @Override
             public void componentResized(ComponentEvent e) {
-                stage.setWidth((double) frame.getContentPane().getWidth());
-                stage.setHeight((double) frame.getContentPane().getHeight());
+                listener.changedSize((float) frame.getWidth(), (float) frame.getHeight());
+                ((SwingScenePeer) stage.getScene().impl_getPeer()).changedWindowSize(frame.getWidth() - (float) stagePaddingWidth(), frame.getHeight() - (float) stagePaddingHeight());
             }
         });
     }
 
     @Override
-    public void setTKStageListener(TKStageListener listener) {
+    public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
+        //System.out.println("x = " + x +", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        if (xSet || ySet)
+            frame.setLocation(xSet ? (int) x : frame.getX(), ySet ? (int) y : frame.getY());
+        if (w < 0 && cw > 0)
+            w = cw + (float) stagePaddingWidth();
+        if (h < 0 && ch > 0)
+            h = ch + (float) stagePaddingHeight();
+        if (w > 0 || h > 0)
+            frame.setSize(w > 0 ? (int) w : frame.getWidth(), h > 0 ? (int) h : frame.getHeight());
+    }
 
+    protected double stagePaddingWidth() {
+        return frame.getWidth() - frame.getContentPane().getWidth();
+    }
+
+    protected double stagePaddingHeight() {
+        return frame.getHeight() - frame.getContentPane().getHeight();
     }
 
     @Override
     public void setTitle(String title) {
-
+        frame.setTitle(title);
     }
 
     @Override

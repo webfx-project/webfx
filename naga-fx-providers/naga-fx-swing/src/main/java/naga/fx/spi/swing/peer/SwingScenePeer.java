@@ -46,6 +46,11 @@ public class SwingScenePeer extends CanvasScenePeer<SwingNodePeer<?, ?, ?>, Grap
         }
     }
 
+    void changedWindowSize(float width, float height) {
+        if (listener != null)
+            listener.changedSize(width, height);
+    }
+
     private int lastWidth;
     private int lastHeight;
 
@@ -53,29 +58,17 @@ public class SwingScenePeer extends CanvasScenePeer<SwingNodePeer<?, ?, ?>, Grap
         // Binding the width property to the actual component width
         boolean sizeChanged = false;
         Property<Double> widthProperty = scene.widthProperty();
-        if (true || widthProperty.isBound()) {
-            int width = widthProperty.getValue().intValue();
-            if (width != lastWidth) {
-                canvasPanel.setSize(lastWidth = width, lastHeight);
-                sizeChanged = true;
-            }
-        } else {
-            int width = canvasPanel.getWidth();
-            if (width != lastWidth)
-                widthProperty.setValue((double) (lastWidth = width));
+        int width = widthProperty.getValue().intValue();
+        if (width != lastWidth) {
+            canvasPanel.setSize(lastWidth = width, lastHeight);
+            sizeChanged = true;
         }
         // Binding the component height to the height property
         Property<Double> heightProperty = scene.heightProperty();
-        if (true || heightProperty.isBound()) {
-            int height = heightProperty.getValue().intValue();
-            if (height != lastHeight) {
-                canvasPanel.setSize(lastWidth, lastHeight = height);
-                sizeChanged = true;
-            }
-        } else {
-            int height = canvasPanel.getHeight();
-            if (height != lastHeight)
-                heightProperty.setValue((double) (lastHeight = height));
+        int height = heightProperty.getValue().intValue();
+        if (height != lastHeight) {
+            canvasPanel.setSize(lastWidth, lastHeight = height);
+            sizeChanged = true;
         }
         if (sizeChanged) {
             Dimension size = canvasPanel.getSize();

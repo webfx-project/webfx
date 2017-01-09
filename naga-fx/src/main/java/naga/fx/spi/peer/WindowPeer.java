@@ -42,10 +42,8 @@ public interface WindowPeer extends TKStage {
      * @param xGravity the xGravity coefficient
      * @param yGravity the yGravity coefficient
      */
-    default void setBounds(float x, float y, boolean xSet, boolean ySet,
+    void setBounds(float x, float y, boolean xSet, boolean ySet,
                            float w, float h, float cw, float ch,
-                           float xGravity, float yGravity) {
-        System.out.println("x = " + x +", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
-    }
+                           float xGravity, float yGravity);
 
 }
