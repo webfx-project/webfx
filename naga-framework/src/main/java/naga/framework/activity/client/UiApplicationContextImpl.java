@@ -4,19 +4,19 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
+import naga.fx.geometry.Rectangle2D;
+import naga.fx.scene.Node;
+import naga.fx.scene.Parent;
+import naga.fx.scene.Scene;
+import naga.fx.spi.Toolkit;
+import naga.fx.stage.Screen;
+import naga.fx.stage.Stage;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.client.ApplicationContextImpl;
 import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.spi.Platform;
-import naga.fx.geometry.Bounds;
-import naga.fx.scene.Node;
-import naga.fx.scene.Parent;
-import naga.fx.scene.Scene;
-import naga.fx.stage.Screen;
-import naga.fx.stage.Window;
-import naga.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -26,18 +26,20 @@ public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> ext
     UiApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);
         nodeProperty().addListener((observable, oldValue, node) -> {
-            Window window = Toolkit.get().getPrimaryWindow();
-            Scene scene = window.getScene();
-            if (scene == null) {
-                Scene finalScene;
-                window.setScene(scene = finalScene = Toolkit.get().createScene());
+            Parent root = (Parent) node;
+            Stage primaryStage = Toolkit.get().getPrimaryStage();
+            Scene scene = primaryStage.getScene();
+            if (scene != null)
+                scene.setRoot(root);
+            else {
                 Toolkit.get().onReady(() -> {
-                    Bounds screenVisualBounds = Screen.getPrimary().getVisualBounds();
-                    finalScene.setWidth(screenVisualBounds.getWidth() * 0.8);
-                    finalScene.setHeight(screenVisualBounds.getHeight() * 0.9);
+                    Rectangle2D screenVisualBounds = Screen.getPrimary().getVisualBounds();
+                    double width = screenVisualBounds.getWidth() * 0.8;
+                    double height = screenVisualBounds.getHeight() * 0.9;
+                    primaryStage.setScene(new Scene(root, width, height));
+                    primaryStage.show();
                 });
             }
-            scene.setRoot((Parent) node);
             windowBoundProperty.setValue(true);
         });
     }

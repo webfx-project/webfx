@@ -30,7 +30,7 @@ public class MongooseFrontendJavaFxApplication {
     private static ImageView spinner;
 
     private static void setLoadingSpinnerVisible(boolean visible) {
-        Scene scene = Toolkit.get().getPrimaryWindow().getScene();
+        Scene scene = Toolkit.get().getPrimaryStage().getScene();
         Node root = scene == null ? null : scene.getRoot();
         if (root != null) {
             javafx.scene.Node fxNode = ((FxNodeViewer) root.getOrCreateAndBindNodeViewer()).getFxNode();
