@@ -2,11 +2,15 @@ package naga.fx.scene;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import naga.fx.event.Event;
 import naga.fx.event.EventHandler;
+import naga.fx.event.EventTarget;
+import naga.fx.event.EventType;
 import naga.fx.geom.BaseBounds;
 import naga.fx.geom.RectBounds;
 import naga.fx.geom.TempState;
@@ -14,15 +18,19 @@ import naga.fx.geom.transform.BaseTransform;
 import naga.fx.geometry.BoundingBox;
 import naga.fx.geometry.Bounds;
 import naga.fx.geometry.Orientation;
+import naga.fx.properties.markers.*;
 import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.effect.Effect;
 import naga.fx.scene.input.MouseEvent;
 import naga.fx.scene.layout.LayoutFlags;
 import naga.fx.scene.transform.Transform;
 import naga.fx.scene.transform.Translate;
-import naga.fx.spi.viewer.NodeViewer;
-import naga.fx.properties.markers.*;
 import naga.fx.spi.Toolkit;
+import naga.fx.spi.viewer.NodeViewer;
+import naga.fx.sun.event.EventDispatchChain;
+import naga.fx.sun.event.EventDispatcher;
+import naga.fx.sun.event.EventHandlerProperties;
+import naga.fx.sun.scene.NodeEventDispatcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +43,7 @@ import static naga.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
 /**
  * @author Bruno Salmon
  */
-public abstract class Node implements INode {
+public abstract class Node implements INode, EventTarget {
 
     private final Property<Parent> parentProperty = new SimpleObjectProperty<>();
     @Override
@@ -70,10 +78,13 @@ public abstract class Node implements INode {
      */
     void notifyManagedChanged() { }
 
-    private final ObjectProperty<EventHandler<? super MouseEvent>> onMouseClickedProperty = new SimpleObjectProperty<>();
-    @Override
-    public ObjectProperty<EventHandler<? super MouseEvent>> onMouseClickedProperty() {
-        return onMouseClickedProperty;
+    /**
+     * Defines a function to be called when a mouse button has been clicked
+     * (pressed and released) on this {@code Node}.
+     */
+    public final ObjectProperty<EventHandler<? super MouseEvent>>
+    onMouseClickedProperty() {
+        return getEventHandlerProperties().onMouseClickedProperty();
     }
 
     private final Property<Boolean> visibleProperty = new SimpleObjectProperty<>(true);
@@ -121,6 +132,180 @@ public abstract class Node implements INode {
     @Override
     public Property<Double> layoutYProperty() {
         return layoutYProperty;
+    }
+
+    /**
+     * Indicates whether or not this {@code Node} is disabled.  A {@code Node}
+     * will become disabled if {@link #disableProperty disable} is set to {@code true} on either
+     * itself or one of its ancestors in the scene graph.
+     * <p>
+     * A disabled {@code Node} should render itself differently to indicate its
+     * disabled state to the user.
+     * Such disabled rendering is dependent on the implementation of the
+     * {@code Node}. The shape classes contained in {@code javafx.scene.shape}
+     * do not implement such rendering by default, therefore applications using
+     * shapes for handling input must implement appropriate disabled rendering
+     * themselves. The user-interface controls defined in
+     * {@code javafx.scene.control} will implement disabled-sensitive rendering,
+     * however.
+     * <p>
+     * A disabled {@code Node} does not receive mouse or key events.
+     *
+     * @defaultValue false
+     */
+    private Property<Boolean> disabled;
+
+    protected final void setDisabled(boolean value) {
+        disabledPropertyImpl().setValue(value);
+    }
+
+    public final boolean isDisabled() {
+        return disabled == null ? false : disabled.getValue();
+    }
+
+    public final Property<Boolean> disabledProperty() {
+        return disabledPropertyImpl()/*.getReadOnlyProperty()*/;
+    }
+
+    private Property<Boolean> disabledPropertyImpl() {
+        if (disabled == null) {
+            disabled = new SimpleObjectProperty<>(false)/* {
+
+                @Override
+                protected void invalidated() {
+                    pseudoClassStateChanged(DISABLED_PSEUDOCLASS_STATE, get());
+                    updateCanReceiveFocus();
+                    focusSetDirty(getScene());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Node.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "disabled";
+                }
+            }*/;
+        }
+        return disabled;
+    }
+
+    private void updateDisabled() {
+        boolean isDisabled = false; //isDisable();
+        if (!isDisabled) {
+            isDisabled = getParent() != null ? getParent().isDisabled() :
+                    false ; //getSubScene() != null && getSubScene().isDisabled();
+        }
+        setDisabled(isDisabled);
+/*
+        if (this instanceof SubScene) {
+            ((SubScene)this).getRoot().setDisabled(isDisabled);
+        }
+*/
+    }
+
+    /**
+     * Whether or not this {@code Node} is being hovered over. Typically this is
+     * due to the mouse being over the node, though it could be due to a pen
+     * hovering on a graphics tablet or other form of input.
+     *
+     * <p>Note that current implementation of hover relies on mouse enter and
+     * exit events to determine whether this Node is in the hover state; this
+     * means that this feature is currently supported only on systems that
+     * have a mouse. Future implementations may provide alternative means of
+     * supporting hover.
+     *
+     * @defaultValue false
+     */
+    private Property<Boolean> hover;
+
+    protected final void setHover(boolean value) {
+        hoverPropertyImpl().setValue(value);
+    }
+
+    public final boolean isHover() {
+        return hover == null ? false : hover.getValue();
+    }
+
+    public final ReadOnlyProperty<Boolean> hoverProperty() {
+        return hoverPropertyImpl()/*.getReadOnlyProperty()*/;
+    }
+
+    private Property<Boolean> hoverPropertyImpl() {
+        if (hover == null) {
+            hover = new SimpleObjectProperty<>(false)/* {
+
+                @Override
+                protected void invalidated() {
+                    PlatformLogger logger = Logging.getInputLogger();
+                    if (logger.isLoggable(Level.FINER)) {
+                        logger.finer(this + " hover=" + get());
+                    }
+                    pseudoClassStateChanged(HOVER_PSEUDOCLASS_STATE, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Node.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "hover";
+                }
+            }*/;
+        }
+        return hover;
+    }
+
+    /**
+     * Whether or not the {@code Node} is pressed. Typically this is true when
+     * the primary mouse button is down, though subclasses may define other
+     * mouse button state or key state to cause the node to be "pressed".
+     *
+     * @defaultValue false
+     */
+    private Property<Boolean> pressed;
+
+    protected final void setPressed(boolean value) {
+        pressedPropertyImpl().setValue(value);
+    }
+
+    public final boolean isPressed() {
+        return pressed == null ? false : pressed.getValue();
+    }
+
+    public final ReadOnlyProperty<Boolean> pressedProperty() {
+        return pressedPropertyImpl()/*.getReadOnlyProperty()*/;
+    }
+
+    private Property<Boolean> pressedPropertyImpl() {
+        if (pressed == null) {
+            pressed = new SimpleObjectProperty<>(false)/* {
+
+                @Override
+                protected void invalidated() {
+                    PlatformLogger logger = Logging.getInputLogger();
+                    if (logger.isLoggable(Level.FINER)) {
+                        logger.finer(this + " pressed=" + get());
+                    }
+                    pseudoClassStateChanged(PRESSED_PSEUDOCLASS_STATE, get());
+                }
+
+                @Override
+                public Object getBean() {
+                    return Node.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "pressed";
+                }
+            }*/;
+        }
+        return pressed;
     }
 
     private final ObservableList<Transform> transforms = FXCollections.observableArrayList();
@@ -212,6 +397,254 @@ public abstract class Node implements INode {
 */
     }
 
+    /***************************************************************************
+     *                                                                         *
+     *                         Event Dispatch                                  *
+     *                                                                         *
+     **************************************************************************/
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Specifies the event dispatcher for this node. The default event
+     * dispatcher sends the received events to the registered event handlers and
+     * filters. When replacing the value with a new {@code EventDispatcher},
+     * the new dispatcher should forward events to the replaced dispatcher
+     * to maintain the node's default event handling behavior.
+     */
+    private ObjectProperty<EventDispatcher> eventDispatcher;
+
+    public final void setEventDispatcher(EventDispatcher value) {
+        eventDispatcherProperty().set(value);
+    }
+
+    public final EventDispatcher getEventDispatcher() {
+        return eventDispatcherProperty().get();
+    }
+
+    public final ObjectProperty<EventDispatcher> eventDispatcherProperty() {
+        initializeInternalEventDispatcher();
+        return eventDispatcher;
+    }
+
+    private NodeEventDispatcher internalEventDispatcher;
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Registers an event handler to this node. The handler is called when the
+     * node receives an {@code Event} of the specified type during the bubbling
+     * phase of event delivery.
+     *
+     * @param <T> the specific event class of the handler
+     * @param eventType the type of the events to receive by the handler
+     * @param eventHandler the handler to register
+     * @throws NullPointerException if the event type or handler is null
+     */
+    public final <T extends Event> void addEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+        getInternalEventDispatcher().getEventHandlerManager().addEventHandler(eventType, eventHandler);
+    }
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Unregisters a previously registered event handler from this node. One
+     * handler might have been registered for different event types, so the
+     * caller needs to specify the particular event type from which to
+     * unregister the handler.
+     *
+     * @param <T> the specific event class of the handler
+     * @param eventType the event type from which to unregister
+     * @param eventHandler the handler to unregister
+     * @throws NullPointerException if the event type or handler is null
+     */
+    public final <T extends Event> void removeEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+        getInternalEventDispatcher().getEventHandlerManager().removeEventHandler(eventType, eventHandler);
+    }
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Registers an event filter to this node. The filter is called when the
+     * node receives an {@code Event} of the specified type during the capturing
+     * phase of event delivery.
+     *
+     * @param <T> the specific event class of the filter
+     * @param eventType the type of the events to receive by the filter
+     * @param eventFilter the filter to register
+     * @throws NullPointerException if the event type or filter is null
+     */
+    public final <T extends Event> void addEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
+        getInternalEventDispatcher().getEventHandlerManager().addEventFilter(eventType, eventFilter);
+    }
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Unregisters a previously registered event filter from this node. One
+     * filter might have been registered for different event types, so the
+     * caller needs to specify the particular event type from which to
+     * unregister the filter.
+     *
+     * @param <T> the specific event class of the filter
+     * @param eventType the event type from which to unregister
+     * @param eventFilter the filter to unregister
+     * @throws NullPointerException if the event type or filter is null
+     */
+    public final <T extends Event> void removeEventFilter(EventType<T> eventType, EventHandler<? super T> eventFilter) {
+        getInternalEventDispatcher().getEventHandlerManager().removeEventFilter(eventType, eventFilter);
+    }
+
+    /**
+     * Sets the handler to use for this event type. There can only be one such handler
+     * specified at a time. This handler is guaranteed to be called as the last, after
+     * handlers added using {@link #addEventHandler(EventType, EventHandler)}.
+     * This is used for registering the user-defined onFoo event handlers.
+     *
+     * @param <T> the specific event class of the handler
+     * @param eventType the event type to associate with the given eventHandler
+     * @param eventHandler the handler to register, or null to unregister
+     * @throws NullPointerException if the event type is null
+     */
+    protected final <T extends Event> void setEventHandler(EventType<T> eventType, EventHandler<? super T> eventHandler) {
+        getInternalEventDispatcher().getEventHandlerManager().setEventHandler(eventType, eventHandler);
+    }
+
+    private NodeEventDispatcher getInternalEventDispatcher() {
+        initializeInternalEventDispatcher();
+        return internalEventDispatcher;
+    }
+
+    private void initializeInternalEventDispatcher() {
+        if (internalEventDispatcher == null) {
+            internalEventDispatcher = createInternalEventDispatcher();
+            eventDispatcher = new SimpleObjectProperty<>(
+                    Node.this,
+                    "eventDispatcher",
+                    internalEventDispatcher);
+        }
+    }
+
+    private NodeEventDispatcher createInternalEventDispatcher() {
+        return new NodeEventDispatcher(this);
+    }
+
+    /**
+     * Event dispatcher for invoking preprocessing of mouse events
+     */
+    private EventDispatcher preprocessMouseEventDispatcher;
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Construct an event dispatch chain for this node. The event dispatch chain
+     * contains all event dispatchers from the stage to this node.
+     *
+     * @param tail the initial chain to build from
+     * @return the resulting event dispatch chain for this node
+     */
+    @Override
+    public EventDispatchChain buildEventDispatchChain(EventDispatchChain tail) {
+
+        if (preprocessMouseEventDispatcher == null) {
+            preprocessMouseEventDispatcher = (event, tail1) -> {
+                event = tail1.dispatchEvent(event);
+                if (event instanceof MouseEvent)
+                    preprocessMouseEvent((MouseEvent) event);
+
+                return event;
+            };
+        }
+
+        tail = tail.prepend(preprocessMouseEventDispatcher);
+
+        // prepend all event dispatchers from this node to the root
+        Node curNode = this;
+        do {
+            if (curNode.eventDispatcher != null) {
+                final EventDispatcher eventDispatcherValue =
+                        curNode.eventDispatcher.get();
+                if (eventDispatcherValue != null) {
+                    tail = tail.prepend(eventDispatcherValue);
+                }
+            }
+            Node curParent = curNode.getParent();
+            curNode = curParent != null ? curParent : null; //curNode.getSubScene();
+        } while (curNode != null);
+
+        if (getScene() != null) {
+            // prepend scene's dispatch chain
+            tail = getScene().buildEventDispatchChain(tail);
+        }
+
+        return tail;
+    }
+
+    private void preprocessMouseEvent(MouseEvent e) {
+        EventType<?> eventType = e.getEventType();
+        if (eventType == MouseEvent.MOUSE_PRESSED) {
+            for (Node n = this; n != null; n = n.getParent())
+                n.setPressed(e.isPrimaryButtonDown());
+            return;
+        }
+        if (eventType == MouseEvent.MOUSE_RELEASED) {
+            for (Node n = this; n != null; n = n.getParent())
+                n.setPressed(e.isPrimaryButtonDown());
+            return;
+        }
+
+        if (e.getTarget() == this) {
+            // the mouse event types are translated only when the node uses
+            // its internal event dispatcher, so both entered / exited variants
+            // are possible here
+
+            if ((eventType == MouseEvent.MOUSE_ENTERED) || (eventType == MouseEvent.MOUSE_ENTERED_TARGET)) {
+                setHover(true);
+                return;
+            }
+
+            if ((eventType == MouseEvent.MOUSE_EXITED) || (eventType == MouseEvent.MOUSE_EXITED_TARGET)) {
+                setHover(false);
+                return;
+            }
+        }
+    }
+
+
+    // PENDING_DOC_REVIEW
+    /**
+     * Fires the specified event. By default the event will travel through the
+     * hierarchy from the stage to this node. Any event filter encountered will
+     * be notified and can consume the event. If not consumed by the filters,
+     * the event handlers on this node are notified. If these don't consume the
+     * event eighter, the event will travel back the same path it arrived to
+     * this node. All event handlers encountered are called and can consume the
+     * event.
+     * <p>
+     * This method must be called on the FX user thread.
+     *
+     * @param event the event to fire
+     */
+    public final void fireEvent(Event event) {
+
+        /* Log input events.  We do a coarse filter for at least the FINE
+         * level and then granularize from there.
+         */
+/*
+        if (event instanceof InputEvent) {
+            PlatformLogger logger = Logging.getInputLogger();
+            if (logger.isLoggable(Level.FINE)) {
+                EventType eventType = event.getEventType();
+                if (eventType == MouseEvent.MOUSE_ENTERED ||
+                        eventType == MouseEvent.MOUSE_EXITED) {
+                    logger.finer(event.toString());
+                } else if (eventType == MouseEvent.MOUSE_MOVED ||
+                        eventType == MouseEvent.MOUSE_DRAGGED) {
+                    logger.finest(event.toString());
+                } else {
+                    logger.fine(event.toString());
+                }
+            }
+        }
+*/
+
+        Event.fireEvent(this, event);
+    }
+
     private NodeViewer nodeViewer;
 
     public NodeViewer getNodeViewer() {
@@ -253,12 +686,20 @@ public abstract class Node implements INode {
         // width/height user values are returned in priority whenever they have been set.
         layoutMeasurable = new LayoutMeasurable() {
             private LayoutMeasurable acceptedLayoutMeasurable = proposedLayoutMeasurable instanceof LayoutMeasurable ? (LayoutMeasurable) proposedLayoutMeasurable : null;
+            {
+                if (acceptedLayoutMeasurable != null)
+                    Toolkit.get().scheduler().scheduleDeferred(() -> {
+                        acceptedLayoutMeasurable.setSizeChangedCallback(() -> {
+                            markDirtyLayoutBranch();
+                        });
+                    });
+            }
 
             public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.getLayoutBounds() : impl_getLayoutBounds(); }
 
             public double minWidth(double height) {
                 if (Node.this instanceof HasMinWidthProperty) {
-                    Double minWidth = ((HasMinWidthProperty) Node.this).getMinWidth();
+                    double minWidth = ((HasMinWidthProperty) Node.this).getMinWidth();
                     if (minWidth == USE_PREF_SIZE)
                         return prefWidth(height);
                     if (minWidth != USE_COMPUTED_SIZE)
@@ -269,7 +710,7 @@ public abstract class Node implements INode {
 
             public double maxWidth(double height) {
                 if (Node.this instanceof HasMaxWidthProperty) {
-                    Double maxWidth = ((HasMaxWidthProperty) Node.this).getMaxWidth();
+                    double maxWidth = ((HasMaxWidthProperty) Node.this).getMaxWidth();
                     if (maxWidth == USE_PREF_SIZE)
                         return prefWidth(height);
                     if (maxWidth != USE_COMPUTED_SIZE)
@@ -280,7 +721,7 @@ public abstract class Node implements INode {
 
             public double minHeight(double width) {
                 if (Node.this instanceof HasMinHeightProperty) {
-                    Double minHeight = ((HasMinHeightProperty) Node.this).getMinHeight();
+                    double minHeight = ((HasMinHeightProperty) Node.this).getMinHeight();
                     if (minHeight == USE_PREF_SIZE)
                         return prefHeight(width);
                     if (minHeight != USE_COMPUTED_SIZE)
@@ -291,7 +732,7 @@ public abstract class Node implements INode {
 
             public double maxHeight(double width) {
                 if (Node.this instanceof HasMaxHeightProperty) {
-                    Double maxHeight = ((HasMaxHeightProperty) Node.this).getMaxHeight();
+                    double maxHeight = ((HasMaxHeightProperty) Node.this).getMaxHeight();
                     if (maxHeight == USE_PREF_SIZE)
                         return prefHeight(width);
                     if (maxHeight != USE_COMPUTED_SIZE)
@@ -302,7 +743,7 @@ public abstract class Node implements INode {
 
             public double prefWidth(double height) {
                 if (Node.this instanceof HasPrefWidthProperty) {
-                    Double prefWidth = ((HasPrefWidthProperty) Node.this).getPrefWidth();
+                    double prefWidth = ((HasPrefWidthProperty) Node.this).getPrefWidth();
                     if (prefWidth != USE_COMPUTED_SIZE)
                         return prefWidth;
                 }
@@ -311,7 +752,7 @@ public abstract class Node implements INode {
 
             public double prefHeight(double width) {
                 if (Node.this instanceof HasPrefHeightProperty) {
-                    Double prefHeight = ((HasPrefHeightProperty) Node.this).getPrefHeight();
+                    double prefHeight = ((HasPrefHeightProperty) Node.this).getPrefHeight();
                     if (prefHeight != USE_COMPUTED_SIZE)
                         return prefHeight;
                 }
@@ -569,4 +1010,28 @@ public abstract class Node implements INode {
         }
 */
     }
+
+    ////////////////////////////
+    //  Private Implementation
+    ////////////////////////////
+
+    /***************************************************************************
+     *                                                                         *
+     *                        Event Handler Properties                         *
+     *                                                                         *
+     **************************************************************************/
+
+    private EventHandlerProperties eventHandlerProperties;
+
+    private EventHandlerProperties getEventHandlerProperties() {
+        if (eventHandlerProperties == null) {
+            eventHandlerProperties =
+                    new EventHandlerProperties(
+                            getInternalEventDispatcher().getEventHandlerManager(),
+                            this);
+        }
+
+        return eventHandlerProperties;
+    }
+
 }

@@ -8,10 +8,10 @@ import javafx.collections.ObservableList;
 import naga.fx.geom.BaseBounds;
 import naga.fx.geom.RectBounds;
 import naga.fx.geom.transform.BaseTransform;
+import naga.fx.properties.ObservableLists;
+import naga.fx.properties.markers.HasManagedProperty;
 import naga.fx.scene.layout.LayoutFlags;
 import naga.fx.scene.layout.PreferenceResizableNode;
-import naga.fx.properties.markers.HasManagedProperty;
-import naga.fx.properties.ObservableLists;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,14 @@ public class Parent extends Node {
     private final ObservableList<Node> children = FXCollections.observableArrayList();
 
     {
-        children.addListener((ListChangeListener<Node>) c -> requestLayout());
+        children.addListener((ListChangeListener<Node>) c -> {
+            Scene scene = getScene();
+            for (Node child : children) {
+                child.setScene(scene);
+                child.setParent(this);
+            }
+            managedChildChanged();
+        });
     }
 
     Parent() {
