@@ -22,16 +22,15 @@ abstract class HtmlButtonBasePeer
 
     HtmlButtonBasePeer(NB base, HTMLElement element) {
         super(base, element);
-        element.onclick = e -> {
-            N node = getNode();
-            node.fireEvent(new ActionEvent(node, node));
-            return null;
-        };
     }
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
+        getElement().onclick = e -> {
+            node.fireEvent(new ActionEvent(node, node));
+            return null;
+        };
     }
 
     @Override

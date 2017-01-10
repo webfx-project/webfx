@@ -46,6 +46,11 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
+        getElement().onclick = e -> {
+            elemental2.MouseEvent me = (elemental2.MouseEvent) e;
+            node.fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED, me.x, me.y, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null));
+            return null;
+        };
     }
 
     public E getElement() {
