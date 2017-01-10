@@ -20,6 +20,7 @@ public class SwingStagePeer implements StagePeer {
 
     private final Stage stage;
     private final JFrame frame;
+    private TKStageListener listener;
 
     public SwingStagePeer(Stage stage) {
         this(stage, new JFrame());
@@ -28,23 +29,25 @@ public class SwingStagePeer implements StagePeer {
     private SwingStagePeer(Stage stage, JFrame frame) {
         this.stage = stage;
         this.frame = frame;
-    }
-
-    @Override
-    public void setTKStageListener(TKStageListener listener) {
         frame.addComponentListener(new ComponentAdapter() {
-
             @Override
             public void componentMoved(ComponentEvent e) {
-                listener.changedLocation(frame.getX(), frame.getY());
+                if (listener != null)
+                    listener.changedLocation(frame.getX(), frame.getY());
             }
 
             @Override
             public void componentResized(ComponentEvent e) {
-                listener.changedSize((float) frame.getWidth(), (float) frame.getHeight());
+                if (listener != null)
+                    listener.changedSize((float) frame.getWidth(), (float) frame.getHeight());
                 ((SwingScenePeer) stage.getScene().impl_getPeer()).changedWindowSize(frame.getWidth() - (float) stagePaddingWidth(), frame.getHeight() - (float) stagePaddingHeight());
             }
         });
+    }
+
+    @Override
+    public void setTKStageListener(TKStageListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -60,11 +63,11 @@ public class SwingStagePeer implements StagePeer {
             frame.setSize(w > 0 ? (int) w : frame.getWidth(), h > 0 ? (int) h : frame.getHeight());
     }
 
-    protected double stagePaddingWidth() {
+    private double stagePaddingWidth() {
         return frame.getWidth() - frame.getContentPane().getWidth();
     }
 
-    protected double stagePaddingHeight() {
+    private double stagePaddingHeight() {
         return frame.getHeight() - frame.getContentPane().getHeight();
     }
 

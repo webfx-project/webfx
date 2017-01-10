@@ -5,10 +5,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
 import naga.fx.event.Event;
-import naga.fx.spi.peer.StagePeer;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.JavaFxToolkit;
+import naga.fx.spi.peer.StagePeer;
 import naga.fx.stage.Window;
 import naga.fx.stage.WindowEvent;
 import naga.fx.sun.tk.TKStageListener;
@@ -20,6 +20,7 @@ public class FxStagePeer implements StagePeer {
 
     private naga.fx.stage.Stage stage;
     protected Stage fxStage;
+    private TKStageListener listener;
 
     public FxStagePeer(naga.fx.stage.Stage stage, Stage fxStage) {
         this.stage = stage;
@@ -30,6 +31,14 @@ public class FxStagePeer implements StagePeer {
         this.fxStage = fxStage;
         if (fxStage != null) {
             onSceneRootChanged();
+            Properties.runOnPropertiesChange(p -> {
+                if (listener != null)
+                    listener.changedLocation((float) fxStage.getX(), (float) fxStage.getY());
+            }, fxStage.xProperty(), fxStage.yProperty());
+            Properties.runOnPropertiesChange(p -> {
+                if (listener != null)
+                    listener.changedSize((float) fxStage.getWidth(), (float) fxStage.getHeight());
+            }, fxStage.widthProperty(), fxStage.heightProperty());
             fxStage.setOnCloseRequest(e -> {
                 WindowEvent we = new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST);
                 Event.fireEvent(stage, we);
@@ -41,8 +50,7 @@ public class FxStagePeer implements StagePeer {
 
     @Override
     public void setTKStageListener(TKStageListener listener) {
-        Properties.runOnPropertiesChange(p -> listener.changedLocation((float) fxStage.getX(), (float) fxStage.getY()), fxStage.xProperty(), fxStage.yProperty());
-        Properties.runOnPropertiesChange(p -> listener.changedSize((float) fxStage.getWidth(), (float) fxStage.getHeight()), fxStage.widthProperty(), fxStage.heightProperty());
+        this.listener = listener;
     }
 
     @Override
@@ -119,7 +127,7 @@ public class FxStagePeer implements StagePeer {
         });
     }
 
-    protected void setFxRoot(Parent fxRoot) {
+    private void setFxRoot(Parent fxRoot) {
         Toolkit.get().scheduler().scheduleDeferred(() -> setFxRootNow(fxRoot));
     }
 
