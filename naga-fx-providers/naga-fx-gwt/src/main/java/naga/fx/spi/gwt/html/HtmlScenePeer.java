@@ -8,11 +8,12 @@ import naga.fx.properties.Properties;
 import naga.fx.scene.Node;
 import naga.fx.scene.Parent;
 import naga.fx.scene.Scene;
+import naga.fx.spi.gwt.html.peer.HtmlHtmlTextPeer;
 import naga.fx.spi.gwt.html.peer.HtmlNodePeer;
 import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
-import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.NodePeer;
+import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fxdata.control.HtmlText;
 
 /**
@@ -76,10 +77,10 @@ public class HtmlScenePeer extends ScenePeerBase {
     @Override
     public void onNodePeerCreated(NodePeer<Node> nodePeer) {
         if (nodePeer instanceof HtmlNodePeer) {
-            HtmlNodePeer htmlNodeView = (HtmlNodePeer) nodePeer;
-            HTMLElement htmlElement = (HTMLElement) htmlNodeView.getElement();
+            HtmlNodePeer htmlNodePeer = (HtmlNodePeer) nodePeer;
+            HTMLElement htmlElement = (HTMLElement) htmlNodePeer.getElement();
             HtmlUtil.absolutePosition(htmlElement);
-            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN") && !(((HtmlNodePeer) nodePeer).getNode() instanceof HtmlText))
+            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN") && !(htmlNodePeer instanceof HtmlHtmlTextPeer))
                 htmlElement.style.whiteSpace = "nowrap";
         }
     }
