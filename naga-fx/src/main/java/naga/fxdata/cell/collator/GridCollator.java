@@ -2,6 +2,8 @@ package naga.fxdata.cell.collator;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import naga.fx.geometry.HPos;
+import naga.fx.geometry.VPos;
 import naga.fx.scene.layout.Background;
 import naga.fx.scene.layout.Border;
 import naga.fx.spi.peer.NodePeer;
@@ -42,7 +44,9 @@ public class GridCollator extends DataGrid {
     public GridCollator(NodeCollator columnCollator, NodeCollator rowCollator) {
         this.columnCollator = columnCollator;
         this.rowCollator = rowCollator;
-        this.container = new BorderPane();
+        container = new BorderPane();
+        setMaxWidth(Double.MAX_VALUE);
+        setMaxHeight(Double.MAX_VALUE);
     }
 
     @Override
@@ -72,6 +76,7 @@ public class GridCollator extends DataGrid {
 
     @Override
     protected void layoutChildren() {
+        layoutInArea(container, getLayoutX(), getLayoutY(), getWidth(), getHeight(), 0, HPos.LEFT, VPos.TOP);
         container.layout();
     }
 
@@ -80,14 +85,18 @@ public class GridCollator extends DataGrid {
     private class GridCollatorPeer
             <N extends DataGrid, NB extends DataGridPeerBase<GridCollator, N, NB, NM>, NM extends DataGridPeerMixin<GridCollator, N, NB, NM>>
 
-    extends DataGridPeerBase<GridCollator, N, NB, NM>
-        implements DataGridPeerMixin<GridCollator, N, NB, NM> {
+            extends DataGridPeerBase<GridCollator, N, NB, NM>
+            implements DataGridPeerMixin<GridCollator, N, NB, NM> {
 
         private ValueRenderer[] renderers;
         private int[] rsColumnIndexes;
 
         {
             setMixin((NM) this);
+        }
+
+        @Override
+        public void requestFocus() {
         }
 
         @Override
