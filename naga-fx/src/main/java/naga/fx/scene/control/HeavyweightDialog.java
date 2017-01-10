@@ -2,13 +2,14 @@ package naga.fx.scene.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import naga.fx.scene.Node;
 import naga.fx.scene.Parent;
 import naga.fx.scene.Scene;
 import naga.fx.scene.input.KeyCode;
 import naga.fx.scene.input.KeyEvent;
 import naga.fx.scene.layout.Region;
-import naga.fx.spi.Toolkit;
 import naga.fx.stage.Modality;
 import naga.fx.stage.Stage;
 import naga.fx.stage.StageStyle;
@@ -127,11 +128,15 @@ class HeavyweightDialog extends FXDialog {
     @Override public void show() {
         scene.setRoot(dialogPane);
         if (dialogPane.prefHeight(-1) == 0) {
-            Toolkit.get().scheduler().scheduleDelay(200, () -> {
-                setX(Double.NaN);
-                setY(Double.NaN);
-                dialogPane.requestLayout();
-                stage.centerOnScreen();
+            scene.heightProperty().addListener(new ChangeListener<Double>() {
+                @Override
+                public void changed(ObservableValue<? extends Double> observable, Double oldValue, Double newValue) {
+                    observable.removeListener(this);
+                    setX(Double.NaN);
+                    setY(Double.NaN);
+                    dialogPane.requestLayout();
+                    stage.centerOnScreen();
+                }
             });
         }
         stage.centerOnScreen();
