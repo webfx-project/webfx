@@ -1,6 +1,7 @@
 package mongoose.activities.frontend.event.options;
 
 import mongoose.activities.frontend.event.shared.BookingProcessActivity;
+import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
@@ -9,9 +10,10 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
-import naga.platform.spi.Platform;
-import naga.fx.scene.layout.VBox;
 import naga.fx.properties.Properties;
+import naga.fx.scene.control.TextInputDialog;
+import naga.fx.scene.layout.VBox;
+import naga.platform.spi.Platform;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,13 +53,25 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
     }
 
     private void onCalendarClick(CalendarClickEvent event) {
-        CalendarCell cell = event.getCalendarCell();
-        long clickedCellMinuteStart = cell.getEpochDay() * 24 * 60 + cell.getDayTimeMinuteInterval().getIncludedStart();
-        TimeInterval workingDocumentInterval = getWorkingDocument().getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.MINUTES);
-        long fromArrival = Math.abs(workingDocumentInterval.getIncludedStart() - clickedCellMinuteStart);
-        long fromDeparture = Math.abs(workingDocumentInterval.getExcludedEnd() - clickedCellMinuteStart);
-        updateArrivalOrDepartureDateTime(event, fromArrival < fromDeparture);
-        computeAndDisplayWorkingTotalPrice();
+        boolean editMode = event.getMouseEvent().isControlDown();
+        if (!editMode) {
+            CalendarCell cell = event.getCalendarCell();
+            long clickedCellMinuteStart = cell.getEpochDay() * 24 * 60 + cell.getDayTimeMinuteInterval().getIncludedStart();
+            TimeInterval workingDocumentInterval = getWorkingDocument().getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.MINUTES);
+            long fromArrival = Math.abs(workingDocumentInterval.getIncludedStart() - clickedCellMinuteStart);
+            long fromDeparture = Math.abs(workingDocumentInterval.getExcludedEnd() - clickedCellMinuteStart);
+            updateArrivalOrDepartureDateTime(event, fromArrival < fromDeparture);
+            computeAndDisplayWorkingTotalPrice();
+        } else {
+            CalendarTimeline calendarTimeline = event.getCalendarTimeline();
+            TextInputDialog dialog = new TextInputDialog(calendarTimeline.getDayTimeRange().getText());
+            dialog.initOwner(optionsViewModel.getContentNode().getScene().getWindow());
+            dialog.setTitle("Text Input Dialog");
+            dialog.setHeaderText(calendarTimeline.displayNameProperty().getValue());
+            dialog.setContentText("Day time range:");
+
+            dialog.show();
+        }
     }
 
     private void updateArrivalOrDepartureDateTime(CalendarClickEvent event, boolean arrival) {
@@ -73,7 +87,7 @@ public class OptionsActivity extends BookingProcessActivity<OptionsViewModel, Op
         createAndShowCalendarIfBothLogicAndViewAreReady();
     }
 
-    protected void computeAndDisplayWorkingTotalPrice() {
+    private void computeAndDisplayWorkingTotalPrice() {
         optionsViewModel.getPriceText().setText(PriceFormatter.SINGLETON.formatWithCurrency(DocumentPricing.computeDocumentPrice(getWorkingDocument()), getEvent()));
     }
 
