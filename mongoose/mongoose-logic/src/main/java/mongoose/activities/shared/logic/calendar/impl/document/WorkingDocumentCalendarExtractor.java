@@ -70,14 +70,14 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
                 DateTimeRange dateTimeRange = new DateTimeRange(maxWorkingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
                     Paint fill = UNATTENDED_FILL; //option.isTeaching() ? TEACHING_FILL : option.isAccommodation() ? ACCOMMODATION_FILL : option.isMeals() ? MEALS_FILL : UNATTENDED_FILL;
-                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill));
+                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, maxWorkingDocumentLine));
                 }
             }
             if (workingDocumentLine != null) {
                 DateTimeRange dateTimeRange = new DateTimeRange(workingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
                     Paint fill = option.isTeaching() ? TEACHING_FILL : option.isAccommodation() ? ACCOMMODATION_FILL : option.isMeals() ? MEALS_FILL : UNATTENDED_FILL;
-                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill));
+                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, workingDocumentLine));
                 }
             }
         }
@@ -97,7 +97,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
         Collection<CalendarTimeline> timelines = new ArrayList<>();
         DateTimeRange calendarDateTimeRange = Objects.coalesce(maxWd, wd).getDateTimeRange().changeTimeUnit(TimeUnit.DAYS);
         for (OptionTimeline ot : optionTimelines.values())
-            timelines.add(new CalendarTimelineImpl(calendarDateTimeRange, ot.option.getParsedTimeRangeOrParent(), null, NOTHING_FILL));
+            timelines.add(new CalendarTimelineImpl(calendarDateTimeRange, ot.option.getParsedTimeRangeOrParent(), null, NOTHING_FILL, ot.option));
         for (OptionTimeline ot : optionTimelines.values())
             ot.addToCalendarTimelines(timelines, i18n, calendarDateTimeRange);
         return new CalendarImpl(calendarDateTimeRange.getInterval(), timelines);

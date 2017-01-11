@@ -16,6 +16,8 @@ public interface CalendarTimeline {
 
     Property<String> displayNameProperty();
 
-    Paint getTimelineFill();
+    Paint getBackgroundFill();
+
+    Object getSource();
 
 }

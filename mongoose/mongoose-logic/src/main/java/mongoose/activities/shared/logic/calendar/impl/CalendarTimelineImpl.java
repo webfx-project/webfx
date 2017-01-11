@@ -6,8 +6,6 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import naga.fx.scene.paint.Paint;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * @author Bruno Salmon
  */
@@ -16,14 +14,16 @@ public class CalendarTimelineImpl implements CalendarTimeline {
     private final DateTimeRange dateTimeRange;
     private final DayTimeRange dayTimeRange;
     private final Property<String> displayNameProperty;
-    private final Paint timelineFill;
+    private final Paint backgroundFill;
+    private final Object source;
 
 
-    public CalendarTimelineImpl(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange, Property<String> displayNameProperty, Paint timelineFill) {
-        this.dateTimeRange = dateTimeRange.changeTimeUnit(TimeUnit.DAYS);
+    public CalendarTimelineImpl(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange, Property<String> displayNameProperty, Paint backgroundFill, Object source) {
+        this.dateTimeRange = dateTimeRange;
         this.dayTimeRange = dayTimeRange;
         this.displayNameProperty = displayNameProperty;
-        this.timelineFill = timelineFill;
+        this.backgroundFill = backgroundFill;
+        this.source = source;
     }
 
     @Override
@@ -42,7 +42,12 @@ public class CalendarTimelineImpl implements CalendarTimeline {
     }
 
     @Override
-    public Paint getTimelineFill() {
-        return timelineFill;
+    public Paint getBackgroundFill() {
+        return backgroundFill;
+    }
+
+    @Override
+    public Object getSource() {
+        return source;
     }
 }

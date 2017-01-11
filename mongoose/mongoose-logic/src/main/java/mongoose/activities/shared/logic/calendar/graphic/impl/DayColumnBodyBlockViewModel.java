@@ -50,7 +50,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         Property<String> displayNameProperty = timeline.displayNameProperty();
         if (displayNameProperty != null)
             blockText.textProperty().bind(displayNameProperty);
-        rectangle.setFill(timeline.getTimelineFill());
+        rectangle.setFill(timeline.getBackgroundFill());
         rectangle.setOnMouseClicked(event -> {
             if (calendarGraphic.getCalendarClickHandler() != null)
                 calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
