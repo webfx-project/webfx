@@ -17,4 +17,6 @@ public interface NodePeer<N extends Node> {
     boolean updateProperty(ObservableValue changedProperty);
 
     boolean updateList(ObservableList changedList);
+
+    void requestFocus();
 }

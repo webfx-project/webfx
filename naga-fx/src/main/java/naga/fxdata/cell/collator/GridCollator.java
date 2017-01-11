@@ -178,6 +178,10 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
+        public void updateDisabled(Boolean disabled) {
+        }
+
+        @Override
         public void updateClip(Node clip) {
             container.setClip(clip);
         }

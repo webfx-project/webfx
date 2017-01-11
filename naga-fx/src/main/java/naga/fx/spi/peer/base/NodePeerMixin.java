@@ -66,4 +66,6 @@ public interface NodePeerMixin
     }
 
     void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms);
+
+    void updateDisabled(Boolean disabled);
 }

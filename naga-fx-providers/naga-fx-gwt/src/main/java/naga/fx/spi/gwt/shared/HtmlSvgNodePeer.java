@@ -1,7 +1,6 @@
 package naga.fx.spi.gwt.shared;
 
 import elemental2.Element;
-import elemental2.Event;
 import naga.commons.util.Strings;
 import naga.fx.scene.Node;
 import naga.fx.scene.Scene;
@@ -47,8 +46,7 @@ public abstract class HtmlSvgNodePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         getElement().onclick = e -> {
-            elemental2.MouseEvent me = (elemental2.MouseEvent) e;
-            node.fireEvent(new MouseEvent(MouseEvent.MOUSE_CLICKED, me.x, me.y, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null));
+            node.fireEvent(toMouseEvent((elemental2.MouseEvent) e));
             return null;
         };
     }
@@ -90,6 +88,11 @@ public abstract class HtmlSvgNodePeer
     }
 
     @Override
+    public void updateDisabled(Boolean disabled) {
+        setElementAttribute("disabled", disabled ? "disabled" : null);
+    }
+
+    @Override
     public void updateClip(Node clip) {
         setElementAttribute("clip-path", toClipPath(clip));
     }
@@ -114,8 +117,8 @@ public abstract class HtmlSvgNodePeer
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
     }
 
-    private static MouseEvent toMouseEvent(Event e) {
-        return new MouseEvent(null, 0, 0, 0, 0, null, 0, false, false, false, false, false, false, false, false, false, false, null);
+    private static MouseEvent toMouseEvent(elemental2.MouseEvent me) {
+        return new MouseEvent(MouseEvent.MOUSE_CLICKED, me.x, me.y, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
     }
 
     protected void setElementTextContent(String textContent) {

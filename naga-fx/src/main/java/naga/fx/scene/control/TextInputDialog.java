@@ -4,6 +4,7 @@ import naga.fx.geometry.Pos;
 import naga.fx.scene.layout.GridPane;
 import naga.fx.scene.layout.Priority;
 import naga.fx.scene.layout.Region;
+import naga.fx.spi.Toolkit;
 
 /**
  * A dialog that shows a text input control to the user.
@@ -118,6 +119,6 @@ public class TextInputDialog extends Dialog<String> {
         getDialogPane().setContent(grid);
 
         /*Platform.runLater*/
-        //Toolkit.get().scheduler().scheduleDeferred(() -> textField.requestFocus());
+        Toolkit.get().scheduler().scheduleDeferred(() -> textField.requestFocus());
     }
 }

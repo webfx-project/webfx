@@ -91,6 +91,18 @@ public abstract class SwingNodePeer
     }
 
     @Override
+    public void updateDisabled(Boolean disabled) {
+        if (this instanceof SwingEmbedComponentPeer)
+            ((SwingEmbedComponentPeer) this).getSwingComponent().setEnabled(!disabled);
+    }
+
+    @Override
+    public void requestFocus() {
+        if (this instanceof SwingEmbedComponentPeer)
+            ((SwingEmbedComponentPeer) this).getSwingComponent().requestFocus();
+    }
+
+    @Override
     public void updateBlendMode(BlendMode blendMode) {
         updateComposite();
     }

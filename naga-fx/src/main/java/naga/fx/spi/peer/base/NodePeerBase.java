@@ -39,6 +39,7 @@ public abstract class NodePeerBase
         requestUpdateOnPropertiesChange(sceneRequester
                 , node.visibleProperty()
                 , node.opacityProperty()
+                , node.disabledProperty()
                 , node.clipProperty()
                 , node.blendModeProperty()
                 , node.effectProperty()
@@ -55,6 +56,11 @@ public abstract class NodePeerBase
 
     public N getNode() {
         return node;
+    }
+
+    @Override
+    public void requestFocus() {
+
     }
 
     protected void requestUpdateOnPropertiesChange(SceneRequester sceneRequester, ObservableValue... properties) {
@@ -81,6 +87,7 @@ public abstract class NodePeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         return updateProperty(node.mouseTransparentProperty(), changedProperty, mixin::updateMouseTransparent)
                 || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
+                || updateProperty(node.disabledProperty(), changedProperty, mixin::updateDisabled)
                 || updateProperty(node.opacityProperty(), changedProperty, mixin::updateOpacity)
                 || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
                 || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)

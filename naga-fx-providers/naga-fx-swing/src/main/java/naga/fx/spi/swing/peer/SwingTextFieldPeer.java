@@ -1,18 +1,17 @@
 package naga.fx.spi.swing.peer;
 
 import naga.commons.util.Objects;
+import naga.fx.scene.control.TextField;
+import naga.fx.scene.text.Font;
 import naga.fx.spi.peer.base.TextFieldPeerBase;
 import naga.fx.spi.peer.base.TextFieldPeerMixin;
 import naga.fx.spi.swing.util.JPlaceholderTextField;
 import naga.fx.spi.swing.util.StyleUtil;
 import naga.fx.spi.swing.util.SwingFonts;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.text.Font;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
 
 /**
  * @author Bruno Salmon
@@ -31,7 +30,6 @@ public class SwingTextFieldPeer
 
     public SwingTextFieldPeer(NB base) {
         super(base);
-        swingTextField.setPreferredSize(new Dimension(200, (int) swingTextField.getMinimumSize().getHeight()));
         swingTextField.getDocument().addDocumentListener(new DocumentListener() {
             public void changedUpdate(DocumentEvent e) { updateNodeText(); }
             public void removeUpdate(DocumentEvent e) { updateNodeText(); }

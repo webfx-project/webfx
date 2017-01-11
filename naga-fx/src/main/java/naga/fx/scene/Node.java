@@ -397,6 +397,25 @@ public abstract class Node implements INode, EventTarget {
 */
     }
 
+    /**
+     * Requests that this {@code Node} get the input focus, and that this
+     * {@code Node}'s top-level ancestor become the focused window. To be
+     * eligible to receive the focus, the node must be part of a scene, it and
+     * all of its ancestors must be visible, and it must not be disabled.
+     * If this node is eligible, this function will cause it to become this
+     * {@code Scene}'s "focus owner". Each scene has at most one focus owner
+     * node. The focus owner will not actually have the input focus, however,
+     * unless the scene belongs to a {@code Stage} that is both visible
+     * and active.
+     */
+    public void requestFocus() {
+/*
+        if (getScene() != null) {
+            getScene().requestFocus(this);
+        }
+*/
+    }
+
     /***************************************************************************
      *                                                                         *
      *                         Event Dispatch                                  *

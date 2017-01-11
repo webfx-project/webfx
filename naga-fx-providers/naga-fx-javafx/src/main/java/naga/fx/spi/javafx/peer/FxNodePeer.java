@@ -56,6 +56,11 @@ public abstract class FxNodePeer
     }
 
     @Override
+    public void requestFocus() {
+        getFxNode().requestFocus();
+    }
+
+    @Override
     public void updateMouseTransparent(Boolean mouseTransparent) {
         getFxNode().setMouseTransparent(mouseTransparent);
     }
@@ -68,6 +73,11 @@ public abstract class FxNodePeer
     @Override
     public void updateOpacity(Double opacity) {
         fxNode.setOpacity(opacity);
+    }
+
+    @Override
+    public void updateDisabled(Boolean disabled) {
+        fxNode.setDisable(disabled);
     }
 
     @Override
