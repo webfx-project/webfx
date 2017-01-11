@@ -16,6 +16,15 @@ public class OptionImpl extends DynamicEntity implements Option {
         super(id, store);
     }
 
+    @Override
+    public void setFieldValue(Object domainFieldId, Object value) {
+        super.setFieldValue(domainFieldId, value);
+        if ("timeRange".equals(domainFieldId))
+            parsedTimeRangeOrParent = null;
+        else if ("dateTimeRange".equals(domainFieldId))
+            parsedDateTimeRangeOrParent = null;
+    }
+
     private DayTimeRange parsedTimeRangeOrParent;
     @Override
     public DayTimeRange getParsedTimeRangeOrParent() {
