@@ -217,7 +217,7 @@ public class Alert extends Dialog<ButtonType> {
 
         DialogPane dialogPane = getDialogPane();
         dialogPane.setContentText(contentText);
-        //getDialogPane().getStyleClass().add("alert");
+        getDialogPane().getStyleClass().add("alert");
 
         dialogPaneRef = new WeakReference<>(dialogPane);
 
@@ -304,12 +304,10 @@ public class Alert extends Dialog<ButtonType> {
             if (dialogPane != null) {
                 List<String> toRemove = new ArrayList<>(Arrays.asList(styleClasses));
                 toRemove.remove(styleClass);
-/*
                 dialogPane.getStyleClass().removeAll(toRemove);
                 if (! dialogPane.getStyleClass().contains(styleClass)) {
                     dialogPane.getStyleClass().add(styleClass);
                 }
-*/
             }
 
             installingDefaults = false;

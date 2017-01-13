@@ -69,7 +69,7 @@ public class ButtonBarSkin extends BehaviorSkinBase<ButtonBar, BehaviorBase<Butt
             }
         };
         this.layout.setAlignment(Pos.CENTER);
-        //this.layout.getStyleClass().add("container");
+        this.layout.getStyleClass().add("container");
         getChildren().add(layout);
 
         layoutButtons();

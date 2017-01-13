@@ -252,7 +252,7 @@ public class Region extends Parent implements
      * @param value the space value to be snapped
      * @return value rounded to nearest pixel
      */
-    double snapSpace(double value) {
+    protected double snapSpace(double value) {
         return snapSpace(value, isSnapToPixel());
     }
 
@@ -1465,4 +1465,50 @@ public class Region extends Parent implements
         }
         return array;
     }
+
+    /**
+     * Convenience method for overriding the region's computed minimum width and height.
+     * This should only be called if the region's internally computed minimum size
+     * doesn't meet the application's layout needs.
+     *
+     * @see #setMinWidth
+     * @see #setMinHeight
+     * @param minWidth  the override value for minimum width
+     * @param minHeight the override value for minimum height
+     */
+    public void setMinSize(double minWidth, double minHeight) {
+        setMinWidth(minWidth);
+        setMinHeight(minHeight);
+    }
+
+    /**
+     * Convenience method for overriding the region's computed preferred width and height.
+     * This should only be called if the region's internally computed preferred size
+     * doesn't meet the application's layout needs.
+     *
+     * @see #setPrefWidth
+     * @see #setPrefHeight
+     * @param prefWidth the override value for preferred width
+     * @param prefHeight the override value for preferred height
+     */
+    public void setPrefSize(double prefWidth, double prefHeight) {
+        setPrefWidth(prefWidth);
+        setPrefHeight(prefHeight);
+    }
+
+    /**
+     * Convenience method for overriding the region's computed maximum width and height.
+     * This should only be called if the region's internally computed maximum size
+     * doesn't meet the application's layout needs.
+     *
+     * @see #setMaxWidth
+     * @see #setMaxHeight
+     * @param maxWidth  the override value for maximum width
+     * @param maxHeight the override value for maximum height
+     */
+    public void setMaxSize(double maxWidth, double maxHeight) {
+        setMaxWidth(maxWidth);
+        setMaxHeight(maxHeight);
+    }
+
 }

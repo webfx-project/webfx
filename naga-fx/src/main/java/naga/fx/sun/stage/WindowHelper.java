@@ -1,4 +1,4 @@
-package naga.fx.sun.tk;
+package naga.fx.sun.stage;
 
 import naga.fx.stage.Window;
 

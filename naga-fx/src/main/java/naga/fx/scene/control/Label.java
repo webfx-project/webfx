@@ -53,7 +53,7 @@ public class Label extends Labeled {
     }
 
     private void initialize() {
-        //getStyleClass().setAll("label");
+        getStyleClass().setAll("label");
         //setAccessibleRole(AccessibleRole.TEXT);
         // Labels are not focus traversable, unlike most other UI Controls.
         // focusTraversable is styleable through css. Calling setFocusTraversable

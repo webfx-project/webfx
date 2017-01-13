@@ -6,7 +6,7 @@ import naga.fx.scene.Parent;
 /**
  * @author Bruno Salmon
  */
-public abstract class Pane extends Region {
+public class Pane extends Region {
 
     static void setConstraint(Node node, Object key, Object value) {
         if (value == null)

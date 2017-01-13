@@ -121,7 +121,7 @@ public class DialogPane extends Pane {
         Label label = new Label(text);
         label.setMaxWidth(Double.MAX_VALUE);
         label.setMaxHeight(Double.MAX_VALUE);
-        //label.getStyleClass().add("content");
+        label.getStyleClass().add("content");
         label.setWrapText(true);
         label.setPrefWidth(360d);
         return label;
@@ -162,7 +162,7 @@ public class DialogPane extends Pane {
      * Creates a new DialogPane instance with a style class of 'dialog-pane'.
      */
     public DialogPane() {
-        //getStyleClass().add("dialog-pane");
+        getStyleClass().add("dialog-pane");
 
         headerTextPanel = new GridPane();
         getChildren().add(headerTextPanel);
@@ -573,11 +573,9 @@ public class DialogPane extends Pane {
                 newExpandableContent.setVisible(isExpanded());
                 newExpandableContent.setManaged(isExpanded());
 
-/*
                 if (!newExpandableContent.getStyleClass().contains("expandable-content")) { //$NON-NLS-1$
                     newExpandableContent.getStyleClass().add("expandable-content"); //$NON-NLS-1$
                 }
-*/
 
                 getChildren().add(newExpandableContent);
             }
@@ -766,7 +764,7 @@ public class DialogPane extends Pane {
         InvalidationListener expandedListener = o -> {
             final boolean isExpanded = isExpanded();
             detailsButton.setText(isExpanded ? lessText : moreText);
-            //detailsButton.getStyleClass().setAll("details-button", (isExpanded ? "less" : "more")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            detailsButton.getStyleClass().setAll("details-button", (isExpanded ? "less" : "more")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
         };
 
         // we call the listener immediately to ensure the state is correct at start up
@@ -1049,16 +1047,14 @@ public class DialogPane extends Pane {
             final String headerText = getHeaderText();
 
             headerTextPanel.getChildren().clear();
-            //headerTextPanel.getStyleClass().clear();
+            headerTextPanel.getStyleClass().clear();
 
             // recreate the headerTextNode and add it to the children list.
             headerTextPanel.setMaxWidth(Double.MAX_VALUE);
 
-/*
             if (headerText != null && ! headerText.isEmpty()) {
                 headerTextPanel.getStyleClass().add("header-panel"); //$NON-NLS-1$
             }
-*/
 
             // on left of header is the text
             Label headerLabel = new Label(headerText);
@@ -1071,11 +1067,9 @@ public class DialogPane extends Pane {
             // on the right of the header is a graphic, if one is specified
             graphicContainer.getChildren().clear();
 
-/*
             if (! graphicContainer.getStyleClass().contains("graphic-container")) { //$NON-NLS-1$)
                 graphicContainer.getStyleClass().add("graphic-container"); //$NON-NLS-1$
             }
-*/
 
             final Node graphic = getGraphic();
             if (graphic != null) {
@@ -1104,11 +1098,9 @@ public class DialogPane extends Pane {
                 getChildren().add(content);
             }
 
-/*
             if (! content.getStyleClass().contains("content")) {
                 content.getStyleClass().add("content");
             }
-*/
 
             contentLabel.setVisible(false);
             contentLabel.setManaged(false);

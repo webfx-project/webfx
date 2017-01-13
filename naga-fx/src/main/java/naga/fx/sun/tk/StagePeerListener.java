@@ -1,6 +1,7 @@
 package naga.fx.sun.tk;
 
 import naga.fx.stage.Stage;
+import naga.fx.sun.stage.WindowPeerListener;
 
 public class StagePeerListener extends WindowPeerListener {
     private final Stage stage;

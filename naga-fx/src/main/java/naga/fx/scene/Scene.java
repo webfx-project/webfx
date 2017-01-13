@@ -306,6 +306,66 @@ public class Scene implements EventTarget,
         preferredSize();
     }
 
+    private Node oldFocusOwner;
+
+    /**
+     * The scene's current focus owner node. This node's "focused"
+     * variable might be false if this scene has no window, or if the
+     * window is inactive (window.focused == false).
+     * @since JavaFX 2.2
+     */
+    private Property<Node> focusOwner = new SimpleObjectProperty<>(this, "focusOwner")/* {
+
+        @Override
+        protected void invalidated() {
+            if (oldFocusOwner != null) {
+                ((Node.FocusedProperty) oldFocusOwner.focusedProperty()).store(false);
+            }
+            Node value = get();
+            if (value != null) {
+                ((Node.FocusedProperty) value.focusedProperty()).store(keyHandler.windowFocused);
+                if (value != oldFocusOwner) {
+                    value.getScene().impl_enableInputMethodEvents(
+                            value.getInputMethodRequests() != null
+                                    && value.getOnInputMethodTextChanged() != null);
+                }
+            }
+            // for the rest of the method we need to update the oldFocusOwner
+            // and use a local copy of it because the user handlers can cause
+            // recurrent calls of requestFocus
+            Node localOldOwner = oldFocusOwner;
+            oldFocusOwner = value;
+            if (localOldOwner != null) {
+                ((Node.FocusedProperty) localOldOwner.focusedProperty()).notifyListeners();
+            }
+            if (value != null) {
+                ((Node.FocusedProperty) value.focusedProperty()).notifyListeners();
+            }
+            PlatformLogger logger = Logging.getFocusLogger();
+            if (logger.isLoggable(Level.FINE)) {
+                if (value == get()) {
+                    logger.fine("Changed focus from "
+                            + localOldOwner + " to " + value);
+                } else {
+                    logger.fine("Changing focus from "
+                            + localOldOwner + " to " + value
+                            + " canceled by nested requestFocus");
+                }
+            }
+            if (accessible != null) {
+                accessible.sendNotification(AccessibleAttribute.FOCUS_NODE);
+            }
+        }
+    }*/;
+
+    public final Node getFocusOwner() {
+        return focusOwner.getValue();
+    }
+
+    public final ReadOnlyProperty<Node> focusOwnerProperty() {
+        return focusOwner/*.getReadOnlyProperty()*/;
+    }
+
     /***************************************************************************
      *                                                                         *
      *                         Event Dispatch                                  *

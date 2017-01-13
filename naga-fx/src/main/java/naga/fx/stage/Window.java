@@ -19,8 +19,8 @@ import naga.fx.sun.event.EventDispatchChain;
 import naga.fx.sun.event.EventDispatcher;
 import naga.fx.sun.stage.WindowEventDispatcher;
 import naga.fx.sun.tk.TKPulseListener;
-import naga.fx.sun.tk.WindowHelper;
-import naga.fx.sun.tk.WindowPeerListener;
+import naga.fx.sun.stage.WindowHelper;
+import naga.fx.sun.stage.WindowPeerListener;
 
 /**
  * @author Bruno Salmon

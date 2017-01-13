@@ -70,7 +70,7 @@ public class TextInputDialog extends Dialog<String> {
 
         setTitle("Title" /*ControlResources.getString("Dialog.confirm.title")*/);
         dialogPane.setHeaderText("Header"/*ControlResources.getString("Dialog.confirm.header")*/);
-        //dialogPane.getStyleClass().add("text-input-dialog");
+        dialogPane.getStyleClass().add("text-input-dialog");
         dialogPane.getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
 
         updateGrid();

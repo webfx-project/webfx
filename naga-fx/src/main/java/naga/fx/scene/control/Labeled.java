@@ -1,7 +1,7 @@
 package naga.fx.scene.control;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
+import naga.fx.geometry.Insets;
 import naga.fx.geometry.Pos;
 import naga.fx.properties.Properties;
 import naga.fx.properties.markers.*;
@@ -24,8 +24,9 @@ public abstract class Labeled extends Control implements
         HasFontProperty,
         HasAlignmentProperty,
         HasTextAlignmentProperty,
-        HasTextFillProperty
-        {
+        HasTextFillProperty {
+
+    private final static String DEFAULT_ELLIPSIS_STRING = "...";
 
     /***************************************************************************
      *                                                                         *
@@ -36,10 +37,12 @@ public abstract class Labeled extends Control implements
     /**
      * Creates a Label with no text and graphic
      */
-    public Labeled() { }
+    public Labeled() {
+    }
 
     /**
      * Creates a Label with text
+     *
      * @param text The text for the label.
      */
     public Labeled(String text) {
@@ -48,7 +51,8 @@ public abstract class Labeled extends Control implements
 
     /**
      * Creates a Label with text and a graphic
-     * @param text The text for the label.
+     *
+     * @param text    The text for the label.
      * @param graphic The graphic for the label.
      */
     public Labeled(String text, Node graphic) {
@@ -57,6 +61,7 @@ public abstract class Labeled extends Control implements
     }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();
+
     @Override
     public Property<String> textProperty() {
         return textProperty;
@@ -68,6 +73,7 @@ public abstract class Labeled extends Control implements
             setScene(getScene()); // This will propagate the scene reference into the graphic
         }
     };
+
     @Override
     public Property<Node> graphicProperty() {
         return graphicProperty;
@@ -80,30 +86,35 @@ public abstract class Labeled extends Control implements
             setGraphic(url == null ? null : new ImageView(url));
         }
     };
+
     @Override
     public Property<String> imageUrlProperty() {
         return imageUrlProperty;
     }
 
     private final Property<Font> fontProperty = new SimpleObjectProperty<>();
+
     @Override
     public Property<Font> fontProperty() {
         return fontProperty;
     }
 
     private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
+
     @Override
     public Property<Pos> alignmentProperty() {
         return alignmentProperty;
     }
 
     private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+
     @Override
     public Property<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
 
     private final Property<Paint> textFillProperty = new SimpleObjectProperty<>(Color.BLACK);
+
     @Override
     public Property<Paint> textFillProperty() {
         return textFillProperty;
@@ -136,10 +147,261 @@ public abstract class Labeled extends Control implements
         }
         return wrapText;
     }
-    private Property<Boolean> wrapText;
-    public final void setWrapText(boolean value) { wrapTextProperty().setValue(value); }
-    public final boolean isWrapText() { return wrapText == null ? false : wrapText.getValue(); }
 
+    private Property<Boolean> wrapText;
+
+    public final void setWrapText(boolean value) {
+        wrapTextProperty().setValue(value);
+    }
+
+    public final boolean isWrapText() {
+        return wrapText == null ? false : wrapText.getValue();
+    }
+
+    /**
+     * Specifies the behavior to use if the text of the {@code Labeled}
+     * exceeds the available space for rendering the text.
+     */
+    public final ObjectProperty<OverrunStyle> textOverrunProperty() {
+        if (textOverrun == null) {
+            textOverrun = new SimpleObjectProperty<>(OverrunStyle.ELLIPSIS)/* {
+
+                @Override
+                public CssMetaData<Labeled,OverrunStyle> getCssMetaData() {
+                    return StyleableProperties.TEXT_OVERRUN;
+                }
+
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "textOverrun";
+                }
+            }*/;
+        }
+        return textOverrun;
+    }
+
+    private ObjectProperty<OverrunStyle> textOverrun;
+
+    public final void setTextOverrun(OverrunStyle value) {
+        textOverrunProperty().setValue(value);
+    }
+
+    public final OverrunStyle getTextOverrun() {
+        return textOverrun == null ? OverrunStyle.ELLIPSIS : textOverrun.getValue();
+    }
+
+    /**
+     * Specifies the string to display for the ellipsis when text is truncated.
+     * <p>
+     * <table border="0" cellpadding="0" cellspacing="0"><tr><th>Examples</th></tr>
+     * <tr class="altColor"><td align="right">"..."</td>        <td>- Default value for most locales</td>
+     * <tr class="rowColor"><td align="right">" . . . "</td>    <td></td>
+     * <tr class="altColor"><td align="right">" [...] "</td>    <td></td>
+     * <tr class="rowColor"><td align="right">"&#92;u2026"</td> <td>- The Unicode ellipsis character '&hellip;'</td>
+     * <tr class="altColor"><td align="right">""</td>           <td>- No ellipsis, just display the truncated string</td>
+     * </table>
+     * <p>
+     * <p>Note that not all fonts support all Unicode characters.
+     *
+     * @see <a href="http://en.wikipedia.org/wiki/Ellipsis#Computer_representations">Wikipedia:ellipsis</a>
+     * @since JavaFX 2.2
+     */
+    public final StringProperty ellipsisStringProperty() {
+        if (ellipsisString == null) {
+            ellipsisString = new SimpleStringProperty(DEFAULT_ELLIPSIS_STRING)/* {
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "ellipsisString";
+                }
+
+                @Override
+                public CssMetaData<Labeled, String> getCssMetaData() {
+                    return StyleableProperties.ELLIPSIS_STRING;
+                }
+            }*/;
+        }
+        return ellipsisString;
+    }
+
+    private StringProperty ellipsisString;
+
+    public final void setEllipsisString(String value) {
+        ellipsisStringProperty().set((value == null) ? "" : value);
+    }
+
+    public final String getEllipsisString() {
+        return ellipsisString == null ? DEFAULT_ELLIPSIS_STRING : ellipsisString.get();
+    }
+
+    /**
+     * Specifies the space in pixel between lines.
+     * @since JavaFX 8.0
+     */
+    public final Property<Double> lineSpacingProperty() {
+        if (lineSpacing == null) {
+            lineSpacing = new SimpleObjectProperty<>(0d)/* {
+
+                @Override
+                public CssMetaData<Labeled,Number> getCssMetaData() {
+                    return StyleableProperties.LINE_SPACING;
+                }
+
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "lineSpacing";
+                }
+            }*/;
+        }
+        return lineSpacing;
+    }
+    private Property<Double> lineSpacing;
+    public final void setLineSpacing(double value) { lineSpacingProperty().setValue(value); }
+    public final double getLineSpacing() { return lineSpacing == null ? 0 : lineSpacing.getValue(); }
+
+    /**
+     * Specifies the positioning of the graphic relative to the text.
+     */
+    public final ObjectProperty<ContentDisplay> contentDisplayProperty() {
+        if (contentDisplay == null) {
+            contentDisplay = new SimpleObjectProperty<>(ContentDisplay.LEFT)/* {
+
+                @Override
+                public CssMetaData<Labeled,ContentDisplay> getCssMetaData() {
+                    return StyleableProperties.CONTENT_DISPLAY;
+                }
+
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "contentDisplay";
+                }
+            }*/;
+        }
+        return contentDisplay;
+    }
+
+    private ObjectProperty<ContentDisplay> contentDisplay;
+
+    public final void setContentDisplay(ContentDisplay value) {
+        contentDisplayProperty().setValue(value);
+    }
+
+    public final ContentDisplay getContentDisplay() {
+        return contentDisplay == null ? ContentDisplay.LEFT : contentDisplay.getValue();
+    }
+
+    /**
+     * The padding around the Labeled's text and graphic content.
+     * By default labelPadding is Insets.EMPTY and cannot be set to null.
+     * Subclasses may add nodes outside this padding and inside the Labeled's padding.
+     * <p>
+     * This property can only be set from CSS.
+     */
+    public final Property<Insets> labelPaddingProperty() {
+        return labelPaddingPropertyImpl();
+    }
+
+    private ObjectProperty<Insets> labelPaddingPropertyImpl() {
+        if (labelPadding == null) {
+            labelPadding = new SimpleObjectProperty<Insets>(Insets.EMPTY) {
+                private Insets lastValidValue = Insets.EMPTY;
+
+                @Override
+                public void invalidated() {
+                    final Insets newValue = get();
+                    if (newValue == null) {
+                        set(lastValidValue);
+                        throw new NullPointerException("cannot set labelPadding to null");
+                    }
+                    lastValidValue = newValue;
+                    requestLayout();
+                }
+
+/*
+                @Override
+                public CssMetaData<Labeled,Insets> getCssMetaData() {
+                    return StyleableProperties.LABEL_PADDING;
+                }
+*/
+
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "labelPadding";
+                }
+            };
+        }
+        return labelPadding;
+    }
+
+    private ObjectProperty<Insets> labelPadding;
+
+    private void setLabelPadding(Insets value) {
+        labelPaddingPropertyImpl().set(value);
+    }
+
+    public final Insets getLabelPadding() {
+        return labelPadding == null ? Insets.EMPTY : labelPadding.get();
+    }
+
+    /**
+     * The amount of space between the graphic and text
+     */
+    public final Property<Double> graphicTextGapProperty() {
+        if (graphicTextGap == null) {
+            graphicTextGap = new SimpleObjectProperty<>(4d)/* {
+
+                @Override
+                public CssMetaData<Labeled,Number> getCssMetaData() {
+                    return StyleableProperties.GRAPHIC_TEXT_GAP;
+                }
+
+                @Override
+                public Object getBean() {
+                    return Labeled.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "graphicTextGap";
+                }
+            }*/;
+        }
+        return graphicTextGap;
+    }
+
+    private Property<Double> graphicTextGap;
+
+    public final void setGraphicTextGap(double value) {
+        graphicTextGapProperty().setValue(value);
+    }
+
+    public final double getGraphicTextGap() {
+        return graphicTextGap == null ? 4 : graphicTextGap.getValue();
+    }
 
     {
         // Requesting a new layout pass on text and image properties change

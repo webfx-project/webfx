@@ -1,8 +1,11 @@
-package naga.fx.sun.tk;
+package naga.fx.sun.stage;
 
 import naga.fx.event.Event;
 import naga.fx.stage.Window;
 import naga.fx.stage.WindowEvent;
+import naga.fx.sun.tk.FocusCause;
+import naga.fx.sun.tk.FocusUngrabEvent;
+import naga.fx.sun.tk.TKStageListener;
 
 /**
  * Listener for the Stage Peer to pass updates and events back to the stage.

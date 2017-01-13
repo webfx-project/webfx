@@ -40,7 +40,7 @@ public class InfiniteClipEnvelope extends ClipEnvelope {
 
     @Override
     public ClipEnvelope setCycleCount(int cycleCount) {
-        return (cycleCount != javafx.animation.Animation.INDEFINITE)? create(animation) : this;
+        return (cycleCount != Animation.INDEFINITE)? create(animation) : this;
     }
 
     @Override

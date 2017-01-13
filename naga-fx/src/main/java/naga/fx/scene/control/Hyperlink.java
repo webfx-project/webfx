@@ -54,7 +54,7 @@ public class Hyperlink extends ButtonBase {
 
     private void initialize() {
         // Initialize the style class to be 'hyperlink'.
-        //getStyleClass().setAll(DEFAULT_STYLE_CLASS);
+        getStyleClass().setAll(DEFAULT_STYLE_CLASS);
         //setAccessibleRole(AccessibleRole.HYPERLINK);
         // cursor is styleable through css. Calling setCursor
         // makes it look to css like the user set the value and css will not
@@ -125,8 +125,8 @@ public class Hyperlink extends ButtonBase {
      *                                                                         *
      **************************************************************************/
 
-/*
     private static final String DEFAULT_STYLE_CLASS = "hyperlink";
+/*
     private static final PseudoClass PSEUDO_CLASS_VISITED =
             PseudoClass.getPseudoClass("visited");
 */

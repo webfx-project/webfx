@@ -1,21 +1,16 @@
 package naga.fx.scene;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import com.sun.javafx.collections.TrackableObservableList;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import naga.fx.css.Styleable;
 import naga.fx.event.Event;
 import naga.fx.event.EventHandler;
 import naga.fx.event.EventTarget;
 import naga.fx.event.EventType;
-import naga.fx.spi.peer.NodePeer;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.RectBounds;
-import naga.fx.sun.geom.TempState;
-import naga.fx.sun.geom.transform.BaseTransform;
 import naga.fx.geometry.BoundingBox;
 import naga.fx.geometry.Bounds;
 import naga.fx.geometry.Orientation;
@@ -27,10 +22,16 @@ import naga.fx.scene.layout.LayoutFlags;
 import naga.fx.scene.transform.Transform;
 import naga.fx.scene.transform.Translate;
 import naga.fx.spi.Toolkit;
+import naga.fx.spi.peer.NodePeer;
 import naga.fx.sun.event.EventDispatchChain;
 import naga.fx.sun.event.EventDispatcher;
 import naga.fx.sun.event.EventHandlerProperties;
+import naga.fx.sun.geom.BaseBounds;
+import naga.fx.sun.geom.RectBounds;
+import naga.fx.sun.geom.TempState;
+import naga.fx.sun.geom.transform.BaseTransform;
 import naga.fx.sun.scene.NodeEventDispatcher;
+import naga.fx.sun.scene.traversal.Direction;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,7 +44,7 @@ import static naga.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
 /**
  * @author Bruno Salmon
  */
-public abstract class Node implements INode, EventTarget {
+public abstract class Node implements INode, EventTarget, Styleable {
 
     private final Property<Parent> parentProperty = new SimpleObjectProperty<>();
     @Override
@@ -102,7 +103,7 @@ public abstract class Node implements INode, EventTarget {
     private final Property<Node> clipProperty = new SimpleObjectProperty<Node>() {
         @Override
         protected void invalidated() {
-            setScene(scene); // This will propagate the scene into the clip
+            setScene(getScene()); // This will propagate the scene into the clip
         }
     };
     @Override
@@ -206,6 +207,32 @@ public abstract class Node implements INode, EventTarget {
 */
     }
 
+    public final void setDisable(boolean value) {
+        disableProperty().setValue(value);
+    }
+
+    public final boolean isDisable() {
+        //return (miscProperties == null) ? DEFAULT_DISABLE : miscProperties.isDisable();
+        return disableProperty.getValue();
+    }
+
+    /**
+     * Defines the individual disabled state of this {@code Node}. Setting
+     * {@code disable} to true will cause this {@code Node} and any subnodes to
+     * become disabled. This property should be used only to set the disabled
+     * state of a {@code Node}.  For querying the disabled state of a
+     * {@code Node}, the {@link #disabledProperty disabled} property should instead be used,
+     * since it is possible that a {@code Node} was disabled as a result of an
+     * ancestor being disabled even if the individual {@code disable} state on
+     * this {@code Node} is {@code false}.
+     *
+     * @defaultValue false
+     */
+    private final Property<Boolean> disableProperty = new SimpleObjectProperty<>(false);
+    public final Property<Boolean> disableProperty() {
+        return disableProperty; //getMiscProperties().disableProperty();
+    }
+
     /**
      * Whether or not this {@code Node} is being hovered over. Typically this is
      * due to the mouse being over the node, though it could be due to a pen
@@ -306,6 +333,186 @@ public abstract class Node implements INode, EventTarget {
             }*/;
         }
         return pressed;
+    }
+
+    /**
+     * The id of this {@code Node}. This simple string identifier is useful for
+     * finding a specific Node within the scene graph. While the id of a Node
+     * should be unique within the scene graph, this uniqueness is not enforced.
+     * This is analogous to the "id" attribute on an HTML element
+     * (<a href="http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier">CSS ID Specification</a>).
+     * <p>
+     *     For example, if a Node is given the id of "myId", then the lookup method can
+     *     be used to find this node as follows: <code>scene.lookup("#myId");</code>.
+     * </p>
+     *
+     * @defaultValue null
+     * @see <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     */
+    private StringProperty id;
+
+    public final void setId(String value) {
+        idProperty().set(value);
+    }
+
+    //TODO: this is copied from the property in order to add the @return statement.
+    //      We should have a better, general solution without the need to copy it.
+    /**
+     * The id of this {@code Node}. This simple string identifier is useful for
+     * finding a specific Node within the scene graph. While the id of a Node
+     * should be unique within the scene graph, this uniqueness is not enforced.
+     * This is analogous to the "id" attribute on an HTML element
+     * (<a href="http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier">CSS ID Specification</a>).
+     *
+     * @return the id assigned to this {@code Node} using the {@code setId}
+     *         method or {@code null}, if no id has been assigned.
+     * @defaultValue null
+     * @see <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     */
+    public final String getId() {
+        return id == null ? null : id.get();
+    }
+
+    public final StringProperty idProperty() {
+        if (id == null) {
+            id = new StringPropertyBase() {
+
+                @Override
+                protected void invalidated() {
+/*
+                    impl_reapplyCSS();
+                    if (PrismSettings.printRenderGraph) {
+                        impl_markDirty(DirtyBits.DEBUG);
+                    }
+*/
+                }
+
+                @Override
+                public Object getBean() {
+                    return Node.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "id";
+                }
+            };
+        }
+        return id;
+    }
+    /**
+     * A list of String identifiers which can be used to logically group
+     * Nodes, specifically for an external style engine. This variable is
+     * analogous to the "class" attribute on an HTML element and, as such,
+     * each element of the list is a style class to which this Node belongs.
+     *
+     * @see <a href="http://www.w3.org/TR/css3-selectors/#class-html">CSS3 class selectors</a>
+     * @see <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     * @defaultValue null
+     */
+    private ObservableList<String> styleClass = new TrackableObservableList<String>() {
+        @Override
+        protected void onChanged(ListChangeListener.Change<String> c) {
+            //impl_reapplyCSS();
+        }
+
+        @Override
+        public String toString() {
+            if (size() == 0) {
+                return "";
+            } else if (size() == 1) {
+                return get(0);
+            } else {
+                StringBuilder buf = new StringBuilder();
+                for (int i = 0; i < size(); i++) {
+                    buf.append(get(i));
+                    if (i + 1 < size()) {
+                        buf.append(' ');
+                    }
+                }
+                return buf.toString();
+            }
+        }
+    };
+
+    @Override
+    public final ObservableList<String> getStyleClass() {
+        return styleClass;
+    }
+
+    /**
+     * A string representation of the CSS style associated with this
+     * specific {@code Node}. This is analogous to the "style" attribute of an
+     * HTML element. Note that, like the HTML style attribute, this
+     * variable contains style properties and values and not the
+     * selector portion of a style rule.
+     * @defaultValue empty string
+     * @see <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     */
+    private StringProperty style;
+
+    /**
+     * A string representation of the CSS style associated with this
+     * specific {@code Node}. This is analogous to the "style" attribute of an
+     * HTML element. Note that, like the HTML style attribute, this
+     * variable contains style properties and values and not the
+     * selector portion of a style rule.
+     * @param value The inline CSS style to use for this {@code Node}.
+     *         {@code null} is implicitly converted to an empty String.
+     * @defaultValue empty string
+     * @see <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     */
+    public final void setStyle(String value) {
+        styleProperty().set(value);
+    }
+
+    // TODO: javadoc copied from property for the sole purpose of providing a return tag
+    /**
+     * A string representation of the CSS style associated with this
+     * specific {@code Node}. This is analogous to the "style" attribute of an
+     * HTML element. Note that, like the HTML style attribute, this
+     * variable contains style properties and values and not the
+     * selector portion of a style rule.
+     * @defaultValue empty string
+     * @return The inline CSS style associated with this {@code Node}.
+     *         If this {@code Node} does not have an inline style,
+     *         an empty String is returned.
+     * @see <a href="doc-files/cssref.html">CSS Reference Guide</a>.
+     */
+    public final String getStyle() {
+        return style == null ? "" : style.get();
+    }
+
+    public final StringProperty styleProperty() {
+        if (style == null) {
+            style = new StringPropertyBase("") {
+
+                @Override public void set(String value) {
+                    // getStyle returns an empty string if the style property
+                    // is null. To be consistent, getStyle should also return
+                    // an empty string when the style property's value is null.
+                    super.set((value != null) ? value : "");
+                }
+
+                @Override
+                protected void invalidated() {
+                    // If the style has changed, then styles of this node
+                    // and child nodes might be affected.
+                    //impl_reapplyCSS();
+                }
+
+                @Override
+                public Object getBean() {
+                    return Node.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "style";
+                }
+            };
+        }
+        return style;
     }
 
     private final ObservableList<Transform> transforms = FXCollections.observableArrayList();
@@ -415,6 +622,186 @@ public abstract class Node implements INode, EventTarget {
         }
 */
     }
+
+    /**
+     * Traverses from this node in the direction indicated. Note that this
+     * node need not actually have the focus, nor need it be focusTraversable.
+     * However, the node must be part of a scene, otherwise this request
+     * is ignored.
+     */
+    //@Deprecated
+    public final boolean impl_traverse(Direction dir) {
+        if (getScene() == null) {
+            return false;
+        }
+        return false; //getScene().traverse(this, dir);
+    }
+
+
+    /**
+     * Specifies whether this {@code Node} should be a part of focus traversal
+     * cycle. When this property is {@code true} focus can be moved to this
+     * {@code Node} and from this {@code Node} using regular focus traversal
+     * keys. On a desktop such keys are usually {@code TAB} for moving focus
+     * forward and {@code SHIFT+TAB} for moving focus backward.
+     *
+     * When a {@code Scene} is created, the system gives focus to a
+     * {@code Node} whose {@code focusTraversable} variable is true
+     * and that is eligible to receive the focus,
+     * unless the focus had been set explicitly via a call
+     * to {@link #requestFocus()}.
+     *
+     * @see #requestFocus()
+     * @defaultValue false
+     */
+    private Property<Boolean> focusTraversable;
+
+    public final void setFocusTraversable(boolean value) {
+        focusTraversableProperty().setValue(value);
+    }
+    public final boolean isFocusTraversable() {
+        return focusTraversable == null ? false : focusTraversable.getValue();
+    }
+
+    public final Property<Boolean> focusTraversableProperty() {
+        if (focusTraversable == null) {
+            focusTraversable = new SimpleObjectProperty<>(false)/* {
+
+                @Override
+                public void invalidated() {
+                    Scene _scene = getScene();
+                    if (_scene != null) {
+                        if (get()) {
+                            _scene.initializeInternalEventDispatcher();
+                        }
+                        focusSetDirty(_scene);
+                    }
+                }
+
+                @Override
+                public CssMetaData getCssMetaData() {
+                    return StyleableProperties.FOCUS_TRAVERSABLE;
+                }
+
+                @Override
+                public Object getBean() {
+                    return Node.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "focusTraversable";
+                }
+            }*/;
+        }
+        return focusTraversable;
+    }
+
+    /***************************************************************************
+     *                                                                         *
+     *                             Focus Traversal                             *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Special boolean property which allows for atomic focus change.
+     * Focus change means defocusing the old focus owner and focusing a new
+     * one. With a usual property, defocusing the old node fires the value
+     * changed event and user code can react with something that breaks
+     * focusability of the new node, or even remove the new node from the scene.
+     * This leads to various error states. This property allows for setting
+     * the state without firing the event. The focus change first sets both
+     * properties and then fires both events. This makes the focus change look
+     * like an atomic operation - when the old node is notified to loose focus,
+     * the new node is already focused.
+     */
+    final class FocusedProperty extends ObjectPropertyBase {
+        private boolean value;
+        private boolean valid = true;
+        private boolean needsChangeEvent = false;
+
+        public void store(final boolean value) {
+            if (value != this.value) {
+                this.value = value;
+                markInvalid();
+            }
+        }
+
+        public void notifyListeners() {
+            if (needsChangeEvent) {
+                fireValueChangedEvent();
+                needsChangeEvent = false;
+            }
+        }
+
+        private void markInvalid() {
+            if (valid) {
+                valid = false;
+
+                //pseudoClassStateChanged(FOCUSED_PSEUDOCLASS_STATE, get());
+/*
+                PlatformLogger logger = Logging.getFocusLogger();
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(this + " focused=" + get());
+                }
+*/
+
+                needsChangeEvent = true;
+
+                //notifyAccessibleAttributeChanged(AccessibleAttribute.FOCUSED);
+            }
+        }
+
+        @Override
+        public Boolean get() {
+            valid = true;
+            return value;
+        }
+
+        @Override
+        public Object getBean() {
+            return Node.this;
+        }
+
+        @Override
+        public String getName() {
+            return "focused";
+        }
+    }
+    /**
+     * Indicates whether this {@code Node} currently has the input focus.
+     * To have the input focus, a node must be the {@code Scene}'s focus
+     * owner, and the scene must be in a {@code Stage} that is visible
+     * and active. See {@link #requestFocus()} for more information.
+     *
+     * @see #requestFocus()
+     * @defaultValue false
+     */
+    private FocusedProperty focused;
+
+    protected final void setFocused(boolean value) {
+        FocusedProperty fp = focusedPropertyImpl();
+        if (fp.value != value) {
+            fp.store(value);
+            fp.notifyListeners();
+        }
+    }
+
+    public final boolean isFocused() {
+        return focused == null ? false : focused.get();
+    }
+
+    public final ReadOnlyProperty<Boolean> focusedProperty() {
+        return focusedPropertyImpl();
+    }
+
+    private FocusedProperty focusedPropertyImpl() {
+        if (focused == null) {
+            focused = new FocusedProperty();
+        }
+        return focused;
+    }
+
 
     /***************************************************************************
      *                                                                         *
@@ -671,7 +1058,7 @@ public abstract class Node implements INode, EventTarget {
     }
 
     public NodePeer getOrCreateAndBindNodePeer() {
-        return scene.getOrCreateAndBindNodePeer(this);
+        return getScene().getOrCreateAndBindNodePeer(this);
     }
 
     public void setNodePeer(NodePeer nodePeer) {
@@ -679,14 +1066,18 @@ public abstract class Node implements INode, EventTarget {
         createLayoutMeasurable(nodePeer);
     }
 
-    private Scene scene;
+    private Property<Scene> scene = new SimpleObjectProperty<>();
 
-    public Scene getScene() {
+    public Property<Scene> sceneProperty() {
         return scene;
     }
 
+    public Scene getScene() {
+        return scene.getValue();
+    }
+
     public void setScene(Scene scene) {
-        this.scene = scene;
+        this.scene.setValue(scene);
         Node clip = getClip();
         if (clip != null)
             clip.setScene(scene);

@@ -70,6 +70,52 @@ public class Text extends Shape implements
         return fontProperty;
     }
 
+    private static final TextBoundsType DEFAULT_BOUNDS_TYPE = TextBoundsType.LOGICAL;
+
+    /**
+     * Determines how the bounds of the text node are calculated.
+     * Logical bounds is a more appropriate default for text than
+     * the visual bounds. See {@code TextBoundsType} for more information.
+     *
+     * @defaultValue TextBoundsType.LOGICAL
+     */
+    private Property<TextBoundsType> boundsType;
+
+    public final void setBoundsType(TextBoundsType value) {
+        boundsTypeProperty().setValue(value);
+    }
+
+    public final TextBoundsType getBoundsType() {
+        return boundsType == null ?
+                DEFAULT_BOUNDS_TYPE : boundsTypeProperty().getValue();
+    }
+
+    public final Property<TextBoundsType> boundsTypeProperty() {
+        if (boundsType == null) {
+            boundsType =
+                    new SimpleObjectProperty<>(DEFAULT_BOUNDS_TYPE)/* {
+                        @Override public Object getBean() { return Text.this; }
+                        @Override public String getName() { return "boundsType"; }
+                        @Override public CssMetaData<Text,TextBoundsType> getCssMetaData() {
+                            return StyleableProperties.BOUNDS_TYPE;
+                        }
+                        @Override public void invalidated() {
+                            TextLayout layout = getTextLayout();
+                            int type = 0;
+                            if (boundsType.get() == TextBoundsType.LOGICAL_VERTICAL_CENTER) {
+                                type |= TextLayout.BOUNDS_CENTER;
+                            }
+                            if (layout.setBoundsType(type)) {
+                                needsTextLayout();
+                            } else {
+                                impl_geomChanged();
+                            }
+                        }
+                    }*/;
+        }
+        return boundsType;
+    }
+
     private static boolean warned;
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {

@@ -417,9 +417,7 @@ public class ButtonBar extends Control {
      * @param buttonOrder The button order to use in this button bar instance.
      */
     public ButtonBar(final String buttonOrder) {
-/*
         getStyleClass().add("button-bar"); //$NON-NLS-1$
-*/
 
         // we allow for the buttons inside the ButtonBar to be focus traversable,
         // but the ButtonBar itself is not.
