@@ -11,6 +11,17 @@
 
     <artifactId>naga-javaemul-cldc</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <artifactId>naga-platform</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
     <build>
         <plugins>
 

@@ -26,13 +26,7 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-javaemul-shared</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>naga-javaemul-teavm-gwt-cldc</artifactId>
+            <artifactId>naga-javaemul-javatime</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
