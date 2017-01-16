@@ -123,7 +123,7 @@ public final class YearMonth extends DefaultInterfaceDateTimeAccessor implements
   public static YearMonth now(Clock clock) {
 
     final LocalDate now = LocalDate.now(clock); // called once
-    return YearMonth.of(now.getYear(), now.getMonth());
+    return of(now.getYear(), now.getMonth());
   }
 
   // -----------------------------------------------------------------------
