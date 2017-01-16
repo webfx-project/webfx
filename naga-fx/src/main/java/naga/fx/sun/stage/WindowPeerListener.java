@@ -1,8 +1,7 @@
 package naga.fx.sun.stage;
 
-import naga.fx.event.Event;
+import javafx.event.Event;
 import naga.fx.stage.Window;
-import naga.fx.stage.WindowEvent;
 import naga.fx.sun.tk.FocusCause;
 import naga.fx.sun.tk.FocusUngrabEvent;
 import naga.fx.sun.tk.TKStageListener;
@@ -62,9 +61,11 @@ public class WindowPeerListener implements TKStageListener {
 
     @Override
     public void closing() {
+/*
         Event.fireEvent(window,
                 new WindowEvent(window,
                         WindowEvent.WINDOW_CLOSE_REQUEST));
+*/
     }
 
     @Override

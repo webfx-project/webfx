@@ -1,5 +1,6 @@
 package naga.fx.scene.input;
 
+import javafx.scene.input.TransferMode;
 import naga.fx.scene.image.Image;
 
 import java.util.Set;

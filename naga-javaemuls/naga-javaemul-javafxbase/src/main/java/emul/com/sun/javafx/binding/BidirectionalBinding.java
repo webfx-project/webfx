@@ -25,10 +25,12 @@
 
 package emul.com.sun.javafx.binding;
 
+import emul.javafx.beans.Observable;
 import emul.javafx.beans.WeakListener;
-import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.*;
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
+import emul.javafx.util.StringConverter;
 
 import java.lang.ref.WeakReference;
 

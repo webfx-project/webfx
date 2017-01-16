@@ -1,6 +1,6 @@
 package naga.fx.scene.layout;
 
-import naga.fx.geometry.Side;
+import javafx.geometry.Side;
 
 /**
  * Represents the position of a {@link BackgroundImage} within the

@@ -7,13 +7,12 @@ import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.util.Callback;
-import naga.fx.event.*;
+import javafx.event.*;
 import naga.fx.scene.Node;
 import naga.fx.stage.Modality;
 import naga.fx.stage.StageStyle;
 import naga.fx.stage.Window;
-import naga.fx.sun.event.EventDispatchChain;
-import naga.fx.sun.event.EventHandlerManager;
+import com.sun.javafx.event.EventHandlerManager;
 
 import java.lang.ref.WeakReference;
 import java.util.Optional;

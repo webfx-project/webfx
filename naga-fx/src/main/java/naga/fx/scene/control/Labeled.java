@@ -1,8 +1,8 @@
 package naga.fx.scene.control;
 
 import javafx.beans.property.*;
-import naga.fx.geometry.Insets;
-import naga.fx.geometry.Pos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import naga.fx.properties.Properties;
 import naga.fx.properties.markers.*;
 import naga.fx.scene.Node;

@@ -1,6 +1,6 @@
 package naga.fx.sun.util;
 
-import naga.fx.geometry.*;
+import javafx.geometry.*;
 import naga.fx.scene.Node;
 import naga.fx.scene.Scene;
 import naga.fx.spi.Toolkit;

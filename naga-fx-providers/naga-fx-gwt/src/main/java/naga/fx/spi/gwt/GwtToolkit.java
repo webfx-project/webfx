@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt;
 
 import naga.commons.scheduler.UiScheduler;
-import naga.fx.geometry.Rectangle2D;
+import javafx.geometry.Rectangle2D;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.peer.WindowPeer;
 import naga.fx.scene.Scene;

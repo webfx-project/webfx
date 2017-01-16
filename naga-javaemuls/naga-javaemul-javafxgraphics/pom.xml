@@ -11,6 +11,22 @@
 
     <artifactId>naga-javaemul-javafxgraphics</artifactId>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>${naga.groupId}</groupId>
+            <artifactId>naga-javaemul-javafxbase</artifactId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${naga.groupId}</groupId>
+            <artifactId>naga-fx</artifactId>
+            <version>${naga.version}</version>
+        </dependency>
+
+    </dependencies>
+
     <properties>
         <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
         <plugin.shade.param.fat.phase>none</plugin.shade.param.fat.phase>

@@ -3,15 +3,15 @@ package naga.fx.scene.layout;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Callback;
-import naga.fx.geometry.*;
+import javafx.geometry.*;
 import naga.fx.scene.Node;
 import naga.fx.properties.markers.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static naga.fx.geometry.Orientation.HORIZONTAL;
-import static naga.fx.geometry.Orientation.VERTICAL;
+import static javafx.geometry.Orientation.HORIZONTAL;
+import static javafx.geometry.Orientation.VERTICAL;
 
 /**
  * @author Bruno Salmon

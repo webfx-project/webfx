@@ -4,7 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
 import javafx.collections.ListChangeListener;
 import naga.fx.sun.geom.Vec2d;
-import naga.fx.geometry.*;
+import javafx.geometry.*;
 import naga.fx.scene.Node;
 
 import java.util.List;

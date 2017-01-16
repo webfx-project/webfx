@@ -2,8 +2,8 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.CSSStyleDeclaration;
 import elemental2.HTMLElement;
-import naga.fx.geometry.BoundingBox;
-import naga.fx.geometry.Bounds;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import naga.fx.scene.LayoutMeasurable;
 
 /**

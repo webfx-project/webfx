@@ -2,8 +2,8 @@ package naga.fxdata.cell.collator;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import naga.fx.geometry.HPos;
-import naga.fx.geometry.VPos;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import naga.fx.scene.layout.Background;
 import naga.fx.scene.layout.Border;
 import naga.fx.spi.peer.NodePeer;

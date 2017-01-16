@@ -1,7 +1,7 @@
 package naga.fx.scene.layout;
 
 import javafx.beans.property.*;
-import naga.fx.geometry.VPos;
+import javafx.geometry.VPos;
 
 import static naga.fx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static naga.fx.scene.layout.Region.USE_PREF_SIZE;

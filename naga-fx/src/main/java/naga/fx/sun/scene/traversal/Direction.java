@@ -1,6 +1,6 @@
 package naga.fx.sun.scene.traversal;
 
-import naga.fx.geometry.NodeOrientation;
+import javafx.geometry.NodeOrientation;
 
 /**
  * Specifies the direction of traversal.

@@ -15,7 +15,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.fxdata.displaydata.*;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
-import naga.fx.geometry.Pos;
+import javafx.geometry.Pos;
 import naga.fx.scene.control.Button;
 import naga.fx.scene.image.ImageView;
 import naga.fx.scene.layout.HBox;

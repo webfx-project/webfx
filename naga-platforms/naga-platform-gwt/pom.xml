@@ -55,13 +55,13 @@
                                     <artifactId>naga-javaemul-gwt</artifactId>
                                     <groupId>${naga.groupId}</groupId>
                                     <version>${naga.version}</version>
-                                    <classifier>sources</classifier>
+                                    <classifier>shaded-sources</classifier>
                                 </artifactItem>
                                 <artifactItem>
                                     <artifactId>naga-javaemul-javatime</artifactId>
                                     <groupId>${naga.groupId}</groupId>
                                     <version>${naga.version}</version>
-                                    <classifier>sources</classifier>
+                                    <classifier>shaded-sources</classifier>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>${project.build.outputDirectory}/super</outputDirectory>

@@ -8,7 +8,7 @@ import naga.fx.sun.geom.BaseBounds;
 import naga.fx.sun.geom.TempState;
 import naga.fx.sun.geom.Vec2d;
 import naga.fx.sun.geom.transform.BaseTransform;
-import naga.fx.geometry.*;
+import javafx.geometry.*;
 import naga.fx.properties.markers.HasBackgroundProperty;
 import naga.fx.properties.markers.HasBorderProperty;
 import naga.fx.scene.Node;

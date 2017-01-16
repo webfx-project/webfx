@@ -2,7 +2,7 @@ package naga.fx.spi.javafx.peer;
 
 import naga.fx.spi.javafx.util.FxFonts;
 import naga.fx.spi.javafx.util.FxPaints;
-import naga.fx.geometry.Pos;
+import javafx.geometry.Pos;
 import naga.fx.scene.Node;
 import naga.fx.scene.control.Labeled;
 import naga.fx.scene.paint.Paint;

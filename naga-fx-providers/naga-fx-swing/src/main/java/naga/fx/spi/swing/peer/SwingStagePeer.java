@@ -104,8 +104,8 @@ public class SwingStagePeer implements StagePeer {
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    naga.fx.stage.WindowEvent we = new naga.fx.stage.WindowEvent(stage, naga.fx.stage.WindowEvent.WINDOW_CLOSE_REQUEST);
-                    naga.fx.event.Event.fireEvent(stage, we);
+                    javafx.stage.WindowEvent we = null; // new javafx.stage.WindowEvent(stage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST);
+                    javafx.event.Event.fireEvent(stage, we);
                     if (we.isConsumed() && stage == naga.fx.spi.Toolkit.get().getPrimaryStage())
                         System.exit(0);
                 }

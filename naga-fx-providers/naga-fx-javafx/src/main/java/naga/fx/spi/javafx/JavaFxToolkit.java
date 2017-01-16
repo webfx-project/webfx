@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
-import naga.fx.geometry.Rectangle2D;
+import javafx.geometry.Rectangle2D;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.peer.FxScenePeer;

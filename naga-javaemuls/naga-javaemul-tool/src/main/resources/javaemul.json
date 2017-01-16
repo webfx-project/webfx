@@ -15,11 +15,7 @@
         "sun.util": "emul.sun.util"
       },
       "includes": [
-        "javafx/event/Event.java",
-        "javafx/event/EventTarget.java",
-        "javafx/event/EventType.java",
-        "javafx/event/EventDispatchChain.java",
-        "javafx/event/EventDispatcher.java",
+        "javafx/event/*",
         "javafx/beans/NamedArg.java",
         "com/sun/javafx/event/EventUtil.java",
         "com/sun/javafx/event/EventDispatchChainImpl.java",
@@ -114,6 +110,7 @@
         "com.sun": "emul.com.sun"
       },
       "includes": [
+        "javafx/animation/KeyFrame.java",
         "com/sun/javafx/util/WeakReferenceQueue.java"
       ],
       "excludes": [

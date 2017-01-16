@@ -4,13 +4,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
-import naga.fx.event.Event;
+import javafx.event.Event;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.JavaFxToolkit;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.stage.Window;
-import naga.fx.stage.WindowEvent;
+import javafx.stage.WindowEvent;
 import naga.fx.sun.tk.TKStageListener;
 
 /**
@@ -40,7 +40,7 @@ public class FxStagePeer implements StagePeer {
                     listener.changedSize((float) fxStage.getWidth(), (float) fxStage.getHeight());
             }, fxStage.widthProperty(), fxStage.heightProperty());
             fxStage.setOnCloseRequest(e -> {
-                WindowEvent we = new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST);
+                WindowEvent we = null; //new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST);
                 Event.fireEvent(stage, we);
                 if (e != null && we.isConsumed())
                     e.consume();

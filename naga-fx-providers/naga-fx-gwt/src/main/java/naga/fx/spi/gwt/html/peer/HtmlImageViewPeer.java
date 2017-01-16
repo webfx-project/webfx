@@ -7,8 +7,8 @@ import naga.commons.util.Strings;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
 import naga.platform.spi.Platform;
-import naga.fx.geometry.BoundingBox;
-import naga.fx.geometry.Bounds;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import naga.fx.scene.image.Image;
 import naga.fx.scene.image.ImageView;
 

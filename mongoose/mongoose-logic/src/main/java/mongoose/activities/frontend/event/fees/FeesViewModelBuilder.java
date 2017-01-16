@@ -4,7 +4,7 @@ import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.highlevelcomponents.SectionPanelStyleOptions;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.geometry.Insets;
+import javafx.geometry.Insets;
 import naga.fxdata.cell.collator.GridCollator;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fx.scene.Node;

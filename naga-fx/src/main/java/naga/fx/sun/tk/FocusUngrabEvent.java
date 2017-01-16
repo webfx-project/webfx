@@ -1,8 +1,8 @@
 package naga.fx.sun.tk;
 
-import naga.fx.event.Event;
-import naga.fx.event.EventTarget;
-import naga.fx.event.EventType;
+import javafx.event.Event;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
 
 public final class FocusUngrabEvent extends Event {
     //private static final long serialVersionUID = 20121107L;

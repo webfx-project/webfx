@@ -2,7 +2,7 @@ package naga.fx.scene.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.event.ActionEvent;
+import javafx.event.ActionEvent;
 import naga.fx.scene.text.TextAlignment;
 
 /**

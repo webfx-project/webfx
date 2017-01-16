@@ -1,12 +1,12 @@
 package naga.fx.sun.scene.control.skin;
 
 import javafx.beans.value.ObservableValue;
-import naga.fx.event.EventHandler;
-import naga.fx.event.EventType;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import naga.fx.scene.control.Control;
 import naga.fx.sun.scene.control.MultiplePropertyChangeListenerHandler;
 import naga.fx.scene.control.SkinBase;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 import naga.fx.sun.scene.control.behaviour.BehaviorBase;
 
 /**

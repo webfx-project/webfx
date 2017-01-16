@@ -1,7 +1,7 @@
 package naga.fx.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.fx.geometry.Insets;
+import javafx.geometry.Insets;
 
 /**
  * @author Bruno Salmon

@@ -1,8 +1,8 @@
 package naga.fx.sun.scene;
 
-import naga.fx.sun.event.BasicEventDispatcher;
-import naga.fx.sun.event.CompositeEventDispatcher;
-import naga.fx.sun.event.EventHandlerManager;
+import com.sun.javafx.event.BasicEventDispatcher;
+import com.sun.javafx.event.CompositeEventDispatcher;
+import com.sun.javafx.event.EventHandlerManager;
 
 /**
  * An {@code EventDispatcher} for {@code Scene}. It is formed by a chain

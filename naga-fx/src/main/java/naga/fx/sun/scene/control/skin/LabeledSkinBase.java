@@ -1,10 +1,10 @@
 package naga.fx.sun.scene.control.skin;
 
 import javafx.beans.InvalidationListener;
-import naga.fx.geometry.HPos;
-import naga.fx.geometry.Orientation;
-import naga.fx.geometry.Pos;
-import naga.fx.geometry.VPos;
+import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import naga.fx.scene.Node;
 import naga.fx.scene.control.ContentDisplay;
 import naga.fx.scene.control.Labeled;

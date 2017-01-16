@@ -1,31 +1,26 @@
 package naga.fx.scene;
 
 import com.sun.javafx.collections.TrackableObservableList;
+import com.sun.javafx.scene.EventHandlerProperties;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.event.*;
 import naga.fx.css.Styleable;
-import naga.fx.event.Event;
-import naga.fx.event.EventHandler;
-import naga.fx.event.EventTarget;
-import naga.fx.event.EventType;
-import naga.fx.geometry.BoundingBox;
-import naga.fx.geometry.Bounds;
-import naga.fx.geometry.Orientation;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.geometry.Orientation;
 import naga.fx.properties.markers.*;
 import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.effect.Effect;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 import naga.fx.scene.layout.LayoutFlags;
 import naga.fx.scene.transform.Transform;
 import naga.fx.scene.transform.Translate;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.NodePeer;
-import naga.fx.sun.event.EventDispatchChain;
-import naga.fx.sun.event.EventDispatcher;
-import naga.fx.sun.event.EventHandlerProperties;
 import naga.fx.sun.geom.BaseBounds;
 import naga.fx.sun.geom.RectBounds;
 import naga.fx.sun.geom.TempState;
@@ -919,7 +914,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     private void initializeInternalEventDispatcher() {
         if (internalEventDispatcher == null) {
             internalEventDispatcher = createInternalEventDispatcher();
-            eventDispatcher = new SimpleObjectProperty<>(
+            eventDispatcher = new SimpleObjectProperty<EventDispatcher>(
                     Node.this,
                     "eventDispatcher",
                     internalEventDispatcher);

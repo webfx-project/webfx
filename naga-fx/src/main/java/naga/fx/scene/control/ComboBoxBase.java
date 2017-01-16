@@ -2,10 +2,10 @@ package naga.fx.scene.control;
 
 import javafx.beans.property.*;
 import javafx.collections.MapChangeListener;
-import naga.fx.event.ActionEvent;
-import naga.fx.event.Event;
-import naga.fx.event.EventHandler;
-import naga.fx.event.EventType;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 
 /**
  * Abstract base class for ComboBox-like controls. A ComboBox typically has

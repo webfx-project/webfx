@@ -1,10 +1,10 @@
 package naga.fx.sun.scene;
 
-import naga.fx.sun.event.BasicEventDispatcher;
-import naga.fx.event.Event;
+import com.sun.javafx.event.BasicEventDispatcher;
+import javafx.event.Event;
 import naga.fx.scene.input.DragEvent;
 import naga.fx.scene.input.MouseDragEvent;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * {@code EventDispatcher} which translates event types for events which have

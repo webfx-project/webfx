@@ -1,9 +1,9 @@
 package naga.fx.sun.stage;
 
 import naga.fx.stage.Window;
-import naga.fx.stage.WindowEvent;
-import naga.fx.sun.event.BasicEventDispatcher;
-import naga.fx.event.Event;
+import javafx.stage.WindowEvent;
+import com.sun.javafx.event.BasicEventDispatcher;
+import javafx.event.Event;
 
 public final class WindowCloseRequestHandler extends BasicEventDispatcher {
     private final Window window;

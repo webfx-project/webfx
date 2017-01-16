@@ -1,7 +1,7 @@
 package naga.fx.properties.markers;
 
 import javafx.beans.property.Property;
-import naga.fx.geometry.Orientation;
+import javafx.geometry.Orientation;
 
 /**
  * @author Bruno Salmon

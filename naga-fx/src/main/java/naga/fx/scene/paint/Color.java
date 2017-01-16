@@ -1,7 +1,7 @@
 package naga.fx.scene.paint;
 
 import naga.commons.util.Numbers;
-import naga.fx.animation.Interpolatable;
+import javafx.animation.Interpolatable;
 
 import java.util.HashMap;
 import java.util.Map;

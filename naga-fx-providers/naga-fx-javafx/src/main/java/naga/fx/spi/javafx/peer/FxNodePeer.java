@@ -1,16 +1,16 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.event.ActionEvent;
-import naga.fx.event.EventHandler;
-import naga.fx.event.EventTarget;
-import naga.fx.event.EventType;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
 import naga.fx.scene.Node;
 import naga.fx.scene.Scene;
 import naga.fx.scene.SceneRequester;
 import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.effect.Effect;
 import naga.fx.scene.effect.GaussianBlur;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 import naga.fx.scene.transform.Transform;
 import naga.fx.spi.javafx.util.FxTransforms;
 import naga.fx.spi.peer.NodePeer;

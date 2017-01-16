@@ -6,7 +6,7 @@ import naga.fx.spi.gwt.svg.SvgScenePeer;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.gwt.util.SvgUtil;
-import naga.fx.geometry.VPos;
+import javafx.geometry.VPos;
 import naga.fx.scene.Node;
 import naga.fx.scene.effect.Effect;
 import naga.fx.scene.effect.GaussianBlur;

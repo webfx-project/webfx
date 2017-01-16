@@ -1,6 +1,6 @@
 package naga.fx.scene;
 
-import naga.fx.geometry.Bounds;
+import javafx.geometry.Bounds;
 
 /**
  * @author Bruno Salmon

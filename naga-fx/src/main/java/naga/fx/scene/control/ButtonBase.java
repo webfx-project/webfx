@@ -1,8 +1,8 @@
 package naga.fx.scene.control;
 
 import javafx.beans.property.*;
-import naga.fx.event.ActionEvent;
-import naga.fx.event.EventHandler;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import naga.fx.scene.Node;
 
 /**

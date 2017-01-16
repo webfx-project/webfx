@@ -6,7 +6,7 @@ import mongoose.activities.shared.logic.calendar.graphic.CalendarCell;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import naga.fx.geometry.VPos;
+import javafx.geometry.VPos;
 import naga.fx.scene.Group;
 import naga.fx.scene.paint.Color;
 import naga.fx.scene.paint.Paint;

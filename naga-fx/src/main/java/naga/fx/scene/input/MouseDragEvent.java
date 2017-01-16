@@ -1,7 +1,10 @@
 package naga.fx.scene.input;
 
-import naga.fx.event.EventTarget;
-import naga.fx.event.EventType;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
 
 /**
  * Mouse drag events are delivered to potential gesture targets during
@@ -29,7 +32,7 @@ import naga.fx.event.EventType;
  * events, please see {@link MouseEvent} overview.
  * @since JavaFX 2.1
  */
-public final class MouseDragEvent extends MouseEvent{
+public final class MouseDragEvent extends MouseEvent {
 
     //private static final long serialVersionUID = 20121107L;
 

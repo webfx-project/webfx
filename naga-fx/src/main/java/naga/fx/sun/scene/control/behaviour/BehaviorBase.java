@@ -1,10 +1,10 @@
 package naga.fx.sun.scene.control.behaviour;
 
 import javafx.beans.InvalidationListener;
-import naga.fx.event.EventHandler;
+import javafx.event.EventHandler;
 import naga.fx.scene.control.Control;
-import naga.fx.scene.input.KeyEvent;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;

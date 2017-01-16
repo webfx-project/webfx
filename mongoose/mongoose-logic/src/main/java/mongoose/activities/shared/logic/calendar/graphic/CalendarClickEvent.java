@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.calendar.graphic;
 
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author Bruno Salmon

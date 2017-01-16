@@ -2,10 +2,10 @@ package naga.fx.scene.layout;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.geometry.HPos;
-import naga.fx.geometry.Insets;
-import naga.fx.geometry.Pos;
-import naga.fx.geometry.VPos;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import naga.fx.scene.Node;
 import naga.fx.properties.markers.*;
 

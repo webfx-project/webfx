@@ -2,7 +2,7 @@ package naga.fx.scene;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.geometry.Bounds;
+import javafx.geometry.Bounds;
 import naga.fx.properties.markers.HasAutoSizeChildrenProperty;
 
 /**

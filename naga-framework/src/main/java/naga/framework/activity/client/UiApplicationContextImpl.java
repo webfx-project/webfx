@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
-import naga.fx.geometry.Rectangle2D;
+import javafx.geometry.Rectangle2D;
 import naga.fx.scene.Node;
 import naga.fx.scene.Parent;
 import naga.fx.scene.Scene;

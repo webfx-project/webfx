@@ -2,8 +2,8 @@ package naga.fx.spi.javafx.peer;
 
 import javafx.scene.Node;
 import javafx.scene.control.Skinnable;
-import naga.fx.geometry.BoundingBox;
-import naga.fx.geometry.Bounds;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import naga.fx.scene.LayoutMeasurable;
 
 /**

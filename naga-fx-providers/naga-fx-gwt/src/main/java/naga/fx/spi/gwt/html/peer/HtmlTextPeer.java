@@ -3,7 +3,7 @@ package naga.fx.spi.gwt.html.peer;
 import naga.commons.util.Numbers;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.geometry.VPos;
+import javafx.geometry.VPos;
 import naga.fx.scene.paint.Paint;
 import naga.fx.scene.text.Font;
 import naga.fx.scene.text.Text;

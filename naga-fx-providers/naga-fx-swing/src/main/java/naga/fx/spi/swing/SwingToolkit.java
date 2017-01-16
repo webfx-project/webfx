@@ -1,6 +1,6 @@
 package naga.fx.spi.swing;
 
-import naga.fx.geometry.Rectangle2D;
+import javafx.geometry.Rectangle2D;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.peer.WindowPeer;

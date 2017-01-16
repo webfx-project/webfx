@@ -7,15 +7,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.EventDispatchChain;
+import javafx.event.EventDispatcher;
+import javafx.event.EventTarget;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
-import naga.fx.event.EventTarget;
-import naga.fx.geometry.Orientation;
-import naga.fx.spi.peer.NodePeer;
-import naga.fx.spi.peer.ScenePeer;
-import naga.fx.spi.peer.StagePeer;
+import javafx.geometry.Orientation;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasRootProperty;
@@ -24,9 +23,10 @@ import naga.fx.scene.control.Button;
 import naga.fx.scene.control.Skin;
 import naga.fx.scene.control.Skinnable;
 import naga.fx.spi.Toolkit;
+import naga.fx.spi.peer.NodePeer;
+import naga.fx.spi.peer.ScenePeer;
+import naga.fx.spi.peer.StagePeer;
 import naga.fx.stage.Window;
-import naga.fx.sun.event.EventDispatchChain;
-import naga.fx.sun.event.EventDispatcher;
 import naga.fx.sun.scene.SceneEventDispatcher;
 import naga.fx.sun.tk.TKPulseListener;
 import naga.fx.sun.tk.TKSceneListener;
@@ -399,7 +399,7 @@ public class Scene implements EventTarget,
     final void initializeInternalEventDispatcher() {
         if (internalEventDispatcher == null) {
             internalEventDispatcher = createInternalEventDispatcher();
-            eventDispatcher = new SimpleObjectProperty<>(
+            eventDispatcher = new SimpleObjectProperty<EventDispatcher>(
                     this,
                     "eventDispatcher",
                     internalEventDispatcher);

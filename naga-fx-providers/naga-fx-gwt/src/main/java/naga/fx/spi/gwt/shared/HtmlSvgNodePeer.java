@@ -7,7 +7,7 @@ import naga.fx.scene.Scene;
 import naga.fx.scene.SceneRequester;
 import naga.fx.scene.effect.BlendMode;
 import naga.fx.scene.effect.Effect;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 import naga.fx.scene.text.Font;
 import naga.fx.scene.text.FontPosture;
 import naga.fx.scene.transform.Transform;

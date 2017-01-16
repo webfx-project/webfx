@@ -3,7 +3,7 @@ package naga.fx.scene.layout;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Callback;
-import naga.fx.geometry.*;
+import javafx.geometry.*;
 import naga.fx.scene.Node;
 
 import java.util.List;

@@ -1,12 +1,12 @@
 package naga.fx.scene.control;
 
 import javafx.collections.ObservableList;
-import naga.fx.event.EventHandler;
-import naga.fx.geometry.HPos;
-import naga.fx.geometry.Insets;
-import naga.fx.geometry.VPos;
+import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import naga.fx.scene.Node;
-import naga.fx.scene.input.MouseEvent;
+import javafx.scene.input.MouseEvent;
 import naga.fx.scene.layout.Region;
 
 /**

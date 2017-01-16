@@ -1,8 +1,11 @@
 package naga.fx.scene.input;
 
-import naga.fx.event.EventTarget;
-import naga.fx.event.EventType;
-import naga.fx.geometry.Point3D;
+import javafx.event.EventTarget;
+import javafx.event.EventType;
+import javafx.geometry.Point3D;
+import javafx.scene.input.InputEvent;
+import javafx.scene.input.PickResult;
+import javafx.scene.input.TransferMode;
 import naga.fx.sun.scene.input.InputEventUtils;
 
 import java.util.EnumSet;
@@ -326,12 +329,12 @@ public final class DragEvent extends InputEvent {
             state.acceptedTrasferMode = transferMode;
         }
 
-        this.pickResult = pickResult != null ? pickResult : new PickResult(
-                eventType == DRAG_DONE ? null : target, x, y);
-        Point3D p = InputEventUtils.recomputeCoordinates(this.pickResult, null);
-        this.x = p.getX();
-        this.y = p.getY();
-        this.z = p.getZ();
+        this.pickResult = null; /*pickResult != null ? pickResult : new PickResult(
+                eventType == DRAG_DONE ? null : target, x, y);*/
+        //Point3D p = InputEventUtils.recomputeCoordinates(this.pickResult, null);
+        this.x = 0; //p.getX();
+        this.y = 0; //p.getY();
+        this.z = 0; //p.getZ();
     }
 
     /**

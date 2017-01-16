@@ -1,7 +1,7 @@
 package naga.fx.spi.javafx.peer;
 
 import naga.fx.spi.javafx.util.FxFonts;
-import naga.fx.geometry.VPos;
+import javafx.geometry.VPos;
 import naga.fx.scene.text.Font;
 import naga.fx.scene.text.Text;
 import naga.fx.scene.text.TextAlignment;

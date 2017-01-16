@@ -1,6 +1,6 @@
 package naga.fx.stage;
 
-import naga.fx.geometry.Rectangle2D;
+import javafx.geometry.Rectangle2D;
 import naga.fx.spi.Toolkit;
 
 /**

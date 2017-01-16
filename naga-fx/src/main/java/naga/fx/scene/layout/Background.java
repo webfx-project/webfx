@@ -1,7 +1,7 @@
 package naga.fx.scene.layout;
 
 import com.sun.javafx.UnmodifiableArrayList;
-import naga.fx.geometry.Insets;
+import javafx.geometry.Insets;
 
 import java.util.Collections;
 import java.util.List;

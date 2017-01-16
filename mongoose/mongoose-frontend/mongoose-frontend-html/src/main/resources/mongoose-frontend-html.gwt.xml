@@ -10,7 +10,7 @@
   <inherits name="naga-platform"/>
   <inherits name="naga-commons"/>
   <inherits name="naga-javalib-javacupruntime"/>
-  <inherits name="naga-javalib-javafxbindings"/>
+  <inherits name="naga-javaemul-javafxbase"/>
   <inherits name="naga-javalib-rxjava"/>
   <entry-point class="mongoose.html.frontend.activities.application.MongooseFrontendHtmlApplication"/>
   <source path="mongoose/html/frontend"/>

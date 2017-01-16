@@ -2,8 +2,8 @@ package naga.fx.spi.javafx.peer;
 
 import naga.fx.spi.javafx.util.FxPaints;
 import naga.fx.spi.javafx.util.FxStrokes;
-import naga.fx.geometry.Insets;
-import naga.fx.geometry.Side;
+import javafx.geometry.Insets;
+import javafx.geometry.Side;
 import naga.fx.scene.image.Image;
 import naga.fx.scene.layout.*;
 import naga.fx.spi.peer.base.RegionPeerBase;

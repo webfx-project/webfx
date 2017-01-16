@@ -1,9 +1,9 @@
 package naga.fx.sun.scene.control.behaviour;
 
-import naga.fx.event.EventType;
+import javafx.event.EventType;
 import naga.fx.scene.control.Control;
-import naga.fx.scene.input.KeyCode;
-import naga.fx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import static naga.fx.sun.scene.control.behaviour.OptionalBoolean.*;
 

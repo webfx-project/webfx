@@ -1,6 +1,6 @@
 package naga.fx.scene.layout;
 
-import naga.fx.geometry.Insets;
+import javafx.geometry.Insets;
 import naga.fx.scene.paint.Color;
 import naga.fx.scene.paint.Paint;
 

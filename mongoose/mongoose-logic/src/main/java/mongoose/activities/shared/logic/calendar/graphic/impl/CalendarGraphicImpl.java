@@ -2,6 +2,7 @@ package mongoose.activities.shared.logic.calendar.graphic.impl;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.util.Duration;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
@@ -11,10 +12,10 @@ import mongoose.activities.shared.logic.time.TimeInterval;
 import naga.commons.util.async.Handler;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.animation.Animation;
-import naga.fx.animation.KeyFrame;
-import naga.fx.animation.KeyValue;
-import naga.fx.animation.Timeline;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import naga.fx.scene.Group;
 import naga.fx.scene.Node;
 import naga.fx.scene.layout.Region;
@@ -22,7 +23,6 @@ import naga.fx.scene.transform.Rotate;
 import naga.fx.scene.transform.Translate;
 import naga.fx.properties.Properties;
 
-import java.time.Duration;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
@@ -90,7 +90,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
                 rotate.setPivotY(rootNode.getHeight() / 2);
             }, rootNode.widthProperty(), rootNode.heightProperty());
             Timeline timeline = new Timeline();
-            timeline.getKeyFrames().setAll(new KeyFrame(Duration.ofSeconds(5), new KeyValue(rotate.angleProperty(), 360d)));
+            timeline.getKeyFrames().setAll(new KeyFrame(Duration.seconds(5), new KeyValue(rotate.angleProperty(), 360d)));
             timeline.setCycleCount(Animation.INDEFINITE);
             timeline.play();
         }

@@ -1,10 +1,10 @@
 package naga.fx.sun.stage;
 
 import naga.fx.stage.Window;
-import naga.fx.sun.event.BasicEventDispatcher;
-import naga.fx.sun.event.CompositeEventDispatcher;
-import naga.fx.sun.event.EventHandlerManager;
-import naga.fx.sun.event.EventRedirector;
+import com.sun.javafx.event.BasicEventDispatcher;
+import com.sun.javafx.event.CompositeEventDispatcher;
+import com.sun.javafx.event.EventHandlerManager;
+import com.sun.javafx.event.EventRedirector;
 
 /**
  * An {@code EventDispatcher} for {@code Window}. It is formed by a chain

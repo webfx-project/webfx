@@ -1,7 +1,7 @@
 package naga.fx.scene.control;
 
-import naga.fx.event.Event;
-import naga.fx.event.EventType;
+import javafx.event.Event;
+import javafx.event.EventType;
 
 /**
  * Event related to dialog showing/hiding actions. In particular, this event is

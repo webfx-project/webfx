@@ -3,7 +3,7 @@ package naga.fx.scene.control.skin;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.ListChangeListener;
-import naga.fx.geometry.Pos;
+import javafx.geometry.Pos;
 import naga.fx.scene.Node;
 import naga.fx.scene.control.Button;
 import naga.fx.scene.control.ButtonBar;

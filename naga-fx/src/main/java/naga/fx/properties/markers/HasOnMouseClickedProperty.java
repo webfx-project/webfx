@@ -1,8 +1,8 @@
 package naga.fx.properties.markers;
 
 import javafx.beans.property.ObjectProperty;
-import naga.fx.scene.input.MouseEvent;
-import naga.fx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
+import javafx.event.EventHandler;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
 import naga.framework.ui.i18n.I18n;
-import naga.fx.geometry.VPos;
+import javafx.geometry.VPos;
 import naga.fx.scene.Group;
 import naga.fx.scene.paint.Color;
 import naga.fx.scene.paint.LinearGradient;

@@ -26,7 +26,7 @@ class SwingButtonBasePeer
         swingButtonBase.setFont(StyleUtil.getFont(false, false));
         swingButtonBase.addActionListener(e -> {
             N node = getNode();
-            node.fireEvent(new naga.fx.event.ActionEvent(node, node));
+            node.fireEvent(new javafx.event.ActionEvent(node, node));
         });
     }
 

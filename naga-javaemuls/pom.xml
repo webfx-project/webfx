@@ -41,7 +41,7 @@
                                 <goal>shade</goal>
                             </goals>
                             <configuration>
-                                <shadedArtifactAttached>false</shadedArtifactAttached>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
                                 <relocations>
                                     <relocation>
                                         <pattern>emul.java</pattern>

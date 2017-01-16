@@ -1,8 +1,8 @@
 package naga.fx.sun.scene.input;
 
-import naga.fx.geometry.Point3D;
-import naga.fx.scene.input.PickResult;
-import naga.fx.scene.input.TransferMode;
+import javafx.scene.input.PickResult;
+import javafx.geometry.Point3D;
+import javafx.scene.input.TransferMode;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,7 +21,7 @@ public class InputEventUtils {
      */
     public static Point3D recomputeCoordinates(PickResult result, Object newSource) {
 
-        Point3D coordinates = result.getIntersectedPoint();
+        Point3D coordinates = null; // result.getIntersectedPoint();
         if (coordinates == null)
             return new Point3D(Double.NaN, Double.NaN, Double.NaN);
 

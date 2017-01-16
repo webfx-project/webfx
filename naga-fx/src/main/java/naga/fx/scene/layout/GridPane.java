@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.util.Callback;
-import naga.fx.geometry.*;
+import javafx.geometry.*;
 import naga.fx.scene.Group;
 import naga.fx.scene.Node;
 import naga.fx.scene.paint.Color;

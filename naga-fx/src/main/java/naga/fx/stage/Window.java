@@ -1,26 +1,22 @@
 package naga.fx.stage;
 
 import javafx.beans.property.*;
+import javafx.event.*;
+import javafx.stage.WindowEvent;
 import naga.commons.scheduler.Scheduled;
-import naga.fx.event.Event;
-import naga.fx.event.EventHandler;
-import naga.fx.event.EventTarget;
-import naga.fx.event.EventType;
-import naga.fx.geometry.Rectangle2D;
-import naga.fx.spi.peer.StagePeer;
-import naga.fx.spi.peer.WindowPeer;
+import javafx.geometry.Rectangle2D;
 import naga.fx.properties.Properties;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasSceneProperty;
 import naga.fx.properties.markers.HasWidthProperty;
 import naga.fx.scene.Scene;
 import naga.fx.spi.Toolkit;
-import naga.fx.sun.event.EventDispatchChain;
-import naga.fx.sun.event.EventDispatcher;
+import naga.fx.spi.peer.StagePeer;
+import naga.fx.spi.peer.WindowPeer;
 import naga.fx.sun.stage.WindowEventDispatcher;
-import naga.fx.sun.tk.TKPulseListener;
 import naga.fx.sun.stage.WindowHelper;
 import naga.fx.sun.stage.WindowPeerListener;
+import naga.fx.sun.tk.TKPulseListener;
 
 /**
  * @author Bruno Salmon
@@ -279,9 +275,9 @@ public class Window implements EventTarget,
             }
 
             if (!oldVisible && newVisible) {
-                fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWING));
+                //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWING));
             } else {
-                fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDING));
+                //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDING));
             }
 
             impl_visibleChanging(newVisible);
@@ -345,12 +341,12 @@ public class Window implements EventTarget,
                     //impl_peer.setOpacity((float)getOpacity());
 
                     impl_peer.setVisible(true);
-                    fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWN));
+                    //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_SHOWN));
                 } else {
                     impl_peer.setVisible(false);
 
                     // Call listener
-                    fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDDEN));
+                    //fireEvent(new WindowEvent(Window.this, WindowEvent.WINDOW_HIDDEN));
 
                     if (getScene() != null) {
                         //impl_peer.setScene(null);
@@ -774,7 +770,7 @@ public class Window implements EventTarget,
     private void initializeInternalEventDispatcher() {
         if (internalEventDispatcher == null) {
             internalEventDispatcher = createInternalEventDispatcher();
-            eventDispatcher = new SimpleObjectProperty<>(
+            eventDispatcher = new SimpleObjectProperty<EventDispatcher>(
                     this,
                     "eventDispatcher",
                     internalEventDispatcher);
