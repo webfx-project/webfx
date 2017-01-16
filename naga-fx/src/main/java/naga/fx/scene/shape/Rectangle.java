@@ -2,8 +2,8 @@ package naga.fx.scene.shape;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
 import naga.fx.scene.paint.Paint;
 import naga.fx.properties.markers.*;
 
@@ -80,7 +80,7 @@ public class Rectangle extends Shape implements
 
     @Override
     public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        bounds.setBoundsAndSort(getX(), getY(), 0, getX() + getWidth(), getY() + getHeight(), 0);
+        bounds.setBoundsAndSort(getX().floatValue(), getY().floatValue(), 0, (float) (getX() + getWidth()), (float) (getY() + getHeight()), 0);
         return bounds;
     }
 }

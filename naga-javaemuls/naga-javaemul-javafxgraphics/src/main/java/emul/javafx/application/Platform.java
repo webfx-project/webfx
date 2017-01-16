@@ -1,4 +1,4 @@
-package naga.fx.application;
+package emul.javafx.application;
 
 import naga.fx.spi.Toolkit;
 

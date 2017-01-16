@@ -5,9 +5,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.RectBounds;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.RectBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.markers.HasManagedProperty;
 import naga.fx.scene.layout.LayoutFlags;
@@ -555,7 +555,7 @@ public class Parent extends Node {
             if (first)
                 bounds.makeEmpty();
             else
-                bounds = bounds.deriveWithNewBounds(minX, minY, minZ, maxX, maxY, maxZ);
+                bounds = bounds.deriveWithNewBounds((float) minX, (float) minY, (float) minZ, (float) maxX, (float) maxY, (float) maxZ);
 
             return bounds;
         }
@@ -671,6 +671,6 @@ public class Parent extends Node {
             }
         }
 
-        cachedBounds = cachedBounds.deriveWithNewBounds(minX, minY, minZ, maxX, maxY, maxZ);
+        cachedBounds = cachedBounds.deriveWithNewBounds((float) minX, (float) minY, (float) minZ, (float) maxX, (float) maxY, (float) maxZ);
     }
 }

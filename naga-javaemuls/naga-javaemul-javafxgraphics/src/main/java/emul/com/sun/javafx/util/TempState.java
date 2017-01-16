@@ -1,4 +1,7 @@
-package naga.fx.sun.geom;
+package emul.com.sun.javafx.util;
+
+import emul.com.sun.javafx.geom.BaseBounds;
+import emul.com.sun.javafx.geom.RectBounds;
 
 /**************************************************************************
  *                                                                        *

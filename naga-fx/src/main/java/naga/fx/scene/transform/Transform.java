@@ -1,7 +1,7 @@
 package naga.fx.scene.transform;
 
 import javafx.beans.property.Property;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.properties.Properties;
 
 /**
@@ -26,7 +26,7 @@ public abstract class Transform {
      * @throws NullPointerException if the specified {@code point} is null
      */
     public Point2D transform(Point2D point) {
-        return transform(point.getX(), point.getY());
+        return transform(point.x, point.y);
     }
 
     /**
@@ -36,7 +36,7 @@ public abstract class Transform {
     public abstract Transform createInverse();
 
     public Point2D inverseTransform(Point2D point) /*throws NonInvertibleTransformException*/ {
-        return inverseTransform(point.getX(), point.getY());
+        return inverseTransform(point.x, point.y);
     }
 
     public abstract Affine toAffine();

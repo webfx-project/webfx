@@ -1,7 +1,7 @@
 package naga.fx.spi.swing.peer;
 
 import naga.fx.spi.peer.CanvasNodePeer;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.scene.Node;
 
 import javax.swing.*;
@@ -21,6 +21,6 @@ public interface SwingEmbedComponentPeer
     }
 
     default boolean containsPoint(Point2D point) {
-        return getSwingComponent().contains((int) point.getX(), (int) point.getY());
+        return getSwingComponent().contains((int) point.x, (int) point.y);
     }
 }

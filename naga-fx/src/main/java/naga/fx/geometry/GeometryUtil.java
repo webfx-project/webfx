@@ -1,6 +1,6 @@
 package naga.fx.geometry;
 
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 
 /**
  * @author Bruno Salmon
@@ -40,7 +40,7 @@ public final class GeometryUtil {
      * @return the distance between point 1 and point 2.
      */
     public static double distance(Point2D point1, double x2, double y2) {
-        return distance(point1.getX(), point1.getY(), x2, y2);
+        return distance(point1.x, point1.y, x2, y2);
     }
 
     /**
@@ -51,7 +51,7 @@ public final class GeometryUtil {
      * @return the distance between point 1 and point 2.
      */
     public static double distance(Point2D point1, Point2D point2) {
-        return distance(point1, point2.getX(), point2.getY());
+        return distance(point1, point2.x, point2.y);
     }
 
     /**
@@ -89,7 +89,7 @@ public final class GeometryUtil {
     }
 
     public static Point2D pivotRadian(double pivotX, double pivotY, double angleRad, double distance) {
-        return new Point2D(pivotX + distance * Math.cos(angleRad), pivotY + distance * Math.sin(angleRad));
+        return new Point2D((float) (pivotX + distance * Math.cos(angleRad)), (float) (pivotY + distance * Math.sin(angleRad)));
     }
 
     public static Point2D rotate(double pivotX, double pivotY, double x, double y, double angleDeg) {
@@ -98,6 +98,6 @@ public final class GeometryUtil {
             if (distance != 0d)
                 return pivot(pivotX, pivotY, angle(pivotX, pivotY, x, y) + angleDeg, distance);
         }
-        return new Point2D(x, y);
+        return new Point2D((float) x, (float) y);
     }
 }

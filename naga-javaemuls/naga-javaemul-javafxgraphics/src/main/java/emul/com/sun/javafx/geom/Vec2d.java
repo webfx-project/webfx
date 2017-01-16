@@ -1,4 +1,4 @@
-package naga.fx.sun.geom;
+package emul.com.sun.javafx.geom;
 
 /**
  * A 2-dimensional, double-precision, floating-point vector.

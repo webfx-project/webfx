@@ -4,10 +4,10 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.util.Callback;
 import naga.commons.util.function.Function;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.TempState;
-import naga.fx.sun.geom.Vec2d;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.util.TempState;
+import com.sun.javafx.geom.Vec2d;
+import com.sun.javafx.geom.transform.BaseTransform;
 import javafx.geometry.*;
 import naga.fx.properties.markers.HasBackgroundProperty;
 import naga.fx.properties.markers.HasBorderProperty;
@@ -208,13 +208,13 @@ public class Region extends Parent implements
          */
         if (cb.isEmpty()) {
             // There are no children bounds, so
-            bounds = bounds.deriveWithNewBounds(bx1, by1, 0, bx2, by2, 0);
+            bounds = bounds.deriveWithNewBounds((float) bx1, (float) by1, 0, (float) bx2, (float) by2, 0);
             bounds = tx.transform(bounds, bounds);
             return bounds;
         } else {
             // Union with children's bounds
             BaseBounds tempBounds = TempState.getInstance().bounds;
-            tempBounds = tempBounds.deriveWithNewBounds(bx1, by1, 0, bx2, by2, 0);
+            tempBounds = tempBounds.deriveWithNewBounds((float) bx1, (float) by1, 0, (float) bx2, (float) by2, 0);
             BaseBounds bb = tx.transform(tempBounds, tempBounds);
             cb = cb.deriveWithUnion(bb);
             return cb;

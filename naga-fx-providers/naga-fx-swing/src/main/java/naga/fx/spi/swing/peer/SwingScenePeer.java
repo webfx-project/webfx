@@ -8,7 +8,7 @@ import naga.fx.scene.Scene;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.swing.SwingNodePeerFactory;
 import naga.fx.spi.swing.util.StyleUtil;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 
 import javax.swing.*;
 import java.awt.*;
@@ -172,7 +172,7 @@ public class SwingScenePeer extends CanvasScenePeer<SwingNodePeer<?, ?, ?>, Grap
             private void handleMouseEvent(MouseEvent e) {
                 PickResult pickResult = null;
                 Component embedTarget = null;
-                Point2D canvasPoint = new Point2D((double) e.getX(), (double) e.getY());
+                Point2D canvasPoint = new Point2D(e.getX(), e.getY());
                 int eventId = e.getID();
                 if (eventId != MouseEvent.MOUSE_EXITED) {
                     pickResult = pickNode(canvasPoint);
@@ -188,8 +188,8 @@ public class SwingScenePeer extends CanvasScenePeer<SwingNodePeer<?, ?, ?>, Grap
                 int x, y;
                 if (embedTarget != null) {
                     Point2D nodeLocalPoint = pickResult.getNodeLocalPoint();
-                    x = (int) nodeLocalPoint.getX();
-                    y = (int) nodeLocalPoint.getY();
+                    x = (int) nodeLocalPoint.x;
+                    y = (int) nodeLocalPoint.y;
                     while (true) {
                         Component childTarget = embedTarget.getComponentAt(x, y);
                         if (childTarget == null || childTarget == embedTarget)
@@ -199,8 +199,8 @@ public class SwingScenePeer extends CanvasScenePeer<SwingNodePeer<?, ?, ?>, Grap
                         embedTarget = childTarget;
                     }
                 } else {
-                    x = (int) canvasPoint.getX();
-                    y = (int) canvasPoint.getY();
+                    x = (int) canvasPoint.x;
+                    y = (int) canvasPoint.y;
                 }
                 if (embedTarget != lastEmbedTarget) {
                     if (lastEmbedTarget != null)

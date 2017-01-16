@@ -2,9 +2,9 @@ package naga.fxdata.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.BoxBounds;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.BoxBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
 import naga.fx.scene.layout.Region;
 import naga.fx.properties.markers.HasTextProperty;
 

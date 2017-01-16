@@ -1,6 +1,6 @@
 package naga.fx.spi.peer;
 
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.scene.Node;
 
 /**

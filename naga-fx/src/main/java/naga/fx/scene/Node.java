@@ -21,10 +21,10 @@ import naga.fx.scene.transform.Transform;
 import naga.fx.scene.transform.Translate;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.NodePeer;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.RectBounds;
-import naga.fx.sun.geom.TempState;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.RectBounds;
+import com.sun.javafx.util.TempState;
+import com.sun.javafx.geom.transform.BaseTransform;
 import naga.fx.sun.scene.NodeEventDispatcher;
 import naga.fx.sun.scene.traversal.Direction;
 

@@ -2,8 +2,8 @@ package naga.fx.scene.image;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
 import naga.fx.properties.markers.*;
 import naga.fx.scene.Node;
 
@@ -88,7 +88,7 @@ public class ImageView extends Node implements
     @Override public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
         recomputeWidthHeight();
 
-        bounds = bounds.deriveWithNewBounds(getX(), getY(), 0d, getX() + destWidth, getY() + destHeight, 0d);
+        bounds = bounds.deriveWithNewBounds(getX().floatValue(), getY().floatValue(), 0, (float) (getX() + destWidth), (float) (getY() + destHeight), 0);
         bounds = tx.transform(bounds, bounds);
         return bounds;
     }

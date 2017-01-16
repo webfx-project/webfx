@@ -2,8 +2,8 @@ package naga.fx.scene.shape;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.sun.geom.BaseBounds;
-import naga.fx.sun.geom.transform.BaseTransform;
+import com.sun.javafx.geom.BaseBounds;
+import com.sun.javafx.geom.transform.BaseTransform;
 import naga.fx.scene.paint.Paint;
 import naga.fx.properties.markers.HasCenterXProperty;
 import naga.fx.properties.markers.HasCenterYProperty;
@@ -63,6 +63,6 @@ public class Circle extends Shape implements
         Double radius = getRadius();
         Double centerX = getCenterX();
         Double centerY = getCenterY();
-        return bounds.deriveWithNewBounds(centerX - radius, centerY - radius, 0d, centerX + radius, centerY + radius, 0d);
+        return bounds.deriveWithNewBounds((float) (centerX - radius), (float) (centerY - radius), 0, (float) (centerX + radius), (float) (centerY + radius), 0);
     }
 }

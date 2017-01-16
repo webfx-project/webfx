@@ -23,9 +23,9 @@
  *
  */
 
-package naga.fx.sun.geom.transform;
+package emul.com.sun.javafx.geom.transform;
 
-import naga.fx.sun.geom.BaseBounds;
+import emul.com.sun.javafx.geom.BaseBounds;
 
 /**
  *

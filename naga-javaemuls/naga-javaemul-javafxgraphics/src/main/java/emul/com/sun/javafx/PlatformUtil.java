@@ -1,4 +1,4 @@
-package naga.fx.sun;
+package emul.com.sun.javafx;
 
 public class PlatformUtil {
 

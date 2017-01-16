@@ -2,7 +2,7 @@ package naga.fx.scene.transform;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.properties.markers.HasXProperty;
 import naga.fx.properties.markers.HasYProperty;
 
@@ -44,7 +44,7 @@ public class Scale extends Transform implements
 
     @Override
     public Point2D transform(double x, double y) {
-        return new Point2D(x * getX(), y * getY());
+        return new Point2D((float) (x * getX()), (float) (y * getY()));
     }
 
     @Override

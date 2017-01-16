@@ -1,6 +1,6 @@
 package emul.javafx.geometry;
 
-import naga.fx.sun.geom.Point2D;
+import emul.com.sun.javafx.geom.Point2D;
 
 /**
  * A rectangular bounding box which is used to describe the bounds of a node
@@ -51,7 +51,7 @@ public class BoundingBox extends Bounds {
      */
     @Override public boolean contains(Point2D p) {
         if (p == null) return false;
-        return contains(p.getX(), p.getY(), 0.0f);
+        return contains(p.x, p.y, 0.0f);
     }
 
     /**

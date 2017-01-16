@@ -6,7 +6,7 @@ import naga.fx.scene.LayoutMeasurable;
 import naga.fx.scene.paint.Paint;
 import naga.fx.spi.peer.base.ShapePeerBase;
 import naga.fx.spi.peer.base.ShapePeerMixin;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.scene.shape.Shape;
 import naga.fx.scene.shape.StrokeLineCap;
 import naga.fx.scene.shape.StrokeLineJoin;
@@ -143,7 +143,7 @@ abstract class SwingShapePeer
 
     @Override
     public boolean containsPoint(Point2D point) {
-        return swingShape != null && swingShape.contains(point.getX(), point.getY());
+        return swingShape != null && swingShape.contains(point.x, point.y);
     }
 
     @Override

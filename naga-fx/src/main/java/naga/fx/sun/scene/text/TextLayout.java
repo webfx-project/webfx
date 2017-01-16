@@ -1,6 +1,6 @@
 package naga.fx.sun.scene.text;
 
-import naga.fx.sun.geom.BaseBounds;
+import com.sun.javafx.geom.BaseBounds;
 
 public interface TextLayout {
 

@@ -1,6 +1,6 @@
 package naga.fx.scene;
 
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fx.scene.transform.Transform;
 import naga.fx.spi.peer.CanvasNodePeer;

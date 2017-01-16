@@ -1,4 +1,4 @@
-package naga.fx.sun.geom;
+package emul.com.sun.javafx.geom;
 
 /**
  * Base class for mutable bounds objects. There are two concrete specializations,
@@ -44,33 +44,33 @@ public abstract class BaseBounds {
      * Convenience function for getting the width of this bounds.
      * The dimension along the X-Axis.
      */
-    public abstract double getWidth();
+    public abstract float getWidth();
 
     /**
      * Convenience function for getting the height of this bounds.
      * The dimension along the Y-Axis.
      */
-    public abstract double getHeight();
+    public abstract float getHeight();
 
     /**
      * Convenience function for getting the depth of this bounds.
      * The dimension along the Z-Axis.
      */
-    public abstract double getDepth();
+    public abstract float getDepth();
 
-    public abstract double getMinX();
+    public abstract float getMinX();
 
-    public abstract double getMinY();
+    public abstract float getMinY();
 
-    public abstract double getMinZ();
+    public abstract float getMinZ();
 
-    public abstract double getMaxX();
+    public abstract float getMaxX();
 
-    public abstract double getMaxY();
+    public abstract float getMaxY();
 
-    public abstract double getMaxZ();
+    public abstract float getMaxZ();
 
-    public abstract void translate(double x, double y, double z);
+    public abstract void translate(float x, float y, float z);
 
 /*
     public abstract Vec2f getMin(Vec2f min);
@@ -90,38 +90,38 @@ public abstract class BaseBounds {
     //public abstract BaseBounds deriveWithNewBounds(Rectangle other);
     public abstract BaseBounds deriveWithNewBounds(BaseBounds other);
 
-    public abstract BaseBounds deriveWithNewBounds(double minX, double minY, double minZ,
-                                                   double maxX, double maxY, double maxZ);
+    public abstract BaseBounds deriveWithNewBounds(float minX, float minY, float minZ,
+                                                   float maxX, float maxY, float maxZ);
 
-    public abstract BaseBounds deriveWithNewBoundsAndSort(double minX, double minY, double minZ,
-                                                          double maxX, double maxY, double maxZ);
+    public abstract BaseBounds deriveWithNewBoundsAndSort(float minX, float minY, float minZ,
+                                                          float maxX, float maxY, float maxZ);
 
-    public abstract BaseBounds deriveWithPadding(double h, double v, double d);
+    public abstract BaseBounds deriveWithPadding(float h, float v, float d);
 
     //public abstract void intersectWith(Rectangle other);
     public abstract void intersectWith(BaseBounds other);
 
-    public abstract void intersectWith(double minX, double minY, double minZ,
-                                       double maxX, double maxY, double maxZ);
+    public abstract void intersectWith(float minX, float minY, float minZ,
+                                       float maxX, float maxY, float maxZ);
 
     /**
      * Sets the bounds based on the given points, and also ensures that
      * after having done so that this bounds instance is sorted (x1<=x2 and y1<=y2).
      */
     public abstract void setBoundsAndSort(Point2D p1, Point2D p2);
-    public abstract void setBoundsAndSort(double minX, double minY,  double minZ,
-                                          double maxX, double maxY, double maxZ);
+    public abstract void setBoundsAndSort(float minX, float minY,  float minZ,
+                                          float maxX, float maxY, float maxZ);
 
     // TODO: obsolete add and replace with deriveWithUnion(Vec2f v) and deriveWithUnion(Vec3f v)
     // (RT-26886)
     public abstract void add(Point2D p);
-    public abstract void add(double x, double y, double z);
+    public abstract void add(float x, float y, float z);
 
     public abstract boolean contains(Point2D p);
 
-    public abstract boolean contains(double x, double y);
+    public abstract boolean contains(float x, float y);
 
-    public abstract boolean intersects(double x, double y, double width, double height);
+    public abstract boolean intersects(float x, float y, float width, float height);
 
     public abstract boolean isEmpty();
 
@@ -141,12 +141,12 @@ public abstract class BaseBounds {
 
     public abstract BaseBounds makeEmpty();
 
-    public abstract boolean disjoint(double x, double y, double width, double height);
+    public abstract boolean disjoint(float x, float y, float width, float height);
 
     protected abstract void sortMinMax();
 
-    public static BaseBounds getInstance(double minX, double minY,  double minZ,
-                                         double maxX, double maxY, double maxZ) {
+    public static BaseBounds getInstance(float minX, float minY,  float minZ,
+                                         float maxX, float maxY, float maxZ) {
         if (minZ == 0 && maxZ == 0) {
             return getInstance(minX, minY, maxX, maxY);
         } else {
@@ -154,8 +154,8 @@ public abstract class BaseBounds {
         }
     }
 
-    public static BaseBounds getInstance(double minX, double minY,
-                                         double maxX, double maxY) {
+    public static BaseBounds getInstance(float minX, float minY,
+                                         float maxX, float maxY) {
         return new RectBounds(minX, minY, maxX, maxY);
     }
 }

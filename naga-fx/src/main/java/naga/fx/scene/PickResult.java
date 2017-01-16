@@ -1,7 +1,7 @@
 package naga.fx.scene;
 
 import naga.fx.spi.peer.NodePeer;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 
 /**
  * @author Bruno Salmon

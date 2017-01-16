@@ -1,4 +1,4 @@
-package naga.fx.sun.util;
+package emul.com.sun.javafx.util;
 
 import javafx.geometry.*;
 import naga.fx.scene.Node;

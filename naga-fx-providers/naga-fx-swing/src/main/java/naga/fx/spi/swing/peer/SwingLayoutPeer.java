@@ -1,7 +1,7 @@
 package naga.fx.spi.swing.peer;
 
 import naga.fx.spi.peer.base.RegionPeerBase;
-import naga.fx.sun.geom.Point2D;
+import com.sun.javafx.geom.Point2D;
 import naga.fx.scene.layout.Region;
 import naga.fx.spi.peer.base.RegionPeerMixin;
 

@@ -1,6 +1,6 @@
 package emul.javafx.geometry;
 
-import naga.fx.sun.geom.Point2D;
+import emul.com.sun.javafx.geom.Point2D;
 
 /**
  * The base class for objects that are used to describe the bounds of a node or

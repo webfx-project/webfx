@@ -1,26 +1,26 @@
-package naga.fx.sun.geom;
+package emul.com.sun.javafx.geom;
 
 /**
- * A simple object which carries bounds information as doubles, and
+ * A simple object which carries bounds information as floats, and
  * has no Z components.
  */
 public final class RectBounds extends BaseBounds {
     // minimum x value of bounding box
-    private double minX;
+    private float minX;
     // maximum x value of bounding box
-    private double maxX;
+    private float maxX;
     // minimum y value of bounding box
-    private double minY;
+    private float minY;
     // maximum y value of bounding box
-    private double maxY;
+    private float maxY;
 
     /**
      * Create an axis aligned bounding rectangle object, with an empty bounds
      * where maxX < minX and maxY < minY.
      */
     public RectBounds() {
-        minX = minY = 0.0d;
-        maxX = maxY = -1.0d;
+        minX = minY = 0f;
+        maxX = maxY = -1;
     }
 
     @Override public BaseBounds copy() {
@@ -30,7 +30,7 @@ public final class RectBounds extends BaseBounds {
     /**
      * Creates a RectBounds based on the minX, minY, maxX, and maxY values specified.
      */
-    public RectBounds(double minX, double minY, double maxX, double maxY) {
+    public RectBounds(float minX, float minY, float maxX, float maxY) {
         setBounds(minX, minY, maxX, maxY);
     }
 
@@ -63,7 +63,7 @@ public final class RectBounds extends BaseBounds {
      * Convenience function for getting the width of this RectBounds.
      * The dimension along the X-Axis.
      */
-    @Override public double getWidth() {
+    @Override public float getWidth() {
         return maxX - minX;
     }
 
@@ -71,57 +71,57 @@ public final class RectBounds extends BaseBounds {
      * Convenience function for getting the height of this RectBounds
      * The dimension along the Y-Axis.
      */
-    @Override public double getHeight() {
+    @Override public float getHeight() {
         return maxY - minY;
     }
 
     /**
      * Convenience function for getting the depth of this RectBounds
      * The dimension along the Z-Axis, since this is a 2D bounds the return
-     * value is always 0.0d.
+     * value is always 0f.
      */
-    @Override public double getDepth() {
-        return 0.0d;
+    @Override public float getDepth() {
+        return 0f;
     }
 
-    @Override public double getMinX() {
+    @Override public float getMinX() {
         return minX;
     }
 
-    public void setMinX(double minX) {
+    public void setMinX(float minX) {
         this.minX = minX;
     }
 
-    @Override public double getMinY() {
+    @Override public float getMinY() {
         return minY;
     }
 
-    public void setMinY(double minY) {
+    public void setMinY(float minY) {
         this.minY = minY;
     }
 
-    @Override public double getMinZ() {
-        return 0.0d;
+    @Override public float getMinZ() {
+        return 0f;
     }
 
-    @Override public double getMaxX() {
+    @Override public float getMaxX() {
         return maxX;
     }
 
-    public void setMaxX(double maxX) {
+    public void setMaxX(float maxX) {
         this.maxX = maxX;
     }
 
-    @Override public double getMaxY() {
+    @Override public float getMaxY() {
         return maxY;
     }
 
-    public void setMaxY(double maxY) {
+    public void setMaxY(float maxY) {
         this.maxY = maxY;
     }
 
-    @Override public double getMaxZ() {
-        return 0.0d;
+    @Override public float getMaxZ() {
+        return 0f;
     }
 
 /*
@@ -151,7 +151,7 @@ public final class RectBounds extends BaseBounds {
         }
         min.x = minX;
         min.y = minY;
-        min.z = 0.0d;
+        min.z = 0f;
         return min;
 
     }
@@ -162,7 +162,7 @@ public final class RectBounds extends BaseBounds {
         }
         max.x = maxX;
         max.y = maxY;
-        max.z = 0.0d;
+        max.z = 0f;
         return max;
 
     }
@@ -207,8 +207,8 @@ public final class RectBounds extends BaseBounds {
         return this;
     }
 
-    @Override public BaseBounds deriveWithNewBounds(double minX, double minY, double minZ,
-                                                    double maxX, double maxY, double maxZ) {
+    @Override public BaseBounds deriveWithNewBounds(float minX, float minY, float minZ,
+                                                    float maxX, float maxY, float maxZ) {
         if ((maxX < minX) || (maxY < minY) || (maxZ < minZ)) return makeEmpty();
         if ((minZ == 0) && (maxZ == 0)) {
             this.minX = minX;
@@ -220,8 +220,8 @@ public final class RectBounds extends BaseBounds {
         return new BoxBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    @Override public BaseBounds deriveWithNewBoundsAndSort(double minX, double minY, double minZ,
-                                                           double maxX, double maxY, double maxZ) {
+    @Override public BaseBounds deriveWithNewBoundsAndSort(float minX, float minY, float minZ,
+                                                           float maxX, float maxY, float maxZ) {
         if ((minZ == 0) && (maxZ == 0)) {
             setBoundsAndSort(minX, minY, minZ, maxX, maxY, maxZ);
             return this;
@@ -246,7 +246,7 @@ public final class RectBounds extends BaseBounds {
     /**
      * Set the bounds to the given values.
      */
-    public final void setBounds(double minX, double minY, double maxX, double maxY) {
+    public final void setBounds(float minX, float minY, float maxX, float maxY) {
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
@@ -257,13 +257,13 @@ public final class RectBounds extends BaseBounds {
      * Sets the bounds based on the given coords, and also ensures that after
      * having done so that this RectBounds instance is normalized.
      */
-    public void setBoundsAndSort(double minX, double minY, double maxX, double maxY) {
+    public void setBoundsAndSort(float minX, float minY, float maxX, float maxY) {
         setBounds(minX, minY, maxX, maxY);
         sortMinMax();
     }
 
-    @Override public void setBoundsAndSort(double minX, double minY,  double minZ,
-                                           double maxX, double maxY, double maxZ) {
+    @Override public void setBoundsAndSort(float minX, float minY,  float minZ,
+                                           float maxX, float maxY, float maxZ) {
         if (minZ != 0 || maxZ != 0) {
             throw new UnsupportedOperationException("Unknown BoundsType");
         }
@@ -272,7 +272,7 @@ public final class RectBounds extends BaseBounds {
     }
 
     @Override public void setBoundsAndSort(Point2D p1, Point2D p2) {
-        setBoundsAndSort(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        setBoundsAndSort(p1.x, p1.y, p2.x, p2.y);
     }
 
     // Note: this implementation is exactly the same as BoxBounds. I could put a default
@@ -304,7 +304,7 @@ public final class RectBounds extends BaseBounds {
         maxY = Math.max(maxY, other.getMaxY());
     }
 
-    public void unionWith(double minX, double minY, double maxX, double maxY) {
+    public void unionWith(float minX, float minY, float maxX, float maxY) {
         // Short circuit union if either bounds is empty.
         if ((maxX < minX) || (maxY < minY)) return;
         if (this.isEmpty()) {
@@ -318,19 +318,19 @@ public final class RectBounds extends BaseBounds {
         this.maxY = Math.max(this.maxY, maxY);
     }
 
-    @Override public void add(double x, double y, double z) {
+    @Override public void add(float x, float y, float z) {
         if (z != 0) {
             throw new UnsupportedOperationException("Unknown BoundsType");
         }
         unionWith(x, y, x, y);
     }
 
-    public void add(double x, double y) {
+    public void add(float x, float y) {
         unionWith(x, y, x, y);
     }
 
     @Override public void add(Point2D p) {
-        add(p.getX(), p.getY());
+        add(p.x, p.y);
     }
 
     @Override public void intersectWith(BaseBounds other) {
@@ -349,13 +349,13 @@ public final class RectBounds extends BaseBounds {
 
 /*
     @Override public void intersectWith(Rectangle other) {
-        double x = other.x;
-        double y = other.y;
+        float x = other.x;
+        float y = other.y;
         intersectWith(x, y, x + other.width, y + other.height);
     }
 */
 
-    public void intersectWith(double minX, double minY, double maxX, double maxY) {
+    public void intersectWith(float minX, float minY, float maxX, float maxY) {
         // Short circuit intersect if either bounds is empty.
         if (this.isEmpty()) return;
         if ((maxX < minX) || (maxY < minY)) {
@@ -369,8 +369,8 @@ public final class RectBounds extends BaseBounds {
         this.maxY = Math.min(this.maxY, maxY);
     }
 
-    @Override public void intersectWith(double minX, double minY, double minZ,
-                                        double maxX, double maxY, double maxZ) {
+    @Override public void intersectWith(float minX, float minY, float minZ,
+                                        float maxX, float maxY, float maxZ) {
         // Short circuit intersect if either bounds is empty.
         if (this.isEmpty()) return;
         if ((maxX < minX) || (maxY < minY) || (maxZ < minZ)) {
@@ -386,10 +386,10 @@ public final class RectBounds extends BaseBounds {
 
     @Override public boolean contains(Point2D p) {
         if ((p == null) || isEmpty()) return false;
-        return (p.getX() >= minX && p.getX() <= maxX && p.getY() >= minY && p.getY() <= maxY);
+        return (p.x >= minX && p.x <= maxX && p.y >= minY && p.y <= maxY);
     }
 
-    @Override public boolean contains(double x, double y) {
+    @Override public boolean contains(float x, float y) {
         if (isEmpty()) return false;
         return (x >= minX && x <= maxX && y >= minY && y <= maxY);
     }
@@ -407,7 +407,7 @@ public final class RectBounds extends BaseBounds {
         return minX <= other.minX && maxX >= other.maxX && minY <= other.minY && maxY >= other.maxY;
     }
 
-    @Override public boolean intersects(double x, double y, double width, double height) {
+    @Override public boolean intersects(float x, float y, float width, float height) {
         if (isEmpty()) return false;
         return (x + width >= minX &&
                 y + height >= minY &&
@@ -427,7 +427,7 @@ public final class RectBounds extends BaseBounds {
                 other.getMinZ() <= getMaxZ());
     }
 
-    @Override public boolean disjoint(double x, double y, double width, double height) {
+    @Override public boolean disjoint(float x, float y, float width, float height) {
         if (isEmpty()) return true;
         return (x + width < minX ||
                 y + height < minY ||
@@ -456,20 +456,20 @@ public final class RectBounds extends BaseBounds {
      * bounding box.
      */
     @Override public void roundOut() {
-        minX = Math.floor(minX);
-        minY = Math.floor(minY);
-        maxX = Math.ceil(maxX);
-        maxY = Math.ceil(maxY);
+        minX = (float) Math.floor(minX);
+        minY = (float) Math.floor(minY);
+        maxX = (float) Math.ceil(maxX);
+        maxY = (float) Math.ceil(maxY);
     }
 
-    public void grow(double h, double v) {
+    public void grow(float h, float v) {
         minX -= h;
         maxX += h;
         minY -= v;
         maxY += v;
     }
 
-    @Override public BaseBounds deriveWithPadding(double h, double v, double d) {
+    @Override public BaseBounds deriveWithPadding(float h, float v, float d) {
         if (d == 0) {
             grow(h, v);
             return this;
@@ -483,25 +483,25 @@ public final class RectBounds extends BaseBounds {
     // change from using "bounds.makeEmpty(); return bounds;" to just
     // "return bounds.makeEmpty()"
     @Override public RectBounds makeEmpty() {
-        minX = minY = 0.0d;
-        maxX = maxY = -1.0d;
+        minX = minY = 0f;
+        maxX = maxY = -1;
         return this;
     }
 
     @Override protected void sortMinMax() {
         if (minX > maxX) {
-            double tmp = maxX;
+            float tmp = maxX;
             maxX = minX;
             minX = tmp;
         }
         if (minY > maxY) {
-            double tmp = maxY;
+            float tmp = maxY;
             maxY = minY;
             minY = tmp;
         }
     }
 
-    @Override public void translate(double x, double y, double z) {
+    @Override public void translate(float x, float y, float z) {
         setMinX(getMinX() + x);
         setMinY(getMinY() + y);
         setMaxX(getMaxX() + x);
