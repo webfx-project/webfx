@@ -13,12 +13,13 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>naga-javaemul-shared</module>
-        <module>naga-javaemul-teavm</module>
         <module>naga-javaemul-gwt</module>
+        <module>naga-javaemul-teavm</module>
         <module>naga-javaemul-cldc</module>
-        <module>naga-javaemul-gwt-cldc</module>
-        <module>naga-javaemul-teavm-gwt-cldc</module>
+        <module>naga-javaemul-javatime</module>
+        <module>naga-javaemul-tool</module>
+        <module>naga-javaemul-javafxbase</module>
+        <module>naga-javaemul-javafxgraphics</module>
     </modules>
 
     <properties>
@@ -45,6 +46,14 @@
                                     <relocation>
                                         <pattern>emul.java</pattern>
                                         <shadedPattern>java</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.javafx</pattern>
+                                        <shadedPattern>javafx</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.com.sun</pattern>
+                                        <shadedPattern>com.sun</shadedPattern>
                                     </relocation>
                                 </relocations>
                                 <createSourcesJar>true</createSourcesJar>

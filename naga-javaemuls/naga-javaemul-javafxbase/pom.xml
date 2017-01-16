@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-javaemul-teavm-gwt-cldc</artifactId>
+    <artifactId>naga-javaemul-javafxbase</artifactId>
 
     <properties>
         <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->

@@ -9,18 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>naga-javaemul-gwt-cldc</artifactId>
-
-    <dependencies>
-
-        <dependency>
-            <artifactId>naga-platform</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-    </dependencies>
+    <artifactId>naga-javaemul-javafxgraphics</artifactId>
 
     <properties>
         <!-- Disabling the default behaviour defined in the parent pom for the shade plugin -->
