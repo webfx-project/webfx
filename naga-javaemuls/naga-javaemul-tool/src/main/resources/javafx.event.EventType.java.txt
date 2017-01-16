@@ -1,0 +1,47 @@
+>>>TEXT<<<
+    private Object writeReplace() throws ObjectStreamException {
+        Deque<String> path = new LinkedList<String>();
+        EventType<?> t = this;
+        while (t != ROOT) {
+            path.addFirst(t.name);
+            t = t.superType;
+        }
+        return new EventTypeSerialization(new ArrayList<String>(path));
+    }
+
+    static class EventTypeSerialization implements Serializable {
+        private List<String> path;
+
+        public EventTypeSerialization(List<String> path) {
+            this.path = path;
+        }
+
+        private Object readResolve() throws ObjectStreamException {
+            EventType t = ROOT;
+            for (int i = 0; i < path.size(); ++i) {
+                String p = path.get(i);
+                if (t.subTypes != null) {
+                    EventType s = findSubType(t.subTypes.keySet(), p);
+                    if (s == null) {
+                        throw new InvalidObjectException("Cannot find event type \"" + p + "\" (of " + t + ")");
+                    }
+                    t = s;
+                } else {
+                    throw new InvalidObjectException("Cannot find event type \"" + p + "\" (of " + t + ")");
+                }
+            }
+            return t;
+        }
+
+        private EventType findSubType(Set<EventType> subTypes, String name) {
+            for (EventType t : subTypes) {
+                if (((t.name == null && name == null) || (t.name != null && t.name.equals(name)))) {
+                    return t;
+                }
+            }
+            return null;
+        }
+
+    }
+>>>REPLACE<<<
+// removed

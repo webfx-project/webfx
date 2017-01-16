@@ -1,0 +1,94 @@
+>>>TEXT<<<
+    public static <T> ObjectExpression<T> objectExpression(
+            final ObservableObjectValue<T> value) {
+        if (value == null) {
+            throw new NullPointerException("Value must be specified.");
+        }
+        return value instanceof ObjectExpression ? (ObjectExpression<T>) value
+                : new ObjectBinding<T>() {
+                    {
+                        super.bind(value);
+                    }
+
+                    @Override
+                    public void dispose() {
+                        super.unbind(value);
+                    }
+
+                    @Override
+                    protected T computeValue() {
+                        return value.get();
+                    }
+
+                    @Override
+                    public ObservableList<ObservableObjectValue<T>> getDependencies() {
+                        return FXCollections.singletonObservableList(value);
+                    }
+                };
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public BooleanBinding isEqualTo(final ObservableObjectValue<?> other) {
+        return Bindings.equal(this, other);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public BooleanBinding isEqualTo(final Object other) {
+        return Bindings.equal(this, other);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public BooleanBinding isNotEqualTo(final ObservableObjectValue<?> other) {
+        return Bindings.notEqual(this, other);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public BooleanBinding isNotEqualTo(final Object other) {
+        return Bindings.notEqual(this, other);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public BooleanBinding isNull() {
+        return Bindings.isNull(this);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public BooleanBinding isNotNull() {
+        return Bindings.isNotNull(this);
+    }
+>>>REPLACE<<<
+      // removed
+
+
+>>>TEXT<<<
+    public StringBinding asString() {
+        return (StringBinding) StringFormatter.convert(this);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public StringBinding asString(String format) {
+        return (StringBinding) Bindings.format(format, this);
+    }
+>>>REPLACE<<<
+      // removed
+
+>>>TEXT<<<
+    public StringBinding asString(Locale locale, String format) {
+        return (StringBinding) Bindings.format(locale, format, this);
+    }
+>>>REPLACE<<<
+      // removed

@@ -1,0 +1,125 @@
+{
+  "variables": {
+    "jdk9-src": "C:/Program Files/Java/jdk-9/src.zip",
+    "naga-javaemuls-dir": "C:/dev/git-repos/naga/naga-javaemuls"
+  },
+  "modules": {
+    "javaemul-javafxbase": {
+      "jdk-src": "${jdk9-src}",
+      "jdk-module": "javafx.base",
+      "naga-module": "naga-javaemul-javafxbase",
+      "naga-src": "${naga-javaemuls-dir}/${naga-module}/src/main/java",
+      "relocations": {
+        "javafx": "emul.javafx",
+        "com.sun": "emul.com.sun",
+        "sun.util": "emul.sun.util"
+      },
+      "includes": [
+        "javafx/event/Event.java",
+        "javafx/event/EventTarget.java",
+        "javafx/event/EventType.java",
+        "javafx/event/EventDispatchChain.java",
+        "javafx/event/EventDispatcher.java",
+        "javafx/beans/NamedArg.java",
+        "com/sun/javafx/event/EventUtil.java",
+        "com/sun/javafx/event/EventDispatchChainImpl.java",
+        "com/sun/javafx/event/EventDispatchTree.java",
+        "com/sun/javafx/event/EventDispatchTreeImpl.java",
+        "com/sun/javafx/event/CompositeEventTarget.java",
+        "com/sun/javafx/event/CompositeEventTargetImpl.java",
+        "javafx/util/Callback.java",
+        "javafx/util/Duration.java",
+        "javafx/util/StringConverter.java",
+        "javafx/beans/*",
+        "javafx/beans/value/*",
+        "javafx/beans/property/ObjectProperty.java",
+        "javafx/beans/property/ObjectPropertyBase.java",
+        "javafx/beans/property/Property.java",
+        "javafx/beans/property/ReadOnlyObjectProperty.java",
+        "javafx/beans/property/ReadOnlyProperty.java",
+        "javafx/beans/property/ReadOnlyStringProperty.java",
+        "javafx/beans/property/SimpleObjectProperty.java",
+        "javafx/beans/property/SimpleStringProperty.java",
+        "javafx/beans/property/StringProperty.java",
+        "javafx/beans/property/StringPropertyBase.java",
+        "javafx/collections/transformation/*",
+        "javafx/collections/FXCollections.java",
+        "javafx/collections/ListChangeBuilder.java",
+        "javafx/collections/ListChangeListener.java",
+        "javafx/collections/MapChangeListener.java",
+        "javafx/collections/ModifiableObservableListBase.java",
+        "javafx/collections/ObservableList.java",
+        "javafx/collections/ObservableListBase.java",
+        "javafx/collections/ObservableMap.java",
+        "javafx/collections/WeakListChangeListener.java",
+        "javafx/beans/binding/Bindings.java",
+        "javafx/beans/binding/ObjectExpression.java",
+        "javafx/beans/binding/StringExpression.java",
+        "com/sun/javafx/binding/annotations/*",
+        "com/sun/javafx/binding/BidirectionalBinding.java",
+        "com/sun/javafx/binding/ExpressionHelper.java",
+        "com/sun/javafx/binding/ExpressionHelperBase.java",
+        "com/sun/javafx/collections/annotations/*",
+        "com/sun/javafx/collections/ChangeHelper.java",
+        "com/sun/javafx/collections/ElementObserver.java",
+        "com/sun/javafx/collections/ListListenerHelper.java",
+        "com/sun/javafx/collections/MapListenerHelper.java",
+        "com/sun/javafx/collections/NonIterableChange.java",
+        "com/sun/javafx/collections/ObservableListWrapper.java",
+        "com/sun/javafx/collections/ObservableMapWrapper.java",
+        "com/sun/javafx/collections/ObservableSequentialListWrapper.java",
+        "com/sun/javafx/collections/SortableList.java",
+        "com/sun/javafx/collections/SortHelper.java",
+        "com/sun/javafx/collections/SourceAdapterChange.java",
+        "com/sun/javafx/collections/TrackableObservableList.java",
+        "com/sun/javafx/collections/VetoableListDecorator.java",
+        "com/sun/javafx/UnmodifiableArrayList.java"
+      ],
+      "excludes": [
+        "javafx/beans/value/ObservableSetValue.java",
+        "javafx/beans/value/WritableSetValue.java",
+        "javafx/beans/property/ReadOnlyMapProperty.java",
+        "javafx/beans/property/SetProperty.java",
+        "javafx/beans/property/SetPropertyBase.java",
+        "javafx/beans/property/ReadOnlySetProperty.java",
+        ""
+      ],
+      "replacements": {
+        "import emul.com.sun.javafx.binding.StringFormatter;": "",
+        "import emul.com.sun.com.sun.javafx.collections.annotations.ReturnsUnmodifiableCollection;": "",
+        "import emul.javafx.collections.ObservableSet;": "",
+        "import emul.sun.util.logging.PlatformLogger;": "",
+        "import emul.com.sun.javafx.collections.SetListenerHelper;": "",
+        "import emul.com.sun.javafx.collections.ObservableSetWrapper;": "",
+        "import emul.com.sun.javafx.collections.MapAdapterChange;": "",
+        "import emul.com.sun.javafx.collections.ObservableFloatArrayImpl;": "",
+        "import emul.com.sun.javafx.collections.ObservableIntegerArrayImpl;": "",
+        "import emul.com.sun.javafx.collections.SetAdapterChange;": "",
+        "import java.util.Locale;": "",
+        "regex:import java\\.text\\..*": "",
+        "regex:Logging\\.getLogger().*": "//$0",
+        "regex:Thread\\.currentThread\\(\\)\\.getUncaughtExceptionHandler\\(\\)\\.uncaughtException\\(Thread\\.currentThread\\(\\),(.*)\\).*": "$1.printStackTrace(); //$0",
+        "regex:\\(.+\\[\\]\\) (.+).clone\\(\\)": "java.util.Arrays.copyOf($1, $1.length)",
+        "regex:(\\W)WeakHashMap(\\W)": "$1HashMap$2",
+        "": ""
+      }
+    },
+    "javaemul-javafxgraphics": {
+      "jdk-src": "${jdk9-src}",
+      "jdk-module": "javafx.graphics",
+      "naga-module": "naga-javaemul-javafxgraphics",
+      "naga-src": "${naga-javaemuls-dir}/${naga-module}/src/main/java",
+      "relocations": {
+        "javafx": "emul.javafx",
+        "com.sun": "emul.com.sun"
+      },
+      "includes": [
+        "com/sun/javafx/util/WeakReferenceQueue.java"
+      ],
+      "excludes": [
+      ],
+      "replacements": {
+      }
+    }
+  }
+}

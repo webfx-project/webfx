@@ -1,0 +1,25 @@
+>>>TEXT<<<
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (final CloneNotSupportedException e) {
+            // we implement Cloneable, this shouldn't happen
+            throw new RuntimeException("Can't clone Event");
+        }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        source = NULL_SOURCE_TARGET;
+        target = NULL_SOURCE_TARGET;
+    }
+>>>REPLACE<<<
+    public Event duplicate() {
+        return new Event(source, target, eventType);
+    }
+
+>>>TEXT<<<
+(Event) clone()
+>>>REPLACE<<<
+duplicate()
