@@ -86,7 +86,14 @@
         </dependency>
 
         <dependency>
-            <artifactId>naga-javalib-javafxbindings</artifactId>
+            <artifactId>naga-javaemul-javafxbase</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javaemul-javafxgraphics</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
             <classifier>sources</classifier>

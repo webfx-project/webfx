@@ -1,6 +1,6 @@
 <module>
     <inherits name="naga-platform"/>
-    <inherits name="naga-javalib-javafxbindings"/>
+    <inherits name="naga-javaemul-javafxbase"/>
     <inherits name="naga-javalib-rxjava"/>
 
     <!-- Specify the paths for translatable code                    -->
