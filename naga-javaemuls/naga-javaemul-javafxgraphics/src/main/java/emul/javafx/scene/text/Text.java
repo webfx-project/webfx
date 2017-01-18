@@ -1,10 +1,12 @@
 package emul.javafx.scene.text;
 
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.BoxBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
+import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.SimpleStringProperty;
+import emul.javafx.beans.property.StringProperty;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.shape.Shape;
 import naga.fx.properties.markers.*;
@@ -58,9 +60,9 @@ public class Text extends Shape implements
         return yProperty;
     }
 
-    private final Property<String> textProperty = new SimpleObjectProperty<>();
+    private final StringProperty textProperty = new SimpleStringProperty();
     @Override
-    public Property<String> textProperty() {
+    public StringProperty textProperty() {
         return textProperty;
     }
 

@@ -60,10 +60,10 @@ public abstract class Labeled extends Control implements
         setGraphic(graphic);
     }
 
-    private final Property<String> textProperty = new SimpleObjectProperty<>();
+    private final StringProperty textProperty = new SimpleStringProperty();
 
     @Override
-    public Property<String> textProperty() {
+    public StringProperty textProperty() {
         return textProperty;
     }
 

@@ -2,6 +2,8 @@ package emul.javafx.scene.control;
 
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.SimpleStringProperty;
+import emul.javafx.beans.property.StringProperty;
 import emul.javafx.scene.text.Font;
 import naga.fx.properties.markers.HasFontProperty;
 import naga.fx.properties.markers.HasPromptTextProperty;
@@ -21,9 +23,9 @@ public abstract class TextInputControl extends Control implements
         return fontProperty;
     }
 
-    private final Property<String> textProperty = new SimpleObjectProperty<>();
+    private final StringProperty textProperty = new SimpleStringProperty();
     @Override
-    public Property<String> textProperty() {
+    public StringProperty textProperty() {
         return textProperty;
     }
 
