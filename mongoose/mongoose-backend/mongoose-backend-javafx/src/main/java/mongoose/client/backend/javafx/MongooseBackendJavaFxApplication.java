@@ -33,7 +33,7 @@ public class MongooseBackendJavaFxApplication {
         Scene scene = Toolkit.get().getPrimaryStage().getScene();
         Node root = scene == null ? null : scene.getRoot();
         if (root != null) {
-            javafx.scene.Node fxNode = null; // ((FxNodePeer) root.getOrCreateAndBindNodePeer()).getFxNode();
+            javafx.scene.Node fxNode = root; // ((FxNodePeer) root.getOrCreateAndBindNodePeer()).getFxNode();
             if (fxNode instanceof Pane) {
                 Pane rootPane = (Pane) fxNode;
                 if (!visible) {
