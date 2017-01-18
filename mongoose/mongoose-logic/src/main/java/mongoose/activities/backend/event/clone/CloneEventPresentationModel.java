@@ -4,13 +4,15 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.shared.generic.EventDependentPresentationModel;
 
+import java.time.LocalDate;
+
 /**
  * @author Bruno Salmon
  */
 class CloneEventPresentationModel extends EventDependentPresentationModel {
 
     private final Property<String> nameProperty = new SimpleObjectProperty<>();
-    private final Property<String> dateProperty = new SimpleObjectProperty<>();
+    private final Property<LocalDate> dateProperty = new SimpleObjectProperty<>();
 
     public Property<String> nameProperty() {
         return nameProperty;
@@ -24,15 +26,15 @@ class CloneEventPresentationModel extends EventDependentPresentationModel {
         return nameProperty.getValue();
     }
 
-    public Property<String> dateProperty() {
+    public Property<LocalDate> dateProperty() {
         return dateProperty;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         dateProperty.setValue(date);
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return dateProperty.getValue();
     }
 

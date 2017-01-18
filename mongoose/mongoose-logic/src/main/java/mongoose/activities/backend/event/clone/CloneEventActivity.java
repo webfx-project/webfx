@@ -1,19 +1,20 @@
 package mongoose.activities.backend.event.clone;
 
-import mongoose.activities.shared.generic.EventDependentActivity;
-import mongoose.activities.shared.theme.Theme;
-import mongoose.domainmodel.format.DateFormatter;
-import mongoose.entities.Event;
-import naga.framework.ui.i18n.I18n;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import naga.fx.properties.Properties;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.util.StringConverter;
+import mongoose.activities.shared.generic.EventDependentActivity;
+import mongoose.activities.shared.theme.Theme;
+import mongoose.domainmodel.format.DateFormatter;
+import mongoose.entities.Event;
+import naga.framework.ui.i18n.I18n;
+import naga.fx.properties.Properties;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
 
@@ -94,14 +95,25 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         i18n.translateText(vm.getNameLabel(), "Name");
         i18n.translateText(vm.getDateLabel(), "Date");
         vm.getNameTextField().textProperty().bindBidirectional(pm.nameProperty());
-        vm.getDateTextField().textProperty().bindBidirectional(pm.dateProperty());
+        vm.getDateTextField().textProperty().bindBidirectional(pm.dateProperty(), new StringConverter<LocalDate>() {
+            @Override
+            public String toString(LocalDate date) {
+                return (String) DateFormatter.SINGLETON.format(date);
+            }
+
+            @Override
+            public LocalDate fromString(String date) {
+                if (date == null)
+                    return null;
+                int p;
+                int dayOfMonth = Integer.parseInt(date.substring(0, p = date.indexOf('/')));
+                int month = Integer.parseInt(date.substring(p + 1, p = date.indexOf('/', p + 1)));
+                int year = Integer.parseInt(date.substring(p + 1));
+                return LocalDate.of(year, month, dayOfMonth);
+            }
+        });
         i18n.translateText(vm.getSubmitButton(), "Submit").setOnAction(event -> {
-            String date = pm.getDate();
-            int p;
-            int dayOfMonth = Integer.parseInt(date.substring(0, p = date.indexOf('/')));
-            int month = Integer.parseInt(date.substring(p + 1, p = date.indexOf('/', p + 1)));
-            int year = Integer.parseInt(date.substring(p + 1));
-            LocalDate startDate = LocalDate.of(year, month, dayOfMonth);
+            LocalDate startDate = pm.getDate();
             Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceModel().getId())).setHandler(ar -> {
                 if (ar.succeeded())
                     getHistory().push("/event/" + ar.result().getGeneratedKeys()[0] + "/bookings");
@@ -119,7 +131,7 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
                 if (ar.succeeded()) {
                     Event event = getEvent();
                     pm.setName(event.getName());
-                    pm.setDate(DateFormatter.SINGLETON.format(event.getStartDate()).toString());
+                    pm.setDate(event.getStartDate());
                 }
             });
         }, pm.eventIdProperty());
