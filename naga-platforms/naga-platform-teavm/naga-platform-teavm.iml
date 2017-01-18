@@ -18,8 +18,6 @@
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
     <orderEntry type="module" module-name="naga-javaemul-teavm" />
-    <orderEntry type="module" module-name="naga-javaemul-shared" />
-    <orderEntry type="module" module-name="naga-javaemul-teavm-gwt-cldc" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-classlib:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-platform:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-core:0.4.3" level="project" />
@@ -29,7 +27,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso-apis:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso-impl:0.4.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.mozilla:rhino:1.7.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.2.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.jcraft:jzlib:1.1.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: joda-time:joda-time:2.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso:0.4.3" level="project" />

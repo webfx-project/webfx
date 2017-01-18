@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -14,12 +14,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: shannah:cn1-websockets:1.2.1" level="project" />
     <orderEntry type="module" module-name="naga-platform" />
     <orderEntry type="module" module-name="naga-commons" />
-    <orderEntry type="module" module-name="naga-toolkit" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-fx" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="module" module-name="naga-javalib-javafxbindings" />
     <orderEntry type="module" module-name="naga-javaemul-cldc" />
-    <orderEntry type="module" module-name="naga-javaemul-gwt-cldc" />
-    <orderEntry type="module" module-name="naga-javaemul-teavm-gwt-cldc" />
   </component>
 </module>

@@ -15,8 +15,7 @@
     <orderEntry type="module" module-name="naga-framework" />
     <orderEntry type="module" module-name="naga-platform" />
     <orderEntry type="module" module-name="naga-platform-jre" />
-    <orderEntry type="module" module-name="naga-toolkit-swing" />
-    <orderEntry type="module" module-name="naga-toolkit" />
     <orderEntry type="module" module-name="naga-commons" />
+    <orderEntry type="module" module-name="naga-fx-swing" />
   </component>
 </module>

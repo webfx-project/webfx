@@ -15,28 +15,28 @@
     <orderEntry type="module" module-name="naga-platform" />
     <orderEntry type="module" module-name="naga-commons" />
     <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
-    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
+    <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.3.2" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec-http2:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.1.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-codec-dns:4.1.1.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.3.3" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-http2:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.5.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-codec-dns:4.1.5.Final" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.4" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.0" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.3.2" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.3.2" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-mysql-postgresql-client:3.3.2" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-sql-common:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-web:3.3.3" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-auth-common:3.3.3" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-mysql-postgresql-client:3.3.3" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-sql-common:3.3.3" level="project" />
     <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.7" level="project" />
     <orderEntry type="library" name="Maven: com.github.mauricio:postgresql-async_2.11:0.2.20" level="project" />
     <orderEntry type="library" name="Maven: com.github.mauricio:db-async-common_2.11:0.2.20" level="project" />
@@ -44,7 +44,7 @@
     <orderEntry type="library" name="Maven: org.joda:joda-convert:1.8.1" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.20.0-GA" level="project" />
     <orderEntry type="library" name="Maven: com.github.mauricio:mysql-async_2.11:0.2.20" level="project" />
-    <orderEntry type="library" name="Maven: io.vertx:vertx-jdbc-client:3.3.2" level="project" />
+    <orderEntry type="library" name="Maven: io.vertx:vertx-jdbc-client:3.3.3" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:c3p0:0.9.5.2" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.slf4j:slf4j-api:1.7.15" level="project" />

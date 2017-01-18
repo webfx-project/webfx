@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <resourceExtensions />
-    <wildcardResourcePatterns>
-      <entry name="!?*.java" />
-      <entry name="!?*.form" />
-      <entry name="!?*.class" />
-      <entry name="!?*.groovy" />
-      <entry name="!?*.scala" />
-      <entry name="!?*.flex" />
-      <entry name="!?*.kt" />
-      <entry name="!?*.clj" />
-      <entry name="!?*.aj" />
-    </wildcardResourcePatterns>
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="false">
-        <processorPath useClasspath="true" />
-      </profile>
-      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+      <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="true" />
         <module name="hellonaga-android" />
         <module name="hellonaga-j2objc" />
         <module name="hellonaga-jre" />
@@ -47,13 +31,14 @@
         <module name="mongoose-backend-android" />
         <module name="mongoose-backend-cn1" />
         <module name="mongoose-backend-gwt" />
-        <module name="mongoose-backend-javafx" />
+        <module name="mongoose-backend-html" />
         <module name="mongoose-backend-pivot" />
         <module name="mongoose-backend-swing" />
         <module name="mongoose-backend-teavm" />
         <module name="mongoose-frontend-gwt" />
-        <module name="mongoose-frontend-javafx" />
         <module name="mongoose-logic" />
+        <module name="mongoose-logic-java" />
+        <module name="mongoose-logic-web" />
         <module name="mongoose-vertx" />
         <module name="naga-abstractplat-java" />
         <module name="naga-abstractplat-web" />
@@ -63,6 +48,10 @@
         <module name="naga-android" />
         <module name="naga-commons" />
         <module name="naga-framework" />
+        <module name="naga-fx" />
+        <module name="naga-fx-gwt" />
+        <module name="naga-fx-javafx" />
+        <module name="naga-fx-swing" />
         <module name="naga-gui-gwt" />
         <module name="naga-gui-gwtmaterial" />
         <module name="naga-gui-gwtpolymer" />
@@ -96,13 +85,9 @@
         <module name="naga-plat-teavm" />
         <module name="naga-plat-vertx" />
         <module name="naga-platform" />
-        <module name="naga-platform-android" />
-        <module name="naga-platform-cn1" />
         <module name="naga-platform-codenameone" />
         <module name="naga-platform-gwt" />
-        <module name="naga-platform-j2objc" />
         <module name="naga-platform-jre" />
-        <module name="naga-platform-teavm" />
         <module name="naga-platform-vertx" />
         <module name="naga-teavm" />
         <module name="naga-toolkit" />
@@ -139,6 +124,7 @@
       <module name="mongoose-backend-cn1" target="1.8" />
       <module name="mongoose-backend-codenameone" target="1.8" />
       <module name="mongoose-backend-gwt" target="1.8" />
+      <module name="mongoose-backend-html" target="1.8" />
       <module name="mongoose-backend-javafx" target="1.8" />
       <module name="mongoose-backend-jre" target="1.8" />
       <module name="mongoose-backend-pivot" target="1.8" />
@@ -150,6 +136,8 @@
       <module name="mongoose-frontend-javafx" target="1.8" />
       <module name="mongoose-jre" target="1.8" />
       <module name="mongoose-logic" target="1.8" />
+      <module name="mongoose-logic-java" target="1.8" />
+      <module name="mongoose-logic-web" target="1.8" />
       <module name="mongoose-vertx" target="1.8" />
       <module name="naga" target="1.8" />
       <module name="naga-abstractplat-java" target="1.8" />
@@ -160,6 +148,11 @@
       <module name="naga-commons" target="1.8" />
       <module name="naga-core" target="1.8" />
       <module name="naga-framework" target="1.8" />
+      <module name="naga-fx" target="1.8" />
+      <module name="naga-fx-gwt" target="1.8" />
+      <module name="naga-fx-javafx" target="1.8" />
+      <module name="naga-fx-providers" target="1.8" />
+      <module name="naga-fx-swing" target="1.8" />
       <module name="naga-gui-gwt" target="1.8" />
       <module name="naga-gui-gwtmaterial" target="1.8" />
       <module name="naga-gui-gwtpolymer" target="1.8" />

@@ -14,7 +14,7 @@
     <orderEntry type="module" module-name="naga-platform" />
     <orderEntry type="module" module-name="naga-commons" />
     <orderEntry type="library" name="Maven: com.github.vbmacher:java-cup-runtime:11b" level="project" />
-    <orderEntry type="library" name="Maven: io.reactivex:rxjava:1.1.1" level="project" />
+    <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.zaxxer:HikariCP:2.3.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.7.10" level="project" />

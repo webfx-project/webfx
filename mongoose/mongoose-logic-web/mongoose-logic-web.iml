@@ -15,15 +15,14 @@
     <orderEntry type="module" module-name="naga-framework" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-platform" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-commons" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-toolkit" scope="PROVIDED" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: naga:naga-platform-gwt:0.1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="naga-fx" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-platform-gwt" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-abstractplatform-web" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-javalib-javafxbindings" scope="PROVIDED" />
-    <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.0-rc2" level="project" />
-    <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.8.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:1.0.1" level="project" />
+    <orderEntry type="library" name="Maven: com.google.jsinterop:jsinterop-annotations:sources:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
