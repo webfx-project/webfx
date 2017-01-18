@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.util;
 
-import naga.fx.scene.transform.*;
+import javafx.scene.transform.*;
 
 import java.util.Collection;
 import java.util.Objects;

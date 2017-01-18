@@ -1,7 +1,7 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.scene.Node;
-import naga.fx.scene.control.ButtonBase;
+import emul.javafx.scene.Node;
+import emul.javafx.scene.control.ButtonBase;
 import naga.fx.spi.peer.base.ButtonBasePeerBase;
 import naga.fx.spi.swing.util.StyleUtil;
 import naga.fx.spi.peer.base.ButtonBasePeerMixin;
@@ -26,7 +26,7 @@ class SwingButtonBasePeer
         swingButtonBase.setFont(StyleUtil.getFont(false, false));
         swingButtonBase.addActionListener(e -> {
             N node = getNode();
-            node.fireEvent(new javafx.event.ActionEvent(node, node));
+            node.fireEvent(new emul.javafx.event.ActionEvent(node, node));
         });
     }
 

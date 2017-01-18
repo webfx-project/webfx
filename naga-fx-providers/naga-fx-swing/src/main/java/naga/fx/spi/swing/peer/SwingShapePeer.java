@@ -1,16 +1,16 @@
 package naga.fx.spi.swing.peer;
 
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import naga.fx.scene.LayoutMeasurable;
-import naga.fx.scene.paint.Paint;
+import emul.javafx.geometry.BoundingBox;
+import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.LayoutMeasurable;
+import emul.javafx.scene.paint.Paint;
 import naga.fx.spi.peer.base.ShapePeerBase;
 import naga.fx.spi.peer.base.ShapePeerMixin;
-import com.sun.javafx.geom.Point2D;
-import naga.fx.scene.shape.Shape;
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
-import naga.fx.scene.shape.StrokeType;
+import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.scene.shape.Shape;
+import emul.javafx.scene.shape.StrokeLineCap;
+import emul.javafx.scene.shape.StrokeLineJoin;
+import emul.javafx.scene.shape.StrokeType;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

@@ -5,10 +5,10 @@ import naga.commons.util.Arrays;
 import naga.commons.util.function.Factory;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.layout.HBox;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 
 /**

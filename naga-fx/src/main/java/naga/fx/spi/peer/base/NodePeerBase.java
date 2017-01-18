@@ -3,15 +3,18 @@ package naga.fx.spi.peer.base;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
-import naga.fx.spi.peer.NodePeer;
-import naga.fx.spi.peer.ScenePeer;
-import naga.fx.scene.*;
-import naga.fx.scene.transform.*;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.Properties;
+import naga.fx.scene.SceneRequester;
+import naga.fx.spi.peer.NodePeer;
 
 import java.util.List;
 
@@ -88,12 +91,12 @@ public abstract class NodePeerBase
         return updateProperty(node.mouseTransparentProperty(), changedProperty, mixin::updateMouseTransparent)
                 || updateProperty(node.visibleProperty(), changedProperty, mixin::updateVisible)
                 || updateProperty(node.disabledProperty(), changedProperty, mixin::updateDisabled)
-                || updateProperty(node.opacityProperty(), changedProperty, mixin::updateOpacity)
+                || updateProperty(node.opacityProperty(), changedProperty, p-> mixin.updateOpacity(p.doubleValue()))
                 || updateProperty(node.clipProperty(), changedProperty, mixin::updateClip)
                 || updateProperty(node.blendModeProperty(), changedProperty, mixin::updateBlendMode)
                 || updateProperty(node.effectProperty(), changedProperty, mixin::updateEffect)
-                || updateProperty(node.layoutXProperty(), changedProperty, mixin::updateLayoutX)
-                || updateProperty(node.layoutYProperty(), changedProperty, mixin::updateLayoutY)
+                || updateProperty(node.layoutXProperty(), changedProperty, p -> mixin.updateLayoutX(p.doubleValue()))
+                || updateProperty(node.layoutYProperty(), changedProperty, p-> mixin.updateLayoutY(p.doubleValue()))
                 ;
     }
 
@@ -122,14 +125,16 @@ public abstract class NodePeerBase
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(node.getTransforms());
+/*
                 ScenePeer scenePeer = node.getScene().impl_getPeer();
                 if (scenePeer instanceof CanvasScenePeer)
                     ((CanvasScenePeer) scenePeer).requestCanvasRepaint();
+*/
             }, properties);
     }
 
 
-    protected <T> boolean updateProperty(Property<T> property, ObservableValue changedProperty, Consumer<T> updater) {
+    protected <T> boolean updateProperty(ObservableValue<T> property, ObservableValue changedProperty, Consumer<T> updater) {
         boolean hitChangedProperty = property == changedProperty;
         if (hitChangedProperty || changedProperty == null)
             updater.accept(property.getValue());

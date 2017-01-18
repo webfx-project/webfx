@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
-import naga.fx.scene.paint.Paint;
+import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon

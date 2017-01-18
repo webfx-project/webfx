@@ -1,6 +1,6 @@
 package naga.fx.spi.peer;
 
-import naga.fx.stage.Stage;
+import javafx.stage.Stage;
 
 /**
  * @author Bruno Salmon

@@ -2,8 +2,8 @@ package naga.fx.spi.swing.peer;
 
 import naga.fx.spi.peer.base.GroupPeerBase;
 import naga.fx.spi.peer.base.GroupPeerMixin;
-import com.sun.javafx.geom.Point2D;
-import naga.fx.scene.Group;
+import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.scene.Group;
 
 import java.awt.*;
 

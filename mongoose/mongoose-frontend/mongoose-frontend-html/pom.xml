@@ -62,14 +62,7 @@
             <artifactId>naga-fx-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
-            <classifier>sources</classifier>
-        </dependency>
-
-        <dependency>
-            <artifactId>naga-fx</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-            <classifier>sources</classifier>
+            <classifier>shaded-sources</classifier>
         </dependency>
 
         <dependency>

@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.shape.Rectangle;
+import javafx.scene.shape.Rectangle;
 import naga.fx.spi.peer.base.RectanglePeerBase;
 import naga.fx.spi.peer.base.RectanglePeerMixin;
 

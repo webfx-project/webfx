@@ -2,8 +2,8 @@ package naga.fx.spi.javafx.peer;
 
 import javafx.scene.web.WebView;
 import naga.commons.util.Strings;
-import naga.fx.scene.layout.Background;
-import naga.fx.scene.layout.Border;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
 import naga.fxdata.control.HtmlText;
 import naga.fxdata.spi.peer.base.HtmlTextPeerBase;
 import naga.fxdata.spi.peer.base.HtmlTextPeerMixin;

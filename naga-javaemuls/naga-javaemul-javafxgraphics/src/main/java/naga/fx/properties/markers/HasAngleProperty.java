@@ -1,0 +1,14 @@
+package naga.fx.properties.markers;
+
+import emul.javafx.beans.property.Property;
+
+/**
+ * @author Bruno Salmon
+ */
+public interface HasAngleProperty {
+
+    Property<Double> angleProperty();
+    default void setAngle(Double angle) { angleProperty().setValue(angle); }
+    default Double getAngle() { return angleProperty().getValue(); }
+
+}

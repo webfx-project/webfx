@@ -2,7 +2,7 @@ package naga.fx.spi.peer;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 import naga.fx.scene.SceneRequester;
 
 /**

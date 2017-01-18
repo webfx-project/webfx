@@ -5,7 +5,7 @@ import elemental2.HTMLInputElement;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.control.Slider;
+import emul.javafx.scene.control.Slider;
 import naga.fx.spi.peer.base.SliderPeerBase;
 import naga.fx.spi.peer.base.SliderPeerMixin;
 

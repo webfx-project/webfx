@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.util;
 
-import naga.fx.scene.paint.*;
+import emul.javafx.scene.paint.*;
 
 import java.util.List;
 

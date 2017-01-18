@@ -1,29 +1,24 @@
 package naga.fxdata.cell.collator;
 
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import naga.fx.scene.layout.Background;
-import naga.fx.scene.layout.Border;
-import naga.fx.spi.peer.NodePeer;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplaySelection;
+import javafx.scene.Node;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Effect;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.transform.Transform;
+import naga.fx.properties.ObservableLists;
 import naga.fxdata.cell.renderer.ArrayRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.Node;
-import naga.fx.scene.Scene;
-import naga.fx.scene.effect.BlendMode;
-import naga.fx.scene.effect.Effect;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.transform.Transform;
-import naga.fx.scene.SceneRequester;
+import naga.fxdata.displaydata.DisplayColumn;
+import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplaySelection;
+import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
-import naga.fxdata.displaydata.SelectionMode;
-import naga.fx.properties.ObservableLists;
 
 import java.util.Collection;
 import java.util.List;
@@ -49,6 +44,7 @@ public class GridCollator extends DataGrid {
         setMaxHeight(Double.MAX_VALUE);
     }
 
+/*
     @Override
     public NodePeer getNodePeer() {
         NodePeer nodePeer = super.getNodePeer();
@@ -73,6 +69,7 @@ public class GridCollator extends DataGrid {
         }
         return nodePeer;
     }
+*/
 
     @Override
     protected void layoutChildren() {
@@ -149,12 +146,12 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateWidth(Double width) {
-            container.setWidth(width);
+            //container.setWidth(width);
         }
 
         @Override
         public void updateHeight(Double height) {
-            container.setHeight(height);
+            //container.setHeight(height);
         }
 
         @Override

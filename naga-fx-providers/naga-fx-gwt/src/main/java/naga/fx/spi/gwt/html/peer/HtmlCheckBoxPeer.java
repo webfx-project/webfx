@@ -3,7 +3,7 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.HTMLElement;
 import elemental2.HTMLInputElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.control.CheckBox;
+import emul.javafx.scene.control.CheckBox;
 import naga.fx.spi.peer.base.CheckBoxPeerBase;
 import naga.fx.spi.peer.base.CheckBoxPeerMixin;
 

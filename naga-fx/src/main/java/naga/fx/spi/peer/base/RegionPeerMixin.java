@@ -1,8 +1,8 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.layout.Background;
-import naga.fx.scene.layout.Border;
-import naga.fx.scene.layout.Region;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.Region;
 
 /**
  * @author Bruno Salmon

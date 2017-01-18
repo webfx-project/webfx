@@ -4,7 +4,7 @@ import mongoose.activities.frontend.event.shared.BookingsProcessViewModelBuilder
 import mongoose.activities.shared.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.cell.collator.GridCollator;
-import naga.fx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

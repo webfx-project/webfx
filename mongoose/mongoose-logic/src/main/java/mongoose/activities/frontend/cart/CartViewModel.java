@@ -2,7 +2,7 @@ package mongoose.activities.frontend.cart;
 
 import naga.framework.ui.presentation.AbstractViewModel;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

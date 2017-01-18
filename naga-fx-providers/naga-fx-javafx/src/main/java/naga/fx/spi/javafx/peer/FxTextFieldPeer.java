@@ -2,8 +2,8 @@ package naga.fx.spi.javafx.peer;
 
 import naga.commons.util.Objects;
 import naga.fx.spi.javafx.util.FxFonts;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.text.Font;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Font;
 import naga.fx.spi.peer.base.TextFieldPeerBase;
 import naga.fx.spi.peer.base.TextFieldPeerMixin;
 

@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.shape.Circle;
+import javafx.scene.shape.Circle;
 
 /**
  * @author Bruno Salmon
@@ -26,9 +26,9 @@ public class CirclePeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         N c = node;
         return super.updateProperty(changedProperty)
-                || updateProperty(c.centerXProperty(), changedProperty, mixin::updateCenterX)
-                || updateProperty(c.centerYProperty(), changedProperty, mixin::updateCenterY)
-                || updateProperty(c.radiusProperty(), changedProperty, mixin::updateRadius)
+                || updateProperty(c.centerXProperty(), changedProperty, p -> mixin.updateCenterX(p.doubleValue()))
+                || updateProperty(c.centerYProperty(), changedProperty, p -> mixin.updateCenterY(p.doubleValue()))
+                || updateProperty(c.radiusProperty(), changedProperty, p-> mixin.updateRadius(p.doubleValue()))
                 ;
     }
 }

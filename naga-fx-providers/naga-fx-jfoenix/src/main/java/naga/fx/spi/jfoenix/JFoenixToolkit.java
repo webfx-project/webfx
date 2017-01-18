@@ -3,8 +3,6 @@ package naga.fx.spi.jfoenix;
 import naga.fx.scene.Scene;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.javafx.JavaFxToolkit;
-import naga.fx.spi.javafx.peer.FxScenePeer;
-import naga.fx.spi.javafx.peer.FxStagePeer;
 import naga.fx.stage.Stage;
 
 /**

@@ -1,8 +1,8 @@
 package naga.fx.spi.swing.util;
 
 import naga.commons.util.collection.Collections;
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
+import emul.javafx.scene.shape.StrokeLineCap;
+import emul.javafx.scene.shape.StrokeLineJoin;
 
 import java.awt.*;
 import java.util.List;

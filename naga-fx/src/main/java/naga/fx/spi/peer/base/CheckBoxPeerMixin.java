@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.control.CheckBox;
+import javafx.scene.control.CheckBox;
 
 /**
  * @author Bruno Salmon

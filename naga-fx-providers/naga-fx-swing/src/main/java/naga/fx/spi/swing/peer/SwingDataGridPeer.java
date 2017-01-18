@@ -1,8 +1,8 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.scene.Node;
-import naga.fx.scene.image.ImageView;
-import naga.fx.scene.text.TextAlignment;
+import emul.javafx.scene.Node;
+import emul.javafx.scene.image.ImageView;
+import emul.javafx.scene.text.TextAlignment;
 import naga.fx.spi.swing.util.JGradientLabel;
 import naga.fx.spi.swing.util.StyleUtil;
 import naga.fx.spi.swing.util.SwingPaints;

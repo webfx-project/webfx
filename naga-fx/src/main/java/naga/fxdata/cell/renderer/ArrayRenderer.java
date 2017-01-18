@@ -2,11 +2,9 @@ package naga.fxdata.cell.renderer;
 
 import naga.commons.util.Arrays;
 import naga.fxdata.cell.collator.NodeCollator;
-import naga.fx.scene.Node;
-import naga.fx.scene.layout.HBox;
-import naga.fx.scene.layout.Priority;
-import naga.fx.properties.markers.HasMaxHeightProperty;
-import naga.fx.properties.markers.HasMaxWidthProperty;
+import javafx.scene.Node;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * @author Bruno Salmon
@@ -46,10 +44,12 @@ public class ArrayRenderer implements ValueRenderer {
     }
 
     private static Node maximizeNode(Node node) {
+/*
         if (node instanceof HasMaxWidthProperty)
             ((HasMaxWidthProperty) node).setMaxWidth(Double.MAX_VALUE);
         if (node instanceof HasMaxHeightProperty)
             ((HasMaxHeightProperty) node).setMaxHeight(Double.MAX_VALUE);
+*/
         return node;
     }
 

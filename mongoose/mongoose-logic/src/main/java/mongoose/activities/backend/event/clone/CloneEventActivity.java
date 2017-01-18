@@ -9,17 +9,17 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import naga.fx.properties.Properties;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.Label;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.layout.*;
-import naga.fx.scene.text.Font;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
 
 import java.time.LocalDate;
 
-import static naga.fx.scene.layout.PreferenceResizableNode.USE_PREF_SIZE;
+import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
 /**
  * @author Bruno Salmon
@@ -56,7 +56,7 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
         gp.setMaxWidth(USE_PREF_SIZE);
         gp.setMaxHeight(USE_PREF_SIZE);
-        gp.setInsets(new Insets(50, 50, 50, 50));
+        gp.setPadding(new Insets(50, 50, 50, 50));
 
         nameLabel.textFillProperty().bind(Theme.dialogTextFillProperty());
         dateLabel.textFillProperty().bind(Theme.dialogTextFillProperty());
@@ -80,7 +80,7 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         goldPane.setAlignment(Pos.TOP_CENTER);
         RowConstraints rc = new RowConstraints();
         rc.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), bp.heightProperty(),
-                (gpHeight, bpHeight) -> (gpHeight - bpHeight) / 2.61));
+                (gpHeight, bpHeight) -> (gpHeight.doubleValue() - bpHeight.doubleValue()) / 2.61));
         Properties.runOnceOnPropertiesChange((p) -> goldPane.layout(), goldPane.heightProperty());
         goldPane.getRowConstraints().add(rc);
         goldPane.add(bp, 0, 1);

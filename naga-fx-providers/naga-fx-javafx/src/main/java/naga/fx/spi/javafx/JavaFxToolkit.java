@@ -3,17 +3,10 @@ package naga.fx.spi.javafx;
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import naga.commons.util.function.Consumer;
-import javafx.geometry.Rectangle2D;
-import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.Toolkit;
-import naga.fx.spi.javafx.peer.FxScenePeer;
-import naga.fx.spi.javafx.peer.FxStagePeer;
-import naga.fx.stage.Screen;
-import naga.fx.spi.peer.StagePeer;
-import naga.fx.stage.Window;
-import naga.fx.spi.peer.WindowPeer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,16 +62,12 @@ public class JavaFxToolkit extends Toolkit {
 
     @Override
     public Screen getPrimaryScreen() {
-        javafx.stage.Screen fxPrimaryScreen = javafx.stage.Screen.getPrimary();
-        return Screen.from(toRectangle2D(fxPrimaryScreen.getBounds()), toRectangle2D(fxPrimaryScreen.getVisualBounds()));
+        return Screen.getPrimary();
     }
 
-    private Rectangle2D toRectangle2D(javafx.geometry.Rectangle2D r) {
-        return new Rectangle2D(r.getMinX(), r.getMinY(), r.getWidth(), r.getHeight());
-    }
-
+/*
     @Override
-    public StagePeer createStagePeer(naga.fx.stage.Stage stage) {
+    public StagePeer createStagePeer(javafx.stage.Stage stage) {
         if (stage != getPrimaryStage())
             return createFxStagePeer(stage, new Stage());
         synchronized (FxApplication.class) {
@@ -86,7 +75,7 @@ public class JavaFxToolkit extends Toolkit {
         }
     }
 
-    protected FxStagePeer createFxStagePeer(naga.fx.stage.Stage stage, Stage fxStage) {
+    protected FxStagePeer createFxStagePeer(javafx.stage.Stage stage, Stage fxStage) {
         return new FxStagePeer(stage, fxStage);
     }
 
@@ -96,13 +85,14 @@ public class JavaFxToolkit extends Toolkit {
     }
 
     @Override
-    public ScenePeer createScenePeer(naga.fx.scene.Scene scene) {
+    public ScenePeer createScenePeer(javafx.scene.Scene scene) {
         return new FxScenePeer(scene);
     }
+*/
 
     public static class FxApplication extends Application {
         public static Stage fxPrimaryStage;
-        private static FxStagePeer fxStagePeer;
+        //private static FxStagePeer fxStagePeer;
 
         @Override
         public void start(Stage primaryStage) throws Exception {
@@ -110,8 +100,10 @@ public class JavaFxToolkit extends Toolkit {
             SvgImageLoaderFactory.install();
             synchronized (FxApplication.class) {
                 FxApplication.fxPrimaryStage = primaryStage;
+/*
                 if (fxStagePeer != null)
                     fxStagePeer.setFxStage(primaryStage);
+*/
             }
             executeReadyRunnables();
         }

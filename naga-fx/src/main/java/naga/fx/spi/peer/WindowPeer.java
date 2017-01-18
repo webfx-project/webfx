@@ -1,7 +1,7 @@
 package naga.fx.spi.peer;
 
-import naga.fx.stage.Window;
-import naga.fx.sun.tk.TKStage;
+import com.sun.javafx.tk.TKStage;
+import javafx.stage.Window;
 
 /**
  * @author Bruno Salmon
@@ -43,7 +43,7 @@ public interface WindowPeer extends TKStage {
      * @param yGravity the yGravity coefficient
      */
     void setBounds(float x, float y, boolean xSet, boolean ySet,
-                           float w, float h, float cw, float ch,
-                           float xGravity, float yGravity);
+                   float w, float h, float cw, float ch,
+                   float xGravity, float yGravity);
 
 }

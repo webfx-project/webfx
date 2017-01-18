@@ -1,8 +1,8 @@
 package naga.fx.spi.swing.peer;
 
 import naga.fx.spi.swing.util.SwingPaints;
-import naga.fx.scene.paint.LinearGradient;
-import naga.fx.scene.shape.Shape;
+import emul.javafx.scene.paint.LinearGradient;
+import emul.javafx.scene.shape.Shape;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ class SwingPaintUpdater {
         updateFromPaint(shape.getFill());
     }
 
-    void updateFromPaint(naga.fx.scene.paint.Paint paint) {
+    void updateFromPaint(emul.javafx.scene.paint.Paint paint) {
         linearGradient = paint instanceof LinearGradient ? (LinearGradient) paint : null;
         swingPaint = isProportionalGradient() ? null : SwingPaints.toSwingPaint(paint);
     }

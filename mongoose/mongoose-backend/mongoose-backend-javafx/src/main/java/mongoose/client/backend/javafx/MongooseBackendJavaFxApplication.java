@@ -1,14 +1,13 @@
 package mongoose.client.backend.javafx;
 
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.MongooseBackendApplication;
-import naga.fx.spi.javafx.JavaFxToolkit;
-import naga.fx.spi.javafx.peer.FxNodePeer;
-import naga.fx.spi.javafx.util.FxImageStore;
-import naga.fx.scene.Node;
-import naga.fx.scene.Scene;
 import naga.fx.spi.Toolkit;
+import naga.fx.spi.javafx.JavaFxToolkit;
+import naga.fx.spi.javafx.util.FxImageStore;
 
 
 /**
@@ -34,7 +33,7 @@ public class MongooseBackendJavaFxApplication {
         Scene scene = Toolkit.get().getPrimaryStage().getScene();
         Node root = scene == null ? null : scene.getRoot();
         if (root != null) {
-            javafx.scene.Node fxNode = ((FxNodePeer) root.getOrCreateAndBindNodePeer()).getFxNode();
+            javafx.scene.Node fxNode = null; // ((FxNodePeer) root.getOrCreateAndBindNodePeer()).getFxNode();
             if (fxNode instanceof Pane) {
                 Pane rootPane = (Pane) fxNode;
                 if (!visible) {

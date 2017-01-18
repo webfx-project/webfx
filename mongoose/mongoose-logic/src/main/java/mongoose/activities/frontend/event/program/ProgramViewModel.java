@@ -1,9 +1,9 @@
 package mongoose.activities.frontend.event.program;
 
 import mongoose.activities.frontend.event.shared.BookingProcessViewModel;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.layout.BorderPane;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

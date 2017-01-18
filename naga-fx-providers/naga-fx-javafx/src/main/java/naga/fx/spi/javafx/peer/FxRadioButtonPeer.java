@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.control.RadioButton;
+import javafx.scene.control.RadioButton;
 import naga.fx.spi.peer.base.RadioButtonPeerBase;
 import naga.fx.spi.peer.base.RadioButtonPeerMixin;
 

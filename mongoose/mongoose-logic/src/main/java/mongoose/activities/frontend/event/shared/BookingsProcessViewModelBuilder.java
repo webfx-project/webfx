@@ -3,10 +3,10 @@ package mongoose.activities.frontend.event.shared;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.ViewBuilder;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.layout.HBox;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon

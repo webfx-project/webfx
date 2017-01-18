@@ -1,7 +1,16 @@
 package mongoose.activities.shared.logic.calendar.graphic.impl;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
@@ -12,15 +21,6 @@ import mongoose.activities.shared.logic.time.TimeInterval;
 import naga.commons.util.async.Handler;
 import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import naga.fx.scene.Group;
-import naga.fx.scene.Node;
-import naga.fx.scene.layout.Region;
-import naga.fx.scene.transform.Rotate;
-import naga.fx.scene.transform.Translate;
 import naga.fx.properties.Properties;
 
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
 
     private Calendar calendar;
     private final I18n i18n;
-    private Region rootNode;
+    private Pane rootNode;
     private long firstEpochDay;
 
     public CalendarGraphicImpl(Calendar calendar, I18n i18n) {
@@ -68,8 +68,8 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private void createRootNode() {
-        rootNode = new Region();
-        rootNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth));
+        rootNode = new Pane();
+        rootNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth.doubleValue()));
         createOrUpdateRootNodeCalendar();
     }
 
@@ -78,7 +78,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
 
     private void createOrUpdateRootNodeCalendar() {
         horizontalDayPositioner = new HorizontalDayPositioner(calendar);
-        verticalDayPositioner = new VerticalDayTimePositioner(rootNode.heightProperty());
+        verticalDayPositioner = new VerticalDayTimePositioner((Property) rootNode.prefHeightProperty());
         Group calendarGroup = createCalendarGroup();
         rootNode.getChildren().setAll(calendarGroup);
         updateTotalWidth(rootNode.getWidth());
@@ -104,7 +104,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         Group calendarGroup = new Group();
         Group headersGroup = createDayColumnHeadersGroup();
         Group bodyGroup = createBodyGroup();
-        bodyGroup.getTransforms().setAll(Translate.create(0d, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
+        bodyGroup.getTransforms().setAll(new Translate(0, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
         calendarGroup.getChildren().setAll(headersGroup, bodyGroup);
         return calendarGroup;
     }

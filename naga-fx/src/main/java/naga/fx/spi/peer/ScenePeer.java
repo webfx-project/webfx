@@ -1,9 +1,9 @@
 package naga.fx.spi.peer;
 
-import naga.fx.scene.Node;
-import naga.fx.scene.Parent;
-import naga.fx.scene.Scene;
-import naga.fx.sun.tk.TKScene;
+import com.sun.javafx.tk.TKScene;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 /**
  * @author Bruno Salmon

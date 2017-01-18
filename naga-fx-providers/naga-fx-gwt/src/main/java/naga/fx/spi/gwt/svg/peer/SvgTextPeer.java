@@ -2,10 +2,10 @@ package naga.fx.spi.gwt.svg.peer;
 
 import naga.commons.util.Numbers;
 import naga.fx.spi.gwt.util.SvgUtil;
-import javafx.geometry.VPos;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.Text;
-import naga.fx.scene.text.TextAlignment;
+import emul.javafx.geometry.VPos;
+import emul.javafx.scene.text.Font;
+import emul.javafx.scene.text.Text;
+import emul.javafx.scene.text.TextAlignment;
 import naga.fx.spi.peer.base.TextPeerBase;
 import naga.fx.spi.peer.base.TextPeerMixin;
 

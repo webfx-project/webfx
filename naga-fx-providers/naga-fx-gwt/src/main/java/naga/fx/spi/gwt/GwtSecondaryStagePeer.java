@@ -6,10 +6,10 @@ import elemental2.HTMLElement;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.StagePeer;
-import naga.fx.stage.Modality;
-import naga.fx.stage.Stage;
-import naga.fx.stage.Window;
-import naga.fx.sun.tk.TKStageListener;
+import emul.javafx.stage.Modality;
+import emul.javafx.stage.Stage;
+import emul.javafx.stage.Window;
+import emul.com.sun.javafx.tk.TKStageListener;
 
 import static elemental2.Global.window;
 

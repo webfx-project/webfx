@@ -4,10 +4,10 @@ import naga.commons.scheduler.UiScheduler;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.swing.util.JGradientLabel;
 import naga.fx.spi.swing.util.SwingImageStore;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import naga.fx.scene.LayoutMeasurable;
-import naga.fx.scene.image.ImageView;
+import emul.javafx.geometry.BoundingBox;
+import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.LayoutMeasurable;
+import emul.javafx.scene.image.ImageView;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
 
@@ -45,7 +45,7 @@ public class SwingImageViewPeer
     }
 
     @Override
-    public void updateImage(naga.fx.scene.image.Image image) {
+    public void updateImage(emul.javafx.scene.image.Image image) {
         updateIcon();
     }
 
@@ -61,7 +61,7 @@ public class SwingImageViewPeer
         // As we are probably in the animation frame we make this call non blocking by either setting the icon
         // immediately if it is already loaded and present in cache, or deferring the icon load in the background
         N node = getNode();
-        naga.fx.scene.image.Image image = node.getImage();
+        emul.javafx.scene.image.Image image = node.getImage();
         String url = image == null ? null : image.getUrl();
         int fitWidth = node.getFitWidth().intValue();
         int fitHeight = node.getFitHeight().intValue();

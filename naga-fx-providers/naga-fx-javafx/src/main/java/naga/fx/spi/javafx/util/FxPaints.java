@@ -1,7 +1,7 @@
 package naga.fx.spi.javafx.util;
 
 
-import naga.fx.scene.paint.*;
+import javafx.scene.paint.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,6 +1,6 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.scene.control.CheckBox;
+import emul.javafx.scene.control.CheckBox;
 import naga.fx.spi.peer.base.CheckBoxPeerBase;
 import naga.fx.spi.peer.base.CheckBoxPeerMixin;
 

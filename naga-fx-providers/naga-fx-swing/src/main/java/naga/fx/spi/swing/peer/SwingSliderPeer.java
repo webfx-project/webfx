@@ -1,6 +1,6 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.scene.control.Slider;
+import emul.javafx.scene.control.Slider;
 import naga.fx.spi.peer.base.SliderPeerBase;
 import naga.fx.spi.peer.base.SliderPeerMixin;
 

@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleButton;
 
 /**
  * @author Bruno Salmon

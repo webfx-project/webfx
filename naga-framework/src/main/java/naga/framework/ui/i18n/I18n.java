@@ -1,11 +1,12 @@
 package naga.framework.ui.i18n;
 
 import javafx.beans.property.Property;
+import javafx.scene.control.Labeled;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Text;
 import naga.commons.util.Strings;
 import naga.framework.ui.i18n.impl.I18nImpl;
 import naga.framework.ui.i18n.impl.ResourceDictionaryLoader;
-import naga.fx.properties.markers.HasPromptTextProperty;
-import naga.fx.properties.markers.HasTextProperty;
 
 /**
  * @author Bruno Salmon
@@ -32,9 +33,9 @@ public interface I18n {
         return message;
     }
 
-    default <T extends HasTextProperty> T instantTranslateText(T hasTextProperty, Object key) {
-        hasTextProperty.setText(instantTranslate(key));
-        return hasTextProperty;
+    default <T extends Labeled> T instantTranslateText(T labeled, Object key) {
+        labeled.setText(instantTranslate(key));
+        return labeled;
     }
 
     default String notFoundTranslation(Object key) {
@@ -46,22 +47,27 @@ public interface I18n {
         return this;
     }
 
-    default I18n translateTextFluent(HasTextProperty hasTextProperty, Object key) {
-        return translateString(hasTextProperty.textProperty(), key);
+    default I18n translateTextFluent(Labeled labeled, Object key) {
+        return translateString(labeled.textProperty(), key);
     }
 
-    default <T extends HasTextProperty> T translateText(T hasTextProperty, Object key) {
-        translateTextFluent(hasTextProperty, key);
-        return hasTextProperty;
+    default <T extends Text> T translateText(T text, Object key) {
+        translateString(text.textProperty(), key);
+        return text;
     }
 
-    default I18n translatePromptTextFluent(HasPromptTextProperty hasPromptTextProperty, Object key) {
-        return translateString(hasPromptTextProperty.promptTextProperty(), key);
+    default <T extends Labeled> T translateText(T labeled, Object key) {
+        translateTextFluent(labeled, key);
+        return labeled;
     }
 
-    default <T extends HasPromptTextProperty> T translatePromptText(T hasPromptTextProperty, Object key) {
-        translatePromptTextFluent(hasPromptTextProperty, key);
-        return hasPromptTextProperty;
+    default I18n translatePromptTextFluent(TextInputControl textInputControl, Object key) {
+        return translateString(textInputControl.promptTextProperty(), key);
+    }
+
+    default <T extends TextInputControl> T translatePromptText(T textInputControl, Object key) {
+        translatePromptTextFluent(textInputControl, key);
+        return textInputControl;
     }
 
     static I18n create(String langResourcePathPattern) {

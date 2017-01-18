@@ -1,8 +1,8 @@
 package naga.fx.spi.javafx.util;
 
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
-import naga.fx.scene.shape.StrokeType;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 /**
  * @author Bruno Salmon

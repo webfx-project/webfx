@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.Group;
+import javafx.scene.Group;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.layout.Region;
+import emul.javafx.scene.layout.Region;
 import naga.fx.spi.peer.base.RegionPeerBase;
 import naga.fx.spi.peer.base.RegionPeerMixin;
 

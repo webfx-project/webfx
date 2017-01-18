@@ -2,7 +2,7 @@ package mongoose.activities.backend.monitor;
 
 import naga.framework.ui.presentation.AbstractViewModel;
 import naga.fxdata.chart.Chart;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

@@ -7,10 +7,10 @@ import naga.framework.ui.i18n.I18n;
 import javafx.geometry.Insets;
 import naga.fxdata.cell.collator.GridCollator;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.layout.HBox;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon
@@ -41,7 +41,7 @@ public class FeesViewModelBuilder extends BookingsProcessViewModelBuilder<FeesVi
         BorderPane borderPane = buildFeesSectionPanel(nodes[0]);
         borderPane.setCenter(nodes[1]);
         borderPane.setBottom(nodes[2]);
-        borderPane.setInsets(new Insets(10, 30, 10, 30));
+        borderPane.setPadding(new Insets(10, 30, 10, 30));
         return borderPane;
     }
 

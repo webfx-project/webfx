@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
-import naga.fx.scene.control.Label;
+import emul.javafx.scene.control.Label;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.LabelPeerBase;
 import naga.fx.spi.peer.base.LabelPeerMixin;

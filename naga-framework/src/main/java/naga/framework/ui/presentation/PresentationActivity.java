@@ -2,6 +2,9 @@ package naga.framework.ui.presentation;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Labeled;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import naga.commons.util.Strings;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.HasMountNodeProperty;
@@ -9,12 +12,10 @@ import naga.framework.activity.client.UiDomainActivityContext;
 import naga.framework.activity.client.UiDomainActivityContextMixin;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
+import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
-import naga.fx.scene.image.ImageView;
-import naga.fx.scene.text.Text;
-import naga.fx.properties.markers.HasGraphicProperty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,6 +90,10 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     @Override
     public void onResume() {
+        if (!Toolkit.get().isReady()) {
+            Toolkit.get().onReady(this::onResume);
+            return;
+        }
         initializePresentationModel(presentationModel); // Doing it again, in case the params have changed on a later resume
         setActive(true);
         if (viewModel == null) {
@@ -137,7 +142,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     /** Helpers **/
 
     public static Text createTextView(String translationKey, I18n i18n) {
-        return i18n.translateText((Text) new Text(), translationKey);
+        Text text = new Text();
+        i18n.translateString(text.textProperty(), translationKey);
+        return text;
     }
 
     public static ImageView createImageView(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
@@ -153,9 +160,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         return imageView;
     }
 
-    public static <T extends HasGraphicProperty> T setGraphic(T hasGraphicProperty, String urlOrJson) {
-        hasGraphicProperty.setGraphic(createImageView(urlOrJson));
-        return hasGraphicProperty;
+    public static <T extends Labeled> T setGraphic(T labeled, String urlOrJson) {
+        labeled.setGraphic(createImageView(urlOrJson));
+        return labeled;
     }
 
     protected ReactiveExpressionFilter createReactiveExpressionFilter() {

@@ -5,9 +5,9 @@ import naga.commons.util.function.Factory;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.control.CheckBox;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.layout.BorderPane;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

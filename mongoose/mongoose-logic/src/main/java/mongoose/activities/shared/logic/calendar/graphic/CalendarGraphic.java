@@ -3,7 +3,7 @@ package mongoose.activities.shared.logic.calendar.graphic;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.graphic.impl.CalendarGraphicImpl;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

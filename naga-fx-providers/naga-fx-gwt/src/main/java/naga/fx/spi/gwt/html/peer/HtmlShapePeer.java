@@ -2,11 +2,11 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlPaints;
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.shape.Shape;
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
-import naga.fx.scene.shape.StrokeType;
+import emul.javafx.scene.paint.Paint;
+import emul.javafx.scene.shape.Shape;
+import emul.javafx.scene.shape.StrokeLineCap;
+import emul.javafx.scene.shape.StrokeLineJoin;
+import emul.javafx.scene.shape.StrokeType;
 import naga.fx.spi.peer.base.ShapePeerMixin;
 import naga.fx.spi.peer.base.ShapePeerBase;
 

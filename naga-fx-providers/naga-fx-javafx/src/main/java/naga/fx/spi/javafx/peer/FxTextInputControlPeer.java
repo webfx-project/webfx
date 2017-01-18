@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.control.TextInputControl;
+import javafx.scene.control.TextInputControl;
 import naga.fx.spi.peer.base.TextInputControlPeerMixin;
 import naga.fx.spi.peer.base.TextInputControlPeerBase;
 

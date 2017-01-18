@@ -1,7 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import javafx.beans.property.Property;
-import naga.fx.scene.control.Slider;
+import javafx.scene.control.Slider;
 
 /**
  * @author Bruno Salmon
@@ -17,10 +16,12 @@ public interface SliderPeerMixin
 
     void updateValue(Double value);
 
+/*
     default void updateNodeValue(Double value) {
         Property<Double> valueProperty = getNodePeerBase().getNode().valueProperty();
         if (!valueProperty.isBound())
             valueProperty.setValue(value);
     }
+*/
 
 }

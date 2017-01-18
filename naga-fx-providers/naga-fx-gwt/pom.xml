@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-fx</artifactId>
+            <artifactId>naga-javaemul-javafxgraphics</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
@@ -40,10 +40,54 @@
     </dependencies>
 
     <build>
+
+        <pluginManagement>
+            <plugins>
+                <!-- Relocating the emul.java package to java for both classes and sources -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <shadedArtifactAttached>true</shadedArtifactAttached>
+                                <relocations>
+                                    <relocation>
+                                        <pattern>emul.java</pattern>
+                                        <shadedPattern>java</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.javafx</pattern>
+                                        <shadedPattern>javafx</shadedPattern>
+                                    </relocation>
+                                    <relocation>
+                                        <pattern>emul.com.sun</pattern>
+                                        <shadedPattern>com.sun</shadedPattern>
+                                    </relocation>
+                                </relocations>
+                                <createSourcesJar>true</createSourcesJar>
+                                <shadeSourcesContent>true</shadeSourcesContent>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
             <!-- Generating the source artifact for GWT compilation -->
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <!-- Relocating the emul.java package to java for both classes and sources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
             </plugin>
 
         </plugins>

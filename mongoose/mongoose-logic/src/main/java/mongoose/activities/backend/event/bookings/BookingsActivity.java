@@ -1,5 +1,11 @@
 package mongoose.activities.backend.event.bookings;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import mongoose.activities.shared.generic.GenericTableActivity;
 import mongoose.activities.shared.generic.GenericTableEventDependentPresentationModel;
 import mongoose.activities.shared.theme.Theme;
@@ -7,13 +13,6 @@ import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.scene.control.Alert;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.CheckBox;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.layout.HBox;
-import naga.fx.scene.layout.Priority;
 import naga.fxdata.control.DataGrid;
 
 /**

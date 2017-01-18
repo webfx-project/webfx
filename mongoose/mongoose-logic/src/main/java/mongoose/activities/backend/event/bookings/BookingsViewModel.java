@@ -2,10 +2,10 @@ package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.GenericTableViewModel;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.CheckBox;
-import naga.fx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 /**
  * @author Bruno Salmon

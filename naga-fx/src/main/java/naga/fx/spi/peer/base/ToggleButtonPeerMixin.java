@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleButton;
 
 /**
  * @author Bruno Salmon

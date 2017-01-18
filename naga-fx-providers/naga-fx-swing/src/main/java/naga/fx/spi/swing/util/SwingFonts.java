@@ -1,8 +1,8 @@
 package naga.fx.spi.swing.util;
 
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.FontPosture;
-import naga.fx.scene.text.FontWeight;
+import emul.javafx.scene.text.Font;
+import emul.javafx.scene.text.FontPosture;
+import emul.javafx.scene.text.FontWeight;
 
 import static java.awt.Font.*;
 

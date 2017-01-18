@@ -3,7 +3,7 @@ package emul.javafx.stage;
 import emul.javafx.event.Event;
 import emul.javafx.event.EventTarget;
 import emul.javafx.event.EventType;
-import naga.fx.stage.Window;
+import emul.javafx.stage.Window;
 
 /**
  * Event related to window showing/hiding actions.

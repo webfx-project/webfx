@@ -1,14 +1,14 @@
 package naga.fx.spi.swing.peer;
 
-import javafx.beans.property.Property;
-import naga.fx.scene.CanvasScenePeer;
-import naga.fx.scene.Node;
-import naga.fx.scene.PickResult;
-import naga.fx.scene.Scene;
+import emul.javafx.beans.property.Property;
+import emul.javafx.scene.CanvasScenePeer;
+import emul.javafx.scene.Node;
+import emul.javafx.scene.PickResult;
+import emul.javafx.scene.Scene;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.swing.SwingNodePeerFactory;
 import naga.fx.spi.swing.util.StyleUtil;
-import com.sun.javafx.geom.Point2D;
+import emul.com.sun.javafx.geom.Point2D;
 
 import javax.swing.*;
 import java.awt.*;

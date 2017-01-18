@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.shape.Line;
+import javafx.scene.shape.Line;
 import naga.fx.spi.peer.base.LinePeerMixin;
 import naga.fx.spi.peer.base.LinePeerBase;
 

@@ -1,9 +1,9 @@
 package naga.fx.spi.swing.peer;
 
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import naga.fx.scene.LayoutMeasurable;
-import naga.fx.scene.Node;
+import emul.javafx.geometry.BoundingBox;
+import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.LayoutMeasurable;
+import emul.javafx.scene.Node;
 
 import javax.swing.*;
 

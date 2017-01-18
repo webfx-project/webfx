@@ -1,9 +1,9 @@
 package mongoose.activities.shared.theme;
 
 import javafx.geometry.Insets;
-import naga.fx.scene.layout.*;
-import naga.fx.scene.paint.Color;
-import naga.fx.scene.paint.LinearGradient;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 
 /**
  * @author Bruno Salmon

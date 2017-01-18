@@ -6,8 +6,8 @@ import mongoose.activities.frontend.application.MongooseFrontendApplication;
 import naga.fx.spi.javafx.JavaFxToolkit;
 import naga.fx.spi.javafx.peer.FxNodePeer;
 import naga.fx.spi.javafx.util.FxImageStore;
-import naga.fx.scene.Node;
-import naga.fx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import naga.fx.spi.Toolkit;
 
 /**

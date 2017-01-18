@@ -7,7 +7,6 @@
 
     <!-- Inherit the naga module (naga-core + naga-gwt stuff)       -->
     <inherits name="naga-platform-gwt"/> <!-- refers to naga-platform-gwt.gwt.xml in naga-platform-gwt -->
-    <inherits name="naga-fx"/> <!-- refers to naga-fx.gwt.xml in naga-fx -->
 
     <inherits name="naga-javaemul-javafxbase"/>
     <inherits name="naga-javaemul-javafxgraphics"/>

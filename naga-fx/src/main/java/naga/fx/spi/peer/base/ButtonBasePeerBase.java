@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.control.ButtonBase;
+import javafx.scene.control.ButtonBase;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.image.Image;
-import naga.fx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author Bruno Salmon

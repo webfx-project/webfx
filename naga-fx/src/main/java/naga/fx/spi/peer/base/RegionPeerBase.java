@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.layout.Region;
+import javafx.scene.layout.Region;
 
 /**
  * @author Bruno Salmon
@@ -26,8 +26,8 @@ public class RegionPeerBase
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                || updateProperty(node.widthProperty(), changedProperty, mixin::updateWidth)
-                || updateProperty(node.heightProperty(), changedProperty, mixin::updateHeight)
+                || updateProperty(node.widthProperty(), changedProperty, p -> mixin.updateWidth(p.doubleValue()))
+                || updateProperty(node.heightProperty(), changedProperty, p -> mixin.updateHeight(p.doubleValue()))
                 || updateProperty(node.backgroundProperty(), changedProperty, mixin::updateBackground)
                 || updateProperty(node.borderProperty(), changedProperty, mixin::updateBorder)
                 ;

@@ -3,10 +3,11 @@ package mongoose.activities.shared.logic.calendar.graphic.impl;
 import javafx.beans.property.Property;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import naga.commons.util.collection.HashList;
-import naga.fx.scene.text.Font;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ class VerticalDayTimePositioner {
 
     void updateVerticalPositions() {
         List<TimeInterval> slots = verticalDayTimePositionedCollection.stream().map(VerticalDayTimePositioned::getDayTimeMinuteInterval).collect(Collectors.toCollection(HashList::new));
-        slots.sort((i1, i2) -> Long.compare(i1.getIncludedStart(), i2.getIncludedStart()));
+        slots.sort(Comparator.comparingLong(TimeInterval::getIncludedStart));
         for (VerticalDayTimePositioned verticalDayTimePositioned : verticalDayTimePositionedCollection) {
             TimeInterval minuteInterval = verticalDayTimePositioned.getDayTimeMinuteInterval();
             int slotIndex = slots.indexOf(minuteInterval);

@@ -1,10 +1,10 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.shape.Shape;
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
-import naga.fx.scene.shape.StrokeType;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 
 import java.util.List;
 

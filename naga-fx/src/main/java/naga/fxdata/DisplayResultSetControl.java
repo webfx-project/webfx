@@ -3,7 +3,7 @@ package naga.fxdata;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fx.scene.control.Control;
+import javafx.scene.control.Control;
 import naga.fxdata.displaydata.HasDisplayResultSetProperty;
 
 /**

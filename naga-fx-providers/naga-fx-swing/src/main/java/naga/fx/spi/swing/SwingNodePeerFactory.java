@@ -1,14 +1,14 @@
 package naga.fx.spi.swing;
 
 import naga.fx.spi.swing.peer.*;
-import naga.fx.scene.Group;
-import naga.fx.scene.control.*;
-import naga.fx.scene.image.ImageView;
-import naga.fx.scene.layout.*;
-import naga.fx.scene.shape.Circle;
-import naga.fx.scene.shape.Line;
-import naga.fx.scene.shape.Rectangle;
-import naga.fx.scene.text.Text;
+import emul.javafx.scene.Group;
+import emul.javafx.scene.control.*;
+import emul.javafx.scene.image.ImageView;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.shape.Circle;
+import emul.javafx.scene.shape.Line;
+import emul.javafx.scene.shape.Rectangle;
+import emul.javafx.scene.text.Text;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerFactoryImpl;
 import naga.fxdata.chart.LineChart;

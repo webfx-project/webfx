@@ -2,11 +2,11 @@ package naga.fx.spi.javafx.peer;
 
 import naga.fx.spi.javafx.util.FxPaints;
 import naga.fx.spi.javafx.util.FxStrokes;
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.shape.Shape;
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
-import naga.fx.scene.shape.StrokeType;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.shape.StrokeType;
 import naga.fx.spi.peer.base.ShapePeerMixin;
 import naga.fx.spi.peer.base.ShapePeerBase;
 

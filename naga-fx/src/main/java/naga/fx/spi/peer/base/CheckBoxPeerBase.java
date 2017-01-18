@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.control.CheckBox;
+import javafx.scene.control.CheckBox;
 
 /**
  * @author Bruno Salmon

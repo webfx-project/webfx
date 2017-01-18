@@ -1,14 +1,15 @@
 package mongoose.activities.backend.tester;
 
+import javafx.beans.property.Property;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import mongoose.activities.backend.tester.drive.Drive;
 import mongoose.activities.backend.tester.drive.model.ConnectionChartGenerator;
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.fxdata.chart.LineChart;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.Slider;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.layout.VBox;
 import naga.fx.properties.conversion.ConvertedProperty;
+import naga.fxdata.chart.LineChart;
 
 /**
  * @author Bruno Salmon
@@ -48,7 +49,7 @@ public class TesterActivity extends PresentationActivity<TesterViewModel, Tester
         vm.getStartedSlider().setMax(3000d);
         vm.getRequestSlider().setMin(0d);
         vm.getRequestSlider().setMax(3000d);
-        pm.requestedConnectionsProperty().bind(ConvertedProperty.doubleToIntegerProperty(vm.getRequestSlider().valueProperty()));
+        pm.requestedConnectionsProperty().bind(ConvertedProperty.doubleToIntegerProperty((Property) vm.getRequestSlider().valueProperty()));
         vm.getStartedSlider().valueProperty().bind(ConvertedProperty.integerToDoubleProperty(pm.startedConnectionsProperty()));
 //        DisplayResultSet rs = new DisplayResultSet(6, new Object[]{"Europe", "NA", "Asia", "SA", "Oceania", "Africa", 1757, 597, 159, 127, 103, 21}, new DisplayColumn[]{new DisplayColumn("Continent", PrimType.STRING), new DisplayColumn("Nb", PrimType.INTEGER)});
 //        chart.setDisplayResultSet(rs);

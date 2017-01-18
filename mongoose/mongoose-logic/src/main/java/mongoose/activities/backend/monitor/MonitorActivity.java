@@ -1,10 +1,10 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.ui.presentation.PresentationActivity;
-import naga.fx.scene.layout.Priority;
+import javafx.scene.layout.Priority;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.chart.LineChart;
-import naga.fx.scene.layout.VBox;
+import javafx.scene.layout.VBox;
 
 /**
  * @author Bruno Salmon

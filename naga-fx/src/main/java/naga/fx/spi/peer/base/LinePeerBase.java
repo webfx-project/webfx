@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.shape.Line;
+import javafx.scene.shape.Line;
 
 /**
  * @author Bruno Salmon
@@ -27,10 +27,10 @@ public class LinePeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         N c = node;
         return super.updateProperty(changedProperty)
-                || updateProperty(c.startXProperty(), changedProperty, mixin::updateStartX)
-                || updateProperty(c.startYProperty(), changedProperty, mixin::updateStartY)
-                || updateProperty(c.endXProperty(), changedProperty, mixin::updateEndX)
-                || updateProperty(c.endYProperty(), changedProperty, mixin::updateEndY)
+                || updateProperty(c.startXProperty(), changedProperty, p -> mixin.updateStartX(p.doubleValue()))
+                || updateProperty(c.startYProperty(), changedProperty, p -> mixin.updateStartY(p.doubleValue()))
+                || updateProperty(c.endXProperty(), changedProperty, p -> mixin.updateEndX(p.doubleValue()))
+                || updateProperty(c.endYProperty(), changedProperty, p -> mixin.updateEndY(p.doubleValue()))
                 ;
     }
 }

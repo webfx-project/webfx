@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.shape.Rectangle;
+import emul.javafx.scene.shape.Rectangle;
 import naga.fx.spi.peer.base.RectanglePeerBase;
 import naga.fx.spi.peer.base.RectanglePeerMixin;
 

@@ -1,10 +1,10 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.scene.Scene;
+import emul.javafx.scene.Scene;
 import naga.fx.spi.peer.StagePeer;
-import naga.fx.stage.Stage;
-import naga.fx.stage.Window;
-import naga.fx.sun.tk.TKStageListener;
+import emul.javafx.stage.Stage;
+import emul.javafx.stage.Window;
+import emul.com.sun.javafx.tk.TKStageListener;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,8 +104,8 @@ public class SwingStagePeer implements StagePeer {
             frame.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
-                    javafx.stage.WindowEvent we = null; // new javafx.stage.WindowEvent(stage, javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST);
-                    javafx.event.Event.fireEvent(stage, we);
+                    emul.javafx.stage.WindowEvent we = null; // new emul.javafx.stage.WindowEvent(stage, emul.javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST);
+                    emul.javafx.event.Event.fireEvent(stage, we);
                     if (we.isConsumed() && stage == naga.fx.spi.Toolkit.get().getPrimaryStage())
                         System.exit(0);
                 }

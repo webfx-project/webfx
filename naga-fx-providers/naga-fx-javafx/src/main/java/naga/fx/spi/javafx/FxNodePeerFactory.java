@@ -1,13 +1,11 @@
 package naga.fx.spi.javafx;
 
-import naga.fx.scene.Group;
-import naga.fx.scene.control.*;
-import naga.fx.scene.image.ImageView;
-import naga.fx.scene.layout.Region;
-import naga.fx.scene.shape.Circle;
-import naga.fx.scene.shape.Line;
-import naga.fx.scene.shape.Rectangle;
-import naga.fx.scene.text.Text;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
+import javafx.scene.layout.Region;
+import naga.commons.util.function.Factory;
+import naga.fx.scene.SceneRequester;
 import naga.fx.spi.javafx.peer.*;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerFactoryImpl;
@@ -23,19 +21,7 @@ public class FxNodePeerFactory extends NodePeerFactoryImpl {
     public final static FxNodePeerFactory SINGLETON = new FxNodePeerFactory();
 
     protected FxNodePeerFactory() {
-        registerNodePeerFactory(Rectangle.class, FxRectanglePeer::new);
-        registerNodePeerFactory(Circle.class, FxCirclePeer::new);
-        registerNodePeerFactory(Line.class, FxLinePeer::new);
-        registerNodePeerFactory(Text.class, FxTextPeer::new);
-        registerNodePeerFactory(Label.class, FxLabelPeer::new);
-        registerNodePeerFactory(Group.class, FxGroupPeer::new);
-        registerNodePeerFactory(Button.class, FxButtonPeer::new);
-        registerNodePeerFactory(CheckBox.class, FxCheckBoxPeer::new);
-        registerNodePeerFactory(RadioButton.class, FxRadioButtonPeer::new);
-        registerNodePeerFactory(TextField.class, FxTextFieldPeer::new);
-        registerNodePeerFactory(ImageView.class, FxImageViewPeer::new);
         registerNodePeerFactory(HtmlText.class, FxHtmlTextPeer::new);
-        registerNodePeerFactory(Slider.class, FxSliderPeer::new);
         registerNodePeerFactory(DataGrid.class, FxDataGridPeer::new);
         registerNodePeerFactory(AreaChart.class, FxAreaChartPeer::new);
         registerNodePeerFactory(BarChart.class, FxBarChartPeer::new);
@@ -45,7 +31,38 @@ public class FxNodePeerFactory extends NodePeerFactoryImpl {
     }
 
     @Override
+    public <N extends Node, V extends NodePeer<N>> V createNodePeer(N node) {
+        Factory<? extends NodePeer> factory = nodePeerFactories.get(node.getClass());
+        if (factory != null)
+            return (V) factory.create();
+        return (V) new NodePeer<N>() {
+            @Override
+            public void bind(N node, SceneRequester sceneRequester) {
+            }
+
+            @Override
+            public void unbind() {
+            }
+
+            @Override
+            public boolean updateProperty(ObservableValue changedProperty) {
+                return false;
+            }
+
+            @Override
+            public boolean updateList(ObservableList changedList) {
+                return false;
+            }
+
+            @Override
+            public void requestFocus() {
+                node.requestFocus();
+            }
+        };
+    }
+
+    @Override
     protected NodePeer<Region> createDefaultRegionPeer(Region node) {
-        return new FxLayoutPeer<>();
+        return null;
     }
 }

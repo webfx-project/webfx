@@ -14,9 +14,9 @@
 
     <modules>
         <module>naga-fx-javafx</module>
+        <module>naga-fx-gwt</module>
         <module>naga-fx-jfoenix</module>
         <module>naga-fx-swing</module>
-        <module>naga-fx-gwt</module>
     </modules>
 
 </project>

@@ -5,8 +5,8 @@ import elemental2.HTMLElement;
 import naga.commons.util.collection.Collections;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
-import naga.fx.scene.layout.*;
-import naga.fx.scene.paint.Paint;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.paint.Paint;
 import naga.fx.spi.peer.base.RegionPeerBase;
 import naga.fx.spi.peer.base.RegionPeerMixin;
 

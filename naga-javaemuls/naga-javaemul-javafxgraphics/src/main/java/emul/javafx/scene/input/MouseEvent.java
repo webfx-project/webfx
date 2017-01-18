@@ -3,7 +3,7 @@ package emul.javafx.scene.input;
 import emul.javafx.event.Event;
 import emul.javafx.event.EventTarget;
 import emul.javafx.event.EventType;
-import naga.fx.scene.input.*;
+import emul.javafx.scene.input.*;
 
 /**
  * When mouse event occurs, the top-most node under cursor is picked and

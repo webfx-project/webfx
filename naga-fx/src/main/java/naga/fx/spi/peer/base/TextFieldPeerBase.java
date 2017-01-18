@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.control.TextField;
+import javafx.scene.control.TextField;
 
 /**
  * @author Bruno Salmon

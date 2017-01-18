@@ -2,7 +2,7 @@ package naga.fxdata.spi.peer.base;
 
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

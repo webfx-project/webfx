@@ -14,7 +14,7 @@ import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Factory;
 import naga.framework.orm.entity.EntityList;
 import javafx.event.ActionEvent;
-import naga.fx.scene.control.Button;
+import javafx.scene.control.Button;
 
 import java.util.ArrayList;
 import java.util.List;

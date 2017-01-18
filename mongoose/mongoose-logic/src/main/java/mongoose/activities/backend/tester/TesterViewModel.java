@@ -2,9 +2,9 @@ package mongoose.activities.backend.tester;
 
 import naga.framework.ui.presentation.AbstractViewModel;
 import naga.fxdata.chart.Chart;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.Slider;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 
 /**
  * @author Bruno Salmon

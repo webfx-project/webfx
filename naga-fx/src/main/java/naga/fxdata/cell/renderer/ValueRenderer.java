@@ -3,7 +3,7 @@ package naga.fxdata.cell.renderer;
 import naga.commons.type.Type;
 import naga.fxdata.cell.collator.NodeCollator;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

@@ -5,8 +5,8 @@ import mongoose.activities.shared.theme.DarkTheme;
 import mongoose.activities.shared.theme.LightTheme;
 import mongoose.activities.shared.theme.Theme;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.scene.layout.BorderPane;
-import naga.fx.scene.layout.FlowPane;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package naga.fxdata.cell.renderer;
 
 import naga.commons.util.Strings;
-import naga.fx.scene.text.Text;
+import javafx.scene.text.Text;
 
 /**
  * @author Bruno Salmon

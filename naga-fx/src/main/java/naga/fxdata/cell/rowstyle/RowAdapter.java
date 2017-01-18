@@ -1,6 +1,6 @@
 package naga.fxdata.cell.rowstyle;
 
-import naga.fx.scene.paint.Paint;
+import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon

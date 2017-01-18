@@ -3,10 +3,10 @@ package naga.fx.spi.swing.peer;
 import naga.fx.spi.peer.base.LabeledPeerBase;
 import naga.fx.spi.swing.util.SwingFonts;
 import naga.fx.spi.swing.util.SwingPaints;
-import naga.fx.scene.control.Labeled;
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.TextAlignment;
+import emul.javafx.scene.control.Labeled;
+import emul.javafx.scene.paint.Paint;
+import emul.javafx.scene.text.Font;
+import emul.javafx.scene.text.TextAlignment;
 import naga.fx.spi.peer.base.LabeledPeerMixin;
 
 import java.awt.*;

@@ -2,7 +2,7 @@ package naga.fxdata.cell.renderer;
 
 import naga.commons.util.Strings;
 import naga.fxdata.control.HtmlText;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

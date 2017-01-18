@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.control.Slider;
+import javafx.scene.control.Slider;
 
 /**
  * @author Bruno Salmon
@@ -26,9 +26,9 @@ public class SliderPeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         N s = node;
         return super.updateProperty(changedProperty)
-                || updateProperty(s.minProperty(), changedProperty, mixin::updateMin)
-                || updateProperty(s.maxProperty(), changedProperty, mixin::updateMax)
-                || updateProperty(s.valueProperty(), changedProperty, mixin::updateValue)
+                || updateProperty(s.minProperty(), changedProperty, p -> mixin.updateMin(p.doubleValue()))
+                || updateProperty(s.maxProperty(), changedProperty, p -> mixin.updateMax(p.doubleValue()))
+                || updateProperty(s.valueProperty(), changedProperty, p -> mixin.updateValue(p.doubleValue()))
                 ;
     }
 }

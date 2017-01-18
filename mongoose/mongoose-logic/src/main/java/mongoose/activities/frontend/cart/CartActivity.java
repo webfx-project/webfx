@@ -4,7 +4,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.presentation.PresentationActivity;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.layout.VBox;
+import javafx.scene.layout.VBox;
 
 /**
  * @author Bruno Salmon

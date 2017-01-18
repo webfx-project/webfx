@@ -7,10 +7,10 @@ import naga.commons.util.Strings;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
 import naga.platform.spi.Platform;
-import javafx.geometry.BoundingBox;
-import javafx.geometry.Bounds;
-import naga.fx.scene.image.Image;
-import naga.fx.scene.image.ImageView;
+import emul.javafx.geometry.BoundingBox;
+import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.image.Image;
+import emul.javafx.scene.image.ImageView;
 
 import static naga.fx.spi.gwt.util.HtmlUtil.createImageElement;
 import static naga.fx.spi.gwt.util.HtmlUtil.createNodeFromHtml;

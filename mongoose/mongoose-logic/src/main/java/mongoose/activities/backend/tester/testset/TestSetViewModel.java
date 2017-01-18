@@ -1,9 +1,9 @@
 package mongoose.activities.backend.tester.testset;
 
 import naga.framework.ui.presentation.AbstractViewModel;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 /**
  * @author Jean-Pierre Alonso.

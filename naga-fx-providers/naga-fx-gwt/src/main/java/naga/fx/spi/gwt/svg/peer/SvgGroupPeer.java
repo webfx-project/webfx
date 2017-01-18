@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.svg.peer;
 
 import elemental2.Element;
 import naga.fx.spi.gwt.util.SvgUtil;
-import naga.fx.scene.Group;
+import emul.javafx.scene.Group;
 import naga.fx.spi.peer.base.GroupPeerMixin;
 import naga.fx.spi.peer.base.GroupPeerBase;
 

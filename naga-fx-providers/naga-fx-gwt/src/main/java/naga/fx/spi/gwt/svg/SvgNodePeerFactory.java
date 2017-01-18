@@ -1,13 +1,13 @@
 package naga.fx.spi.gwt.svg;
 
-import naga.fx.scene.Group;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.control.CheckBox;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.layout.*;
-import naga.fx.scene.shape.Circle;
-import naga.fx.scene.shape.Rectangle;
-import naga.fx.scene.text.Text;
+import emul.javafx.scene.Group;
+import emul.javafx.scene.control.Button;
+import emul.javafx.scene.control.CheckBox;
+import emul.javafx.scene.control.TextField;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.shape.Circle;
+import emul.javafx.scene.shape.Rectangle;
+import emul.javafx.scene.text.Text;
 import naga.fx.spi.gwt.html.peer.HtmlButtonPeer;
 import naga.fx.spi.gwt.html.peer.HtmlCheckBoxPeer;
 import naga.fx.spi.gwt.html.peer.HtmlTextFieldPeer;

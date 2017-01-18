@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.control.ButtonBase;
+import javafx.scene.control.ButtonBase;
 import naga.fx.spi.peer.base.ButtonBasePeerBase;
 import naga.fx.spi.peer.base.ButtonBasePeerMixin;
 

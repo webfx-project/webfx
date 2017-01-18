@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.Group;
+import javafx.scene.Group;
 import naga.fx.spi.peer.base.GroupPeerBase;
 import naga.fx.spi.peer.base.GroupPeerMixin;
 

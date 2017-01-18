@@ -6,8 +6,8 @@ import elemental2.HTMLInputElement;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.text.Font;
+import emul.javafx.scene.control.TextField;
+import emul.javafx.scene.text.Font;
 import naga.fx.spi.peer.base.TextFieldPeerBase;
 import naga.fx.spi.peer.base.TextFieldPeerMixin;
 

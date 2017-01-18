@@ -3,10 +3,10 @@ package naga.fx.spi.swing.peer;
 import naga.commons.util.Numbers;
 import naga.commons.util.collection.Collections;
 import naga.fx.spi.swing.util.SwingStrokes;
-import naga.fx.scene.layout.Border;
-import naga.fx.scene.layout.BorderStroke;
-import naga.fx.scene.layout.BorderStrokeStyle;
-import naga.fx.scene.shape.Shape;
+import emul.javafx.scene.layout.Border;
+import emul.javafx.scene.layout.BorderStroke;
+import emul.javafx.scene.layout.BorderStrokeStyle;
+import emul.javafx.scene.shape.Shape;
 
 import java.awt.*;
 

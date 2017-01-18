@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.shape.Line;
+import javafx.scene.shape.Line;
 
 /**
  * @author Bruno Salmon

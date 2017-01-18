@@ -1,16 +1,16 @@
 package naga.fx.spi.swing;
 
-import javafx.geometry.Rectangle2D;
+import emul.javafx.geometry.Rectangle2D;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.peer.WindowPeer;
-import naga.fx.scene.Scene;
+import emul.javafx.scene.Scene;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.swing.peer.SwingScenePeer;
 import naga.fx.spi.swing.peer.SwingStagePeer;
-import naga.fx.stage.Screen;
-import naga.fx.stage.Stage;
-import naga.fx.stage.Window;
+import emul.javafx.stage.Screen;
+import emul.javafx.stage.Stage;
+import emul.javafx.stage.Window;
 
 import javax.swing.*;
 import java.awt.*;

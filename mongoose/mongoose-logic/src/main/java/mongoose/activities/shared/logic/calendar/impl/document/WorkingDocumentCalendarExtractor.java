@@ -15,8 +15,8 @@ import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.commons.util.Objects;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.scene.paint.Color;
-import naga.fx.scene.paint.Paint;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 import java.util.ArrayList;
 import java.util.Collection;

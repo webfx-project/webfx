@@ -2,9 +2,9 @@ package naga.fxdata.cell.collator;
 
 import naga.commons.util.Arrays;
 import javafx.geometry.Pos;
-import naga.fx.scene.layout.FlowPane;
-import naga.fx.scene.layout.HBox;
-import naga.fx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
 import java.util.Map;

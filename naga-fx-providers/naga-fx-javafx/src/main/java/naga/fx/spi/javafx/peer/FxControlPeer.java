@@ -3,7 +3,7 @@ package naga.fx.spi.javafx.peer;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Skin;
-import naga.fx.scene.control.Control;
+import javafx.scene.control.Control;
 import naga.fx.spi.peer.base.ControlPeerBase;
 import naga.fx.spi.peer.base.ControlPeerMixin;
 

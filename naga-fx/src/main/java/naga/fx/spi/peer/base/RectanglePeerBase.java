@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.shape.Rectangle;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author Bruno Salmon
@@ -29,12 +29,12 @@ public class RectanglePeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         N r = node;
         return super.updateProperty(changedProperty)
-                || updateProperty(r.xProperty(), changedProperty, mixin::updateX)
-                || updateProperty(r.yProperty(), changedProperty, mixin::updateY)
-                || updateProperty(r.widthProperty(), changedProperty, mixin::updateWidth)
-                || updateProperty(r.heightProperty(), changedProperty, mixin::updateHeight)
-                || updateProperty(r.arcWidthProperty(), changedProperty, mixin::updateArcWidth)
-                || updateProperty(r.arcHeightProperty(), changedProperty, mixin::updateArcHeight)
+                || updateProperty(r.xProperty(), changedProperty, p -> mixin.updateX(p.doubleValue()))
+                || updateProperty(r.yProperty(), changedProperty, p -> mixin.updateY(p.doubleValue()))
+                || updateProperty(r.widthProperty(), changedProperty, p -> mixin.updateWidth(p.doubleValue()))
+                || updateProperty(r.heightProperty(), changedProperty, p -> mixin.updateHeight(p.doubleValue()))
+                || updateProperty(r.arcWidthProperty(), changedProperty, p -> mixin.updateArcWidth(p.doubleValue()))
+                || updateProperty(r.arcHeightProperty(), changedProperty, p -> mixin.updateArcHeight(p.doubleValue()))
                 ;
     }
 }

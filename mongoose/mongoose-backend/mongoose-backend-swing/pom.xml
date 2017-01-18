@@ -17,6 +17,7 @@
             <artifactId>mongoose-logic-java</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
+            <classifier>shaded</classifier>
         </dependency>
 
         <dependency>

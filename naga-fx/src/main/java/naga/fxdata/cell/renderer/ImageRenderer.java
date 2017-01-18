@@ -1,7 +1,7 @@
 package naga.fxdata.cell.renderer;
 
 import naga.commons.util.Strings;
-import naga.fx.scene.image.ImageView;
+import javafx.scene.image.ImageView;
 
 /**
  * @author Bruno Salmon

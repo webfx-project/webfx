@@ -1,6 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.scene.control.Label;
+import javafx.scene.control.Label;
 import naga.fx.spi.peer.base.LabelPeerBase;
 import naga.fx.spi.peer.base.LabelPeerMixin;
 

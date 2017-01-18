@@ -4,9 +4,9 @@ import mongoose.activities.shared.generic.GenericTableActivity;
 import mongoose.activities.shared.theme.Theme;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.control.CheckBox;
-import naga.fx.scene.control.TextField;
-import naga.fx.scene.layout.BorderPane;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 
 /**
  * @author Bruno Salmon

@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.svg.peer;
 
 import elemental2.Element;
 import naga.fx.spi.gwt.util.SvgUtil;
-import naga.fx.scene.shape.Rectangle;
+import emul.javafx.scene.shape.Rectangle;
 import naga.fx.spi.peer.base.RectanglePeerMixin;
 import naga.fx.spi.peer.base.RectanglePeerBase;
 

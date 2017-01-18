@@ -1,6 +1,6 @@
 package naga.fx.spi.swing.util;
 
-import naga.fx.scene.effect.BlendMode;
+import emul.javafx.scene.effect.BlendMode;
 
 import java.awt.*;
 import java.awt.image.ColorModel;

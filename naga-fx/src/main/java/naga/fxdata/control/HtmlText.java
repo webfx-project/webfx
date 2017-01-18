@@ -5,13 +5,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import com.sun.javafx.geom.BaseBounds;
 import com.sun.javafx.geom.BoxBounds;
 import com.sun.javafx.geom.transform.BaseTransform;
-import naga.fx.scene.layout.Region;
-import naga.fx.properties.markers.HasTextProperty;
+import javafx.scene.layout.Region;
 
 /**
  * @author Bruno Salmon
  */
-public class HtmlText extends Region implements HasTextProperty {
+public class HtmlText extends Region {
 
     public HtmlText() {
     }
@@ -21,9 +20,14 @@ public class HtmlText extends Region implements HasTextProperty {
     }
 
     private final Property<String> textProperty = new SimpleObjectProperty<>();
-    @Override
     public Property<String> textProperty() {
         return textProperty;
+    }
+    void setText(String text) {
+        textProperty.setValue(text);
+    }
+    String getText() {
+        return textProperty.getValue();
     }
 
     @Override

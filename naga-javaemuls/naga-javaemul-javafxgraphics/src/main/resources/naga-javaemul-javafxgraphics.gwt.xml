@@ -1,4 +1,7 @@
 <module rename-to="naga_lavaemul_javafxgraphics">
     <!-- Specify the paths for translatable code                    -->
     <source path="com/sun/javafx"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
+    <source path="javafx"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
+    <source path="naga/fx"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
+    <source path="naga/fxdata"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
 </module>

@@ -1,7 +1,7 @@
 package naga.fx.spi.swing.peer;
 
 import naga.commons.util.collection.Collections;
-import naga.fx.scene.layout.*;
+import emul.javafx.scene.layout.*;
 import naga.fx.spi.peer.base.RegionPeerBase;
 import naga.fx.spi.peer.base.RegionPeerMixin;
 

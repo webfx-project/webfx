@@ -3,14 +3,14 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.HTMLElement;
 import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
-import naga.fx.scene.effect.Effect;
-import naga.fx.scene.effect.GaussianBlur;
-import naga.fx.scene.Node;
-import naga.fx.scene.shape.Circle;
-import naga.fx.scene.shape.Rectangle;
+import emul.javafx.scene.effect.Effect;
+import emul.javafx.scene.effect.GaussianBlur;
+import emul.javafx.scene.Node;
+import emul.javafx.scene.shape.Circle;
+import emul.javafx.scene.shape.Rectangle;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerMixin;
-import naga.fx.scene.text.TextAlignment;
+import emul.javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon

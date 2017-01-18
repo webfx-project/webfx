@@ -1,9 +1,9 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.Scene;
+import com.sun.javafx.tk.TKSceneListener;
+import javafx.scene.Scene;
 import naga.fx.spi.peer.NodePeerFactory;
 import naga.fx.spi.peer.ScenePeer;
-import naga.fx.sun.tk.TKSceneListener;
 
 /**
  * @author Bruno Salmon

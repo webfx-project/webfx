@@ -2,13 +2,13 @@ package naga.fx.spi.gwt.util;
 
 import elemental2.Element;
 import naga.commons.util.collection.Collections;
-import naga.fx.scene.paint.Color;
-import naga.fx.scene.paint.CycleMethod;
-import naga.fx.scene.paint.LinearGradient;
-import naga.fx.scene.paint.Stop;
-import naga.fx.scene.shape.StrokeLineCap;
-import naga.fx.scene.shape.StrokeLineJoin;
-import naga.fx.scene.shape.StrokeType;
+import emul.javafx.scene.paint.Color;
+import emul.javafx.scene.paint.CycleMethod;
+import emul.javafx.scene.paint.LinearGradient;
+import emul.javafx.scene.paint.Stop;
+import emul.javafx.scene.shape.StrokeLineCap;
+import emul.javafx.scene.shape.StrokeLineJoin;
+import emul.javafx.scene.shape.StrokeType;
 
 import static elemental2.Global.document;
 

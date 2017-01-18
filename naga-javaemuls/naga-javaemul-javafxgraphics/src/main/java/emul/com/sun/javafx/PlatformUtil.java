@@ -240,7 +240,7 @@ public class PlatformUtil {
             final File rtDir = getRTDir();
             final String propertyFilename = "javafx.platform.properties";
             File rtProperties = new File(rtDir, propertyFilename);
-            // First look for javafx.platform.properties in the JavaFX runtime
+            // First look for emul.javafx.platform.properties in the JavaFX runtime
             // Then in the installation directory of the JRE
             if (rtProperties.exists()) {
                 loadPropertiesFromFile(rtProperties);

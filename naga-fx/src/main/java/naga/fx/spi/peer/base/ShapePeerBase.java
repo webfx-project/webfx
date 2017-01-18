@@ -2,7 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.shape.Shape;
+import javafx.scene.shape.Shape;
 
 /**
  * @author Bruno Salmon
@@ -37,11 +37,11 @@ public abstract class ShapePeerBase
                 || updateProperty(s.smoothProperty(), changedProperty, mixin::updateSmooth)
                 || updateProperty(s.strokeProperty(), changedProperty, mixin::updateStroke)
                 || updateProperty(s.strokeTypeProperty(), changedProperty, mixin::updateStrokeType)
-                || updateProperty(s.strokeWidthProperty(), changedProperty, mixin::updateStrokeWidth)
+                || updateProperty(s.strokeWidthProperty(), changedProperty, p -> mixin.updateStrokeWidth(p.doubleValue()))
                 || updateProperty(s.strokeLineCapProperty(), changedProperty, mixin::updateStrokeLineCap)
                 || updateProperty(s.strokeLineJoinProperty(), changedProperty, mixin::updateStrokeLineJoin)
-                || updateProperty(s.strokeMiterLimitProperty(), changedProperty, mixin::updateStrokeMiterLimit)
-                || updateProperty(s.strokeDashOffsetProperty(), changedProperty, mixin::updateStrokeDashOffset)
+                || updateProperty(s.strokeMiterLimitProperty(), changedProperty, p -> mixin.updateStrokeMiterLimit(p.doubleValue()))
+                || updateProperty(s.strokeDashOffsetProperty(), changedProperty, p -> mixin.updateStrokeDashOffset(p.doubleValue()))
                 ;
     }
 }

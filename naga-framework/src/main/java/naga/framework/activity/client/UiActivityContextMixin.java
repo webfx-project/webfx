@@ -6,7 +6,7 @@ import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextMixin;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

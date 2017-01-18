@@ -2,8 +2,8 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.image.Image;
-import naga.fx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * @author Bruno Salmon
@@ -29,10 +29,10 @@ public class ImageViewPeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.imageProperty(), changedProperty, this::updateImage)
-                || updateProperty(node.xProperty(), changedProperty, mixin::updateX)
-                || updateProperty(node.yProperty(), changedProperty, mixin::updateY)
-                || updateProperty(node.fitWidthProperty(), changedProperty, mixin::updateFitWidth)
-                || updateProperty(node.fitHeightProperty(), changedProperty, mixin::updateFitHeight)
+                || updateProperty(node.xProperty(), changedProperty, p -> mixin.updateX(p.doubleValue()))
+                || updateProperty(node.yProperty(), changedProperty, p -> mixin.updateY(p.doubleValue()))
+                || updateProperty(node.fitWidthProperty(), changedProperty, p -> mixin.updateFitWidth(p.doubleValue()))
+                || updateProperty(node.fitHeightProperty(), changedProperty, p -> mixin.updateFitHeight(p.doubleValue()))
                 ;
     }
 

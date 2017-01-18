@@ -1,7 +1,7 @@
 package naga.framework.activity.client;
 
 import javafx.beans.property.Property;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

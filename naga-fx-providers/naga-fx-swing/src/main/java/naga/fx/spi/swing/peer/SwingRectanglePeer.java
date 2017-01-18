@@ -1,7 +1,7 @@
 package naga.fx.spi.swing.peer;
 
 import naga.commons.util.Numbers;
-import naga.fx.scene.shape.Rectangle;
+import emul.javafx.scene.shape.Rectangle;
 import naga.fx.spi.peer.base.RectanglePeerBase;
 import naga.fx.spi.peer.base.RectanglePeerMixin;
 

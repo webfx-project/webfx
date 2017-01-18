@@ -21,7 +21,7 @@
 
         <dependency>
             <groupId>${naga.groupId}</groupId>
-            <artifactId>naga-fx</artifactId>
+            <artifactId>naga-commons</artifactId>
             <version>${naga.version}</version>
         </dependency>
 

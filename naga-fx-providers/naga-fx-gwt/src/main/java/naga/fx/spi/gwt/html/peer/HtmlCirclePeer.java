@@ -3,7 +3,7 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.CSSStyleDeclaration;
 import elemental2.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.shape.Circle;
+import emul.javafx.scene.shape.Circle;
 import naga.fx.spi.peer.base.CirclePeerBase;
 import naga.fx.spi.peer.base.CirclePeerMixin;
 

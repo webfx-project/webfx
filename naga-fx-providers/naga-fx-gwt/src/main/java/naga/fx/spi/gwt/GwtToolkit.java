@@ -1,14 +1,14 @@
 package naga.fx.spi.gwt;
 
 import naga.commons.scheduler.UiScheduler;
-import javafx.geometry.Rectangle2D;
+import emul.javafx.geometry.Rectangle2D;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.peer.WindowPeer;
-import naga.fx.scene.Scene;
+import emul.javafx.scene.Scene;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
-import naga.fx.stage.*;
+import emul.javafx.stage.*;
 import naga.platform.spi.Platform;
 
 import static elemental2.Global.window;

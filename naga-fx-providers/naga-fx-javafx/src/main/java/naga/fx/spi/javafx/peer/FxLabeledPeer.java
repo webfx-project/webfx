@@ -3,11 +3,11 @@ package naga.fx.spi.javafx.peer;
 import naga.fx.spi.javafx.util.FxFonts;
 import naga.fx.spi.javafx.util.FxPaints;
 import javafx.geometry.Pos;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Labeled;
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.TextAlignment;
+import javafx.scene.Node;
+import javafx.scene.control.Labeled;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import naga.fx.spi.peer.base.LabeledPeerBase;
 import naga.fx.spi.peer.base.LabeledPeerMixin;
 

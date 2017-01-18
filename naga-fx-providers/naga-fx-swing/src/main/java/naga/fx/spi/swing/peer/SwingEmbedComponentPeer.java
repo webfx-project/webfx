@@ -1,8 +1,8 @@
 package naga.fx.spi.swing.peer;
 
 import naga.fx.spi.peer.CanvasNodePeer;
-import com.sun.javafx.geom.Point2D;
-import naga.fx.scene.Node;
+import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.scene.Node;
 
 import javax.swing.*;
 import java.awt.*;

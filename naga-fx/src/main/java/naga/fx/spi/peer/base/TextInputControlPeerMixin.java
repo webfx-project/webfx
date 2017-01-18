@@ -1,7 +1,7 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.control.TextInputControl;
-import naga.fx.scene.text.Font;
+import javafx.scene.control.TextInputControl;
+import javafx.scene.text.Font;
 
 /**
  * @author Bruno Salmon

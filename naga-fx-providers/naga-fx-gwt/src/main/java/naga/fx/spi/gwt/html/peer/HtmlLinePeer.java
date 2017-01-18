@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.scene.shape.Line;
+import emul.javafx.scene.shape.Line;
 import naga.fx.spi.peer.base.LinePeerBase;
 import naga.fx.spi.peer.base.LinePeerMixin;
 

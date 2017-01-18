@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.shape.Circle;
+import javafx.scene.shape.Circle;
 
 /**
  * @author Bruno Salmon

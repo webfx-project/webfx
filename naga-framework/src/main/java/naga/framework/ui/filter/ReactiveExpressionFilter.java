@@ -280,7 +280,7 @@ public class ReactiveExpressionFilter {
             resetAllDisplayResultSets(true);
         // Also adding a listener reacting to a language change by updating the columns translations immediately (without making a new server request)
         if (i18n != null)
-            naga.fx.properties.Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
+            Properties.runOnPropertiesChange(new Consumer<ObservableValue>() {
                 private boolean dictionaryChanged;
                 @Override
                 public void accept(ObservableValue p) {

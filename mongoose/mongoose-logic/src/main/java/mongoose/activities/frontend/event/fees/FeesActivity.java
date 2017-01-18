@@ -15,10 +15,10 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import naga.fx.properties.Properties;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.RadioButton;
-import naga.fx.scene.layout.FlowPane;
-import naga.fx.scene.text.Text;
+import javafx.scene.Node;
+import javafx.scene.control.RadioButton;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
@@ -150,7 +150,7 @@ public class FeesActivity extends BookingProcessActivity<FeesViewModel, FeesPres
         FlowPane header = new FlowPane(Arrays.nonNulls(Node[]::new, nodes));
         header.setHgap(5d);
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setInsets(new Insets(5, 5, 5, 5));
+        header.setPadding(new Insets(5, 5, 5, 5));
         return header;
     }
 

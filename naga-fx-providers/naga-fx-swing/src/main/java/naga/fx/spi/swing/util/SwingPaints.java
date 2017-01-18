@@ -2,9 +2,9 @@ package naga.fx.spi.swing.util;
 
 
 import naga.commons.util.collection.Collections;
-import naga.fx.scene.paint.Color;
-import naga.fx.scene.paint.*;
-import naga.fx.scene.paint.Paint;
+import emul.javafx.scene.paint.Color;
+import emul.javafx.scene.paint.*;
+import emul.javafx.scene.paint.Paint;
 
 import java.awt.*;
 import java.util.stream.Collectors;

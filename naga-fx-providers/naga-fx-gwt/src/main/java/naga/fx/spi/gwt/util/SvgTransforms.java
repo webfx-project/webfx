@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.util;
 
 import naga.commons.util.collection.Collections;
-import naga.fx.scene.transform.*;
+import emul.javafx.scene.transform.*;
 
 import java.util.Collection;
 

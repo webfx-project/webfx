@@ -2,11 +2,11 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlPaints;
-import naga.fx.scene.Node;
-import naga.fx.scene.control.Labeled;
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.TextAlignment;
+import emul.javafx.scene.Node;
+import emul.javafx.scene.control.Labeled;
+import emul.javafx.scene.paint.Paint;
+import emul.javafx.scene.text.Font;
+import emul.javafx.scene.text.TextAlignment;
 import naga.fx.spi.peer.base.LabeledPeerBase;
 import naga.fx.spi.peer.base.LabeledPeerMixin;
 

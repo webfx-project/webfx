@@ -2,6 +2,7 @@ package naga.fx.scene;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

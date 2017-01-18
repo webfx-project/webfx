@@ -7,14 +7,14 @@ import mongoose.activities.shared.logic.calendar.graphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.calendar.graphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import javafx.geometry.VPos;
-import naga.fx.scene.Group;
-import naga.fx.scene.paint.Color;
-import naga.fx.scene.paint.Paint;
-import naga.fx.scene.shape.*;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.Text;
-import naga.fx.scene.text.TextAlignment;
-import naga.fx.scene.transform.Translate;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Translate;
 
 /**
  * @author Bruno Salmon
@@ -32,7 +32,7 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
     private final Text startTimeText;
     private final Text endTimeText;
     private final Group group = new Group();
-    private final Translate translate = Translate.create();
+    private final Translate translate = new Translate();
 
     {
         blockText.setFont(textFont);

@@ -1,10 +1,10 @@
 package naga.fx.spi.peer.base;
 
-import naga.commons.util.function.Factory;
-import naga.fx.scene.Node;
-import naga.fx.scene.layout.Region;
+import javafx.scene.Node;
+import javafx.scene.layout.Region;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.NodePeerFactory;
+import naga.commons.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public abstract class NodePeerFactoryImpl implements NodePeerFactory {
 
-    private Map<Class<? extends Node>, Factory<? extends NodePeer>> nodePeerFactories = new HashMap<>();
+    protected Map<Class<? extends Node>, Factory<? extends NodePeer>> nodePeerFactories = new HashMap<>();
 
     protected <N extends Node, V extends NodePeer<? super N>> void registerNodePeerFactory(Class<N> nodeClass, Factory<V> factory) {
         nodePeerFactories.put(nodeClass, factory);

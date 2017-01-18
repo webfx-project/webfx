@@ -3,7 +3,7 @@ package naga.fxdata.cell.rowstyle;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.commons.util.function.Function;
-import naga.fx.scene.paint.Paint;
+import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon

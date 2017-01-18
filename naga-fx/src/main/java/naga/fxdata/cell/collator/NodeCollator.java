@@ -1,6 +1,6 @@
 package naga.fxdata.cell.collator;
 
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

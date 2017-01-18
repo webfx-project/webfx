@@ -1,9 +1,9 @@
 package naga.fx.spi.peer.base;
 
 import javafx.geometry.VPos;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.Text;
-import naga.fx.scene.text.TextAlignment;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon

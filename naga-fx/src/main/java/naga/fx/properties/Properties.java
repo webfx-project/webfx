@@ -37,19 +37,19 @@ public class Properties {
         }
     }
 
-    public static <T1, T2, R> Property<R> combine(Property<? extends T1> p1, Property<? extends T2> p2, Func2<? super T1, ? super T2, ? extends R> combineFunction) {
+    public static <T1, T2, R> Property<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, Func2<? super T1, ? super T2, ? extends R> combineFunction) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();
         runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(combineFunction.call(p1.getValue(), p2.getValue())), p1, p2);
         return combinedProperty;
     }
 
-    public static <T> Property<T> filter(Property<T> property, Predicate<T> predicate) {
+    public static <T> Property<T> filter(ObservableValue<T> property, Predicate<T> predicate) {
         Property<T> filteredProperty = new SimpleObjectProperty<>();
         runNowAndOnPropertiesChange(arg -> { if (predicate.test(property.getValue())) filteredProperty.setValue(property.getValue()); }, property);
         return filteredProperty;
     }
 
-    public static <T> void consume(Property<T> property, Consumer<T> consumer) {
+    public static <T> void consume(ObservableValue<T> property, Consumer<T> consumer) {
         runNowAndOnPropertiesChange(p -> consumer.accept(property.getValue()), property);
     }
 

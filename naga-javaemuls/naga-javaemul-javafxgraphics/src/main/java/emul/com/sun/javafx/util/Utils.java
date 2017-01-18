@@ -1,11 +1,11 @@
 package emul.com.sun.javafx.util;
 
-import javafx.geometry.*;
-import naga.fx.scene.Node;
-import naga.fx.scene.Scene;
+import emul.javafx.geometry.*;
+import emul.javafx.scene.Node;
+import emul.javafx.scene.Scene;
 import naga.fx.spi.Toolkit;
-import naga.fx.stage.Screen;
-import naga.fx.stage.Window;
+import emul.javafx.stage.Screen;
+import emul.javafx.stage.Window;
 
 /**
  * @author Bruno Salmon

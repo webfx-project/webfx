@@ -2,9 +2,9 @@ package mongoose.activities.shared.theme;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.fx.scene.layout.Background;
-import naga.fx.scene.layout.Border;
-import naga.fx.scene.paint.Paint;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
+import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon

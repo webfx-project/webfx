@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.fx.scene.control.Label;
+import javafx.scene.control.Label;
 
 /**
  * @author Bruno Salmon

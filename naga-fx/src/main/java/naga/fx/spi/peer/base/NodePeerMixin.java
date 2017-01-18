@@ -2,11 +2,11 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 import naga.fx.scene.SceneRequester;
-import naga.fx.scene.effect.BlendMode;
-import naga.fx.scene.effect.Effect;
-import naga.fx.scene.transform.Transform;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Effect;
+import javafx.scene.transform.Transform;
 import naga.fx.spi.peer.NodePeer;
 
 import java.util.Collection;
@@ -53,17 +53,11 @@ public interface NodePeerMixin
 
     void updateEffect(Effect effect);
 
-    default void updateLayoutX(Double layoutX) {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }
+    void updateLayoutX(Double layoutX);
 
-    default void updateLayoutY(Double layoutY) {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }
+    void updateLayoutY(Double layoutY);
 
-    default void updateTransforms(List<Transform> transforms) {
-        updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
-    }
+    void updateTransforms(List<Transform> transforms);
 
     void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms);
 

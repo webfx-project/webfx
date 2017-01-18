@@ -1,7 +1,7 @@
 package mongoose.activities.shared.theme;
 
-import naga.fx.scene.layout.*;
-import naga.fx.scene.paint.Color;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 /**
  * @author Bruno Salmon

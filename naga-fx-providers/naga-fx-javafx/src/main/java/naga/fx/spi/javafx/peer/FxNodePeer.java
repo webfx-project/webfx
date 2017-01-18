@@ -4,19 +4,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventTarget;
 import javafx.event.EventType;
-import naga.fx.scene.Node;
-import naga.fx.scene.Scene;
-import naga.fx.scene.SceneRequester;
-import naga.fx.scene.effect.BlendMode;
-import naga.fx.scene.effect.Effect;
-import naga.fx.scene.effect.GaussianBlur;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.Effect;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.input.MouseEvent;
-import naga.fx.scene.transform.Transform;
+import javafx.scene.transform.Transform;
+import naga.fx.scene.SceneRequester;
 import naga.fx.spi.javafx.util.FxTransforms;
-import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerBase;
-import naga.fx.spi.peer.base.NodePeerMixin;
 import naga.fx.spi.peer.base.NodePeerImpl;
+import naga.fx.spi.peer.base.NodePeerMixin;
 
 import java.util.Collection;
 import java.util.List;
@@ -178,14 +177,7 @@ public abstract class FxNodePeer
     }
 
     static javafx.scene.Node toFxNode(Node node, Scene scene) {
-        if (node != null) {
-            if (scene != null)
-                node.setScene(scene);
-            NodePeer nodePeer = node.getOrCreateAndBindNodePeer();
-            if (nodePeer instanceof FxNodePeer)
-                return ((FxNodePeer) nodePeer).getFxNode();
-        }
-        return null;
+        return node;
     }
 
 }

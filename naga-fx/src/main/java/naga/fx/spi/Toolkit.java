@@ -1,12 +1,9 @@
 package naga.fx.spi;
 
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.serviceloader.ServiceLoaderHelper;
-import naga.fx.spi.peer.StagePeer;
-import naga.fx.spi.peer.WindowPeer;
-import naga.fx.scene.Scene;
-import naga.fx.spi.peer.ScenePeer;
-import naga.fx.stage.*;
 
 /**
  * @author Bruno Salmon
@@ -30,11 +27,13 @@ public abstract class Toolkit {
         return primaryStage;
     }
 
+/*
     public abstract StagePeer createStagePeer(Stage stage);
 
     public abstract WindowPeer createWindowPeer(Window window);
 
     public abstract ScenePeer createScenePeer(Scene scene);
+*/
 
     public boolean isReady() {
         return true;

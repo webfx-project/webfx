@@ -16,9 +16,9 @@ import naga.fxdata.displaydata.*;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
 import javafx.geometry.Pos;
-import naga.fx.scene.control.Button;
-import naga.fx.scene.image.ImageView;
-import naga.fx.scene.layout.HBox;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 
 /**
  * @author Bruno Salmon

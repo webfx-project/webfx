@@ -7,28 +7,26 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
-import naga.fx.scene.paint.Paint;
+import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.util.FxImageStore;
 import naga.fx.spi.javafx.util.FxPaints;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
-import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.cell.rowstyle.RowAdapter;
 import naga.fxdata.cell.rowstyle.RowStyleUpdater;
 import naga.fxdata.control.DataGrid;
-import naga.fx.scene.Node;
+import naga.fxdata.displaydata.*;
+import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerImageTextMixin;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
-import naga.fxdata.displaydata.SelectionMode;
-import naga.fx.spi.Toolkit;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -113,7 +111,7 @@ public class FxDataGridPeer
                 Toolkit.get().scheduler().scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
             }
             // Workaround to make the table height fit with its content if it is not within a BorderPane
-            if (!(getNode().getParent() instanceof naga.fx.scene.layout.BorderPane)) {
+            if (!(getNode().getParent() instanceof BorderPane)) {
                 fitHeightToContent(tableView);
                 addStylesheet("css/tableview-no-vertical-scrollbar.css");
                 addStylesheet("css/tableview-no-horizontal-scrollbar.css");

@@ -2,9 +2,9 @@ package naga.fxdata.cell.renderer;
 
 import naga.commons.util.Arrays;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.fx.scene.Node;
-import naga.fx.scene.image.ImageView;
-import naga.fx.scene.text.Text;
+import javafx.scene.Node;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 /**
  * @author Bruno Salmon

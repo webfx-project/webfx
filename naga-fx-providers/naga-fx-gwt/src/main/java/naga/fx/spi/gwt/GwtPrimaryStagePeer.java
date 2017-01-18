@@ -3,9 +3,9 @@ package naga.fx.spi.gwt;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.stage.Stage;
-import naga.fx.stage.Window;
-import naga.fx.sun.tk.TKStageListener;
+import emul.javafx.stage.Stage;
+import emul.javafx.stage.Window;
+import emul.com.sun.javafx.tk.TKStageListener;
 import naga.platform.spi.Platform;
 
 import static elemental2.Global.document;

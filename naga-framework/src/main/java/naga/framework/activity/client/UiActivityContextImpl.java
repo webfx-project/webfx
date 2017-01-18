@@ -10,7 +10,7 @@ import naga.platform.activity.ActivityContextImpl;
 import naga.platform.activity.HasActivityContext;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
-import naga.fx.scene.Node;
+import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package naga.fx.spi.swing.peer;
 
-import naga.fx.scene.shape.Circle;
+import emul.javafx.scene.shape.Circle;
 import naga.fx.spi.peer.base.CirclePeerMixin;
 import naga.fx.spi.peer.base.CirclePeerBase;
 

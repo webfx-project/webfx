@@ -2,14 +2,14 @@ package mongoose.activities.shared.logic.calendar.graphic.impl;
 
 import naga.framework.ui.i18n.I18n;
 import javafx.geometry.VPos;
-import naga.fx.scene.Group;
-import naga.fx.scene.paint.Color;
-import naga.fx.scene.paint.LinearGradient;
-import naga.fx.scene.shape.*;
-import naga.fx.scene.text.Font;
-import naga.fx.scene.text.Text;
-import naga.fx.scene.text.TextAlignment;
-import naga.fx.scene.transform.Translate;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.shape.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Translate;
 
 import java.time.LocalDate;
 
@@ -32,7 +32,7 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
     private final Text dayOfMonthText = new Text();
     private final Text monthText = new Text();
     final Group group = new Group();
-    private final Translate translate = Translate.create();
+    private final Translate translate = new Translate();
 
     {
         r.setFill(dayColumnHeaderFill);
