@@ -21,7 +21,7 @@ public class BackendContainerActivity extends ContainerActivity<BackendContainer
     protected BackendContainerViewModel buildView() {
         BackendContainerViewModel vm = new BackendContainerViewModel();
         BorderPane borderPane = vm.getContentNode();
-        borderPane.setTop(new FlowPane(vm.getBackButton(), vm.getForwardButton(), vm.getOrganizationsButton(), vm.getEventsButton(), vm.getBookingsButton(), vm.getLettersButton(), vm.getMonitorButton(), vm.getTesterButton(), vm.getEnglishButton(), vm.getFrenchButton(), vm.getLightTheme(), vm.getDarkTheme()));
+        borderPane.setTop(new FlowPane(vm.getBackButton(), vm.getForwardButton(), vm.getOrganizationsButton(), vm.getEventsButton(), vm.getBookingsButton(), vm.getLettersButton(), vm.getMonitorButton(), vm.getTesterButton(), vm.getEnglishButton(), vm.getFrenchButton()/* , vm.getLightTheme(), vm.getDarkTheme()*/));
         borderPane.backgroundProperty().bind(Theme.mainBackgroundProperty());
         vm.getBackButton().textFillProperty().bind(Theme.mainTextFillProperty());
         vm.getForwardButton().textFillProperty().bind(Theme.mainTextFillProperty());
