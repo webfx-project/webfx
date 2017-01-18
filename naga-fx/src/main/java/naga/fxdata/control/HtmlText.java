@@ -2,15 +2,14 @@ package naga.fxdata.control;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import com.sun.javafx.geom.BaseBounds;
-import com.sun.javafx.geom.BoxBounds;
-import com.sun.javafx.geom.transform.BaseTransform;
-import javafx.scene.layout.Region;
+import javafx.scene.control.Control;
+import naga.fx.scene.LayoutMeasurable;
+import naga.fx.spi.peer.NodePeer;
 
 /**
  * @author Bruno Salmon
  */
-public class HtmlText extends Region {
+public class HtmlText extends Control {
 
     public HtmlText() {
     }
@@ -30,9 +29,21 @@ public class HtmlText extends Region {
         return textProperty.getValue();
     }
 
+    private NodePeer getPeer() {
+        return (NodePeer) getProperties().get("nodePeer");
+    }
+
+    private LayoutMeasurable getLayoutMeasurable() {
+        return (LayoutMeasurable) getPeer();
+    }
+
     @Override
-    public BaseBounds impl_computeGeomBounds(BaseBounds bounds, BaseTransform tx) {
-        System.out.println("Warning: HtmlText.impl_computeGeomBounds() not implemented");
-        return new BoxBounds();
+    protected double computePrefWidth(double height) {
+        return getLayoutMeasurable().prefWidth(height);
+    }
+
+    @Override
+    protected double computePrefHeight(double width) {
+        return getLayoutMeasurable().prefHeight(width);
     }
 }

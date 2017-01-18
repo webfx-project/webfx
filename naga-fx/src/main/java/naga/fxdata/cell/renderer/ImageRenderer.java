@@ -14,6 +14,6 @@ class ImageRenderer implements ValueRenderer {
 
     @Override
     public ImageView renderCellValue(Object value) {
-        return new ImageView(Strings.toString(value));
+        return value == null ? new ImageView() : new ImageView(Strings.toString(value));
     }
 }

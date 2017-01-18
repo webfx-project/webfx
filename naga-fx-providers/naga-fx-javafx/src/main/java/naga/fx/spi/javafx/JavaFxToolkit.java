@@ -2,6 +2,7 @@ package naga.fx.spi.javafx;
 
 import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -65,46 +66,25 @@ public class JavaFxToolkit extends Toolkit {
         return Screen.getPrimary();
     }
 
-/*
-    @Override
-    public StagePeer createStagePeer(javafx.stage.Stage stage) {
-        if (stage != getPrimaryStage())
-            return createFxStagePeer(stage, new Stage());
-        synchronized (FxApplication.class) {
-            return FxApplication.fxStagePeer = createFxStagePeer(stage, FxApplication.fxPrimaryStage);
-        }
-    }
-
-    protected FxStagePeer createFxStagePeer(javafx.stage.Stage stage, Stage fxStage) {
-        return new FxStagePeer(stage, fxStage);
-    }
+    private ChangeListener<Scene> sceneChangeListener;
 
     @Override
-    public WindowPeer createWindowPeer(Window window) {
-        return null;
+    public Stage getPrimaryStage() {
+        Stage primaryStage = super.getPrimaryStage();
+        if (getSceneHook() != null && sceneChangeListener == null)
+            primaryStage.sceneProperty().addListener(sceneChangeListener = (observable, oldValue, newValue) -> {
+                if (newValue != null)
+                    getSceneHook().accept(newValue);
+            });
+        return primaryStage;
     }
-
-    @Override
-    public ScenePeer createScenePeer(javafx.scene.Scene scene) {
-        return new FxScenePeer(scene);
-    }
-*/
 
     public static class FxApplication extends Application {
-        public static Stage fxPrimaryStage;
-        //private static FxStagePeer fxStagePeer;
 
         @Override
         public void start(Stage primaryStage) throws Exception {
             // Activating SVG support
             SvgImageLoaderFactory.install();
-            synchronized (FxApplication.class) {
-                FxApplication.fxPrimaryStage = primaryStage;
-/*
-                if (fxStagePeer != null)
-                    fxStagePeer.setFxStage(primaryStage);
-*/
-            }
             executeReadyRunnables();
         }
     }

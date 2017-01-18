@@ -47,6 +47,7 @@ public abstract class FxNodePeer
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
+        node.getProperties().put("nodePeer", this); // used by HtmlText in naga-fx module
         fxNode = createFxNode();
         getNodePeerBase().bind(node, sceneRequester);
         fxNode.addEventFilter(javafx.scene.input.MouseEvent.MOUSE_CLICKED, event -> getNode().fireEvent(toMouseEvent(getNode(), getNode(), event)));

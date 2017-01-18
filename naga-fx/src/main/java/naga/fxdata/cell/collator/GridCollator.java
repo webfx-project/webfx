@@ -9,7 +9,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.transform.Transform;
-import naga.fx.properties.ObservableLists;
 import naga.fxdata.cell.renderer.ArrayRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.control.DataGrid;
@@ -28,9 +27,9 @@ import java.util.List;
  */
 public class GridCollator extends DataGrid {
 
-    private final NodeCollator columnCollator;
-    private final NodeCollator rowCollator;
-    private final BorderPane container;
+    final NodeCollator columnCollator;
+    final NodeCollator rowCollator;
+    final BorderPane container;
 
     public GridCollator(String columnCollator, String rowCollator) {
         this(NodeCollatorRegistry.getCollator(columnCollator), NodeCollatorRegistry.getCollator(rowCollator));
@@ -42,6 +41,9 @@ public class GridCollator extends DataGrid {
         container = new BorderPane();
         setMaxWidth(Double.MAX_VALUE);
         setMaxHeight(Double.MAX_VALUE);
+        container.setMaxWidth(Double.MAX_VALUE);
+        container.setMaxHeight(Double.MAX_VALUE);
+        getChildren().setAll(container);
     }
 
 /*
@@ -79,11 +81,11 @@ public class GridCollator extends DataGrid {
 
     private GridCollatorPeer gridCollatorPeer;
 
-    private class GridCollatorPeer
-            <N extends DataGrid, NB extends DataGridPeerBase<GridCollator, N, NB, NM>, NM extends DataGridPeerMixin<GridCollator, N, NB, NM>>
+    public static class GridCollatorPeer
+            <N extends GridCollator, NB extends DataGridPeerBase<N, N, NB, NM>, NM extends DataGridPeerMixin<N, N, NB, NM>>
 
-            extends DataGridPeerBase<GridCollator, N, NB, NM>
-            implements DataGridPeerMixin<GridCollator, N, NB, NM> {
+            extends DataGridPeerBase<N, N, NB, NM>
+            implements DataGridPeerMixin<N, N, NB, NM> {
 
         private ValueRenderer[] renderers;
         private int[] rsColumnIndexes;
@@ -123,14 +125,15 @@ public class GridCollator extends DataGrid {
             int rowCount = rs.getRowCount();
             Node[] rowNodes = new Node[rowCount];
             Object[] columnValues = new Object[getGridColumnCount()];
+            N gridCollator = getNode();
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++) {
                 for (int gridColumnIndex = 0; gridColumnIndex < getGridColumnCount(); gridColumnIndex++)
                     columnValues[gridColumnIndex] = rs.getValue(rowIndex, rsColumnIndexes[gridColumnIndex]);
-                rowNodes[rowIndex] = ArrayRenderer.renderCellValue(columnValues, renderers, columnCollator);
+                rowNodes[rowIndex] = ArrayRenderer.renderCellValue(columnValues, renderers, gridCollator.columnCollator);
             }
-            Node finalNode = rowCollator.collateNodes(rowNodes);
-            container.setCenter(finalNode);
-            ObservableLists.setAllNonNulls(getChildren(), finalNode);
+            Node finalNode = gridCollator.rowCollator.collateNodes(rowNodes);
+            gridCollator.container.setCenter(finalNode);
+            //ObservableLists.setAllNonNulls(gridCollator.getChildren(), finalNode);
         }
 
         @Override
@@ -146,12 +149,12 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateWidth(Double width) {
-            //container.setWidth(width);
+            getNode().container.setPrefWidth(width);
         }
 
         @Override
         public void updateHeight(Double height) {
-            //container.setHeight(height);
+            getNode().container.setPrefHeight(height);
         }
 
         @Override
@@ -161,17 +164,17 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateMouseTransparent(Boolean mouseTransparent) {
-            container.setMouseTransparent(mouseTransparent);
+            getNode().container.setMouseTransparent(mouseTransparent);
         }
 
         @Override
         public void updateVisible(Boolean visible) {
-            container.setVisible(visible);
+            getNode().container.setVisible(visible);
         }
 
         @Override
         public void updateOpacity(Double opacity) {
-            container.setOpacity(opacity);
+            getNode().container.setOpacity(opacity);
         }
 
         @Override
@@ -180,32 +183,32 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateClip(Node clip) {
-            container.setClip(clip);
+            getNode().container.setClip(clip);
         }
 
         @Override
         public void updateBlendMode(BlendMode blendMode) {
-            container.setBlendMode(blendMode);
+            getNode().container.setBlendMode(blendMode);
         }
 
         @Override
         public void updateEffect(Effect effect) {
-            container.setEffect(effect);
+            getNode().container.setEffect(effect);
         }
 
         @Override
         public void updateLayoutX(Double layoutX) {
-            container.setLayoutX(layoutX);
+            getNode().container.setLayoutX(layoutX);
         }
 
         @Override
         public void updateLayoutY(Double layoutY) {
-            container.setLayoutY(layoutY);
+            getNode().container.setLayoutY(layoutY);
         }
 
         @Override
         public void updateTransforms(List<Transform> transforms) {
-            container.getTransforms().setAll(transforms);
+            getNode().container.getTransforms().setAll(transforms);
         }
 
         @Override

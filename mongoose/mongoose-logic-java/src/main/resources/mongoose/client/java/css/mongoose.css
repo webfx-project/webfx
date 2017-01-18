@@ -1,3 +1,7 @@
+DataGrid, LineChart, GridCollator, HtmlText {
+    -fx-skin: "naga.fx.spi.javafx.skin.FxControlPeerSkin";
+}
+
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
