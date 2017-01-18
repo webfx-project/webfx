@@ -628,9 +628,10 @@
                             <version>${naga.version}</version>
                         </dependency>
                         <dependency>
-                            <artifactId>naga-javalib-javafxbindings</artifactId>
+                            <artifactId>naga-javaemul-javafxbase</artifactId>
                             <groupId>${naga.groupId}</groupId>
                             <version>${naga.version}</version>
+                            <classifier>shaded</classifier>
                         </dependency>
                         <!-- This dependency is required by TeaVM to emulate subset of Java class library -->
                         <dependency>

@@ -97,6 +97,7 @@
         "regex:Thread\\.currentThread\\(\\)\\.getUncaughtExceptionHandler\\(\\)\\.uncaughtException\\(Thread\\.currentThread\\(\\),(.*)\\).*": "$1.printStackTrace(); //$0",
         "regex:\\(.+\\[\\]\\) (.+).clone\\(\\)": "java.util.Arrays.copyOf($1, $1.length)",
         "regex:(\\W)WeakHashMap(\\W)": "$1HashMap$2",
+        " ParseException": " java.text.ParseException",
         "": ""
       }
     },

@@ -76,6 +76,26 @@ public abstract class StringProperty extends ReadOnlyStringProperty implements
     // removed
 
     /**
+     * Create a bidirectional binding between this {@code StringProperty} and another
+     * arbitrary property. Relies on an implementation of {@link StringConverter} for conversion.
+     *
+     * @param <T> the type of the wrapped {@code Object}
+     * @param other
+     *            the other {@code Property}
+     * @param converter
+     *            the {@code StringConverter} used to convert between this {@code StringProperty}
+     *            and the other {@code Property}
+     * @throws NullPointerException
+     *             if {@code other} or {@code converter} is {@code null}
+     * @throws IllegalArgumentException
+     *             if {@code other} is {@code this}
+     * @since JavaFX 2.1
+     */
+    public <T> void bindBidirectional(Property<T> other, StringConverter<T> converter) {
+        Bindings.bindBidirectional(this, other, converter);
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

@@ -27,6 +27,7 @@ package emul.javafx.beans.binding;
 
 import emul.javafx.beans.property.Property;
 import emul.com.sun.javafx.binding.BidirectionalBinding;
+import emul.javafx.util.StringConverter;
 
 /**
  * Bindings is a helper class with a lot of utility functions to create simple
@@ -145,6 +146,43 @@ public final class Bindings {
      */
     public static void unbindBidirectional(Object property1, Object property2) {
         BidirectionalBinding.unbind(property1, property2);
+    }
+
+    /**
+     * Generates a bidirectional binding (or "bind with inverse") between a
+     * {@code String}-{@link javafx.beans.property.Property} and another {@code Property}
+     * using the specified {@link javafx.util.StringConverter} for conversion.
+     * <p>
+     * A bidirectional binding is a binding that works in both directions. If
+     * two properties {@code a} and {@code b} are linked with a bidirectional
+     * binding and the value of {@code a} changes, {@code b} is set to the same
+     * value automatically. And vice versa, if {@code b} changes, {@code a} is
+     * set to the same value.
+     * <p>
+     * A bidirectional binding can be removed with
+     * {@link #unbindBidirectional(Object, Object)}.
+     * <p>
+     * Note: this implementation of a bidirectional binding behaves differently
+     * from all other bindings here in two important aspects. A property that is
+     * linked to another property with a bidirectional binding can still be set
+     * (usually bindings would throw an exception). Secondly bidirectional
+     * bindings are calculated eagerly, i.e. a bound property is updated
+     * immediately.
+     *
+     * @param stringProperty
+     *            the {@code String} {@code Property}
+     * @param otherProperty
+     *            the other (non-{@code String}) {@code Property}
+     * @param converter
+     *            the {@code StringConverter} used to convert between the properties
+     * @throws NullPointerException
+     *            if one of the properties or the {@code converter} is {@code null}
+     * @throws IllegalArgumentException
+     *            if both properties are equal
+     * @since JavaFX 2.1
+     */
+    public static <T> void bindBidirectional(Property<String> stringProperty, Property<T> otherProperty, StringConverter<T> converter) {
+        BidirectionalBinding.bind(stringProperty, otherProperty, converter);
     }
 
 

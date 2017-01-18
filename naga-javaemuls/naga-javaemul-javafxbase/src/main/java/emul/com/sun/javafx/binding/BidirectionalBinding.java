@@ -25,9 +25,8 @@
 
 package emul.com.sun.javafx.binding;
 
-import emul.javafx.beans.Observable;
 import emul.javafx.beans.WeakListener;
-import emul.javafx.beans.property.*;
+import emul.javafx.beans.property.Property;
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.util.StringConverter;
@@ -59,7 +58,17 @@ public abstract class BidirectionalBinding<T> implements ChangeListener<T>, Weak
 
     // removed
 
-    // removed
+    public static <T> Object bind(Property<String> stringProperty, Property<T> otherProperty, StringConverter<T> converter) {
+        checkParameters(stringProperty, otherProperty);
+        if (converter == null) {
+            throw new NullPointerException("Converter cannot be null");
+        }
+        final StringConversionBidirectionalBinding<T> binding = new StringConverterBidirectionalBinding<T>(stringProperty, otherProperty, converter);
+        stringProperty.setValue(converter.toString(otherProperty.getValue()));
+        stringProperty.addListener(binding);
+        otherProperty.addListener(binding);
+        return binding;
+    }
 
     public static <T> void unbind(Property<T> property1, Property<T> property2) {
         checkParameters(property1, property2);
@@ -294,5 +303,89 @@ public abstract class BidirectionalBinding<T> implements ChangeListener<T>, Weak
         }
     }
 
+    public abstract static class StringConversionBidirectionalBinding<T> extends BidirectionalBinding<Object> {
+
+        private final WeakReference<Property<String>> stringPropertyRef;
+        private final WeakReference<Property<T>> otherPropertyRef;
+        private boolean updating;
+
+        public StringConversionBidirectionalBinding(Property<String> stringProperty, Property<T> otherProperty) {
+            super(stringProperty, otherProperty);
+            stringPropertyRef = new WeakReference<Property<String>>(stringProperty);
+            otherPropertyRef = new WeakReference<Property<T>>(otherProperty);
+        }
+
+        protected abstract String toString(T value);
+
+        protected abstract T fromString(String value) throws java.text.ParseException;
+
+        @Override
+        protected Object getProperty1() {
+            return stringPropertyRef.get();
+        }
+
+        @Override
+        protected Object getProperty2() {
+            return otherPropertyRef.get();
+        }
+
+        @Override
+        public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+            if (!updating) {
+                final Property<String> property1 = stringPropertyRef.get();
+                final Property<T> property2 = otherPropertyRef.get();
+                if ((property1 == null) || (property2 == null)) {
+                    if (property1 != null) {
+                        property1.removeListener(this);
+                    }
+                    if (property2 != null) {
+                        property2.removeListener(this);
+                    }
+                } else {
+                    try {
+                        updating = true;
+                        if (property1 == observable) {
+                            try {
+                                property2.setValue(fromString(property1.getValue()));
+                            } catch (Exception e) {
+                                //Logging.getLogger().warning("Exception while parsing String in bidirectional binding", e);
+                                property2.setValue(null);
+                            }
+                        } else {
+                            try {
+                                property1.setValue(toString(property2.getValue()));
+                            } catch (Exception e) {
+                                //Logging.getLogger().warning("Exception while converting Object to String in bidirectional binding", e);
+                                property1.setValue("");
+                            }
+                        }
+                    } finally {
+                        updating = false;
+                    }
+                }
+            }
+        }
+    }
+
     // removed
+
+    private static class StringConverterBidirectionalBinding<T> extends StringConversionBidirectionalBinding<T> {
+
+        private final StringConverter<T> converter;
+
+        public StringConverterBidirectionalBinding(Property<String> stringProperty, Property<T> otherProperty, StringConverter<T> converter) {
+            super(stringProperty, otherProperty);
+            this.converter = converter;
+        }
+
+        @Override
+        protected String toString(T value) {
+            return converter.toString(value);
+        }
+
+        @Override
+        protected T fromString(String value) throws java.text.ParseException {
+            return converter.fromString(value);
+        }
+    }
 }
