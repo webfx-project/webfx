@@ -17,7 +17,6 @@
         <module>naga-javalib-javacupruntime</module>
         <module>naga-javalib-javafastpfor</module>
         <module>naga-javalib-rxjava</module>
-        <module>naga-javalib-javafxbindings</module>
     </modules>
 
 
