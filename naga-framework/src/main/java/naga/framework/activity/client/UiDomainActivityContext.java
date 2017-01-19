@@ -6,9 +6,9 @@ import naga.platform.activity.ActivityContext;
 /**
  * @author Bruno Salmon
  */
-public interface UiDomainActivityContext<C extends UiDomainActivityContext<C>> extends UiActivityContext<C>, DomainActivityContext<C> {
+public interface UiDomainActivityContext<THIS extends UiDomainActivityContext<THIS>> extends UiActivityContext<THIS>, DomainActivityContext<THIS> {
 
-    static UiDomainActivityContext create(ActivityContext parentContext) {
-        return new UiDomainActivityContextImpl(parentContext, UiDomainActivityContext::create);
+    static UiDomainActivityContextFinal create(ActivityContext parentContext) {
+        return new UiDomainActivityContextFinal(parentContext, UiDomainActivityContext::create);
     }
 }

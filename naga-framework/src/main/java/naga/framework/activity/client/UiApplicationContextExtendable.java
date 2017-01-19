@@ -12,7 +12,7 @@ import naga.fx.spi.Toolkit;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.client.ApplicationContextImpl;
+import naga.platform.activity.client.ApplicationContextExtendable;
 import naga.platform.client.url.history.History;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
@@ -21,9 +21,9 @@ import naga.platform.spi.Platform;
 /**
  * @author Bruno Salmon
  */
-public class UiApplicationContextImpl<C extends UiApplicationContextImpl<C>> extends ApplicationContextImpl<C> implements UiApplicationContext<C> {
+public class UiApplicationContextExtendable<C extends UiApplicationContextExtendable<C>> extends ApplicationContextExtendable<C> implements UiApplicationContext<C> {
 
-    UiApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
+    UiApplicationContextExtendable(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);
         nodeProperty().addListener((observable, oldValue, node) -> {
             Parent root = (Parent) node;

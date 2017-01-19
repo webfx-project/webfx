@@ -7,18 +7,18 @@ import naga.platform.activity.ActivityContextFactory;
 /**
  * @author Bruno Salmon
  */
-public class UiDomainActivityContextImpl<C extends UiDomainActivityContextImpl<C>> extends UiActivityContextImpl<C> implements UiDomainActivityContext<C> {
+public class UiDomainActivityContextExtendable<THIS extends UiDomainActivityContextExtendable<THIS>> extends UiActivityContextExtendable<THIS> implements UiDomainActivityContext<THIS> {
 
     private DataSourceModel dataSourceModel;
 
-    protected UiDomainActivityContextImpl(ActivityContext parentContext, ActivityContextFactory<C> contextFactory) {
+    protected UiDomainActivityContextExtendable(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         super(parentContext, contextFactory);
     }
 
     @Override
-    public C setDataSourceModel(DataSourceModel dataSourceModel) {
+    public THIS setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
-        return (C) this;
+        return (THIS) this;
     }
 
     @Override

@@ -10,13 +10,14 @@ import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiApplicationContext;
 import naga.framework.activity.client.UiDomainActivityContext;
+import naga.framework.activity.client.UiDomainActivityContextFinal;
 import naga.framework.activity.client.UiDomainApplicationContext;
 import naga.framework.ui.router.UiRouter;
+import naga.fx.properties.Properties;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.spi.Platform;
-import naga.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon
@@ -31,7 +32,7 @@ public abstract class MongooseApplication implements Activity<UiDomainActivityCo
         context.getUiRouter().routeAndMount("/", getContainerActivityFactory(), setupContainedRouter(UiRouter.createSubRouter(context)));
     }
 
-    protected abstract Factory<Activity<UiDomainActivityContext>> getContainerActivityFactory();
+    protected abstract Factory<Activity<UiDomainActivityContextFinal>> getContainerActivityFactory();
 
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter

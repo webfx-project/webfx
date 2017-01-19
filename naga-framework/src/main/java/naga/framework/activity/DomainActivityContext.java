@@ -13,7 +13,7 @@ public interface DomainActivityContext<C extends DomainActivityContext<C>> exten
     DataSourceModel getDataSourceModel();
 
     static DomainActivityContext create(ActivityContext parentContext) {
-        return new DomainActivityContextImpl(parentContext, DomainActivityContext::create);
+        return new DomainActivityContextExtendable(parentContext, DomainActivityContext::create);
     }
 
     static DomainActivityContext create(ActivityContext parentContext, DataSourceModel dataSourceModel) {

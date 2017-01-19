@@ -4,7 +4,7 @@ import naga.commons.util.async.Handler;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.client.UiActivityContext;
-import naga.framework.activity.client.UiActivityContextImpl;
+import naga.framework.activity.client.UiActivityContextExtendable;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.platform.activity.Activity;
@@ -70,7 +70,7 @@ public class UiRouter extends HistoryRouter {
         super(router, history);
         this.hostingContext = hostingContext;
         this.activityContextFactory = activityContextFactory;
-        UiActivityContextImpl hostingUiActivityContext = UiActivityContextImpl.from(hostingContext);
+        UiActivityContextExtendable hostingUiActivityContext = UiActivityContextExtendable.from(hostingContext);
         if (hostingUiActivityContext != null) // can be null if the hosting context is the application context
             hostingUiActivityContext.setUiRouter(this);
     }
@@ -171,7 +171,7 @@ public class UiRouter extends HistoryRouter {
             // Temporary applying the parameters to the whole application context so they can be shared between activities
             // (ex: changing :x parameter in activity1 and then pressing a navigation button in a parent container activity
             // that goes to /:x/activity2 => the parent container can get the last :x value changed by activity1)
-            //UiActivityContextImpl.from(activityContext).setParams(routingContext.getParams()); // Commented original code
+            //UiActivityContextExtendable.from(activityContext).setParams(routingContext.getParams()); // Commented original code
             UiActivityContext uiAppContext = ApplicationContext.get();
             WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
             // TODO: move this code into a apply() method in WritableJsonObject

@@ -7,13 +7,13 @@ import naga.platform.activity.client.ApplicationContext;
 /**
  * @author Bruno Salmon
  */
-public interface DomainApplicationContext<C extends DomainApplicationContext<C>> extends DomainActivityContext<C>, ApplicationContext<C> {
+public interface DomainApplicationContext<THIS extends DomainApplicationContext<THIS>> extends DomainActivityContext<THIS>, ApplicationContext<THIS> {
 
-    static DomainApplicationContext<?> create(String[] mainArgs) {
-        return new DomainApplicationContextImpl(mainArgs, UiDomainActivityContext::create);
+    static DomainApplicationContextFinal create(String[] mainArgs) {
+        return new DomainApplicationContextFinal(mainArgs, UiDomainActivityContext::create);
     }
 
-    static DomainApplicationContext<?> create(DataSourceModel dataSourceModel, String[]mainArgs) {
+    static DomainApplicationContextFinal create(DataSourceModel dataSourceModel, String[]mainArgs) {
         return create(mainArgs).setDataSourceModel(dataSourceModel);
     }
 

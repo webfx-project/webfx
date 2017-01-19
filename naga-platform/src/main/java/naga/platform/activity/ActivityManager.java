@@ -42,7 +42,7 @@ public class ActivityManager<C extends ActivityContext> {
 
     private void init(C context) {
         if (context != null)
-            ActivityContextImpl.from(context).setActivityManager(this);
+            ActivityContextExtendable.from(context).setActivityManager(this);
         this.context = context;
     }
 

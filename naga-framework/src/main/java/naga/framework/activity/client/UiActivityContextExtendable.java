@@ -6,7 +6,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.ActivityContextImpl;
+import naga.platform.activity.ActivityContextExtendable;
 import naga.platform.activity.HasActivityContext;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
@@ -15,13 +15,13 @@ import javafx.scene.Node;
 /**
  * @author Bruno Salmon
  */
-public class UiActivityContextImpl<C extends UiActivityContextImpl<C>> extends ActivityContextImpl<C> implements UiActivityContext<C> {
+public class UiActivityContextExtendable<THIS extends UiActivityContextExtendable<THIS>> extends ActivityContextExtendable<THIS> implements UiActivityContext<THIS> {
 
     private UiRouter uiRouter;
     private JsonObject params;
     private I18n i18n;
 
-    protected UiActivityContextImpl(ActivityContext parentContext, ActivityContextFactory<C> contextFactory) {
+    protected UiActivityContextExtendable(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         super(parentContext, contextFactory);
     }
 
@@ -83,9 +83,9 @@ public class UiActivityContextImpl<C extends UiActivityContextImpl<C>> extends A
         return null;
     }
 
-    public static <C extends ActivityContext> UiActivityContextImpl from(C activityContext) {
-        if (activityContext instanceof UiActivityContextImpl)
-            return (UiActivityContextImpl) activityContext;
+    public static <C extends ActivityContext> UiActivityContextExtendable from(C activityContext) {
+        if (activityContext instanceof UiActivityContextExtendable)
+            return (UiActivityContextExtendable) activityContext;
         if (activityContext instanceof HasActivityContext) // including ActivityContextDirectAccess
             return from(((HasActivityContext) activityContext).getActivityContext());
         return null;

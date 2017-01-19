@@ -11,7 +11,7 @@ import mongoose.activities.backend.tester.TesterActivity;
 import mongoose.activities.backend.tester.testset.TestSetActivity;
 import mongoose.activities.shared.application.MongooseApplication;
 import naga.commons.util.function.Factory;
-import naga.framework.activity.client.UiDomainActivityContext;
+import naga.framework.activity.client.UiDomainActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 
@@ -21,7 +21,7 @@ import naga.platform.activity.Activity;
 public class MongooseBackendApplication extends MongooseApplication {
 
     @Override
-    protected Factory<Activity<UiDomainActivityContext>> getContainerActivityFactory() {
+    protected Factory<Activity<UiDomainActivityContextFinal>> getContainerActivityFactory() {
         return BackendContainerActivity::new;
     }
 

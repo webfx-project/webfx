@@ -1,12 +1,12 @@
 package naga.platform.activity.client;
 
 import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.ActivityContextImpl;
+import naga.platform.activity.ActivityContextExtendable;
 
 /**
  * @author Bruno Salmon
  */
-public class ApplicationContextImpl<C extends ApplicationContextImpl<C>> extends ActivityContextImpl<C> implements ApplicationContext<C> {
+public class ApplicationContextExtendable<C extends ApplicationContextExtendable<C>> extends ActivityContextExtendable<C> implements ApplicationContext<C> {
 
     /**
      *  Global static instance of the application context that any activity can access if needed.
@@ -17,7 +17,7 @@ public class ApplicationContextImpl<C extends ApplicationContextImpl<C>> extends
 
     private String[] mainArgs;
 
-    protected ApplicationContextImpl(String[] mainArgs, ActivityContextFactory contextFactory) {
+    protected ApplicationContextExtendable(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(null, contextFactory);
         this.mainArgs = mainArgs;
         instance = this;

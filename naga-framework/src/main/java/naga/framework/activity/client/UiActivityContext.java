@@ -10,7 +10,7 @@ import naga.fx.properties.markers.HasNodeProperty;
 /**
  * @author Bruno Salmon
  */
-public interface UiActivityContext<C extends UiActivityContext<C>> extends ActivityContext<C>,
+public interface UiActivityContext<THIS extends UiActivityContext<THIS>> extends ActivityContext<THIS>,
         HasNodeProperty,
         HasMountNodeProperty {
 
@@ -27,7 +27,7 @@ public interface UiActivityContext<C extends UiActivityContext<C>> extends Activ
     I18n getI18n();
 
     static ActivityContext create(ActivityContext parent) {
-        return new UiActivityContextImpl(parent, UiActivityContext::create);
+        return new UiActivityContextExtendable(parent, UiActivityContext::create);
     }
 
 }
