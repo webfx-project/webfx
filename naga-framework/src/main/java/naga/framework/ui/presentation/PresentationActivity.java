@@ -1,21 +1,9 @@
 package naga.framework.ui.presentation;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.scene.control.Labeled;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
-import naga.commons.util.Strings;
+import javafx.scene.Node;
 import naga.commons.util.function.Factory;
-import naga.framework.activity.client.HasMountNodeProperty;
-import naga.framework.activity.client.UiDomainActivityContext;
-import naga.framework.activity.client.UiDomainActivityContextMixin;
+import naga.framework.activity.client.*;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
-import naga.framework.ui.i18n.I18n;
-import naga.fx.spi.Toolkit;
-import naga.platform.activity.Activity;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,37 +11,20 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> implements Activity<UiDomainActivityContext>, UiDomainActivityContextMixin {
+public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> extends AbstractUiActivity<UiDomainActivityContextFinal> implements UiDomainActivityContextMixin<UiDomainActivityContextFinal> {
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
     private VM viewModel;
-    private UiDomainActivityContext activityContext;
 
     private boolean viewBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
-
-    private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(false); // Should be stored in UiContext?
-
-    protected Property<Boolean> activeProperty() {
-        return activeProperty;
-    }
-
-    public boolean isActive() {
-        return activeProperty.getValue();
-    }
-
-    private void setActive(boolean active) {
-        activeProperty.setValue(active);
-    }
 
     private static final Map<Class, ViewBuilder> viewBuilders = new HashMap<>();
 
     public static <VM extends ViewModel> void registerViewBuilder(Class<? extends PresentationActivity<VM, ? extends PresentationModel>> presentationActivityClass, ViewBuilder<VM> viewBuilder) {
         // Skipping any further registration attempt, keeping only the first one (typically the one defined at application top level)
-        // viewBuilders.putIfAbsent(presentationActivityClass, viewBuilder); // works with GWT 2.8rc2 but not 2.8beta1
-        if (!viewBuilders.containsKey(presentationActivityClass))
-            viewBuilders.put(presentationActivityClass, viewBuilder);
+        viewBuilders.putIfAbsent(presentationActivityClass, viewBuilder);
     }
 
     protected PresentationActivity() {
@@ -67,15 +38,6 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
         this.presentationModelFactory = presentationModelFactory;
     }
 
-    public UiDomainActivityContext getActivityContext() {
-        return activityContext;
-    }
-
-    @Override
-    public void onCreate(UiDomainActivityContext context) {
-        this.activityContext = context;
-    }
-
     @Override
     public void onStart() {
         if (presentationModel == null)
@@ -85,17 +47,17 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             bindPresentationModelWithLogic(presentationModel);
             presentationModelBoundWithLogic = true;
         }
-        setActive(true);
+        super.onStart(); // setting active to true
     }
 
     @Override
     public void onResume() {
-        if (!Toolkit.get().isReady()) {
-            Toolkit.get().onReady(this::onResume);
-            return;
-        }
         initializePresentationModel(presentationModel); // Doing it again, in case the params have changed on a later resume
-        setActive(true);
+        super.onResume();
+    }
+
+    @Override
+    public Node buildUi() {
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
             ViewBuilder<VM> viewBuilder = viewBuilders.get(getClass());
@@ -109,22 +71,13 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
             bindViewModelWithPresentationModel(viewModel, presentationModel);
             viewBoundWithPresentationModel = true;
         }
-        onShow();
-        activityContext.setNode(viewModel.getContentNode());
-    }
-
-    @Override
-    public void onPause() {
-        setActive(false);
+        return viewModel.getContentNode();
     }
 
     @Override
     public void onDestroy() {
         viewModel = null;
         viewBoundWithPresentationModel = false;
-    }
-
-    protected void onShow() {
     }
 
     protected PM buildPresentationModel() { return null;}
@@ -141,30 +94,6 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
 
     /** Helpers **/
 
-    public static Text createTextView(String translationKey, I18n i18n) {
-        Text text = new Text();
-        i18n.translateString(text.textProperty(), translationKey);
-        return text;
-    }
-
-    public static ImageView createImageView(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
-        if (!Strings.startsWith(urlOrJson, "{"))
-            return new ImageView(urlOrJson);
-        return createImageView(Json.parseObject(urlOrJson));
-    }
-
-    public static ImageView createImageView(JsonObject json) {
-        ImageView imageView = new ImageView(json.getString("url"));
-        imageView.setFitWidth(json.getDouble("width"));
-        imageView.setFitHeight(json.getDouble("height"));
-        return imageView;
-    }
-
-    public static <T extends Labeled> T setGraphic(T labeled, String urlOrJson) {
-        labeled.setGraphic(createImageView(urlOrJson));
-        return labeled;
-    }
-
     protected ReactiveExpressionFilter createReactiveExpressionFilter() {
         return initializeReactiveExpressionFilter(new ReactiveExpressionFilter());
     }
@@ -174,9 +103,9 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     }
 
     private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        reactiveExpressionFilter.activePropertyProperty().bind(activeProperty);
+        reactiveExpressionFilter.activePropertyProperty().bind(activeProperty());
         return reactiveExpressionFilter
-                .setDataSourceModel(activityContext.getDataSourceModel())
+                .setDataSourceModel(getActivityContext().getDataSourceModel())
                 .setI18n(getI18n())
                 ;
     }
