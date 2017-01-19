@@ -3,7 +3,10 @@ package naga.platform.activity;
 /**
  * @author Bruno Salmon
  */
-public interface ActivityContext<THIS extends ActivityContext<THIS>> extends HasActivityContextFactory<THIS> {
+public interface ActivityContext
+        <THIS extends ActivityContext<THIS>>
+
+        extends HasActivityContextFactory<THIS> {
 
     ActivityContext getParentContext();
 
@@ -12,7 +15,7 @@ public interface ActivityContext<THIS extends ActivityContext<THIS>> extends Has
     @Override
     ActivityContextFactory<THIS> getActivityContextFactory();
 
-    static ActivityContext create(ActivityContext parent) {
-        return new ActivityContextExtendable(parent, ActivityContext::create);
+    static ActivityContextFinal create(ActivityContext parent) {
+        return new ActivityContextFinal(parent, ActivityContext::create);
     }
 }

@@ -11,7 +11,11 @@ import javafx.scene.Node;
 /**
  * @author Bruno Salmon
  */
-public interface UiActivityContextMixin<C extends UiActivityContext<C>> extends ActivityContextMixin<C>, UiActivityContext<C> {
+public interface UiActivityContextMixin
+        <C extends UiActivityContext<C>>
+
+        extends ActivityContextMixin<C>,
+        UiActivityContext<C> {
 
     @Override
     default UiRouter getUiRouter() { return getActivityContext().getUiRouter(); }

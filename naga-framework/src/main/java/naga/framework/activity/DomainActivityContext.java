@@ -6,21 +6,24 @@ import naga.platform.activity.ActivityContext;
 /**
  * @author Bruno Salmon
  */
-public interface DomainActivityContext<C extends DomainActivityContext<C>> extends ActivityContext<C> {
+public interface DomainActivityContext
+        <C extends DomainActivityContext<C>>
+
+        extends ActivityContext<C> {
 
     C setDataSourceModel(DataSourceModel dataSourceModel);
 
     DataSourceModel getDataSourceModel();
 
-    static DomainActivityContext create(ActivityContext parentContext) {
-        return new DomainActivityContextExtendable(parentContext, DomainActivityContext::create);
+    static DomainActivityContextFinal create(ActivityContext parentContext) {
+        return new DomainActivityContextFinal(parentContext, DomainActivityContext::create);
     }
 
-    static DomainActivityContext create(ActivityContext parentContext, DataSourceModel dataSourceModel) {
+    static DomainActivityContextFinal create(ActivityContext parentContext, DataSourceModel dataSourceModel) {
         return create(parentContext).setDataSourceModel(dataSourceModel);
     }
 
-    static DomainActivityContext create(DataSourceModel dataSourceModel) {
+    static DomainActivityContextFinal create(DataSourceModel dataSourceModel) {
         return create(null, dataSourceModel);
     }
 

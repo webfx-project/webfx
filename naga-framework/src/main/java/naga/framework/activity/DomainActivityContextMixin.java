@@ -6,7 +6,11 @@ import naga.platform.activity.ActivityContextMixin;
 /**
  * @author Bruno Salmon
  */
-public interface DomainActivityContextMixin<C extends DomainActivityContext<C>> extends ActivityContextMixin<C>, DomainActivityContext<C> {
+public interface DomainActivityContextMixin
+        <C extends DomainActivityContext<C>>
+
+        extends ActivityContextMixin<C>,
+        DomainActivityContext<C> {
 
     @Override
     default C setDataSourceModel(DataSourceModel dataSourceModel) {

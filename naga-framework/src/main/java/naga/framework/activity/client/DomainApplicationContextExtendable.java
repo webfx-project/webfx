@@ -7,7 +7,11 @@ import naga.platform.activity.client.ApplicationContextExtendable;
 /**
  * @author Bruno Salmon
  */
-public class DomainApplicationContextExtendable<THIS extends DomainApplicationContextExtendable<THIS>> extends ApplicationContextExtendable<THIS> implements DomainApplicationContext<THIS> {
+public class DomainApplicationContextExtendable
+        <THIS extends DomainApplicationContextExtendable<THIS>>
+
+        extends ApplicationContextExtendable<THIS>
+        implements DomainApplicationContext<THIS> {
 
     private DataSourceModel dataSourceModel;
 

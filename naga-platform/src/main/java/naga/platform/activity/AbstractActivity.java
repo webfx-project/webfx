@@ -3,7 +3,11 @@ package naga.platform.activity;
 /**
  * @author Bruno Salmon
  */
-public abstract class AbstractActivity<C extends ActivityContext<C>> implements Activity<C>, ActivityContextMixin<C> {
+public abstract class AbstractActivity
+        <C extends ActivityContext<C>>
+
+        implements Activity<C>,
+        ActivityContextMixin<C> {
 
     protected C activityContext;
     private boolean active;

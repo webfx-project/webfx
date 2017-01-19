@@ -21,7 +21,11 @@ import naga.platform.spi.Platform;
 /**
  * @author Bruno Salmon
  */
-public class UiApplicationContextExtendable<C extends UiApplicationContextExtendable<C>> extends ApplicationContextExtendable<C> implements UiApplicationContext<C> {
+public class UiApplicationContextExtendable
+        <C extends UiApplicationContextExtendable<C>>
+
+        extends ApplicationContextExtendable<C>
+        implements UiApplicationContext<C> {
 
     UiApplicationContextExtendable(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);

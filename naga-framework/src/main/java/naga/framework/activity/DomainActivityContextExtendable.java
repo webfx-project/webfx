@@ -8,7 +8,11 @@ import naga.platform.activity.ActivityContextExtendable;
 /**
  * @author Bruno Salmon
  */
-public class DomainActivityContextExtendable<THIS extends DomainActivityContextExtendable<THIS>> extends ActivityContextExtendable<THIS> implements DomainActivityContext<THIS> {
+public class DomainActivityContextExtendable
+        <THIS extends DomainActivityContextExtendable<THIS>>
+
+        extends ActivityContextExtendable<THIS>
+        implements DomainActivityContext<THIS> {
 
     private DataSourceModel dataSourceModel;
 

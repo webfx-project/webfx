@@ -7,7 +7,11 @@ import naga.platform.activity.ActivityContextFactory;
 /**
  * @author Bruno Salmon
  */
-public class UiDomainActivityContextExtendable<THIS extends UiDomainActivityContextExtendable<THIS>> extends UiActivityContextExtendable<THIS> implements UiDomainActivityContext<THIS> {
+public class UiDomainActivityContextExtendable
+        <THIS extends UiDomainActivityContextExtendable<THIS>>
+
+        extends UiActivityContextExtendable<THIS>
+        implements UiDomainActivityContext<THIS> {
 
     private DataSourceModel dataSourceModel;
 

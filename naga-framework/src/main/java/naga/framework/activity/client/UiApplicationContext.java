@@ -7,7 +7,11 @@ import naga.platform.activity.client.ApplicationContext;
 /**
  * @author Bruno Salmon
  */
-public interface UiApplicationContext<THIS extends UiApplicationContext<THIS>> extends UiActivityContext<THIS>, ApplicationContext<THIS> {
+public interface UiApplicationContext
+        <THIS extends UiApplicationContext<THIS>>
+
+        extends UiActivityContext<THIS>,
+        ApplicationContext<THIS> {
 
     Property<Boolean> windowBoundProperty();
 
@@ -15,8 +19,8 @@ public interface UiApplicationContext<THIS extends UiApplicationContext<THIS>> e
 
     THIS setI18n(I18n i18n);
 
-    static UiApplicationContext create(String[] mainArgs) {
-        return new UiApplicationContextExtendable(mainArgs, UiActivityContext::create);
+    static UiApplicationContextFinal create(String[] mainArgs) {
+        return new UiApplicationContextFinal(mainArgs, UiActivityContext::create);
     }
 
     static <C extends UiApplicationContext<C>> C getUiApplicationContext() {

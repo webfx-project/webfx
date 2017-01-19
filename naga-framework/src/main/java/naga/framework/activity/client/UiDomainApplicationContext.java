@@ -6,7 +6,11 @@ import naga.framework.ui.i18n.I18n;
 /**
  * @author Bruno Salmon
  */
-public interface UiDomainApplicationContext<THIS extends UiDomainApplicationContext<THIS>> extends UiApplicationContext<THIS>, UiDomainActivityContext<THIS> {
+public interface UiDomainApplicationContext
+        <THIS extends UiDomainApplicationContext<THIS>>
+
+        extends UiApplicationContext<THIS>,
+        UiDomainActivityContext<THIS> {
 
     static UiDomainApplicationContextFinal create(String[] mainArgs) {
         return new UiDomainApplicationContextFinal(mainArgs, UiDomainActivityContext::create);

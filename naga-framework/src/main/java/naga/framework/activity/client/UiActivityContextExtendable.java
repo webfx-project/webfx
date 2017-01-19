@@ -15,7 +15,11 @@ import javafx.scene.Node;
 /**
  * @author Bruno Salmon
  */
-public class UiActivityContextExtendable<THIS extends UiActivityContextExtendable<THIS>> extends ActivityContextExtendable<THIS> implements UiActivityContext<THIS> {
+public class UiActivityContextExtendable
+        <THIS extends UiActivityContextExtendable<THIS>>
+
+        extends ActivityContextExtendable<THIS>
+        implements UiActivityContext<THIS> {
 
     private UiRouter uiRouter;
     private JsonObject params;

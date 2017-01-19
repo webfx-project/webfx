@@ -7,7 +7,11 @@ import naga.platform.activity.client.ApplicationContext;
 /**
  * @author Bruno Salmon
  */
-public interface DomainApplicationContext<THIS extends DomainApplicationContext<THIS>> extends DomainActivityContext<THIS>, ApplicationContext<THIS> {
+public interface DomainApplicationContext
+        <THIS extends DomainApplicationContext<THIS>>
+
+        extends DomainActivityContext<THIS>,
+        ApplicationContext<THIS> {
 
     static DomainApplicationContextFinal create(String[] mainArgs) {
         return new DomainApplicationContextFinal(mainArgs, UiDomainActivityContext::create);

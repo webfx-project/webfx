@@ -3,7 +3,10 @@ package naga.platform.activity;
 /**
  * @author Bruno Salmon
  */
-public class ActivityContextExtendable<THIS extends ActivityContextExtendable<THIS>> implements ActivityContext<THIS> {
+public class ActivityContextExtendable
+        <THIS extends ActivityContextExtendable<THIS>>
+
+        implements ActivityContext<THIS> {
 
     private final ActivityContext parentContext;
     private ActivityManager<THIS> activityManager;

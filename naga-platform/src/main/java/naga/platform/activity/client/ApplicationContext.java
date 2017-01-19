@@ -13,7 +13,7 @@ public interface ApplicationContext<C extends ApplicationContext<C>> extends Act
 
     String[] getMainArgs();
 
-    static ApplicationContext create(String[] mainArgs) {
-        return new ApplicationContextExtendable(mainArgs, ActivityContext::create);
+    static ApplicationContextFinal create(String[] mainArgs) {
+        return new ApplicationContextFinal(mainArgs, ActivityContext::create);
     }
 }
