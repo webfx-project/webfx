@@ -6,18 +6,21 @@ import mongoose.services.EventService;
 import mongoose.services.EventServiceMixin;
 import naga.commons.util.Objects;
 import naga.commons.util.function.Factory;
-import naga.framework.ui.presentation.PresentationActivity;
-import naga.framework.ui.presentation.ViewModel;
+import naga.framework.activity.presentationlogic.DomainPresentationLogicActivityImpl;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class EventDependentActivity
-        <VM extends ViewModel, PM extends EventDependentPresentationModel>
+public abstract class EventDependentPresentationLogicActivity
+        <PM extends EventDependentPresentationModel>
 
-        extends PresentationActivity<VM, PM> implements EventServiceMixin {
+        extends DomainPresentationLogicActivityImpl<PM>
+        implements EventServiceMixin {
 
-    public EventDependentActivity(Factory<PM> presentationModelFactory) {
+    public EventDependentPresentationLogicActivity() {
+    }
+
+    public EventDependentPresentationLogicActivity(Factory<PM> presentationModelFactory) {
         super(presentationModelFactory);
     }
 

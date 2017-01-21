@@ -33,7 +33,7 @@ public class OrganizationsActivity extends GenericTableActivity<OrganizationsVie
         withEventsCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
         limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
-        return new OrganizationsViewModel(new BorderPane(table, searchBox, null, new HBox((double) 10, withEventsCheckBox, limitCheckBox), null)
+        return new OrganizationsViewModel(new BorderPane(table, searchBox, null, new HBox(10, withEventsCheckBox, limitCheckBox), null)
                 , searchBox, table, withEventsCheckBox, limitCheckBox);
     }
 

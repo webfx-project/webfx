@@ -1,8 +1,8 @@
 package mongoose.activities.shared.container;
 
 import javafx.beans.property.Property;
-import naga.framework.activity.client.HasMountNodeProperty;
-import naga.framework.ui.presentation.AbstractViewModel;
+import naga.framework.activity.view.HasMountNodeProperty;
+import naga.framework.ui.presentation.ViewModelBase;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 /**
  * @author Bruno Salmon
  */
-public class ContainerViewModel extends AbstractViewModel<BorderPane> implements HasMountNodeProperty {
+public class ContainerViewModel extends ViewModelBase<BorderPane> implements HasMountNodeProperty {
 
     private final Button backButton;
     private final Button forwardButton;

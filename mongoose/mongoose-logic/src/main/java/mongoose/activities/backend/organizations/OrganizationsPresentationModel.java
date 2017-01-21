@@ -7,7 +7,7 @@ import mongoose.activities.shared.generic.GenericTablePresentationModel;
 /**
  * @author Bruno Salmon
  */
-class OrganizationsPresentationModel extends GenericTablePresentationModel {
+public class OrganizationsPresentationModel extends GenericTablePresentationModel {
 
     // Display input
 

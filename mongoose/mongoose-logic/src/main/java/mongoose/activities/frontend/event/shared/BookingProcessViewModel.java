@@ -1,13 +1,13 @@
 package mongoose.activities.frontend.event.shared;
 
-import naga.framework.ui.presentation.AbstractViewModel;
+import naga.framework.ui.presentation.ViewModelBase;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingProcessViewModel<N extends Node> extends AbstractViewModel<N> {
+public class BookingProcessViewModel<N extends Node> extends ViewModelBase<N> {
 
     private final Button previousButton;
     private final Button nextButton;

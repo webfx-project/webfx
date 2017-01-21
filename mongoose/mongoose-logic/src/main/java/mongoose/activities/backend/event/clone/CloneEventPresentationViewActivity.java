@@ -3,39 +3,36 @@ package mongoose.activities.backend.event.clone;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import mongoose.activities.shared.generic.EventDependentActivity;
 import mongoose.activities.shared.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
-import mongoose.entities.Event;
+import naga.framework.activity.view.presentationview.PresentationViewActivityImpl;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
-import naga.platform.services.update.UpdateArgument;
-import naga.platform.spi.Platform;
-
-import java.time.LocalDate;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
 /**
  * @author Bruno Salmon
  */
-public class CloneEventActivity extends EventDependentActivity<CloneEventViewModel, CloneEventPresentationModel> {
+public class CloneEventPresentationViewActivity extends PresentationViewActivityImpl<CloneEventPresentationModel> {
 
-    public CloneEventActivity() {
-        super(CloneEventPresentationModel::new);
-    }
+    protected GridPane goldPane;
+    protected GridPane gp;
+    protected TextField dateTextField;
 
     @Override
-    protected CloneEventViewModel buildView() {
+    protected void createViewNodes(CloneEventPresentationModel pm) {
         Label nameLabel = new Label(), dateLabel = new Label();
-        TextField nameTextField = new TextField(), dateTextField = new TextField();
+        TextField nameTextField = new TextField();
+        dateTextField = new TextField();
         Button submitButton = new Button();
-        GridPane gp = new GridPane();
+        gp = new GridPane();
         gp.add(nameLabel, 0, 0);
         gp.add(nameTextField, 1, 0);
         gp.add(dateLabel, 0, 1);
@@ -75,7 +72,7 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         bp.setMaxHeight(USE_PREF_SIZE);
 
         // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
-        GridPane goldPane = new GridPane();
+        goldPane = new GridPane();
         //goldPane.backgroundProperty().bind(Theme.mainBackgroundProperty());
         goldPane.setAlignment(Pos.TOP_CENTER);
         RowConstraints rc = new RowConstraints();
@@ -85,39 +82,16 @@ public class CloneEventActivity extends EventDependentActivity<CloneEventViewMod
         goldPane.getRowConstraints().add(rc);
         goldPane.add(bp, 0, 1);
 
-        return new CloneEventViewModel(goldPane, nameLabel, dateLabel, nameTextField, dateTextField, submitButton);
-    }
-
-    @Override
-    protected void bindViewModelWithPresentationModel(CloneEventViewModel vm, CloneEventPresentationModel pm) {
         I18n i18n = getI18n();
-        i18n.translateText(vm.getNameLabel(), "Name");
-        i18n.translateText(vm.getDateLabel(), "Date");
-        vm.getNameTextField().textProperty().bindBidirectional(pm.nameProperty());
-        vm.getDateTextField().textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        i18n.translateText(vm.getSubmitButton(), "Submit").onActionProperty().bind(pm.onSubmitProperty());
+        i18n.translateText(nameLabel, "Name");
+        i18n.translateText(dateLabel, "Date");
+        nameTextField.textProperty().bindBidirectional(pm.nameProperty());
+        dateTextField.textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.LOCAL_DATE_STRING_CONVERTER);
+        i18n.translateText(submitButton, "Submit").onActionProperty().bind(pm.onSubmitProperty());
     }
 
     @Override
-    protected void bindPresentationModelWithLogic(CloneEventPresentationModel pm) {
-        // Load and display fees groups now but also on event change
-        Properties.runNowAndOnPropertiesChange(property -> {
-            pm.setName(null);
-            pm.setDate(null);
-            onEventOptions().setHandler(ar -> {
-                if (ar.succeeded()) {
-                    Event event = getEvent();
-                    pm.setName(event.getName());
-                    pm.setDate(event.getStartDate());
-                }
-            });
-        }, pm.eventIdProperty());
-        pm.setOnSubmit(event -> {
-            LocalDate startDate = pm.getDate();
-            Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceModel().getId())).setHandler(ar -> {
-                if (ar.succeeded())
-                    getHistory().push("/event/" + ar.result().getGeneratedKeys()[0] + "/bookings");
-            });
-        });
+    protected Node assemblyViewNodes() {
+        return goldPane;
     }
 }

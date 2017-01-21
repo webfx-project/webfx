@@ -1,6 +1,6 @@
 package mongoose.activities.backend.tester;
 
-import naga.framework.ui.presentation.AbstractViewModel;
+import naga.framework.ui.presentation.ViewModelBase;
 import naga.fxdata.chart.Chart;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -9,7 +9,7 @@ import javafx.scene.control.Slider;
 /**
  * @author Bruno Salmon
  */
-class TesterViewModel extends AbstractViewModel<Node> {
+class TesterViewModel extends ViewModelBase<Node> {
 
     private final Button saveTest;
     private final Chart connectionsChart;

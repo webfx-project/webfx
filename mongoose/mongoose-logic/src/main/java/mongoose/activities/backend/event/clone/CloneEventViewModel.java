@@ -1,15 +1,15 @@
 package mongoose.activities.backend.event.clone;
 
-import naga.framework.ui.presentation.AbstractViewModel;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import naga.framework.ui.presentation.ViewModelBase;
 
 /**
  * @author Bruno Salmon
  */
-class CloneEventViewModel extends AbstractViewModel {
+class CloneEventViewModel extends ViewModelBase {
 
     private final Label nameLabel;
     private final Label dateLabel;

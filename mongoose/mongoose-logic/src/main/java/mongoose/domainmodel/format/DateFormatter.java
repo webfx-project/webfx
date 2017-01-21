@@ -1,9 +1,12 @@
 package mongoose.domainmodel.format;
 
+import javafx.util.StringConverter;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
 import naga.commons.util.Dates;
 import naga.framework.ui.format.Formatter;
+
+import java.time.LocalDate;
 
 
 /**
@@ -12,6 +15,23 @@ import naga.framework.ui.format.Formatter;
 public class DateFormatter implements Formatter {
 
     public static final DateFormatter SINGLETON = new DateFormatter();
+    public static final StringConverter<LocalDate> LOCAL_DATE_STRING_CONVERTER =  new StringConverter<LocalDate>() {
+        @Override
+        public String toString(LocalDate date) {
+            return (String) DateFormatter.SINGLETON.format(date);
+        }
+
+        @Override
+        public LocalDate fromString(String date) {
+            if (date == null)
+                return null;
+            int p;
+            int dayOfMonth = Integer.parseInt(date.substring(0, p = date.indexOf('/')));
+            int month = Integer.parseInt(date.substring(p + 1, p = date.indexOf('/', p + 1)));
+            int year = Integer.parseInt(date.substring(p + 1));
+            return LocalDate.of(year, month, dayOfMonth);
+        }
+    };
 
     private DateFormatter() {
     }

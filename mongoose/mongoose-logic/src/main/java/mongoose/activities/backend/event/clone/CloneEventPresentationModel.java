@@ -1,7 +1,10 @@
 package mongoose.activities.backend.event.clone;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import mongoose.activities.shared.generic.EventDependentPresentationModel;
 
 import java.time.LocalDate;
@@ -9,10 +12,11 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-class CloneEventPresentationModel extends EventDependentPresentationModel {
+public class CloneEventPresentationModel extends EventDependentPresentationModel {
 
     private final Property<String> nameProperty = new SimpleObjectProperty<>();
     private final Property<LocalDate> dateProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<EventHandler<ActionEvent>> onSubmit = new SimpleObjectProperty<>();
 
     public Property<String> nameProperty() {
         return nameProperty;
@@ -37,5 +41,9 @@ class CloneEventPresentationModel extends EventDependentPresentationModel {
     public LocalDate getDate() {
         return dateProperty.getValue();
     }
+
+    public final ObjectProperty<EventHandler<ActionEvent>> onSubmitProperty() { return onSubmit; }
+    public final void setOnSubmit(EventHandler<ActionEvent> value) { onSubmitProperty().set(value); }
+    public final EventHandler<ActionEvent> getOnSubmit() { return onSubmitProperty().get(); }
 
 }

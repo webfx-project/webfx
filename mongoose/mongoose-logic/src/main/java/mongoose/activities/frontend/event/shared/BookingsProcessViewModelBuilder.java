@@ -1,8 +1,8 @@
 package mongoose.activities.frontend.event.shared;
 
-import naga.framework.activity.client.UiApplicationContext;
+import naga.framework.activity.view.ViewApplicationContext;
 import naga.framework.ui.i18n.I18n;
-import naga.framework.ui.presentation.ViewBuilder;
+import naga.framework.ui.presentation.ViewModelBuilder;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -11,15 +11,15 @@ import javafx.scene.layout.HBox;
 /**
  * @author Bruno Salmon
  */
-public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessViewModel> implements ViewBuilder<VM> {
+public abstract class BookingsProcessViewModelBuilder<VM extends BookingProcessViewModel> implements ViewModelBuilder<VM> {
 
     protected Button previousButton;
     protected Button nextButton;
     protected Node contentNode;
 
     @Override
-    public VM buildView() {
-        buildComponents(UiApplicationContext.getUiApplicationContext().getI18n());
+    public VM buildViewModel() {
+        buildComponents(ViewApplicationContext.getViewApplicationContext().getI18n());
         return createViewModel();
     }
 

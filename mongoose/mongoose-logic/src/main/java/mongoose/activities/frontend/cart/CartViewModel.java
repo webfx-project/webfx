@@ -1,13 +1,13 @@
 package mongoose.activities.frontend.cart;
 
-import naga.framework.ui.presentation.AbstractViewModel;
+import naga.framework.ui.presentation.ViewModelBase;
 import naga.fxdata.control.DataGrid;
 import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
-class CartViewModel extends AbstractViewModel {
+class CartViewModel extends ViewModelBase {
 
     private final DataGrid documentTable;
     private final DataGrid documentLineTable;

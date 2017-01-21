@@ -7,7 +7,7 @@ import mongoose.activities.shared.generic.GenericTableOrganizationDependentPrese
 /**
  * @author Bruno Salmon
  */
-class EventsPresentationModel extends GenericTableOrganizationDependentPresentationModel {
+public class EventsPresentationModel extends GenericTableOrganizationDependentPresentationModel {
 
     // Display input
 

@@ -1,6 +1,6 @@
 package mongoose.activities.shared.generic;
 
-import naga.framework.ui.presentation.AbstractViewModel;
+import naga.framework.ui.presentation.ViewModelBase;
 import naga.fxdata.control.DataGrid;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 /**
  * @author Bruno Salmon
  */
-public class GenericTableViewModel extends AbstractViewModel {
+public class GenericTableViewModel extends ViewModelBase {
 
     private final TextField searchBox;
     private final DataGrid table;
