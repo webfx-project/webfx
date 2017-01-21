@@ -3,9 +3,9 @@ package naga.platform.activity;
 /**
  * @author Bruno Salmon
  */
-public final class ActivityContextFinal extends ActivityContextExtendable<ActivityContextFinal> {
+final class ActivityContextFinal extends ActivityContextBase<ActivityContextFinal> {
 
-    public ActivityContextFinal(ActivityContext parentContext, ActivityContextFactory<ActivityContextFinal> contextFactory) {
+    ActivityContextFinal(ActivityContext parentContext, ActivityContextFactory<ActivityContextFinal> contextFactory) {
         super(parentContext, contextFactory);
     }
 }

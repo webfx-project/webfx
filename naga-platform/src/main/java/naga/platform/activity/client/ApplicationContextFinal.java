@@ -5,9 +5,9 @@ import naga.platform.activity.ActivityContextFactory;
 /**
  * @author Bruno Salmon
  */
-public final class ApplicationContextFinal extends ApplicationContextExtendable<ApplicationContextFinal> {
+final class ApplicationContextFinal extends ApplicationContextBase<ApplicationContextFinal> {
 
-    public ApplicationContextFinal(String[] mainArgs, ActivityContextFactory contextFactory) {
+    ApplicationContextFinal(String[] mainArgs, ActivityContextFactory contextFactory) {
         super(mainArgs, contextFactory);
     }
 }

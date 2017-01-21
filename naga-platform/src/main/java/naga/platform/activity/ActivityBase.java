@@ -3,7 +3,7 @@ package naga.platform.activity;
 /**
  * @author Bruno Salmon
  */
-public abstract class AbstractActivity
+public abstract class ActivityBase
         <C extends ActivityContext<C>>
 
         implements Activity<C>,

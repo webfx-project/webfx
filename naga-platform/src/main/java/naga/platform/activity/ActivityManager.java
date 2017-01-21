@@ -9,7 +9,7 @@ import naga.platform.spi.server.ServerPlatform;
 /**
  * @author Bruno Salmon
  */
-public class ActivityManager<C extends ActivityContext> {
+public class ActivityManager<C extends ActivityContext<C>> {
 
     enum State {LAUNCHED, CREATED, STARTED, RESUMED, PAUSED, STOPPED, DESTROYED}
 
@@ -42,12 +42,28 @@ public class ActivityManager<C extends ActivityContext> {
 
     private void init(C context) {
         if (context != null)
-            ActivityContextExtendable.from(context).setActivityManager(this);
+            ActivityContextBase.toActivityContextBase(context).setActivityManager((ActivityManager) this);
         this.context = context;
+    }
+
+    public C getContext() {
+        return context;
+    }
+
+    public ActivityContextFactory<C> getContextFactory() {
+        return contextFactory;
+    }
+
+    public Activity<C> getActivity() {
+        return activity;
     }
 
     public Future<Void> create(C context) {
         init(context);
+        return create();
+    }
+
+    public Future<Void> create() {
         return transitTo(State.CREATED);
     }
 
@@ -142,11 +158,11 @@ public class ActivityManager<C extends ActivityContext> {
         from(activity, context).run();
     }
 
-    public static <C extends ActivityContext> ActivityManager<C> from(Activity<C> activity, C context) {
+    public static <C extends ActivityContext<C>> ActivityManager<C> from(Activity<C> activity, C context) {
         return new ActivityManager<>(activity, context);
     }
 
-    public static <C extends ActivityContext> Factory<ActivityManager<C>> factory(Factory<Activity<C>> activityFactory, ActivityContextFactory<C> contextFactory) {
+    public static <C extends ActivityContext<C>> Factory<ActivityManager<C>> factory(Factory<Activity<C>> activityFactory, ActivityContextFactory<C> contextFactory) {
         return () -> new ActivityManager<>(activityFactory, contextFactory);
     }
 

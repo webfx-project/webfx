@@ -1,10 +1,12 @@
 package naga.platform.activity;
 
+import naga.commons.util.function.Predicate;
+
 /**
  * @author Bruno Salmon
  */
-public class ActivityContextExtendable
-        <THIS extends ActivityContextExtendable<THIS>>
+public class ActivityContextBase
+        <THIS extends ActivityContextBase<THIS>>
 
         implements ActivityContext<THIS> {
 
@@ -12,7 +14,7 @@ public class ActivityContextExtendable
     private ActivityManager<THIS> activityManager;
     private final ActivityContextFactory<THIS> contextFactory;
 
-    protected ActivityContextExtendable(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
+    protected ActivityContextBase(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         this.parentContext = parentContext;
         this.contextFactory = contextFactory;
     }
@@ -36,11 +38,15 @@ public class ActivityContextExtendable
         return contextFactory;
     }
 
-    public static <C extends ActivityContext> ActivityContextExtendable from(C activityContext) {
-        if (activityContext instanceof ActivityContextExtendable)
-            return (ActivityContextExtendable) activityContext;
+    public static <IC extends ActivityContext<IC>, OC extends ActivityContextBase<OC>> OC toActivityContextBase(IC activityContext) {
+        return from(activityContext, ac -> ac instanceof ActivityContextBase);
+    }
+
+    public static <IC, OC> OC from(IC activityContext, Predicate<IC> instanceOfPredicate) {
+        if (instanceOfPredicate.test(activityContext))
+            return (OC) activityContext;
         if (activityContext instanceof HasActivityContext) // including ActivityContextMixin
-            return from(((HasActivityContext) activityContext).getActivityContext());
+            return from((IC) ((HasActivityContext) activityContext).getActivityContext(), instanceOfPredicate);
         return null;
     }
 }

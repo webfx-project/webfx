@@ -10,7 +10,8 @@ package naga.platform.activity;
 public interface ActivityContextMixin
         <C extends ActivityContext<C>>
 
-        extends HasActivityContext<C>, ActivityContext<C> {
+        extends HasActivityContext<C>,
+        ActivityContext<C> {
 
     @Override
     default ActivityContext getParentContext() {
