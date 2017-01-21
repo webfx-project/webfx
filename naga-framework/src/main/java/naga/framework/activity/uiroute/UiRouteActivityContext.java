@@ -1,21 +1,19 @@
-package naga.framework.activity.client;
+package naga.framework.activity.uiroute;
 
+import javafx.beans.property.ReadOnlyProperty;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContext;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
-import naga.fx.properties.markers.HasNodeProperty;
 
 /**
  * @author Bruno Salmon
  */
-public interface UiActivityContext
-        <THIS extends UiActivityContext<THIS>>
+public interface UiRouteActivityContext
+        <THIS extends UiRouteActivityContext<THIS>>
 
-        extends ActivityContext<THIS>,
-        HasNodeProperty,
-        HasMountNodeProperty {
+        extends ActivityContext<THIS> {
 
     UiRouter getUiRouter();
 
@@ -27,10 +25,9 @@ public interface UiActivityContext
 
     default <T> T getParameter(String key) { return getParams().get(key); }
 
+    ReadOnlyProperty<Boolean> activeProperty();
+
     I18n getI18n();
 
-    static UiActivityContextFinal create(ActivityContext parent) {
-        return new UiActivityContextFinal(parent, UiActivityContext::create);
-    }
-
+    THIS setI18n(I18n i18n);
 }

@@ -1,21 +1,20 @@
-package naga.framework.activity.client;
+package naga.framework.activity.uiroute;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContextMixin;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
-import javafx.scene.Node;
 
 /**
  * @author Bruno Salmon
  */
-public interface UiActivityContextMixin
-        <C extends UiActivityContext<C>>
+public interface UiRouteActivityContextMixin
+        <C extends UiRouteActivityContext<C>>
 
         extends ActivityContextMixin<C>,
-        UiActivityContext<C> {
+        UiRouteActivityContext<C> {
 
     @Override
     default UiRouter getUiRouter() { return getActivityContext().getUiRouter(); }
@@ -32,11 +31,17 @@ public interface UiActivityContextMixin
     }
 
     @Override
-    default Property<Node> nodeProperty() { return getActivityContext().nodeProperty(); }
+    default ReadOnlyProperty<Boolean> activeProperty() {
+        return getActivityContext().activeProperty();
+    }
 
     @Override
-    default Property<Node> mountNodeProperty() { return getActivityContext().mountNodeProperty(); }
+    default I18n getI18n() {
+        return getActivityContext().getI18n();
+    }
 
     @Override
-    default I18n getI18n() { return getActivityContext().getI18n(); }
+    default C setI18n(I18n i18n) {
+        return getActivityContext().setI18n(i18n);
+    }
 }

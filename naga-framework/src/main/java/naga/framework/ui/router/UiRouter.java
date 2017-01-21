@@ -3,10 +3,12 @@ package naga.framework.ui.router;
 import naga.commons.util.async.Handler;
 import naga.commons.util.function.Converter;
 import naga.commons.util.function.Factory;
-import naga.framework.activity.client.UiActivityContext;
-import naga.framework.activity.client.UiActivityContextExtendable;
+import naga.framework.activity.uiroute.UiRouteActivityContext;
+import naga.framework.activity.uiroute.UiRouteActivityContextBase;
+import naga.framework.activity.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
+import naga.fx.properties.markers.HasNodeProperty;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
@@ -26,30 +28,30 @@ import java.util.Map;
  */
 public class UiRouter extends HistoryRouter {
 
-    private final UiActivityContext hostingContext; // The activity context that hosts this router
+    private final UiRouteActivityContext hostingContext; // The activity context that hosts this router
     private final ActivityContextFactory activityContextFactory;
     // Fields used for sub routing
     private UiRouter mountParentRouter;    // pointer set on the child sub router to reference the parent router
     private UiRouter mountChildSubRouter;  // pointer set on the parent router to reference the child sub router
     private final Map<String, ActivityContext> activityContextHistory = new HashMap<>();
 
-    public static UiRouter create(UiActivityContext hostingContext) {
+    public static UiRouter create(UiRouteActivityContext hostingContext) {
         return create(hostingContext, hostingContext.getActivityContextFactory());
     }
 
-    public static UiRouter create(UiActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
+    public static UiRouter create(UiRouteActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
         return new UiRouter(hostingContext, activityContextFactory);
     }
 
-    public static UiRouter createSubRouter(UiActivityContext hostingContext) {
+    public static UiRouter createSubRouter(UiRouteActivityContext hostingContext) {
         return createSubRouter(hostingContext, hostingContext.getActivityContextFactory());
     }
 
-    public static <C extends UiActivityContext> UiRouter createSubRouter(C hostingContext, ActivityContextFactory<C> activityContextFactory) {
+    public static <C extends UiRouteActivityContext<C>> UiRouter createSubRouter(C hostingContext, ActivityContextFactory<C> activityContextFactory) {
         return UiRouter.create(createSubRouterContext(hostingContext, activityContextFactory));
     }
 
-    private static <C extends UiActivityContext> C createSubRouterContext(C hostingContext, ActivityContextFactory<C> activityContextFactory) {
+    private static <C extends UiRouteActivityContext<C>> C createSubRouterContext(C hostingContext, ActivityContextFactory<C> activityContextFactory) {
         // For now we just create a new context that is different from the parent router one.
         return activityContextFactory.createContext(hostingContext);
         // The main links between these 2 contexts will actually be done later:
@@ -58,21 +60,21 @@ public class UiRouter extends HistoryRouter {
         //   (so the sub activity appears in the appropriate place within the parent activity)
     }
 
-    private UiRouter(UiActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
+    private UiRouter(UiRouteActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
         this(Router.create(), hostingContext, activityContextFactory);
     }
 
-    private UiRouter(Router router, UiActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
+    private UiRouter(Router router, UiRouteActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
         this(router, hostingContext.getHistory(), hostingContext, activityContextFactory);
     }
 
-    private UiRouter(Router router, History history, UiActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
+    private UiRouter(Router router, History history, UiRouteActivityContext hostingContext, ActivityContextFactory activityContextFactory) {
         super(router, history);
         this.hostingContext = hostingContext;
         this.activityContextFactory = activityContextFactory;
-        UiActivityContextExtendable hostingUiActivityContext = UiActivityContextExtendable.from(hostingContext);
-        if (hostingUiActivityContext != null) // can be null if the hosting context is the application context
-            hostingUiActivityContext.setUiRouter(this);
+        UiRouteActivityContextBase hostingUiRouterActivityContext = UiRouteActivityContextBase.toUiRouterActivityContextBase(hostingContext);
+        if (hostingUiRouterActivityContext != null) // can be null if the hosting context is the application context
+            hostingUiRouterActivityContext.setUiRouter(this);
     }
 
     /* GWT public <CT> UiRouter route(String path, Class<? extends Activity<CT>> activityClass) {
@@ -83,24 +85,24 @@ public class UiRouter extends HistoryRouter {
         return route(path, Factory.fromDefaultConstructor(activityClass), contextConverter);
     }*/
 
-    public <C extends UiActivityContext> UiRouter route(String path, Factory<Activity<C>> activityFactory) {
+    public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory) {
         return route(path, activityFactory, activityContextFactory);
     }
 
-    public <C extends UiActivityContext> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
+    public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
         return route(path, activityFactory, activityContextFactory, null);
     }
 
-    public <C extends UiActivityContext> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
+    public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
         router.route(path, new ActivityRoutingHandler<>(ActivityManager.factory(activityFactory, activityContextFactory), contextConverter));
         return this;
     }
 
-    public <C extends UiActivityContext> UiRouter routeAndMount(String path, Factory<Activity<C>> activityFactory, UiRouter subRouter) {
+    public <C extends UiRouteActivityContext<C>> UiRouter routeAndMount(String path, Factory<Activity<C>> activityFactory, UiRouter subRouter) {
         return routeAndMount(path, activityFactory, activityContextFactory, subRouter);
     }
 
-    public <C extends UiActivityContext> UiRouter routeAndMount(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, UiRouter subRouter) {
+    public <C extends UiRouteActivityContext<C>> UiRouter routeAndMount(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, UiRouter subRouter) {
         // Mounting the sub router to make its activities findable by the current router
         router.mountSubRouter(path, subRouter.router);
         // Also adding the route to the current activity to make it findable (this is the current activity that finally will display the sub activities in it)
@@ -115,7 +117,7 @@ public class UiRouter extends HistoryRouter {
     // Was originally in ActivityRoutingHandler but was moved in upper level because otherwise activities were not paused
     private ActivityManager activityManager; // TODO: check if this is correct to put it here
 
-    private class ActivityRoutingHandler<C extends UiActivityContext> implements Handler<RoutingContext> {
+    private class ActivityRoutingHandler<C extends UiRouteActivityContext<C>> implements Handler<RoutingContext> {
 
         private final Converter<RoutingContext, C> contextConverter;
         private final Factory<ActivityManager<C>> activityManagerFactory;
@@ -143,7 +145,10 @@ public class UiRouter extends HistoryRouter {
                 previousActivityManager.pause();
             // Now we transit the current activity (which was either paused or newly created) into the resume state and
             // once done we display the activity node by binding it with the hosting context (done in the UI tread)
-            activityManager.resume().setHandler(event -> hostingContext.nodeProperty().bind(activityContext.nodeProperty()));
+            activityManager.resume().setHandler(event -> {
+                if (hostingContext instanceof HasNodeProperty && activityContext instanceof HasNodeProperty)
+                    ((HasNodeProperty) hostingContext).nodeProperty().bind(((HasNodeProperty) activityContext).nodeProperty());
+            });
             /*--- Sub routing management ---*/
             // When the activity is a mount child activity coming from sub routing, we make sure the mount parent activity is displayed
             if (mountParentRouter != null) { // Indicates it is a child sub router
@@ -154,7 +159,8 @@ public class UiRouter extends HistoryRouter {
             // When the activity is a mount parent activity, we makes the trick so the child activity is displayed within the parent activity
             if (mountChildSubRouter != null) // Indicates it is a mount parent activity
                 // The trick is to bind the mount node of the parent activity to the child activity node
-                activityContext.mountNodeProperty().bind(mountChildSubRouter.hostingContext.nodeProperty()); // Using the hosting context node which is bound to the child activity node
+                if (activityContext instanceof HasMountNodeProperty && mountChildSubRouter.hostingContext instanceof HasNodeProperty)
+                    ((HasMountNodeProperty) activityContext).mountNodeProperty().bind(((HasNodeProperty) mountChildSubRouter.hostingContext).nodeProperty()); // Using the hosting context node which is bound to the child activity node
                 // This should display the child activity because a mount parent activity is supposed to bind its context mount node to the UI
         }
 
@@ -162,7 +168,7 @@ public class UiRouter extends HistoryRouter {
             String contextKey = routingContext.currentRoute().getPath();
             C activityContext = (C) activityContextHistory.get(contextKey);
             if (activityContext == null)
-                activityContextHistory.put(contextKey, activityContext = (C) activityContextFactory.createContext(hostingContext));
+                activityContextHistory.put(contextKey, activityContext = activityManagerFactory.create().getContextFactory().createContext(hostingContext));
             applyRoutingContextParamsToActivityContext(routingContext.getParams(), activityContext);
             return activityContext;
         }
@@ -171,8 +177,8 @@ public class UiRouter extends HistoryRouter {
             // Temporary applying the parameters to the whole application context so they can be shared between activities
             // (ex: changing :x parameter in activity1 and then pressing a navigation button in a parent container activity
             // that goes to /:x/activity2 => the parent container can get the last :x value changed by activity1)
-            //UiActivityContextExtendable.from(activityContext).setParams(routingContext.getParams()); // Commented original code
-            UiActivityContext uiAppContext = ApplicationContext.get();
+            //UiRouteActivityContextBase.from(activityContext).setParams(routingContext.getParams()); // Commented original code
+            UiRouteActivityContext uiAppContext = ApplicationContext.get();
             WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
             // TODO: move this code into a apply() method in WritableJsonObject
             JsonArray keys = routingContextParams.keys();
