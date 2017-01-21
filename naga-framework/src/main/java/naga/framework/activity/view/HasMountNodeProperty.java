@@ -1,4 +1,4 @@
-package naga.framework.activity.client;
+package naga.framework.activity.view;
 
 import javafx.beans.property.Property;
 import javafx.scene.Node;

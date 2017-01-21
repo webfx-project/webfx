@@ -1,5 +1,6 @@
-package naga.framework.activity.client;
+package naga.framework.activity.view;
 
+import naga.framework.activity.DomainActivityContext;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
@@ -7,15 +8,15 @@ import naga.platform.activity.ActivityContextFactory;
 /**
  * @author Bruno Salmon
  */
-public class UiDomainActivityContextExtendable
-        <THIS extends UiDomainActivityContextExtendable<THIS>>
+public class ViewDomainActivityContextBase
+        <THIS extends ViewDomainActivityContextBase<THIS>>
 
-        extends UiActivityContextExtendable<THIS>
-        implements UiDomainActivityContext<THIS> {
+        extends ViewActivityContextBase<THIS>
+        implements ViewDomainActivityContext<THIS> {
 
     private DataSourceModel dataSourceModel;
 
-    protected UiDomainActivityContextExtendable(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
+    protected ViewDomainActivityContextBase(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         super(parentContext, contextFactory);
     }
 
@@ -30,8 +31,8 @@ public class UiDomainActivityContextExtendable
         if (dataSourceModel != null)
             return dataSourceModel;
         ActivityContext parentContext = getParentContext();
-        if (parentContext instanceof UiDomainActivityContext)
-            return ((UiDomainActivityContext) parentContext).getDataSourceModel();
+        if (parentContext instanceof DomainActivityContext)
+            return ((DomainActivityContext) parentContext).getDataSourceModel();
         return null;
     }
 }

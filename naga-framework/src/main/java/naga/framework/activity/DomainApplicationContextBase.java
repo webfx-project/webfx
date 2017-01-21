@@ -1,23 +1,22 @@
 package naga.framework.activity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
-import naga.platform.activity.ActivityContextExtendable;
+import naga.platform.activity.client.ApplicationContextBase;
 
 /**
  * @author Bruno Salmon
  */
-public class DomainActivityContextExtendable
-        <THIS extends DomainActivityContextExtendable<THIS>>
+public class DomainApplicationContextBase
+        <THIS extends DomainApplicationContextBase<THIS>>
 
-        extends ActivityContextExtendable<THIS>
-        implements DomainActivityContext<THIS> {
+        extends ApplicationContextBase<THIS>
+        implements DomainApplicationContext<THIS> {
 
     private DataSourceModel dataSourceModel;
 
-    protected DomainActivityContextExtendable(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
-        super(parentContext, contextFactory);
+    public DomainApplicationContextBase(String[] mainArgs, ActivityContextFactory contextFactory) {
+        super(mainArgs, contextFactory);
     }
 
     @Override

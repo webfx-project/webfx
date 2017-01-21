@@ -1,36 +1,28 @@
-package naga.framework.activity.client;
+package naga.framework.activity.view;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import naga.commons.util.Strings;
 import naga.commons.util.async.Future;
+import naga.framework.activity.uiroute.UiRouteActivityBase;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
-import naga.platform.activity.AbstractActivity;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class AbstractUiActivity<C extends UiActivityContext<C>> extends AbstractActivity<C> implements UiActivityContextMixin<C> {
+public abstract class ViewActivityBase
+        <C extends ViewActivityContext<C>>
 
-    private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(false); // Should be stored in UiContext?
+        extends UiRouteActivityBase<C>
+        implements ViewActivity<C>,
+        ViewActivityContextMixin<C> {
 
-    protected ReadOnlyProperty<Boolean> activeProperty() {
-        return activeProperty;
-    }
-
-    @Override
-    protected void setActive(boolean active) {
-        super.setActive(active);
-        activeProperty.setValue(active);
-    }
+    private Node viewNode;
 
     @Override
     public Future<Void> onResumeAsync() {
@@ -47,13 +39,11 @@ public abstract class AbstractUiActivity<C extends UiActivityContext<C>> extends
     @Override
     public void onResume() {
         super.onResume();
-        if (uiNode == null)
-            uiNode = buildUi();
-        setNode(uiNode);
+        if (viewNode == null)
+            viewNode = buildUi();
+        setNode(viewNode);
     }
 
-    private Node uiNode;
-    public abstract Node buildUi();
 
     /** Helpers **/
 

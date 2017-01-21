@@ -7,11 +7,11 @@ import naga.platform.activity.ActivityContext;
  * @author Bruno Salmon
  */
 public interface DomainActivityContext
-        <C extends DomainActivityContext<C>>
+        <THIS extends DomainActivityContext<THIS>>
 
-        extends ActivityContext<C> {
+        extends ActivityContext<THIS> {
 
-    C setDataSourceModel(DataSourceModel dataSourceModel);
+    THIS setDataSourceModel(DataSourceModel dataSourceModel);
 
     DataSourceModel getDataSourceModel();
 
