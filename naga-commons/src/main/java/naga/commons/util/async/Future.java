@@ -3,6 +3,7 @@ package naga.commons.util.async;
 import naga.commons.util.function.Callable;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Function;
+import naga.commons.util.tuples.Unit;
 
 /**
  * @author Bruno Salmon
@@ -277,6 +278,24 @@ public interface Future<T> extends AsyncResult<T> {
             else
                 fail(ar.cause());
         };
+    }
+
+    static Future<Void> executeParallel(Future... futures) {
+        Future<Void> future = Future.future();
+        Unit<Integer> latch = new Unit<>(futures.length);
+        Handler<AsyncResult> latchHandler = asyncResult -> {
+            if (asyncResult.failed())
+                future.fail(asyncResult.cause());
+            else synchronized (latch) {
+                Integer count;
+                latch.set(count = latch.get() - 1);
+                if (count == 0)
+                    future.complete();
+            }
+        };
+        for (Future f : futures)
+            f.setHandler(latchHandler);
+        return future;
     }
 
 }
