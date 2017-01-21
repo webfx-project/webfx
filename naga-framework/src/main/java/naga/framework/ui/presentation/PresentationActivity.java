@@ -2,7 +2,7 @@ package naga.framework.ui.presentation;
 
 import javafx.scene.Node;
 import naga.commons.util.function.Factory;
-import naga.framework.activity.client.*;
+import naga.framework.activity.view.*;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> extends AbstractUiActivity<UiDomainActivityContextFinal> implements UiDomainActivityContextMixin<UiDomainActivityContextFinal> {
+public abstract class PresentationActivity<VM extends ViewModel, PM extends PresentationModel> extends ViewActivityBase<ViewDomainActivityContextFinal> implements ViewDomainActivityContextMixin<ViewDomainActivityContextFinal> {
 
     private Factory<PM> presentationModelFactory;
     private PM presentationModel;
@@ -20,11 +20,11 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     private boolean viewBoundWithPresentationModel;
     private boolean presentationModelBoundWithLogic;
 
-    private static final Map<Class, ViewBuilder> viewBuilders = new HashMap<>();
+    private static final Map<Class, ViewModelBuilder> viewBuilders = new HashMap<>();
 
-    public static <VM extends ViewModel> void registerViewBuilder(Class<? extends PresentationActivity<VM, ? extends PresentationModel>> presentationActivityClass, ViewBuilder<VM> viewBuilder) {
+    public static <VM extends ViewModel> void registerViewBuilder(Class<? extends PresentationActivity<VM, ? extends PresentationModel>> presentationActivityClass, ViewModelBuilder<VM> viewModelBuilder) {
         // Skipping any further registration attempt, keeping only the first one (typically the one defined at application top level)
-        viewBuilders.putIfAbsent(presentationActivityClass, viewBuilder);
+        viewBuilders.putIfAbsent(presentationActivityClass, viewModelBuilder);
     }
 
     protected PresentationActivity() {
@@ -60,8 +60,8 @@ public abstract class PresentationActivity<VM extends ViewModel, PM extends Pres
     public Node buildUi() {
         if (viewModel == null) {
             //Platform.log("Building UI model on resuming " + this.getClass());
-            ViewBuilder<VM> viewBuilder = viewBuilders.get(getClass());
-            viewModel = viewBuilder != null ? viewBuilder.buildView() : buildView();
+            ViewModelBuilder<VM> viewModelBuilder = viewBuilders.get(getClass());
+            viewModel = viewModelBuilder != null ? viewModelBuilder.buildViewModel() : buildView();
         }
         if (!viewBoundWithPresentationModel) {
             // Binding the mount node property so that child sub routed pages are displayed
