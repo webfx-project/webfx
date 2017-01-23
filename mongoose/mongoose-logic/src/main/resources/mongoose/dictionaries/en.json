@@ -226,5 +226,7 @@
   "SEPTEMBER": "September",
   "OCTOBER": "October",
   "NOVEMBER": "November",
-  "DECEMBER": "December"
+  "DECEMBER": "December",
+  "CloneEvent": "Clone event",
+  "Clone": "Clone"
 }
