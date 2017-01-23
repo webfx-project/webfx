@@ -1,6 +1,6 @@
 package mongoose.activities.frontend.event.shared;
 
-import naga.framework.activity.view.ViewApplicationContext;
+import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.presentation.ViewModelBuilder;
 import javafx.scene.Node;

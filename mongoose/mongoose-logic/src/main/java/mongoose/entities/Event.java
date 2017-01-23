@@ -1,6 +1,8 @@
 package mongoose.entities;
 
+import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.entities.markers.*;
+import naga.commons.util.Objects;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 
@@ -36,5 +38,10 @@ public interface Event extends Entity,
     default Label getFeesBottomLabel() {
         return getForeignEntity("feesBottomLabel");
     }
+
+    default DateTimeRange computeMaxDateTimeRange() {
+        return Objects.coalesce(getParsedMaxDateTimeRange(), getParsedDateTimeRange());
+    }
+
 
 }

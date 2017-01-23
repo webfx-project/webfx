@@ -2,14 +2,13 @@ package mongoose.activities.frontend.cart;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.framework.ui.presentation.PresentationModel;
-import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplaySelection;
 
 /**
  * @author Bruno Salmon
  */
-class CartPresentationModel implements PresentationModel {
+public class CartPresentationModel {
 
     // Input parameter
 

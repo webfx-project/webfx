@@ -3,7 +3,7 @@
   <inherits name="mongoose-logic"/>
   <inherits name="naga-framework"/>
   <inherits name="naga-fx-gwt"/>
-  <entry-point class="mongoose.web.activities.backend.application.MongooseBackendWebApplication"/>
+  <entry-point class="mongoose.activities.backend.application.web.WebBackendMongooseApplication"/>
   <source path="client"/>
   <source path="shared"/>
   <super-source path="super"/>

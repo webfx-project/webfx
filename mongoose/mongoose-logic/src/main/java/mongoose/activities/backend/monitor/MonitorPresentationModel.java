@@ -2,13 +2,12 @@ package mongoose.activities.backend.monitor;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.framework.ui.presentation.PresentationModel;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 /**
  * @author Bruno Salmon
  */
-class MonitorPresentationModel implements PresentationModel {
+public class MonitorPresentationModel {
 
     private final Property<DisplayResultSet> memoryDisplayResultSetProperty = new SimpleObjectProperty<>();
     Property<DisplayResultSet> memoryDisplayResultSetProperty() { return memoryDisplayResultSetProperty; }

@@ -1,20 +1,16 @@
 package mongoose.activities.backend.tester;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import naga.fxdata.displaydata.DisplayResultSet;
-import naga.framework.ui.presentation.PresentationModel;
 
 /**
  * @author Bruno Salmon
  */
-class TesterPresentationModel implements PresentationModel {
-
-    private final Property<String> testNameProperty = new SimpleObjectProperty<>();
-    Property<String> testNameProperty() { return testNameProperty; }
-
-    private final Property<String> testCommentProperty = new SimpleObjectProperty<>();
-    Property<String> testCommentProperty() { return testCommentProperty; }
+public class TesterPresentationModel {
 
     private final Property<Integer> requestedConnectionsProperty = new SimpleObjectProperty<>(0);
     Property<Integer> requestedConnectionsProperty() { return requestedConnectionsProperty; }
@@ -25,4 +21,8 @@ class TesterPresentationModel implements PresentationModel {
     private final Property<DisplayResultSet> chartDisplayResultSetProperty = new SimpleObjectProperty<>();
     Property<DisplayResultSet> chartDisplayResultSetProperty() { return chartDisplayResultSetProperty; }
 
+    private final ObjectProperty<EventHandler<ActionEvent>> onSaveTest = new SimpleObjectProperty<>();
+    public final ObjectProperty<EventHandler<ActionEvent>> onSaveTestProperty() { return onSaveTest; }
+    public final void setOnSaveTest(EventHandler<ActionEvent> value) { onSaveTestProperty().set(value); }
+    public final EventHandler<ActionEvent> getOnSaveTest() { return onSaveTestProperty().get(); }
 }

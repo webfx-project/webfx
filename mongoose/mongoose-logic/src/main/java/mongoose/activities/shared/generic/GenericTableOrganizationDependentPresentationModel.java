@@ -8,10 +8,7 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 public class GenericTableOrganizationDependentPresentationModel extends GenericTablePresentationModel implements HasOrganizationIdProperty {
 
-    private final Property<Object> organizationIdProperty = new SimpleObjectProperty();
-
-    public GenericTableOrganizationDependentPresentationModel() {
-    }
+    private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>();
 
     public Property<Object> organizationIdProperty() {
         return this.organizationIdProperty;

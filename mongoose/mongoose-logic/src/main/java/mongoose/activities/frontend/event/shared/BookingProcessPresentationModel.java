@@ -1,5 +1,9 @@
 package mongoose.activities.frontend.event.shared;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import mongoose.activities.shared.generic.EventDependentPresentationModel;
 
 /**
@@ -7,6 +11,14 @@ import mongoose.activities.shared.generic.EventDependentPresentationModel;
  */
 public class BookingProcessPresentationModel extends EventDependentPresentationModel {
 
-    public BookingProcessPresentationModel() {
-    }
+    private final ObjectProperty<EventHandler<ActionEvent>> onPreviousAction = new SimpleObjectProperty<>();
+    public final ObjectProperty<EventHandler<ActionEvent>> onPreviousActionProperty() { return onPreviousAction; }
+    public final void setOnPreviousAction(EventHandler<ActionEvent> value) { onPreviousActionProperty().set(value); }
+    public final EventHandler<ActionEvent> getOnPreviousAction() { return onPreviousActionProperty().get(); }
+
+    private final ObjectProperty<EventHandler<ActionEvent>> onNextAction = new SimpleObjectProperty<>();
+    public final ObjectProperty<EventHandler<ActionEvent>> onNextActionProperty() { return onNextAction; }
+    public final void setOnNextAction(EventHandler<ActionEvent> value) { onNextActionProperty().set(value); }
+    public final EventHandler<ActionEvent> getOnNextAction() { return onNextActionProperty().get(); }
+
 }

@@ -6,6 +6,6 @@
   <inherits name="mongoose-logic"/>
   <inherits name="naga-framework"/>
   <inherits name="naga-fx-gwt"/>
-  <entry-point class="mongoose.html.frontend.activities.application.MongooseFrontendHtmlApplication"/>
+  <entry-point class="mongoose.activities.frontend.application.html.HtmlFrontendMongooseApplication"/>
   <source path="mongoose/html/frontend"/>
 </module>

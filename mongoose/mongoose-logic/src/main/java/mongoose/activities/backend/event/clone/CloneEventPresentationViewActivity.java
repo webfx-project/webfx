@@ -11,7 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import mongoose.activities.shared.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
-import naga.framework.activity.view.presentationview.PresentationViewActivityImpl;
+import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 

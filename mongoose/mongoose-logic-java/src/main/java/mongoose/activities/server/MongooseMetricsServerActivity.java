@@ -5,8 +5,8 @@ import mongoose.entities.MetricsEntity;
 import mongoose.spi.metrics.Metrics;
 import mongoose.spi.metrics.MetricsService;
 import naga.commons.scheduler.Scheduled;
-import naga.framework.activity.DomainActivityContext;
-import naga.framework.activity.DomainActivityContextMixin;
+import naga.framework.activity.domain.DomainActivityContext;
+import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.activity.Activity;
@@ -103,7 +103,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
     private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity, DataSourceModel dataSourceModel, ConnectionDetails connectionDetails) {
         if (connectionDetails != null)
             LocalDataSourceRegistry.registerLocalDataSource(dataSourceModel.getId(), connectionDetails);
-        ActivityManager.startServerActivity(mongooseMetricsServerActivity, DomainActivityContext.create(dataSourceModel));
+        ActivityManager.startServerActivity(mongooseMetricsServerActivity, DomainActivityContext.createDomainActivityContext(dataSourceModel));
     }
 
 }

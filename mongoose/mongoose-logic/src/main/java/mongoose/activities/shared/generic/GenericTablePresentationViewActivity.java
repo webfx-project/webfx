@@ -5,7 +5,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.theme.Theme;
-import naga.framework.activity.view.presentationview.PresentationViewActivityImpl;
+import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.control.DataGrid;
 
@@ -21,21 +21,19 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
 
     @Override
     protected void createViewNodes(PM pm) {
-        searchBox = new TextField();
+        I18n i18n = getI18n();
+        searchBox = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
         table = new DataGrid();
-        limitCheckBox = new CheckBox();
+        limitCheckBox = i18n.translateText(new CheckBox(), "LimitTo100");
 
-        searchBox.setPrefWidth(Double.MAX_VALUE);
-        searchBox.setMaxWidth(Double.MAX_VALUE);
         table.setMaxWidth(Double.MAX_VALUE);
         table.setMaxHeight(Double.MAX_VALUE);
 
         limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
         // Initialization from the presentation model current state
-        I18n i18n = getI18n();
-        i18n.translatePromptText(searchBox, "GenericSearchPlaceholder").setText(pm.searchTextProperty().getValue());
-        i18n.translateText(limitCheckBox, "LimitTo100").setSelected(pm.limitProperty().getValue());
+        searchBox.setText(pm.searchTextProperty().getValue());
+        limitCheckBox.setSelected(pm.limitProperty().getValue());
         //searchBox.requestFocus();
 
         // Binding the UI with the presentation model for further state changes

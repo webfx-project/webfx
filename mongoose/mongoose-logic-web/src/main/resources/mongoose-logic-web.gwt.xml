@@ -1,7 +1,9 @@
 <module rename-to="mongoose_logic_web">
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="mongoose/web"/>   <!-- code is under mongoose package -->
+    <source path="mongoose/activities/backend/application/web"/>
+    <source path="mongoose/activities/frontend/application/web"/>
+    <source path="mongoose/activities/shared/application/web"/>
 
     <resource path="images"/>
 

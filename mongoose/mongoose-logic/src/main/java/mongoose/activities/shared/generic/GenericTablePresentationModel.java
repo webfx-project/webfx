@@ -2,14 +2,13 @@ package mongoose.activities.shared.generic;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.framework.ui.presentation.PresentationModel;
-import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplaySelection;
 
 /**
  * @author Bruno Salmon
  */
-public class GenericTablePresentationModel implements PresentationModel {
+public class GenericTablePresentationModel {
 
     // Display input
 

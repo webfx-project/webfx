@@ -29,6 +29,7 @@ public class CloneEventPresentationLogicActivity extends EventDependentPresentat
                 }
             });
         }, pm.eventIdProperty());
+
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
             getHistory().push("/event/1/bookings");
