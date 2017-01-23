@@ -84,8 +84,8 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                 String dayTimeRange = calendarTimeline.getDayTimeRange().getText();
                 TextInputDialog dialog = new TextInputDialog(dayTimeRange);
                 dialog.initOwner(calendarPanel.getScene().getWindow());
-                dialog.setTitle("Text Input Dialog");
-                dialog.setHeaderText(calendarTimeline.displayNameProperty().getValue());
+                dialog.setTitle("Editing option day time range");
+                dialog.setHeaderText("Option: " + calendarTimeline.displayNameProperty().getValue());
                 dialog.setContentText("Day time range:");
 /*
                 Property<Boolean> okDisabledProperty = dialog.getDialogPane().lookupButton(ButtonType.OK).disabledProperty();
