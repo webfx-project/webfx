@@ -4,6 +4,7 @@ import naga.commons.util.async.AsyncResult;
 import naga.commons.util.async.Future;
 import naga.commons.util.async.Handler;
 import naga.commons.util.function.Factory;
+import naga.platform.activity.impl.ActivityContextBase;
 import naga.platform.spi.server.ServerPlatform;
 
 /**

@@ -1,6 +1,10 @@
-package naga.platform.activity;
+package naga.platform.activity.impl;
 
 import naga.commons.util.function.Predicate;
+import naga.platform.activity.ActivityContext;
+import naga.platform.activity.ActivityContextFactory;
+import naga.platform.activity.ActivityManager;
+import naga.platform.activity.HasActivityContext;
 
 /**
  * @author Bruno Salmon
@@ -24,7 +28,7 @@ public class ActivityContextBase
         return parentContext;
     }
 
-    void setActivityManager(ActivityManager<THIS> activityManager) {
+    public void setActivityManager(ActivityManager<THIS> activityManager) {
         this.activityManager = activityManager;
     }
 

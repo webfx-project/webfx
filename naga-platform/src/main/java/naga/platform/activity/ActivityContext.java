@@ -1,5 +1,7 @@
 package naga.platform.activity;
 
+import naga.platform.activity.impl.ActivityContextFinal;
+
 /**
  * @author Bruno Salmon
  */

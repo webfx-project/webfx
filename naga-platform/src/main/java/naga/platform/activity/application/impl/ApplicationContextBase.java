@@ -1,7 +1,8 @@
-package naga.platform.activity.client;
+package naga.platform.activity.application.impl;
 
-import naga.platform.activity.ActivityContextBase;
+import naga.platform.activity.impl.ActivityContextBase;
 import naga.platform.activity.ActivityContextFactory;
+import naga.platform.activity.application.ApplicationContext;
 
 /**
  * @author Bruno Salmon
@@ -17,9 +18,9 @@ public class ApplicationContextBase
      *  In addition, this static instance is the root object of the application and it is necessary
      *  to keep a reference to it to avoid garbage collection.
      */
-    static ApplicationContext instance;
+    public static ApplicationContext instance;
 
-    static String[] mainArgs;
+    public static String[] mainArgs;
 
     protected ApplicationContextBase(String[] mainArgs, ActivityContextFactory<THIS> contextFactory) {
         super(null, contextFactory);

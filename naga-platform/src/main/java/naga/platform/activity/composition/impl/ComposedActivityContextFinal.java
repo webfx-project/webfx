@@ -1,4 +1,4 @@
-package naga.platform.activity.composition;
+package naga.platform.activity.composition.impl;
 
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;

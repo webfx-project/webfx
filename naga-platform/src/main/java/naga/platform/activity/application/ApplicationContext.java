@@ -1,6 +1,8 @@
-package naga.platform.activity.client;
+package naga.platform.activity.application;
 
 import naga.platform.activity.ActivityContext;
+import naga.platform.activity.application.impl.ApplicationContextBase;
+import naga.platform.activity.application.impl.ApplicationContextFinal;
 
 /**
  * @author Bruno Salmon

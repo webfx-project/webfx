@@ -1,4 +1,8 @@
-package naga.platform.activity;
+package naga.platform.activity.impl;
+
+import naga.platform.activity.Activity;
+import naga.platform.activity.ActivityContext;
+import naga.platform.activity.ActivityContextMixin;
 
 /**
  * @author Bruno Salmon
@@ -10,7 +14,7 @@ public abstract class ActivityBase
         ActivityContextMixin<C> {
 
     protected C activityContext;
-    private boolean active;
+    protected boolean active;
 
     public boolean isActive() {
         return active;
