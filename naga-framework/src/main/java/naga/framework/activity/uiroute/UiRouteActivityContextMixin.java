@@ -1,9 +1,8 @@
 package naga.framework.activity.uiroute;
 
-import javafx.beans.property.ReadOnlyProperty;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.activity.activeproperty.ActivePropertyActivityContextMixin;
+import naga.framework.activity.i18n.I18nActivityContextMixin;
 import naga.framework.ui.router.UiRouter;
-import naga.platform.activity.ActivityContextMixin;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
 
@@ -13,7 +12,8 @@ import naga.platform.json.spi.JsonObject;
 public interface UiRouteActivityContextMixin
         <C extends UiRouteActivityContext<C>>
 
-        extends ActivityContextMixin<C>,
+        extends ActivePropertyActivityContextMixin<C>,
+        I18nActivityContextMixin<C>,
         UiRouteActivityContext<C> {
 
     @Override
@@ -30,18 +30,4 @@ public interface UiRouteActivityContextMixin
         return getActivityContext().getParameter(key);
     }
 
-    @Override
-    default ReadOnlyProperty<Boolean> activeProperty() {
-        return getActivityContext().activeProperty();
-    }
-
-    @Override
-    default I18n getI18n() {
-        return getActivityContext().getI18n();
-    }
-
-    @Override
-    default C setI18n(I18n i18n) {
-        return getActivityContext().setI18n(i18n);
-    }
 }

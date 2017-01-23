@@ -1,9 +1,8 @@
 package naga.framework.activity.uiroute;
 
-import javafx.beans.property.ReadOnlyProperty;
-import naga.framework.ui.i18n.I18n;
+import naga.framework.activity.activeproperty.ActivePropertyActivityContext;
+import naga.framework.activity.i18n.I18nActivityContext;
 import naga.framework.ui.router.UiRouter;
-import naga.platform.activity.ActivityContext;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
 
@@ -13,7 +12,8 @@ import naga.platform.json.spi.JsonObject;
 public interface UiRouteActivityContext
         <THIS extends UiRouteActivityContext<THIS>>
 
-        extends ActivityContext<THIS> {
+        extends ActivePropertyActivityContext<THIS>,
+        I18nActivityContext<THIS> {
 
     UiRouter getUiRouter();
 
@@ -25,9 +25,4 @@ public interface UiRouteActivityContext
 
     default <T> T getParameter(String key) { return getParams().get(key); }
 
-    ReadOnlyProperty<Boolean> activeProperty();
-
-    I18n getI18n();
-
-    THIS setI18n(I18n i18n);
 }

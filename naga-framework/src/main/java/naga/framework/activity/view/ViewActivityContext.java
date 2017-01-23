@@ -1,6 +1,7 @@
 package naga.framework.activity.view;
 
 import naga.framework.activity.uiroute.UiRouteActivityContext;
+import naga.framework.activity.view.impl.ViewActivityContextFinal;
 import naga.fx.properties.markers.HasNodeProperty;
 import naga.platform.activity.ActivityContext;
 
