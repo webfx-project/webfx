@@ -3,16 +3,16 @@ package mongoose.activities.backend.container;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
-import mongoose.activities.shared.container.ContainerViewActivity;
-import mongoose.activities.shared.theme.DarkTheme;
-import mongoose.activities.shared.theme.LightTheme;
-import mongoose.activities.shared.theme.Theme;
+import mongoose.activities.shared.container.SharedContainerViewActivity;
+import mongoose.activities.shared.logic.ui.theme.DarkTheme;
+import mongoose.activities.shared.logic.ui.theme.LightTheme;
+import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.ui.i18n.I18n;
 
 /**
  * @author Bruno Salmon
  */
-public class BackendContainerViewActivity extends ContainerViewActivity {
+public class BackendContainerViewActivity extends SharedContainerViewActivity {
 
     @Override
     public Node buildUi() {

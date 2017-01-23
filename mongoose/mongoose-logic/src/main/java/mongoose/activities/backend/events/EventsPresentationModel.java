@@ -2,12 +2,12 @@ package mongoose.activities.backend.events;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import mongoose.activities.shared.generic.GenericTableOrganizationDependentPresentationModel;
+import mongoose.activities.shared.generic.organizationdependent.OrganizationDependentGenericTablePresentationModel;
 
 /**
  * @author Bruno Salmon
  */
-public class EventsPresentationModel extends GenericTableOrganizationDependentPresentationModel {
+public class EventsPresentationModel extends OrganizationDependentGenericTablePresentationModel {
 
     // Display input
 

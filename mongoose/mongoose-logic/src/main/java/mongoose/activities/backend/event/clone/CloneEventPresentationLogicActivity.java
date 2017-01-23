@@ -1,6 +1,6 @@
 package mongoose.activities.backend.event.clone;
 
-import mongoose.activities.shared.generic.EventDependentPresentationLogicActivity;
+import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.entities.Event;
 import naga.fx.properties.Properties;
 

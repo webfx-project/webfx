@@ -4,12 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import mongoose.activities.shared.generic.GenericTableEventDependentPresentationModel;
+import mongoose.activities.shared.generic.eventdependent.EventDependentGenericTablePresentationModel;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsPresentationModel extends GenericTableEventDependentPresentationModel {
+public class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
 
     private final ObjectProperty<EventHandler<ActionEvent>> onNewBooking = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onNewBookingProperty() { return onNewBooking; }

@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
-import mongoose.activities.shared.theme.Theme;
+import mongoose.activities.shared.logic.ui.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.i18n.I18n;
@@ -87,7 +87,7 @@ public class CloneEventPresentationViewActivity extends PresentationViewActivity
         i18n.translateText(dateLabel, "Date");
         nameTextField.textProperty().bindBidirectional(pm.nameProperty());
         dateTextField.textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        i18n.translateText(submitButton, "Submit").onActionProperty().bind(pm.onSubmitProperty());
+        i18n.translateText(submitButton, "Clone").onActionProperty().bind(pm.onSubmitProperty());
     }
 
     @Override

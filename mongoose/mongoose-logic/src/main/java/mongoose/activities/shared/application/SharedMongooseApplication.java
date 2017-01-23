@@ -1,10 +1,10 @@
 package mongoose.activities.shared.application;
 
-import mongoose.activities.frontend.cart.CartPresentationActivity;
-import mongoose.activities.frontend.event.fees.FeesPresentationActivity;
-import mongoose.activities.frontend.event.options.OptionsViewActivity;
-import mongoose.activities.frontend.event.program.ProgramViewActivity;
-import mongoose.activities.frontend.event.terms.TermsPresentationActivity;
+import mongoose.activities.shared.bookingform.cart.CartPresentationActivity;
+import mongoose.activities.shared.bookingform.fees.FeesPresentationActivity;
+import mongoose.activities.shared.bookingform.options.OptionsViewActivity;
+import mongoose.activities.shared.bookingform.program.ProgramViewActivity;
+import mongoose.activities.shared.bookingform.terms.TermsPresentationActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Factory;

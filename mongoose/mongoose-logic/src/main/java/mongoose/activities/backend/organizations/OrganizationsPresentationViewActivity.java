@@ -4,8 +4,8 @@ import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.activities.shared.generic.GenericTablePresentationViewActivity;
-import mongoose.activities.shared.theme.Theme;
+import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
+import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.ui.i18n.I18n;
 
 /**

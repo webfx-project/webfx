@@ -5,8 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import mongoose.activities.shared.generic.GenericTablePresentationViewActivity;
-import mongoose.activities.shared.theme.Theme;
+import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
+import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.ui.i18n.I18n;
 
 /**
