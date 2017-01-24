@@ -3,6 +3,8 @@ package mongoose.activities.backend.event.clone;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.entities.Event;
 import naga.fx.properties.Properties;
+import naga.platform.services.update.UpdateArgument;
+import naga.platform.spi.Platform;
 
 import java.time.LocalDate;
 
@@ -32,13 +34,10 @@ public class CloneEventPresentationLogicActivity extends EventDependentPresentat
 
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
-            getHistory().push("/event/1/bookings");
-/*
             Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceModel().getId())).setHandler(ar -> {
                 if (ar.succeeded())
                     getHistory().push("/event/" + ar.result().getGeneratedKeys()[0] + "/bookings");
             });
-*/
         });
     }
 }
