@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.options;
+package mongoose.activities.shared.bookingform.shared;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;

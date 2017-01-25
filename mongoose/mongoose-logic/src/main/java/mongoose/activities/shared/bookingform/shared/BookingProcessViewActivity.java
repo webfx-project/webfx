@@ -6,12 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
-import mongoose.activities.shared.logic.calendar.Calendar;
-import mongoose.activities.shared.logic.calendar.CalendarExtractor;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
-import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.time.DateTimeRange;
-import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import naga.commons.util.async.Future;
@@ -95,32 +89,6 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
                 .build();
-    }
-
-    protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
-        OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
-        return selectedOptionsPreselection == null ? null : selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
-    }
-
-    protected WorkingDocument createNewMaxDateTimeRangeWorkingDocument() {
-        return createNewDateTimeRangeWorkingDocument(getEvent().computeMaxDateTimeRange());
-    }
-
-    protected CalendarGraphic createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection, CalendarGraphic calendarGraphic) {
-        return createOrUpdateCalendarGraphicFromWorkingDocument(optionsPreselection.getWorkingDocument(), calendarGraphic);
-    }
-
-    protected CalendarGraphic createOrUpdateCalendarGraphicFromWorkingDocument(WorkingDocument workingDocument, CalendarGraphic calendarGraphic) {
-        Calendar calendar = createCalendarFromWorkingDocument(workingDocument);
-        if (calendarGraphic == null)
-            calendarGraphic = CalendarGraphic.create(calendar, getI18n());
-        else
-            calendarGraphic.setCalendar(calendar);
-        return calendarGraphic;
-    }
-
-    private Calendar createCalendarFromWorkingDocument(WorkingDocument workingDocument) {
-        return CalendarExtractor.createFromWorkingDocument(workingDocument, createNewMaxDateTimeRangeWorkingDocument(), getI18n());
     }
 
 }
