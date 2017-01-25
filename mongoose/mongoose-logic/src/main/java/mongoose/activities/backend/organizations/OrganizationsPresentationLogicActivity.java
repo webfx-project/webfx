@@ -19,12 +19,12 @@ public class OrganizationsPresentationLogicActivity extends DomainPresentationLo
     @Override
     protected void startLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed', orderBy: 'name'}")
+        createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
-                .combine(pm.withEventsProperty(), "{where: 'exists(select Event where live and organization=o)', orderBy: 'id'}")
+                .combine(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)', orderBy: 'id'}")
                 .setExpressionColumns("[" +
                         "{label: 'Centre', expression: '[icon, name + ` (` + type.code + `)`]'}," +
                         "{label: 'Country', expression: '[country.icon, country.(name + ` (` + continent.name + `)`)]'}" +
