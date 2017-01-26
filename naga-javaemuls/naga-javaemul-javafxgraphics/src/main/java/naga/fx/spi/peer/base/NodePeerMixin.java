@@ -3,13 +3,12 @@ package naga.fx.spi.peer.base;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.Node;
-import naga.fx.scene.SceneRequester;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.transform.Transform;
+import naga.fx.scene.SceneRequester;
 import naga.fx.spi.peer.NodePeer;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -65,7 +64,7 @@ public interface NodePeerMixin
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
 
-    void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms);
+    void updateLocalToParentTransforms(List<Transform> localToParentTransforms);
 
     void updateDisabled(Boolean disabled);
 }

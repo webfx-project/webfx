@@ -8,28 +8,27 @@ import emul.com.sun.javafx.scene.EventHandlerProperties;
 import emul.com.sun.javafx.scene.NodeEventDispatcher;
 import emul.com.sun.javafx.scene.traversal.Direction;
 import emul.com.sun.javafx.util.TempState;
+import emul.javafx.beans.property.*;
+import emul.javafx.collections.FXCollections;
+import emul.javafx.collections.ListChangeListener;
+import emul.javafx.collections.ObservableList;
+import emul.javafx.collections.ObservableMap;
 import emul.javafx.css.Styleable;
 import emul.javafx.event.*;
 import emul.javafx.geometry.BoundingBox;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.geometry.Orientation;
-import naga.fx.properties.markers.*;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.layout.LayoutFlags;
 import emul.javafx.scene.transform.Transform;
 import emul.javafx.scene.transform.Translate;
-import naga.fx.spi.peer.NodePeer;
-import emul.javafx.beans.property.*;
-import emul.javafx.collections.FXCollections;
-import emul.javafx.collections.ListChangeListener;
-import emul.javafx.collections.ObservableList;
-import emul.javafx.collections.ObservableMap;
+import naga.fx.properties.markers.*;
 import naga.fx.spi.Toolkit;
+import naga.fx.spi.peer.NodePeer;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -518,7 +517,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
 
     private Translate layoutTransform;
     @Override
-    public Collection<Transform> localToParentTransforms() {
+    public List<Transform> localToParentTransforms() {
         if (getLayoutX() == 0 && getLayoutY() == 0)
             return getTransforms();
         if (layoutTransform == null)
@@ -1162,6 +1161,12 @@ public abstract class Node implements INode, EventTarget, Styleable {
                         return prefHeight;
                 }
                 return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.prefHeight(width) : impl_prefHeight(width);
+            }
+
+            @Override
+            public void clearCache() {
+                if (acceptedLayoutMeasurable != null)
+                    acceptedLayoutMeasurable.clearCache();
             }
         };
     }

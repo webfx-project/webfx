@@ -25,7 +25,6 @@ import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -55,6 +54,7 @@ public class GridCollator extends DataGrid {
         if (nodePeer == null) {
             Scene scene = getScene();
             container.setScene(scene);
+            ObservableLists.setAllNonNulls(getChildren(), container);
             NodePeer containerPeer = container.getOrCreateAndBindNodePeer();
             setNodePeer(nodePeer = containerPeer);
             gridCollatorPeer = new GridCollatorPeer();
@@ -133,7 +133,6 @@ public class GridCollator extends DataGrid {
             }
             Node finalNode = rowCollator.collateNodes(rowNodes);
             container.setCenter(finalNode);
-            ObservableLists.setAllNonNulls(getChildren(), finalNode);
         }
 
         @Override
@@ -212,7 +211,7 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+        public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
         }
     }
 }

@@ -1,16 +1,17 @@
 package naga.fx.spi.gwt.shared;
 
 import elemental2.Element;
-import naga.commons.util.Strings;
+import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
-import naga.fx.scene.SceneRequester;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
+import naga.commons.util.Strings;
+import naga.fx.scene.SceneRequester;
 import naga.fx.spi.gwt.html.peer.HtmlNodePeer;
 import naga.fx.spi.gwt.svg.peer.SvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
@@ -22,7 +23,7 @@ import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerImpl;
 import naga.fx.spi.peer.base.NodePeerMixin;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -112,7 +113,7 @@ public abstract class HtmlSvgNodePeer
     protected abstract String toFilter(Effect effect);
 
     @Override
-    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
         boolean isSvg = containerType == DomType.SVG;
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
     }
@@ -122,7 +123,16 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected void setElementTextContent(String textContent) {
-        element.textContent = Strings.toSafeString(textContent); // Using a safe string to avoid "undefined" with IE
+        String text = Strings.toSafeString(textContent);
+        if (!Objects.equals(element.textContent, text)) {
+            element.textContent = text; // Using a safe string to avoid "undefined" with IE
+            clearLayoutCache();
+        }
+    }
+
+    protected void clearLayoutCache() {
+        if (this instanceof LayoutMeasurable)
+            ((LayoutMeasurable) this).clearCache();
     }
 
     /* String attributes */

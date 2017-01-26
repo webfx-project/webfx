@@ -31,7 +31,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
-import java.util.Collection;
 
 
 /**
@@ -133,7 +132,7 @@ public abstract class SwingNodePeer
     }
 
     @Override
-    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+    public void updateLocalToParentTransforms(java.util.List<Transform> localToParentTransforms) {
         swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 

@@ -5,10 +5,10 @@ import emul.javafx.collections.ObservableMap;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.geometry.Orientation;
 import emul.javafx.scene.transform.Transform;
-import naga.fx.spi.peer.NodePeer;
 import naga.fx.properties.markers.*;
+import naga.fx.spi.peer.NodePeer;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +29,7 @@ public interface INode extends
 
     ObservableList<Transform> getTransforms();
 
-    Collection<Transform> localToParentTransforms();
+    List<Transform> localToParentTransforms();
 
     default void relocate(double x, double y) {
         Bounds layoutBounds = getLayoutBounds();
