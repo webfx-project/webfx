@@ -36,4 +36,9 @@ public interface LayoutMeasurableMixin extends LayoutMeasurable {
     default double prefHeight(double width) {
         return getLayoutMeasurable().prefHeight(width);
     }
+
+    @Override
+    default void clearCache() {
+        getLayoutMeasurable().clearCache();
+    }
 }

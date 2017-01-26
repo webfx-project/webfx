@@ -27,8 +27,4 @@ public class HtmlHtmlTextPeer
         getElement().innerHTML = Strings.toSafeString(text);
     }
 
-    @Override
-    public double minWidth(double height) {
-        return 0;
-    }
 }

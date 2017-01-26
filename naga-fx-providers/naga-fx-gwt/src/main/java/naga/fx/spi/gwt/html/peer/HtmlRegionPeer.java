@@ -27,12 +27,18 @@ abstract class HtmlRegionPeer
 
     @Override
     public void updateWidth(Double width) {
-        getElement().style.width = toPx(width);
+        if (width > 0) {
+            getElement().style.width = toPx(width);
+            clearLayoutCache();
+        }
     }
 
     @Override
     public void updateHeight(Double height) {
-        getElement().style.height = toPx(height);
+        if (height > 0) {
+            getElement().style.height = toPx(height);
+            clearLayoutCache();
+        }
     }
 
     @Override

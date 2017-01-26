@@ -1,10 +1,10 @@
 package naga.fx.spi.gwt.html.peer;
 
 import elemental2.*;
-import naga.commons.util.Strings;
-import naga.commons.util.tuples.Unit;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.HBox;
+import naga.commons.util.Strings;
+import naga.commons.util.tuples.Unit;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -39,24 +39,17 @@ public class HtmlDataGridPeer
         super(base, element);
         table.appendChild(tHead);
         table.appendChild(tBody);
-        setChild(getElement(), table);
+        setChild(element, table);
         setElementStyleAttribute("overflow-y", "auto");
         setStyleAttribute(table, "width", "100%");
     }
 
     @Override
-    public double minWidth(double height) {
-        return 0;
-    }
-
-    @Override
-    public double minHeight(double width) {
-        return 0;
-    }
-
-    @Override
-    public double maxWidth(double height) {
-        return Double.MAX_VALUE;
+    public double prefHeight(double width) {
+        setElementStyleAttribute("overflow-y", "visible");
+        double height = measureHeight(width);
+        setElementStyleAttribute("overflow-y", "auto");
+        return height;
     }
 
     @Override

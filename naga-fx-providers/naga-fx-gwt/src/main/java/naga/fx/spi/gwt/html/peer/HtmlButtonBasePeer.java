@@ -57,5 +57,6 @@ abstract class HtmlButtonBasePeer
             HtmlUtil.setStyleAttribute(graphicElement, "vertical-align", "middle");
             HtmlUtil.appendFirstChild(getElement(), graphicElement);
         }
+        clearLayoutCache();
     }
 }

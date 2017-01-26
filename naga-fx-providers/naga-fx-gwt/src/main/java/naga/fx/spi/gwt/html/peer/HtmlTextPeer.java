@@ -1,13 +1,14 @@
 package naga.fx.spi.gwt.html.peer;
 
-import naga.commons.util.Numbers;
-import naga.fx.spi.gwt.util.HtmlPaints;
-import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.Text;
 import emul.javafx.scene.text.TextAlignment;
+import naga.commons.util.Numbers;
+import naga.fx.spi.Toolkit;
+import naga.fx.spi.gwt.util.HtmlPaints;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.TextPeerBase;
 import naga.fx.spi.peer.base.TextPeerMixin;
 
@@ -31,7 +32,7 @@ public class HtmlTextPeer
     @Override
     public void updateText(String text) {
         setElementTextContent(text);
-        updateY();
+        updateYOnNextPulse();
     }
 
     @Override
@@ -41,7 +42,7 @@ public class HtmlTextPeer
 
     @Override
     public void updateTextOrigin(VPos textOrigin) {
-        updateY();
+        updateYOnNextPulse();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class HtmlTextPeer
     public void updateY(Double y) {
         VPos textOrigin = getNode().getTextOrigin();
         if (textOrigin != null && textOrigin != VPos.TOP) {
-            double clientHeight = getElement().clientHeight;
+            double clientHeight = getLayoutBounds().getHeight();
             if (textOrigin == VPos.CENTER)
                 y = y - clientHeight / 2;
             else if (textOrigin == VPos.BOTTOM)
@@ -62,8 +63,15 @@ public class HtmlTextPeer
         setElementStyleAttribute("top", toPx(y));
     }
 
-    private void updateY() {
-        updateY(getNode().getY());
+    private Runnable updateYRunnable;
+    private void updateYOnNextPulse() {
+        if (updateYRunnable == null) {
+            updateYRunnable = () -> {
+                updateY(getNode().getY());
+                updateYRunnable = null;
+            };
+            Toolkit.get().scheduler().scheduleAnimationFrame(updateYRunnable);
+        }
     }
 
     @Override
@@ -71,7 +79,8 @@ public class HtmlTextPeer
         double width = Numbers.doubleValue(wrappingWidth);
         if (width != 0)
             setElementStyleAttribute("width", toPx(width));
-        updateY();
+        clearCache();
+        updateYOnNextPulse();
     }
 
     @Override
@@ -82,6 +91,12 @@ public class HtmlTextPeer
     @Override
     public void updateFont(Font font) {
         setFontAttributes(font);
-        updateY();
+        updateYOnNextPulse();
+    }
+
+    private final HtmlLayoutCache cache = new HtmlLayoutCache();
+    @Override
+    public HtmlLayoutCache getCache() {
+        return cache;
     }
 }

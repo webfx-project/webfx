@@ -22,4 +22,11 @@ public class HtmlButtonPeer
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
     }
+
+    private final HtmlLayoutCache cache = new HtmlLayoutCache();
+    @Override
+    public HtmlLayoutCache getCache() {
+        return cache;
+    }
+
 }

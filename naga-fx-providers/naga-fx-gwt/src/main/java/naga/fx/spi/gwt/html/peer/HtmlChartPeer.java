@@ -179,24 +179,4 @@ abstract class HtmlChartPeer
             return ColumnType.NUMBER;
         return null;
     }
-
-    @Override
-    public double minWidth(double height) {
-        return 0;
-    }
-
-    @Override
-    public double maxWidth(double height) {
-        return Double.MAX_VALUE;
-    }
-
-    @Override
-    public double minHeight(double width) {
-        return 0;
-    }
-
-    @Override
-    public double maxHeight(double width) {
-        return Double.MAX_VALUE;
-    }
 }

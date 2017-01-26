@@ -22,4 +22,6 @@ public interface LayoutMeasurable {
     double prefHeight(double width);
 
     default void setSizeChangedCallback(Runnable sizeChangedCallback) {} // Ex: when the peer skin has changed
+
+    default void clearCache() {}
 }
