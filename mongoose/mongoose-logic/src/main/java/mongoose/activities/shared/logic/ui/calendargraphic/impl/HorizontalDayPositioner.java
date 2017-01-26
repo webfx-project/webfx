@@ -2,9 +2,10 @@ package mongoose.activities.shared.logic.ui.calendargraphic.impl;
 
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.time.TimeInterval;
+import naga.commons.util.collection.Collections;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,13 +13,19 @@ import java.util.concurrent.TimeUnit;
  */
 class HorizontalDayPositioner {
 
-    private final Calendar calendar;
-    private final Collection<HorizontalDayPositioned> horizontalDayPositionedCollection = new ArrayList<>();
+    private Calendar calendar;
+    private final List<HorizontalDayPositioned> horizontalDayPositionedList = new ArrayList<>();
     private long firstDisplayedEpochDay = -1;
     private long lastDisplayedEpochDay = -1;
 
     HorizontalDayPositioner(Calendar calendar) {
+        setCalendar(calendar);
+    }
+
+    void setCalendar(Calendar calendar) {
         this.calendar = calendar;
+        firstDisplayedEpochDay = -1;
+        lastDisplayedEpochDay = -1;
     }
 
     private void initFirstAndLastDisplayedEpochDays() {
@@ -27,8 +34,23 @@ class HorizontalDayPositioner {
         lastDisplayedEpochDay = period.getExcludedEnd() - 1;
     }
 
+    HorizontalDayPositioned getHorizontalDayPositioned(int index) {
+        return Collections.get(horizontalDayPositionedList, index);
+    }
+
+    void addHorizontalDayPositioned(int index, HorizontalDayPositioned horizontalDayPositioned) {
+        if (index < horizontalDayPositionedList.size())
+            horizontalDayPositionedList.add(index, horizontalDayPositioned);
+        else
+            addHorizontalDayPositioned(horizontalDayPositioned);
+    }
+
     void addHorizontalDayPositioned(HorizontalDayPositioned horizontalDayPositioned) {
-        horizontalDayPositionedCollection.add(horizontalDayPositioned);
+        horizontalDayPositionedList.add(horizontalDayPositioned);
+    }
+
+    void removeHorizontalDayPositioned(HorizontalDayPositioned horizontalDayPositioned) {
+        horizontalDayPositionedList.remove(horizontalDayPositioned);
     }
 
     long getFirstDisplayedEpochDay() {
@@ -46,7 +68,7 @@ class HorizontalDayPositioner {
     void setTotalWidth(double totalWidth) {
         long totalDisplayedDays = lastDisplayedEpochDay - firstDisplayedEpochDay + 1;
         double dayWidth = totalWidth / totalDisplayedDays;
-        for (HorizontalDayPositioned horizontalDayPositioned : horizontalDayPositionedCollection) {
+        for (HorizontalDayPositioned horizontalDayPositioned : horizontalDayPositionedList) {
             double x = (horizontalDayPositioned.getEpochDay() - firstDisplayedEpochDay) * dayWidth;
             double snapX = snap(x);
             horizontalDayPositioned.setXAndWidth(snapX, snap(x + dayWidth - 1) - snapX);

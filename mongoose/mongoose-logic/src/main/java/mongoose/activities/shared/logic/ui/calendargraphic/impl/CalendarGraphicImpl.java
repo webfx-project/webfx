@@ -6,6 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -14,16 +15,17 @@ import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
+import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
+import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import naga.commons.util.async.Handler;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.tuples.Unit;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -69,77 +71,132 @@ public class CalendarGraphicImpl implements CalendarGraphic {
 
     private void createRootNode() {
         rootNode = new Pane();
+        rootNode.setMinWidth(0d);
+        rootNode.setMaxWidth(Double.MAX_VALUE);
+        rootNode.setPrefWidth(Double.MAX_VALUE);
+        rootNode.setMinHeight(0d);
+        rootNode.setMaxHeight(Double.MAX_VALUE);
+        rootNode.setPrefHeight(Double.MAX_VALUE);
         rootNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth.doubleValue()));
         createOrUpdateRootNodeCalendar();
     }
 
     private HorizontalDayPositioner horizontalDayPositioner;
     private VerticalDayTimePositioner verticalDayPositioner;
+    private Group calendarGroup;
 
     private void createOrUpdateRootNodeCalendar() {
-        horizontalDayPositioner = new HorizontalDayPositioner(calendar);
-        verticalDayPositioner = new VerticalDayTimePositioner((Property) rootNode.prefHeightProperty());
-        Group calendarGroup = createCalendarGroup();
-        rootNode.getChildren().setAll(calendarGroup);
-        updateTotalWidth(rootNode.getWidth());
-        Rotate rotate = null; // Rotate.create();
-        if (rotate != null) {
-            calendarGroup.getTransforms().setAll(rotate);
-            Properties.runOnPropertiesChange(arg -> {
-                rotate.setPivotX(rootNode.getWidth() / 2);
-                rotate.setPivotY(rootNode.getHeight() / 2);
-            }, rootNode.widthProperty(), rootNode.heightProperty());
-            Timeline timeline = new Timeline();
-            timeline.getKeyFrames().setAll(new KeyFrame(Duration.seconds(5), new KeyValue(rotate.angleProperty(), 360d)));
-            timeline.setCycleCount(Animation.INDEFINITE);
-            timeline.play();
+        boolean create = horizontalDayPositioner == null;
+        if (create) {
+            horizontalDayPositioner = new HorizontalDayPositioner(calendar);
+            verticalDayPositioner = new VerticalDayTimePositioner((Property) rootNode.prefHeightProperty());
+        } else {
+            horizontalDayPositioner.setCalendar(calendar);
+            verticalDayPositioner.init();
         }
+        createOrUpdateCalendarGroup(create);
+        if (create) {
+            rootNode.getChildren().setAll(calendarGroup);
+            Rotate rotate = null; // Rotate.create();
+            if (rotate != null) {
+                calendarGroup.getTransforms().setAll(rotate);
+                Properties.runOnPropertiesChange(arg -> {
+                    rotate.setPivotX(rootNode.getWidth() / 2);
+                    rotate.setPivotY(rootNode.getHeight() / 2);
+                }, rootNode.widthProperty(), rootNode.heightProperty());
+                Timeline timeline = new Timeline();
+                timeline.getKeyFrames().setAll(new KeyFrame(Duration.seconds(5), new KeyValue(rotate.angleProperty(), 360d)));
+                timeline.setCycleCount(Animation.INDEFINITE);
+                timeline.play();
+            }
+        }
+        updateTotalWidth(rootNode.getWidth());
     }
 
     private void updateTotalWidth(double totalWidth) {
         horizontalDayPositioner.setTotalWidth(totalWidth);
     }
 
-    private Group createCalendarGroup() {
-        Group calendarGroup = new Group();
-        Group headersGroup = createDayColumnHeadersGroup();
-        Group bodyGroup = createBodyGroup();
+    private Group headersGroup;
+    private Group bodyGroup;
+
+    private void createOrUpdateCalendarGroup(boolean create) {
+        createDayColumnHeadersGroup(create);
+        createBodyGroup(create);
         bodyGroup.getTransforms().setAll(new Translate(0, DayColumnHeaderViewModel.dayColumnHeaderHeight + 1));
-        calendarGroup.getChildren().setAll(headersGroup, bodyGroup);
-        return calendarGroup;
-    }
-
-    private Group createDayColumnHeadersGroup() {
-        Group daysHeadGroup = new Group();
-        for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
-            DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
-            horizontalDayPositioner.addHorizontalDayPositioned(model);
-            daysHeadGroup.getChildren().add(model.group);
+        if (create) {
+            calendarGroup = new Group(headersGroup, bodyGroup);
+            calendarGroup.setAutoSizeChildren(false);
         }
-        return daysHeadGroup;
     }
 
-    private Group createBodyGroup() {
-        Group bodyGroup = new Group();
-        Collections.forEach(calendar.getTimelines(), timeline -> addTimelineNodes(timeline, bodyGroup.getChildren()));
+
+    private Group createDayColumnHeadersGroup(boolean create) {
+        if (create) {
+            headersGroup = new Group();
+            headersGroup.setAutoSizeChildren(false);
+        }
+        int index = 0;
+        for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
+            HorizontalDayPositioned hdp = horizontalDayPositioner.getHorizontalDayPositioned(index++);
+            if (hdp instanceof DayColumnHeaderViewModel)
+                ((DayColumnHeaderViewModel) hdp).init(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
+            else {
+                DayColumnHeaderViewModel model =
+                        new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
+                horizontalDayPositioner.addHorizontalDayPositioned(index, model);
+                headersGroup.getChildren().add(model.group);
+            }
+        }
+        // TODO: Remove extra headers
+        return headersGroup;
+    }
+
+    private void createBodyGroup(boolean create) {
+        if (create) {
+            bodyGroup = new Group();
+            bodyGroup.setAutoSizeChildren(false);
+        }
+        Unit<Integer> index = create ? null : new Unit<>(0);
+        ObservableList<Node> bodyNodes = bodyGroup.getChildren();
+        Collections.forEach(calendar.getTimelines(), timeline -> addTimelineNodes(timeline, bodyNodes, index));
+        while (!create && bodyNodes.size() > index.get()) {
+            Node node = bodyNodes.remove(index.get().intValue());
+            DayColumnBodyBlockViewModel model = (DayColumnBodyBlockViewModel) node.getProperties().get("model");
+            horizontalDayPositioner.removeHorizontalDayPositioned(model);
+            verticalDayPositioner.removeVerticalDayTimePositioned(model);
+        }
         verticalDayPositioner.updateVerticalPositions();
-        return bodyGroup;
     }
 
-    private void addTimelineNodes(CalendarTimeline timeline, Collection<Node> destCollection) {
+    private void addTimelineNodes(CalendarTimeline timeline, List<Node> bodyNodes, Unit<Integer> index) {
         Collections.forEach(timeline.getDateTimeRange().changeTimeUnit(TimeUnit.DAYS).getDaysArray(),
-                epochDay -> addBlockNodes(epochDay, timeline.getDayTimeRange(), timeline, destCollection));
+                epochDay -> addBlockNodes(epochDay, timeline.getDayTimeRange(), timeline, bodyNodes, index));
     }
 
-    private void addBlockNodes(long epochDay, DayTimeRange dayTimeRange, CalendarTimeline timeline, Collection<Node> destCollection) {
+    private void addBlockNodes(long epochDay, DayTimeRange dayTimeRange, CalendarTimeline timeline, List<Node> bodyNodes, Unit<Integer> index) {
         for (TimeInterval dayTimeInterval : dayTimeRange.getDayTimeSeries(epochDay, TimeUnit.DAYS).getArray())
-            destCollection.add(createBlockNode(epochDay, dayTimeInterval, timeline));
+            addBlockNode(epochDay, dayTimeInterval, timeline, bodyNodes, index);
     }
 
-    private Node createBlockNode(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline) {
-        DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
-        horizontalDayPositioner.addHorizontalDayPositioned(model);
-        verticalDayPositioner.addVerticalDayTimePositioned(model);
-        return model.getGroup();
+    private void addBlockNode(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline, List<Node> bodyNodes, Unit<Integer> index) {
+        Node node = index == null ? null : Collections.get(bodyNodes, index.get());
+        if (node == null) {
+            DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
+            horizontalDayPositioner.addHorizontalDayPositioned(model);
+            verticalDayPositioner.addVerticalDayTimePositioned(model);
+            node = model.getGroup();
+            node.getProperties().put("model", model);
+            if (index == null)
+                bodyNodes.add(node);
+            else
+                bodyNodes.add(index.get(), node);
+        } else {
+            DayColumnBodyBlockViewModel model = (DayColumnBodyBlockViewModel) node.getProperties().get("model");
+            model.init(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
+            verticalDayPositioner.updateVerticalDayTimePositioned(model);
+        }
+        if (index != null)
+            index.set(index.get() + 1);
     }
 }

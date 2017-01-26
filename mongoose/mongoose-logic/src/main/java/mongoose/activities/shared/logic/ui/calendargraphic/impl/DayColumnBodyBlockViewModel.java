@@ -1,6 +1,8 @@
 package mongoose.activities.shared.logic.ui.calendargraphic.impl;
 
 import javafx.beans.property.Property;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
@@ -25,12 +27,12 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
     private final static Font timeFont = Font.font("Verdana", 10);
     private final static Paint timeFill = Color.WHITE;
 
-    private final long epochDay;
-    private final TimeInterval dayTimeMinuteInterval;
+    private long epochDay;
+    private TimeInterval dayTimeMinuteInterval;
     private final Rectangle rectangle = new Rectangle();
     private final Text blockText = new Text();
-    private final Text startTimeText;
-    private final Text endTimeText;
+    private Text startTimeText;
+    private Text endTimeText;
     private final Group group = new Group();
     private final Translate translate = new Translate();
 
@@ -40,40 +42,57 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         blockText.setFill(DayColumnHeaderViewModel.dayColumnHeaderTextColor);
         blockText.setTextOrigin(VPos.CENTER);
         blockText.setMouseTransparent(true);
-        group.getChildren().setAll(rectangle, blockText);
+        group.setAutoSizeChildren(false);
         group.getTransforms().setAll(translate);
     }
 
     DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, boolean displayTimes) {
+        init(calendarGraphic, epochDay, dayTimeMinuteInterval, timeline, displayTimes);
+    }
+
+    void init(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, boolean displayTimes) {
         this.epochDay = epochDay;
         this.dayTimeMinuteInterval = dayTimeMinuteInterval;
         Property<String> displayNameProperty = timeline.displayNameProperty();
         if (displayNameProperty != null)
             blockText.textProperty().bind(displayNameProperty);
+        else {
+            blockText.textProperty().unbind();
+            blockText.setText(null);
+        }
         rectangle.setFill(timeline.getBackgroundFill());
         rectangle.setOnMouseClicked(event -> {
             if (calendarGraphic.getCalendarClickHandler() != null)
                 calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
         });
-        if (displayTimes) {
-            startTimeText = new Text();
-            startTimeText.setFont(timeFont);
-            startTimeText.setTextAlignment(TextAlignment.LEFT);
-            startTimeText.setFill(timeFill);
-            startTimeText.setTextOrigin(VPos.TOP);
-            startTimeText.setY(1d);
-            startTimeText.setText(dayTimeMinuteInterval.getStartText());
-            startTimeText.setMouseTransparent(true);
-            endTimeText = new Text();
-            endTimeText.setFont(timeFont);
-            endTimeText.setTextAlignment(TextAlignment.LEFT);
-            endTimeText.setFill(timeFill);
-            endTimeText.setTextOrigin(VPos.BOTTOM);
-            endTimeText.setText(dayTimeMinuteInterval.getEndText());
-            endTimeText.setMouseTransparent(true);
-            group.getChildren().addAll(startTimeText, endTimeText);
-        } else
+        ObservableList<Node> children = group.getChildren();
+        if (!displayTimes) {
             startTimeText = endTimeText = null;
+            if (children.size() != 2)
+                children.setAll(rectangle, blockText);
+        } else {
+            if (startTimeText == null) {
+                startTimeText = new Text();
+                startTimeText.setFont(timeFont);
+                startTimeText.setTextAlignment(TextAlignment.LEFT);
+                startTimeText.setFill(timeFill);
+                startTimeText.setTextOrigin(VPos.TOP);
+                startTimeText.setY(1d);
+                startTimeText.setMouseTransparent(true);
+            }
+            startTimeText.setText(dayTimeMinuteInterval.getStartText());
+            if (endTimeText == null) {
+                endTimeText = new Text();
+                endTimeText.setFont(timeFont);
+                endTimeText.setTextAlignment(TextAlignment.LEFT);
+                endTimeText.setFill(timeFill);
+                endTimeText.setTextOrigin(VPos.BOTTOM);
+                endTimeText.setMouseTransparent(true);
+            }
+            endTimeText.setText(dayTimeMinuteInterval.getEndText());
+            if (children.size() != 4)
+                children.setAll(rectangle, blockText, startTimeText, endTimeText);
+        }
     }
 
     public Group getGroup() {

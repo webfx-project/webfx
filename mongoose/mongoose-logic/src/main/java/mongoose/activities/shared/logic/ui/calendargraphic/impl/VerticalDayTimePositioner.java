@@ -20,17 +20,31 @@ class VerticalDayTimePositioner {
     final static Font slotFont = Font.font("Verdana", 13);
 
     private final Property<Double> containerHeightProperty;
-    private long firstDisplayedMinute = 24 * 60;
-    private long lastDisplayedMinute = 0;
+    private long firstDisplayedMinute;
+    private long lastDisplayedMinute;
 
     VerticalDayTimePositioner(Property<Double> containerHeightProperty) {
         this.containerHeightProperty = containerHeightProperty;
+        init();
+    }
+
+    void init() {
+        firstDisplayedMinute = 24 * 60;
+        lastDisplayedMinute = 0;
     }
 
     private final Collection<VerticalDayTimePositioned> verticalDayTimePositionedCollection = new ArrayList<>();
 
     void addVerticalDayTimePositioned(VerticalDayTimePositioned verticalDayTimePositioned) {
         verticalDayTimePositionedCollection.add(verticalDayTimePositioned);
+        updateVerticalDayTimePositioned(verticalDayTimePositioned);
+    }
+
+    void removeVerticalDayTimePositioned(VerticalDayTimePositioned verticalDayTimePositioned) {
+        verticalDayTimePositionedCollection.remove(verticalDayTimePositioned);
+    }
+
+    void updateVerticalDayTimePositioned(VerticalDayTimePositioned verticalDayTimePositioned) {
         TimeInterval minuteInterval = verticalDayTimePositioned.getDayTimeMinuteInterval();
         firstDisplayedMinute = Math.min(firstDisplayedMinute, minuteInterval.getIncludedStart());
         lastDisplayedMinute = Math.max(lastDisplayedMinute, minuteInterval.getExcludedEnd());

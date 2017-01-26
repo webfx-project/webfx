@@ -26,7 +26,7 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
     private final static Font dayOfMonthTextFont = Font.font(fontFamily, 20);
     private final static Font monthTextFont = dayOfWeekTextFont;
 
-    private final long epochDay;
+    private long epochDay;
     private final Rectangle r = new Rectangle();
     private final Text dayOfWeekText = new Text();
     private final Text dayOfMonthText = new Text();
@@ -56,11 +56,16 @@ class DayColumnHeaderViewModel implements HorizontalDayPositioned {
         monthText.setFont(monthTextFont);
         monthText.setFill(dayColumnHeaderTextColor);
         monthText.setTextOrigin(VPos.BOTTOM);
+        group.setAutoSizeChildren(false);
         group.getChildren().setAll(r, dayOfWeekText, dayOfMonthText, monthText);
         group.getTransforms().setAll(translate);
     }
 
     DayColumnHeaderViewModel(long epochDay, double height, I18n i18n) {
+        init(epochDay, height, i18n);
+    }
+
+    void init(long epochDay, double height, I18n i18n) {
         this.epochDay = epochDay;
         setDate(LocalDate.ofEpochDay(epochDay), i18n);
         setHeight(height);
