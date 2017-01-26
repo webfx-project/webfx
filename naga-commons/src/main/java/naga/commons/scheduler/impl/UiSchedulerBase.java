@@ -100,20 +100,25 @@ public abstract class UiSchedulerBase implements UiScheduler {
     }
 
     protected void executeAnimationPipe() {
+        final long NANO_IN_MILLIS = 1_000_000;
         animationFrame.set(Boolean.TRUE);
-        long t0 = System.currentTimeMillis();
+        long t0 = nanoTime() / NANO_IN_MILLIS;
         executeAnimations(generalAnimations);
-        long t1 = System.currentTimeMillis();
+        long t1 = nanoTime() / NANO_IN_MILLIS;
         executeAnimations(pulseAnimations);
-        long t2 = System.currentTimeMillis();
+        long t2 = nanoTime() / NANO_IN_MILLIS;
         long t = t2 - t0;
         if (t > 16)
-            System.out.println("Long animation: " + t + "ms = " + (t1 - t0) + "ms properties + " + (t2 - t1) + "ms layout/pulse (60 FPS = 16ms)");
+            log("Long animation: " + t + "ms = " + (t1 - t0) + "ms properties + " + (t2 - t1) + "ms layout/pulse (60 FPS = 16ms)");
         animationFrame.set(Boolean.FALSE);
         boolean noMoreAnimationScheduled = generalAnimations.isEmpty();
         onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
         if (!noMoreAnimationScheduled)
             checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
+    }
+
+    protected void log(String message) {
+        System.out.println(message);
     }
 
     private void executeAnimations(List<AnimationScheduled> animations) {

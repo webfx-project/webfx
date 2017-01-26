@@ -3,6 +3,7 @@ package naga.providers.platform.client.gwt.scheduler;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
 import naga.commons.scheduler.impl.UiSchedulerBase;
+import naga.platform.spi.Platform;
 
 
 /**
@@ -10,7 +11,7 @@ import naga.commons.scheduler.impl.UiSchedulerBase;
  */
 public final class GwtScheduler extends UiSchedulerBase {
 
-    private static long NANO_IN_MILLIS = 1000000;
+    private static long NANO_IN_MILLIS = 1_000_000;
     private static long startNano = System.currentTimeMillis() * NANO_IN_MILLIS - performanceNano();
 
     @Override
@@ -61,4 +62,9 @@ public final class GwtScheduler extends UiSchedulerBase {
     private static native JavaScriptObject requestAnimationFrame(Runnable runnable) /*-{
         return $wnd.requestAnimationFrame(runnable.@java.lang.Runnable::run().bind(runnable));
     }-*/;
+
+    @Override
+    protected void log(String message) {
+        Platform.log(message);
+    }
 }
