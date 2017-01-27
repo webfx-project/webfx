@@ -2,7 +2,6 @@ package mongoose.activities.backend.event.clone;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,8 +11,8 @@ import javafx.scene.text.Font;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.ui.dialog.DialogUtil;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.properties.Properties;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -22,9 +21,10 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
  */
 public class CloneEventPresentationViewActivity extends PresentationViewActivityImpl<CloneEventPresentationModel> {
 
-    protected GridPane goldPane;
     protected GridPane gp;
     protected TextField dateTextField;
+
+    private StackPane stackPane;
 
     @Override
     protected void createViewNodes(CloneEventPresentationModel pm) {
@@ -68,19 +68,6 @@ public class CloneEventPresentationViewActivity extends PresentationViewActivity
         BorderPane bp = new BorderPane(gp);
         bp.backgroundProperty().bind(Theme.dialogBackgroundProperty());
         bp.borderProperty().bind(Theme.dialogBorderProperty());
-        bp.setMaxWidth(USE_PREF_SIZE);
-        bp.setMaxHeight(USE_PREF_SIZE);
-
-        // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
-        goldPane = new GridPane();
-        //goldPane.backgroundProperty().bind(Theme.mainBackgroundProperty());
-        goldPane.setAlignment(Pos.TOP_CENTER);
-        RowConstraints rc = new RowConstraints();
-        rc.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), bp.heightProperty(),
-                (gpHeight, bpHeight) -> (gpHeight.doubleValue() - bpHeight.doubleValue()) / 2.61));
-        Properties.runOnceOnPropertiesChange((p) -> goldPane.layout(), goldPane.heightProperty());
-        goldPane.getRowConstraints().add(rc);
-        goldPane.add(bp, 0, 1);
 
         I18n i18n = getI18n();
         i18n.translateText(nameLabel, "Name");
@@ -88,10 +75,14 @@ public class CloneEventPresentationViewActivity extends PresentationViewActivity
         nameTextField.textProperty().bindBidirectional(pm.nameProperty());
         dateTextField.textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.LOCAL_DATE_STRING_CONVERTER);
         i18n.translateText(submitButton, "Clone").onActionProperty().bind(pm.onSubmitProperty());
+
+        stackPane = new StackPane();
+        // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
+        DialogUtil.showModalNodeInGoldLayout(bp, stackPane);
     }
 
     @Override
     protected Node assemblyViewNodes() {
-        return goldPane;
+        return stackPane;
     }
 }
