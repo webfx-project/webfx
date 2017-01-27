@@ -1,17 +1,20 @@
 package naga.framework.activity.presentation.impl;
 
 import naga.commons.util.async.Future;
+import naga.commons.util.function.Callable;
 import naga.commons.util.function.Factory;
-import naga.framework.activity.presentation.logic.PresentationLogicActivityContext;
 import naga.framework.activity.presentation.PresentationActivity;
 import naga.framework.activity.presentation.PresentationActivityContext;
 import naga.framework.activity.presentation.PresentationActivityContextMixin;
-import naga.framework.activity.presentation.view.impl.PresentationViewActivityBase;
+import naga.framework.activity.presentation.logic.PresentationLogicActivityContext;
 import naga.framework.activity.presentation.view.PresentationViewActivityContext;
+import naga.framework.activity.presentation.view.impl.PresentationViewActivityBase;
+import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.ActivityManager;
 import naga.platform.activity.composition.impl.ComposedActivityBase;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -35,8 +38,8 @@ public class PresentationActivityBase
     }
 
     @Override
-    public Future<Void> onStartAsync() {
-        Future<Void> future = super.onStartAsync();
+    public Future<Void> onCreateAsync(C context) {
+        Future<Void> future = super.onCreateAsync(context);
         // Ugly parameter passing
         ((PresentationViewActivityBase) getActivityManager1().getActivity()).setPresentationModel(getActivityContext2().getPresentationModel());
         nodeProperty().bind(getActivityContext1().nodeProperty());
@@ -44,4 +47,13 @@ public class PresentationActivityBase
         return future;
     }
 
+    // Temporary code while naga-common can't access to UiScheduler - TODO: move this management into naga-platform
+    @Override
+    protected Future<Void> executeBoth(Callable<Future<Void>> callable1, Callable<Future<Void>> callable2) {
+        Future<Void> future2 = Future.future();
+        Platform.get().scheduler().runInBackground(() -> callable2.call().setHandler(future2.completer()));
+        Future<Void> future1 = Future.future();
+        Toolkit.get().scheduler().runInUiThread(() -> callable1.call().setHandler(future1.completer()));
+        return Future.allOf(future1, future2);
+    }
 }

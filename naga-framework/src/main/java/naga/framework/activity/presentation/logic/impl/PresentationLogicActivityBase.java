@@ -35,10 +35,14 @@ public abstract class PresentationLogicActivityBase
     }
 
     @Override
+    public void onCreate(C context) {
+        super.onCreate(context);
+        setPresentationModel(presentationModelFactory != null ? presentationModelFactory.create() : buildPresentationModel());
+    }
+
+    @Override
     public void onStart() {
         PM presentationModel = getPresentationModel();
-        if (presentationModel == null)
-            setPresentationModel(presentationModel = presentationModelFactory != null ? presentationModelFactory.create() : buildPresentationModel());
         initializePresentationModel(presentationModel);
         if (!presentationModelBoundWithLogic) {
             startLogic(presentationModel);

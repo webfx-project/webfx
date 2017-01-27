@@ -1,6 +1,7 @@
 package naga.platform.activity.composition.impl;
 
 import naga.commons.util.async.Future;
+import naga.commons.util.function.Callable;
 import naga.commons.util.function.Factory;
 import naga.platform.activity.*;
 import naga.platform.activity.composition.ComposedActivity;
@@ -41,36 +42,40 @@ public class ComposedActivityBase
         C2 context2 = activityManager2.getContextFactory().createContext(context);
         context.setActivityContext1(context1);
         context.setActivityContext2(context2);
-        return Future.executeParallel(activityManager1.create(context1), activityManager2.create(context2));
+        return Future.allOf(activityManager1.create(context1), activityManager2.create(context2));
     }
 
     @Override
     public Future<Void> onStartAsync() {
-        return Future.executeParallel(getActivityManager1().start(), getActivityManager2().start());
+        return executeBoth(getActivityManager1()::start, getActivityManager2()::start);
     }
 
     @Override
     public Future<Void> onResumeAsync() {
-        return Future.executeParallel(getActivityManager1().resume(), getActivityManager2().resume());
+        return executeBoth(getActivityManager1()::resume, getActivityManager2()::resume);
     }
 
     @Override
     public Future<Void> onPauseAsync() {
-        return Future.executeParallel(getActivityManager1().pause(), getActivityManager2().pause());
+        return executeBoth(getActivityManager1()::pause, getActivityManager2()::pause);
     }
 
     @Override
     public Future<Void> onStopAsync() {
-        return Future.executeParallel(getActivityManager1().stop(), getActivityManager2().stop());
+        return executeBoth(getActivityManager1()::stop, getActivityManager2()::stop);
     }
 
     @Override
     public Future<Void> onRestartAsync() {
-        return Future.executeParallel(getActivityManager1().restart(), getActivityManager2().restart());
+        return executeBoth(getActivityManager1()::restart, getActivityManager2()::restart);
     }
 
     @Override
     public Future<Void> onDestroyAsync() {
-        return Future.executeParallel(getActivityManager1().destroy(), getActivityManager2().destroy());
+        return executeBoth(getActivityManager1()::destroy, getActivityManager2()::destroy);
+    }
+
+    protected Future<Void> executeBoth(Callable<Future<Void>> callable1, Callable<Future<Void>> callable2) {
+        return Future.allOf(callable1.call(), callable2.call());
     }
 }
