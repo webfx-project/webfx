@@ -9,6 +9,7 @@ import naga.framework.activity.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.fx.properties.markers.HasNodeProperty;
+import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
@@ -147,7 +148,9 @@ public class UiRouter extends HistoryRouter {
             // once done we display the activity node by binding it with the hosting context (done in the UI tread)
             activityManager.resume().setHandler(event -> {
                 if (hostingContext instanceof HasNodeProperty && activityContext instanceof HasNodeProperty)
-                    ((HasNodeProperty) hostingContext).nodeProperty().bind(((HasNodeProperty) activityContext).nodeProperty());
+                    Toolkit.get().scheduler().runInUiThread(() ->
+                        ((HasNodeProperty) hostingContext).nodeProperty().bind(((HasNodeProperty) activityContext).nodeProperty())
+                    );
             });
             /*--- Sub routing management ---*/
             // When the activity is a mount child activity coming from sub routing, we make sure the mount parent activity is displayed
@@ -160,7 +163,9 @@ public class UiRouter extends HistoryRouter {
             if (mountChildSubRouter != null) // Indicates it is a mount parent activity
                 // The trick is to bind the mount node of the parent activity to the child activity node
                 if (activityContext instanceof HasMountNodeProperty && mountChildSubRouter.hostingContext instanceof HasNodeProperty)
-                    ((HasMountNodeProperty) activityContext).mountNodeProperty().bind(((HasNodeProperty) mountChildSubRouter.hostingContext).nodeProperty()); // Using the hosting context node which is bound to the child activity node
+                    Toolkit.get().scheduler().runInUiThread(() ->
+                        ((HasMountNodeProperty) activityContext).mountNodeProperty().bind(((HasNodeProperty) mountChildSubRouter.hostingContext).nodeProperty()) // Using the hosting context node which is bound to the child activity node
+                    );
                 // This should display the child activity because a mount parent activity is supposed to bind its context mount node to the UI
         }
 
