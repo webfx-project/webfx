@@ -280,7 +280,7 @@ public interface Future<T> extends AsyncResult<T> {
         };
     }
 
-    static Future<Void> executeParallel(Future... futures) {
+    static Future<Void> allOf(Future... futures) {
         Future<Void> future = Future.future();
         Unit<Integer> latch = new Unit<>(futures.length);
         Handler<AsyncResult> latchHandler = asyncResult -> {
