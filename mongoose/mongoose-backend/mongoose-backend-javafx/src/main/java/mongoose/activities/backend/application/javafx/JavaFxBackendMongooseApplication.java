@@ -10,7 +10,7 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 import naga.framework.ui.router.UiRouter;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.JavaFxToolkit;
-import naga.fx.spi.javafx.util.FxImageStore;
+import naga.fx.util.ImageStore;
 
 
 /**
@@ -48,7 +48,7 @@ public class JavaFxBackendMongooseApplication extends BackendMongooseApplication
                 rootPane.getChildren().remove(spinner);
             } else if (!rootPane.getChildren().contains(spinner)) {
                 if (spinner == null)
-                    spinner = FxImageStore.createIconImageView("mongoose/client/java/images/spinner.gif");
+                    spinner = ImageStore.createImageView("mongoose/client/java/images/spinner.gif");
                 spinner.setManaged(false);
                 spinner.setX(rootPane.getWidth() / 2 - spinner.prefWidth(-1) / 2);
                 spinner.setY(rootPane.getHeight() / 2 - spinner.prefHeight(-1) / 2);

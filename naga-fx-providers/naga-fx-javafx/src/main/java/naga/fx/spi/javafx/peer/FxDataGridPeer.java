@@ -17,7 +17,7 @@ import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
 import naga.fx.spi.Toolkit;
-import naga.fx.spi.javafx.util.FxImageStore;
+import naga.fx.util.ImageStore;
 import naga.fx.spi.javafx.util.FxPaints;
 import naga.fxdata.cell.rowstyle.RowAdapter;
 import naga.fxdata.cell.rowstyle.RowStyleUpdater;
@@ -135,7 +135,7 @@ public class FxDataGridPeer
         newColumns.add(gridColumn);
         naga.fxdata.displaydata.Label label = displayColumn.getLabel();
         gridColumn.setText(label.getText());
-        gridColumn.setGraphic(FxImageStore.createLabelIconImageView(label));
+        gridColumn.setGraphic(ImageStore.createLabelIconImageView(label));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();
         if (prefWidth != null) {
             prefWidth = prefWidth + 10; // because of the 5px left and right padding

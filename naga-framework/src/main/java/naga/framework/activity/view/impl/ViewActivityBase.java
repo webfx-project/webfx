@@ -12,6 +12,7 @@ import naga.framework.activity.view.ViewActivityContext;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
+import naga.fx.util.ImageStore;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 
@@ -63,7 +64,7 @@ public abstract class ViewActivityBase
     }
 
     public static ImageView createImageView(JsonObject json) {
-        ImageView imageView = new ImageView(json.getString("url"));
+        ImageView imageView = ImageStore.createImageView(json.getString("url"));
         imageView.setFitWidth(json.getDouble("width"));
         imageView.setFitHeight(json.getDouble("height"));
         return imageView;

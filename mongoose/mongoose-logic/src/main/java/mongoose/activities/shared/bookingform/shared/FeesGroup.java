@@ -1,7 +1,10 @@
 package mongoose.activities.shared.bookingform.shared;
 
-import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
@@ -12,13 +15,10 @@ import naga.commons.util.Objects;
 import naga.commons.util.async.Handler;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
-import naga.fxdata.displaydata.*;
+import naga.fx.util.ImageStore;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
+import naga.fxdata.displaydata.*;
 
 /**
  * @author Bruno Salmon
@@ -85,7 +85,7 @@ public class FeesGroup {
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventService.areEventAvailabilitiesLoaded())
-                                return new ImageView("images/16/spinner.gif");
+                                return ImageStore.createImageView("images/16/spinner.gif");
                             Object availability = pair.get1();
                             OptionsPreselection optionsPreselection = pair.get2();
                             // Availability is null when there is no online room at all. In this case...
