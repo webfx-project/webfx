@@ -238,8 +238,27 @@ public class Image implements
         return smooth;
     }
 
+    /**
+     * Indicates whether the image is being loaded in the background.
+     *
+     * @defaultValue false
+     */
+    private final boolean backgroundLoading;
+
+    /**
+     * Indicates whether the image is being loaded in the background.
+     * @return true if the image is loaded in the background
+     */
+    public final boolean isBackgroundLoading() {
+        return backgroundLoading;
+    }
+
     public Image(String url) {
-        this(url, 0, 0, false, false);
+        this(url, false);
+    }
+
+    public Image(String url, boolean backgroundLoading) {
+        this(url, 0, 0, false, false, backgroundLoading);
     }
 
     /**
@@ -259,12 +278,13 @@ public class Image implements
      * @throws IllegalArgumentException if URL is invalid or unsupported
      */
     public Image(String url, double requestedWidth, double requestedHeight,
-                 boolean preserveRatio, boolean smooth) {
+                 boolean preserveRatio, boolean smooth, boolean backgroundLoading) {
         this.url = url;
         this.requestedWidth = requestedWidth;
         this.requestedHeight = requestedHeight;
         this.preserveRatio = preserveRatio;
         this.smooth = smooth;
+        this.backgroundLoading = backgroundLoading;
     }
 
     private final Property<Double> widthProperty = new SimpleObjectProperty<>(-1d);
