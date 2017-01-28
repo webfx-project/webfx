@@ -26,6 +26,8 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
     protected Button previousButton;
     protected Button nextButton;
 
+    protected BorderPane borderPane;
+
     public BookingProcessViewActivity(String nextPage) {
         this.nextPage = nextPage;
     }
@@ -44,10 +46,12 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
             nextButton = i18n.translateText(new Button(), "Next");
         previousButton.setOnAction(this::onPreviousButtonPressed);
         nextButton.setOnAction(this::onNextButtonPressed);
+
+        borderPane = new BorderPane(null, null, null, new HBox(previousButton, nextButton), null);
     }
 
     protected Node assemblyViewNodes() {
-        return new BorderPane(null, null, null, new HBox(previousButton, nextButton), null);
+        return borderPane;
     }
 
     private void onPreviousButtonPressed(ActionEvent event) {

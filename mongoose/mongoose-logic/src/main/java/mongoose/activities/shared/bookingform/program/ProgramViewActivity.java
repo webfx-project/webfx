@@ -1,6 +1,5 @@
 package mongoose.activities.shared.bookingform.program;
 
-import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.bookingform.shared.BookingCalendar;
@@ -16,8 +15,6 @@ import naga.platform.spi.Platform;
  */
 public class ProgramViewActivity extends BookingProcessViewActivity {
 
-    private VBox panelsVBox;
-
     private BookingCalendar bookingCalendar;
     private OptionsPreselection noAccommodationOptionsPreselection;
 
@@ -31,17 +28,16 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
         I18n i18n = getI18n();
         BorderPane calendarPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/calendar.svg', width: 16, height: 16}", "Timetable", i18n);
         //BorderPane teachingsPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/calendar.svg', width: 16, height: 16}", "Teachings", i18n);
-        panelsVBox = new VBox(calendarPanel);
+        VBox panelsVBox = new VBox(calendarPanel);
 
-        bookingCalendar = new BookingCalendar(false, i18n);
-        bookingCalendar.setSameWindowOwnerAs(calendarPanel);
+        borderPane.setCenter(panelsVBox);
+        borderPane.setBottom(previousButton);
+
+        bookingCalendar = new BookingCalendar(false, i18n, borderPane);
+
         calendarPanel.centerProperty().bind(bookingCalendar.calendarNodeProperty());
-        showBookingCalendarIfReady();
-    }
 
-    @Override
-    protected Node assemblyViewNodes() {
-        return new BorderPane(panelsVBox, null, null, previousButton, null);
+        showBookingCalendarIfReady();
     }
 
     private void showBookingCalendarIfReady() {

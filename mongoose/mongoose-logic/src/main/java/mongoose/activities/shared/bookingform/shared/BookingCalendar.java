@@ -4,8 +4,6 @@ import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Window;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
@@ -23,7 +21,6 @@ import mongoose.entities.Option;
 import mongoose.services.EventService;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.platform.spi.Platform;
 
@@ -40,13 +37,14 @@ public class BookingCalendar {
     private final Property<String> formattedBookingPrice = new SimpleObjectProperty<>();
     private final boolean amendable;
     private final I18n i18n;
-    private Window windowOwner;
+    private final Node parentOwner;
     private WorkingDocument workingDocument;
     private CalendarGraphic calendarGraphic;
 
-    public BookingCalendar(boolean amendable, I18n i18n) {
+    public BookingCalendar(boolean amendable, I18n i18n, Node parentOwner) {
         this.amendable = amendable;
         this.i18n = i18n;
+        this.parentOwner = parentOwner;
     }
 
     public Node getCalendarNode() {
@@ -71,18 +69,6 @@ public class BookingCalendar {
 
     public ReadOnlyProperty<String> formattedBookingPriceProperty() {
         return formattedBookingPrice;
-    }
-
-    public void setWindowOwner(Window windowOwner) {
-        this.windowOwner = windowOwner;
-    }
-
-    public void setSameWindowOwnerAs(Node node) {
-        Properties.runNowAndOnPropertiesChange(p -> {
-            Scene scene = node.getScene();
-            if (scene != null)
-                setWindowOwner(scene.getWindow());
-        }, node.sceneProperty());
     }
 
     public void createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection) {
@@ -137,6 +123,7 @@ public class BookingCalendar {
             Option option = getCalendarTimelineOption(calendarTimeline);
             if (option != null) {
                 DayTimeRangeEditor.showDayTimeRangeEditorDialog(calendarTimeline.getDayTimeRange(),
+                        event.getCalendarCell().getEpochDay(),
                         "Option: " + calendarTimeline.displayNameProperty().getValue(),
                         (newDayTimeRange, dialogCallback) -> {
                             // Creating an update store
@@ -156,7 +143,7 @@ public class BookingCalendar {
                                     createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument);
                                 }
                             });
-                        }, windowOwner
+                        }, parentOwner, i18n
                 );
             }
         }
