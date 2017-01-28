@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
+import naga.framework.ui.dialog.DialogUtil;
 
 /**
  * @author Bruno Salmon
@@ -52,6 +53,8 @@ public class Theme {
     }
 
     static {
+        DialogUtil.dialogBackgroundProperty().bind(dialogBackgroundProperty);
+        DialogUtil.dialogBorderProperty().bind(dialogBorderProperty);
         new LightTheme().apply();
     }
 

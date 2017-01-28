@@ -57,7 +57,15 @@ public class DayTimeRange {
         return getRuleForDay(day, timeUnit).getDayTimeInterval();
     }
 
-    private TimeRangeRule getRuleForDay(long day, TimeUnit timeUnit) {
+    public TimeRangeRule getGeneralRule() {
+        return generalRule;
+    }
+
+    public List<TimeRangeRule> getExceptionRules() {
+        return exceptionRules;
+    }
+
+    public TimeRangeRule getRuleForDay(long day, TimeUnit timeUnit) {
         if (exceptionRules != null) {
             day = TimeConverter.convertTime(day, timeUnit, TimeUnit.MINUTES);
             long nextDay = day + TimeConverter.oneDay(TimeUnit.MINUTES);
@@ -69,25 +77,29 @@ public class DayTimeRange {
         return generalRule;
     }
 
-    private static class TimeRangeRule {
-        final DateTimeRange coverage;
-        final TimeSeries dayTimeSeries;
-        TimeInterval dayTimeInterval;
+    public static class TimeRangeRule {
+        private final DateTimeRange coverage;
+        private final TimeSeries dayTimeSeries;
+        private TimeInterval dayTimeInterval;
 
-        TimeRangeRule(DateTimeRange coverage, String text) {
-            this.coverage = coverage;
-            dayTimeSeries = TimeSeries.parse(text);
+        public TimeRangeRule(DateTimeRange coverage, String text) {
+            this(coverage, TimeSeries.parse(text));
         }
 
-        DateTimeRange getCoverage() {
+        public TimeRangeRule(DateTimeRange coverage, TimeSeries dayTimeSeries) {
+            this.coverage = coverage;
+            this.dayTimeSeries = dayTimeSeries;
+        }
+
+        public DateTimeRange getCoverage() {
             return coverage;
         }
 
-        TimeSeries getDayTimeSeries() {
+        public TimeSeries getDayTimeSeries() {
             return dayTimeSeries;
         }
 
-        TimeInterval getDayTimeInterval() {
+        public TimeInterval getDayTimeInterval() {
             if (dayTimeInterval == null)
                 dayTimeInterval = dayTimeSeries.toInterval();
             return dayTimeInterval;
