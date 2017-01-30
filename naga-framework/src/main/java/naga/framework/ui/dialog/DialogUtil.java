@@ -44,7 +44,7 @@ public class DialogUtil {
         child.setMaxWidth(USE_PREF_SIZE);
         child.setMaxHeight(USE_PREF_SIZE);
         goldPane.add(child, 0, 1);
-        goldPane.setBackground(new Background(new BackgroundFill(Color.BLUE.deriveColor(1.0, 1.0, 1.0, 0.5), null, null)));
+        goldPane.setBackground(new Background(new BackgroundFill(Color.gray(0.3, 0.5), null, null)));
         return goldPane;
     }
 
@@ -54,7 +54,8 @@ public class DialogUtil {
             // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
             region.setMaxWidth(USE_PREF_SIZE);
             region.setMaxHeight(USE_PREF_SIZE);
-            region.setPadding(new Insets(50, 50, 50, 50));
+            double padding = 30;
+            region.setPadding(new Insets(padding, padding, padding, padding));
         }
         BorderPane decorator = new BorderPane(content);
         decorator.backgroundProperty().bind(dialogBackgroundProperty());
