@@ -2,38 +2,39 @@ package mongoose.activities.shared.logic.ui.calendargraphic.impl;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import mongoose.activities.shared.logic.calendar.CalendarTimeline;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
-import mongoose.activities.shared.logic.time.TimeInterval;
 import javafx.geometry.VPos;
-import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
+import mongoose.activities.shared.logic.calendar.CalendarTimeline;
+import mongoose.activities.shared.logic.time.TimeInterval;
+import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
+import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
+import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 
 /**
  * @author Bruno Salmon
  */
-class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDayTimePositioned, CalendarCell {
+public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDayTimePositioned, CalendarCell {
 
-    private final static Font textFont = Font.font("Verdana", 13);
-    private final static Font timeFont = Font.font("Verdana", 10);
+    private final static String fontFamily = "Verdana";
+    private final static Font textFont = Font.font(fontFamily, 13);
+    private final static Font timeFont = Font.font(fontFamily, 10);
     private final static Paint timeFill = Color.WHITE;
 
     private long epochDay;
     private TimeInterval dayTimeMinuteInterval;
-    private final Rectangle rectangle = new Rectangle();
+    private final Pane rootPane = new Pane();
     private final Text blockText = new Text();
     private Text startTimeText;
     private Text endTimeText;
-    private final Group group = new Group();
     private final Translate translate = new Translate();
 
     {
@@ -42,11 +43,22 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
         blockText.setFill(DayColumnHeaderViewModel.dayColumnHeaderTextColor);
         blockText.setTextOrigin(VPos.CENTER);
         blockText.setMouseTransparent(true);
-        group.setAutoSizeChildren(false);
-        group.getTransforms().setAll(translate);
+        rootPane.getTransforms().setAll(translate);
+        rootPane.widthProperty().addListener((observable, oldValue, width) -> {
+            blockText.setWrappingWidth((double) width);
+            if (startTimeText != null) {
+                startTimeText.setWrappingWidth((double) width - 2);
+                endTimeText.setWrappingWidth((double) width - 2);
+            }
+        });
+        rootPane.heightProperty().addListener((observable, oldValue, height) -> {
+            blockText.setY((double) height / 2);
+            if (endTimeText != null)
+                endTimeText.setY((double) height - 1d);
+        });
     }
 
-    DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, boolean displayTimes) {
+    public DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, boolean displayTimes) {
         init(calendarGraphic, epochDay, dayTimeMinuteInterval, timeline, displayTimes);
     }
 
@@ -60,16 +72,17 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
             blockText.textProperty().unbind();
             blockText.setText(null);
         }
-        rectangle.setFill(timeline.getBackgroundFill());
-        rectangle.setOnMouseClicked(event -> {
-            if (calendarGraphic.getCalendarClickHandler() != null)
-                calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
-        });
-        ObservableList<Node> children = group.getChildren();
+        rootPane.setBackground(new Background(new BackgroundFill(timeline.getBackgroundFill(), null, null)));
+        if (calendarGraphic != null)
+            rootPane.setOnMouseClicked(event -> {
+                if (calendarGraphic.getCalendarClickHandler() != null)
+                    calendarGraphic.getCalendarClickHandler().handle(new CalendarClickEvent(event, this, timeline));
+            });
+        ObservableList<Node> children = rootPane.getChildren();
         if (!displayTimes) {
             startTimeText = endTimeText = null;
             if (children.size() != 2)
-                children.setAll(rectangle, blockText);
+                children.setAll(blockText);
         } else {
             if (startTimeText == null) {
                 startTimeText = new Text();
@@ -91,12 +104,13 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
             }
             endTimeText.setText(dayTimeMinuteInterval.getEndText());
             if (children.size() != 4)
-                children.setAll(rectangle, blockText, startTimeText, endTimeText);
+                children.setAll(blockText, startTimeText, endTimeText);
         }
+        setYAndHeight(0, VerticalDayTimePositioner.slotHeight);
     }
 
-    public Group getGroup() {
-        return group;
+    public Pane getNode() {
+        return rootPane;
     }
 
     @Override
@@ -112,20 +126,14 @@ class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, VerticalDa
     @Override
     public void setXAndWidth(double x, double width) {
         translate.setX(x);
-        rectangle.setWidth(width);
-        blockText.setWrappingWidth(width);
-        if (startTimeText != null) {
-            startTimeText.setWrappingWidth(width - 2);
-            endTimeText.setWrappingWidth(width - 2);
-        }
+        rootPane.resize(width, rootPane.getHeight());
+        rootPane.setPrefWidth(width); // In case it is displayed in a layout
     }
 
     @Override
     public void setYAndHeight(double y, double height) {
         translate.setY(y);
-        rectangle.setHeight(height);
-        blockText.setY(height / 2);
-        if (endTimeText != null)
-            endTimeText.setY(height - 1d);
+        rootPane.resize(rootPane.getWidth(), height);
+        rootPane.setPrefHeight(height); // In case it is displayed in a layout
     }
 }

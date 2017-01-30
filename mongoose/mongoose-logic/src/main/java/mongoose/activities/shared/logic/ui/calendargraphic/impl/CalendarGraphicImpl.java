@@ -140,12 +140,13 @@ public class CalendarGraphicImpl implements CalendarGraphic {
         for (long displayedEpochDay = horizontalDayPositioner.getFirstDisplayedEpochDay(); displayedEpochDay <= horizontalDayPositioner.getLastDisplayedEpochDay(); displayedEpochDay++) {
             HorizontalDayPositioned hdp = horizontalDayPositioner.getHorizontalDayPositioned(index++);
             if (hdp instanceof DayColumnHeaderViewModel)
-                ((DayColumnHeaderViewModel) hdp).init(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
+                ((DayColumnHeaderViewModel) hdp).init(displayedEpochDay, i18n);
             else {
-                DayColumnHeaderViewModel model =
-                        new DayColumnHeaderViewModel(displayedEpochDay, DayColumnHeaderViewModel.dayColumnHeaderHeight, i18n);
+                if (hdp != null)
+                    horizontalDayPositioner.removeHorizontalDayPositioned(hdp);
+                DayColumnHeaderViewModel model = new DayColumnHeaderViewModel(displayedEpochDay, i18n);
                 horizontalDayPositioner.addHorizontalDayPositioned(index, model);
-                headersGroup.getChildren().add(model.group);
+                headersGroup.getChildren().add(model.getNode());
             }
         }
         // TODO: Remove extra headers
@@ -185,7 +186,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
             DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
             horizontalDayPositioner.addHorizontalDayPositioned(model);
             verticalDayPositioner.addVerticalDayTimePositioned(model);
-            node = model.getGroup();
+            node = model.getNode();
             node.getProperties().put("model", model);
             if (index == null)
                 bodyNodes.add(node);
