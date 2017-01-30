@@ -2,12 +2,11 @@ package naga.framework.ui.dialog;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import naga.commons.util.collection.Collections;
@@ -27,8 +26,10 @@ public class GridPaneBuilder {
     private final I18n i18n;
     private int rowCount;
     private int colCount;
-    private List<Pair<TextField, String>> watched = new ArrayList<>();
+    private List<Pair<Property, Object>> watchedUserProperties = new ArrayList<>();
     private Property<Boolean> noChangesProperty = new SimpleObjectProperty<>(true);
+    private final ChangeListener watchedUserPropertyListener = (observable, oldValue, newValue) ->
+            noChangesProperty.setValue(Collections.findFirst(watchedUserProperties, pair -> !pair.get1().getValue().equals(pair.get2())) == null);
 
     public GridPaneBuilder(I18n i18n) {
         this.i18n = i18n;
@@ -41,24 +42,42 @@ public class GridPaneBuilder {
         gridPane.getColumnConstraints().setAll(cc1, cc2);
     }
 
-    public GridPaneBuilder addLabelTextFieldRow(String labelKey, TextField textField) {
-        Label label = i18n.translateText(new Label(), labelKey);
-        textField.setPrefWidth(150d);
-        label.setFont(font);
-        textField.setFont(font);
-        //label.textFillProperty().bind(Theme.dialogTextFillProperty());
-        GridPane.setHalignment(label, HPos.RIGHT);
-        // Watching textField
-        watched.add(new Pair<>(textField, textField.getText()));
-        textField.textProperty().addListener((observable, oldValue, newValue) ->
-            noChangesProperty.setValue(Collections.findFirst(watched, pair -> !pair.get1().getText().equals(pair.get2())) == null)
-        );
-        return addNewRow(label, textField);
+    public GridPaneBuilder addLabelTextInputRow(String labelKey, TextInputControl textInput) {
+        return addNewRow(createLabel(labelKey), setUpTextInput(textInput));
+    }
+
+    public GridPaneBuilder addCheckBoxTextInputRow(String labelKey, CheckBox checkBox, TextInputControl textInput) {
+        textInput.visibleProperty().bind(checkBox.selectedProperty());
+        return addNewRow(setUpLabeled(checkBox, labelKey), setUpTextInput(textInput));
+    }
+
+    public GridPaneBuilder addTextInputRow(TextInputControl textInput) {
+        return addNodeFillingRow(setUpTextInput(textInput));
     }
 
     public GridPaneBuilder addNewRow(Node... children) {
         colCount = Math.max(colCount, children.length);
         gridPane.addRow(rowCount++, children);
+        return this;
+    }
+
+    public GridPaneBuilder addNodeFillingRow(Node node) {
+        return addNodeFillingRow(0, node);
+    }
+
+    public GridPaneBuilder addNodeFillingRow(int topMargin, Node node) {
+        return addNodeFillingRow(topMargin, node, colCount);
+    }
+
+    public GridPaneBuilder addNodeFillingRow(Node node, int colSpan) {
+        return addNodeFillingRow(0, node, colSpan);
+    }
+
+    public GridPaneBuilder addNodeFillingRow(int topMargin, Node node, int colSpan) {
+        if (topMargin != 0)
+            GridPane.setMargin(node, new Insets(topMargin, 0, 0, 0));
+        gridPane.add(node, 0, rowCount++, colSpan, 1);
+        GridPane.setHgrow(node, Priority.ALWAYS);
         return this;
     }
 
@@ -70,6 +89,41 @@ public class GridPaneBuilder {
     }
 
     public GridPaneBuilder addButtons(String button1Key, Button button1, String button2Key, Button button2) {
+        return addNodeFillingRow(20, createButtonBar(button1Key, button1, button2Key, button2));
+    }
+
+    public GridPane getGridPane() {
+        return gridPane;
+    }
+
+    //// private methods
+
+    private Label createLabel(String labelKey) {
+        return setUpLabeled(new Label(), labelKey);
+    }
+
+    private <T extends Labeled> T setUpLabeled(T labeled, String labelKey) {
+        i18n.translateText(labeled, labelKey).setFont(font);
+        //label.textFillProperty().bind(Theme.dialogTextFillProperty());
+        GridPane.setHalignment(labeled, HPos.RIGHT);
+        if (labeled instanceof CheckBox)
+            watchUserProperty(((CheckBox) labeled).selectedProperty());
+        return labeled;
+    }
+
+    private TextInputControl setUpTextInput(TextInputControl textInput) {
+        textInput.setPrefWidth(150d);
+        textInput.setFont(font);
+        watchUserProperty(textInput.textProperty());
+        return textInput;
+    }
+
+    private void watchUserProperty(Property userProperty) {
+        watchedUserProperties.add(new Pair<>(userProperty, userProperty.getValue()));
+        userProperty.addListener(watchedUserPropertyListener);
+    }
+
+    private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
         if ("Ok".equals(button1Key))
             button1.disableProperty().bind(noChangesProperty);
         i18n.translateText(button1, button1Key).setFont(font);
@@ -78,11 +132,6 @@ public class GridPaneBuilder {
         grow.setMaxWidth(Double.MAX_VALUE);
         HBox hbox = new HBox(10, grow, button1, button2);
         HBox.setHgrow(grow, Priority.ALWAYS);
-        GridPane.setMargin(hbox, new Insets(20, 0, 0, 0));
-        gridPane.add(hbox, 0, rowCount++, colCount, 1);
-        return this;
-    }
-    public GridPane getGridPane() {
-        return gridPane;
+        return hbox;
     }
 }
