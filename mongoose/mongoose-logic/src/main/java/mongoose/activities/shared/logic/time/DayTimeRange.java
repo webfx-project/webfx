@@ -1,5 +1,6 @@
 package mongoose.activities.shared.logic.time;
 
+import naga.commons.util.collection.Collections;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
@@ -13,9 +14,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class DayTimeRange {
 
-    private final String text;
     private final TimeRangeRule generalRule;
     private final List<TimeRangeRule> exceptionRules;
+    private String text;
 
     public static DayTimeRange parse(String text) {
         return text == null ? null : new DayTimeRange(text);
@@ -45,7 +46,28 @@ public class DayTimeRange {
         }
     }
 
+    public DayTimeRange(TimeRangeRule generalRule, List<TimeRangeRule> exceptionRules) {
+        this.generalRule = generalRule;
+        this.exceptionRules = exceptionRules;
+    }
+
     public String getText() {
+        if (text == null) {
+            text = generalRule.getDayTimeSeries().toText();
+            if (!Collections.isEmpty(exceptionRules)) {
+                StringBuilder sb = new StringBuilder("{'*': '").append(text).append('\'');
+                Collections.forEach(exceptionRules, rule -> {
+                    sb.append(", '").append(rule.getCoverage().getText()).append("': '");
+                    rule.getDayTimeSeries().toText(sb).append('\'');
+                });
+                text = sb.append('}').toString();
+            }
+        }
+        return text;
+    }
+
+    @Override
+    public String toString() {
         return text;
     }
 
@@ -65,6 +87,10 @@ public class DayTimeRange {
         return exceptionRules;
     }
 
+    public TimeRangeRule getRuleForDay(long day) {
+        return getRuleForDay(day, TimeUnit.DAYS);
+    }
+
     public TimeRangeRule getRuleForDay(long day, TimeUnit timeUnit) {
         if (exceptionRules != null) {
             day = TimeConverter.convertTime(day, timeUnit, TimeUnit.MINUTES);
@@ -75,6 +101,46 @@ public class DayTimeRange {
             }
         }
         return generalRule;
+    }
+
+    public DayTimeRange changeGeneralRule(String newGeneralDayTimeSeriesText) {
+        return changeGeneralRule(new TimeRangeRule(null, newGeneralDayTimeSeriesText));
+    }
+
+    public DayTimeRange changeGeneralRule(TimeRangeRule newGeneralRule) {
+        return new DayTimeRange(newGeneralRule, exceptionRules);
+    }
+
+    public DayTimeRange addExceptionRuleForDay(long day, String exceptionDayTimeSeriesText) {
+        return addExceptionRuleForDay(day, TimeUnit.DAYS, exceptionDayTimeSeriesText);
+    }
+
+    public DayTimeRange addExceptionRuleForDay(long day, TimeUnit timeUnit, String exceptionDayTimeSeriesText) {
+        day = TimeConverter.convertTime(day, timeUnit, TimeUnit.MINUTES);
+        long nextDay = day + TimeConverter.oneDay(TimeUnit.MINUTES);
+        TimeRangeRule exceptionRule = new TimeRangeRule(new DateTimeRange(new TimeInterval(day, nextDay, TimeUnit.MINUTES)), exceptionDayTimeSeriesText);
+        return removeExceptionRuleForDay(day, timeUnit).addExceptionRule(exceptionRule);
+    }
+
+    public DayTimeRange addExceptionRule(TimeRangeRule exceptionRule) {
+        List<TimeRangeRule> newExceptionRules = new ArrayList<>();
+        if (exceptionRules != null)
+            newExceptionRules.addAll(exceptionRules);
+        newExceptionRules.add(exceptionRule);
+        return new DayTimeRange(generalRule, newExceptionRules);
+    }
+
+    public DayTimeRange removeExceptionRuleForDay(long day) {
+        return removeExceptionRuleForDay(day, TimeUnit.DAYS);
+    }
+
+    public DayTimeRange removeExceptionRuleForDay(long day, TimeUnit timeUnit) {
+        TimeRangeRule ruleForDay = getRuleForDay(day, timeUnit);
+        if (ruleForDay == generalRule)
+            return this;
+        List<TimeRangeRule> newExceptionRules = new ArrayList<>(exceptionRules);
+        newExceptionRules.remove(ruleForDay);
+        return new DayTimeRange(generalRule, newExceptionRules);
     }
 
     public static class TimeRangeRule {
