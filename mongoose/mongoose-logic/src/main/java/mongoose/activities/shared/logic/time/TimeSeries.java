@@ -67,8 +67,9 @@ public final class TimeSeries {
     }
 
     StringBuilder toText(StringBuilder sb) {
+        int index = 0;
         for (TimeInterval interval : array)
-            interval.toText(sb.length() > 0 ? sb.append(", ") : sb);
+            interval.toText(index++ > 0 ? sb.append(", ") : sb);
         return sb;
     }
 
