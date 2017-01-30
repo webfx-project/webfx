@@ -1,80 +1,67 @@
 package mongoose.activities.shared.bookingform.shared;
 
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.time.DayTimeRange;
+import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
+import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
 import naga.commons.util.function.BiConsumer;
 import naga.framework.ui.dialog.DialogUtil;
 import naga.framework.ui.dialog.GridPaneBuilder;
 import naga.framework.ui.i18n.I18n;
-import naga.fx.spi.Toolkit;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
  */
 class DayTimeRangeEditor {
 
-    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, String headerText, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
-        showDayTimeRangeInternDialog(dayTimeRange, epochDay, headerText, okConsumer, parentOwner, i18n);
+    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
+        showDayTimeRangeInternDialog(dayTimeRange, epochDay, timeline, okConsumer, parentOwner, i18n);
     }
 
-    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, String headerText, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
-        String generalText = dayTimeRange.getGeneralRule().getDayTimeSeries().toText();
-        String exceptionText = dayTimeRange.getRuleForDay(epochDay, TimeUnit.DAYS).getDayTimeSeries().toText();
+    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
+        DayTimeRange.TimeRangeRule generalRule = dayTimeRange.getGeneralRule();
+        DayTimeRange.TimeRangeRule ruleForDay = dayTimeRange.getRuleForDay(epochDay);
+
+        String generalText = generalRule.getDayTimeSeries().toText();
+        String exceptionText = ruleForDay.getDayTimeSeries().toText();
 
         TextField generalTextField = new TextField(generalText);
+        CheckBox exceptionCheckBox = new CheckBox();
         TextField exceptionTextField = new TextField(exceptionText);
         Button okButton = new Button();
         Button cancelButton = new Button();
 
+        boolean hasException = !exceptionText.equals(generalText);
+        exceptionCheckBox.setSelected(hasException);
+
         DialogUtil.DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(i18n)
-                        .addLabelTextFieldRow("GeneralRule", generalTextField)
-                        .addLabelTextFieldRow("ExceptionRule", exceptionTextField)
+                        .addNodeFillingRow(new DayColumnBodyBlockViewModel(null, epochDay, generalRule.getDayTimeInterval(), timeline, true).getNode(), 2)
+                        .addLabelTextInputRow("Hours", generalTextField)
+                        .addNodeFillingRow(20, new DayColumnHeaderViewModel(epochDay, i18n).getNode())
+                        .addCheckBoxTextInputRow("Exception", exceptionCheckBox, exceptionTextField)
                         .addButtons("Ok", okButton, "Cancel", cancelButton)
                         .getGridPane(),
                 (Pane) parentOwner);
 
         okButton.setOnAction(e -> {
-            okConsumer.accept(DayTimeRange.parse(generalTextField.getText()), dialogCallback);
+            String newGeneralText = generalTextField.getText();
+            String newExceptionText = exceptionTextField.getText();
+            DayTimeRange newDayTimeRange = dayTimeRange.changeGeneralRule(newGeneralText);
+            boolean newHasException = exceptionCheckBox.isSelected() && !newExceptionText.equals(newGeneralText);
+            if (newHasException != hasException || newHasException && !newExceptionText.equals(exceptionText)) {
+                if (newHasException)
+                    newDayTimeRange = newDayTimeRange.addExceptionRuleForDay(epochDay, newExceptionText);
+                else
+                    newDayTimeRange = newDayTimeRange.removeExceptionRuleForDay(epochDay);
+            }
+            okConsumer.accept(newDayTimeRange, dialogCallback);
         });
         cancelButton.setOnAction(e -> dialogCallback.closeDialog());
-    }
-
-    private static void showDayTimeRangeTextInputDialog(DayTimeRange dayTimeRange, String headerText, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner) {
-        String dayTimeRangeText = dayTimeRange.getText();
-        TextInputDialog dialog = new TextInputDialog(dayTimeRangeText);
-        dialog.initOwner(parentOwner.getScene().getWindow());
-        dialog.setTitle("Editing day time range");
-        dialog.setHeaderText(headerText);
-        dialog.setContentText("Day time range:");
-        dialog.show();
-        dialog.setOnCloseRequest(dialogEvent -> {
-            String newDayTimeRangeText = dialog.getResult();
-            if (newDayTimeRangeText == null /* Cancel button */ || newDayTimeRangeText.equals(dayTimeRangeText) /* Ok button but no change */)
-                return; // No change => we return immediately and this will close the dialog
-            // The user made a change, we don't close the dialog yet, we keep it open until the change is recorded in the database
-            dialogEvent.consume(); // This will prevent the dialog to close
-            okConsumer.accept(DayTimeRange.parse(newDayTimeRangeText), new DialogUtil.DialogCallback() {
-                @Override
-                public void closeDialog() {
-                    Toolkit.get().scheduler().runInUiThread(() -> {
-                        dialog.setResult(null); // Resetting result back to null for next pass
-                        dialog.close();
-                    });
-                }
-
-                @Override
-                public void showException(Throwable e) {
-                    Toolkit.get().scheduler().runInUiThread(() -> {
-                        dialog.setResult(null); // Resetting result back to null for next pass
-                        DialogUtil.showExceptionAlert(e, dialog.getOwner());
-                    });
-                }
-            });
-        });
     }
 
 }

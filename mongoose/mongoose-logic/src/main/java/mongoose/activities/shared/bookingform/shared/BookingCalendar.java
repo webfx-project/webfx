@@ -124,7 +124,7 @@ public class BookingCalendar {
             if (option != null) {
                 DayTimeRangeEditor.showDayTimeRangeEditorDialog(calendarTimeline.getDayTimeRange(),
                         event.getCalendarCell().getEpochDay(),
-                        "Option: " + calendarTimeline.displayNameProperty().getValue(),
+                        calendarTimeline,
                         (newDayTimeRange, dialogCallback) -> {
                             // Creating an update store
                             UpdateStore store = UpdateStore.create(workingDocument.getEventService().getEventDataSourceModel());
