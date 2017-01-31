@@ -19,6 +19,8 @@ import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author Bruno Salmon
  */
@@ -44,27 +46,23 @@ public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, Ver
         blockText.setTextOrigin(VPos.CENTER);
         blockText.setMouseTransparent(true);
         rootPane.getTransforms().setAll(translate);
-        rootPane.widthProperty().addListener((observable, oldValue, width) -> {
-            blockText.setWrappingWidth((double) width);
-            if (startTimeText != null) {
-                startTimeText.setWrappingWidth((double) width - 2);
-                endTimeText.setWrappingWidth((double) width - 2);
-            }
-        });
-        rootPane.heightProperty().addListener((observable, oldValue, height) -> {
-            blockText.setY((double) height / 2);
-            if (endTimeText != null)
-                endTimeText.setY((double) height - 1d);
-        });
+        rootPane.widthProperty().addListener((observable, oldValue, width) -> onWidthChanged());
+        rootPane.heightProperty().addListener((observable, oldValue, height) -> onHeightChanged());
     }
 
-    public DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, boolean displayTimes) {
+    public DayColumnBodyBlockViewModel(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, Boolean displayTimes) {
         init(calendarGraphic, epochDay, dayTimeMinuteInterval, timeline, displayTimes);
     }
 
-    void init(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, boolean displayTimes) {
+    void init(CalendarGraphic calendarGraphic, long epochDay, TimeInterval dayTimeMinuteInterval, CalendarTimeline timeline, Boolean displayTimes) {
         this.epochDay = epochDay;
-        this.dayTimeMinuteInterval = dayTimeMinuteInterval;
+        // Setting dayTimeMinuteInterval for vertical positioning (=> same row as the timeline even for exceptions)
+        this.dayTimeMinuteInterval = timeline.getDayTimeRange().getDayTimeInterval(epochDay, TimeUnit.MINUTES); //dayTimeMinuteInterval;
+        TextAlignment timeTextAlignment = TextAlignment.LEFT;
+        if (displayTimes == null) {
+            displayTimes = !this.dayTimeMinuteInterval.equals(dayTimeMinuteInterval);
+            timeTextAlignment = TextAlignment.RIGHT;
+        }
         Property<String> displayNameProperty = timeline.displayNameProperty();
         if (displayNameProperty != null)
             blockText.textProperty().bind(displayNameProperty);
@@ -87,7 +85,7 @@ public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, Ver
             if (startTimeText == null) {
                 startTimeText = new Text();
                 startTimeText.setFont(timeFont);
-                startTimeText.setTextAlignment(TextAlignment.LEFT);
+                startTimeText.setTextAlignment(timeTextAlignment);
                 startTimeText.setFill(timeFill);
                 startTimeText.setTextOrigin(VPos.TOP);
                 startTimeText.setY(1d);
@@ -97,7 +95,7 @@ public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, Ver
             if (endTimeText == null) {
                 endTimeText = new Text();
                 endTimeText.setFont(timeFont);
-                endTimeText.setTextAlignment(TextAlignment.LEFT);
+                endTimeText.setTextAlignment(timeTextAlignment);
                 endTimeText.setFill(timeFill);
                 endTimeText.setTextOrigin(VPos.BOTTOM);
                 endTimeText.setMouseTransparent(true);
@@ -105,8 +103,26 @@ public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, Ver
             endTimeText.setText(dayTimeMinuteInterval.getEndText());
             if (children.size() != 4)
                 children.setAll(blockText, startTimeText, endTimeText);
+            if (rootPane.getParent() != null)
+                onWidthChanged();
         }
         setYAndHeight(0, VerticalDayTimePositioner.slotHeight);
+    }
+
+    private void onWidthChanged() {
+        double width = rootPane.getWidth();
+        blockText.setWrappingWidth(width);
+        if (startTimeText != null) {
+            startTimeText.setWrappingWidth(width - 2);
+            endTimeText.setWrappingWidth(width - 2);
+        }
+    }
+
+    private void onHeightChanged() {
+        double height = rootPane.getHeight();
+        blockText.setY(height / 2);
+        if (endTimeText != null)
+            endTimeText.setY(height - 1d);
     }
 
     public Pane getNode() {

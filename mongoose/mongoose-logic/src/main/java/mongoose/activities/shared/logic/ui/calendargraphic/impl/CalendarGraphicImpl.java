@@ -183,7 +183,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     private void addBlockNode(long epochDay, TimeInterval minuteInterval, CalendarTimeline timeline, List<Node> bodyNodes, Unit<Integer> index) {
         Node node = index == null ? null : Collections.get(bodyNodes, index.get());
         if (node == null) {
-            DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
+            DayColumnBodyBlockViewModel model = new DayColumnBodyBlockViewModel(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay ? Boolean.TRUE : null);
             horizontalDayPositioner.addHorizontalDayPositioned(model);
             verticalDayPositioner.addVerticalDayTimePositioned(model);
             node = model.getNode();
@@ -194,7 +194,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
                 bodyNodes.add(index.get(), node);
         } else {
             DayColumnBodyBlockViewModel model = (DayColumnBodyBlockViewModel) node.getProperties().get("model");
-            model.init(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay);
+            model.init(this, epochDay, minuteInterval, timeline, epochDay == firstEpochDay ? Boolean.TRUE : null);
             verticalDayPositioner.updateVerticalDayTimePositioned(model);
         }
         if (index != null)
