@@ -17,6 +17,7 @@ import naga.commons.type.SpecializedTextType;
 import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
+import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -45,9 +46,16 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         super.startLogic(pm);
         pm.setOnProgramAction(this::onProgramButtonPressed);
         pm.setOnTermsAction(this::onTermsButtonPressed);
+        rsProperty = pm.dateInfoDisplayResultSetProperty();
 
         // Load and display fees groups now but also on event change
-        Properties.runNowAndOnPropertiesChange(property -> loadAndDisplayFeesGroups(pm), pm.eventIdProperty());
+        Properties.runNowAndOnPropertiesChange(property -> loadAndDisplayFeesGroups(), pm.eventIdProperty());
+
+        dictionary = getI18n().getDictionary();
+        Properties.consume(Properties.filter(Properties.combine(getI18n().dictionaryProperty(), activeProperty(),
+                Pair::new), // combine function
+                pair -> pair.get2()), // filter function (GWT doesn't compile method reference in this case)
+                pair -> refreshOnDictionaryChanged());
     }
 
     private void onProgramButtonPressed(ActionEvent e) {
@@ -58,36 +66,48 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         goToNextBookingProcessPage("terms");
     }
 
+    private Dictionary dictionary;
 
-    private void loadAndDisplayFeesGroups(FeesPresentationModel pm) {
-        onFeesGroup().setHandler(async -> {
-            if (async.failed())
-                Platform.log(async.cause());
-            else {
-                FeesGroup[] feesGroups = async.result();
-                Property<DisplayResultSet> dateInfoDisplayResultSetProperty = pm.dateInfoDisplayResultSetProperty();
-                I18n i18n = getI18n();
-                Properties.consume(Properties.filter(Properties.combine(i18n.dictionaryProperty(), activeProperty(),
-                        Pair::new), // combine function
-                        pair -> pair.get2()), // filter function (GWT doesn't compile method reference in this case)
-                        pair -> displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty));
-                onEventAvailabilities().setHandler(ar -> {
-                    if (ar.succeeded())
-                        displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
-                });
-            }
+    private void refreshOnDictionaryChanged() {
+        Dictionary dictionary = getI18n().getDictionary();
+        if (this.dictionary != dictionary) {
+            this.dictionary = dictionary;
+            displayFeesGroups();
+        }
+    }
+
+    private void loadAndDisplayFeesGroups() {
+        onFeesGroup().setHandler(ar -> {
+            if (ar.failed())
+                Platform.log(ar.cause());
+            else
+                displayFeesGroupsAndRefreshAvailabilities(ar.result());
         });
     }
-    private void displayFeesGroups(FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
-        if (getEvent() == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
-            return; // We return to avoid NPE (this method will be called again once the event is loaded)
-        Toolkit.get().scheduler().runInBackground(() -> displayFeesGroupsNow(feesGroups, dateInfoDisplayResultSetProperty));
+
+    private Property<DisplayResultSet> rsProperty;
+    private FeesGroup[] feesGroups;
+
+    private void displayFeesGroupsAndRefreshAvailabilities(FeesGroup[] feesGroups) {
+        this.feesGroups = feesGroups;
+        onEventAvailabilities().setHandler(ar -> {
+            if (ar.succeeded())
+                displayFeesGroups();
+        });
+        if (getEventAvailabilities() == null)
+            displayFeesGroups();
     }
 
-    private void displayFeesGroupsNow(FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
+    private void displayFeesGroups() {
+        if (getEvent() == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
+            return; // We return to avoid NPE (this method will be called again once the event is loaded)
+        Toolkit.get().scheduler().runOutUiThread(() -> displayFeesGroupsNow());
+    }
+
+    private void displayFeesGroupsNow() {
         int n = feesGroups.length;
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(n, new DisplayColumn[]{
-                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value, feesGroups, dateInfoDisplayResultSetProperty)),
+                DisplayColumn.create(value -> renderFeesGroupHeader((Pair<JsonObject, String>) value)),
                 DisplayColumn.create(value -> renderFeesGroupBody((DisplayResultSet) value)),
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
@@ -100,10 +120,10 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
                 rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n));
         }
         DisplayResultSet rs = rsb.build();
-        dateInfoDisplayResultSetProperty.setValue(rs);
+        rsProperty.setValue(rs);
     }
 
-    private Node renderFeesGroupHeader(Pair<JsonObject, String> pair, FeesGroup[] feesGroups, Property<DisplayResultSet> dateInfoDisplayResultSetProperty) {
+    private Node renderFeesGroupHeader(Pair<JsonObject, String> pair) {
         I18n i18n = getI18n();
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
@@ -119,7 +139,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
                 person.setUnemployed(unemployed);
                 if (unemployed)
                     person.setFacilityFee(false);
-                displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
+                displayFeesGroups();
             });
         }
         if (facilityFeeRadio != null) {
@@ -128,7 +148,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
                 person.setFacilityFee(facilityFee);
                 if (facilityFee)
                     person.setUnemployed(false);
-                displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
+                displayFeesGroups();
             });
         }
         if (noDiscountRadio != null) {
@@ -138,7 +158,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
                     person.setUnemployed(false);
                     person.setFacilityFee(false);
                 }
-                displayFeesGroups(feesGroups, dateInfoDisplayResultSetProperty);
+                displayFeesGroups();
             });
         }
         Text feesGroupText = new Text(pair.get2());
@@ -159,5 +179,4 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         setWorkingDocument(optionsPreselection.getWorkingDocument());
         onNextButtonPressed(null);
     }
-
 }
