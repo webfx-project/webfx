@@ -60,7 +60,7 @@ public class BrowserHistory extends MemoryHistory {
         checkInitialized();
         if (showHash && !mountPath.startsWith("#"))
             mountPath = "#" + mountPath;
-        return  super.mountToFullPath(mountPath);
+        return super.mountToFullPath(mountPath);
     }
 
     @Override
@@ -116,6 +116,6 @@ public class BrowserHistory extends MemoryHistory {
     @Override
     public void go(int offset) {
         windowHistory.go(offset);
-        super.go(offset);
+        // super.go(offset); // Commented as this causes extra routing. TODO: find another way to synchronize the memory history
     }
 }
