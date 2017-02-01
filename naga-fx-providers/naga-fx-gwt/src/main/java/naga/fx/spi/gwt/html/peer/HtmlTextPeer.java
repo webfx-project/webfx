@@ -53,11 +53,11 @@ public class HtmlTextPeer
     @Override
     public void updateY(Double y) {
         VPos textOrigin = getNode().getTextOrigin();
-        if (textOrigin != null && textOrigin != VPos.TOP) {
-            double clientHeight = getLayoutBounds().getHeight();
+        if (textOrigin == VPos.CENTER || textOrigin == VPos.BOTTOM) {
+            double clientHeight = getLayoutBounds().getHeight(); // time consuming call
             if (textOrigin == VPos.CENTER)
                 y = y - clientHeight / 2;
-            else if (textOrigin == VPos.BOTTOM)
+            else // if (textOrigin == VPos.BOTTOM)
                 y = y - clientHeight;
         }
         setElementStyleAttribute("top", toPx(y));
