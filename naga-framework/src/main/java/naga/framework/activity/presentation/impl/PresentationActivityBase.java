@@ -1,5 +1,6 @@
 package naga.framework.activity.presentation.impl;
 
+import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.async.Future;
 import naga.commons.util.function.Callable;
 import naga.commons.util.function.Factory;
@@ -14,7 +15,6 @@ import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContextFactory;
 import naga.platform.activity.ActivityManager;
 import naga.platform.activity.composition.impl.ComposedActivityBase;
-import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -51,9 +51,10 @@ public class PresentationActivityBase
     @Override
     protected Future<Void> executeBoth(Callable<Future<Void>> callable1, Callable<Future<Void>> callable2) {
         Future<Void> future2 = Future.future();
-        Platform.get().scheduler().runInBackground(() -> callable2.call().setHandler(future2.completer()));
+        UiScheduler uiScheduler = Toolkit.get().scheduler();
+        uiScheduler.runOutUiThread(() -> callable2.call().setHandler(future2.completer()));
         Future<Void> future1 = Future.future();
-        Toolkit.get().scheduler().runInUiThread(() -> callable1.call().setHandler(future1.completer()));
+        uiScheduler.runInUiThread(() -> callable1.call().setHandler(future1.completer()));
         return Future.allOf(future1, future2);
     }
 }

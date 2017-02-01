@@ -14,6 +14,13 @@ public interface UiScheduler extends Scheduler {
             scheduleDeferred(runnable);
     }
 
+    default void runOutUiThread(Runnable runnable) {
+        if (!isUiThread())
+            runnable.run();
+        else
+            runInBackground(runnable);
+    }
+
     default Scheduled scheduleAnimationFrame(Runnable runnable) {
         return scheduleAnimationFrame(0, runnable);
     }
