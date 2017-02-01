@@ -76,22 +76,24 @@ public class BookingCalendar {
     }
 
     public void createOrUpdateCalendarGraphicFromWorkingDocument(WorkingDocument workingDocument) {
-        this.workingDocument = workingDocument;
-        PerformanceLogger perf = new PerformanceLogger();
-        Calendar calendar = createCalendarFromWorkingDocument();
-        perf.log("Calendar creation");
-        Toolkit.get().scheduler().runInUiThread(() -> {
-            if (calendarGraphic == null) {
-                calendarGraphic = CalendarGraphic.create(calendar, i18n);
-                calendarGraphic.setCalendarClickHandler(this::onCalendarClick);
-            } else
-                calendarGraphic.setCalendar(calendar);
-            perf.log("CalendarGraphic creation");
-            calendarNodeProperty.setValue(calendarGraphic.getNode());
-            perf.log("CalendarNode set");
-            computeAndDisplayWorkingTotalPrice();
-            perf.log("Price computation");
-        });
+        if (this.workingDocument != workingDocument) {
+            this.workingDocument = workingDocument;
+            PerformanceLogger perf = new PerformanceLogger();
+            Calendar calendar = createCalendarFromWorkingDocument();
+            perf.log("Calendar creation");
+            Toolkit.get().scheduler().runInUiThread(() -> {
+                if (calendarGraphic == null) {
+                    calendarGraphic = CalendarGraphic.create(calendar, i18n);
+                    calendarGraphic.setCalendarClickHandler(this::onCalendarClick);
+                } else
+                    calendarGraphic.setCalendar(calendar);
+                perf.log("CalendarGraphic creation");
+                calendarNodeProperty.setValue(calendarGraphic.getNode());
+                perf.log("CalendarNode set");
+                computeAndDisplayWorkingTotalPrice();
+                perf.log("Price computation");
+            });
+        }
     }
 
     private Calendar createCalendarFromWorkingDocument() {
