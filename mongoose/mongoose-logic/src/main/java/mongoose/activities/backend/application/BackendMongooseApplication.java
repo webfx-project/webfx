@@ -1,5 +1,6 @@
 package mongoose.activities.backend.application;
 
+import mongoose.activities.backend.book.event.options.EditableOptionsViewActivity;
 import mongoose.activities.backend.container.BackendContainerViewActivity;
 import mongoose.activities.backend.event.bookings.BookingsPresentationActivity;
 import mongoose.activities.backend.event.clone.CloneEventPresentationActivity;
@@ -28,7 +29,8 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
 
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
-        return super.setupContainedRouter(containedRouter)
+        return super.setupContainedRouter(containedRouter
+                .route("/book/event/:eventId/options", EditableOptionsViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/organizations", OrganizationsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/organization/:organizationId/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
@@ -38,7 +40,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
                 .route("/monitor", MonitorPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/tester", TesterPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/saveTest", SaveTestPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                ;
+        );
     }
 
     @Override

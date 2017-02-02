@@ -38,15 +38,19 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         BorderPane calendarPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/calendar.svg', width: 16, height: 16}", "Attendance", getI18n());
         Text priceText = new Text();
 
-        borderPane.setCenter(calendarPanel);
-
-        bookingCalendar = new BookingCalendar(true, getI18n(), borderPane);
+        bookingCalendar = createBookingCalendar();
 
         calendarPanel.setTop(priceText);
         calendarPanel.centerProperty().bind(bookingCalendar.calendarNodeProperty());
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());
 
+        borderPane.setCenter(calendarPanel);
+
         showBookingCalendarIfReady();
+    }
+
+    protected BookingCalendar createBookingCalendar() {
+        return new BookingCalendar(true, getI18n());
     }
 
     private BookingCalendar bookingCalendar;

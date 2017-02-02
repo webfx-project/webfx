@@ -33,7 +33,7 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
         borderPane.setCenter(panelsVBox);
         borderPane.setBottom(previousButton);
 
-        bookingCalendar = new BookingCalendar(false, i18n, borderPane);
+        bookingCalendar = new BookingCalendar(false, i18n);
 
         calendarPanel.centerProperty().bind(bookingCalendar.calendarNodeProperty());
 

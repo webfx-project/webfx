@@ -1,4 +1,4 @@
-package mongoose.activities.shared.book.event.shared;
+package mongoose.activities.backend.book.event.shared;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -10,8 +10,8 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
 import naga.commons.util.function.BiConsumer;
-import naga.framework.ui.dialog.DialogUtil;
-import naga.framework.ui.dialog.GridPaneBuilder;
+import naga.framework.ui.controls.DialogUtil;
+import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.i18n.I18n;
 
 /**
