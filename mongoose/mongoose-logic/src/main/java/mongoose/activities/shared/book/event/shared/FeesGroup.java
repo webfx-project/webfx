@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.shared;
+package mongoose.activities.shared.book.event.shared;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

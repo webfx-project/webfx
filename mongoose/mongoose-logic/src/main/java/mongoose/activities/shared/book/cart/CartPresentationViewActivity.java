@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.cart;
+package mongoose.activities.shared.book.cart;
 
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;

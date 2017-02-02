@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.shared;
+package mongoose.activities.shared.book.event.shared;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

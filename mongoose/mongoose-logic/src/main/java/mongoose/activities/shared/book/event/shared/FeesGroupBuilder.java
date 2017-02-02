@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.shared;
+package mongoose.activities.shared.book.event.shared;
 
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.preselection.OptionsPreselectionBuilder;

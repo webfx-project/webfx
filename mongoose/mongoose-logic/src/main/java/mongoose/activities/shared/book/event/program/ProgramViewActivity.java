@@ -1,10 +1,10 @@
-package mongoose.activities.shared.bookingform.program;
+package mongoose.activities.shared.book.event.program;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import mongoose.activities.shared.bookingform.shared.BookingCalendar;
-import mongoose.activities.shared.bookingform.shared.BookingProcessViewActivity;
-import mongoose.activities.shared.bookingform.shared.FeesGroup;
+import mongoose.activities.shared.book.event.shared.BookingCalendar;
+import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.i18n.I18n;

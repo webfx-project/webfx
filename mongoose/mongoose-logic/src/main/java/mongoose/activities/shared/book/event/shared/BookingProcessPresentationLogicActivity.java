@@ -1,17 +1,16 @@
-package mongoose.activities.shared.bookingform.shared;
+package mongoose.activities.shared.book.event.shared;
 
 import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
+import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.function.Factory;
 import naga.framework.orm.entity.EntityList;
-import naga.framework.ui.i18n.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,39 +18,20 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public abstract class BookingProcessViewActivity extends EventDependentViewDomainActivity {
+public class BookingProcessPresentationLogicActivity<PM extends BookingProcessPresentationModel>
+    extends EventDependentPresentationLogicActivity<PM> {
 
     private final String nextPage;
 
-    protected Button previousButton;
-    protected Button nextButton;
-
-    protected BorderPane borderPane;
-
-    public BookingProcessViewActivity(String nextPage) {
+    public BookingProcessPresentationLogicActivity(Factory<PM> presentationModelFactory, String nextPage) {
+        super(presentationModelFactory);
         this.nextPage = nextPage;
     }
 
     @Override
-    public Node buildUi() {
-        createViewNodes();
-        return assemblyViewNodes();
-    }
-
-    protected void createViewNodes() {
-        I18n i18n = getI18n();
-        if (previousButton == null)
-            previousButton = i18n.translateText(new Button(), "Back");
-        if (nextButton == null)
-            nextButton = i18n.translateText(new Button(), "Next");
-        previousButton.setOnAction(this::onPreviousButtonPressed);
-        nextButton.setOnAction(this::onNextButtonPressed);
-
-        borderPane = new BorderPane(null, null, null, new HBox(previousButton, nextButton), null);
-    }
-
-    protected Node assemblyViewNodes() {
-        return borderPane;
+    protected void startLogic(PM pm) {
+        pm.setOnPreviousAction(this::onPreviousButtonPressed);
+        pm.setOnNextAction(this::onNextButtonPressed);
     }
 
     private void onPreviousButtonPressed(ActionEvent event) {
@@ -63,7 +43,7 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
     }
 
     protected void goToNextBookingProcessPage(String page) {
-        getHistory().push("/event/" + getEventId() + "/" + page);
+        getHistory().push("/book/event/" + getEventId() + "/" + page);
     }
 
     protected Future<FeesGroup[]> onFeesGroup() {
@@ -93,6 +73,11 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
                 .build();
+    }
+
+    protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
+        OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
+        return selectedOptionsPreselection == null ? null : selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
     }
 
 }

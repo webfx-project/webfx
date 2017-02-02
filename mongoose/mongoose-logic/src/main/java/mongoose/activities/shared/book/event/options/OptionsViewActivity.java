@@ -1,9 +1,9 @@
-package mongoose.activities.shared.bookingform.options;
+package mongoose.activities.shared.book.event.options;
 
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
-import mongoose.activities.shared.bookingform.shared.BookingCalendar;
-import mongoose.activities.shared.bookingform.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingCalendar;
+import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import naga.platform.spi.Platform;

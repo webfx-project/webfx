@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.shared;
+package mongoose.activities.shared.book.event.shared;
 
 import naga.framework.ui.presentation.ViewModelBase;
 import javafx.scene.Node;

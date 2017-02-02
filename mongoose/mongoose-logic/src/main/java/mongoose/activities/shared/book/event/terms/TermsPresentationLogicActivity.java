@@ -1,6 +1,6 @@
-package mongoose.activities.shared.bookingform.terms;
+package mongoose.activities.shared.book.event.terms;
 
-import mongoose.activities.shared.bookingform.shared.BookingProcessPresentationLogicActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
 
 /**
  * @author Bruno Salmon

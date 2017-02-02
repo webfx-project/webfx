@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.fees;
+package mongoose.activities.shared.book.event.fees;
 
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityImpl;
 

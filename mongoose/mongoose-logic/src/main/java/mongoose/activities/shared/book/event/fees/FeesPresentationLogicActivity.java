@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.fees;
+package mongoose.activities.shared.book.event.fees;
 
 import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
@@ -8,8 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
-import mongoose.activities.shared.bookingform.shared.BookingProcessPresentationLogicActivity;
-import mongoose.activities.shared.bookingform.shared.FeesGroup;
+import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
+import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Person;
 import mongoose.services.PersonService;

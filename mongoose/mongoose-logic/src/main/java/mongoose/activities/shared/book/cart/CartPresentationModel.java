@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.cart;
+package mongoose.activities.shared.book.cart;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;

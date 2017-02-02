@@ -1,11 +1,11 @@
-package mongoose.activities.shared.bookingform.fees;
+package mongoose.activities.shared.book.event.fees;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import mongoose.activities.shared.bookingform.shared.BookingProcessPresentationViewActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessPresentationViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
 import naga.framework.ui.i18n.I18n;

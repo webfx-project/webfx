@@ -55,11 +55,11 @@ public class BookingsPresentationLogicActivity extends DomainPresentationLogicAc
                         Expression cartUuidExpression = getDataSourceModel().getDomainModel().parseExpression("cart.uuid", "Document");
                         Object cartUuid = document.evaluate(cartUuidExpression);
                         if (cartUuid != null)
-                            getHistory().push("/cart/" + cartUuid);
+                            getHistory().push("/book/cart/" + cartUuid);
                     }
                 }).start();
 
-        pm.setOnNewBooking(event -> getHistory().push("/event/" + pm.getEventId() + "/fees"));
+        pm.setOnNewBooking(event -> getHistory().push("/book/event/" + pm.getEventId() + "/fees"));
         pm.setOnCloneEvent(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
 
     }

@@ -1,11 +1,11 @@
-package mongoose.activities.shared.bookingform.fees;
+package mongoose.activities.shared.book.event.fees;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import mongoose.activities.shared.bookingform.shared.BookingProcessPresentationModel;
+import mongoose.activities.shared.book.event.shared.BookingProcessPresentationModel;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 /**

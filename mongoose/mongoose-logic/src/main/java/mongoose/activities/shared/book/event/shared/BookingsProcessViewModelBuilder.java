@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.shared;
+package mongoose.activities.shared.book.event.shared;
 
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.ui.i18n.I18n;

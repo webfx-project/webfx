@@ -1,4 +1,4 @@
-package mongoose.activities.shared.bookingform.cart;
+package mongoose.activities.shared.book.cart;
 
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import naga.framework.orm.entity.Entity;
