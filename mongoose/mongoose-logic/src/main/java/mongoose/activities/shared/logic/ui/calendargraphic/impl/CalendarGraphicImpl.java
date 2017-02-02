@@ -28,6 +28,8 @@ import naga.fx.properties.Properties;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static naga.framework.ui.controls.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
+
 /**
  * @author Bruno Salmon
  */
@@ -70,13 +72,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     private void createRootNode() {
-        rootNode = new Pane();
-        rootNode.setMinWidth(0d);
-        rootNode.setMaxWidth(Double.MAX_VALUE);
-        rootNode.setPrefWidth(Double.MAX_VALUE);
-        rootNode.setMinHeight(0d);
-        rootNode.setMaxHeight(Double.MAX_VALUE);
-        rootNode.setPrefHeight(Double.MAX_VALUE);
+        rootNode = setMinSizeToZeroAndPrefSizeToInfinite(new Pane());
         rootNode.widthProperty().addListener((observable, oldValue, newWidth) -> updateTotalWidth(newWidth.doubleValue()));
         createOrUpdateRootNodeCalendar();
     }

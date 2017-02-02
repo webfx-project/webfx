@@ -1,11 +1,12 @@
 package mongoose.activities.backend.monitor;
 
 import javafx.scene.Node;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.chart.LineChart;
+
+import static naga.framework.ui.controls.LayoutUtil.setVGrowable;
 
 /**
  * @author Bruno Salmon
@@ -17,16 +18,11 @@ public class MonitorPresentationViewActivity extends PresentationViewActivityImp
 
     @Override
     protected void createViewNodes(MonitorPresentationModel pm) {
-        memoryChart = new LineChart();
-        cpuChart = new LineChart();
-        memoryChart.setMaxWidth(Double.MAX_VALUE);
-        memoryChart.setMaxHeight(Double.MAX_VALUE);
-        VBox.setVgrow(memoryChart, Priority.ALWAYS);
-        VBox.setVgrow(cpuChart, Priority.ALWAYS);
+        memoryChart = setVGrowable(new LineChart());
+        cpuChart = setVGrowable(new LineChart());
 
         memoryChart.displayResultSetProperty().bind(pm.memoryDisplayResultSetProperty());
         cpuChart.displayResultSetProperty().bind(pm.cpuDisplayResultSetProperty());
-
     }
 
     @Override

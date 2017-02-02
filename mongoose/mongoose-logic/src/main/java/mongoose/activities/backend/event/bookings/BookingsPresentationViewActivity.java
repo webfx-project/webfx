@@ -4,10 +4,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.ui.i18n.I18n;
+
+import static naga.framework.ui.controls.LayoutUtil.setHGrowable;
 
 /**
  * @author Bruno Salmon
@@ -24,10 +25,7 @@ public class BookingsPresentationViewActivity extends GenericTablePresentationVi
         Button newBookingButton = i18n.translateText(new Button(), "NewBooking");
         Button cloneEventButton = i18n.translateText(new Button(), "CloneEvent");
 
-        hBox = new HBox(newBookingButton, searchBox, cloneEventButton);
-        HBox.setHgrow(searchBox, Priority.ALWAYS);
-        hBox.setPrefWidth(Double.MAX_VALUE);
-        hBox.setMaxWidth(Double.MAX_VALUE);
+        hBox = new HBox(newBookingButton, setHGrowable(searchBox), cloneEventButton);
 
         newBookingButton.textFillProperty().bind(Theme.mainTextFillProperty());
         cloneEventButton.textFillProperty().bind(Theme.mainTextFillProperty());

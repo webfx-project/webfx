@@ -1,4 +1,4 @@
-package naga.framework.ui.dialog;
+package naga.framework.ui.controls;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
@@ -7,7 +7,10 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.tuples.Pair;
@@ -15,6 +18,8 @@ import naga.framework.ui.i18n.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 
 /**
  * @author Bruno Salmon
@@ -128,10 +133,6 @@ public class GridPaneBuilder {
             button1.disableProperty().bind(noChangesProperty);
         i18n.translateText(button1, button1Key).setFont(font);
         i18n.translateText(button2, button2Key).setFont(font);
-        Region grow = new Region();
-        grow.setMaxWidth(Double.MAX_VALUE);
-        HBox hbox = new HBox(10, grow, button1, button2);
-        HBox.setHgrow(grow, Priority.ALWAYS);
-        return hbox;
+        return new HBox(10, createHGrowable(), button1, button2);
     }
 }

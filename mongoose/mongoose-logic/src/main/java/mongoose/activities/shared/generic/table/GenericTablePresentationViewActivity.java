@@ -9,6 +9,8 @@ import naga.framework.activity.presentation.view.impl.PresentationViewActivityIm
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.control.DataGrid;
 
+import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
+
 /**
  * @author Bruno Salmon
  */
@@ -23,11 +25,8 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
     protected void createViewNodes(PM pm) {
         I18n i18n = getI18n();
         searchBox = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
-        table = new DataGrid();
+        table = setMaxSizeToInfinite(new DataGrid());
         limitCheckBox = i18n.translateText(new CheckBox(), "LimitTo100");
-
-        table.setMaxWidth(Double.MAX_VALUE);
-        table.setMaxHeight(Double.MAX_VALUE);
 
         limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 
