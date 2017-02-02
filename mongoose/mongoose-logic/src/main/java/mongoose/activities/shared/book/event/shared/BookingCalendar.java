@@ -16,9 +16,9 @@ import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.services.EventService;
+import mongoose.util.PerformanceLogger;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
-import naga.platform.spi.Platform;
 
 import java.util.concurrent.TimeUnit;
 
@@ -134,16 +134,6 @@ public class BookingCalendar {
         int documentPrice = DocumentPricing.computeDocumentPrice(workingDocument);
         bookingPrice.setValue(documentPrice);
         formattedBookingPrice.setValue(PriceFormatter.SINGLETON.formatWithCurrency(documentPrice, workingDocument.getEventService().getEvent()));
-    }
-
-    private static class PerformanceLogger {
-        long t0 = System.currentTimeMillis();
-
-        void log(String message) {
-            long t1 = System.currentTimeMillis();
-            Platform.log(message + ": " + (t1 - t0) + "ms");
-            t0 = t1;
-        }
     }
 
 }
