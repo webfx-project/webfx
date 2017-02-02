@@ -19,6 +19,8 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity {
         super.buildUi();
 
         I18n i18n = getI18n();
+        Button organizationsButton = i18n.translateText(new Button(), "Organizations");
+        Button eventsButton = i18n.translateText(new Button(), "Events");
         Button bookingsButton = i18n.translateText(new Button(), "Bookings");
         Button lettersButton = i18n.translateText(new Button(), "Letters");
         Button monitorButton = i18n.translateText(new Button(), "Monitor");
@@ -28,6 +30,8 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity {
 
         borderPane.setTop(new FlowPane(backButton, forwardButton, organizationsButton, eventsButton, bookingsButton, lettersButton, monitorButton, testerButton, englishButton, frenchButton/* , lightTheme(), DarkTheme()*/));
 
+        organizationsButton.setOnAction(event ->  getHistory().push("/organizations"));
+        eventsButton.setOnAction(event ->  getHistory().push("/events"));
         bookingsButton.setOnAction(event -> getHistory().push("/event/" + getParameter("eventId") + "/bookings"));
         lettersButton.setOnAction(event -> getHistory().push("/event/" + getParameter("eventId") + "/letters"));
         monitorButton.setOnAction(event -> getHistory().push("/monitor"));
@@ -48,8 +52,6 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity {
         testerButton.textFillProperty().bind(Theme.mainTextFillProperty());
         lightTheme.textFillProperty().bind(Theme.mainTextFillProperty());
         darkTheme.textFillProperty().bind(Theme.mainTextFillProperty());
-
-        borderPane.centerProperty().bind(mountNodeProperty());
 
         return borderPane;
     }

@@ -24,7 +24,7 @@ public class FrontendMongooseApplication extends SharedMongooseApplication {
 
     @Override
     public void onStart() {
-        context.getUiRouter().setDefaultInitialHistoryPath("/event/125/fees");
+        context.getUiRouter().setDefaultInitialHistoryPath("/book/event/125/fees");
         super.onStart();
     }
 
