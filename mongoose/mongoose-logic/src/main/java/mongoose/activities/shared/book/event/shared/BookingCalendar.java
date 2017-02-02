@@ -66,11 +66,11 @@ public class BookingCalendar {
     }
 
     public void createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection) {
-        createOrUpdateCalendarGraphicFromWorkingDocument(optionsPreselection.getWorkingDocument());
+        createOrUpdateCalendarGraphicFromWorkingDocument(optionsPreselection.getWorkingDocument(), false);
     }
 
-    public void createOrUpdateCalendarGraphicFromWorkingDocument(WorkingDocument workingDocument) {
-        if (this.workingDocument != workingDocument) {
+    public void createOrUpdateCalendarGraphicFromWorkingDocument(WorkingDocument workingDocument, boolean forceRefresh) {
+        if (this.workingDocument != workingDocument || forceRefresh) {
             this.workingDocument = workingDocument;
             PerformanceLogger perf = new PerformanceLogger();
             Calendar calendar = createCalendarFromWorkingDocument();
@@ -127,7 +127,7 @@ public class BookingCalendar {
         DateTimeRange newWorkingDocumentDateTimeRange = eventService.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
         WorkingDocument newWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange);
         eventService.setWorkingDocument(newWorkingDocument);
-        createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument);
+        createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
     }
 
     private void computeAndDisplayWorkingTotalPrice() {

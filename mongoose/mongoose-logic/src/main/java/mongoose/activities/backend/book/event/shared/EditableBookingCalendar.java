@@ -56,7 +56,7 @@ public class EditableBookingCalendar extends BookingCalendar {
                                     dialogCallback.closeDialog();
                                     // Updating the UI
                                     option.setTimeRange(newDayTimeRange.getText());
-                                    createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument);
+                                    createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, true);
                                 }
                             });
                         }, parentOwner, i18n
