@@ -32,8 +32,7 @@ public class EditableBookingCalendar extends BookingCalendar {
 
     @Override
     protected void onCalendarClick(CalendarClickEvent event) {
-        editMode = event.getMouseEvent().isControlDown();
-        if (!editMode)
+        if (!isEditMode())
             super.onCalendarClick(event);
         else {
             CalendarTimeline calendarTimeline = event.getCalendarTimeline();

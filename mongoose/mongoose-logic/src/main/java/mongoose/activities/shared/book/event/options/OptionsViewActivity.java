@@ -53,7 +53,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         return new BookingCalendar(true, getI18n());
     }
 
-    private BookingCalendar bookingCalendar;
+    protected BookingCalendar bookingCalendar;
 
     private void showBookingCalendarIfReady() {
         WorkingDocument workingDocument = getWorkingDocument();
