@@ -52,9 +52,7 @@ public abstract class ViewActivityBase
     /** Helpers **/
 
     public static Text createTextView(String translationKey, I18n i18n) {
-        Text text = new Text();
-        i18n.translateString(text.textProperty(), translationKey);
-        return text;
+        return i18n.translateText(new Text(), translationKey);
     }
 
     public static ImageView createImageView(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
