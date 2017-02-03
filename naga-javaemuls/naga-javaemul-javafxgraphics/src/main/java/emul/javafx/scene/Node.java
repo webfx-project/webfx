@@ -1092,11 +1092,14 @@ public abstract class Node implements INode, EventTarget, Styleable {
             private LayoutMeasurable acceptedLayoutMeasurable = proposedLayoutMeasurable instanceof LayoutMeasurable ? (LayoutMeasurable) proposedLayoutMeasurable : null;
             {
                 if (acceptedLayoutMeasurable != null)
-                    Toolkit.get().scheduler().scheduleDeferred(() -> {
+                    Toolkit.get().scheduler().scheduleDeferred(() ->
                         acceptedLayoutMeasurable.setSizeChangedCallback(() -> {
                             markDirtyLayoutBranch();
-                        });
-                    });
+                            Parent parent = getParent();
+                            if (parent != null)
+                                parent.requestLayout();
+                        })
+                    );
             }
 
             public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.getLayoutBounds() : impl_getLayoutBounds(); }
