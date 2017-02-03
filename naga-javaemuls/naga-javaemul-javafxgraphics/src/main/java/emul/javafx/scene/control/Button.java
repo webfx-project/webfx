@@ -3,6 +3,7 @@ package emul.javafx.scene.control;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
+import emul.javafx.scene.Node;
 import emul.javafx.scene.text.TextAlignment;
 
 /**
@@ -15,11 +16,32 @@ public class Button extends ButtonBase {
         setTextAlignment(TextAlignment.CENTER);
     }
 
+    /**
+     * Creates a button with an empty string for its label.
+     */
     public Button() {
+        //initialize();
     }
 
+    /**
+     * Creates a button with the specified text as its label.
+     *
+     * @param text A text string for its label.
+     */
     public Button(String text) {
-        setText(text);
+        super(text);
+        //initialize();
+    }
+
+    /**
+     * Creates a button with the specified text and icon for its label.
+     *
+     * @param text A text string for its label.
+     * @param graphic the icon for its label.
+     */
+    public Button(String text, Node graphic) {
+        super(text, graphic);
+        //initialize();
     }
 
 
