@@ -1,6 +1,7 @@
 package naga.framework.ui.controls;
 
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
@@ -88,5 +89,15 @@ public class LayoutUtil {
     public static <N extends Region> N setMaxWidthToInfinite(N region) {
         region.setMaxWidth(Double.MAX_VALUE);
         return region;
+    }
+
+    public static <N extends Node> N setUnmanagedWhenInvisible(N node) {
+        node.managedProperty().bind(node.visibleProperty());
+        return node;
+    }
+
+    public static <N extends Node> N setUnmanagedWhenInvisible(N node, ObservableValue<Boolean> visibleProperty) {
+        node.visibleProperty().bind(visibleProperty);
+        return setUnmanagedWhenInvisible(node);
     }
 }
