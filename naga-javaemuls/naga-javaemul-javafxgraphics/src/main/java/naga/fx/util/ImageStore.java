@@ -24,7 +24,11 @@ public class ImageStore {
             synchronized (imagesCache) {
                 image = getImageFromCache(url, w, h); // double check in case several threads were waiting
                 if (image == null) {
-                    imagesCache.put(url, image = new Image(url, w, h, false, false, true));
+                    try {
+                        imagesCache.put(url, image = new Image(url, w, h, false, false, true));
+                    } catch (Exception e) {
+                        System.out.println("Unable to load image from url " + url);
+                    }
                 }
             }
         return image;
@@ -47,6 +51,6 @@ public class ImageStore {
             if (image != null)
                 return new ImageView(image);
         }
-        return null;
+        return new ImageView();
     }
 }

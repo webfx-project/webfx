@@ -57,7 +57,7 @@ public abstract class ViewActivityBase
 
     public static ImageView createImageView(String urlOrJson) { // TODO: move into Toolkit when Json will be move into naga-commons
         if (!Strings.startsWith(urlOrJson, "{"))
-            return new ImageView(urlOrJson);
+            return ImageStore.createImageView(urlOrJson);
         return createImageView(Json.parseObject(urlOrJson));
     }
 
