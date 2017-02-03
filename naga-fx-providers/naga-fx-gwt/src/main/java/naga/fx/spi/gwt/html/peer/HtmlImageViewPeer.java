@@ -2,15 +2,16 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.Element;
 import elemental2.HTMLElement;
+import elemental2.HTMLImageElement;
+import emul.javafx.geometry.BoundingBox;
+import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.image.Image;
+import emul.javafx.scene.image.ImageView;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
 import naga.platform.spi.Platform;
-import emul.javafx.geometry.BoundingBox;
-import emul.javafx.geometry.Bounds;
-import emul.javafx.scene.image.Image;
-import emul.javafx.scene.image.ImageView;
 
 import static naga.fx.spi.gwt.util.HtmlUtil.createImageElement;
 import static naga.fx.spi.gwt.util.HtmlUtil.createNodeFromHtml;
@@ -30,6 +31,21 @@ public class HtmlImageViewPeer
 
     public HtmlImageViewPeer(NB base, HTMLElement element) {
         super(base, element);
+        HTMLImageElement e = (HTMLImageElement) getElement();
+        e.onload = evt -> {
+            clearCache();
+            N node = getNode();
+            if (sizeChangedCallback != null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
+                sizeChangedCallback.run();
+            return null;
+        };
+    }
+
+    private Runnable sizeChangedCallback;
+
+    @Override
+    public void setSizeChangedCallback(Runnable sizeChangedCallback) {
+        this.sizeChangedCallback = sizeChangedCallback;
     }
 
     @Override
