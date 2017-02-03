@@ -55,6 +55,7 @@ abstract class HtmlButtonBasePeer
             Element graphicElement = toElement(graphic, node.getScene());
             HtmlUtil.setStyleAttribute(graphicElement, "margin", " 0 5px 0 0");
             HtmlUtil.setStyleAttribute(graphicElement, "vertical-align", "middle");
+            HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
             HtmlUtil.appendFirstChild(getElement(), graphicElement);
         }
         clearLayoutCache();
