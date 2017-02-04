@@ -11,10 +11,6 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonObject;
-import naga.platform.services.datasource.ConnectionDetails;
-import naga.platform.services.datasource.LocalDataSourceRegistry;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
 
@@ -95,14 +91,10 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
 
     private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity) {
         DataSourceModel dataSourceModel = DomainModelSnapshotLoader.getDataSourceModel();
-        String json = Platform.getResourceService().getText("mongoose/datasource/" + dataSourceModel.getId() + "/ConnectionDetails.json").result();
-        JsonObject jso = json == null ? null : Json.parseObject(json);
-        startActivity(mongooseMetricsServerActivity, dataSourceModel, ConnectionDetails.fromJson(jso));
+        startActivity(mongooseMetricsServerActivity, dataSourceModel);
     }
 
-    private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity, DataSourceModel dataSourceModel, ConnectionDetails connectionDetails) {
-        if (connectionDetails != null)
-            LocalDataSourceRegistry.registerLocalDataSource(dataSourceModel.getId(), connectionDetails);
+    private static void startActivity(MongooseMetricsServerActivity mongooseMetricsServerActivity, DataSourceModel dataSourceModel) {
         ActivityManager.startServerActivity(mongooseMetricsServerActivity, DomainActivityContext.createDomainActivityContext(dataSourceModel));
     }
 
