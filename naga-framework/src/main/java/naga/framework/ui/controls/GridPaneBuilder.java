@@ -56,14 +56,18 @@ public class GridPaneBuilder {
         return addNewRow(setUpLabeled(checkBox, labelKey), setUpTextInput(textInput));
     }
 
-    public GridPaneBuilder addTextInputRow(TextInputControl textInput) {
-        return addNodeFillingRow(setUpTextInput(textInput));
-    }
-
     public GridPaneBuilder addNewRow(Node... children) {
         colCount = Math.max(colCount, children.length);
         gridPane.addRow(rowCount++, children);
         return this;
+    }
+
+    public GridPaneBuilder addTextInputRow(TextInputControl textInput) {
+        return addNodeFillingRow(setUpTextInput(textInput));
+    }
+
+    public GridPaneBuilder addTextRow(String text) {
+        return addNodeFillingRow(setUpLabeled(new Label(), text));
     }
 
     public GridPaneBuilder addNodeFillingRow(Node node) {
@@ -71,7 +75,7 @@ public class GridPaneBuilder {
     }
 
     public GridPaneBuilder addNodeFillingRow(int topMargin, Node node) {
-        return addNodeFillingRow(topMargin, node, colCount);
+        return addNodeFillingRow(topMargin, node, Math.max(colCount, 1));
     }
 
     public GridPaneBuilder addNodeFillingRow(Node node, int colSpan) {
@@ -129,7 +133,7 @@ public class GridPaneBuilder {
     }
 
     private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
-        if ("Ok".equals(button1Key))
+        if ("Ok".equals(button1Key) && !watchedUserProperties.isEmpty())
             button1.disableProperty().bind(noChangesProperty);
         i18n.translateText(button1, button1Key).setFont(font);
         i18n.translateText(button2, button2Key).setFont(font);

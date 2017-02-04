@@ -2,6 +2,7 @@ package mongoose.activities.shared.book.event.options;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
@@ -12,12 +13,15 @@ import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.entities.ItemFamily;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
+import naga.fx.spi.Toolkit;
 import naga.platform.spi.Platform;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 public class OptionsViewActivity extends BookingProcessViewActivity {
 
     private VBox vBox;
+    private Node attendancePanel;
 
     public OptionsViewActivity() {
         super("person");
@@ -38,13 +43,37 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         super.onResume();
     }
 
-    private void startLogic() {
+    protected void startLogic() {
+        boolean forceRefresh = getEventOptions() == null;
         onFeesGroup().setHandler(async -> {
             if (async.failed())
                 Platform.log(async.cause());
             else
-                showBookingCalendarIfReady();
+                createOrUpdateOptionPanelsIfReady(forceRefresh);
         });
+    }
+
+    protected BookingCalendar createBookingCalendar() {
+        return new BookingCalendar(true, getI18n());
+    }
+
+    protected BookingCalendar bookingCalendar;
+
+    private void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
+        WorkingDocument workingDocument = getWorkingDocument();
+        if (workingDocument != null && bookingCalendar != null) {
+            bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
+
+            List<Option> toLevelOptions = Collections.filter(getEventOptions(), o -> o.getParent() == null);
+            toLevelOptions.sort(Comparator.comparingInt(this::optionSectionOrder));
+
+            Toolkit.get().scheduler().runInUiThread(() -> {
+                ObservableList<Node> sectionPanels = vBox.getChildren();
+                sectionPanels.setAll(toLevelOptions.stream().filter(this::isOptionSectionAboveAttendance).map(this::createTopLevelOptionPanel).collect(Collectors.toList()));
+                sectionPanels.add(attendancePanel);
+                sectionPanels.addAll(toLevelOptions.stream().filter(this::isOptionSectionBelowAttendance).map(this::createTopLevelOptionPanel).collect(Collectors.toList()));
+            });
+        }
     }
 
     @Override
@@ -53,12 +82,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         borderPane.setCenter(vBox = new VBox(20));
 
         bookingCalendar = createBookingCalendar();
-
-        List<Option> toLevelOptions = Collections.filter(getEventOptions(), o -> o.getParent() == null);
-
-        vBox.getChildren().addAll(toLevelOptions.stream().map(this::createTopLevelOptionPanel).collect(Collectors.toList()));
-
-        vBox.getChildren().add(createAttendancePanel());
+        attendancePanel = createAttendancePanel();
 
         Text priceText = new Text();
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());
@@ -68,35 +92,46 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         priceText.wrappingWidthProperty().bind(borderPane.widthProperty());
         borderPane.getChildren().add(priceText);
 
-        showBookingCalendarIfReady();
+        createOrUpdateOptionPanelsIfReady(true);
     }
 
-    protected BookingCalendar createBookingCalendar() {
-        return new BookingCalendar(true, getI18n());
+    private int optionSectionOrder(Option option) {
+        return itemFamilySectionOrder(option.getItemFamily());
     }
 
-    protected BookingCalendar bookingCalendar;
-
-    private void showBookingCalendarIfReady() {
-        WorkingDocument workingDocument = getWorkingDocument();
-        if (workingDocument != null && bookingCalendar != null) {
-            bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, false);
+    private int itemFamilySectionOrder(ItemFamily itemFamily) {
+        switch (itemFamily.getItemFamilyType()) {
+            case TEACHING: return 0;
+            case MEALS: return 1;
+            case ACCOMMODATION: return 2;
+            case TRANSLATION: return 11;
+            case PARKING: return 12;
+            case TRANSPORT: return 13;
         }
+        return 20;
+    }
+
+    private boolean isOptionSectionAboveAttendance(Option option) {
+        return optionSectionOrder(option) < 10;
+    }
+
+    private boolean isOptionSectionBelowAttendance(Option option) {
+        return !isOptionSectionAboveAttendance(option);
     }
 
     private Node createTopLevelOptionPanel(Option option) {
-        return createItemFamilyPanel(option.getItemFamily().getCode(), Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()));
+        return HighLevelComponents.createSectionPanel(null, Collections.toArray(
+                createOptionPanelHeaderNodes(
+                        option,
+                        Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
+                , Node[]::new));
     }
 
-    private Node createItemFamilyPanel(String familyCode, Property<String> i18nTitle) {
-        return HighLevelComponents.createSectionPanel(null, Collections.toArray(createItemFamilyPanelHeaderNodes(familyCode, i18nTitle), Node[]::new));
-    }
-
-    protected List<Node> createItemFamilyPanelHeaderNodes(String familyCode, Property<String> i18nTitle) {
+    protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {
         Text text = new Text();
         text.textProperty().bind(i18nTitle);
         return Arrays.asList(
-                createImageView("images/16/itemFamilies/" + familyCode + ".png"),
+                createImageView("images/16/itemFamilies/" + option.getItemFamily().getCode() + ".png"),
                 text
         );
     }

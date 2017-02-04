@@ -11,12 +11,14 @@ import javafx.scene.text.Text;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.entities.Option;
 import mongoose.entities.Person;
 import mongoose.services.PersonService;
 import naga.commons.type.SpecializedTextType;
 import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
+import naga.framework.orm.entity.EntityList;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
@@ -39,6 +41,13 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
 
     public FeesPresentationLogicActivity() {
         super(FeesPresentationModel::new, "options");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (lastLoadedEventOptions != null && getEventOptions() != lastLoadedEventOptions)
+            loadAndDisplayFeesGroups();
     }
 
     @Override
@@ -76,8 +85,12 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         }
     }
 
+    EntityList<Option> lastLoadedEventOptions;
+
     private void loadAndDisplayFeesGroups() {
+        lastLoadedEventOptions = null;
         onFeesGroup().setHandler(ar -> {
+            lastLoadedEventOptions = getEventOptions();
             if (ar.failed())
                 Platform.log(ar.cause());
             else
@@ -99,7 +112,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private void displayFeesGroups() {
-        if (getEvent() == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
+        if (feesGroups == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
             return; // We return to avoid NPE (this method will be called again once the event is loaded)
         Toolkit.get().scheduler().runOutUiThread(() -> displayFeesGroupsNow());
     }
