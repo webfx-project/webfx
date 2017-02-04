@@ -86,6 +86,11 @@ public class EntityStoreImpl implements EntityStore {
         return entityList;
     }
 
+    @Override
+    public void clearEntityList(Object listId) {
+        entityLists.remove(listId);
+    }
+
     // Expression
 
     @Override

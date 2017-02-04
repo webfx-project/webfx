@@ -59,6 +59,8 @@ public interface EntityStore {
 
     EntityList getOrCreateEntityList(Object listId);
 
+    void clearEntityList(Object listId);
+
 
     // Expression evaluation
 
