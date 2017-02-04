@@ -21,7 +21,7 @@ public class DbmsSqlSyntaxOptions {
         return insertReturningClause;
     }
 
-    public final static DbmsSqlSyntaxOptions POSTGRES_SYNTAX = new DbmsSqlSyntaxOptions(true, true);
+    public final static DbmsSqlSyntaxOptions POSTGRES_SYNTAX = new DbmsSqlSyntaxOptions(false, true);
     public final static DbmsSqlSyntaxOptions MYSQL_SYNTAX = new DbmsSqlSyntaxOptions(true, false);
     public final static DbmsSqlSyntaxOptions HSQL_SYNTAX = new DbmsSqlSyntaxOptions(false, false);
 }
