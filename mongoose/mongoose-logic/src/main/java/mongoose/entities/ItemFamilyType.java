@@ -4,23 +4,25 @@ package mongoose.entities;
  * @author Bruno Salmon
  */
 public enum ItemFamilyType {
+    TEACHING,
+    TRANSLATION,
     ACCOMMODATION,
     MEALS,
-    TEACHING,
-    TRANSPORT,
     DIET,
-    TRANSLATION,
+    PARKING,
+    TRANSPORT,
     UNKNOWN;
 
     public static ItemFamilyType fromCode(String code) {
         if (code != null) {
             switch (code) {
+                case "teach" : return TEACHING;
+                case "transl" : return TRANSLATION;
                 case "acco" : return ACCOMMODATION;
                 case "meals" : return MEALS;
-                case "teach" : return TEACHING;
-                case "transp" : return TRANSPORT;
                 case "diet" : return DIET;
-                case "transl" : return TRANSLATION;
+                case "park" : return PARKING;
+                case "transp" : return TRANSPORT;
             }
         }
         return UNKNOWN;
