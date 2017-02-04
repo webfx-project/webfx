@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
+import naga.commons.util.function.Consumer;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 
@@ -15,14 +16,6 @@ import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToPref;
  * @author Bruno Salmon
  */
 public class DialogUtil {
-
-    public interface DialogCallback {
-
-        void closeDialog();
-
-        void showException(Throwable e);
-
-    }
 
     private final static Property<Background> dialogBackgroundProperty = new SimpleObjectProperty<>();
     public static Property<Background> dialogBackgroundProperty() {
@@ -70,6 +63,12 @@ public class DialogUtil {
         decorator.backgroundProperty().bind(dialogBackgroundProperty());
         decorator.borderProperty().bind(dialogBorderProperty());
         return decorator;
+    }
+
+    public static void showDialog(DialogContent dialogContent, Consumer<DialogCallback> okConsumer, Pane parent) {
+        DialogCallback dialogCallback = showModalNodeInGoldLayout(dialogContent.build(), parent);
+        dialogContent.getCancelButton().setOnAction(event -> dialogCallback.closeDialog());
+        dialogContent.getOkButton().setOnAction(event -> okConsumer.accept(dialogCallback));
     }
 
 }

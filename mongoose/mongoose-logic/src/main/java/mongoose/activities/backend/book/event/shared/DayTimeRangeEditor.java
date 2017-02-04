@@ -10,6 +10,7 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
 import naga.commons.util.function.BiConsumer;
+import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.i18n.I18n;
@@ -19,11 +20,11 @@ import naga.framework.ui.i18n.I18n;
  */
 class DayTimeRangeEditor {
 
-    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
+    static void showDayTimeRangeEditorDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
         showDayTimeRangeInternDialog(dayTimeRange, epochDay, timeline, okConsumer, parentOwner, i18n);
     }
 
-    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogUtil.DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
+    private static void showDayTimeRangeInternDialog(DayTimeRange dayTimeRange, long epochDay, CalendarTimeline timeline, BiConsumer<DayTimeRange, DialogCallback> okConsumer, Node parentOwner, I18n i18n) {
         DayTimeRange.TimeRangeRule generalRule = dayTimeRange.getGeneralRule();
         DayTimeRange.TimeRangeRule ruleForDay = dayTimeRange.getRuleForDay(epochDay);
 
@@ -39,7 +40,7 @@ class DayTimeRangeEditor {
         boolean hasException = !exceptionText.equals(generalText);
         exceptionCheckBox.setSelected(hasException);
 
-        DialogUtil.DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(i18n)
+        DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(i18n)
                         .addNodeFillingRow(new DayColumnBodyBlockViewModel(null, epochDay, generalRule.getDayTimeInterval(), timeline, true).getNode(), 2)
                         .addLabelTextInputRow("Hours", generalTextField)
                         .addNodeFillingRow(20, new DayColumnHeaderViewModel(epochDay, i18n).getNode())
