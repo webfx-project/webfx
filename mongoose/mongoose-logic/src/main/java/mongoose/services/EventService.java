@@ -44,8 +44,14 @@ public interface EventService {
 
     <E extends Entity> EntityList<E> getEntityList(Object listId);
 
+    void clearEntityList(Object listId);
+
     default EntityList<Option> getEventOptions() {
         return getEntityList(OPTIONS_LIST_ID);
+    }
+
+    default void clearEventOptions() {
+        clearEntityList(OPTIONS_LIST_ID);
     }
 
     default EntityList<Site> getEventSites() {

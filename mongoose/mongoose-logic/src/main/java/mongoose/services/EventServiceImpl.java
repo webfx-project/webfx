@@ -98,6 +98,11 @@ class EventServiceImpl implements EventService {
         return store.getEntityList(listId);
     }
 
+    @Override
+    public void clearEntityList(Object listId) {
+        store.clearEntityList(listId);
+    }
+
     public List<Option> selectDefaultOptions() {
         return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
     }

@@ -40,8 +40,18 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
+    default void clearEntityList(Object listId) {
+        getEventService().clearEntityList(listId);
+    }
+
+    @Override
     default EntityList<Option> getEventOptions() {
         return getEventService().getEventOptions();
+    }
+
+    @Override
+    default void clearEventOptions() {
+        getEventService().clearEventOptions();
     }
 
     @Override
