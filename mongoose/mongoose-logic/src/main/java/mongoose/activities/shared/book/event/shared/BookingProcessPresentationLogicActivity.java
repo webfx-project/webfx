@@ -2,9 +2,6 @@ package mongoose.activities.shared.book.event.shared;
 
 import javafx.event.ActionEvent;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
-import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.time.DateTimeRange;
-import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Option;
 import naga.commons.util.async.Future;
@@ -74,10 +71,4 @@ public class BookingProcessPresentationLogicActivity<PM extends BookingProcessPr
                 .setAccommodationOptions(accommodationOptions)
                 .build();
     }
-
-    protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
-        OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
-        return selectedOptionsPreselection == null ? null : selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
-    }
-
 }
