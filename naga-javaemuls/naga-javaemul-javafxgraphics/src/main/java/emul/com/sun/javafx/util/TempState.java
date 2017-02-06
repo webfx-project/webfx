@@ -1,6 +1,7 @@
 package emul.com.sun.javafx.util;
 
 import emul.com.sun.javafx.geom.BaseBounds;
+import emul.com.sun.javafx.geom.Point2D;
 import emul.com.sun.javafx.geom.RectBounds;
 
 /**************************************************************************
@@ -34,7 +35,7 @@ public final class TempState {
     /**
      * A temporary point used for picking and other purposes.
      */
-    //public final Point2D point = new Point2D(0, 0);
+    public final Point2D point = new Point2D(0, 0);
 
     //public final Vec3d vec3d = new Vec3d(0, 0, 0);
 

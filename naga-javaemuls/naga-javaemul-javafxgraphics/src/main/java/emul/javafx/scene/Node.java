@@ -18,6 +18,7 @@ import emul.javafx.event.*;
 import emul.javafx.geometry.BoundingBox;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.geometry.Orientation;
+import emul.javafx.geometry.Point2D;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.input.MouseEvent;
@@ -1422,6 +1423,42 @@ public abstract class Node implements INode, EventTarget, Styleable {
             return tx.transform(localBounds, bounds);
         }
 */
+    }
+
+    /**
+     * Transforms a point from the local coordinate space of this {@code Node}
+     * into the coordinate space of its scene.
+     * Note that if this node is in a {@link SubScene}, the result is in the subscene coordinates,
+     * not that of {@link javafx.scene.Scene}.
+     * @param localX x coordinate of a point in Node's space
+     * @param localY y coordinate of a point in Node's space
+     * @return scene coordinates of the point or null if Node is not in a {@link Window}
+     */
+    public Point2D localToScene(double localX, double localY) {
+        final emul.com.sun.javafx.geom.Point2D tempPt =
+                TempState.getInstance().point;
+        tempPt.setLocation((float)localX, (float)localY);
+        localToScene(tempPt);
+        return new Point2D(tempPt.x, tempPt.y);
+    }
+
+    void localToScene(emul.com.sun.javafx.geom.Point2D pt) {
+        localToParent(pt);
+        if (getParent() != null) {
+            getParent().localToScene(pt);
+        }
+    }
+
+    /**
+     * Transforms in place the specified point from local coords to parent
+     * coords. Made package private for the sake of testing.
+     */
+    void localToParent(emul.com.sun.javafx.geom.Point2D pt) {
+        for (Transform transform : localToParentTransforms()) {
+            emul.com.sun.javafx.geom.Point2D p = transform.transform(pt);
+            pt.x = p.x;
+            pt.y = p.y;
+        }
     }
 
     ////////////////////////////
