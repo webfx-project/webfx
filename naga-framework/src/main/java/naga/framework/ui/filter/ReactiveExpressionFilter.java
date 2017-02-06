@@ -103,12 +103,22 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    public Property<Boolean> activePropertyProperty() {
+    public Property<Boolean> activeProperty() {
         return activeProperty;
     }
 
     public boolean isActive() {
         return activeProperty.getValue();
+    }
+
+    public ReactiveExpressionFilter setActive(boolean active) {
+        activeProperty.setValue(active);
+        return this;
+    }
+
+    public ReactiveExpressionFilter bindActivePropertyTo(ObservableValue<Boolean> activeProperty) {
+        this.activeProperty.bind(activeProperty);
+        return this;
     }
 
     public ReactiveExpressionFilter combine(String json) {
@@ -136,7 +146,7 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    public <T> ReactiveExpressionFilter combine(Property<T> property, Converter<T, String> toJsonFilterConverter) {
+    public <T> ReactiveExpressionFilter combine(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
         return combine(RxUi.observe(property)
                 .map(t -> {
                     String json = toJsonFilterConverter.convert(t);

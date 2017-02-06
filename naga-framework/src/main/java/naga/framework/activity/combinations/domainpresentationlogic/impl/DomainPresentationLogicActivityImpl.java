@@ -30,10 +30,10 @@ public abstract class DomainPresentationLogicActivityImpl<PM>
     }
 
     private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        reactiveExpressionFilter.activePropertyProperty().bind(activeProperty());
         return reactiveExpressionFilter
                 .setDataSourceModel(getDataSourceModel())
                 .setI18n(getI18n())
+                .bindActivePropertyTo(activeProperty())
                 ;
     }
 
