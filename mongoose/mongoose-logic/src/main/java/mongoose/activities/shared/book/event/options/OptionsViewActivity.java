@@ -3,8 +3,10 @@ package mongoose.activities.shared.book.event.options;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -32,6 +34,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     private VBox vBox;
     private Node attendancePanel;
+    protected Text priceText;
 
     public OptionsViewActivity() {
         super("person");
@@ -39,8 +42,8 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     @Override
     public void onResume() {
-        startLogic();
         super.onResume();
+        startLogic();
     }
 
     protected void startLogic() {
@@ -79,20 +82,25 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        borderPane.setCenter(vBox = new VBox(20));
+        borderPane.setCenter(vBox = new VBox(10));
+        vBox.setPadding(new Insets(10));
 
         bookingCalendar = createBookingCalendar();
         attendancePanel = createAttendancePanel();
 
-        Text priceText = new Text();
+        priceText = new Text();
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());
-        priceText.setManaged(false);
+        addPriceText();
+
+        createOrUpdateOptionPanelsIfReady(true);
+    }
+
+    protected void addPriceText() {
         priceText.setTextOrigin(VPos.TOP);
         priceText.setTextAlignment(TextAlignment.RIGHT);
         priceText.wrappingWidthProperty().bind(borderPane.widthProperty());
-        borderPane.getChildren().add(priceText);
-
-        createOrUpdateOptionPanelsIfReady(true);
+        priceText.setManaged(false);
+        borderPane.getChildren().add(this.priceText);
     }
 
     private int optionSectionOrder(Option option) {
@@ -128,11 +136,11 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     }
 
     protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {
-        Text text = new Text();
-        text.textProperty().bind(i18nTitle);
+        Label label = new Label();
+        label.textProperty().bind(i18nTitle);
         return Arrays.asList(
                 createImageView("images/16/itemFamilies/" + option.getItemFamily().getCode() + ".png"),
-                text
+                label
         );
     }
 

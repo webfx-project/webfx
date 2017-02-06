@@ -44,6 +44,21 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     @Override
+    protected void initializePresentationModel(FeesPresentationModel pm) {
+        super.initializePresentationModel(pm);
+        pm.setOnProgramAction(this::onProgramButtonPressed);
+        pm.setOnTermsAction(this::onTermsButtonPressed);
+    }
+
+    private void onProgramButtonPressed(ActionEvent e) {
+        goToNextBookingProcessPage("program");
+    }
+
+    private void onTermsButtonPressed(ActionEvent e) {
+        goToNextBookingProcessPage("terms");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (lastLoadedEventOptions != null && getEventOptions() != lastLoadedEventOptions)
@@ -52,9 +67,6 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
 
     @Override
     protected void startLogic(FeesPresentationModel pm) {
-        super.startLogic(pm);
-        pm.setOnProgramAction(this::onProgramButtonPressed);
-        pm.setOnTermsAction(this::onTermsButtonPressed);
         rsProperty = pm.dateInfoDisplayResultSetProperty();
 
         // Load and display fees groups now but also on event change
@@ -67,14 +79,6 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
                 pair -> refreshOnDictionaryChanged());
     }
 
-    private void onProgramButtonPressed(ActionEvent e) {
-        goToNextBookingProcessPage("program");
-    }
-
-    private void onTermsButtonPressed(ActionEvent e) {
-        goToNextBookingProcessPage("terms");
-    }
-
     private Dictionary dictionary;
 
     private void refreshOnDictionaryChanged() {
@@ -85,7 +89,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         }
     }
 
-    EntityList<Option> lastLoadedEventOptions;
+    private EntityList<Option> lastLoadedEventOptions;
 
     private void loadAndDisplayFeesGroups() {
         lastLoadedEventOptions = null;
@@ -112,7 +116,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private void displayFeesGroups() {
-        if (feesGroups == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
+        if (getEvent() == null || feesGroups == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
             return; // We return to avoid NPE (this method will be called again once the event is loaded)
         Toolkit.get().scheduler().runOutUiThread(() -> displayFeesGroupsNow());
     }
@@ -179,7 +183,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         FlowPane header = new FlowPane(Arrays.nonNulls(Node[]::new, nodes));
         header.setHgap(5d);
         header.setAlignment(Pos.CENTER_LEFT);
-        header.setPadding(new Insets(5, 5, 5, 5));
+        header.setPadding(new Insets(5));
         return header;
     }
 
