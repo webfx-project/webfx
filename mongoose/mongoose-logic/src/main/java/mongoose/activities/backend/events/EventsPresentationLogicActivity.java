@@ -16,7 +16,8 @@ public class EventsPresentationLogicActivity extends DomainPresentationLogicActi
         super(presentationModelFactory);
     }
 
-    protected void initializePresentationModel(EventsPresentationModel pm) {
+    @Override
+    protected void updatePresentationModelFromRouteParameters(EventsPresentationModel pm) {
         pm.setOrganizationId(getParameter("organizationId"));
     }
 

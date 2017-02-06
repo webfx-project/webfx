@@ -44,6 +44,7 @@ public abstract class PresentationLogicActivityBase
     public void onStart() {
         PM presentationModel = getPresentationModel();
         initializePresentationModel(presentationModel);
+        fetchRouteParameters();
         if (!presentationModelBoundWithLogic) {
             startLogic(presentationModel);
             presentationModelBoundWithLogic = true;
@@ -53,8 +54,17 @@ public abstract class PresentationLogicActivityBase
 
     @Override
     public void onResume() {
-        initializePresentationModel(getPresentationModel()); // Doing it again, in case the params have changed on a later resume
+        fetchRouteParameters(); // Doing it again, in case the params have changed on a later resume
         super.onResume();
+    }
+
+    @Override
+    protected void fetchRouteParameters() {
+        super.fetchRouteParameters();
+        updatePresentationModelFromRouteParameters(getPresentationModel());
+    }
+
+    protected void updatePresentationModelFromRouteParameters(PM pm) {
     }
 
     @Override

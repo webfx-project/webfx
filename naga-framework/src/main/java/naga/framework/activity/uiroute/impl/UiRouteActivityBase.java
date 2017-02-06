@@ -13,4 +13,13 @@ public class UiRouteActivityBase
         extends ActivePropertyActivityBase<C>
         implements UiRouteActivityContextMixin<C> {
 
+
+    @Override
+    public void onResume() {
+        fetchRouteParameters();
+        super.onResume();
+    }
+
+    protected void fetchRouteParameters() {
+    }
 }
