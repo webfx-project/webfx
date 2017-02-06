@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
+import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
 import static naga.framework.ui.controls.LayoutUtil.setUnmanagedWhenInvisible;
 
 /**
@@ -53,7 +54,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         HBox hbox = new HBox(20, addOptionButton, createHGrowable(), editModeCheckBox, createHGrowable(), priceText);
         hbox.setPadding(new Insets(5, 10, 0, 10));
         HBox.setMargin(editModeCheckBox, new Insets(5, 0, 5, 0));
-        hbox.setAlignment(Pos.BASELINE_CENTER);
+        hbox.setAlignment(Pos.CENTER);
         borderPane.setTop(hbox);
     }
 
@@ -111,8 +112,8 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     private void showAddOptionDialog() {
         if (addOptionDialogPane == null) {
             DataGrid dataGrid = new DataGrid();
-            addOptionDialogPane = new BorderPane(dataGrid);
-            addOptionDialogFilter = new ReactiveExpressionFilter("{class: 'Option', alias: 'o', where: 'parent=null', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel()).setI18n(getI18n())
+            addOptionDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
+            addOptionDialogFilter = new ReactiveExpressionFilter("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel()).setI18n(getI18n())
                     .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
                     .setExpressionColumns("[" +
                             "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
@@ -128,16 +129,12 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
             HBox hBox = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
             hBox.setPadding(new Insets(20, 0, 0, 0));
             addOptionDialogPane.setBottom(hBox);
-            Properties.runNowAndOnPropertiesChange(p -> {
-                addOptionDialogPane.setPrefWidth(borderPane.getWidth() * 0.9);
-                addOptionDialogPane.setPrefHeight(borderPane.getHeight() * 0.8);
-            }, borderPane.widthProperty(), borderPane.heightProperty());
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(true); });
             cancelButton.setOnAction(e -> closeAddOptionDialog(false));
             okButton.setOnAction(e -> closeAddOptionDialog(true));
         }
         addOptionDialogFilter.setActive(true);
-        addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, borderPane);
+        addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, borderPane, 0.9, 0.8);
     }
 
     private void closeAddOptionDialog(boolean ok) {

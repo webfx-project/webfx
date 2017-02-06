@@ -4,13 +4,11 @@ import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.VPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -27,6 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static naga.framework.ui.controls.LayoutUtil.setMaxWidthToInfinite;
+
 /**
  * @author Bruno Salmon
  */
@@ -34,7 +34,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     private VBox vBox;
     private Node attendancePanel;
-    protected Text priceText;
+    protected Label priceText;
 
     public OptionsViewActivity() {
         super("person");
@@ -88,7 +88,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         bookingCalendar = createBookingCalendar();
         attendancePanel = createAttendancePanel();
 
-        priceText = new Text();
+        priceText = new Label();
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());
         addPriceText();
 
@@ -96,11 +96,8 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     }
 
     protected void addPriceText() {
-        priceText.setTextOrigin(VPos.TOP);
-        priceText.setTextAlignment(TextAlignment.RIGHT);
-        priceText.wrappingWidthProperty().bind(borderPane.widthProperty());
-        priceText.setManaged(false);
-        borderPane.getChildren().add(this.priceText);
+        priceText.setAlignment(Pos.CENTER);
+        borderPane.setTop(setMaxWidthToInfinite(priceText));
     }
 
     private int optionSectionOrder(Option option) {
