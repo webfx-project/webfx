@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Func2;
+import naga.commons.util.function.Function;
 import naga.commons.util.function.Predicate;
 import naga.fx.spi.Toolkit;
 
@@ -35,6 +36,12 @@ public class Properties {
                 runnable.accept(property);
             });
         }
+    }
+
+    public static <T, R> Property<R> compute(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
+        Property<R> combinedProperty = new SimpleObjectProperty<>();
+        runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(function.apply(p.getValue())), p);
+        return combinedProperty;
     }
 
     public static <T1, T2, R> Property<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, Func2<? super T1, ? super T2, ? extends R> combineFunction) {
