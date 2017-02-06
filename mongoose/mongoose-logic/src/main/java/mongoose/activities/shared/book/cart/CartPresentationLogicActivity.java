@@ -13,7 +13,8 @@ public class CartPresentationLogicActivity extends DomainPresentationLogicActivi
         super(CartPresentationModel::new);
     }
 
-    protected void initializePresentationModel(CartPresentationModel pm) {
+    @Override
+    protected void updatePresentationModelFromRouteParameters(CartPresentationModel pm) {
         pm.cartUuidProperty().setValue(getParameter("cartUuid"));
     }
 

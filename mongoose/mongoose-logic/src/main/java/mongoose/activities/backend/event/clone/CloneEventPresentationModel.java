@@ -5,14 +5,14 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationModel;
+import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationModelImpl;
 
 import java.time.LocalDate;
 
 /**
  * @author Bruno Salmon
  */
-public class CloneEventPresentationModel extends EventDependentPresentationModel {
+public class CloneEventPresentationModel extends EventDependentPresentationModelImpl {
 
     private final Property<String> nameProperty = new SimpleObjectProperty<>();
     private final Property<LocalDate> dateProperty = new SimpleObjectProperty<>();

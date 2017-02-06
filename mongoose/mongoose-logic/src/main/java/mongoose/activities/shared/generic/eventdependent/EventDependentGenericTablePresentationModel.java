@@ -8,7 +8,7 @@ import mongoose.activities.shared.generic.table.GenericTablePresentationModel;
  * @author Bruno Salmon
  */
 public class EventDependentGenericTablePresentationModel extends GenericTablePresentationModel
-        implements HasEventIdProperty {
+        implements EventDependentPresentationModel {
 
     private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
 

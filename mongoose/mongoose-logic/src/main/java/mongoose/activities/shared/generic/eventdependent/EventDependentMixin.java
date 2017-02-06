@@ -1,5 +1,6 @@
 package mongoose.activities.shared.generic.eventdependent;
 
+import javafx.beans.value.ObservableValue;
 import mongoose.services.EventService;
 import mongoose.services.EventServiceMixin;
 import naga.framework.activity.domain.DomainActivityContext;
@@ -18,8 +19,10 @@ public interface EventDependentMixin
         DomainActivityContextMixin<C> {
 
     default Object getEventId() {
-        return getParameter("eventId");
+        return eventIdProperty().getValue();
     }
+
+    ObservableValue<Object> eventIdProperty();
 
     default EventService getEventService() {
         return EventService.getOrCreate(getEventId(), getDataSourceModel());

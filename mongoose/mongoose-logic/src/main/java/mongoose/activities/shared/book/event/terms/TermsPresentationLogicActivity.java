@@ -13,7 +13,6 @@ public class TermsPresentationLogicActivity extends BookingProcessPresentationLo
 
     @Override
     protected void startLogic(TermsPresentationModel pm) {
-        super.startLogic(pm);
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine(pm.eventIdProperty(), e -> "{where: 'event=" + e + "'}")

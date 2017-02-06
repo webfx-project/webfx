@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class BookingProcessPresentationLogicActivity<PM extends BookingProcessPresentationModel>
+public abstract class BookingProcessPresentationLogicActivity<PM extends BookingProcessPresentationModel>
     extends EventDependentPresentationLogicActivity<PM> {
 
     private final String nextPage;
@@ -26,7 +26,8 @@ public class BookingProcessPresentationLogicActivity<PM extends BookingProcessPr
     }
 
     @Override
-    protected void startLogic(PM pm) {
+    protected void initializePresentationModel(PM pm) {
+        super.initializePresentationModel(pm);
         pm.setOnPreviousAction(this::onPreviousButtonPressed);
         pm.setOnNextAction(this::onNextButtonPressed);
     }

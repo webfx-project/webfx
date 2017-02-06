@@ -11,10 +11,6 @@ public class LettersPresentationLogicActivity extends DomainPresentationLogicAct
         super(LettersPresentationModel::new);
     }
 
-    protected void initializePresentationModel(LettersPresentationModel pm) {
-        pm.setEventId(getParameter("eventId"));
-    }
-
     @Override
     protected void startLogic(LettersPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter

@@ -1,21 +1,17 @@
 package mongoose.activities.backend.event.bookings;
 
+import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import naga.commons.util.Strings;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsPresentationLogicActivity extends DomainPresentationLogicActivityImpl<BookingsPresentationModel> {
+public class BookingsPresentationLogicActivity extends EventDependentPresentationLogicActivity<BookingsPresentationModel> {
 
     public BookingsPresentationLogicActivity() {
         super(BookingsPresentationModel::new);
-    }
-
-    protected void initializePresentationModel(BookingsPresentationModel pm) {
-        pm.setEventId(getParameter("eventId"));
     }
 
     @Override
@@ -61,6 +57,5 @@ public class BookingsPresentationLogicActivity extends DomainPresentationLogicAc
 
         pm.setOnNewBooking(event -> getHistory().push("/book/event/" + pm.getEventId() + "/fees"));
         pm.setOnCloneEvent(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
-
     }
 }
