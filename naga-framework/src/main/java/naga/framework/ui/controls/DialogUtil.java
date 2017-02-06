@@ -3,7 +3,9 @@ package naga.framework.ui.controls;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import naga.commons.util.function.Consumer;
 import naga.fx.properties.Properties;
@@ -29,14 +31,22 @@ public class DialogUtil {
 
 
     public static DialogCallback showModalNodeInGoldLayout(Region modalNode, Pane parent) {
-        return showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode)), parent);
+        return showModalNodeInGoldLayout(modalNode, parent, 0, 0);
+    }
+
+    public static DialogCallback showModalNodeInGoldLayout(Region modalNode, Pane parent, double percentageWidth, double percentageHeight) {
+        return showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode), percentageWidth, percentageHeight), parent);
     }
 
     public static DialogCallback showModalNode(Region modalNode, Pane parent) {
         setMaxSizeToInfinite(modalNode).setManaged(false);
-        Properties.runNowAndOnPropertiesChange(p ->
-                        modalNode.resizeRelocate(0, 0, parent.getWidth(), parent.getHeight()),
-                parent.widthProperty(), parent.heightProperty());
+        Scene scene = parent.getScene();
+        Properties.runNowAndOnPropertiesChange(p -> {
+            Point2D parentSceneXY = parent.localToScene(0, 0);
+            double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
+            double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
+            modalNode.resizeRelocate(0, 0, width, height);
+        }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty());
         parent.getChildren().add(modalNode);
         return new DialogCallback() {
             @Override
@@ -46,7 +56,7 @@ public class DialogUtil {
 
             @Override
             public void showException(Throwable e) {
-                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
+                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, scene.getWindow()));
             }
         };
     }
@@ -57,11 +67,12 @@ public class DialogUtil {
             // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
             setMaxSizeToPref(region);
             double padding = 30;
-            region.setPadding(new Insets(padding, padding, padding, padding));
+            region.setPadding(new Insets(padding));
         }
         BorderPane decorator = new BorderPane(content);
         decorator.backgroundProperty().bind(dialogBackgroundProperty());
         decorator.borderProperty().bind(dialogBorderProperty());
+        decorator.setMinHeight(0d);
         return decorator;
     }
 

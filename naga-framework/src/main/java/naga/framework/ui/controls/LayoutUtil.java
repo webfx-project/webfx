@@ -16,14 +16,22 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 public class LayoutUtil {
 
     public static GridPane createGoldLayout(Region child) {
+        return createGoldLayout(child, 0, 0);
+    }
+
+    public static GridPane createGoldLayout(Region child, double percentageWidth, double percentageHeight) {
         GridPane goldPane = new GridPane();
         goldPane.setAlignment(Pos.TOP_CENTER); // Horizontal alignment
         RowConstraints headerRowConstraints = new RowConstraints();
         headerRowConstraints.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), child.heightProperty(),
                 (gpHeight, cHeight) -> {
+                    if (percentageHeight != 0)
+                        child.setPrefHeight(gpHeight.doubleValue() * percentageHeight);
                     Platform.runLater(() -> goldPane.getRowConstraints().setAll(headerRowConstraints));
                     return (gpHeight.doubleValue() - cHeight.doubleValue()) / 2.61;
                 }));
+        if (percentageWidth != 0)
+            child.prefWidthProperty().bind(Properties.compute(goldPane.widthProperty(), gpWidth -> gpWidth.doubleValue() * percentageWidth));
         goldPane.add(setMaxSizeToPref(child), 0, 1);
         goldPane.setBackground(new Background(new BackgroundFill(Color.gray(0.3, 0.5), null, null)));
         return goldPane;
