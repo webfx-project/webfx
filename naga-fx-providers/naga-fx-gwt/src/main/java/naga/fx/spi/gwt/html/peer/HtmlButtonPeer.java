@@ -23,6 +23,11 @@ public class HtmlButtonPeer
         super(base, element);
     }
 
+    @Override
+    public double maxHeight(double width) {
+        return prefHeight(width);
+    }
+
     private final HtmlLayoutCache cache = new HtmlLayoutCache();
     @Override
     public HtmlLayoutCache getCache() {
