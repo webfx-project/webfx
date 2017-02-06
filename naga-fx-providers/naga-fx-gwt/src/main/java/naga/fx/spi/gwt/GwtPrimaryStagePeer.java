@@ -1,12 +1,12 @@
 package naga.fx.spi.gwt;
 
-import naga.fx.spi.peer.StagePeer;
-import naga.fx.spi.gwt.html.HtmlScenePeer;
-import naga.fx.spi.gwt.util.HtmlUtil;
+import emul.com.sun.javafx.tk.TKStageListener;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import emul.com.sun.javafx.tk.TKStageListener;
-import naga.platform.spi.Platform;
+import naga.fx.spi.Toolkit;
+import naga.fx.spi.gwt.html.HtmlScenePeer;
+import naga.fx.spi.gwt.util.HtmlUtil;
+import naga.fx.spi.peer.StagePeer;
 
 import static elemental2.Global.document;
 import static elemental2.Global.window;
@@ -21,32 +21,38 @@ class GwtPrimaryStagePeer implements StagePeer {
 
     GwtPrimaryStagePeer(Stage stage) {
         this.stage = stage;
-        document.body.style.overflow = "hidden";
-        window.onresize = a -> {
-            changedWindowSize();
-            return null;
-        };
+        // Disabling horizontal scroll bar (but allowing vertical scroll bar)
+        HtmlUtil.setStyleAttribute(document.documentElement, "overflow-x", "hidden");
+        // Checking the window size on each pulse (window.onsize is not enough because it doesn't detect vertical scroll bar apparition)
+        Toolkit.get().scheduler().schedulePeriodicAnimationFrame(this::changedWindowSize, false);
     }
 
     @Override
     public void setTKStageListener(TKStageListener listener) {
         this.listener = listener;
-        changedWindowSize();
         listener.changedLocation(0, 0);
+        lastWidth = lastHeight = 0; // to force listener call in changedWindowSize()
+        Toolkit.get().scheduler().requestNextPulse(); // to ensure changedWindowSize() will be called very soon
     }
 
     @Override
     public void setBounds(float x, float y, boolean xSet, boolean ySet, float w, float h, float cw, float ch, float xGravity, float yGravity) {
-        Platform.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
+        //Platform.log("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h + ", cw = " + cw + ", ch = " + ch);
         changedWindowSize();
     }
 
+    private float lastWidth, lastHeight;
+
     private void changedWindowSize() {
-        float innerWidth = (float) window.innerWidth;
-        float innerHeight = (float) window.innerHeight;
+        float width = (float) document.documentElement.clientWidth; //window.innerWidth;
+        float height = (float) window.innerHeight;
+        if (width == lastWidth && height == lastHeight)
+            return;
         if (listener != null)
-            listener.changedSize(innerWidth, innerHeight);
-        ((HtmlScenePeer) stage.getScene().impl_getPeer()).changedWindowSize(innerWidth, innerHeight);
+            listener.changedSize(width, height);
+        ((HtmlScenePeer) stage.getScene().impl_getPeer()).changedWindowSize(width, height);
+        lastWidth = width;
+        lastHeight = height;
     }
 
     @Override
