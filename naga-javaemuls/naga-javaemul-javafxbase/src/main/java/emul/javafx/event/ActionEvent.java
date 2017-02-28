@@ -74,10 +74,13 @@ public class ActionEvent extends Event {
     }
 
     @Override
+    public ActionEvent duplicate() {
+        return new ActionEvent(source, target);
+    }
+
+    @Override
     public EventType<? extends ActionEvent> getEventType() {
         return (EventType<? extends ActionEvent>) super.getEventType();
     }
-
-
 
 }
