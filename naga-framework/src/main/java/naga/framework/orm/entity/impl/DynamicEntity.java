@@ -62,9 +62,11 @@ public class DynamicEntity implements Entity {
 
     @Override
     public void setFieldValue(Object domainFieldId, Object value) {
+        if (store instanceof UpdateStore) {
+            Object previousValue = fieldValues.get(domainFieldId);
+            ((UpdateStoreImpl) this.store).updateEntity(id, domainFieldId, value, previousValue);
+        }
         fieldValues.put(domainFieldId, value);
-        if (store instanceof UpdateStore)
-            ((UpdateStoreImpl) store).updateEntity(id, domainFieldId, value);
     }
 
     @Override

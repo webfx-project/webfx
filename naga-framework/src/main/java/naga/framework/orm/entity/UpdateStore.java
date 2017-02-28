@@ -25,7 +25,11 @@ public interface UpdateStore extends EntityStore {
 
     void deleteEntity(EntityId entityId);
 
+    boolean hasChanges();
+
     void cancelChanges();
+
+    void markChangesAsCommitted();
 
     Future<Batch<UpdateResult>> executeUpdate();
 

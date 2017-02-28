@@ -20,12 +20,14 @@ public class EntityResultSetBuilder {
     private EntityResultSetBuilder() {
     }
 
-    public EntityResultSetBuilder setFieldValue(EntityId id, Object fieldId, Object fieldValue) {
-        entityFieldMap(id).put(fieldId, fieldValue);
-        return this;
+    public boolean setFieldValue(EntityId id, Object fieldId, Object fieldValue) {
+        Map fieldMap = entityFieldMap(id);
+        boolean firstFieldValueSet = !fieldMap.containsKey(fieldId);
+        fieldMap.put(fieldId, fieldValue);
+        return firstFieldValueSet;
     }
 
-    public EntityResultSetBuilder unsetFieldValue(EntityId id, Object fieldId) {
+    EntityResultSetBuilder unsetFieldValue(EntityId id, Object fieldId) {
         entityFieldMap(id).remove(fieldId);
         return this;
     }
