@@ -1,11 +1,11 @@
 package mongoose.activities.backend.event.letters;
 
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 
 /**
  * @author Bruno Salmon
  */
-public class LettersPresentationLogicActivity extends DomainPresentationLogicActivityImpl<LettersPresentationModel> {
+public class LettersPresentationLogicActivity extends EventDependentPresentationLogicActivity<LettersPresentationModel> {
 
     public LettersPresentationLogicActivity() {
         super(LettersPresentationModel::new);
@@ -27,6 +27,11 @@ public class LettersPresentationLogicActivity extends DomainPresentationLogicAct
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
-                .start();
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> {
+                    if (letter != null)
+                        getHistory().push("/letter/" + letter.getId().getPrimaryKey() + "/edit");
+                })
+                .start()
+        ;
     }
 }

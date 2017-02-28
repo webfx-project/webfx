@@ -6,6 +6,7 @@ import mongoose.activities.backend.event.bookings.BookingsPresentationActivity;
 import mongoose.activities.backend.event.clone.CloneEventPresentationActivity;
 import mongoose.activities.backend.event.letters.LettersPresentationActivity;
 import mongoose.activities.backend.events.EventsPresentationActivity;
+import mongoose.activities.backend.letter.edit.EditLetterViewActivity;
 import mongoose.activities.backend.monitor.MonitorPresentationActivity;
 import mongoose.activities.backend.organizations.OrganizationsPresentationActivity;
 import mongoose.activities.backend.tester.TesterPresentationActivity;
@@ -37,6 +38,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
                 .route("/event/:eventId/bookings", BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/event/:eventId/letters", LettersPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/event/:eventId/clone", CloneEventPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                .route("/letter/:letterId/edit", EditLetterViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/monitor", MonitorPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/tester", TesterPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/saveTest", SaveTestPresentationActivity::new, DomainPresentationActivityContextFinal::new)
