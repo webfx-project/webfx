@@ -45,7 +45,7 @@ class GwtPrimaryStagePeer implements StagePeer {
 
     private void changedWindowSize() {
         float width = (float) document.documentElement.clientWidth; //window.innerWidth;
-        float height = (float) window.innerHeight;
+        float height = (float) window.innerHeight - 1; // -1 is to avoid the window vertical scroll bar in EditLetterViewActivity
         if (width == lastWidth && height == lastHeight)
             return;
         if (listener != null)
