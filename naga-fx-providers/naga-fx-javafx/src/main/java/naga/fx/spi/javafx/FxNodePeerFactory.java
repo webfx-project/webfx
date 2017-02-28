@@ -8,6 +8,7 @@ import naga.fxdata.cell.collator.GridCollator;
 import naga.fxdata.chart.*;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.HtmlText;
+import naga.fxdata.control.HtmlTextEditor;
 
 /**
  * @author Bruno Salmon
@@ -18,6 +19,7 @@ public class FxNodePeerFactory extends NodePeerFactoryImpl {
 
     protected FxNodePeerFactory() {
         registerNodePeerFactory(HtmlText.class, FxHtmlTextPeer::new);
+        registerNodePeerFactory(HtmlTextEditor.class, FxHtmlTextEditorPeer::new);
         registerNodePeerFactory(DataGrid.class, FxDataGridPeer::new);
         registerNodePeerFactory(AreaChart.class, FxAreaChartPeer::new);
         registerNodePeerFactory(BarChart.class, FxBarChartPeer::new);

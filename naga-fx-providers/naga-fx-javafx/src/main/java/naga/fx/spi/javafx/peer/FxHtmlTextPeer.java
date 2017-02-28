@@ -16,7 +16,7 @@ public class FxHtmlTextPeer
         extends FxNodePeer<FxN, N, NB, NM>
         implements HtmlTextPeerMixin<N, NB, NM>, FxLayoutMeasurable {
 
-    private final WebView webView = new WebView();
+    protected final WebView webView = new WebView();
 
     public FxHtmlTextPeer() {
         this((NB) new HtmlTextPeerBase());
@@ -32,7 +32,7 @@ public class FxHtmlTextPeer
         return (FxN) webView;
     }
 
-    private Object executeScript(String script) {
+    protected Object executeScript(String script) {
         try {
             return webView.getEngine().executeScript(script);
         } catch (Exception e) { // probably the jsFunctions were not injected
@@ -49,17 +49,16 @@ public class FxHtmlTextPeer
     @Override
     public void updateWidth(Double width) {
         executeScript("setDocumentWidth(" + documentWidth(width) + ");");
-        updateResize();
+        resizeWebView(width, getNode().getHeight());
     }
 
     @Override
     public void updateHeight(Double height) {
-        updateResize();
+        resizeWebView(getNode().getWidth(), height);
     }
 
-    private void updateResize() {
-        N node = getNode();
-        webView.resize(node.getWidth(), node.getHeight());
+    protected void resizeWebView(double width, double height) {
+        webView.resize(width, height);
     }
 
     @Override
