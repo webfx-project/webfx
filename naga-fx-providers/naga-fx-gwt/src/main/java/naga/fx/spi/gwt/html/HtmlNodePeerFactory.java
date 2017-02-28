@@ -14,6 +14,7 @@ import naga.fx.spi.peer.base.NodePeerFactoryImpl;
 import naga.fxdata.chart.*;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.HtmlText;
+import naga.fxdata.control.HtmlTextEditor;
 
 /**
  * @author Bruno Salmon
@@ -30,11 +31,13 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(Label.class, HtmlLabelPeer::new);
         registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
         registerNodePeerFactory(Button.class, HtmlButtonPeer::new);
+        registerNodePeerFactory(ToggleButton.class, HtmlToggleButtonPeer::new);
         registerNodePeerFactory(CheckBox.class, HtmlCheckBoxPeer::new);
         registerNodePeerFactory(RadioButton.class, HtmlRadioButtonPeer::new);
         registerNodePeerFactory(Slider.class, HtmlSliderPeer::new);
         registerNodePeerFactory(TextField.class, HtmlTextFieldPeer::new);
         registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
+        registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
         registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);
         registerNodePeerFactory(DataGrid.class, HtmlDataGridPeer::new);
         registerNodePeerFactory(LineChart.class, HtmlLineChartPeer::new);

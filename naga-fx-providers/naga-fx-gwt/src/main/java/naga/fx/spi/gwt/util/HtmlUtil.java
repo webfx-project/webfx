@@ -4,6 +4,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.*;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.util.Strings;
+import naga.commons.util.async.Future;
 import naga.commons.util.tuples.Unit;
 import naga.fx.spi.Toolkit;
 
@@ -217,6 +218,24 @@ public class HtmlUtil {
                 return (E) e;
         }
         return null;
+    }
+
+    public static Future<Void> loadScript(String src) {
+        NodeList<Element> scriptElements = document.head.getElementsByTagName("script");
+        for (double i = 0, n = scriptElements.getLength(); i < n; i++) {
+            HTMLScriptElement headElement = (HTMLScriptElement) scriptElements.get(i);
+            if (src.equals(headElement.src))
+                return Future.succeededFuture();
+        }
+        Future<Void> future = Future.future();
+        HTMLScriptElement script = createElement("script");
+        script.onload = a -> {
+            future.complete();
+            return null;
+        };
+        script.src = src;
+        document.head.appendChild(script);
+        return future;
     }
 
     public static void replaceNode(Node oldChild, Node newChild, boolean observeIfNotYetAttached) {
