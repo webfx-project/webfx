@@ -22,10 +22,10 @@ public class HtmlText extends Control {
     public Property<String> textProperty() {
         return textProperty;
     }
-    void setText(String text) {
+    public void setText(String text) {
         textProperty.setValue(text);
     }
-    String getText() {
+    public String getText() {
         return textProperty.getValue();
     }
 
