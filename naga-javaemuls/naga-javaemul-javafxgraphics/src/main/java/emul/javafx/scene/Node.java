@@ -557,6 +557,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return Math.min(Math.max(value, min), Math.max(min,max));
     }
 
+    private static final Object USER_DATA_KEY = new Object();
     private ObservableMap<Object, Object> properties;
 
     /**
@@ -1459,6 +1460,30 @@ public abstract class Node implements INode, EventTarget, Styleable {
             pt.x = p.x;
             pt.y = p.y;
         }
+    }
+
+    /**
+     * Convenience method for setting a single Object property that can be
+     * retrieved at a later date. This is functionally equivalent to calling
+     * the getProperties().put(Object key, Object value) method. This can later
+     * be retrieved by calling {@link Node#getUserData()}.
+     *
+     * @param value The value to be stored - this can later be retrieved by calling
+     *          {@link Node#getUserData()}.
+     */
+    public void setUserData(Object value) {
+        getProperties().put(USER_DATA_KEY, value);
+    }
+
+    /**
+     * Returns a previously set Object property, or null if no such property
+     * has been set using the {@link Node#setUserData(java.lang.Object)} method.
+     *
+     * @return The Object that was previously set, or null if no property
+     *          has been set or if null was set.
+     */
+    public Object getUserData() {
+        return getProperties().get(USER_DATA_KEY);
     }
 
     ////////////////////////////
