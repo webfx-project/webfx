@@ -223,7 +223,27 @@ public abstract class Node implements INode, EventTarget, Styleable {
      *
      * @defaultValue false
      */
-    private final Property<Boolean> disableProperty = new SimpleObjectProperty<>(false);
+    private final Property<Boolean> disableProperty = new SimpleObjectProperty<Boolean>(false) {
+        @Override
+        protected void invalidated() {
+            updateDisabled();
+        }
+
+        private void updateDisabled() {
+            boolean isDisabled = isDisable();
+            if (!isDisabled) {
+                isDisabled = getParent() != null ? getParent().isDisabled() :
+                        false; //getSubScene() != null && getSubScene().isDisabled();
+            }
+            setDisabled(isDisabled);
+/*
+            if (this instanceof SubScene) {
+                ((SubScene)this).getRoot().setDisabled(isDisabled);
+            }
+*/
+        }
+
+    };
     public final Property<Boolean> disableProperty() {
         return disableProperty; //getMiscProperties().disableProperty();
     }
