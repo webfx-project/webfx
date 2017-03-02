@@ -1,5 +1,6 @@
 package mongoose.activities.shared.application;
 
+import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.cart.CartPresentationActivity;
 import mongoose.activities.shared.book.event.fees.FeesPresentationActivity;
 import mongoose.activities.shared.book.event.options.OptionsViewActivity;
@@ -53,6 +54,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
 
     protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
+        MongooseActions.registerActions();
         ActivityManager.launchApplication(mongooseApplication, ViewDomainApplicationContext.createViewDomainApplicationContext(
                 DomainModelSnapshotLoader.getDataSourceModel(),
                 I18n.create("mongoose/dictionaries/{lang}.json"),

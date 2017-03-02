@@ -32,7 +32,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.spi.Platform;
 
-import static naga.framework.activity.view.impl.ViewActivityBase.createImageView;
+import static naga.framework.ui.controls.ImageViewUtil.createImageView;
 
 /**
  * @author Bruno Salmon
