@@ -2,7 +2,10 @@ package naga.framework.activity.view;
 
 import javafx.beans.property.Property;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import naga.framework.activity.uiroute.UiRouteActivityContextMixin;
+import naga.framework.ui.action.Action;
+import naga.framework.ui.action.ActionRegistry;
 import naga.framework.ui.i18n.I18n;
 
 /**
@@ -22,4 +25,21 @@ public interface ViewActivityContextMixin
 
     @Override
     default I18n getI18n() { return getActivityContext().getI18n(); }
+
+    default Button newButton(Action action) {
+        return action.toButton(getI18n());
+    }
+
+    default Button newOkButton(Runnable handler) {
+        return newButton(ActionRegistry.newOkAction(handler));
+    }
+
+    default Button newCancelButton(Runnable handler) {
+        return newButton(ActionRegistry.newCancelAction(handler));
+    }
+
+    default Button newRemoveButton(Runnable handler) {
+        return newButton(ActionRegistry.newRemoveAction(handler));
+    }
+
 }
