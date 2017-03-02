@@ -2,6 +2,8 @@ package naga.framework.ui.controls;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -40,13 +42,7 @@ public class DialogUtil {
 
     public static DialogCallback showModalNode(Region modalNode, Pane parent) {
         setMaxSizeToInfinite(modalNode).setManaged(false);
-        Scene scene = parent.getScene();
-        Properties.runNowAndOnPropertiesChange(p -> {
-            Point2D parentSceneXY = parent.localToScene(0, 0);
-            double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
-            double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
-            modalNode.resizeRelocate(0, 0, width, height);
-        }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty());
+        setUpModalNodeResize(modalNode, parent);
         parent.getChildren().add(modalNode);
         return new DialogCallback() {
             @Override
@@ -56,9 +52,29 @@ public class DialogUtil {
 
             @Override
             public void showException(Throwable e) {
-                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, scene.getWindow()));
+                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
             }
         };
+    }
+
+    private static void setUpModalNodeResize(Region modalNode, Pane parent) {
+        Scene scene = parent.getScene();
+        if (scene == null) {
+            parent.sceneProperty().addListener(new ChangeListener<Scene>() {
+                @Override
+                public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
+                    observable.removeListener(this);
+                    setUpModalNodeResize(modalNode, parent);
+                }
+            });
+            return;
+        }
+        Properties.runNowAndOnPropertiesChange(p -> {
+            Point2D parentSceneXY = parent.localToScene(0, 0);
+            double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
+            double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
+            modalNode.resizeRelocate(0, 0, width, height);
+        }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty());
     }
 
     public static BorderPane decorate(Node content) {
