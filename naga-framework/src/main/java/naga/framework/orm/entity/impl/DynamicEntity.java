@@ -82,4 +82,7 @@ public class DynamicEntity implements Entity {
         return sb;
     }
 
+    public void copyAllFieldsFrom(Entity entity) {
+        fieldValues.putAll(((DynamicEntity) entity).fieldValues);
+    }
 }

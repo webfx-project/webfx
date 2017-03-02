@@ -2,6 +2,7 @@ package naga.framework.orm.entity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
+import naga.framework.orm.entity.impl.DynamicEntity;
 import naga.framework.orm.entity.impl.EntityStoreImpl;
 import naga.framework.expression.Expression;
 
@@ -51,7 +52,12 @@ public interface EntityStore {
         return primaryKey == null ? null : getOrCreateEntity(getEntityId(domainClassId, primaryKey));
     }
 
-
+    default <E extends Entity> E copyEntity(E entity) {
+        E copy = getOrCreateEntity(entity.getId());
+        if (copy != entity)
+            ((DynamicEntity) copy).copyAllFieldsFrom(entity);
+        return copy;
+    }
 
     // EntityList management
 
