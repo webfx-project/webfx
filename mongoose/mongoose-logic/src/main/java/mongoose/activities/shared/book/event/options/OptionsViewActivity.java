@@ -18,7 +18,9 @@ import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
+import naga.framework.ui.controls.ImageViewUtil;
 import naga.fx.spi.Toolkit;
+import naga.fxdata.control.HtmlText;
 import naga.platform.spi.Platform;
 
 import java.util.Comparator;
@@ -125,18 +127,18 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     }
 
     private Node createTopLevelOptionPanel(Option option) {
-        return HighLevelComponents.createSectionPanel(null, Collections.toArray(
-                createOptionPanelHeaderNodes(
-                        option,
-                        Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
+        BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
+                createOptionPanelHeaderNodes(option, Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
                 , Node[]::new));
+        sectionPanel.setCenter(createOptionNode(option));
+        return sectionPanel;
     }
 
     protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {
         Label label = new Label();
         label.textProperty().bind(i18nTitle);
         return Arrays.asList(
-                createImageView("images/16/itemFamilies/" + option.getItemFamily().getCode() + ".png"),
+                ImageViewUtil.createImageView("images/16/itemFamilies/" + option.getItemFamily().getCode() + ".png"),
                 label
         );
     }
@@ -157,4 +159,16 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         return HighLevelComponents.createSectionPanel(null, iconImageUrl, translationKey, getI18n());
     }
 
+    private Node createOptionNode(Option option) {
+        mongoose.entities.Label topLabel = option.getTopLabel();
+        if (topLabel == null)
+            return null;
+        return createLabelNode(topLabel);
+    }
+
+    protected Node createLabelNode(mongoose.entities.Label label) {
+        HtmlText htmlText = new HtmlText();
+        htmlText.textProperty().bind(Labels.translateLabel(label, getI18n()));
+        return htmlText;
+    }
 }

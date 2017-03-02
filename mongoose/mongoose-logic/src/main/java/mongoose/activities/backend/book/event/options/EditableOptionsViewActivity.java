@@ -9,16 +9,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import mongoose.actions.MongooseActions;
 import mongoose.activities.backend.book.event.shared.EditableBookingCalendar;
+import mongoose.activities.backend.util.MultiLanguageEditor;
 import mongoose.activities.shared.book.event.options.OptionsViewActivity;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.entities.Label;
 import mongoose.entities.Option;
 import naga.framework.orm.entity.UpdateStore;
-import naga.framework.ui.controls.DialogCallback;
-import naga.framework.ui.controls.DialogContent;
-import naga.framework.ui.controls.DialogUtil;
+import naga.framework.ui.controls.*;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
@@ -30,9 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
-import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
-import static naga.framework.ui.controls.LayoutUtil.setUnmanagedWhenInvisible;
+import static naga.framework.ui.controls.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon
@@ -47,10 +46,9 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         CheckBox editModeCheckBox = i18n.translateText(new CheckBox(), "EditMode");
         editModeProperty = editModeCheckBox.selectedProperty();
         Properties.runOnPropertiesChange(p -> ((EditableBookingCalendar) bookingCalendar).setEditMode(editModeProperty.getValue()), editModeProperty);
-        Button addOptionButton = i18n.translateText(new Button(null, createImageView("{url: 'images/16/actions/add.png', width: 16, height: 16}")), "AddOption");
-        addOptionButton.setOnAction(event -> showAddOptionDialog());
-        super.createViewNodes();
+        Button addOptionButton = newButton(MongooseActions.newAddOptionAction(this::showAddOptionDialog));
         addOptionButton.visibleProperty().bind(editModeProperty);
+        super.createViewNodes();
         HBox hbox = new HBox(20, addOptionButton, createHGrowable(), editModeCheckBox, createHGrowable(), priceText);
         hbox.setPadding(new Insets(5, 10, 0, 10));
         HBox.setMargin(editModeCheckBox, new Insets(5, 0, 5, 0));
@@ -70,11 +68,8 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
 
     @Override
     protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {
-        Button removeButton = getI18n().translateText(new Button(null, createImageView("{url: 'images/16/actions/remove.png', width: 16, height: 16}")), "Remove");
-        removeButton.setOnAction(e -> showRemoveOptionDialog(option));
-
         List<Node> list = new ArrayList<>(super.createOptionPanelHeaderNodes(option, i18nTitle));
-        Collections.addAll(list, createHGrowable(), setUnmanagedWhenInvisible(removeButton, editModeProperty));
+        Collections.addAll(list, createHGrowable(), setUnmanagedWhenInvisible(newRemoveButton(() -> showRemoveOptionDialog(option)), editModeProperty));
         return list;
     }
 
@@ -124,48 +119,50 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
                     .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
                     //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> closeAddOptionDialog(true))
                     .start();
-            Button okButton = new Button("Ok");
-            Button cancelButton = new Button("Cancel");
-            HBox hBox = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
+            HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::onOk), newCancelButton(this::onCancel), createHGrowable());
             hBox.setPadding(new Insets(20, 0, 0, 0));
             addOptionDialogPane.setBottom(hBox);
-            dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(true); });
-            cancelButton.setOnAction(e -> closeAddOptionDialog(false));
-            okButton.setOnAction(e -> closeAddOptionDialog(true));
+            dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(); });
         }
         addOptionDialogFilter.setActive(true);
         addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, borderPane, 0.9, 0.8);
     }
 
-    private void closeAddOptionDialog(boolean ok) {
-        if (ok) {
-            Option selectedOption = (Option) addOptionDialogFilter.getSelectedEntity();
-            if (selectedOption != null) {
-                Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
-                    if (ar.failed())
-                        addOptionDialogCallback.showException(ar.cause());
-                    else {
-                        closeAddOptionDialog(false);
-                        OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
-                        clearEventOptions();
-                        onFeesGroup().setHandler(ar2 -> {
-                            if (ar2.succeeded()) {
-                                for (FeesGroup feesGroup : ar2.result()) {
-                                    for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
-                                        if (optionsPreselection.getLabel() == selectedOptionsPreselection.getLabel()) {
-                                            setSelectedOptionsPreselection(optionsPreselection);
-                                            setWorkingDocument(optionsPreselection.getWorkingDocument());
-                                            startLogic();
-                                            return;
-                                        }
+    private void onOk() {
+        Option selectedOption = (Option) addOptionDialogFilter.getSelectedEntity();
+        if (selectedOption != null) {
+            Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
+                if (ar.failed())
+                    addOptionDialogCallback.showException(ar.cause());
+                else {
+                    closeAddOptionDialog();
+                    OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
+                    clearEventOptions();
+                    onFeesGroup().setHandler(ar2 -> {
+                        if (ar2.succeeded()) {
+                            for (FeesGroup feesGroup : ar2.result()) {
+                                for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
+                                    if (optionsPreselection.getLabel() == selectedOptionsPreselection.getLabel()) {
+                                        setSelectedOptionsPreselection(optionsPreselection);
+                                        setWorkingDocument(optionsPreselection.getWorkingDocument());
+                                        startLogic();
+                                        return;
                                     }
                                 }
                             }
-                        });
-                    }
-                });
-            }
+                        }
+                    });
+                }
+            });
         }
+        closeAddOptionDialog();
+    }
+
+    private void onCancel() {
+        closeAddOptionDialog();
+    }
+
+    private void closeAddOptionDialog() {
         addOptionDialogCallback.closeDialog();
         addOptionDialogFilter.setActive(false);
     }
@@ -173,5 +170,34 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     private Option getTopParentOption(Option option) {
         Option parent = option == null ? null : option.getParent();
         return parent == null ? option : getTopParentOption(parent);
+    }
+
+    @Override
+    protected Node createLabelNode(Label label) {
+        Node labelNode = super.createLabelNode(label);
+        labelNode.setOnMouseClicked(e -> showLabelDialog(label));
+        return labelNode;
+    }
+
+    private DialogCallback labelDialogCallback;
+
+    private void showLabelDialog(Label label) {
+        if (labelDialogCallback != null)
+            return;
+        labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(new MultiLanguageEditor(getI18n(), label, lang -> lang, null).getUiNode(), borderPane, 0.9, 0.8);
+/*
+        HtmlTextEditor editor = new HtmlTextEditor();
+        editor.setText(label.getStringFieldValue(getI18n().getLanguage()));
+        BorderPane labelDialogBorderPane = new BorderPane(setPrefSizeToInfinite(editor));
+        HBox hBox = new HBox(20, createHGrowable(), newOkButton(e -> closeLabelDialog(true)), newCancelButton(e -> closeLabelDialog(true)), createHGrowable());
+        hBox.setPadding(new Insets(20, 0, 0, 0));
+        labelDialogBorderPane.setBottom(hBox);
+        labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(labelDialogBorderPane, borderPane, 0.9, 0.8);
+*/
+    }
+
+    private void closeLabelDialog(boolean ok) {
+        labelDialogCallback.closeDialog();
+        labelDialogCallback = null;
     }
 }

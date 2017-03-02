@@ -74,6 +74,18 @@ public interface Option extends Entity,
         return getBooleanFieldValue("floating");
     }
 
+    default void setTopLabel(Object topLabel) {
+        setForeignField("topLabel", topLabel);
+    }
+
+    default EntityId getTopLabelId() {
+        return getForeignEntityId("topLabel");
+    }
+
+    default Label getTopLabel() {
+        return getForeignEntity("topLabel");
+    }
+
     //// Enriched fields and methods
 
     @Override
