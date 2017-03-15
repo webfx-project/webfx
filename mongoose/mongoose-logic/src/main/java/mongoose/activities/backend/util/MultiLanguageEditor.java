@@ -4,6 +4,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import naga.commons.util.Objects;
+import naga.commons.util.Strings;
+import naga.commons.util.async.Handler;
 import naga.commons.util.function.Callable;
 import naga.commons.util.function.Function;
 import naga.commons.util.tuples.Pair;
@@ -13,7 +15,6 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
-import naga.framework.ui.action.ActionRegistry;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static mongoose.actions.MongooseIcons.getLanguageIcon32;
+import static naga.framework.ui.action.ActionRegistry.*;
 import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
 
 /**
@@ -45,6 +47,7 @@ public class MultiLanguageEditor {
     private final Map<Object, ToggleButton> languageButtons = new HashMap<>();
     private final ToggleGroup toggleGroup = new ToggleGroup();
     private final BorderPane borderPane = setPrefSizeToInfinite(new BorderPane());
+    private Handler<Entity> closeCallback;
 
     private final Map<Object /*entityId*/, UpdateStore> entityStores = new HashMap<>();
     private final Map<Pair<Object /*entityId**/, Object /*language*/>, MonoLanguageEditor> monoLanguageEditors = new HashMap<>();
@@ -52,7 +55,6 @@ public class MultiLanguageEditor {
     public MultiLanguageEditor(I18n i18n, Entity entity, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter) {
         this(i18n, entity::getId, entity.getStore().getDataSourceModel(), bodyFieldGetter, subjectFieldGetter, null);
         registerEntityInStore(entity, null);
-        onEntityChanged();
     }
 
     public MultiLanguageEditor(I18n i18n, Callable entityIdGetter, DataSourceModel dataSourceModel, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
@@ -77,11 +79,19 @@ public class MultiLanguageEditor {
         }
         this.loadingSelect = sb == null ? domainClassIdOrLoadingSelect : sb.append(" from ").append(domainClassIdOrLoadingSelect).append(" where id=?").toString();
         toggleGroup.getToggles().setAll(languageButtons.values());
-        Properties.runOnPropertiesChange(p -> onEntityChanged(), toggleGroup.selectedToggleProperty());
-        toggleGroup.selectToggle(languageButtons.get(i18n.getLanguage()));
     }
 
+    public MultiLanguageEditor showOkCancelButton(Handler<Entity> closeCallback) {
+        this.closeCallback = closeCallback;
+        return this;
+    }
+
+
     public BorderPane getUiNode() {
+        if (toggleGroup.getSelectedToggle() == null) {
+            Properties.runOnPropertiesChange(p -> onEntityChanged(), toggleGroup.selectedToggleProperty());
+            toggleGroup.selectToggle(languageButtons.get(i18n.getLanguage()));
+        }
         return borderPane;
     }
 
@@ -135,8 +145,8 @@ public class MultiLanguageEditor {
     private class MonoLanguageEditor {
         private final TextField subjectTextField = new TextField();
         private final HtmlTextEditor editor = new HtmlTextEditor();
-        private final Button saveButton = ActionRegistry.newSaveAction(this::save).toButton(i18n);
-        private final Button revertButton = ActionRegistry.newRevertAction(this::revert).toButton(i18n);
+        private final Button saveButton =   newAction(closeCallback != null ? OK_ACTION_KEY     : SAVE_ACTION_KEY ,  this::save)  .toButton(i18n);
+        private final Button revertButton = newAction(closeCallback != null ? CANCEL_ACTION_KEY : REVERT_ACTION_KEY, this::revert).toButton(i18n);
         private final Object subjectField;
         private final Object bodyField;
         private UpdateStore entityStore;
@@ -156,12 +166,21 @@ public class MultiLanguageEditor {
                     if (!Objects.areEquals(uiSubject, entitySubject))
                         entity.setFieldValue(subjectField, uiSubject);
                 }
-                String uiBody = editor.getText();
+                String uiBody = format(editor.getText());
                 String entityBody = entity.getStringFieldValue(bodyField);
                 if (uiBody != null && !Objects.areEquals(uiBody, entityBody))
                     entity.setFieldValue(bodyField, uiBody);
                 updateButtonsDisable();
             }
+        }
+
+        String format(String editorText) {
+            if (editorText != null) {
+                editorText = Strings.replaceAll(editorText,"\n", "");
+                if (editorText.startsWith("<p>") && editorText.indexOf("</p>") == editorText.length() - 4)
+                    editorText = editorText.substring(3, editorText.length() - 4);
+            }
+            return editorText;
         }
 
         void syncUiFromEntity() {
@@ -191,20 +210,27 @@ public class MultiLanguageEditor {
         void revert() {
             entityStore.cancelChanges();
             syncUiFromEntity();
+            callCloseCallback(false);
         }
 
         void save() {
             entityStore.executeUpdate().setHandler(ar -> {
                 if (ar.succeeded()) {
                     updateButtonsDisable();
+                    callCloseCallback(true);
                 }
             });
+        }
+
+        void callCloseCallback(boolean saved) {
+            if (closeCallback != null)
+                closeCallback.handle(saved ? entity : null);
         }
 
         void updateButtonsDisable() {
             boolean disable = !entityStore.hasChanges();
             saveButton.setDisable(disable);
-            revertButton.setDisable(disable);
+            revertButton.setDisable(disable && closeCallback == null);
         }
 
         void displayEditor() {
@@ -218,7 +244,7 @@ public class MultiLanguageEditor {
                 for (Object language : languages)
                     hBox.getChildren().add(languageButtons.get(language));
                 buttonsBar.setLeft(hBox);
-                buttonsBar.setCenter(new HBox(LayoutUtil.createHGrowable(), saveButton, revertButton, LayoutUtil.createHGrowable()));
+                buttonsBar.setCenter(new HBox(20, LayoutUtil.createHGrowable(), saveButton, revertButton, LayoutUtil.createHGrowable()));
                 borderPane.setBottom(buttonsBar);
                 // The following code is just a temporary workaround to make CKEditor work in html platform (to be removed once fixed)
                 if (entity != null) {

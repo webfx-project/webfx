@@ -73,7 +73,13 @@ public class HtmlHtmlTextEditorPeer
     }
 
     private static native String getCKEditorInnerHTML(JavaScriptObject ckEditor) /*-{
-        return ckEditor.container ? ckEditor.container.getElementsByTag('iframe').$[0].contentDocument.body.innerHTML : null;
+        var container = ckEditor.container;
+        if (container) {
+            var contentDocument = container.getElementsByTag('iframe').$[0].contentDocument;
+            if (contentDocument)
+                return contentDocument.body.innerHTML;
+        }
+        return null;
     }-*/;
 
     private static native JavaScriptObject callCKEditorReplace(Element textArea, double width, double height, HtmlHtmlTextEditorPeer javaPeer) /*-{

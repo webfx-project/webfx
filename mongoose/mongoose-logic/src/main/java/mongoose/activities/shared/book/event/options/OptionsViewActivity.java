@@ -64,7 +64,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     protected BookingCalendar bookingCalendar;
 
-    private void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
+    protected void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null && bookingCalendar != null) {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);

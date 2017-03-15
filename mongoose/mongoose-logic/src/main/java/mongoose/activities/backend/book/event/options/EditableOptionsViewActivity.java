@@ -18,8 +18,11 @@ import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
+import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.UpdateStore;
-import naga.framework.ui.controls.*;
+import naga.framework.ui.controls.DialogCallback;
+import naga.framework.ui.controls.DialogContent;
+import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
@@ -119,7 +122,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
                     .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
                     //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> closeAddOptionDialog(true))
                     .start();
-            HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::onOk), newCancelButton(this::onCancel), createHGrowable());
+            HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::onOkAddOptionDialog), newCancelButton(this::onCancelAddOptionDialog), createHGrowable());
             hBox.setPadding(new Insets(20, 0, 0, 0));
             addOptionDialogPane.setBottom(hBox);
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(); });
@@ -128,7 +131,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, borderPane, 0.9, 0.8);
     }
 
-    private void onOk() {
+    private void onOkAddOptionDialog() {
         Option selectedOption = (Option) addOptionDialogFilter.getSelectedEntity();
         if (selectedOption != null) {
             Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
@@ -158,7 +161,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         closeAddOptionDialog();
     }
 
-    private void onCancel() {
+    private void onCancelAddOptionDialog() {
         closeAddOptionDialog();
     }
 
@@ -182,22 +185,19 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     private DialogCallback labelDialogCallback;
 
     private void showLabelDialog(Label label) {
-        if (labelDialogCallback != null)
-            return;
-        labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(new MultiLanguageEditor(getI18n(), label, lang -> lang, null).getUiNode(), borderPane, 0.9, 0.8);
-/*
-        HtmlTextEditor editor = new HtmlTextEditor();
-        editor.setText(label.getStringFieldValue(getI18n().getLanguage()));
-        BorderPane labelDialogBorderPane = new BorderPane(setPrefSizeToInfinite(editor));
-        HBox hBox = new HBox(20, createHGrowable(), newOkButton(e -> closeLabelDialog(true)), newCancelButton(e -> closeLabelDialog(true)), createHGrowable());
-        hBox.setPadding(new Insets(20, 0, 0, 0));
-        labelDialogBorderPane.setBottom(hBox);
-        labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(labelDialogBorderPane, borderPane, 0.9, 0.8);
-*/
+        if (labelDialogCallback == null)
+            labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(
+                    new MultiLanguageEditor(getI18n(), label, lang -> lang, null)
+                            .showOkCancelButton(e -> closeLabelDialog(e, label))
+                            .getUiNode(), borderPane, 0.9, 0.8);
     }
 
-    private void closeLabelDialog(boolean ok) {
+    private void closeLabelDialog(Entity savedEntity, Label label) {
         labelDialogCallback.closeDialog();
         labelDialogCallback = null;
+        if (savedEntity != null) {
+            label.getStore().copyEntity(savedEntity);
+            createOrUpdateOptionPanelsIfReady(true);
+        }
     }
 }
