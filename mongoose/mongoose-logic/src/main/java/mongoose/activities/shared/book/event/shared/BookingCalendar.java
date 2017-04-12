@@ -114,7 +114,6 @@ public class BookingCalendar {
         }
     }
 
-
     private void updateArrivalOrDepartureDateTime(CalendarClickEvent event, boolean arrival) {
         CalendarCell cell = event.getCalendarCell();
         TimeInterval dayTimeMinuteInterval = cell.getDayTimeMinuteInterval();

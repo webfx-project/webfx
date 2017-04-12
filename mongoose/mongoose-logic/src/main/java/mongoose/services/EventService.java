@@ -76,6 +76,8 @@ public interface EventService {
 
     List<Option> selectDefaultOptions();
 
+    List<Option> getChildrenOptions(Option parent);
+
     default Option findFirstOption(Predicate<? super Option> predicate) {
         return Collections.findFirst(getEventOptions(), predicate);
     }

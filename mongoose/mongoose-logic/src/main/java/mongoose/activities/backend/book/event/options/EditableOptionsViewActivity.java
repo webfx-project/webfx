@@ -76,6 +76,14 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         return list;
     }
 
+    @Override
+    protected Node createLabelNode(Label label) {
+        Node labelNode = super.createLabelNode(label);
+        labelNode.setOnMouseClicked(e -> showLabelDialog(label));
+        return labelNode;
+    }
+
+
     private void showRemoveOptionDialog(Option option) {
         DialogUtil.showDialog(
                 DialogContent.createConfirmationDialog(
@@ -175,16 +183,9 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         return parent == null ? option : getTopParentOption(parent);
     }
 
-    @Override
-    protected Node createLabelNode(Label label) {
-        Node labelNode = super.createLabelNode(label);
-        labelNode.setOnMouseClicked(e -> showLabelDialog(label));
-        return labelNode;
-    }
-
     private DialogCallback labelDialogCallback;
 
-    private void showLabelDialog(Label label) {
+    void showLabelDialog(Label label) {
         if (labelDialogCallback == null)
             labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(
                     new MultiLanguageEditor(getI18n(), label, lang -> lang, null)
@@ -197,7 +198,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         labelDialogCallback = null;
         if (savedEntity != null) {
             label.getStore().copyEntity(savedEntity);
-            createOrUpdateOptionPanelsIfReady(true);
+            updateLabelText(label);
         }
     }
 }

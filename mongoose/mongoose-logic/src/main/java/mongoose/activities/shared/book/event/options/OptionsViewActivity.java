@@ -13,19 +13,17 @@ import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.entities.ItemFamily;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.commons.util.Arrays;
-import naga.commons.util.collection.Collections;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.HtmlText;
 import naga.platform.spi.Platform;
 
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import static naga.framework.ui.controls.LayoutUtil.setMaxWidthToInfinite;
 
@@ -58,29 +56,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         });
     }
 
-    protected BookingCalendar createBookingCalendar() {
-        return new BookingCalendar(true, getI18n());
-    }
-
-    protected BookingCalendar bookingCalendar;
-
-    protected void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
-        WorkingDocument workingDocument = getWorkingDocument();
-        if (workingDocument != null && bookingCalendar != null) {
-            bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
-
-            List<Option> toLevelOptions = Collections.filter(getEventOptions(), o -> o.getParent() == null);
-            toLevelOptions.sort(Comparator.comparingInt(this::optionSectionOrder));
-
-            Toolkit.get().scheduler().runInUiThread(() -> {
-                ObservableList<Node> sectionPanels = vBox.getChildren();
-                sectionPanels.setAll(toLevelOptions.stream().filter(this::isOptionSectionAboveAttendance).map(this::createTopLevelOptionPanel).collect(Collectors.toList()));
-                sectionPanels.add(attendancePanel);
-                sectionPanels.addAll(toLevelOptions.stream().filter(this::isOptionSectionBelowAttendance).map(this::createTopLevelOptionPanel).collect(Collectors.toList()));
-            });
-        }
-    }
-
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
@@ -97,41 +72,31 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         createOrUpdateOptionPanelsIfReady(true);
     }
 
+    protected BookingCalendar createBookingCalendar() {
+        return new BookingCalendar(true, getI18n());
+    }
+
+    protected BookingCalendar bookingCalendar;
+    private final OptionTree optionTree = new OptionTree(this);
+
+    protected void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
+        WorkingDocument workingDocument = getWorkingDocument();
+        if (workingDocument != null && bookingCalendar != null) {
+            bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
+
+            Toolkit.get().scheduler().runInUiThread(() -> {
+                ObservableList<Node> sectionPanels = vBox.getChildren();
+                sectionPanels.setAll(optionTree.getUpdatedTopLevelNodesAboveAttendance());
+                sectionPanels.add(attendancePanel);
+                sectionPanels.addAll(optionTree.getUpdatedTopLevelNodesBelowAttendance());
+            });
+        }
+    }
+
+
     protected void addPriceText() {
         priceText.setAlignment(Pos.CENTER);
         borderPane.setTop(setMaxWidthToInfinite(priceText));
-    }
-
-    private int optionSectionOrder(Option option) {
-        return itemFamilySectionOrder(option.getItemFamily());
-    }
-
-    private int itemFamilySectionOrder(ItemFamily itemFamily) {
-        switch (itemFamily.getItemFamilyType()) {
-            case TEACHING: return 0;
-            case MEALS: return 1;
-            case ACCOMMODATION: return 2;
-            case TRANSLATION: return 11;
-            case PARKING: return 12;
-            case TRANSPORT: return 13;
-        }
-        return 20;
-    }
-
-    private boolean isOptionSectionAboveAttendance(Option option) {
-        return optionSectionOrder(option) < 10;
-    }
-
-    private boolean isOptionSectionBelowAttendance(Option option) {
-        return !isOptionSectionAboveAttendance(option);
-    }
-
-    private Node createTopLevelOptionPanel(Option option) {
-        BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
-                createOptionPanelHeaderNodes(option, Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
-                , Node[]::new));
-        sectionPanel.setCenter(createOptionNode(option));
-        return sectionPanel;
     }
 
     protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {
@@ -159,16 +124,22 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         return HighLevelComponents.createSectionPanel(null, iconImageUrl, translationKey, getI18n());
     }
 
-    private Node createOptionNode(Option option) {
-        mongoose.entities.Label topLabel = option.getTopLabel();
-        if (topLabel == null)
-            return null;
-        return createLabelNode(topLabel);
-    }
-
     protected Node createLabelNode(mongoose.entities.Label label) {
         HtmlText htmlText = new HtmlText();
-        htmlText.textProperty().bind(Labels.translateLabel(label, getI18n()));
+        bindTextWithLabel(htmlText.textProperty(), label);
         return htmlText;
+    }
+
+    private Map<mongoose.entities.Label, Property<String>> labelTexts = new HashMap<>();
+
+    private void bindTextWithLabel(Property<String> textProperty, mongoose.entities.Label label) {
+        textProperty.bind(Labels.translateLabel(label, getI18n()));
+        labelTexts.put(label, textProperty);
+    }
+
+    protected void updateLabelText(mongoose.entities.Label label) {
+        Property<String> textProperty = labelTexts.get(label);
+        if (textProperty != null)
+            bindTextWithLabel(textProperty, label);
     }
 }

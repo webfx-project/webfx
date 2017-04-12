@@ -2,6 +2,7 @@ package mongoose.util;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.control.Labeled;
 import mongoose.entities.Label;
 import mongoose.entities.impl.LabelImpl;
 import mongoose.entities.markers.HasItem;
@@ -48,6 +49,11 @@ public class Labels {
         Property<String> translation = new SimpleObjectProperty<>(instantTranslateLabel(label, i18n));
         i18n.languageProperty().addListener((observable, oldValue, newValue) -> translation.setValue(instantTranslateLabel(label, i18n)));
         return translation;
+    }
+
+    public static <T extends Labeled> T translateLabel(T labeled, Label label, I18n i18n) {
+        labeled.textProperty().bind(translateLabel(label, i18n));
+        return labeled;
     }
 
     public static String instantTranslateLabel(Label label, I18n i18n) {

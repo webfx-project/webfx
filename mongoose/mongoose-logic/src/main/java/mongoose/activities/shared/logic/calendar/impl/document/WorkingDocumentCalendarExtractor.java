@@ -94,6 +94,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
         addWorkingDocumentIntoOptionTimelines(wd, false, optionTimelines);
         // And those coming from options preselection
         addWorkingDocumentIntoOptionTimelines(maxWd, true, optionTimelines);
+        // Generating calendar timelines from option timelines
         Collection<CalendarTimeline> timelines = new ArrayList<>();
         DateTimeRange calendarDateTimeRange = Objects.coalesce(maxWd, wd).getDateTimeRange().changeTimeUnit(TimeUnit.DAYS);
         for (OptionTimeline ot : optionTimelines.values())
@@ -107,13 +108,17 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
         if (wd != null)
             for (WorkingDocumentLine wdl : wd.getWorkingDocumentLines()) {
                 Option option = wdl.getOption();
-                if (option.getParsedTimeRangeOrParent() != null) {
+                if (isOptionDisplayableOnCalendar(option, isMax)) {
                     OptionTimeline optionTimeline = optionTimelines.get(option.getPrimaryKey());
-                    if (optionTimeline == null)
-                        optionTimelines.put(option.getPrimaryKey(), new OptionTimeline(option, wdl, isMax));
-                    else
+                    if (optionTimeline != null)
                         optionTimeline.setWorkingDocumentLine(wdl, isMax);
+                    else
+                        optionTimelines.put(option.getPrimaryKey(), new OptionTimeline(option, wdl, isMax));
                 }
             }
+    }
+
+    private boolean isOptionDisplayableOnCalendar(Option option, boolean isMax) {
+        return (option.isTeaching() || !isMax && (option.isMeals() || option.isAccommodation())) && option.getParsedTimeRangeOrParent() != null;
     }
 }

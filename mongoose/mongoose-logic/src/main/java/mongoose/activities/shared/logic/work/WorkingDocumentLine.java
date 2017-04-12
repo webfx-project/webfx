@@ -6,6 +6,7 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.entities.*;
+import naga.commons.util.Objects;
 import naga.commons.util.collection.Collections;
 
 import java.time.LocalDate;
@@ -50,11 +51,13 @@ public class WorkingDocumentLine {
         this.option = option;
         site = option.getSite();
         item = option.getItem();
-        dayTimeRange = DayTimeRange.parse(option.getTimeRange());
-        dateTimeRange = cropDateTimeRange(option.getParsedDateTimeRangeOrParent(), dayTimeRange);
+        dayTimeRange = option.getParsedTimeRangeOrParent();
+        DateTimeRange workingDocumentDateTimeRange = Objects.coalesce(option.getParsedDateTimeRangeOrParent(), workingDocument.getDateTimeRange());
+        DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
+        dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
         documentLine = null;
         attendances = null;
-        daysArray = null;
+        daysArray = dateTimeRange == null ? null : dateTimeRange.getDaysArray(dayTimeRange);
         setWorkingDocument(workingDocument);
     }
 

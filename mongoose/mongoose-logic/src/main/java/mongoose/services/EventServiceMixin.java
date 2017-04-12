@@ -85,6 +85,11 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
+    default List<Option> getChildrenOptions(Option parent) {
+        return getEventService().getChildrenOptions(parent);
+    }
+
+    @Override
     default Option findFirstOption(Predicate<? super Option> predicate) {
         return getEventService().findFirstOption(predicate);
     }

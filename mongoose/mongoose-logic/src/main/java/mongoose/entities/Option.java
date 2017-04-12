@@ -86,6 +86,34 @@ public interface Option extends Entity,
         return getForeignEntity("topLabel");
     }
 
+    default void setPromptLabel(Object promptLabel) {
+        setForeignField("promptLabel", promptLabel);
+    }
+
+    default EntityId getPromptLabelId() {
+        return getForeignEntityId("promptLabel");
+    }
+
+    default Label getPromptLabel() {
+        return getForeignEntity("promptLabel");
+    }
+
+    default void setChildrenRadio(Boolean childrenRadio) {
+        setFieldValue("childrenRadio", childrenRadio);
+    }
+
+    default Boolean isChildrenRadio() {
+        return getBooleanFieldValue("childrenRadio");
+    }
+
+    default void setLayout(String layout) {
+        setFieldValue("layout", layout);
+    }
+
+    default String getLayout() {
+        return getStringFieldValue("layout");
+    }
+    
     //// Enriched fields and methods
 
     @Override
