@@ -107,6 +107,11 @@ class EventServiceImpl implements EventService {
         return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
     }
 
+    @Override
+    public List<Option> getChildrenOptions(Option parent) {
+        return selectOptions(o -> o.getParent() == parent);
+    }
+
     private boolean mealsAreIncludedByDefault() {
         String eventName = getEvent().getName();
         return !eventName.contains("Day Course") && !eventName.contains("Public Talk");
@@ -189,10 +194,6 @@ class EventServiceImpl implements EventService {
 
     private Future<Batch<EntityList>> executeParallelEventQueries(Batch<EventQuery> batch) {
         return batch.executeParallel(EntityList[]::new, this::executeEventQuery);
-    }
-
-    private Future<EntityList> executeEventQuery(String queryString, Object[] parameters, Object listId) {
-        return executeEventQuery(new EventQuery(listId, queryString, parameters));
     }
 
     private Future<EntityList> executeEventQuery(EventQuery eventQuery) {
