@@ -1,6 +1,7 @@
 package naga.framework.ui.filter;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import naga.commons.type.PrimType;
@@ -26,15 +27,15 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.framework.ui.rx.RxFuture;
 import naga.framework.ui.rx.RxUi;
+import naga.fx.properties.Properties;
+import naga.fxdata.displaydata.DisplayColumnBuilder;
+import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.DisplaySelection;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.fxdata.displaydata.DisplayColumnBuilder;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplaySelection;
-import naga.fx.properties.Properties;
 import rx.Observable;
 
 import java.util.*;
@@ -59,6 +60,8 @@ public class ReactiveExpressionFilter {
     private List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
     private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(true);
+    private ObservableValue<Boolean> boundActiveProperty;
+    private boolean started;
 
     public ReactiveExpressionFilter() {
     }
@@ -103,7 +106,7 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    public Property<Boolean> activeProperty() {
+    public ReadOnlyProperty<Boolean> activeProperty() {
         return activeProperty;
     }
 
@@ -117,7 +120,7 @@ public class ReactiveExpressionFilter {
     }
 
     public ReactiveExpressionFilter bindActivePropertyTo(ObservableValue<Boolean> activeProperty) {
-        this.activeProperty.bind(activeProperty);
+        this.activeProperty.bind(boundActiveProperty = activeProperty);
         return this;
     }
 
@@ -179,7 +182,9 @@ public class ReactiveExpressionFilter {
     }
 
     private FilterDisplay getFilterDisplay() {
-        if (filterDisplay == null)
+        if (started)
+            filterDisplay = filterDisplays.get(0);
+        else if (filterDisplay == null)
             filterDisplays.add(filterDisplay = new FilterDisplay());
         return filterDisplay;
     }
@@ -328,7 +333,18 @@ public class ReactiveExpressionFilter {
                 .subscribe(this::applyDisplayResultSets);
         else if (entitiesHandler != null)
             entitiesObservable.subscribe(entitiesHandler::handle);
+        started = true;
         return this;
+    }
+
+    private void forceRefresh() {
+        if (started && isActive()) {
+            activeProperty.unbind();
+            setActive(false);
+            setActive(true);
+            if (boundActiveProperty != null)
+                bindActivePropertyTo(boundActiveProperty);
+        }
     }
 
     private StringFilter mergeStringFilters(Object... args) {
@@ -339,7 +355,7 @@ public class ReactiveExpressionFilter {
             mergeBuilder.merge((StringFilter) args[i]);
             if (filterDisplay != null && filterDisplay.stringFilterObservableLastIndex == i) {
                 if (mergeBuilder.getColumns() != null) {
-                    filterDisplay.setExpressionColumns(mergeBuilder.getColumns());
+                    filterDisplay.setExpressionColumnsPrivate(mergeBuilder.getColumns());
                     mergeBuilder.setColumns(null);
                 }
                 filterDisplay = Collections.next(it);
@@ -421,6 +437,7 @@ public class ReactiveExpressionFilter {
         boolean selectFirstRowOnFirstDisplay;
         int stringFilterObservableLastIndex = -1;
         List<Expression> columnsPersistentTerms;
+        boolean appliedDomainModelRowStyle;
 
         Property<DisplaySelection> getDisplaySelectionProperty() {
             return displaySelectionProperty;
@@ -488,6 +505,19 @@ public class ReactiveExpressionFilter {
         }
 
         void setExpressionColumns(ExpressionColumn... expressionColumns) {
+            setExpressionColumnsPrivate(expressionColumns);
+            if (appliedDomainModelRowStyle)
+                applyDomainModelRowStyle();
+            forceRefresh();
+        }
+
+        void setExpressionColumnsPrivate(String jsonArrayDisplayColumns) {
+            setExpressionColumnsPrivate(ExpressionColumn.fromJsonArray(jsonArrayDisplayColumns));
+            if (appliedDomainModelRowStyle)
+                applyDomainModelRowStyle();
+        }
+
+        void setExpressionColumnsPrivate(ExpressionColumn... expressionColumns) {
             this.expressionColumns = expressionColumns;
             columnsPersistentTerms = null; // forcing re-computation on next collectColumnsPersistentTerms() call since the columns have changed
         }
@@ -495,12 +525,13 @@ public class ReactiveExpressionFilter {
         void applyDomainModelRowStyle() {
             DomainClass domainClass = dataSourceModel.getDomainModel().getClass(domainClassId);
             ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
-            if (rowStylesExpressionArray != null) {
+            if (rowStylesExpressionArray != null && expressionColumns != null) {
                 ExpressionColumn[] includingRowStyleColumns = new ExpressionColumn[expressionColumns.length + 1];
                 includingRowStyleColumns[0] = ExpressionColumn.create(rowStylesExpressionArray, DisplayColumnBuilder.create("style", PrimType.STRING).setRole("style").build());
                 System.arraycopy(expressionColumns, 0, includingRowStyleColumns, 1, expressionColumns.length);
-                setExpressionColumns(includingRowStyleColumns);
+                setExpressionColumnsPrivate(includingRowStyleColumns);
             }
+            appliedDomainModelRowStyle = true;
         }
 
         void setDisplayResultSetProperty(Property<DisplayResultSet> displayResultSetProperty) {

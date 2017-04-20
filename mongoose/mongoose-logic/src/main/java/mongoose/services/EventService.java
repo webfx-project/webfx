@@ -86,6 +86,10 @@ public interface EventService {
         return findFirstOption(Option::isBreakfast);
     }
 
+    default Option getDietOption() {
+        return findFirstOption(Option::isDiet);
+    }
+
     default List<Rate> selectRates(Predicate<? super Rate> predicate) {
         return selectEntities(getEventRates(), predicate);
     }

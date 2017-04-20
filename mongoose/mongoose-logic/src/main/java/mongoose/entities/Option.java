@@ -2,6 +2,7 @@ package mongoose.entities;
 
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
+import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.markers.*;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
@@ -86,6 +87,18 @@ public interface Option extends Entity,
         return getForeignEntity("topLabel");
     }
 
+    default void setChildrenPromptLabel(Object childrenPromptLabel) {
+        setForeignField("childrenPromptLabel", childrenPromptLabel);
+    }
+
+    default EntityId getChildrenPromptLabelId() {
+        return getForeignEntityId("childrenPromptLabel");
+    }
+
+    default Label getChildrenPromptLabel() {
+        return getForeignEntity("childrenPromptLabel");
+    }
+
     default void setPromptLabel(Object promptLabel) {
         setForeignField("promptLabel", promptLabel);
     }
@@ -138,10 +151,25 @@ public interface Option extends Entity,
     }
 
     default boolean isBreakfast() {
+        return isMealsDayTimeRange(0, 10 * 60);
+    }
+
+    default boolean isLunch() {
+        return isMealsDayTimeRange(10 * 60, 15 * 60);
+    }
+
+    default boolean isSupper() {
+        return isMealsDayTimeRange(15 * 60, 24 * 60);
+    }
+
+    default boolean isMealsDayTimeRange(long startMinutes, long endMinutes) {
         if (!isMeals())
             return false;
         DayTimeRange dayTimeRange = DayTimeRange.parse(getTimeRangeOrParent());
-        return dayTimeRange != null && dayTimeRange.getDayTimeInterval(0, TimeUnit.DAYS).getExcludedEnd() < 10 * 60;
+        if (dayTimeRange == null)
+            return false;
+        TimeInterval dayTimeInterval = dayTimeRange.getDayTimeInterval(0, TimeUnit.DAYS);
+        return dayTimeInterval.getIncludedStart() >= startMinutes && dayTimeInterval.getExcludedEnd() < endMinutes;
     }
 
     default boolean isDependant() {

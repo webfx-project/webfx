@@ -28,7 +28,7 @@ public interface HighLevelComponentsFactory {
         panel.setBorder(new Border(new BorderStroke(Color.grayRgb(0x0d), BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(1))));
         HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(headerNodes);
         hBox.setBackground(new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, 0xF0F0F0 0%, 0xE0E0E0 100%"), new CornerRadii(5), null)));
-        hBox.setMinHeight(50d);
+        hBox.setMinHeight(40d);
         hBox.setPadding(new Insets(0, 10, 0 , 10));
         panel.setTop(hBox);
         return panel;

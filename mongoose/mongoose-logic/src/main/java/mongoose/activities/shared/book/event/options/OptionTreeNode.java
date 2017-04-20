@@ -1,21 +1,30 @@
 package mongoose.activities.shared.book.event.options;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.commons.util.collection.Collections;
+import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -27,6 +36,7 @@ class OptionTreeNode {
     private final OptionTree tree;
     private final OptionTreeNode parent;
     private Node node;
+    private ChoiceBox<Label> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
     private List<OptionTreeNode> childrenOptionTreeNodes;
 
@@ -75,7 +85,9 @@ class OptionTreeNode {
         BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
                 , Node[]::new));
-        sectionPanel.setCenter(createPanelBodyNode());
+        Region panelBodyNode = createPanelBodyNode();
+        panelBodyNode.setPadding(new Insets(20));
+        sectionPanel.setCenter(panelBodyNode);
         return sectionPanel;
     }
 
@@ -83,43 +95,91 @@ class OptionTreeNode {
         return tree.getActivity().createOptionPanelHeaderNodes(option, i18nTitle);
     }
 
+    private Node createLabelNode(Label label) {
+        return tree.getActivity().createLabelNode(label);
+    }
+
     private Property<Boolean> optionButtonSelectedProperty;
 
-    private Node createPanelBodyNode() {
+    private Region createPanelBodyNode() {
         VBox vBox = new VBox();
+        if (parent != null && parent.parent != null && parent.parent.childrenToggleGroup != null) // If under a radio button (ex: Ecommoy shuttle)
+            vBox.setPadding(new Insets(0, 0, 0, 20)); // Adding a left padding
         mongoose.entities.Label topLabel = option.getTopLabel();
-        ObservableList<Node> children = vBox.getChildren();
+        ObservableList<Node> vBoxChildren = vBox.getChildren();
         if (topLabel != null)
-            children.add(tree.getActivity().createLabelNode(topLabel));
+            vBoxChildren.add(createLabelNode(topLabel));
         if (!option.isObligatory()) {
+            Label promptLabel = option.getPromptLabel();
+            Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
+            ButtonBase optionButton = null;
             ToggleGroup toggleGroup = parent == null ? null : parent.getChildrenToggleGroup();
-            ButtonBase optionButton;
-            if (toggleGroup == null) {
-                CheckBox checkBox = new CheckBox();
-                optionButton = checkBox;
-                optionButtonSelectedProperty = checkBox.selectedProperty();
-            } else {
+            ChoiceBox<Label> childrenChoiceBox = parent == null ? null : parent.childrenChoiceBox;
+            if (toggleGroup != null) {
                 RadioButton radioButton = new RadioButton();
                 radioButton.setToggleGroup(toggleGroup);
-                optionButton = radioButton;
                 optionButtonSelectedProperty = radioButton.selectedProperty();
+                optionButton = radioButton;
+            } else if (childrenChoiceBox != null) {
+                childrenChoiceBox.getItems().add(buttonLabel);
+                optionButtonSelectedProperty = new SimpleBooleanProperty() {
+                    @Override
+                    protected void invalidated() {
+                        if (getValue())
+                            childrenChoiceBox.getSelectionModel().select(buttonLabel);
+                    }
+                };
+                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == buttonLabel), childrenChoiceBox.getSelectionModel().selectedItemProperty());
+                vBox = null;
+            } else {
+                CheckBox checkBox = new CheckBox();
+                optionButtonSelectedProperty = checkBox.selectedProperty();
+                optionButton = checkBox;
             }
-            mongoose.entities.Label buttonLabel = option.getPromptLabel();
-            if (buttonLabel == null)
-                buttonLabel = Labels.bestLabel(option);
-            if (buttonLabel != null)
-                Labels.translateLabel(optionButton, buttonLabel, getI18n());
-            children.add(optionButton);
+            if (optionButton != null)
+                vBoxChildren.add(Labels.translateLabel(optionButton, buttonLabel, getI18n()));
             Properties.runOnPropertiesChange(p -> onOptionButtonChanged(), optionButtonSelectedProperty);
         }
-        //if ("select".equals(option.getLayout()))
-        childrenToggleGroup = option.isChildrenRadio() ? new ToggleGroup() : null;
         List<Option> childrenOptions = getChildrenOptions(option);
-        if (!Collections.isEmpty(childrenOptions)) {
+        if (vBox != null && !Collections.isEmpty(childrenOptions)) {
+            if ("select".equals(option.getLayout())) {
+                childrenChoiceBox = new ChoiceBox<>();
+                childrenChoiceBox.setConverter(new StringConverter<Label>() {
+                    @Override
+                    public String toString(Label label) {
+                        return Labels.instantTranslateLabel(label, getI18n());
+                    }
+
+                    @Override
+                    public Label fromString(String string) {
+                        return null;
+                    }
+                });
+                Label childrenPromptLabel = option.getChildrenPromptLabel();
+                if (childrenPromptLabel == null)
+                    vBoxChildren.add(childrenChoiceBox);
+                else {
+                    Node labelNode = createLabelNode(childrenPromptLabel);
+                    HBox hBox = new HBox(10, labelNode, childrenChoiceBox);
+                    vBoxChildren.add(hBox);
+                }
+                Properties.runOnPropertiesChange(p -> refreshChildrenChoiceBoxOnLanguageChange(), getI18n().languageProperty());
+            } else if (option.isChildrenRadio())
+                childrenToggleGroup = new ToggleGroup();
             childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
-            vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).collect(Collectors.toList()));
+            vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
         }
+        if (parent != null && parent.optionButtonSelectedProperty != null)
+            LayoutUtil.setUnmanagedWhenInvisible(vBox, parent.optionButtonSelectedProperty);
         return vBox;
+    }
+
+    private void refreshChildrenChoiceBoxOnLanguageChange() {
+        Label selectedItem = childrenChoiceBox.getSelectionModel().getSelectedItem();
+        // Resetting the items with an identical duplicated list (to force the ui update)
+        childrenChoiceBox.getItems().setAll(new ArrayList<>(childrenChoiceBox.getItems()));
+        // The later operation removed the selected item so we restore it
+        childrenChoiceBox.getSelectionModel().select(selectedItem);
     }
 
     private void onOptionButtonChanged() {
@@ -192,7 +252,6 @@ class OptionTreeNode {
         if (childrenOptionTreeNodes != null && selected)
             for (OptionTreeNode childOptionTreeNode : childrenOptionTreeNodes)
                 childOptionTreeNode.updateNodeFromWorkingDocument();
-
     }
 
     private boolean isWorkingOptionSelected(Option option) {
@@ -211,5 +270,4 @@ class OptionTreeNode {
         Option wdlOption = wdl.getOption();
         return wdlOption != null ? wdlOption == option : wdl.getSite() == option.getSite() && wdl.getItem() == option.getItem();
     }
-
 }

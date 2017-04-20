@@ -102,7 +102,7 @@ class OptionTree {
 
     private Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();
 
-    OptionTreeNode getOptionTreeNode(Option option) {
+    private OptionTreeNode getOptionTreeNode(Option option) {
         return optionTreeNodes.computeIfAbsent(option, this::newOptionTreeNode);
     }
 

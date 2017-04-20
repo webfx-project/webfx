@@ -1,6 +1,7 @@
 package mongoose.activities.shared.logic.work;
 
 import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.Document;
 import mongoose.entities.Option;
@@ -70,6 +71,7 @@ public class WorkingDocument {
 
     public WorkingDocument applyBusinessRules() {
         applyBreakfastRule();
+        applyDietRule();
         return this;
     }
 
@@ -80,6 +82,28 @@ public class WorkingDocument {
             Option breakfastOption = eventService.getBreakfastOption();
             if (breakfastOption != null)
                 breakfastLine = addNewDependantLine(breakfastOption, getAccommodationLine(), 1);
+        }
+    }
+    
+    private void applyDietRule() {
+        if (!hasLunch() && !hasSupper()) {
+            if (hasDiet())
+                workingDocumentLines.remove(getDietLine());
+        } else {
+            WorkingDocumentLine dietLine = getDietLine();
+            if (dietLine == null) {
+                Option dietOption = eventService.getDietOption();
+                if (dietOption == null)
+                    return;
+                dietLine = new WorkingDocumentLine(dietOption, this);
+                workingDocumentLines.add(dietLine);
+            }
+            DaysArrayBuilder dab = new DaysArrayBuilder();
+            if (hasLunch())
+                dab.addSeries(getLunchLine().getDaysArray().toSeries(), null);
+            if (hasSupper())
+                dab.addSeries(getSupperLine().getDaysArray().toSeries(), null);
+            dietLine.setDaysArray(dab.build());
         }
     }
 
@@ -109,6 +133,49 @@ public class WorkingDocument {
 
     private boolean hasBreakfast() {
         return getBreakfastLine() != null;
+    }
+
+    //// Lunch line
+
+    private WorkingDocumentLine lunchLine;
+
+    private WorkingDocumentLine getLunchLine() {
+        if (lunchLine == null)
+            lunchLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isLunch());
+        return lunchLine;
+    }
+
+    private boolean hasLunch() {
+        return getLunchLine() != null;
+    }
+
+    //// Supper line
+
+    private WorkingDocumentLine supperLine;
+
+    private WorkingDocumentLine getSupperLine() {
+        if (supperLine == null)
+            supperLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isSupper());
+        return supperLine;
+    }
+
+    private boolean hasSupper() {
+        return getSupperLine() != null;
+    }
+
+
+    //// Diet line
+
+    private WorkingDocumentLine dietLine;
+
+    private WorkingDocumentLine getDietLine() {
+        if (dietLine == null)
+            dietLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isDiet());
+        return dietLine;
+    }
+
+    private boolean hasDiet() {
+        return getDietLine() != null;
     }
 
     private WorkingDocumentLine addNewDependantLine(Option dependantOption, WorkingDocumentLine masterLine, long shiftDays) {

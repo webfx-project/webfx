@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
@@ -18,7 +19,6 @@ import mongoose.util.Labels;
 import naga.commons.util.Arrays;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.fx.spi.Toolkit;
-import naga.fxdata.control.HtmlText;
 import naga.platform.spi.Platform;
 
 import java.util.HashMap;
@@ -59,7 +59,10 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        borderPane.setCenter(vBox = new VBox(10));
+        ScrollPane scrollPane = new ScrollPane(vBox = new VBox(10));
+        vBox.prefWidthProperty().bind(scrollPane.widthProperty().subtract(16));
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        borderPane.setCenter(scrollPane);
         vBox.setPadding(new Insets(10));
 
         bookingCalendar = createBookingCalendar();
@@ -125,7 +128,8 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     }
 
     protected Node createLabelNode(mongoose.entities.Label label) {
-        HtmlText htmlText = new HtmlText();
+        //HtmlText htmlText = new HtmlText();
+        Label htmlText = new Label();
         bindTextWithLabel(htmlText.textProperty(), label);
         return htmlText;
     }

@@ -94,6 +94,11 @@ public class FxHtmlTextPeer
     }
 
     @Override
+    public double maxWidth(double height) {
+        return Double.MAX_VALUE;
+    }
+
+    @Override
     public double maxHeight(double width) {
         return Double.MAX_VALUE;
     }

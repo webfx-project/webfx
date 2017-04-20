@@ -4,6 +4,7 @@ import mongoose.activities.shared.generic.eventdependent.EventDependentPresentat
 import naga.commons.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
+import naga.framework.ui.filter.ReactiveExpressionFilter;
 
 /**
  * @author Bruno Salmon
@@ -14,10 +15,11 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
         super(BookingsPresentationModel::new);
     }
 
+    private ReactiveExpressionFilter filter;
     @Override
     protected void startLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+        filter = createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
@@ -33,7 +35,7 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                 })
                 // Limit condition
                 .combine(pm.limitProperty(), "{limit: '100'}")
-                .setExpressionColumns("[" +
+                .combine(pm.limitProperty(), l -> l ? "{columns: `[" +
                         "'ref'," +
                         "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
                         "'person_firstName'," +
@@ -43,7 +45,14 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                         "{expression: 'price_minDeposit', format: 'price'}," +
                         "{expression: 'price_deposit', format: 'price'}," +
                         "{expression: 'price_balance', format: 'price'}" +
-                        "]")
+                        "]`}"
+                        : "{columns: `[" +
+                        "'ref'," +
+                        "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
+                        "'person_firstName'," +
+                        "'person_lastName'," +
+                        "'person_age','noteIcon'" +
+                        "]`}")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
