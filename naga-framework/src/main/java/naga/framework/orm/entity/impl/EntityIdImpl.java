@@ -9,7 +9,7 @@ import naga.framework.orm.entity.EntityId;
 public class EntityIdImpl implements EntityId {
 
     private final DomainClass domainClass;
-    private final Object primaryKey;
+    private Object primaryKey;
 
     public EntityIdImpl(DomainClass domainClass, Object primaryKey) {
         this.domainClass = domainClass;
@@ -29,6 +29,11 @@ public class EntityIdImpl implements EntityId {
     @Override
     public boolean isNew() {
         return primaryKey instanceof Integer && (Integer) primaryKey < 0; // temporary convention for new ids
+    }
+
+    @Override
+    public void setGeneratedKey(Object generatedKey) {
+        this.primaryKey = generatedKey;
     }
 
     @Override

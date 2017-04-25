@@ -31,9 +31,9 @@ public class UpdateResult {
      *                    Json Codec                    *
      * *************************************************/
 
-    private static String CODEC_ID = "UpdateRes";
-    private static String ROW_COUNT_KEY = "update";
-    private static String GENERATED_KEYS_KEY = "genKeys";
+    public final static String CODEC_ID = "UpdateRes";
+    private final static String ROW_COUNT_KEY = "update";
+    private final static String GENERATED_KEYS_KEY = "genKeys";
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<UpdateResult>(UpdateResult.class, CODEC_ID) {

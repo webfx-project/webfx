@@ -6,6 +6,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.impl.UpdateStoreImpl;
 import naga.framework.orm.entity.resultset.EntityChanges;
+import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 
 /**
@@ -31,7 +32,11 @@ public interface UpdateStore extends EntityStore {
 
     void markChangesAsCommitted();
 
-    Future<Batch<UpdateResult>> executeUpdate();
+    default Future<Batch<UpdateResult>> executeUpdate() {
+        return executeUpdate(null);
+    }
+
+    Future<Batch<UpdateResult>> executeUpdate(UpdateArgument[] initialUpdates);
 
     // Factory
 

@@ -1,17 +1,20 @@
 package mongoose.activities.shared.logic.work;
 
 import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import mongoose.entities.Document;
-import mongoose.entities.Option;
-import mongoose.entities.Person;
+import mongoose.entities.*;
 import mongoose.entities.markers.HasPersonDetails;
 import mongoose.services.EventService;
 import mongoose.services.PersonService;
+import naga.commons.util.async.Batch;
+import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
+import naga.platform.services.update.UpdateArgument;
+import naga.platform.services.update.UpdateResult;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -24,6 +27,7 @@ public class WorkingDocument {
     private final EventService eventService;
     private final Document document;
     private final List<WorkingDocumentLine> workingDocumentLines;
+    private UpdateStore updateStore;
 
     public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
         this(eventService, PersonService.getOrCreate(eventService.getEventDataSourceModel()).getPreselectionProfilePerson(), workingDocumentLines);
@@ -193,6 +197,16 @@ public class WorkingDocument {
         syncPersonDetails(p, document);
     }
 
+    private UpdateStore getUpdateStore() {
+        if (updateStore == null) {
+            if (document.getStore() instanceof UpdateStore)
+                updateStore = (UpdateStore) document.getStore();
+            else
+                updateStore = UpdateStore.create(eventService.getEventDataSourceModel());
+        }
+        return updateStore;
+    }
+
     private static Document createDocument(Person person, DataSourceModel dataSourceModel) {
         UpdateStore store = UpdateStore.create(dataSourceModel);
         Document document = store.insertEntity(Document.class);
@@ -212,6 +226,32 @@ public class WorkingDocument {
         p2.setGuest(p1.isGuest());
         p2.setResident(p1.isResident());
         p2.setResident2(p1.isResident2());
+    }
+
+    public Future<Batch<UpdateResult>> submit() {
+        UpdateStore store = getUpdateStore();
+        document.setEvent(eventService.getEvent());
+        if (document.getFirstName() == null) {
+            document.setFirstName("Bruno");
+            document.setLastName("Salmon");
+        }
+        for (WorkingDocumentLine wdl : workingDocumentLines) {
+            DocumentLine dl = wdl.getDocumentLine();
+            if (dl == null) {
+                dl = store.insertEntity(DocumentLine.class);
+                wdl.setDocumentLine(dl);
+                dl.setDocument(document);
+                dl.setSite(wdl.getSite());
+                dl.setItem(wdl.getItem());
+                DaysArray daysArray = wdl.getDaysArray();
+                for (int i = 0, n = daysArray.getArray().length; i < n; i++) {
+                    Attendance a = store.insertEntity(Attendance.class);
+                    a.setDate(daysArray.getDate(i));
+                    a.setDocumentLine(dl);
+                }
+            }
+        }
+        return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", null, false, eventService.getEventDataSourceModel().getId())});
     }
 
 }

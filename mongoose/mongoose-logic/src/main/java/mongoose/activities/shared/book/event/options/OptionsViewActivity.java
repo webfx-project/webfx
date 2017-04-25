@@ -73,6 +73,15 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         addPriceText();
 
         createOrUpdateOptionPanelsIfReady(true);
+
+        nextButton.setOnAction(e -> getWorkingDocument().submit().setHandler(ar -> {
+            if (ar.failed())
+                Platform.log("Error submitting booking", ar.cause());
+            else {
+                //Platform.log("Document id = " + getWorkingDocument().getDocument().getId());
+                getHistory().push("/event/" + getEvent().getPrimaryKey() + "/bookings");
+            }
+        }));
     }
 
     protected BookingCalendar createBookingCalendar() {

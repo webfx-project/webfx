@@ -17,7 +17,6 @@ import naga.platform.services.update.UpdateResult;
 
 import java.lang.reflect.Array;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
@@ -182,6 +181,9 @@ public class JsonCodecManager {
                             break;
                         case UpdateArgument.CODEC_ID:
                             contentClass = UpdateArgument.class;
+                            break;
+                        case UpdateResult.CODEC_ID:
+                            contentClass = UpdateResult.class;
                             break;
                     }
                 }

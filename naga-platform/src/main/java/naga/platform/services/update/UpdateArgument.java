@@ -41,7 +41,7 @@ public class UpdateArgument {
 
     @Override
     public String toString() {
-        return "UpdateArgument('" + updateString + "', " + Arrays.toString(parameters) + ')';
+        return "UpdateArgument('" + updateString + (parameters == null ? "'" : "', " + Arrays.toString(parameters)) + ')';
     }
 
     /****************************************************

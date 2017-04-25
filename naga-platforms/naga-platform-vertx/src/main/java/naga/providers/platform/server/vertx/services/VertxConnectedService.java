@@ -26,6 +26,7 @@ import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 import naga.platform.services.update.spi.UpdateService;
+import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -164,9 +165,10 @@ public class VertxConnectedService implements QueryService, UpdateService {
 
     private Future<UpdateResult> executeReturningUpdateOnConnection(UpdateArgument updateArgument, SQLConnection connection, boolean close, Future<UpdateResult> future) {
         executeQueryOnConnection(updateArgument.getUpdateString(), updateArgument.getParameters(), connection, res -> {
-            if (res.failed()) // Sql error
+            if (res.failed()) { // Sql error
+                Platform.log("Error executing " + updateArgument, res.cause());
                 future.fail(res.cause());
-            else { // Sql succeeded
+            } else { // Sql succeeded
                 // Transforming the result set into columnNames and values arrays
                 ResultSet resultSet = res.result();
                 Object[] generatedKeys = resultSet.getResults().get(0).stream().toArray();

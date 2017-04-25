@@ -28,10 +28,6 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
         dataSourceModel.getDomainModel(); // Making sure the domain model is loaded in memory and entity factories are registered
     }
 
-    EntityChangesBuilder getChangesBuilder() {
-        return changesBuilder;
-    }
-
     @Override
     public EntityChanges getEntityChanges() {
         return changesBuilder.build();
@@ -87,13 +83,15 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
     }
 
     @Override
-    public Future<Batch<UpdateResult>> executeUpdate() {
+    public Future<Batch<UpdateResult>> executeUpdate(UpdateArgument[] initialUpdates) {
         try {
-            Batch<UpdateArgument> batch = EntityChangesToUpdateBatchGenerator.generateUpdateBatch(getEntityChanges(), dataSourceModel);
+            EntityChangesToUpdateBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToUpdateBatchGenerator.createUpdateBatchGenerator(getEntityChanges(), dataSourceModel, initialUpdates);
+            Batch<UpdateArgument> batch = updateBatchGenerator.generate();
             Platform.log("Executing update batch " + Arrays.toString(batch.getArray()));
             Future<Batch<UpdateResult>> next = Future.future();
             return Platform.getUpdateService().executeUpdateBatch(batch).compose(ar -> {
                 markChangesAsCommitted();
+                updateBatchGenerator.applyGeneratedKeys(ar);
                 next.complete(ar);
             }, next);
         } catch (Exception e) {

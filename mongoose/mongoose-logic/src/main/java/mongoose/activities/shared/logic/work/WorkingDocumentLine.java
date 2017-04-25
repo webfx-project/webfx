@@ -20,7 +20,7 @@ public class WorkingDocumentLine {
     private WorkingDocument workingDocument;
     private final OptionPreselection optionPreselection;
     private final Option option;
-    private final DocumentLine documentLine;
+    private DocumentLine documentLine;
     private final List<Attendance> attendances;
     private final Site site;
     private final Item item;
@@ -103,6 +103,10 @@ public class WorkingDocumentLine {
 
     public Option getOption() {
         return option;
+    }
+
+    public void setDocumentLine(DocumentLine documentLine) {
+        this.documentLine = documentLine;
     }
 
     public DocumentLine getDocumentLine() {

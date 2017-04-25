@@ -27,6 +27,8 @@ public interface EntityId {
      */
     boolean isNew();
 
+    void setGeneratedKey(Object generatedKey);
+
     static EntityId create(DomainClass domainClass, Object primaryKey) {
         return EntityIdImpl.create(domainClass, primaryKey);
     }
