@@ -62,7 +62,7 @@ public class EntityChangesToUpdateBatchGenerator {
         private final Map<EntityId, Integer> newEntityIdInsertBatchIndexes = new IdentityHashMap<>();
 
         BatchGenerator(EntityChanges changes, Object dataSourceId, DbmsSqlSyntaxOptions dbmsSyntax, CompilerDomainModelReader compilerModelReader, UpdateArgument... initialUpdates) {
-            updateArguments = new ArrayList<>(Arrays.asList(initialUpdates));
+            updateArguments = initialUpdates == null ? new ArrayList<>() : new ArrayList<>(Arrays.asList(initialUpdates));
             this.changes = changes;
             this.dataSourceId = dataSourceId;
             this.dbmsSyntax = dbmsSyntax;
