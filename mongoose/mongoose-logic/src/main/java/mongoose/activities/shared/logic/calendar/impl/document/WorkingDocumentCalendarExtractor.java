@@ -119,6 +119,6 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
     }
 
     private boolean isOptionDisplayableOnCalendar(Option option, boolean isMax) {
-        return (option.isTeaching() || !isMax && (option.isMeals() || option.isAccommodation())) && option.getParsedTimeRangeOrParent() != null;
+        return option != null && ((option.isTeaching() || !isMax && (option.isMeals() || option.isAccommodation())) && option.getParsedTimeRangeOrParent() != null);
     }
 }

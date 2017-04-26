@@ -149,7 +149,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
                     closeAddOptionDialog();
                     OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
                     clearEventOptions();
-                    onFeesGroup().setHandler(ar2 -> {
+                    onFeesGroups().setHandler(ar2 -> {
                         if (ar2.succeeded()) {
                             for (FeesGroup feesGroup : ar2.result()) {
                                 for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {

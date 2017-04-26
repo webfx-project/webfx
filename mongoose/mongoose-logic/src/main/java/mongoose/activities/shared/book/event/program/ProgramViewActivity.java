@@ -52,7 +52,7 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
     }
 
     private void startLogic() {
-        onFeesGroup().setHandler(ar -> {
+        onFeesGroups().setHandler(ar -> {
             if (ar.failed())
                 Platform.log(ar.cause());
             else {

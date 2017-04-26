@@ -29,8 +29,11 @@ public class DocumentPricing {
             }
         }
         int price = 0;
-        for (SiteRateItemBlock block : siteRateItemBlocks)
-            price += block.computePrice();
+        for (SiteRateItemBlock block : siteRateItemBlocks) {
+            int blockPrice = block.computePrice();
+            //Platform.log(block + " price = " + blockPrice);
+            price += blockPrice;
+        }
 /*
         if (bill.document.cancelledDocumentLines) // adding price of cancelled document lines if any
             for (i = 0; i < bill.document.cancelledDocumentLines.length; i++)

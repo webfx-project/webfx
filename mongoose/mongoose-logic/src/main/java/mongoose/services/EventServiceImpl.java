@@ -1,5 +1,7 @@
 package mongoose.services;
 
+import mongoose.activities.shared.book.event.shared.FeesGroup;
+import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
@@ -20,6 +22,7 @@ import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +106,12 @@ class EventServiceImpl implements EventService {
         store.clearEntityList(listId);
     }
 
+    @Override
+    public void clearEventOptions() {
+        clearEntityList(OPTIONS_LIST_ID);
+        feesGroups = null;
+    }
+
     public List<Option> selectDefaultOptions() {
         return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
     }
@@ -151,6 +160,47 @@ class EventServiceImpl implements EventService {
         if (hasFacilityFeeRate == null)
             hasFacilityFeeRate = hasRate(rate -> Objects.anyNotNull(rate.getFacilityFeePrice(), rate.getFacilityFeeDiscount()));
         return hasFacilityFeeRate;
+    }
+
+    // Fees groups loading method
+
+    private FeesGroup[] feesGroups;
+
+    @Override
+    public FeesGroup[] getFeesGroups() {
+        return feesGroups;
+    }
+
+    @Override
+    public Future<FeesGroup[]> onFeesGroups() {
+        if (feesGroups != null)
+            return Future.succeededFuture(feesGroups);
+        return onEventOptions().map(this::createFeesGroups);
+    }
+
+    private FeesGroup[] createFeesGroups() {
+        List<FeesGroup> feesGroups = new ArrayList<>();
+        EntityList<DateInfo> dateInfos = getEventDateInfos();
+        List<Option> defaultOptions = selectDefaultOptions();
+        List<Option> accommodationOptions = selectOptions(o -> o.isConcrete() && o.isAccommodation());
+        if (dateInfos.isEmpty())
+            populateFeesGroups(null, defaultOptions, accommodationOptions, feesGroups);
+        else
+            for (DateInfo dateInfo : dateInfos)
+                populateFeesGroups(dateInfo, defaultOptions, accommodationOptions, feesGroups);
+        return this.feesGroups = Collections.toArray(feesGroups, FeesGroup[]::new);
+    }
+
+    private void populateFeesGroups(DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions, List<FeesGroup> feesGroups) {
+        feesGroups.add(createFeesGroup(dateInfo, defaultOptions, accommodationOptions));
+    }
+
+    private FeesGroup createFeesGroup(DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions) {
+        return new FeesGroupBuilder(this)
+                .setDateInfo(dateInfo)
+                .setDefaultOptions(defaultOptions)
+                .setAccommodationOptions(accommodationOptions)
+                .build();
     }
 
     // Event availability loading method

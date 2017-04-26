@@ -8,6 +8,7 @@ import mongoose.entities.Rate;
 import mongoose.entities.Site;
 import naga.commons.util.Booleans;
 import naga.commons.util.Objects;
+import naga.framework.orm.entity.Entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -56,7 +57,7 @@ class SiteRateItemBlock {
         LocalDate firstDay = attendanceBlocks.get(0).getDate();
         LocalDate lastDay = attendanceBlocks.get(blockLength - 1).getDate();
         List<Rate> rates = workingDocument.getEventService().selectRates(
-                r -> r.getSite() == site && r.getItem() == rateItem && rateMatchesDocument(r) &&
+                r -> Entity.sameId(r.getSite(), site) && Entity.sameId(r.getItem(), rateItem) && rateMatchesDocument(r) &&
                         dateNullOrBefore(r.getStartDate(), lastDay) && dateNullOrAfter(r.getEndDate(), firstDay));
         if (!rates.isEmpty()) {
             //rates.sort(function (r1, r2) { return (r1.perDay ? 1 : r1.maxDay ) - (r2.perDay ? 1 : r2.maxDay);});
@@ -250,7 +251,7 @@ class SiteRateItemBlock {
         int price;
         int consumableDays;
 
-        public RateInfo(int dailyPrice, int price, int consumableDays) {
+        RateInfo(int dailyPrice, int price, int consumableDays) {
             this.dailyPrice = dailyPrice;
             this.price = price;
             this.consumableDays = consumableDays;
@@ -277,4 +278,12 @@ class SiteRateItemBlock {
         return result;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("SiteRateItemBlock[" + site.getId() + " - " + rateItem.getId() + " -");
+        for (AttendanceBlock ab : attendanceBlocks) {
+            sb.append(" ").append(ab.getDate());
+        }
+        return sb.append("]").toString();
+    }
 }

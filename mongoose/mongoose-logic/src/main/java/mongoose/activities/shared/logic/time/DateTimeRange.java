@@ -122,6 +122,6 @@ public final class DateTimeRange {
     public DateTimeRange intersect(DayTimeRange dayTimeRange) {
         if (dayTimeRange == null)
             return this;
-        return from(getSeries().intersect(dayTimeRange));
+        return from(getSeries().changeTimeUnit(TimeUnit.MINUTES).intersect(dayTimeRange));
     }
 }

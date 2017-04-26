@@ -1,10 +1,13 @@
 package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.entities.Document;
+import mongoose.services.EventService;
 import naga.commons.util.Strings;
-import naga.framework.expression.Expression;
 import naga.framework.expression.terms.function.java.AbcNames;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
+import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -57,10 +60,23 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
                     if (document != null) {
+                        EventService eventService = getEventService();
+                        WorkingDocument.load(eventService, (Document) document).setHandler(ar -> {
+                            if (ar.failed())
+                                Platform.log("Error loading document", ar.cause());
+                            else {
+                                eventService.setSelectedOptionsPreselection(null);
+                                eventService.setWorkingDocument(ar.result());
+                                getHistory().push("/book/event/" + pm.getEventId() + "/options");
+                            }
+                        });
+
+                        /*
                         Expression cartUuidExpression = getDataSourceModel().getDomainModel().parseExpression("cart.uuid", "Document");
                         Object cartUuid = document.evaluate(cartUuidExpression);
                         if (cartUuid != null)
                             getHistory().push("/book/cart/" + cartUuid);
+*/
                     }
                 }).start();
 

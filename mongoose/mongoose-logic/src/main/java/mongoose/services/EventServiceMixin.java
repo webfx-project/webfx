@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
@@ -100,6 +101,11 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
+    default Option getDietOption() {
+        return getEventService().getDietOption();
+    }
+
+    @Override
     default List<Rate> selectRates(Predicate<? super Rate> predicate) {
         return getEventService().selectRates(predicate);
     }
@@ -110,6 +116,14 @@ public interface EventServiceMixin extends EventService {
 
     default boolean hasFacilityFeeRate() {
         return getEventService().hasFacilityFeeRate();
+    }
+
+    default Future<FeesGroup[]> onFeesGroups() {
+        return getEventService().onFeesGroups();
+    }
+
+    default FeesGroup[] getFeesGroups() {
+        return getEventService().getFeesGroups();
     }
 
     @Override

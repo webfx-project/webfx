@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-class FeesGroupBuilder {
+public class FeesGroupBuilder {
 
     private final EventService eventService;
     private DateInfo dateInfo;
@@ -29,11 +29,11 @@ class FeesGroupBuilder {
     private Iterable<Option> defaultOptions;
     private Iterable<Option> accommodationOptions;
 
-    FeesGroupBuilder(EventService eventService) {
+    public FeesGroupBuilder(EventService eventService) {
         this.eventService = eventService;
     }
 
-    FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
+    public FeesGroupBuilder setDateInfo(DateInfo dateInfo) {
         this.dateInfo = dateInfo;
         if (dateInfo != null) {
             id = dateInfo.getId();
@@ -49,12 +49,12 @@ class FeesGroupBuilder {
         return eventService.getEvent();
     }
 
-    FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
+    public FeesGroupBuilder setDefaultOptions(Iterable<Option> defaultOptions) {
         this.defaultOptions = defaultOptions;
         return this;
     }
 
-    FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
+    public FeesGroupBuilder setAccommodationOptions(Iterable<Option> accommodationOptions) {
         this.accommodationOptions = accommodationOptions;
         return this;
     }
@@ -63,7 +63,7 @@ class FeesGroupBuilder {
         return !getEvent().getName().contains("Overnight");
     }
 
-    FeesGroup build() {
+    public FeesGroup build() {
         DateTimeRange dateTimeRange = dateInfo == null ? null : dateInfo.getParsedDateTimeRange();
         if (dateTimeRange == null)
             dateTimeRange = getEvent().getParsedDateTimeRange();

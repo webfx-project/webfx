@@ -6,8 +6,10 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.entities.*;
+import mongoose.services.EventService;
 import naga.commons.util.Objects;
 import naga.commons.util.collection.Collections;
+import naga.framework.orm.entity.Entity;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -61,30 +63,30 @@ public class WorkingDocumentLine {
         setWorkingDocument(workingDocument);
     }
 
-    public WorkingDocumentLine(DocumentLine documentLine, List<Attendance> attendances) {
+    public WorkingDocumentLine(DocumentLine documentLine, List<Attendance> attendances, EventService eventService) {
         this.documentLine = documentLine;
         this.attendances = attendances;
         optionPreselection = null;
-        option = findDocumentLineOption();
+        option = findDocumentLineOption(eventService);
         site = documentLine.getSite();
         item = documentLine.getItem();
         dayTimeRange = option == null ? null : DayTimeRange.parse(option.getTimeRange());
-        dateTimeRange = option == null ? null : cropDateTimeRange(option.getParsedDateTimeRangeOrParent(), dayTimeRange);
         DaysArrayBuilder b = new DaysArrayBuilder();
         Collections.forEach(attendances, a -> b.addDate(a.getDate()));
         daysArray = b.build();
+        dateTimeRange = cropDateTimeRange(new DateTimeRange(daysArray.toSeries()), dayTimeRange);
     }
 
     private static DateTimeRange cropDateTimeRange(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
         return dateTimeRange == null || dayTimeRange == null ? dateTimeRange : dateTimeRange.intersect(dayTimeRange);
     }
 
-    private Option findDocumentLineOption() {
+    private Option findDocumentLineOption(EventService eventService) {
         Site site = documentLine.getSite();
         Item item = documentLine.getItem();
         if (site != null && item != null)
-            for (Option o : workingDocument.getEventService().getEventOptions())
-                if (o.getSite() == site && o.getItem() == item)
+            for (Option o : eventService.getEventOptions())
+                if (Entity.sameId(o.getSite(), site) && Entity.sameId(o.getItem(), item))
                     return o;
         return null;
     }

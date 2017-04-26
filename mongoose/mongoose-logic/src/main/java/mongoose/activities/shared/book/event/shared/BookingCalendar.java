@@ -14,11 +14,14 @@ import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.services.EventService;
 import mongoose.util.PerformanceLogger;
+import naga.framework.orm.entity.Entity;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
+import naga.platform.spi.Platform;
 
 import java.util.concurrent.TimeUnit;
 
@@ -100,7 +103,28 @@ public class BookingCalendar {
 
     protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
         OptionsPreselection selectedOptionsPreselection = workingDocument.getEventService().getSelectedOptionsPreselection();
-        return selectedOptionsPreselection == null ? null : selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
+        if (selectedOptionsPreselection == null)
+            selectedOptionsPreselection = findWorkingDocumentOptionsPreselection();
+        return selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
+    }
+
+    private OptionsPreselection findWorkingDocumentOptionsPreselection() {
+        for (FeesGroup feesGroup : workingDocument.getEventService().getFeesGroups()) {
+            for (OptionsPreselection optionsPreselection : feesGroup.getOptionsPreselections()) {
+                if (workingDocumentMatchesOptionsPreselection(optionsPreselection))
+                    return optionsPreselection;
+            }
+        }
+        Platform.log("Warning: no OptionsPreselection found for this working document");
+        return null;
+    }
+
+    private boolean workingDocumentMatchesOptionsPreselection(OptionsPreselection optionsPreselection) {
+        return sameLine(workingDocument.getAccommodationLine(), optionsPreselection.getAccommodationLine());
+    }
+
+    private static boolean sameLine(WorkingDocumentLine wdl1, WorkingDocumentLine wdl2) {
+        return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
     }
 
     protected void onCalendarClick(CalendarClickEvent event) {

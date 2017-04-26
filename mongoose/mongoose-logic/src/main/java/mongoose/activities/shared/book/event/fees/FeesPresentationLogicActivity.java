@@ -93,7 +93,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
 
     private void loadAndDisplayFeesGroups() {
         lastLoadedEventOptions = null;
-        onFeesGroup().setHandler(ar -> {
+        onFeesGroups().setHandler(ar -> {
             lastLoadedEventOptions = getEventOptions();
             if (ar.failed())
                 Platform.log(ar.cause());
@@ -118,7 +118,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     private void displayFeesGroups() {
         if (getEvent() == null || feesGroups == null) // This can happen when reacting to active property while the event has just changed and is not yet loaded
             return; // We return to avoid NPE (this method will be called again once the event is loaded)
-        Toolkit.get().scheduler().runOutUiThread(() -> displayFeesGroupsNow());
+        Toolkit.get().scheduler().runOutUiThread(this::displayFeesGroupsNow);
     }
 
     private void displayFeesGroupsNow() {

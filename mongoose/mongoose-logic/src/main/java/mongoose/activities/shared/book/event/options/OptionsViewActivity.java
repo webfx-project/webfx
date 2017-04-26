@@ -48,7 +48,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     protected void startLogic() {
         boolean forceRefresh = getEventOptions() == null;
-        onFeesGroup().setHandler(async -> {
+        onFeesGroups().setHandler(async -> {
             if (async.failed())
                 Platform.log(async.cause());
             else

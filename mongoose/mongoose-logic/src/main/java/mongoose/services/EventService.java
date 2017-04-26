@@ -1,5 +1,6 @@
 package mongoose.services;
 
+import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
@@ -50,9 +51,7 @@ public interface EventService {
         return getEntityList(OPTIONS_LIST_ID);
     }
 
-    default void clearEventOptions() {
-        clearEntityList(OPTIONS_LIST_ID);
-    }
+    void clearEventOptions();
 
     default EntityList<Site> getEventSites() {
         return getEntityList(SITES_LIST_ID);
@@ -97,6 +96,12 @@ public interface EventService {
     boolean hasUnemployedRate();
 
     boolean hasFacilityFeeRate();
+
+    // Fees groups loading method
+
+    Future<FeesGroup[]> onFeesGroups();
+
+    FeesGroup[] getFeesGroups();
 
     // Event availability loading method
 

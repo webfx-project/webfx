@@ -11,11 +11,20 @@ import mongoose.services.PersonService;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
+import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainModel;
+import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
+import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
+import naga.platform.spi.Platform;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,20 +66,27 @@ public class WorkingDocument {
     }
 
     private DateTimeRange dateTimeRange;
+
     public DateTimeRange getDateTimeRange() {
         if (dateTimeRange == null) {
             long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
             for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
-                DateTimeRange wdlDateTimeRange = wdl.getDateTimeRange();
-                if (wdlDateTimeRange != null && !wdlDateTimeRange.isEmpty()) {
-                    TimeInterval interval = wdlDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES);
-                    includedStart = Math.min(includedStart, interval.getIncludedStart());
-                    excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
+                if (isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(wdl)) {
+                    DateTimeRange wdlDateTimeRange = wdl.getDateTimeRange();
+                    if (wdlDateTimeRange != null && !wdlDateTimeRange.isEmpty()) {
+                        TimeInterval interval = wdlDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES);
+                        includedStart = Math.min(includedStart, interval.getIncludedStart());
+                        excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
+                    }
                 }
             }
             dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
         }
         return dateTimeRange;
+    }
+
+    private boolean isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(WorkingDocumentLine wdl) {
+        return wdl.getDayTimeRange() != null; // Excluding lines with no day time range (ex: diet option)
     }
 
     public WorkingDocument applyBusinessRules() {
@@ -88,7 +104,7 @@ public class WorkingDocument {
                 breakfastLine = addNewDependantLine(breakfastOption, getAccommodationLine(), 1);
         }
     }
-    
+
     private void applyDietRule() {
         if (!hasLunch() && !hasSupper()) {
             if (hasDiet())
@@ -252,6 +268,31 @@ public class WorkingDocument {
             }
         }
         return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", null, false, eventService.getEventDataSourceModel().getId())});
+    }
+
+    public static Future<WorkingDocument> load(EventService eventService, Document document) {
+        DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();
+        Object dataSourceId = dataSourceModel.getId();
+        DomainModel domainModel = dataSourceModel.getDomainModel();
+        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart> from DocumentLine where site!=null and document=?");
+        SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine,date from Attendance where documentLine.document=? order by date");
+        Object[] documentIdParameter = {document.getId().getPrimaryKey()};
+        Future<Batch<QueryResultSet>> queryBatchFuture;
+        return Future.allOf(eventService.onFeesGroups(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
+                new Batch<>(new QueryArgument[]{
+                        new QueryArgument(sqlCompiled1.getSql(), documentIdParameter, dataSourceId),
+                        new QueryArgument(sqlCompiled2.getSql(), documentIdParameter, dataSourceId)
+                })
+        )).compose(v -> {
+            Batch<QueryResultSet> b = queryBatchFuture.result();
+            EntityStore store = document.getStore();
+            EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
+            EntityList<Attendance> as = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[1], sqlCompiled2.getQueryMapping(), store, "a");
+            List<WorkingDocumentLine> wdls = new ArrayList<>();
+            for (DocumentLine dl : dls)
+                wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
+            return Future.succeededFuture(new WorkingDocument(eventService, document, wdls));
+        });
     }
 
 }
