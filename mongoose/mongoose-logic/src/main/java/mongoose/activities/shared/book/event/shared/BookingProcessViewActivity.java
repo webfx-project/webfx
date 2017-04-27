@@ -55,6 +55,6 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
     }
 
     protected void goToNextBookingProcessPage(String page) {
-        getHistory().push("/event/" + getEventId() + "/" + page);
+        getHistory().push("/book/event/" + getEventId() + "/" + page);
     }
 }

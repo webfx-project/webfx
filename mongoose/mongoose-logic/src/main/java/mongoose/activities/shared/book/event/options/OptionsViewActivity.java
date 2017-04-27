@@ -19,10 +19,8 @@ import mongoose.util.Labels;
 import naga.commons.util.Arrays;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.fx.spi.Toolkit;
-import naga.platform.json.Json;
 import naga.platform.spi.Platform;
 
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,15 +73,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         addPriceText();
 
         createOrUpdateOptionPanelsIfReady(true);
-
-        nextButton.setOnAction(e -> getWorkingDocument().submit().setHandler(ar -> {
-            if (ar.failed())
-                Platform.log("Error submitting booking", ar.cause());
-            else {
-                //Platform.log("Document id = " + getWorkingDocument().getDocument().getId());
-                getHistory().push("/event/" + getEvent().getPrimaryKey() + "/bookings", Json.createObject().set("refresh", Instant.now()));
-            }
-        }));
     }
 
     protected BookingCalendar createBookingCalendar() {
@@ -106,7 +95,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
             });
         }
     }
-
 
     protected void addPriceText() {
         priceText.setAlignment(Pos.CENTER);

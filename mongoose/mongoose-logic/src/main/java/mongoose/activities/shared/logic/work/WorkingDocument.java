@@ -282,10 +282,7 @@ public class WorkingDocument {
         UpdateStore store = getUpdateStore();
         Document du = store.updateEntity(document);
         du.setEvent(eventService.getEvent());
-        if (document.getFirstName() == null) {
-            du.setFirstName("Bruno");
-            du.setLastName("Salmon");
-        }
+        syncPersonDetails(document, du);
         if (lastLoadedWorkingDocumentLines != null)
             syncLineInfoFrom(lastLoadedWorkingDocumentLines);
         for (WorkingDocumentLine wdl : workingDocumentLines) {

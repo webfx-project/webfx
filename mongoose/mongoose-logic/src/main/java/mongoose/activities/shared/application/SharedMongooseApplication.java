@@ -4,7 +4,9 @@ import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.cart.CartPresentationActivity;
 import mongoose.activities.shared.book.event.fees.FeesPresentationActivity;
 import mongoose.activities.shared.book.event.options.OptionsViewActivity;
+import mongoose.activities.shared.book.event.person.PersonViewActivity;
 import mongoose.activities.shared.book.event.program.ProgramViewActivity;
+import mongoose.activities.shared.book.event.summary.SummaryViewActivity;
 import mongoose.activities.shared.book.event.terms.TermsPresentationActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.commons.util.function.Consumer;
@@ -43,6 +45,8 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
                 .route("/book/event/:eventId/terms", TermsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/book/event/:eventId/program", ProgramViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/options", OptionsViewActivity::new, ViewDomainActivityContextFinal::new)
+                .route("/book/event/:eventId/person", PersonViewActivity::new, ViewDomainActivityContextFinal::new)
+                .route("/book/event/:eventId/summary", SummaryViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/cart/:cartUuid", CartPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 ;
     }
