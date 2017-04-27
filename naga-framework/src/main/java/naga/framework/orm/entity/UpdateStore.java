@@ -22,6 +22,8 @@ public interface UpdateStore extends EntityStore {
 
     <E extends Entity> E insertEntity(Object domainClassId);
 
+    <E extends Entity> E updateEntity(E entity);
+
     void deleteEntity(Entity entity);
 
     void deleteEntity(EntityId entityId);

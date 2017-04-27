@@ -14,6 +14,7 @@ import naga.commons.util.collection.Collections;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
+import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
@@ -24,6 +25,7 @@ import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 import naga.platform.spi.Platform;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +39,7 @@ public class WorkingDocument {
     private final Document document;
     private final List<WorkingDocumentLine> workingDocumentLines;
     private UpdateStore updateStore;
+    private List<WorkingDocumentLine> lastLoadedWorkingDocumentLines;
 
     public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
         this(eventService, PersonService.getOrCreate(eventService.getEventDataSourceModel()).getPreselectionProfilePerson(), workingDocumentLines);
@@ -51,6 +54,8 @@ public class WorkingDocument {
         this.document = document;
         this.workingDocumentLines = workingDocumentLines;
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
+        if (!document.isNew())
+            lastLoadedWorkingDocumentLines = new ArrayList<>(workingDocumentLines);
     }
 
     public EventService getEventService() {
@@ -244,30 +249,88 @@ public class WorkingDocument {
         p2.setResident2(p1.isResident2());
     }
 
+    public void syncInfoFrom(WorkingDocument wd) {
+        syncPersonDetails(document, wd.getDocument());
+        if (document.isNew() && !wd.getDocument().isNew())
+            document.getId().setGeneratedKey(wd.getDocument().getPrimaryKey());
+        if (lastLoadedWorkingDocumentLines == null)
+            lastLoadedWorkingDocumentLines = wd.lastLoadedWorkingDocumentLines;
+        syncLineInfoFrom(wd.getWorkingDocumentLines());
+    }
+
+    private void syncLineInfoFrom(List<WorkingDocumentLine> wdls) {
+        for (WorkingDocumentLine wdl : wdls) {
+            WorkingDocumentLine thisLine = findSameWorkingDocumentLine(wdl);
+            if (thisLine != null)
+                thisLine.syncInfoFrom(wdl);
+        }
+    }
+
+    private WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
+        for (WorkingDocumentLine thisWdl : getWorkingDocumentLines()) {
+            if (sameLine(thisWdl, wdl))
+                return thisWdl;
+        }
+        return null;
+    }
+
+    private static boolean sameLine(WorkingDocumentLine wdl1, WorkingDocumentLine wdl2) {
+        return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
+    }
+
     public Future<Batch<UpdateResult>> submit() {
         UpdateStore store = getUpdateStore();
-        document.setEvent(eventService.getEvent());
+        Document du = store.updateEntity(document);
+        du.setEvent(eventService.getEvent());
         if (document.getFirstName() == null) {
-            document.setFirstName("Bruno");
-            document.setLastName("Salmon");
+            du.setFirstName("Bruno");
+            du.setLastName("Salmon");
         }
+        if (lastLoadedWorkingDocumentLines != null)
+            syncLineInfoFrom(lastLoadedWorkingDocumentLines);
         for (WorkingDocumentLine wdl : workingDocumentLines) {
-            DocumentLine dl = wdl.getDocumentLine();
+            DocumentLine dl = wdl.getDocumentLine(), dlu;
             if (dl == null) {
-                dl = store.insertEntity(DocumentLine.class);
-                wdl.setDocumentLine(dl);
-                dl.setDocument(document);
-                dl.setSite(wdl.getSite());
-                dl.setItem(wdl.getItem());
-                DaysArray daysArray = wdl.getDaysArray();
-                for (int i = 0, n = daysArray.getArray().length; i < n; i++) {
-                    Attendance a = store.insertEntity(Attendance.class);
-                    a.setDate(daysArray.getDate(i));
-                    a.setDocumentLine(dl);
+                dlu = store.insertEntity(DocumentLine.class);
+                dlu.setDocument(du);
+            } else {
+                dlu = store.updateEntity(dl);
+            }
+            dlu.setSite(wdl.getSite());
+            dlu.setItem(wdl.getItem());
+
+            DaysArray daysArray = wdl.getDaysArray();
+            List<Attendance> attendances = wdl.getAttendances();
+            int j = 0, m = Collections.size(attendances), n = daysArray.getArray().length;
+            if (m > 0 && n == 0) // means that all attendances have been removed
+                removeLine(dl);
+            else {
+                for (int i = 0; i < n; i++) {
+                    LocalDate date = daysArray.getDate(i);
+                    while (j < m && attendances.get(j).getDate().isBefore(date))
+                        store.deleteEntity(attendances.get(j++));
+                    if (j < m && attendances.get(j).getDate().equals(date))
+                        j++;
+                    else {
+                        Attendance au = store.insertEntity(Attendance.class);
+                        au.setDate(date);
+                        au.setDocumentLine(dlu);
+                    }
                 }
+                while (j < m)
+                    store.deleteEntity(attendances.get(j++));
             }
         }
+        if (lastLoadedWorkingDocumentLines != null)
+            for (WorkingDocumentLine lastWdl : lastLoadedWorkingDocumentLines) {
+                if (findSameWorkingDocumentLine(lastWdl) == null)
+                    removeLine(lastWdl.getDocumentLine());
+            }         
         return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", null, false, eventService.getEventDataSourceModel().getId())});
+    }
+
+    private void removeLine(DocumentLine dl) {
+        getUpdateStore().deleteEntity(dl); // TODO: should probably be cancelled instead in some cases (and keep the non refundable part)
     }
 
     public static Future<WorkingDocument> load(EventService eventService, Document document) {

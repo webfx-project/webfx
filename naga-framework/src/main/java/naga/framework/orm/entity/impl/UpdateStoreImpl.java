@@ -50,6 +50,14 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
         return createEntity(newId);
     }
 
+    @Override
+    public <E extends Entity> E updateEntity(E entity) {
+        if (entity == null || entity.getStore() == this)
+            return entity;
+        E updatedEntity = getOrCreateEntity(entity.getId());
+        return updatedEntity;
+    }
+
     boolean updateEntity(EntityId id, Object domainFieldId, Object value, Object previousValue) {
         if (!Objects.areEquals(value, previousValue)) {
             boolean firstFieldChange = updateEntity(id, domainFieldId, value);

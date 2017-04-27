@@ -23,7 +23,7 @@ public class WorkingDocumentLine {
     private final OptionPreselection optionPreselection;
     private final Option option;
     private DocumentLine documentLine;
-    private final List<Attendance> attendances;
+    private List<Attendance> attendances;
     private final Site site;
     private final Item item;
     private final DateTimeRange dateTimeRange;
@@ -154,5 +154,10 @@ public class WorkingDocumentLine {
     public LocalDate firstDate() {
         //return attendances.get(0).getDate();
         return daysArray.getFirstDate();
+    }
+
+    void syncInfoFrom(WorkingDocumentLine wdl) {
+        documentLine = wdl.documentLine;
+        attendances = wdl.attendances;
     }
 }

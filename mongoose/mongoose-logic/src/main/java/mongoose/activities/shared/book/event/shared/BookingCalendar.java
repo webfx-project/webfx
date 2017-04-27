@@ -149,6 +149,7 @@ public class BookingCalendar {
         EventService eventService = workingDocument.getEventService();
         DateTimeRange newWorkingDocumentDateTimeRange = eventService.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
         WorkingDocument newWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange);
+        newWorkingDocument.syncInfoFrom(workingDocument);
         eventService.setWorkingDocument(newWorkingDocument);
         createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
     }
