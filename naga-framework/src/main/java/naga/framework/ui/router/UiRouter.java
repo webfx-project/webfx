@@ -17,6 +17,7 @@ import naga.platform.activity.ActivityManager;
 import naga.platform.activity.application.ApplicationContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.baseimpl.SubHistory;
+import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
@@ -182,15 +183,24 @@ public class UiRouter extends HistoryRouter {
             // Temporary applying the parameters to the whole application context so they can be shared between activities
             // (ex: changing :x parameter in activity1 and then pressing a navigation button in a parent container activity
             // that goes to /:x/activity2 => the parent container can get the last :x value changed by activity1)
-            //UiRouteActivityContextBase.from(activityContext).setParams(routingContext.getParams()); // Commented original code
+            WritableJsonObject localParams = null;
             UiRouteActivityContext uiAppContext = ApplicationContext.get();
             WritableJsonObject appParams = (WritableJsonObject) uiAppContext.getParams();
-            // TODO: move this code into a apply() method in WritableJsonObject
             JsonArray keys = routingContextParams.keys();
             for (int i = 0, size = keys.size(); i < size; i++) {
                 String key = keys.getString(i);
-                appParams.setNativeElement(key, routingContextParams.getNativeElement(key));
+                Object value = routingContextParams.getNativeElement(key);
+                boolean localParameter = "refresh".equals(key);
+                if (!localParameter)
+                    appParams.setNativeElement(key, value);
+                else {
+                    if (localParams == null)
+                        localParams = Json.createObject();
+                    localParams.set(key, value);
+                }
             }
+            if (localParams != null)
+                UiRouteActivityContextBase.toUiRouterActivityContextBase(activityContext).setParams(localParams);
         }
     }
 }

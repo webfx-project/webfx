@@ -19,8 +19,10 @@ import mongoose.util.Labels;
 import naga.commons.util.Arrays;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.fx.spi.Toolkit;
+import naga.platform.json.Json;
 import naga.platform.spi.Platform;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +81,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                 Platform.log("Error submitting booking", ar.cause());
             else {
                 //Platform.log("Document id = " + getWorkingDocument().getDocument().getId());
-                getHistory().push("/event/" + getEvent().getPrimaryKey() + "/bookings");
+                getHistory().push("/event/" + getEvent().getPrimaryKey() + "/bookings", Json.createObject().set("refresh", Instant.now()));
             }
         }));
     }

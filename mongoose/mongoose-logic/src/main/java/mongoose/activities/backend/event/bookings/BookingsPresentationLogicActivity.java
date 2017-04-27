@@ -83,4 +83,9 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
         pm.setOnNewBooking(event -> getHistory().push("/book/event/" + pm.getEventId() + "/fees"));
         pm.setOnCloneEvent(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
     }
+
+    @Override
+    protected void refreshDataOnActive() {
+        filter.refreshWhenActive();
+    }
 }

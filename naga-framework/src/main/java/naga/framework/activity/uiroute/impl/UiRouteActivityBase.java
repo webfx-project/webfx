@@ -1,5 +1,6 @@
 package naga.framework.activity.uiroute.impl;
 
+import naga.commons.util.Objects;
 import naga.framework.activity.activeproperty.impl.ActivePropertyActivityBase;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.activity.uiroute.UiRouteActivityContextMixin;
@@ -13,13 +14,22 @@ public class UiRouteActivityBase
         extends ActivePropertyActivityBase<C>
         implements UiRouteActivityContextMixin<C> {
 
+    private Object lastRefreshValue;
 
     @Override
     public void onResume() {
         fetchRouteParameters();
-        super.onResume();
+        Object refreshValue = getParameter("refresh");
+        if (!Objects.areEquals(refreshValue, lastRefreshValue)) {
+            refreshDataOnActive();
+            lastRefreshValue = refreshValue;
+        }
+        super.onResume(); // Making active
     }
 
     protected void fetchRouteParameters() {
+    }
+
+    protected void refreshDataOnActive() {
     }
 }

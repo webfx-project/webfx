@@ -37,6 +37,7 @@ import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
 import rx.Observable;
+import rx.subjects.BehaviorSubject;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -47,11 +48,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ReactiveExpressionFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
+    private StringFilter lastStringFilter;
+    private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
     private DataSourceModel dataSourceModel;
     private I18n i18n;
     private EntityStore store;
     private Object listId = "default";
     private boolean autoRefresh = false;
+    private boolean requestRefreshOnActive = false;
     private boolean startsWithEmptyResult = true;
     private Object domainClassId;
     private StringFilter baseFilter;
@@ -300,9 +304,12 @@ public class ReactiveExpressionFilter {
                 @Override
                 public void accept(ObservableValue p) {
                     dictionaryChanged |= p == i18n.dictionaryProperty();
-                    if (dictionaryChanged && isActive()) {
-                        resetAllDisplayResultSets(false);
-                        dictionaryChanged = false;
+                    if (isActive()) {
+                        if (dictionaryChanged) {
+                            resetAllDisplayResultSets(false);
+                            dictionaryChanged = false;
+                        } else if (requestRefreshOnActive)
+                            refreshNow();
                     }
                 }
             }, i18n.dictionaryProperty(), activeProperty);
@@ -312,7 +319,9 @@ public class ReactiveExpressionFilter {
                 .filter(stringFilter -> isActive());
         if (!autoRefresh)
             resultingStringFilterObservable = resultingStringFilterObservable.distinctUntilChanged();
+        resultingStringFilterObservable = resultingStringFilterObservable.mergeWith(lastStringFilterReEmitter);
         Observable<EntityList> entitiesObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
+            lastStringFilter = stringFilter;
             // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
             if ("false".equals(stringFilter.getWhere()))
                 return Observable.just(EntityList.create(listId, store));
@@ -337,7 +346,7 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    private void forceRefresh() {
+    private void refreshNowIfActiveAndFilterChanged() {
         if (started && isActive()) {
             activeProperty.unbind();
             setActive(false);
@@ -345,6 +354,19 @@ public class ReactiveExpressionFilter {
             if (boundActiveProperty != null)
                 bindActivePropertyTo(boundActiveProperty);
         }
+    }
+
+    public void refreshWhenActive() {
+        if (isActive())
+            refreshNow();
+        else
+            requestRefreshOnActive = true;
+    }
+
+    private void refreshNow() {
+        if (lastStringFilter != null)
+            lastStringFilterReEmitter.onNext(lastStringFilter);
+        requestRefreshOnActive = false;
     }
 
     private StringFilter mergeStringFilters(Object... args) {
@@ -508,7 +530,7 @@ public class ReactiveExpressionFilter {
             setExpressionColumnsPrivate(expressionColumns);
             if (appliedDomainModelRowStyle)
                 applyDomainModelRowStyle();
-            forceRefresh();
+            refreshNowIfActiveAndFilterChanged();
         }
 
         void setExpressionColumnsPrivate(String jsonArrayDisplayColumns) {
