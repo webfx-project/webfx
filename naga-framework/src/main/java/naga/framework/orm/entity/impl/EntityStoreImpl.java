@@ -98,7 +98,20 @@ public class EntityStoreImpl implements EntityStore {
         return expression.evaluate(entity, entityDataWriter);
     }
 
-    // String report for debugging
+    private Map<String, Object> parameterValues;
+
+    @Override
+    public void setParameterValue(String parameterName, Object parameterValue) {
+        if (parameterValues == null)
+            parameterValues = new HashMap<>();
+        parameterValues.put(parameterName, parameterValue);
+    }
+
+    @Override
+    public Object getParameterValue(String parameterName) {
+        return parameterValues == null ? null : parameterValues.get(parameterName);
+    }
+// String report for debugging
 
     @Override
     public String getEntityClassesCountReport() {

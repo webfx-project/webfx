@@ -51,6 +51,11 @@ public class GridPaneBuilder {
         return addNewRow(createLabel(labelKey), setUpTextInput(textInput));
     }
 
+    public GridPaneBuilder addLabelNodeRow(String labelKey, Node node) {
+        GridPane.setHgrow(node, Priority.ALWAYS);
+        return addNewRow(createLabel(labelKey), node);
+    }
+
     public GridPaneBuilder addCheckBoxTextInputRow(String labelKey, CheckBox checkBox, TextInputControl textInput) {
         textInput.visibleProperty().bind(checkBox.selectedProperty());
         return addNewRow(setUpLabeled(checkBox, labelKey), setUpTextInput(textInput));

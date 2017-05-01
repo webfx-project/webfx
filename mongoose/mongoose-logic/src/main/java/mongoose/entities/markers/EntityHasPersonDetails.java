@@ -1,16 +1,19 @@
 package mongoose.entities.markers;
 
+import mongoose.entities.Country;
+import mongoose.entities.Organization;
 import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon
  */
-public interface EntityHasPersonDetails extends Entity, HasPersonDetails {
+public interface EntityHasPersonDetails extends Entity, EntityHasOrganization, HasPersonDetails {
 
     default Object getFirstNameField() { return "firstName";}
 
-    default void setFirstName(String FirstName) {
-        setFieldValue(getFirstNameField(), FirstName);
+    default void setFirstName(String firstName) {
+        setFieldValue(getFirstNameField(), firstName);
     }
 
     default String getFirstName() {
@@ -19,12 +22,22 @@ public interface EntityHasPersonDetails extends Entity, HasPersonDetails {
 
     default Object getLastNameField() { return "lastName";}
 
-    default void setLastName(String LastName) {
-        setFieldValue(getLastNameField(), LastName);
+    default void setLastName(String lastName) {
+        setFieldValue(getLastNameField(), lastName);
     }
 
     default String getLastName() {
         return getStringFieldValue(getLastNameField());
+    }
+
+    default Object getMaleField() { return "male";}
+
+    default void setMale(Boolean male) {
+        setFieldValue(getMaleField(), male);
+    }
+
+    default Boolean isMale() {
+        return getBooleanFieldValue(getMaleField());
     }
 
     default Object getAgeField() { return "age";}
@@ -35,6 +48,114 @@ public interface EntityHasPersonDetails extends Entity, HasPersonDetails {
 
     default Integer getAge() {
         return getIntegerFieldValue(getAgeField());
+    }
+
+    default Object getCarer1NameField() { return "carer1Name";}
+
+    default void setCarer1Name(String carer1Name) {
+        setFieldValue(getCarer1NameField(), carer1Name);
+    }
+
+    default String getCarer1Name() {
+        return getStringFieldValue(getCarer1NameField());
+    }
+
+    default Object getCarer2NameField() { return "carer2Name";}
+
+    default void setCarer2Name(String carer2Name) {
+        setFieldValue(getCarer2NameField(), carer2Name);
+    }
+
+    default String getCarer2Name() {
+        return getStringFieldValue(getCarer2NameField());
+    }
+
+    default Object getEmailField() { return "email";}
+
+    default void setEmail(String email) {
+        setFieldValue(getEmailField(), email);
+    }
+
+    default String getEmail() {
+        return getStringFieldValue(getEmailField());
+    }
+
+    default Object getPhoneField() { return "phone";}
+
+    default void setPhone(String phone) {
+        setFieldValue(getPhoneField(), phone);
+    }
+
+    default String getPhone() {
+        return getStringFieldValue(getPhoneField());
+    }
+
+    default Object getStreetField() { return "street";}
+
+    default void setStreet(String street) {
+        setFieldValue(getStreetField(), street);
+    }
+
+    default String getStreet() {
+        return getStringFieldValue(getStreetField());
+    }
+
+    default Object getPostCodeField() { return "postCode";}
+
+    default void setPostCode(String postCode) {
+        setFieldValue(getPostCodeField(), postCode);
+    }
+
+    default String getPostCode() {
+        return getStringFieldValue(getPostCodeField());
+    }
+
+    default Object getCityNameField() { return "cityName";}
+
+    default void setCityName(String cityName) {
+        setFieldValue(getCityNameField(), cityName);
+    }
+
+    default String getCityName() {
+        return getStringFieldValue(getCityNameField());
+    }
+
+    default Object getCountryNameField() { return "countryName";}
+
+    default void setCountryName(String countryName) {
+        setFieldValue(getCountryNameField(), countryName);
+    }
+
+    default String getCountryName() {
+        return getStringFieldValue(getCountryNameField());
+    }
+
+    default Object getCountryField() { return "country";}
+
+    default void setCountry(Object country) {
+        setForeignField(getCountryField(), country);
+    }
+
+    default Country getCountry() {
+        return getForeignEntity(getCountryField());
+    }
+
+    default EntityId getCountryId() {
+        return getForeignEntityId(getCountryField());
+    }
+
+    default Object getOrganizationField() { return "organization";}
+
+    default void setOrganization(Object organization) {
+        setForeignField(getOrganizationField(), organization);
+    }
+
+    default Organization getOrganization() {
+        return getForeignEntity(getOrganizationField());
+    }
+
+    default EntityId getOrganizationId() {
+        return getForeignEntityId(getOrganizationField());
     }
 
     default Object getUnemployedField() { return "unemployed";}

@@ -72,6 +72,10 @@ public interface EntityStore {
 
     Object evaluateEntityExpression(Entity entity, Expression expression);
 
+    void setParameterValue(String parameterName, Object parameterValue);
+
+    Object getParameterValue(String parameterName);
+
 
     // String report for debugging
 

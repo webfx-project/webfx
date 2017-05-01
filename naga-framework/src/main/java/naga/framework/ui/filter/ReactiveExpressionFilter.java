@@ -49,6 +49,7 @@ public class ReactiveExpressionFilter {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;
+    private Object[] lastParameterValues;
     private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
     private DataSourceModel dataSourceModel;
     private I18n i18n;
@@ -70,6 +71,14 @@ public class ReactiveExpressionFilter {
     public ReactiveExpressionFilter() {
     }
 
+    public Object getDomainClassId() {
+        return domainClassId;
+    }
+
+    public DomainClass getDomainClass() {
+        return dataSourceModel.getDomainModel().getClass(domainClassId);
+    }
+
     public ReactiveExpressionFilter(Object jsonOrClass) {
         combine(new StringFilterBuilder(jsonOrClass));
     }
@@ -88,6 +97,13 @@ public class ReactiveExpressionFilter {
     public ReactiveExpressionFilter setStore(EntityStore store) {
         this.store = store;
         return this;
+    }
+
+    public EntityStore getStore() {
+        // If not set, we create a new store
+        if (store == null)
+            setStore(EntityStore.create(dataSourceModel));
+        return store;
     }
 
     public ReactiveExpressionFilter setListId(Object listId) {
@@ -282,9 +298,6 @@ public class ReactiveExpressionFilter {
     }
 
     public ReactiveExpressionFilter start() {
-        // If not set, we create a new store
-        if (store == null)
-            store = EntityStore.create(dataSourceModel);
         combine(activeProperty, "{}");
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
@@ -324,13 +337,15 @@ public class ReactiveExpressionFilter {
             lastStringFilter = stringFilter;
             // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
             if ("false".equals(stringFilter.getWhere()))
-                return Observable.just(EntityList.create(listId, store));
+                return Observable.just(emptyCurrentList());
             // Otherwise we compile the final string filter into sql
             SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
             // We increment and capture the sequence to check if the request is still the latest one when receiving the result
             int sequence = querySequence.incrementAndGet();
+            ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
+            Object[] parameterValues = Collections.isEmpty(parameterNames) ? null : parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
             // Then we ask the query service to execute the sql query
-            return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())))
+            return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, dataSourceModel.getId())))
                     // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
                     // Otherwise transforming the QueryResultSet into an EntityList
                     .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
@@ -344,6 +359,10 @@ public class ReactiveExpressionFilter {
             entitiesObservable.subscribe(entitiesHandler::handle);
         started = true;
         return this;
+    }
+
+    private EntityList<Entity> emptyCurrentList() {
+        return EntityList.create(listId, getStore());
     }
 
     private void refreshNowIfActiveAndFilterChanged() {
@@ -398,7 +417,7 @@ public class ReactiveExpressionFilter {
     }
 
     private EntityList queryResultSetToEntities(QueryResultSet rs, SqlCompiled sqlCompiled) {
-        return QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), store, listId);
+        return QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
     }
 
     private DisplayResultSet[] entitiesToDisplayResultSets(EntityList entities) {
@@ -515,7 +534,7 @@ public class ReactiveExpressionFilter {
         }
 
         EntityList getCurrentEntityList() {
-            return store.getEntityList(listId);
+            return getStore().getEntityList(listId);
         }
 
         void setExpressionColumns(String jsonArrayDisplayColumns) {
@@ -572,7 +591,7 @@ public class ReactiveExpressionFilter {
             if (empty)
                 setEmptyDisplayResultSet();
             else
-                displayResultSetProperty.setValue(entitiesListToDisplayResultSet(store.getEntityList(listId)));
+                displayResultSetProperty.setValue(entitiesListToDisplayResultSet(getCurrentEntityList()));
         }
 
         void setEmptyDisplayResultSet() {
@@ -585,7 +604,7 @@ public class ReactiveExpressionFilter {
         }
 
         DisplayResultSet emptyDisplayResultSet() {
-            return entitiesListToDisplayResultSet(EntityList.create(listId, store));
+            return entitiesListToDisplayResultSet(emptyCurrentList());
         }
 
         @SuppressWarnings("unchecked")

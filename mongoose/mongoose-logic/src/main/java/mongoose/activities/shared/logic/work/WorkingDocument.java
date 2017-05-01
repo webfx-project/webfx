@@ -238,7 +238,18 @@ public class WorkingDocument {
     private static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
         p2.setFirstName(p1.getFirstName());
         p2.setLastName(p1.getLastName());
+        p2.setMale(p1.isMale());
         p2.setAge(p1.getAge());
+        p2.setCarer1Name(p1.getCarer1Name());
+        p2.setCarer2Name(p1.getCarer2Name());
+        p2.setEmail(p1.getEmail());
+        p2.setPhone(p1.getPhone());
+        p2.setStreet(p1.getStreet());
+        p2.setPostCode(p1.getPostCode());
+        p2.setCityName(p1.getCityName());
+        p2.setCountryName(p1.getCountryName());
+        p2.setCountry(p1.getCountryId()); // passing id because passing entity doesn't work if not in the same store
+        p2.setOrganization(p1.getOrganizationId()); // passing id because passing entity doesn't work if not in the same store
         p2.setUnemployed(p1.isUnemployed());
         p2.setFacilityFee(p1.isFacilityFee());
         p2.setWorkingVisit(p1.isWorkingVisit());
@@ -334,7 +345,7 @@ public class WorkingDocument {
         DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
-        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart> from DocumentLine where site!=null and document=?");
+        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=?");
         SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine,date from Attendance where documentLine.document=? order by date");
         Object[] documentIdParameter = {document.getId().getPrimaryKey()};
         Future<Batch<QueryResultSet>> queryBatchFuture;

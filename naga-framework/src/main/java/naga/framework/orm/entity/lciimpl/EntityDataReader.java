@@ -39,7 +39,7 @@ public class EntityDataReader implements DataReader<Entity> {
 
     @Override
     public Object getParameterValue(String name) {
-        return null;
+        return entityStore.getParameterValue(name);
     }
 
     @Override

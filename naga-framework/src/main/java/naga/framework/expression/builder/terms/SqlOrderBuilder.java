@@ -1,12 +1,12 @@
 package naga.framework.expression.builder.terms;
 
 import naga.framework.expression.Expression;
-import naga.framework.expression.terms.Alias;
-import naga.framework.expression.terms.SqlOrder;
 import naga.framework.expression.builder.BuilderThreadContext;
 import naga.framework.expression.builder.ReferenceResolver;
 import naga.framework.expression.builder.ThreadLocalReferenceResolver;
 import naga.framework.expression.lci.ParserDomainModelReader;
+import naga.framework.expression.terms.Alias;
+import naga.framework.expression.terms.SqlOrder;
 
 /**
  * @author Bruno Salmon
