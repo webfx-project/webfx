@@ -50,6 +50,7 @@ public class ReactiveExpressionFilter {
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;
     private Object[] lastParameterValues;
+    private Observable<EntityList> lastEntityListObservable;
     private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
     private DataSourceModel dataSourceModel;
     private I18n i18n;
@@ -330,35 +331,48 @@ public class ReactiveExpressionFilter {
         Observable<StringFilter> resultingStringFilterObservable = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters)
                 .filter(stringFilter -> isActive());
-        if (!autoRefresh)
-            resultingStringFilterObservable = resultingStringFilterObservable.distinctUntilChanged();
         resultingStringFilterObservable = resultingStringFilterObservable.mergeWith(lastStringFilterReEmitter);
-        Observable<EntityList> entitiesObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
-            lastStringFilter = stringFilter;
+        Observable<EntityList> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
+            Object[] parameterValues = null;
             // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
             if ("false".equals(stringFilter.getWhere()))
-                return Observable.just(emptyCurrentList());
-            // Otherwise we compile the final string filter into sql
-            SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
-            // We increment and capture the sequence to check if the request is still the latest one when receiving the result
-            int sequence = querySequence.incrementAndGet();
-            ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
-            Object[] parameterValues = Collections.isEmpty(parameterNames) ? null : parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
-            // Then we ask the query service to execute the sql query
-            return RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, dataSourceModel.getId())))
-                    // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
-                    // Otherwise transforming the QueryResultSet into an EntityList
-                    .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+                lastEntityListObservable = Observable.just(emptyCurrentList());
+            else {
+                // Otherwise we compile the final string filter into sql
+                SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
+                ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
+                parameterValues = Collections.isEmpty(parameterNames) ? null : parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
+                if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues)) {
+                    // We increment and capture the sequence to check if the request is still the latest one when receiving the result
+                    int sequence = querySequence.incrementAndGet();
+                    // Then we ask the query service to execute the sql query
+                    lastEntityListObservable = RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, dataSourceModel.getId())))
+                            // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
+                            // Otherwise transforming the QueryResultSet into an EntityList
+                            .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
+                }
+            }
+            memorizeAsLastQuery(stringFilter, parameterValues);
+            return lastEntityListObservable;
         });
         if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
-            entitiesObservable
+            entityListObservable
                 // Finally transforming the EntityList into a DisplayResultSet
                 .map(this::entitiesToDisplayResultSets)
                 .subscribe(this::applyDisplayResultSets);
         else if (entitiesHandler != null)
-            entitiesObservable.subscribe(entitiesHandler::handle);
+            entityListObservable.subscribe(entitiesHandler::handle);
         started = true;
         return this;
+    }
+
+    private boolean isDifferentFromLastQuery(StringFilter stringFilter, Object[] parameterValues) {
+        return !Objects.equals(stringFilter, lastStringFilter) || !Arrays.equals(parameterValues, lastParameterValues);
+    }
+
+    private void memorizeAsLastQuery(StringFilter stringFilter, Object[] parameterValues) {
+        lastStringFilter = stringFilter;
+        lastParameterValues = parameterValues;
     }
 
     private EntityList<Entity> emptyCurrentList() {
@@ -383,8 +397,11 @@ public class ReactiveExpressionFilter {
     }
 
     private void refreshNow() {
-        if (lastStringFilter != null)
-            lastStringFilterReEmitter.onNext(lastStringFilter);
+        StringFilter stringFilter = this.lastStringFilter;
+        if (stringFilter != null) {
+            lastStringFilter = null;
+            lastStringFilterReEmitter.onNext(stringFilter);
+        }
         requestRefreshOnActive = false;
     }
 

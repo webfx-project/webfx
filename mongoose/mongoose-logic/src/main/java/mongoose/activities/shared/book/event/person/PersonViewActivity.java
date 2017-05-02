@@ -12,6 +12,7 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Document;
 import naga.commons.util.Booleans;
+import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
@@ -31,8 +32,8 @@ public class PersonViewActivity extends BookingProcessViewActivity {
     private TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;
     private RadioButton maleRadioButton, femaleRadioButton, childRadioButton, adultRadioButton;
     private DatePicker birthDatePicker;
-    private EntitySelector countrySelector;
-    private EntitySelector organizationSelector;
+    private EntityButtonSelector countrySelector;
+    private EntityButtonSelector organizationSelector;
 
     @Override
     protected void createViewNodes() {
@@ -60,8 +61,8 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         streetTextField = new TextField();
         postCodeTextField = new TextField();
         cityNameTextField = new TextField();
-        countrySelector = new EntitySelector("{class: 'Country', orderBy: 'name'}", this, borderPane, getDataSourceModel(), getI18n());
-        organizationSelector = new EntitySelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", this, borderPane, getDataSourceModel(), getI18n());
+        countrySelector = new EntityButtonSelector("{class: 'Country', orderBy: 'name'}", this, borderPane, getDataSourceModel(), getI18n());
+        organizationSelector = new EntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", this, borderPane, getDataSourceModel(), getI18n());
 
         ScrollPane scrollPane = new ScrollPane(personPanel);
         personPanel.prefWidthProperty().bind(scrollPane.widthProperty().subtract(16));

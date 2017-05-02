@@ -1,4 +1,4 @@
-package mongoose.activities.shared.book.event.person;
+package naga.framework.ui.controls;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -12,8 +12,6 @@ import naga.framework.expression.Expression;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.ui.controls.DialogCallback;
-import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;
@@ -29,7 +27,7 @@ import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
 /**
  * @author Bruno Salmon
  */
-public class EntitySelector {
+public class EntityButtonSelector {
 
     private final Object jsonOrClass;
     private final ViewActivityContextMixin viewActivityContextMixin;
@@ -48,7 +46,7 @@ public class EntitySelector {
     private DialogCallback entityDialogCallback;
     private ReactiveExpressionFilter entityDialogFilter;
 
-    public EntitySelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel, I18n i18n) {
+    public EntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel, I18n i18n) {
         this.jsonOrClass = jsonOrClass;
         this.viewActivityContextMixin = viewActivityContextMixin;
         this.parent = parent;
@@ -115,10 +113,12 @@ public class EntitySelector {
             entityDialogPane.setBottom(hBox);
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
         }
-        if (searchBox != null)
-            searchBox.setText(null); // Resetting the search box
         entityDialogFilter.setActive(true);
         entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
+        if (searchBox != null) {
+            searchBox.setText(null); // Resetting the search box
+            searchBox.requestFocus();
+        }
     }
 
     private void onOkEntityDialog() {
