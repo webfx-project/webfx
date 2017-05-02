@@ -24,6 +24,6 @@ public final class JavaResourceService implements ResourceService {
     }
 
     private static Scanner createScanner(InputStream inputStream) {
-        return inputStream == null ? null : new Scanner(inputStream);
+        return inputStream == null ? null : new Scanner(inputStream, "UTF-8");
     }
 }
