@@ -18,6 +18,7 @@ import naga.framework.ui.i18n.I18n;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 
@@ -34,7 +35,7 @@ public class GridPaneBuilder {
     private List<Pair<Property, Object>> watchedUserProperties = new ArrayList<>();
     private Property<Boolean> noChangesProperty = new SimpleObjectProperty<>(true);
     private final ChangeListener watchedUserPropertyListener = (observable, oldValue, newValue) ->
-            noChangesProperty.setValue(Collections.findFirst(watchedUserProperties, pair -> !pair.get1().getValue().equals(pair.get2())) == null);
+            noChangesProperty.setValue(Collections.findFirst(watchedUserProperties, pair -> !Objects.equals(pair.get1().getValue(), pair.get2())) == null);
 
     public GridPaneBuilder(I18n i18n) {
         this.i18n = i18n;
