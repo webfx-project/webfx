@@ -34,27 +34,34 @@ public class EntityButtonSelector {
     private final Pane parent;
 
     private final DataSourceModel dataSourceModel;
-    private final I18n i18n;
-    
+
     private Button entityButton;
     private Entity entity;
     private Expression entityExpression;
     private ValueRenderer entityRenderer;
 
+    private EntityStore entityStore;
     private BorderPane entityDialogPane;
     private TextField searchBox;
     private DialogCallback entityDialogCallback;
     private ReactiveExpressionFilter entityDialogFilter;
 
-    public EntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel, I18n i18n) {
+    public EntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
         this.jsonOrClass = jsonOrClass;
         this.viewActivityContextMixin = viewActivityContextMixin;
         this.parent = parent;
         this.dataSourceModel = dataSourceModel;
-        this.i18n = i18n;
         StringFilter stringFilter = new StringFilterBuilder(jsonOrClass).build();
         entityExpression = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId()).getForeignFields();
         entityRenderer = ValueRendererFactory.getDefault().createCellRenderer(entityExpression.getType());
+    }
+
+    public void setEditable(boolean editable) {
+        getEntityButton().setDisable(!editable);
+    }
+
+    public void setEntityStore(EntityStore entityStore) {
+        this.entityStore = entityStore;
     }
 
     public Entity getEntity() {
@@ -86,7 +93,8 @@ public class EntityButtonSelector {
         if (entityDialogPane == null) {
             DataGrid dataGrid = new DataGrid();
             entityDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
-            entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n);
+            I18n i18n = viewActivityContextMixin.getI18n();
+            entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(entityStore);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
             if (searchCondition != null) {
                 searchBox = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
