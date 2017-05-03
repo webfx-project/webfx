@@ -2,8 +2,10 @@ package naga.framework.ui.controls;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import naga.fx.properties.Properties;
@@ -107,5 +109,14 @@ public class LayoutUtil {
     public static <N extends Node> N setUnmanagedWhenInvisible(N node, ObservableValue<Boolean> visibleProperty) {
         node.visibleProperty().bind(visibleProperty);
         return setUnmanagedWhenInvisible(node);
+    }
+
+    public static ScrollPane createVerticalScrollPane(Region content) {
+        Region container = content.getBorder() == null ? content : new VBox(content);
+        ScrollPane scrollPane = new ScrollPane(container);
+        container.prefWidthProperty().bind(scrollPane.widthProperty().subtract(16));
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        container.setPadding(new Insets(10));
+        return scrollPane;
     }
 }
