@@ -17,7 +17,7 @@ public interface DataReader<T> {
      * @param id the domain object identifier
      * @return the domain object
      */
-    T getDomainObjectFromId(Object id);
+    T getDomainObjectFromId(Object id, Object src);
 
     /**
      * Get the identifier of the domain object.

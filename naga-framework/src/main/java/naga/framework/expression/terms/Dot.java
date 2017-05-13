@@ -51,7 +51,7 @@ public class Dot<T> extends BinaryExpression<T> {
             return null; // NoValue.singleton;
         /*if (leftValue instanceof SystemValue)
             return leftValue;*/
-        T rightData = dataReader.getDomainObjectFromId(leftValue);
+        T rightData = dataReader.getDomainObjectFromId(leftValue, domainObject);
         return right == null ? null : right.evaluate(rightData, dataReader);
     }
 

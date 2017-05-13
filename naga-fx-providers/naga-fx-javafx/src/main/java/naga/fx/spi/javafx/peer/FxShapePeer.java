@@ -1,7 +1,5 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.spi.javafx.util.FxPaints;
-import naga.fx.spi.javafx.util.FxStrokes;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
@@ -32,17 +30,17 @@ abstract class FxShapePeer
 
     @Override
     public void updateFill(Paint fill) {
-        getFxNode().setFill(FxPaints.toFxPaint(fill));
+        getFxNode().setFill(fill);
     }
 
     @Override
     public void updateStroke(Paint stroke) {
-        getFxNode().setStroke(FxPaints.toFxPaint(stroke));
+        getFxNode().setStroke(stroke);
     }
 
     @Override
     public void updateStrokeType(StrokeType strokeType) {
-        getFxNode().setStrokeType(FxStrokes.toFxStrokeType(strokeType));
+        getFxNode().setStrokeType(strokeType);
     }
 
     @Override
@@ -52,12 +50,12 @@ abstract class FxShapePeer
 
     @Override
     public void updateStrokeLineCap(StrokeLineCap strokeLineCap) {
-        getFxNode().setStrokeLineCap(FxStrokes.toFxStrokeLineCap(strokeLineCap));
+        getFxNode().setStrokeLineCap(strokeLineCap);
     }
 
     @Override
     public void updateStrokeLineJoin(StrokeLineJoin strokeLineJoin) {
-        getFxNode().setStrokeLineJoin(FxStrokes.toFxStrokeLineJoin(strokeLineJoin));
+        getFxNode().setStrokeLineJoin(strokeLineJoin);
     }
 
     @Override

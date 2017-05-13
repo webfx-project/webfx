@@ -3,6 +3,7 @@ package mongoose.activities.shared.book.event.summary;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -20,6 +21,7 @@ import java.time.Instant;
 public class SummaryViewActivity extends BookingProcessViewActivity {
 
     private PersonDetailsPanel personDetailsPanel;
+    private BookingOptionsPanel bookingOptionsPanel;
 
     public SummaryViewActivity() {
         super(null);
@@ -31,19 +33,20 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         I18n i18n = getI18n();
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
         personDetailsPanel.setEditable(false);
-        BorderPane optionsPanel = HighLevelComponents.createSectionPanel(null, null, "Options", i18n);
-        BorderPane personalPanel = personDetailsPanel.getSectionPanel();
+        bookingOptionsPanel = new BookingOptionsPanel(i18n);
         BorderPane requestPanel = HighLevelComponents.createSectionPanel(null, null, "SpecialRequest", i18n);
         BorderPane termsPanel = HighLevelComponents.createSectionPanel(null, null, "TermsAndConditions", i18n);
-        VBox panelsVBox = new VBox(20, optionsPanel, personalPanel, requestPanel, termsPanel);
+        VBox panelsVBox = new VBox(20, bookingOptionsPanel.getOptionsPanel(), personDetailsPanel.getSectionPanel(), requestPanel, termsPanel);
 
         borderPane.setCenter(LayoutUtil.createVerticalScrollPane(panelsVBox));
     }
 
     private void syncUiFromModel() {
         WorkingDocument workingDocument = getWorkingDocument();
-        if (workingDocument != null)
+        if (workingDocument != null) {
+            bookingOptionsPanel.syncUiFromModel(workingDocument);
             personDetailsPanel.syncUiFromModel(workingDocument.getDocument());
+        }
     }
 
     private void syncModelFromUi() {

@@ -18,7 +18,6 @@ import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
 import naga.fx.spi.Toolkit;
 import naga.fx.util.ImageStore;
-import naga.fx.spi.javafx.util.FxPaints;
 import naga.fxdata.cell.rowstyle.RowAdapter;
 import naga.fxdata.cell.rowstyle.RowStyleUpdater;
 import naga.fxdata.control.DataGrid;
@@ -102,6 +101,7 @@ public class FxDataGridPeer
             if (tableView.getItems().isEmpty() && rs.getRowCount() > 0)
                 currentColumns.clear();
             getNodePeerBase().fillGrid(rs);
+            tableView.getSelectionModel().clearSelection(); // To avoid internal java 8 API call on Android
             tableView.getColumns().setAll(newColumns);
             currentColumns = newColumns = null;
             tableView.getSelectionModel().clearSelection(); // Clearing selection otherwise an undesired selection event is triggered on new items
@@ -158,7 +158,7 @@ public class FxDataGridPeer
 
     @Override
     public void setCellImageAndTextContent(TableCell cell, Node image, String text, DisplayColumn displayColumn) {
-        cell.setGraphic(toFxNode(image, getNode().getScene()));
+        cell.setGraphic(image);
         cell.setText(text);
     }
 
@@ -173,7 +173,8 @@ public class FxDataGridPeer
                     if (fill == null)
                         row.backgroundProperty().unbind();
                     else
-                        row.backgroundProperty().bind(new SimpleObjectProperty<>(new Background(new BackgroundFill(FxPaints.toFxPaint(fill), null, null))));}
+                        row.backgroundProperty().bind(new SimpleObjectProperty<>(new Background(new BackgroundFill(fill, null, null))));
+                }
             }, this::getRowStyleClasses, this::getRowBackground);
             row.getProperties().put("nodeStyleUpdater", rowStyleUpdater); // keeping strong reference to avoid garbage collection
             row.itemProperty().addListener((observable, oldRowIndex, newRowIndex) -> rowStyleUpdater.update());

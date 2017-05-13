@@ -9,10 +9,7 @@ import naga.commons.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
@@ -53,7 +50,15 @@ class OptionTree {
         clearDataOnEventChange();
         if (topLevelOptions == null) {
             topLevelOptions = Collections.filter(activity.getEventOptions(), o -> o.getParent() == null);
-            topLevelOptions.sort(Comparator.comparingInt(this::optionSectionOrder));
+            //Doesn't work on Android: topLevelOptions.sort(Comparator.comparingInt(this::optionSectionOrder));
+            Comparator<? super Option> c = (o1, o2) -> Integer.compare(optionSectionOrder(o1), optionSectionOrder(o2));
+            Object[] a = topLevelOptions.toArray();
+            Arrays.sort(a, (Comparator) c);
+            ListIterator<Option> i = topLevelOptions.listIterator();
+            for (Object e : a) {
+                i.next();
+                i.set((mongoose.entities.Option) e);
+            }
         }
         return topLevelOptions;
     }
@@ -103,7 +108,11 @@ class OptionTree {
     private Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();
 
     private OptionTreeNode getOptionTreeNode(Option option) {
-        return optionTreeNodes.computeIfAbsent(option, this::newOptionTreeNode);
+        //Doesn't work on Android: return optionTreeNodes.computeIfAbsent(option, this::newOptionTreeNode);
+        OptionTreeNode optionTreeNode = optionTreeNodes.get(option);
+        if (optionTreeNode == null)
+            optionTreeNodes.put(option, optionTreeNode = newOptionTreeNode(option));
+        return optionTreeNode;
     }
 
     private OptionTreeNode newOptionTreeNode(Option option) {

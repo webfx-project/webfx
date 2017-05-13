@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.BackendMongooseApplication;
 import mongoose.activities.backend.event.clone.FxCloneEventPresentationActivity;
+import mongoose.activities.shared.application.SharedMongooseApplication;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.spi.Toolkit;
@@ -19,9 +20,17 @@ import naga.fx.util.ImageStore;
 public class JavaFxBackendMongooseApplication extends BackendMongooseApplication {
 
     public static void main(String[] args) {
+        launchJavaFxBackendMongooseApplication(args);
+    }
+
+    public static void launchJavaFxBackendMongooseApplication(String[] args) {
+        launchJavaFxMongooseApplication(new JavaFxBackendMongooseApplication(), args);
+    }
+
+    public static void launchJavaFxMongooseApplication(SharedMongooseApplication mongooseApplication, String[] args) {
         installJavaFxHooks();
         // Once hooks are set, we can start the application
-        launchApplication(new JavaFxBackendMongooseApplication(), args);
+        launchApplication(mongooseApplication, args);
         setLoadingSpinnerVisibleConsumer(JavaFxBackendMongooseApplication::setLoadingSpinnerVisible);
     }
 

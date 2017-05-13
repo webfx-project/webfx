@@ -14,7 +14,12 @@ public abstract class Toolkit {
     private Stage primaryStage;
 
     public Toolkit(UiScheduler uiScheduler) {
+        this(uiScheduler, null);
+    }
+
+    public Toolkit(UiScheduler uiScheduler, Stage primaryStage) {
         this.uiScheduler = uiScheduler;
+        this.primaryStage = primaryStage;
     }
 
     public abstract Screen getPrimaryScreen();
@@ -56,10 +61,14 @@ public abstract class Toolkit {
     public static synchronized Toolkit get() {
         if (TOOLKIT == null) {
             //Platform.log("Getting toolkit");
-            TOOLKIT = ServiceLoaderHelper.loadService(Toolkit.class);
+            register(ServiceLoaderHelper.loadService(Toolkit.class));
             //Platform.log("Toolkit ok");
         }
         return TOOLKIT;
+    }
+
+    public static synchronized void register(Toolkit toolkit) {
+        TOOLKIT = toolkit;
     }
 
 }

@@ -46,14 +46,12 @@ class SiteRateItemBlock {
         if (remainingDays == 0)
             return price;
         int consumedDays = 0;
-/*
-        if (update)
-            for (var i = 0; i < blockLength; i++) {
-                var dl = attendanceBlocks[i].documentLine;
-                dl.price = 0;
-                dl.rounded = false;
+        //if (update)
+            for (AttendanceBlock block : attendanceBlocks) {
+                WorkingDocumentLine dl = block.getWorkingDocumentLine();
+                dl.setPrice(0);
+                dl.setRounded(false);
             }
-*/
         LocalDate firstDay = attendanceBlocks.get(0).getDate();
         LocalDate lastDay = attendanceBlocks.get(blockLength - 1).getDate();
         List<Rate> rates = workingDocument.getEventService().selectRates(
@@ -104,10 +102,8 @@ class SiteRateItemBlock {
                 for (int i = 0; i < cheapest.consumableDays && remainingPrice > 0; i++) {
                     AttendanceBlock ba = attendanceBlocks.get(consumedDays + i);
                     ba.setPrice(i == cheapest.consumableDays - 1 ? remainingPrice : Math.min(fullAttendancePrice, remainingPrice));
-/*
-                    if (update)
-                        ba.documentLine.price += ba.price;
-*/
+                    //if (update)
+                        ba.getWorkingDocumentLine().incrementPrice(ba.getPrice());
                     remainingPrice -= ba.getPrice();
                 }
                 // updating the block price

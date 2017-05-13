@@ -32,12 +32,17 @@ public class FxHtmlTextPeer
         return (FxN) webView;
     }
 
-    protected Object executeScript(String script) {
+    Object executeScript(String script) {
         try {
             return webView.getEngine().executeScript(script);
         } catch (Exception e) { // probably the jsFunctions were not injected
-            webView.getEngine().executeScript(jsFunctions);
-            return webView.getEngine().executeScript(script);
+            try {
+                webView.getEngine().executeScript(jsFunctions);
+                return webView.getEngine().executeScript(script);
+            } catch (Exception e2) { // executeScript() might not be implemented (ex: Gluon)
+                System.out.println("WARNING: WebEngine doesn't seem to support executeScript() method");
+                return null;
+            }
         }
     }
 
@@ -81,8 +86,10 @@ public class FxHtmlTextPeer
 
     @Override
     public double prefHeight(double width) {
-        String heightText = executeScript("documentPrefHeight(" + documentWidth(width) + ")").toString();
-        return webViewHeight(Double.valueOf(heightText));
+        String heightText = Strings.toString(executeScript("documentPrefHeight(" + documentWidth(width) + ")"));
+        if (heightText != null)
+            return webViewHeight(Double.valueOf(heightText));
+        return 50; // webView.prefHeight(width);
     }
 
     private double documentWidth(double webViewWidth) {

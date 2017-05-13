@@ -43,8 +43,12 @@ public class DynamicEntity implements Entity {
         EntityId foreignEntityId;
         if (foreignFieldValue instanceof EntityId)
             foreignEntityId = (EntityId) foreignFieldValue;
-        else if (foreignFieldValue instanceof Entity)
-            foreignEntityId = ((Entity) foreignFieldValue).getId();
+        else if (foreignFieldValue instanceof Entity) {
+            Entity entity = (Entity) foreignFieldValue;
+            if (entity.getStore() != getStore())
+                getStore().copyEntity(entity); // Is it ok to copy or should we keep external references (id -> external entity map)
+            foreignEntityId = entity.getId();
+        }
         else {
             Object foreignClass = getDomainClass().getForeignClass(foreignFieldId);
             foreignEntityId = getStore().getEntityId(foreignClass, foreignFieldValue);

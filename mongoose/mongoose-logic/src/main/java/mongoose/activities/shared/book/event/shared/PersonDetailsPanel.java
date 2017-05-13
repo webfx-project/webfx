@@ -16,7 +16,6 @@ import mongoose.entities.markers.HasPersonDetails;
 import naga.commons.util.Booleans;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
@@ -122,11 +121,13 @@ public class PersonDetailsPanel {
     }
 
     public void syncUiFromModel(HasPersonDetails p) {
+/*
         if (p instanceof Entity) {
             EntityStore store = ((Entity) p).getStore();
             countrySelector.setEntityStore(store);
             organizationSelector.setEntityStore(store);
         }
+*/
         firstNameTextField.setText(p.getFirstName());
         lastNameTextField.setText(p.getLastName());
         maleRadioButton.setSelected(Booleans.isTrue(p.isMale()));

@@ -79,7 +79,10 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     @Override
     protected Node createLabelNode(Label label) {
         Node labelNode = super.createLabelNode(label);
-        labelNode.setOnMouseClicked(e -> showLabelDialog(label));
+        labelNode.setOnMouseClicked(e -> {
+            if (editModeProperty.getValue())
+              showLabelDialog(label);
+        });
         return labelNode;
     }
 

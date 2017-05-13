@@ -82,6 +82,15 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-shade-plugin</artifactId>
+                        <configuration>
+                            <!-- Also relocating java_cup package to avoid version mismatch (with xalan library) when installing this application on Android with the Gluon plugin -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>java_cup</pattern>
+                                    <shadedPattern>java_cub_11b</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
                     </plugin>
 
                 </plugins>

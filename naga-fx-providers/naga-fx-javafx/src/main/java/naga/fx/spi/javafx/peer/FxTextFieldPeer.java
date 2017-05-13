@@ -1,7 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
 import naga.commons.util.Objects;
-import naga.fx.spi.javafx.util.FxFonts;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import naga.fx.spi.peer.base.TextFieldPeerBase;
@@ -30,7 +29,7 @@ public class FxTextFieldPeer
     @Override
     public void updateFont(Font font) {
         if (font != null)
-            getFxNode().setFont(FxFonts.toFxFont(font));
+            getFxNode().setFont(font);
     }
 
     private void updateNodeText(String text) {

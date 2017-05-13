@@ -1,15 +1,12 @@
 package mongoose.activities.shared.logic.ui.calendargraphic.impl;
 
 import javafx.beans.property.Property;
-import mongoose.activities.shared.logic.time.TimeInterval;
-import naga.commons.util.collection.HashList;
 import javafx.scene.text.Font;
+import mongoose.activities.shared.logic.time.TimeInterval;
+import naga.commons.util.collection.Collections;
+import naga.commons.util.collection.HashList;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
@@ -51,8 +48,17 @@ class VerticalDayTimePositioner {
     }
 
     void updateVerticalPositions() {
-        List<TimeInterval> slots = verticalDayTimePositionedCollection.stream().map(VerticalDayTimePositioned::getDayTimeMinuteInterval).collect(Collectors.toCollection(HashList::new));
-        slots.sort(Comparator.comparingLong(TimeInterval::getIncludedStart));
+        //Doesn't work on Android: List<TimeInterval> slots = verticalDayTimePositionedCollection.stream().map(VerticalDayTimePositioned::getDayTimeMinuteInterval).collect(Collectors.toCollection(HashList::new));
+        List<TimeInterval> slots = new HashList<>(Collections.convert(verticalDayTimePositionedCollection, VerticalDayTimePositioned::getDayTimeMinuteInterval));
+        //Doesn't work on Android: slots.sort(Comparator.comparingLong(TimeInterval::getIncludedStart));
+        Comparator<? super TimeInterval> c = (o1, o2) -> Long.compare(o1.getIncludedStart(), o2.getIncludedStart());
+        Object[] a = slots.toArray();
+        Arrays.sort(a, (Comparator) c);
+        ListIterator<TimeInterval> i = slots.listIterator();
+        for (Object e : a) {
+            i.next();
+            i.set((mongoose.activities.shared.logic.time.TimeInterval) e);
+        }
         for (VerticalDayTimePositioned verticalDayTimePositioned : verticalDayTimePositionedCollection) {
             TimeInterval minuteInterval = verticalDayTimePositioned.getDayTimeMinuteInterval();
             int slotIndex = slots.indexOf(minuteInterval);

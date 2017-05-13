@@ -24,8 +24,6 @@ import naga.fx.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -166,8 +164,10 @@ class OptionTreeNode {
                 Properties.runOnPropertiesChange(p -> refreshChildrenChoiceBoxOnLanguageChange(), getI18n().languageProperty());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
-            childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
-            vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
+            //Doesn't work on Android: childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
+            childrenOptionTreeNodes = Collections.convert(childrenOptions, o -> new OptionTreeNode(o, this));
+            //Doesn't work on Android: vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
+            vBox.getChildren().addAll(Collections.convertFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.commons.util.Objects::nonNull));
         }
         if (parent != null && parent.optionButtonSelectedProperty != null)
             LayoutUtil.setUnmanagedWhenInvisible(vBox, parent.optionButtonSelectedProperty);
@@ -231,7 +231,8 @@ class OptionTreeNode {
         Option parent = option.getParent();
         if (parent != null)
             tree.setLastSelectedChildOption(parent, option);
-        getWorkingDocument().getWorkingDocumentLines().removeIf(wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
+        //Doesn't work on Android: getWorkingDocument().getWorkingDocumentLines().removeIf(wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
+        Collections.removeIf(getWorkingDocument().getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
         for (Option childOption: getChildrenOptions(option))
             removeOptionFromWorkingDocument(childOption);
     }

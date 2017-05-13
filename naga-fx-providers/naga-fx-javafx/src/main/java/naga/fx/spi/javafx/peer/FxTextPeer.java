@@ -1,6 +1,5 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.spi.javafx.util.FxFonts;
 import javafx.geometry.VPos;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -36,7 +35,7 @@ public class FxTextPeer
 
     @Override
     public void updateFont(Font font) {
-        getFxNode().setFont(FxFonts.toFxFont(font));
+        getFxNode().setFont(font);
     }
 
     @Override

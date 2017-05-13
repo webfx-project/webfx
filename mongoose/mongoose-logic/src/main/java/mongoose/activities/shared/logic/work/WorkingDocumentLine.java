@@ -29,6 +29,8 @@ public class WorkingDocumentLine {
     private final DateTimeRange dateTimeRange;
     private final DayTimeRange dayTimeRange;
     private DaysArray daysArray;
+    private int price;
+    private boolean rounded;
 
     public WorkingDocumentLine(OptionPreselection optionPreselection) {
         this(optionPreselection, null);
@@ -159,5 +161,25 @@ public class WorkingDocumentLine {
     void syncInfoFrom(WorkingDocumentLine wdl) {
         documentLine = wdl.documentLine;
         attendances = wdl.attendances;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void incrementPrice(int priceIncrement) {
+        price += priceIncrement;
+    }
+
+    public boolean isRounded() {
+        return rounded;
+    }
+
+    public void setRounded(boolean rounded) {
+        this.rounded = rounded;
     }
 }

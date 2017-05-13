@@ -65,6 +65,16 @@ public class CalendarGraphicImpl implements CalendarGraphic {
     }
 
     @Override
+    public Handler<CalendarClickEvent> getCalendarClickHandler() {
+        return calendarClickHandlerProperty.getValue();
+    }
+
+    @Override
+    public void setCalendarClickHandler(Handler<CalendarClickEvent> calendarClickEventHandler) {
+        calendarClickHandlerProperty().setValue(calendarClickEventHandler);
+    }
+
+    @Override
     public Node getNode() {
         if (rootNode == null)
             createRootNode();

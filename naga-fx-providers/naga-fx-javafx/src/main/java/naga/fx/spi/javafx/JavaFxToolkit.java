@@ -19,13 +19,29 @@ public class JavaFxToolkit extends Toolkit {
 
     private static Consumer<Scene> sceneHook;
     private static List<Runnable> readyRunnables = new ArrayList<>();
+    private static Stage startingStage;
+
+    public static void registerStartingStage(Stage startingStage) {
+        JavaFxToolkit.startingStage = startingStage;
+    }
 
     public JavaFxToolkit() {
-        super(FxScheduler.SINGLETON);
-        new Thread(() -> {
-            Application.launch(FxApplication.class, "JavaFxToolkit-Launcher");
-            System.exit(0);
-        }).start();
+        super(FxScheduler.SINGLETON, startingStage);
+        if (startingStage != null) {
+            getPrimaryStage();
+            onJavaFxPlatformReady();
+        } else {
+            new Thread(() -> {
+                Application.launch(FxApplication.class, "JavaFxToolkit-Launcher");
+                System.exit(0);
+            }).start();
+        }
+    }
+
+    private static void onJavaFxPlatformReady() {
+        // Activating SVG support
+        SvgImageLoaderFactory.install();
+        executeReadyRunnables();
     }
 
     @Override
@@ -48,13 +64,21 @@ public class JavaFxToolkit extends Toolkit {
             if (readyRunnables != null) {
                 List<Runnable> runnables = readyRunnables;
                 readyRunnables = null;
-                runnables.forEach(Runnable::run);
+                //runnables.forEach(Runnable::run); doesn't work on Android
+                for (Runnable runnable : runnables)
+                    runnable.run();
             }
         }
     }
 
     public static void setSceneHook(Consumer<Scene> sceneHook) {
         JavaFxToolkit.sceneHook = sceneHook;
+        ((JavaFxToolkit) get()).applySceneHookToPrimaryStage();
+    }
+
+    private void applySceneHookToPrimaryStage() {
+        if (sceneChangeListener != null)
+            sceneChangeListener.changed(null, null, getPrimaryStage().getScene());
     }
 
     public static Consumer<Scene> getSceneHook() {
@@ -71,11 +95,16 @@ public class JavaFxToolkit extends Toolkit {
     @Override
     public Stage getPrimaryStage() {
         Stage primaryStage = super.getPrimaryStage();
-        if (getSceneHook() != null && sceneChangeListener == null)
+        if (sceneChangeListener == null) {
             primaryStage.sceneProperty().addListener(sceneChangeListener = (observable, oldValue, newValue) -> {
-                if (newValue != null)
-                    getSceneHook().accept(newValue);
+                if (newValue != null) {
+                    Consumer<Scene> sceneHook = getSceneHook();
+                    if (sceneHook != null)
+                        sceneHook.accept(newValue);
+                }
             });
+            applySceneHookToPrimaryStage();
+        }
         return primaryStage;
     }
 
@@ -83,9 +112,7 @@ public class JavaFxToolkit extends Toolkit {
 
         @Override
         public void start(Stage primaryStage) throws Exception {
-            // Activating SVG support
-            SvgImageLoaderFactory.install();
-            executeReadyRunnables();
+            onJavaFxPlatformReady();
         }
     }
 }

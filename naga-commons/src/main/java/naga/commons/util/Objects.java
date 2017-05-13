@@ -12,6 +12,10 @@ public class Objects {
         return null;
     }
 
+    public static boolean nonNull(Object obj) {
+        return obj != null;
+    }
+
     public static <T> boolean allNulls(T... ts) {
         return coalesce(ts) == null;
     }

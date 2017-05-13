@@ -10,13 +10,16 @@ import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.expression.terms.*;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityId;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 
+import java.io.Serializable;
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * @author Bruno Salmon
@@ -138,10 +141,17 @@ public class EntityChangesToUpdateBatchGenerator {
             if (deletedEntities != null && !deletedEntities.isEmpty()) {
                 List<EntityId> deletedList = new ArrayList<>(deletedEntities);
                 // Sorting according to classes references
-                Collections.sort(deletedList, Comparator.comparing(id -> id.getDomainClass().getName()));
+                // Doesn't work on Android: Collections.sort(deletedList, Comparator.comparing(id -> id.getDomainClass().getName()));
+                Collections.sort(deletedList, comparing(id -> id.getDomainClass().getName()));
                 for (EntityId deletedId : deletedList) // java 8 forEach doesn't compile with GWT
                     generateDelete(deletedId);
             }
+        }
+
+        private static <T, U extends Comparable<? super U>> Comparator<T> comparing(Function<? super T, ? extends U> keyExtractor) {
+            //Objects.requireNonNull(keyExtractor);
+            return (Comparator<T> & Serializable)
+                    (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
         }
 
         void generateDelete(EntityId id) {
@@ -162,7 +172,8 @@ public class EntityChangesToUpdateBatchGenerator {
                     List values = new ArrayList();
                     for (Object fieldId : rs.getFieldIds(id)) // java 8 forEach doesn't compile with GWT
                         if (fieldId != null) {
-                            assignments.add(new Equals(id.getDomainClass().getField(fieldId), Parameter.UNNAMED_PARAMETER));
+                            DomainField field = id.getDomainClass().getField(fieldId);
+                            assignments.add(new Equals(field, Parameter.UNNAMED_PARAMETER));
                             values.add(rs.getFieldValue(id, fieldId));
                         }
                     ExpressionArray setClause = new ExpressionArray(assignments);

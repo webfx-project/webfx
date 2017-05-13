@@ -47,8 +47,8 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
 
     @Override
     public void onResume() {
-        startLogic();
         super.onResume();
+        startLogic();
     }
 
     private void startLogic() {

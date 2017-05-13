@@ -58,7 +58,7 @@ public class Function<T> {
         //register(new InlineFunction("searchMatchesPerson", "p", new Type[]{new Type(DataSource.getDataSource(3L).getDomainModel().getClass("Person"))}, "abcNames(p..firstName + ' ' + p..lastName) like ?abcSearchLike or p..email like ?searchEmailLike"));
     }
 
-    protected static void register(Function function) {
+    public static void register(Function function) {
         functions.put(function.name, function);
     }
 

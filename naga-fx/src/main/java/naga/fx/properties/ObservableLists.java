@@ -7,8 +7,6 @@ import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Converter;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +27,8 @@ public class ObservableLists {
             if (Collections.allNonNulls(elements))
                 list.setAll(elements);
             else
-                list.setAll(elements.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+                //Doesn't work on Android: list.setAll(elements.stream().filter(Objects::nonNull).collect(Collectors.toList()));
+                list.setAll(Collections.filter(elements, naga.commons.util.Objects::nonNull));
         }
     }
 

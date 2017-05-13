@@ -55,7 +55,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
             if (expressionFormatter != null)
                 displayType = expressionFormatter.getExpectedFormattedType();
             else {
-                if (displayExpression != expression)
+                if (getExpression() != expression)
                     topRightExpression = getTopRightExpression(displayExpression);
                 displayType = topRightExpression.getType();
             }
@@ -71,7 +71,7 @@ class ExpressionColumnImpl implements ExpressionColumn {
                 json = null;
             }
             if (textAlign == null)
-                textAlign = Types.isNumberType(displayExpression.getType()) ? "right" : null;
+                textAlign = Types.isNumberType(getExpression().getType()) ? "right" : null;
             displayColumn = DisplayColumnBuilder.create(label, displayType)
                     .setStyle(DisplayStyleBuilder.create().setPrefWidth(prefWidth).setTextAlign(textAlign).build())
                     .setRole(role)

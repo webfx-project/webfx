@@ -33,10 +33,12 @@ public class FxHtmlTextEditorPeer
                 (ObservableValue<? extends Worker.State> observable, Worker.State oldValue, Worker.State newValue) -> {
                     if (newValue == Worker.State.SUCCEEDED && ckEditor == null) {
                         N node = getNode();
-                        JSObject window = (JSObject) webEngine.executeScript("window");
-                        window.setMember("javaThis", this);
-                        ckEditor = (JSObject) executeScript("CKEDITOR.replace('ckEditorDiv', {resize_enabled: false, on: {'instanceReady': function(e) {e.editor.execCommand('maximize'); e.editor.on('change', function() {javaThis.onEditorDataChanged();});}}});");
-                        updateText(node.getText());
+                        JSObject window = (JSObject) executeScript("window");
+                        if (window != null) {
+                            window.setMember("javaThis", this);
+                            ckEditor = (JSObject) executeScript("CKEDITOR.replace('ckEditorDiv', {resize_enabled: false, on: {'instanceReady': function(e) {e.editor.execCommand('maximize'); e.editor.on('change', function() {javaThis.onEditorDataChanged();});}}});");
+                            updateText(node.getText());
+                        }
                     }
                 } );
     }

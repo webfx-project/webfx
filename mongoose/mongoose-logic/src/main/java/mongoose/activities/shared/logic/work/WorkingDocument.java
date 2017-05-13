@@ -248,8 +248,8 @@ public class WorkingDocument {
         p2.setPostCode(p1.getPostCode());
         p2.setCityName(p1.getCityName());
         p2.setCountryName(p1.getCountryName());
-        p2.setCountry(p1.getCountryId()); // passing id because passing entity doesn't work if not in the same store
-        p2.setOrganization(p1.getOrganizationId()); // passing id because passing entity doesn't work if not in the same store
+        p2.setCountry(p1.getCountry());
+        p2.setOrganization(p1.getOrganization());
         p2.setUnemployed(p1.isUnemployed());
         p2.setFacilityFee(p1.isFacilityFee());
         p2.setWorkingVisit(p1.isWorkingVisit());
@@ -261,7 +261,7 @@ public class WorkingDocument {
     }
 
     public void syncInfoFrom(WorkingDocument wd) {
-        syncPersonDetails(document, wd.getDocument());
+        syncPersonDetails(wd.getDocument(), document);
         if (document.isNew() && !wd.getDocument().isNew())
             document.getId().setGeneratedKey(wd.getDocument().getPrimaryKey());
         if (lastLoadedWorkingDocumentLines == null)
@@ -315,7 +315,7 @@ public class WorkingDocument {
             else {
                 for (int i = 0; i < n; i++) {
                     LocalDate date = daysArray.getDate(i);
-                    while (j < m && attendances.get(j).getDate().isBefore(date))
+                    while (j < m && attendances.get(j).getDate().compareTo(date) < 0) // isBefore() doesn't work on Android
                         store.deleteEntity(attendances.get(j++));
                     if (j < m && attendances.get(j).getDate().equals(date))
                         j++;

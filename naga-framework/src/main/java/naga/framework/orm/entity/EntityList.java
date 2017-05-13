@@ -2,6 +2,8 @@ package naga.framework.orm.entity;
 
 import naga.framework.orm.entity.impl.EntityListImpl;
 
+import java.util.Collection;
+
 /**
  * @author Bruno Salmon
  */
@@ -25,5 +27,12 @@ public interface EntityList<E extends Entity> extends Iterable<E> {
 
     static <E extends Entity> EntityList<E> create(Object listId, EntityStore store) {
         return new EntityListImpl<>(listId, store);
+    }
+
+    static <E extends Entity> EntityList<E> create(Object listId, EntityStore store, Collection<E> collections) {
+        EntityList<E> entities = create(listId, store);
+        for (E e : collections)
+            entities.add(e);
+        return entities;
     }
 }

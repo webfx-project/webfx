@@ -56,7 +56,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
         context.getUiRouter().start();
     }
 
-    protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
+    public static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
         MongooseActions.registerActions();
         ActivityManager.launchApplication(mongooseApplication, ViewDomainApplicationContext.createViewDomainApplicationContext(

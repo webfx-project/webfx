@@ -53,11 +53,15 @@ public interface EntityStore {
     }
 
     default <E extends Entity> E copyEntity(E entity) {
+        if (entity == null)
+            return null;
         E copy = getOrCreateEntity(entity.getId());
         if (copy != entity)
             ((DynamicEntity) copy).copyAllFieldsFrom(entity);
         return copy;
     }
+
+    //void markExternalEntity(Entity entity);
 
     // EntityList management
 

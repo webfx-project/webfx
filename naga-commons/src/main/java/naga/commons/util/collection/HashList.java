@@ -14,6 +14,12 @@ public final class HashList<E> extends ListWrapper<E> {
         hashMap = new HashMap<>();
     }
 
+    public HashList(Collection<E> collection) {
+        this();
+        for (E e : collection)
+            add(e);
+    }
+
     public void add(int index, E element) {
         if (hashMap.put(element, element) == null)
             wrappedList.add(index, element);

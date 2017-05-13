@@ -19,10 +19,13 @@ public class EntityDataReader implements DataReader<Entity> {
     }
 
     @Override
-    public Entity getDomainObjectFromId(Object id) {
+    public Entity getDomainObjectFromId(Object id, Object src) {
         if (id instanceof Entity)
             return (Entity) id;
-        return entityStore.getEntity((EntityId) id);
+        Entity entity = entityStore.getEntity((EntityId) id);
+        if (entity == null && src instanceof Entity)
+            ((Entity) src).getStore().getEntity((EntityId) id);
+        return entity;
     }
 
     @Override

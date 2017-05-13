@@ -71,6 +71,13 @@ public interface ExpressionColumn {
         return new ExpressionColumnImpl(null, expression, null, null, displayColumn, null);
     }
 
+    static ExpressionColumn[] fromJsonArray(String array, DomainModel domainModel, Object domainClassId) {
+        ExpressionColumn[] columns = fromJsonArray(Json.parseArray(array));
+        for (ExpressionColumn column : columns)
+            column.parseExpressionDefinitionIfNecessary(domainModel, domainClassId);
+        return columns;
+    }
+
     static ExpressionColumn[] fromJsonArray(String array) {
         return fromJsonArray(Json.parseArray(array));
     }

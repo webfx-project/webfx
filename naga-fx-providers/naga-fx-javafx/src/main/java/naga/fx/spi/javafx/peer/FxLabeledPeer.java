@@ -1,8 +1,5 @@
 package naga.fx.spi.javafx.peer;
 
-import naga.fx.spi.javafx.util.FxFonts;
-import naga.fx.spi.javafx.util.FxPaints;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.scene.paint.Paint;
@@ -31,53 +28,23 @@ abstract class FxLabeledPeer
 
     @Override
     public void updateGraphic(Node graphic) {
-        getFxNode().setGraphic(toFxNode(graphic));
+        getFxNode().setGraphic(graphic);
     }
 
     @Override
     public void updateFont(Font font) {
         if (font != null)
-            getFxNode().setFont(FxFonts.toFxFont(font));
+            getFxNode().setFont(font);
     }
 
     @Override
     public void updateTextAlignment(TextAlignment textAlignment) {
-        getFxNode().setTextAlignment(toFxTextAlignment(textAlignment));
+        getFxNode().setTextAlignment(textAlignment);
     }
 
     @Override
     public void updateTextFill(Paint textFill) {
-        getFxNode().setTextFill(FxPaints.toFxPaint(textFill));
-    }
-
-    private static javafx.geometry.Pos toFxPos(Pos pos) {
-        if (pos != null)
-            switch (pos) {
-                case TOP_LEFT: return javafx.geometry.Pos.TOP_LEFT;
-                case TOP_CENTER: return javafx.geometry.Pos.TOP_CENTER;
-                case TOP_RIGHT: return javafx.geometry.Pos.TOP_RIGHT;
-                case CENTER_LEFT: return javafx.geometry.Pos.CENTER_RIGHT;
-                case CENTER: return javafx.geometry.Pos.CENTER;
-                case CENTER_RIGHT: return javafx.geometry.Pos.CENTER_RIGHT;
-                case BASELINE_LEFT: return javafx.geometry.Pos.BASELINE_LEFT;
-                case BASELINE_CENTER: return javafx.geometry.Pos.BASELINE_CENTER;
-                case BASELINE_RIGHT: return javafx.geometry.Pos.BASELINE_RIGHT;
-                case BOTTOM_LEFT: return javafx.geometry.Pos.BOTTOM_LEFT;
-                case BOTTOM_CENTER: return javafx.geometry.Pos.BOTTOM_CENTER;
-                case BOTTOM_RIGHT: return javafx.geometry.Pos.BOTTOM_RIGHT;
-            }
-        return null;
-    }
-
-    private static javafx.scene.text.TextAlignment toFxTextAlignment(TextAlignment textAlignment) {
-        if (textAlignment != null)
-            switch (textAlignment) {
-                case LEFT: return javafx.scene.text.TextAlignment.LEFT;
-                case CENTER: return javafx.scene.text.TextAlignment.CENTER;
-                case RIGHT: return javafx.scene.text.TextAlignment.RIGHT;
-                case JUSTIFY: return javafx.scene.text.TextAlignment.JUSTIFY;
-            }
-        return null;
+        getFxNode().setTextFill(textFill);
     }
 
 }

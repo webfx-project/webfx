@@ -50,7 +50,7 @@ public class Parameter<T> extends AbstractExpression<T> {
     public Object evaluate(T domainObject, DataReader<T> dataReader) {
         Object value = getParameterValue(dataReader);
         if (rightDot != null) {
-            domainObject = dataReader.getDomainObjectFromId(value);
+            domainObject = dataReader.getDomainObjectFromId(value, domainObject);
             value = rightDot.evaluate(domainObject, dataReader);
         }
         return value;

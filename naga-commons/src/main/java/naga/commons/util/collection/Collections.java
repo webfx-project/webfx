@@ -5,10 +5,7 @@ import naga.commons.util.function.Converter;
 import naga.commons.util.function.IntFunction;
 import naga.commons.util.function.Predicate;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
@@ -38,6 +35,17 @@ public class Collections {
         return list;
     }
 
+    public static <A, B> List<B> convertFilter(Collection<A> aCollection, Converter<A, B> aToBConverter, Predicate<? super B> predicate) {
+        // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
+        List<B> bList = new ArrayList<>(aCollection.size());
+        forEach(aCollection, a -> {
+            B b = aToBConverter.convert(a);
+            if (predicate == null || predicate.test(b))
+                bList.add(b);
+        });
+        return bList;
+    }
+
     public static <T> T findFirst(Iterable<T> iterable, Predicate<? super T> predicate) {
         //return collection.stream().filter(predicate::test).findFirst().get(); // Not GWT compilable for now
         for (T element : iterable) {
@@ -46,6 +54,19 @@ public class Collections {
         }
         return null;
     }
+
+    public static <T> boolean removeIf(Iterable<T> iterable, Predicate<? super T> predicate) {
+        boolean removed = false;
+        final Iterator<T> each = iterable.iterator();
+        while (each.hasNext()) {
+            if (predicate.test(each.next())) {
+                each.remove();
+                removed = true;
+            }
+        }
+        return removed;
+    }
+
 
     public static int size(Collection collection) {
         return collection == null ? 0 : collection.size();
