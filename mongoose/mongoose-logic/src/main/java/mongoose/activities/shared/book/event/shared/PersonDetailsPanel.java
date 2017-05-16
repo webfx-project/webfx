@@ -45,7 +45,7 @@ public class PersonDetailsPanel {
     public PersonDetailsPanel(Event event, EntityStore store, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
         this.event = event;
         i18n = viewActivityContextMixin.getI18n();
-        sectionPanel = HighLevelComponents.createSectionPanel(null, null, "PersonalDetails", i18n);
+        sectionPanel = HighLevelComponents.createSectionPanel(null, null, "YourPersonalDetails", i18n);
 
         firstNameTextField = new TextField();
         lastNameTextField = new TextField();

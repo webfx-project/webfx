@@ -67,7 +67,7 @@ public class BookingOptionsPanel {
 
     public BorderPane getOptionsPanel() {
         if (optionsPanel == null) {
-            optionsPanel = HighLevelComponents.createSectionPanel(null, null, "Options", i18n);
+            optionsPanel = HighLevelComponents.createSectionPanel(null, null, "YourOptions", i18n);
             optionsPanel.setCenter(getGrid());
         }
         return optionsPanel;
