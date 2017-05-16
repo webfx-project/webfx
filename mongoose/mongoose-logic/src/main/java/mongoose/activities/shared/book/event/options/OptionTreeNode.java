@@ -208,6 +208,7 @@ class OptionTreeNode {
         if (option.getItem() != null) {
             WorkingDocument workingDocument = getWorkingDocument();
             workingDocument.getWorkingDocumentLines().add(new WorkingDocumentLine(option, workingDocument));
+            workingDocument.clearLinesCache();
         }
         boolean childAdded = false;
         for (Option childOption: getChildrenOptions(option))

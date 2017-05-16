@@ -98,14 +98,17 @@ public class BookingCalendar {
     }
 
     protected WorkingDocument createNewMaxDateTimeRangeWorkingDocument() {
-        return createNewDateTimeRangeWorkingDocument(workingDocument.getEventService().getEvent().computeMaxDateTimeRange());
+        return createNewDateTimeRangeWorkingDocument(workingDocument.getEventService().getEvent().computeMaxDateTimeRange(), true);
     }
 
-    protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
+    protected WorkingDocument createNewDateTimeRangeWorkingDocument(DateTimeRange workingDocumentDateTimeRange, boolean applyBusinessRules) {
         OptionsPreselection selectedOptionsPreselection = workingDocument.getEventService().getSelectedOptionsPreselection();
         if (selectedOptionsPreselection == null)
             selectedOptionsPreselection = findWorkingDocumentOptionsPreselection();
-        return selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange).applyBusinessRules();
+        WorkingDocument newWorkingDocument = selectedOptionsPreselection.createNewWorkingDocument(workingDocumentDateTimeRange);
+        if (applyBusinessRules)
+            newWorkingDocument.applyBusinessRules();
+        return newWorkingDocument;
     }
 
     private OptionsPreselection findWorkingDocumentOptionsPreselection() {
@@ -148,8 +151,8 @@ public class BookingCalendar {
                         : new TimeInterval(currentWorkingDocumentInterval.getIncludedStart(), clickedDayMinute + cell.getDayTimeMinuteInterval().getExcludedEnd(), TimeUnit.MINUTES);
         EventService eventService = workingDocument.getEventService();
         DateTimeRange newWorkingDocumentDateTimeRange = eventService.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
-        WorkingDocument newWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange);
-        newWorkingDocument.syncInfoFrom(workingDocument);
+        WorkingDocument newCalendarWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange, false);
+        WorkingDocument newWorkingDocument = workingDocument.mergeWithCalendarWorkingDocument(newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
         eventService.setWorkingDocument(newWorkingDocument);
         createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
     }

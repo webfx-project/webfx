@@ -132,6 +132,10 @@ public class WorkingDocument {
         }
     }
 
+    public void clearLinesCache() {
+        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = null;
+    }
+
     //// Accommodation line
 
     private WorkingDocumentLine accommodationLine;
@@ -235,6 +239,19 @@ public class WorkingDocument {
         return document;
     }
 
+    public WorkingDocument mergeWithCalendarWorkingDocument(WorkingDocument calendarWorkingDocument, DateTimeRange dateTimeRange) {
+        List<WorkingDocumentLine> lines = new ArrayList<>(calendarWorkingDocument.getWorkingDocumentLines());
+        for (WorkingDocumentLine thisLine : getWorkingDocumentLines()) {
+            WorkingDocumentLine line = calendarWorkingDocument.findSameWorkingDocumentLine(thisLine);
+            if (line == null)
+                lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
+            line.syncInfoFrom(thisLine);
+        }
+        WorkingDocument newWorkingDocument = new WorkingDocument(eventService, lines).applyBusinessRules();
+        newWorkingDocument.syncInfoFrom(this);
+        return newWorkingDocument;
+    }
+
     private static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
         p2.setFirstName(p1.getFirstName());
         p2.setLastName(p1.getLastName());
@@ -266,7 +283,7 @@ public class WorkingDocument {
             document.getId().setGeneratedKey(wd.getDocument().getPrimaryKey());
         if (lastLoadedWorkingDocumentLines == null)
             lastLoadedWorkingDocumentLines = wd.lastLoadedWorkingDocumentLines;
-        syncLineInfoFrom(wd.getWorkingDocumentLines());
+        //syncLineInfoFrom(wd.getWorkingDocumentLines());
     }
 
     private void syncLineInfoFrom(List<WorkingDocumentLine> wdls) {

@@ -79,6 +79,19 @@ public class WorkingDocumentLine {
         dateTimeRange = cropDateTimeRange(new DateTimeRange(daysArray.toSeries()), dayTimeRange);
     }
 
+    public WorkingDocumentLine(WorkingDocumentLine wdl, DateTimeRange workingDocumentDateTimeRange) {
+        documentLine = wdl.documentLine;
+        attendances = wdl.attendances;
+        optionPreselection = wdl.optionPreselection;
+        option = wdl.option;
+        site = wdl.site;
+        item = wdl.item;
+        dayTimeRange = wdl.dayTimeRange;
+        DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
+        dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
+        daysArray = dateTimeRange == null ? null : dateTimeRange.getDaysArray(dayTimeRange);
+    }
+
     private static DateTimeRange cropDateTimeRange(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
         return dateTimeRange == null || dayTimeRange == null ? dateTimeRange : dateTimeRange.intersect(dayTimeRange);
     }
