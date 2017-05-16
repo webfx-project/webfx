@@ -28,7 +28,9 @@ public class ExpressionParser {
 
     public static Expression parseExpression(String definition, Object domainClass, ParserDomainModelReader modelReader, boolean expectList) {
         try (BuilderThreadContext context = BuilderThreadContext.open(modelReader)) {
-            Symbol symbol = parseWithJavaCup("expr:=" + definition);
+            if (!definition.startsWith("expr:=") && !definition.startsWith("order by "))
+                definition = "expr:=" + definition;
+            Symbol symbol = parseWithJavaCup(definition);
             ExpressionBuilder expressionBuilder = (ExpressionBuilder) symbol.value;
             expressionBuilder.buildingClass = domainClass;
             Expression expression = expressionBuilder.build();

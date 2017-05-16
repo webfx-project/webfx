@@ -106,6 +106,8 @@ parser_start ::= select_query:select
               {: RESULT = select; :}
             | EXPR_START expr_list:e
               {: RESULT = e; :}
+            | ORDER_BY order_list:o
+              {: RESULT = o; :}
             ;
 
 expr_list ::= expr_list:list COMMA expr_list_token:t
