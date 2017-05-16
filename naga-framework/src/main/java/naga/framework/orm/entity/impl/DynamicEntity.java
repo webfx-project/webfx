@@ -88,5 +88,12 @@ public class DynamicEntity implements Entity {
 
     public void copyAllFieldsFrom(Entity entity) {
         fieldValues.putAll(((DynamicEntity) entity).fieldValues);
+        EntityStore thisStore = getStore();
+        EntityStore entityStore = entity.getStore();
+        if (thisStore != entityStore) {
+            for (Object fieldValue : fieldValues.values())
+                if (fieldValue instanceof EntityId)
+                    thisStore.copyEntity(entityStore.getEntity((EntityId) fieldValue));
+        }
     }
 }

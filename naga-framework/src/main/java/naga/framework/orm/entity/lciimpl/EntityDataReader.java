@@ -24,7 +24,7 @@ public class EntityDataReader implements DataReader<Entity> {
             return (Entity) id;
         Entity entity = entityStore.getEntity((EntityId) id);
         if (entity == null && src instanceof Entity)
-            ((Entity) src).getStore().getEntity((EntityId) id);
+            entity = ((Entity) src).getStore().getEntity((EntityId) id);
         return entity;
     }
 
