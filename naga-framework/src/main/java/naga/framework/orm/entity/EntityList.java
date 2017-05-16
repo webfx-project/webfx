@@ -1,5 +1,6 @@
 package naga.framework.orm.entity;
 
+import naga.framework.expression.Expression;
 import naga.framework.orm.entity.impl.EntityListImpl;
 
 import java.util.Collection;
@@ -24,6 +25,8 @@ public interface EntityList<E extends Entity> extends Iterable<E> {
     void clear();
 
     void add(E entity);
+
+    void orderBy(Expression<E>... orderExpressions);
 
     static <E extends Entity> EntityList<E> create(Object listId, EntityStore store) {
         return new EntityListImpl<>(listId, store);
