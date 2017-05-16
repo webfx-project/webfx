@@ -341,7 +341,7 @@ public class ReactiveExpressionFilter {
                 // Otherwise we compile the final string filter into sql
                 SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
                 ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
-                parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.convert(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
+                parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
                 if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues)) {
                     // We increment and capture the sequence to check if the request is still the latest one when receiving the result
                     int sequence = querySequence.incrementAndGet();

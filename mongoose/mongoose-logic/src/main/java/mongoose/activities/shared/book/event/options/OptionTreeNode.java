@@ -165,9 +165,9 @@ class OptionTreeNode {
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
             //Doesn't work on Android: childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
-            childrenOptionTreeNodes = Collections.convert(childrenOptions, o -> new OptionTreeNode(o, this));
+            childrenOptionTreeNodes = Collections.map(childrenOptions, o -> new OptionTreeNode(o, this));
             //Doesn't work on Android: vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
-            vBox.getChildren().addAll(Collections.convertFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.commons.util.Objects::nonNull));
+            vBox.getChildren().addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.commons.util.Objects::nonNull));
         }
         if (parent != null && parent.optionButtonSelectedProperty != null)
             LayoutUtil.setUnmanagedWhenInvisible(vBox, parent.optionButtonSelectedProperty);

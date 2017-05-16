@@ -18,7 +18,7 @@ public class Collections {
             consumer.accept(element);
     }
 
-    public static <A, B> List<B> convert(Collection<A> aCollection, Converter<A, B> aToBConverter) {
+    public static <A, B> List<B> map(Collection<A> aCollection, Converter<A, B> aToBConverter) {
         // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
         List<B> bList = new ArrayList<>(aCollection.size());
         forEach(aCollection, a -> bList.add(aToBConverter.convert(a)));
@@ -35,7 +35,7 @@ public class Collections {
         return list;
     }
 
-    public static <A, B> List<B> convertFilter(Collection<A> aCollection, Converter<A, B> aToBConverter, Predicate<? super B> predicate) {
+    public static <A, B> List<B> mapFilter(Collection<A> aCollection, Converter<A, B> aToBConverter, Predicate<? super B> predicate) {
         // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
         List<B> bList = new ArrayList<>(aCollection.size());
         forEach(aCollection, a -> {

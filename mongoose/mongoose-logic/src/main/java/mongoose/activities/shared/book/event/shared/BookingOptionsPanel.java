@@ -43,7 +43,7 @@ public class BookingOptionsPanel {
     public void syncUiFromModel(WorkingDocument workingDocument) {
         registerFormatter("priceWithCurrency", new PriceFormatter(workingDocument.getEventService().getEvent()));
         //Doesn't work on Android: syncUiFromModel(workingDocument.getWorkingDocumentLines().stream().map(BookingOptionsPanel::createDocumentLine).filter(Objects::nonNull).collect(Collectors.toList()), workingDocument.getDocument().getStore());
-        syncUiFromModel(Collections.convertFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.commons.util.Objects::nonNull), workingDocument.getDocument().getStore());
+        syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.commons.util.Objects::nonNull), workingDocument.getDocument().getStore());
     }
 
     public void syncUiFromModel(List<DocumentLine> documentLines, EntityStore entityStore) {

@@ -70,7 +70,7 @@ public class HtmlScenePeer extends ScenePeerBase {
     public void updateParentAndChildrenPeers(Parent parent) {
         if (!(parent instanceof HtmlText)) {
             elemental2.Node parentNode = HtmlSvgNodePeer.toElement(parent, scene);
-            HtmlUtil.setChildren(parentNode, Collections.convert(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
+            HtmlUtil.setChildren(parentNode, Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
         }
     }
 

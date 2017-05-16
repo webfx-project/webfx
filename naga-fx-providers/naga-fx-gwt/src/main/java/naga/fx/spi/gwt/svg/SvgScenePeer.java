@@ -65,7 +65,7 @@ public class SvgScenePeer extends ScenePeerBase {
     @Override
     public void updateParentAndChildrenPeers(Parent parent) {
         elemental2.Node svgParent = HtmlSvgNodePeer.toElement(parent, scene);
-        HtmlUtil.setChildren(svgParent, Collections.convert(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
+        HtmlUtil.setChildren(svgParent, Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
     }
 
     @Override

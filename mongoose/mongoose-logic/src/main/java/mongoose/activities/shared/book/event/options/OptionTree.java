@@ -72,11 +72,11 @@ class OptionTree {
     }
 
     List<Node> getUpdatedTopLevelNodesAboveAttendance() {
-        return Collections.convert(getTopLevelOptionsAboveAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromWorkingDocument());
+        return Collections.map(getTopLevelOptionsAboveAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromWorkingDocument());
     }
 
     List<Node> getUpdatedTopLevelNodesBelowAttendance() {
-        return Collections.convert(getTopLevelOptionsBelowAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromWorkingDocument());
+        return Collections.map(getTopLevelOptionsBelowAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromWorkingDocument());
     }
 
     private int optionSectionOrder(Option option) {

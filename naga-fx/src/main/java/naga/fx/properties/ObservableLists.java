@@ -34,12 +34,12 @@ public class ObservableLists {
 
     public static <A, B> void setAllConverted(List<A> aList, Converter<A, B> aToBConverter, ObservableList<B> bList) {
         // GWT/J2OBJC bList.setAll(aList.stream().map(aToBConverter::convert).collect(Collectors.toList()));
-        bList.setAll(Collections.convert(aList, aToBConverter));
+        bList.setAll(Collections.map(aList, aToBConverter));
     }
 
     public static <A, B> void setAllNonNullsConverted(List<A> aList, Converter<A, B> aToBConverter, ObservableList<B> bList) {
         // GWT/J2OBJC bList.setAll(aList.stream().map(aToBConverter::convert).collect(Collectors.toList()));
-        setAllNonNulls(bList, Collections.convert(aList, aToBConverter));
+        setAllNonNulls(bList, Collections.map(aList, aToBConverter));
     }
 
     public static <T> void bind(ObservableList<T> list1, ObservableList<T> list2) {

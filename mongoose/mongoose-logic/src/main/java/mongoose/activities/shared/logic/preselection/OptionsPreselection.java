@@ -56,7 +56,7 @@ public class OptionsPreselection {
     }
 
     public WorkingDocument createNewWorkingDocument(DateTimeRange workingDocumentDateTimeRange) {
-        return new WorkingDocument(eventService, Collections.convert(optionPreselections, optionPreselection -> new WorkingDocumentLine(optionPreselection, workingDocumentDateTimeRange)));
+        return new WorkingDocument(eventService, Collections.map(optionPreselections, optionPreselection -> new WorkingDocumentLine(optionPreselection, workingDocumentDateTimeRange)));
     }
 
     public WorkingDocumentLine getAccommodationLine() {

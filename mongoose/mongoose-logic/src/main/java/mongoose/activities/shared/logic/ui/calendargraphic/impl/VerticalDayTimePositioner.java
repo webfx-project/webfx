@@ -49,7 +49,7 @@ class VerticalDayTimePositioner {
 
     void updateVerticalPositions() {
         //Doesn't work on Android: List<TimeInterval> slots = verticalDayTimePositionedCollection.stream().map(VerticalDayTimePositioned::getDayTimeMinuteInterval).collect(Collectors.toCollection(HashList::new));
-        List<TimeInterval> slots = new HashList<>(Collections.convert(verticalDayTimePositionedCollection, VerticalDayTimePositioned::getDayTimeMinuteInterval));
+        List<TimeInterval> slots = new HashList<>(Collections.map(verticalDayTimePositionedCollection, VerticalDayTimePositioned::getDayTimeMinuteInterval));
         //Doesn't work on Android: slots.sort(Comparator.comparingLong(TimeInterval::getIncludedStart));
         Comparator<? super TimeInterval> c = (o1, o2) -> Long.compare(o1.getIncludedStart(), o2.getIncludedStart());
         Object[] a = slots.toArray();

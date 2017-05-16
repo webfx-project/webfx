@@ -76,7 +76,7 @@ public class SvgUtil {
         CycleMethod cycleMethod = lg.getCycleMethod();
         svgLg.setAttribute("spreadMethod", cycleMethod == CycleMethod.REPEAT ? "repeat" : cycleMethod == CycleMethod.REFLECT ? "reflect" : "pad");
         svgLg.setAttribute("gradientUnits", lg.isProportional() ? "objectBoundingBox" : "userSpaceOnUse");
-        return HtmlUtil.setChildren(svgLg, Collections.convert(lg.getStops(), SvgUtil::toSvgStop));
+        return HtmlUtil.setChildren(svgLg, Collections.map(lg.getStops(), SvgUtil::toSvgStop));
     }
 
     private static Element toSvgStop(Stop stop) {
