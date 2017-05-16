@@ -160,7 +160,7 @@ public class BookingCalendar {
     private void computeAndDisplayWorkingTotalPrice() {
         int documentPrice = DocumentPricing.computeDocumentPrice(workingDocument);
         bookingPrice.setValue(documentPrice);
-        formattedBookingPrice.setValue(PriceFormatter.SINGLETON.formatWithCurrency(documentPrice, workingDocument.getEventService().getEvent()));
+        formattedBookingPrice.setValue(PriceFormatter.formatWithCurrency(documentPrice, workingDocument.getEventService().getEvent()));
     }
 
 }

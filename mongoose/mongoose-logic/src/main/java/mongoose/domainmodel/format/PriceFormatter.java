@@ -4,6 +4,7 @@ import mongoose.entities.Event;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
 import naga.commons.util.Numbers;
+import naga.framework.orm.entity.EntityId;
 import naga.framework.ui.format.Formatter;
 
 /**
@@ -11,9 +12,20 @@ import naga.framework.ui.format.Formatter;
  */
 public class PriceFormatter implements Formatter {
 
-    public static final PriceFormatter SINGLETON = new PriceFormatter();
+    public static final PriceFormatter INSTANCE = new PriceFormatter();
 
-    private PriceFormatter() {
+    private final String currencySymbol;
+
+    public PriceFormatter() {
+        this((String) null);
+    }
+
+    public PriceFormatter(String currencySymbol) {
+        this.currencySymbol = currencySymbol;
+    }
+
+    public PriceFormatter(Event event) {
+        this(getEventCurrencySymbol(event));
     }
 
     @Override
@@ -23,7 +35,7 @@ public class PriceFormatter implements Formatter {
 
     @Override
     public Object format(Object value) {
-        return format(value, true);
+        return currencySymbol != null ? formatWithCurrency(value, currencySymbol) : format(value, true);
     }
 
     public Object format(Object value, boolean show00cents) {
@@ -37,10 +49,21 @@ public class PriceFormatter implements Formatter {
         }
     }
 
-    public String formatWithCurrency(Object value, Event event) {
-        Object price = PriceFormatter.SINGLETON.format(value, false);
+    public static String formatWithCurrency(Object value, Event event) {
+        return formatWithCurrency(value, getEventCurrencySymbol(event));
+    }
+
+    public static String getEventCurrencySymbol(Event event) {
         // Temporary hard coded
-        boolean isKMCF = Numbers.toInteger(event.getOrganizationId().getPrimaryKey()) == 2;
-        return isKMCF ? price + " €" : "£" + price;
+        EntityId organizationId = event == null ? null : event.getOrganizationId();
+        if (organizationId == null)
+            return null;
+        boolean isKMCF = Numbers.toInteger(organizationId.getPrimaryKey()) == 2;
+        return isKMCF ? " €" : "£";
+    }
+
+    public static String formatWithCurrency(Object value, String currencySymbol) {
+        String price = (String) PriceFormatter.INSTANCE.format(value, currencySymbol == null);
+        return currencySymbol == null ? price : currencySymbol.startsWith(" ") ? price + currencySymbol : currencySymbol + price;
     }
 }

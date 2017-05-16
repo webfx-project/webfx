@@ -4,6 +4,7 @@ import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
 import naga.commons.util.collection.Collections;
@@ -20,6 +21,8 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 import java.util.List;
+
+import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
 
 /**
  * @author Bruno Salmon
@@ -38,6 +41,7 @@ public class BookingOptionsPanel {
     }
 
     public void syncUiFromModel(WorkingDocument workingDocument) {
+        registerFormatter("priceWithCurrency", new PriceFormatter(workingDocument.getEventService().getEvent()));
         //Doesn't work on Android: syncUiFromModel(workingDocument.getWorkingDocumentLines().stream().map(BookingOptionsPanel::createDocumentLine).filter(Objects::nonNull).collect(Collectors.toList()), workingDocument.getDocument().getStore());
         syncUiFromModel(Collections.convertFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.commons.util.Objects::nonNull), workingDocument.getDocument().getStore());
     }
@@ -53,12 +57,17 @@ public class BookingOptionsPanel {
 
     private void updateGrid() {
         if (lineEntities != null) {
-            DomainModel domainModel = lineEntities.getStore().getDataSourceModel().getDomainModel();
-            Function.register(new TranslateFunction(i18n));
-            ExpressionColumn[] columns = ExpressionColumn.fromJsonArray("['item.icon,translate(item)',{expression: 'price_net', format: 'price'}]", domainModel, "DocumentLine");
-            DisplayResultSet displayResultSet = EntityListToDisplayResultSetGenerator.createDisplayResultSet(lineEntities, columns, i18n);
-            dataGrid.setDisplayResultSet(displayResultSet);
+            DisplayResultSet rs = generateDetailedResultSet();
+            dataGrid.setDisplayResultSet(rs);
         }
+    }
+
+    private DisplayResultSet generateDetailedResultSet() {
+        DomainModel domainModel = lineEntities.getStore().getDataSourceModel().getDomainModel();
+        Function.register(new TranslateFunction(i18n));
+        ExpressionColumn[] columns = ExpressionColumn.fromJsonArray("['item.icon,translate(item)',{expression: 'dates', textAlign: 'center'},{expression: 'price_net', format: 'priceWithCurrency'}]", domainModel, "DocumentLine");
+        lineEntities.orderBy(domainModel.parseExpression("order by item.family.ord,item.name", "DocumentLine"));
+        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(lineEntities, columns, i18n);
     }
 
     public DataGrid getGrid() {
@@ -77,10 +86,11 @@ public class BookingOptionsPanel {
         Item item = wdl.getItem();
         EntityStore store = item.getStore();
         EntityId documentLineId = EntityId.create(store.getDataSourceModel().getDomainModel().getClass("DocumentLine"));
-        DocumentLine documentLine = store.getOrCreateEntity(documentLineId);
-        documentLine.setSite(wdl.getSite());
-        documentLine.setItem(item);
-        documentLine.setFieldValue("price_net", wdl.getPrice());
-        return documentLine;
+        DocumentLine dl = store.getOrCreateEntity(documentLineId);
+        dl.setSite(wdl.getSite());
+        dl.setItem(item);
+        dl.setFieldValue("price_net", wdl.getPrice());
+        dl.setFieldValue("dates", wdl.getDaysArray().toSeries().toText("dd/MM"));
+        return dl;
     }
 }

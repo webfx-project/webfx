@@ -95,7 +95,7 @@ public class OptionsPreselection {
     }
 
     public Object getDisplayPrice() {
-        return PriceFormatter.SINGLETON.formatWithCurrency(computePrice(), eventService.getEvent());
+        return PriceFormatter.formatWithCurrency(computePrice(), eventService.getEvent());
     }
 
     public Object getDisplayAvailability(EventService eventService) {

@@ -47,7 +47,7 @@ public class DomainModelSnapshotLoader {
     public static DomainModel loadDomainModelFromSnapshot() {
         try {
             // Registering formats
-            registerFormatter("price", PriceFormatter.SINGLETON);
+            registerFormatter("price", PriceFormatter.INSTANCE);
             registerFormatter("date", DateFormatter.SINGLETON);
             registerFormatter("dateTime", DateTimeFormatter.SINGLETON);
             // Registering entity java classes
