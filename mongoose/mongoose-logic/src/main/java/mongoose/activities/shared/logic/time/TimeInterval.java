@@ -59,22 +59,30 @@ public final class TimeInterval {
         return new TimeSeries(new TimeInterval[]{this}, timeUnit);
     }
 
-    public String toText() {
-        return toText(new StringBuilder()).toString();
+    public String toText(String format) {
+        return toText(new StringBuilder(), format).toString();
     }
 
     public String getStartText() {
-        return formatTime(getIncludedStart(), timeUnit, false);
+        return getStartText(null);
+    }
+
+    public String getStartText(String format) {
+        return formatTime(getIncludedStart(), timeUnit, false, format);
     }
 
     public String getEndText() {
-        return formatTime(getExcludedEnd(), timeUnit, true);
+        return getEndText(null);
     }
 
-    StringBuilder toText(StringBuilder sb) {
-        String startText = getStartText();
+    public String getEndText(String format) {
+        return formatTime(getExcludedEnd(), timeUnit, true, format);
+    }
+
+    StringBuilder toText(StringBuilder sb, String format) {
+        String startText = getStartText(format);
         sb.append(startText);
-        String endText = getEndText();
+        String endText = getEndText(format);
         if (!endText.equals(startText))
             sb.append(" - ").append(endText);
         return sb;

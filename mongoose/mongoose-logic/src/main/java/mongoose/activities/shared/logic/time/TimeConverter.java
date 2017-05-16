@@ -39,13 +39,21 @@ class TimeConverter {
     }
 
     static String formatTime(long time, TimeUnit timeUnit, boolean excluded) {
+        return formatTime(time, timeUnit, excluded, null);
+    }
+
+    static String formatTime(long time, TimeUnit timeUnit, boolean excluded, String format) {
         long epochMillis = convertTime(time, timeUnit, TimeUnit.MILLISECONDS);
         LocalDateTime date = Dates.epochMillisUtcToLocalDateTime(epochMillis);
-        String format = "dd/MM/yyyy HH:mm";
-        if (date.getYear() == 1970)
-            format = "HH:mm";
-        else if (date.getHour() == 0 && date.getMinute() == 0) {
-            format = "dd/MM/yyyy";
+        boolean autoFormat = format == null;
+        if (autoFormat)
+            format = "dd/MM/yyyy HH:mm";
+        if (date.getYear() == 1970) {
+            if (autoFormat)
+                format = "HH:mm";
+        } else if (date.getHour() == 0 && date.getMinute() == 0) {
+            if (autoFormat)
+                format = "dd/MM/yyyy";
             if (excluded)
                 date = date.minusDays(1);
         }
