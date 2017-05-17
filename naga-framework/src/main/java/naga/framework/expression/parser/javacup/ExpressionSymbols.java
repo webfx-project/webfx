@@ -8,59 +8,60 @@ package naga.framework.expression.parser.javacup;
 /** CUP generated interface containing symbol constants. */
 public interface ExpressionSymbols {
   /* terminals */
-  public static final int GTEQ = 45;
+  public static final int GTEQ = 46;
   public static final int NULLS = 12;
-  public static final int MULT = 36;
+  public static final int MULT = 37;
   public static final int ANY = 21;
-  public static final int LTEQ = 44;
-  public static final int OBJ_STATE = 23;
+  public static final int LTEQ = 45;
+  public static final int OBJ_STATE = 24;
   public static final int DESC = 10;
-  public static final int LPAREN = 25;
-  public static final int IMAGE = 24;
-  public static final int MINUS = 35;
+  public static final int LPAREN = 26;
+  public static final int IMAGE = 25;
+  public static final int MINUS = 36;
   public static final int WHERE = 6;
-  public static final int RPAREN = 26;
-  public static final int AND = 47;
-  public static final int NOT = 41;
+  public static final int RPAREN = 27;
+  public static final int AND = 48;
+  public static final int NOT = 42;
   public static final int IS = 17;
-  public static final int LT = 40;
+  public static final int LT = 41;
   public static final int FIRST = 13;
-  public static final int OR = 48;
+  public static final int OR = 49;
   public static final int IN = 19;
-  public static final int COMMA = 30;
-  public static final int DIV = 37;
+  public static final int COMMA = 31;
+  public static final int DIV = 38;
   public static final int SELECT = 3;
-  public static final int PLUS = 34;
-  public static final int DOT = 31;
-  public static final int BOOLEAN = 51;
+  public static final int PLUS = 35;
+  public static final int THIS = 23;
+  public static final int DOT = 32;
+  public static final int BOOLEAN = 52;
   public static final int EOF = 0;
   public static final int error = 1;
   public static final int DISTINCT = 4;
   public static final int LIKE = 18;
   public static final int LIMIT = 15;
-  public static final int LCURLY = 32;
-  public static final int NULL = 49;
-  public static final int EQEQ = 43;
+  public static final int LCURLY = 33;
+  public static final int NULL = 50;
+  public static final int EQEQ = 44;
   public static final int EXISTS = 16;
-  public static final int NUMBER = 50;
-  public static final int EQ = 38;
+  public static final int NUMBER = 51;
+  public static final int EQ = 39;
   public static final int GROUP_BY = 7;
-  public static final int LBRACK = 27;
-  public static final int RCURLY = 33;
+  public static final int LBRACK = 28;
+  public static final int RCURLY = 34;
   public static final int FROM = 5;
   public static final int ASC = 11;
-  public static final int COLON = 29;
+  public static final int COLON = 30;
   public static final int LAST = 14;
-  public static final int RBRACK = 28;
+  public static final int RBRACK = 29;
   public static final int ORDER_BY = 9;
-  public static final int STRING = 52;
-  public static final int QUESTION = 42;
+  public static final int STRING = 53;
+  public static final int QUESTION = 43;
   public static final int ALL = 22;
   public static final int EXPR_START = 2;
   public static final int AS = 20;
-  public static final int GT = 39;
-  public static final int NOTEQ = 46;
-  public static final int IDENTIFIER = 53;
+  public static final int GT = 40;
+  public static final int NOTEQ = 47;
+  public static final int IDENTIFIER = 54;
   public static final int HAVING = 8;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -86,6 +87,7 @@ public interface ExpressionSymbols {
   "AS",
   "ANY",
   "ALL",
+  "THIS",
   "OBJ_STATE",
   "IMAGE",
   "LPAREN",

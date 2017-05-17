@@ -66,7 +66,7 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).*/
 terminal          EXPR_START;
-terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, EXISTS, IS, LIKE, IN, AS, ANY, ALL;
+terminal          SELECT, DISTINCT, FROM, WHERE, GROUP_BY, HAVING, ORDER_BY, DESC, ASC, NULLS, FIRST, LAST, LIMIT, EXISTS, IS, LIKE, IN, AS, ANY, ALL, THIS;
 terminal          OBJ_STATE, IMAGE;
 terminal          LPAREN, RPAREN, LBRACK, RBRACK, COLON, COMMA, DOT, LCURLY, RCURLY;
 terminal          PLUS, MINUS, MULT, DIV, EQ, GT, LT, NOT, QUESTION, EQEQ, LTEQ, GTEQ, NOTEQ, AND, OR;
@@ -249,6 +249,8 @@ expr      ::= expr:left OR expr:right
 			  {: RESULT = new TernaryExpressionBuilder(q, y, n); :}
 			| LPAREN select_query:select RPAREN
 			  {: RESULT = new SelectExpressionBuilder(select); :}
+            | THIS
+              {: RESULT = ThisBuilder.SINGLETON; :}
             | OBJ_STATE
               {: RESULT = new ObjStateBuilder(); :}
             | IMAGE LPAREN expr:e RPAREN

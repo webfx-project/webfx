@@ -82,6 +82,7 @@ OrderBy = [Oo][Rr][Dd][Ee][Rr]{WhiteSpace}+[Bb][Yy]
     "as"                           { return symbol(AS); }
     "any"                          { return symbol(ANY); }
     "all"                          { return symbol(ALL); }
+    "this"                         { return symbol(THIS); }
 
   /* internal usage parser tokens */
 
