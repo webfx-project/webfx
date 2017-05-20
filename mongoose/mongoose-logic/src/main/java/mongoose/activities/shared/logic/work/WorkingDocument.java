@@ -5,6 +5,7 @@ import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.*;
+import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
 import mongoose.services.EventService;
 import mongoose.services.PersonService;
@@ -39,14 +40,19 @@ public class WorkingDocument {
     private final Document document;
     private final List<WorkingDocumentLine> workingDocumentLines;
     private UpdateStore updateStore;
-    private List<WorkingDocumentLine> lastLoadedWorkingDocumentLines;
+    private WorkingDocument loadedWorkingDocument;
 
     public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
         this(eventService, PersonService.getOrCreate(eventService.getEventDataSourceModel()).getPreselectionProfilePerson(), workingDocumentLines);
     }
 
+    public WorkingDocument(EventService eventService, WorkingDocument wd, List<WorkingDocumentLine> workingDocumentLines) {
+        this(eventService, createDocument(wd.getDocument()), workingDocumentLines);
+        loadedWorkingDocument = wd.loadedWorkingDocument;
+    }
+
     public WorkingDocument(EventService eventService, Person person, List<WorkingDocumentLine> workingDocumentLines) {
-        this(eventService, createDocument(person, person.getStore().getDataSourceModel()), workingDocumentLines);
+        this(eventService, createDocument(person), workingDocumentLines);
     }
 
     public WorkingDocument(EventService eventService, Document document, List<WorkingDocumentLine> workingDocumentLines) {
@@ -54,8 +60,6 @@ public class WorkingDocument {
         this.document = document;
         this.workingDocumentLines = workingDocumentLines;
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
-        if (!document.isNew())
-            lastLoadedWorkingDocumentLines = new ArrayList<>(workingDocumentLines);
     }
 
     public EventService getEventService() {
@@ -223,19 +227,23 @@ public class WorkingDocument {
     }
 
     private UpdateStore getUpdateStore() {
-        if (updateStore == null) {
-            if (document.getStore() instanceof UpdateStore)
-                updateStore = (UpdateStore) document.getStore();
-            else
-                updateStore = UpdateStore.create(eventService.getEventDataSourceModel());
-        }
+        if (updateStore == null)
+            updateStore = getUpdateStore(document);
         return updateStore;
     }
 
-    private static Document createDocument(Person person, DataSourceModel dataSourceModel) {
-        UpdateStore store = UpdateStore.create(dataSourceModel);
-        Document document = store.insertEntity(Document.class);
-        syncPersonDetails(person, document);
+    private static UpdateStore getUpdateStore(Entity entity) {
+        return getUpdateStore(entity.getStore());
+    }
+
+    private static UpdateStore getUpdateStore(EntityStore store) {
+        return store instanceof UpdateStore ? (UpdateStore) store : UpdateStore.createAbove(store);
+    }
+
+    private static Document createDocument(EntityHasPersonDetails personDetailsEntity) {
+        UpdateStore store = getUpdateStore(personDetailsEntity);
+        Document document = store.createEntity(Document.class);
+        syncPersonDetails(personDetailsEntity, document);
         return document;
     }
 
@@ -247,9 +255,7 @@ public class WorkingDocument {
                 lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
             line.syncInfoFrom(thisLine);
         }
-        WorkingDocument newWorkingDocument = new WorkingDocument(eventService, lines).applyBusinessRules();
-        newWorkingDocument.syncInfoFrom(this);
-        return newWorkingDocument;
+        return new WorkingDocument(eventService, this, lines).applyBusinessRules();
     }
 
     private static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
@@ -277,15 +283,6 @@ public class WorkingDocument {
         p2.setResident2(p1.isResident2());
     }
 
-    public void syncInfoFrom(WorkingDocument wd) {
-        syncPersonDetails(wd.getDocument(), document);
-        if (document.isNew() && !wd.getDocument().isNew())
-            document.getId().setGeneratedKey(wd.getDocument().getPrimaryKey());
-        if (lastLoadedWorkingDocumentLines == null)
-            lastLoadedWorkingDocumentLines = wd.lastLoadedWorkingDocumentLines;
-        //syncLineInfoFrom(wd.getWorkingDocumentLines());
-    }
-
     private void syncLineInfoFrom(List<WorkingDocumentLine> wdls) {
         for (WorkingDocumentLine wdl : wdls) {
             WorkingDocumentLine thisLine = findSameWorkingDocumentLine(wdl);
@@ -308,11 +305,15 @@ public class WorkingDocument {
 
     public Future<Batch<UpdateResult>> submit() {
         UpdateStore store = getUpdateStore();
-        Document du = store.updateEntity(document);
-        du.setEvent(eventService.getEvent());
+        Document du;
+        if (loadedWorkingDocument == null) {
+            du = store.insertEntity(Document.class);
+            du.setEvent(eventService.getEvent());
+        } else {
+            du = store.updateEntity(loadedWorkingDocument.getDocument());
+            //syncLineInfoFrom(loadedWorkingDocument.getWorkingDocumentLines());
+        }
         syncPersonDetails(document, du);
-        if (lastLoadedWorkingDocumentLines != null)
-            syncLineInfoFrom(lastLoadedWorkingDocumentLines);
         for (WorkingDocumentLine wdl : workingDocumentLines) {
             DocumentLine dl = wdl.getDocumentLine(), dlu;
             if (dl == null) {
@@ -346,8 +347,8 @@ public class WorkingDocument {
                     store.deleteEntity(attendances.get(j++));
             }
         }
-        if (lastLoadedWorkingDocumentLines != null)
-            for (WorkingDocumentLine lastWdl : lastLoadedWorkingDocumentLines) {
+        if (loadedWorkingDocument != null)
+            for (WorkingDocumentLine lastWdl : loadedWorkingDocument.getWorkingDocumentLines()) {
                 if (findSameWorkingDocumentLine(lastWdl) == null)
                     removeLine(lastWdl.getDocumentLine());
             }         
@@ -363,7 +364,7 @@ public class WorkingDocument {
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
         SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=?");
-        SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine,date from Attendance where documentLine.document=? order by date");
+        SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document=? order by date");
         Object[] documentIdParameter = {document.getId().getPrimaryKey()};
         Future<Batch<QueryResultSet>> queryBatchFuture;
         return Future.allOf(eventService.onFeesGroups(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
@@ -373,13 +374,16 @@ public class WorkingDocument {
                 })
         )).compose(v -> {
             Batch<QueryResultSet> b = queryBatchFuture.result();
-            EntityStore store = document.getStore();
+            EntityStore store = EntityStore.createAbove(eventService.getEvent().getStore());
             EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
             EntityList<Attendance> as = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[1], sqlCompiled2.getQueryMapping(), store, "a");
             List<WorkingDocumentLine> wdls = new ArrayList<>();
             for (DocumentLine dl : dls)
                 wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
-            return Future.succeededFuture(new WorkingDocument(eventService, document, wdls));
+            WorkingDocument wd = new WorkingDocument(eventService, (Document) store.getEntity(document.getId()), wdls);
+            WorkingDocument wd2 = new WorkingDocument(eventService, wd, new ArrayList<>(wdls));
+            wd2.loadedWorkingDocument = wd;
+            return Future.succeededFuture(wd2);
         });
     }
 

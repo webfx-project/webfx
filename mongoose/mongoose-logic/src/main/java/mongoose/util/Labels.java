@@ -22,6 +22,8 @@ public class Labels {
             label = ((HasLabel) o).getLabel();
         if (label == null && o instanceof HasItem)
             label = bestLabel(((HasItem) o).getItem());
+        if (label == null && o instanceof Label)
+            label = (Label) o;
         return label;
     }
 

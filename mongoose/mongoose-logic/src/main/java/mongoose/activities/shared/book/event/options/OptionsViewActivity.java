@@ -46,7 +46,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     }
 
     protected void startLogic() {
-        boolean forceRefresh = getEventOptions() == null;
+        boolean forceRefresh = true; //getEventOptions() == null; // forcing refresh in case the working document has changed (ex: going back from the personal details after having changed the age)
         onFeesGroups().setHandler(async -> {
             if (async.failed())
                 Platform.log(async.cause());

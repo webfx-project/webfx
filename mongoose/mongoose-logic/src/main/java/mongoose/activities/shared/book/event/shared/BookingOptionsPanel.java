@@ -1,19 +1,21 @@
 package mongoose.activities.shared.book.event.shared;
 
 import javafx.scene.layout.BorderPane;
+import mongoose.activities.shared.logic.time.DaysArray;
+import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
+import naga.commons.type.PrimType;
 import naga.commons.util.collection.Collections;
-import naga.framework.expression.terms.function.Function;
-import naga.framework.orm.domainmodel.DomainModel;
-import naga.framework.orm.entity.EntityId;
+import naga.framework.expression.Expression;
+import naga.framework.expression.lci.DataReader;
+import naga.framework.expression.terms.function.AggregateFunction;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fx.properties.Properties;
@@ -37,6 +39,18 @@ public class BookingOptionsPanel {
     public BookingOptionsPanel(I18n i18n) {
         this.i18n = i18n;
         this.dataGrid = new DataGrid();
+        new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
+            @Override
+            public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {
+                DaysArrayBuilder daysArrayBuilder = new DaysArrayBuilder();
+                for (Object dl : aggregates) {
+                    DaysArray daysArray = (DaysArray) ((DocumentLine) dl).getFieldValue("daysArray");
+                    daysArrayBuilder.addSeries(daysArray.toSeries(), null);
+                }
+                return daysArrayBuilder.build().toSeries().toText("dd/MM");
+            }
+        }.register();
+        new TranslateFunction(i18n).register();
         Properties.runOnPropertiesChange(p -> updateGrid(), i18n.dictionaryProperty());
     }
 
@@ -57,17 +71,29 @@ public class BookingOptionsPanel {
 
     private void updateGrid() {
         if (lineEntities != null) {
-            DisplayResultSet rs = generateDetailedResultSet();
+            DisplayResultSet rs = generateGroupedLinesResultSet();
             dataGrid.setDisplayResultSet(rs);
         }
     }
 
-    private DisplayResultSet generateDetailedResultSet() {
-        DomainModel domainModel = lineEntities.getStore().getDataSourceModel().getDomainModel();
-        Function.register(new TranslateFunction(i18n));
-        ExpressionColumn[] columns = ExpressionColumn.fromJsonArray("['item.icon,translate(item)',{expression: 'dates', textAlign: 'center'},{expression: 'price_net', format: 'priceWithCurrency'}]", domainModel, "DocumentLine");
-        lineEntities.orderBy(domainModel.parseExpression("order by item.family.ord,item.name", "DocumentLine"));
-        return EntityListToDisplayResultSetGenerator.createDisplayResultSet(lineEntities, columns, i18n);
+    private DisplayResultSet generateDetailedLinesResultSet() {
+        return EntityListToDisplayResultSetGenerator.select(lineEntities,
+                "select [" +
+                        "'item.icon'," +
+                        "'translate(item)'," +
+                        "{expression: 'dates', textAlign: 'center'}," +
+                        "{expression: 'price_net', format: 'priceWithCurrency'}" +
+                        "] from DocumentLine where dates<>'' order by item.family.ord,item.name", i18n);
+    }
+
+    private DisplayResultSet generateGroupedLinesResultSet() {
+        return EntityListToDisplayResultSetGenerator.select(lineEntities,
+                "select [" +
+                        "'item.family.icon," +
+                        "translate(item.family) + `: ` + string_agg(translate(item), `, ` order by item.name)'," +
+                        "{expression: 'days_agg()', textAlign: 'center'}," +
+                        "{expression: 'sum(price_net)', format: 'priceWithCurrency'}" +
+                        "] from DocumentLine where dates<>'' group by item.family order by item.family.ord", i18n);
     }
 
     public DataGrid getGrid() {
@@ -85,11 +111,11 @@ public class BookingOptionsPanel {
     private static DocumentLine createDocumentLine(WorkingDocumentLine wdl) {
         Item item = wdl.getItem();
         EntityStore store = item.getStore();
-        EntityId documentLineId = EntityId.create(store.getDataSourceModel().getDomainModel().getClass("DocumentLine"));
-        DocumentLine dl = store.getOrCreateEntity(documentLineId);
+        DocumentLine dl = store.createEntity(DocumentLine.class);
         dl.setSite(wdl.getSite());
         dl.setItem(item);
         dl.setFieldValue("price_net", wdl.getPrice());
+        dl.setFieldValue("daysArray", wdl.getDaysArray());
         dl.setFieldValue("dates", wdl.getDaysArray().toSeries().toText("dd/MM"));
         return dl;
     }

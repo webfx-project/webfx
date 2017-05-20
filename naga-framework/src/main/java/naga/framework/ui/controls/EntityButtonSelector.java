@@ -40,7 +40,7 @@ public class EntityButtonSelector {
     private Expression entityExpression;
     private ValueRenderer entityRenderer;
 
-    private EntityStore entityStore;
+    private EntityStore loadingStore;
     private BorderPane entityDialogPane;
     private TextField searchBox;
     private DialogCallback entityDialogCallback;
@@ -60,8 +60,8 @@ public class EntityButtonSelector {
         getEntityButton().setDisable(!editable);
     }
 
-    public void setEntityStore(EntityStore entityStore) {
-        this.entityStore = entityStore;
+    public void setLoadingStore(EntityStore loadingStore) {
+        this.loadingStore = loadingStore;
     }
 
     public Entity getEntity() {
@@ -69,6 +69,10 @@ public class EntityButtonSelector {
     }
 
     public void setEntity(Entity entity) {
+/*
+        if (entity != null && loadingStore != null && loadingStore.getEntity(entity.getId()) == null)
+            entity = loadingStore.copyEntity(entity);
+*/
         this.entity = entity;
         updateEntityButton();
     }
@@ -94,7 +98,8 @@ public class EntityButtonSelector {
             DataGrid dataGrid = new DataGrid();
             entityDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
             I18n i18n = viewActivityContextMixin.getI18n();
-            entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(entityStore);
+            EntityStore filterStore = loadingStore != null ? loadingStore : entity != null ? entity.getStore() : null;
+            entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
             if (searchCondition != null) {
                 searchBox = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");

@@ -16,6 +16,7 @@ import mongoose.entities.markers.HasPersonDetails;
 import naga.commons.util.Booleans;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
@@ -39,10 +40,6 @@ public class PersonDetailsPanel {
     private final BorderPane sectionPanel;
 
     public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
-        this(event, event.getStore(), viewActivityContextMixin, parent);
-    }
-
-    public PersonDetailsPanel(Event event, EntityStore store, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
         this.event = event;
         i18n = viewActivityContextMixin.getI18n();
         sectionPanel = HighLevelComponents.createSectionPanel(null, null, "YourPersonalDetails", i18n);
@@ -67,9 +64,14 @@ public class PersonDetailsPanel {
         streetTextField = new TextField();
         postCodeTextField = new TextField();
         cityNameTextField = new TextField();
-        DataSourceModel dataSourceModel = store.getDataSourceModel();
+        DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = new EntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
         organizationSelector = new EntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
+    }
+
+    public void setLoadingStore(EntityStore store) {
+        countrySelector.setLoadingStore(store);
+        organizationSelector.setLoadingStore(store);
     }
 
     public void setEditable(boolean editable) {
@@ -121,13 +123,8 @@ public class PersonDetailsPanel {
     }
 
     public void syncUiFromModel(HasPersonDetails p) {
-/*
-        if (p instanceof Entity) {
-            EntityStore store = ((Entity) p).getStore();
-            countrySelector.setEntityStore(store);
-            organizationSelector.setEntityStore(store);
-        }
-*/
+        if (p instanceof Entity)
+            setLoadingStore(((Entity) p).getStore());
         firstNameTextField.setText(p.getFirstName());
         lastNameTextField.setText(p.getLastName());
         maleRadioButton.setSelected(Booleans.isTrue(p.isMale()));

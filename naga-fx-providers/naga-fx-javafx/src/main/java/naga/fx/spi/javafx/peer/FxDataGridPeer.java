@@ -151,7 +151,8 @@ public class FxDataGridPeer
             @Override
             protected void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
-                getNodePeerBase().fillCell(this, item, displayColumn);
+                if (!empty)
+                    getNodePeerBase().fillCell(this, item, displayColumn);
             }
         });
     }
