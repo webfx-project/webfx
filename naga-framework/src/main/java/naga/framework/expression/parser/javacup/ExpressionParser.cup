@@ -259,6 +259,8 @@ expr      ::= expr:left OR expr:right
               {: RESULT = new CallBuilder(name); :}
             | IDENTIFIER:name LPAREN expr_or_list:arg RPAREN
               {: RESULT = new CallBuilder(name, arg); :}
+            | IDENTIFIER:name LPAREN expr_or_list:arg ORDER_BY order_list:ol RPAREN
+              {: RESULT = new CallBuilder(name, arg, ol); :}
             | LCURLY RCURLY
               {: RESULT = new JsonExpressionBuilder(); :}
             | LCURLY json_token_list:list RCURLY

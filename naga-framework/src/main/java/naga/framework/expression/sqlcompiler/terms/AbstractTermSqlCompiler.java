@@ -1,11 +1,8 @@
 package naga.framework.expression.sqlcompiler.terms;
 
 import naga.framework.expression.Expression;
-import naga.framework.expression.terms.Select;
-import naga.framework.expression.terms.function.Function;
-import naga.framework.expression.terms.function.InlineFunction;
 import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
-import naga.framework.expression.sqlcompiler.sql.SqlClause;
+import naga.framework.expression.terms.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,32 +37,6 @@ public abstract class AbstractTermSqlCompiler<E extends Expression> {
 
     protected void compileSelect(Select select, Options o) {
         ExpressionSqlCompiler.buildSelect(select, o);
-    }
-
-    void compileFunctionToSql(Function f, Expression arg, Options o) {
-        if (f instanceof InlineFunction) {
-            InlineFunction inline = (InlineFunction) f;
-            if (o.clause == SqlClause.SELECT)
-                compileExpressionPersistentTermsToSql(arg, o);
-            else
-                try {
-                    inline.pushArguments(arg);
-                    compileChildExpressionToSql(inline.getBody(), o);
-                } finally {
-                    inline.popArguments();
-                }
-            return;
-        }
-        StringBuilder sb;
-        String name = f.getName();
-        if (o.generateQueryMapping) {
-            o.build.addColumnInClause(null, name, name, null, o.clause, o.separator, false, false, true);
-            sb = o.build.prepareAppend(o.clause, "").append('(');
-        } else
-            sb = o.build.prepareAppend(o).append(name).append('(');
-        if (arg != null)
-            compileChildExpressionToSql(arg, o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
-        sb.append(')');
     }
 
 }

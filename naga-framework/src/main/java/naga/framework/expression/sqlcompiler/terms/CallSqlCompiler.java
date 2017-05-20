@@ -1,8 +1,11 @@
 package naga.framework.expression.sqlcompiler.terms;
 
 import naga.framework.expression.Expression;
+import naga.framework.expression.sqlcompiler.sql.SqlClause;
 import naga.framework.expression.terms.Dot;
 import naga.framework.expression.terms.function.Call;
+import naga.framework.expression.terms.function.Function;
+import naga.framework.expression.terms.function.InlineFunction;
 
 /**
  * @author Bruno Salmon
@@ -14,12 +17,40 @@ public class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
     }
 
     @Override
-    public void compileExpressionToSql(Call e, Options o) {
-        Expression arg = e.getOperand();
+    public void compileExpressionToSql(Call call, Options o) {
+        Expression arg = call.getOperand();
         if (arg instanceof Dot) {
             Dot dot = (Dot) arg;
-            compileChildExpressionToSql(new Dot(dot.getLeft(), new Call(e.getFunctionName(), dot.getRight()), dot.isOuterJoin(), false), o);
-        } else
-            compileFunctionToSql(e.getFunction(), arg, o);
+            compileChildExpressionToSql(new Dot(dot.getLeft(), new Call(call.getFunctionName(), dot.getRight(), call.getOrderBy()), dot.isOuterJoin(), false), o);
+        } else {
+            Function f = call.getFunction();
+            if (f instanceof InlineFunction) {
+                InlineFunction inline = (InlineFunction) f;
+                if (o.clause == SqlClause.SELECT)
+                    compileExpressionPersistentTermsToSql(arg, o);
+                else
+                    try {
+                        inline.pushArguments(arg);
+                        compileChildExpressionToSql(inline.getBody(), o);
+                    } finally {
+                        inline.popArguments();
+                    }
+            } else {
+                StringBuilder sb;
+                String name = f.getName();
+                if (o.generateQueryMapping) {
+                    o.build.addColumnInClause(null, name, name, null, o.clause, o.separator, false, false, true);
+                    sb = o.build.prepareAppend(o.clause, "").append('(');
+                } else
+                    sb = o.build.prepareAppend(o).append(name).append('(');
+                if (arg != null)
+                    compileChildExpressionToSql(arg, o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
+                if (call.getOrderBy() != null) {
+                    sb.append(" order by ");
+                    compileChildExpressionToSql(call.getOrderBy(), o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
+                }
+                sb.append(')');
+            }
+        }
     }
 }
