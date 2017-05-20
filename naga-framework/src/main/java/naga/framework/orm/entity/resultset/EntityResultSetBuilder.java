@@ -32,6 +32,10 @@ public class EntityResultSetBuilder {
         return this;
     }
 
+    boolean hasEntityId(EntityId id) {
+        return entityIds.contains(id);
+    }
+
     private Map entityFieldMap(EntityId id) {
         int entityIndex = entityIds.indexOf(id);
         Map entityFieldsMap;

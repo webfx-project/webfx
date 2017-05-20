@@ -1,11 +1,10 @@
 package naga.framework.orm.entity.impl;
 
 
+import naga.framework.expression.Expression;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.*;
 import naga.framework.orm.entity.lciimpl.EntityDataWriter;
-import naga.framework.expression.Expression;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +17,22 @@ import java.util.Map;
 public class EntityStoreImpl implements EntityStore {
 
     protected final DataSourceModel dataSourceModel;
-    private final Map<EntityId, Entity> entities = new HashMap<>();
+    private final EntityStore underlyingStore;
+    protected final Map<EntityId, Entity> entities = new HashMap<>();
     private final Map<Object, EntityList> entityLists = new HashMap<>();
     private final EntityDataWriter entityDataWriter = new EntityDataWriter(this);
 
     public EntityStoreImpl(DataSourceModel dataSourceModel) {
+        this(dataSourceModel, null);
+    }
+
+    public EntityStoreImpl(EntityStore underlyingStore) {
+        this(underlyingStore.getDataSourceModel(), underlyingStore);
+    }
+
+    private EntityStoreImpl(DataSourceModel dataSourceModel, EntityStore underlyingStore) {
         this.dataSourceModel = dataSourceModel;
+        this.underlyingStore = underlyingStore;
     }
 
     @Override
@@ -31,44 +40,25 @@ public class EntityStoreImpl implements EntityStore {
         return dataSourceModel;
     }
 
-    // EntityId management
-
-    DomainClass getDomainClass(Object domainClassId) {
-        return domainClassId instanceof DomainClass ? (DomainClass) domainClassId : dataSourceModel.getDomainModel().getClass(domainClassId);
-    }
-
-    @Override
-    public EntityId getEntityId(Object domainClassId, Object primaryKey) {
-        return EntityId.create(getDomainClass(domainClassId), primaryKey);
-    }
-
-    @Override
-    public EntityId getEntityId(DomainClass domainClass, Object primaryKey) {
-        return EntityId.create(domainClass, primaryKey);
-    }
-
     // Entity management
 
     @Override
     public <E extends Entity> E getEntity(EntityId entityId) {
-        return (E) entities.get(entityId);
-    }
-
-    @Override
-    public <E extends Entity> E getOrCreateEntity(EntityId id) {
-        if (id == null)
-            return null;
-        E entity = getEntity(id);
-        if (entity == null)
-            entities.put(id, entity = createEntity(id));
+        E entity = (E) entities.get(entityId);
+        if (entity == null && underlyingStore != null)
+            entity = underlyingStore.getEntity(entityId);
         return entity;
     }
 
-    protected <E extends Entity> E createEntity(EntityId id) {
-        EntityFactory<E> entityFactory = id == null ? null : EntityFactoryRegistry.getEntityFactory(id.getDomainClass().getModelId());
-        if (entityFactory != null)
-            return entityFactory.createEntity(id, this);
-        return (E) new DynamicEntity(id, this);
+
+    @Override
+    public <E extends Entity> E createEntity(EntityId id) {
+        if (id == null)
+            return null;
+        EntityFactory<E> entityFactory = EntityFactoryRegistry.getEntityFactory(id.getDomainClass().getModelId());
+        E entity = entityFactory != null ? entityFactory.createEntity(id, this) : (E) new DynamicEntity(id, this);
+        entities.put(id, entity);
+        return entity;
     }
 
     // EntityList management
@@ -111,7 +101,8 @@ public class EntityStoreImpl implements EntityStore {
     public Object getParameterValue(String parameterName) {
         return parameterValues == null ? null : parameterValues.get(parameterName);
     }
-// String report for debugging
+
+    // String report for debugging
 
     @Override
     public String getEntityClassesCountReport() {

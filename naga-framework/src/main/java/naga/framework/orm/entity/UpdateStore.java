@@ -14,19 +14,30 @@ import naga.platform.services.update.UpdateResult;
  */
 public interface UpdateStore extends EntityStore {
 
-    EntityChanges getEntityChanges();
+    default <E extends Entity> E insertEntity(Class<E> entityClass) {
+        return insertEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass));
+    }
 
-    <E extends Entity> E insertEntity(Class<E> entityClass);
+    default <E extends Entity> E insertEntity(Object domainClassId) {
+        return insertEntity(getDomainClass(domainClassId));
+    }
 
     <E extends Entity> E insertEntity(DomainClass domainClass);
 
-    <E extends Entity> E insertEntity(Object domainClassId);
+    default <E extends Entity> E updateEntity(E entity) {
+        updateEntity(entity.getId());
+        return copyEntity(entity);
+    }
 
-    <E extends Entity> E updateEntity(E entity);
+    <E extends Entity> E updateEntity(EntityId entityId);
 
-    void deleteEntity(Entity entity);
+    default void deleteEntity(Entity entity) {
+        deleteEntity(entity.getId());
+    }
 
     void deleteEntity(EntityId entityId);
+
+    EntityChanges getEntityChanges();
 
     boolean hasChanges();
 
@@ -46,4 +57,7 @@ public interface UpdateStore extends EntityStore {
         return new UpdateStoreImpl(dataSourceModel);
     }
 
+    static UpdateStore createAbove(EntityStore underlyingStore) {
+        return new UpdateStoreImpl(underlyingStore);
+    }
 }

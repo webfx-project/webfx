@@ -7,8 +7,8 @@ import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityFactoryRegistry;
 import naga.framework.orm.entity.EntityId;
+import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.entity.resultset.*;
 import naga.platform.services.update.UpdateArgument;
@@ -25,7 +25,10 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
 
     public UpdateStoreImpl(DataSourceModel dataSourceModel) {
         super(dataSourceModel);
-        dataSourceModel.getDomainModel(); // Making sure the domain model is loaded in memory and entity factories are registered
+    }
+
+    public UpdateStoreImpl(EntityStore underlyingStore) {
+        super(underlyingStore);
     }
 
     @Override
@@ -34,32 +37,20 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
     }
 
     @Override
-    public <E extends Entity> E insertEntity(Class<E> entityClass) {
-        return insertEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass));
-    }
-
-    @Override
-    public <E extends Entity> E insertEntity(Object domainClassId) {
-        return insertEntity(getDomainClass(domainClassId));
-    }
-
-    @Override
     public <E extends Entity> E insertEntity(DomainClass domainClass) {
-        EntityId newId = EntityId.create(domainClass);
-        changesBuilder.addInsertedEntityId(newId);
-        return createEntity(newId);
+        E entity = createEntity(domainClass);
+        changesBuilder.addInsertedEntityId(entity.getId());
+        return entity;
     }
 
     @Override
-    public <E extends Entity> E updateEntity(E entity) {
-        if (entity == null || entity.getStore() == this)
-            return entity;
-        E updatedEntity = getOrCreateEntity(entity.getId());
-        return updatedEntity;
+    public <E extends Entity> E updateEntity(EntityId entityId) {
+        changesBuilder.addUpdatedEntityId(entityId);
+        return createEntity(entityId);
     }
 
     boolean updateEntity(EntityId id, Object domainFieldId, Object value, Object previousValue) {
-        if (!Objects.areEquals(value, previousValue)) {
+        if (!Objects.areEquals(value, previousValue) && changesBuilder.hasEntityId(id)) {
             boolean firstFieldChange = updateEntity(id, domainFieldId, value);
             if (firstFieldChange)
                 rememberPreviousEntityFieldValue(id, domainFieldId, previousValue);
@@ -95,7 +86,7 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
         try {
             EntityChangesToUpdateBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToUpdateBatchGenerator.createUpdateBatchGenerator(getEntityChanges(), dataSourceModel, initialUpdates);
             Batch<UpdateArgument> batch = updateBatchGenerator.generate();
-            Platform.log("Executing update batch " + Arrays.toString(batch.getArray()));
+            Platform.log("Executing update batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
             Future<Batch<UpdateResult>> next = Future.future();
             return Platform.getUpdateService().executeUpdateBatch(batch).compose(ar -> {
                 markChangesAsCommitted();
@@ -105,12 +96,6 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
         } catch (Exception e) {
             return Future.failedFuture(e);
         }
-    }
-
-    @Override
-    public void deleteEntity(Entity entity) {
-        if (entity != null)
-            deleteEntity(entity.getId());
     }
 
     @Override

@@ -176,6 +176,8 @@ public class EntityChangesToUpdateBatchGenerator {
                             assignments.add(new Equals(field, Parameter.UNNAMED_PARAMETER));
                             values.add(rs.getFieldValue(id, fieldId));
                         }
+                    if (assignments.isEmpty())
+                        continue;
                     ExpressionArray setClause = new ExpressionArray(assignments);
                     if (id.isNew()) { // insert statement
                         newEntityIdInsertBatchIndexes.put(id, updateArguments.size());

@@ -30,6 +30,16 @@ public class EntityChangesBuilder {
         return this;
     }
 
+    public EntityChangesBuilder addUpdatedEntityId(EntityId id) {
+        if (!id.isNew())
+            addFieldChange(id, null, null);
+        return this;
+    }
+
+    public boolean hasEntityId(EntityId id) {
+        return rsb != null && rsb.hasEntityId(id);
+    }
+
     public boolean addFieldChange(EntityId id, Object fieldId, Object fieldValue) {
         return rsb().setFieldValue(id, fieldId, fieldValue);
     }

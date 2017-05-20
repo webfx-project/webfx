@@ -15,41 +15,91 @@ public interface EntityStore {
 
     DataSourceModel getDataSourceModel();
 
+    default DomainClass getDomainClass(Object domainClassId) {
+        return domainClassId instanceof DomainClass ? (DomainClass) domainClassId : getDataSourceModel().getDomainModel().getClass(domainClassId);
+    }
+
+    default DomainClass getDomainClass(Class<? extends Entity> entityClass) {
+        return getDomainClass(getDomainClassId(entityClass));
+    }
+
+    default Object getDomainClassId(Class<? extends Entity> entityClass) {
+        return EntityFactoryRegistry.getEntityDomainClassId(entityClass);
+    }
+
+
     // EntityId management
 
-    EntityId getEntityId(DomainClass domainClass, Object primaryKey);
+    default EntityId getEntityId(Object domainClassId, Object primaryKey) {
+        return EntityId.create(getDomainClass(domainClassId), primaryKey);
+    }
 
-    EntityId getEntityId(Object domainClassId, Object primaryKey);
+    default EntityId getEntityId(DomainClass domainClass, Object primaryKey) {
+        return EntityId.create(domainClass, primaryKey);
+    }
 
 
     // Entity management
 
-    <E extends Entity> E getEntity(EntityId entityId);
-
-    <E extends Entity> E getOrCreateEntity(EntityId id);
-
-    default <E extends Entity> E getEntity(Class<E> entityClass, Object primaryKey) {
-        return getEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass), primaryKey);
+    default <E extends Entity> E createEntity(Class<E> entityClass) {
+        return createEntity(getDomainClass(entityClass));
     }
 
-    default <E extends Entity> E getEntity(DomainClass domainClass, Object primaryKey) {
-        return primaryKey == null ? null : getEntity(getEntityId(domainClass, primaryKey));
+    default <E extends Entity> E createEntity(Object domainClassId) {
+        return createEntity(getDomainClass(domainClassId));
+    }
+
+    default <E extends Entity> E createEntity(DomainClass domainClass) {
+        return createEntity(EntityId.create(domainClass));
+    }
+
+    default <E extends Entity> E createEntity(Class<E> entityClass, Object primaryKey) {
+        return createEntity(getDomainClass(entityClass), primaryKey);
+    }
+
+    default <E extends Entity> E createEntity(Object domainClassId, Object primaryKey) {
+        return primaryKey == null ? null : createEntity(getEntityId(domainClassId, primaryKey));
+    }
+
+    default <E extends Entity> E createEntity(DomainClass domainClass, Object primaryKey) {
+        return primaryKey == null ? null : createEntity(getEntityId(domainClass, primaryKey));
+    }
+
+    <E extends Entity> E createEntity(EntityId id);
+
+    default <E extends Entity> E getEntity(Class<E> entityClass, Object primaryKey) {
+        return getEntity(getDomainClass(entityClass), primaryKey);
     }
 
     default <E extends Entity> E getEntity(Object domainClassId, Object primaryKey) {
         return primaryKey == null ? null : getEntity(getEntityId(domainClassId, primaryKey));
     }
 
+    default <E extends Entity> E getEntity(DomainClass domainClass, Object primaryKey) {
+        return primaryKey == null ? null : getEntity(getEntityId(domainClass, primaryKey));
+    }
+
+    <E extends Entity> E getEntity(EntityId entityId);
+
     default <E extends Entity> E getOrCreateEntity(Class<E> entityClass, Object primaryKey) {
-        return getOrCreateEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass), primaryKey);
+        return getOrCreateEntity(getDomainClass(entityClass), primaryKey);
+    }
+
+    default <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey) {
+        return primaryKey == null ? null : getOrCreateEntity(getEntityId(domainClassId, primaryKey));
     }
 
     default <E extends Entity> E getOrCreateEntity(DomainClass domainClass, Object primaryKey) {
         return primaryKey == null ? null : getOrCreateEntity(getEntityId(domainClass, primaryKey));
     }
 
-    default <E extends Entity> E getOrCreateEntity(Object domainClassId, Object primaryKey) {
-        return primaryKey == null ? null : getOrCreateEntity(getEntityId(domainClassId, primaryKey));
+    default <E extends Entity> E getOrCreateEntity(EntityId id) {
+        if (id == null)
+            return null;
+        E entity = getEntity(id);
+        if (entity == null)
+            entity = createEntity(id);
+        return entity;
     }
 
     default <E extends Entity> E copyEntity(E entity) {
@@ -61,7 +111,6 @@ public interface EntityStore {
         return copy;
     }
 
-    //void markExternalEntity(Entity entity);
 
     // EntityList management
 
@@ -85,9 +134,14 @@ public interface EntityStore {
 
     String getEntityClassesCountReport();
 
+
     // Factory
 
     static EntityStore create(DataSourceModel dataSourceModel) {
         return new EntityStoreImpl(dataSourceModel);
+    }
+
+    static EntityStore createAbove(EntityStore underlyingStore) {
+        return new EntityStoreImpl(underlyingStore);
     }
 }

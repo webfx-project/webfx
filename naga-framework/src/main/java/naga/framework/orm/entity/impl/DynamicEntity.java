@@ -5,6 +5,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
+import naga.platform.spi.Platform;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +46,11 @@ public class DynamicEntity implements Entity {
             foreignEntityId = (EntityId) foreignFieldValue;
         else if (foreignFieldValue instanceof Entity) {
             Entity entity = (Entity) foreignFieldValue;
-            if (entity.getStore() != getStore())
-                getStore().copyEntity(entity); // Is it ok to copy or should we keep external references (id -> external entity map)
             foreignEntityId = entity.getId();
+            if (entity.getStore() != store && store.getEntity(foreignEntityId) == null) {
+                store.copyEntity(entity);
+                Platform.log("Warning: this foreign entity has been copied into the store otherwise it was not accessible: " + entity); //store.copyEntity(entity);
+            }
         }
         else {
             Object foreignClass = getDomainClass().getForeignClass(foreignFieldId);
@@ -87,13 +90,7 @@ public class DynamicEntity implements Entity {
     }
 
     public void copyAllFieldsFrom(Entity entity) {
-        fieldValues.putAll(((DynamicEntity) entity).fieldValues);
-        EntityStore thisStore = getStore();
-        EntityStore entityStore = entity.getStore();
-        if (thisStore != entityStore) {
-            for (Object fieldValue : fieldValues.values())
-                if (fieldValue instanceof EntityId)
-                    thisStore.copyEntity(entityStore.getEntity((EntityId) fieldValue));
-        }
+        DynamicEntity dynamicEntity = (DynamicEntity) entity;
+        fieldValues.putAll(dynamicEntity.fieldValues);
     }
 }
