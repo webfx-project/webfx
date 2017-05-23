@@ -27,9 +27,22 @@ public interface I18n {
 
     default String instantTranslate(Object key) {
         Dictionary dictionary = getDictionary();
-        String message = dictionary == null ? null : dictionary.getMessage(key);
-        if (message == null)
-            message = notFoundTranslation(key);
+        String message = null;
+        if (dictionary != null && key != null) {
+            message = dictionary.getMessage(key);
+            if (message == null) {
+                String sKey = Strings.asString(key);
+                int length = sKey.length();
+                if (length > 1) {
+                    char lastChar = sKey.charAt(length - 1);
+                    switch (lastChar) {
+                        case ':': message = instantTranslate(sKey.substring(0, length - 1)) + instantTranslate(":");
+                    }
+                }
+                if (message == null)
+                    message = notFoundTranslation(key);
+            }
+        }
         return message;
     }
 

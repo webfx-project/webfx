@@ -237,5 +237,6 @@
   "DECEMBER": "Décembre",
   "CloneEvent": "Clôner l'événement",
   "Clone": "Clôner",
-  "EditMode": "Mode édition"
+  "EditMode": "Mode édition",
+  ":" : " :"
 }
