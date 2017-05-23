@@ -166,4 +166,14 @@ public interface EventServiceMixin extends EventService {
     default WorkingDocument getWorkingDocument() {
         return getEventService().getWorkingDocument();
     }
+
+    @Override
+    default void setCurrentCart(Cart currentCart) {
+        getEventService().setCurrentCart(currentCart);
+    }
+
+    @Override
+    default Cart getCurrentCart() {
+        return getEventService().getCurrentCart();
+    }
 }

@@ -56,6 +56,7 @@ class EventServiceImpl implements EventService {
     private final DataSourceModel dataSourceModel;
     private final EntityStore store;
     private Event event;
+    private Cart currentCart;
     private PersonService personService;
 
     EventServiceImpl(Object eventId, DataSourceModel dataSourceModel) {
@@ -307,5 +308,15 @@ class EventServiceImpl implements EventService {
         if (workingDocument == null && selectedOptionsPreselection != null)
             workingDocument = selectedOptionsPreselection.getWorkingDocument();
         return workingDocument;
+    }
+
+    @Override
+    public Cart getCurrentCart() {
+        return currentCart;
+    }
+
+    @Override
+    public void setCurrentCart(Cart currentCart) {
+        this.currentCart = currentCart;
     }
 }

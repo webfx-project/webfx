@@ -33,6 +33,10 @@ public interface EventService {
         return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
     }
 
+    static EventService getOrCreateFromDocument(Document document) {
+        return getOrCreate(document.getEventId().getPrimaryKey(), document.getStore().getDataSourceModel());
+    }
+
     DataSourceModel getEventDataSourceModel();  // Note: simply calling it getDataSourceModel() would cause a mixin clash with DomainActivityContextMixin in BookingProcessActivity
 
     PersonService getPersonService();
@@ -126,5 +130,9 @@ public interface EventService {
     void setWorkingDocument(WorkingDocument workingDocument);
 
     WorkingDocument getWorkingDocument();
+
+    void setCurrentCart(Cart currentCart);
+
+    Cart getCurrentCart();
 
 }

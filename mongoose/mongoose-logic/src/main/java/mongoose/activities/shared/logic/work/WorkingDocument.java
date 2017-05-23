@@ -314,8 +314,11 @@ public class WorkingDocument {
         else {
             du = store.insertEntity(Document.class);
             du.setEvent(eventService.getEvent());
-            Cart cart = store.insertEntity(Cart.class);
-            cart.setUuid(UUID.randomUUID().toString());
+            Cart cart = eventService.getCurrentCart();
+            if (cart == null) {
+                cart = store.insertEntity(Cart.class);
+                cart.setUuid(UUID.randomUUID().toString());
+            }
             du.setCart(cart);
         }
         syncPersonDetails(document, du);
@@ -366,7 +369,7 @@ public class WorkingDocument {
     }
 
     public static Future<WorkingDocument> load(Document document) {
-        return load(EventService.getOrCreate(document.getEventId().getPrimaryKey(), document.getStore().getDataSourceModel()), document.getPrimaryKey());
+        return load(EventService.getOrCreateFromDocument(document), document.getPrimaryKey());
     }
 
     public static Future<WorkingDocument> load(EventService eventService, Object documentPk) {

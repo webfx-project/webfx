@@ -1,7 +1,7 @@
 package mongoose.activities.shared.application;
 
 import mongoose.actions.MongooseActions;
-import mongoose.activities.shared.book.cart.CartPresentationActivity;
+import mongoose.activities.shared.book.cart.CartViewActivity;
 import mongoose.activities.shared.book.event.fees.FeesPresentationActivity;
 import mongoose.activities.shared.book.event.options.OptionsViewActivity;
 import mongoose.activities.shared.book.event.person.PersonViewActivity;
@@ -47,7 +47,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
                 .route("/book/event/:eventId/options", OptionsViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/person", PersonViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/summary", SummaryViewActivity::new, ViewDomainActivityContextFinal::new)
-                .route("/book/cart/:cartUuid", CartPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                .route("/book/cart/:cartUuid", CartViewActivity::new, ViewDomainActivityContextFinal::new)
                 ;
     }
 
