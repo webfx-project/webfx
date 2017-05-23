@@ -35,6 +35,8 @@ public interface EventService {
 
     DataSourceModel getEventDataSourceModel();  // Note: simply calling it getDataSourceModel() would cause a mixin clash with DomainActivityContextMixin in BookingProcessActivity
 
+    PersonService getPersonService();
+
     // Event options loading method
 
     Future<EntityList<Option>> onEventOptions();

@@ -1,10 +1,9 @@
 package mongoose.services;
 
 import mongoose.entities.Person;
-import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.orm.entity.UpdateStore;
+import naga.framework.orm.entity.EntityStore;
 
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 
 /**
@@ -12,30 +11,25 @@ import java.util.Map;
  */
 class PersonServiceImpl implements PersonService {
 
-    private static Map<Object, PersonService> services = new HashMap<>();
+    private static Map<Object, PersonService> services = new IdentityHashMap<>();
 
-    static PersonService get(DataSourceModel dataSourceModel) {
-        return services.get(dataSourceModel.getId());
+    static PersonService get(EntityStore store) {
+        return services.get(store);
     }
 
-    static PersonService getOrCreate(DataSourceModel dataSourceModel) {
-        PersonService service = get(dataSourceModel);
+    static PersonService getOrCreate(EntityStore store) {
+        PersonService service = get(store);
         if (service == null)
-            services.put(dataSourceModel.getId(), service = new PersonServiceImpl(dataSourceModel));
+            services.put(store, service = new PersonServiceImpl(store));
         return service;
     }
 
-    private final DataSourceModel dataSourceModel;
+    private final EntityStore store;
     private Person preselectionProfilePerson;
 
-    public PersonServiceImpl(DataSourceModel dataSourceModel) {
-        this.dataSourceModel = dataSourceModel;
-        UpdateStore store = UpdateStore.create(dataSourceModel);
-        preselectionProfilePerson = store.insertEntity(Person.class);
-    }
-
-    public DataSourceModel getDataSourceModel() {
-        return dataSourceModel;
+    public PersonServiceImpl(EntityStore store) {
+        this.store = store;
+        preselectionProfilePerson = store.createEntity(Person.class);
     }
 
     @Override

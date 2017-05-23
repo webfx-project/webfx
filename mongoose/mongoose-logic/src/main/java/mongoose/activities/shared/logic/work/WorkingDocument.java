@@ -8,7 +8,6 @@ import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
 import mongoose.services.EventService;
-import mongoose.services.PersonService;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
@@ -23,12 +22,12 @@ import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.services.update.UpdateResult;
 import naga.platform.spi.Platform;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,7 +42,7 @@ public class WorkingDocument {
     private WorkingDocument loadedWorkingDocument;
 
     public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
-        this(eventService, PersonService.getOrCreate(eventService.getEventDataSourceModel()).getPreselectionProfilePerson(), workingDocumentLines);
+        this(eventService, eventService.getPersonService().getPreselectionProfilePerson(), workingDocumentLines);
     }
 
     public WorkingDocument(EventService eventService, WorkingDocument wd, List<WorkingDocumentLine> workingDocumentLines) {
@@ -64,6 +63,10 @@ public class WorkingDocument {
 
     public EventService getEventService() {
         return eventService;
+    }
+
+    public WorkingDocument getLoadedWorkingDocument() {
+        return loadedWorkingDocument;
     }
 
     public Document getDocument() {
@@ -303,15 +306,17 @@ public class WorkingDocument {
         return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
     }
 
-    public Future<Batch<UpdateResult>> submit() {
+    public Future<Document> submit(String comment) {
         UpdateStore store = getUpdateStore();
         Document du;
-        if (loadedWorkingDocument == null) {
+        if (loadedWorkingDocument != null)
+            du = store.updateEntity(loadedWorkingDocument.getDocument());
+        else {
             du = store.insertEntity(Document.class);
             du.setEvent(eventService.getEvent());
-        } else {
-            du = store.updateEntity(loadedWorkingDocument.getDocument());
-            //syncLineInfoFrom(loadedWorkingDocument.getWorkingDocumentLines());
+            Cart cart = store.insertEntity(Cart.class);
+            cart.setUuid(UUID.randomUUID().toString());
+            du.setCart(cart);
         }
         syncPersonDetails(document, du);
         for (WorkingDocumentLine wdl : workingDocumentLines) {
@@ -351,26 +356,31 @@ public class WorkingDocument {
             for (WorkingDocumentLine lastWdl : loadedWorkingDocument.getWorkingDocumentLines()) {
                 if (findSameWorkingDocumentLine(lastWdl) == null)
                     removeLine(lastWdl.getDocumentLine());
-            }         
-        return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", null, false, eventService.getEventDataSourceModel().getId())});
+            }
+        return store.executeUpdate(new UpdateArgument[]{new UpdateArgument("select set_transaction_parameters(false)", null, false, eventService.getEventDataSourceModel().getId())})
+                .map(batch -> du);
     }
 
     private void removeLine(DocumentLine dl) {
         getUpdateStore().deleteEntity(dl); // TODO: should probably be cancelled instead in some cases (and keep the non refundable part)
     }
 
-    public static Future<WorkingDocument> load(EventService eventService, Document document) {
+    public static Future<WorkingDocument> load(Document document) {
+        return load(EventService.getOrCreate(document.getEventId().getPrimaryKey(), document.getStore().getDataSourceModel()), document.getPrimaryKey());
+    }
+
+    public static Future<WorkingDocument> load(EventService eventService, Object documentPk) {
         DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
         SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=?");
         SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document=? order by date");
-        Object[] documentIdParameter = {document.getId().getPrimaryKey()};
+        Object[] documentPkParameter = {documentPk};
         Future<Batch<QueryResultSet>> queryBatchFuture;
         return Future.allOf(eventService.onFeesGroups(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
                 new Batch<>(new QueryArgument[]{
-                        new QueryArgument(sqlCompiled1.getSql(), documentIdParameter, dataSourceId),
-                        new QueryArgument(sqlCompiled2.getSql(), documentIdParameter, dataSourceId)
+                        new QueryArgument(sqlCompiled1.getSql(), documentPkParameter, dataSourceId),
+                        new QueryArgument(sqlCompiled2.getSql(), documentPkParameter, dataSourceId)
                 })
         )).compose(v -> {
             Batch<QueryResultSet> b = queryBatchFuture.result();
@@ -380,7 +390,7 @@ public class WorkingDocument {
             List<WorkingDocumentLine> wdls = new ArrayList<>();
             for (DocumentLine dl : dls)
                 wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
-            WorkingDocument wd = new WorkingDocument(eventService, (Document) store.getEntity(document.getId()), wdls);
+            WorkingDocument wd = new WorkingDocument(eventService, store.getEntity(Document.class, documentPk), wdls);
             WorkingDocument wd2 = new WorkingDocument(eventService, wd, new ArrayList<>(wdls));
             wd2.loadedWorkingDocument = wd;
             return Future.succeededFuture(wd2);

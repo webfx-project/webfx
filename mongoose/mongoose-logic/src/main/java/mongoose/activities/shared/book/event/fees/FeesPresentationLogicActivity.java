@@ -13,7 +13,6 @@ import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
-import mongoose.services.PersonService;
 import naga.commons.type.SpecializedTextType;
 import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
@@ -145,11 +144,10 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates ?   i18n.instantTranslateText(new RadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate ?  i18n.instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates   ? i18n.instantTranslateText(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate  ? i18n.instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
         RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
-        PersonService personService = PersonService.get(getDataSourceModel());
-        Person person = personService.getPreselectionProfilePerson();
+        Person person = getPersonService().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));
             unemployedRadio.selectedProperty().addListener((observable, oldValue, unemployed) -> {

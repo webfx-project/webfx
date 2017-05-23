@@ -16,7 +16,7 @@ import naga.fx.spi.Toolkit;
 public class Properties {
 
     public static void runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        runnable.accept(null);
+        runnable.accept(properties.length == 1 ? properties[0] : null);
         runOnPropertiesChange(runnable, properties);
     }
 

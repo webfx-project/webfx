@@ -45,7 +45,7 @@ public class EditableBookingCalendar extends BookingCalendar {
                             // Creating an update store
                             UpdateStore store = UpdateStore.create(workingDocument.getEventService().getEventDataSourceModel());
                             // Creating an instance of Option entity
-                            Option updatingOption = store.getOrCreateEntity(option.getId());
+                            Option updatingOption = store.updateEntity(option);
                             // Updating the option time range
                             updatingOption.setTimeRange(newDayTimeRange.getText());
                             // Asking the update record this change in the database

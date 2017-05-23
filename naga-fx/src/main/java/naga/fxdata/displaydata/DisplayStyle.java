@@ -13,5 +13,6 @@ public interface DisplayStyle {
 
     DisplayStyle NO_STYLE = new DisplayStyleImpl();
     DisplayStyle CENTER_STYLE = new DisplayStyleImpl(null, "center");
+    DisplayStyle RIGHT_STYLE = new DisplayStyleImpl(null, "right");
 
 }

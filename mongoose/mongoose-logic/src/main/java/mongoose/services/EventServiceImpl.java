@@ -35,20 +35,28 @@ class EventServiceImpl implements EventService {
     private static Map<Object, EventService> services = new HashMap<>();
 
     static EventService get(Object eventId) {
-        return EventServiceImpl.services.get(eventId);
+        return EventServiceImpl.services.get(toKey(eventId));
     }
 
     static EventService getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
-        EventService service = get(eventId);
+        Object key = toKey(eventId);
+        EventService service = get(key);
         if (service == null)
-            EventServiceImpl.services.put(eventId, service = new EventServiceImpl(eventId, dataSourceModel));
+            EventServiceImpl.services.put(key, service = new EventServiceImpl(eventId, dataSourceModel));
         return service;
+    }
+
+    private static Object toKey(Object eventId) {
+        if (eventId instanceof Number)
+            eventId = eventId.toString();
+        return eventId;
     }
 
     private final Object eventId;
     private final DataSourceModel dataSourceModel;
     private final EntityStore store;
     private Event event;
+    private PersonService personService;
 
     EventServiceImpl(Object eventId, DataSourceModel dataSourceModel) {
         this.eventId = eventId;
@@ -59,6 +67,13 @@ class EventServiceImpl implements EventService {
     @Override
     public DataSourceModel getEventDataSourceModel() {
         return dataSourceModel;
+    }
+
+    @Override
+    public PersonService getPersonService() {
+        if (personService == null)
+            personService = PersonService.getOrCreate(store);
+        return personService;
     }
 
     // Event options loading method

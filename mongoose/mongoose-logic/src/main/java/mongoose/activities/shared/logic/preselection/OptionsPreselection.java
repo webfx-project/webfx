@@ -8,7 +8,6 @@ import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
-import mongoose.services.PersonService;
 import mongoose.util.Labels;
 import naga.commons.util.Booleans;
 import naga.commons.util.collection.Collections;
@@ -45,7 +44,7 @@ public class OptionsPreselection {
         if (workingDocument == null)
             workingDocument = createNewWorkingDocument(null);
         else
-            workingDocument.syncPersonDetails(PersonService.get(eventService.getEventDataSourceModel()).getPreselectionProfilePerson());
+            workingDocument.syncPersonDetails(eventService.getPersonService().getPreselectionProfilePerson());
         return workingDocument;
     }
 

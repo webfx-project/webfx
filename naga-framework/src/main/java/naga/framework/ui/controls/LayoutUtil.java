@@ -101,6 +101,15 @@ public class LayoutUtil {
         return region;
     }
 
+    public static <N extends Region> N setMinHeightToPref(N region) {
+        return setMinHeight(region, USE_PREF_SIZE);
+    }
+
+    public static <N extends Region> N setMinHeight(N region, double value) {
+        region.setMinHeight(value);
+        return region;
+    }
+
     public static <N extends Node> N setUnmanagedWhenInvisible(N node) {
         node.managedProperty().bind(node.visibleProperty());
         return node;
