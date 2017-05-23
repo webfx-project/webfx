@@ -5,6 +5,7 @@ import mongoose.entities.markers.EntityHasEvent;
 import mongoose.entities.markers.EntityHasPerson;
 import mongoose.entities.markers.EntityHasPersonDetailsCopy;
 import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon
@@ -19,4 +20,16 @@ public interface Document extends Entity, EntityHasEvent, EntityHasCancelled, En
         return getIntegerFieldValue("ref");
     }
 
+    default void setCart(Object cart) {
+        setForeignField("cart", cart);
+    }
+
+    default EntityId getCartId() {
+        return getForeignEntityId("cart");
+    }
+
+    default Cart getCart() {
+        return getForeignEntity("cart");
+    }
+    
 }
