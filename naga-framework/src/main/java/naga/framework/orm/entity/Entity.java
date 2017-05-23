@@ -113,6 +113,10 @@ public interface Entity {
         return getStore().getEntity(getForeignEntityId(foreignFieldId));
     }
 
+    default Object evaluate(String expression) {
+        return getStore().evaluateEntityExpression(this, expression);
+    }
+
     default Object evaluate(Expression expression) {
         return getStore().evaluateEntityExpression(this, expression);
     }

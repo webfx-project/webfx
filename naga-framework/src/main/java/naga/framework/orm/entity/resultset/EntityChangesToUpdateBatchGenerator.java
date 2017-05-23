@@ -13,6 +13,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainField;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.EntityId;
+import naga.framework.orm.entity.EntityStore;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
@@ -90,9 +91,9 @@ public class EntityChangesToUpdateBatchGenerator {
             return new Batch<>(updateArguments.toArray(new UpdateArgument[updateArguments.size()]));
         }
 
-        public void applyGeneratedKeys(Batch<UpdateResult> ar) {
+        public void applyGeneratedKeys(Batch<UpdateResult> ar, EntityStore store) {
             for (Map.Entry<EntityId, Integer> entry : getNewEntityIdInsertBatchIndexes().entrySet())
-                entry.getKey().setGeneratedKey(ar.getArray()[entry.getValue()].getGeneratedKeys()[0]);
+                store.applyEntityIdRefactor(entry.getKey(), EntityId.create(entry.getKey().getDomainClass(), ar.getArray()[entry.getValue()].getGeneratedKeys()[0]));
         }
 
         public Map<EntityId, Integer> getNewEntityIdInsertBatchIndexes() {
@@ -102,10 +103,12 @@ public class EntityChangesToUpdateBatchGenerator {
         void sortStatementsByCreationOrder() {
             int size = updateArguments.size();
             int sorted = 0;
-            List<UpdateArgument> sortedList = new ArrayList<>(updateArguments);
+            List<UpdateArgument> sortedList = new ArrayList<>(size);
+            for (int i = 0; i < size; i++)
+                sortedList.add(null);
             while (sorted < size) {
                 boolean someResolved = false;
-                for (int batchIndex = 0; batchIndex < size; batchIndex++) {
+                loop: for (int batchIndex = 0; batchIndex < size; batchIndex++) {
                     UpdateArgument arg = updateArguments.get(batchIndex);
                     if (arg != null) {
                         Object[] parameters = arg.getParameters();
@@ -117,12 +120,20 @@ public class EntityChangesToUpdateBatchGenerator {
                                     parameters[parameterIndex] = entityId.getPrimaryKey();
                                 else {
                                     Integer insertIndex = newEntityIdInsertBatchIndexes.get(entityId);
-                                    if (insertIndex >= sorted)
-                                        break;
+                                    if (sortedList.get(insertIndex) == null)
+                                        continue loop;
                                     parameters[parameterIndex] = new GeneratedKeyBatchIndex(insertIndex);
                                 }
                             }
                         }
+                        if (batchIndex > sorted)
+                            for (Map.Entry<EntityId, Integer> entry : newEntityIdInsertBatchIndexes.entrySet()) {
+                                Integer insertIndex = entry.getValue();
+                                if (insertIndex == batchIndex)
+                                    entry.setValue(sorted);
+                                else if (insertIndex < batchIndex && updateArguments.get(insertIndex) != null)
+                                    entry.setValue(insertIndex + 1);
+                            }
                         sortedList.set(sorted++, arg);
                         updateArguments.set(batchIndex, null);
                         someResolved = true;
@@ -176,7 +187,7 @@ public class EntityChangesToUpdateBatchGenerator {
                             assignments.add(new Equals(field, Parameter.UNNAMED_PARAMETER));
                             values.add(rs.getFieldValue(id, fieldId));
                         }
-                    if (assignments.isEmpty())
+                    if (assignments.isEmpty() && !id.isNew())
                         continue;
                     ExpressionArray setClause = new ExpressionArray(assignments);
                     if (id.isNew()) { // insert statement

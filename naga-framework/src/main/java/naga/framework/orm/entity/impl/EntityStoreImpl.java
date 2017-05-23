@@ -40,6 +40,15 @@ public class EntityStoreImpl implements EntityStore {
         return dataSourceModel;
     }
 
+    @Override
+    public void applyEntityIdRefactor(EntityId oldId, EntityId newId) {
+        Entity entity = entities.get(oldId); // entities.remove(oldId);
+        if (entity != null)
+            entities.put(newId, entity);
+        for (Entity e : entities.values())
+            ((DynamicEntity) e).refactorId(oldId, newId);
+    }
+
     // Entity management
 
     @Override

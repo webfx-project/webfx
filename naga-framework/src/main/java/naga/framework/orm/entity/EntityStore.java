@@ -38,6 +38,8 @@ public interface EntityStore {
         return EntityId.create(domainClass, primaryKey);
     }
 
+    void applyEntityIdRefactor(EntityId oldId, EntityId newId);
+
 
     // Entity management
 
@@ -122,6 +124,10 @@ public interface EntityStore {
 
 
     // Expression evaluation
+
+    default Object evaluateEntityExpression(Entity entity, String expression) {
+        return evaluateEntityExpression(entity, getDataSourceModel().getDomainModel().parseExpression(expression, entity.getDomainClass().getId()));
+    }
 
     Object evaluateEntityExpression(Entity entity, Expression expression);
 

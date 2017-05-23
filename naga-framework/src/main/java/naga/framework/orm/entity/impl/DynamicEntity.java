@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class DynamicEntity implements Entity {
 
-    private final EntityId id;
+    private EntityId id;
     private final EntityStore store;
     private final Map<Object, Object> fieldValues = new HashMap<>();
 
@@ -27,6 +27,14 @@ public class DynamicEntity implements Entity {
     @Override
     public EntityId getId() {
         return id;
+    }
+
+    void refactorId(EntityId oldId, EntityId newId) {
+        if (id.equals(oldId))
+            id = newId;
+        for (Map.Entry entry : fieldValues.entrySet())
+            if (oldId.equals(entry.getValue()))
+                entry.setValue(newId);
     }
 
     @Override

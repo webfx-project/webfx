@@ -90,7 +90,7 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
             Future<Batch<UpdateResult>> next = Future.future();
             return Platform.getUpdateService().executeUpdateBatch(batch).compose(ar -> {
                 markChangesAsCommitted();
-                updateBatchGenerator.applyGeneratedKeys(ar);
+                updateBatchGenerator.applyGeneratedKeys(ar, this);
                 next.complete(ar);
             }, next);
         } catch (Exception e) {
