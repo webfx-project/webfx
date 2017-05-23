@@ -1,7 +1,6 @@
 package mongoose.activities.shared.book.event.shared;
 
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -17,6 +16,7 @@ import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.AggregateFunction;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fx.properties.Properties;
@@ -39,9 +39,7 @@ public class BookingOptionsPanel {
 
     public BookingOptionsPanel(I18n i18n) {
         this.i18n = i18n;
-        dataGrid = new DataGrid();
-        dataGrid.prefHeightProperty().bind(dataGrid.minHeightProperty());
-        dataGrid.maxHeightProperty().bind(dataGrid.minHeightProperty());
+        dataGrid = LayoutUtil.setPrefMaxHeightToMin(new DataGrid());
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override
             public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {
@@ -106,7 +104,7 @@ public class BookingOptionsPanel {
     public BorderPane getOptionsPanel() {
         if (optionsPanel == null) {
             optionsPanel = HighLevelComponents.createSectionPanel(null, null, "YourOptions", i18n);
-            optionsPanel.setCenter(new VBox(getGrid())); // VBox is only here to make the grid fit its height (see FxDataGridPeer)
+            optionsPanel.setCenter(getGrid());
         }
         return optionsPanel;
     }

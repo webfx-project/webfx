@@ -157,7 +157,6 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
             if (ar.failed())
                 Platform.log("Error submitting booking", ar.cause());
             else {
-                //Platform.log("Document id = " + getWorkingDocument().getDocument().getId());
                 Document document = ar.result();
                 Cart cart = document.getCart();
                 if (cart == null) {

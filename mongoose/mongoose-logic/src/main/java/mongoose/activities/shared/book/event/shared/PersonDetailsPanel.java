@@ -166,10 +166,7 @@ public class PersonDetailsPanel {
         //rsb.setValue(5, 1, model.getPostCode());
         rsb.setValue(5, 2, i18n.instantTranslate("Country:"));
         rsb.setValue(5, 3, model.getCountryName());
-        DataGrid dataGrid = new DataGrid(rsb.build());
-        dataGrid.prefHeightProperty().bind(dataGrid.minHeightProperty());
-        dataGrid.maxHeightProperty().bind(dataGrid.minHeightProperty());
-        return new VBox(dataGrid); // VBox is only here to make the grid fit its height (see FxDataGridPeer)
+        return LayoutUtil.setPrefMaxHeightToMin(new DataGrid(rsb.build()));
     }
 
     public void syncUiFromModel(HasPersonDetails p) {

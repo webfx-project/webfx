@@ -18,6 +18,7 @@ import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
 import naga.framework.orm.entity.EntityList;
+import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
@@ -186,7 +187,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private Node renderFeesGroupBody(DisplayResultSet rs) {
-        return new DataGrid(rs);
+        return LayoutUtil.setPrefMaxHeightToMin(new DataGrid(rs));
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {

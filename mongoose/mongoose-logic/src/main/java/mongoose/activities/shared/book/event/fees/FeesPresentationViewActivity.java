@@ -10,6 +10,7 @@ import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
+import naga.framework.ui.controls.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
 /**
@@ -26,11 +27,11 @@ public class FeesPresentationViewActivity extends BookingProcessPresentationView
         Button termsButton = newButton(MongooseActions.newVisitTermsAndConditionsAction(null));
         Button programButton = newButton(MongooseActions.newVisitProgramAction(null));
         feesGroupsCollator = new GridCollator(this::toFeesGroupPanel, nodes -> {
-            VBox vBox = new VBox(nodes);
+            VBox vBox = new VBox(20, nodes);
             vBox.setPadding(new Insets(10));
             return vBox;
         });
-        buttonsBox = new HBox(previousButton, termsButton, programButton);
+        buttonsBox = new HBox(previousButton, LayoutUtil.createHGrowable(), termsButton, programButton);
 
         termsButton.onActionProperty().bind(pm.onTermsActionProperty());
         programButton.onActionProperty().bind(pm.onProgramActionProperty());
@@ -39,7 +40,7 @@ public class FeesPresentationViewActivity extends BookingProcessPresentationView
 
     @Override
     protected Node assemblyViewNodes() {
-        return new BorderPane(feesGroupsCollator, null, null, buttonsBox, null);
+        return new BorderPane(LayoutUtil.createVerticalScrollPane(feesGroupsCollator), null, null, buttonsBox, null);
     }
 
     private Node toFeesGroupPanel(Node... nodes) {

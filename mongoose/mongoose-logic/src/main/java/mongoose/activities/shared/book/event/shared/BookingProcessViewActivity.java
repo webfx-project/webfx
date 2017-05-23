@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
+import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 
 /**
@@ -39,7 +40,7 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
         previousButton.setOnAction(this::onPreviousButtonPressed);
         nextButton.setOnAction(this::onNextButtonPressed);
 
-        borderPane = new BorderPane(null, null, null, new HBox(previousButton, nextButton), null);
+        borderPane = new BorderPane(null, null, null, new HBox(previousButton, LayoutUtil.createHGrowable(), nextButton), null);
     }
 
     protected Node assemblyViewNodes() {

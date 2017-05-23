@@ -12,10 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
+import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fx.util.ImageStore;
 import naga.fxdata.cell.rowstyle.RowAdapter;
@@ -110,11 +110,11 @@ public class FxDataGridPeer
                 tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
                 Toolkit.get().scheduler().scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
             }
-            // Workaround to make the table height fit with its content if it is not within a BorderPane
-            if (!(getNode().getParent() instanceof BorderPane)) {
-                tableView.prefHeightProperty().bind(getNode().prefHeightProperty());
-                tableView.minHeightProperty().bind(getNode().minHeightProperty());
-                tableView.maxHeightProperty().bind(getNode().maxHeightProperty());
+            tableView.prefHeightProperty().bind(getNode().prefHeightProperty());
+            tableView.minHeightProperty().bind(getNode().minHeightProperty());
+            tableView.maxHeightProperty().bind(getNode().maxHeightProperty());
+            // Workaround to make the table height fit with its content
+            if (getNode().maxHeightProperty().isBound()) { // ugly trick: we recognize it is necessary only when LayoutUtil.setPrefMaxHeightToMin() has been called so max size is bound to min size
                 fitHeightToContent(tableView, getNode());
                 addStylesheet("css/tableview-no-vertical-scrollbar.css");
                 addStylesheet("css/tableview-no-horizontal-scrollbar.css");
@@ -242,7 +242,7 @@ public class FxDataGridPeer
                         nodePrefHeight = node.prefHeight(-1);
                     h += nodePrefHeight;
                 }
-                dataGrid.setMinHeight(h);
+                Properties.setIfNotBound(dataGrid.minHeightProperty(), h);
             }
         }
     }
