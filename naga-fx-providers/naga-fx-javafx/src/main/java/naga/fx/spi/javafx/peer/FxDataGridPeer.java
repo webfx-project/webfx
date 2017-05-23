@@ -112,7 +112,10 @@ public class FxDataGridPeer
             }
             // Workaround to make the table height fit with its content if it is not within a BorderPane
             if (!(getNode().getParent() instanceof BorderPane)) {
-                fitHeightToContent(tableView);
+                tableView.prefHeightProperty().bind(getNode().prefHeightProperty());
+                tableView.minHeightProperty().bind(getNode().minHeightProperty());
+                tableView.maxHeightProperty().bind(getNode().maxHeightProperty());
+                fitHeightToContent(tableView, getNode());
                 addStylesheet("css/tableview-no-vertical-scrollbar.css");
                 addStylesheet("css/tableview-no-horizontal-scrollbar.css");
             }
@@ -138,6 +141,8 @@ public class FxDataGridPeer
         gridColumn.setGraphic(ImageStore.createLabelIconImageView(label));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();
         if (prefWidth != null) {
+            if (prefWidth > 24)
+                prefWidth *= 1.3;
             prefWidth = prefWidth + 10; // because of the 5px left and right padding
             gridColumn.setPrefWidth(prefWidth);
             gridColumn.setMinWidth(prefWidth);
@@ -199,7 +204,7 @@ public class FxDataGridPeer
         return base.getRowBackground(value);
     }
 
-    private static void fitHeightToContent(final Control control) {
+    private static void fitHeightToContent(final Control control, DataGrid dataGrid) {
         // Quick ugly hacked code to make the table height fit with the content
         Skin<?> skin = control.getSkin();
         if (skin == null)
@@ -207,7 +212,7 @@ public class FxDataGridPeer
                 @Override
                 public void changed(ObservableValue<? extends Skin<?>> observableValue, Skin<?> skin, Skin<?> skin2) {
                     control.skinProperty().removeListener(this);
-                    fitHeightToContent(control);
+                    fitHeightToContent(control, dataGrid);
                 }
             });
         else {
@@ -237,7 +242,7 @@ public class FxDataGridPeer
                         nodePrefHeight = node.prefHeight(-1);
                     h += nodePrefHeight;
                 }
-                control.setMinHeight(h);
+                dataGrid.setMinHeight(h);
             }
         }
     }
