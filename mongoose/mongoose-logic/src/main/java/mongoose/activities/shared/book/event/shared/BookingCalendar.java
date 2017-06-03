@@ -7,7 +7,6 @@ import javafx.scene.Node;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
@@ -87,7 +86,7 @@ public class BookingCalendar {
                 perf.log("CalendarGraphic creation");
                 calendarNodeProperty.setValue(calendarGraphic.getNode());
                 perf.log("CalendarNode set");
-                computeAndDisplayWorkingTotalPrice();
+                displayWorkingTotalPrice();
                 perf.log("Price computation");
             });
         }
@@ -157,8 +156,8 @@ public class BookingCalendar {
         createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
     }
 
-    private void computeAndDisplayWorkingTotalPrice() {
-        int documentPrice = DocumentPricing.computeDocumentPrice(workingDocument);
+    private void displayWorkingTotalPrice() {
+        int documentPrice = workingDocument.getComputedPrice();
         bookingPrice.setValue(documentPrice);
         formattedBookingPrice.setValue(PriceFormatter.formatWithCurrency(documentPrice, workingDocument.getEventService().getEvent()));
     }

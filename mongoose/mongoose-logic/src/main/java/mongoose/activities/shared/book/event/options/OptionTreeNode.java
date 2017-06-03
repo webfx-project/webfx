@@ -233,7 +233,9 @@ class OptionTreeNode {
         if (parent != null)
             tree.setLastSelectedChildOption(parent, option);
         //Doesn't work on Android: getWorkingDocument().getWorkingDocumentLines().removeIf(wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
-        Collections.removeIf(getWorkingDocument().getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
+        WorkingDocument workingDocument = getWorkingDocument();
+        Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
+        workingDocument.clearLinesCache();
         for (Option childOption: getChildrenOptions(option))
             removeOptionFromWorkingDocument(childOption);
     }

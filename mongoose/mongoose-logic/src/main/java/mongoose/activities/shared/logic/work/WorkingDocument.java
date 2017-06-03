@@ -1,5 +1,6 @@
 package mongoose.activities.shared.logic.work;
 
+import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
@@ -38,6 +39,7 @@ public class WorkingDocument {
     private final EventService eventService;
     private final Document document;
     private final List<WorkingDocumentLine> workingDocumentLines;
+    private Integer computedPrice;
     private UpdateStore updateStore;
     private WorkingDocument loadedWorkingDocument;
 
@@ -59,6 +61,12 @@ public class WorkingDocument {
         this.document = document;
         this.workingDocumentLines = workingDocumentLines;
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
+    }
+
+    public WorkingDocument(WorkingDocument loadedWorkingDocument) {
+        this(loadedWorkingDocument.getEventService(), createDocument(loadedWorkingDocument.getDocument()), new ArrayList<>(loadedWorkingDocument.getWorkingDocumentLines()));
+        //document.setCart(loadedWorkingDocument.getDocument().getCart());
+        this.loadedWorkingDocument = loadedWorkingDocument;
     }
 
     public EventService getEventService() {
@@ -141,6 +149,17 @@ public class WorkingDocument {
 
     public void clearLinesCache() {
         accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = null;
+        computedPrice = null;
+    }
+
+    public int getComputedPrice() {
+        if (computedPrice == null)
+            computedPrice = computePrice();
+        return computedPrice;
+    }
+
+    public int computePrice() {
+        return computedPrice = DocumentPricing.computeDocumentPrice(this);
     }
 
     //// Accommodation line
@@ -286,14 +305,6 @@ public class WorkingDocument {
         p2.setResident2(p1.isResident2());
     }
 
-    private void syncLineInfoFrom(List<WorkingDocumentLine> wdls) {
-        for (WorkingDocumentLine wdl : wdls) {
-            WorkingDocumentLine thisLine = findSameWorkingDocumentLine(wdl);
-            if (thisLine != null)
-                thisLine.syncInfoFrom(wdl);
-        }
-    }
-
     private WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
         for (WorkingDocumentLine thisWdl : getWorkingDocumentLines()) {
             if (sameLine(thisWdl, wdl))
@@ -380,23 +391,21 @@ public class WorkingDocument {
         SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document=? order by date");
         Object[] documentPkParameter = {documentPk};
         Future<Batch<QueryResultSet>> queryBatchFuture;
-        return Future.allOf(eventService.onFeesGroups(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
+        return Future.allOf(eventService.onEventOptions(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
                 new Batch<>(new QueryArgument[]{
                         new QueryArgument(sqlCompiled1.getSql(), documentPkParameter, dataSourceId),
                         new QueryArgument(sqlCompiled2.getSql(), documentPkParameter, dataSourceId)
                 })
         )).compose(v -> {
             Batch<QueryResultSet> b = queryBatchFuture.result();
-            EntityStore store = EntityStore.createAbove(eventService.getEvent().getStore());
+            EntityStore store = EntityStore.createAbove(eventService.getEventStore());
             EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
             EntityList<Attendance> as = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[1], sqlCompiled2.getQueryMapping(), store, "a");
             List<WorkingDocumentLine> wdls = new ArrayList<>();
             for (DocumentLine dl : dls)
                 wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
-            WorkingDocument wd = new WorkingDocument(eventService, store.getEntity(Document.class, documentPk), wdls);
-            WorkingDocument wd2 = new WorkingDocument(eventService, wd, new ArrayList<>(wdls));
-            wd2.loadedWorkingDocument = wd;
-            return Future.succeededFuture(wd2);
+            WorkingDocument loadedWorkingDocument = new WorkingDocument(eventService, store.getEntity(Document.class, documentPk), wdls);
+            return Future.succeededFuture(new WorkingDocument(loadedWorkingDocument));
         });
     }
 

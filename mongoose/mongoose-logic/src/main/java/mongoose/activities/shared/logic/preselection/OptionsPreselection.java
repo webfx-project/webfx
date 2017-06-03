@@ -1,6 +1,5 @@
 package mongoose.activities.shared.logic.preselection;
 
-import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
@@ -82,7 +81,7 @@ public class OptionsPreselection {
     }
 
     public int computePrice() {
-        return DocumentPricing.computeDocumentPrice(initializeNewWorkingDocument().applyBusinessRules());
+        return initializeNewWorkingDocument().applyBusinessRules().getComputedPrice();
     }
 
     public String getDisplayName(I18n i18n) {

@@ -57,6 +57,7 @@ public class BookingOptionsPanel {
 
     public void syncUiFromModel(WorkingDocument workingDocument) {
         registerFormatter("priceWithCurrency", new PriceFormatter(workingDocument.getEventService().getEvent()));
+        workingDocument.getComputedPrice(); // ensuring the price has been computed
         //Doesn't work on Android: syncUiFromModel(workingDocument.getWorkingDocumentLines().stream().map(BookingOptionsPanel::createDocumentLine).filter(Objects::nonNull).collect(Collectors.toList()), workingDocument.getDocument().getStore());
         syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.commons.util.Objects::nonNull), workingDocument.getDocument().getStore());
     }
