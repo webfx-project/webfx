@@ -9,6 +9,7 @@ import naga.commons.util.function.Predicate;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityStore;
 import naga.platform.services.query.QueryResultSet;
 
 import java.util.List;
@@ -23,6 +24,11 @@ public interface EventServiceMixin extends EventService {
     @Override
     default DataSourceModel getEventDataSourceModel() {
         return getEventService().getEventDataSourceModel();
+    }
+
+    @Override
+    default EntityStore getEventStore() {
+        return getEventService().getEventStore();
     }
 
     @Override

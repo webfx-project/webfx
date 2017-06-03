@@ -14,6 +14,7 @@ import naga.commons.util.function.Predicate;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
@@ -32,42 +33,55 @@ import java.util.Map;
  */
 class EventServiceImpl implements EventService {
 
-    private static Map<Object, EventService> services = new HashMap<>();
+    private final static Map<Object, EventService> services = new HashMap<>();
 
     static EventService get(Object eventId) {
-        return EventServiceImpl.services.get(toKey(eventId));
+        return services.get(toKey(eventId));
+    }
+
+    static EventService getOrCreate(Object eventId, EntityStore store) {
+        EventService service = get(eventId);
+        if (service == null) {
+            eventId = toKey(eventId);
+            services.put(eventId, service = new EventServiceImpl(eventId, store));
+        }
+        return service;
     }
 
     static EventService getOrCreate(Object eventId, DataSourceModel dataSourceModel) {
-        Object key = toKey(eventId);
-        EventService service = get(key);
+        EventService service = get(eventId);
         if (service == null)
-            EventServiceImpl.services.put(key, service = new EventServiceImpl(eventId, dataSourceModel));
+            service = getOrCreate(eventId, EntityStore.create(dataSourceModel));
         return service;
     }
 
     private static Object toKey(Object eventId) {
+        if (eventId instanceof EntityId)
+            eventId = ((EntityId) eventId).getPrimaryKey();
         if (eventId instanceof Number)
             eventId = eventId.toString();
         return eventId;
     }
 
     private final Object eventId;
-    private final DataSourceModel dataSourceModel;
     private final EntityStore store;
     private Event event;
     private Cart currentCart;
     private PersonService personService;
 
-    EventServiceImpl(Object eventId, DataSourceModel dataSourceModel) {
+    public EventServiceImpl(Object eventId, EntityStore store) {
         this.eventId = eventId;
-        this.dataSourceModel = dataSourceModel;
-        store = EntityStore.create(dataSourceModel);
+        this.store = store;
     }
 
     @Override
     public DataSourceModel getEventDataSourceModel() {
-        return dataSourceModel;
+        return store.getDataSourceModel();
+    }
+
+    @Override
+    public EntityStore getEventStore() {
+        return store;
     }
 
     @Override
@@ -184,6 +198,8 @@ class EventServiceImpl implements EventService {
 
     @Override
     public FeesGroup[] getFeesGroups() {
+        if (feesGroups == null)
+            createFeesGroups();
         return feesGroups;
     }
 
@@ -263,13 +279,13 @@ class EventServiceImpl implements EventService {
     }
 
     private Future<EntityList> executeEventQuery(EventQuery eventQuery) {
-        SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
+        SqlCompiled sqlCompiled = getEventDataSourceModel().getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
         return executeQuery(sqlCompiled.getSql(), eventQuery.parameters)
                 .map(rs ->  QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), store, eventQuery.listId));
     }
 
     private Future<QueryResultSet> executeQuery(String queryString, Object... parameters) {
-        return Platform.getQueryService().executeQuery(new QueryArgument(queryString, parameters, dataSourceModel.getId()));
+        return Platform.getQueryService().executeQuery(new QueryArgument(queryString, parameters, getEventDataSourceModel().getId()));
     }
 
     private static class EventQuery {

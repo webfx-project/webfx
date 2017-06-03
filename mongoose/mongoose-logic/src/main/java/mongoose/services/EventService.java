@@ -10,6 +10,7 @@ import naga.commons.util.function.Predicate;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityStore;
 import naga.platform.services.query.QueryResultSet;
 
 import java.util.List;
@@ -33,11 +34,17 @@ public interface EventService {
         return EventServiceImpl.getOrCreate(eventId, dataSourceModel);
     }
 
+    static EventService getOrCreate(Object eventId, EntityStore store) {
+        return EventServiceImpl.getOrCreate(eventId, store);
+    }
+
     static EventService getOrCreateFromDocument(Document document) {
-        return getOrCreate(document.getEventId().getPrimaryKey(), document.getStore().getDataSourceModel());
+        return getOrCreate(document.getEventId(), document.getStore());
     }
 
     DataSourceModel getEventDataSourceModel();  // Note: simply calling it getDataSourceModel() would cause a mixin clash with DomainActivityContextMixin in BookingProcessActivity
+
+    EntityStore getEventStore();
 
     PersonService getPersonService();
 
