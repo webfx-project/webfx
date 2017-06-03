@@ -550,7 +550,7 @@ public class ReactiveExpressionFilter {
             return selectedEntity;
         }
 
-        EntityList getCurrentEntityList() {
+        <E extends Entity> EntityList<E> getCurrentEntityList() {
             return getStore().getEntityList(listId);
         }
 

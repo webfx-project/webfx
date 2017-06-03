@@ -7,16 +7,14 @@ import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * @author Bruno Salmon
  */
-public class EntityListImpl<E extends Entity> implements EntityList<E> {
+public class EntityListImpl<E extends Entity> extends ArrayList<E> implements EntityList<E> {
 
     private final Object listId;
     private final EntityStore store;
-    private ArrayList<E> list = new ArrayList<>();
 
     public EntityListImpl(Object listId, EntityStore store) {
         this.listId = listId;
@@ -34,33 +32,8 @@ public class EntityListImpl<E extends Entity> implements EntityList<E> {
     }
 
     @Override
-    public int size() {
-        return list.size();
-    }
-
-    @Override
-    public E get(int index) {
-        return list.get(index);
-    }
-
-    @Override
-    public void clear() {
-        list.clear();
-    }
-
-    @Override
-    public void add(E entity) {
-        list.add(entity);
-    }
-
-    @Override
     public void orderBy(Expression<E>... orderExpressions) {
-        EntityList.orderBy(list, orderExpressions);
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        return list.iterator();
+        EntityList.orderBy(this, orderExpressions);
     }
 
     @Override

@@ -116,9 +116,9 @@ public interface EntityStore {
 
     // EntityList management
 
-    EntityList getEntityList(Object listId);
+    <E extends Entity> EntityList<E> getEntityList(Object listId);
 
-    EntityList getOrCreateEntityList(Object listId);
+    <E extends Entity> EntityList<E> getOrCreateEntityList(Object listId);
 
     void clearEntityList(Object listId);
 

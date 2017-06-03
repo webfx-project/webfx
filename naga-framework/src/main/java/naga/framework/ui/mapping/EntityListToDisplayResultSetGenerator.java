@@ -8,6 +8,7 @@ import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Select;
 import naga.framework.expression.terms.function.AggregateKey;
 import naga.framework.orm.domainmodel.DomainClass;
+import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityList;
@@ -22,6 +23,7 @@ import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.Label;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,11 +77,15 @@ public class EntityListToDisplayResultSetGenerator {
     }
 
     public static DisplayResultSet createDisplayResultSet(EntityList<? extends Entity> entityList, String columnsDefinition, Object classId, I18n i18n) {
-        ExpressionColumn[] columns = ExpressionColumn.fromJsonArray(columnsDefinition, entityList.getStore().getDataSourceModel().getDomainModel(), classId);
+        return createDisplayResultSet(entityList, columnsDefinition, entityList.getStore().getDataSourceModel().getDomainModel(), classId, i18n);
+    }
+
+    public static DisplayResultSet createDisplayResultSet(List<? extends Entity> entityList, String columnsDefinition, DomainModel domainModel, Object classId, I18n i18n) {
+        ExpressionColumn[] columns = ExpressionColumn.fromJsonArray(columnsDefinition, domainModel, classId);
         return createDisplayResultSet(entityList, columns, i18n);
     }
 
-    public static DisplayResultSet createDisplayResultSet(EntityList<? extends Entity> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
+    public static DisplayResultSet createDisplayResultSet(List<? extends Entity> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
         int rowCount = entityList == null ? 0 : entityList.size();
         int columnCount = Arrays.length(expressionColumns);
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);

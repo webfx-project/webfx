@@ -11,23 +11,11 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public interface EntityList<E extends Entity> extends Iterable<E> {
+public interface EntityList<E extends Entity> extends List<E> {
 
     Object getListId();
 
     EntityStore getStore();
-
-    int size();
-
-    default boolean isEmpty() {
-        return size() == 0;
-    }
-
-    E get(int index);
-
-    void clear();
-
-    void add(E entity);
 
     void orderBy(Expression<E>... orderExpressions);
 

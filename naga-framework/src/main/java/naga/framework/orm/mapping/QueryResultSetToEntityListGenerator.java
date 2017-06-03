@@ -13,7 +13,7 @@ import naga.platform.services.query.QueryResultSet;
  */
 public class QueryResultSetToEntityListGenerator {
 
-    public static EntityList createEntityList(QueryResultSet rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
+    public static <E extends Entity> EntityList<E> createEntityList(QueryResultSet rs, QueryRowToEntityMapping rowMapping, EntityStore store, Object listId) {
         //Platform.log("createEntityList()");
         // Creating an empty entity list in the store
         EntityList entityList = store.getOrCreateEntityList(listId);
