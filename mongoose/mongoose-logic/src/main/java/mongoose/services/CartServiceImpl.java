@@ -1,0 +1,180 @@
+package mongoose.services;
+
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.entities.Attendance;
+import mongoose.entities.Cart;
+import mongoose.entities.Document;
+import mongoose.entities.DocumentLine;
+import naga.commons.util.async.Batch;
+import naga.commons.util.async.Future;
+import naga.commons.util.collection.Collections;
+import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainModel;
+import naga.framework.orm.entity.EntityId;
+import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityStore;
+import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.QueryResultSet;
+import naga.platform.spi.Platform;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author Bruno Salmon
+ */
+class CartServiceImpl implements CartService {
+
+    private final static Map<Object, CartService> services = new HashMap<>();
+
+    private final EntityStore store;
+    private Object id;
+    private String uuid;
+    private Cart cart;
+    private List<Document> cartDocuments;
+    private List<WorkingDocument> cartWorkingDocuments;
+    private EntityList<?> cartPayments;
+    private EventService eventService;
+
+    public CartServiceImpl(Object cartIdOrUuid, EntityStore store) {
+        id = cartIdOrUuid instanceof String ? null : cartIdOrUuid;
+        uuid = cartIdOrUuid instanceof String ? (String) cartIdOrUuid : null;
+        this.store = store;
+    }
+
+    static CartService get(Object cartIdOrUuid) {
+        return services.get(toKey(cartIdOrUuid));
+    }
+
+    static CartService getOrCreate(Object cartIdOrUuid, EntityStore store) {
+        cartIdOrUuid = toKey(cartIdOrUuid);
+        CartService cartService = get(cartIdOrUuid);
+        if (cartService == null)
+            services.put(cartIdOrUuid, cartService = new CartServiceImpl(cartIdOrUuid, store));
+        return cartService;
+    }
+
+    static CartService getOrCreate(Object cartIdOrUuid, DataSourceModel dataSourceModel) {
+        return getOrCreate(cartIdOrUuid, EntityStore.create(dataSourceModel));
+    }
+
+    static CartService getOrCreateFromCart(Cart cart) {
+        CartService service = getOrCreate(cart.getId(), cart.getStore());
+        ((CartServiceImpl) service).setCart(cart);
+        return service;
+    }
+
+    static CartService getOrCreateFromDocument(Document document) {
+        return getOrCreateFromCart(document.getCart());
+    }
+
+    private static Object toKey(Object id) {
+        if (id instanceof EntityId)
+            id = ((EntityId) id).getPrimaryKey();
+        return id;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+        if (id == null)
+            services.put(id = toKey(cart.getId()), this);
+        if (uuid == null)
+            services.put(uuid = cart.getUuid(), this);
+    }
+
+    @Override
+    public Cart getCart() {
+        return cart;
+    }
+
+    @Override
+    public List<Document> getCartDocuments() {
+        return cartDocuments;
+    }
+
+    @Override
+    public List<WorkingDocument> getCartWorkingDocuments() {
+        return cartWorkingDocuments;
+    }
+
+    @Override
+    public EntityList<?> getCartPayments() {
+        return cartPayments;
+    }
+
+    @Override
+    public void unload() {
+        cartDocuments = null;
+        cartWorkingDocuments = null;
+        cartPayments = null;
+    }
+
+    @Override
+    public Future<Cart> onCart() {
+        if (cart != null && cartDocuments != null)
+            return Future.succeededFuture(cart);
+        DataSourceModel dataSourceModel = store.getDataSourceModel();
+        Object dataSourceId = dataSourceModel.getId();
+        DomainModel domainModel = dataSourceModel.getDomainModel();
+        String cartCondition = id != null ? "id=?" : "uuid=?";
+        Object[] parameter = new Object[]{id != null ? id : uuid};
+        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.(<frontend_cart>,person_countryName) from DocumentLine where site!=null and document.cart." + cartCondition + " order by document desc");
+        SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document.cart." + cartCondition + " order by date");
+        SqlCompiled sqlCompiled3 = domainModel.compileSelect("select <frontend_cart> from MoneyTransfer where document.cart." + cartCondition + " order by date");
+        Future<Batch<QueryResultSet>> queryBatchFuture = Platform.getQueryService().executeQueryBatch(
+                new Batch<>(new QueryArgument[]{
+                        new QueryArgument(sqlCompiled1.getSql(), parameter, dataSourceId),
+                        new QueryArgument(sqlCompiled2.getSql(), parameter, dataSourceId),
+                        new QueryArgument(sqlCompiled3.getSql(), parameter, dataSourceId)
+                })
+        );
+        return queryBatchFuture.compose(v -> {
+            Batch<QueryResultSet> b = queryBatchFuture.result();
+            EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
+            EntityList<Attendance> as = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[1], sqlCompiled2.getQueryMapping(), store, "a");
+            cartPayments = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[2], sqlCompiled3.getQueryMapping(), store, "mt");
+            cartDocuments = new ArrayList<>();
+            cartWorkingDocuments = new ArrayList<>();
+            if (dls.isEmpty())
+                return Future.succeededFuture();
+            eventService = EventService.getOrCreateFromDocument(dls.get(0).getDocument());
+            return eventService.onEventOptions().compose(v2 -> {
+                Document currentDocument = null;
+                List<WorkingDocumentLine> wdls = null;
+                for (DocumentLine dl : dls) {
+                    Document document = dl.getDocument();
+                    if (document != currentDocument) {
+                        if (currentDocument != null)
+                            cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventService, currentDocument, wdls)));
+                        cartDocuments.add(currentDocument = document);
+                        wdls = new ArrayList<>();
+                    }
+                    wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
+                }
+                cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventService, currentDocument, wdls)));
+                setCart(cartDocuments.get(0).getCart());
+                return Future.succeededFuture(cart);
+            });
+        });
+    }
+
+    @Override
+    public Future<List<Document>> onCartDocuments() {
+        return onCart().map(cart -> cartDocuments);
+    }
+
+    @Override
+    public Future<List<WorkingDocument>> onCartWorkingDocuments() {
+        return onCart().map(cart -> cartWorkingDocuments);
+    }
+
+    @Override
+    public Future<EntityList> onCartPayments() {
+        return onCart().map(cart -> cartPayments);
+    }
+}
