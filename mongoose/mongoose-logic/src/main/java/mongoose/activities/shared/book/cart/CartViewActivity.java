@@ -8,18 +8,23 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
-import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Document;
+import mongoose.services.CartService;
 import mongoose.services.EventService;
+import naga.commons.util.collection.Collections;
 import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.orm.entity.Entity;
 import naga.framework.ui.controls.LayoutUtil;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
+import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
+import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
+
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -35,6 +40,7 @@ public class CartViewActivity extends ViewActivityImpl {
 
     private final Property<Object> cartUuidProperty = new SimpleObjectProperty<>();
 
+    private int selectedRow;
     private Document selectedDocument;
     private WorkingDocument selectedWorkingDocument;
 
@@ -53,8 +59,8 @@ public class CartViewActivity extends ViewActivityImpl {
 
         Button addBookingButton = i18n.translateText(new Button(), "AddAnotherBooking");
         Button modifyBookingButton = i18n.translateText(new Button(), "Modify");
-        Button makePaymentButton = i18n.translateText(new Button(), "MakePayment");
-        HBox buttonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), modifyBookingButton, LayoutUtil.createHGrowable(), makePaymentButton);
+        Button paymentButton = i18n.translateText(new Button(), "MakePayment");
+        HBox buttonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), modifyBookingButton, LayoutUtil.createHGrowable(), paymentButton);
 
         addBookingButton.setOnAction(e -> {
             if (selectedDocument != null) {
@@ -70,12 +76,16 @@ public class CartViewActivity extends ViewActivityImpl {
             getHistory().push("/book/event/" + selectedDocument.getEventId().getPrimaryKey() + "/options");
         });
 
+        paymentButton.setOnAction(e -> getHistory().push("/book/cart/" + cartUuidProperty.getValue() + "/payment"));
+
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         documentTable.displaySelectionProperty().bindBidirectional(documentDisplaySelectionProperty);
         // User outputs: the presentation model changes are transferred in the UI
         documentTable.displayResultSetProperty().bind(documentDisplayResultSetProperty);
         paymentTable.displayResultSetProperty().bind(paymentDisplayResultSetProperty);
+
+        syncBookingOptionsPanelIfReady();
 
         return LayoutUtil.createVerticalScrollPane(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, buttonBar));
     }
@@ -85,82 +95,78 @@ public class CartViewActivity extends ViewActivityImpl {
         cartUuidProperty.setValue(getParameter("cartUuid"));
     }
 
-    private ReactiveExpressionFilter documentFilter;
-
     @Override
-    public void onResume() {
-        if (documentFilter == null)
-            startLogic();
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+        startLogic();
     }
 
     @Override
     protected void refreshDataOnActive() {
-        documentFilter.refreshWhenActive();
+        cartService().unload();
+        loadAndDisplayCart(false);
+    }
+
+    private CartService cartService() {
+        return CartService.getOrCreate(cartUuidProperty.getValue(), getDataSourceModel());
+    }
+
+    private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResultSet> displayResultSetProperty) {
+        displayResultSetProperty.setValue(EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, columnsDefinition
+                , getDataSourceModel().getDomainModel(), classId, getI18n()));
     }
 
     public void startLogic() {
-        // Setting up the documents filter
-        documentFilter = createReactiveExpressionFilter("{class: 'Document', fields:'event.id,cart.uuid', orderBy: 'creationDate desc'}")
-                // Condition
-                .combine(cartUuidProperty, s -> "{where: 'cart.uuid=`" + s + "`'}")
-                //.registerParameter(new Parameter("cartUuid", "constant"))
-                //.registerParameter(new Parameter("cartUuid", pm.cartUuidProperty()))
-                //.combine("{where: 'cart.uuid=?cartUuid'}")
-                .setExpressionColumns("[" +
+        Properties.runNowAndOnPropertiesChange(p -> loadAndDisplayCart(true), cartUuidProperty);
+        Properties.runNowAndOnPropertiesChange(p -> displayCart(), getI18n().dictionaryProperty());
+        documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
+            int selectedRow = selection.getSelectedRow();
+            CartService cartService = cartService();
+            List<Document> cartDocuments = cartService.getCartDocuments();
+            if (Collections.indexInRange(selectedRow, cartDocuments)) {
+                selectedDocument = cartDocuments.get(this.selectedRow = selectedRow);
+                selectedWorkingDocument = cartService.getCartWorkingDocuments().get(selectedRow);
+                syncBookingOptionsPanelIfReady();
+            }
+        });
+    }
+
+    private void loadAndDisplayCart(boolean resetSelection) {
+        if (resetSelection)
+            selectedRow = 0;
+        cartService().onCartDocuments().setHandler(ar -> {
+            if (ar.succeeded())
+                displayCart();
+        });
+    }
+
+    private void displayCart() {
+        List<Document> cartDocuments = cartService().getCartDocuments();
+        displayEntities(cartDocuments, "[" +
                         "'ref'," +
                         "'person_firstName'," +
                         "'person_lastName'," +
                         "{expression: 'price_net', format: 'price'}," +
                         "{expression: 'price_deposit', format: 'price'}," +
                         "{expression: 'price_balance', format: 'price'}" +
-                        "]")
-                .applyDomainModelRowStyle()
-                .displayResultSetInto(documentDisplayResultSetProperty)
-                .selectFirstRowOnFirstDisplay(documentDisplaySelectionProperty, cartUuidProperty)
-                .setSelectedEntityHandler(entity -> {
-                    if (entity != null) {
-                        selectedDocument = (Document) entity;
-                        selectedWorkingDocument = null;
-                        WorkingDocument.load(selectedDocument).setHandler(ar -> {
-                            if (ar.succeeded()) {
-                                selectedWorkingDocument = ar.result();
-                                DocumentPricing.computeDocumentPrice(selectedWorkingDocument);
-                                bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
-                            }
-                        });
-                    }
-                })
-                .start();
-
-
-        // Setting up the payments filter
-        createReactiveExpressionFilter("{class: 'MoneyTransfer', orderBy: 'date'}")
-                // Condition
-                .combine(cartUuidProperty, s -> "{where: 'document.cart.uuid=`" + s + "`'}")
-                //.combine("{where: 'document.cart.uuid=?cartUuid'}")
-                .setExpressionColumns("[" +
+                        "]"
+                , "Document", documentDisplayResultSetProperty);
+        displayEntities(cartService().getCartPayments(), "[" +
                         "{expression: 'date', format: 'dateTime'}," +
                         "{expression: 'document.ref', label: 'Booking ref'}," +
                         "{expression: 'method.name', label: 'Method'}," +
                         "{expression: 'amount', format: 'price'}," +
                         "{expression: 'pending ? `Pending` : successful ? `Success` : `Failed`', label: 'Status'}" +
-                        "]")
-                .applyDomainModelRowStyle()
-                .displayResultSetInto(paymentDisplayResultSetProperty)
-                .start();
+                        "]"
+                , "MoneyTransfer", paymentDisplayResultSetProperty);
+        javafx.application.Platform.runLater(() -> {
+            if (Collections.indexInRange(selectedRow, cartDocuments))
+                documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(selectedRow));
+        });
     }
 
-    private ReactiveExpressionFilter createReactiveExpressionFilter(Object jsonOrClass) {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter(jsonOrClass));
+    private void syncBookingOptionsPanelIfReady() {
+        if (bookingOptionsPanel != null && selectedWorkingDocument != null)
+            bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
     }
-
-    private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        return reactiveExpressionFilter
-                .setDataSourceModel(getDataSourceModel())
-                .setI18n(getI18n())
-                .bindActivePropertyTo(activeProperty())
-                ;
-    }
-
 }
