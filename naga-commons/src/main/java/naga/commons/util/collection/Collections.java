@@ -72,6 +72,10 @@ public class Collections {
         return collection == null ? 0 : collection.size();
     }
 
+    public static boolean indexInRange(int index, List list) {
+        return index >= 0 && index < size(list);
+    }
+
     public static boolean isEmpty(Collection collection) {
         return size(collection) == 0;
     }
