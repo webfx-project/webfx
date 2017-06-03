@@ -1,9 +1,10 @@
 package mongoose.activities.shared.logic.time;
 
 import naga.commons.util.collection.Collections;
+import naga.commons.util.collection.HashList;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +16,7 @@ import static mongoose.activities.shared.logic.time.TimeConverter.floorToDay;
  */
 public class DaysArrayBuilder {
 
-    private final List<Long> days = new ArrayList<>();
+    private final List<Long> days = new HashList<>();
     private final TimeUnit timeUnit;
 
     public DaysArrayBuilder() {
@@ -63,6 +64,8 @@ public class DaysArrayBuilder {
     }
 
     public DaysArray build() {
-        return new DaysArray(Collections.toLongArray(days), timeUnit);
+        long[] array = Collections.toLongArray(days);
+        Arrays.sort(array);
+        return new DaysArray(array, timeUnit);
     }
 }
