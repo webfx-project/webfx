@@ -50,7 +50,9 @@ public class DynamicEntity implements Entity {
     @Override
     public void setForeignField(Object foreignFieldId, Object foreignFieldValue) {
         EntityId foreignEntityId;
-        if (foreignFieldValue instanceof EntityId)
+        if (foreignFieldValue == null)
+            foreignEntityId = null;
+        else if (foreignFieldValue instanceof EntityId)
             foreignEntityId = (EntityId) foreignFieldValue;
         else if (foreignFieldValue instanceof Entity) {
             Entity entity = (Entity) foreignFieldValue;
@@ -59,8 +61,7 @@ public class DynamicEntity implements Entity {
                 store.copyEntity(entity);
                 Platform.log("Warning: this foreign entity has been copied into the store otherwise it was not accessible: " + entity); //store.copyEntity(entity);
             }
-        }
-        else {
+        } else {
             Object foreignClass = getDomainClass().getForeignClass(foreignFieldId);
             foreignEntityId = getStore().getEntityId(foreignClass, foreignFieldValue);
         }
