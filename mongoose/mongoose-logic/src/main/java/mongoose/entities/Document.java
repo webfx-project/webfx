@@ -31,5 +31,28 @@ public interface Document extends Entity, EntityHasEvent, EntityHasCancelled, En
     default Cart getCart() {
         return getForeignEntity("cart");
     }
-    
+
+    default void setPriceNet(Integer priceNet) {
+        setFieldValue("price_net", priceNet);
+    }
+
+    default Integer getPriceNet() {
+        return getIntegerFieldValue("price_net");
+    }
+
+    default void setPriceDeposit(Integer priceDeposit) {
+        setFieldValue("price_deposit", priceDeposit);
+    }
+
+    default Integer getPriceDeposit() {
+        return getIntegerFieldValue("price_deposit");
+    }
+
+    default void setPriceMinDeposit(Integer priceMinDeposit) {
+        setFieldValue("price_minDeposit", priceMinDeposit);
+    }
+
+    default Integer getPriceMinDeposit() {
+        return getIntegerFieldValue("price_minDeposit");
+    }
 }
