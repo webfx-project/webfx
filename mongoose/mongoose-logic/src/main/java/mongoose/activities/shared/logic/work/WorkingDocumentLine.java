@@ -6,6 +6,7 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.entities.*;
+import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.services.EventService;
 import naga.commons.util.Objects;
 import naga.commons.util.collection.Collections;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class WorkingDocumentLine {
+public class WorkingDocumentLine implements HasItemFamilyType {
 
     private WorkingDocument workingDocument;
     private final OptionPreselection optionPreselection;
@@ -194,5 +195,10 @@ public class WorkingDocumentLine {
 
     public void setRounded(boolean rounded) {
         this.rounded = rounded;
+    }
+
+    @Override
+    public ItemFamilyType getItemFamilyType() {
+        return item != null ? item.getItemFamilyType() : option.getItemFamilyType();
     }
 }
