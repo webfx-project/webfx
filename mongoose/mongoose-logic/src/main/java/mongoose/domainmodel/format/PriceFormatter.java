@@ -49,8 +49,16 @@ public class PriceFormatter implements Formatter {
         }
     }
 
+    public static String formatWithoutCurrency(Object value) {
+        return format(value, null, false);
+    }
+
     public static String formatWithCurrency(Object value, Event event) {
         return formatWithCurrency(value, getEventCurrencySymbol(event));
+    }
+
+    public static String format(Object value, Event event, boolean withCurrency) {
+        return formatWithCurrency(value, withCurrency ? getEventCurrencySymbol(event) : "");
     }
 
     public static String getEventCurrencySymbol(Event event) {
@@ -64,6 +72,6 @@ public class PriceFormatter implements Formatter {
 
     public static String formatWithCurrency(Object value, String currencySymbol) {
         String price = (String) PriceFormatter.INSTANCE.format(value, currencySymbol == null);
-        return currencySymbol == null ? price : currencySymbol.startsWith(" ") ? price + currencySymbol : currencySymbol + price;
+        return currencySymbol == null || currencySymbol.isEmpty() ? price : currencySymbol.startsWith(" ") ? price + currencySymbol : currencySymbol + price;
     }
 }
