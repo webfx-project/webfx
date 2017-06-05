@@ -12,6 +12,7 @@ import mongoose.services.EventService;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.function.Predicate;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
@@ -63,9 +64,10 @@ public class WorkingDocument {
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
     }
 
+    // Constructor used to make a copy (that can be changed) of a loaded working document (that shouldn't be changed).
+    // When submitting this copy, some decisions are made by comparison with the original loaded document.
     public WorkingDocument(WorkingDocument loadedWorkingDocument) {
         this(loadedWorkingDocument.getEventService(), createDocument(loadedWorkingDocument.getDocument()), new ArrayList<>(loadedWorkingDocument.getWorkingDocumentLines()));
-        //document.setCart(loadedWorkingDocument.getDocument().getCart());
         this.loadedWorkingDocument = loadedWorkingDocument;
     }
 
@@ -168,8 +170,12 @@ public class WorkingDocument {
 
     public WorkingDocumentLine getAccommodationLine() {
         if (accommodationLine == null)
-            accommodationLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isAccommodation());
+            accommodationLine = findLine(WorkingDocumentLine::isAccommodation);
         return accommodationLine;
+    }
+
+    private WorkingDocumentLine findLine(Predicate<WorkingDocumentLine> predicate) {
+        return Collections.findFirst(workingDocumentLines, predicate);
     }
 
     private boolean hasAccommodation() {
@@ -196,7 +202,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
-            lunchLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isLunch());
+            lunchLine = findLine(wdl -> wdl.getOption().isLunch());
         return lunchLine;
     }
 
@@ -210,7 +216,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
-            supperLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isSupper());
+            supperLine = findLine(wdl -> wdl.getOption().isSupper());
         return supperLine;
     }
 
@@ -225,7 +231,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getDietLine() {
         if (dietLine == null)
-            dietLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isDiet());
+            dietLine = findLine(WorkingDocumentLine::isDiet);
         return dietLine;
     }
 
@@ -264,7 +270,11 @@ public class WorkingDocument {
 
     private static Document createDocument(EntityHasPersonDetails personDetailsEntity) {
         UpdateStore store = getUpdateStore(personDetailsEntity);
-        Document document = store.createEntity(Document.class);
+        Document document;
+        if (personDetailsEntity instanceof Document) // Keeping the same id if created from an original document
+            document = store.createEntity(personDetailsEntity.getId());
+        else // otherwise creating a new document
+            document = store.createEntity(Document.class);
         syncPersonDetails(personDetailsEntity, document);
         return document;
     }
@@ -387,7 +397,7 @@ public class WorkingDocument {
         DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
-        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=?");
+        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.(<frontend_cart>,person_countryName) from DocumentLine where site!=null and document=?");
         SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document=? order by date");
         Object[] documentPkParameter = {documentPk};
         Future<Batch<QueryResultSet>> queryBatchFuture;
