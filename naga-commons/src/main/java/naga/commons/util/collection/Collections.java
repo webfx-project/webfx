@@ -46,6 +46,17 @@ public class Collections {
         return bList;
     }
 
+    public static <A> int sum(Collection<A> aCollection, Converter<A, Integer> aToIntConverter) {
+        //return aCollection.stream().mapToInt(aToIntConverter).sum(); // Not GWT compilable for now
+        int sum = 0;
+        for(A a : aCollection) {
+            Integer number = aToIntConverter.convert(a);
+            if (number != null)
+                sum += number;
+        }
+        return sum;
+    }
+
     public static <T> T findFirst(Iterable<T> iterable, Predicate<? super T> predicate) {
         //return collection.stream().filter(predicate::test).findFirst().get(); // Not GWT compilable for now
         for (T element : iterable) {
@@ -54,6 +65,19 @@ public class Collections {
         }
         return null;
     }
+
+    public static <T> int indexOf(Iterable<T> iterable, Predicate<? super T> predicate) {
+        if (iterable != null) {
+            int index = 0;
+            for (T element : iterable) {
+                if (predicate.test(element))
+                    return index;
+                index++;
+            }
+        }
+        return -1;
+    }
+
 
     public static <T> boolean removeIf(Iterable<T> iterable, Predicate<? super T> predicate) {
         boolean removed = false;
@@ -70,10 +94,6 @@ public class Collections {
 
     public static int size(Collection collection) {
         return collection == null ? 0 : collection.size();
-    }
-
-    public static boolean indexInRange(int index, List list) {
-        return index >= 0 && index < size(list);
     }
 
     public static boolean isEmpty(Collection collection) {
