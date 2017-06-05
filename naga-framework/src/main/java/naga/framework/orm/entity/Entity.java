@@ -124,6 +124,6 @@ public interface Entity {
     // Static methods
 
     static boolean sameId(Entity e1, Entity e2) {
-        return e1 == e2 || e1 != null && e1.getId().equals(e2.getId());
+        return e1 == e2 || e1 != null && e2 != null && e1.getId().equals(e2.getId());
     }
 }
