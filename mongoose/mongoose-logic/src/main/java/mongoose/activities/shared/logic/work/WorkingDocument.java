@@ -393,12 +393,16 @@ public class WorkingDocument {
         return load(EventService.getOrCreateFromDocument(document), document.getPrimaryKey());
     }
 
+    public final static String DOCUMENT_LINE_LOAD_QUERY = "select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=? order by document desc";
+    public final static String ATTENDANCE_LOAD_QUERY = "select documentLine.id,date from Attendance where documentLine.document=? order by date";
+    public final static String PAYMENT_LOAD_QUERY = "select <frontend_cart> from MoneyTransfer where document=? order by date";
+
     public static Future<WorkingDocument> load(EventService eventService, Object documentPk) {
         DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
-        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.(<frontend_cart>,person_countryName) from DocumentLine where site!=null and document=?");
-        SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document=? order by date");
+        SqlCompiled sqlCompiled1 = domainModel.compileSelect(DOCUMENT_LINE_LOAD_QUERY);
+        SqlCompiled sqlCompiled2 = domainModel.compileSelect(ATTENDANCE_LOAD_QUERY);
         Object[] documentPkParameter = {documentPk};
         Future<Batch<QueryResultSet>> queryBatchFuture;
         return Future.allOf(eventService.onEventOptions(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
@@ -418,5 +422,4 @@ public class WorkingDocument {
             return Future.succeededFuture(new WorkingDocument(loadedWorkingDocument));
         });
     }
-
 }

@@ -6,6 +6,7 @@ import mongoose.entities.Attendance;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import mongoose.entities.DocumentLine;
+import naga.commons.util.Strings;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
@@ -123,11 +124,11 @@ class CartServiceImpl implements CartService {
         DataSourceModel dataSourceModel = store.getDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
-        String cartCondition = id != null ? "id=?" : "uuid=?";
+        String documentCondition = "document.cart." + (id != null ? "id=?" : "uuid=?");
         Object[] parameter = new Object[]{id != null ? id : uuid};
-        SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.(<frontend_cart>,person_countryName) from DocumentLine where site!=null and document.cart." + cartCondition + " order by document desc");
-        SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document.cart." + cartCondition + " order by date");
-        SqlCompiled sqlCompiled3 = domainModel.compileSelect("select <frontend_cart>,method.label from MoneyTransfer where document.cart." + cartCondition + " order by date");
+        SqlCompiled sqlCompiled1 = domainModel.compileSelect(Strings.replaceAll(WorkingDocument.DOCUMENT_LINE_LOAD_QUERY, "document=?", documentCondition));
+        SqlCompiled sqlCompiled2 = domainModel.compileSelect(Strings.replaceAll(WorkingDocument.ATTENDANCE_LOAD_QUERY, "document=?", documentCondition));
+        SqlCompiled sqlCompiled3 = domainModel.compileSelect(Strings.replaceAll(WorkingDocument.PAYMENT_LOAD_QUERY, "document=?", documentCondition));
         Future<Batch<QueryResultSet>> queryBatchFuture = Platform.getQueryService().executeQueryBatch(
                 new Batch<>(new QueryArgument[]{
                         new QueryArgument(sqlCompiled1.getSql(), parameter, dataSourceId),
