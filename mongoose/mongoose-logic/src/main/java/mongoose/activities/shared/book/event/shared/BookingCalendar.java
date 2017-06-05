@@ -126,7 +126,7 @@ public class BookingCalendar {
     }
 
     private static boolean sameLine(WorkingDocumentLine wdl1, WorkingDocumentLine wdl2) {
-        return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
+        return wdl1 == wdl2 || wdl1 != null && wdl2 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
     }
 
     protected void onCalendarClick(CalendarClickEvent event) {
