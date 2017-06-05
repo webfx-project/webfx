@@ -17,6 +17,10 @@ public interface HasPersonDetails {
 
     String getLastName();
 
+    default String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
     void setMale(Boolean male);
 
     Boolean isMale();
