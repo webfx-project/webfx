@@ -48,4 +48,6 @@ public interface CartService {
 
     void unload();
 
+    EventService getEventService();
+
 }

@@ -85,6 +85,8 @@ class CartServiceImpl implements CartService {
             services.put(id = toKey(cart.getId()), this);
         if (uuid == null)
             services.put(uuid = cart.getUuid(), this);
+        if (eventService != null)
+            eventService.setCurrentCart(cart);
     }
 
     @Override
@@ -125,7 +127,7 @@ class CartServiceImpl implements CartService {
         Object[] parameter = new Object[]{id != null ? id : uuid};
         SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_cart>,document.(<frontend_cart>,person_countryName) from DocumentLine where site!=null and document.cart." + cartCondition + " order by document desc");
         SqlCompiled sqlCompiled2 = domainModel.compileSelect("select documentLine.id,date from Attendance where documentLine.document.cart." + cartCondition + " order by date");
-        SqlCompiled sqlCompiled3 = domainModel.compileSelect("select <frontend_cart> from MoneyTransfer where document.cart." + cartCondition + " order by date");
+        SqlCompiled sqlCompiled3 = domainModel.compileSelect("select <frontend_cart>,method.label from MoneyTransfer where document.cart." + cartCondition + " order by date");
         Future<Batch<QueryResultSet>> queryBatchFuture = Platform.getQueryService().executeQueryBatch(
                 new Batch<>(new QueryArgument[]{
                         new QueryArgument(sqlCompiled1.getSql(), parameter, dataSourceId),
@@ -150,17 +152,23 @@ class CartServiceImpl implements CartService {
                     Document document = dl.getDocument();
                     if (document != currentDocument) {
                         if (currentDocument != null)
-                            cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventService, currentDocument, wdls)));
+                            addWorkingDocument(currentDocument, wdls);
                         cartDocuments.add(currentDocument = document);
                         wdls = new ArrayList<>();
                     }
                     wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
                 }
-                cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventService, currentDocument, wdls)));
+                addWorkingDocument(currentDocument, wdls);
+                if (cartWorkingDocuments.size() != cartDocuments.size())
+                    System.out.println("!!!");
                 setCart(cartDocuments.get(0).getCart());
                 return Future.succeededFuture(cart);
             });
         });
+    }
+
+    private void addWorkingDocument(Document document, List<WorkingDocumentLine> wdls) {
+        cartWorkingDocuments.add(new WorkingDocument(new WorkingDocument(eventService, document, wdls)));
     }
 
     @Override
@@ -176,5 +184,10 @@ class CartServiceImpl implements CartService {
     @Override
     public Future<EntityList> onCartPayments() {
         return onCart().map(cart -> cartPayments);
+    }
+
+    @Override
+    public EventService getEventService() {
+        return eventService;
     }
 }
