@@ -71,6 +71,7 @@ public class DomainModelSnapshotLoader {
             registerEntityFactory(Site.class, "Site", SiteImpl::new);
             registerEntityFactory(Teacher.class, "Teacher", TeacherImpl::new);
             registerEntityFactory(MetricsEntity.class, "Metrics", MetricsEntityImpl::new);
+            registerEntityFactory(MoneyTransfer.class, "MoneyTransfer", MoneyTransferImpl::new);
             registerEntityFactory(LtTestSetEntity.class, "LtTestSet", LtTestSetEntityImpl::new);
             registerEntityFactory(LtTestEventEntity.class, "LtTestEvent", LtTestEventEntityImpl::new);
             // Loading the model from the resource snapshot
