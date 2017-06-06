@@ -12,9 +12,12 @@ import mongoose.activities.shared.book.cart.CartBasedViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.Document;
+import mongoose.entities.MoneyTransfer;
 import naga.commons.util.collection.Collections;
+import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
+import naga.platform.spi.Platform;
 
 import java.util.List;
 
@@ -39,6 +42,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         Button paymentButton = i18n.translateText(new Button(), "MakePayment");
         HBox buttonBar = new HBox(20, backButton, LayoutUtil.createHGrowable(), paymentButton);
 
+        paymentButton.setOnAction(e -> submitPayment());
         backButton.setOnAction(e -> getHistory().goBack());
 
         BorderPane totalSection = HighLevelComponents.createSectionPanel(null, i18n.translateText(new Label(), "TotalAmount:"), LayoutUtil.createHGrowable(), totalTextField = new Text());
@@ -182,5 +186,36 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         int getAmount() {
             return amount;
         }
+    }
+
+    private void submitPayment() {
+        List<DocumentPayment> payments = Collections.filter(documentPayments, p -> p.getAmount() > 0);
+        if (payments.isEmpty())
+            return;
+        UpdateStore updateStore = UpdateStore.createAbove(cartService().getEventService().getEventStore());
+        MoneyTransfer moneyTransfer = updateStore.insertEntity(MoneyTransfer.class);
+        moneyTransfer.setPending(true);
+        moneyTransfer.setMethod(5); // Online
+        if (payments.size() == 1) {
+            DocumentPayment payment = Collections.first(payments);
+            moneyTransfer.setDocument(payment.document);
+            moneyTransfer.setAmount(payment.getAmount());
+        } else {
+            moneyTransfer.setSpread(true);
+            for (DocumentPayment payment : payments) {
+                MoneyTransfer childTransfer = updateStore.insertEntity(MoneyTransfer.class);
+                childTransfer.setDocument(payment.document);
+                childTransfer.setAmount(payment.getAmount());
+                childTransfer.setParent(moneyTransfer);
+            }
+        }
+        updateStore.executeUpdate().setHandler(ar -> {
+            if (ar.failed())
+                Platform.log("Error submitting payment", ar.cause());
+            else {
+                cartService().unload();
+                getHistory().goBack();
+            }
+        });
     }
 }
