@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.cart.payment;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -110,8 +111,11 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         Node getNode() {
             if (node == null) {
                 I18n i18n = getI18n();
-                BorderPane bp = HighLevelComponents.createSectionPanel(null, new Text(document.getFullName() + " - " + i18n.instantTranslate("Booking") + " " + document.getRef() + "   " + i18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + i18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + i18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit())));
+                String title = document.getFullName() + " - " + i18n.instantTranslate("Booking") + " " + document.getRef() + "   " + i18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + i18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + i18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
+                BorderPane bp = HighLevelComponents.createSectionPanel(null, new Label(title), LayoutUtil.createHGrowable(), i18n.translateText(new Label(), "PaymentAmount"));
                 hBox = new HBox(20);
+                hBox.setAlignment(Pos.CENTER_LEFT);
+                hBox.setPadding(new Insets(10));
                 radioGroup = new ToggleGroup();
                 amountTextField = new TextField();
                 amountTextField.setAlignment(Pos.BASELINE_RIGHT);
