@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -12,7 +13,6 @@ import mongoose.activities.shared.book.event.shared.TranslateFunction;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
-import mongoose.entities.Document;
 import mongoose.entities.Event;
 import mongoose.services.CartService;
 import mongoose.services.EventService;
@@ -39,6 +39,7 @@ public class CartViewActivity extends CartBasedViewActivity {
     // Display input & output
     private final Property<DisplaySelection> documentDisplaySelectionProperty = new SimpleObjectProperty<>();
 
+    private Label bookingLabel;
     private BookingOptionsPanel bookingOptionsPanel;
     private WorkingDocument selectedWorkingDocument;
 
@@ -48,7 +49,7 @@ public class CartViewActivity extends CartBasedViewActivity {
         BorderPane bookingsPanel = HighLevelComponents.createSectionPanel(null, null, "YourBookings", i18n);
         DataGrid documentTable = LayoutUtil.setPrefMaxHeightToMin(new DataGrid());
         bookingsPanel.setCenter(documentTable);
-        BorderPane optionsPanel = HighLevelComponents.createSectionPanel(null, null, "YourOptions", i18n);
+        BorderPane optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel(i18n);
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         BorderPane paymentsPanel = HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n);
@@ -66,6 +67,7 @@ public class CartViewActivity extends CartBasedViewActivity {
             EventService eventService = cartService().getEventService();
             eventService.setSelectedOptionsPreselection(null);
             eventService.setWorkingDocument(selectedWorkingDocument);
+            selectedWorkingDocument = null;
             getHistory().push("/book/event/" + getEventId() + "/options");
         });
 
@@ -95,8 +97,11 @@ public class CartViewActivity extends CartBasedViewActivity {
     protected void startLogic() {
         super.startLogic();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
-            selectedWorkingDocument = Collections.get(cartService().getCartWorkingDocuments(), selection.getSelectedRow());
-            syncBookingOptionsPanelIfReady();
+            int selectedRow = selection.getSelectedRow();
+            if (selectedRow != -1) {
+                selectedWorkingDocument = Collections.get(cartService().getCartWorkingDocuments(), selectedRow);
+                syncBookingOptionsPanelIfReady();
+            }
         });
     }
 
@@ -124,11 +129,17 @@ public class CartViewActivity extends CartBasedViewActivity {
                         "]"
                 , "MoneyTransfer", paymentDisplayResultSetProperty);
         javafx.application.Platform.runLater(() -> {
-            EventService eventService = cartService.getEventService();
-            Document eventDocument = eventService == null || eventService.getWorkingDocument() == null ? null : eventService.getWorkingDocument().getDocument();
-            int selectedIndex = Math.max(0, Collections.indexOf(cartService.getCartWorkingDocuments(), wd -> Entity.sameId(wd.getDocument(), eventDocument)));
-            documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(selectedIndex));
+            int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
+            if (selectedIndex == -1 && cartService.getEventService() != null)
+                selectedIndex = indexOfWorkingDocument(cartService.getEventService().getWorkingDocument());
+            documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
         });
+    }
+
+    private int indexOfWorkingDocument(WorkingDocument workingDocument) {
+        if (workingDocument == null)
+            return -1;
+        return Collections.indexOf(cartService().getCartWorkingDocuments(), wd -> Entity.sameId(wd.getDocument(), workingDocument.getDocument()));
     }
 
     private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResultSet> displayResultSetProperty) {
@@ -137,7 +148,9 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void syncBookingOptionsPanelIfReady() {
-        if (bookingOptionsPanel != null && selectedWorkingDocument != null)
+        if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
+            bookingLabel.setText(selectedWorkingDocument.getDocument().getFullName());
             bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
+        }
     }
 }
