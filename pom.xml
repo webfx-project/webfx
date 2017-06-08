@@ -36,7 +36,7 @@
         <!-- libraries versions -->
         <lib.javawebsocket.version>1.3.0</lib.javawebsocket.version>
         <lib.android.version>4.1.1.4</lib.android.version>
-        <lib.gwt.version>2.8.0</lib.gwt.version>
+        <lib.gwt.version>2.8.1</lib.gwt.version>
         <lib.teavm.version>0.4.3</lib.teavm.version>
         <lib.vertx.version>3.4.1</lib.vertx.version>
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
