@@ -34,4 +34,13 @@ public abstract class TextInputControl extends Control implements
     public Property<String> promptTextProperty() {
         return promptProperty;
     }
+
+    /**
+     * Indicates whether this TextInputControl can be edited by the user.
+     */
+    private Property<Boolean> editable = new SimpleObjectProperty<>(this, "editable", true);
+    public final boolean isEditable() { return editable.getValue(); }
+    public final void setEditable(boolean value) { editable.setValue(value); }
+    public final Property<Boolean> editableProperty() { return editable; }
+
 }

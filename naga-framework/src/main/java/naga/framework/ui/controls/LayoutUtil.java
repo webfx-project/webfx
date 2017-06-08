@@ -110,9 +110,11 @@ public class LayoutUtil {
         return region;
     }
 
-    public static <N extends Region> N setPrefMaxHeightToMin(N region) {
-        region.prefHeightProperty().bind(region.minHeightProperty());
-        region.maxHeightProperty().bind(region.minHeightProperty());
+    public static <N extends Region> N setMinMaxHeightToPref(N region) {
+        //region.minHeightProperty().bind(region.prefHeightProperty());
+        //region.maxHeightProperty().bind(region.prefHeightProperty());
+        region.setMinHeight(USE_PREF_SIZE);
+        region.setMaxHeight(USE_PREF_SIZE);
         return region;
     }
 
@@ -127,11 +129,10 @@ public class LayoutUtil {
     }
 
     public static ScrollPane createVerticalScrollPane(Region content) {
-        Region container = content.getBorder() == null ? content : new VBox(content);
-        ScrollPane scrollPane = new ScrollPane(container);
-        container.prefWidthProperty().bind(scrollPane.widthProperty().subtract(16));
+        ScrollPane scrollPane = new ScrollPane(content);
+        content.prefWidthProperty().bind(scrollPane.widthProperty()/*.subtract(16)*/); // doesn't compile with GWT
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        container.setPadding(new Insets(10));
+        content.setPadding(new Insets(10));
         return scrollPane;
     }
 }

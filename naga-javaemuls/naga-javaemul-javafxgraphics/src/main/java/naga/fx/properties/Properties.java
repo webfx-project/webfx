@@ -16,7 +16,7 @@ import naga.fx.spi.Toolkit;
 public class Properties {
 
     public static void runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        runnable.accept(null);
+        runnable.accept(properties.length == 1 ? properties[0] : null);
         runOnPropertiesChange(runnable, properties);
     }
 
@@ -43,7 +43,6 @@ public class Properties {
         runNowAndOnPropertiesChange(arg -> combinedProperty.setValue(function.apply(p.getValue())), p);
         return combinedProperty;
     }
-
 
     public static <T1, T2, R> Property<R> combine(ObservableValue<? extends T1> p1, ObservableValue<? extends T2> p2, Func2<? super T1, ? super T2, ? extends R> combineFunction) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();

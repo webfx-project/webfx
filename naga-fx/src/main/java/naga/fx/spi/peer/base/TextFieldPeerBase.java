@@ -1,6 +1,8 @@
 package naga.fx.spi.peer.base;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
+import naga.fx.scene.SceneRequester;
 
 /**
  * @author Bruno Salmon
@@ -10,4 +12,18 @@ public class TextFieldPeerBase
 
         extends TextInputControlPeerBase<N, NB, NM> {
 
+    @Override
+    public void bind(N buttonBase, SceneRequester sceneRequester) {
+        super.bind(buttonBase, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
+                , node.alignmentProperty()
+        );
+    }
+
+    @Override
+    public boolean updateProperty(ObservableValue changedProperty) {
+        return super.updateProperty(changedProperty)
+                    || updateProperty(node.alignmentProperty(), changedProperty, mixin::updateAlignment)
+                ;
+    }
 }

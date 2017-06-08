@@ -53,16 +53,26 @@ abstract class HtmlButtonBasePeer
         N node = getNode();
         // Embedding text into a span element so that we can align it with a possible graphic (image on the left)
         HTMLElement spanElement = HtmlUtil.createSpanElement();
-        spanElement.textContent = Strings.toSafeString(getNode().getText());
         HtmlUtil.setStyleAttribute(spanElement, "vertical-align", "middle");
         HtmlUtil.setChild(getElement(), spanElement);
         Node graphic = node.getGraphic();
+        String text = Strings.toSafeString(getNode().getText());
+        if (text.isEmpty() && graphic == null)
+            spanElement.innerHTML = "&nbsp;";
+        else
+            spanElement.textContent = text;
         if (graphic != null) {
             Element graphicElement = toElement(graphic, node.getScene());
             HtmlUtil.setStyleAttribute(graphicElement, "margin", " 0 5px 0 0");
             HtmlUtil.setStyleAttribute(graphicElement, "vertical-align", "middle");
             HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
             HtmlUtil.appendFirstChild(getElement(), graphicElement);
+            for (double i = 0, n =  graphicElement.childNodes.length; i < n; i++) {
+                elemental2.Node childNode = graphicElement.childNodes.get(i);
+                HtmlUtil.setStyleAttribute(childNode, "margin", " 0 5px 0 0");
+                HtmlUtil.setStyleAttribute(childNode, "vertical-align", "middle");
+                HtmlUtil.setStyleAttribute(childNode, "position", "relative");
+            }
         }
         clearLayoutCache();
     }

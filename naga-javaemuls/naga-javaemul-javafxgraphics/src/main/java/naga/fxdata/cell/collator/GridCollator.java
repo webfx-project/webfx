@@ -45,7 +45,6 @@ public class GridCollator extends DataGrid {
         this.rowCollator = rowCollator;
         container = new BorderPane();
         setMaxWidth(Double.MAX_VALUE);
-        setMaxHeight(Double.MAX_VALUE);
     }
 
     @Override
@@ -133,6 +132,7 @@ public class GridCollator extends DataGrid {
             }
             Node finalNode = rowCollator.collateNodes(rowNodes);
             container.setCenter(finalNode);
+            layoutChildren();
         }
 
         @Override
@@ -148,12 +148,10 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateWidth(Double width) {
-            container.setWidth(width);
         }
 
         @Override
         public void updateHeight(Double height) {
-            container.setHeight(height);
         }
 
         @Override
@@ -197,12 +195,10 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateLayoutX(Double layoutX) {
-            container.setLayoutX(layoutX);
         }
 
         @Override
         public void updateLayoutY(Double layoutY) {
-            container.setLayoutY(layoutY);
         }
 
         @Override

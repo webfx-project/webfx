@@ -342,7 +342,7 @@ public class BorderPane extends Pane {
     }
 
     @Override
-    protected void layoutChildren() {
+    public void layoutChildren() {
         Insets insets = getPadding();
         double width = getWidth();
         double height = getHeight();

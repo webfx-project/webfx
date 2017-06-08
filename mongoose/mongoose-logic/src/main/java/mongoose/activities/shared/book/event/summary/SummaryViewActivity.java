@@ -11,7 +11,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
@@ -66,12 +65,12 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
         BorderPane.setMargin(termsCheckBox, new Insets(0, 0, 0, 10));
         agreeTCTranslationProperty = i18n.translationProperty("AgreeTC");
-        Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.asString(p.getValue())), agreeTCTranslationProperty);
+        Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
         VBox panelsVBox = new VBox(20, bookingOptionsPanel.getOptionsPanel(), personDetailsPanel.getSectionPanel(), commentPanel, termsPanel);
         borderPane.setCenter(LayoutUtil.createVerticalScrollPane(panelsVBox));
 
-        nextButton.disableProperty().bind(termsCheckBox.selectedProperty().not());
+        // nextButton.disableProperty().bind(termsCheckBox.selectedProperty().not()); // Doesn't compile with GWT
     }
 
     private void setTermsCheckBoxText(String text) {
@@ -86,9 +85,12 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
             Hyperlink hyperlink = new Hyperlink(hyperText);
             hyperlink.setOnAction(e -> showTermsDialog());
             Label rightLabel = new Label(rightText);
+/*
             TextFlow textFlow = new TextFlow(leftLabel, hyperlink, rightLabel);
             textFlow.setPrefHeight(hyperlink.getHeight());
             termsCheckBox.setGraphic(textFlow);
+*/
+            termsCheckBox.setGraphic(new HBox(leftLabel, hyperlink, rightLabel));
         });
     }
 

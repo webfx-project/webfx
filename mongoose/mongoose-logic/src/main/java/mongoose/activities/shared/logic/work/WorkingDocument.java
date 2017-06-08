@@ -29,7 +29,6 @@ import naga.platform.spi.Platform;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -327,6 +326,16 @@ public class WorkingDocument {
         return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
     }
 
+    private static String generateRandomUuid() {
+        // return UUID.randomUUID().toString(); // Doesn't compile with GWT
+        // From https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript :
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+
+    private static String s4() {
+        return Integer.toHexString((int) Math.floor((1 + Math.random()) * 0x10000)).substring(1);
+    }
+
     public Future<Document> submit(String comment) {
         UpdateStore store = getUpdateStore();
         Document du;
@@ -338,7 +347,7 @@ public class WorkingDocument {
             Cart cart = eventService.getCurrentCart();
             if (cart == null) {
                 cart = store.insertEntity(Cart.class);
-                cart.setUuid(UUID.randomUUID().toString());
+                cart.setUuid(generateRandomUuid());
             }
             du.setCart(cart);
         }

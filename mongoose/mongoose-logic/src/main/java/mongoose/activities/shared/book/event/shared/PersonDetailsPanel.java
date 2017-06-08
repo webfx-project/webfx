@@ -6,9 +6,11 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
-import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Country;
 import mongoose.entities.Event;
 import mongoose.entities.Organization;
@@ -28,8 +30,6 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
-
-import java.time.temporal.ChronoUnit;
 
 /**
  * @author Bruno Salmon
@@ -166,7 +166,7 @@ public class PersonDetailsPanel {
         //rsb.setValue(5, 1, model.getPostCode());
         rsb.setValue(5, 2, i18n.instantTranslate("Country:"));
         rsb.setValue(5, 3, model.getCountryName());
-        return LayoutUtil.setPrefMaxHeightToMin(new DataGrid(rsb.build()));
+        return LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
     }
 
     public void syncUiFromModel(HasPersonDetails p) {
@@ -199,9 +199,14 @@ public class PersonDetailsPanel {
         p.setFirstName(firstNameTextField.getText());
         p.setLastName(lastNameTextField.getText());
         p.setMale(maleRadioButton.isSelected());
+/* doesn't compile with GWT
         birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        Integer age = adultRadioButton.isSelected() ? null : (int) birthDatePicker.getValue().until(event.getStartDate(), ChronoUnit.YEARS);
+        Integer age = null;
+        if (childRadioButton.isSelected())
+            // age = (int) birthDatePicker.getValue().until(event.getStartDate(), ChronoUnit.YEARS); // Doesn't compile with GWT
+            age = event.getStartDate().minus(birthDatePicker.getValue().toEpochDay(), ChronoUnit.DAYS).getYear();
         p.setAge(age);
+*/
         p.setCarer1Name(carer1NameTextField.getText());
         p.setCarer2Name(carer2NameTextField.getText());
         p.setEmail(emailTextField.getText());

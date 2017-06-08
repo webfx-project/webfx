@@ -1,7 +1,7 @@
 package mongoose.activities.shared.book.event.options;
 
 import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -120,7 +120,7 @@ class OptionTreeNode {
                 optionButton = radioButton;
             } else if (childrenChoiceBox != null) {
                 childrenChoiceBox.getItems().add(buttonLabel);
-                optionButtonSelectedProperty = new SimpleBooleanProperty() {
+                optionButtonSelectedProperty = new SimpleObjectProperty<Boolean>(false) {
                     @Override
                     protected void invalidated() {
                         if (getValue())

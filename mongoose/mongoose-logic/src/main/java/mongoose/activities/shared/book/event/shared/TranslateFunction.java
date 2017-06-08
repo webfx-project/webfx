@@ -24,6 +24,8 @@ public class TranslateFunction extends Function {
 
     @Override
     public Object evaluate(Object argument, DataReader dataReader) {
+        if (argument instanceof String)
+            return i18n.instantTranslate(argument);
         return Labels.instantTranslateLabel(Labels.bestLabelOrName(dataReader.getDomainObjectFromId(argument, null)), i18n);
     }
 

@@ -1,5 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
+import javafx.geometry.Pos;
 import naga.commons.util.Objects;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
@@ -45,5 +46,10 @@ public class FxTextFieldPeer
     @Override
     public void updatePrompt(String prompt) {
         getFxNode().setPromptText(prompt);
+    }
+
+    @Override
+    public void updateAlignment(Pos alignment) {
+        getFxNode().setAlignment(alignment);
     }
 }

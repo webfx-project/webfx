@@ -79,7 +79,10 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                     }
                 }).start();
 
-        pm.setOnNewBooking(event -> getHistory().push("/book/event/" + pm.getEventId() + "/fees"));
+        pm.setOnNewBooking(event -> {
+            getEventService().setCurrentCart(null);
+            getHistory().push("/book/event/" + pm.getEventId() + "/fees");
+        });
         pm.setOnCloneEvent(event -> getHistory().push("/event/" + pm.getEventId() + "/clone"));
     }
 

@@ -129,7 +129,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                     } catch (NumberFormatException e) {
                     }
                 });
-                amountTextField.setPrefWidth(100);
+                amountTextField.setPrefWidth(100d);
                 //LayoutUtil.setPrefMaxWidthToMin(amountTextField);
                 amountTextField.focusedProperty().addListener((observable, oldValue, focused) -> updateAmount(amount, false));
                 slider = new Slider(minAmount, maxAmount, maxAmount);
@@ -176,7 +176,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
             this.amount = amount;
             if (!amountTextField.isFocused())
                 amountTextField.setText(formatPrice(amount));
-            slider.setValue(amount);
+            slider.setValue((double) amount);
             radioGroup.selectToggle(amount == maxAmount ? maxRadioButton : amount == minAmount ? minRadioButton : amount == 0 ? zeroRadioButton : null);
             updating = false;
             if (updateTotal)

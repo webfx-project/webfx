@@ -39,7 +39,7 @@ public class BookingOptionsPanel {
 
     public BookingOptionsPanel(I18n i18n) {
         this.i18n = i18n;
-        dataGrid = LayoutUtil.setPrefMaxHeightToMin(new DataGrid());
+        dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override
             public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {

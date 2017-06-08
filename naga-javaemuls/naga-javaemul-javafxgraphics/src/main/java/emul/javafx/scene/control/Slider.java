@@ -14,6 +14,22 @@ public class Slider extends Control implements
         HasValueProperty,
         HasMaxProperty {
 
+    public Slider() {
+    }
+
+    /**
+     * Constructs a Slider control with the specified slider min, max and current value values.
+     * @param min Slider minimum value
+     * @param max Slider maximum value
+     * @param value Slider current value
+     */
+    public Slider(double min, double max, double value) {
+        setMax(max);
+        setMin(min);
+        setValue(value);
+        //adjustValues();
+        //initialize();
+    }
     private final Property<Double> maxProperty = new SimpleObjectProperty<>(100d);
     @Override
     public Property<Double> maxProperty() {

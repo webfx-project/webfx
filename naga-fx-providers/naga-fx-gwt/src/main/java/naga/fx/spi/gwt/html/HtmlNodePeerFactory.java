@@ -24,6 +24,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
     final static HtmlNodePeerFactory SINGLETON = new HtmlNodePeerFactory();
 
     private HtmlNodePeerFactory() {
+        registerNodePeerFactory(ScrollPane.class, HtmlScrollPanePeer::new);
         registerNodePeerFactory(Rectangle.class, HtmlRectanglePeer::new);
         registerNodePeerFactory(Circle.class, HtmlCirclePeer::new);
         registerNodePeerFactory(Line.class, HtmlLinePeer::new);
@@ -36,6 +37,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(RadioButton.class, HtmlRadioButtonPeer::new);
         registerNodePeerFactory(Slider.class, HtmlSliderPeer::new);
         registerNodePeerFactory(TextField.class, HtmlTextFieldPeer::new);
+        registerNodePeerFactory(TextArea.class, HtmlTextAreaPeer::new);
         registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
         registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
         registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);

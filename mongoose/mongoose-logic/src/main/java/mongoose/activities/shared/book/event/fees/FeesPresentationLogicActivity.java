@@ -187,7 +187,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private Node renderFeesGroupBody(DisplayResultSet rs) {
-        return LayoutUtil.setPrefMaxHeightToMin(new DataGrid(rs));
+        return LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {

@@ -40,9 +40,9 @@ public class GridCollator extends DataGrid {
         this.rowCollator = rowCollator;
         container = new BorderPane();
         setMaxWidth(Double.MAX_VALUE);
-        setMaxHeight(Double.MAX_VALUE);
-        container.setMaxWidth(Double.MAX_VALUE);
-        container.setMaxHeight(Double.MAX_VALUE);
+        //setMaxHeight(Double.MAX_VALUE);
+        //container.setMaxWidth(Double.MAX_VALUE);
+        //container.setMaxHeight(Double.MAX_VALUE);
         getChildren().setAll(container);
     }
 
@@ -79,7 +79,7 @@ public class GridCollator extends DataGrid {
         container.layout();
     }
 
-    private GridCollatorPeer gridCollatorPeer;
+    //private GridCollatorPeer gridCollatorPeer;
 
     public static class GridCollatorPeer
             <N extends GridCollator, NB extends DataGridPeerBase<N, N, NB, NM>, NM extends DataGridPeerMixin<N, N, NB, NM>>
@@ -149,12 +149,12 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateWidth(Double width) {
-            getNode().container.setPrefWidth(width);
+            //getNode().container.setPrefWidth(width);
         }
 
         @Override
         public void updateHeight(Double height) {
-            getNode().container.setPrefHeight(height);
+            //getNode().container.setPrefHeight(height);
         }
 
         @Override
@@ -198,12 +198,12 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateLayoutX(Double layoutX) {
-            getNode().container.setLayoutX(layoutX);
+            //getNode().container.setLayoutX(layoutX);
         }
 
         @Override
         public void updateLayoutY(Double layoutY) {
-            getNode().container.setLayoutY(layoutY);
+            //getNode().container.setLayoutY(layoutY);
         }
 
         @Override

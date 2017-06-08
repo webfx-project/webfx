@@ -2,11 +2,8 @@ package naga.fx.spi.gwt.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.*;
-import naga.commons.scheduler.Scheduled;
 import naga.commons.util.Strings;
 import naga.commons.util.async.Future;
-import naga.commons.util.tuples.Unit;
-import naga.fx.spi.Toolkit;
 
 import java.lang.Iterable;
 
@@ -198,6 +195,10 @@ public class HtmlUtil {
         return createInputElement("text");
     }
 
+    public static HTMLTextAreaElement createTextArea() {
+        return createElement("textarea");
+    }
+
     public static HTMLInputElement createCheckBox() {
         return createInputElement("checkbox");
     }
@@ -238,35 +239,10 @@ public class HtmlUtil {
         return future;
     }
 
-    public static void replaceNode(Node oldChild, Node newChild, boolean observeIfNotYetAttached) {
-        if (oldChild.parentNode != null)
-            oldChild.parentNode.replaceChild(newChild, oldChild);
-        else if (observeIfNotYetAttached)
-            runOnAttached(oldChild, () -> oldChild.parentNode.replaceChild(newChild, oldChild));
-    }
-
-    public static void runOnAttached(Node node, Runnable runnable) {
-        if (node.parentNode != null)
+    public static void onNodeInstertedIntoDocument(Node node, Runnable runnable) {
+        // Deprecated API! TODO: use MutationObserver instead
+        node.addEventListener("DOMNodeInsertedIntoDocument", evt -> {
             runnable.run();
-        else {
-/* Commented as can't make it work (just crashes) TODO: Make it work
-            new MutationObserver((mutationRecords, mutationObserver) -> {
-                Platform.log("mutationRecords");
-                if (node.parentNode != null) {
-                    mutationObserver.disconnect();
-                    runnable.run();
-                }
-                return null;
-            }).observe(oldChild);
-*/
-            // Using an alternative way with a periodic scan (quite ugly but works)
-            Unit<Scheduled> scheduled = new Unit<>();
-            scheduled.set(Toolkit.get().scheduler().schedulePeriodic(100, () -> {
-                if (node.parentNode != null) {
-                    scheduled.get().cancel();
-                    runnable.run();
-                }
-            }));
-        }
+        });
     }
 }

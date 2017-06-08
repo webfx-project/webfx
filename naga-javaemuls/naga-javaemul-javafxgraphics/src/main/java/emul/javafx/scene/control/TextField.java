@@ -1,9 +1,16 @@
 package emul.javafx.scene.control;
 
+import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.geometry.Pos;
+import emul.javafx.scene.text.TextAlignment;
+import naga.fx.properties.markers.HasAlignmentProperty;
+import naga.fx.properties.markers.HasTextAlignmentProperty;
+
 /**
  * @author Bruno Salmon
  */
-public class TextField extends TextInputControl {
+public class TextField extends TextInputControl implements HasAlignmentProperty, HasTextAlignmentProperty {
 
     /**
      * Creates a {@code TextField} with empty text content.
@@ -24,4 +31,15 @@ public class TextField extends TextInputControl {
         setText(text);
     }
 
+    private final Property<Pos> alignmentProperty = new SimpleObjectProperty<>(Pos.CENTER_LEFT);
+    @Override
+    public Property<Pos> alignmentProperty() {
+        return alignmentProperty;
+    }
+
+    private final Property<TextAlignment> textAlignmentProperty = new SimpleObjectProperty<>(TextAlignment.LEFT);
+    @Override
+    public Property<TextAlignment> textAlignmentProperty() {
+        return textAlignmentProperty;
+    }
 }

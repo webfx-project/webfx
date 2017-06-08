@@ -47,13 +47,13 @@ public class CartViewActivity extends CartBasedViewActivity {
     public Node buildUi() {
         I18n i18n = getI18n();
         BorderPane bookingsPanel = HighLevelComponents.createSectionPanel(null, null, "YourBookings", i18n);
-        DataGrid documentTable = LayoutUtil.setPrefMaxHeightToMin(new DataGrid());
+        DataGrid documentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         bookingsPanel.setCenter(documentTable);
         BorderPane optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel(i18n);
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         BorderPane paymentsPanel = HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n);
-        DataGrid paymentTable = LayoutUtil.setPrefMaxHeightToMin(new DataGrid());
+        DataGrid paymentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         paymentsPanel.setCenter(paymentTable);
 
         Button addBookingButton = i18n.translateText(new Button(), "AddAnotherBooking");
@@ -125,7 +125,7 @@ public class CartViewActivity extends CartBasedViewActivity {
                         "{expression: 'document.ref', label: 'Booking ref'}," +
                         "{expression: 'translate(method)', label: 'Method'}," +
                         "{expression: 'amount', format: 'priceWithCurrency'}," +
-                        "{expression: 'pending ? `Pending` : successful ? `Success` : `Failed`', label: 'Status'}" +
+                        "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessStatus` : `FailedStatus`)', label: 'Status'}" +
                         "]"
                 , "MoneyTransfer", paymentDisplayResultSetProperty);
         javafx.application.Platform.runLater(() -> {

@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
@@ -114,7 +115,7 @@ public class FxDataGridPeer
             tableView.minHeightProperty().bind(getNode().minHeightProperty());
             tableView.maxHeightProperty().bind(getNode().maxHeightProperty());
             // Workaround to make the table height fit with its content
-            if (getNode().maxHeightProperty().isBound()) { // ugly trick: we recognize it is necessary only when LayoutUtil.setPrefMaxHeightToMin() has been called so max size is bound to min size
+            if (getNode().getMaxHeight() == Region.USE_PREF_SIZE) { // ugly trick: we recognize it is necessary only when LayoutUtil.setMinMaxHeightToPref() has been called so max size is bound to min size
                 fitHeightToContent(tableView, getNode());
                 addStylesheet("css/tableview-no-vertical-scrollbar.css");
                 addStylesheet("css/tableview-no-horizontal-scrollbar.css");
@@ -242,7 +243,7 @@ public class FxDataGridPeer
                         nodePrefHeight = node.prefHeight(-1);
                     h += nodePrefHeight;
                 }
-                Properties.setIfNotBound(dataGrid.minHeightProperty(), h);
+                Properties.setIfNotBound(dataGrid.prefHeightProperty(), h);
             }
         }
     }

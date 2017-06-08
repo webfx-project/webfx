@@ -25,7 +25,7 @@ public class HtmlSliderPeer
     public HtmlSliderPeer(NB base, HTMLElement element) {
         super(base, element);
         HTMLInputElement inputElement = (HTMLInputElement) getElement();
-        inputElement.onchange = e -> {
+        inputElement.oninput = e -> {
             updateNodeValue(Numbers.doubleValue(inputElement.value));
             return null;
         };

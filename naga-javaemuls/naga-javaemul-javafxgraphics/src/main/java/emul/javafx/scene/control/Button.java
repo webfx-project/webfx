@@ -4,7 +4,6 @@ import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.Node;
-import emul.javafx.scene.text.TextAlignment;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +12,7 @@ public class Button extends ButtonBase {
 
     {
         // Naga default style
-        setTextAlignment(TextAlignment.CENTER);
+        //setTextAlignment(TextAlignment.CENTER);
     }
 
     /**
