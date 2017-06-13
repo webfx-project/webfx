@@ -13,7 +13,6 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.*;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
-import naga.platform.spi.Platform;
 
 import static naga.fx.spi.gwt.util.HtmlUtil.*;
 
@@ -50,7 +49,6 @@ public class HtmlDataGridPeer
         setElementStyleAttribute("overflow-y", "visible");
         double height = measureHeight(width);
         setElementStyleAttribute("overflow-y", "auto");
-        Platform.log("HtmlDataGridPeer.prefHeight = " + height);
         return height;
     }
 
@@ -158,9 +156,11 @@ public class HtmlDataGridPeer
         }
     }
 
+/*
     private final HtmlLayoutCache cache = new HtmlLayoutCache();
     @Override
     public HtmlLayoutCache getCache() {
         return cache;
     }
+*/
 }

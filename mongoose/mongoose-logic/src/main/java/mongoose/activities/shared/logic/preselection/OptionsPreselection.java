@@ -81,7 +81,7 @@ public class OptionsPreselection {
     }
 
     public int computePrice() {
-        return initializeNewWorkingDocument().applyBusinessRules().getComputedPrice();
+        return initializeNewWorkingDocument().applyBusinessRules().computePrice();
     }
 
     public String getDisplayName(I18n i18n) {

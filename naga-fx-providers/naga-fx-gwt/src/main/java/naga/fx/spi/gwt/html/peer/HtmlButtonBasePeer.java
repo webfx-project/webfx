@@ -56,7 +56,7 @@ abstract class HtmlButtonBasePeer
         HtmlUtil.setStyleAttribute(spanElement, "vertical-align", "middle");
         HtmlUtil.setChild(getElement(), spanElement);
         Node graphic = node.getGraphic();
-        String text = Strings.toSafeString(getNode().getText());
+        String text = Strings.toSafeString(node.getText());
         if (text.isEmpty() && graphic == null)
             spanElement.innerHTML = "&nbsp;";
         else

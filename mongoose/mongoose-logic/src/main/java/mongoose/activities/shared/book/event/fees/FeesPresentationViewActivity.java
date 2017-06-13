@@ -40,7 +40,7 @@ public class FeesPresentationViewActivity extends BookingProcessPresentationView
 
     @Override
     protected Node assemblyViewNodes() {
-        return new BorderPane(LayoutUtil.createVerticalScrollPane(feesGroupsCollator), null, null, buttonsBox, null);
+        return new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(feesGroupsCollator), null, null, buttonsBox, null);
     }
 
     private Node toFeesGroupPanel(Node... nodes) {

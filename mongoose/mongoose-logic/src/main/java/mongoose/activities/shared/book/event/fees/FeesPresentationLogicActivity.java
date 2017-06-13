@@ -5,9 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.text.Text;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
@@ -177,8 +177,8 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
                 displayFeesGroups();
             });
         }
-        Text feesGroupText = new Text(pair.get2());
-        Node[] nodes = {createImageView(pair.get1()), feesGroupText, noDiscountRadio, unemployedRadio, facilityFeeRadio};
+        Label feesGroupLabel = new Label(pair.get2());
+        Node[] nodes = {createImageView(pair.get1()), feesGroupLabel, noDiscountRadio, unemployedRadio, facilityFeeRadio};
         FlowPane header = new FlowPane(Arrays.nonNulls(Node[]::new, nodes));
         header.setHgap(5d);
         header.setAlignment(Pos.CENTER_LEFT);

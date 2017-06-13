@@ -50,6 +50,14 @@ public abstract class HtmlSvgNodePeer
             node.fireEvent(toMouseEvent((elemental2.MouseEvent) e));
             return null;
         };
+        element.onfocus = e -> {
+            node.setFocused(true);
+            return null;
+        };
+        element.onblur = e -> {
+            node.setFocused(false);
+            return null;
+        };
     }
 
     public E getElement() {

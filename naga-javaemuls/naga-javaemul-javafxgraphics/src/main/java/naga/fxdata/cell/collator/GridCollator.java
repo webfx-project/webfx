@@ -131,7 +131,7 @@ public class GridCollator extends DataGrid {
                 rowNodes[rowIndex] = ArrayRenderer.renderCellValue(columnValues, renderers, columnCollator);
             }
             Node finalNode = rowCollator.collateNodes(rowNodes);
-            container.setCenter(finalNode);
+            container.setTop(finalNode);
             layoutChildren();
         }
 

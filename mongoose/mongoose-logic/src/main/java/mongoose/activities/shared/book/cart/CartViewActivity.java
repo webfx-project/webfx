@@ -82,7 +82,7 @@ public class CartViewActivity extends CartBasedViewActivity {
 
         syncBookingOptionsPanelIfReady();
 
-        return LayoutUtil.createVerticalScrollPane(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, buttonBar));
+        return LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, buttonBar));
     }
 
     private Event getEvent() {

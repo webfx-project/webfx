@@ -1,6 +1,5 @@
 package mongoose.activities.shared.book.event.person;
 
-import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -22,7 +21,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         super.createViewNodes();
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
 
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPane(new VBox(personDetailsPanel.getSectionPanel())));
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(personDetailsPanel.getSectionPanel()));
 
         syncUiFromModel();
     }

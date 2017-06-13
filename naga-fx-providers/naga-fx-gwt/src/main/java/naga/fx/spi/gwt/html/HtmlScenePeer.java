@@ -80,7 +80,9 @@ public class HtmlScenePeer extends ScenePeerBase {
             HtmlNodePeer htmlNodePeer = (HtmlNodePeer) nodePeer;
             HTMLElement htmlElement = (HTMLElement) htmlNodePeer.getElement();
             HtmlUtil.absolutePosition(htmlElement);
-            if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN") && !(htmlNodePeer instanceof HtmlHtmlTextPeer))
+            if (htmlNodePeer instanceof HtmlHtmlTextPeer)
+                htmlElement.style.whiteSpace = "normal";
+            else if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN"))
                 htmlElement.style.whiteSpace = "nowrap";
         }
     }

@@ -795,7 +795,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      */
     private FocusedProperty focused;
 
-    protected final void setFocused(boolean value) {
+    public final void setFocused(boolean value) {
         FocusedProperty fp = focusedPropertyImpl();
         if (fp.value != value) {
             fp.store(value);

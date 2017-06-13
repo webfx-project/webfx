@@ -58,7 +58,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPane(vBox = new VBox(10)));
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox = new VBox(10)));
 
         bookingCalendar = createBookingCalendar();
         attendancePanel = createAttendancePanel();

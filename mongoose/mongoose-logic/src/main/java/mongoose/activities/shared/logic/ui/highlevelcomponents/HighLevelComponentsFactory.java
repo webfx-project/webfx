@@ -10,7 +10,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 
 import static naga.framework.ui.controls.ImageViewUtil.createImageView;
-import static naga.framework.ui.controls.TextUtil.createText;
+import static naga.framework.ui.controls.TextUtil.createLabel;
 
 /**
  * @author Bruno Salmon
@@ -20,7 +20,7 @@ public interface HighLevelComponentsFactory {
     BorderPane createSectionPanel(SectionPanelStyleOptions options);
 
     default BorderPane createSectionPanel(SectionPanelStyleOptions options, String iconImageUrl, String translationKey, I18n i18n) {
-        return createSectionPanel(options, createImageView(iconImageUrl), createText(translationKey, i18n));
+        return createSectionPanel(options, createImageView(iconImageUrl), createLabel(translationKey, i18n));
     }
 
     default BorderPane createSectionPanel(SectionPanelStyleOptions options, Node... headerNodes) {

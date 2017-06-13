@@ -14,7 +14,7 @@ public class HtmlLayoutPeer
         extends HtmlRegionPeer<N, NB, NM> {
 
     public HtmlLayoutPeer() {
-        super((NB) new RegionPeerBase<N, NB, NM>(), HtmlUtil.createDivElement());
+        super((NB) new RegionPeerBase<N, NB, NM>(), HtmlUtil.createSpanElement());
     }
 
 }

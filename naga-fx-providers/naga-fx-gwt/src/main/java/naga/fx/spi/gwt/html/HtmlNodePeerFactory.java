@@ -30,6 +30,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(Line.class, HtmlLinePeer::new);
         registerNodePeerFactory(Text.class, HtmlTextPeer::new);
         registerNodePeerFactory(Label.class, HtmlLabelPeer::new);
+        registerNodePeerFactory(Hyperlink.class, HtmlHyperlinkPeer::new);
         registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
         registerNodePeerFactory(Button.class, HtmlButtonPeer::new);
         registerNodePeerFactory(ToggleButton.class, HtmlToggleButtonPeer::new);

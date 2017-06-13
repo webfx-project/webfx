@@ -22,7 +22,7 @@ import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
-import static naga.framework.ui.controls.LayoutUtil.setPrefWidthToInfinite;
+import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon
@@ -92,7 +92,7 @@ public class EntityButtonSelector {
     private void showEntityDialog() {
         if (entityDialogPane == null) {
             DataGrid dataGrid = new DataGrid();
-            entityDialogPane = new BorderPane(setPrefWidthToInfinite(dataGrid));
+            entityDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
             I18n i18n = viewActivityContextMixin.getI18n();
             EntityStore filterStore = loadingStore != null ? loadingStore : entity != null ? entity.getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);

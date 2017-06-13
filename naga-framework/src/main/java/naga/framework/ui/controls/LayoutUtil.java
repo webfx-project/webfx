@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import naga.commons.util.Numbers;
 import naga.fx.properties.Properties;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
@@ -101,8 +102,43 @@ public class LayoutUtil {
         return region;
     }
 
+    public static <N extends Region> N setMinMaxWidthToPref(N region) {
+        setMinWidthToPref(region);
+        setMaxWidthToPref(region);
+        return region;
+    }
+
+    public static <N extends Region> N setMinWidthToPref(N region) {
+        return setMinWidth(region, USE_PREF_SIZE);
+    }
+
+    public static <N extends Region> N setMaxWidthToPref(N region) {
+        return setMaxWidth(region, USE_PREF_SIZE);
+    }
+
+
+    public static <N extends Region> N setMinWidth(N region, double value) {
+        region.setMinWidth(value);
+        return region;
+    }
+
+    public static <N extends Region> N setMaxWidth(N region, double value) {
+        region.setMaxWidth(value);
+        return region;
+    }
+
+    public static <N extends Region> N setMinMaxHeightToPref(N region) {
+        setMinHeightToPref(region);
+        setMaxHeightToPref(region);
+        return region;
+    }
+
     public static <N extends Region> N setMinHeightToPref(N region) {
         return setMinHeight(region, USE_PREF_SIZE);
+    }
+
+    public static <N extends Region> N setMaxHeightToPref(N region) {
+        return setMaxHeight(region, USE_PREF_SIZE);
     }
 
     public static <N extends Region> N setMinHeight(N region, double value) {
@@ -110,11 +146,8 @@ public class LayoutUtil {
         return region;
     }
 
-    public static <N extends Region> N setMinMaxHeightToPref(N region) {
-        //region.minHeightProperty().bind(region.prefHeightProperty());
-        //region.maxHeightProperty().bind(region.prefHeightProperty());
-        region.setMinHeight(USE_PREF_SIZE);
-        region.setMaxHeight(USE_PREF_SIZE);
+    public static <N extends Region> N setMaxHeight(N region, double value) {
+        region.setMaxHeight(value);
         return region;
     }
 
@@ -128,11 +161,25 @@ public class LayoutUtil {
         return setUnmanagedWhenInvisible(node);
     }
 
+    public static Region createPadding(Region content) {
+        if (content.getBorder() != null)
+            content = new VBox(content);
+        content.setPadding(new Insets(10));
+        return content;
+    }
+
+    public static ScrollPane createVerticalScrollPaneWithPadding(Region content) {
+        return createVerticalScrollPane(createPadding(content));
+    }
+
     public static ScrollPane createVerticalScrollPane(Region content) {
         ScrollPane scrollPane = new ScrollPane(content);
-        content.prefWidthProperty().bind(scrollPane.widthProperty()/*.subtract(16)*/); // doesn't compile with GWT
+        LayoutUtil.setMinMaxWidthToPref(content);
+        content.prefWidthProperty().bind(
+                // scrollPane.widthProperty().subtract(16) // doesn't compile with GWT
+                Properties.compute(scrollPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 16))
+        );
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        content.setPadding(new Insets(10));
         return scrollPane;
     }
 }

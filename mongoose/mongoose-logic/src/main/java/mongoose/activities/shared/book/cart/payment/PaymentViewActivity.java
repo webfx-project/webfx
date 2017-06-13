@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import mongoose.activities.shared.book.cart.CartBasedViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.domainmodel.format.PriceFormatter;
@@ -31,7 +30,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
     private int notPaidEnoughCount;
     private int notPaidFullCount;
     private int total;
-    private Text totalTextField;
+    private Label totalLabel;
 
     @Override
     public Node buildUi() {
@@ -45,10 +44,10 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         paymentButton.setOnAction(e -> submitPayment());
         backButton.setOnAction(e -> getHistory().goBack());
 
-        BorderPane totalSection = HighLevelComponents.createSectionPanel(null, i18n.translateText(new Label(), "TotalAmount:"), LayoutUtil.createHGrowable(), totalTextField = new Text());
+        BorderPane totalSection = HighLevelComponents.createSectionPanel(null, i18n.translateText(new Label(), "TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
         VBox vBox = new VBox(20, i18n.translateText(new Label(), "PaymentPrompt"), paymentsVBox, totalSection, buttonBar);
         displayDocumentPaymentsIfReady();
-        return LayoutUtil.createVerticalScrollPane(vBox);
+        return LayoutUtil.createVerticalScrollPaneWithPadding(vBox);
     }
 
     @Override
@@ -68,7 +67,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
 
     private void updateTotal() {
         total = Collections.sum(documentPayments, DocumentPayment::getAmount);
-        totalTextField.setText(formatCurrency(total));
+        totalLabel.setText(formatCurrency(total));
     }
 
     private String formatPrice(int amount) {

@@ -32,7 +32,6 @@ import naga.platform.spi.Platform;
 import java.time.Instant;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
-import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon
@@ -68,9 +67,13 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
         VBox panelsVBox = new VBox(20, bookingOptionsPanel.getOptionsPanel(), personDetailsPanel.getSectionPanel(), commentPanel, termsPanel);
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPane(panelsVBox));
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(panelsVBox));
 
-        // nextButton.disableProperty().bind(termsCheckBox.selectedProperty().not()); // Doesn't compile with GWT
+
+        nextButton.disableProperty().bind(
+                // termsCheckBox.selectedProperty().not() // Doesn't compile with GWT
+                Properties.compute(termsCheckBox.selectedProperty(), value -> !value) // GWT compatible
+        );
     }
 
     private void setTermsCheckBoxText(String text) {
@@ -98,7 +101,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
 
     private void showTermsDialog() {
         GridCollator termsLetterCollator = new GridCollator("first", "first");
-        BorderPane entityDialogPane = new BorderPane(setPrefSizeToInfinite(termsLetterCollator));
+        BorderPane entityDialogPane = new BorderPane(LayoutUtil.setPrefSizeToInfinite(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator)));
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine(eventIdProperty(), e -> "{where: 'event=" + e + "'}")
                 .combine(getI18n().languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
