@@ -48,7 +48,7 @@ public abstract class HtmlSvgNodePeer
         super.bind(node, sceneRequester);
         getElement().onclick = e -> {
             node.fireEvent(toMouseEvent((elemental2.MouseEvent) e));
-            return null;
+            return false; // To stop href navigation for example
         };
         element.onfocus = e -> {
             node.setFocused(true);
