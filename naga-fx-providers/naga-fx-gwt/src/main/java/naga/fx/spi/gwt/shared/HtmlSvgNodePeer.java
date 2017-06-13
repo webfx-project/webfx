@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.shared;
 
-import elemental2.Element;
+import elemental2.dom.Element;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
@@ -47,7 +47,7 @@ public abstract class HtmlSvgNodePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         getElement().onclick = e -> {
-            node.fireEvent(toMouseEvent((elemental2.MouseEvent) e));
+            node.fireEvent(toMouseEvent((elemental2.dom.MouseEvent) e));
             return false; // To stop href navigation for example
         };
         element.onfocus = e -> {
@@ -126,7 +126,7 @@ public abstract class HtmlSvgNodePeer
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
     }
 
-    private static MouseEvent toMouseEvent(elemental2.MouseEvent me) {
+    private static MouseEvent toMouseEvent(elemental2.dom.MouseEvent me) {
         return new MouseEvent(MouseEvent.MOUSE_CLICKED, me.x, me.y, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
     }
 

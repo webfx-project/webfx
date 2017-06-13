@@ -1,7 +1,8 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.CSSStyleDeclaration;
-import elemental2.HTMLElement;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.shape.Circle;
 import naga.fx.spi.peer.base.CirclePeerBase;
@@ -37,7 +38,9 @@ public class HtmlCirclePeer
     @Override
     public void updateRadius(Double radius) {
         CSSStyleDeclaration style = getElement().style;
-        style.width = style.height = toPx(2*radius);
-        style.borderRadius = toPx(radius);
+        String px = toPx(2 * radius);
+        style.width = CSSProperties.WidthUnionType.of(px);
+        style.height = CSSProperties.HeightUnionType.of(px);
+        style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(radius));
     }
 }

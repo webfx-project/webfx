@@ -1,17 +1,19 @@
 package naga.fx.spi.gwt;
 
-import naga.commons.scheduler.UiScheduler;
+import elemental2.dom.DomGlobal;
 import emul.javafx.geometry.Rectangle2D;
-import naga.fx.spi.peer.StagePeer;
-import naga.fx.spi.peer.WindowPeer;
 import emul.javafx.scene.Scene;
-import naga.fx.spi.peer.ScenePeer;
+import emul.javafx.stage.Screen;
+import emul.javafx.stage.Stage;
+import emul.javafx.stage.Window;
+import naga.commons.scheduler.UiScheduler;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
-import emul.javafx.stage.*;
+import naga.fx.spi.peer.ScenePeer;
+import naga.fx.spi.peer.StagePeer;
+import naga.fx.spi.peer.WindowPeer;
 import naga.platform.spi.Platform;
 
-import static elemental2.Global.window;
 
 /**
  * @author Bruno Salmon
@@ -41,7 +43,7 @@ public class GwtToolkit extends Toolkit {
 
     @Override
     public Screen getPrimaryScreen() {
-        elemental2.Screen screen = window.screen;
+        elemental2.dom.Screen screen = DomGlobal.screen;
         return Screen.from(toRectangle2D(screen.width, screen.height), toRectangle2D(screen.availWidth, screen.availHeight));
     }
 

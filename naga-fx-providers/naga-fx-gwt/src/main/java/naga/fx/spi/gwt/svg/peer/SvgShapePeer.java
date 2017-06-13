@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.svg.peer;
 
-import elemental2.Element;
+import elemental2.dom.Element;
 import naga.commons.util.collection.Collections;
 import naga.fx.spi.gwt.util.SvgUtil;
 import emul.javafx.scene.paint.Paint;

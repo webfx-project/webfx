@@ -1,8 +1,8 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.Element;
-import elemental2.Event;
-import elemental2.HTMLElement;
+import elemental2.dom.Element;
+import elemental2.dom.Event;
+import elemental2.dom.HTMLElement;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.ButtonBase;
@@ -68,7 +68,7 @@ abstract class HtmlButtonBasePeer
             HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
             HtmlUtil.appendFirstChild(getElement(), graphicElement);
             for (double i = 0, n =  graphicElement.childNodes.length; i < n; i++) {
-                elemental2.Node childNode = graphicElement.childNodes.get(i);
+                elemental2.dom.Node childNode = graphicElement.childNodes.item(i);
                 HtmlUtil.setStyleAttribute(childNode, "margin", " 0 5px 0 0");
                 HtmlUtil.setStyleAttribute(childNode, "vertical-align", "middle");
                 HtmlUtil.setStyleAttribute(childNode, "position", "relative");

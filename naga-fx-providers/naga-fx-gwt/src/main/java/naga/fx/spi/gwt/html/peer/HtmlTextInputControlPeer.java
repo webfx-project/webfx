@@ -1,9 +1,9 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.CSSStyleDeclaration;
-import elemental2.HTMLElement;
-import elemental2.HTMLInputElement;
-import elemental2.HTMLTextAreaElement;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
+import elemental2.dom.HTMLTextAreaElement;
 import emul.javafx.scene.control.TextInputControl;
 import emul.javafx.scene.text.Font;
 import naga.commons.util.Objects;

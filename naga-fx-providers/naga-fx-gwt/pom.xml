@@ -20,9 +20,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>elemental2-experimental</artifactId>
-            <version>16-06-30</version>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.elemental2</groupId>
+            <artifactId>elemental2-dom</artifactId>
         </dependency>
 
         <dependency>
@@ -34,7 +38,6 @@
         <dependency>
             <groupId>com.googlecode.gwt-charts</groupId>
             <artifactId>gwt-charts</artifactId>
-            <version>0.9.10</version>
         </dependency>
 
     </dependencies>

@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
+import elemental2.dom.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.Labeled;

@@ -1,8 +1,8 @@
 package naga.fx.spi.gwt.html;
 
-import elemental2.HTMLButtonElement;
-import elemental2.HTMLElement;
-import elemental2.HTMLLabelElement;
+import elemental2.dom.HTMLButtonElement;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLLabelElement;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
@@ -57,7 +57,7 @@ public class HtmlScenePeer extends ScenePeerBase {
                         + "px");
     }
 
-    public elemental2.Node getSceneNode() {
+    public elemental2.dom.Node getSceneNode() {
         return container;
     }
 
@@ -69,7 +69,7 @@ public class HtmlScenePeer extends ScenePeerBase {
     @Override
     public void updateParentAndChildrenPeers(Parent parent) {
         if (!(parent instanceof HtmlText)) {
-            elemental2.Node parentNode = HtmlSvgNodePeer.toElement(parent, scene);
+            elemental2.dom.Node parentNode = HtmlSvgNodePeer.toElement(parent, scene);
             HtmlUtil.setChildren(parentNode, Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
         }
     }

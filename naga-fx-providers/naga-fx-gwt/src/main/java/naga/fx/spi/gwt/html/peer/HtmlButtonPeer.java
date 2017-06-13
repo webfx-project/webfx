@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
+import elemental2.dom.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.control.Button;
 import naga.fx.spi.peer.base.ButtonPeerBase;

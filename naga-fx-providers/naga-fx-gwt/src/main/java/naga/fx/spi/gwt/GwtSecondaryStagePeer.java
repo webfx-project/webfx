@@ -1,17 +1,18 @@
 package naga.fx.spi.gwt;
 
-import elemental2.CSSStyleDeclaration;
-import elemental2.HTMLBodyElement;
-import elemental2.HTMLElement;
-import naga.fx.spi.gwt.html.HtmlScenePeer;
-import naga.fx.spi.gwt.util.HtmlUtil;
-import naga.fx.spi.peer.StagePeer;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLBodyElement;
+import elemental2.dom.HTMLElement;
+import emul.com.sun.javafx.tk.TKStageListener;
 import emul.javafx.stage.Modality;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import emul.com.sun.javafx.tk.TKStageListener;
+import naga.fx.spi.gwt.html.HtmlScenePeer;
+import naga.fx.spi.gwt.util.HtmlUtil;
+import naga.fx.spi.peer.StagePeer;
 
-import static elemental2.Global.window;
+import static elemental2.dom.DomGlobal.document;
 
 /**
  * @author Bruno Salmon
@@ -48,9 +49,9 @@ class GwtSecondaryStagePeer implements StagePeer {
         if (h < 0 && ch > 0)
             h = ch + 6;
         if (w > 0)
-            stageDivStyle.width = w + "px";
+            stageDivStyle.width = CSSProperties.WidthUnionType.of(w + "px");
         if (h > 0)
-            stageDivStyle.height = h + "px";
+            stageDivStyle.height = CSSProperties.HeightUnionType.of(h + "px");
         changedWindowSize();
     }
 
@@ -75,7 +76,7 @@ class GwtSecondaryStagePeer implements StagePeer {
     @Override
     public void setVisible(boolean visible) {
         if (visible != this.visible) {
-            HTMLBodyElement body = window.document.body;
+            HTMLBodyElement body = document.body;
             if (visible) {
                 if (stage.getModality() != Modality.NONE) {
                     modalBackgroundDiv = HtmlUtil.createDivElement();
@@ -83,7 +84,7 @@ class GwtSecondaryStagePeer implements StagePeer {
                     style.position = "absolute";
                     style.top = style.bottom = style.left = style.right = "0";
                     style.background = "black";
-                    style.opacity = 0.5;
+                    style.opacity = CSSProperties.OpacityUnionType.of(0.5);
                     body.appendChild(modalBackgroundDiv);
                 }
                 body.appendChild(stageDiv);
@@ -101,7 +102,7 @@ class GwtSecondaryStagePeer implements StagePeer {
         setWindowContent(((HtmlScenePeer) stage.getScene().impl_getPeer()).getSceneNode());
     }
 
-    private void setWindowContent(elemental2.Node content) {
+    private void setWindowContent(elemental2.dom.Node content) {
         HtmlUtil.setChild(stageDiv, content);
     }
 

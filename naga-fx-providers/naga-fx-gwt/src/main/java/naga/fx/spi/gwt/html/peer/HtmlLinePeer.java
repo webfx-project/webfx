@@ -1,8 +1,9 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
-import naga.fx.spi.gwt.util.HtmlUtil;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.HTMLElement;
 import emul.javafx.scene.shape.Line;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.LinePeerBase;
 import naga.fx.spi.peer.base.LinePeerMixin;
 
@@ -53,7 +54,7 @@ public class HtmlLinePeer
         HTMLElement e = getElement();
         e.style.left = toPx(Math.min(startX, endX));
         e.style.top = toPx(Math.min(startY, endY));
-        e.style.width = toPx(Math.abs(endX - startX));
-        e.style.height = toPx(Math.abs(endY - startY));
+        e.style.width = CSSProperties.WidthUnionType.of(toPx(Math.abs(endX - startX)));
+        e.style.height = CSSProperties.HeightUnionType.of(toPx(Math.abs(endY - startY)));
     }
 }

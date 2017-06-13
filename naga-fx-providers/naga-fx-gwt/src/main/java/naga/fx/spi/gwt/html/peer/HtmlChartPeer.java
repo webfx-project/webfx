@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.html.peer;
 
 import com.googlecode.gwt.charts.client.*;
 import com.googlecode.gwt.charts.client.corechart.CoreChartWidget;
-import elemental2.Node;
+import elemental2.dom.Node;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
 import naga.commons.type.Types;

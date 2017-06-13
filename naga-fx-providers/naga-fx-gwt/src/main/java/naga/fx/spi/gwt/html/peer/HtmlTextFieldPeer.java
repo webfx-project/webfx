@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
+import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.Pos;
 import emul.javafx.scene.control.TextField;
 import naga.fx.spi.gwt.util.HtmlUtil;

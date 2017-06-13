@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.Element;
-import elemental2.HTMLElement;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
 import emul.javafx.scene.control.ScrollPane;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.Toolkit;

@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.CSSStyleDeclaration;
-import elemental2.HTMLElement;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLElement;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.effect.GaussianBlur;

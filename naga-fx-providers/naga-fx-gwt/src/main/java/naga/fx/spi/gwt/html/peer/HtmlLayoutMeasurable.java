@@ -1,7 +1,8 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.CSSStyleDeclaration;
-import elemental2.HTMLElement;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.BoundingBox;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.scene.LayoutMeasurable;
@@ -69,15 +70,15 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
         }
         HTMLElement e = getElement();
         CSSStyleDeclaration style = e.style;
-        Object styleWidth = style.width;
-        Object styleHeight = style.height;
+        CSSProperties.WidthUnionType styleWidth = style.width;
+        CSSProperties.HeightUnionType styleHeight = style.height;
         if (width) {
             style.width = null;
             if (value >= 0)
-                style.height = HtmlNodePeer.toPx(value);
+                style.height = CSSProperties.HeightUnionType.of(HtmlNodePeer.toPx(value));
         } else {
             if (value >= 0)
-                style.width = HtmlNodePeer.toPx(value);
+                style.width = CSSProperties.WidthUnionType.of(HtmlNodePeer.toPx(value));
             style.height = null;
         }
         double result = measure(e, width);

@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.svg.peer;
 
-import elemental2.Element;
+import elemental2.dom.Element;
 import emul.javafx.scene.layout.Region;
 import naga.fx.spi.peer.base.RegionPeerBase;
 import naga.fx.spi.peer.base.RegionPeerMixin;

@@ -1,13 +1,13 @@
 package naga.fx.spi.gwt.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import elemental2.*;
+import elemental2.dom.*;
 import naga.commons.util.Strings;
 import naga.commons.util.async.Future;
 
 import java.lang.Iterable;
 
-import static elemental2.Global.document;
+import static elemental2.dom.DomGlobal.document;
 
 /**
  * @author Bruno Salmon
@@ -214,7 +214,7 @@ public class HtmlUtil {
     public static <E extends Element> E getElementById(Element element, String id, String tag) {
         NodeList<Element> elements = element.getElementsByTagName(tag);
         for (int i = 0; i < elements.length; i++) {
-            Element e = elements.get(i);
+            Element e = elements.item(i);
             if (id.equals(e.getAttribute("id")))
                 return (E) e;
         }
@@ -224,7 +224,7 @@ public class HtmlUtil {
     public static Future<Void> loadScript(String src) {
         NodeList<Element> scriptElements = document.head.getElementsByTagName("script");
         for (double i = 0, n = scriptElements.getLength(); i < n; i++) {
-            HTMLScriptElement headElement = (HTMLScriptElement) scriptElements.get(i);
+            HTMLScriptElement headElement = (HTMLScriptElement) scriptElements.item(i);
             if (src.equals(headElement.src))
                 return Future.succeededFuture();
         }

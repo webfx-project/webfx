@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.util;
 
-import elemental2.Element;
+import elemental2.dom.Element;
 import naga.commons.util.collection.Collections;
 import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.CycleMethod;
@@ -10,7 +10,7 @@ import emul.javafx.scene.shape.StrokeLineCap;
 import emul.javafx.scene.shape.StrokeLineJoin;
 import emul.javafx.scene.shape.StrokeType;
 
-import static elemental2.Global.document;
+import static elemental2.dom.DomGlobal.document;
 
 /**
  * @author Bruno Salmon

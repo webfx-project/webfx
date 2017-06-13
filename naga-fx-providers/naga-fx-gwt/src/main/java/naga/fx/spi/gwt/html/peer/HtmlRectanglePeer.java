@@ -1,6 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.HTMLElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.shape.Rectangle;
 import naga.fx.spi.peer.base.RectanglePeerBase;
@@ -35,12 +36,12 @@ public class HtmlRectanglePeer
 
     @Override
     public void updateWidth(Double width) {
-        getElement().style.width = toPx(width);
+        getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
     }
 
     @Override
     public void updateHeight(Double height) {
-        getElement().style.height = toPx(height);
+        getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
     }
 
     @Override
@@ -55,6 +56,6 @@ public class HtmlRectanglePeer
 
     private void updateBorderRadius() {
         Rectangle r = getNode();
-        getElement().style.borderRadius = toPx(r.getArcWidth()/2) + " " + toPx(r.getArcHeight()/2);
+        getElement().style.borderRadius = CSSProperties.BorderRadiusUnionType.of(toPx(r.getArcWidth()/2) + " " + toPx(r.getArcHeight()/2));
     }
 }

@@ -34,19 +34,24 @@
         <naga.version>0.1.0-SNAPSHOT</naga.version>
 
         <!-- libraries versions -->
-        <lib.javawebsocket.version>1.3.0</lib.javawebsocket.version>
-        <lib.android.version>4.1.1.4</lib.android.version>
         <lib.gwt.version>2.8.1</lib.gwt.version>
-        <lib.teavm.version>0.4.3</lib.teavm.version>
+        <lib.elemental2.version>1.0.0-beta-1</lib.elemental2.version>
+        <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.vertx.version>3.4.1</lib.vertx.version>
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
-        <lib.medusa.version>5.5</lib.medusa.version>
+        <lib.javawebsocket.version>1.3.0</lib.javawebsocket.version>
+
         <lib.javafxsvg.version>1.2.1</lib.javafxsvg.version>
-        <lib.xchart.version>3.2.0</lib.xchart.version>
         <lib.batik-transcoder.version>1.8</lib.batik-transcoder.version>
         <lib.xmlgraphics-commons.version>1.5</lib.xmlgraphics-commons.version>
+
         <lib.junit.version>4.12</lib.junit.version>
+
+        <lib.teavm.version>0.4.3</lib.teavm.version>
+        <lib.android.version>4.1.1.4</lib.android.version>
+        <lib.medusa.version>5.5</lib.medusa.version>
+        <lib.xchart.version>3.2.0</lib.xchart.version>
 
         <!-- plugins versions -->
         <plugin.jar.version>2.4</plugin.jar.version>
@@ -57,11 +62,12 @@
         <plugin.shade.version>2.4.3</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
-        <plugin.android.version>4.4.1</plugin.android.version>
         <plugin.gwt.version>1.0-rc-6</plugin.gwt.version>
-        <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
         <plugin.download.version>1.2.1</plugin.download.version>
+
+        <plugin.android.version>4.4.1</plugin.android.version>
+        <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
 
         <!-- external tools versions -->
         <tool.j2objc.version>1.0.2</tool.j2objc.version>
@@ -75,16 +81,17 @@
         <plugin.dependency.param.copy-libs.phase>validate</plugin.dependency.param.copy-libs.phase>
         <plugin.shade.param.fat.phase>package</plugin.shade.param.fat.phase>
         <plugin.antrun.param.j2objc.phase>compile</plugin.antrun.param.j2objc.phase>
-        <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
-        <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
-        <plugin.teavm.minifying>true</plugin.teavm.minifying>
-        <plugin.teavm.debug>false</plugin.teavm.debug>
         <plugin.gwt.param.skipCompilation>false</plugin.gwt.param.skipCompilation>
         <plugin.gwt.param.draftCompile>false</plugin.gwt.param.draftCompile>
         <plugin.gwt.param.optimize>9</plugin.gwt.param.optimize>
         <plugin.gwt.param.module>TBD</plugin.gwt.param.module>
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
+
+        <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
+        <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
+        <plugin.teavm.minifying>true</plugin.teavm.minifying>
+        <plugin.teavm.debug>false</plugin.teavm.debug>
 
         <!-- properties used for j2objc tool (install and execution) -->
         <tool.j2objc.param.parent>${user.home}</tool.j2objc.param.parent>
@@ -261,6 +268,24 @@
                 <version>${lib.gwt.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.elemental2</groupId>
+                <artifactId>elemental2-core</artifactId>
+                <version>${lib.elemental2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.elemental2</groupId>
+                <artifactId>elemental2-dom</artifactId>
+                <version>${lib.elemental2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.googlecode.gwt-charts</groupId>
+                <artifactId>gwt-charts</artifactId>
+                <version>${lib.gwt-charts.version}</version>
             </dependency>
 
             <!--

@@ -8,8 +8,9 @@ import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.StagePeer;
 
-import static elemental2.Global.document;
-import static elemental2.Global.window;
+import static elemental2.dom.DomGlobal.document;
+import static elemental2.dom.DomGlobal.window;
+
 
 /**
  * @author Bruno Salmon
@@ -74,7 +75,7 @@ class GwtPrimaryStagePeer implements StagePeer {
         setWindowContent(((HtmlScenePeer) stage.getScene().impl_getPeer()).getSceneNode());
     }
 
-    private void setWindowContent(elemental2.Node content) {
+    private void setWindowContent(elemental2.dom.Node content) {
         HtmlUtil.setBodyContent(content);
     }
 

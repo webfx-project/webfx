@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.svg;
 
-import elemental2.Element;
-import elemental2.HTMLElement;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
 import naga.commons.util.Numbers;
 import naga.commons.util.collection.Collections;
 import naga.fx.properties.Properties;
@@ -64,7 +64,7 @@ public class SvgScenePeer extends ScenePeerBase {
 
     @Override
     public void updateParentAndChildrenPeers(Parent parent) {
-        elemental2.Node svgParent = HtmlSvgNodePeer.toElement(parent, scene);
+        elemental2.dom.Node svgParent = HtmlSvgNodePeer.toElement(parent, scene);
         HtmlUtil.setChildren(svgParent, Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
     }
 

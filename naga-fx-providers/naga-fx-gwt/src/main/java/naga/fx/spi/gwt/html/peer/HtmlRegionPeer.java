@@ -1,7 +1,8 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.CSSStyleDeclaration;
-import elemental2.HTMLElement;
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.HTMLElement;
 import naga.commons.util.collection.Collections;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
@@ -28,7 +29,7 @@ abstract class HtmlRegionPeer
     @Override
     public void updateWidth(Double width) {
         if (width > 0) {
-            getElement().style.width = toPx(width);
+            getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
             clearLayoutCache();
         }
     }
@@ -36,7 +37,7 @@ abstract class HtmlRegionPeer
     @Override
     public void updateHeight(Double height) {
         if (height > 0) {
-            getElement().style.height = toPx(height);
+            getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
             clearLayoutCache();
         }
     }
@@ -72,10 +73,10 @@ abstract class HtmlRegionPeer
 
     private void applyBorderRadii(CornerRadii radii) {
         CSSStyleDeclaration style = getElement().style;
-        style.borderTopLeftRadius = toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius()));
-        style.borderTopRightRadius = toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius()));
-        style.borderBottomRightRadius = toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius()));
-        style.borderBottomLeftRadius = toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius()));
+        style.borderTopLeftRadius = CSSProperties.BorderTopLeftRadiusUnionType.of(toPx(Math.max(radii.getTopLeftHorizontalRadius(), radii.getTopLeftVerticalRadius())));
+        style.borderTopRightRadius = CSSProperties.BorderTopRightRadiusUnionType.of(toPx(Math.max(radii.getTopRightHorizontalRadius(), radii.getTopRightVerticalRadius())));
+        style.borderBottomRightRadius = CSSProperties.BorderBottomRightRadiusUnionType.of(toPx(Math.max(radii.getBottomRightHorizontalRadius(), radii.getBottomRightVerticalRadius())));
+        style.borderBottomLeftRadius = CSSProperties.BorderBottomLeftRadiusUnionType.of(toPx(Math.max(radii.getBottomLeftHorizontalRadius(), radii.getBottomLeftVerticalRadius())));
     }
 
     private static String toCssBorder(Paint stroke, BorderStrokeStyle style, double width, boolean isPercentage) {

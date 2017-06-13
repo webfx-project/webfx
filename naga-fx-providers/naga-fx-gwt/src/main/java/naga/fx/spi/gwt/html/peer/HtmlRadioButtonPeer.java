@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
-import elemental2.HTMLInputElement;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.control.RadioButton;
 import naga.fx.spi.peer.base.RadioButtonPeerMixin;

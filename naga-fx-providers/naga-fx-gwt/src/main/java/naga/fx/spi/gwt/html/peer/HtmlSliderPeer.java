@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.HTMLElement;
-import elemental2.HTMLInputElement;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
 import naga.fx.spi.gwt.util.HtmlUtil;

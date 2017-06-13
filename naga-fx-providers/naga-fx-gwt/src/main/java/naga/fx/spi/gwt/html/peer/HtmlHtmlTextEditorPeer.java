@@ -1,8 +1,8 @@
 package naga.fx.spi.gwt.html.peer;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import elemental2.Element;
-import elemental2.HTMLDivElement;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLDivElement;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.fx.scene.SceneRequester;

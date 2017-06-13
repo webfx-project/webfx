@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.svg.peer;
 
-import elemental2.Element;
+import elemental2.dom.Element;
 import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
 import naga.fx.spi.gwt.svg.SvgScenePeer;
 import naga.fx.spi.gwt.util.HtmlPaints;

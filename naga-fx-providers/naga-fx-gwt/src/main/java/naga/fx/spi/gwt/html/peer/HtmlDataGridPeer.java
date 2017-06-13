@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.*;
+import elemental2.dom.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.HBox;
 import naga.commons.util.Strings;
@@ -77,7 +77,7 @@ public class HtmlDataGridPeer
         firstRow = firstRow + 1;
         lastRow = Math.min(lastRow + 1, (int) rows.getLength() - 1);
         for (int trIndex = firstRow; trIndex <= lastRow; trIndex++)
-            setPseudoClass(rows.get(trIndex), "selected", selected);
+            setPseudoClass(rows.item(trIndex), "selected", selected);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class HtmlDataGridPeer
             cell.appendChild(contentViewElement);
             double spacing = content instanceof HBox ? ((HBox) content).getSpacing() : 0;
             for (int i = 0, n = (int) contentViewElement.childElementCount; i < n; i++) {
-                elemental2.Node childNode = contentViewElement.childNodes.get(i);
+                elemental2.dom.Node childNode = contentViewElement.childNodes.item(i);
                 if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
                     contentViewElement.removeChild(childNode);
                     i--; n--;
