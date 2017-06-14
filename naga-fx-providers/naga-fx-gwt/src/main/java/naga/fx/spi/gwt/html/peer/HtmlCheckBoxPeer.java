@@ -29,8 +29,8 @@ public class HtmlCheckBoxPeer
             getNode().setSelected(checkBox.checked);
             return null;
         };
-        HtmlUtil.setStyleAttribute(getElement(), "margin-top", "0");
-        HtmlUtil.setStyleAttribute(getElement(), "margin-bottom", "0");
+        HtmlUtil.setStyleAttribute(element, "margin-top", "0");
+        HtmlUtil.setStyleAttribute(element, "margin-bottom", "0");
         HtmlUtil.setStyleAttribute(checkBox, "vertical-align", "middle");
         HtmlUtil.setStyleAttribute(checkBox, "margin", " 0 5px 0 0");
     }

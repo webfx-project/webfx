@@ -1,6 +1,7 @@
 package naga.fx.spi.gwt.shared;
 
 import elemental2.dom.Element;
+import elemental2.dom.Event;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
@@ -36,6 +37,7 @@ public abstract class HtmlSvgNodePeer
     private final E element;
     private Element container;
     protected DomType containerType;
+    protected boolean preventDefaultOnClickElementEvent = false; // can be set to true prevent default behaviour (ex: stop navigation on hyperlink with # href)
 
     public HtmlSvgNodePeer(NB base, E element) {
         super(base);
@@ -47,17 +49,31 @@ public abstract class HtmlSvgNodePeer
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         getElement().onclick = e -> {
-            node.fireEvent(toMouseEvent((elemental2.dom.MouseEvent) e));
-            return false; // To stop href navigation for example
+            onClickElement(e);
+            if (preventDefaultOnClickElementEvent)
+                e.preventDefault();
+            return null;
         };
         element.onfocus = e -> {
-            node.setFocused(true);
+            onFocusElement(e);
             return null;
         };
         element.onblur = e -> {
-            node.setFocused(false);
+            onBlurElement(e);
             return null;
         };
+    }
+
+    protected void onClickElement(Event e) {
+        getNode().fireEvent(toMouseEvent((elemental2.dom.MouseEvent) e));
+    }
+
+    protected void onFocusElement(Event e) {
+        getNode().setFocused(true);
+    }
+
+    protected void onBlurElement(Event e) {
+        getNode().setFocused(false);
     }
 
     public E getElement() {

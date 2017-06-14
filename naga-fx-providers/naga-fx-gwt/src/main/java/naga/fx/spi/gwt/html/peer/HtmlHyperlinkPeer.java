@@ -23,6 +23,7 @@ public class HtmlHyperlinkPeer
     public HtmlHyperlinkPeer(NB base, HTMLElement element) {
         super(base, element);
         element.setAttribute("href", "#");
+        preventDefaultOnClickElementEvent = true;
     }
 
 }

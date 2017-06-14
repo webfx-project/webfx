@@ -2,10 +2,10 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
-import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.control.RadioButton;
-import naga.fx.spi.peer.base.RadioButtonPeerMixin;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.RadioButtonPeerBase;
+import naga.fx.spi.peer.base.RadioButtonPeerMixin;
 
 /**
  * @author Bruno Salmon
@@ -29,8 +29,8 @@ public class HtmlRadioButtonPeer
             getNode().setSelected(radioButtonElement.checked);
             return null;
         };
-        HtmlUtil.setStyleAttribute(getElement(), "margin-top", "0");
-        HtmlUtil.setStyleAttribute(getElement(), "margin-bottom", "0");
+        HtmlUtil.setStyleAttribute(element, "margin-top", "0");
+        HtmlUtil.setStyleAttribute(element, "margin-bottom", "0");
         HtmlUtil.setStyleAttribute(radioButtonElement, "vertical-align", "middle");
         HtmlUtil.setStyleAttribute(radioButtonElement, "margin", " 0 5px 0 0");
     }

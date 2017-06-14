@@ -7,7 +7,6 @@ import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.ButtonBase;
 import naga.commons.util.Strings;
-import naga.fx.scene.SceneRequester;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ButtonBasePeerBase;
 import naga.fx.spi.peer.base.ButtonBasePeerMixin;
@@ -25,16 +24,7 @@ abstract class HtmlButtonBasePeer
         super(base, element);
     }
 
-    @Override
-    public void bind(N node, SceneRequester sceneRequester) {
-        super.bind(node, sceneRequester);
-        getElement().onclick = e -> {
-            onClick(e);
-            return null;
-        };
-    }
-
-    protected void onClick(Event e) {
+    protected void onClickElement(Event e) {
         N node = getNode();
         node.fireEvent(new ActionEvent(node, node));
     }
