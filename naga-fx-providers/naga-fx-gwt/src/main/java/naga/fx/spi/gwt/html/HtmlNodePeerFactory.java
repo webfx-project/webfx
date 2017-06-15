@@ -41,6 +41,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(TextArea.class, HtmlTextAreaPeer::new);
         registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
         registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
+        registerNodePeerFactory(DatePicker.class, HtmlDatePickerPeer::new);
         registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);
         registerNodePeerFactory(DataGrid.class, HtmlDataGridPeer::new);
         registerNodePeerFactory(LineChart.class, HtmlLineChartPeer::new);
