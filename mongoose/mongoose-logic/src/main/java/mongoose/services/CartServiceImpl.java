@@ -147,6 +147,11 @@ class CartServiceImpl implements CartService {
                 return Future.succeededFuture();
             eventService = EventService.getOrCreateFromDocument(dls.get(0).getDocument());
             return eventService.onEventOptions().compose(v2 -> {
+                if (!cartDocuments.isEmpty()) {
+                    Platform.log("Warning: CartService.onCart() has been called again before the first call is finished");
+                    cartDocuments.clear();
+                    cartWorkingDocuments.clear();
+                }
                 Document currentDocument = null;
                 List<WorkingDocumentLine> wdls = null;
                 for (DocumentLine dl : dls) {
@@ -160,8 +165,6 @@ class CartServiceImpl implements CartService {
                     wdls.add(new WorkingDocumentLine(dl, Collections.filter(as, a -> a.getDocumentLine() == dl), eventService));
                 }
                 addWorkingDocument(currentDocument, wdls);
-                if (cartWorkingDocuments.size() != cartDocuments.size())
-                    System.out.println("!!!");
                 setCart(cartDocuments.get(0).getCart());
                 return Future.succeededFuture(cart);
             });
