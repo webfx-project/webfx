@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
+import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Country;
 import mongoose.entities.Event;
 import mongoose.entities.Organization;
@@ -63,6 +64,7 @@ public class PersonDetailsPanel {
         childRadioButton.setToggleGroup(ageGroup);
         adultRadioButton.setToggleGroup(ageGroup);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
+        birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
         carer1NameTextField = new TextField();
         carer2NameTextField = new TextField();
         emailTextField = new TextField();
@@ -111,7 +113,6 @@ public class PersonDetailsPanel {
     private Node createPanelBody() {
         return firstNameTextField.isEditable() ? createPersonGridPane() : createPersonDataGrid();
     }
-
 
     private GridPane createPersonGridPane() {
         GridPaneBuilder gridPaneBuilder = new GridPaneBuilder(i18n)
@@ -199,14 +200,14 @@ public class PersonDetailsPanel {
         p.setFirstName(firstNameTextField.getText());
         p.setLastName(lastNameTextField.getText());
         p.setMale(maleRadioButton.isSelected());
-/* doesn't compile with GWT
-        birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
         Integer age = null;
-        if (childRadioButton.isSelected())
+        if (childRadioButton.isSelected()) {
             // age = (int) birthDatePicker.getValue().until(event.getStartDate(), ChronoUnit.YEARS); // Doesn't compile with GWT
-            age = event.getStartDate().minus(birthDatePicker.getValue().toEpochDay(), ChronoUnit.DAYS).getYear();
+            age = (int) (event.getStartDate().toEpochDay() - birthDatePicker.getValue().toEpochDay()) / 365;
+            if (age >= 18) // TODO: move this later in a applyBusinessRules() method
+                age = null;
+        }
         p.setAge(age);
-*/
         p.setCarer1Name(carer1NameTextField.getText());
         p.setCarer2Name(carer2NameTextField.getText());
         p.setEmail(emailTextField.getText());
