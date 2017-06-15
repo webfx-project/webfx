@@ -32,7 +32,7 @@ public interface I18n {
             message = dictionary.getMessage(key);
             if (message == null) {
                 String sKey = Strings.asString(key);
-                int length = sKey.length();
+                int length = Strings.length(sKey);
                 if (length > 1) {
                     char lastChar = sKey.charAt(length - 1);
                     switch (lastChar) {
