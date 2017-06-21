@@ -12,7 +12,7 @@ import naga.commons.util.tuples.Pair;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.controls.LayoutUtil;
@@ -35,11 +35,12 @@ import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
 public class MultiLanguageEditor {
 
     private final static String[] languages = {"en", "de", "es", "fr", "pt"};
-    private final static String entityListId = "entity";
+    private final static String entityListId = "loadedEntity";
 
     private final I18n i18n;
     private final Callable entityIdGetter;
     private final DataSourceModel dataSourceModel;
+    private final EntityStore loadingStore;
     private final String loadingSelect;
     private final Function<Object, Object> bodyFieldGetter;
     private final Function<Object, Object> subjectFieldGetter;
@@ -49,18 +50,24 @@ public class MultiLanguageEditor {
     private final BorderPane borderPane = setPrefSizeToInfinite(new BorderPane());
     private Handler<Entity> closeCallback;
 
-    private final Map<Object /*entityId*/, UpdateStore> entityStores = new HashMap<>();
+    private final Map<Object /*entityId*/, EditedEntity> entityUpdates = new HashMap<>();
     private final Map<Pair<Object /*entityId**/, Object /*language*/>, MonoLanguageEditor> monoLanguageEditors = new HashMap<>();
 
     public MultiLanguageEditor(I18n i18n, Entity entity, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter) {
-        this(i18n, entity::getId, entity.getStore().getDataSourceModel(), bodyFieldGetter, subjectFieldGetter, null);
-        registerEntityInStore(entity, null);
+        this(i18n, entity::getId, entity.getStore(), bodyFieldGetter, subjectFieldGetter, null);
+        entityUpdates.put(entity.getId(), new EditedEntity(entity));
+
     }
 
     public MultiLanguageEditor(I18n i18n, Callable entityIdGetter, DataSourceModel dataSourceModel, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
+        this(i18n, entityIdGetter, EntityStore.create(dataSourceModel), bodyFieldGetter, subjectFieldGetter, domainClassIdOrLoadingSelect);
+    }
+
+    public MultiLanguageEditor(I18n i18n, Callable entityIdGetter, EntityStore loadingStore, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
         this.i18n = i18n;
         this.entityIdGetter = entityIdGetter;
-        this.dataSourceModel = dataSourceModel;
+        this.loadingStore = loadingStore;
+        this.dataSourceModel = loadingStore.getDataSourceModel();
         this.bodyFieldGetter = bodyFieldGetter;
         this.subjectFieldGetter = subjectFieldGetter;
         StringBuilder sb = domainClassIdOrLoadingSelect == null || domainClassIdOrLoadingSelect.startsWith("select ") ? null : new StringBuilder("select ");
@@ -86,7 +93,6 @@ public class MultiLanguageEditor {
         return this;
     }
 
-
     public BorderPane getUiNode() {
         if (toggleGroup.getSelectedToggle() == null) {
             Properties.runOnPropertiesChange(p -> onEntityChanged(), toggleGroup.selectedToggleProperty());
@@ -101,32 +107,20 @@ public class MultiLanguageEditor {
             return;
         monoLanguageEditor.displayEditor();
         Object entityId = entityIdGetter.call();
-        if (entityStores.containsKey(entityId))
-            monoLanguageEditor.setEntity(entityStores.get(entityId).getEntityList(entityListId).get(0));
+        if (entityUpdates.containsKey(entityId))
+            monoLanguageEditor.setEditedEntity(entityUpdates.get(entityId));
         else if (loadingSelect != null) {
             SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(loadingSelect);
             // Then we ask the query service to execute the sql query
             Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), new Object[]{entityId}, dataSourceModel.getId())).setHandler(ar -> {
                 if (ar.succeeded()) {
-                    UpdateStore store = UpdateStore.create(dataSourceModel);
-                    Entity entity = QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), store, entityListId).get(0);
-                    registerEntityInStore(entity, store);
-                    monoLanguageEditor.setEntity(entity);
+                    Entity entity = QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), loadingStore, entityListId).get(0);
+                    EditedEntity editedEntity = new EditedEntity(entity);
+                    entityUpdates.put(entityId, editedEntity);
+                    monoLanguageEditor.setEditedEntity(editedEntity);
                 }
             });
         }
-    }
-
-    private void registerEntityInStore(Entity entity, UpdateStore store) {
-        if (store == null)
-            store = UpdateStore.create(dataSourceModel);
-        if (entity.getStore() != store)
-            entity = store.copyEntity(entity);
-        store.markChangesAsCommitted();
-        EntityList entityList = store.getOrCreateEntityList(entityListId);
-        entityList.clear();
-        entityList.add(entity);
-        entityStores.put(entityIdGetter.call(), store);
     }
 
     private MonoLanguageEditor getCurrentMonoLanguageEditor() {
@@ -142,6 +136,23 @@ public class MultiLanguageEditor {
         return monoLanguageEditor;
     }
 
+    private static class EditedEntity {
+        private final Entity loadedEntity;
+        private final UpdateStore updateStore;
+        private Entity updatedEntity;
+
+        EditedEntity(Entity loadedEntity) {
+            this.loadedEntity = loadedEntity;
+            updateStore = UpdateStore.createAbove(loadedEntity.getStore());
+            cancelChanges();
+        }
+
+        private void cancelChanges() {
+            updateStore.cancelChanges();
+            updatedEntity = updateStore.updateEntity(loadedEntity);
+        }
+    }
+
     private class MonoLanguageEditor {
         private final TextField subjectTextField = new TextField();
         private final HtmlTextEditor editor = new HtmlTextEditor();
@@ -149,8 +160,7 @@ public class MultiLanguageEditor {
         private final Button revertButton = newAction(closeCallback != null ? CANCEL_ACTION_KEY : REVERT_ACTION_KEY, this::revert).toButton(i18n);
         private final Object subjectField;
         private final Object bodyField;
-        private UpdateStore entityStore;
-        private Entity entity;
+        private EditedEntity editedEntity;
 
         MonoLanguageEditor(Object lang) {
             subjectField = subjectFieldGetter == null ? null : subjectFieldGetter.apply(lang);
@@ -159,17 +169,18 @@ public class MultiLanguageEditor {
         }
 
         void syncEntityFromUi() {
-            if (entity != null) {
+            if (editedEntity != null) {
+                Entity updatedEntity = editedEntity.updatedEntity;
                 if (subjectField != null) {
                     String uiSubject = subjectTextField.getText();
-                    String entitySubject = entity.getStringFieldValue(subjectField);
+                    String entitySubject = updatedEntity.getStringFieldValue(subjectField);
                     if (!Objects.areEquals(uiSubject, entitySubject))
-                        entity.setFieldValue(subjectField, uiSubject);
+                        updatedEntity.setFieldValue(subjectField, uiSubject);
                 }
                 String uiBody = format(editor.getText());
-                String entityBody = entity.getStringFieldValue(bodyField);
+                String entityBody = updatedEntity.getStringFieldValue(bodyField);
                 if (uiBody != null && !Objects.areEquals(uiBody, entityBody))
-                    entity.setFieldValue(bodyField, uiBody);
+                    updatedEntity.setFieldValue(bodyField, uiBody);
                 updateButtonsDisable();
             }
         }
@@ -184,51 +195,54 @@ public class MultiLanguageEditor {
         }
 
         void syncUiFromEntity() {
-            if (entity != null) {
+            if (editedEntity != null) {
+                Entity updatedEntity = editedEntity.updatedEntity;
                 if (subjectField != null) {
                     String uiSubject = subjectTextField.getText();
-                    String entitySubject = entity.getStringFieldValue(subjectField);
+                    String entitySubject = updatedEntity.getStringFieldValue(subjectField);
                     if (!Objects.areEquals(uiSubject, entitySubject))
                         subjectTextField.setText(entitySubject);
                 }
                 String uiBody = editor.getText();
-                String entityBody = entity.getStringFieldValue(bodyField);
+                String entityBody = updatedEntity.getStringFieldValue(bodyField);
                 if (!Objects.areEquals(uiBody, entityBody))
                     editor.setText(entityBody);
                 updateButtonsDisable();
             }
         }
 
-        void setEntity(Entity entity) {
-            if (this.entity != entity) {
-                this.entity = entity;
-                entityStore = (UpdateStore) entity.getStore();
+        void setEditedEntity(EditedEntity editedEntity) {
+            if (this.editedEntity != editedEntity) {
+                this.editedEntity = editedEntity;
                 syncUiFromEntity();
             }
         }
 
         void revert() {
-            entityStore.cancelChanges();
-            syncUiFromEntity();
+            if (editedEntity != null) {
+                editedEntity.cancelChanges();
+                syncUiFromEntity();
+            }
             callCloseCallback(false);
         }
 
         void save() {
-            entityStore.executeUpdate().setHandler(ar -> {
-                if (ar.succeeded()) {
-                    updateButtonsDisable();
-                    callCloseCallback(true);
-                }
-            });
+            if (editedEntity != null)
+                editedEntity.updateStore.executeUpdate().setHandler(ar -> {
+                    if (ar.succeeded()) {
+                        updateButtonsDisable();
+                        callCloseCallback(true);
+                    }
+                });
         }
 
         void callCloseCallback(boolean saved) {
             if (closeCallback != null)
-                closeCallback.handle(saved ? entity : null);
+                closeCallback.handle(saved ? editedEntity.loadedEntity : null);
         }
 
         void updateButtonsDisable() {
-            boolean disable = !entityStore.hasChanges();
+            boolean disable = editedEntity == null || !editedEntity.updateStore.hasChanges();
             saveButton.setDisable(disable);
             revertButton.setDisable(disable && closeCallback == null);
         }
@@ -247,7 +261,7 @@ public class MultiLanguageEditor {
                 buttonsBar.setCenter(new HBox(20, LayoutUtil.createHGrowable(), saveButton, revertButton, LayoutUtil.createHGrowable()));
                 borderPane.setBottom(buttonsBar);
                 // The following code is just a temporary workaround to make CKEditor work in html platform (to be removed once fixed)
-                if (entity != null) {
+                if (editedEntity != null) {
                     editor.resize(1, 1);
                     editor.requestLayout();
                 }
