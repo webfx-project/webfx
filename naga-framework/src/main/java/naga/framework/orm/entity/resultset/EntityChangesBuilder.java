@@ -13,6 +13,7 @@ public class EntityChangesBuilder {
 
     private EntityResultSetBuilder rsb;
     private Collection<EntityId> deletedEntities;
+    private boolean hasFieldChanges;
 
     private EntityChangesBuilder() {
     }
@@ -41,6 +42,7 @@ public class EntityChangesBuilder {
     }
 
     public boolean addFieldChange(EntityId id, Object fieldId, Object fieldValue) {
+        hasFieldChanges |= fieldId != null || id.isNew();
         return rsb().setFieldValue(id, fieldId, fieldValue);
     }
 
@@ -52,10 +54,11 @@ public class EntityChangesBuilder {
     public void clear() {
         rsb = null;
         deletedEntities = null;
+        hasFieldChanges = false;
     }
 
     public boolean isEmpty() {
-        return rsb == null && deletedEntities == null;
+        return !hasFieldChanges && deletedEntities == null;
     }
 
     private EntityResultSetBuilder rsb() {
