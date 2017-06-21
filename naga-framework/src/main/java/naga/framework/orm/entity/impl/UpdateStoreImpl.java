@@ -110,8 +110,8 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
 
     @Override
     public void cancelChanges() {
-        restorePreviousValues();
         changesBuilder.clear();
+        restorePreviousValues();
     }
 
     @Override
