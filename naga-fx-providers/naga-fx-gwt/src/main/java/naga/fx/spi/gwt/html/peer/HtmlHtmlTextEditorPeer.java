@@ -20,7 +20,7 @@ public class HtmlHtmlTextEditorPeer
         extends HtmlRegionPeer<N, NB, NM>
         implements HtmlTextEditorPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
-    private static final String ckEditorUrl = "http://cdn.ckeditor.com/4.6.2/full/ckeditor.js";
+    private static final String ckEditorUrl = "http://cdn.ckeditor.com/4.7.0/full/ckeditor.js";
 
     private HTMLDivElement div = HtmlUtil.createDivElement();
     private JavaScriptObject ckEditor;

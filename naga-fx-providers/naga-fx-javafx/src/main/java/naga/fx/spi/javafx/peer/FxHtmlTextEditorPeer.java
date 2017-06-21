@@ -18,7 +18,7 @@ public class FxHtmlTextEditorPeer
         extends FxHtmlTextPeer<FxN, N, NB, NM>
         implements HtmlTextEditorPeerMixin<N, NB, NM> {
 
-    private static final String ckEditorUrl = "http://cdn.ckeditor.com/4.6.2/full/ckeditor.js";
+    private static final String ckEditorUrl = "http://cdn.ckeditor.com/4.7.0/full/ckeditor.js";
     private JSObject ckEditor;
 
     public FxHtmlTextEditorPeer() {
