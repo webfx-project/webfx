@@ -48,6 +48,11 @@ public abstract class CartBasedViewActivity extends ViewActivityImpl {
         });
     }
 
+    protected void reloadCart() {
+        cartService().unload();
+        loadCart();
+    }
+
     protected abstract void onCartLoaded();
 
     protected CartService cartService() {
@@ -56,7 +61,6 @@ public abstract class CartBasedViewActivity extends ViewActivityImpl {
 
     @Override
     protected void refreshDataOnActive() {
-        cartService().unload();
-        loadCart();
+        reloadCart();
     }
 }

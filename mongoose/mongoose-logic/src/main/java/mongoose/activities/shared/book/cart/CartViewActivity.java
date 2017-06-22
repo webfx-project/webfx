@@ -22,6 +22,7 @@ import naga.commons.util.collection.Collections;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
 import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
@@ -46,6 +47,8 @@ public class CartViewActivity extends CartBasedViewActivity {
     private Label bookingLabel;
     private BookingOptionsPanel bookingOptionsPanel;
     private WorkingDocument selectedWorkingDocument;
+    private Button cancelBookingButton;
+    private Button modifyBookingButton;
 
     @Override
     public Node buildUi() {
@@ -60,8 +63,8 @@ public class CartViewActivity extends CartBasedViewActivity {
         DataGrid paymentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         paymentsPanel.setCenter(paymentTable);
 
-        Button cancelBookingButton = i18n.translateText(new Button(), "Cancel");
-        Button modifyBookingButton = i18n.translateText(new Button(), "Modify");
+        cancelBookingButton = i18n.translateText(new Button(), "Cancel");
+        modifyBookingButton = i18n.translateText(new Button(), "Modify");
         Button contactUsButton = i18n.translateText(new Button(), "ContactUs");
         HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable(), cancelBookingButton, modifyBookingButton, contactUsButton, LayoutUtil.createHGrowable());
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
@@ -70,17 +73,11 @@ public class CartViewActivity extends CartBasedViewActivity {
         Button paymentButton = i18n.translateText(new Button(), "MakePayment");
         HBox bottomButtonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), paymentButton);
 
-        addBookingButton.setOnAction(e -> getHistory().push("/book/event/" + getEventId() + "/fees"));
-
-        modifyBookingButton.setOnAction(e -> {
-            EventService eventService = cartService().getEventService();
-            eventService.setSelectedOptionsPreselection(null);
-            eventService.setWorkingDocument(selectedWorkingDocument);
-            selectedWorkingDocument = null;
-            getHistory().push("/book/event/" + getEventId() + "/options");
-        });
-
-        paymentButton.setOnAction(e -> getHistory().push("/book/cart/" + getCartUuid() + "/payment"));
+        cancelBookingButton.setOnAction(e -> cancelBooking());
+        modifyBookingButton.setOnAction(e -> modifyBooking());
+        contactUsButton.setOnAction(e -> contactUs());
+        addBookingButton.setOnAction(e -> addBooking());
+        paymentButton.setOnAction(e -> makePayment());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
@@ -165,10 +162,16 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     private void syncBookingOptionsPanelIfReady() {
         if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
+            bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
             Document selectedDocument = selectedWorkingDocument.getDocument();
             bookingLabel.setText(selectedDocument.getFullName() + " - " + getI18n().instantTranslate("Status:") + " " + getI18n().instantTranslate(getDocumentStatus(selectedDocument)));
-            bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
+            disableCancelModifyButton(selectedDocument.isCancelled());
         }
+    }
+
+    private void disableCancelModifyButton(boolean disable) {
+        cancelBookingButton.setDisable(disable);
+        modifyBookingButton.setDisable(disable);
     }
 
     private String getDocumentStatus(Document document) { // TODO: return a structure instead with also background and message to display in the booking panel (like in javascript version)
@@ -196,6 +199,38 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     private boolean hasPendingPayment(Document document) {
         return Collections.hasAtLeastOneMatching(cartService().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
+    }
+
+    private void addBooking() {
+        getHistory().push("/book/event/" + getEventId() + "/fees");
+    }
+
+    private void makePayment() {
+        getHistory().push("/book/cart/" + getCartUuid() + "/payment");
+    }
+
+    private void modifyBooking() {
+        EventService eventService = cartService().getEventService();
+        eventService.setSelectedOptionsPreselection(null);
+        eventService.setWorkingDocument(selectedWorkingDocument);
+        selectedWorkingDocument = null;
+        getHistory().push("/book/event/" + getEventId() + "/options");
+    }
+
+    private void cancelBooking() {
+        disableCancelModifyButton(true);
+        Document selectedDocument = selectedWorkingDocument.getDocument();
+        UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
+        Document updatedDocument = updateStore.updateEntity(selectedDocument);
+        updatedDocument.setCancelled(true);
+        updateStore.executeUpdate().setHandler(ar -> {
+            if (ar.succeeded())
+                reloadCart();
+        });
+    }
+
+    private void contactUs() {
+
     }
 
 }
