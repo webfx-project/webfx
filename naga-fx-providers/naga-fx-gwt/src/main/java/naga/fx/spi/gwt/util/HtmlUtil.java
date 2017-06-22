@@ -171,6 +171,14 @@ public class HtmlUtil {
         return createElement("div");
     }
 
+    public static HTMLSelectElement createSelectElement() {
+        return createElement("select");
+    }
+
+    public static HTMLOptionElement createOptionElement() {
+        return createElement("option");
+    }
+
 
     public static <E extends HTMLElement> E absolutePosition(E e) {
         e.style.position = "absolute";

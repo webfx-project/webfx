@@ -1,7 +1,7 @@
 package emul.javafx.scene.control;
 
-import javafx.beans.property.*;
-import javafx.collections.ListChangeListener;
+
+import emul.javafx.beans.property.*;
 
 /**
  * SelectionModel is an abstract class used by UI controls to provide a
