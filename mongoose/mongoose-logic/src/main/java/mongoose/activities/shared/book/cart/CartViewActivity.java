@@ -56,10 +56,15 @@ public class CartViewActivity extends CartBasedViewActivity {
         DataGrid paymentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         paymentsPanel.setCenter(paymentTable);
 
-        Button addBookingButton = i18n.translateText(new Button(), "AddAnotherBooking");
+        Button cancelBookingButton = i18n.translateText(new Button(), "Cancel");
         Button modifyBookingButton = i18n.translateText(new Button(), "Modify");
+        Button contactUsButton = i18n.translateText(new Button(), "ContactUs");
+        HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable(), cancelBookingButton, modifyBookingButton, contactUsButton, LayoutUtil.createHGrowable());
+        optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
+
+        Button addBookingButton = i18n.translateText(new Button(), "AddAnotherBooking");
         Button paymentButton = i18n.translateText(new Button(), "MakePayment");
-        HBox buttonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), modifyBookingButton, LayoutUtil.createHGrowable(), paymentButton);
+        HBox bottomButtonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), paymentButton);
 
         addBookingButton.setOnAction(e -> getHistory().push("/book/event/" + getEventId() + "/fees"));
 
@@ -82,7 +87,7 @@ public class CartViewActivity extends CartBasedViewActivity {
 
         syncBookingOptionsPanelIfReady();
 
-        return LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, buttonBar));
+        return LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, bottomButtonBar));
     }
 
     private Event getEvent() {
