@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.TranslateFunction;
@@ -23,6 +24,9 @@ import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.UpdateStore;
+import naga.framework.ui.controls.DialogCallback;
+import naga.framework.ui.controls.DialogUtil;
+import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
@@ -88,7 +92,7 @@ public class CartViewActivity extends CartBasedViewActivity {
 
         syncBookingOptionsPanelIfReady();
 
-        return LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, bottomButtonBar));
+        return new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, bottomButtonBar)));
     }
 
     private Event getEvent() {
@@ -218,15 +222,31 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void cancelBooking() {
-        disableCancelModifyButton(true);
-        Document selectedDocument = selectedWorkingDocument.getDocument();
-        UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
-        Document updatedDocument = updateStore.updateEntity(selectedDocument);
-        updatedDocument.setCancelled(true);
-        updateStore.executeUpdate().setHandler(ar -> {
-            if (ar.succeeded())
-                reloadCart();
+        Button okButton = new Button();
+        Button cancelButton = new Button();
+
+        I18n i18n = getI18n();
+        DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(i18n)
+                        .addNodeFillingRow(i18n.translateText(new Label(), "BookingCancellation"))
+                        .addNodeFillingRow(i18n.translateText(new Label(), "ConfirmBookingCancellation"))
+                        .addButtons("YesBookingCancellation", okButton, "NoBookingCancellation", cancelButton)
+                        .getGridPane(),
+                (Pane) getNode());
+
+        okButton.setOnAction(e -> {
+            disableCancelModifyButton(true);
+            Document selectedDocument = selectedWorkingDocument.getDocument();
+            UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
+            Document updatedDocument = updateStore.updateEntity(selectedDocument);
+            updatedDocument.setCancelled(true);
+            updateStore.executeUpdate().setHandler(ar -> {
+                if (ar.succeeded()) {
+                    reloadCart();
+                    dialogCallback.closeDialog();
+                }
+            });
         });
+        cancelButton.setOnAction(e -> dialogCallback.closeDialog());
     }
 
     private void contactUs() {
