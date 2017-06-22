@@ -150,6 +150,10 @@ public class WorkingDocument {
 
     public void clearLinesCache() {
         accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = null;
+        clearComputedPrice();
+    }
+
+    public void clearComputedPrice() {
         computedPrice = null;
     }
 

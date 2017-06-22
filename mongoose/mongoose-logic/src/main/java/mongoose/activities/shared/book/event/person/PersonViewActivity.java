@@ -49,5 +49,9 @@ public class PersonViewActivity extends BookingProcessViewActivity {
     public void onPause() {
         super.onPause();
         syncModelFromUi();
+        // Clearing the computed price cache on leaving this page in case a personal detail affecting the price (such as age) has been changed
+        WorkingDocument workingDocument = getWorkingDocument();
+        if (workingDocument != null)
+            workingDocument.clearComputedPrice();
     }
 }
