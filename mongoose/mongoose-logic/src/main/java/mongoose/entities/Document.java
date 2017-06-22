@@ -55,4 +55,13 @@ public interface Document extends Entity, EntityHasEvent, EntityHasCancelled, En
     default Integer getPriceMinDeposit() {
         return getIntegerFieldValue("price_minDeposit");
     }
+
+    default void setConfirmed(Boolean confirmed) {
+        setFieldValue("confirmed", confirmed);
+    }
+
+    default Boolean isConfirmed() {
+        return getBooleanFieldValue("confirmed");
+    }
+
 }
