@@ -3,6 +3,7 @@ package mongoose.services;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
+import mongoose.entities.MoneyTransfer;
 import naga.commons.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.EntityList;
@@ -44,7 +45,7 @@ public interface CartService {
 
     Future<EntityList> onCartPayments();
 
-    EntityList<?> getCartPayments();
+    EntityList<MoneyTransfer> getCartPayments();
 
     void unload();
 

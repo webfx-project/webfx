@@ -2,10 +2,7 @@ package mongoose.services;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
-import mongoose.entities.Attendance;
-import mongoose.entities.Cart;
-import mongoose.entities.Document;
-import mongoose.entities.DocumentLine;
+import mongoose.entities.*;
 import naga.commons.util.Strings;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
@@ -39,7 +36,7 @@ class CartServiceImpl implements CartService {
     private Cart cart;
     private List<Document> cartDocuments;
     private List<WorkingDocument> cartWorkingDocuments;
-    private EntityList<?> cartPayments;
+    private EntityList<MoneyTransfer> cartPayments;
     private EventService eventService;
 
     public CartServiceImpl(Object cartIdOrUuid, EntityStore store) {
@@ -106,7 +103,7 @@ class CartServiceImpl implements CartService {
     }
 
     @Override
-    public EntityList<?> getCartPayments() {
+    public EntityList<MoneyTransfer> getCartPayments() {
         return cartPayments;
     }
 
