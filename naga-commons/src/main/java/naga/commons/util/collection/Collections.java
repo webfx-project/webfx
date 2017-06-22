@@ -66,6 +66,14 @@ public class Collections {
         return null;
     }
 
+    public static <T> boolean hasNoOneMatching(Iterable<T> iterable, Predicate<? super T> predicate) {
+        return findFirst(iterable, predicate) == null;
+    }
+
+    public static <T> boolean hasAtLeastOneMatching(Iterable<T> iterable, Predicate<? super T> predicate) {
+        return !hasNoOneMatching(iterable, predicate);
+    }
+
     public static <T> int indexOf(Iterable<T> iterable, Predicate<? super T> predicate) {
         if (iterable != null) {
             int index = 0;
