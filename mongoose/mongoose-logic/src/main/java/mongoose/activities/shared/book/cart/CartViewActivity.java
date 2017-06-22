@@ -13,10 +13,14 @@ import mongoose.activities.shared.book.event.shared.TranslateFunction;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
+import mongoose.entities.Document;
 import mongoose.entities.Event;
 import mongoose.services.CartService;
 import mongoose.services.EventService;
+import naga.commons.type.PrimType;
 import naga.commons.util.collection.Collections;
+import naga.framework.expression.lci.DataReader;
+import naga.framework.expression.terms.function.Function;
 import naga.framework.orm.entity.Entity;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
@@ -101,6 +105,13 @@ public class CartViewActivity extends CartBasedViewActivity {
     @Override
     protected void startLogic() {
         super.startLogic();
+        new TranslateFunction(getI18n()).register();
+        new Function<Document>("documentStatus", null, null, PrimType.STRING, true) {
+            @Override
+            public Object evaluate(Document document, DataReader<Document> dataReader) {
+                return getI18n().instantTranslate(getDocumentStatus(document));
+            }
+        }.register();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
             int selectedRow = selection.getSelectedRow();
             if (selectedRow != -1) {
@@ -121,16 +132,16 @@ public class CartViewActivity extends CartBasedViewActivity {
                         "'person_lastName'," +
                         "{expression: 'price_net', format: 'priceWithCurrency'}," +
                         "{expression: 'price_deposit', format: 'priceWithCurrency'}," +
-                        "{expression: 'price_balance', format: 'priceWithCurrency'}" +
+                        "{expression: 'price_balance', format: 'priceWithCurrency'}," +
+                        "{expression: 'documentStatus(this)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "Document", documentDisplayResultSetProperty);
-        new TranslateFunction(getI18n()).register();
         displayEntities(cartService.getCartPayments(), "[" +
                         "{expression: 'date', format: 'dateTime'}," +
                         "{expression: 'document.ref', label: 'Booking ref'}," +
-                        "{expression: 'translate(method)', label: 'Method'}," +
+                        "{expression: 'translate(method)', label: 'Method', textAlign: 'center'}," +
                         "{expression: 'amount', format: 'priceWithCurrency'}," +
-                        "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessStatus` : `FailedStatus`)', label: 'Status'}" +
+                        "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "MoneyTransfer", paymentDisplayResultSetProperty);
         javafx.application.Platform.runLater(() -> {
@@ -154,8 +165,37 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     private void syncBookingOptionsPanelIfReady() {
         if (bookingOptionsPanel != null && selectedWorkingDocument != null) {
-            bookingLabel.setText(selectedWorkingDocument.getDocument().getFullName());
+            Document selectedDocument = selectedWorkingDocument.getDocument();
+            bookingLabel.setText(selectedDocument.getFullName() + " - " + getI18n().instantTranslate("Status:") + " " + getI18n().instantTranslate(getDocumentStatus(selectedDocument)));
             bookingOptionsPanel.syncUiFromModel(selectedWorkingDocument);
         }
     }
+
+    private String getDocumentStatus(Document document) { // TODO: return a structure instead with also background and message to display in the booking panel (like in javascript version)
+        if (document == null)
+            return null;
+        if (document.isCancelled())
+            return "CancelledStatus";
+        if (!document.isConfirmed()) {
+            if (documentNeedsDeposit(document) && !hasPendingPayment(document))
+                return "IncompleteStatus";
+            return "InProgressStatus";
+        }
+        if (documentHasBalance(document))
+            return "ConfirmedStatus";
+        return "CompleteStatus";
+    }
+
+    private boolean documentNeedsDeposit(Document document) {
+        return document.getPriceDeposit() < document.getPriceMinDeposit();
+    }
+
+    private boolean documentHasBalance(Document document) {
+        return document.getPriceDeposit() < document.getPriceNet();
+    }
+
+    private boolean hasPendingPayment(Document document) {
+        return Collections.hasAtLeastOneMatching(cartService().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
+    }
+
 }
