@@ -274,11 +274,10 @@ public class WorkingDocument {
     private static Document createDocument(EntityHasPersonDetails personDetailsEntity) {
         UpdateStore store = getUpdateStore(personDetailsEntity);
         Document document;
-        if (personDetailsEntity instanceof Document) // Keeping the same id if created from an original document
-            document = store.createEntity(personDetailsEntity.getId());
+        if (personDetailsEntity instanceof Document) // If from an original document, just making a copy
+            document = store.copyEntity((Document) personDetailsEntity);
         else // otherwise creating a new document
-            document = store.createEntity(Document.class);
-        syncPersonDetails(personDetailsEntity, document);
+            syncPersonDetails(personDetailsEntity, document = store.createEntity(Document.class));
         return document;
     }
 
