@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
+import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.book.event.shared.TranslateFunction;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -70,23 +71,17 @@ public class CartViewActivity extends CartBasedViewActivity {
         paymentsPanel.setCenter(paymentTable);
         paymentsPanel.setVisible(false);
 
-        cancelBookingButton = i18n.translateText(new Button(), "Cancel");
-        modifyBookingButton = i18n.translateText(new Button(), "Modify");
-        Button contactUsButton = i18n.translateText(new Button(), "ContactUs");
-        HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable(), cancelBookingButton, modifyBookingButton, contactUsButton, LayoutUtil.createHGrowable());
+        cancelBookingButton = newCancelButton(this::cancelBooking);
+        modifyBookingButton = newButton("Modify", this::modifyBooking);
+        Button contactUsButton = newButton("ContactUs", this::contactUs);
+        Button readTermsButton = newButton("TermsAndConditions", this::readTerms);
+        HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable(), cancelBookingButton, modifyBookingButton, contactUsButton, readTermsButton, LayoutUtil.createHGrowable());
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
-        Button addBookingButton = i18n.translateText(new Button(), "AddAnotherBooking");
-        showPaymentsButton = i18n.translateText(new Button(), "YourPayments");
-        Button makePaymentButton = i18n.translateText(new Button(), "MakePayment");
+        Button addBookingButton = newButton("AddAnotherBooking", this::addBooking);
+        showPaymentsButton = newButton("YourPayments", this::showPayments);
+        Button makePaymentButton = newButton("MakePayment", this::makePayment);
         HBox bottomButtonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), showPaymentsButton, LayoutUtil.createHGrowable(), makePaymentButton);
-
-        cancelBookingButton.setOnAction(e -> cancelBooking());
-        modifyBookingButton.setOnAction(e -> modifyBooking());
-        contactUsButton.setOnAction(e -> contactUs());
-        addBookingButton.setOnAction(e -> addBooking());
-        showPaymentsButton.setOnAction(e -> showPayments());
-        makePaymentButton.setOnAction(e -> makePayment());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
@@ -259,6 +254,10 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void contactUs() {
+    }
+
+    private void readTerms() {
+        new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), (Pane) getNode()).show();
     }
 
     private void addBooking() {
