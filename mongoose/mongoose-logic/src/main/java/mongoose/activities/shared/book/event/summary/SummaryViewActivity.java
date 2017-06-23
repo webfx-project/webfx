@@ -14,24 +14,19 @@ import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
+import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import naga.commons.util.Strings;
-import naga.framework.ui.controls.DialogCallback;
-import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.controls.LayoutUtil;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
-import naga.fxdata.cell.collator.GridCollator;
 import naga.platform.json.Json;
 import naga.platform.spi.Platform;
 
 import java.time.Instant;
-
-import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 
 /**
  * @author Bruno Salmon
@@ -69,7 +64,6 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         VBox panelsVBox = new VBox(20, bookingOptionsPanel.getOptionsPanel(), personDetailsPanel.getSectionPanel(), commentPanel, termsPanel);
         borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(panelsVBox));
 
-
         nextButton.disableProperty().bind(
                 // termsCheckBox.selectedProperty().not() // Doesn't compile with GWT
                 Properties.compute(termsCheckBox.selectedProperty(), value -> !value) // GWT compatible
@@ -97,37 +91,8 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         });
     }
 
-    private DialogCallback termsDialogCallback;
-
     private void showTermsDialog() {
-        GridCollator termsLetterCollator = new GridCollator("first", "first");
-        BorderPane entityDialogPane = new BorderPane(LayoutUtil.setPrefSizeToInfinite(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator)));
-        createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
-                .combine(eventIdProperty(), e -> "{where: 'event=" + e + "'}")
-                .combine(getI18n().languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
-                .displayResultSetInto(termsLetterCollator.displayResultSetProperty())
-                .start();
-        HBox hBox = new HBox(20, createHGrowable(), newOkButton(this::closeTermsDialog), createHGrowable());
-        hBox.setPadding(new Insets(20, 0, 0, 0));
-        entityDialogPane.setBottom(hBox);
-        termsDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, borderPane, 0.9, 0.8);
-    }
-
-    private void closeTermsDialog() {
-        termsDialogCallback.closeDialog();
-        termsCheckBox.setSelected(true);
-    }
-
-    private ReactiveExpressionFilter createReactiveExpressionFilter(Object jsonOrClass) {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter(jsonOrClass));
-    }
-
-    private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        return reactiveExpressionFilter
-                .setDataSourceModel(getDataSourceModel())
-                .setI18n(getI18n())
-                .bindActivePropertyTo(activeProperty())
-                ;
+        new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), borderPane).setOnClose(() -> termsCheckBox.setSelected(true)).show();
     }
 
     private void syncUiFromModel() {
