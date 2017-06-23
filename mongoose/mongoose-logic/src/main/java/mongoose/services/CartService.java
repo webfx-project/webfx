@@ -49,6 +49,10 @@ public interface CartService {
 
     void unload();
 
+    boolean isLoading();
+
+    boolean isLoaded();
+
     EventService getEventService();
 
 }

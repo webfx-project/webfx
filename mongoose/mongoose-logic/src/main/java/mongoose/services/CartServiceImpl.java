@@ -38,6 +38,7 @@ class CartServiceImpl implements CartService {
     private List<WorkingDocument> cartWorkingDocuments;
     private EntityList<MoneyTransfer> cartPayments;
     private EventService eventService;
+    private boolean loading;
 
     public CartServiceImpl(Object cartIdOrUuid, EntityStore store) {
         id = cartIdOrUuid instanceof String ? null : cartIdOrUuid;
@@ -115,8 +116,18 @@ class CartServiceImpl implements CartService {
     }
 
     @Override
+    public boolean isLoading() {
+        return loading;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return cartDocuments != null && !loading;
+    }
+
+    @Override
     public Future<Cart> onCart() {
-        if (cart != null && cartDocuments != null)
+        if (isLoaded())
             return Future.succeededFuture(cart);
         DataSourceModel dataSourceModel = store.getDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
@@ -133,6 +144,7 @@ class CartServiceImpl implements CartService {
                         new QueryArgument(sqlCompiled3.getSql(), parameter, dataSourceId)
                 })
         );
+        loading = true;
         return queryBatchFuture.compose(v -> {
             Batch<QueryResultSet> b = queryBatchFuture.result();
             EntityList<DocumentLine> dls = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[0], sqlCompiled1.getQueryMapping(), store, "dl");
@@ -140,8 +152,10 @@ class CartServiceImpl implements CartService {
             cartPayments = QueryResultSetToEntityListGenerator.createEntityList(b.getArray()[2], sqlCompiled3.getQueryMapping(), store, "mt");
             cartDocuments = new ArrayList<>();
             cartWorkingDocuments = new ArrayList<>();
-            if (dls.isEmpty())
+            if (dls.isEmpty()) {
+                loading = false;
                 return Future.succeededFuture();
+            }
             eventService = EventService.getOrCreateFromDocument(dls.get(0).getDocument());
             return eventService.onEventOptions().compose(v2 -> {
                 if (!cartDocuments.isEmpty()) {
@@ -163,6 +177,7 @@ class CartServiceImpl implements CartService {
                 }
                 addWorkingDocument(currentDocument, wdls);
                 setCart(cartDocuments.get(0).getCart());
+                loading = false;
                 return Future.succeededFuture(cart);
             });
         });
