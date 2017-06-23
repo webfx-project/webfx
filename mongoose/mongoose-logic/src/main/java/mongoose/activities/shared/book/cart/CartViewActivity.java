@@ -53,6 +53,8 @@ public class CartViewActivity extends CartBasedViewActivity {
     private WorkingDocument selectedWorkingDocument;
     private Button cancelBookingButton;
     private Button modifyBookingButton;
+    private Button showPaymentsButton;
+    private BorderPane paymentsPanel;
 
     @Override
     public Node buildUi() {
@@ -63,9 +65,10 @@ public class CartViewActivity extends CartBasedViewActivity {
         BorderPane optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel(i18n);
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
-        BorderPane paymentsPanel = HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n);
+        paymentsPanel = LayoutUtil.setUnmanagedWhenInvisible(HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n));
         DataGrid paymentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         paymentsPanel.setCenter(paymentTable);
+        paymentsPanel.setVisible(false);
 
         cancelBookingButton = i18n.translateText(new Button(), "Cancel");
         modifyBookingButton = i18n.translateText(new Button(), "Modify");
@@ -74,14 +77,16 @@ public class CartViewActivity extends CartBasedViewActivity {
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
         Button addBookingButton = i18n.translateText(new Button(), "AddAnotherBooking");
-        Button paymentButton = i18n.translateText(new Button(), "MakePayment");
-        HBox bottomButtonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), paymentButton);
+        showPaymentsButton = i18n.translateText(new Button(), "YourPayments");
+        Button makePaymentButton = i18n.translateText(new Button(), "MakePayment");
+        HBox bottomButtonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), showPaymentsButton, LayoutUtil.createHGrowable(), makePaymentButton);
 
         cancelBookingButton.setOnAction(e -> cancelBooking());
         modifyBookingButton.setOnAction(e -> modifyBooking());
         contactUsButton.setOnAction(e -> contactUs());
         addBookingButton.setOnAction(e -> addBooking());
-        paymentButton.setOnAction(e -> makePayment());
+        showPaymentsButton.setOnAction(e -> showPayments());
+        makePaymentButton.setOnAction(e -> makePayment());
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
@@ -150,6 +155,7 @@ public class CartViewActivity extends CartBasedViewActivity {
             if (selectedIndex == -1 && cartService.getEventService() != null)
                 selectedIndex = indexOfWorkingDocument(cartService.getEventService().getWorkingDocument());
             documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
+            updateShowPaymentsButton();
         });
     }
 
@@ -170,12 +176,23 @@ public class CartViewActivity extends CartBasedViewActivity {
             Document selectedDocument = selectedWorkingDocument.getDocument();
             bookingLabel.setText(selectedDocument.getFullName() + " - " + getI18n().instantTranslate("Status:") + " " + getI18n().instantTranslate(getDocumentStatus(selectedDocument)));
             disableCancelModifyButton(selectedDocument.isCancelled());
+            updateShowPaymentsButton();
         }
     }
 
     private void disableCancelModifyButton(boolean disable) {
         cancelBookingButton.setDisable(disable);
         modifyBookingButton.setDisable(disable);
+    }
+
+    private void updateShowPaymentsButton() {
+        if (showPaymentsButton != null) {
+            if (cartService().getCartPayments().isEmpty()) {
+                showPaymentsButton.setVisible(false);
+                paymentsPanel.setVisible(false);
+            } else
+                showPaymentsButton.setVisible(!paymentsPanel.isVisible());
+        }
     }
 
     private String getDocumentStatus(Document document) { // TODO: return a structure instead with also background and message to display in the booking panel (like in javascript version)
@@ -203,14 +220,6 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     private boolean hasPendingPayment(Document document) {
         return Collections.hasAtLeastOneMatching(cartService().getCartPayments(), mt -> mt.getDocument() == document && mt.isPending());
-    }
-
-    private void addBooking() {
-        getHistory().push("/book/event/" + getEventId() + "/fees");
-    }
-
-    private void makePayment() {
-        getHistory().push("/book/cart/" + getCartUuid() + "/payment");
     }
 
     private void modifyBooking() {
@@ -250,7 +259,19 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void contactUs() {
+    }
 
+    private void addBooking() {
+        getHistory().push("/book/event/" + getEventId() + "/fees");
+    }
+
+    private void showPayments() {
+        paymentsPanel.setVisible(true);
+        showPaymentsButton.setVisible(false);
+    }
+
+    private void makePayment() {
+        getHistory().push("/book/cart/" + getCartUuid() + "/payment");
     }
 
 }
