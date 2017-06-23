@@ -38,7 +38,8 @@ public abstract class CartBasedViewActivity extends ViewActivityImpl {
     }
 
     protected void onDictionaryChange() {
-        onCartLoaded();
+        if (cartService().isLoaded())
+            onCartLoaded();
     }
 
     private void loadCart() {
@@ -57,6 +58,14 @@ public abstract class CartBasedViewActivity extends ViewActivityImpl {
 
     protected CartService cartService() {
         return CartService.getOrCreate(getCartUuid(), getDataSourceModel());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Automatically loading the cart if not yet loading or loaded
+        if (getCartUuid() != null && !cartService().isLoaded() && !cartService().isLoading())
+            loadCart();
     }
 
     @Override
