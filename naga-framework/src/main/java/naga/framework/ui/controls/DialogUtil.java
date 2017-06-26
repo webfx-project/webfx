@@ -36,6 +36,12 @@ public class DialogUtil {
         return showModalNodeInGoldLayout(modalNode, parent, 0, 0);
     }
 
+    public static DialogCallback showModalNodeInGoldLayout(DialogBuilder dialogBuilder, Pane parent) {
+        DialogCallback dialogCallback = showModalNodeInGoldLayout(dialogBuilder.build(), parent, 0, 0);
+        dialogBuilder.setDialogCallback(dialogCallback);
+        return dialogCallback;
+    }
+
     public static DialogCallback showModalNodeInGoldLayout(Region modalNode, Pane parent, double percentageWidth, double percentageHeight) {
         return showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode), percentageWidth, percentageHeight), parent);
     }

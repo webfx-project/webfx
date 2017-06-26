@@ -7,7 +7,7 @@ import naga.framework.ui.i18n.I18n;
 /**
  * @author Bruno Salmon
  */
-public class DialogContent {
+public class DialogContent implements DialogBuilder {
 
     private String title;
     private String headerText;
@@ -19,12 +19,29 @@ public class DialogContent {
     private Button okButton = new Button();
     private Button cancelButton = new Button();
 
+    private DialogCallback dialogCallback;
+
     public static DialogContent createConfirmationDialog(String headerText, String contentText, I18n i18n) {
         return createConfirmationDialog("Confirmation", headerText, contentText, i18n);
     }
 
     public static DialogContent createConfirmationDialog(String title, String headerText, String contentText, I18n i18n) {
         return new DialogContent().setTitle(title).setHeaderText(headerText).setContentText(contentText).setI18n(i18n).setYesNo();
+    }
+
+    @Override
+    public I18n getI18n() {
+        return i18n;
+    }
+
+    @Override
+    public void setDialogCallback(DialogCallback dialogCallback) {
+        this.dialogCallback = dialogCallback;
+    }
+
+    @Override
+    public DialogCallback getDialogCallback() {
+        return dialogCallback;
     }
 
     public DialogContent setTitle(String title) {
@@ -72,11 +89,12 @@ public class DialogContent {
         return this;
     }
 
-    Region build() {
+    @Override
+    public Region build() {
         return new GridPaneBuilder(i18n)
                 .addTextRow(headerText)
                 .addTextRow(contentText)
                 .addButtons(okText, okButton, cancelText, cancelButton)
-                .getGridPane();
+                .build();
     }
 }

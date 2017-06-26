@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.function.Consumer;
 import naga.commons.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
 
@@ -25,7 +26,7 @@ import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 /**
  * @author Bruno Salmon
  */
-public class GridPaneBuilder {
+public class GridPaneBuilder implements DialogBuilder {
 
     private final GridPane gridPane = new GridPane();
     private final Font font = Font.getDefault();
@@ -36,6 +37,7 @@ public class GridPaneBuilder {
     private Property<Boolean> noChangesProperty = new SimpleObjectProperty<>(true);
     private final ChangeListener watchedUserPropertyListener = (observable, oldValue, newValue) ->
             noChangesProperty.setValue(Collections.hasNoOneMatching(watchedUserProperties, pair -> !Objects.equals(pair.get1().getValue(), pair.get2())));
+    private DialogCallback dialogCallback;
 
     public GridPaneBuilder(I18n i18n) {
         this.i18n = i18n;
@@ -46,6 +48,20 @@ public class GridPaneBuilder {
         ColumnConstraints cc2 = new ColumnConstraints();
         cc2.setHgrow(Priority.ALWAYS);
         gridPane.getColumnConstraints().setAll(cc1, cc2);
+    }
+
+    @Override
+    public I18n getI18n() {
+        return i18n;
+    }
+
+    public void setDialogCallback(DialogCallback dialogCallback) {
+        this.dialogCallback = dialogCallback;
+    }
+
+    @Override
+    public DialogCallback getDialogCallback() {
+        return dialogCallback;
     }
 
     public GridPaneBuilder addLabelTextInputRow(String labelKey, TextInputControl textInput) {
@@ -103,11 +119,38 @@ public class GridPaneBuilder {
         return this;
     }
 
+    public GridPaneBuilder addButtons(String button1Key, Consumer<DialogCallback> action1, String button2Key, Consumer<DialogCallback> action2) {
+        return addNodeFillingRow(20, createButtonBar(button1Key, action1, button2Key, action2));
+    }
+
     public GridPaneBuilder addButtons(String button1Key, Button button1, String button2Key, Button button2) {
         return addNodeFillingRow(20, createButtonBar(button1Key, button1, button2Key, button2));
     }
 
-    public GridPane getGridPane() {
+    public GridPaneBuilder addButtons(Button... buttons) {
+        return addNodeFillingRow(20, createButtonBar(buttons));
+    }
+
+    private HBox createButtonBar(String button1Key, Consumer<DialogCallback> action1, String button2Key, Consumer<DialogCallback> action2) {
+        return createButtonBar(button1Key, newButton(button1Key, action1), button2Key, newButton(button1Key, action2));
+    }
+
+    private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
+        if ("Ok".equals(button1Key) && !watchedUserProperties.isEmpty())
+            button1.disableProperty().bind(noChangesProperty);
+        return createButtonBar(translateText(button1, button1Key), translateText(button2, button2Key));
+    }
+
+    private HBox createButtonBar(Button... buttons) {
+        for (Button button : buttons)
+            button.setFont(font);
+        HBox hBox = new HBox(10, createHGrowable());
+        hBox.getChildren().addAll(buttons);
+        return hBox;
+    }
+
+    @Override
+    public GridPane build() {
         return gridPane;
     }
 
@@ -136,13 +179,5 @@ public class GridPaneBuilder {
     private void watchUserProperty(Property userProperty) {
         watchedUserProperties.add(new Pair<>(userProperty, userProperty.getValue()));
         userProperty.addListener(watchedUserPropertyListener);
-    }
-
-    private HBox createButtonBar(String button1Key, Button button1, String button2Key, Button button2) {
-        if ("Ok".equals(button1Key) && !watchedUserProperties.isEmpty())
-            button1.disableProperty().bind(noChangesProperty);
-        i18n.translateText(button1, button1Key).setFont(font);
-        i18n.translateText(button2, button2Key).setFont(font);
-        return new HBox(10, createHGrowable(), button1, button2);
     }
 }
