@@ -55,7 +55,9 @@ public class CartViewActivity extends CartBasedViewActivity {
     private Button cancelBookingButton;
     private Button modifyBookingButton;
     private Button showPaymentsButton;
+    private BorderPane optionsPanel;
     private BorderPane paymentsPanel;
+    private HBox bottomButtonBar;
 
     @Override
     public Node buildUi() {
@@ -63,25 +65,31 @@ public class CartViewActivity extends CartBasedViewActivity {
         BorderPane bookingsPanel = HighLevelComponents.createSectionPanel(null, null, "YourBookings", i18n);
         DataGrid documentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         bookingsPanel.setCenter(documentTable);
-        BorderPane optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
+        optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel(i18n);
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
-        paymentsPanel = LayoutUtil.setUnmanagedWhenInvisible(HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n));
-        DataGrid paymentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        paymentsPanel = HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n);
+        DataGrid paymentTable = new DataGrid();
         paymentsPanel.setCenter(paymentTable);
-        paymentsPanel.setVisible(false);
 
-        cancelBookingButton = newCancelButton(this::cancelBooking);
-        modifyBookingButton = newButton("Modify", this::modifyBooking);
-        Button contactUsButton = newButton("ContactUs", this::contactUs);
-        Button readTermsButton = newButton("TermsAndConditions", this::readTerms);
-        HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable(), cancelBookingButton, modifyBookingButton, contactUsButton, readTermsButton, LayoutUtil.createHGrowable());
+        HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable()
+                , cancelBookingButton = newCancelButton(this::cancelBooking)
+                , modifyBookingButton = newButton("Modify", this::modifyBooking)
+                , newButton("ContactUs", this::contactUs)
+                , newButton("TermsAndConditions", this::readTerms)
+                , LayoutUtil.createHGrowable());
         optionsPanel.setBottom(LayoutUtil.createPadding(bookingButtonBar));
 
-        Button addBookingButton = newButton("AddAnotherBooking", this::addBooking);
-        showPaymentsButton = newButton("YourPayments", this::showPayments);
-        Button makePaymentButton = newButton("MakePayment", this::makePayment);
-        HBox bottomButtonBar = new HBox(20, addBookingButton, LayoutUtil.createHGrowable(), showPaymentsButton, LayoutUtil.createHGrowable(), makePaymentButton);
+        bottomButtonBar = new HBox(20
+                , newButton("AddAnotherBooking", this::addBooking)
+                , LayoutUtil.createHGrowable()
+                , showPaymentsButton = newButton("YourPayments", this::showPayments)
+                , LayoutUtil.createHGrowable()
+                , newButton("MakePayment", this::makePayment));
+
+        LayoutUtil.setUnmanagedWhenInvisible(optionsPanel).setVisible(false);
+        LayoutUtil.setUnmanagedWhenInvisible(paymentsPanel).setVisible(false);
+        LayoutUtil.setUnmanagedWhenInvisible(bottomButtonBar).setVisible(false);
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
@@ -116,10 +124,19 @@ public class CartViewActivity extends CartBasedViewActivity {
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
             int selectedRow = selection.getSelectedRow();
             if (selectedRow != -1) {
-                selectedWorkingDocument = Collections.get(cartService().getCartWorkingDocuments(), selectedRow);
+                setSelectedWorkingDocument(Collections.get(cartService().getCartWorkingDocuments(), selectedRow));
                 syncBookingOptionsPanelIfReady();
             }
         });
+    }
+
+    public void setSelectedWorkingDocument(WorkingDocument selectedWorkingDocument) {
+        this.selectedWorkingDocument = selectedWorkingDocument;
+        if (optionsPanel != null) {
+            boolean visible = selectedWorkingDocument != null;
+            optionsPanel.setVisible(visible);
+            bottomButtonBar.setVisible(visible);
+        }
     }
 
     @Override
@@ -150,7 +167,7 @@ public class CartViewActivity extends CartBasedViewActivity {
             if (selectedIndex == -1 && cartService.getEventService() != null)
                 selectedIndex = indexOfWorkingDocument(cartService.getEventService().getWorkingDocument());
             documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
-            updateShowPaymentsButton();
+            updatePaymentsVisibility();
         });
     }
 
@@ -171,7 +188,7 @@ public class CartViewActivity extends CartBasedViewActivity {
             Document selectedDocument = selectedWorkingDocument.getDocument();
             bookingLabel.setText(selectedDocument.getFullName() + " - " + getI18n().instantTranslate("Status:") + " " + getI18n().instantTranslate(getDocumentStatus(selectedDocument)));
             disableCancelModifyButton(selectedDocument.isCancelled());
-            updateShowPaymentsButton();
+            updatePaymentsVisibility();
         }
     }
 
@@ -180,7 +197,7 @@ public class CartViewActivity extends CartBasedViewActivity {
         modifyBookingButton.setDisable(disable);
     }
 
-    private void updateShowPaymentsButton() {
+    private void updatePaymentsVisibility() {
         if (showPaymentsButton != null) {
             if (cartService().getCartPayments().isEmpty()) {
                 showPaymentsButton.setVisible(false);
@@ -221,7 +238,7 @@ public class CartViewActivity extends CartBasedViewActivity {
         EventService eventService = cartService().getEventService();
         eventService.setSelectedOptionsPreselection(null);
         eventService.setWorkingDocument(selectedWorkingDocument);
-        selectedWorkingDocument = null;
+        setSelectedWorkingDocument(null);
         getHistory().push("/book/event/" + getEventId() + "/options");
     }
 
