@@ -28,6 +28,10 @@ public interface ControlFactoryMixin extends I18nMixin {
         return translatePromptText(new TextField(), i18nKey);
     }
 
+    default TextArea newTextAreaWithPrompt(Object i18nKey) {
+        return translatePromptText(new TextArea(), i18nKey);
+    }
+
     default Button styleButton(Button button) {
         return button;
     }
