@@ -6,7 +6,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
-import naga.framework.ui.i18n.I18n;
 import naga.fxdata.control.DataGrid;
 
 import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
@@ -23,10 +22,9 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
 
     @Override
     protected void createViewNodes(PM pm) {
-        I18n i18n = getI18n();
-        searchBox = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
+        searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
         table = setMaxSizeToInfinite(new DataGrid());
-        limitCheckBox = i18n.translateText(new CheckBox(), "LimitTo100");
+        limitCheckBox = newCheckBox("LimitTo100");
 
         limitCheckBox.textFillProperty().bind(Theme.mainTextFillProperty());
 

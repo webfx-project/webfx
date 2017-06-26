@@ -112,22 +112,22 @@ class OptionTreeNode {
             Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
             ButtonBase optionButton = null;
             ToggleGroup toggleGroup = parent == null ? null : parent.getChildrenToggleGroup();
-            ChoiceBox<Label> childrenChoiceBox = parent == null ? null : parent.childrenChoiceBox;
+            ChoiceBox<Label> choiceBox = parent == null ? null : parent.childrenChoiceBox;
             if (toggleGroup != null) {
                 RadioButton radioButton = new RadioButton();
                 radioButton.setToggleGroup(toggleGroup);
                 optionButtonSelectedProperty = radioButton.selectedProperty();
                 optionButton = radioButton;
-            } else if (childrenChoiceBox != null) {
-                childrenChoiceBox.getItems().add(buttonLabel);
+            } else if (choiceBox != null) {
+                choiceBox.getItems().add(buttonLabel);
                 optionButtonSelectedProperty = new SimpleObjectProperty<Boolean>(false) {
                     @Override
                     protected void invalidated() {
                         if (getValue())
-                            childrenChoiceBox.getSelectionModel().select(buttonLabel);
+                            choiceBox.getSelectionModel().select(buttonLabel);
                     }
                 };
-                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == buttonLabel), childrenChoiceBox.getSelectionModel().selectedItemProperty());
+                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == buttonLabel), choiceBox.getSelectionModel().selectedItemProperty());
                 vBox = null;
             } else {
                 CheckBox checkBox = new CheckBox();
@@ -259,7 +259,7 @@ class OptionTreeNode {
     }
 
     private boolean isWorkingOptionSelected(Option option) {
-        if (Collections.findFirst(getWorkingDocument().getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)) != null)
+        if (Collections.hasAtLeastOneMatching(getWorkingDocument().getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)))
             return true;
         if (option.isFolder()) {
             for (Option childOption: getChildrenOptions(option)) {

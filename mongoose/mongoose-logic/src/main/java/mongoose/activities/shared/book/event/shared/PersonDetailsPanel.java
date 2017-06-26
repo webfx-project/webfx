@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Country;
@@ -35,7 +36,7 @@ import naga.fxdata.displaydata.DisplayStyle;
 /**
  * @author Bruno Salmon
  */
-public class PersonDetailsPanel {
+public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     private final Event event;
     private final I18n i18n;
     private final TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;
@@ -53,13 +54,13 @@ public class PersonDetailsPanel {
 
         firstNameTextField = new TextField();
         lastNameTextField = new TextField();
-        maleRadioButton = i18n.translateText(new RadioButton(),"Male");
-        femaleRadioButton = i18n.translateText(new RadioButton(),"Female");
+        maleRadioButton = newRadioButton("Male");
+        femaleRadioButton = new RadioButton("Female");
         ToggleGroup genderGroup = new ToggleGroup();
         maleRadioButton.setToggleGroup(genderGroup);
         femaleRadioButton.setToggleGroup(genderGroup);
-        adultRadioButton = i18n.translateText(new RadioButton(),"Adult");
-        childRadioButton = i18n.translateText(new RadioButton(),"Child");
+        adultRadioButton = newRadioButton("Adult");
+        childRadioButton = newRadioButton("Child");
         ToggleGroup ageGroup = new ToggleGroup();
         childRadioButton.setToggleGroup(ageGroup);
         adultRadioButton.setToggleGroup(ageGroup);
@@ -75,6 +76,11 @@ public class PersonDetailsPanel {
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = new EntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
         organizationSelector = new EntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
+    }
+
+    @Override
+    public I18n getI18n() {
+        return i18n;
     }
 
     public void setLoadingStore(EntityStore store) {
@@ -133,7 +139,7 @@ public class PersonDetailsPanel {
                 .addLabelTextInputRow("City:", cityNameTextField)
                 .addLabelNodeRow("Country:", LayoutUtil.setMaxWidthToInfinite(countrySelector.getEntityButton()))
                 .addLabelNodeRow("Centre:", LayoutUtil.setMaxWidthToInfinite(organizationSelector.getEntityButton()))
-                .getGridPane();
+                .build();
         gridPane.setPadding(new Insets(10));
         return gridPane;
     }

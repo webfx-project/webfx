@@ -5,8 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
-import mongoose.activities.shared.logic.ui.theme.Theme;
-import naga.framework.ui.i18n.I18n;
 
 import static naga.framework.ui.controls.LayoutUtil.setHGrowable;
 
@@ -21,14 +19,10 @@ public class BookingsPresentationViewActivity extends GenericTablePresentationVi
     protected void createViewNodes(BookingsPresentationModel pm) {
         super.createViewNodes(pm);
 
-        I18n i18n = getI18n();
-        Button newBookingButton = i18n.translateText(new Button(), "NewBooking");
-        Button cloneEventButton = i18n.translateText(new Button(), "CloneEvent");
+        Button newBookingButton = newButton("NewBooking");
+        Button cloneEventButton = newButton("CloneEvent");
 
         hBox = new HBox(newBookingButton, setHGrowable(searchBox), cloneEventButton);
-
-        newBookingButton.textFillProperty().bind(Theme.mainTextFillProperty());
-        cloneEventButton.textFillProperty().bind(Theme.mainTextFillProperty());
 
         newBookingButton.onActionProperty().bind(pm.onNewBookingProperty());
         cloneEventButton.onActionProperty().bind(pm.onCloneEventProperty());

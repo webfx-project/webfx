@@ -46,7 +46,7 @@ class DayTimeRangeEditor {
                         .addNodeFillingRow(20, new DayColumnHeaderViewModel(epochDay, i18n).getNode())
                         .addCheckBoxTextInputRow("Exception", exceptionCheckBox, exceptionTextField)
                         .addButtons("Ok", okButton, "Cancel", cancelButton)
-                        .getGridPane(),
+                        .build(),
                 (Pane) parentOwner);
 
         okButton.setOnAction(e -> {

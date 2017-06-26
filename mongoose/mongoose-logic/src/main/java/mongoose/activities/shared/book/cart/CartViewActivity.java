@@ -226,31 +226,24 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void cancelBooking() {
-        Button okButton = new Button();
-        Button cancelButton = new Button();
-
-        I18n i18n = getI18n();
-        DialogCallback dialogCallback = DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(i18n)
-                        .addNodeFillingRow(i18n.translateText(new Label(), "BookingCancellation"))
-                        .addNodeFillingRow(i18n.translateText(new Label(), "ConfirmBookingCancellation"))
-                        .addButtons("YesBookingCancellation", okButton, "NoBookingCancellation", cancelButton)
-                        .getGridPane(),
-                (Pane) getNode());
-
-        okButton.setOnAction(e -> {
-            disableCancelModifyButton(true);
-            Document selectedDocument = selectedWorkingDocument.getDocument();
-            UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
-            Document updatedDocument = updateStore.updateEntity(selectedDocument);
-            updatedDocument.setCancelled(true);
-            updateStore.executeUpdate().setHandler(ar -> {
-                if (ar.succeeded()) {
-                    reloadCart();
-                    dialogCallback.closeDialog();
-                }
-            });
-        });
-        cancelButton.setOnAction(e -> dialogCallback.closeDialog());
+        DialogUtil.showModalNodeInGoldLayout(new GridPaneBuilder(getI18n())
+                        .addNodeFillingRow(newLabel("BookingCancellation"))
+                        .addNodeFillingRow(newLabel("ConfirmBookingCancellation"))
+                        .addButtons("YesBookingCancellation", dialogCallback -> {
+                                    disableCancelModifyButton(true);
+                                    Document selectedDocument = selectedWorkingDocument.getDocument();
+                                    UpdateStore updateStore = UpdateStore.createAbove(selectedDocument.getStore());
+                                    Document updatedDocument = updateStore.updateEntity(selectedDocument);
+                                    updatedDocument.setCancelled(true);
+                                    updateStore.executeUpdate().setHandler(ar -> {
+                                        if (ar.succeeded()) {
+                                            reloadCart();
+                                            dialogCallback.closeDialog();
+                                        }
+                                    });
+                                },
+                                "NoBookingCancellation", DialogCallback::closeDialog)
+                , (Pane) getNode());
     }
 
     private void contactUs() {

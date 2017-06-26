@@ -15,7 +15,6 @@ import mongoose.entities.MoneyTransfer;
 import naga.commons.util.collection.Collections;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.controls.LayoutUtil;
-import naga.framework.ui.i18n.I18n;
 import naga.platform.spi.Platform;
 
 import java.util.List;
@@ -36,18 +35,18 @@ public class PaymentViewActivity extends CartBasedViewActivity {
     public Node buildUi() {
         paymentsVBox = new VBox(20);
 
-        I18n i18n = getI18n();
-        Button backButton = i18n.translateText(new Button(), "Back");
-        Button paymentButton = i18n.translateText(new Button(), "MakePayment");
-        HBox buttonBar = new HBox(20, backButton, LayoutUtil.createHGrowable(), paymentButton);
+        HBox buttonBar = new HBox(20,
+                newButton("Back", () -> getHistory().goBack()),
+                LayoutUtil.createHGrowable(),
+                newButton("MakePayment", this::submitPayment));
 
-        paymentButton.setOnAction(e -> submitPayment());
-        backButton.setOnAction(e -> getHistory().goBack());
+        BorderPane totalSection = HighLevelComponents.createSectionPanel(null, newLabel("TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
+        VBox vBox = new VBox(20, newLabel("PaymentPrompt:"), paymentsVBox, totalSection, buttonBar);
+        BorderPane container = new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
-        BorderPane totalSection = HighLevelComponents.createSectionPanel(null, i18n.translateText(new Label(), "TotalAmount:"), LayoutUtil.createHGrowable(), totalLabel = new Label());
-        VBox vBox = new VBox(20, i18n.translateText(new Label(), "PaymentPrompt"), paymentsVBox, totalSection, buttonBar);
         displayDocumentPaymentsIfReady();
-        return LayoutUtil.createVerticalScrollPaneWithPadding(vBox);
+
+        return container;
     }
 
     @Override
@@ -113,9 +112,8 @@ public class PaymentViewActivity extends CartBasedViewActivity {
 
         Node getNode() {
             if (node == null) {
-                I18n i18n = getI18n();
-                String title = document.getFullName() + " - " + i18n.instantTranslate("Booking") + " " + document.getRef() + "   " + i18n.instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + i18n.instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + i18n.instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
-                BorderPane bp = HighLevelComponents.createSectionPanel(null, new Label(title), LayoutUtil.createHGrowable(), i18n.translateText(new Label(), "PaymentAmount"));
+                String title = document.getFullName() + " - " + instantTranslate("Booking") + " " + document.getRef() + "   " + instantTranslate("Fee:") + " " + formatCurrency(document.getPriceNet()) + "   " + instantTranslate("Deposit:") + " " + formatCurrency(document.getPriceDeposit()) + "   " + instantTranslate("MinDeposit:") + " " + formatCurrency(document.getPriceMinDeposit());
+                BorderPane bp = HighLevelComponents.createSectionPanel(null, new Label(title), LayoutUtil.createHGrowable(), newLabel("PaymentAmount"));
                 hBox = new HBox(20);
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 hBox.setPadding(new Insets(10));

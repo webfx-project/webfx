@@ -24,7 +24,6 @@ import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogContent;
 import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
-import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.platform.services.update.UpdateArgument;
@@ -45,8 +44,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
 
     @Override
     protected void createViewNodes() {
-        I18n i18n = getI18n();
-        CheckBox editModeCheckBox = i18n.translateText(new CheckBox(), "EditMode");
+        CheckBox editModeCheckBox = newCheckBox( "EditMode");
         editModeProperty = editModeCheckBox.selectedProperty();
         Properties.runOnPropertiesChange(p -> ((EditableBookingCalendar) bookingCalendar).setEditMode(editModeProperty.getValue()), editModeProperty);
         Button addOptionButton = newButton(MongooseActions.newAddOptionAction(this::showAddOptionDialog));

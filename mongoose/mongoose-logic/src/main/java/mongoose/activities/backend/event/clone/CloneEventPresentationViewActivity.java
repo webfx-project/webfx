@@ -12,7 +12,6 @@ import mongoose.activities.shared.logic.ui.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 import naga.framework.ui.controls.DialogUtil;
-import naga.framework.ui.i18n.I18n;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -28,10 +27,10 @@ public class CloneEventPresentationViewActivity extends PresentationViewActivity
 
     @Override
     protected void createViewNodes(CloneEventPresentationModel pm) {
-        Label nameLabel = new Label(), dateLabel = new Label();
+        Label nameLabel = newLabel("Name"), dateLabel = newLabel("Date");
         TextField nameTextField = new TextField();
         dateTextField = new TextField();
-        Button submitButton = new Button();
+        Button submitButton = newButton("Clone");
         gp = new GridPane();
         gp.add(nameLabel, 0, 0);
         gp.add(nameTextField, 1, 0);
@@ -69,12 +68,9 @@ public class CloneEventPresentationViewActivity extends PresentationViewActivity
         bp.backgroundProperty().bind(Theme.dialogBackgroundProperty());
         bp.borderProperty().bind(Theme.dialogBorderProperty());
 
-        I18n i18n = getI18n();
-        i18n.translateText(nameLabel, "Name");
-        i18n.translateText(dateLabel, "Date");
         nameTextField.textProperty().bindBidirectional(pm.nameProperty());
         dateTextField.textProperty().bindBidirectional(pm.dateProperty(), DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        i18n.translateText(submitButton, "Clone").onActionProperty().bind(pm.onSubmitProperty());
+        submitButton.onActionProperty().bind(pm.onSubmitProperty());
 
         stackPane = new StackPane();
         // Now that the grid pane doesn't take all space, we center it (if shown in a border pane which is very probable)
