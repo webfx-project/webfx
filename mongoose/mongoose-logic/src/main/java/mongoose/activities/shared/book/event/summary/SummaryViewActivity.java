@@ -15,13 +15,11 @@ import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.shared.TermsDialog;
-import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import naga.commons.util.Strings;
 import naga.framework.ui.controls.LayoutUtil;
-import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.platform.json.Json;
 import naga.platform.spi.Platform;
@@ -46,19 +44,18 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        I18n i18n = getI18n();
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
         personDetailsPanel.setEditable(false);
-        bookingOptionsPanel = new BookingOptionsPanel(i18n);
+        bookingOptionsPanel = new BookingOptionsPanel(getI18n());
 
-        BorderPane commentPanel = HighLevelComponents.createSectionPanel(null, null, "Comment", i18n);
-        commentPanel.setCenter(i18n.translatePromptText(commentTextArea = new TextArea(), "CommentPlaceholder"));
+        BorderPane commentPanel = createSectionPanel("Comment");
+        commentPanel.setCenter(commentTextArea = newTextAreaWithPrompt("CommentPlaceholder"));
 
-        BorderPane termsPanel = HighLevelComponents.createSectionPanel(null, null, "TermsAndConditions", i18n);
+        BorderPane termsPanel = createSectionPanel("TermsAndConditions");
         termsPanel.setCenter(termsCheckBox = new CheckBox());
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
         BorderPane.setMargin(termsCheckBox, new Insets(0, 0, 0, 10));
-        agreeTCTranslationProperty = i18n.translationProperty("AgreeTC");
+        agreeTCTranslationProperty = translationProperty("AgreeTC");
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
         VBox panelsVBox = new VBox(20, bookingOptionsPanel.getOptionsPanel(), personDetailsPanel.getSectionPanel(), commentPanel, termsPanel);

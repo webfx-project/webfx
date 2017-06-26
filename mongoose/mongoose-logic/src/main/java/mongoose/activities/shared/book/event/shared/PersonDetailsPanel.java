@@ -11,7 +11,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
-import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Country;
 import mongoose.entities.Event;
@@ -50,7 +49,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
         this.event = event;
         i18n = viewActivityContextMixin.getI18n();
-        sectionPanel = HighLevelComponents.createSectionPanel(null, null, "YourPersonalDetails", i18n);
+        sectionPanel = createSectionPanel("YourPersonalDetails");
 
         firstNameTextField = new TextField();
         lastNameTextField = new TextField();

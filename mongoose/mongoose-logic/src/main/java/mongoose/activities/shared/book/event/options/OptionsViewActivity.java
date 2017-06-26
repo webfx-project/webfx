@@ -1,16 +1,13 @@
 package mongoose.activities.shared.book.event.options;
 
 import javafx.beans.property.Property;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
-import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
@@ -109,16 +106,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         return createSectionPanel("images/16/itemFamilies/attendance.png",
                 "Attendance",
                 bookingCalendar.calendarNodeProperty());
-    }
-
-    private Node createSectionPanel(String iconImageUrl, String translationKey, ObservableValue<Node> centerProperty) {
-        BorderPane sectionPanel = createSectionPanel(iconImageUrl, translationKey);
-        sectionPanel.centerProperty().bind(centerProperty);
-        return sectionPanel;
-    }
-
-    private BorderPane createSectionPanel(String iconImageUrl, String translationKey) {
-        return HighLevelComponents.createSectionPanel(null, iconImageUrl, translationKey, getI18n());
     }
 
     protected Node createLabelNode(mongoose.entities.Label label) {

@@ -1,9 +1,9 @@
 package mongoose.activities.shared.book.event.shared;
 
 import javafx.scene.layout.BorderPane;
+import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
-import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
@@ -30,7 +30,7 @@ import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
 /**
  * @author Bruno Salmon
  */
-public class BookingOptionsPanel {
+public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
 
     private final I18n i18n;
     private final DataGrid dataGrid;
@@ -53,6 +53,11 @@ public class BookingOptionsPanel {
         }.register();
         new TranslateFunction(i18n).register();
         Properties.runOnPropertiesChange(p -> updateGrid(), i18n.dictionaryProperty());
+    }
+
+    @Override
+    public I18n getI18n() {
+        return i18n;
     }
 
     public void syncUiFromModel(WorkingDocument workingDocument) {
@@ -104,7 +109,7 @@ public class BookingOptionsPanel {
 
     public BorderPane getOptionsPanel() {
         if (optionsPanel == null) {
-            optionsPanel = HighLevelComponents.createSectionPanel(null, null, "YourOptions", i18n);
+            optionsPanel = createSectionPanel("YourOptions");
             optionsPanel.setCenter(getGrid());
         }
         return optionsPanel;

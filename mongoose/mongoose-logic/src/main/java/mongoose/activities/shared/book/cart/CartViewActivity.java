@@ -29,7 +29,6 @@ import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
-import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
@@ -61,14 +60,13 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     @Override
     public Node buildUi() {
-        I18n i18n = getI18n();
-        BorderPane bookingsPanel = HighLevelComponents.createSectionPanel(null, null, "YourBookings", i18n);
+        BorderPane bookingsPanel = createSectionPanel("YourBookings");
         DataGrid documentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         bookingsPanel.setCenter(documentTable);
         optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
-        bookingOptionsPanel = new BookingOptionsPanel(i18n);
+        bookingOptionsPanel = new BookingOptionsPanel(getI18n());
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
-        paymentsPanel = HighLevelComponents.createSectionPanel(null, null, "YourPayments", i18n);
+        paymentsPanel = createSectionPanel("YourPayments");
         DataGrid paymentTable = new DataGrid();
         paymentsPanel.setCenter(paymentTable);
 

@@ -3,7 +3,6 @@ package mongoose.activities.shared.book.event.terms;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationViewActivity;
-import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
@@ -18,7 +17,7 @@ public class TermsPresentationViewActivity extends BookingProcessPresentationVie
     protected void createViewNodes(TermsPresentationModel pm) {
         super.createViewNodes(pm);
         GridCollator termsLetterCollator = new GridCollator("first", "first");
-        termsPanel = HighLevelComponents.createSectionPanel(null, "{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions", getI18n());
+        termsPanel = createSectionPanel("{url: 'images/certificate.svg', width: 16, height: 16}", "TermsAndConditions");
         termsPanel.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator));
 
         termsLetterCollator.displayResultSetProperty().bind(pm.termsLetterDisplayResultSetProperty());
