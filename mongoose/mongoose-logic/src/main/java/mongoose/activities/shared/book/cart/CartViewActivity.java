@@ -32,6 +32,7 @@ import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
+import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
@@ -120,7 +121,7 @@ public class CartViewActivity extends CartBasedViewActivity {
         new Function<Document>("documentStatus", null, null, PrimType.STRING, true) {
             @Override
             public Object evaluate(Document document, DataReader<Document> dataReader) {
-                return getI18n().instantTranslate(getDocumentStatus(document));
+                return instantTranslate(getDocumentStatus(document));
             }
         }.register();
         documentDisplaySelectionProperty.addListener((observable, oldValue, selection) -> {
@@ -139,6 +140,23 @@ public class CartViewActivity extends CartBasedViewActivity {
             optionsPanel.setVisible(visible);
             bottomButtonBar.setVisible(visible);
         }
+    }
+
+    private void autoSelectWorkingDocument() {
+        Toolkit.get().scheduler().runInUiThread(() -> {
+            int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
+            CartService cartService = cartService();
+            if (selectedIndex == -1 && cartService.getEventService() != null)
+                selectedIndex = indexOfWorkingDocument(cartService.getEventService().getWorkingDocument());
+            documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
+            updatePaymentsVisibility();
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        autoSelectWorkingDocument();
     }
 
     @Override
@@ -164,13 +182,7 @@ public class CartViewActivity extends CartBasedViewActivity {
                         "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "MoneyTransfer", paymentDisplayResultSetProperty);
-        javafx.application.Platform.runLater(() -> {
-            int selectedIndex = indexOfWorkingDocument(selectedWorkingDocument);
-            if (selectedIndex == -1 && cartService.getEventService() != null)
-                selectedIndex = indexOfWorkingDocument(cartService.getEventService().getWorkingDocument());
-            documentDisplaySelectionProperty.setValue(DisplaySelection.createSingleRowSelection(Math.max(0, selectedIndex)));
-            updatePaymentsVisibility();
-        });
+        autoSelectWorkingDocument();
     }
 
     private int indexOfWorkingDocument(WorkingDocument workingDocument) {
@@ -202,7 +214,7 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     private void updatePaymentsVisibility() {
         if (showPaymentsButton != null) {
-            if (cartService().getCartPayments().isEmpty()) {
+            if (Collections.isEmpty(cartService().getCartPayments())) {
                 showPaymentsButton.setVisible(false);
                 paymentsPanel.setVisible(false);
             } else
