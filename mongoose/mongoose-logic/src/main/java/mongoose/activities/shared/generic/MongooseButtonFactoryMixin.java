@@ -23,14 +23,20 @@ public interface MongooseButtonFactoryMixin extends ButtonFactoryMixin {
         return HighLevelComponents.createSectionPanel(null, null, i18nKey, getI18n());
     }
 
-    default Node createSectionPanel(String iconImageUrl, String translationKey, ObservableValue<Node> centerProperty) {
-        BorderPane sectionPanel = createSectionPanel(iconImageUrl, translationKey);
+    default Node createSectionPanel(String iconImageUrl, String i18nKey, ObservableValue<Node> centerProperty) {
+        BorderPane sectionPanel = createSectionPanel(iconImageUrl, i18nKey);
         sectionPanel.centerProperty().bind(centerProperty);
         return sectionPanel;
     }
 
-    default BorderPane createSectionPanel(String iconImageUrl, String translationKey) {
-        return HighLevelComponents.createSectionPanel(null, iconImageUrl, translationKey, getI18n());
+    default Node createSectionPanel(String i18nKey, Node center) {
+        BorderPane sectionPanel = createSectionPanel(i18nKey);
+        sectionPanel.setCenter(center);
+        return sectionPanel;
+    }
+
+    default BorderPane createSectionPanel(String iconImageUrl, String i18nKey) {
+        return HighLevelComponents.createSectionPanel(null, iconImageUrl, i18nKey, getI18n());
     }
 
 }
