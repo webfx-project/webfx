@@ -37,7 +37,16 @@ public class DialogUtil {
     }
 
     public static DialogCallback showModalNodeInGoldLayout(DialogBuilder dialogBuilder, Pane parent) {
-        DialogCallback dialogCallback = showModalNodeInGoldLayout(dialogBuilder.build(), parent, 0, 0);
+        return showModalNodeInGoldLayout(dialogBuilder, parent, 0, 0);
+    }
+
+    public static DialogCallback showModalNodeInGoldLayout(DialogBuilder dialogBuilder, Pane parent, double percentageWidth, double percentageHeight) {
+        Region dialog = dialogBuilder.build();
+        if (percentageWidth != 0)
+            LayoutUtil.setPrefWidthToInfinite(dialog);
+        if (percentageHeight != 0)
+            LayoutUtil.setPrefHeightToInfinite(dialog);
+        DialogCallback dialogCallback = showModalNodeInGoldLayout(dialog, parent, percentageWidth, percentageHeight);
         dialogBuilder.setDialogCallback(dialogCallback);
         return dialogCallback;
     }

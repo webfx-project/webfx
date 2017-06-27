@@ -97,8 +97,18 @@ public class LayoutUtil {
         return setMaxWidthToInfinite(region);
     }
 
+    public static <N extends Region> N setPrefHeightToInfinite(N region) {
+        region.setPrefHeight(Double.MAX_VALUE);
+        return setMaxHeightToInfinite(region);
+    }
+
     public static <N extends Region> N setMaxWidthToInfinite(N region) {
         region.setMaxWidth(Double.MAX_VALUE);
+        return region;
+    }
+
+    public static <N extends Region> N setMaxHeightToInfinite(N region) {
+        region.setMaxHeight(Double.MAX_VALUE);
         return region;
     }
 

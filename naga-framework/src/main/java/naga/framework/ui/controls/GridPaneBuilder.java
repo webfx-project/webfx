@@ -43,11 +43,6 @@ public class GridPaneBuilder implements DialogBuilder {
         this.i18n = i18n;
         gridPane.setHgap(10);
         gridPane.setVgap(10);
-        ColumnConstraints cc1 = new ColumnConstraints();
-        cc1.setHgrow(Priority.NEVER);
-        ColumnConstraints cc2 = new ColumnConstraints();
-        cc2.setHgrow(Priority.ALWAYS);
-        gridPane.getColumnConstraints().setAll(cc1, cc2);
     }
 
     @Override
@@ -81,6 +76,13 @@ public class GridPaneBuilder implements DialogBuilder {
     public GridPaneBuilder addNewRow(Node... children) {
         colCount = Math.max(colCount, children.length);
         gridPane.addRow(rowCount++, children);
+        if (colCount >= 2 && gridPane.getColumnConstraints().isEmpty()) {
+            ColumnConstraints cc1 = new ColumnConstraints();
+            cc1.setHgrow(Priority.NEVER);
+            ColumnConstraints cc2 = new ColumnConstraints();
+            cc2.setHgrow(Priority.ALWAYS);
+            gridPane.getColumnConstraints().setAll(cc1, cc2);
+        }
         return this;
     }
 
@@ -93,6 +95,11 @@ public class GridPaneBuilder implements DialogBuilder {
     }
 
     public GridPaneBuilder addNodeFillingRow(Node node) {
+        return addNodeFillingRow(0, node);
+    }
+
+    public GridPaneBuilder addNodeFillingRowAndHeight(Node node) {
+        GridPane.setVgrow(node, Priority.ALWAYS);
         return addNodeFillingRow(0, node);
     }
 
