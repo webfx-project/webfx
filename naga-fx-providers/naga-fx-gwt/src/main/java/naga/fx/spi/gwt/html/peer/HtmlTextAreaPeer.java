@@ -21,6 +21,7 @@ public class HtmlTextAreaPeer
 
     public HtmlTextAreaPeer(NB base, HTMLElement element) {
         super(base, element);
+        element.style.resize = "none"; // To disable the html text area resize feature
     }
 
 }
