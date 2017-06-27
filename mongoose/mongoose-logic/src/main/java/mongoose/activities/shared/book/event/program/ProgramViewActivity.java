@@ -6,7 +6,6 @@ import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import naga.framework.ui.i18n.I18n;
 import naga.platform.spi.Platform;
 
 /**
@@ -24,14 +23,13 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        I18n i18n = getI18n();
         BorderPane calendarPanel = createSectionPanel("{url: 'images/calendar.svg', width: 16, height: 16}", "Timetable");
         VBox panelsVBox = new VBox(calendarPanel);
 
         borderPane.setCenter(panelsVBox);
         borderPane.setBottom(previousButton);
 
-        bookingCalendar = new BookingCalendar(false, i18n);
+        bookingCalendar = new BookingCalendar(false, getI18n());
 
         calendarPanel.centerProperty().bind(bookingCalendar.calendarNodeProperty());
 

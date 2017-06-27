@@ -147,7 +147,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         }
 
         private RadioButton addRadioButton(int price, Object translationKey) {
-            RadioButton rb = new RadioButton(formatCurrency(price) + (translationKey == null ? "" : " (" + getI18n().instantTranslate(translationKey) + ")"));
+            RadioButton rb = new RadioButton(formatCurrency(price) + (translationKey == null ? "" : " (" + instantTranslate(translationKey) + ")"));
             rb.setToggleGroup(radioGroup);
             rb.setOnAction(e -> updateAmount(price, true));
             addNode(rb);

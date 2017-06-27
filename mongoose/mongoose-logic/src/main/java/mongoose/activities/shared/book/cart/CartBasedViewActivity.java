@@ -31,7 +31,7 @@ public abstract class CartBasedViewActivity extends ViewActivityImpl implements 
 
     protected void startLogic() {
         Properties.runOnPropertiesChange(p -> onCartUuidChange(), cartUuidProperty);
-        Properties.runOnPropertiesChange(p -> onDictionaryChange(), getI18n().dictionaryProperty());
+        Properties.runOnPropertiesChange(p -> onDictionaryChange(), dictionaryProperty());
     }
 
     protected void onCartUuidChange() {
