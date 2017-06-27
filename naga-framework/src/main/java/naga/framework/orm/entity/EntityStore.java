@@ -108,6 +108,8 @@ public interface EntityStore {
         if (entity == null)
             return null;
         E copy = getOrCreateEntity(entity.getId());
+        if (copy.getStore() != this) // Ensuring the copy is in this store
+            copy = createEntity(entity.getId());
         if (copy != entity)
             ((DynamicEntity) copy).copyAllFieldsFrom(entity);
         return copy;
