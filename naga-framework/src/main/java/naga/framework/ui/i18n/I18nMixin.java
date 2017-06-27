@@ -59,8 +59,8 @@ public interface I18nMixin extends I18n {
         return getI18n().translateText(labeled, key);
     }
 
-    default I18nMixin translatePromptTextFluent(TextInputControl textInputControl, Object key) {
-        return translatePromptTextFluent(textInputControl, key);
+    default I18n translatePromptTextFluent(TextInputControl textInputControl, Object key) {
+        return getI18n().translatePromptTextFluent(textInputControl, key);
     }
 
     default <T extends TextInputControl> T translatePromptText(T textInputControl, Object key) {
