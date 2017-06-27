@@ -58,6 +58,7 @@ public class DomainModelSnapshotLoader {
             registerEntityFactory(Document.class, "Document", DocumentImpl::new);
             registerEntityFactory(DocumentLine.class, "DocumentLine", DocumentLineImpl::new);
             registerEntityFactory(Event.class, "Event", EventImpl::new);
+            registerEntityFactory(History.class, "History", HistoryImpl::new);
             registerEntityFactory(Image.class, "Image", ImageImpl::new);
             registerEntityFactory(Item.class, "Item", ItemImpl::new);
             registerEntityFactory(ItemFamily.class, "ItemFamily", ItemFamilyImpl::new);
