@@ -64,6 +64,10 @@ public class Strings {
         return endsWith(s, suffix) ? s.substring(0, s.length() - suffix.length()) : s;
     }
 
+    public static String replaceAllSafe(String s, String match, String replacement) {
+        return replaceAll(s, match, toSafeString(replacement));
+    }
+
     public static String replaceAll(String s, String match, String replacement) {
         if (s == null)
             return null;
