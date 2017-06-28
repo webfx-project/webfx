@@ -4,6 +4,8 @@ import mongoose.entities.markers.EntityHasDocument;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 
+import java.time.LocalDateTime;
+
 /**
  * @author Bruno Salmon
  */
@@ -47,6 +49,14 @@ public interface MoneyTransfer extends Entity, EntityHasDocument {
 
     default Boolean isSpread() {
         return getBooleanFieldValue("spread");
+    }
+
+    default void setDate(LocalDateTime date) {
+        setFieldValue("date", date);
+    }
+
+    default LocalDateTime getDate() {
+        return getLocalDateTimeFieldValue("date");
     }
 
     default void setPending(Boolean pending) {
