@@ -11,4 +11,6 @@ public interface Method extends Entity,
         EntityHasName,
         EntityHasLabel {
 
+    int ONLINE_METHOD_ID = 5; // hardcoded id that matches the database (not beautiful)
+
 }
