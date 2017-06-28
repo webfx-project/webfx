@@ -30,6 +30,16 @@ public interface EntityHasPersonDetails extends Entity, EntityHasOrganization, H
         return getStringFieldValue(getLastNameField());
     }
 
+    default Object getLayNameField() { return "layName";}
+
+    default void setLayName(String layName) {
+        setFieldValue(getLayNameField(), layName);
+    }
+
+    default String getLayName() {
+        return getStringFieldValue(getLayNameField());
+    }
+
     default Object getMaleField() { return "male";}
 
     default void setMale(Boolean male) {
@@ -38,6 +48,16 @@ public interface EntityHasPersonDetails extends Entity, EntityHasOrganization, H
 
     default Boolean isMale() {
         return getBooleanFieldValue(getMaleField());
+    }
+
+    default Object getOrdainedField() { return "ordained";}
+
+    default void setOrdained(Boolean ordained) {
+        setFieldValue(getOrdainedField(), ordained);
+    }
+
+    default Boolean isOrdained() {
+        return getBooleanFieldValue(getOrdainedField());
     }
 
     default Object getAgeField() { return "age";}
@@ -118,6 +138,26 @@ public interface EntityHasPersonDetails extends Entity, EntityHasOrganization, H
 
     default String getCityName() {
         return getStringFieldValue(getCityNameField());
+    }
+
+    default Object getAdmin1NameField() { return "admin1Name";}
+
+    default void setAdmin1Name(String admin1Name) {
+        setFieldValue(getAdmin1NameField(), admin1Name);
+    }
+
+    default String getAdmin1Name() {
+        return getStringFieldValue(getAdmin1NameField());
+    }
+
+    default Object getAdmin2NameField() { return "admin2Name";}
+
+    default void setAdmin2Name(String admin2Name) {
+        setFieldValue(getAdmin2NameField(), admin2Name);
+    }
+
+    default String getAdmin2Name() {
+        return getStringFieldValue(getAdmin2NameField());
     }
 
     default Object getCountryNameField() { return "countryName";}

@@ -21,9 +21,17 @@ public interface HasPersonDetails {
         return getFirstName() + " " + getLastName();
     }
 
+    void setLayName(String layName);
+
+    String getLayName();
+
     void setMale(Boolean male);
 
     Boolean isMale();
+
+    void setOrdained(Boolean ordained);
+
+    Boolean isOrdained();
 
     void setAge(Integer age);
 
@@ -56,6 +64,14 @@ public interface HasPersonDetails {
     void setCityName(String cityName);
 
     String getCityName();
+
+    void setAdmin1Name(String admin1Name);
+
+    String getAdmin1Name();
+
+    void setAdmin2Name(String admin2Name);
+
+    String getAdmin2Name();
 
     void setCountryName(String countryName);
 

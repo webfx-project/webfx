@@ -295,7 +295,9 @@ public class WorkingDocument {
     private static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
         p2.setFirstName(p1.getFirstName());
         p2.setLastName(p1.getLastName());
+        p2.setLayName(p1.getLayName());
         p2.setMale(p1.isMale());
+        p2.setOrdained(p1.isOrdained());
         p2.setAge(p1.getAge());
         p2.setCarer1Name(p1.getCarer1Name());
         p2.setCarer2Name(p1.getCarer2Name());
@@ -304,6 +306,8 @@ public class WorkingDocument {
         p2.setStreet(p1.getStreet());
         p2.setPostCode(p1.getPostCode());
         p2.setCityName(p1.getCityName());
+        p2.setAdmin1Name(p1.getAdmin1Name());
+        p2.setAdmin2Name(p1.getAdmin2Name());
         p2.setCountryName(p1.getCountryName());
         p2.setCountry(p1.getCountry());
         p2.setOrganization(p1.getOrganization());
@@ -407,7 +411,7 @@ public class WorkingDocument {
 
     public final static String DOCUMENT_LINE_LOAD_QUERY = "select <frontend_cart>,document.<frontend_cart> from DocumentLine where site!=null and document=? order by document desc";
     public final static String ATTENDANCE_LOAD_QUERY = "select documentLine.id,date from Attendance where documentLine.document=? order by date";
-    public final static String PAYMENT_LOAD_QUERY = "select <frontend_cart> from MoneyTransfer where document=? order by date";
+    public final static String PAYMENT_LOAD_QUERY = "select <frontend_cart> from MoneyTransfer where document=? order by date desc";
 
     public static Future<WorkingDocument> load(EventService eventService, Object documentPk) {
         DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();

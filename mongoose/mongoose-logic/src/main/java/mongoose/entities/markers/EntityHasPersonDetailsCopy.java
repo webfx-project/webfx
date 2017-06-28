@@ -9,9 +9,16 @@ public interface EntityHasPersonDetailsCopy extends EntityHasPersonDetails {
 
     default Object getLastNameField() { return "person_lastName";}
 
+    default Object getLayNameField() { return "person_layName";}
+
     @Override
     default Object getMaleField() {
         return "person_male";
+    }
+
+    @Override
+    default Object getOrdainedField() {
+        return "person_ordained";
     }
 
     default Object getAgeField() { return "person_age";}
@@ -49,6 +56,16 @@ public interface EntityHasPersonDetailsCopy extends EntityHasPersonDetails {
     @Override
     default Object getCityNameField() {
         return "person_cityName";
+    }
+
+    @Override
+    default Object getAdmin1NameField() {
+        return "person_admin1Name";
+    }
+
+    @Override
+    default Object getAdmin2NameField() {
+        return "person_admin2Name";
     }
 
     @Override
