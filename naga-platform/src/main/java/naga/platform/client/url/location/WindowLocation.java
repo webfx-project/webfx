@@ -8,11 +8,19 @@ import naga.commons.util.Strings;
 public interface WindowLocation extends PathLocation {
 
     /**
+     * Ex: https://developer.mozilla.org
+     * @return a String containing the origin of the URL, that is its scheme, its domain and its port.
+     * */
+    default String getOrigin() {
+        return Strings.concat(getProtocol(), "://", getHost());
+    }
+
+    /**
      * Ex: https://developer.mozilla.org/en-US/search?q=URL#search-results-close-container
      * @return A String containing the entire URL.
      */
     default String getHref() {
-        return Strings.concat(getProtocol(), "://", getHost(), getPath());
+        return Strings.concat(getOrigin(), getPath());
     }
 
     /**
