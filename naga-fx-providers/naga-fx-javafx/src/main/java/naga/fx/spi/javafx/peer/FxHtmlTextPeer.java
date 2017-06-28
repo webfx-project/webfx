@@ -48,7 +48,9 @@ public class FxHtmlTextPeer
 
     @Override
     public void updateText(String text) {
-        webView.getEngine().loadContent("<div style='margin: 0; padding: 0;'>" + Strings.toSafeString(text) + "</div>");
+        if (text == null || !text.contains("<html"))
+            text = "<div style='margin: 0; padding: 0;'>" + Strings.toSafeString(text) + "</div>";
+        webView.getEngine().loadContent(text);
     }
 
     @Override
