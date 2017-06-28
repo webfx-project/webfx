@@ -7,7 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.book.event.shared.TranslateFunction;
@@ -15,7 +18,6 @@ import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponen
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.Document;
-import mongoose.entities.Event;
 import mongoose.entities.History;
 import mongoose.entities.Mail;
 import mongoose.services.CartService;
@@ -104,14 +106,6 @@ public class CartViewActivity extends CartBasedViewActivity {
         syncBookingOptionsPanelIfReady();
 
         return new BorderPane(LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20, bookingsPanel, optionsPanel, paymentsPanel, bottomButtonBar)));
-    }
-
-    private Event getEvent() {
-        return cartService().getEventService().getEvent();
-    }
-
-    private Object getEventId() {
-        return getEvent().getPrimaryKey();
     }
 
     @Override

@@ -3,6 +3,7 @@ package mongoose.activities.shared.book.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.entities.Event;
 import mongoose.services.CartService;
 import naga.framework.activity.view.impl.ViewActivityImpl;
 import naga.fx.properties.Properties;
@@ -59,6 +60,14 @@ public abstract class CartBasedViewActivity extends ViewActivityImpl implements 
 
     protected CartService cartService() {
         return CartService.getOrCreate(getCartUuid(), getDataSourceModel());
+    }
+
+    protected Event getEvent() {
+        return cartService().getEventService().getEvent();
+    }
+
+    protected Object getEventId() {
+        return getEvent().getPrimaryKey();
     }
 
     @Override
