@@ -2,6 +2,7 @@ package naga.platform.spi.client;
 
 import naga.platform.bus.BusFactory;
 import naga.platform.client.bus.ReconnectBus;
+import naga.platform.client.url.location.WindowLocation;
 import naga.platform.spi.Platform;
 import naga.platform.client.websocket.WebSocket;
 import naga.platform.client.bus.WebSocketBusOptions;
@@ -21,6 +22,10 @@ public interface ClientPlatform {
     }
 
     WebSocketFactory webSocketFactory();
+
+    default WindowLocation getCurrentLocation() {
+        return null; // empty default implementation for deprecated platforms is provided but should be overridden for active platforms
+    }
 
     /*** Static access ***/
 

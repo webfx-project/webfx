@@ -22,9 +22,11 @@ import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
 import naga.platform.client.bus.ReconnectBus;
 import naga.platform.client.bus.WebSocketBusOptions;
+import naga.platform.client.url.location.WindowLocation;
+import naga.platform.client.url.location.impl.WindowLocationImpl;
+import naga.platform.client.websocket.WebSocketFactory;
 import naga.platform.json.Json;
 import naga.platform.spi.client.ClientPlatform;
-import naga.platform.client.websocket.WebSocketFactory;
 import naga.providers.platform.abstr.java.JavaPlatform;
 import naga.providers.platform.abstr.java.client.websocket.JavaWebSocketFactory;
 
@@ -67,4 +69,9 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
         return webSocketFactory;
     }
 
+    @Override
+    public WindowLocation getCurrentLocation() {
+        WebSocketBusOptions busOptions = (WebSocketBusOptions) getBusOptions();
+        return new WindowLocationImpl(busOptions.isServerSSL() ? "https" : "http", busOptions.getServerHost(), null, getBrowserHistory().getCurrentLocation());
+    }
 }

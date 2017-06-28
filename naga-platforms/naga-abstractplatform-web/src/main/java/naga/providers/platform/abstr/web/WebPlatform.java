@@ -59,6 +59,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         return resourceService;
     }
 
+    @Override
     public WindowLocation getCurrentLocation() {
         return windowLocation;
     }
