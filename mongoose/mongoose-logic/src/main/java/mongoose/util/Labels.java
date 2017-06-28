@@ -58,6 +58,10 @@ public class Labels {
         return labeled;
     }
 
+    public static String instantTranslate(Object o, I18n i18n) {
+        return instantTranslateLabel(bestLabelOrName(o), i18n);
+    }
+
     public static String instantTranslateLabel(Label label, I18n i18n) {
         return instantTranslateLabel(label, i18n, null);
     }
