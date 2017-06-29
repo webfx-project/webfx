@@ -51,14 +51,7 @@ class VerticalDayTimePositioner {
         //Doesn't work on Android: List<TimeInterval> slots = verticalDayTimePositionedCollection.stream().map(VerticalDayTimePositioned::getDayTimeMinuteInterval).collect(Collectors.toCollection(HashList::new));
         List<TimeInterval> slots = new HashList<>(Collections.map(verticalDayTimePositionedCollection, VerticalDayTimePositioned::getDayTimeMinuteInterval));
         //Doesn't work on Android: slots.sort(Comparator.comparingLong(TimeInterval::getIncludedStart));
-        Comparator<? super TimeInterval> c = (o1, o2) -> Long.compare(o1.getIncludedStart(), o2.getIncludedStart());
-        Object[] a = slots.toArray();
-        Arrays.sort(a, (Comparator) c);
-        ListIterator<TimeInterval> i = slots.listIterator();
-        for (Object e : a) {
-            i.next();
-            i.set((mongoose.activities.shared.logic.time.TimeInterval) e);
-        }
+        Collections.sort(slots, Collections.comparingLong(TimeInterval::getIncludedStart));
         for (VerticalDayTimePositioned verticalDayTimePositioned : verticalDayTimePositionedCollection) {
             TimeInterval minuteInterval = verticalDayTimePositioned.getDayTimeMinuteInterval();
             int slotIndex = slots.indexOf(minuteInterval);

@@ -51,14 +51,7 @@ class OptionTree {
         if (topLevelOptions == null) {
             topLevelOptions = Collections.filter(activity.getEventOptions(), o -> o.getParent() == null);
             //Doesn't work on Android: topLevelOptions.sort(Comparator.comparingInt(this::optionSectionOrder));
-            Comparator<? super Option> c = (o1, o2) -> Integer.compare(optionSectionOrder(o1), optionSectionOrder(o2));
-            Object[] a = topLevelOptions.toArray();
-            Arrays.sort(a, (Comparator) c);
-            ListIterator<Option> i = topLevelOptions.listIterator();
-            for (Object e : a) {
-                i.next();
-                i.set((mongoose.entities.Option) e);
-            }
+            Collections.sort(topLevelOptions, Collections.comparingInt(this::optionSectionOrder));
         }
         return topLevelOptions;
     }

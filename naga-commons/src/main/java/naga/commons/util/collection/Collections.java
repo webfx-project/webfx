@@ -1,10 +1,8 @@
 package naga.commons.util.collection;
 
-import naga.commons.util.function.Consumer;
-import naga.commons.util.function.Converter;
-import naga.commons.util.function.IntFunction;
-import naga.commons.util.function.Predicate;
+import naga.commons.util.function.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -86,7 +84,6 @@ public class Collections {
         return -1;
     }
 
-
     public static <T> boolean removeIf(Iterable<T> iterable, Predicate<? super T> predicate) {
         boolean removed = false;
         final Iterator<T> each = iterable.iterator();
@@ -99,6 +96,34 @@ public class Collections {
         return removed;
     }
 
+    public static <T> void sort(List<T> list, Comparator<? super T> c) {
+        //list.sort(c); // Java 8 API - doesn't work on Android
+        Object[] a = list.toArray();
+        Arrays.sort(a, (Comparator) c);
+        ListIterator<T> i = list.listIterator();
+        for (Object e : a) {
+            i.next();
+            i.set((T) e);
+        }
+    }
+
+    public static <T, U extends Comparable<? super U>> Comparator<T> comparing(Function<? super T, ? extends U> keyExtractor) {
+        //return Comparator.comparing(keyExtractor); // Java 8 API - doesn't work on Android
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable) (c1, c2) -> keyExtractor.apply(c1).compareTo(keyExtractor.apply(c2));
+    }
+
+    public static <T> Comparator<T> comparingInt(ToIntFunction<? super T> keyExtractor) {
+        // return Comparator.comparingInt(keyExtractor); // Java 8 API - doesn't work on Android
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable) (c1, c2) -> Integer.compare(keyExtractor.applyAsInt(c1), keyExtractor.applyAsInt(c2));
+    }
+
+    public static <T> Comparator<T> comparingLong(ToLongFunction<? super T> keyExtractor) {
+        // return Comparator.comparingLong(keyExtractor); // Java 8 API - doesn't work on Android
+        Objects.requireNonNull(keyExtractor);
+        return (Comparator<T> & Serializable) (c1, c2) -> Long.compare(keyExtractor.applyAsLong(c1), keyExtractor.applyAsLong(c2));
+    }
 
     public static int size(Collection collection) {
         return collection == null ? 0 : collection.size();
