@@ -298,7 +298,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
             signature = Sha1.hash(signature);
             sb.append("\n<input type='hidden' name='signature' value=").append(htmlQuote(signature)).append("/>");
         }
-        return replaceBrackets("<html><body><form id='gatewayForm' action='[paymentUrl]' method='POST'>") + sb + "\n<button type='submit'>Submit</button></form></body></html>";
+        return replaceBrackets("<html><body><form id='gatewayForm' action='[paymentUrl]' method='POST' accept-charset='UTF-8'>") + sb + "\n<button type='submit'>Submit</button></form></body></html>";
     }
 
     private String replaceBrackets(String value) {
