@@ -262,7 +262,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                         lastPayment = (MoneyTransfer) QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[1], sqlCompiled2.getQueryMapping(), loadStore, "lastPayment").get(0);
                         Toolkit.get().scheduler().runInUiThread(() -> {
                             String innerHtml = generateHtmlForm(gatewayParameters);
-                            Platform.log(innerHtml);
+                            //Platform.log(innerHtml);
                             HtmlText htmlText = LayoutUtil.setPrefSizeToInfinite(new HtmlText(innerHtml));
                             DialogUtil.showModalNodeInGoldLayout(htmlText, (Pane) getNode(), 0.9, 0.8);
                         });
@@ -284,7 +284,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
             switch (gp.getName()) {
                 case "paymentUrl": paymentUrl = gp.getValue(); break;
                 case "certificate": certificate = gp.getValue(); break;
-                default: sb.append("\n<input name=").append(htmlQuote(gp.getName())).append(" value=").append(htmlQuote(replaceBrackets(gp.getValue()))).append("/>");
+                default: sb.append("\n<input type='hidden' name=").append(htmlQuote(gp.getName())).append(" value=").append(htmlQuote(replaceBrackets(gp.getValue()))).append("/>");
             }
         }
         if (certificate != null) { // certificate => computing vads signature
@@ -298,7 +298,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
             signature = Sha1.hash(signature);
             sb.append("\n<input type='hidden' name='signature' value=").append(htmlQuote(signature)).append("/>");
         }
-        return replaceBrackets("<html><body><form id='gatewayForm' action='[paymentUrl]' method='POST' accept-charset='UTF-8'>") + sb + "\n<button type='submit'>Submit</button></form></body></html>";
+        return replaceBrackets("<html><body><form id='gatewayForm' action='[paymentUrl]' method='POST' accept-charset='UTF-8'>") + sb + "\n</form><script type='text/javascript'>document.getElementById('gatewayForm').submit();</script></body></html>";
     }
 
     private String replaceBrackets(String value) {
