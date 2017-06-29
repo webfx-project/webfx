@@ -13,6 +13,7 @@ import mongoose.activities.shared.book.cart.CartBasedViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
+import mongoose.entities.markers.EntityHasName;
 import mongoose.util.Labels;
 import naga.commons.util.Dates;
 import naga.commons.util.Strings;
@@ -205,7 +206,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         }
     }
 
-    private MoneyTransfer moneyTransfer;
+    private MoneyTransfer lastPayment;
     private Document doc;
     private String paymentRef;
 
@@ -213,9 +214,9 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         List<DocumentPayment> payments = Collections.filter(documentPayments, p -> p.getAmount() > 0);
         if (payments.isEmpty())
             return;
-        EntityStore loadStore = cartService().getEventService().getEventStore();
+        EntityStore loadStore = getEvent().getStore();
         UpdateStore updateStore = UpdateStore.createAbove(loadStore);
-        moneyTransfer = updateStore.insertEntity(MoneyTransfer.class);
+        MoneyTransfer moneyTransfer = updateStore.insertEntity(MoneyTransfer.class);
         moneyTransfer.setPending(true);
         moneyTransfer.setMethod(Method.ONLINE_METHOD_ID);
         paymentRef = null;
@@ -258,6 +259,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                         Platform.log("Error submitting payment", ar.cause());
                     else {
                         EntityList<GatewayParameter> gatewayParameters = QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[0], sqlCompiled1.getQueryMapping(), loadStore, "gatewayParameters");
+                        lastPayment = (MoneyTransfer) QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[1], sqlCompiled2.getQueryMapping(), loadStore, "lastPayment").get(0);
                         Toolkit.get().scheduler().runInUiThread(() -> {
                             String innerHtml = generateHtmlForm(gatewayParameters);
                             Platform.log(innerHtml);
@@ -272,19 +274,31 @@ public class PaymentViewActivity extends CartBasedViewActivity {
 
     private String paymentUrl;
 
-    private String generateHtmlForm(EntityList<GatewayParameter> gatewayParameters) {
-        StringBuilder sb = new StringBuilder("<html><body><form id='gatewayForm' action='[paymentUrl]' method='POST'>");
-        boolean live = getEvent().getBooleanFieldValue("live");
+    private String generateHtmlForm(List<GatewayParameter> gatewayParameters) {
+        boolean live = getEvent().isLive();
         boolean test = !live;
+        String certificate = paymentUrl = null;
+        gatewayParameters = Collections.filter(gatewayParameters, gp -> live && gp.isLive() || test && gp.isTest());
+        StringBuilder sb = new StringBuilder();
         for (GatewayParameter gp : gatewayParameters) {
-            if (live && gp.isLive() || test && gp.isTest()) {
-                if ("paymentUrl".equals(gp.getName()))
-                    paymentUrl = gp.getValue();
-                else
-                    sb.append("\n<input type='hidden' name='").append(gp.getName()).append("' value='").append(gp.getValue()).append("'/>");
+            switch (gp.getName()) {
+                case "paymentUrl": paymentUrl = gp.getValue(); break;
+                case "certificate": certificate = gp.getValue(); break;
+                default: sb.append("\n<input type='hidden' name=").append(htmlQuote(gp.getName())).append(" value=").append(htmlQuote(replaceBrackets(gp.getValue()))).append("/>");
             }
         }
-        return replaceBrackets(sb.append("\n</form><script type='text/javascript'>document.getElementById('gatewayForm').submit();</script></body></html>").toString());
+        if (certificate != null) { // certificate => computing vads signature
+            String signature = "";
+            Collections.sort(gatewayParameters, Collections.comparing(EntityHasName::getName));
+            for (GatewayParameter gp : gatewayParameters) {
+                if (gp.getName().startsWith("vads_"))
+                    signature += replaceBrackets(gp.getValue()) + '+';
+            }
+            signature += certificate;
+            signature = Sha1.hash(signature);
+            sb.append("\n<input type='hidden' name='signature' value=").append(htmlQuote(signature)).append("/>");
+        }
+        return replaceBrackets("<html><body><form id='gatewayForm' action='[paymentUrl]' method='POST'>") + sb + "\n</form><script type='text/javascript'>document.getElementById('gatewayForm').submit();</script></body></html>";
     }
 
     private String replaceBrackets(String value) {
@@ -292,8 +306,8 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         value = Strings.replaceAllSafe(value, "[paymentUrl]", paymentUrl);
         value = Strings.replaceAllSafe(value, "[ref]", paymentRef);
         value = Strings.replaceAllSafe(value, "[bref]", doc.getRef().toString());
-        value = Strings.replaceAllSafe(value, "[amount]", PriceFormatter.INSTANCE.format(moneyTransfer.getAmount(), true).toString());
-        value = Strings.replaceAllSafe(value, "[amount_int]", moneyTransfer.getAmount().toString());
+        value = Strings.replaceAllSafe(value, "[amount]", PriceFormatter.INSTANCE.format(lastPayment.getAmount(), true).toString());
+        value = Strings.replaceAllSafe(value, "[amount_int]", lastPayment.getAmount().toString());
         value = Strings.replaceAllSafe(value, "[event]", Labels.instantTranslate(event, getI18n()));
         value = Strings.replaceAllSafe(value, "[eventid]", event.getPrimaryKey().toString());
         value = Strings.replaceAllSafe(value, "[eventid5]", digits(event.getPrimaryKey().toString(), 5, true));
@@ -318,10 +332,14 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         value = Strings.replaceAllSafe(value, "[cartUrl]", cartUrl);
         value = Strings.replaceAllSafe(value, "[session]", ((WebSocketBus) Platform.bus()).getSessionId());
         value = Strings.replaceAllSafe(value, "[lang]", getLanguage().toString());
-        value = Strings.replaceAllSafe(value, "[paymentId]", moneyTransfer.getPrimaryKey().toString());
-        value = Strings.replaceAllSafe(value, "[paymentId6]", digits(moneyTransfer.getPrimaryKey().toString(), 6, false));
-        value = Strings.replaceAllSafe(value, "[date]", Dates.format(moneyTransfer.getDate(), "YYYYMMDDhhmmss"));
+        value = Strings.replaceAllSafe(value, "[paymentId]", lastPayment.getPrimaryKey().toString());
+        value = Strings.replaceAllSafe(value, "[paymentId6]", digits(lastPayment.getPrimaryKey().toString(), 6, false));
+        value = Strings.replaceAllSafe(value, "[date]", Dates.format(lastPayment.getDate(), "yyyyMMddHHmmss"));
         return value;
+    }
+
+    private static String htmlQuote(String s) {
+        return "'" + Strings.replaceAllSafe(s, "'", "&apos;") + "'";
     }
 
     private static String digits(String s, int n, boolean right) {
