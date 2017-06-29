@@ -339,7 +339,21 @@ public class PaymentViewActivity extends CartBasedViewActivity {
     }
 
     private static String htmlQuote(String s) {
-        return "'" + Strings.replaceAllSafe(s, "'", "&apos;") + "'";
+        return "'" + escapeHtml(s) + "'";
+    }
+
+    private static String escapeHtml(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0, n = s.length(); i < n; i++) {
+            char c = s.charAt(i);
+            if (c > 127 || c == '"' || c == '<' || c == '>' || c == '&' || c == '\'') {
+                sb.append("&#");
+                sb.append((int) c);
+                sb.append(';');
+            } else
+                sb.append(c);
+        }
+        return sb.toString();
     }
 
     private static String digits(String s, int n, boolean right) {
