@@ -27,6 +27,14 @@ public interface Event extends Entity,
         return getLocalDateFieldValue("endDate");
     }
 
+    default void setLive(Boolean live) {
+        setFieldValue("live", live);
+    }
+
+    default Boolean isLive() {
+        return getBooleanFieldValue("live");
+    }
+
     default void setFeesBottomLabel(Object label) {
         setForeignField("feesBottomLabel", label);
     }
