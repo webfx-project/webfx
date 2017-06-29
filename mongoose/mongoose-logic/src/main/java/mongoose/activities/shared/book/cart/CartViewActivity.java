@@ -129,7 +129,7 @@ public class CartViewActivity extends CartBasedViewActivity {
 
     private void setSelectedWorkingDocument(WorkingDocument selectedWorkingDocument) {
         this.selectedWorkingDocument = selectedWorkingDocument;
-        if (optionsPanel != null) {
+        if (bottomButtonBar != null) {
             boolean visible = selectedWorkingDocument != null;
             optionsPanel.setVisible(visible);
             bottomButtonBar.setVisible(visible);
