@@ -10,6 +10,7 @@ import io.vertx.ext.asyncsql.MySQLClient;
 import io.vertx.ext.asyncsql.PostgreSQLClient;
 import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.ResultSet;
+import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
 import naga.commons.util.Arrays;
 import naga.commons.util.async.Batch;
@@ -75,8 +76,9 @@ public class VertxConnectedService implements QueryService, UpdateService {
                 }
 
                 @Override
-                public void getConnection(Handler<AsyncResult<SQLConnection>> handler) {
+                public SQLClient getConnection(Handler<AsyncResult<SQLConnection>> handler) {
                     jdbcClient.getConnection(handler);
+                    return this;
                 }
             };
         }
