@@ -11,6 +11,7 @@ public enum ItemFamilyType {
     DIET,
     PARKING,
     TRANSPORT,
+    TAX,
     UNKNOWN;
 
     public static ItemFamilyType fromCode(String code) {
@@ -23,6 +24,7 @@ public enum ItemFamilyType {
                 case "diet" : return DIET;
                 case "park" : return PARKING;
                 case "transp" : return TRANSPORT;
+                case "tax" : return TAX;
             }
         }
         return UNKNOWN;

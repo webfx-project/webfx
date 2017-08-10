@@ -33,5 +33,8 @@ public interface HasItemFamilyType {
         return getItemFamilyType() == ItemFamilyType.TRANSPORT;
     }
 
+    default boolean isTax() {
+        return getItemFamilyType() == ItemFamilyType.TAX;
+    }
 
 }

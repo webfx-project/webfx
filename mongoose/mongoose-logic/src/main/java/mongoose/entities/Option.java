@@ -172,8 +172,12 @@ public interface Option extends Entity,
         return dayTimeInterval.getIncludedStart() >= startMinutes && dayTimeInterval.getExcludedEnd() < endMinutes;
     }
 
+    default boolean isTouristTax() {
+        return isTax(); // The only tax for now is the tourist tax
+    }
+
     default boolean isDependant() {
-        return isDiet() || isBreakfast();
+        return isDiet() || isBreakfast() || isTouristTax();
     }
 
     default boolean hasTimeRange() {

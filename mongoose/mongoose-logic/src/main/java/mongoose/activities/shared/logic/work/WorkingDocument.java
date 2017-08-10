@@ -113,6 +113,7 @@ public class WorkingDocument {
     public WorkingDocument applyBusinessRules() {
         applyBreakfastRule();
         applyDietRule();
+        applyTouristTaxRule();
         return this;
     }
 
@@ -148,8 +149,18 @@ public class WorkingDocument {
         }
     }
 
+    private void applyTouristTaxRule() {
+        if (!hasAccommodation())
+            workingDocumentLines.remove(getTouristTaxLine());
+        else if (!hasTouristTax()) {
+            Option touristTaxOption = eventService.findFirstOption(o -> o.isTouristTax() && (o.getParent() == null || getAccommodationLine() != null && o.getParent().getItem() == getAccommodationLine().getItem()));
+            if (touristTaxOption != null)
+                touristTaxLine = addNewDependantLine(touristTaxOption, getAccommodationLine(), 0);
+        }
+    }
+
     public void clearLinesCache() {
-        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = null;
+        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = touristTaxLine = null;
         clearComputedPrice();
     }
 
@@ -181,6 +192,10 @@ public class WorkingDocument {
         return Collections.findFirst(workingDocumentLines, predicate);
     }
 
+    private WorkingDocumentLine findOptionLine(Predicate<Option> predicate) {
+        return findLine(wdl -> predicate.test(wdl.getOption()));
+    }
+
     private boolean hasAccommodation() {
         return getAccommodationLine() != null;
     }
@@ -191,7 +206,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
-            breakfastLine = Collections.findFirst(workingDocumentLines, wdl -> wdl.getOption().isBreakfast());
+            breakfastLine = findOptionLine(Option::isBreakfast);
         return breakfastLine;
     }
 
@@ -205,7 +220,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
-            lunchLine = findLine(wdl -> wdl.getOption().isLunch());
+            lunchLine = findOptionLine(Option::isLunch);
         return lunchLine;
     }
 
@@ -219,7 +234,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
-            supperLine = findLine(wdl -> wdl.getOption().isSupper());
+            supperLine = findOptionLine(Option::isSupper);
         return supperLine;
     }
 
@@ -240,6 +255,20 @@ public class WorkingDocument {
 
     private boolean hasDiet() {
         return getDietLine() != null;
+    }
+
+    //// TouristTax line
+
+    private WorkingDocumentLine touristTaxLine;
+
+    private WorkingDocumentLine getTouristTaxLine() {
+        if (touristTaxLine == null)
+            touristTaxLine = findOptionLine(Option::isTouristTax);
+        return touristTaxLine;
+    }
+
+    private boolean hasTouristTax() {
+        return getTouristTaxLine() != null;
     }
 
     private WorkingDocumentLine addNewDependantLine(Option dependantOption, WorkingDocumentLine masterLine, long shiftDays) {
@@ -321,7 +350,7 @@ public class WorkingDocument {
         p2.setResident2(p1.isResident2());
     }
 
-    private WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
+    public WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
         for (WorkingDocumentLine thisWdl : getWorkingDocumentLines()) {
             if (sameLine(thisWdl, wdl))
                 return thisWdl;
@@ -360,18 +389,24 @@ public class WorkingDocument {
         }
         syncPersonDetails(document, du);
         for (WorkingDocumentLine wdl : workingDocumentLines) {
+            List<Attendance> attendances = wdl.getAttendances();
             DocumentLine dl = wdl.getDocumentLine(), dlu;
+            if (dl == null && loadedWorkingDocument != null) {
+                WorkingDocumentLine oldWdl = loadedWorkingDocument.findSameWorkingDocumentLine(wdl);
+                if (oldWdl != null) {
+                    dl = oldWdl.getDocumentLine();
+                    attendances = oldWdl.getAttendances();
+                }
+            }
             if (dl == null) {
                 dlu = store.insertEntity(DocumentLine.class);
                 dlu.setDocument(du);
-            } else {
+            } else
                 dlu = store.updateEntity(dl);
-            }
             dlu.setSite(wdl.getSite());
             dlu.setItem(wdl.getItem());
 
             DaysArray daysArray = wdl.getDaysArray();
-            List<Attendance> attendances = wdl.getAttendances();
             int j = 0, m = Collections.size(attendances), n = daysArray.getArray().length;
             if (m > 0 && n == 0) // means that all attendances have been removed
                 removeLine(dl);
