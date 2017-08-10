@@ -173,7 +173,7 @@ public class CartViewActivity extends CartBasedViewActivity {
                         "{expression: 'document.ref', label: 'Booking ref'}," +
                         "{expression: 'translate(method)', label: 'Method', textAlign: 'center'}," +
                         "{expression: 'amount', format: 'priceWithCurrency'}," +
-                        "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
+                        "{expression: 'translate(pending ? `PendingStatus` : successful ? `SuccessfulStatus` : `FailedStatus`)', label: 'Status', textAlign: 'center'}" +
                         "]"
                 , "MoneyTransfer", paymentDisplayResultSetProperty);
         autoSelectWorkingDocument();
