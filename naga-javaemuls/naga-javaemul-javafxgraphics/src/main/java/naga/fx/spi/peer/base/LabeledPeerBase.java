@@ -27,11 +27,11 @@ public abstract class LabeledPeerBase
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                || updateProperty(node.textProperty(), changedProperty, mixin::updateText)
-                || updateProperty(node.graphicProperty(), changedProperty, mixin::updateGraphic)
                 || updateProperty(node.fontProperty(), changedProperty, mixin::updateFont)
                 || updateProperty(node.textAlignmentProperty(), changedProperty, mixin::updateTextAlignment)
                 || updateProperty(node.textFillProperty(), changedProperty, mixin::updateTextFill)
+                || updateProperty(node.graphicProperty(), changedProperty, mixin::updateGraphic)
+                || updateProperty(node.textProperty(), changedProperty, mixin::updateText)
                 ;
     }
 }

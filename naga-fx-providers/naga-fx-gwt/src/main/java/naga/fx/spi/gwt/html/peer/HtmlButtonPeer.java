@@ -1,6 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
+import emul.javafx.scene.text.TextAlignment;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.control.Button;
 import naga.fx.spi.peer.base.ButtonPeerBase;
@@ -34,4 +35,10 @@ public class HtmlButtonPeer
         return cache;
     }
 
+    @Override
+    protected void updateHtmlContent() {
+        super.updateHtmlContent();
+        // Simulating JavaFx button default style which is to have left alignment when a graphic is present, centered text otherwise (ugly patch)
+        updateTextAlignment(getNode().getGraphic() != null ? TextAlignment.LEFT : TextAlignment.CENTER);
+    }
 }
