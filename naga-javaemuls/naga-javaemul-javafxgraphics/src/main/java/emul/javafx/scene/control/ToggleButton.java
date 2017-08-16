@@ -124,13 +124,13 @@ public class ToggleButton extends ButtonBase
 
     public final ObjectProperty<ToggleGroup> toggleGroupProperty() {
         if (toggleGroup == null) {
-            toggleGroup = new SimpleObjectProperty<>();
+            toggleGroup = new SimpleObjectProperty<ToggleGroup>() {
+                private ToggleGroup old;
 /*
             toggleGroup = new ObjectPropertyBase<ToggleGroup>() {
-                private ToggleGroup old;
                 private ChangeListener<Toggle> listener = (o, oV, nV) ->
                         getImpl_traversalEngine().setOverriddenFocusTraversability(nV != null ? isSelected() : null);
-
+*/
                 @Override protected void invalidated() {
                     final ToggleGroup tg = get();
                     if (tg != null && !tg.getToggles().contains(ToggleButton.this)) {
@@ -138,15 +138,15 @@ public class ToggleButton extends ButtonBase
                             old.getToggles().remove(ToggleButton.this);
                         }
                         tg.getToggles().add(ToggleButton.this);
-                        final ParentTraversalEngine parentTraversalEngine = new ParentTraversalEngine(ToggleButton.this);
+                        /*final ParentTraversalEngine parentTraversalEngine = new ParentTraversalEngine(ToggleButton.this);
                         setImpl_traversalEngine(parentTraversalEngine);
                         // If there's no toggle selected, do not override
                         parentTraversalEngine.setOverriddenFocusTraversability(tg.getSelectedToggle() != null ? isSelected() : null);
-                        tg.selectedToggleProperty().addListener(listener);
+                        tg.selectedToggleProperty().addListener(listener);*/
                     } else if (tg == null) {
-                        old.selectedToggleProperty().removeListener(listener);
+                        //old.selectedToggleProperty().removeListener(listener);
                         old.getToggles().remove(ToggleButton.this);
-                        setImpl_traversalEngine(null);
+                        //setImpl_traversalEngine(null);
                     }
 
                     old = tg;
@@ -162,7 +162,6 @@ public class ToggleButton extends ButtonBase
                     return "toggleGroup";
                 }
             };
-*/
         }
         return toggleGroup;
     }
