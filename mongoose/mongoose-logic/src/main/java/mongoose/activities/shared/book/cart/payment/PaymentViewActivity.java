@@ -55,7 +55,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         paymentsVBox = new VBox(20);
 
         HBox buttonBar = new HBox(20,
-                newButton("Back", () -> getHistory().goBack()),
+                newButton("<Back", () -> getHistory().goBack()),
                 LayoutUtil.createHGrowable(),
                 newButton("MakePayment", this::submitPayment));
 

@@ -7,15 +7,14 @@ import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
-import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Event;
 import mongoose.services.EventService;
 import naga.commons.util.Objects;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
-import naga.framework.ui.i18n.I18n;
 
 /**
  * @author Bruno Salmon
@@ -28,11 +27,10 @@ public abstract class BookingProcessPresentationViewActivity<PM extends BookingP
 
     @Override
     protected void createViewNodes(PM pm) {
-        I18n i18n = getI18n();
         if (previousButton == null)
-            previousButton = newButton("Back");
+            previousButton = newButton("<<Back");
         if (nextButton == null)
-            nextButton = newButton("Next");
+            nextButton = newButton("Next>>");
         previousButton.onActionProperty().bind(pm.onPreviousActionProperty());
         nextButton.onActionProperty().bind(pm.onNextActionProperty());
     }

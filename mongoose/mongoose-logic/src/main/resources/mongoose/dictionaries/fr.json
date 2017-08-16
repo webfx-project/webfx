@@ -1,7 +1,7 @@
 {
   "WELCOME": "Bienvenu",
-  "Back": "« Précédent",
-  "Next": "Suivant »",
+  "Back": "Précédent",
+  "Next": "Suivant",
   "Login": "Mon compte",
   "Logout": "Se déconnecter",
   "Fees": "Tarifs et disponibilités",
@@ -52,7 +52,7 @@
   "EmailPlaceholder": "Votre adresse email",
   "Password": "Mot de passe",
   "PasswordPlaceholder": "Votre mot de passe",
-  "ForgotPassword": "Mot de passe oublié ?",
+  "ForgotPassword": "Mot de passe oublié",
   "SignInWindowTitle": "Connexion à votre compte",
   "SignIn": "Identifiez-vous",
   "SendPassword": "Envoyer le mot de passe",
@@ -238,5 +238,8 @@
   "CloneEvent": "Clôner l'événement",
   "Clone": "Clôner",
   "EditMode": "Mode édition",
-  ":" : " :"
+  ":" : " :",
+  "?" : " ?",
+  ">>" : " »",
+  "<<" : "« "
 }

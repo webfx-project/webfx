@@ -1,7 +1,7 @@
 {
   "WELCOME": "Welcome",
-  "Back": "« Back",
-  "Next": "Next »",
+  "Back": "Back",
+  "Next": "Next",
   "Login": "Login",
   "Logout": "Logout",
   "Fees": "Fees and Availability",
@@ -52,7 +52,7 @@
   "EmailPlaceholder": "Your email address",
   "Password": "Password",
   "PasswordPlaceholder": "Your password",
-  "ForgotPassword": "Forgot password?",
+  "ForgotPassword": "Forgot password",
   "SignInWindowTitle": "Sign In",
   "SignIn": "Sign In",
   "SendPassword": "Send password",
@@ -229,5 +229,7 @@
   "DECEMBER": "December",
   "CloneEvent": "Clone event",
   "Clone": "Clone",
-  "EditMode": "Edit mode"
+  "EditMode": "Edit mode",
+  ">>" : " »",
+  "<<" : "« "
 }

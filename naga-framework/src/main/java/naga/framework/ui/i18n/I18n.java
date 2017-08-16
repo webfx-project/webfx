@@ -34,9 +34,29 @@ public interface I18n {
                 String sKey = Strings.asString(key);
                 int length = Strings.length(sKey);
                 if (length > 1) {
-                    char lastChar = sKey.charAt(length - 1);
-                    switch (lastChar) {
-                        case ':': message = instantTranslate(sKey.substring(0, length - 1)) + instantTranslate(":");
+                    int index = 0;
+                    while (index < length && !Character.isLetterOrDigit(sKey.charAt(index)))
+                        index++;
+                    if (index > 0) {
+                        String prefix = sKey.substring(0, index);
+                        switch (prefix) {
+                            case "<<":
+                                message = instantTranslate(prefix) + instantTranslate(sKey.substring(prefix.length(), length));
+                        }
+                    }
+                }
+                if (message == null && length > 1) {
+                    int index = length;
+                    while (index > 0 && !Character.isLetterOrDigit(sKey.charAt(index - 1)))
+                        index--;
+                    if (index < length) {
+                        String suffix = sKey.substring(index, length);
+                        switch (suffix) {
+                            case ":":
+                            case "?":
+                            case ">>":
+                                message = instantTranslate(sKey.substring(0, length - suffix.length())) + instantTranslate(suffix);
+                        }
                     }
                 }
                 if (message == null)

@@ -32,9 +32,9 @@ public abstract class BookingProcessViewActivity extends EventDependentViewDomai
 
     protected void createViewNodes() {
         if (previousButton == null)
-            previousButton = newButton("Back");
+            previousButton = newButton("<<Back");
         if (nextButton == null)
-            nextButton = newButton( "Next");
+            nextButton = newButton( "Next>>");
         previousButton.setOnAction(this::onPreviousButtonPressed);
         nextButton.setOnAction(this::onNextButtonPressed);
 

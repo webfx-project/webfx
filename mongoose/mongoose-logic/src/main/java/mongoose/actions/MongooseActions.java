@@ -9,8 +9,8 @@ import naga.framework.ui.action.ActionRegistry;
 public class MongooseActions {
 
     public final static Object ADD_OPTION_ACTION_KEY = "AddOption";
-    public final static Object VISIT_TERMS_AND_CONDITIONS_ACTION = "TermsAndConditions";
-    public final static Object VISIT_PROGRAM_ACTION = "Program";
+    public final static Object VISIT_TERMS_AND_CONDITIONS_ACTION = "TermsAndConditions>>";
+    public final static Object VISIT_PROGRAM_ACTION = "Program>>";
 
     public static void registerActions() {
         ActionRegistry.registerAction(ActionRegistry.ADD_ACTION_KEY, Action.create("Add", MongooseIcons.addIcon16, null));

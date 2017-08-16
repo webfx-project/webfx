@@ -96,7 +96,7 @@ public class FeesGroup {
                                     isForceSoldout(); // or if the whole FeesGroup has been forced as sold out
                             if (soldout)
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
-                            Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book");
+                            Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book>>");
                             button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;

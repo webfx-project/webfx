@@ -20,8 +20,8 @@ public class SharedContainerViewActivity extends ViewActivityImpl implements Mon
 
     @Override
     public Node buildUi() {
-        backButton = newButton("<", () -> getHistory().goBack());
-        forwardButton = newButton(">", () -> getHistory().goForward());
+        backButton = newButton("<<", () -> getHistory().goBack());
+        forwardButton = newButton(">>", () -> getHistory().goForward());
         englishButton = newButton("English", () -> setLanguage("en"));
         frenchButton = newButton("Français", () -> setLanguage("fr"));
 
