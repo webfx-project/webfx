@@ -1,11 +1,13 @@
 package naga.fx.spi.gwt.html;
 
+import elemental2.dom.Element;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLLabelElement;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
+import emul.javafx.scene.text.TextFlow;
 import naga.commons.util.collection.Collections;
 import naga.fx.properties.Properties;
 import naga.fx.spi.gwt.html.peer.HtmlHtmlTextPeer;
@@ -70,7 +72,16 @@ public class HtmlScenePeer extends ScenePeerBase {
     public void updateParentAndChildrenPeers(Parent parent) {
         if (!(parent instanceof HtmlText)) {
             elemental2.dom.Node parentNode = HtmlSvgNodePeer.toElement(parent, scene);
-            HtmlUtil.setChildren(parentNode, Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
+            HtmlUtil.setChildren(parentNode, Collections.map(parent.getChildren(), node -> {
+                Element element = HtmlSvgNodePeer.toElement(node, scene);
+                // TextFlow special case
+                if (parent instanceof TextFlow && element instanceof HTMLElement) {
+                    HTMLElement htmlElement = (HTMLElement) element;
+                    htmlElement.style.whiteSpace = "normal"; // white space are allowed
+                    htmlElement.style.lineHeight = null; // and line height is default (not 100%)
+                }
+                return element;
+            }));
         }
     }
 
