@@ -26,4 +26,8 @@ public class HtmlHyperlinkPeer
         preventDefaultOnClickElementEvent = true;
     }
 
+    public double maxWidth(double height) {
+        return prefHeight(height); // Looks necessary to have the same behaviour as JavaFx
+    }
+
 }
