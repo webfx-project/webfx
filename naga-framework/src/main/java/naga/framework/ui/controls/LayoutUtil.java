@@ -36,7 +36,7 @@ public class LayoutUtil {
         if (percentageWidth != 0)
             child.prefWidthProperty().bind(Properties.compute(goldPane.widthProperty(), gpWidth -> gpWidth.doubleValue() * percentageWidth));
         goldPane.add(setMaxSizeToPref(child), 0, 1);
-        goldPane.setBackground(new Background(new BackgroundFill(Color.gray(0.3, 0.5), null, null)));
+        goldPane.setBackground(BackgroundUtil.newBackground(Color.gray(0.3, 0.5)));
         return goldPane;
     }
 

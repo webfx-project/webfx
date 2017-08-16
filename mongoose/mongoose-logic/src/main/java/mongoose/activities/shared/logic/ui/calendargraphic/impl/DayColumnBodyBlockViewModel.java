@@ -4,8 +4,6 @@ import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -18,6 +16,7 @@ import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
+import naga.framework.ui.controls.BackgroundUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -70,7 +69,7 @@ public class DayColumnBodyBlockViewModel implements HorizontalDayPositioned, Ver
             blockText.textProperty().unbind();
             blockText.setText(null);
         }
-        rootPane.setBackground(new Background(new BackgroundFill(timeline.getBackgroundFill(), null, null)));
+        rootPane.setBackground(BackgroundUtil.newBackground(timeline.getBackgroundFill()));
         if (calendarGraphic != null)
             rootPane.setOnMouseClicked(event -> {
                 if (calendarGraphic.getCalendarClickHandler() != null)

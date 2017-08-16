@@ -1,8 +1,6 @@
 package mongoose.activities.shared.logic.ui.calendargraphic.impl;
 
 import javafx.geometry.VPos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.LinearGradient;
@@ -10,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
+import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.i18n.I18n;
 
 import java.time.LocalDate;
@@ -51,7 +50,7 @@ public class DayColumnHeaderViewModel implements HorizontalDayPositioned {
         monthText.setFill(dayColumnHeaderTextColor);
         monthText.setTextOrigin(VPos.BOTTOM);
         monthText.wrappingWidthProperty().bind(rootPane.widthProperty());
-        rootPane.setBackground(new Background(new BackgroundFill(dayColumnHeaderFill, null, null)));
+        rootPane.setBackground(BackgroundUtil.newBackground(dayColumnHeaderFill));
         rootPane.getChildren().setAll(dayOfWeekText, dayOfMonthText, monthText);
         rootPane.getTransforms().setAll(translate);
         rootPane.heightProperty().addListener((observable, oldValue, height) -> {
