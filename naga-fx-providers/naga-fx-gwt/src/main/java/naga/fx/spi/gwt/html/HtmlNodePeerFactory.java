@@ -38,6 +38,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(RadioButton.class, HtmlRadioButtonPeer::new);
         registerNodePeerFactory(Slider.class, HtmlSliderPeer::new);
         registerNodePeerFactory(TextField.class, HtmlTextFieldPeer::new);
+        registerNodePeerFactory(PasswordField.class, HtmlTextFieldPeer::new);
         registerNodePeerFactory(TextArea.class, HtmlTextAreaPeer::new);
         registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
         registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
