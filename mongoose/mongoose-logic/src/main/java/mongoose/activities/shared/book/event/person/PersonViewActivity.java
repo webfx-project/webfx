@@ -1,9 +1,26 @@
 package mongoose.activities.shared.book.event.person;
 
+import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import naga.commons.util.Numbers;
+import naga.framework.ui.action.Action;
+import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.controls.BorderUtil;
 import naga.framework.ui.controls.LayoutUtil;
+import naga.fx.properties.Properties;
 
 /**
  * @author Bruno Salmon
@@ -19,9 +36,33 @@ public class PersonViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
+        VBox vBox = new VBox();
+        BorderPane accountTopNote = new BorderPane();
+        Text accountTopText = newText("AccountTopNote");
+        accountTopText.setFill(Color.web("#8a6d3b"));
+        TextFlow textFlow = new TextFlow(accountTopText);
+        textFlow.maxWidthProperty().bind(
+                // borderPane.widthProperty().subtract(100) // doesn't compile with GWT
+                Properties.compute(borderPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
+        );
+        accountTopNote.setLeft(textFlow);
+        Button closeButton = Action.create(null, MongooseIcons.removeIcon16, e -> vBox.getChildren().remove(accountTopNote)).toButton(getI18n());
+        closeButton.setBorder(BorderUtil.transparentBorder());
+        closeButton.setBackground(BackgroundUtil.transparentBackground());
+        accountTopNote.setRight(closeButton);
+        accountTopNote.setBackground(BackgroundUtil.newVerticalLinearGradientBackground("rgba(244, 217, 132, 0.8)", "rgba(235, 192, 120, 0.8)", 5));
+        accountTopNote.setPadding(new Insets(10));
+        accountTopNote.setBorder(BorderUtil.newWebColorBorder("#ebc078", 5));
+        ToggleGroup accountToggleGroup = new ToggleGroup();
+        FlowPane accountTabs = new FlowPane(new Button(null, newRadioButton("IDontHaveAnAccount", accountToggleGroup)), new Button(null, newRadioButton("IAlreadyHaveAnAccount", accountToggleGroup)));
+        LoginPanel loginPanel = new LoginPanel(getI18n());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
-
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(personDetailsPanel.getSectionPanel()));
+        Node[] nodes = {personDetailsPanel.getSectionPanel(), loginPanel.getNode()};
+        BorderPane accountPane = new BorderPane();
+        accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> accountPane.setCenter(nodes[accountToggleGroup.getToggles().indexOf(newValue)]) );
+        accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0));
+        vBox.getChildren().setAll(accountTopNote, accountTabs, accountPane);
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
         syncUiFromModel();
     }
