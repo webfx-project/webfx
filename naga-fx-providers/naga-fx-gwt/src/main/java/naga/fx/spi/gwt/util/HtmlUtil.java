@@ -247,10 +247,8 @@ public class HtmlUtil {
         return future;
     }
 
-    public static void onNodeInstertedIntoDocument(Node node, Runnable runnable) {
+    public static void onNodeInsertedIntoDocument(Node node, Runnable runnable) {
         // Deprecated API! TODO: use MutationObserver instead
-        node.addEventListener("DOMNodeInsertedIntoDocument", evt -> {
-            runnable.run();
-        });
+        node.addEventListener("DOMNodeInsertedIntoDocument", evt -> runnable.run());
     }
 }

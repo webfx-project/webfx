@@ -32,7 +32,7 @@ public final class HtmlScrollPanePeer
         node.setOnChildrenLayout(this::scheduleUpdate);
         HTMLElement element = getElement();
         callPerfectScrollbarInitialize(element);
-        HtmlUtil.onNodeInstertedIntoDocument(element, this::scheduleUpdate);
+        HtmlUtil.onNodeInsertedIntoDocument(element, this::scheduleUpdate);
     }
 
     private double scrollTop, scrollLeft;

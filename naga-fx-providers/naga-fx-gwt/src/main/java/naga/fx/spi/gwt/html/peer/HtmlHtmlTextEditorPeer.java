@@ -66,6 +66,8 @@ public class HtmlHtmlTextEditorPeer
         Platform.log("Recreating CKEditor");
         if (ckEditor != null)
             callCKEditorDestroy(ckEditor);
+        else
+            HtmlUtil.onNodeInsertedIntoDocument(getElement(), this::recreateCKEditorIfRequired);
         N node = getNode();
         ckEditor = callCKEditorReplace(div, node.getWidth(), node.getHeight(), this);
         resyncEditorFromNodeText();
