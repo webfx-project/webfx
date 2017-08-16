@@ -22,6 +22,7 @@ abstract class HtmlButtonBasePeer
 
     HtmlButtonBasePeer(NB base, HTMLElement element) {
         super(base, element);
+        element.style.overflow = "hidden"; // hiding button content overflow
     }
 
     protected void onClickElement(Event e) {
