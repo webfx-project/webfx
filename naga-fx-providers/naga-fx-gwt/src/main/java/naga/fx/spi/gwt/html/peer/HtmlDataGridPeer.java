@@ -30,6 +30,7 @@ public class HtmlDataGridPeer
     private final HTMLTableSectionElement tHead = (HTMLTableSectionElement) table.createTHead();
     private HTMLTableRowElement tHeadRow = (HTMLTableRowElement) tHead.insertRow(0);
     private final HTMLTableSectionElement tBody = createElement("tbody");
+    private double scrollTop;
 
     public HtmlDataGridPeer() {
         this((NB) new DataGridPeerBase(), HtmlUtil.createDivElement());
@@ -42,6 +43,13 @@ public class HtmlDataGridPeer
         setChild(element, table);
         setElementStyleAttribute("overflow-y", "auto");
         setStyleAttribute(table, "width", "100%");
+        // Capturing scroll position (in scrollTop field)
+        element.onscroll = p0 -> {
+            scrollTop = element.scrollTop;
+            return null;
+        };
+        // Restoring scroll position when visiting back the page
+        HtmlUtil.onNodeInsertedIntoDocument(element, () -> element.scrollTop = scrollTop);
     }
 
     @Override
