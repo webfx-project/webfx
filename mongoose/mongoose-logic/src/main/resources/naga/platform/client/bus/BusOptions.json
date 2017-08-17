@@ -1,3 +1,4 @@
 {
-  "serverPort": 9090
+  "serverPort": 9191,
+  "serverSSL": true
 }
