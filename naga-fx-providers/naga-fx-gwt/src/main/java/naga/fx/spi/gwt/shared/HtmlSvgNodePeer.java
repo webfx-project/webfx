@@ -76,6 +76,11 @@ public abstract class HtmlSvgNodePeer
         getNode().setFocused(false);
     }
 
+    @Override
+    public void requestFocus() {
+        getElement().focus();
+    }
+
     public E getElement() {
         return element;
     }

@@ -637,6 +637,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
             getScene().requestFocus(this);
         }
 */
+        NodePeer nodePeer = getNodePeer();
+        if (nodePeer != null)
+            nodePeer.requestFocus();
     }
 
     /**
