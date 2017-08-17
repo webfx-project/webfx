@@ -27,7 +27,7 @@ public class HtmlHyperlinkPeer
     }
 
     public double maxWidth(double height) {
-        return prefHeight(height); // Looks necessary to have the same behaviour as JavaFx
+        return prefWidth(height); // Looks necessary to have the same behaviour as JavaFx
     }
 
 }
