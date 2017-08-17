@@ -4,6 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.net.JksOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.LoggerHandler;
 import io.vertx.ext.web.handler.StaticHandler;
@@ -24,16 +25,19 @@ public class WebVerticle extends AbstractVerticle {
 
     @Override
     public void start() throws Exception {
-        //createHttpServer(80);   // standard web port
-        createHttpServer(9090); // (temporary): alternative secondary access in case the web port is already bound
+        createHttpServer(9090, null); // for http
+        createHttpServer(9191, new JksOptions().setPath("sslcertificate.jks").setPassword("vajrayogini37")); // for https
     }
 
-    private void createHttpServer(int port) {
+    private void createHttpServer(int port, JksOptions jksOptions) {
         // Creating web server and its router
         HttpServerOptions httpServerOptions = new HttpServerOptions()
                 .setMaxWebsocketFrameSize(65536 * 100) // Increasing the frame size to allow big client request
                 .setCompressionSupported(true) // enabling gzip and deflate compression
-                .setPort(port); // web port
+                .setPort(port) // web port
+                .setSsl(jksOptions != null)
+                .setKeyStoreOptions(jksOptions)
+                ;
         HttpServer server = vertx.createHttpServer(httpServerOptions);
         Router router = Router.router(vertx);
 
