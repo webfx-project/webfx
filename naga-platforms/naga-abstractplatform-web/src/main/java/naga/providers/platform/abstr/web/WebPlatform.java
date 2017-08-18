@@ -88,7 +88,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         }
         // Setting server SSL from url protocol (if not explicitly set)
         if (socketBusOptions.isServerSSL() == null)
-            socketBusOptions.setServerSSL("https:".equals(windowLocation.getProtocol()));
+            socketBusOptions.setServerSSL("https".equals(windowLocation.getProtocol()));
         super.setPlatformBusOptions(options);
         String json = resourceService().getText("naga/platform/client/bus/BusOptions.json").result();
         if (json != null)
