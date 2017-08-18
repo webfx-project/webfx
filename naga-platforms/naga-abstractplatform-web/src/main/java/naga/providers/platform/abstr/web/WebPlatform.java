@@ -75,16 +75,20 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         // Setting protocol to HTTP (unless already explicitly set by the application)
         if (socketBusOptions.getProtocol() == null)
             socketBusOptions.setProtocol(WebSocketBusOptions.Protocol.HTTP);
-        // Setting protocol to Web Socket (unless already explicitly set by the application)
         WindowLocation windowLocation = getCurrentLocation();
+        // Setting server host from url hostname (if not explicitly set)
         if (socketBusOptions.getServerHost() == null)
             socketBusOptions.setServerHost(windowLocation.getHostname());
+        // Setting server port from url port (if not explicitly set)
         if (socketBusOptions.getServerPort() == null) {
             String port = windowLocation.getPort();
             if ("63342".equals(port)) // Port used by IntelliJ IDEA to serve web pages when testing directly in IDEA
                 port = "80"; // But the actual naga server web port on the development local machine is 80 in this case
             socketBusOptions.setServerPort(port);
         }
+        // Setting server SSL from url protocol (if not explicitly set)
+        if (socketBusOptions.isServerSSL() == null)
+            socketBusOptions.setServerSSL("https:".equals(windowLocation.getProtocol()));
         super.setPlatformBusOptions(options);
         String json = resourceService().getText("naga/platform/client/bus/BusOptions.json").result();
         if (json != null)
