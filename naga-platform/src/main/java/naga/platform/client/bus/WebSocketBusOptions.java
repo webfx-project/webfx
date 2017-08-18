@@ -44,7 +44,7 @@ public class WebSocketBusOptions extends BusOptions {
         protocol = Protocol.valueOf(json.getString("protocol", protocol.name()));
         serverSSL = json.getBoolean("serverSSL", serverSSL);
         serverHost = json.getString("serverHost", serverHost);
-        serverPort = json.getString("serverPort", serverHost);
+        serverPort = json.getString("serverPort", serverPort);
         pingInterval = json.getInteger("pingInterval", pingInterval);
         return this;
     }
@@ -67,7 +67,7 @@ public class WebSocketBusOptions extends BusOptions {
         return serverHost;
     }
 
-    public WebSocketBusOptions setServerSSL(boolean serverSSL) {
+    public WebSocketBusOptions setServerSSL(Boolean serverSSL) {
         this.serverSSL = serverSSL;
         return this;
     }
@@ -81,7 +81,7 @@ public class WebSocketBusOptions extends BusOptions {
         return serverPort;
     }
 
-    public boolean isServerSSL() {
+    public Boolean isServerSSL() {
         return serverSSL;
     }
 
