@@ -4,6 +4,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.json.JsonObject;
+import io.vertx.core.net.JdkSSLEngineOptions;
 import io.vertx.core.net.PemKeyCertOptions;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.LoggerHandler;
@@ -37,6 +38,7 @@ public class WebVerticle extends AbstractVerticle {
                 .setPort(port) // web port
                 .setSsl(pemKeyCertOptions != null)
                 .setPemKeyCertOptions(pemKeyCertOptions)
+                .setUseAlpn(JdkSSLEngineOptions.isAlpnAvailable()) // Enabling http2 if ALPN package is available
                 ;
         HttpServer server = vertx.createHttpServer(httpServerOptions);
         Router router = Router.router(vertx);
