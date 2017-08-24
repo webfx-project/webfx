@@ -10,6 +10,7 @@ import naga.commons.util.Strings;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.expression.Expression;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.filter.ExpressionColumn;
@@ -17,6 +18,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;
 import naga.framework.ui.filter.StringFilterBuilder;
 import naga.framework.ui.i18n.I18n;
+import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
@@ -29,7 +31,7 @@ import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
  */
 public class EntityButtonSelector {
 
-    private final Object jsonOrClass;
+    private Object jsonOrClass;
     private final ViewActivityContextMixin viewActivityContextMixin;
     private final Pane parent;
 
@@ -47,13 +49,22 @@ public class EntityButtonSelector {
     private ReactiveExpressionFilter entityDialogFilter;
 
     public EntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
-        this.jsonOrClass = jsonOrClass;
         this.viewActivityContextMixin = viewActivityContextMixin;
         this.parent = parent;
         this.dataSourceModel = dataSourceModel;
-        StringFilter stringFilter = new StringFilterBuilder(jsonOrClass).build();
-        entityExpression = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId()).getForeignFields();
-        entityRenderer = ValueRendererFactory.getDefault().createCellRenderer(entityExpression.getType());
+        setJsonOrClass(jsonOrClass);
+    }
+
+    public void setJsonOrClass(Object jsonOrClass) {
+        this.jsonOrClass = jsonOrClass;
+        if (jsonOrClass != null) {
+            StringFilter stringFilter = new StringFilterBuilder(jsonOrClass).build();
+            DomainClass entityClass = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId());
+            entityExpression = stringFilter.getFields() != null ? entityClass.parseExpression(stringFilter.getFields()) : entityClass.getForeignFields();
+        } else
+            entityExpression = null;
+        entityRenderer = entityExpression == null ? null : ValueRendererFactory.getDefault().createCellRenderer(entityExpression.getType());
+        entityDialogPane = null;
     }
 
     public void setEditable(boolean editable) {
@@ -86,11 +97,15 @@ public class EntityButtonSelector {
     }
 
     private void updateEntityButton() {
-        getEntityButton().setGraphic(entityRenderer.renderCellValue(entity == null ? null : entity.evaluate(entityExpression)));
+        Toolkit.get().scheduler().runInUiThread(() ->
+            getEntityButton().setGraphic(entityRenderer.renderCellValue(entity == null ? null : entity.evaluate(entityExpression)))
+        );
     }
 
     private void showEntityDialog() {
         if (entityDialogPane == null) {
+            if (entityRenderer == null)
+                return;
             DataGrid dataGrid = new DataGrid();
             entityDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
             I18n i18n = viewActivityContextMixin.getI18n();
@@ -103,11 +118,7 @@ public class EntityButtonSelector {
                 entityDialogFilter.combine(searchBox.textProperty(), s -> {
                     if (Strings.isEmpty(s))
                         return null;
-                    EntityStore store = entityDialogFilter.getStore();
-                    store.setParameterValue("search", s);
-                    store.setParameterValue("lowerSearch", s.toLowerCase());
-                    store.setParameterValue("searchLike", "%" + s + "%");
-                    store.setParameterValue("lowerSearchLike", "%" + s.toLowerCase() + "%");
+                    setSearchParameters(s, entityDialogFilter.getStore());
                     return "{where: `" + searchCondition + "`}";
                 });
             }
@@ -128,6 +139,13 @@ public class EntityButtonSelector {
             searchBox.setText(null); // Resetting the search box
             searchBox.requestFocus();
         }
+    }
+
+    protected void setSearchParameters(String search, EntityStore store) {
+        store.setParameterValue("search", search);
+        store.setParameterValue("lowerSearch", search.toLowerCase());
+        store.setParameterValue("searchLike", "%" + search + "%");
+        store.setParameterValue("lowerSearchLike", "%" + search.toLowerCase() + "%");
     }
 
     private void onOkEntityDialog() {
