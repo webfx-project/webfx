@@ -2,6 +2,7 @@ package naga.framework.activity.uiroute;
 
 import naga.framework.activity.activeproperty.ActivePropertyActivityContextMixin;
 import naga.framework.activity.i18n.I18nActivityContextMixin;
+import naga.framework.session.Session;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
@@ -24,6 +25,11 @@ public interface UiRouteActivityContextMixin
 
     @Override
     default JsonObject getParams() { return getActivityContext().getParams(); }
+
+    @Override
+    default Session getSession() {
+        return getActivityContext().getSession();
+    }
 
     @Override
     default <T> T getParameter(String key) {

@@ -5,6 +5,7 @@ import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import naga.framework.activity.i18n.impl.I18nActivityContextBase;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
+import naga.framework.session.Session;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityContextFactory;
@@ -22,6 +23,7 @@ public class UiRouteActivityContextBase
 
     private UiRouter uiRouter;
     private JsonObject params;
+    private Session session;
 
     protected UiRouteActivityContextBase(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         super(parentContext, contextFactory);
@@ -61,6 +63,14 @@ public class UiRouteActivityContextBase
                 return ((UiRouteActivityContext<?>) parentContext).getParameter(key);
         }
         return value;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    public void setSession(Session session) {
+        this.session = session;
     }
 
     public static <IC extends ActivityContext<IC>, OC extends UiRouteActivityContextBase<OC>> OC toUiRouterActivityContextBase(IC activityContext) {
