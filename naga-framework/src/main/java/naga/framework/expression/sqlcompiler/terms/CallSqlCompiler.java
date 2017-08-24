@@ -1,6 +1,7 @@
 package naga.framework.expression.sqlcompiler.terms;
 
 import naga.framework.expression.Expression;
+import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
 import naga.framework.expression.sqlcompiler.sql.SqlClause;
 import naga.framework.expression.terms.Dot;
 import naga.framework.expression.terms.function.Call;
@@ -37,7 +38,7 @@ public class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
                     }
             } else {
                 StringBuilder sb;
-                String name = f.getName();
+                String name = ExpressionSqlCompiler.toSqlString(f.getName()); // Ex: AbcNames transformed to abc_names
                 if (o.generateQueryMapping) {
                     o.build.addColumnInClause(null, name, name, null, o.clause, o.separator, false, false, true);
                     sb = o.build.prepareAppend(o.clause, "").append('(');
