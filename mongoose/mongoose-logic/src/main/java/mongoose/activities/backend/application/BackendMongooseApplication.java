@@ -34,7 +34,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter
-                .setRedirectAuthHandler(MongooseAuth.get(), "/login", "/unauthorized")
+                .setRedirectAuthHandler(new MongooseAuth(context.getDataSourceModel()), "/login", "/unauthorized")
                 .route("/login", LoginViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/unauthorized", UnauthorizedViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/options", EditableOptionsViewActivity::new, ViewDomainActivityContextFinal::new)
