@@ -12,6 +12,9 @@ import mongoose.activities.backend.organizations.OrganizationsPresentationActivi
 import mongoose.activities.backend.tester.TesterPresentationActivity;
 import mongoose.activities.backend.tester.savetest.SaveTestPresentationActivity;
 import mongoose.activities.shared.application.SharedMongooseApplication;
+import mongoose.activities.shared.auth.LoginViewActivity;
+import mongoose.activities.shared.auth.UnauthorizedViewActivity;
+import mongoose.auth.MongooseAuth;
 import naga.commons.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
@@ -31,11 +34,14 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter
+                .setRedirectAuthHandler(MongooseAuth.get(), "/login", "/unauthorized")
+                .route("/login", LoginViewActivity::new, ViewDomainActivityContextFinal::new)
+                .route("/unauthorized", UnauthorizedViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/options", EditableOptionsViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/organizations", OrganizationsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/organization/:organizationId/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/event/:eventId/bookings", BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                .routeAuth("/event/:eventId/bookings", BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/event/:eventId/letters", LettersPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/event/:eventId/clone", CloneEventPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/letter/:letterId/edit", EditLetterViewActivity::new, ViewDomainActivityContextFinal::new)
