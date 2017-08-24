@@ -2,6 +2,7 @@ package emul.javafx.scene.transform;
 
 import emul.javafx.beans.property.Property;
 import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.beans.value.ObservableValue;
 import naga.fx.properties.Properties;
 
 /**
@@ -61,7 +62,7 @@ public abstract class Transform {
 
     protected abstract Property[] propertiesInvalidatingCache();
 
-    private void clearInverseCacheOnPropertyChange(Property... properties) {
+    private void clearInverseCacheOnPropertyChange(ObservableValue... properties) {
         Properties.runOnPropertiesChange(property -> clearInverseCacheNow(), properties);
     }
 
