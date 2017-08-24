@@ -1,6 +1,7 @@
 package naga.framework.ui.auth;
 
 import javafx.beans.property.Property;
+import javafx.beans.value.ObservableValue;
 import naga.commons.util.async.Future;
 import naga.framework.ui.auth.impl.UiUserImpl;
 import naga.platform.services.auth.spi.User;
@@ -24,6 +25,12 @@ public interface UiUser extends UserMixin {
 
     default void setUser(User user) {
         userProperty().setValue(user);
+    }
+
+    ObservableValue<Boolean> loggedInProperty();
+
+    default boolean isLoggedIn() {
+        return loggedInProperty().getValue();
     }
 
     Property<Boolean> authorizedProperty(Object authority);
