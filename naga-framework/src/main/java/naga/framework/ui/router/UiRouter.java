@@ -8,6 +8,15 @@ import naga.framework.activity.uiroute.impl.UiRouteActivityContextBase;
 import naga.framework.activity.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
+import naga.framework.router.handler.RedirectAuthHandler;
+import naga.framework.router.handler.UserSessionHandler;
+import naga.framework.router.impl.RedirectAuthHandlerImpl;
+import naga.framework.router.impl.SessionHandlerImplBase;
+import naga.framework.router.impl.UserHolder;
+import naga.framework.router.impl.UserSessionHandlerImpl;
+import naga.framework.session.SessionStore;
+import naga.framework.session.impl.MemorySessionStore;
+import naga.framework.ui.auth.UiUser;
 import naga.fx.properties.markers.HasNodeProperty;
 import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
@@ -21,6 +30,7 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.auth.spi.AuthService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +46,12 @@ public class UiRouter extends HistoryRouter {
     private UiRouter mountParentRouter;    // pointer set on the child sub router to reference the parent router
     private UiRouter mountChildSubRouter;  // pointer set on the parent router to reference the child sub router
     private final Map<String, ActivityContext> activityContextHistory = new HashMap<>();
+    // Auth
+    private SessionStore sessionStore;
+    private static String sessionId;
+    private RedirectAuthHandler redirectAuthHandler;
+    private AuthService authService;
+    private UiUser uiUser = UiUser.create();
 
     public static UiRouter create(UiRouteActivityContext hostingContext) {
         return create(hostingContext, hostingContext.getActivityContextFactory());
@@ -77,6 +93,71 @@ public class UiRouter extends HistoryRouter {
         UiRouteActivityContextBase hostingUiRouterActivityContext = UiRouteActivityContextBase.toUiRouterActivityContextBase(hostingContext);
         if (hostingUiRouterActivityContext != null) // can be null if the hosting context is the application context
             hostingUiRouterActivityContext.setUiRouter(this);
+        uiUser.userProperty().addListener((observable, oldUser, newUser) -> getSessionStore().get(sessionId).setHandler(ar -> {
+            if (ar.succeeded()) {
+                UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(newUser));
+                refresh();
+            }
+        }));
+    }
+
+    @Override
+    public void refresh() {
+        if (mountParentRouter == null)
+            super.refresh();
+        else
+            mountParentRouter.refresh();
+    }
+
+    public UiRouter setRedirectAuthHandler(AuthService authService, String loginPath, String unauthorizedPath) {
+        return setRedirectAuthHandler(RedirectAuthHandler.create(authService, loginPath, unauthorizedPath));
+    }
+
+    public UiRouter setRedirectAuthHandler(RedirectAuthHandler redirectAuthHandler) {
+        //router.route().handler(SessionHandler.create(MemorySessionStore.create()));
+        router.route().handler(context -> sessionId = SessionHandlerImplBase.handle(context, sessionId, getSessionStore()));
+        router.route().handler(UserSessionHandler.create());
+        this.redirectAuthHandler = redirectAuthHandler;
+        if (redirectAuthHandler instanceof RedirectAuthHandlerImpl)
+            authService = ((RedirectAuthHandlerImpl) redirectAuthHandler).getAuthService();
+        return this;
+    }
+
+    private SessionStore getSessionStore() {
+        if (sessionStore == null) {
+            if (mountParentRouter != null)
+                sessionStore = mountParentRouter.getSessionStore();
+            else
+                sessionStore = MemorySessionStore.create();
+        }
+        return sessionStore;
+    }
+
+    public UiUser getUiUser() {
+        return uiUser;
+    }
+
+    public AuthService getAuthService() {
+        return authService;
+    }
+
+    public UiRouter authRoute(String path) {
+        if (redirectAuthHandler == null)
+            throw new IllegalStateException("setRedirectAuthHandler() must be called on this router before calling authRoute()");
+        router.route(path).handler(redirectAuthHandler);
+        return this;
+    }
+
+    public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory) {
+        return route(true, path, activityFactory);
+    }
+
+    public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
+        return route(true, path, activityFactory, activityContextFactory);
+    }
+
+    public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
+        return route(true, path, activityFactory, activityContextFactory, contextConverter);
     }
 
     /* GWT public <CT> UiRouter route(String path, Class<? extends Activity<CT>> activityClass) {
@@ -88,14 +169,28 @@ public class UiRouter extends HistoryRouter {
     }*/
 
     public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory) {
-        return route(path, activityFactory, activityContextFactory);
+        return route(false, path, activityFactory);
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
-        return route(path, activityFactory, activityContextFactory, null);
+        return route(false, path, activityFactory, activityContextFactory);
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
+        return route(false, path, activityFactory, activityContextFactory, contextConverter);
+    }
+
+    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, String path, Factory<Activity<C>> activityFactory) {
+        return route(auth, path, activityFactory, activityContextFactory);
+    }
+
+    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
+        return route(auth, path, activityFactory, activityContextFactory, null);
+    }
+
+    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
+        if (auth)
+            authRoute(path);
         router.route(path, new ActivityRoutingHandler<>(ActivityManager.factory(activityFactory, activityContextFactory), contextConverter));
         return this;
     }
@@ -176,6 +271,7 @@ public class UiRouter extends HistoryRouter {
             if (activityContext == null)
                 activityContextHistory.put(contextKey, activityContext = activityManagerFactory.create().getContextFactory().createContext(hostingContext));
             applyRoutingContextParamsToActivityContext(routingContext.getParams(), activityContext);
+            UiRouteActivityContextBase.toUiRouterActivityContextBase(activityContext).setSession(routingContext.session());
             return activityContext;
         }
 

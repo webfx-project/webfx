@@ -64,6 +64,10 @@ public class HistoryRouter {
             replaceCurrentHistoryWithInitialDefaultPath();
     }
 
+    public void refresh() {
+        onNewHistoryLocation(history.getCurrentLocation());
+    }
+
     protected void onNewHistoryLocation(HistoryLocation historyLocation) {
         router.accept(history.getPath(historyLocation), historyLocation.getState());
     }
