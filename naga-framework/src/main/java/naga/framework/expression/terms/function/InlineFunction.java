@@ -2,6 +2,7 @@ package naga.framework.expression.terms.function;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
+import naga.framework.expression.lci.ParserDomainModelReader;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.builder.ReferenceResolver;
@@ -20,11 +21,20 @@ public class InlineFunction<T> extends Function<T> {
     private final Expression body;
 
     public InlineFunction(String name, String signature, Type[] argTypes, String body) {
-        this(name, Strings.split(signature, ","), argTypes, body);
+        this(name, Strings.split(signature, ","), argTypes, body, null, null);
     }
 
+    public InlineFunction(String name, String signature, Type[] argTypes, String body, Object domainClass, ParserDomainModelReader modelReader) {
+        this(name, Strings.split(signature, ","), argTypes, body, domainClass, modelReader);
+    }
+
+
     public InlineFunction(String name, String[] argNames, Type[] argTypes, String body) {
-        this(name, argNames, argTypes, parseBody(body, argNames, argTypes));
+        this(name, argNames, argTypes, body ,null, null);
+    }
+
+    public InlineFunction(String name, String[] argNames, Type[] argTypes, String body, Object domainClass, ParserDomainModelReader modelReader) {
+        this(name, argNames, argTypes, parseBody(body, argNames, argTypes, domainClass, modelReader));
     }
 
     public InlineFunction(String name, String[] argNames, Type[] argTypes, Expression body) {
@@ -51,7 +61,7 @@ public class InlineFunction<T> extends Function<T> {
         return body.getPrecedenceLevel();
     }
 
-    private static Expression parseBody(String body, final String[] argNames, final Type[] argTypes) {
+    private static Expression parseBody(String body, final String[] argNames, final Type[] argTypes, Object domainClass, ParserDomainModelReader modelReader) {
         try {
             ThreadLocalReferenceResolver.pushReferenceResolver(new ReferenceResolver() {
                 Map<String, ArgumentAlias> argumentAliases = new HashMap<>();
@@ -69,7 +79,7 @@ public class InlineFunction<T> extends Function<T> {
                     return null;
                 }
             });
-            return ExpressionParser.parseExpression(body, null, null, false);
+            return ExpressionParser.parseExpression(body, domainClass, modelReader, false);
         } finally {
             ThreadLocalReferenceResolver.popReferenceResolver();
         }

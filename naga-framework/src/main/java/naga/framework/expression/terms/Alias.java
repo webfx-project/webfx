@@ -2,6 +2,7 @@ package naga.framework.expression.terms;
 
 import naga.framework.expression.lci.DataReader;
 import naga.commons.type.Type;
+import naga.framework.expression.terms.function.DomainClassType;
 
 /**
  * @author Bruno Salmon
@@ -13,7 +14,7 @@ public class Alias<T> extends AbstractExpression<T> {
     private final Object domainClass;
 
     public Alias(String name, Type type) {
-        this(name, type, null);
+        this(name, type, type instanceof DomainClassType ? ((DomainClassType) type).getDomainClass() : null);
     }
 
     public Alias(String name, Object domainClass) {
