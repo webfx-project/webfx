@@ -11,6 +11,8 @@ public interface Router {
 
     static Router create() { return new RouterImpl(); }
 
+    Route route();
+
     Route route(String path);
 
     Router route(String path, Handler<RoutingContext> handler);

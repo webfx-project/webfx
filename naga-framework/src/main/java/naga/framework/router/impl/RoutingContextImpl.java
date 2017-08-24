@@ -18,6 +18,10 @@ class RoutingContextImpl extends RoutingContextImplBase {
         this.router = router;
     }
 
+    RouterImpl router() {
+        return router;
+    }
+
     @Override
     public Throwable failure() {
         return failure;

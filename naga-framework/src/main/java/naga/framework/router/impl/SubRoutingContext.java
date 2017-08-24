@@ -1,7 +1,9 @@
 package naga.framework.router.impl;
 
+import naga.framework.session.Session;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.framework.router.RoutingContext;
+import naga.platform.services.auth.spi.User;
 
 import java.util.Collection;
 
@@ -18,7 +20,7 @@ class SubRoutingContext extends RoutingContextImplBase {
         this.inner = inner;
         String parentMountPoint = inner.mountPoint();
         // Removing the trailing slash or we won't match
-        if (mountPoint.charAt(mountPoint.length() - 1) == '/')
+        if (mountPoint.endsWith("/"))
             mountPoint = mountPoint.substring(0, mountPoint.length() - 1);
         this.mountPoint = parentMountPoint == null ? mountPoint : parentMountPoint + mountPoint;
     }
@@ -26,11 +28,6 @@ class SubRoutingContext extends RoutingContextImplBase {
     @Override
     public String mountPoint() {
         return mountPoint;
-    }
-
-    @Override
-    public String path() {
-        return inner.path();
     }
 
     @Override
@@ -71,4 +68,28 @@ class SubRoutingContext extends RoutingContextImplBase {
         return inner.failure();
     }
 
+    @Override
+    public Session session() {
+        return inner.session();
+    }
+
+    @Override
+    public User user() {
+        return inner.user();
+    }
+
+    @Override
+    public void setSession(Session session) {
+        inner.setSession(session);
+    }
+
+    @Override
+    public void setUser(User user) {
+        inner.setUser(user);
+    }
+
+    @Override
+    public void clearUser() {
+        inner.clearUser();
+    }
 }

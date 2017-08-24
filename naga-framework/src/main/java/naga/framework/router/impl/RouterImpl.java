@@ -5,6 +5,7 @@ import naga.framework.router.Route;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.commons.util.async.Handler;
+import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,13 +20,18 @@ public class RouterImpl implements Router {
     private Handler<Throwable> exceptionHandler;
 
     @Override
+    public Route route() {
+        return new RouteImpl(this);
+    }
+
+    @Override
     public Route route(String path) {
-        return new RouteImpl(this).path(path);
+        return route().path(path);
     }
 
     @Override
     public Router route(String path, Handler<RoutingContext> handler) {
-        new RouteImpl(this).path(path).handler(handler);
+        route(path).handler(handler);
         return this;
     }
 
@@ -35,6 +41,7 @@ public class RouterImpl implements Router {
 
     @Override
     public void accept(String path, JsonObject state) {
+        Platform.log("Routing " + path);
         new RoutingContextImpl(null, this, path, routes, state).next();
     }
 

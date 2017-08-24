@@ -1,6 +1,8 @@
 package naga.framework.router;
 
+import naga.framework.session.Session;
 import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.auth.spi.User;
 
 /**
  * @author Bruno Salmon
@@ -27,6 +29,16 @@ public interface RoutingContext {
 
     Throwable failure();
 
+    Session session();
+
+    User user();
+
+    void setSession(Session session);
+
+    void setUser(User user);
+
+    void clearUser();
+
     /*
 
     String normalisedPath();
@@ -40,16 +52,6 @@ public interface RoutingContext {
     int cookieCount();
 
     Set<Cookie> cookies();
-
-    Session session();
-
-    User user();
-
-    void setSession(Session session);
-
-    void setUser(User user);
-
-    void clearUser();
 
     */
 
