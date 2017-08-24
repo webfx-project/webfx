@@ -12,10 +12,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
+import naga.platform.services.auth.spi.AuthService;
 
 
 /**
@@ -23,6 +25,7 @@ import naga.fx.properties.Properties;
  */
 public class LoginPanel implements MongooseButtonFactoryMixin {
     private final I18n i18n;
+    private final AuthService authService;
     private final Node node;
     private final TextField usernameField;
     private final PasswordField passwordField;
@@ -30,8 +33,9 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
     private final Button button;
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
 
-    public LoginPanel(I18n i18n) {
+    public LoginPanel(UiUser uiUser, I18n i18n, AuthService authService) {
         this.i18n = i18n;
+        this.authService = authService;
         BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
         GridPane gridPane;
         loginWindow.setCenter(
@@ -50,6 +54,10 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
             i18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>");
         }, signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
+        button.setOnAction(event -> authService.authenticate(null).setHandler(ar -> {
+            if (ar.succeeded())
+                uiUser.setUser(ar.result());
+        }));
     }
 
     @Override

@@ -55,7 +55,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         accountTopNote.setBorder(BorderUtil.newWebColorBorder("#ebc078", 5));
         ToggleGroup accountToggleGroup = new ToggleGroup();
         FlowPane accountTabs = new FlowPane(new Button(null, newRadioButton("IDontHaveAnAccount", accountToggleGroup)), new Button(null, newRadioButton("IAlreadyHaveAnAccount", accountToggleGroup)));
-        LoginPanel loginPanel = new LoginPanel(getI18n());
+        LoginPanel loginPanel = new LoginPanel(getUiRouter().getUiUser(), getI18n(), getUiRouter().getAuthService());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
         Node[] nodes = {personDetailsPanel.getSectionPanel(), loginPanel.getNode()};
         BorderPane accountPane = new BorderPane();
