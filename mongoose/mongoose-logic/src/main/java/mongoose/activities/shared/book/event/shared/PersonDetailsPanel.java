@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.auth.MongooseUser;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.entities.Country;
 import mongoose.entities.Event;
@@ -19,9 +20,11 @@ import mongoose.entities.markers.HasPersonDetails;
 import naga.commons.type.PrimType;
 import naga.commons.util.Booleans;
 import naga.framework.activity.view.ViewActivityContextMixin;
+import mongoose.domainmodel.functions.AbcNames;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
@@ -43,10 +46,15 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     private final DatePicker birthDatePicker;
     private final EntityButtonSelector countrySelector;
     private final EntityButtonSelector organizationSelector;
+    private final EntityButtonSelector personSelector;
     private final BorderPane sectionPanel;
     private HasPersonDetails model;
 
     public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
+        this(event, viewActivityContextMixin, parent, null);
+    }
+
+    public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent, UiUser uiUser) {
         this.event = event;
         i18n = viewActivityContextMixin.getI18n();
         sectionPanel = createSectionPanel("YourPersonalDetails");
@@ -73,8 +81,26 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         postCodeTextField = new TextField();
         cityNameTextField = new TextField();
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
-        countrySelector = new EntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
-        organizationSelector = new EntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
+        countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
+        organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
+        if (uiUser == null)
+            personSelector = null;
+        else {
+            personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
+            uiUser.userProperty().addListener((observable, oldUser, newUser) -> {
+                personSelector.setJsonOrClass(newUser == null ? null : "{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName', where: '!removed and frontendAccount=" + ((MongooseUser) newUser).getUserAccountPrimaryKey() + "', orderBy: 'id'}");
+            });
+        }
+    }
+
+    private static EntityButtonSelector createEntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
+        return new EntityButtonSelector(jsonOrClass, viewActivityContextMixin, parent, dataSourceModel) {
+            @Override
+            protected void setSearchParameters(String search, EntityStore store) {
+                super.setSearchParameters(search, store);
+                store.setParameterValue("abcSearchLike", AbcNames.evaluate(search, true));
+            }
+        };
     }
 
     @Override
@@ -121,6 +147,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
 
     private GridPane createPersonGridPane() {
         GridPaneBuilder gridPaneBuilder = new GridPaneBuilder(i18n)
+                .addLabelNodeRow("PersonToBook:", LayoutUtil.setMaxWidthToInfinite(personSelector.getEntityButton()))
                 .addLabelTextInputRow("FirstName:", firstNameTextField)
                 .addLabelTextInputRow("LastName:", lastNameTextField)
                 .addLabelNodeRow("Gender:", new HBox(20, maleRadioButton, femaleRadioButton))

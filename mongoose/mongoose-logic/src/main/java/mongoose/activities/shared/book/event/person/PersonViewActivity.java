@@ -62,7 +62,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         ObservableValue<Boolean> loggedInProperty = uiUser.loggedInProperty();
         ObservableValue<Boolean> notLoggedIn = Properties.not(loggedInProperty);
         LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
-        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
+        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane, uiUser);
         Node[] nodes = {personDetailsPanel.getSectionPanel(), loginPanel.getNode()};
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> accountPane.setCenter(nodes[accountToggleGroup.getToggles().indexOf(newValue)]) );
