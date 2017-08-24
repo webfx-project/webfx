@@ -5,8 +5,15 @@ import mongoose.domainmodel.format.DateTimeFormatter;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
 import mongoose.entities.impl.*;
+import naga.commons.type.PrimType;
+import naga.commons.type.Type;
 import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
+import naga.framework.expression.terms.function.DomainClassType;
+import naga.framework.expression.terms.function.Function;
+import naga.framework.expression.terms.function.InlineFunction;
+import mongoose.domainmodel.functions.AbcNames;
+import mongoose.domainmodel.functions.DateIntervalFormat;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.domainmodel.loader.DomainModelLoader;
@@ -82,7 +89,16 @@ public class DomainModelSnapshotLoader {
             String jsonString = LZString.decompressFromBase64(text.result());
             JsonElement json = Json.parseObject(jsonString);
             Batch<QueryResultSet> snapshotBatch = JsonCodecManager.decodeFromJson(json);
-            return new DomainModelLoader(1).generateDomainModel(snapshotBatch);
+            DomainModel domainModel = new DomainModelLoader(1).generateDomainModel(snapshotBatch);
+            // Registering functions
+            new AbcNames().register();
+            new AbcNames("alphaSearch").register();
+            new DateIntervalFormat().register();
+            new Function("interpret_brackets", PrimType.STRING).register();
+            new Function("compute_dates").register();
+            new InlineFunction("searchMatchesDocument", "d", new Type[]{new DomainClassType("Document")}, "d..ref=?searchInteger or d..person_abcNames like ?abcSearchLike or d..person_email like ?searchEmailLike", domainModel.getClass("Document"), domainModel.getParserDomainModelReader()).register();
+            new InlineFunction("searchMatchesPerson", "p", new Type[]{new DomainClassType("Person")}, "abcNames(p..firstName + ' ' + p..lastName) like ?abcSearchLike or p..email like ?searchEmailLike", "Person", domainModel.getParserDomainModelReader()).register();
+            return domainModel;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

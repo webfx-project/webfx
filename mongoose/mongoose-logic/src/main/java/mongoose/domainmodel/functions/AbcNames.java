@@ -1,4 +1,4 @@
-package naga.framework.expression.terms.function.java;
+package mongoose.domainmodel.functions;
 
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;

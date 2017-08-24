@@ -1,4 +1,4 @@
-package naga.framework.expression.terms.function.java;
+package mongoose.domainmodel.functions;
 
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;

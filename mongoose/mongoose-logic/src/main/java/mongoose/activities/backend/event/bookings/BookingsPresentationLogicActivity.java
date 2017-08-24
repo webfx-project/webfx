@@ -4,7 +4,7 @@ import mongoose.activities.shared.generic.eventdependent.EventDependentPresentat
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.services.EventService;
 import naga.commons.util.Strings;
-import naga.framework.expression.terms.function.java.AbcNames;
+import mongoose.domainmodel.functions.AbcNames;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.platform.spi.Platform;
 
