@@ -1,5 +1,7 @@
 package mongoose.activities.shared.book.event.person;
 
+import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -17,6 +19,7 @@ import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import naga.commons.util.Numbers;
 import naga.framework.ui.action.Action;
+import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
 import naga.framework.ui.controls.LayoutUtil;
@@ -55,13 +58,20 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         accountTopNote.setBorder(BorderUtil.newWebColorBorder("#ebc078", 5));
         ToggleGroup accountToggleGroup = new ToggleGroup();
         FlowPane accountTabs = new FlowPane(new Button(null, newRadioButton("IDontHaveAnAccount", accountToggleGroup)), new Button(null, newRadioButton("IAlreadyHaveAnAccount", accountToggleGroup)));
-        LoginPanel loginPanel = new LoginPanel(getUiRouter().getUiUser(), getI18n(), getUiRouter().getAuthService());
+        UiUser uiUser = getUiRouter().getUiUser();
+        ObservableValue<Boolean> loggedInProperty = uiUser.loggedInProperty();
+        ObservableValue<Boolean> notLoggedIn = Properties.not(loggedInProperty);
+        LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
         Node[] nodes = {personDetailsPanel.getSectionPanel(), loginPanel.getNode()};
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> accountPane.setCenter(nodes[accountToggleGroup.getToggles().indexOf(newValue)]) );
         accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0));
-        vBox.getChildren().setAll(accountTopNote, accountTabs, accountPane);
+        loggedInProperty.addListener((observable, oldValue, newValue) -> {
+            if (newValue)
+                Platform.runLater(() -> accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0)));
+        });
+        vBox.getChildren().setAll(LayoutUtil.setUnmanagedWhenInvisible(accountTopNote, notLoggedIn), LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn), accountPane);
         borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
         syncUiFromModel();
