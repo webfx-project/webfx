@@ -50,6 +50,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     private final BorderPane sectionPanel;
     private HasPersonDetails model;
 
+    private static final int CHILD_MAX_AGE = 17;
+
     public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
         this(event, viewActivityContextMixin, parent, null);
     }
@@ -87,9 +89,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
             personSelector = null;
         else {
             personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
-            uiUser.userProperty().addListener((observable, oldUser, newUser) -> {
-                personSelector.setJsonOrClass(newUser == null ? null : "{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName', where: '!removed and frontendAccount=" + ((MongooseUser) newUser).getUserAccountPrimaryKey() + "', orderBy: 'id'}");
-            });
+            Properties.runNowAndOnPropertiesChange(userProperty -> personSelector.setJsonOrClass(userProperty.getValue() instanceof MongooseUser ? "{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName', where: '!removed and frontendAccount=" + ((MongooseUser) userProperty.getValue()).getUserAccountPrimaryKey() + "', orderBy: 'id'}" : null), uiUser.userProperty());
         }
     }
 
@@ -211,8 +211,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         maleRadioButton.setSelected(Booleans.isTrue(p.isMale()));
         femaleRadioButton.setSelected(Booleans.isFalse(p.isMale()));
         Integer age = p.getAge();
-        adultRadioButton.setSelected(age == null || age > 17);
-        childRadioButton.setSelected((age != null && age <= 17));
+        adultRadioButton.setSelected(age == null || age > CHILD_MAX_AGE);
+        childRadioButton.setSelected((age != null && age <= CHILD_MAX_AGE));
         carer1NameTextField.setText(p.getCarer1Name());
         carer2NameTextField.setText(p.getCarer2Name());
         emailTextField.setText(p.getEmail());

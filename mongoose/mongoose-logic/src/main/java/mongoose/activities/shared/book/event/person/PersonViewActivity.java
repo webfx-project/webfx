@@ -67,10 +67,10 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> accountPane.setCenter(nodes[accountToggleGroup.getToggles().indexOf(newValue)]) );
         accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0));
-        loggedInProperty.addListener((observable, oldValue, newValue) -> {
-            if (newValue)
+        Properties.runNowAndOnPropertiesChange(p -> {
+            if (loggedInProperty.getValue())
                 Platform.runLater(() -> accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0)));
-        });
+        }, loggedInProperty);
         vBox.getChildren().setAll(LayoutUtil.setUnmanagedWhenInvisible(accountTopNote, notLoggedIn), LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn), accountPane);
         borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
 
