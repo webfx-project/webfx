@@ -1,6 +1,6 @@
 package naga.framework.session.impl;
 
-import naga.commons.util.random.GUID;
+import naga.commons.util.uuid.Uuid;
 import naga.framework.session.Session;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class MemorySession implements Session {
 
-    private final String id = GUID.get();
+    private final String id = Uuid.randomUuid();
     private Map<String, Object> objects = new HashMap<>();
 
     @Override

@@ -13,6 +13,7 @@ import naga.commons.util.async.Batch;
 import naga.commons.util.async.Future;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Predicate;
+import naga.commons.util.uuid.Uuid;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
@@ -362,16 +363,6 @@ public class WorkingDocument {
         return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
     }
 
-    private static String generateRandomUuid() {
-        // return UUID.randomUUID().toString(); // Doesn't compile with GWT
-        // From https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript :
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    }
-
-    private static String s4() {
-        return Integer.toHexString((int) Math.floor((1 + Math.random()) * 0x10000)).substring(1);
-    }
-
     public Future<Document> submit(String comment) {
         UpdateStore store = getUpdateStore();
         Document du;
@@ -383,7 +374,7 @@ public class WorkingDocument {
             Cart cart = eventService.getCurrentCart();
             if (cart == null) {
                 cart = store.insertEntity(Cart.class);
-                cart.setUuid(generateRandomUuid());
+                cart.setUuid(Uuid.randomUuid());
             }
             du.setCart(cart);
         }
