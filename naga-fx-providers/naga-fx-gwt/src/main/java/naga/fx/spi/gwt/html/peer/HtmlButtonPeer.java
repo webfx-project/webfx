@@ -38,13 +38,19 @@ public class HtmlButtonPeer
         return cache;
     }
 
+    private boolean graphicClickPropagation;
     @Override
     protected void onClickElement(Event e) {
-        super.onClickElement(e);
-        // Ugly patch to propagate the click on the graphic (ex: a radio button) as some browsers don't do it (ex: FireFox and IE)
-        Node graphic = getNode().getGraphic();
-        if (graphic != null)
-            HtmlSvgNodePeer.toElement(graphic, graphic.getScene()).click();
+        if (!graphicClickPropagation) {
+            super.onClickElement(e);
+            // Ugly patch to propagate the click on the graphic (ex: a radio button) as some browsers don't do it (ex: FireFox and IE)
+            Node graphic = getNode().getGraphic();
+            if (graphic != null) {
+                graphicClickPropagation = true;
+                HtmlSvgNodePeer.toElement(graphic, graphic.getScene()).click();
+                graphicClickPropagation = false;
+            }
+        }
     }
 
     @Override
