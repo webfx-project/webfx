@@ -30,19 +30,19 @@ public interface HtmlLayoutMeasurable extends LayoutMeasurable {
     }
 
     default double minWidth(double height) {
-        return 0; //measureWidth(height);
+        return 0;
     }
 
     default double maxWidth(double height) {
-        return Double.MAX_VALUE;// measureWidth(height);
+        return Double.MAX_VALUE;
     }
 
     default double minHeight(double width) {
-        return 0; // measureHeight(width);
+        return 0;
     }
 
     default double maxHeight(double width) {
-        return Double.MAX_VALUE; // measureHeight(width);
+        return Double.MAX_VALUE;
     }
 
     default double prefWidth(double height) {
