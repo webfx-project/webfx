@@ -113,9 +113,10 @@ class ExpressionColumnImpl implements ExpressionColumn {
     }
 
     @Override
-    public void parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId) {
+    public ExpressionColumn parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId) {
         if (expression == null)
             expression = domainModel.parseExpression(expressionDefinition, domainClassId);
+        return this;
     }
 
 }

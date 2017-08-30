@@ -36,7 +36,7 @@ public interface ExpressionColumn {
      * @param domainModel the domain model
      * @param domainClassId the domain class id
      */
-    void parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId);
+    ExpressionColumn parseExpressionDefinitionIfNecessary(DomainModel domainModel, Object domainClassId);
 
 
     /*** Factory methods ***/
