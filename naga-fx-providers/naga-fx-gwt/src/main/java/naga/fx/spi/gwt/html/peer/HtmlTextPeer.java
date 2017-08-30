@@ -18,7 +18,7 @@ import naga.fx.spi.peer.base.TextPeerMixin;
 public class HtmlTextPeer
         <N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends HtmlShapePeer<N, NB, NM>
-        implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow {
 
     public HtmlTextPeer() {
         this((NB) new TextPeerBase());
