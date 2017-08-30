@@ -1,5 +1,6 @@
 package emul.com.sun.javafx.scene.control.skin;
 
+import emul.com.sun.javafx.scene.control.behaviour.BehaviorBase;
 import emul.javafx.beans.InvalidationListener;
 import emul.javafx.geometry.HPos;
 import emul.javafx.geometry.Orientation;
@@ -12,7 +13,8 @@ import emul.javafx.scene.control.OverrunStyle;
 import emul.javafx.scene.image.ImageView;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.Font;
-import emul.com.sun.javafx.scene.control.behaviour.BehaviorBase;
+import emul.javafx.scene.text.TextBoundsType;
+import naga.commons.util.Strings;
 
 import static emul.javafx.scene.control.ContentDisplay.*;
 import static emul.javafx.scene.control.OverrunStyle.CLIP;
@@ -493,6 +495,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 result = result.substring(0, result.length() - 1);
             }
 */
+            wrapWidth = w;
+            wrapHeight = h;
 
             text.setText(result);
             updateWrappingWidth();
@@ -646,16 +650,16 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
             if (truncationStyle == CLIP) {
                 if (textWidth == Double.NEGATIVE_INFINITY) {
                     // Show at minimum the first character
-                    textWidth = Utils.computeTextWidth(font, string.substring(0, 1), 0);
+                    textWidth = computeTextWidth(font, string.substring(0, 1), 0);
                 }
                 minTextWidth = textWidth;
             } else {
                 if (textWidth == Double.NEGATIVE_INFINITY) {
-                    textWidth = Utils.computeTextWidth(font, string, 0);
+                    textWidth = computeTextWidth(font, string, 0);
                 }
                 // We only want to recompute the ellipsis width if the font has changed
                 if (ellipsisWidth == Double.NEGATIVE_INFINITY) {
-                    ellipsisWidth = Utils.computeTextWidth(font, ellipsisString, 0);
+                    ellipsisWidth = computeTextWidth(font, ellipsisString, 0);
                 }
                 minTextWidth = Math.min(textWidth, ellipsisWidth);
             }
@@ -678,6 +682,24 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 rightInset + rightLabelPadding();
     }
 
+    private double computeTextWidth(Font font, String text, double wrappingWidth) {
+        //return Utils.computeTextWidth(font, text, wrappingWidth);
+        return prepareDisplayedText(font, text, wrappingWidth).prefWidth(-1);
+    }
+
+    private double computeTextHeight(Font font, String text, double wrappingWidth, double lineSpacing, TextBoundsType boundsType) {
+        //return Utils.computeTextHeight(font, text, wrappingWidth, lineSpacing, boundsType);
+        return Strings.isEmpty(text) ? 16 : prepareDisplayedText(font, text, wrappingWidth).prefHeight(-1);
+    }
+
+    private LabeledText prepareDisplayedText(Font font, String text, double wrappingWidth) {
+        LabeledText displayedText = this.text;
+        displayedText.setText(text);
+        //displayedText.setFont(font); // already bounded property
+        displayedText.setWrappingWidth(wrappingWidth);
+        return displayedText;
+    }
+
     @Override protected double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return computeMinLabeledPartHeight(width, topInset, rightInset, bottomInset, leftInset);
     }
@@ -697,7 +719,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         // TODO figure out how to cache this effectively.
         // Base minimum height on one line (ignoring wrapping here).
         double s = labeled.getLineSpacing();
-        final double textHeight = Utils.computeTextHeight(font, str, 0, s, text.getBoundsType());
+        final double textHeight = computeTextHeight(font, str, 0, s, text.getBoundsType());
 
         double h = textHeight;
 
@@ -724,7 +746,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         double widthPadding = leftInset + leftLabelPadding() +
                 rightInset + rightLabelPadding();
 
-        double textWidth = emptyText ? 0 : Utils.computeTextWidth(font, string, 0);
+        double textWidth = emptyText ? 0  : computeTextWidth(font, string, 0);
 
         // Fix for RT-39889
         double graphicWidth = graphic == null ? 0.0 :
@@ -765,7 +787,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         }
 
         // TODO figure out how to cache this effectively.
-        final double textHeight = Utils.computeTextHeight(font, str,
+        final double textHeight = computeTextHeight(font, str,
                 labeled.isWrapText() ? textWidth : 0,
                 labeled.getLineSpacing(), text.getBoundsType());
 
