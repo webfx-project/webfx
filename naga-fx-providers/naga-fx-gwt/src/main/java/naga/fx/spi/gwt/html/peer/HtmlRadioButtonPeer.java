@@ -32,8 +32,6 @@ public class HtmlRadioButtonPeer
             return null;
         };
         CSSStyleDeclaration style = element.style;
-        style.left = "0px";
-        style.top = "0px";
         style.margin = CSSProperties.MarginUnionType.of("0");
         style.padding = CSSProperties.PaddingUnionType.of("0");
         radioButtonElement.style.verticalAlign = "middle";

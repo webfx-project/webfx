@@ -1,9 +1,6 @@
 package naga.fx.spi.gwt.html;
 
-import elemental2.dom.Element;
-import elemental2.dom.HTMLButtonElement;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLLabelElement;
+import elemental2.dom.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
@@ -91,10 +88,14 @@ public class HtmlScenePeer extends ScenePeerBase {
             HtmlNodePeer htmlNodePeer = (HtmlNodePeer) nodePeer;
             HTMLElement htmlElement = (HTMLElement) htmlNodePeer.getElement();
             HtmlUtil.absolutePosition(htmlElement);
+            CSSStyleDeclaration style = htmlElement.style;
+            // Positioned to left top corner by default
+            style.left = "0px";
+            style.top = "0px";
             if (htmlNodePeer instanceof HtmlHtmlTextPeer)
-                htmlElement.style.whiteSpace = "normal";
+                style.whiteSpace = "normal";
             else if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN"))
-                htmlElement.style.whiteSpace = "nowrap";
+                style.whiteSpace = "nowrap";
         }
     }
 
