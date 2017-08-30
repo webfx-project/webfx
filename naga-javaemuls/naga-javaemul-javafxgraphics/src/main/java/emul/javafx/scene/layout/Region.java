@@ -1,18 +1,21 @@
 package emul.javafx.scene.layout;
 
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
-import emul.javafx.util.Callback;
-import naga.commons.util.function.Function;
+import emul.com.sun.javafx.binding.ExpressionHelper;
 import emul.com.sun.javafx.geom.BaseBounds;
-import emul.com.sun.javafx.util.TempState;
 import emul.com.sun.javafx.geom.Vec2d;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
+import emul.com.sun.javafx.util.TempState;
+import emul.javafx.beans.InvalidationListener;
+import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.geometry.*;
-import naga.fx.properties.markers.HasBackgroundProperty;
-import naga.fx.properties.markers.HasBorderProperty;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
+import emul.javafx.util.Callback;
+import naga.commons.util.function.Function;
+import naga.fx.properties.markers.HasBackgroundProperty;
+import naga.fx.properties.markers.HasBorderProperty;
 import naga.fx.properties.markers.HasPaddingProperty;
 import naga.fx.properties.markers.HasSnapToPixelProperty;
 
@@ -103,10 +106,118 @@ public class Region extends Parent implements
         return prefHeightProperty;
     }
 
-    private final Property<Insets> insetsProperty = new SimpleObjectProperty<>(Insets.EMPTY);
+    /**
+     * The insets of the Region define the distance from the edge of the region (its layout bounds,
+     * or (0, 0, width, height)) to the edge of the content area. All child nodes should be laid out
+     * within the content area. The insets are computed based on the Border which has been specified,
+     * if any, and also the padding.
+     * @since JavaFX 8.0
+     */
+    private final InsetsProperty insets = new InsetsProperty();
+    public final Insets getInsets() { return insets.get(); }
+    public final Property<Insets> insetsProperty() { return insets; }
+    private final class InsetsProperty extends SimpleObjectProperty<Insets> {
+        private Insets cache = null;
+        private ExpressionHelper<Insets> helper = null;
+
+        @Override public Object getBean() { return Region.this; }
+        @Override public String getName() { return "insets"; }
+
+        @Override public void addListener(InvalidationListener listener) {
+            helper = ExpressionHelper.addListener(helper, this, listener);
+        }
+
+        @Override public void removeListener(InvalidationListener listener) {
+            helper = ExpressionHelper.removeListener(helper, listener);
+        }
+
+        @Override public void addListener(ChangeListener<? super Insets> listener) {
+            helper = ExpressionHelper.addListener(helper, this, listener);
+        }
+
+        @Override public void removeListener(ChangeListener<? super Insets> listener) {
+            helper = ExpressionHelper.removeListener(helper, listener);
+        }
+
+        void fireValueChanged() {
+            cache = null;
+            updateSnappedInsets();
+            requestLayout();
+            ExpressionHelper.fireValueChangedEvent(helper);
+        }
+
+        @Override public Insets get() {
+            // If a shape is specified, then we don't really care whether there are any borders
+            // specified, since borders of shapes do not contribute to the insets.
+            //if (_shape != null) return getPadding();
+
+            // If there is no border or the border has no insets itself, then the only thing
+            // affecting the insets is the padding, so we can just return it directly.
+            final Border b = getBorder();
+            if (b == null || Insets.EMPTY.equals(b.getInsets())) {
+                return getPadding();
+            }
+
+            // There is a border with some non-zero insets and we do not have a _shape, so we need
+            // to take the border's insets into account
+            if (cache == null) {
+                // Combine the padding and the border insets.
+                // TODO note that negative border insets were being ignored, but
+                // I'm not sure that that made sense or was reasonable, so I have
+                // changed it so that we just do simple math.
+                // TODO Stroke borders should NOT contribute to the insets. Ensure via tests.
+                final Insets borderInsets = b.getInsets();
+                final Insets paddingInsets = getPadding();
+                cache = new Insets(
+                        borderInsets.getTop() + paddingInsets.getTop(),
+                        borderInsets.getRight() + paddingInsets.getRight(),
+                        borderInsets.getBottom() + paddingInsets.getBottom(),
+                        borderInsets.getLeft() + paddingInsets.getLeft()
+                );
+            }
+            return cache;
+        }
+    };
+
+    private final Property<Insets> padding = new SimpleObjectProperty<Insets>(Insets.EMPTY) {
+        // Keep track of the last valid value for the sake of
+        // rollback in case padding is set to null. Note that
+        // Richard really does not like this pattern because
+        // it essentially means that binding the padding property
+        // is not possible since a binding expression could very
+        // easily produce an intermediate null value.
+
+        // Also note that because padding is set virtually everywhere via CSS, and CSS
+        // requires a property object in order to set it, there is no benefit to having
+        // lazy initialization here.
+
+        private Insets lastValidValue = Insets.EMPTY;
+
+        @Override public Object getBean() { return Region.this; }
+        @Override public String getName() { return "padding"; }
+/*
+        @Override public CssMetaData<Region, Insets> getCssMetaData() {
+            return Region.StyleableProperties.PADDING;
+        }
+*/
+        @Override public void invalidated() {
+            final Insets newValue = get();
+            if (newValue == null) {
+                // rollback
+                if (isBound()) {
+                    unbind();
+                }
+                set(lastValidValue);
+                throw new NullPointerException("cannot set padding to null");
+            } else if (!newValue.equals(lastValidValue)) {
+                lastValidValue = newValue;
+                insets.fireValueChanged();
+            }
+        }
+    };
     @Override
     public Property<Insets> paddingProperty() {
-        return insetsProperty;
+        return padding;
     }
 
     private final Property<Boolean> snapToPixelProperty = new SimpleObjectProperty<Boolean>(true) {
