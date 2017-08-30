@@ -5,6 +5,7 @@ import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.geometry.Insets;
+import emul.javafx.geometry.Pos;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.*;
 import emul.javafx.scene.paint.Color;
@@ -145,5 +146,6 @@ public class Button extends ButtonBase {
         setBorder(BORDER);
         setBackground(BACKGROUND);
         setPadding(PADDING);
+        setAlignment(Pos.CENTER);
     }
 }
