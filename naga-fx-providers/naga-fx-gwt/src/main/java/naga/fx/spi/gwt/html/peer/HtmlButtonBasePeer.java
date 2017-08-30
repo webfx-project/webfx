@@ -42,27 +42,24 @@ abstract class HtmlButtonBasePeer
 
     protected void updateHtmlContent() {
         N node = getNode();
-        // Embedding text into a span element so that we can align it with a possible graphic (image on the left)
-        HTMLElement spanElement = HtmlUtil.createSpanElement();
-        HtmlUtil.setStyleAttribute(spanElement, "vertical-align", "middle");
-        HtmlUtil.setChild(getElement(), spanElement);
-        Node graphic = node.getGraphic();
-        String text = Strings.toSafeString(node.getText());
-        if (text.isEmpty() && graphic == null)
-            spanElement.innerHTML = "&nbsp;";
-        else
-            spanElement.textContent = text;
-        if (graphic != null) {
-            Element graphicElement = toElement(graphic, node.getScene());
-            HtmlUtil.setStyleAttribute(graphicElement, "margin", " 0 5px 0 0");
-            HtmlUtil.setStyleAttribute(graphicElement, "vertical-align", "middle");
-            HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
-            HtmlUtil.appendFirstChild(getElement(), graphicElement);
-            for (double i = 0, n =  graphicElement.childNodes.length; i < n; i++) {
-                elemental2.dom.Node childNode = graphicElement.childNodes.item(i);
-                HtmlUtil.setStyleAttribute(childNode, "margin", " 0 5px 0 0");
-                HtmlUtil.setStyleAttribute(childNode, "vertical-align", "middle");
-                HtmlUtil.setStyleAttribute(childNode, "position", "relative");
+        if (node.getSkin() == null) {
+            // Embedding text into a span element so that we can align it with a possible graphic (image on the left)
+            HTMLElement spanElement = HtmlUtil.createSpanElement();
+            HtmlUtil.setStyleAttribute(spanElement, "vertical-align", "middle");
+            HTMLElement buttonElement = getElement();
+            Node graphic = node.getGraphic();
+            String text = Strings.toSafeString(node.getText());
+            if (text.isEmpty() && graphic == null)
+                spanElement.innerHTML = "&nbsp;";
+            else
+                spanElement.textContent = text;
+            if (graphic == null)
+                HtmlUtil.setChild(buttonElement, spanElement);
+            else {
+                Element graphicElement = toElement(graphic, node.getScene());
+                HtmlUtil.setStyleAttribute(graphicElement, "top", "0px");
+                HtmlUtil.setStyleAttribute(graphicElement, "left", "0px");
+                HtmlUtil.setChildren(buttonElement, graphicElement, spanElement);
             }
         }
         clearLayoutCache();

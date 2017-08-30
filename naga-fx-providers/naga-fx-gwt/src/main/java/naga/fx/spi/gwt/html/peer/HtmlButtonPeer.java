@@ -4,8 +4,6 @@ import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.Button;
-import emul.javafx.scene.text.TextAlignment;
-import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ButtonPeerBase;
 import naga.fx.spi.peer.base.ButtonPeerMixin;
@@ -47,16 +45,9 @@ public class HtmlButtonPeer
             Node graphic = getNode().getGraphic();
             if (graphic != null) {
                 graphicClickPropagation = true;
-                HtmlSvgNodePeer.toElement(graphic, graphic.getScene()).click();
+                toElement(graphic, graphic.getScene()).click();
                 graphicClickPropagation = false;
             }
         }
-    }
-
-    @Override
-    protected void updateHtmlContent() {
-        super.updateHtmlContent();
-        // Ugly patch to simulate JavaFx button default style which is to have left alignment when a graphic is present, centered text otherwise
-        updateTextAlignment(getNode().getGraphic() != null ? TextAlignment.LEFT : TextAlignment.CENTER);
     }
 }
