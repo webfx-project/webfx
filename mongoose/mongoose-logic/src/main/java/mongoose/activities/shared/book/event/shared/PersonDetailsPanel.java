@@ -13,14 +13,15 @@ import javafx.scene.layout.Pane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.auth.MongooseUser;
 import mongoose.domainmodel.format.DateFormatter;
+import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Country;
 import mongoose.entities.Event;
 import mongoose.entities.Organization;
+import mongoose.entities.Person;
 import mongoose.entities.markers.HasPersonDetails;
 import naga.commons.type.PrimType;
 import naga.commons.util.Booleans;
 import naga.framework.activity.view.ViewActivityContextMixin;
-import mongoose.domainmodel.functions.AbcNames;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
@@ -89,7 +90,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
             personSelector = null;
         else {
             personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
-            Properties.runNowAndOnPropertiesChange(userProperty -> personSelector.setJsonOrClass(userProperty.getValue() instanceof MongooseUser ? "{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName', where: '!removed and frontendAccount=" + ((MongooseUser) userProperty.getValue()).getUserAccountPrimaryKey() + "', orderBy: 'id'}" : null), uiUser.userProperty());
+            Properties.runNowAndOnPropertiesChange(userProperty -> personSelector.setJsonOrClass(userProperty.getValue() instanceof MongooseUser ? "{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + ((MongooseUser) userProperty.getValue()).getUserAccountPrimaryKey() + "', orderBy: 'id'}" : null), uiUser.userProperty());
+            Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.entityProperty());
         }
     }
 
