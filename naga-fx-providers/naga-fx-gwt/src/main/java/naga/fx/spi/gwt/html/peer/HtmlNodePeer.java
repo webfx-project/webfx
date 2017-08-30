@@ -9,8 +9,6 @@ import emul.javafx.scene.shape.Circle;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.TextAlignment;
 import emul.javafx.scene.transform.Transform;
-import emul.javafx.scene.transform.Translate;
-import naga.commons.util.collection.Collections;
 import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlTransforms;
@@ -33,27 +31,8 @@ public abstract class HtmlNodePeer
 
     @Override
     public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        int size = Collections.size(localToParentTransforms);
-        if (size == 0)
-            updateHtmlTransform(null, null, null);
-        else {
-            if (size == 1) {
-                Transform transform = localToParentTransforms.get(0);
-                if (transform instanceof Translate) {
-                    Translate translate = (Translate) transform;
-                    updateHtmlTransform(toPx(translate.getX()), toPx(translate.getY()), null);
-                    return;
-                }
-            }
-            updateHtmlTransform(null, null, HtmlTransforms.toHtmlTransforms(localToParentTransforms));
-        }
-    }
-
-    private void updateHtmlTransform(String left, String top, String transform) {
         CSSStyleDeclaration style = getElement().style;
-        style.left = left;
-        style.top = top;
-        style.transform = transform;
+        style.transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
     }
 
     @Override
