@@ -1,5 +1,6 @@
 package naga.fx.spi.gwt.html;
 
+import emul.com.sun.javafx.scene.control.skin.LabeledText;
 import emul.javafx.scene.Group;
 import emul.javafx.scene.control.*;
 import emul.javafx.scene.image.ImageView;
@@ -29,6 +30,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(Circle.class, HtmlCirclePeer::new);
         registerNodePeerFactory(Line.class, HtmlLinePeer::new);
         registerNodePeerFactory(Text.class, HtmlTextPeer::new);
+        registerNodePeerFactory(LabeledText.class, HtmlTextPeer::new);
         registerNodePeerFactory(Label.class, HtmlLabelPeer::new);
         registerNodePeerFactory(Hyperlink.class, HtmlHyperlinkPeer::new);
         registerNodePeerFactory(Group.class, HtmlGroupPeer::new);
