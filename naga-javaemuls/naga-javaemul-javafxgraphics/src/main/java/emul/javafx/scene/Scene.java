@@ -516,24 +516,28 @@ public class Scene implements EventTarget,
             if (nodePeer == null) // The node view factory was unable to create a view for this node!
                 node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying a "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
-                nodePeer.bind(node, sceneRequester);
+                Parent parent = null;
+                Skinnable skinnable = null;
+                Skin skin = null;
                 if (node instanceof Parent) {
-                    Parent parent = (Parent) node;
+                    parent = (Parent) node;
                     if (parent instanceof Skinnable) {
-                        Skinnable skinnable = (Skinnable) parent;
-                        if (skinnable.getSkin() == null) {
-                            skinnable.skinProperty().addListener(new ChangeListener<Skin<?>>() {
-                                @Override
-                                public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
-                                    observable.removeListener(this);
-                                    keepParentAndChildrenPeersUpdated(parent);
-                                }
-                            });
-                            return nodePeer;
-                        }
+                        skinnable = (Skinnable) parent;
+                        skin = skinnable.getSkin();
                     }
-                    keepParentAndChildrenPeersUpdated(parent);
                 }
+                nodePeer.bind(node, sceneRequester);
+                if (skin == null && skinnable != null) {
+                    skinnable.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
+                            observable.removeListener(this);
+                            keepParentAndChildrenPeersUpdated((Parent) node);
+                        }
+                    });
+                    return nodePeer;
+                } else if (parent != null)
+                    keepParentAndChildrenPeersUpdated(parent);
             }
         }
         return nodePeer;
