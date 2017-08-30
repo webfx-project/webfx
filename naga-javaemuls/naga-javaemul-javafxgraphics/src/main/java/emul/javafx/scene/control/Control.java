@@ -6,7 +6,6 @@ import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.Region;
-import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.NodePeer;
 
 /**
@@ -55,106 +54,104 @@ public abstract class Control extends Region implements Skinnable {
      * <p>
      * A skin may be null.
      */
-    @Override public final ObjectProperty<Skin<?>> skinProperty() { return skin; }
-    @Override public final void setSkin(Skin<?> value) {
-        skinProperty().set(value);
-    }
-    @Override public final Skin<?> getSkin() { return skinProperty().getValue(); }
-    private ObjectProperty<Skin<?>> skin = new SimpleObjectProperty<Skin<?>>() {
-        // We store a reference to the oldValue so that we can handle
-        // changes in the skin properly in the case of binding. This is
-        // only needed because invalidated() does not currently take
-        // a reference to the old value.
-        private Skin<?> oldValue;
+    private ObjectProperty<Skin<?>> skin;
+    @Override public final ObjectProperty<Skin<?>> skinProperty() {
+        if (skin == null) {
+            skin = new SimpleObjectProperty<Skin<?>>() {
+                // We store a reference to the oldValue so that we can handle
+                // changes in the skin properly in the case of binding. This is
+                // only needed because invalidated() does not currently take
+                // a reference to the old value.
+                private Skin<?> oldValue;
 
-        @Override
-        //This code is basically a kind of optimization that prevents a Skin that is equal but not instance equal.
-        //Although it's not kosher from the property perspective (bindings won't pass through set), it should not do any harm.
-        //But it should be evaluated in the future.
-        public void set(Skin<?> v) {
-            if (v == null
-                    ? oldValue == null
-                    : oldValue != null && v.getClass().equals(oldValue.getClass()))
-                return;
+                @Override
+                //This code is basically a kind of optimization that prevents a Skin that is equal but not instance equal.
+                //Although it's not kosher from the property perspective (bindings won't pass through set), it should not do any harm.
+                //But it should be evaluated in the future.
+                public void set(Skin<?> v) {
+                    if (v == null
+                            ? oldValue == null
+                            : oldValue != null && v.getClass().equals(oldValue.getClass()))
+                        return;
 
-            super.set(v);
-        }
-
-        @Override protected void invalidated() {
-            Skin<?> skin = get();
-            // Collect the name of the currently installed skin class. We do this
-            // so that subsequent updates from CSS to the same skin class will not
-            // result in reinstalling the skin
-            // currentSkinClassName = skin == null ? null : skin.getClass().getName();
-
-            // if someone calls setSkin, we need to make it look like they
-            // called set on skinClassName in order to keep CSS from overwriting
-            // the skin.
-            // skinClassNameProperty().set(currentSkinClassName);
-
-
-            // Dispose of the old skin
-            if (oldValue != null) oldValue.dispose();
-
-            // Get the new value, and save it off as the new oldValue
-            oldValue = skin;
-
-            // Reset skinBase to null - it will be set to the new Skin if it
-            // is a SkinBase, otherwise it will remain null, as expected
-            skinBase = null;
-
-            // We have two paths, one for "legacy" Skins, and one for
-            // any Skin which extends from SkinBase. Legacy Skins will
-            // produce a single node which will be the only child of
-            // the Control via the getNode() method on the Skin. A
-            // SkinBase will manipulate the children of the Control
-            // directly. Further, we maintain a direct reference to
-            // the skinBase for more optimal updates later.
-            if (skin instanceof SkinBase) {
-                // record a reference of the skin, if it is a SkinBase, for
-                // performance reasons
-                skinBase = (SkinBase<?>) skin;
-                // Note I do not remove any children here, because the
-                // skin will have already configured all the children
-                // by the time setSkin has been called. This is because
-                // our Skin interface was lacking an initialize method (doh!)
-                // and so the Skin constructor is where it adds listeners
-                // and so forth. For SkinBase implementations, the
-                // constructor is also where it will take ownership of
-                // the children.
-            } else {
-                final Node n = getSkinNode();
-                if (n != null) {
-                    getChildren().setAll(n);
-                } else {
-                    getChildren().clear();
+                    super.set(v);
                 }
-            }
 
-            // clear out the styleable properties so that the list is rebuilt
-            // next time they are requested.
-            //styleableProperties = null;
+                @Override protected void invalidated() {
+                    Skin<?> skin = get();
+                    // Collect the name of the currently installed skin class. We do this
+                    // so that subsequent updates from CSS to the same skin class will not
+                    // result in reinstalling the skin
+                    // currentSkinClassName = skin == null ? null : skin.getClass().getName();
 
-            // calling impl_reapplyCSS() as the styleable properties may now
-            // be different, as we will now be able to return styleable properties
-            // belonging to the skin. If impl_reapplyCSS() is not called, the
-            // getCssMetaData() method is never called, so the
-            // skin properties are never exposed.
-            //impl_reapplyCSS();
+                    // if someone calls setSkin, we need to make it look like they
+                    // called set on skinClassName in order to keep CSS from overwriting
+                    // the skin.
+                    // skinClassNameProperty().set(currentSkinClassName);
 
-            // DEBUG: Log that we've changed the skin
+
+                    // Dispose of the old skin
+                    if (oldValue != null) oldValue.dispose();
+
+                    // Get the new value, and save it off as the new oldValue
+                    oldValue = skin;
+
+                    // Reset skinBase to null - it will be set to the new Skin if it
+                    // is a SkinBase, otherwise it will remain null, as expected
+                    skinBase = null;
+
+                    // We have two paths, one for "legacy" Skins, and one for
+                    // any Skin which extends from SkinBase. Legacy Skins will
+                    // produce a single node which will be the only child of
+                    // the Control via the getNode() method on the Skin. A
+                    // SkinBase will manipulate the children of the Control
+                    // directly. Further, we maintain a direct reference to
+                    // the skinBase for more optimal updates later.
+                    if (skin instanceof SkinBase) {
+                        // record a reference of the skin, if it is a SkinBase, for
+                        // performance reasons
+                        skinBase = (SkinBase<?>) skin;
+                        // Note I do not remove any children here, because the
+                        // skin will have already configured all the children
+                        // by the time setSkin has been called. This is because
+                        // our Skin interface was lacking an initialize method (doh!)
+                        // and so the Skin constructor is where it adds listeners
+                        // and so forth. For SkinBase implementations, the
+                        // constructor is also where it will take ownership of
+                        // the children.
+                    } else {
+                        final Node n = getSkinNode();
+                        if (n != null) {
+                            getChildren().setAll(n);
+                        } else {
+                            getChildren().clear();
+                        }
+                    }
+
+                    // clear out the styleable properties so that the list is rebuilt
+                    // next time they are requested.
+                    //styleableProperties = null;
+
+                    // calling impl_reapplyCSS() as the styleable properties may now
+                    // be different, as we will now be able to return styleable properties
+                    // belonging to the skin. If impl_reapplyCSS() is not called, the
+                    // getCssMetaData() method is never called, so the
+                    // skin properties are never exposed.
+                    //impl_reapplyCSS();
+
+                    // DEBUG: Log that we've changed the skin
 /*
             final PlatformLogger logger = Logging.getControlsLogger();
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Stored skin[" + getValue() + "] on " + this);
             }
 */
-        }
+                }
 
-        // This method should be CssMetaData<Control,Skin> getCssMetaData(),
-        // but SKIN is CssMetaData<Control,String>. This does not matter to
-        // the CSS code which doesn't care about the actual type. Hence,
-        // we'll suppress the warnings
+                // This method should be CssMetaData<Control,Skin> getCssMetaData(),
+                // but SKIN is CssMetaData<Control,String>. This does not matter to
+                // the CSS code which doesn't care about the actual type. Hence,
+                // we'll suppress the warnings
 /*
         @Override @SuppressWarnings({"unchecked", "rawtype"})
         public CssMetaData getCssMetaData() {
@@ -162,16 +159,24 @@ public abstract class Control extends Region implements Skinnable {
         }
 */
 
-        @Override
-        public Object getBean() {
-            return Control.this;
-        }
+                @Override
+                public Object getBean() {
+                    return Control.this;
+                }
 
-        @Override
-        public String getName() {
-            return "skin";
+                @Override
+                public String getName() {
+                    return "skin";
+                }
+            };
+            setSkin(createDefaultSkin());
         }
-    };
+        return skin;
+    }
+    @Override public final void setSkin(Skin<?> value) {
+        skinProperty().set(value);
+    }
+    @Override public final Skin<?> getSkin() { return skinProperty().getValue(); }
 
     // Implementation of the Resizable interface.
     // Because only the skin can know the min, pref, and max sizes, these
@@ -368,8 +373,13 @@ public abstract class Control extends Region implements Skinnable {
         return skin == null ? null : skin.getNode();
     }
 
+    @Override
+    protected boolean shouldUseLayoutMeasurable() {
+        return getSkin() == null;
+    }
+
     {
         // Simulating skin mechanism (normally done during css pass - not yet implemented)
-        Toolkit.get().scheduler().scheduleDeferred(() -> setSkin(createDefaultSkin()));
+        //Toolkit.get().scheduler().scheduleDelay(5000, () -> setSkin(createDefaultSkin()));
     }
 }
