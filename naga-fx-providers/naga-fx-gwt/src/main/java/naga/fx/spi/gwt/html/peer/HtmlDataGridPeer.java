@@ -2,7 +2,9 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.*;
 import emul.javafx.scene.Node;
+import emul.javafx.scene.Parent;
 import emul.javafx.scene.layout.HBox;
+import emul.javafx.scene.layout.Region;
 import naga.commons.util.Strings;
 import naga.commons.util.tuples.Unit;
 import naga.fx.spi.gwt.util.DomType;
@@ -146,21 +148,33 @@ public class HtmlDataGridPeer
         Element contentViewElement = toElement(content, getNode().getScene());
         if (contentViewElement != null) {
             setStyleAttribute(contentViewElement, "position", "relative");
-            setStyleAttribute(contentViewElement, "width", null);
-            setStyleAttribute(contentViewElement, "height", null);
-            cell.appendChild(contentViewElement);
-            double spacing = content instanceof HBox ? ((HBox) content).getSpacing() : 0;
-            for (int i = 0, n = (int) contentViewElement.childElementCount; i < n; i++) {
-                elemental2.dom.Node childNode = contentViewElement.childNodes.item(i);
-                if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
-                    contentViewElement.removeChild(childNode);
-                    i--; n--;
-                } else {
-                    setStyleAttribute(childNode, "position", "relative");
-                    if (spacing > 0 && i < n - 1)
-                        setStyleAttribute(childNode, "margin-right", toPx(spacing));
+            //setStyleAttribute(contentViewElement, "width", null);
+            //setStyleAttribute(contentViewElement, "height", null);
+            if (content instanceof HBox) { // temporary code for HBox, especially for table headers
+                double spacing = content instanceof HBox ? ((HBox) content).getSpacing() : 0;
+                for (int i = 0, n = (int) contentViewElement.childElementCount; i < n; i++) {
+                    elemental2.dom.Node childNode = contentViewElement.childNodes.item(i);
+                    if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
+                        contentViewElement.removeChild(childNode);
+                        i--; n--;
+                    } else {
+                        setStyleAttribute(childNode, "position", "relative");
+                        if (spacing > 0 && i < n - 1)
+                            setStyleAttribute(childNode, "margin-right", toPx(spacing));
+                    }
                 }
+            } else if (content instanceof Parent) {
+                if (content instanceof Region) {
+                    Region region = (Region) content;
+                    if (contentViewElement.parentNode == null)
+                        contentViewElement.ownerDocument.documentElement.appendChild(contentViewElement);
+                    double width = region.prefWidth(-1);
+                    double height = region.prefHeight(-1);
+                    region.resize(width, height);
+                }
+                ((Parent) content).layout();
             }
+            cell.appendChild(contentViewElement);
         }
     }
 
