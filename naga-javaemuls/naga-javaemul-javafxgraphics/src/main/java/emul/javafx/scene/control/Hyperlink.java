@@ -4,6 +4,7 @@ import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.Node;
+import emul.javafx.scene.paint.Color;
 
 /**
  * <p>An HTML like label which can be a graphic and/or text which responds to rollovers and clicks.
@@ -17,6 +18,10 @@ import emul.javafx.scene.Node;
  * @since JavaFX 2.0
  */
 public class Hyperlink extends ButtonBase {
+
+    {
+        setTextFill(Color.web("0x0096c9ff")); // Resulting color used by default in JavaFx
+    }
 
     /***************************************************************************
      *                                                                         *
