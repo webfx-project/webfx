@@ -1,6 +1,9 @@
 package naga.framework.ui.controls;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -9,6 +12,7 @@ import javafx.scene.layout.Pane;
 import naga.commons.util.Strings;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.expression.Expression;
+import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.Entity;
@@ -18,10 +22,13 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;
 import naga.framework.ui.filter.StringFilterBuilder;
 import naga.framework.ui.i18n.I18n;
+import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
+
+import java.util.Arrays;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
@@ -38,9 +45,9 @@ public class EntityButtonSelector {
     private final DataSourceModel dataSourceModel;
 
     private Button entityButton;
-    private Entity entity;
-    private Expression entityExpression;
+    private Expression renderingExpression;
     private ValueRenderer entityRenderer;
+    private final Property<Entity> entityProperty = new SimpleObjectProperty<>();
 
     private EntityStore loadingStore;
     private BorderPane entityDialogPane;
@@ -53,17 +60,24 @@ public class EntityButtonSelector {
         this.parent = parent;
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
+        Properties.runOnPropertiesChange(p -> updateEntityButton(), entityProperty);
     }
 
     public void setJsonOrClass(Object jsonOrClass) {
         this.jsonOrClass = jsonOrClass;
+        renderingExpression = null;
         if (jsonOrClass != null) {
             StringFilter stringFilter = new StringFilterBuilder(jsonOrClass).build();
             DomainClass entityClass = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId());
-            entityExpression = stringFilter.getFields() != null ? entityClass.parseExpression(stringFilter.getFields()) : entityClass.getForeignFields();
-        } else
-            entityExpression = null;
-        entityRenderer = entityExpression == null ? null : ValueRendererFactory.getDefault().createCellRenderer(entityExpression.getType());
+            if (stringFilter.getColumns() != null) {
+                ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArray(stringFilter.getColumns());
+                renderingExpression = new ExpressionArray(Arrays.stream(expressionColumns).map(expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), stringFilter.getDomainClassId()).getExpression()).toArray(Expression[]::new));
+            } else if (stringFilter.getFields() != null)
+                renderingExpression = entityClass.parseExpression(stringFilter.getFields());
+            else
+                renderingExpression = entityClass.getForeignFields();
+        }
+        entityRenderer = renderingExpression == null ? null : ValueRendererFactory.getDefault().createCellRenderer(renderingExpression.getType());
         entityDialogPane = null;
     }
 
@@ -75,13 +89,16 @@ public class EntityButtonSelector {
         this.loadingStore = loadingStore;
     }
 
+    public Property<Entity> entityProperty() {
+        return entityProperty;
+    }
+
     public Entity getEntity() {
-        return entity;
+        return entityProperty.getValue();
     }
 
     public void setEntity(Entity entity) {
-        this.entity = entity;
-        updateEntityButton();
+        entityProperty.setValue(entity);
     }
 
     public Button getEntityButton() {
@@ -97,9 +114,12 @@ public class EntityButtonSelector {
     }
 
     private void updateEntityButton() {
-        Toolkit.get().scheduler().runInUiThread(() ->
-            getEntityButton().setGraphic(entityRenderer.renderCellValue(entity == null ? null : entity.evaluate(entityExpression)))
-        );
+        Toolkit.get().scheduler().runInUiThread(() -> {
+            Entity entity = getEntity();
+            Object renderedValue = entity == null ? null : entity.evaluate(renderingExpression);
+            Node renderedNode = entityRenderer.renderCellValue(renderedValue);
+            getEntityButton().setGraphic(renderedNode);
+        });
     }
 
     private void showEntityDialog() {
@@ -109,7 +129,7 @@ public class EntityButtonSelector {
             DataGrid dataGrid = new DataGrid();
             entityDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
             I18n i18n = viewActivityContextMixin.getI18n();
-            EntityStore filterStore = loadingStore != null ? loadingStore : entity != null ? entity.getStore() : null;
+            EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
             if (searchCondition != null) {
@@ -123,7 +143,7 @@ public class EntityButtonSelector {
                 });
             }
             entityDialogFilter
-                    .setExpressionColumns(ExpressionColumn.create(entityExpression))
+                    .setExpressionColumns(ExpressionColumn.create(renderingExpression))
                     .displayResultSetInto(dataGrid.displayResultSetProperty())
                     .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
                     //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> onOkEntityDialog())
@@ -149,8 +169,8 @@ public class EntityButtonSelector {
     }
 
     private void onOkEntityDialog() {
-        setEntity(entityDialogFilter.getSelectedEntity());
         closeEntityDialog();
+        setEntity(entityDialogFilter.getSelectedEntity());
     }
 
     private void onCancelEntityDialog() {
