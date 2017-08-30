@@ -70,10 +70,12 @@ public class HtmlImageViewPeer
 
     @Override
     public void updateX(Double x) {
+        setElementStyleAttribute("left", toPx(x));
     }
 
     @Override
     public void updateY(Double y) {
+        setElementStyleAttribute("top", toPx(y));
     }
 
     boolean tryInlineSvg(String url) {
