@@ -1,19 +1,19 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.skin.ButtonSkin;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
+import emul.javafx.geometry.Insets;
 import emul.javafx.scene.Node;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.paint.Color;
+import emul.javafx.scene.paint.LinearGradient;
 
 /**
  * @author Bruno Salmon
  */
 public class Button extends ButtonBase {
-
-    {
-        // Naga default style
-        //setTextAlignment(TextAlignment.CENTER);
-    }
 
     /**
      * Creates a button with an empty string for its label.
@@ -130,4 +130,20 @@ public class Button extends ButtonBase {
         }
     }
 
+    // Naga default hardcoded Style to match JavaFx default theme
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new ButtonSkin(this);
+    }
+
+    private final static CornerRadii RADII = new CornerRadii(1);
+    private final static Border BORDER = new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT));
+    private final static Background BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, white 0%, #E0E0E0 100%"), RADII, Insets.EMPTY));
+    private final static Insets PADDING = new Insets(7);
+    {
+        setBorder(BORDER);
+        setBackground(BACKGROUND);
+        setPadding(PADDING);
+    }
 }
