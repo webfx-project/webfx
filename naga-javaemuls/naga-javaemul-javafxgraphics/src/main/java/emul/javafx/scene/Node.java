@@ -1110,6 +1110,10 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return layoutMeasurable;
     }
 
+    protected boolean shouldUseLayoutMeasurable() {
+        return true;
+    }
+
     protected void createLayoutMeasurable(Object proposedLayoutMeasurable) {
         // Always creating a new LayoutMeasurable (even when proposedLayoutMeasurable is valid) so that min/pref/max
         // width/height user values are returned in priority whenever they have been set.
@@ -1127,7 +1131,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     );
             }
 
-            public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.getLayoutBounds() : impl_getLayoutBounds(); }
+            public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.getLayoutBounds() : impl_getLayoutBounds(); }
 
             public double minWidth(double height) {
                 if (Node.this instanceof HasMinWidthProperty) {
@@ -1137,7 +1141,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (minWidth != USE_COMPUTED_SIZE)
                         return minWidth;
                 }
-                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.minWidth(height) : impl_minWidth(height);
+                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.minWidth(height) : impl_minWidth(height);
             }
 
             public double maxWidth(double height) {
@@ -1148,7 +1152,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (maxWidth != USE_COMPUTED_SIZE)
                         return maxWidth;
                 }
-                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.maxWidth(height) : impl_maxWidth(height);
+                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.maxWidth(height) : impl_maxWidth(height);
             }
 
             public double minHeight(double width) {
@@ -1159,7 +1163,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (minHeight != USE_COMPUTED_SIZE)
                         return minHeight;
                 }
-                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.minHeight(width) : impl_minHeight(width);
+                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.minHeight(width) : impl_minHeight(width);
             }
 
             public double maxHeight(double width) {
@@ -1170,7 +1174,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (maxHeight != USE_COMPUTED_SIZE)
                         return maxHeight;
                 }
-                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.maxHeight(width) : impl_maxHeight(width);
+                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.maxHeight(width) : impl_maxHeight(width);
             }
 
             public double prefWidth(double height) {
@@ -1179,7 +1183,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (prefWidth != USE_COMPUTED_SIZE)
                         return prefWidth;
                 }
-                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.prefWidth(height) : impl_prefWidth(height);
+                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.prefWidth(height) : impl_prefWidth(height);
             }
 
             public double prefHeight(double width) {
@@ -1188,7 +1192,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (prefHeight != USE_COMPUTED_SIZE)
                         return prefHeight;
                 }
-                return acceptedLayoutMeasurable != null ? acceptedLayoutMeasurable.prefHeight(width) : impl_prefHeight(width);
+                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.prefHeight(width) : impl_prefHeight(width);
             }
 
             @Override
