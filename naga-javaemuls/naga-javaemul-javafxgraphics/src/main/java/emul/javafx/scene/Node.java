@@ -1100,6 +1100,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
         Node clip = getClip();
         if (clip != null)
             clip.setScene(scene);
+        if (scene != null)
+            scene.initializeInternalEventDispatcher();
     }
 
     private LayoutMeasurable layoutMeasurable;

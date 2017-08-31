@@ -10,34 +10,32 @@ import emul.com.sun.javafx.event.EventHandlerManager;
  */
 public class SceneEventDispatcher extends CompositeEventDispatcher {
 
-    //private final KeyboardShortcutsHandler keyboardShortcutsHandler;
+    private final KeyboardShortcutsHandler keyboardShortcutsHandler;
     private final EnteredExitedHandler enteredExitedHandler;
 
     private final EventHandlerManager eventHandlerManager;
 
     public SceneEventDispatcher(Object eventSource) {
-        this(/*new KeyboardShortcutsHandler(),*/ new EnteredExitedHandler(eventSource), new EventHandlerManager(eventSource));
+        this(new KeyboardShortcutsHandler(), new EnteredExitedHandler(eventSource), new EventHandlerManager(eventSource));
 
     }
 
     public SceneEventDispatcher(
-            /*KeyboardShortcutsHandler keyboardShortcutsHandler,*/
+            KeyboardShortcutsHandler keyboardShortcutsHandler,
             EnteredExitedHandler enteredExitedHandler,
             EventHandlerManager eventHandlerManager) {
-        //this.keyboardShortcutsHandler = keyboardShortcutsHandler;
+        this.keyboardShortcutsHandler = keyboardShortcutsHandler;
         this.enteredExitedHandler = enteredExitedHandler;
         this.eventHandlerManager = eventHandlerManager;
 
-        //keyboardShortcutsHandler.insertNextDispatcher(enteredExitedHandler);
+        keyboardShortcutsHandler.insertNextDispatcher(enteredExitedHandler);
         enteredExitedHandler.insertNextDispatcher(eventHandlerManager);
 
     }
 
-/*
     public final KeyboardShortcutsHandler getKeyboardShortcutsHandler() {
         return keyboardShortcutsHandler;
     }
-*/
 
     public final EnteredExitedHandler getEnteredExitedHandler() {
         return enteredExitedHandler;
@@ -49,7 +47,7 @@ public class SceneEventDispatcher extends CompositeEventDispatcher {
 
     @Override
     public BasicEventDispatcher getFirstDispatcher() {
-        return eventHandlerManager; //keyboardShortcutsHandler;
+        return keyboardShortcutsHandler;
     }
 
     @Override

@@ -1,5 +1,8 @@
 package emul.javafx.scene;
 
+import emul.com.sun.javafx.scene.SceneEventDispatcher;
+import emul.com.sun.javafx.tk.TKPulseListener;
+import emul.com.sun.javafx.tk.TKSceneListener;
 import emul.javafx.beans.property.ObjectProperty;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.ReadOnlyProperty;
@@ -7,30 +10,29 @@ import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ObservableList;
+import emul.javafx.collections.ObservableMap;
 import emul.javafx.event.EventDispatchChain;
 import emul.javafx.event.EventDispatcher;
 import emul.javafx.event.EventTarget;
+import emul.javafx.geometry.Orientation;
+import emul.javafx.scene.control.Button;
+import emul.javafx.scene.control.Skin;
+import emul.javafx.scene.control.Skinnable;
+import emul.javafx.scene.input.KeyCombination;
+import emul.javafx.stage.Window;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
-import emul.javafx.geometry.Orientation;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasRootProperty;
 import naga.fx.properties.markers.HasWidthProperty;
-import emul.javafx.scene.control.Button;
-import emul.javafx.scene.control.Skin;
-import emul.javafx.scene.control.Skinnable;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
-import emul.javafx.stage.Window;
-import emul.com.sun.javafx.scene.SceneEventDispatcher;
-import emul.com.sun.javafx.tk.TKPulseListener;
-import emul.com.sun.javafx.tk.TKSceneListener;
 
 import java.util.Collection;
 
@@ -367,6 +369,17 @@ public class Scene implements EventTarget,
         return focusOwner/*.getReadOnlyProperty()*/;
     }
 
+    /**
+     * Gets the list of accelerators for this {@code Scene}.
+     *
+     * @return the list of accelerators
+     */
+    public ObservableMap<KeyCombination, Runnable> getAccelerators() {
+        return getInternalEventDispatcher().getKeyboardShortcutsHandler()
+                .getAccelerators();
+    }
+
+
     /***************************************************************************
      *                                                                         *
      *                         Event Dispatch                                  *
@@ -395,6 +408,11 @@ public class Scene implements EventTarget,
     }
 
     private SceneEventDispatcher internalEventDispatcher;
+
+    private SceneEventDispatcher getInternalEventDispatcher() {
+        initializeInternalEventDispatcher();
+        return internalEventDispatcher;
+    }
 
 
     final void initializeInternalEventDispatcher() {
