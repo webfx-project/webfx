@@ -19,4 +19,8 @@ public interface NodePeer<N extends Node> {
     boolean updateList(ObservableList changedList);
 
     void requestFocus();
+
+    default boolean isTreeVisible() {
+        return true;
+    }
 }

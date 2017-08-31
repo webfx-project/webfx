@@ -1491,6 +1491,11 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
     }
 
+    public final boolean impl_isTreeVisible() {
+        NodePeer nodePeer = getNodePeer();
+        return nodePeer != null && nodePeer.isTreeVisible();
+    }
+
     /**
      * Convenience method for setting a single Object property that can be
      * retrieved at a later date. This is functionally equivalent to calling
