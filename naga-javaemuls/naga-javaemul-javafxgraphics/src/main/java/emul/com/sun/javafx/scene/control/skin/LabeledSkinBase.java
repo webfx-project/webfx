@@ -114,8 +114,8 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
 /*
         registerChangeListener(labeled.underlineProperty(), "UNDERLINE");
         registerChangeListener(labeled.lineSpacingProperty(), "LINE_SPACING");
-        registerChangeListener(labeled.sceneProperty(), "SCENE");
 */
+        registerChangeListener(labeled.sceneProperty(), "SCENE");
     }
 
     /***************************************************************************
