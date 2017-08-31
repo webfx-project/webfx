@@ -2,11 +2,16 @@ package naga.fx.spi.gwt.shared;
 
 import elemental2.dom.Element;
 import elemental2.dom.Event;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.KeyboardEvent;
+import emul.javafx.event.EventType;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
+import emul.javafx.scene.input.KeyCode;
+import emul.javafx.scene.input.KeyEvent;
 import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
@@ -48,12 +53,21 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        getElement().onclick = e -> {
+        installClickListener();
+        installFocusListeners();
+        installKeyboardListeners();
+    }
+
+    private void installClickListener() {
+        element.onclick = e -> {
             onClickElement(e);
             if (preventDefaultOnClickElementEvent)
                 e.preventDefault();
             return null;
         };
+    }
+
+    private void installFocusListeners() {
         element.onfocus = e -> {
             onFocusElement(e);
             return null;
@@ -62,6 +76,12 @@ public abstract class HtmlSvgNodePeer
             onBlurElement(e);
             return null;
         };
+    }
+
+    private void installKeyboardListeners() {
+        element.addEventListener("keypress", this::onKeyElement);
+        element.addEventListener("keyup", this::onKeyElement);
+        element.addEventListener("keydown", this::onKeyElement);
     }
 
     protected void onClickElement(Event e) {
@@ -76,9 +96,21 @@ public abstract class HtmlSvgNodePeer
         getNode().setFocused(false);
     }
 
+    protected void onKeyElement(Event e) {
+        getNode().fireEvent(toKeyEvent((KeyboardEvent) e));
+        e.stopPropagation();
+    }
+
     @Override
     public void requestFocus() {
         getElement().focus();
+    }
+
+    @Override
+    public boolean isTreeVisible() {
+        if (container instanceof HTMLElement)
+            return ((HTMLElement) container).offsetParent != null;
+        return true;
     }
 
     public E getElement() {
@@ -149,6 +181,24 @@ public abstract class HtmlSvgNodePeer
 
     private static MouseEvent toMouseEvent(elemental2.dom.MouseEvent me) {
         return new MouseEvent(MouseEvent.MOUSE_CLICKED, me.x, me.y, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
+    }
+
+    private static KeyEvent toKeyEvent(KeyboardEvent e) {
+        String code = e.code;
+        switch (code) {
+            case "Escape": code = "Esc"; break;
+        }
+        KeyCode keyCode = KeyCode.getKeyCode(code);
+        EventType<KeyEvent> eventType;
+        if (keyCode == KeyCode.ESCAPE)
+            eventType = KeyEvent.KEY_PRESSED;
+        else
+            switch (e.type) {
+            case "keydown": eventType = KeyEvent.KEY_TYPED; break;
+            case "keyup": eventType = KeyEvent.KEY_RELEASED; break;
+            default: eventType = KeyEvent.KEY_PRESSED;
+        }
+        return new KeyEvent(eventType, e.char_, e.keyIdentifier, keyCode, e.shiftKey, e.ctrlKey, e.altKey, e.metaKey);
     }
 
     protected void setElementTextContent(String textContent) {
