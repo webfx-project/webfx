@@ -52,6 +52,7 @@ public class EntityButtonSelector {
     private EntityStore loadingStore;
     private BorderPane entityDialogPane;
     private TextField searchBox;
+    private Button okButton, cancelButton;
     private DialogCallback entityDialogCallback;
     private ReactiveExpressionFilter entityDialogFilter;
 
@@ -148,7 +149,9 @@ public class EntityButtonSelector {
                     .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
                     //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> onOkEntityDialog())
                     .start();
-            HBox hBox = new HBox(20, createHGrowable(), viewActivityContextMixin.newOkButton(this::onOkEntityDialog), viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog), createHGrowable());
+            okButton = viewActivityContextMixin.newOkButton(this::onOkEntityDialog);
+            cancelButton = viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog);
+            HBox hBox = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
             hBox.setPadding(new Insets(20, 0, 0, 0));
             entityDialogPane.setBottom(hBox);
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
@@ -159,6 +162,11 @@ public class EntityButtonSelector {
             searchBox.setText(null); // Resetting the search box
             searchBox.requestFocus();
         }
+        // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
+        okButton.setDefaultButton(false);
+        cancelButton.setCancelButton(false);
+        okButton.setDefaultButton(true);
+        cancelButton.setCancelButton(true);
     }
 
     protected void setSearchParameters(String search, EntityStore store) {
