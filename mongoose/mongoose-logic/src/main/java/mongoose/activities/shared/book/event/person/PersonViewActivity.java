@@ -65,7 +65,12 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane, uiUser);
         Node[] nodes = {personDetailsPanel.getSectionPanel(), loginPanel.getNode()};
         BorderPane accountPane = new BorderPane();
-        accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> accountPane.setCenter(nodes[accountToggleGroup.getToggles().indexOf(newValue)]) );
+        accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            Node displayedNode = nodes[accountToggleGroup.getToggles().indexOf(newValue)];
+            accountPane.setCenter(displayedNode);
+            if (displayedNode == loginPanel.getNode())
+                loginPanel.prepareShowing();
+        } );
         accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0));
         Properties.runNowAndOnPropertiesChange(p -> {
             if (loggedInProperty.getValue())

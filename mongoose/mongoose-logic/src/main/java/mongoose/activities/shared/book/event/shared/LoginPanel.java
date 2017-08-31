@@ -49,14 +49,15 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
         GridPane.setHalignment(hyperLink, HPos.CENTER);
         hyperLink.setOnAction(e -> signInMode.setValue(!signInMode.getValue()));
         LayoutUtil.setUnmanagedWhenInvisible(passwordField, signInMode);
-        Properties.runNowAndOnPropertiesChange(p -> {
-            i18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>");
-        }, signInMode);
+        Properties.runNowAndOnPropertiesChange(p ->
+            i18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
+        , signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
         button.setOnAction(event -> authService.authenticate(new UsernamePasswordToken(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
             if (ar.succeeded())
                 uiUser.setUser(ar.result());
         }));
+        prepareShowing();
     }
 
     @Override
@@ -68,4 +69,9 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
         return node;
     }
 
+    public void prepareShowing() {
+        // Resetting the default button (required for JavaFx if displayed a second time)
+        button.setDefaultButton(false);
+        button.setDefaultButton(true);
+    }
 }
