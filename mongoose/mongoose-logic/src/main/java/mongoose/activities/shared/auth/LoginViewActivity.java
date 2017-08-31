@@ -9,8 +9,18 @@ import naga.framework.activity.view.impl.ViewActivityImpl;
  */
 public class LoginViewActivity extends ViewActivityImpl {
 
+    private LoginPanel loginPanel;
+
     @Override
     public Node buildUi() {
-        return new LoginPanel(getUiRouter().getUiUser(), getI18n(), getUiRouter().getAuthService()).getNode();
+        loginPanel = new LoginPanel(getUiRouter().getUiUser(), getI18n(), getUiRouter().getAuthService());
+        return loginPanel.getNode();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (loginPanel != null)
+            loginPanel.prepareShowing();
     }
 }
