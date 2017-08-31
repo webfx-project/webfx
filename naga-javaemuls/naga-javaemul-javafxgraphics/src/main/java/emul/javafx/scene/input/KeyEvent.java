@@ -1,5 +1,6 @@
 package emul.javafx.scene.input;
 
+import emul.javafx.event.Event;
 import emul.javafx.event.EventTarget;
 import emul.javafx.event.EventType;
 
@@ -411,6 +412,11 @@ public final class KeyEvent extends InputEvent {
         KeyEvent e = copyFor(source, target);
         e.eventType = type;
         return e;
+    }
+
+    @Override
+    public Event duplicate() {
+        return new KeyEvent(source, target, (EventType<KeyEvent>) eventType, character, text, code, shiftDown, controlDown, altDown, metaDown);
     }
 
     @Override
