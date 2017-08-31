@@ -640,6 +640,8 @@ public abstract class Node implements INode, EventTarget, Styleable {
         NodePeer nodePeer = getNodePeer();
         if (nodePeer != null)
             nodePeer.requestFocus();
+        else
+            peerFocusRequested = true;
     }
 
     /**
@@ -1071,6 +1073,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     private NodePeer nodePeer;
+    private boolean peerFocusRequested;
 
     public NodePeer getNodePeer() {
         return nodePeer;
@@ -1083,6 +1086,10 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public void setNodePeer(NodePeer nodePeer) {
         this.nodePeer = nodePeer;
         createLayoutMeasurable(nodePeer);
+        if (peerFocusRequested && nodePeer != null) {
+            nodePeer.requestFocus();
+            peerFocusRequested = false;
+        }
     }
 
     private Property<Scene> scene = new SimpleObjectProperty<>();

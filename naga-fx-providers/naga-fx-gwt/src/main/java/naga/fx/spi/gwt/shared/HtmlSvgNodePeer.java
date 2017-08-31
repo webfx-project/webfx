@@ -4,6 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
+import emul.javafx.application.Platform;
 import emul.javafx.event.EventType;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
@@ -103,7 +104,8 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void requestFocus() {
-        getElement().focus();
+        // Postponing the request because as opposed to JavaFx it doesn't work if the element is not yet visible (ex: when the building ui)
+        Platform.runLater(() -> getElement().focus());
     }
 
     @Override
