@@ -25,4 +25,16 @@ public class ButtonUtil {
         button.setOnAction(onAction);
         return button;
     }
+
+    public static void resetDefaultButton(Button button) {
+        // Resetting a default button which is required for JavaFx for the cases when the button is displayed a second time
+        button.setDefaultButton(false);
+        button.setDefaultButton(true);
+    }
+
+    public static void resetCancelButton(Button button) {
+        // Resetting a cancel button which is required for JavaFx for the cases when the button is displayed a second time
+        button.setCancelButton(false);
+        button.setCancelButton(true);
+    }
 }

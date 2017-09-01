@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import naga.framework.ui.auth.UiUser;
+import naga.framework.ui.controls.ButtonUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
@@ -71,8 +72,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
 
     public void prepareShowing() {
         // Resetting the default button (required for JavaFx if displayed a second time)
-        button.setDefaultButton(false);
-        button.setDefaultButton(true);
+        ButtonUtil.resetDefaultButton(button);
         usernameField.requestFocus();
     }
 }

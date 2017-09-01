@@ -169,10 +169,8 @@ public class EntityButtonSelector {
             searchBox.requestFocus();
         }
         // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
-        okButton.setDefaultButton(false);
-        cancelButton.setCancelButton(false);
-        okButton.setDefaultButton(true);
-        cancelButton.setCancelButton(true);
+        ButtonUtil.resetDefaultButton(okButton);
+        ButtonUtil.resetCancelButton(cancelButton);
     }
 
     protected void setSearchParameters(String search, EntityStore store) {
