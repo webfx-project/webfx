@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import naga.commons.util.Strings;
+import naga.commons.util.collection.Collections;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.ExpressionArray;
@@ -123,7 +124,11 @@ public class EntityButtonSelector {
         });
     }
 
-    private void showEntityDialog() {
+    public void showEntityDialog() {
+        setUpEntityDialog(true);
+    }
+
+    private void setUpEntityDialog(boolean show) {
         if (entityDialogPane == null) {
             if (entityRenderer == null)
                 return;
@@ -157,7 +162,8 @@ public class EntityButtonSelector {
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
         }
         entityDialogFilter.setActive(true);
-        entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
+        if (show)
+            entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
         if (searchBox != null) {
             searchBox.setText(null); // Resetting the search box
             searchBox.requestFocus();
@@ -188,6 +194,12 @@ public class EntityButtonSelector {
     private void closeEntityDialog() {
         entityDialogCallback.closeDialog();
         entityDialogFilter.setActive(false);
+    }
+
+    public void autoSelectFirstEntity() {
+        setUpEntityDialog(false);
+        if (entityDialogFilter != null)
+            entityDialogFilter.setEntitiesHandler(entityList -> setEntity(Collections.first(entityList)));
     }
     
 }
