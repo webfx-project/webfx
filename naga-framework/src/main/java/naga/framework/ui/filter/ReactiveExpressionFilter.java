@@ -61,7 +61,7 @@ public class ReactiveExpressionFilter {
     private boolean startsWithEmptyResult = true;
     private Object domainClassId;
     private StringFilter baseFilter;
-    private Handler<EntityList> entitiesHandler;
+    private Handler<EntityList<Entity>> entitiesHandler;
     private FilterDisplay filterDisplay;
     private List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
@@ -122,7 +122,7 @@ public class ReactiveExpressionFilter {
         return this;
     }
 
-    public ReactiveExpressionFilter setEntitiesHandler(Handler<EntityList> entitiesHandler) {
+    public ReactiveExpressionFilter setEntitiesHandler(Handler<EntityList<Entity>> entitiesHandler) {
         this.entitiesHandler = entitiesHandler;
         return this;
     }
@@ -360,7 +360,7 @@ public class ReactiveExpressionFilter {
                 // Finally transforming the EntityList into a DisplayResultSet
                 .map(this::entitiesToDisplayResultSets)
                 .subscribe(this::applyDisplayResultSets);
-        else if (entitiesHandler != null)
+        if (entitiesHandler != null)
             entityListObservable.subscribe(entitiesHandler::handle);
         started = true;
         return this;
