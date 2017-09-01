@@ -35,6 +35,7 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
+import naga.platform.services.auth.spi.User;
 
 /**
  * @author Bruno Salmon
@@ -90,8 +91,16 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
             personSelector = null;
         else {
             personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
-            Properties.runNowAndOnPropertiesChange(userProperty -> personSelector.setJsonOrClass(userProperty.getValue() instanceof MongooseUser ? "{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + ((MongooseUser) userProperty.getValue()).getUserAccountPrimaryKey() + "', orderBy: 'id'}" : null), uiUser.userProperty());
             Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.entityProperty());
+            Properties.runNowAndOnPropertiesChange(userProperty -> {
+                User user = (User) userProperty.getValue();
+                if (user instanceof MongooseUser) {
+                    Object userAccountPrimaryKey = ((MongooseUser) user).getUserAccountPrimaryKey();
+                    personSelector.setJsonOrClass("{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + userAccountPrimaryKey + "', orderBy: 'id'}");
+                    personSelector.autoSelectFirstEntity();
+                } else
+                    personSelector.setJsonOrClass(null);
+            }, uiUser.userProperty());
         }
     }
 
