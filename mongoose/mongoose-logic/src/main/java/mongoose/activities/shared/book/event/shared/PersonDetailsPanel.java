@@ -37,6 +37,8 @@ import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
 import naga.platform.services.auth.spi.User;
 
+import java.time.LocalDate;
+
 /**
  * @author Bruno Salmon
  */
@@ -96,7 +98,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
                 User user = (User) userProperty.getValue();
                 if (user instanceof MongooseUser) {
                     Object userAccountPrimaryKey = ((MongooseUser) user).getUserAccountPrimaryKey();
-                    personSelector.setJsonOrClass("{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + userAccountPrimaryKey + "', orderBy: 'id'}");
+                    personSelector.setJsonOrClass("{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,birthdate,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + userAccountPrimaryKey + "', orderBy: 'id'}");
                     personSelector.autoSelectFirstEntity();
                 } else
                     personSelector.setJsonOrClass(null);
@@ -221,6 +223,13 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         lastNameTextField.setText(p.getLastName());
         maleRadioButton.setSelected(Booleans.isTrue(p.isMale()));
         femaleRadioButton.setSelected(Booleans.isFalse(p.isMale()));
+        LocalDate birthDate = null;
+        if (p instanceof Person) {
+            Person person = (Person) p;
+            birthDate = person.getBirthDate();
+            person.setAge(computeAge(birthDate));
+        }
+        birthDatePicker.setValue(birthDate);
         Integer age = p.getAge();
         adultRadioButton.setSelected(age == null || age > CHILD_MAX_AGE);
         childRadioButton.setSelected((age != null && age <= CHILD_MAX_AGE));
@@ -243,14 +252,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         p.setFirstName(firstNameTextField.getText());
         p.setLastName(lastNameTextField.getText());
         p.setMale(maleRadioButton.isSelected());
-        Integer age = null;
-        if (childRadioButton.isSelected()) {
-            // age = (int) birthDatePicker.getValue().until(event.getStartDate(), ChronoUnit.YEARS); // Doesn't compile with GWT
-            age = (int) (event.getStartDate().toEpochDay() - birthDatePicker.getValue().toEpochDay()) / 365;
-            if (age >= 18) // TODO: move this later in a applyBusinessRules() method
-                age = null;
-        }
-        p.setAge(age);
+        p.setAge(childRadioButton.isSelected() ? computeAge(birthDatePicker.getValue()) : null);
         p.setCarer1Name(carer1NameTextField.getText());
         p.setCarer2Name(carer2NameTextField.getText());
         p.setEmail(emailTextField.getText());
@@ -262,5 +264,16 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         p.setCountry(countrySelector.getEntity());
         Country country = p.getCountry();
         p.setCountryName(country == null ? null : country.getName());
+    }
+
+    private Integer computeAge(LocalDate birthDate) {
+        Integer age = null;
+        if (birthDate != null) {
+            // Integer age = (int) birthDate.until(event.getStartDate(), ChronoUnit.YEARS); // Doesn't compile with GWT
+            age = (int) (event.getStartDate().toEpochDay() - birthDate.toEpochDay()) / 365;
+            if (age >= 18) // TODO: move this later in a applyBusinessRules() method
+                age = null;
+        }
+        return age;
     }
 }
