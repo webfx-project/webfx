@@ -1,0 +1,8 @@
+<module rename-to="naga_javalib_controlsfx_validation">
+    <!-- Specify the paths for translatable code                    -->
+    <source path="org/controlsfx"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
+    <source path="impl/org/controlsfx"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
+
+    <public path="" includes="impl/"/>
+
+</module>
