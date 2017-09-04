@@ -100,13 +100,21 @@ public class QueryResultSet {
 
     // To be used with int to avoid GWT ClassCastException as Integer coming from Json may actually be Double
     public int getInt(int rowIndex, String columnName, int defaultValue) {
-        Object value = getValue(rowIndex, getColumnIndex(columnName));
+        return getInt(rowIndex, getColumnIndex(columnName), defaultValue);
+    }
+
+    public int getInt(int rowIndex, int columnIndex, int defaultValue) {
+        Object value = getValue(rowIndex, columnIndex);
         return Numbers.isNumber(value) ? Numbers.intValue(value) : defaultValue;
     }
 
     // To be used with Codenameone because generic one raise an error when value is a string
     public boolean getBoolean(int rowIndex, String columnName, boolean defaultValue) {
-        Object value = getValue(rowIndex, getColumnIndex(columnName));
+        return getBoolean(rowIndex, getColumnIndex(columnName), defaultValue);
+    }
+
+    public boolean getBoolean(int rowIndex, int columnIndex, boolean defaultValue) {
+        Object value = getValue(rowIndex, columnIndex);
         return value == null ? defaultValue : value instanceof Boolean ? (Boolean) value : Boolean.valueOf(value.toString());
     }
 
@@ -151,6 +159,7 @@ public class QueryResultSet {
 
             @Override
             public QueryResultSet decodeFromJson(JsonObject json) {
+                //Platform.log("Decoding json result set: " + json);
                 Integer columnCount = json.getInteger(COLUMN_COUNT_KEY);
                 // Column names deserialization
                 String[] names = null;

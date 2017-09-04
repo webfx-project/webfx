@@ -11,10 +11,10 @@ import naga.framework.orm.domainmodel.builder.DomainClassBuilder;
 import naga.framework.orm.domainmodel.builder.DomainFieldBuilder;
 import naga.framework.orm.domainmodel.builder.DomainFieldsGroupBuilder;
 import naga.framework.orm.domainmodel.builder.DomainModelBuilder;
+import naga.fxdata.displaydata.Label;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.spi.Platform;
-import naga.fxdata.displaydata.Label;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,36 +68,37 @@ public class DomainModelLoader {
     }
 
     public DomainModel generateDomainModel(Batch<QueryResultSet> batchResult) {
+        long t0 = System.currentTimeMillis();
         QueryResultSet[] resultSets = batchResult.getArray();
 
         // 1) Building labels
         QueryResultSet rs = resultSets[0];
         for (int row = 0; row < rs.getRowCount(); row++)
-            labelMap.put(rs.getValue(row, "id"), new Label(rs.getValue(row, "code"), rs.getValue(row, "text"), rs.getValue(row, "icon")));
+            labelMap.put(rs.getValue(row, 0 /*"id"*/), new Label(rs.getValue(row, 1 /*"code"*/), rs.getValue(row, 2 /*"text"*/), rs.getValue(row, 3 /*"icon"*/)));
 
         // 2) Building types
         rs = resultSets[1];
         for (int row = 0; row < rs.getRowCount(); row++) {
-            Object typeId = rs.getValue(row, "id");
-            Type superType = getTypeFromId(rs.getValue(row, "super_type_id"));
+            Object typeId = rs.getValue(row, 0 /*"id"*/);
+            Type superType = getTypeFromId(rs.getValue(row, 2 /*"super_type_id"*/));
             //TextFieldFormat uiFormat = TextFieldFormat.parseDefinition(rs.getString("ui_format"));
             //TextFieldFormat sqlFormat = TextFieldFormat.parseDefinition(rs.getString("sql_format"));
             //typeMap.put(typeId, new Type(typeId, rs.getString("name"), superType, null, rs.getString("cell_factory_name"), null, null, uiFormat, sqlFormat));
-            typeMap.put(typeId, new DerivedType(rs.getValue(row, "name"), superType));
+            typeMap.put(typeId, new DerivedType(rs.getValue(row, 1 /*"name"*/), superType));
         }
 
         // 3) Building classes
         rs = resultSets[2];
         for (int row = 0; row < rs.getRowCount(); row++) {
-            Object classId = rs.getValue(row, "id");
-            final DomainClassBuilder classBuilder = dmb.newClassBuilder(rs.getValue(row, "name"), true);
+            Object classId = rs.getValue(row, 0 /*"id"*/);
+            final DomainClassBuilder classBuilder = dmb.newClassBuilder(rs.getValue(row, 1 /*"name"*/), true);
             classBuilder.id = classId;
-            classBuilder.sqlTableName = rs.getValue(row, "sql_table_name");
-            classBuilder.foreignFieldsDefinition = rs.getValue(row, "foreign_fields");
-            classBuilder.fxmlForm = rs.getValue(row, "fxml_form");
-            classBuilder.searchCondition = rs.getValue(row, "search_condition");
+            classBuilder.sqlTableName = rs.getValue(row, 2 /*"sql_table_name"*/);
+            classBuilder.foreignFieldsDefinition = rs.getValue(row, 3 /*"foreign_fields"*/);
+            classBuilder.fxmlForm = rs.getValue(row, 4 /*"fxml_form"*/);
+            classBuilder.searchCondition = rs.getValue(row, 5 /*"search_condition"*/);
             //classBuilder.css = rs.getString("css");
-            classBuilder.label = labelMap.get(rs.getValue(row, "label_id"));
+            classBuilder.label = labelMap.get(rs.getValue(row, 6 /*"label_id"*/));
             classes.put(classId, classBuilder);
         }
 
@@ -140,39 +141,39 @@ public class DomainModelLoader {
         // 5) Building fields
         rs = resultSets[4];
         for (int row = 0; row < rs.getRowCount(); row++) {
-            Object typeId = rs.getValue(row, "type_id");
+            Object typeId = rs.getValue(row, 3 /*"type_id"*/);
             Type type = getTypeFromId(typeId);
-            DomainClassBuilder classBuilder = classes.get(rs.getValue(row, "class_id"));
-            DomainFieldBuilder fieldBuilder = classBuilder.newFieldBuilder(rs.getValue(row, "name"), type, true);
+            DomainClassBuilder classBuilder = classes.get(rs.getValue(row, 2 /*"class_id"*/));
+            DomainFieldBuilder fieldBuilder = classBuilder.newFieldBuilder(rs.getValue(row, 1 /*"name"*/), type, true);
             //CoreSystem.log("Building field " + classBuilder.name + '.' + fieldBuilder.name);
-            fieldBuilder.modelId = rs.getValue(row, "id"); // should be model_id (doesn't exist yet)
-            fieldBuilder.label = labelMap.get(rs.getValue(row, "label_id"));
-            fieldBuilder.prefWidth = rs.getInt(row, "pref_width", 0);
-            fieldBuilder.expressionDefinition = rs.getValue(row, "expression");
-            fieldBuilder.applicableConditionDefinition = rs.getValue(row, "applicable_condition");
-            fieldBuilder.persistent = rs.getBoolean(row, "persistent", false);
-            fieldBuilder.foreignAlias = rs.getValue(row, "foreign_alias");
-            fieldBuilder.foreignCondition = rs.getValue(row, "foreign_condition");
-            fieldBuilder.foreignOrderBy = rs.getValue(row, "foreign_order_by");
-            fieldBuilder.foreignComboFields = rs.getValue(row, "foreign_combo_fields");
-            fieldBuilder.foreignTableFields = rs.getValue(row, "foreign_table_fields");
+            fieldBuilder.modelId = rs.getValue(row, 0 /*"id"*/); // should be model_id (doesn't exist yet)
+            fieldBuilder.label = labelMap.get(rs.getValue(row, 4 /*"label_id"*/));
+            fieldBuilder.prefWidth = rs.getInt(row,5 /*"pref_width"*/, 0);
+            fieldBuilder.expressionDefinition = rs.getValue(row, 6 /*"expression"*/);
+            fieldBuilder.applicableConditionDefinition = rs.getValue(row, 7 /*"applicable_condition"*/);
+            fieldBuilder.persistent = rs.getBoolean(row, 8 /*"persistent"*/, false);
+            fieldBuilder.foreignAlias = rs.getValue(row, 11 /*"foreign_alias"*/);
+            fieldBuilder.foreignCondition = rs.getValue(row, 12 /*"foreign_condition"*/);
+            fieldBuilder.foreignOrderBy = rs.getValue(row, 13 /*"foreign_order_by"*/);
+            fieldBuilder.foreignComboFields = rs.getValue(row, 14 /*"foreign_combo_fields"*/);
+            fieldBuilder.foreignTableFields = rs.getValue(row, 15 /*"foreign_table_fields"*/);
             /* TODO : thinking about foreignKey management
             if (fieldBuilder.type != null && fieldBuilder.type.getBaseType() == BaseType.FOREIGN_KEY && rs.getObject("foreign_class_id") != null)
                 fieldBuilder.type = new Type(classes.get(rs.getValue("foreign_class_id")).getObjClass()); */
-            DomainClassBuilder foreignClassBuilder = classes.get(rs.getValue(row, "foreign_class_id"));
+            DomainClassBuilder foreignClassBuilder = classes.get(rs.getValue(row, 10 /*"foreign_class_id"*/));
             if (foreignClassBuilder != null)
                 fieldBuilder.foreignClass = foreignClassBuilder.getDomainClass();
-            fieldBuilder.sqlColumnName = rs.getValue(row, "sql_column_name");
+            fieldBuilder.sqlColumnName = rs.getValue(row, 9 /*"sql_column_name"*/);
         }
 
         // 6) Building fields groups
         rs = resultSets[5];
         for (int row = 0; row < rs.getRowCount(); row++) {
-            DomainClassBuilder classBuilder = classes.get(rs.getValue(row, "class_id"));
-            DomainFieldsGroupBuilder groupBuilder = classBuilder.newFieldsGroupBuilder(rs.getValue(row, "name"), true);
-            groupBuilder.fieldsDefinition = rs.getValue(row, "fields");
+            DomainClassBuilder classBuilder = classes.get(rs.getValue(row, 1 /*"class_id"*/));
+            DomainFieldsGroupBuilder groupBuilder = classBuilder.newFieldsGroupBuilder(rs.getValue(row, 0 /*"name"*/), true);
+            groupBuilder.fieldsDefinition = rs.getValue(row, 2 /*"fields"*/);
         }
-        Platform.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[3].getRowCount() + " fields, " + resultSets[4].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels");
+        Platform.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[3].getRowCount() + " fields, " + resultSets[4].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
         // Building and returning final domain model
         return dmb.build();
     }
