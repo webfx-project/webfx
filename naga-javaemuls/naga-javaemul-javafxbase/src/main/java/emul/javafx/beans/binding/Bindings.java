@@ -25,9 +25,15 @@
 
 package emul.javafx.beans.binding;
 
-import emul.javafx.beans.property.Property;
 import emul.com.sun.javafx.binding.BidirectionalBinding;
+import emul.com.sun.javafx.collections.ImmutableObservableList;
+import emul.javafx.beans.Observable;
+import emul.javafx.beans.property.Property;
+import emul.javafx.collections.FXCollections;
+import emul.javafx.collections.ObservableList;
 import emul.javafx.util.StringConverter;
+
+import java.util.concurrent.Callable;
 
 /**
  * Bindings is a helper class with a lot of utility functions to create simple
@@ -70,6 +76,49 @@ import emul.javafx.util.StringConverter;
 public final class Bindings {
 
     private Bindings() {
+    }
+    // =================================================================================================================
+    // Helper functions to create custom bindings
+
+    /**
+     * Helper function to create a custom {@link BooleanBinding}.
+     *
+     * @param func The function that calculates the value of this binding
+     * @param dependencies The dependencies of this binding
+     * @return The generated binding
+     * @since JavaFX 2.1
+     */
+    public static BooleanBinding createBooleanBinding(final Callable<Boolean> func, final Observable... dependencies) {
+        return new BooleanBinding() {
+            {
+                bind(dependencies);
+            }
+
+            @Override
+            protected boolean computeValue() {
+                try {
+                    return func.call();
+                } catch (Exception e) {
+                    //Logging.getLogger().warning("Exception while evaluating binding", e);
+                    return false;
+                }
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(dependencies);
+            }
+
+            @Override
+            //@ReturnsUnmodifiableCollection
+            public ObservableList<?> getDependencies() {
+                return  ((dependencies == null) || (dependencies.length == 0))?
+                        FXCollections.emptyObservableList()
+                        : (dependencies.length == 1)?
+                        FXCollections.singletonObservableList(dependencies[0])
+                        : new ImmutableObservableList<Observable>(dependencies);
+            }
+        };
     }
 
     // =================================================================================================================

@@ -25,44 +25,12 @@
 
 package emul.javafx.collections;
 
-import emul.com.sun.javafx.collections.ListListenerHelper;
-import emul.com.sun.javafx.collections.MapListenerHelper;
-
-import java.lang.reflect.Array;
-import java.util.AbstractList;
-import java.util.AbstractMap;
-import java.util.AbstractSet;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Set;
-
+import emul.com.sun.javafx.collections.*;
 import emul.javafx.beans.InvalidationListener;
-
-import emul.com.sun.javafx.collections.ObservableListWrapper;
-import emul.com.sun.javafx.collections.ObservableMapWrapper;
-
-
-
-
-import emul.com.sun.javafx.collections.ObservableSequentialListWrapper;
-
-import emul.com.sun.javafx.collections.SortableList;
-import emul.com.sun.javafx.collections.SourceAdapterChange;
-import java.util.RandomAccess;
 import emul.javafx.beans.Observable;
-import emul.javafx.collections.ListChangeListener.Change;
 import emul.javafx.util.Callback;
+
+import java.util.*;
 
 /**
  * Utility class that consists of static methods that are 1:1 copies of java.util.Collections methods.
@@ -145,9 +113,39 @@ public class FXCollections {
         return new ObservableMapWrapper<K, V>(map);
     }
 
-    // removed
+    /**
+     * Constructs an ObservableSet that is backed by the specified set.
+     * Mutation operations on the ObservableSet instance will be reported
+     * to observers that have registered on that instance.<br>
+     * Note that mutation operations made directly to the underlying set are <em>not</em>
+     * reported to observers of any ObservableSet that wraps it.
+     * @param set a Set that backs this ObservableSet
+     * @return a newly created ObservableSet
+     * @since JavaFX 2.1
+     */
+    public static <E> ObservableSet<E> observableSet(Set<E> set) {
+        if (set == null) {
+            throw new NullPointerException();
+        }
+        return new ObservableSetWrapper<E>(set);
+    }
 
-    // removed
+    /**
+     * Constructs an ObservableSet backed by a HashSet
+     * that contains all the specified elements.
+     * @param elements elements that will be added into returned ObservableSet
+     * @return a newly created ObservableSet
+     * @since JavaFX 2.1
+     */
+    public static <E> ObservableSet<E> observableSet(E... elements) {
+        if (elements == null) {
+            throw new NullPointerException();
+        }
+        Set<E> set = new HashSet<E>(elements.length);
+        Collections.addAll(set, elements);
+        return new ObservableSetWrapper<E>(set);
+    }
+
 
     // removed
 
