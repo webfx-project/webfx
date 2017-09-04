@@ -4,7 +4,7 @@
 
     <!-- Specify the paths for translatable code                    -->
     <source path="mongoose"/>   <!-- code is under mongoose package -->
-    <resource path="mongoose"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.lzb64json -->
+    <resource path="mongoose"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.json -->
 
     <public path="" includes="images/"/>
 
