@@ -47,4 +47,9 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         return new BorderPane(table, searchBox, null, limitCheckBox, null);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchBox.requestFocus();
+    }
 }
