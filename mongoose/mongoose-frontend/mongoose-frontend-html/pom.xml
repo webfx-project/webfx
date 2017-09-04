@@ -36,7 +36,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Listing the sources for GWT compilation -->
+        <!-- Now listing the sources for GWT compilation -->
         <dependency>
             <artifactId>mongoose-logic-web</artifactId>
             <groupId>${mongoose.groupId}</groupId>
@@ -48,6 +48,20 @@
             <artifactId>mongoose-logic</artifactId>
             <groupId>${mongoose.groupId}</groupId>
             <version>${mongoose.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-mvvmfx-validation</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-javalib-controlsfx-validation</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
             <classifier>sources</classifier>
         </dependency>
 
