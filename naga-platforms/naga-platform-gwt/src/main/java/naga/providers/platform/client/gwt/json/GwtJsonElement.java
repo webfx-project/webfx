@@ -18,6 +18,7 @@
 package naga.providers.platform.client.gwt.json;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import naga.platform.json.parser.BuiltInJsonParser;
 import naga.platform.json.spi.ElementType;
 import naga.platform.json.spi.WritableJsonElement;
 
@@ -151,6 +152,28 @@ abstract class GwtJsonElement extends JavaScriptObject implements WritableJsonEl
 
     private static native JavaScriptObject toJsDouble(double value) /*-{
         return value;
+    }-*/;
+
+    @Override
+    public final Object parseNativeObject(String text) {
+        try {
+            return callBrowserJsonParser(text); // Faster but strict parser (ex: {"key": value})
+        } catch (Exception e) { // Probably a json with non-strict keys (ex: {key: value}) -> rejected by the browser parser
+            return BuiltInJsonParser.parseJsonObject(text); // Re-trying with the built-in parser (slower but non-strict)
+        }
+    }
+
+    @Override
+    public final Object parseNativeArray(String text) {
+        try {
+            return callBrowserJsonParser(text); // Faster but strict parser
+        } catch (Exception e) { // Probably a json with non-strict keys -> rejected by the browser parser
+            return BuiltInJsonParser.parseJsonArray(text); // Re-trying with the built-in parser (slower but non-strict)
+        }
+    }
+
+    private static native JavaScriptObject callBrowserJsonParser(String text) /*-{
+        return JSON.parse(text);
     }-*/;
 
 }
