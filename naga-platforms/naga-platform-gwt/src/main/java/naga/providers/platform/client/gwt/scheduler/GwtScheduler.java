@@ -20,6 +20,11 @@ public final class GwtScheduler extends UiSchedulerBase {
     }
 
     @Override
+    public void runInBackground(Runnable runnable) {
+        runnable.run();
+    }
+
+    @Override
     public long nanoTime() {
         return startNano + performanceNano();
     }
