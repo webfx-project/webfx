@@ -12,7 +12,7 @@ public interface WebMongooseBundle extends ClientBundle {
 
     WebMongooseBundle R = GWT.create(WebMongooseBundle.class);
 
-    @Source("mongoose/domainmodel/DomainModelSnapshot.lzb64json")
+    @Source("mongoose/domainmodel/DomainModelSnapshot.json")
     TextResource lzBase64DomainModelSnapshot();
 
     @Source("naga/platform/client/bus/BusOptions.json")
@@ -32,7 +32,7 @@ public interface WebMongooseBundle extends ClientBundle {
 
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
-            case "mongoose/domainmodel/DomainModelSnapshot.lzb64json": return R.lzBase64DomainModelSnapshot();
+            case "mongoose/domainmodel/DomainModelSnapshot.json": return R.lzBase64DomainModelSnapshot();
             case "naga/platform/client/bus/BusOptions.json": return R.jsonClientBusOptions();
             case "mongoose/dictionaries/en.json": return R.englishDictionary();
             case "mongoose/dictionaries/fr.json": return R.frenchDictionary();
