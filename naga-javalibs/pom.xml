@@ -17,6 +17,8 @@
         <module>naga-javalib-javacupruntime</module>
         <module>naga-javalib-javafastpfor</module>
         <module>naga-javalib-rxjava</module>
+        <module>naga-javalib-controlsfx-validation</module>
+        <module>naga-javalib-mvvmfx-validation</module>
     </modules>
 
 
