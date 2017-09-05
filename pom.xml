@@ -62,7 +62,7 @@
         <plugin.shade.version>2.4.3</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
-        <plugin.gwt.version>1.0-rc-6</plugin.gwt.version>
+        <plugin.gwt.version>1.0-rc-8</plugin.gwt.version>
         <plugin.antrun.version>1.8</plugin.antrun.version>
         <plugin.download.version>1.2.1</plugin.download.version>
 
