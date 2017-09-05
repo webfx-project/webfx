@@ -291,7 +291,7 @@ public abstract class HtmlSvgNodePeer
                     fxKeyName = String.valueOf(htmlKey.charAt(3)); // -> Q, etc...
                 else if (htmlKey.startsWith("Numpad"))
                     fxKeyName = Strings.replaceAll(htmlKey,"Numpad", "Numpad ");
-                return KeyCode.valueOf(fxKeyName);
+                return KeyCode.getKeyCode(fxKeyName);
             }
         }
     }
