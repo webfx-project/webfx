@@ -17,4 +17,13 @@ public class RadioButton extends ToggleButton {
     public RadioButton(String text, Node graphic) {
         super(text, graphic);
     }
+
+    @Override
+    protected void initialize() {
+    }
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return null;
+    }
 }

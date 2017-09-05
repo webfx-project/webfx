@@ -58,7 +58,6 @@ public class BehaviorBase<C extends Control> {
      *  <li>TraversePrevious</li>
      * </ul>
      */
-/*
     protected static final List<KeyBinding> TRAVERSAL_BINDINGS = new ArrayList<>();
     static final String TRAVERSE_UP = "TraverseUp";
     static final String TRAVERSE_DOWN = "TraverseDown";
@@ -67,6 +66,7 @@ public class BehaviorBase<C extends Control> {
     static final String TRAVERSE_NEXT = "TraverseNext";
     static final String TRAVERSE_PREVIOUS = "TraversePrevious";
 
+/*
     static {
         TRAVERSAL_BINDINGS.add(new KeyBinding(UP, TRAVERSE_UP));
         TRAVERSAL_BINDINGS.add(new KeyBinding(DOWN, TRAVERSE_DOWN));

@@ -1,10 +1,16 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.skin.ToggleButtonSkin;
 import emul.javafx.beans.property.ObjectProperty;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
+import emul.javafx.geometry.Insets;
+import emul.javafx.geometry.Pos;
 import emul.javafx.scene.Node;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.paint.Color;
+import emul.javafx.scene.paint.LinearGradient;
 
 /**
  * @author Bruno Salmon
@@ -47,7 +53,7 @@ public class ToggleButton extends ButtonBase
         initialize();
     }
 
-    private void initialize() {
+    protected void initialize() {
         //getStyleClass().setAll(DEFAULT_STYLE_CLASS);
         //setAccessibleRole(AccessibleRole.TOGGLE_BUTTON);
         // alignment is styleable through css. Calling setAlignment
@@ -56,6 +62,11 @@ public class ToggleButton extends ButtonBase
         // CssMetaData ensures that css will be able to override the value.
         //((StyleableProperty<Pos>)(WritableValue<Pos>)alignmentProperty()).applyStyle(null, Pos.CENTER);
         //setMnemonicParsing(true);     // enable mnemonic auto-parsing by default
+
+        setBorder(BORDER);
+        setBackground(BACKGROUND);
+        setPadding(PADDING);
+        setAlignment(Pos.CENTER);
     }
     /***************************************************************************
      *                                                                         *
@@ -180,5 +191,17 @@ public class ToggleButton extends ButtonBase
             fireEvent(new ActionEvent());
         }
     }
+
+    // Naga default hardcoded Style to match JavaFx default theme
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new ToggleButtonSkin(this);
+    }
+
+    private final static CornerRadii RADII = new CornerRadii(1);
+    private final static Border BORDER = new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT));
+    private final static Background BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, white 0%, #E0E0E0 100%"), RADII, Insets.EMPTY));
+    private final static Insets PADDING = new Insets(7);
 
 }
