@@ -9,6 +9,7 @@ import emul.javafx.scene.image.Image;
 import emul.javafx.scene.image.ImageView;
 import naga.commons.util.Numbers;
 import naga.commons.util.Strings;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
 import naga.platform.spi.Platform;
@@ -33,10 +34,7 @@ public class HtmlImageViewPeer
         super(base, element);
         HTMLImageElement e = (HTMLImageElement) getElement();
         e.onload = evt -> {
-            clearCache();
-            N node = getNode();
-            if (sizeChangedCallback != null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
-                sizeChangedCallback.run();
+            onLoad();
             return null;
         };
     }
@@ -54,8 +52,16 @@ public class HtmlImageViewPeer
         // to have the same color for the image and the text (in a button for example).
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
-            return;
-        setElementAttribute("src", imageUrl);
+            onLoad();
+        else
+            setElementAttribute("src", imageUrl);
+    }
+
+    private void onLoad() {
+        clearCache();
+        N node = getNode();
+        if (sizeChangedCallback != null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
+            sizeChangedCallback.run();
     }
 
     @Override
@@ -100,6 +106,7 @@ public class HtmlImageViewPeer
                     svgNode.setAttribute("height", fitHeight);
                 // Switching the node from image to svg
                 setContainer(svgNode);
+                HtmlUtil.replaceNode(getElement(), svgNode);
                 return true;
             }
         }
