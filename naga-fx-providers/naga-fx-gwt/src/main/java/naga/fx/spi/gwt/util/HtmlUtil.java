@@ -57,6 +57,12 @@ public class HtmlUtil {
         return parent;
     }
 
+    public static <N extends Node> N replaceNode(Node oldNode, N newNode) {
+        if (oldNode != null && oldNode.parentNode != null)
+            oldNode.parentNode.replaceChild(newNode, oldNode);
+        return newNode;
+    }
+
     public static HTMLBodyElement setBodyContent(Node content) {
         return appendChild(removeChildrenUpToScripts(document.body), content);
     }
