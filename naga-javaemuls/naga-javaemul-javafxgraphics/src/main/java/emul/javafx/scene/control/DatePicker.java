@@ -35,7 +35,16 @@ public class DatePicker extends TextField {
             if (!hasFocus)
                 setTextFromTextFieldIntoComboBoxValue();
         });
+        valueProperty().addListener((observable, oldValue, newValue) -> resetTextFromValue());
+        converterProperty().addListener((observable, oldValue, newValue) -> resetTextFromValue());
     }
+
+    private void resetTextFromValue() {
+        if (!resettingValueFromText)
+            setText(getConverter().toString(getValue()));
+    }
+
+    private boolean resettingValueFromText;
 
     private void setTextFromTextFieldIntoComboBoxValue() {
         StringConverter<LocalDate> c = getConverter();
@@ -57,7 +66,9 @@ public class DatePicker extends TextField {
 
             if ((value != null || oldValue != null) && (value == null || !value.equals(oldValue))) {
                 // no point updating values needlessly if they are the same
+                resettingValueFromText = true;
                 setValue(value);
+                resettingValueFromText = false;
             }
         }
     }
