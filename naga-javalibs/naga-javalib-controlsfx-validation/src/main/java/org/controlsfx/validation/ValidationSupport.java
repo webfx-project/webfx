@@ -315,8 +315,13 @@ public class ValidationSupport {
      * @return Optional highest severity message for a control
      */
     public Optional<ValidationMessage> getHighestMessage(Control target) {
-    	return Optional.ofNullable(validationResults.get(target)).flatMap( result ->
-    	   result.getMessages().stream().max(ValidationMessage.COMPARATOR)
-    	);
+    	return Optional.ofNullable(validationResults.get(target)).flatMap( result -> {
+            ///result.getMessages().stream().max(ValidationMessage.COMPARATOR) // Streams don't work on Android
+            ValidationMessage max = null;
+            for (ValidationMessage m : result.getMessages())
+                if (max == null || ValidationMessage.COMPARATOR.compare(m, max) > 0)
+                    max = m;
+            return max == null ? Optional.empty() : Optional.of(max);
+        });
     }
 }

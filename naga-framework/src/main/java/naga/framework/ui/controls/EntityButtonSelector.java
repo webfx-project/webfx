@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import naga.commons.util.Arrays;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
 import naga.framework.activity.view.ViewActivityContextMixin;
@@ -28,8 +29,6 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
-
-import java.util.Arrays;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
@@ -73,7 +72,7 @@ public class EntityButtonSelector {
             DomainClass entityClass = dataSourceModel.getDomainModel().getClass(stringFilter.getDomainClassId());
             if (stringFilter.getColumns() != null) {
                 ExpressionColumn[] expressionColumns = ExpressionColumn.fromJsonArray(stringFilter.getColumns());
-                renderingExpression = new ExpressionArray(Arrays.stream(expressionColumns).map(expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), stringFilter.getDomainClassId()).getExpression()).toArray(Expression[]::new));
+                renderingExpression = new ExpressionArray(Arrays.map(expressionColumns, expressionColumn -> expressionColumn.parseExpressionDefinitionIfNecessary(dataSourceModel.getDomainModel(), stringFilter.getDomainClassId()).getExpression(), Expression[]::new));
             } else if (stringFilter.getFields() != null)
                 renderingExpression = entityClass.parseExpression(stringFilter.getFields());
             else

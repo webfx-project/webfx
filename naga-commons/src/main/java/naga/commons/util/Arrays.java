@@ -6,6 +6,7 @@ import naga.commons.util.function.Converter;
 import naga.commons.util.function.IntFunction;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -41,6 +42,16 @@ public class Arrays {
         int length = length(list);
         return length == 0 ? null : list[length - 1];
     }
+
+    public static <A, B> B[] map(A[] aArray, Converter<A, B> aToBConverter, IntFunction<B[]> generator) {
+        //return java.util.Arrays.stream(aArray).map(a -> aToBConverter.convert(a)).toArray(generator);
+        int n = aArray.length;
+        B[] bArray = generator.apply(n);
+        for (int i = 0; i < n; i++)
+            bArray[i] = aToBConverter.convert(aArray[i]);
+        return bArray;
+    }
+
 
     public static <T> String toString(T[] array) {
         return Collections.toString(asList(array));
@@ -109,5 +120,18 @@ public class Arrays {
 
     public static <T> String getString(T[] array, int index) {
         return Strings.toString(getValue(array, index));
+    }
+
+    public static <A> A[] concat(IntFunction<A[]> arrayGenerator, A[]... as) {
+        int length = 0;
+        for (A[] a : as)
+            length += a.length;
+        A[] array = arrayGenerator.apply(length);
+        length = 0;
+        for (A[] a : as) {
+            System.arraycopy(a, 0, array, length, a.length);
+            length += a.length;
+        }
+        return array;
     }
 }

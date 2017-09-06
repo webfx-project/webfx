@@ -200,7 +200,9 @@ public class ValidationResult {
      * @return updated validation result
      */
     public ValidationResult addAll(Collection<? extends ValidationMessage> messages ) {
-        messages.stream().forEach( msg-> add(msg));
+        // messages.stream().forEach( msg-> add(msg)); // streams don't work on Android
+        for (ValidationMessage msg : messages)
+            add(msg);
         return this;
     }
 
@@ -228,9 +230,14 @@ public class ValidationResult {
      * @return new instance of combined validation result
      */
     public ValidationResult combineAll(Collection<ValidationResult> validationResults ) {
-        return validationResults.stream().reduce(copy(), (x,r) -> {
+        /*return validationResults.stream().reduce(copy(), (x,r) -> {
             return r == null? x: x.addAll(r.getMessages());
-        });
+        });*/ // streams don't work on Android
+        ValidationResult result = copy();
+        for (ValidationResult r : validationResults)
+            if (r != null)
+                result.addAll(r.getMessages());
+        return result;
     }
 
     /**

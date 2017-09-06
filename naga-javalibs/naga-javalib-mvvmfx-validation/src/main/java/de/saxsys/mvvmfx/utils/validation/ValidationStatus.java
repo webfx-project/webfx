@@ -117,19 +117,28 @@ public class ValidationStatus {
 	 * @return an Optional containing the ValidationMessage or an empty Optional.
 	 */
 	public Optional<ValidationMessage> getHighestMessage() {
-		final Optional<ValidationMessage> error = getMessages().stream()
+		/*final Optional<ValidationMessage> error = getMessages().stream()
 				.filter(message -> message.getSeverity().equals(Severity.ERROR))
-				.findFirst();
+				.findFirst();*/ // streams don't work on Android
+		Optional<ValidationMessage> error = findMessageBySeverity(Severity.ERROR);
 		
 		if (error.isPresent()) {
 			return error;
 		} else {
-			final Optional<ValidationMessage> warning = getMessages().stream()
+			/*final Optional<ValidationMessage> warning = getMessages().stream()
 					.filter(message -> message.getSeverity().equals(Severity.WARNING))
-					.findFirst();
+					.findFirst();*/ // streams don't work on Android
+			Optional<ValidationMessage> warning = findMessageBySeverity(Severity.WARNING);
 			
 			return warning;
 		}
+	}
+
+	private Optional<ValidationMessage> findMessageBySeverity(Severity severity) {
+		for (ValidationMessage message : getMessages())
+			if (message.getSeverity().equals(severity))
+				return Optional.of(message);
+		return Optional.empty();
 	}
 	
 }

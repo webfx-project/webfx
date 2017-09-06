@@ -82,7 +82,9 @@ public abstract class AbstractValidationDecoration implements ValidationDecorati
 	 */
 	@Override
 	public void applyValidationDecoration(ValidationMessage message) {
-		createValidationDecorations(message).stream().forEach( d -> decorate( message.getTarget(), d ));
+		//createValidationDecorations(message).stream().forEach( d -> decorate( message.getTarget(), d )); // stream don't work on Android
+		for (Decoration decoration : createValidationDecorations(message))
+			decorate(message.getTarget(), decoration);
 	}
 
 	/*
@@ -92,7 +94,9 @@ public abstract class AbstractValidationDecoration implements ValidationDecorati
 	@Override
 	public void applyRequiredDecoration(Control target) {
 		if ( ValidationSupport.isRequired(target)) {
-			createRequiredDecorations(target).stream().forEach( d -> decorate( target, d ));
+			// createRequiredDecorations(target).stream().forEach( d -> decorate( target, d )); // stream don't work on Android
+			for (Decoration decoration : createRequiredDecorations(target))
+				decorate(target, decoration);
 		}
 	}
 	
