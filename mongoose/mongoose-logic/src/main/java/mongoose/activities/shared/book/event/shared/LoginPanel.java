@@ -1,10 +1,5 @@
 package mongoose.activities.shared.book.event.shared;
 
-import de.saxsys.mvvmfx.utils.validation.ObservableRuleBasedValidator;
-import de.saxsys.mvvmfx.utils.validation.ObservableRules;
-import de.saxsys.mvvmfx.utils.validation.ValidationMessage;
-import de.saxsys.mvvmfx.utils.validation.visualization.ControlsFxVisualizer;
-import de.saxsys.mvvmfx.utils.validation.visualization.ValidationVisualizer;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.HPos;
@@ -17,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
-import naga.commons.util.collection.Collections;
+import mongoose.activities.shared.logic.ui.validation.ValidationSupport;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.ButtonUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
@@ -26,7 +21,6 @@ import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.platform.services.auth.UsernamePasswordToken;
 import naga.platform.services.auth.spi.AuthService;
-import naga.platform.spi.Platform;
 
 
 /**
@@ -40,6 +34,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
     private final Hyperlink hyperLink;
     private final Button button;
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
+    private final ValidationSupport validationSupport = new ValidationSupport();
 
     public LoginPanel(UiUser uiUser, I18n i18n, AuthService authService) {
         this.i18n = i18n;
@@ -61,22 +56,20 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
             i18n.translateText(button, signInMode.getValue() ? "SignIn>>" : "SendPassword>>")
         , signInMode);
         node = LayoutUtil.createGoldLayout(loginWindow);
-        ObservableRuleBasedValidator validator = new ObservableRuleBasedValidator();
-        validator.addRule(ObservableRules.notEmpty(usernameField.textProperty()), ValidationMessage.error("Username is required"));
-        validator.addRule(ObservableRules.notEmpty(passwordField.textProperty()), ValidationMessage.error("Password is required"));
-        ValidationVisualizer validationVisualizer = new ControlsFxVisualizer();
-        validationVisualizer.initVisualization(validator.getValidationStatus(), usernameField, true);
-        validationVisualizer.initVisualization(validator.getValidationStatus(), passwordField, true);
+        initValidation();
         button.setOnAction(event -> {
-            if (!validator.getValidationStatus().isValid())
-                Platform.log(Collections.toString(validator.getValidationStatus().getMessages()));
-            else
+            if (validationSupport.isValid())
                 authService.authenticate(new UsernamePasswordToken(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
                     if (ar.succeeded())
                         uiUser.setUser(ar.result());
                 });
         });
         prepareShowing();
+    }
+
+    private void initValidation() {
+        validationSupport.addRequiredInput(usernameField, "Username is required");
+        validationSupport.addRequiredInput(passwordField, "Password is required");
     }
 
     @Override
