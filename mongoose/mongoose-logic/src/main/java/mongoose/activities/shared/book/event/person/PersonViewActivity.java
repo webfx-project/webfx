@@ -2,6 +2,7 @@ package mongoose.activities.shared.book.event.person;
 
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -93,6 +94,12 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null)
             personDetailsPanel.syncModelFromUi(workingDocument.getDocument());
+    }
+
+    @Override
+    protected void onNextButtonPressed(ActionEvent event) {
+        if (personDetailsPanel.isValid())
+            super.onNextButtonPressed(event);
     }
 
     @Override

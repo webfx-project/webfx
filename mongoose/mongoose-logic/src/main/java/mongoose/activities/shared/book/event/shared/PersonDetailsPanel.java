@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.activities.shared.logic.ui.validation.ValidationSupport;
 import mongoose.auth.MongooseUser;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.functions.AbcNames;
@@ -53,6 +54,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     private final EntityButtonSelector personSelector;
     private final BorderPane sectionPanel;
     private HasPersonDetails model;
+    private final ValidationSupport validationSupport = new ValidationSupport();
 
     private static final int CHILD_MAX_AGE = 17;
 
@@ -104,6 +106,15 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
                     personSelector.setJsonOrClass(null);
             }, uiUser.userProperty());
         }
+        initValidation();
+    }
+
+    private void initValidation() {
+        validationSupport.addRequiredInputs(firstNameTextField, lastNameTextField, emailTextField, phoneTextField, carer1NameTextField, carer2NameTextField);
+    }
+
+    public boolean isValid() {
+        return validationSupport.isValid();
     }
 
     private static EntityButtonSelector createEntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
