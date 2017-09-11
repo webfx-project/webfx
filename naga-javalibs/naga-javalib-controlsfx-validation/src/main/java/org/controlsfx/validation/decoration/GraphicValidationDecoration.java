@@ -30,7 +30,6 @@ package org.controlsfx.validation.decoration;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.controlsfx.control.decoration.Decoration;
@@ -90,11 +89,14 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
     private Node createDecorationNode(ValidationMessage message) {
         Node graphic = Severity.ERROR == message.getSeverity() ? createErrorNode() : createWarningNode();
         graphic.setStyle(SHADOW_EFFECT);
+        return graphic; // Naga change (to allow the size change detection on html image load)
+/*
         Label label = new Label();
         label.setGraphic(graphic);
         //label.setTooltip(createTooltip(message));
         label.setAlignment(Pos.CENTER);
         return label;
+*/
     }
 
 /*
