@@ -1,16 +1,17 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.dom.CSSStyleDeclaration;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLInputElement;
-import elemental2.dom.HTMLTextAreaElement;
+import elemental2.dom.*;
 import emul.javafx.scene.control.TextInputControl;
 import emul.javafx.scene.text.Font;
+import emul.javafx.scene.transform.Transform;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
+import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.TextInputControlPeerBase;
 import naga.fx.spi.peer.base.TextInputControlPeerMixin;
+
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -21,12 +22,23 @@ public abstract class HtmlTextInputControlPeer
         extends HtmlRegionPeer<N, NB, NM>
         implements TextInputControlPeerMixin<N, NB, NM> {
 
-    public HtmlTextInputControlPeer(NB base, HTMLElement element) {
-        super(base, element);
-        getElement().oninput = e -> {
+    public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement) {
+        super(base, textInputElement);
+        HTMLElement spanContainer = HtmlUtil.absolutePosition(HtmlUtil.createSpanElement());
+        setContainer(spanContainer);
+        HTMLElement childrenContainer = HtmlUtil.createSpanElement();
+        HtmlUtil.setStyleAttribute(childrenContainer, "pointer-events", "none");
+        setChildrenContainer(childrenContainer);
+        HtmlUtil.setChildren(spanContainer, textInputElement, childrenContainer);
+        textInputElement.oninput = e -> {
             getNode().setText(getValue());
             return null;
         };
+    }
+
+    @Override
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+        ((HTMLElement) getContainer()).style.transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
     }
 
     @Override

@@ -45,7 +45,7 @@ public class HtmlButtonPeer
             Node graphic = getNode().getGraphic();
             if (graphic != null) {
                 graphicClickPropagation = true;
-                toElement(graphic, graphic.getScene()).click();
+                toContainerElement(graphic, graphic.getScene()).click();
                 graphicClickPropagation = false;
             }
         }

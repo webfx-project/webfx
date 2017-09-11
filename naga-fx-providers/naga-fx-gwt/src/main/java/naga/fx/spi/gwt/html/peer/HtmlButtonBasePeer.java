@@ -56,7 +56,7 @@ abstract class HtmlButtonBasePeer
             if (graphic == null)
                 HtmlUtil.setChild(buttonElement, spanElement);
             else {
-                Element graphicElement = toElement(graphic, node.getScene());
+                Element graphicElement = toContainerElement(graphic, node.getScene());
                 HtmlUtil.setStyleAttribute(graphicElement, "top", "0px");
                 HtmlUtil.setStyleAttribute(graphicElement, "left", "0px");
                 HtmlUtil.setChildren(buttonElement, graphicElement, spanElement);

@@ -62,15 +62,15 @@ public class HtmlScenePeer extends ScenePeerBase {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, HtmlSvgNodePeer.toElement(scene.getRoot(), scene));
+        HtmlUtil.setChildren(container, HtmlSvgNodePeer.toContainerElement(scene.getRoot(), scene));
     }
 
     @Override
     public void updateParentAndChildrenPeers(Parent parent) {
         if (!(parent instanceof HtmlText)) {
-            elemental2.dom.Node parentNode = HtmlSvgNodePeer.toElement(parent, scene);
-            HtmlUtil.setChildren(parentNode, Collections.map(parent.getChildren(), node -> {
-                Element element = HtmlSvgNodePeer.toElement(node, scene);
+            HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent, scene);
+            HtmlUtil.setChildren(parentPeer.getChildrenContainer(), Collections.map(parent.getChildren(), node -> {
+                Element element = HtmlSvgNodePeer.toContainerElement(node, scene);
                 // TextFlow special case
                 if (parent instanceof TextFlow && element instanceof HTMLElement) {
                     HTMLElement htmlElement = (HTMLElement) element;

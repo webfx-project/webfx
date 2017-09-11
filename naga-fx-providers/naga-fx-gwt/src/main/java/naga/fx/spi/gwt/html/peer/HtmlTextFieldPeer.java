@@ -29,7 +29,7 @@ public class HtmlTextFieldPeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         if (node instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
-            setElementAttribute("type", "password");
+            HtmlUtil.setAttribute(getElement(), "type", "password");
         super.bind(node, sceneRequester);
     }
 

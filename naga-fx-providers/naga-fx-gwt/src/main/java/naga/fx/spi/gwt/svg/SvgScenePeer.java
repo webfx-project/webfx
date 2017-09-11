@@ -59,13 +59,13 @@ public class SvgScenePeer extends ScenePeerBase {
 
     @Override
     public void onRootBound() {
-        HtmlUtil.setChildren(container, defsElement, HtmlSvgNodePeer.toElement(scene.getRoot(), scene));
+        HtmlUtil.setChildren(container, defsElement, HtmlSvgNodePeer.toContainerElement(scene.getRoot(), scene));
     }
 
     @Override
     public void updateParentAndChildrenPeers(Parent parent) {
-        elemental2.dom.Node svgParent = HtmlSvgNodePeer.toElement(parent, scene);
-        HtmlUtil.setChildren(svgParent, Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toElement(node, scene)));
+        HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent, scene);
+        HtmlUtil.setChildren(parentPeer.getChildrenContainer(), Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toContainerElement(node, scene)));
     }
 
     @Override

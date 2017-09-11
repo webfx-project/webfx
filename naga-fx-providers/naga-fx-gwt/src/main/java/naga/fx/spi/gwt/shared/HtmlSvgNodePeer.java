@@ -19,13 +19,11 @@ import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
 import naga.commons.util.Strings;
 import naga.fx.scene.SceneRequester;
-import naga.fx.spi.gwt.html.peer.HtmlNodePeer;
 import naga.fx.spi.gwt.svg.peer.SvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.gwt.util.SvgTransforms;
-import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerImpl;
 import naga.fx.spi.peer.base.NodePeerMixin;
@@ -42,6 +40,7 @@ public abstract class HtmlSvgNodePeer
 
     private final E element;
     private Element container;
+    private Element childrenContainer;
     protected DomType containerType;
     protected boolean preventDefaultOnClickElementEvent = false; // can be set to true prevent default behaviour (ex: stop navigation on hyperlink with # href)
 
@@ -49,6 +48,28 @@ public abstract class HtmlSvgNodePeer
         super(base);
         this.element = element;
         setContainer(element);
+        setChildrenContainer(element);
+    }
+
+    public E getElement() {
+        return element;
+    }
+
+    public void setContainer(Element container) {
+        this.container = container;
+        containerType = container != element || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
+    }
+
+    public Element getContainer() {
+        return container;
+    }
+
+    public Element getChildrenContainer() {
+        return childrenContainer;
+    }
+
+    public void setChildrenContainer(Element childrenContainer) {
+        this.childrenContainer = childrenContainer;
     }
 
     @Override
@@ -113,19 +134,6 @@ public abstract class HtmlSvgNodePeer
         if (container instanceof HTMLElement)
             return ((HTMLElement) container).offsetParent != null;
         return true;
-    }
-
-    public E getElement() {
-        return element;
-    }
-
-    public void setContainer(Element container) {
-        this.container = container;
-        containerType = container != element || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
-    }
-
-    public Element getContainer() {
-        return container;
     }
 
     protected boolean isStyleAttribute(String name) {
@@ -394,13 +402,12 @@ public abstract class HtmlSvgNodePeer
         return Math.round(position);
     }
 
-    public static Element toElement(Node node, Scene scene) {
+    public static HtmlSvgNodePeer toNodePeer(Node node, Scene scene) {
         node.setScene(scene);
-        NodePeer nodePeer = node.getOrCreateAndBindNodePeer();
-        if (nodePeer instanceof SvgNodePeer) // SvgNodePeer case
-            return ((SvgNodePeer) nodePeer).getElement();
-        if (nodePeer instanceof HtmlNodePeer) // HtmlNodePeer case
-            return ((HtmlNodePeer) nodePeer).getContainer();
-        return null; // Shouldn't happen...
+        return (HtmlSvgNodePeer) node.getOrCreateAndBindNodePeer();
+    }
+
+    public static Element toContainerElement(Node node, Scene scene) {
+        return toNodePeer(node, scene).getContainer();
     }
 }

@@ -145,7 +145,7 @@ public class HtmlDataGridPeer
             if (textAlign == null)
                 setStyleAttribute(cell, "text-align", "center");
         }
-        Element contentViewElement = toElement(content, getNode().getScene());
+        Element contentViewElement = toContainerElement(content, getNode().getScene());
         if (contentViewElement != null) {
             setStyleAttribute(contentViewElement, "position", "relative");
             //setStyleAttribute(contentViewElement, "width", null);
