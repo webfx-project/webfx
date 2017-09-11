@@ -1131,12 +1131,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
             {
                 if (acceptedLayoutMeasurable != null)
                     Toolkit.get().scheduler().scheduleDeferred(() ->
-                        acceptedLayoutMeasurable.setSizeChangedCallback(() -> {
-                            markDirtyLayoutBranch();
-                            Parent parent = getParent();
-                            if (parent != null)
-                                parent.requestLayout();
-                        })
+                            acceptedLayoutMeasurable.setSizeChangedCallback(() -> {
+                                markDirtyLayoutBranch();
+                                Parent parent = getParent();
+                                if (parent != null)
+                                    parent.requestLayout();
+                                layoutBounds.setValue(getLayoutBounds());
+                            })
                     );
             }
 
@@ -1210,6 +1211,47 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     acceptedLayoutMeasurable.clearCache();
             }
         };
+    }
+
+    /**
+     * The rectangular bounds that should be used for layout calculations for
+     * this node. {@code layoutBounds} may differ from the visual bounds
+     * of the node and is computed differently depending on the node type.
+     * <p>
+     * If the node type is resizable ({@link javafx.scene.layout.Region Region},
+     * {@link javafx.scene.control.Control Control}, or {@link javafx.scene.web.WebView WebView})
+     * then the layoutBounds will always be {@code 0,0 width x height}.
+     * If the node type is not resizable ({@link javafx.scene.shape.Shape Shape},
+     * {@link javafx.scene.text.Text Text}, or {@link Group}), then the layoutBounds
+     * are computed based on the node's geometric properties and does not include the
+     * node's clip, effect, or transforms.  See individual class documentation
+     * for details.
+     * <p>
+     * Note that the {@link #layoutXProperty layoutX}, {@link #layoutYProperty layoutY}, {@link #translateXProperty translateX}, and
+     * {@link #translateYProperty translateY} variables are not included in the layoutBounds.
+     * This is important because layout code must first determine the current
+     * size and location of the node (using layoutBounds) and then set
+     * {@code layoutX} and {@code layoutY} to adjust the translation of the
+     * node so that it will have the desired layout position.
+     * <p>
+     * Because the computation of layoutBounds is often tied to a node's
+     * geometric variables, it is an error to bind any such variables to an
+     * expression that depends upon {@code layoutBounds}. For example, the
+     * x or y variables of a shape should never be bound to layoutBounds
+     * for the purpose of positioning the node.
+     * <p>
+     * The layoutBounds will never be null.
+     *
+     * Naga note: this property is set only when the target toolkit reports a change by calling
+     * the SizeChangedCallback set on the LayoutMeasurable (ex: once an image is loaded so we
+     * now know the size of the image). So layoutBoundsProperty() should be used only to listen
+     * such changes.
+     *
+     */
+    private ObjectProperty<Bounds> layoutBounds = new SimpleObjectProperty<>();
+
+    public ReadOnlyProperty<Bounds> layoutBoundsProperty() {
+        return layoutBounds;
     }
 
     /**
