@@ -60,7 +60,10 @@ public class ControlsFxVisualizer extends ValidationVisualizerBase {
 	
 	@Override
 	void applyVisualization(Control control, Optional<ValidationMessage> messageOptional, boolean required) {
-		
+		// Added naga code to restore the focus if necessary (because the html implementation makes the focus lost when
+		// adding or removing decorations)
+		boolean wasFocused = control.isFocused();
+
 		if (messageOptional.isPresent()) {
 			final ValidationMessage message = messageOptional.get();
 			
@@ -81,6 +84,10 @@ public class ControlsFxVisualizer extends ValidationVisualizerBase {
 		if (required) {
 			decoration.applyRequiredDecoration(control);
 		}
+
+		// Restoring the focus (added naga code)
+		if (wasFocused && !control.isFocused())
+			control.requestFocus();
 	}
 	
 }
