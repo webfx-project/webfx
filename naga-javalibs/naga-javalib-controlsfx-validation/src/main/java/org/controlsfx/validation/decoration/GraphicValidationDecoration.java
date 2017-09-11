@@ -56,9 +56,9 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
 
     // TODO we shouldn't hardcode this - defer to CSS eventually
 	
-    private static final Image ERROR_IMAGE = new Image("/impl/org/controlsfx/control/validation/decoration-error.png"); //$NON-NLS-1$
-    private static final Image WARNING_IMAGE = new Image("/impl/org/controlsfx/control/validation/decoration-warning.png"); //$NON-NLS-1$
-    private static final Image REQUIRED_IMAGE = new Image("/impl/org/controlsfx/control/validation/required-indicator.png"); //$NON-NLS-1$
+    private static final Image ERROR_IMAGE = new Image("impl/org/controlsfx/control/validation/decoration-error.png"); //$NON-NLS-1$
+    private static final Image WARNING_IMAGE = new Image("impl/org/controlsfx/control/validation/decoration-warning.png"); //$NON-NLS-1$
+    private static final Image REQUIRED_IMAGE = new Image("impl/org/controlsfx/control/validation/required-indicator.png"); //$NON-NLS-1$
 
     private static final String SHADOW_EFFECT = "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"; //$NON-NLS-1$
     private static final String POPUP_SHADOW_EFFECT = "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 5);"; //$NON-NLS-1$
@@ -112,7 +112,7 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
      */
     @Override
 	protected Collection<Decoration> createValidationDecorations(ValidationMessage message) {
-    	return Arrays.asList(new GraphicDecoration(createDecorationNode(message),Pos.BOTTOM_LEFT));
+    	return Arrays.asList(new GraphicDecoration(createDecorationNode(message), Pos.BOTTOM_LEFT));
 	}
     
     /**
@@ -120,7 +120,7 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
      */
     @Override
 	protected Collection<Decoration> createRequiredDecorations(Control target) {
-    	return Arrays.asList(new GraphicDecoration(new ImageView(REQUIRED_IMAGE),Pos.TOP_LEFT, REQUIRED_IMAGE.getWidth()/2, REQUIRED_IMAGE.getHeight()/2));
+    	return Arrays.asList(new GraphicDecoration(new ImageView(REQUIRED_IMAGE), Pos.TOP_LEFT, 0.5, 0.5, true));
 	}
     
     
