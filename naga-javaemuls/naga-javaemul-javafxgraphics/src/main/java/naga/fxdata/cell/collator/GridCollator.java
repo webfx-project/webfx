@@ -194,11 +194,11 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateLayoutX(Double layoutX) {
+        public void updateLayoutX(Number layoutX) {
         }
 
         @Override
-        public void updateLayoutY(Double layoutY) {
+        public void updateLayoutY(Number layoutY) {
         }
 
         @Override

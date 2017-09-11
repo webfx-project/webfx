@@ -118,15 +118,15 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return effectProperty;
     }
 
-    private final Property<Double> layoutXProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty layoutXProperty = new SimpleDoubleProperty();
     @Override
-    public Property<Double> layoutXProperty() {
+    public DoubleProperty layoutXProperty() {
         return layoutXProperty;
     }
 
-    private final Property<Double> layoutYProperty = new SimpleObjectProperty<>(0d);
+    private final DoubleProperty layoutYProperty = new SimpleDoubleProperty();
     @Override
-    public Property<Double> layoutYProperty() {
+    public DoubleProperty layoutYProperty() {
         return layoutYProperty;
     }
 

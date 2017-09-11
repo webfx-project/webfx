@@ -52,11 +52,11 @@ public interface NodePeerMixin
 
     void updateEffect(Effect effect);
 
-    default void updateLayoutX(Double layoutX) {
+    default void updateLayoutX(Number layoutX) {
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
 
-    default void updateLayoutY(Double layoutY) {
+    default void updateLayoutY(Number layoutY) {
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
 

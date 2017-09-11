@@ -1,13 +1,13 @@
 package naga.fx.properties.markers;
 
-import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.DoubleProperty;
 
 /**
  * @author Bruno Salmon
  */
 public interface HasLayoutXProperty {
 
-    Property<Double> layoutXProperty();
+    DoubleProperty layoutXProperty();
     default void setLayoutX(Double layoutX) { layoutXProperty().setValue(layoutX); }
     default Double getLayoutX() { return layoutXProperty().getValue(); }
 
