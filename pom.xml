@@ -634,7 +634,9 @@
                         <draftCompile>${plugin.gwt.param.draftCompile}</draftCompile>
                         <optimize>${plugin.gwt.param.optimize}</optimize>
                         <!-- Trying to solve a java heap OutOfMemoryError on the server -->
-                        <jvmArgs>-Xmx1024m</jvmArgs>
+                        <jvmArgs>
+                            <jvmArg>-Xmx1024m</jvmArg>
+                        </jvmArgs>
                         <localWorkers>1</localWorkers>
                     </configuration>
                 </plugin>
