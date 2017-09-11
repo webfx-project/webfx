@@ -36,6 +36,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -195,8 +196,19 @@ public class Decorator {
                     currentlyInstallingScenes.add(scene);
                     _pane = new DecorationPane();
                     Node oldRoot = scene.getRoot();
-                    ImplUtils.injectAsRootPane(scene, _pane, true);
-                    _pane.setRoot(oldRoot);
+                    // Naga added code (because injection of the decoration pane as root pane is a trouble maker for the
+                    // naga layout so we just add it to the present root pane instead)
+                    if (oldRoot instanceof Pane) { // This should be the case in naga
+                        Pane rootPane = (Pane) oldRoot;
+                        rootPane.setMaxWidth(Double.MAX_VALUE);
+                        rootPane.setMaxHeight(Double.MAX_VALUE);
+                        rootPane.setManaged(false);
+                        rootPane.resizeRelocate(0, 0, scene.getWidth(), scene.getHeight());
+                        ImplUtils.getChildren(oldRoot, false).add(_pane);
+                    } else { // default code
+                        ImplUtils.injectAsRootPane(scene, _pane, true);
+                        _pane.setRoot(oldRoot);
+                    }
                     currentlyInstallingScenes.remove(scene);
                 }
                 
