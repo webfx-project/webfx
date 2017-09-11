@@ -1,5 +1,6 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.skin.TextFieldSkin;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.geometry.Pos;
@@ -42,4 +43,17 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
     public Property<TextAlignment> textAlignmentProperty() {
         return textAlignmentProperty;
     }
+
+    // Setting the default skin (empty as we rely on the target toolkit for now) but this allows to add decorators for validation
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new TextFieldSkin(this);
+    }
+
+    // We continue to use the target toolkit layout measurable even if there is a skin
+    @Override
+    protected boolean shouldUseLayoutMeasurable() {
+        return true;
+    }
+
 }
