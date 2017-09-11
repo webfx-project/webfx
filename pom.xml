@@ -633,7 +633,9 @@
                         <failOnError>true</failOnError>
                         <draftCompile>${plugin.gwt.param.draftCompile}</draftCompile>
                         <optimize>${plugin.gwt.param.optimize}</optimize>
-                        <localWorkers>1</localWorkers> <!-- decreased to 1 to try to solving a OutOfMemoryError on the server -->
+                        <!-- Trying to solve a java heap OutOfMemoryError on the server -->
+                        <jvmArgs>-Xmx1024m</jvmArgs>
+                        <localWorkers>1</localWorkers>
                     </configuration>
                 </plugin>
 
