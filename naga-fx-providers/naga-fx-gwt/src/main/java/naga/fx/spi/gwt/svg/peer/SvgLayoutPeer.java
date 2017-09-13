@@ -1,5 +1,6 @@
 package naga.fx.spi.gwt.svg.peer;
 
+import emul.javafx.geometry.Insets;
 import naga.fx.spi.gwt.util.SvgUtil;
 import emul.javafx.scene.layout.Background;
 import emul.javafx.scene.layout.Border;
@@ -26,6 +27,11 @@ public class SvgLayoutPeer
 
     @Override
     public void updateBorder(Border border) {
+        // Not yet implemented
+    }
+
+    @Override
+    public void updatePadding(Insets padding) {
         // Not yet implemented
     }
 }

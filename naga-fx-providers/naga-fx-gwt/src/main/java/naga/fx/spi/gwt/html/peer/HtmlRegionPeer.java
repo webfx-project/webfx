@@ -3,11 +3,12 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
+import emul.javafx.geometry.Insets;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.paint.Paint;
 import naga.commons.util.collection.Collections;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
-import emul.javafx.scene.layout.*;
-import emul.javafx.scene.paint.Paint;
 import naga.fx.spi.peer.base.RegionPeerBase;
 import naga.fx.spi.peer.base.RegionPeerMixin;
 
@@ -69,6 +70,18 @@ abstract class HtmlRegionPeer
             if (radii != null)
                 applyBorderRadii(radii);
         }
+    }
+
+    @Override
+    public void updatePadding(Insets padding) {
+        getElement().style.padding = toCssPadding(padding);
+    }
+
+    protected CSSProperties.PaddingUnionType toCssPadding(Insets padding) {
+        if (padding == null)
+            return null;
+        String cssPadding = toPx(padding.getTop());
+        return CSSProperties.PaddingUnionType.of(cssPadding);
     }
 
     private void applyBorderRadii(CornerRadii radii) {

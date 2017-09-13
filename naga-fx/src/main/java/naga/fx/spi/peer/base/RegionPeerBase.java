@@ -20,6 +20,7 @@ public class RegionPeerBase
                 , node.heightProperty()
                 , node.backgroundProperty()
                 , node.borderProperty()
+                , node.paddingProperty()
         );
     }
 
@@ -30,6 +31,7 @@ public class RegionPeerBase
                 || updateProperty(node.heightProperty(), changedProperty, p -> mixin.updateHeight(p.doubleValue()))
                 || updateProperty(node.backgroundProperty(), changedProperty, mixin::updateBackground)
                 || updateProperty(node.borderProperty(), changedProperty, mixin::updateBorder)
+                || updateProperty(node.paddingProperty(), changedProperty, mixin::updatePadding)
                 ;
     }
 }

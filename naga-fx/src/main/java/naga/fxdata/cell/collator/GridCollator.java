@@ -1,6 +1,7 @@
 package naga.fxdata.cell.collator;
 
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
@@ -112,6 +113,10 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateBorder(Border border) {
+        }
+
+        @Override
+        public void updatePadding(Insets padding) {
         }
 
         @Override

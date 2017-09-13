@@ -3,6 +3,7 @@ package naga.fxdata.cell.collator;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.geometry.HPos;
+import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
@@ -112,6 +113,10 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateBorder(Border border) {
+        }
+
+        @Override
+        public void updatePadding(Insets padding) {
         }
 
         @Override

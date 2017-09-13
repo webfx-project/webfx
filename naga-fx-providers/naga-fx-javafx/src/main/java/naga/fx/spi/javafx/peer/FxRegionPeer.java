@@ -54,6 +54,11 @@ abstract class FxRegionPeer
         getFxNode().setBorder(toFxBorder(border));
     }
 
+    @Override
+    public void updatePadding(Insets padding) {
+        getFxNode().setPadding(padding);
+    }
+
     private static javafx.scene.layout.Background toFxBackground(Background bg) {
         return bg;
     }

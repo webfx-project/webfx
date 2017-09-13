@@ -1,5 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
+import javafx.geometry.Insets;
 import javafx.scene.web.WebView;
 import naga.commons.util.Strings;
 import javafx.scene.layout.Background;
@@ -74,6 +75,10 @@ public class FxHtmlTextPeer
 
     @Override
     public void updateBorder(Border border) {
+    }
+
+    @Override
+    public void updatePadding(Insets padding) {
     }
 
     @Override

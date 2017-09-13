@@ -16,20 +16,22 @@ public class RegionPeerBase
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
-                , node.widthProperty()
-                , node.heightProperty()
                 , node.backgroundProperty()
                 , node.borderProperty()
+                , node.paddingProperty()
+                , node.widthProperty()
+                , node.heightProperty()
         );
     }
 
     @Override
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
-                || updateProperty(node.widthProperty(), changedProperty, mixin::updateWidth)
-                || updateProperty(node.heightProperty(), changedProperty, mixin::updateHeight)
                 || updateProperty(node.backgroundProperty(), changedProperty, mixin::updateBackground)
                 || updateProperty(node.borderProperty(), changedProperty, mixin::updateBorder)
+                || updateProperty(node.paddingProperty(), changedProperty, mixin::updatePadding)
+                || updateProperty(node.widthProperty(), changedProperty, mixin::updateWidth)
+                || updateProperty(node.heightProperty(), changedProperty, mixin::updateHeight)
                 ;
     }
 }
