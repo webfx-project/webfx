@@ -38,7 +38,7 @@ public interface INode extends
     }
 
     default boolean isResizable() {
-        return true;
+        return false;
     }
 
     default Orientation getContentBias() {
