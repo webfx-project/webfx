@@ -86,9 +86,9 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
         return new ImageView(WARNING_IMAGE);
     }
 
-    private Node createDecorationNode(ValidationMessage message) {
+    protected Node createDecorationNode(ValidationMessage message) {
         Node graphic = Severity.ERROR == message.getSeverity() ? createErrorNode() : createWarningNode();
-        graphic.setStyle(SHADOW_EFFECT);
+        //graphic.setStyle(SHADOW_EFFECT);
         return graphic; // Naga change (to allow the size change detection on html image load)
 /*
         Label label = new Label();
@@ -122,7 +122,7 @@ public class GraphicValidationDecoration extends AbstractValidationDecoration {
      */
     @Override
 	protected Collection<Decoration> createRequiredDecorations(Control target) {
-    	return Arrays.asList(new GraphicDecoration(new ImageView(REQUIRED_IMAGE), Pos.TOP_LEFT, 0.5, 0.5, true));
+    	return Arrays.asList(new GraphicDecoration(new ImageView(REQUIRED_IMAGE), Pos.TOP_LEFT, 0, 0, 0.5, 0.5));
 	}
     
     

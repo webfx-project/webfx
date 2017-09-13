@@ -27,13 +27,13 @@
 package org.controlsfx.control.decoration;
 
 import impl.org.controlsfx.ImplUtils;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
 
 import java.util.List;
 
@@ -51,10 +51,12 @@ public class GraphicDecoration extends Decoration {
 
     private final Node decorationNode;
     private final Pos pos;
-    private double xOffset;
-    private double yOffset;
-    private final double xRelativeOffset;
-    private final double yRelativeOffset;
+    private final double xOffset;
+    private final double yOffset;
+    private final double xDecorationRelativeOffset;
+    private final double yDecorationRelativeOffset;
+    private final double xTargetRelativeOffset;
+    private final double yTargetRelativeOffset;
 
     /**
      * Constructs a new GraphicDecoration with the given decoration node to be 
@@ -98,26 +100,40 @@ public class GraphicDecoration extends Decoration {
      *      y direction (i.e. up and down). 
      */
     public GraphicDecoration(Node decorationNode, Pos position, double xOffset, double yOffset) {
-        this(decorationNode, position, xOffset, yOffset, false);
+        this(decorationNode, position, xOffset, yOffset, 0, 0);
     }
 
-    public GraphicDecoration(Node decorationNode, Pos position, double xOffset, double yOffset, boolean relativeOffsets) {
+    public GraphicDecoration(Node decorationNode, Pos position, double xOffset, double yOffset, double xDecorationRelativeOffset, double yDecorationRelativeOffset) {
+        this(decorationNode, position, xOffset, yOffset, xDecorationRelativeOffset, yDecorationRelativeOffset, 0, 0);
+    }
+
+    public GraphicDecoration(Node decorationNode, double xOffset, double yOffset, double xDecorationRelativeOffset, double yDecorationRelativeOffset) {
+        this(decorationNode, xOffset, yOffset, xDecorationRelativeOffset, yDecorationRelativeOffset, 0, 0);
+    }
+
+    public GraphicDecoration(Node decorationNode, double xOffset, double yOffset, double xDecorationRelativeOffset, double yDecorationRelativeOffset, double xTargetRelativeOffset, double yTargetRelativeOffset) {
+        this(decorationNode, null, xOffset, yOffset, xDecorationRelativeOffset, yDecorationRelativeOffset, xTargetRelativeOffset, yTargetRelativeOffset);
+    }
+
+    public GraphicDecoration(Node decorationNode, Pos position, double xOffset, double yOffset, double xDecorationRelativeOffset, double yDecorationRelativeOffset, double xTargetRelativeOffset, double yTargetRelativeOffset) {
         this.decorationNode = decorationNode;
         this.decorationNode.setManaged(false);
         this.pos = position;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
-        this.xRelativeOffset = relativeOffsets ? xOffset : 0;
-        this.yRelativeOffset = relativeOffsets ? yOffset : 0;
+        this.xDecorationRelativeOffset = xDecorationRelativeOffset;
+        this.yDecorationRelativeOffset = yDecorationRelativeOffset;
+        this.xTargetRelativeOffset = xTargetRelativeOffset;
+        this.yTargetRelativeOffset = yTargetRelativeOffset;
     }
 
     /** {@inheritDoc} */
     @Override public Node applyDecoration(Node targetNode) {
         List<Node> targetNodeChildren = ImplUtils.getChildren((Parent)targetNode, true);
-        updateGraphicPosition(targetNode);
         if (!targetNodeChildren.contains(decorationNode)) {
             targetNodeChildren.add(decorationNode);
         }
+        updateGraphicPosition(targetNode);
         return null;
     }
     
@@ -131,18 +147,11 @@ public class GraphicDecoration extends Decoration {
     }
     
     private void updateGraphicPosition(Node targetNode) {
+        installDecorationListener(decorationNode, targetNode);
+        installDecorationListener(targetNode, targetNode);
+
         final double decorationNodeWidth = decorationNode.prefWidth(-1);
         final double decorationNodeHeight = decorationNode.prefHeight(-1);
-        if (decorationNodeWidth <= 0 && decorationNodeHeight <= 0) {
-            decorationNode.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
-
-                @Override
-                public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-                    targetNode.layoutBoundsProperty().removeListener(this);
-                    updateGraphicPosition(targetNode);
-                }
-            });
-        }
 
         Bounds targetBounds = targetNode.getLayoutBounds();
         double x = targetBounds.getMinX();
@@ -152,64 +161,56 @@ public class GraphicDecoration extends Decoration {
         if (targetWidth <= 0) {
             targetWidth = targetNode.prefWidth(-1);
         }
-        
+
         double targetHeight = targetBounds.getHeight();
         if (targetHeight <= 0) {
             targetHeight = targetNode.prefHeight(-1);
         }
 
-        /**
-         * If both targetWidth and targetHeight are equal to 0, this means the
-         * targetNode has not been laid out so we can put a listener in order to
-         * catch when the layout will be updated, and then we will place our
-         * decorationNode to the proper position.
-         */
-        if (targetWidth <= 0 && targetHeight <= 0) {
-            targetNode.layoutBoundsProperty().addListener(new ChangeListener<Bounds>() {
+        if (pos != null) {
+            // x
+            switch (pos.getHpos()) {
+                case CENTER:
+                    x += targetWidth/2 - decorationNodeWidth / 2.0;
+                    break;
+                case LEFT:
+                    x -= decorationNodeWidth / 2.0;
+                    break;
+                case RIGHT:
+                    x += targetWidth - decorationNodeWidth / 2.0;
+                    break;
+            }
 
-                @Override
-                public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue) {
-                    targetNode.layoutBoundsProperty().removeListener(this);
-                    updateGraphicPosition(targetNode);
-                }
-            });
-        }
-        
-        // x
-        switch (pos.getHpos()) {
-        	case CENTER: 
-        		x += targetWidth/2 - decorationNodeWidth / 2.0;
-        		break;
-        	case LEFT: 
-        		x -= decorationNodeWidth / 2.0;
-        		break;
-        	case RIGHT:
-        		x += targetWidth - decorationNodeWidth / 2.0;
-        		break;
-        }
-        
-        // y
-        switch (pos.getVpos()) {
-        	case CENTER: 
-        		y += targetHeight/2 - decorationNodeHeight / 2.0;
-        		break;
-        	case TOP: 
-        		y -= decorationNodeHeight / 2.0;
-        		break;
-        	case BOTTOM:
-        		y += targetHeight - decorationNodeWidth / 2.0;
-        		break;
-        	case BASELINE: 
-        		y += targetNode.getBaselineOffset() - decorationNode.getBaselineOffset() - decorationNodeHeight / 2.0;
-        		break;
+            // y
+            switch (pos.getVpos()) {
+                case CENTER:
+                    y += targetHeight/2 - decorationNodeHeight / 2.0;
+                    break;
+                case TOP:
+                    y -= decorationNodeHeight / 2.0;
+                    break;
+                case BOTTOM:
+                    y += targetHeight - decorationNodeWidth / 2.0;
+                    break;
+                case BASELINE:
+                    y += targetNode.getBaselineOffset() - decorationNode.getBaselineOffset() - decorationNodeHeight / 2.0;
+                    break;
+            }
         }
 
-        if (xRelativeOffset > 0)
-            xOffset = decorationNodeWidth * xRelativeOffset;
-        if (yRelativeOffset > 0)
-            yOffset = decorationNodeHeight * yRelativeOffset;
+        decorationNode.setLayoutX(x + xOffset + xDecorationRelativeOffset * decorationNodeWidth  + xTargetRelativeOffset * targetWidth);
+        decorationNode.setLayoutY(y + yOffset + yDecorationRelativeOffset * decorationNodeHeight + yTargetRelativeOffset * targetHeight);
+    }
 
-        decorationNode.setLayoutX(x + xOffset);
-        decorationNode.setLayoutY(y + yOffset);
+    private static int seq;
+    private final String key = "hasDecorationListener-" + seq++;
+
+    private void installDecorationListener(Node node, Node targetNode) {
+        if (!node.getProperties().containsKey(key)) {
+            node.getProperties().put(key, true);
+            node.layoutBoundsProperty().addListener((observable, oldValue, newValue) -> updateGraphicPosition(targetNode));
+            if (node instanceof Region)
+                ((Region) node).widthProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> updateGraphicPosition(targetNode)));
+        }
     }
 }
