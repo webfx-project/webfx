@@ -68,7 +68,7 @@ public class Group extends Parent implements
     protected double impl_prefHeight(double width) {
         if (isAutoSizeChildren())
             layout();
-        return super.impl_prefWidth(width);
+        return super.impl_prefHeight(width);
     }
 
 
