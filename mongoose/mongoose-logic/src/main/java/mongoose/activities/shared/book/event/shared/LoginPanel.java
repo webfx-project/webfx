@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
-import mongoose.activities.shared.logic.ui.validation.ValidationSupport;
+import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.ButtonUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
@@ -34,7 +34,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
     private final Hyperlink hyperLink;
     private final Button button;
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
-    private final ValidationSupport validationSupport = new ValidationSupport();
+    private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     public LoginPanel(UiUser uiUser, I18n i18n, AuthService authService) {
         this.i18n = i18n;

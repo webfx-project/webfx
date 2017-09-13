@@ -7,6 +7,5 @@
     <resource path="mongoose"/> <!-- for mongoose/domainmodel/DomainModelSnapshot.json -->
 
     <public path="" includes="images/"/>
-    <public path="" includes="impl/org/controlsfx/"/>
 
 </module>
