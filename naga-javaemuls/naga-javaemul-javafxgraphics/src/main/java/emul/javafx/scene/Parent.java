@@ -31,6 +31,15 @@ public class Parent extends Node {
                 child.setScene(scene);
                 child.setParent(this);
             }
+            // Setting parent and scene to null for removed children
+            while (c.next()) {
+                if (c.wasRemoved()) {
+                    for (Node child : c.getRemoved()) {
+                        child.setParent(null);
+                        child.setScene(null);
+                    }
+                }
+            }
             managedChildChanged();
         });
     }
