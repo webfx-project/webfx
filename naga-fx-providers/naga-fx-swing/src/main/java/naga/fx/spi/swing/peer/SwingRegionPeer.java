@@ -1,5 +1,6 @@
 package naga.fx.spi.swing.peer;
 
+import emul.javafx.geometry.Insets;
 import naga.commons.util.collection.Collections;
 import emul.javafx.scene.layout.*;
 import naga.fx.spi.peer.base.RegionPeerBase;
@@ -64,6 +65,10 @@ public abstract class SwingRegionPeer
             JComponent component = ((SwingEmbedComponentPeer) this).getSwingComponent();
             component.setSize(width, height);
         }
+    }
+
+    @Override
+    public void updatePadding(Insets padding) {
     }
 
     @Override
