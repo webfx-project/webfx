@@ -346,7 +346,7 @@ public class Parent extends Node {
      *
      * Calling this method while the Parent is doing layout is a no-op.
      */
-    public final void layout() {
+    public void layout() {
         switch(layoutFlag) {
             case CLEAN:
                 break;
@@ -374,7 +374,6 @@ public class Parent extends Node {
                 layoutChildren();
                 // Intended fall-through
             case DIRTY_BRANCH:
-                setLayoutFlag(LayoutFlags.CLEAN);
                 for (Node child : new ArrayList<>(children)) {
                     if (child instanceof Parent) {
                         ((Parent) child).layout();
@@ -384,6 +383,7 @@ public class Parent extends Node {
 */
                     }
                 }
+                setLayoutFlag(LayoutFlags.CLEAN);
                 performingLayout = false;
                 break;
         }
