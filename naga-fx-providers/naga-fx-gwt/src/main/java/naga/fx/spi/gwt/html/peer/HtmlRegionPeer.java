@@ -4,11 +4,12 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.Insets;
-import emul.javafx.scene.layout.*;
-import emul.javafx.scene.paint.Paint;
 import naga.commons.util.collection.Collections;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
+import emul.javafx.scene.layout.*;
+import emul.javafx.scene.paint.Paint;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.RegionPeerBase;
 import naga.fx.spi.peer.base.RegionPeerMixin;
 
@@ -23,6 +24,9 @@ abstract class HtmlRegionPeer
         extends HtmlNodePeer<N, NB, NM>
         implements RegionPeerMixin<N, NB, NM> {
 
+    protected boolean subtractCssPaddingBorderWhenUpdatingSize;
+    protected boolean subtractNodePaddingBorderWhenUpdatingSize;
+
     HtmlRegionPeer(NB base, HTMLElement element) {
         super(base, element);
     }
@@ -30,17 +34,74 @@ abstract class HtmlRegionPeer
     @Override
     public void updateWidth(Double width) {
         if (width > 0) {
+            if (subtractCssPaddingBorderWhenUpdatingSize)
+                width = subtractCssPaddingBorderWidth(width);
+            else if (subtractNodePaddingBorderWhenUpdatingSize)
+                width = subtractNodePaddingBorderWidth(width);
             getElement().style.width = CSSProperties.WidthUnionType.of(toPx(width));
             clearLayoutCache();
         }
     }
 
+    private double subtractCssPaddingBorderWidth(double width) {
+        CSSStyleDeclaration cs = HtmlUtil.getComputedStyle(getElement());
+        return width - sumPx(cs.paddingLeft, cs.paddingRight, cs.borderLeft, cs.borderRight);
+    }
+
+    private static double sumPx(Object... values) {
+        double result = 0;
+        for (Object value : values) {
+            String s = value.toString();
+            int i = s.indexOf("px");
+            if (i > 0)
+                result += Double.parseDouble(s.substring(0, i));
+        }
+        return result;
+    }
+
+    private double subtractNodePaddingBorderWidth(double width) {
+        N node = getNode();
+        Insets padding = node.getPadding();
+        if (padding != null)
+            width -= (padding.getLeft() + padding.getRight());
+        Border border = node.getBorder();
+        if (border != null) {
+            Insets insets = border.getInsets();
+            if (insets != null)
+                width -= (insets.getLeft() + insets.getRight());
+        }
+        return width;
+    }
+
     @Override
     public void updateHeight(Double height) {
         if (height > 0) {
+            if (subtractCssPaddingBorderWhenUpdatingSize)
+                height = subtractCssPaddingBorderHeight(height);
+            else if (subtractNodePaddingBorderWhenUpdatingSize)
+                height = subtractNodePaddingBorderHeight(height);
             getElement().style.height = CSSProperties.HeightUnionType.of(toPx(height));
             clearLayoutCache();
         }
+    }
+
+    private double subtractCssPaddingBorderHeight(double height) {
+        CSSStyleDeclaration cs = HtmlUtil.getComputedStyle(getElement());
+        return height - sumPx(cs.paddingTop, cs.paddingBottom, cs.borderTop, cs.borderBottom);
+    }
+
+    private double subtractNodePaddingBorderHeight(double height) {
+        N node = getNode();
+        Insets padding = node.getPadding();
+        if (padding != null)
+            height -= (padding.getTop() + padding.getBottom());
+        Border border = node.getBorder();
+        if (border != null) {
+            Insets insets = border.getInsets();
+            if (insets != null)
+                height -= (insets.getTop() + insets.getBottom());
+        }
+        return height;
     }
 
     @Override

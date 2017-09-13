@@ -11,7 +11,7 @@ import naga.fx.spi.peer.base.LabelPeerMixin;
 public class HtmlLabelPeer
         <N extends Label, NB extends LabelPeerBase<N, NB, NM>, NM extends LabelPeerMixin<N, NB, NM>>
         extends HtmlLabeledPeer<N, NB, NM>
-        implements LabelPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements LabelPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoGrow {
 
     public HtmlLabelPeer() {
         this((NB) new LabelPeerBase());
@@ -21,13 +21,6 @@ public class HtmlLabelPeer
         super(base, HtmlUtil.createSpanElement());
         // to have the text vertically centered, we need to set the line-height
         setElementStyleAttribute("line-height", "100%"); // when expressed as %, it's regarding the font height (and not the node height)
-    }
-
-    @Override
-    public void updateHeight(Double height) {
-        super.updateHeight(height);
-        // To keep the text vertically centered, we express the line-height in px
-        if (height != 0)
-            setElementStyleAttribute("line-height", toPx(height)); // Same height as the node
+        subtractNodePaddingBorderWhenUpdatingSize = true;
     }
 }
