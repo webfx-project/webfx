@@ -111,6 +111,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
 
     private void initValidation() {
         validationSupport.addRequiredInputs(firstNameTextField, lastNameTextField, emailTextField, phoneTextField, carer1NameTextField, carer2NameTextField);
+        validationSupport.addNotEmptyControlValidation(countrySelector.entityProperty(), countrySelector.getEntityButton());
     }
 
     public boolean isValid() {
