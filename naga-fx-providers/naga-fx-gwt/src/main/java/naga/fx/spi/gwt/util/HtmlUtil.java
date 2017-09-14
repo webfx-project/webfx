@@ -5,8 +5,6 @@ import elemental2.dom.*;
 import naga.commons.util.Strings;
 import naga.commons.util.async.Future;
 
-import java.lang.Iterable;
-
 import static elemental2.dom.DomGlobal.document;
 
 /**
@@ -38,12 +36,28 @@ public class HtmlUtil {
     }
 
     public static <N extends Node> N setChildren(N parent, Iterable<? extends Node> children) {
-        return appendChildren(removeChildren(parent), children);
+        Element activeElement = getActiveElement(); // Getting the focused element in case we loose it
+        appendChildren(removeChildren(parent), children); // Removing children may cause a focus lost!
+        if (activeElement != null) // Restoring the focused element in case we lost it
+            activeElement.focus(); // (works in all browsers but not IE for any reason)
+        return parent;
     }
 
     public static <N extends Node> N setChildren(N parent, Node... children) {
-        return appendChildren(removeChildren(parent), children);
+        Element activeElement = getActiveElement(); // Getting the focused element in case we loose it
+        appendChildren(removeChildren(parent), children); // Removing children may cause a focus lost!
+        if (activeElement != null) // Restoring the focused element in case we lost it
+            activeElement.focus(); // (works in all browsers but not IE for any reason)
+        return parent;
     }
+
+    private static Element getActiveElement() {
+        return getActiveElement(document);
+    }
+
+    private static native Element getActiveElement(Document document) /*-{
+        return document.activeElement;
+    }-*/;
 
     public static <N extends Node> N appendChildren(N parent, Iterable<? extends Node> children) {
         for (Node child : children)
