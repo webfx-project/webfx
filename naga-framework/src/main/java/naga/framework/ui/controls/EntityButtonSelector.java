@@ -104,14 +104,13 @@ public class EntityButtonSelector {
 
     public Button getEntityButton() {
         if (entityButton == null)
-            setEntityButton(new Button());
+            setEntityButton(ButtonUtil.newDrowDownButton());
         return entityButton;
     }
 
     public void setEntityButton(Button entityButton) {
         this.entityButton = entityButton;
         entityButton.setOnAction(e -> showEntityDialog());
-
     }
 
     private void updateEntityButton() {
