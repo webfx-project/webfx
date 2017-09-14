@@ -37,6 +37,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Dependency used for drop down button decoration (only) -->
+        <dependency>
+            <artifactId>naga-javalib-controlsfx-validation</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

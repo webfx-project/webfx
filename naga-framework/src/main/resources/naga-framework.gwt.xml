@@ -4,5 +4,8 @@
     <inherits name="naga-javalib-rxjava"/>
 
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/framework"/>   <!-- code is under mongoose package -->
+    <source path="naga/framework"/>   <!-- code -->
+
+    <public path="" includes="images/"/> <!-- images -->
+
 </module>

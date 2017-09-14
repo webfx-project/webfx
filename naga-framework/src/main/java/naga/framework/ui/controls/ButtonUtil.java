@@ -1,11 +1,16 @@
 package naga.framework.ui.controls;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.i18n.I18n;
+import naga.fx.properties.Properties;
+import org.controlsfx.control.decoration.GraphicDecoration;
 
 /**
  * @author Bruno Salmon
@@ -23,6 +28,21 @@ public class ButtonUtil {
     public static Button newButton(Node graphic, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
         Button button = i18n.translateText(new Button(null, graphic), translationKey);
         button.setOnAction(onAction);
+        return button;
+    }
+
+    public static Button newDrowDownButton() {
+        return decorateButtonWithDropDownArrow(new Button());
+    }
+
+    public static Button decorateButtonWithDropDownArrow(Button button) {
+        GraphicDecoration dropDownArrowDecoration = new GraphicDecoration(new ImageView("images/16/dropDownArrow.png"), Pos.CENTER_RIGHT, 0, 0, -1, 0);
+        Properties.runNowAndOnPropertiesChange(p -> Platform.runLater(() -> {
+            if (button.getSkin() != null)
+                dropDownArrowDecoration.applyDecoration(button);
+            else
+                button.skinProperty().addListener((observable, oldValue, newValue) -> dropDownArrowDecoration.applyDecoration(button));
+        }), button.graphicProperty());
         return button;
     }
 
