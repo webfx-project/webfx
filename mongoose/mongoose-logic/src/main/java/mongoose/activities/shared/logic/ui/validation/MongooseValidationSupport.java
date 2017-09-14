@@ -9,11 +9,13 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
@@ -41,8 +43,9 @@ import java.util.List;
  */
 public class MongooseValidationSupport {
 
+    private static final String DEFAULT_REQUIRED_MESSAGE = "This field is required";
     private static final Image ERROR_IMAGE = new Image("images/16/validation/decoration-error.png"); //$NON-NLS-1$
-    protected static final Image REQUIRED_IMAGE = new Image("images/16/validation/required-indicator.png"); //$NON-NLS-1$
+    private static final Image REQUIRED_IMAGE = new Image("images/16/validation/required-indicator.png"); //$NON-NLS-1$
 
     private final List<Validator> validators = new ArrayList<>();
     private final List<Node> validatorErrorDecorationNodes = new ArrayList<>();
@@ -71,18 +74,31 @@ public class MongooseValidationSupport {
     }
 
     public void addRequiredInput(TextInputControl textInputControl) {
-        addRequiredInput(textInputControl, "This field is required");
+        addRequiredInput(textInputControl, DEFAULT_REQUIRED_MESSAGE);
     }
 
     public void addRequiredInput(TextInputControl textInputControl, String errorMessage) {
+        addNotEmptyControlValidation(textInputControl.textProperty(), textInputControl, errorMessage);
+    }
+
+    public void addNotEmptyControlValidation(ObservableValue valueProperty, Control control) {
+        addNotEmptyControlValidation(valueProperty, control, DEFAULT_REQUIRED_MESSAGE);
+    }
+
+    public void addNotEmptyControlValidation(ObservableValue valueProperty, Control control, String errorMessage) {
+        addControlValidation(Bindings.createBooleanBinding(() -> testNotEmpty(valueProperty.getValue()), valueProperty), control, errorMessage);
+    }
+
+    private static boolean testNotEmpty(Object value) {
+        return value != null && (!(value instanceof String) || !((String) value).trim().isEmpty());
+    }
+
+    public void addControlValidation(ObservableValue<Boolean> validProperty, Control control, String errorMessage) {
         ObservableRuleBasedValidator validator = new ObservableRuleBasedValidator();
-        ObservableBooleanValue rule = // ObservableRules.notEmpty(textInputControl.textProperty());
-        Bindings.createBooleanBinding(() -> {
-            if (!validatingProperty.get() || !isShowing(textInputControl))
-                return true;
-            final String s = textInputControl.getText();
-            return s != null && !s.trim().isEmpty();
-        }, textInputControl.textProperty(), validatingProperty);
+        ObservableBooleanValue rule = // ObservableRules.notEmpty(control.textProperty());
+                Bindings.createBooleanBinding(() ->
+                    !validatingProperty.get() || !isShowing(control)|| validProperty.getValue()
+                , validProperty, validatingProperty);
         validator.addRule(rule, ValidationMessage.error(errorMessage));
         int index = validators.size();
         validators.add(validator);
@@ -94,13 +110,13 @@ public class MongooseValidationSupport {
             protected Node createErrorNode() {
                 Node errorNode = new ImageView(ERROR_IMAGE);
                 validatorErrorDecorationNodes.set(index, errorNode);
-                errorNode.getProperties().put("control", textInputControl);
+                errorNode.getProperties().put("control", control);
                 return errorNode;
             }
 
             @Override
             protected Collection<Decoration> createValidationDecorations(org.controlsfx.validation.ValidationMessage message) {
-                return Arrays.asList(new GraphicDecoration(createDecorationNode(message), Pos.CENTER_RIGHT, 0, 0, -1, 0));
+                return Arrays.asList(new GraphicDecoration(createDecorationNode(message), Pos.CENTER_RIGHT, control instanceof Button ?  -20 : 0, 0, -1, 0));
             }
 
             @Override
@@ -108,8 +124,8 @@ public class MongooseValidationSupport {
                 return Arrays.asList(new GraphicDecoration(new ImageView(REQUIRED_IMAGE), Pos.CENTER_LEFT, -5, 0));
             }
         });
-        validationVisualizer.initVisualization(validator.getValidationStatus(), textInputControl, true);
-        textInputControl.getProperties().put("validationVisualizer", validationVisualizer);
+        validationVisualizer.initVisualization(validator.getValidationStatus(), control, true);
+        control.getProperties().put("validationVisualizer", validationVisualizer);
     }
 
     private void showValidatorErrorPopOver(Validator validator) {
