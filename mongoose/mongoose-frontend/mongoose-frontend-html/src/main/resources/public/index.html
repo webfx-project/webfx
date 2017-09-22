@@ -116,7 +116,7 @@
         .branch             { --color-light: #E8FFFF; --color-dark: #B5DEE6; }
         .closed             { --color-light: #E0CDCD; --color-dark: #E0CDCD; }
 
-        /**** Applying styles to vaading grid ****/
+        /**** Applying styles to data table and grid ****/
 
         td {
             background: transparent;
@@ -126,33 +126,45 @@
             background-color: transparent;
         }
 
+        .grid-head {
+            border-bottom: 1px solid #bbbbbb;
+        }
 
-        tr {
+        .grid-col:not(:last-child) {
+            overflow: hidden;
+            border-right: 1px solid #bbbbbb;
+        }
+
+        .grid-row {
+            border-top: 1px solid #bbbbbb;
+        }
+
+        tr, .grid-row {
             background: linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
                         linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
                         ;
         }
 
-        tr.selected {
+        tr.selected, .grid-row.selected {
             background: repeating-linear-gradient(-35deg, var(--selection-color), transparent 5px, transparent 10px, var(--selection-color) 15px, var(--selection-color) 20px),
                         linear-gradient(  90deg, var(--stay-color) 0%, var(--stay-color) 40%, transparent 50%, transparent 100%),
                         linear-gradient( 180deg, var(--color-light), var(--color-dark) 100%)
                         ;
         }
 
-        tr.unread {
+        tr.unread, .grid-row.unread {
             font-weight: bold;
         }
 
-        tr.specialRate {
+        tr.specialRate, .grid-row.specialRate {
             font-style: italic;
         }
 
-        tr.kmc {
+        tr.kmc, .grid-row.kmc {
             font-weight: bold;
         }
 
-        tr.branch {
+        tr.branch, .grid-row.branch {
             font-style: italic;
         }
 
@@ -282,7 +294,6 @@
             }
         }
     </style>
-    <link rel="stylesheet" href="css/app.css">
 </head>
 <body style="margin: 0;">
 <table id="loadingSpinner">

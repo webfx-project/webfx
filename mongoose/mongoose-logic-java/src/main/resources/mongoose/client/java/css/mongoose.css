@@ -1,4 +1,4 @@
-DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
+NativeDataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-skin: "naga.fx.spi.javafx.skin.FxControlPeerSkin";
 }
 
@@ -37,14 +37,24 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
 }
 
 .table-row-cell .table-cell {
-    -fx-padding: 9px 5px 5px 5px;
+    -fx-padding: 1.4mm 1.4mm 0.6mm 1.4mm;
 }
 
-.table-row-cell .text, .column-header .text { /* texts displayed in tables */
+.table-row-cell .text, .column-header .text, .grid .text, .grid Text { /* texts displayed in tables */
    -fx-font-family: "Roboto"; /* embedded font to be sure it can correctly render bold and italic on all systems */
    -fx-font-size: 16px;
    -fx-font-smoothing-type: gray;
    -fx-fill: rgba(0, 0, 0, 0.7);
+}
+
+.grid-row {
+    -fx-border-color: #bbbbbb;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.grid-col {
+    -fx-border-color: #bbbbbb;
+    -fx-border-width: 0 1px 0 0;
 }
 
 .table-row-cell:selected .table-cell {
@@ -101,13 +111,13 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
 /* .table-row-cell { */
 .abandoned, .absent, .cancelled, .arrived, .arrivedWithBalance, .flagged, .changed, .passReady, .confirmed, .paidInFull, .overPaid, .noDeposit, .willPay, .paidUnderMinimal, .paidEnough, .nonStay, .workingVisitStay, .discoveryStay, .guestStay, .standardStay .pending, .successful, .failed, .kmc, .kbc, .branch, .closed {
     -fx-background-color:
-        -fx-table-cell-border-color,
+        /*-fx-table-cell-border-color,*/
         linear-gradient(from 0% 0% to 0% 100%, derive(-color-base, +10%) 0%, derive(-color-base, -10%) 100%),
         linear-gradient(from 0% 0% to 100% 0%, -stay-color 0%, -stay-color 40%, transparent 50%, transparent 100%);
     -fx-font-weight: normal;
 }
 
-.table-row-cell:selected {
+/*.table-row-cell:selected*/ .grid-row.selected {
     -fx-background-color:
         -fx-focus-color,
         -fx-cell-focus-inner-border,
