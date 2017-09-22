@@ -40,6 +40,7 @@ public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
     public BookingOptionsPanel(I18n i18n) {
         this.i18n = i18n;
         dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        dataGrid.setHeaderVisible(false);
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override
             public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {

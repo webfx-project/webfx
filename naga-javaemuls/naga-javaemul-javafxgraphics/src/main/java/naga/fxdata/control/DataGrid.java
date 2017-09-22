@@ -1,5 +1,8 @@
 package naga.fxdata.control;
 
+import emul.javafx.beans.property.BooleanProperty;
+import emul.javafx.beans.property.SimpleBooleanProperty;
+import emul.javafx.scene.control.Skin;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 /**
@@ -15,4 +18,17 @@ public class DataGrid extends SelectableDisplayResultSetControl {
         setDisplayResultSet(rs);
     }
 
+    private final BooleanProperty headerVisibleProperty = new SimpleBooleanProperty(true);
+
+    public BooleanProperty headerVisibleProperty() {
+        return headerVisibleProperty;
+    }
+
+    public boolean isHeaderVisible() {
+        return headerVisibleProperty.get();
+    }
+
+    public void setHeaderVisible(boolean showHeaderProperty) {
+        this.headerVisibleProperty.set(showHeaderProperty);
+    }
 }
