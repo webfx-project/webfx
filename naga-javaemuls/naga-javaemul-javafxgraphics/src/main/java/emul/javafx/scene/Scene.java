@@ -9,6 +9,7 @@ import emul.javafx.beans.property.ReadOnlyProperty;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.collections.ObservableMap;
 import emul.javafx.event.EventDispatchChain;
@@ -20,6 +21,7 @@ import emul.javafx.scene.control.Skin;
 import emul.javafx.scene.control.Skinnable;
 import emul.javafx.scene.input.KeyCombination;
 import emul.javafx.stage.Window;
+import naga.commons.scheduler.AnimationFramePass;
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.UiScheduler;
 import naga.commons.util.Strings;
@@ -457,20 +459,20 @@ public class Scene implements EventTarget,
 
         @Override
         public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
-            execute(() -> updateViewProperty(node, changedProperty));
+            executePropertyChange(() -> updateViewProperty(node, changedProperty));
         }
 
         @Override
-        public void requestNodePeerListUpdate(Node node, ObservableList changedList) {
-            execute(() -> updateViewList(node, changedList));
+        public void requestNodePeerListUpdate(Node node, ObservableList changedList, ListChangeListener.Change change) {
+            executePropertyChange(() -> updateViewList(node, changedList, change));
         }
 
-        private void execute(Runnable runnable) {
+        private void executePropertyChange(Runnable runnable) {
             UiScheduler uiScheduler = Toolkit.get().scheduler();
-            if (uiScheduler.isAnimationFrame())
+            if (uiScheduler.isAnimationFrameNow())
                 runnable.run();
             else
-                uiScheduler.scheduleAnimationFrame(runnable);
+                uiScheduler.schedulePropertyChangeInNextAnimationFrame(runnable);
         }
     };
 
@@ -479,16 +481,16 @@ public class Scene implements EventTarget,
     }
 
     private void keepParentAndChildrenPeersUpdated(Parent parent) {
-        ObservableLists.runNowAndOnListChange(() -> {
+        ObservableLists.runNowAndOnListChange(c -> {
             // Setting the parent to all children
             for (Node child : parent.getChildren())
                 child.setParent(parent);
-            updateParentAndChildrenPeers(parent);
+            updateParentAndChildrenPeers(parent, (ListChangeListener.Change<Node>) c);
         }, parent.getChildren());
     }
 
-    private void updateParentAndChildrenPeers(Parent parent) {
-        impl_getPeer().updateParentAndChildrenPeers(parent);
+    private void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
+        impl_getPeer().updateParentAndChildrenPeers(parent, childrenChange);
     }
 
     private boolean updateViewProperty(Node node, ObservableValue changedProperty) {
@@ -502,12 +504,12 @@ public class Scene implements EventTarget,
         return nodePeer.updateProperty(changedProperty);
     }
 
-    private boolean updateViewList(Node node, ObservableList changedList) {
-        return updateViewList(getOrCreateAndBindNodePeer(node), changedList);
+    private boolean updateViewList(Node node, ObservableList changedList, ListChangeListener.Change change) {
+        return updateViewList(getOrCreateAndBindNodePeer(node), changedList, change);
     }
 
-    private boolean updateViewList(NodePeer nodePeer, ObservableList changedList) {
-        return nodePeer.updateList(changedList);
+    private boolean updateViewList(NodePeer nodePeer, ObservableList changedList, ListChangeListener.Change change) {
+        return nodePeer.updateList(changedList, change);
     }
 
     public void updateChildrenPeers(Collection<Node> nodes) {
@@ -563,9 +565,9 @@ public class Scene implements EventTarget,
 
 
     private NodePeer<Node> createNodePeer(Node node) {
-        ScenePeer peer = impl_getPeer();
-        NodePeer<Node> nodePeer = peer.getNodePeerFactory().createNodePeer(node);
-        peer.onNodePeerCreated(nodePeer);
+        ScenePeer scenePeer = impl_getPeer();
+        NodePeer<Node> nodePeer = scenePeer.getNodePeerFactory().createNodePeer(node);
+        scenePeer.onNodePeerCreated(nodePeer);
         return nodePeer;
     }
 
@@ -590,7 +592,7 @@ public class Scene implements EventTarget,
 
     public void startPulse() {
         if (pulseScheduled == null)
-            pulseScheduled = Toolkit.get().scheduler().schedulePeriodicAnimationFrame(scenePulseListener::pulse, true);
+            pulseScheduled = Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(scenePulseListener::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
     }
 
     public void stopPulse() {
