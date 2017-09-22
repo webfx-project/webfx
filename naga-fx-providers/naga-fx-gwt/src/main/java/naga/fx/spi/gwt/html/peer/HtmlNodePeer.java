@@ -1,21 +1,17 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
+import emul.javafx.geometry.HPos;
+import emul.javafx.geometry.Pos;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.effect.GaussianBlur;
 import emul.javafx.scene.shape.Circle;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.TextAlignment;
-import emul.javafx.scene.transform.Transform;
 import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
-import naga.fx.spi.gwt.util.DomType;
-import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerMixin;
-
-import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -27,32 +23,6 @@ public abstract class HtmlNodePeer
 
     HtmlNodePeer(NB base, HTMLElement element) {
         super(base, element);
-    }
-
-    @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        CSSStyleDeclaration style = getElement().style;
-        style.transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
-    }
-
-    @Override
-    protected boolean isStyleAttribute(String name) {
-        if (containerType == DomType.HTML)
-            switch (name) {
-                case "pointer-events":
-                case "visibility":
-                case "opacity":
-                case "clip-path":
-                case "mix-blend-mode":
-                case "filter":
-                case "font-family":
-                case "font-style":
-                case "font-weight":
-                case "font-size":
-                case "transform":
-                    return true;
-            }
-        return false;
     }
 
     @Override
@@ -89,6 +59,20 @@ public abstract class HtmlNodePeer
     static String toCssTextAlignment(TextAlignment textAlignment) {
         if (textAlignment != null)
             switch (textAlignment) {
+                case LEFT: return "left";
+                case CENTER: return "center";
+                case RIGHT: return "right";
+            }
+        return null;
+    }
+
+    static String toCssTextAlignment(Pos pos) {
+        return pos == null ? null : toCssTextAlignment(pos.getHpos());
+    }
+
+    static String toCssTextAlignment(HPos hPos) {
+        if (hPos != null)
+            switch (hPos) {
                 case LEFT: return "left";
                 case CENTER: return "center";
                 case RIGHT: return "right";

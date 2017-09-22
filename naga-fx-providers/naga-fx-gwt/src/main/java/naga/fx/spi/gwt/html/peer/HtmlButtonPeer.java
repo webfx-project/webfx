@@ -23,6 +23,7 @@ public class HtmlButtonPeer
 
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
+        prepareDomForAdditionalSkinChildren();
     }
 
     @Override
@@ -38,7 +39,7 @@ public class HtmlButtonPeer
 
     private boolean graphicClickPropagation;
     @Override
-    protected void onClickElement(Event e) {
+    protected boolean onClickElement(Event e) {
         if (!graphicClickPropagation) {
             super.onClickElement(e);
             // Ugly patch to propagate the click on the graphic (ex: a radio button) as some browsers don't do it (ex: FireFox and IE)
@@ -49,5 +50,6 @@ public class HtmlButtonPeer
                 graphicClickPropagation = false;
             }
         }
+        return true;
     }
 }
