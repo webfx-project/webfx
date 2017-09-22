@@ -26,6 +26,8 @@ public class HtmlImageViewPeer
         extends HtmlNodePeer<N, NB, NM>
         implements ImageViewPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
+    private Double loadedWidth, loadedHeight;
+
     public HtmlImageViewPeer() {
         this((NB) new ImageViewPeerBase(), createImageElement());
     }
@@ -50,6 +52,7 @@ public class HtmlImageViewPeer
     public void updateImage(Image image) {
         // Trying to inline svg images when possible to allow css rules such as svg {fill: currentColor} which is useful
         // to have the same color for the image and the text (in a button for example).
+        loadedWidth = loadedHeight = null;
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
             onLoad();
@@ -58,9 +61,8 @@ public class HtmlImageViewPeer
     }
 
     private void onLoad() {
-        clearCache();
         N node = getNode();
-        if (sizeChangedCallback != null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
+        if (sizeChangedCallback != null && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
             sizeChangedCallback.run();
     }
 
@@ -153,5 +155,41 @@ public class HtmlImageViewPeer
     public double prefHeight(double width) {
         double fitHeight = getNode().getFitHeight();
         return fitHeight > 0 ? fitHeight : measureHeight(width);
+    }
+
+    @Override
+    public double measureWidth(double height) {
+        if (loadedWidth != null)
+            return loadedWidth;
+        HTMLElement element = getElement();
+        double width;
+        if (element instanceof HTMLImageElement)
+            width = ((HTMLImageElement) element).naturalWidth;
+        else
+            width = sizeAndMeasure(height, true);
+        if (width > 0) {
+            loadedWidth = width;
+            if (sizeChangedCallback != null && loadedHeight == null)
+                sizeChangedCallback.run();
+        }
+        return width;
+    }
+
+    @Override
+    public double measureHeight(double width) {
+        if (loadedHeight != null)
+            return loadedHeight;
+        HTMLElement element = getElement();
+        double height;
+        if (element instanceof HTMLImageElement)
+            height = ((HTMLImageElement) element).naturalHeight;
+        else
+            height = sizeAndMeasure(width, false);
+        if (height > 0) {
+            loadedHeight = height;
+            if (sizeChangedCallback != null && loadedWidth == null)
+                sizeChangedCallback.run();
+        }
+        return height;
     }
 }
