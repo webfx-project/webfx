@@ -1,5 +1,10 @@
 package naga.commons.scheduler;
 
+import naga.commons.util.function.Consumer;
+import naga.commons.util.tuples.Unit;
+
+import static naga.commons.scheduler.AnimationFramePass.*;
+
 /**
  * @author Bruno Salmon
  */
@@ -21,21 +26,43 @@ public interface UiScheduler extends Scheduler {
             runInBackground(runnable);
     }
 
-    default Scheduled scheduleAnimationFrame(Runnable runnable) {
-        return scheduleAnimationFrame(0, runnable);
+    default Scheduled schedulePropertyChangeInNextAnimationFrame(Runnable propertyChangeTask) {
+        return scheduleInNextAnimationFrame(propertyChangeTask, PROPERTY_CHANGE_PASS);
     }
 
-    Scheduled scheduleAnimationFrame(long delayMs, Runnable runnable);
+    default Scheduled scheduleInNextAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return scheduleDelayInAnimationFrame(0, animationTask, pass);
+    }
 
-    Scheduled schedulePeriodicAnimationFrame(Runnable runnable, boolean isPulse);
+    Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass);
 
-    void requestNextPulse();
+    default Scheduled scheduleDelayInAnimationFrame(long delayMs, Consumer<Scheduled> animationTask, AnimationFramePass pass) {
+        Unit<Scheduled> scheduledHolder = new Unit<>();
+        Scheduled scheduled = scheduleDelayInAnimationFrame(delayMs, () -> animationTask.accept(scheduledHolder.get()), pass);
+        scheduledHolder.set(scheduled);
+        return scheduled;
+    }
 
-    boolean isAnimationFrame();
+    default Scheduled schedulePeriodicInAnimationFrame(Runnable animationTask, AnimationFramePass pass) {
+        return schedulePeriodicInAnimationFrame(0, animationTask, pass);
+    }
+
+    default Scheduled schedulePeriodicInAnimationFrame(Consumer<Scheduled> animationTask, AnimationFramePass pass) {
+        Unit<Scheduled> scheduledHolder = new Unit<>();
+        Scheduled scheduled = schedulePeriodicInAnimationFrame(() -> animationTask.accept(scheduledHolder.get()), pass);
+        scheduledHolder.set(scheduled);
+        return scheduled;
+    }
+
+    Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass);
+
+    void requestNextScenePulse();
+
+    boolean isAnimationFrameNow();
 
     // Run immediately but isAnimationFrame() returns true -> the layout pass is executed immediately instead of being
     // postponed to the next animation frame. This is can be useful if a node rendering is needed outside the animation
     // frame (for example when rendering a table cell during a repaint triggered by Swing).
-    void runLikeAnimationFrame(Runnable runnable);
+    void runLikeInAnimationFrame(Runnable runnable);
 
 }

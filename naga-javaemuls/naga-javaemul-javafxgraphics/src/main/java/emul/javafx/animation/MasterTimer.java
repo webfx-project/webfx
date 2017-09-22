@@ -1,5 +1,6 @@
 package emul.javafx.animation;
 
+import naga.commons.scheduler.AnimationFramePass;
 import naga.fx.spi.Toolkit;
 
 /**
@@ -16,7 +17,7 @@ class MasterTimer extends AbstractMasterTimer {
 
     @Override
     protected void postUpdateAnimationRunnable(DelayedRunnable animationRunnable) {
-        Toolkit.get().scheduler().scheduleAnimationFrame(animationRunnable.getDelay(), animationRunnable);
+        Toolkit.get().scheduler().scheduleDelayInAnimationFrame(animationRunnable.getDelay(), animationRunnable, AnimationFramePass.UI_UPDATE_PASS);
     }
 
     @Override

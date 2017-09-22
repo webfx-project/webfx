@@ -2,6 +2,7 @@ package emul.javafx.stage;
 
 import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
+import naga.commons.scheduler.AnimationFramePass;
 import naga.commons.scheduler.Scheduled;
 import emul.javafx.geometry.Rectangle2D;
 import naga.fx.properties.Properties;
@@ -299,7 +300,7 @@ public class Window implements EventTarget,
                     // Register pulse listener
                     // tk.addStageTkPulseListener(peerBoundsConfigurator);
                     if (pulseScheduled == null)
-                        pulseScheduled = Toolkit.get().scheduler().schedulePeriodicAnimationFrame(peerBoundsConfigurator::pulse, true);
+                        pulseScheduled = Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(peerBoundsConfigurator::pulse, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
 
 
                     if (getScene() != null) {
@@ -368,7 +369,7 @@ public class Window implements EventTarget,
                 }
             }
             if (newVisible) {
-                Toolkit.get().scheduler().requestNextPulse();
+                Toolkit.get().scheduler().requestNextScenePulse();
             }
             impl_visibleChanged(newVisible);
 
@@ -917,7 +918,7 @@ public class Window implements EventTarget,
 
         private void setDirty() {
             if (!dirty) {
-                Toolkit.get().scheduler().requestNextPulse();
+                Toolkit.get().scheduler().requestNextScenePulse();
                 dirty = true;
             }
         }

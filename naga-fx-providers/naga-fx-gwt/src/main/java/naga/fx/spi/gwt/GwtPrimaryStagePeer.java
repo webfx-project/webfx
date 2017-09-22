@@ -3,6 +3,7 @@ package naga.fx.spi.gwt;
 import emul.com.sun.javafx.tk.TKStageListener;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
+import naga.commons.scheduler.AnimationFramePass;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -22,10 +23,10 @@ class GwtPrimaryStagePeer implements StagePeer {
 
     GwtPrimaryStagePeer(Stage stage) {
         this.stage = stage;
-        // Disabling horizontal scroll bar (but allowing vertical scroll bar)
-        HtmlUtil.setStyleAttribute(document.documentElement, "overflow-x", "hidden");
+        // Disabling horizontal and vertical scroll bars
+        HtmlUtil.setStyleAttribute(document.documentElement, "overflow", "hidden");
         // Checking the window size on each pulse (window.onsize is not enough because it doesn't detect vertical scroll bar apparition)
-        Toolkit.get().scheduler().schedulePeriodicAnimationFrame(this::changedWindowSize, false);
+        Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(this::changedWindowSize, AnimationFramePass.PROPERTY_CHANGE_PASS);
     }
 
     @Override
@@ -33,7 +34,7 @@ class GwtPrimaryStagePeer implements StagePeer {
         this.listener = listener;
         listener.changedLocation(0, 0);
         lastWidth = lastHeight = 0; // to force listener call in changedWindowSize()
-        Toolkit.get().scheduler().requestNextPulse(); // to ensure changedWindowSize() will be called very soon
+        Toolkit.get().scheduler().requestNextScenePulse(); // to ensure changedWindowSize() will be called very soon
     }
 
     @Override
