@@ -1,6 +1,7 @@
 package emul.javafx.scene;
 
 import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.collections.ListChangeListener;
 import naga.fx.spi.peer.base.ScenePeerBase;
 import emul.javafx.scene.transform.Transform;
 import naga.fx.spi.peer.CanvasNodePeer;
@@ -22,7 +23,7 @@ public abstract class CanvasScenePeer
     }
 
     @Override
-    public void updateParentAndChildrenPeers(Parent parent) {
+    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
         scene.updateChildrenPeers(parent.getChildren());
         requestCanvasRepaint();
     }

@@ -612,7 +612,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
     }
 
     void requestNextPulse() {
-        Toolkit.get().scheduler().requestNextPulse();
+        Toolkit.get().scheduler().requestNextScenePulse();
 /*
         if (getSubScene() != null) {
             getSubScene().setDirtyLayout(p);
@@ -1535,6 +1535,29 @@ public abstract class Node implements INode, EventTarget, Styleable {
     void localToParent(emul.com.sun.javafx.geom.Point2D pt) {
         for (Transform transform : localToParentTransforms()) {
             emul.com.sun.javafx.geom.Point2D p = transform.transform(pt);
+            pt.x = p.x;
+            pt.y = p.y;
+        }
+    }
+
+    public Point2D sceneToLocal(double localX, double localY) {
+        final emul.com.sun.javafx.geom.Point2D tempPt =
+                TempState.getInstance().point;
+        tempPt.setLocation((float)localX, (float)localY);
+        sceneToLocal(tempPt);
+        return new Point2D(tempPt.x, tempPt.y);
+    }
+
+    void sceneToLocal(emul.com.sun.javafx.geom.Point2D pt) {
+        if (getParent() != null) {
+            getParent().sceneToLocal(pt);
+        }
+        parentToLocal(pt);
+    }
+
+    void parentToLocal(emul.com.sun.javafx.geom.Point2D pt) {
+        for (Transform transform : localToParentTransforms()) {
+            emul.com.sun.javafx.geom.Point2D p = transform.inverseTransform(pt);
             pt.x = p.x;
             pt.y = p.y;
         }

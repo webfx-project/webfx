@@ -76,7 +76,7 @@ public class SwingImageViewPeer
                 // Now that we have the image, we update the JavaFx node (in the UI thread)
                 uiScheduler.runInUiThread(() -> swingImage.setIcon(icon));
                 // In case the icon is in a table cell, the above call didn't update the UI so we request a UI refresh
-                uiScheduler.requestNextPulse();
+                uiScheduler.requestNextScenePulse();
             });
         }
     }
