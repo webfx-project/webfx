@@ -1,11 +1,15 @@
 package naga.fx.spi.gwt.html.peer;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import elemental2.dom.HTMLCanvasElement;
+import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.Text;
 import emul.javafx.scene.text.TextAlignment;
 import naga.commons.util.Numbers;
+import naga.commons.util.Objects;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -29,8 +33,17 @@ public class HtmlTextPeer
         setElementStyleAttribute("line-height", "100%");
     }
 
+    private Runnable sizeChangedCallback;
+
+    @Override
+    public void setSizeChangedCallback(Runnable sizeChangedCallback) {
+        this.sizeChangedCallback = sizeChangedCallback;
+    }
+
+
     @Override
     public void updateText(String text) {
+        currentTextMetrics = null;
         setElementTextContent(text);
         updateYOnNextPulse();
     }
@@ -69,8 +82,10 @@ public class HtmlTextPeer
             updateYRunnable = () -> {
                 updateY(getNode().getY());
                 updateYRunnable = null;
+                if (sizeChangedCallback != null)
+                    sizeChangedCallback.run();
             };
-            Toolkit.get().scheduler().scheduleAnimationFrame(updateYRunnable);
+            Toolkit.get().scheduler().schedulePropertyChangeInNextAnimationFrame(updateYRunnable);
         }
     }
 
@@ -94,9 +109,48 @@ public class HtmlTextPeer
         updateYOnNextPulse();
     }
 
+    private static HTMLCanvasElement canvas = HtmlUtil.createElement("canvas");
+    private String lastFont;
+    private JavaScriptObject currentTextMetrics;
+
+    @Override
+    public double measureWidth(double height) {
+        if (getCurrentTextMetrics() != null)
+            return getTextMetricsWidth(currentTextMetrics);
+        return sizeAndMeasure(height, true);
+    }
+
+/*
+    @Override
+    public double measureHeight(double width) {
+        return 17;
+    }
+*/
+
     private final HtmlLayoutCache cache = new HtmlLayoutCache();
     @Override
     public HtmlLayoutCache getCache() {
         return cache;
     }
+
+    private JavaScriptObject getCurrentTextMetrics() {
+        HTMLElement element = getElement();
+        String font = element.style.font;
+        if (font == null || font.isEmpty())
+            return null;
+        if (currentTextMetrics == null || !Objects.areEquals(font, lastFont))
+            currentTextMetrics = getTextMetrics(canvas, getNode().getText(), lastFont = font);
+        return currentTextMetrics;
+    }
+
+
+    private native JavaScriptObject getTextMetrics(HTMLCanvasElement canvas, String text, String font)/*-{
+        var context = canvas.getContext("2d");
+        context.font = font;
+        return context.measureText(text);
+    }-*/;
+
+    private static native double getTextMetricsWidth(JavaScriptObject metrics)/*-{
+        return metrics.width;
+    }-*/;
 }
