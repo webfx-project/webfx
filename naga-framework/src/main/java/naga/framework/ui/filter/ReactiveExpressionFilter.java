@@ -21,6 +21,7 @@ import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityListWrapper;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.i18n.I18n;
@@ -329,8 +330,7 @@ public class ReactiveExpressionFilter {
             }, i18n.dictionaryProperty(), activeProperty);
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
         Observable<StringFilter> resultingStringFilterObservable = Observable
-                .combineLatest(stringFilterObservables, this::mergeStringFilters)
-                .filter(stringFilter -> isActive());
+                .combineLatest(stringFilterObservables, this::mergeStringFilters);
         resultingStringFilterObservable = resultingStringFilterObservable.mergeWith(lastStringFilterReEmitter);
         Observable<EntityList> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
             Object[] parameterValues = null;
@@ -358,9 +358,9 @@ public class ReactiveExpressionFilter {
         if (!filterDisplays.isEmpty() && filterDisplays.get(0).displayResultSetProperty != null)
             entityListObservable
                 // Finally transforming the EntityList into a DisplayResultSet
-                .map(this::entitiesToDisplayResultSets)
+                .map(this::entitiesToDisplayResultSets) // also calls entitiesHandler
                 .subscribe(this::applyDisplayResultSets);
-        if (entitiesHandler != null)
+        else if (entitiesHandler != null)
             entityListObservable.subscribe(entitiesHandler::handle);
         started = true;
         return this;
@@ -433,18 +433,42 @@ public class ReactiveExpressionFilter {
             filterDisplay.resetDisplayResultSet(empty);
     }
 
+    // Cache fields used in queryResultSetToEntities() method
+    private QueryResultSet lastRsInput;
+    private EntityList lastEntitiesOutput;
+
     private EntityList queryResultSetToEntities(QueryResultSet rs, SqlCompiled sqlCompiled) {
-        return QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
+        // Returning the cached output if input didn't change (ex: the same result set instance is emitted again on active property change)
+        if (rs == lastRsInput)
+            return lastEntitiesOutput;
+        // Otherwise really generates the entity list (the content will changed but not the instance of the returned list)
+        EntityList entities = QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
+        // Caching and returning the result
+        lastRsInput = rs;
+        if (entities == lastEntitiesOutput) // It's also important to make sure the output instance is not the same
+            entities = new EntityListWrapper(entities); // by wrapping the list (for entitiesToDisplayResultSets() cache system)
+        return lastEntitiesOutput = entities;
     }
 
+    // Cache fields used in entitiesToDisplayResultSets() method
+    private EntityList lastEntitiesInput;
+    private DisplayResultSet[] lastDisplayResultSetsOutput;
+
     private DisplayResultSet[] entitiesToDisplayResultSets(EntityList entities) {
+        // Returning the cached output if input didn't change (ex: the same entity list instance is emitted again on active property change)
+        if (entities == lastEntitiesInput)
+            return lastDisplayResultSetsOutput; // Returning the same instance will avoid triggering the resultSets changeListeners (high cpu consuming in UI)
+        // Calling the entities handler now we are sure there is a real change
         if (entitiesHandler != null)
             entitiesHandler.handle(entities);
+        // Transforming the entities into displayResultSets (entity to display mapping)
         int n = filterDisplays.size();
         DisplayResultSet[] resultSets = new DisplayResultSet[n];
         for (int i = 0; i < n; i++)
             resultSets[i] = filterDisplays.get(i).entitiesListToDisplayResultSet(entities);
-        return resultSets;
+        // Caching and returning the result
+        lastEntitiesInput = entities;
+        return lastDisplayResultSetsOutput = resultSets;
     }
 
     private void applyDisplayResultSets(DisplayResultSet[] displayResultSets) {
@@ -615,7 +639,7 @@ public class ReactiveExpressionFilter {
             displayResultSetProperty.setValue(emptyDisplayResultSet());
         }
 
-        DisplayResultSet entitiesListToDisplayResultSet(EntityList entities) {
+        DisplayResultSet entitiesListToDisplayResultSet(List<? extends Entity> entities) {
             collectColumnsPersistentTerms();
             return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns, i18n);
         }
