@@ -1,12 +1,9 @@
 package emul.javafx.scene.input;
 
+import emul.com.sun.javafx.geom.Point2D;
+import emul.com.sun.javafx.scene.input.InputEventUtils;
 import emul.javafx.event.EventTarget;
 import emul.javafx.event.EventType;
-import emul.javafx.geometry.Point3D;
-import emul.javafx.scene.input.InputEvent;
-import emul.javafx.scene.input.PickResult;
-import emul.javafx.scene.input.TransferMode;
-import emul.com.sun.javafx.scene.input.InputEventUtils;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -374,12 +371,19 @@ public final class DragEvent extends InputEvent {
             return;
         }
 
+/*
         final Point3D newCoordinates = InputEventUtils.recomputeCoordinates(
                 pickResult, newSource);
 
         newEvent.x = newCoordinates.getX();
         newEvent.y = newCoordinates.getY();
         newEvent.z = newCoordinates.getZ();
+*/
+        final Point2D newCoordinates = InputEventUtils.recomputeCoordinates(
+                pickResult, newSource);
+
+        newEvent.x = newCoordinates.x;
+        newEvent.y = newCoordinates.y;
     }
 
     @Override

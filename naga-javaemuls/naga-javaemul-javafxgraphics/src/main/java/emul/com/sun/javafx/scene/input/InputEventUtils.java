@@ -1,7 +1,8 @@
 package emul.com.sun.javafx.scene.input;
 
+import emul.com.sun.javafx.geom.Point2D;
+import emul.javafx.scene.Node;
 import emul.javafx.scene.input.PickResult;
-import emul.javafx.geometry.Point3D;
 import emul.javafx.scene.input.TransferMode;
 
 import java.util.Arrays;
@@ -13,40 +14,47 @@ import java.util.List;
  */
 public class InputEventUtils {
 
+    public static Point2D toSunPoint2D(emul.javafx.geometry.Point2D p) {
+        return new Point2D((float) p.getX(), (float) p.getY());
+    }
+
     /**
      * Recomputes event coordinates for a different node.
      * @param result Coordinates to recompute
      * @param newSource Node to whose coordinate system to recompute
      * @return the recomputed coordinates
      */
-    public static Point3D recomputeCoordinates(PickResult result, Object newSource) {
+    public static Point2D recomputeCoordinates(PickResult result, Object newSource) {
 
-        Point3D coordinates = null; // result.getIntersectedPoint();
+        Point2D coordinates = result.getIntersectedPoint();
         if (coordinates == null)
-            return new Point3D(Double.NaN, Double.NaN, Double.NaN);
+            return new Point2D(Float.NaN, Float.NaN);
 
-        System.out.println("Warning: InputEventUtils.recomputeCoordinates() not yet implemented");
-
-/*
         Node oldSourceNode = result.getIntersectedNode();
         Node newSourceNode = (newSource instanceof Node) ? (Node) newSource : null;
 
+/*
         final SubScene oldSubScene =
                 (oldSourceNode == null ? null : NodeHelper.getSubScene(oldSourceNode));
         final SubScene newSubScene =
                 (newSourceNode == null ? null : NodeHelper.getSubScene(newSourceNode));
         final boolean subScenesDiffer = (oldSubScene != newSubScene);
+*/
 
         if (oldSourceNode != null) {
             // transform to scene/nearest-subScene coordinates
-            coordinates = oldSourceNode.localToScene(coordinates);
+            coordinates = toSunPoint2D(oldSourceNode.localToScene(coordinates.x, coordinates.y));
+/*
             if (subScenesDiffer && oldSubScene != null) {
                 // transform to scene coordiantes
                 coordinates = SceneUtils.subSceneToScene(oldSubScene, coordinates);
             }
+*/
         }
 
         if (newSourceNode != null) {
+
+/*
             if (subScenesDiffer && newSubScene != null) {
                 // flatten the coords to flat mouse coordinates - project
                 // by scene's camera
@@ -65,15 +73,15 @@ public class InputEventUtils {
                             planeCoords.getX(), planeCoords.getY());
                 }
             }
+*/
             // transform the point to source's local coordinates
             if (coordinates != null) {
-                coordinates = newSourceNode.sceneToLocal(coordinates);
+                coordinates = toSunPoint2D(newSourceNode.sceneToLocal(coordinates.x, coordinates.y));
             }
             if (coordinates == null) {
-                coordinates = new Point3D(Double.NaN, Double.NaN, Double.NaN);
+                coordinates = new Point2D(Float.NaN, Float.NaN);
             }
         }
-*/
 
         return coordinates;
     }

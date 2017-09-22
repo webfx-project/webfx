@@ -1,9 +1,10 @@
 package emul.javafx.scene.input;
 
+import emul.com.sun.javafx.geom.Point2D;
+import emul.com.sun.javafx.scene.input.InputEventUtils;
 import emul.javafx.event.Event;
 import emul.javafx.event.EventTarget;
 import emul.javafx.event.EventType;
-import emul.javafx.scene.input.*;
 
 /**
  * When mouse event occurs, the top-most node under cursor is picked and
@@ -215,6 +216,10 @@ public class MouseEvent extends InputEvent {
         y = newCoordinates.getY();
         z = newCoordinates.getZ();
 */
+        Point2D newCoordinates = InputEventUtils.recomputeCoordinates(pickResult, newSource);
+        x = newCoordinates.x;
+        y = newCoordinates.y;
+
     }
 
     @Override
@@ -360,12 +365,16 @@ public class MouseEvent extends InputEvent {
         this.synthesized = synthesized;
         this.stillSincePress = stillSincePress;
         this.popupTrigger = popupTrigger;
-        this.pickResult = pickResult;
-        this.pickResult = null; //pickResult != null ? pickResult : new PickResult(target, x, y);
-        //final Point3D p = InputEventUtils.recomputeCoordinates(this.pickResult, null);
-        this.x = 0; //p.getX();
-        this.y = 0; //p.getY();
-        this.z = 0; //p.getZ();
+        this.pickResult = pickResult != null ? pickResult : new PickResult(target, x, y);
+/*
+        final Point3D p = InputEventUtils.recomputeCoordinates(this.pickResult, null);
+        this.x = p.getX();
+        this.y = p.getY();
+        this.z = p.getZ();
+*/
+        final Point2D p = InputEventUtils.recomputeCoordinates(this.pickResult, null);
+        this.x = p.x;
+        this.y = p.y;
     }
 
     @Override
