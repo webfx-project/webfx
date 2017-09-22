@@ -9,7 +9,6 @@ import emul.javafx.scene.transform.Transform;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.fx.spi.gwt.util.HtmlTransforms;
-import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.TextInputControlPeerBase;
 import naga.fx.spi.peer.base.TextInputControlPeerMixin;
 
@@ -21,17 +20,12 @@ import java.util.List;
 public abstract class HtmlTextInputControlPeer
         <N extends TextInputControl, NB extends TextInputControlPeerBase<N, NB, NM>, NM extends TextInputControlPeerMixin<N, NB, NM>>
 
-        extends HtmlRegionPeer<N, NB, NM>
+        extends HtmlControlPeer<N, NB, NM>
         implements TextInputControlPeerMixin<N, NB, NM> {
 
     public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement) {
         super(base, textInputElement);
-        HTMLElement spanContainer = HtmlUtil.absolutePosition(HtmlUtil.createSpanElement());
-        setContainer(spanContainer);
-        HTMLElement childrenContainer = HtmlUtil.createSpanElement();
-        HtmlUtil.setStyleAttribute(childrenContainer, "pointer-events", "none");
-        setChildrenContainer(childrenContainer);
-        HtmlUtil.setChildren(spanContainer, textInputElement, childrenContainer);
+        prepareDomForAdditionalSkinChildren();
         textInputElement.oninput = e -> {
             getNode().setText(getValue());
             return null;

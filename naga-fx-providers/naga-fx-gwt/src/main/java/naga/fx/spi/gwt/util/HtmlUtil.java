@@ -12,16 +12,22 @@ import static elemental2.dom.DomGlobal.document;
  */
 public class HtmlUtil {
 
-    public static <N extends Node> N removeChildren(N node) {
-        if (node != null)
-            while (node.firstChild != null)
-                node.removeChild(node.firstChild);
-        return node;
+    public static <N extends Node> N removeChildren(N parent) {
+        if (parent != null)
+            while (parent.firstChild != null)
+                parent.removeChild(parent.firstChild);
+        return parent;
     }
 
     public static <N extends Node> N appendChild(N parent, Node child) {
         if (parent != null && child != null)
             parent.appendChild(child);
+        return parent;
+    }
+
+    public static <N extends Node> N removeChild(N parent, Node child) {
+        if (parent != null && child != null)
+            parent.removeChild(child);
         return parent;
     }
 
@@ -68,6 +74,12 @@ public class HtmlUtil {
     public static <N extends Node> N appendChildren(N parent, Node... children) {
         for (Node child : children)
             appendChild(parent, child);
+        return parent;
+    }
+
+    public static <N extends Node> N removeChildren(N parent, Iterable<? extends Node> children) {
+        for (Node child : children)
+            removeChild(parent, child);
         return parent;
     }
 
@@ -161,6 +173,14 @@ public class HtmlUtil {
 
     private static native void setJsAttribute(JavaScriptObject o, String name, String value) /*-{
         o[name] = value;
+    }-*/;
+
+    public static native void setJsJavaObjectAttribute(JavaScriptObject o, String name, Object value) /*-{
+        o[name] = value;
+    }-*/;
+
+    public static native <T> T getJsJavaObjectAttribute(JavaScriptObject o, String name) /*-{
+        return o[name];
     }-*/;
 
     public static native CSSStyleDeclaration getComputedStyle(Element e) /*-{

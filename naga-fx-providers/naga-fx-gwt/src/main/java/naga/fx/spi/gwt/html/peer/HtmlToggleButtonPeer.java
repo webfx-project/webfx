@@ -25,8 +25,9 @@ public class HtmlToggleButtonPeer
     }
 
     @Override
-    protected void onClickElement(Event e) {
+    protected boolean onClickElement(Event e) {
         getNode().fire();
+        return true;
     }
 
     @Override
