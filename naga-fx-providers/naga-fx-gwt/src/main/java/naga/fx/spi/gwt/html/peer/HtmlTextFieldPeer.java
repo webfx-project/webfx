@@ -1,6 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
+import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.Pos;
 import emul.javafx.scene.control.PasswordField;
 import emul.javafx.scene.control.TextField;
@@ -34,14 +35,11 @@ public class HtmlTextFieldPeer
     }
 
     @Override
+    public void updatePadding(Insets padding) {
+    }
+
+    @Override
     public void updateAlignment(Pos alignment) {
-        String textAlign = null;
-        if (alignment != null)
-            switch (alignment.getHpos()) {
-                case LEFT: textAlign = "left"; break;
-                case CENTER: textAlign = "center"; break;
-                case RIGHT: textAlign = "right"; break;
-            }
-        setElementStyleAttribute("text-align", textAlign);
+        setElementStyleAttribute("text-align", toCssTextAlignment(alignment));
     }
 }
