@@ -1,7 +1,7 @@
 package naga.fxdata.spi.peer.base;
 
 import naga.fx.spi.peer.base.ControlPeerMixin;
-import naga.fxdata.DisplayResultSetControl;
+import naga.fxdata.control.DisplayResultSetControl;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 /**

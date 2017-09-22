@@ -3,7 +3,7 @@ package naga.fxdata.spi.peer.base;
 import emul.javafx.beans.value.ObservableValue;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.peer.base.ControlPeerBase;
-import naga.fxdata.DisplayResultSetControl;
+import naga.fxdata.control.DisplayResultSetControl;
 
 /**
  * @author Bruno Salmon

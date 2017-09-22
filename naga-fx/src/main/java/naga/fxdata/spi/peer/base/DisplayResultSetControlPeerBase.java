@@ -2,7 +2,7 @@ package naga.fxdata.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
 import naga.fx.spi.peer.base.ControlPeerBase;
-import naga.fxdata.DisplayResultSetControl;
+import naga.fxdata.control.DisplayResultSetControl;
 import naga.fx.scene.SceneRequester;
 
 /**

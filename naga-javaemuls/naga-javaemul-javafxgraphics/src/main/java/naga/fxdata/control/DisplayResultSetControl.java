@@ -1,4 +1,4 @@
-package naga.fxdata;
+package naga.fxdata.control;
 
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
