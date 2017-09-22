@@ -1,5 +1,6 @@
 package naga.fx.spi.peer.base;
 
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.control.ChoiceBox;
 import naga.fx.scene.SceneRequester;
@@ -19,9 +20,9 @@ public class ChoiceBoxPeerBase
     }
 
     @Override
-    public boolean updateList(ObservableList changedList) {
-        return super.updateList(changedList) ||
-            updateList(node.getItems(), changedList, mixin::updateItems)
+    public boolean updateList(ObservableList list, ListChangeListener.Change change) {
+        return super.updateList(list, change) ||
+                updateList(node.getItems(), list, change, mixin::updateItems)
                 ;
     }
 }

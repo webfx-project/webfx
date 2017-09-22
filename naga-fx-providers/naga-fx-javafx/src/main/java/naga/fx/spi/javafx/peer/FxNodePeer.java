@@ -1,5 +1,6 @@
 package naga.fx.spi.javafx.peer;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventTarget;
 import javafx.scene.Node;
@@ -12,7 +13,6 @@ import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerImpl;
 import naga.fx.spi.peer.base.NodePeerMixin;
 
-import java.util.Collection;
 import java.util.List;
 
 
@@ -101,12 +101,16 @@ public abstract class FxNodePeer
     }
 
     @Override
-    public void updateTransforms(List<Transform> transforms) {
+    public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
         fxNode.getTransforms().setAll(transforms);
     }
 
     @Override
-    public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+    public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
+    }
+
+    @Override
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
         // never called
     }
 

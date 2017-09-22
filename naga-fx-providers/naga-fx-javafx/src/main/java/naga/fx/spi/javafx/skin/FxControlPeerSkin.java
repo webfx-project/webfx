@@ -1,6 +1,7 @@
 package naga.fx.spi.javafx.skin;
 
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
@@ -19,22 +20,24 @@ public class FxControlPeerSkin<C extends Control> extends SkinBase<C> {
     public FxControlPeerSkin(C control) {
         super(control);
         NodePeer<C> nodePeer = FxNodePeerFactory.SINGLETON.createNodePeer(control);
-        nodePeer.bind(control, new SceneRequester() {
-            @Override
-            public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
-                Toolkit.get().scheduler().runInUiThread(() ->
-                    nodePeer.updateProperty(changedProperty)
-                );
-            }
+        if (nodePeer != null) {
+            nodePeer.bind(control, new SceneRequester() {
+                @Override
+                public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
+                    Toolkit.get().scheduler().runInUiThread(() ->
+                            nodePeer.updateProperty(changedProperty)
+                    );
+                }
 
-            @Override
-            public void requestNodePeerListUpdate(Node node, ObservableList changedList) {
-                Toolkit.get().scheduler().runInUiThread(() ->
-                        nodePeer.updateList(changedList)
-                );
-            }
-        });
-        if (nodePeer instanceof FxNodePeer)
-            getChildren().setAll(((FxNodePeer) nodePeer).getFxNode());
+                @Override
+                public void requestNodePeerListUpdate(Node node, ObservableList changedList, ListChangeListener.Change change) {
+                    Toolkit.get().scheduler().runInUiThread(() ->
+                            nodePeer.updateList(changedList, change)
+                    );
+                }
+            });
+            if (nodePeer instanceof FxNodePeer)
+                getChildren().setAll(((FxNodePeer) nodePeer).getFxNode());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package naga.fx.spi.peer.base;
 
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.control.ChoiceBox;
 
 import java.util.List;
@@ -12,6 +13,6 @@ public interface ChoiceBoxPeerMixin
 
         extends ControlPeerMixin<N, NB, NM> {
 
-    void updateItems(List<T> items);
+    void updateItems(List<T> items, ListChangeListener.Change<T> change);
 
 }

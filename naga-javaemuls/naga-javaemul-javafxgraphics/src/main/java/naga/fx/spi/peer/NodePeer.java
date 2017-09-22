@@ -1,6 +1,7 @@
 package naga.fx.spi.peer;
 
 import emul.javafx.beans.value.ObservableValue;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.Node;
 import naga.fx.scene.SceneRequester;
@@ -16,7 +17,7 @@ public interface NodePeer<N extends Node> {
 
     boolean updateProperty(ObservableValue changedProperty);
 
-    boolean updateList(ObservableList changedList);
+    boolean updateList(ObservableList list, ListChangeListener.Change change);
 
     void requestFocus();
 

@@ -5,6 +5,7 @@ import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
 import emul.javafx.application.Platform;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.event.EventType;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
@@ -18,6 +19,7 @@ import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
 import naga.commons.util.Strings;
+import naga.commons.util.collection.Collections;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.gwt.svg.peer.SvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
@@ -57,7 +59,7 @@ public abstract class HtmlSvgNodePeer
 
     public void setContainer(Element container) {
         this.container = container;
-        containerType = container != element || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
+        containerType = "SVG".equals(container.tagName) || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
     }
 
     public Element getContainer() {
@@ -82,9 +84,11 @@ public abstract class HtmlSvgNodePeer
 
     private void installClickListener() {
         element.onclick = e -> {
-            onClickElement(e);
+            boolean consumed = onClickElement(e);
             if (preventDefaultOnClickElementEvent)
                 e.preventDefault();
+            if (consumed)
+                e.stopPropagation();
             return null;
         };
     }
@@ -106,8 +110,14 @@ public abstract class HtmlSvgNodePeer
         element.addEventListener("keydown", this::onKeyElement);
     }
 
-    protected void onClickElement(Event e) {
-        getNode().fireEvent(toMouseEvent((elemental2.dom.MouseEvent) e));
+    protected boolean onClickElement(Event e) {
+        emul.javafx.event.Event event = toFxClickEvent(e);
+        getNode().fireEvent(event);
+        return event.isConsumed();
+    }
+
+    protected emul.javafx.event.Event toFxClickEvent(Event e) {
+        return toMouseEvent((elemental2.dom.MouseEvent) e);
     }
 
     protected void onFocusElement(Event e) {
@@ -137,6 +147,21 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected boolean isStyleAttribute(String name) {
+        if (containerType == DomType.HTML)
+            switch (name) {
+                case "pointer-events":
+                case "visibility":
+                case "opacity":
+                case "clip-path":
+                case "mix-blend-mode":
+                case "filter":
+                case "font-family":
+                case "font-style":
+                case "font-weight":
+                case "font-size":
+                case "transform":
+                    return true;
+            }
         return false;
     }
 
@@ -189,8 +214,20 @@ public abstract class HtmlSvgNodePeer
         setElementAttribute("transform", isSvg ? SvgTransforms.toSvgTransforms(localToParentTransforms) : HtmlTransforms.toHtmlTransforms(localToParentTransforms));
     }
 
-    private static MouseEvent toMouseEvent(elemental2.dom.MouseEvent me) {
-        return new MouseEvent(MouseEvent.MOUSE_CLICKED, me.x, me.y, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
+    @Override
+    public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
+        if (change == null)
+            element.classList.add(Collections.toArray(styleClass, String[]::new));
+        else while (change.next()) {
+            if (change.wasRemoved())
+                element.classList.remove(Collections.toArray(change.getRemoved(), String[]::new));
+            if (change.wasAdded())
+                element.classList.add(Collections.toArray(change.getAddedSubList(), String[]::new));
+        }
+    }
+
+    private MouseEvent toMouseEvent(elemental2.dom.MouseEvent me) {
+        return new MouseEvent(null, getNode(), MouseEvent.MOUSE_CLICKED, me.pageX, me.pageY, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
     }
 
     private static KeyEvent toKeyEvent(KeyboardEvent e) {

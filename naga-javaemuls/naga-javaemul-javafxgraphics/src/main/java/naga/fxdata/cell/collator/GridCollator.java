@@ -1,6 +1,7 @@
 package naga.fxdata.cell.collator;
 
 import emul.javafx.beans.value.ObservableValue;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.geometry.HPos;
 import emul.javafx.geometry.Insets;
@@ -66,8 +67,8 @@ public class GridCollator extends DataGrid {
                 }
 
                 @Override
-                public void requestNodePeerListUpdate(Node node, ObservableList changedList) {
-                    gridCollatorPeer.updateList(changedList);
+                public void requestNodePeerListUpdate(Node node, ObservableList changedList, ListChangeListener.Change change) {
+                    gridCollatorPeer.updateList(changedList, change);
                 }
             });
         }
@@ -199,20 +200,25 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateLayoutX(Number layoutX) {
+        public void updateLayoutX(Double layoutX) {
         }
 
         @Override
-        public void updateLayoutY(Number layoutY) {
+        public void updateLayoutY(Double layoutY) {
         }
 
         @Override
-        public void updateTransforms(List<Transform> transforms) {
+        public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
             container.getTransforms().setAll(transforms);
         }
 
         @Override
         public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+        }
+
+        @Override
+        public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
+            container.getStyleClass().setAll(styleClass);
         }
     }
 }

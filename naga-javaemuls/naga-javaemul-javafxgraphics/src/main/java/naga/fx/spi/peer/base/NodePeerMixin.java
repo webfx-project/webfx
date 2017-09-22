@@ -1,6 +1,7 @@
 package naga.fx.spi.peer.base;
 
 import emul.javafx.beans.value.ObservableValue;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.effect.BlendMode;
@@ -36,8 +37,8 @@ public interface NodePeerMixin
     }
 
     @Override
-    default boolean updateList(ObservableList changedList) {
-        return getNodePeerBase().updateList(changedList);
+    default boolean updateList(ObservableList changedList, ListChangeListener.Change change) {
+        return getNodePeerBase().updateList(changedList, change);
     }
 
     void updateMouseTransparent(Boolean mouseTransparent);
@@ -52,19 +53,21 @@ public interface NodePeerMixin
 
     void updateEffect(Effect effect);
 
-    default void updateLayoutX(Number layoutX) {
+    default void updateLayoutX(Double layoutX) {
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
 
-    default void updateLayoutY(Number layoutY) {
+    default void updateLayoutY(Double layoutY) {
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
 
-    default void updateTransforms(List<Transform> transforms) {
+    default void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
         updateLocalToParentTransforms(getNodePeerBase().getNode().localToParentTransforms());
     }
 
     void updateLocalToParentTransforms(List<Transform> localToParentTransforms);
 
     void updateDisabled(Boolean disabled);
+
+    void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change);
 }

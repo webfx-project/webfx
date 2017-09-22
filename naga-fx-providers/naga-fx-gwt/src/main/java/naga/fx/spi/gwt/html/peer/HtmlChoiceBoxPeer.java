@@ -2,6 +2,7 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLOptionElement;
 import elemental2.dom.HTMLSelectElement;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.control.ChoiceBox;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -41,7 +42,7 @@ public class HtmlChoiceBoxPeer
     }
 
     @Override
-    public void updateItems(List<T> items) {
+    public void updateItems(List<T> items, ListChangeListener.Change<T> change) {
         HtmlUtil.setChildren(select, items.stream().map(this::createOptionElement).collect(Collectors.toList()));
         select.selectedIndex = getNode().getSelectionModel().getSelectedIndex();
     }

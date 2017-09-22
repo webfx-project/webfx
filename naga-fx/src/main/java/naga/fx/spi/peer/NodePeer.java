@@ -1,6 +1,7 @@
 package naga.fx.spi.peer;
 
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import naga.fx.scene.SceneRequester;
@@ -16,7 +17,11 @@ public interface NodePeer<N extends Node> {
 
     boolean updateProperty(ObservableValue changedProperty);
 
-    boolean updateList(ObservableList changedList);
+    boolean updateList(ObservableList list, ListChangeListener.Change change);
 
     void requestFocus();
+
+    default boolean isTreeVisible() {
+        return true;
+    }
 }

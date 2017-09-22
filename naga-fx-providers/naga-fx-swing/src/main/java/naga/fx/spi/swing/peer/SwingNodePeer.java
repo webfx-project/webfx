@@ -1,5 +1,6 @@
 package naga.fx.spi.swing.peer;
 
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.event.EventHandler;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.CanvasScenePeer;
@@ -31,6 +32,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.util.List;
 
 
 /**
@@ -136,6 +138,10 @@ public abstract class SwingNodePeer
         swingTransform = SwingTransforms.toSwingTransform(localToParentTransforms);
     }
 
+    @Override
+    public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
+    }
+
     static JComponent toSwingComponent(Node node) {
         return node == null ? null : toSwingComponent(node, node.getScene(), null);
     }
@@ -146,7 +152,7 @@ public abstract class SwingNodePeer
         // for painting immediately (whereas Naga normally defers the property changes and layout pass to the next
         // animation frame). So we call getOrCreateAndBindNodePeer() as if in an animation frame (to turn off deferring)
         Unit<NodePeer> nodePeerUnit = new Unit<>();
-        naga.fx.spi.Toolkit.get().scheduler().runLikeAnimationFrame(() -> nodePeerUnit.set(node.getOrCreateAndBindNodePeer()));
+        naga.fx.spi.Toolkit.get().scheduler().runLikeInAnimationFrame(() -> nodePeerUnit.set(node.getOrCreateAndBindNodePeer()));
         NodePeer nodePeer = nodePeerUnit.get();
         if (nodePeer instanceof SwingEmbedComponentPeer)
             return ((SwingEmbedComponentPeer) nodePeer).getSwingComponent();
@@ -187,7 +193,7 @@ public abstract class SwingNodePeer
         if (node instanceof HasHeightProperty)
             Properties.setIfNotBound(((HasHeightProperty) node).heightProperty(), (double) component.getHeight());
         if (node instanceof Parent)
-            Toolkit.get().scheduler().runLikeAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
+            Toolkit.get().scheduler().runLikeInAnimationFrame(((Parent) node)::layout); // to ensure the layout is done immediately
         return component;
     }
 

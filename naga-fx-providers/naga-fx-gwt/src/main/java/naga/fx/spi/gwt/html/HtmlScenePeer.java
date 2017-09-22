@@ -1,6 +1,7 @@
 package naga.fx.spi.gwt.html;
 
 import elemental2.dom.*;
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
@@ -66,20 +67,36 @@ public class HtmlScenePeer extends ScenePeerBase {
     }
 
     @Override
-    public void updateParentAndChildrenPeers(Parent parent) {
+    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
         if (!(parent instanceof HtmlText)) {
             HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent, scene);
-            HtmlUtil.setChildren(parentPeer.getChildrenContainer(), Collections.map(parent.getChildren(), node -> {
-                Element element = HtmlSvgNodePeer.toContainerElement(node, scene);
-                // TextFlow special case
-                if (parent instanceof TextFlow && element instanceof HTMLElement) {
-                    HTMLElement htmlElement = (HTMLElement) element;
-                    htmlElement.style.whiteSpace = "normal"; // white space are allowed
-                    htmlElement.style.lineHeight = null; // and line height is default (not 100%)
+            //long t0 = System.currentTimeMillis();
+            Element childrenContainer = parentPeer.getChildrenContainer();
+            if (childrenChange == null)
+                HtmlUtil.setChildren(childrenContainer, Collections.map(parent.getChildren(), this::toChildElement));
+            else {
+                //Platform.log(childrenChange);
+                while (childrenChange.next()) {
+                    if (childrenChange.wasRemoved())
+                        HtmlUtil.removeChildren(childrenContainer, Collections.map(childrenChange.getRemoved(), this::toChildElement));
+                    if (childrenChange.wasAdded())
+                        HtmlUtil.appendChildren(childrenContainer, Collections.map(childrenChange.getAddedSubList(), this::toChildElement));
                 }
-                return element;
-            }));
+            }
+            //long t1 = System.currentTimeMillis();
+            //Platform.log("setChildren() in " + (t1 - t0) + "ms / parent treeVisible = " + parentPeer.isTreeVisible() + ", isAnimationFrame = " + Toolkit.get().scheduler().isAnimationFrameNow());
         }
+    }
+
+    private Element toChildElement(Node node) {
+        Element element = HtmlSvgNodePeer.toContainerElement(node, scene);
+        // TextFlow special case
+        if (node.getParent() instanceof TextFlow && element instanceof HTMLElement) {
+            HTMLElement htmlElement = (HTMLElement) element;
+            htmlElement.style.whiteSpace = "normal"; // white space are allowed
+            htmlElement.style.lineHeight = null; // and line height is default (not 100%)
+        }
+        return element;
     }
 
     @Override

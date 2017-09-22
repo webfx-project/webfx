@@ -2,6 +2,7 @@ package naga.fx.spi.gwt.svg;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import emul.javafx.collections.ListChangeListener;
 import naga.commons.util.Numbers;
 import naga.commons.util.collection.Collections;
 import naga.fx.properties.Properties;
@@ -63,7 +64,7 @@ public class SvgScenePeer extends ScenePeerBase {
     }
 
     @Override
-    public void updateParentAndChildrenPeers(Parent parent) {
+    public void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange) {
         HtmlSvgNodePeer parentPeer = HtmlSvgNodePeer.toNodePeer(parent, scene);
         HtmlUtil.setChildren(parentPeer.getChildrenContainer(), Collections.map(parent.getChildren(), node -> HtmlSvgNodePeer.toContainerElement(node, scene)));
     }

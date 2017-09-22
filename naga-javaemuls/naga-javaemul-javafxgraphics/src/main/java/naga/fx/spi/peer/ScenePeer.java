@@ -1,5 +1,6 @@
 package naga.fx.spi.peer;
 
+import emul.javafx.collections.ListChangeListener;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
@@ -14,7 +15,7 @@ public interface ScenePeer extends TKScene {
 
     NodePeerFactory getNodePeerFactory();
 
-    void updateParentAndChildrenPeers(Parent parent);
+    void updateParentAndChildrenPeers(Parent parent, ListChangeListener.Change<Node> childrenChange);
 
     default void onRootBound() {}
 

@@ -44,19 +44,19 @@ public class ObservableLists {
     }
 
     public static <T> void bind(ObservableList<T> list1, ObservableList<T> list2) {
-        runNowAndOnListChange(() -> list1.setAll(list2), list2);
+        runNowAndOnListChange(c -> list1.setAll(list2), list2);
     }
 
     public static <A, B> void bindConverted(ObservableList<A> aList, ObservableList<B> bList, Converter<B, A> bToAConverter) {
-        runNowAndOnListChange(() -> setAllConverted(bList, bToAConverter, aList), bList);
+        runNowAndOnListChange(c -> setAllConverted(bList, bToAConverter, aList), bList);
     }
 
-    public static void runNowAndOnListChange(Runnable runnable, ObservableList list) {
-        runnable.run();
-        runOnListChange(runnable, list);
+    public static <T> void runNowAndOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
+        listener.onChanged(null);
+        runOnListChange(listener, list);
     }
 
-    public static void runOnListChange(Runnable runnable, ObservableList list) {
-        list.addListener((ListChangeListener) c -> runnable.run());
+    public static <T> void runOnListChange(ListChangeListener<T> listener, ObservableList<T> list) {
+        list.addListener(listener);
     }
 }

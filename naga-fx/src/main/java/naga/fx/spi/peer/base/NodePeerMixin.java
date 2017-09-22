@@ -1,15 +1,15 @@
 package naga.fx.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import naga.fx.scene.SceneRequester;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
 import javafx.scene.transform.Transform;
+import naga.fx.scene.SceneRequester;
 import naga.fx.spi.peer.NodePeer;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -37,8 +37,8 @@ public interface NodePeerMixin
     }
 
     @Override
-    default boolean updateList(ObservableList changedList) {
-        return getNodePeerBase().updateList(changedList);
+    default boolean updateList(ObservableList changedList, ListChangeListener.Change change) {
+        return getNodePeerBase().updateList(changedList, change);
     }
 
     void updateMouseTransparent(Boolean mouseTransparent);
@@ -57,9 +57,11 @@ public interface NodePeerMixin
 
     void updateLayoutY(Double layoutY);
 
-    void updateTransforms(List<Transform> transforms);
+    void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change);
 
-    void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms);
+    void updateLocalToParentTransforms(List<Transform> localToParentTransforms);
 
     void updateDisabled(Boolean disabled);
+
+    void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change);
 }

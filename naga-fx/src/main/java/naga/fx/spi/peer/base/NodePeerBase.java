@@ -2,6 +2,7 @@ package naga.fx.spi.peer.base;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.transform.Rotate;
@@ -10,6 +11,7 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import naga.commons.util.Arrays;
 import naga.commons.util.collection.Collections;
+import naga.commons.util.function.BiConsumer;
 import naga.commons.util.function.Consumer;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.Properties;
@@ -37,8 +39,8 @@ public abstract class NodePeerBase
     public void bind(N node, SceneRequester sceneRequester) {
         this.node = node;
         requestUpdateProperty(sceneRequester, null);
-        requestUpdateList(sceneRequester, null);
-        requestUpdateOnListChange(sceneRequester, node.getTransforms());
+        requestUpdateList(sceneRequester, null, null);
+        requestUpdateOnListsChange(sceneRequester, node.getTransforms(), node.getStyleClass());
         requestUpdateOnPropertiesChange(sceneRequester
                 , node.visibleProperty()
                 , node.opacityProperty()
@@ -79,11 +81,11 @@ public abstract class NodePeerBase
     }
 
     void requestUpdateOnListChange(SceneRequester sceneRequester, ObservableList list) {
-        ObservableLists.runOnListChange(() -> requestUpdateList(sceneRequester, list), list);
+        ObservableLists.runOnListChange(c -> requestUpdateList(sceneRequester, list, c), list);
     }
 
-    void requestUpdateList(SceneRequester sceneRequester, ObservableList changedList) {
-        sceneRequester.requestNodePeerListUpdate(node, changedList);
+    void requestUpdateList(SceneRequester sceneRequester, ObservableList list, ListChangeListener.Change change) {
+        sceneRequester.requestNodePeerListUpdate(node, list, change);
     }
 
     @Override
@@ -101,12 +103,14 @@ public abstract class NodePeerBase
     }
 
     @Override
-    public boolean updateList(ObservableList changedList) {
-        return updateList(node.getTransforms(), changedList, this::updateTransforms);
+    public boolean updateList(ObservableList list, ListChangeListener.Change change) {
+        return updateList2(node.getTransforms(), list, change, this::updateTransforms)
+                || updateList2(node.getStyleClass(), list, change, mixin::updateStyleClass)
+                ;
     }
 
-    private void updateTransforms(List<Transform> transforms) {
-        mixin.updateTransforms(transforms);
+    private void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
+        mixin.updateTransforms(transforms, change);
         Collections.forEach(transforms, this::bindTransform);
     }
 
@@ -124,7 +128,7 @@ public abstract class NodePeerBase
         }
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
-                mixin.updateTransforms(node.getTransforms());
+                mixin.updateTransforms(node.getTransforms(), null);
 /*
                 ScenePeer scenePeer = node.getScene().impl_getPeer();
                 if (scenePeer instanceof CanvasScenePeer)
@@ -141,10 +145,10 @@ public abstract class NodePeerBase
         return hitChangedProperty;
     }
 
-    <T> boolean updateList(ObservableList<T> list, ObservableList changedList, Consumer<List<T>> updater) {
+    <T> boolean updateList2(ObservableList<T> list, ObservableList<T> changedList, ListChangeListener.Change<T> change, BiConsumer<List<T>, ListChangeListener.Change<T>> updater) {
         boolean hitChangedProperty = list == changedList;
         if (hitChangedProperty || changedList == null)
-            updater.accept(list);
+            updater.accept(list, change);
         return hitChangedProperty;
     }
 }

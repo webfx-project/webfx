@@ -1,5 +1,6 @@
 package naga.fxdata.cell.collator;
 
+import javafx.collections.ListChangeListener;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -20,7 +21,6 @@ import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -41,6 +41,8 @@ public class GridCollator extends DataGrid {
         this.rowCollator = rowCollator;
         container = new BorderPane();
         setMaxWidth(Double.MAX_VALUE);
+        setMinHeight(USE_PREF_SIZE);
+        setMaxHeight(USE_PREF_SIZE);
         //setMaxHeight(Double.MAX_VALUE);
         //container.setMaxWidth(Double.MAX_VALUE);
         //container.setMaxHeight(Double.MAX_VALUE);
@@ -212,12 +214,17 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
-        public void updateTransforms(List<Transform> transforms) {
+        public void updateTransforms(List<Transform> transforms, ListChangeListener.Change<Transform> change) {
             getNode().container.getTransforms().setAll(transforms);
         }
 
         @Override
-        public void updateLocalToParentTransforms(Collection<Transform> localToParentTransforms) {
+        public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
+            getNode().container.getStyleClass().setAll(styleClass);
+        }
+
+        @Override
+        public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
         }
     }
 }
