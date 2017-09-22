@@ -31,4 +31,9 @@ public class DataGrid extends SelectableDisplayResultSetControl {
     public void setHeaderVisible(boolean showHeaderProperty) {
         this.headerVisibleProperty.set(showHeaderProperty);
     }
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new DataGridSkin(this);
+    }
 }

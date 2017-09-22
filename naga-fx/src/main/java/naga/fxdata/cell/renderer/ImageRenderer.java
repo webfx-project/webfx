@@ -7,7 +7,7 @@ import naga.fx.util.ImageStore;
 /**
  * @author Bruno Salmon
  */
-class ImageRenderer implements ValueRenderer {
+public class ImageRenderer implements ValueRenderer {
 
     public static ImageRenderer SINGLETON = new ImageRenderer();
 
