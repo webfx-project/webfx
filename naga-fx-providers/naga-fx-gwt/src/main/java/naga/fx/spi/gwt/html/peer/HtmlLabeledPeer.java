@@ -1,12 +1,15 @@
 package naga.fx.spi.gwt.html.peer;
 
+import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import naga.commons.util.Strings;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.Labeled;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.TextAlignment;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.LabeledPeerBase;
 import naga.fx.spi.peer.base.LabeledPeerMixin;
 
@@ -25,11 +28,37 @@ abstract class HtmlLabeledPeer
 
     @Override
     public void updateText(String text) {
-        setElementTextContent(text);
+        updateHtmlContent();
     }
 
     @Override
     public void updateGraphic(Node graphic) {
+        updateHtmlContent();
+    }
+
+    protected void updateHtmlContent() {
+        N node = getNode();
+        if (node.getSkin() == null) {
+            // Embedding text into a span element so that we can align it with a possible graphic (image on the left)
+            HTMLElement spanElement = HtmlUtil.createSpanElement();
+            HtmlUtil.setStyleAttribute(spanElement, "position", "relative");
+            HtmlUtil.setStyleAttribute(spanElement, "vertical-align", "middle");
+            HTMLElement buttonElement = getElement();
+            Node graphic = node.getGraphic();
+            String text = Strings.toSafeString(node.getText());
+            if (text.isEmpty() && graphic == null)
+                spanElement.innerHTML = "&nbsp;";
+            else
+                spanElement.textContent = text;
+            if (graphic == null)
+                HtmlUtil.setChild(buttonElement, spanElement);
+            else {
+                Element graphicElement = toContainerElement(graphic, node.getScene());
+                HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
+                HtmlUtil.setChildren(buttonElement, graphicElement, spanElement);
+            }
+        }
+        clearLayoutCache();
     }
 
     @Override
