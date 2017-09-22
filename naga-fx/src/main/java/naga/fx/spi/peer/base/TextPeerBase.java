@@ -16,11 +16,11 @@ public class TextPeerBase
     public void bind(N t, SceneRequester sceneRequester) {
         super.bind(t, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
-                , t.textProperty()
                 , t.textOriginProperty()
                 , t.wrappingWidthProperty()
                 , t.textAlignmentProperty()
                 , t.fontProperty()
+                , t.textProperty()
         );
     }
 
