@@ -24,6 +24,10 @@ public class ScrollPane extends Pane {
         //hbarPolicyProperty().set(value);
     }
 
+    public Skin getSkin() {
+        return null;
+    }
+
     @Override
     protected void layoutChildren() {
         layoutInArea(getChildren().get(0), 0, 0, Double.MAX_VALUE, Double.MAX_VALUE, 0, Insets.EMPTY, false, false, HPos.LEFT, VPos.TOP, true);
