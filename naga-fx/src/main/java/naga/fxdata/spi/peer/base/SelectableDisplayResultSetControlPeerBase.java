@@ -1,7 +1,7 @@
 package naga.fxdata.spi.peer.base;
 
 import javafx.beans.value.ObservableValue;
-import naga.fxdata.SelectableDisplayResultSetControl;
+import naga.fxdata.control.SelectableDisplayResultSetControl;
 import naga.fx.scene.SceneRequester;
 
 /**

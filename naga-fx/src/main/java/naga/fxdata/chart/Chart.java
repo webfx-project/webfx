@@ -1,6 +1,6 @@
 package naga.fxdata.chart;
 
-import naga.fxdata.SelectableDisplayResultSetControl;
+import naga.fxdata.control.SelectableDisplayResultSetControl;
 
 /**
  *

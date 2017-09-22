@@ -1,6 +1,6 @@
 package naga.fxdata.spi.peer.base;
 
-import naga.fxdata.SelectableDisplayResultSetControl;
+import naga.fxdata.control.SelectableDisplayResultSetControl;
 import naga.fxdata.displaydata.DisplaySelection;
 import naga.fxdata.displaydata.SelectionMode;
 
