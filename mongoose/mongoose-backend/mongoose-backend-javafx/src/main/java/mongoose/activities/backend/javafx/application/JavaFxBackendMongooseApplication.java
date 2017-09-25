@@ -1,11 +1,11 @@
-package mongoose.activities.backend.application.javafx;
+package mongoose.activities.backend.javafx.application;
 
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.BackendMongooseApplication;
-import mongoose.activities.backend.event.clone.FxCloneEventPresentationActivity;
+import mongoose.activities.backend.javafx.event.clone.FxCloneEventPresentationActivity;
 import mongoose.activities.shared.application.SharedMongooseApplication;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
