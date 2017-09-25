@@ -15,7 +15,6 @@
     <modules>
         <module>naga-javaemul-gwt</module>
         <module>naga-javaemul-teavm</module>
-        <module>naga-javaemul-cldc</module>
         <module>naga-javaemul-javatime</module>
         <module>naga-javaemul-tool</module>
         <module>naga-javaemul-javafxbase</module>
