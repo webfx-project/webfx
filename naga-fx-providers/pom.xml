@@ -18,7 +18,6 @@
 <!--
         <module>naga-fx-jfoenix</module>
 -->
-        <module>naga-fx-swing</module>
     </modules>
 
 </project>
