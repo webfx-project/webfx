@@ -21,10 +21,10 @@
         <option value="$PROJECT_DIR$/mongoose/mongoose-vertx/pom.xml" />
         <option value="$PROJECT_DIR$/naga-application-examples/pom.xml" />
         <option value="$PROJECT_DIR$/naga-fx-providers/naga-fx-jfoenix/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime/pom.xml" />
-        <option value="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-fx-providers/naga-fx-swing/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation-decoration/pom.xml" />
+        <option value="$PROJECT_DIR$/naga-javalibs/naga-javalib-javafxbindings/pom.xml" />
       </set>
     </option>
   </component>

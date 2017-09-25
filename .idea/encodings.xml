@@ -8,6 +8,7 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-swing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-java" charset="UTF-8" />
@@ -30,9 +31,11 @@
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm/src/main/java/emul/java/util/Stack.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation-decoration" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafxbindings" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platform" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms" charset="UTF-8" />

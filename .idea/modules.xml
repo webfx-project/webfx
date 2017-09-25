@@ -6,11 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-html/mongoose-backend-html.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-html/mongoose-backend-html.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/mongoose-backend-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx/mongoose-backend-javafx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-swing/mongoose-backend-swing.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-swing/mongoose-backend-swing.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html/mongoose-frontend-html.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html/mongoose-frontend-html.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx/mongoose-frontend-javafx.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx/mongoose-frontend-javafx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-swing/mongoose-frontend-swing.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-swing/mongoose-frontend-swing.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic/mongoose-logic.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic-java/mongoose-logic-java.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic-java/mongoose-logic-java.iml" />
       <module fileurl="file://$PROJECT_DIR$/mongoose/mongoose-logic-web/mongoose-logic-web.iml" filepath="$PROJECT_DIR$/mongoose/mongoose-logic-web/mongoose-logic-web.iml" />
@@ -23,26 +21,22 @@
       <module fileurl="file://$PROJECT_DIR$/naga-fx/naga-fx.iml" filepath="$PROJECT_DIR$/naga-fx/naga-fx.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-gwt/naga-fx-gwt.iml" filepath="$PROJECT_DIR$/naga-fx-providers/naga-fx-gwt/naga-fx-gwt.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-javafx/naga-fx-javafx.iml" filepath="$PROJECT_DIR$/naga-fx-providers/naga-fx-javafx/naga-fx-javafx.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-jfoenix/naga-fx-jfoenix.iml" filepath="$PROJECT_DIR$/naga-fx-providers/naga-fx-jfoenix/naga-fx-jfoenix.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-providers.iml" filepath="$PROJECT_DIR$/naga-fx-providers/naga-fx-providers.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-swing/naga-fx-swing.iml" filepath="$PROJECT_DIR$/naga-fx-providers/naga-fx-swing/naga-fx-swing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc/naga-javaemul-cldc.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc/naga-javaemul-cldc.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt/naga-javaemul-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt-cldc/naga-javaemul-gwt-cldc.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt-cldc/naga-javaemul-gwt-cldc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-shared/naga-javaemul-shared.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-shared/naga-javaemul-shared.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase/naga-javaemul-javafxbase.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase/naga-javaemul-javafxbase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics/naga-javaemul-javafxgraphics.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics/naga-javaemul-javafxgraphics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime/naga-javaemul-javatime.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime/naga-javaemul-javatime.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm/naga-javaemul-teavm.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm/naga-javaemul-teavm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm-gwt-cldc/naga-javaemul-teavm-gwt-cldc.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm-gwt-cldc/naga-javaemul-teavm-gwt-cldc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool/naga-javaemul-tool.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool/naga-javaemul-tool.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemuls.iml" filepath="$PROJECT_DIR$/naga-javaemuls/naga-javaemuls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation/naga-javalib-controlsfx-validation.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation/naga-javalib-controlsfx-validation.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/naga-javalib-javacupruntime.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime/naga-javalib-javacupruntime.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor/naga-javalib-javafastpfor.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor/naga-javalib-javafastpfor.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafxbindings/naga-javalib-javafxbindings.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-javafxbindings/naga-javalib-javafxbindings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation/naga-javalib-mvvmfx-validation.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation/naga-javalib-mvvmfx-validation.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/naga-javalib-rxjava.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava/naga-javalib-rxjava.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-javalibs/naga-javalibs.iml" filepath="$PROJECT_DIR$/naga-javalibs/naga-javalibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platform/naga-platform.iml" filepath="$PROJECT_DIR$/naga-platform/naga-platform.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-android/naga-platform-android.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-android/naga-platform-android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-cn1/naga-platform-cn1.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-cn1/naga-platform-cn1.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt/naga-platform-gwt.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-gwt/naga-platform-gwt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-j2objc/naga-platform-j2objc.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-j2objc/naga-platform-j2objc.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-jre/naga-platform-jre.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-jre/naga-platform-jre.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-teavm/naga-platform-teavm.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-teavm/naga-platform-teavm.iml" />
       <module fileurl="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx/naga-platform-vertx.iml" filepath="$PROJECT_DIR$/naga-platforms/naga-platform-vertx/naga-platform-vertx.iml" />
