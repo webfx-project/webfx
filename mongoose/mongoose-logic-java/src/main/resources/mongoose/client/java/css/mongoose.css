@@ -1,4 +1,4 @@
-NativeDataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
+ToolkitDataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-skin: "naga.fx.spi.javafx.skin.FxControlPeerSkin";
 }
 
@@ -117,7 +117,7 @@ NativeDataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-font-weight: normal;
 }
 
-/*.table-row-cell:selected*/ .grid-row.selected {
+.table-row-cell:selected, .grid-row.selected {
     -fx-background-color:
         -fx-focus-color,
         -fx-cell-focus-inner-border,
