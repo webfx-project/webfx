@@ -40,6 +40,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
     public DataGridSkin(DataGrid dataGrid) {
         super(dataGrid, false);
+        dataGrid.getStyleClass().add("grid");
 /* not yet implemented in gwt
         bodyScrollPane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
                     double hmin = bodyScrollPane.getHmin();

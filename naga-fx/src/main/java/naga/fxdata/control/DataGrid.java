@@ -11,7 +11,6 @@ import naga.fxdata.displaydata.DisplayResultSet;
 public class DataGrid extends SelectableDisplayResultSetControl {
 
     public DataGrid() {
-        getStyleClass().add("grid");
     }
 
     public DataGrid(DisplayResultSet rs) {
