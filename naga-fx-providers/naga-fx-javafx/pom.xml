@@ -20,10 +20,10 @@
         </dependency>
 
         <!-- SVG support for JavaFx -->
-        <!--dependency>
+        <dependency>
             <groupId>de.codecentric.centerdevice</groupId>
             <artifactId>javafxsvg</artifactId>
-        </dependency-->
+        </dependency>
 
     </dependencies>
 
