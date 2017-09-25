@@ -42,37 +42,6 @@
             </modules>
         </profile>
 
-        <!-- Mobile profiles (Android, CodenameOne) -->
-        <profile>
-            <id>naga-platform-android</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>naga-platform-android</module>
-            </modules>
-        </profile>
-
-        <profile>
-            <id>naga-platform-cn1</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>naga-platform-cn1</module>
-            </modules>
-        </profile>
-
-        <profile>
-            <id>naga-platform-j2objc</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>naga-platform-j2objc</module>
-            </modules>
-        </profile>
-
     </profiles>
 
 </project>
