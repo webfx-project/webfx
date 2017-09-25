@@ -23,15 +23,6 @@
                 <module>mongoose-backend-javafx</module>
             </modules>
         </profile>
-        <profile>
-            <id>mongoose-backend-swing</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>mongoose-backend-swing</module>
-            </modules>
-        </profile>
 
         <!-- Web profiles (GWT, TeaVM) -->
         <profile>
