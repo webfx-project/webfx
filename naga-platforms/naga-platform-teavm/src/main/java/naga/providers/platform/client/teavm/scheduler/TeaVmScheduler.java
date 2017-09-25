@@ -17,7 +17,7 @@ public final class TeaVmScheduler implements Scheduler {
     private final Map<Integer, Integer> periodicIds = new HashMap<>();
 
     @Override
-    public double nanoTime() {
+    public long nanoTime() {
         return System.nanoTime();
     }
 
