@@ -1,9 +1,9 @@
 package emul.javafx.scene.control;
 
 import emul.javafx.util.StringConverter;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.ObjectProperty;
+import emul.javafx.beans.property.Property;
+import emul.javafx.beans.property.SimpleObjectProperty;
 
 import java.time.LocalDate;
 

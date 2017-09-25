@@ -259,7 +259,7 @@ public abstract class KeyCombination {
      */
     public String getDisplayText() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (com.sun.javafx.PlatformUtil.isMac()) {
+        if (emul.com.sun.javafx.PlatformUtil.isMac()) {
             // Macs have a different convention for keyboard accelerators -
             // no pluses to separate modifiers, and special symbols for
             // each modifier (in a particular order), etc
