@@ -20,8 +20,9 @@
         </dependency>
 
         <dependency>
-            <artifactId>rxjava</artifactId>
-            <groupId>io.reactivex</groupId>
+            <artifactId>naga-javalib-rxjava</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
             <scope>provided</scope>
         </dependency>
 

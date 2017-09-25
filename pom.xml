@@ -25,22 +25,30 @@
     </modules>
 
     <properties>
-        <!-- java version -->
-        <java.version>8</java.version>
-        <java.level>1.${java.version}</java.level>
-
         <!-- Naga groupId & version -->
         <naga.groupId>naga</naga.groupId>
         <naga.version>0.1.0-SNAPSHOT</naga.version>
 
+        <!-- java version -->
+        <java.version>9</java.version>
+        <java.level>1.${java.version}</java.level>
+
+        <!-- Applying compiler settings -->
+        <maven.compiler.source>${java.level}</maven.compiler.source>
+        <maven.compiler.target>${java.level}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <!-- libraries versions -->
-        <lib.gwt.version>2.8.1</lib.gwt.version>
+        <lib.gwt.version>HEAD-SNAPSHOT</lib.gwt.version> <!-- For Java 9 compilation -->
         <lib.elemental2.version>1.0.0-beta-1</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.vertx.version>3.4.2</lib.vertx.version>
+        <lib.javawebsocket.version>1.3.4</lib.javawebsocket.version>
+
+         <!--
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>
         <lib.rxjava.version>1.1.1</lib.rxjava.version>
-        <lib.javawebsocket.version>1.3.4</lib.javawebsocket.version>
+        -->
 
         <lib.javafxsvg.version>1.2.1</lib.javafxsvg.version>
         <lib.batik-transcoder.version>1.8</lib.batik-transcoder.version>
@@ -49,30 +57,24 @@
         <lib.junit.version>4.12</lib.junit.version>
 
         <lib.teavm.version>0.4.3</lib.teavm.version>
-        <lib.android.version>4.1.1.4</lib.android.version>
-        <lib.medusa.version>5.5</lib.medusa.version>
-        <lib.xchart.version>3.2.0</lib.xchart.version>
 
         <!-- plugins versions -->
-        <plugin.jar.version>2.4</plugin.jar.version>
-        <plugin.source.version>2.4</plugin.source.version>
-        <plugin.dependency.version>2.10</plugin.dependency.version>
+        <plugin.compiler.version>3.7.0</plugin.compiler.version>
+        <plugin.jar.version>3.0.2</plugin.jar.version>
+        <plugin.source.version>3.0.1</plugin.source.version>
+        <plugin.dependency.version>3.0.2</plugin.dependency.version>
+        <plugin.shade.version>3.1.0</plugin.shade.version>
+
         <plugin.javacup.version>11b-20151001</plugin.javacup.version>
         <plugin.jflex.version>1.6.1</plugin.jflex.version>
-        <plugin.shade.version>2.4.3</plugin.shade.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
-        <plugin.gwt.version>1.0-rc-8</plugin.gwt.version>
-        <plugin.antrun.version>1.8</plugin.antrun.version>
-        <plugin.download.version>1.2.1</plugin.download.version>
+        <plugin.gwt.version>1.0-SNAPSHOT</plugin.gwt.version> <!-- For Java 9 compilation -->
 
-        <plugin.android.version>4.4.1</plugin.android.version>
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
 
-        <!-- external tools versions -->
-        <tool.j2objc.version>1.0.2</tool.j2objc.version>
-
         <!-- Plugin parameters with default values or set to TBD (To Be Defined) by any child module using the plugin -->
+        <plugin.compiler.param.exclude></plugin.compiler.param.exclude>
         <plugin.jar.param.addMavenDescriptor>true</plugin.jar.param.addMavenDescriptor>
         <plugin.dependency.param.unpack-sources.phase>validate</plugin.dependency.param.unpack-sources.phase>
         <plugin.dependency.param.unpack-classes.phase>validate</plugin.dependency.param.unpack-classes.phase>
@@ -88,38 +90,23 @@
         <plugins.param.jre.mainClass>TBD</plugins.param.jre.mainClass>
         <plugin.grunt.disabled>true</plugin.grunt.disabled> <!-- Grunt disabled unless grunt profile is activated -->
 
-        <plugin.android.param.sdk.platform>23</plugin.android.param.sdk.platform>
         <plugin.teavm.param.mainClass>TBD</plugin.teavm.param.mainClass>
         <plugin.teavm.minifying>true</plugin.teavm.minifying>
         <plugin.teavm.debug>false</plugin.teavm.debug>
-
-        <!-- properties used for j2objc tool (install and execution) -->
-        <tool.j2objc.param.parent>${user.home}</tool.j2objc.param.parent>
-        <tool.j2objc.param.folderName>j2objc-${tool.j2objc.version}</tool.j2objc.param.folderName>
-        <tool.j2objc.param.home>${tool.j2objc.param.parent}/${tool.j2objc.param.folderName}</tool.j2objc.param.home>
-        <tool.j2objc.param.jar>${tool.j2objc.param.home}/lib/j2objc.jar</tool.j2objc.param.jar>
-
-        <!-- Applying compiler settings -->
-        <maven.compiler.source>${java.level}</maven.compiler.source>
-        <maven.compiler.target>${java.level}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <pluginRepositories>
-        <!-- Adding Snapshots repository which is required to get the GWT 2.8.0-SNAPSHOT Maven plugin -->
-        <!-- Not used anymore, now using GWT plugin version 2.8.0-beta1
+        <!-- Adding Snapshots repository which is required to get the GWT 2.8.1-SNAPSHOT Maven plugin -->
         <pluginRepository>
             <id>snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
             <releases><enabled>false</enabled></releases>
             <snapshots><enabled>true</enabled></snapshots>
         </pluginRepository>
-        -->
     </pluginRepositories>
 
     <repositories>
         <!-- Adding Snapshots repository which is required to get the GWT 2.8.0-SNAPSHOT libraries -->
-        <!-- Not used anymore, now using GWT plugin version 2.8.0-beta1
         <repository>
             <id>snapshots-repo</id>
             <url>https://oss.sonatype.org/content/repositories/google-snapshots</url>
@@ -130,7 +117,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        -->
         <!-- For JFoenix -->
         <repository>
             <id>snapshots</id>
@@ -180,21 +166,6 @@
                 <groupId>org.java-websocket</groupId>
                 <artifactId>Java-WebSocket</artifactId>
                 <version>${lib.javawebsocket.version}</version>
-            </dependency>
-
-
-            <!--
-             ***********************************************************************
-             * Libraries required for the Android Platform (naga-platform-android) *
-             ***********************************************************************
-             -->
-
-            <!-- Android library -->
-            <dependency>
-                <groupId>com.google.android</groupId>
-                <artifactId>android</artifactId>
-                <version>${lib.android.version}</version>
-                <scope>provided</scope>
             </dependency>
 
 
@@ -303,35 +274,6 @@
                 <version>${lib.javafxsvg.version}</version>
             </dependency>
 
-            <!-- Medusa is a JavaFX library for displaying gauges and clocks -->
-            <dependency>
-                <groupId>eu.hansolo</groupId>
-                <artifactId>Medusa</artifactId>
-                <version>${lib.medusa.version}</version>
-            </dependency>
-
-            <!-- Swing libraries -->
-
-            <!-- Charts library for Swing -->
-            <dependency>
-                <groupId>org.knowm.xchart</groupId>
-                <artifactId>xchart</artifactId>
-                <version>${lib.xchart.version}</version>
-            </dependency>
-
-            <!-- Adding SVG support to Swing -->
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>batik-transcoder</artifactId>
-                <version>${lib.batik-transcoder.version}</version>
-            </dependency>
-            <!-- Also required for the SVG support -->
-            <dependency>
-                <groupId>org.apache.xmlgraphics</groupId>
-                <artifactId>xmlgraphics-commons</artifactId>
-                <version>${lib.xmlgraphics-commons.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -340,6 +282,13 @@
         <pluginManagement>
             <!-- plugins listed here are just pre-configured for a possible use in a module -->
             <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${plugin.compiler.version}</version>
+                </plugin>
+
 
                 <!--
                  **********************************
@@ -374,6 +323,11 @@
                             <goals>
                                 <goal>jar-no-fork</goal>
                             </goals>
+                            <configuration>
+                                <excludes>
+                                    <exclude>**/module-info.java</exclude>
+                                </excludes>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -570,54 +524,6 @@
                 </plugin>
 
                 <!--
-                 ************************************
-                 * Retrolambda plugin configuration *
-                 ************************************
-                -->
-                <plugin>
-                    <groupId>net.orfjackal.retrolambda</groupId>
-                    <artifactId>retrolambda-maven-plugin</artifactId>
-                    <version>${plugin.retrolambda.version}</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.google.android</groupId>
-                            <artifactId>android</artifactId>
-                            <version>${lib.android.version}</version>
-                        </dependency>
-                    </dependencies>
-                    <configuration>
-                        <defaultMethods>true</defaultMethods>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>process-main</goal>
-                                <goal>process-test</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-
-                <!--
-                 ********************************
-                 * Android plugin configuration *
-                 ********************************
-                 -->
-                <plugin>
-                    <groupId>com.simpligility.maven.plugins</groupId>
-                    <artifactId>android-maven-plugin</artifactId>
-                    <version>${plugin.android.version}</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <sdk>
-                            <platform>${plugin.android.param.sdk.platform}</platform>
-                        </sdk>
-                        <skipDependencies>true</skipDependencies>
-                    </configuration>
-                </plugin>
-
-                <!--
                  ****************************
                  * GWT plugin configuration *
                  ****************************
@@ -730,123 +636,47 @@
                     </executions>
                 </plugin>
 
-                <!--
-                 **********************************
-                 * J2objc tool call configuration *
-                 **********************************
-                 -->
-                <!-- Plugin for j2obc execution (using ant for iteration over java source files) -->
-                <plugin>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>${plugin.antrun.version}</version>
-                    <executions>
-                        <execution>
-                            <id>j2objc</id>
-                            <phase>${plugin.antrun.param.j2objc.phase}</phase>
-                            <goals>
-                                <goal>run</goal>
-                            </goals>
-                            <configuration>
-                                <target>
-                                    <apply executable="java" dir="${project.basedir}" failonerror="true">
-                                        <arg value="-jar"/>
-                                        <arg value="${tool.j2objc.param.jar}"/>
-                                        <arg value="-Xbootclasspath:${tool.j2objc.param.home}/lib/jre_emul.jar"/>
-                                        <arg value="-sourcepath"/>
-                                        <arg value="${project.basedir}/src/main/java${path.separator}${project.build.directory}/sources"/>
-                                        <arg value="-d"/>
-                                        <arg value="${project.build.directory}/generated/objc"/>
-                                        <arg value="-source"/>
-                                        <arg value="${java.version}"/>
-                                        <arg value="-Xforce-incomplete-java8"/>
-                                        <fileset dir="${project.build.directory}/sources" includes="**/*.java"/>
-                                        <fileset dir="${project.basedir}/src/main/java" includes="**/*.java"/>
-                                    </apply>
-                                </target>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Failed attempt of writing a Maven only plugin: don't know how to iterate over all java source files -->
-                <!-- plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.4.0</version>
-                    <executions>
-                        <execution>
-                            <id>run-j2objc</id>
-                            <phase>compile</phase>
-                            <goals>
-                                <goal>exec</goal>
-                            </goals>
-                            <configuration>
-                                <executable>${env.JAVA_HOME}/bin/java</executable>
-                                <arguments>
-                                    <argument>-jar</argument>
-                                    <argument>${j2objc.jar}</argument>
-                                    <argument>-Xbootclasspath:${j2objc.home}/lib/jre_emul.jar</argument>
-                                    <argument>-sourcepath</argument>
-                                    <argument>${basedir}/src/main/java${path.separator}${project.build.directory}/sources</argument>
-                                    <argument>-d</argument>
-                                    <argument>${project.build.directory}/generated/objc</argument>
-                                    <argument>**/*.java</argument>
-                                </arguments>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin-->
-
             </plugins>
         </pluginManagement>
 
     </build>
 
     <profiles>
-        <!--
-         **************************
-         * J2objc-download profile *
-         **************************
-         Automatic j2objc install (zip download & unpack in the user directory)
-         Done just once, when this root pom is executed for the first time on the build machine
-         using a maven profile in order to skip the install if already done
-         -->
+
         <profile>
-            <id>j2objc-download</id>
+            <id>java8</id>
             <activation>
-                <!-- the profile is activated only if j2objc.jar doesn't exist -->
-                <activeByDefault>false</activeByDefault>
-                <file>
-                    <!-- <missing>${j2objc.jar}</missing> doesn't work (properties not supported here) so using explicit name -->
-                    <!-- <missing>${user.home}/j2objc-1.0.0/lib/j2objc.jar</missing> --> <!-- env properties are however supported -->
-                </file>
-                <!-- otherwise j2objc is considered already installed and the installation is skipped -->
+                <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <java.version>8</java.version>
+                <plugin.compiler.param.exclude>module-info.java</plugin.compiler.param.exclude>
+            </properties>
             <build>
-                <plugins>
-                    <!-- j2objc download (big zip file) and unpack -->
-                    <plugin>
-                        <groupId>com.googlecode.maven-download-plugin</groupId>
-                        <artifactId>download-maven-plugin</artifactId>
-                        <version>${plugin.download.version}</version>
-                        <inherited>false</inherited> <!-- to not run it in children modules -->
-                        <executions>
-                            <execution>
-                                <id>j2objc-download</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>wget</goal>
-                                </goals>
-                                <configuration>
-                                    <url>https://github.com/google/j2objc/releases/download/${tool.j2objc.version}/j2objc-${tool.j2objc.version}.zip</url>
-                                    <unpack>true</unpack>
-                                    <overwrite>false</overwrite>
-                                    <outputDirectory>${tool.j2objc.param.parent}</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
+                <pluginManagement>
+                <!-- plugins listed here are just pre-configured for a possible use in a module -->
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <version>${plugin.compiler.version}</version>
+                            <executions>
+                                <execution>
+                                    <id>default-compile</id>
+                                    <goals>
+                                        <goal>compile</goal>
+                                    </goals>
+                                    <!-- recompile everything for target VM except the module-info.java -->
+                                    <configuration>
+                                        <excludes>
+                                            <exclude>module-info.java</exclude>
+                                        </excludes>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
             </build>
         </profile>
 
@@ -858,16 +688,6 @@
             <properties>
                 <plugin.grunt.disabled>false</plugin.grunt.disabled>
             </properties>
-        </profile>
-
-        <profile>
-            <id>bruno-maven-target-relocation</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <directory>C:/dev/build-output/maven-target/${project.artifactId}-target</directory>
-            </build>
         </profile>
 
     </profiles>

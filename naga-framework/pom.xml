@@ -26,14 +26,16 @@
         </dependency>
 
         <dependency>
-            <artifactId>java-cup-runtime</artifactId>
-            <groupId>com.github.vbmacher</groupId>
+            <artifactId>naga-javalib-javacupruntime</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <artifactId>rxjava</artifactId>
-            <groupId>io.reactivex</groupId>
+            <artifactId>naga-javalib-rxjava</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -48,20 +50,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-
-        <!--
-        <dependency>
-            <artifactId>naga-javalib-javacupruntime</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-        </dependency>
-
-        <dependency>
-            <artifactId>naga-javalib-rxjava</artifactId>
-            <groupId>${naga.groupId}</groupId>
-            <version>${naga.version}</version>
-        </dependency>
-        -->
 
     </dependencies>
 

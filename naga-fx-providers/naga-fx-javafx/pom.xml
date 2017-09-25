@@ -19,17 +19,11 @@
             <version>${naga.version}</version>
         </dependency>
 
-        <dependency>
-            <artifactId>rxjava</artifactId>
-            <groupId>io.reactivex</groupId>
-            <scope>provided</scope>
-        </dependency>
-
         <!-- SVG support for JavaFx -->
-        <dependency>
+        <!--dependency>
             <groupId>de.codecentric.centerdevice</groupId>
             <artifactId>javafxsvg</artifactId>
-        </dependency>
+        </dependency-->
 
     </dependencies>
 
