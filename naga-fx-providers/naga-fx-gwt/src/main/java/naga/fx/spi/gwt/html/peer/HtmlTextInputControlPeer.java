@@ -6,6 +6,7 @@ import elemental2.dom.HTMLTextAreaElement;
 import emul.javafx.scene.control.TextInputControl;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.transform.Transform;
+import naga.commons.util.Booleans;
 import naga.commons.util.Objects;
 import naga.commons.util.Strings;
 import naga.fx.spi.gwt.util.HtmlTransforms;
@@ -58,6 +59,11 @@ public abstract class HtmlTextInputControlPeer
     @Override
     public void updatePrompt(String prompt) {
         setPlaceholder(Strings.toSafeString(prompt));
+    }
+
+    @Override
+    public void updateEditable(Boolean editable) {
+        setElementAttribute(getElement(),"readonly", Booleans.isFalse(editable) ? "true" : null);
     }
 
     protected String getValue() {

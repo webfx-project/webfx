@@ -19,6 +19,7 @@ public abstract class TextInputControlPeerBase
                 , node.fontProperty()
                 , node.textProperty()
                 , node.promptTextProperty()
+                , node.editableProperty()
         );
     }
 
@@ -28,6 +29,7 @@ public abstract class TextInputControlPeerBase
                 || updateProperty(node.fontProperty(), changedProperty, mixin::updateFont)
                 || updateProperty(node.textProperty(), changedProperty, mixin::updateText)
                 || updateProperty(node.promptTextProperty(), changedProperty, mixin::updatePrompt)
+                || updateProperty(node.editableProperty(), changedProperty, mixin::updateEditable)
                 ;
     }
 }

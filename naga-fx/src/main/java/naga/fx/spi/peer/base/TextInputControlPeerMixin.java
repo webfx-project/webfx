@@ -16,4 +16,6 @@ public interface TextInputControlPeerMixin
     void updateText(String text);
 
     void updatePrompt(String prompt);
+
+    void updateEditable(Boolean editable);
 }

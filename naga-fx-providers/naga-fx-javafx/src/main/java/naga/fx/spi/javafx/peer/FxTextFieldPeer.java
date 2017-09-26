@@ -49,6 +49,11 @@ public class FxTextFieldPeer
     }
 
     @Override
+    public void updateEditable(Boolean editable) {
+        getFxNode().setEditable(editable);
+    }
+
+    @Override
     public void updateAlignment(Pos alignment) {
         getFxNode().setAlignment(alignment);
     }
