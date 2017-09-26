@@ -26,6 +26,7 @@ public interface HighLevelComponentsFactory {
 
     default BorderPane createSectionPanel(SectionPanelStyleOptions options, Node... headerNodes) {
         BorderPane panel = createSectionPanel(options);
+        panel.getStyleClass().add("section-panel");
         panel.setBorder(BorderUtil.newBorder(Color.grayRgb(0x0d), 5, 1));
         HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(headerNodes);
         hBox.setBackground(BackgroundUtil.newVerticalLinearGradientBackground("0xF0F0F0", "0xE0E0E0",5));
