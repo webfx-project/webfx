@@ -88,6 +88,6 @@ public abstract class HtmlTextInputControlPeer
         if (element instanceof HTMLInputElement)
             ((HTMLInputElement) element).placeholder = placeholder;
         else if (element instanceof HTMLTextAreaElement)
-            setElementAttribute("placeholder", placeholder);
+            setElementAttribute(element, "placeholder", placeholder);
     }
 }
