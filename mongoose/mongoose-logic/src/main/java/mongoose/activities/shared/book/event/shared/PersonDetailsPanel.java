@@ -32,6 +32,7 @@ import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
+import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
@@ -54,6 +55,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     private final EntityButtonSelector personSelector;
     private final BorderPane sectionPanel;
     private HasPersonDetails model;
+    private boolean editable = true;
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     private static final int CHILD_MAX_AGE = 17;
@@ -139,14 +141,20 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     }
 
     public void setEditable(boolean editable) {
-        boolean disable = !editable;
-        firstNameTextField.setEditable(editable);
-        lastNameTextField.setEditable(editable);
-        maleRadioButton.setDisable(disable);
-        femaleRadioButton.setDisable(disable);
-        adultRadioButton.setDisable(disable);
-        childRadioButton.setDisable(disable);
-        birthDatePicker.setEditable(editable);
+        this.editable = editable;
+        updateUiEditable();
+    }
+
+    private void updateUiEditable() {
+        boolean profileEditable = editable && personSelector.getEntity() == null;
+        boolean profileDisable = !profileEditable;
+        firstNameTextField.setEditable(profileEditable);
+        lastNameTextField.setEditable(profileEditable);
+        maleRadioButton.setDisable(profileDisable);
+        femaleRadioButton.setDisable(profileDisable);
+        adultRadioButton.setDisable(profileDisable);
+        childRadioButton.setDisable(profileDisable);
+        birthDatePicker.setEditable(profileEditable);
         carer1NameTextField.setEditable(editable);
         carer2NameTextField.setEditable(editable);
         emailTextField.setEditable(editable);
@@ -167,7 +175,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
     }
 
     private Node createPanelBody() {
-        return firstNameTextField.isEditable() ? createPersonGridPane() : createPersonDataGrid();
+        return editable ? createPersonGridPane() : createPersonDataGrid();
     }
 
     private GridPane createPersonGridPane() {
@@ -205,7 +213,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         rsb.setValue(1, 0, i18n.instantTranslate("LastName:"));
         rsb.setValue(1, 1, model.getLastName());
         rsb.setValue(2, 0, i18n.instantTranslate("Gender:"));
-        rsb.setValue(2, 1, i18n.instantTranslate(model.isMale() ? "Male" : "Female"));
+        rsb.setValue(2, 1, i18n.instantTranslate(Booleans.isTrue(model.isMale()) ? "Male" : "Female"));
         rsb.setValue(3, 0, i18n.instantTranslate("Age:"));
         rsb.setValue(3, 1, i18n.instantTranslate(model.getAge() == null ? "Adult" : model.getAge()));
         rsb.setValue(4, 0, i18n.instantTranslate("Email:"));
@@ -256,10 +264,11 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         cityNameTextField.setText(p.getCityName());
         organizationSelector.setEntity(p.getOrganization());
         countrySelector.setEntity(p.getCountry());
+        updateUiEditable();
         if (sectionPanel.getCenter() == null)
             Properties.runNowAndOnPropertiesChange(pty -> updatePanelBody(), childRadioButton.selectedProperty(), i18n.dictionaryProperty());
-        if (!firstNameTextField.isEditable())
-            updatePanelBody();
+        if (!editable)
+            Toolkit.get().scheduler().runInUiThread(this::updatePanelBody);
     }
 
     public void syncModelFromUi(HasPersonDetails p) {
