@@ -20,6 +20,7 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayStyle;
+import naga.fxdata.displaydata.SelectionMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -295,10 +296,12 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
             else {
                 bodyColumns.add(gridColumn = new GridColumn(columnIndex));
                 gridColumn.setOnMouseClicked(e -> {
-                    int rowIndex = (int) (e.getY() / rowHeight);
-                    Pane row = Collections.get(bodyRows, rowIndex);
-                    if (row != null)
-                        row.getOnMouseClicked().handle(e);
+                    if (getSkinnable().getSelectionMode() != SelectionMode.DISABLED) {
+                        int rowIndex = (int) (e.getY() / rowHeight);
+                        Pane row = Collections.get(bodyRows, rowIndex);
+                        if (row != null)
+                            row.getOnMouseClicked().handle(e);
+                    }
                 });
                 lastContentWidth = -1;
             }

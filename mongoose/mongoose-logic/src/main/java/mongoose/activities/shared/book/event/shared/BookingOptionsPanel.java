@@ -22,6 +22,7 @@ import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
+import naga.fxdata.displaydata.SelectionMode;
 
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
         this.i18n = i18n;
         dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         dataGrid.setHeaderVisible(false);
+        dataGrid.setSelectionMode(SelectionMode.DISABLED);
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override
             public Object evaluateOnAggregates(DocumentLine referrer, Object[] aggregates, Expression<DocumentLine> operand, DataReader<DocumentLine> dataReader) {

@@ -7,7 +7,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
@@ -18,6 +20,7 @@ import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
 import naga.framework.orm.entity.EntityList;
+import naga.framework.ui.controls.BorderUtil;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
@@ -27,6 +30,7 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.fxdata.displaydata.SelectionMode;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
@@ -187,7 +191,9 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private Node renderFeesGroupBody(DisplayResultSet rs) {
-        return LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
+        DataGrid dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
+        dataGrid.setSelectionMode(SelectionMode.DISABLED);
+        return dataGrid;
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {

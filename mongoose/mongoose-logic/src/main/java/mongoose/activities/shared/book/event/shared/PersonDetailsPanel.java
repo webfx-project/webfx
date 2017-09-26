@@ -37,6 +37,7 @@ import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
+import naga.fxdata.displaydata.SelectionMode;
 import naga.platform.services.auth.spi.User;
 
 import java.time.LocalDate;
@@ -234,6 +235,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         rsb.setValue(5, 3, model.getCountryName());
         DataGrid dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
         dataGrid.setHeaderVisible(false);
+        dataGrid.setSelectionMode(SelectionMode.DISABLED);
         return dataGrid;
     }
 
