@@ -5,6 +5,7 @@ import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import emul.javafx.scene.control.RadioButton;
+import naga.commons.util.Booleans;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.RadioButtonPeerBase;
 import naga.fx.spi.peer.base.RadioButtonPeerMixin;
@@ -41,6 +42,11 @@ public class HtmlRadioButtonPeer
     @Override
     public void updateSelected(Boolean selected) {
         radioButtonElement.checked = selected;
+    }
+
+    @Override
+    public void updateDisabled(Boolean disabled) {
+        setElementAttribute(radioButtonElement,"disabled", Booleans.isTrue(disabled) ? "disabled" : null);
     }
 
     @Override

@@ -18,6 +18,7 @@ import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
+import naga.commons.util.Booleans;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
 import naga.fx.scene.SceneRequester;
@@ -186,7 +187,7 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void updateDisabled(Boolean disabled) {
-        setElementAttribute("disabled", disabled ? "disabled" : null);
+        setElementAttribute(getElement(),"disabled", Booleans.isTrue(disabled) ? "disabled" : null);
     }
 
     @Override
@@ -369,7 +370,7 @@ public abstract class HtmlSvgNodePeer
             setElementAttribute(container, name, value);
     }
 
-    private void setElementAttribute(Element e, String name, String value) {
+    protected void setElementAttribute(Element e, String name, String value) {
         if (value == null)
             e.removeAttribute(name);
         else
