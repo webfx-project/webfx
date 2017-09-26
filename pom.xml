@@ -323,11 +323,11 @@
                             <goals>
                                 <goal>jar-no-fork</goal>
                             </goals>
-                            <configuration>
+                            <!--configuration>
                                 <excludes>
                                     <exclude>**/module-info.java</exclude>
                                 </excludes>
-                            </configuration>
+                            </configuration-->
                         </execution>
                     </executions>
                 </plugin>

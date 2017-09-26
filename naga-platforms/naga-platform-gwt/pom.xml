@@ -64,6 +64,7 @@
                                     <classifier>shaded-sources</classifier>
                                 </artifactItem>
                             </artifactItems>
+                            <excludes>**/module-info.java</excludes>
                             <outputDirectory>${project.build.outputDirectory}/super</outputDirectory>
                         </configuration>
                     </execution>
