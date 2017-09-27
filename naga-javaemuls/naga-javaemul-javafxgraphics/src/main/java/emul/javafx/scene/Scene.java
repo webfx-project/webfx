@@ -367,7 +367,7 @@ public class Scene implements EventTarget,
         return focusOwner.getValue();
     }
 
-    public final ReadOnlyProperty<Node> focusOwnerProperty() {
+    public final Property<Node> focusOwnerProperty() {
         return focusOwner/*.getReadOnlyProperty()*/;
     }
 

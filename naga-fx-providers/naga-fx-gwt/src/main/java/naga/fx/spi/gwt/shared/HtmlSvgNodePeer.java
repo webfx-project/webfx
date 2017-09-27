@@ -97,6 +97,7 @@ public abstract class HtmlSvgNodePeer
     private void installFocusListeners() {
         element.onfocus = e -> {
             onFocusElement(e);
+            getNode().getScene().focusOwnerProperty().setValue(getNode());
             return null;
         };
         element.onblur = e -> {
