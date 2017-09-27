@@ -1,7 +1,9 @@
 package naga.fxdata.spi.peer.base;
 
+import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.scene.paint.*;
 import naga.commons.util.Strings;
+import naga.fx.scene.SceneRequester;
 import naga.fxdata.cell.renderer.ImageTextRenderer;
 import naga.fxdata.cell.renderer.TextRenderer;
 import naga.fxdata.cell.renderer.ValueRenderer;
@@ -22,6 +24,21 @@ public class DataGridPeerBase
     private int gridColumnCount;
     private DisplayResultSet rs;
     private DataGridPeerImageTextMixin<C, N, NB, NM> imageTextMixin;
+
+    @Override
+    public void bind(N shape, SceneRequester sceneRequester) {
+        super.bind(shape, sceneRequester);
+        requestUpdateOnPropertiesChange(sceneRequester
+                , node.headerVisibleProperty()
+        );
+    }
+
+    @Override
+    public boolean updateProperty(ObservableValue changedProperty) {
+        return super.updateProperty(changedProperty)
+                || updateProperty(node.headerVisibleProperty(), changedProperty, mixin::updateHeaderVisible)
+                ;
+    }
 
     public int getGridColumnCount() {
         return gridColumnCount;

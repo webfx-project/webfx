@@ -40,7 +40,6 @@ public class HtmlDataGridPeer
 
     public HtmlDataGridPeer(NB base, HTMLElement element) {
         super(base, element);
-        table.appendChild(tHead);
         table.appendChild(tBody);
         setChild(element, table);
         setElementStyleAttribute("overflow-y", "auto");
@@ -52,6 +51,14 @@ public class HtmlDataGridPeer
         };
         // Restoring scroll position when visiting back the page
         HtmlUtil.onNodeInsertedIntoDocument(element, () -> element.scrollTop = scrollTop);
+    }
+
+    @Override
+    public void updateHeaderVisible(boolean headerVisible) {
+        if (headerVisible)
+            table.insertBefore(tHead, tBody);
+        else
+            table.removeChild(tHead);
     }
 
     @Override

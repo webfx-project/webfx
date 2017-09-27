@@ -87,6 +87,14 @@ public class FxDataGridPeer
         }
     }
 
+    @Override
+    public void updateHeaderVisible(boolean headerVisible) {
+        if (headerVisible)
+            getFxNode().getStyleClass().remove("noheader");
+        else
+            getFxNode().getStyleClass().add("noheader");
+    }
+
     private List<TableColumn<Integer, ?>> currentColumns, newColumns;
 
     @Override

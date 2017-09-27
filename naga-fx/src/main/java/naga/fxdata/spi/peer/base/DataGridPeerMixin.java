@@ -12,6 +12,8 @@ public interface DataGridPeerMixin
 
         extends SelectableDisplayResultSetControlPeerMixin<C, N, NB, NM> {
 
+    void updateHeaderVisible(boolean headerVisible);
+
     void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn);
 
     void setCellContent(C cell, Node content, DisplayColumn displayColumn);

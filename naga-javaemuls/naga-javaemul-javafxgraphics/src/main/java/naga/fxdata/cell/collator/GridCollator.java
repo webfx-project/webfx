@@ -109,6 +109,10 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
+        public void updateHeaderVisible(boolean headerVisible) {
+        }
+
+        @Override
         public void updateBackground(Background background) {
         }
 
