@@ -2,6 +2,7 @@ package mongoose.activities.shared.book.event.shared;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -85,7 +86,7 @@ public class FeesGroup {
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventService.areEventAvailabilitiesLoaded())
-                                return ImageStore.createImageView("images/16/spinner.gif");
+                                return new ImageView(ImageStore.getOrCreateImage("images/16/spinner.gif", 16, 16));
                             Object availability = pair.get1();
                             OptionsPreselection optionsPreselection = pair.get2();
                             // Availability is null when there is no online room at all. In this case...
