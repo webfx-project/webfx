@@ -4,9 +4,12 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import naga.commons.util.function.Consumer;
@@ -57,29 +60,18 @@ public class DialogUtil {
 
     public static DialogCallback showModalNode(Region modalNode, Pane parent) {
         setMaxSizeToInfinite(modalNode).setManaged(false);
-        setUpModalNodeResize(modalNode, parent);
-        parent.getChildren().add(modalNode);
-        return new DialogCallback() {
-            @Override
-            public void closeDialog() {
-                Toolkit.get().scheduler().runInUiThread(() -> parent.getChildren().remove(modalNode));
-            }
-
-            @Override
-            public void showException(Throwable e) {
-                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
-            }
-        };
+        setUpModalNodeResizeRelocate(modalNode, parent);
+        return createDialogCallback(modalNode, parent);
     }
 
-    private static void setUpModalNodeResize(Region modalNode, Pane parent) {
+    private static void setUpModalNodeResizeRelocate(Region modalNode, Pane parent) {
         Scene scene = parent.getScene();
         if (scene == null) {
             parent.sceneProperty().addListener(new ChangeListener<Scene>() {
                 @Override
                 public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
                     observable.removeListener(this);
-                    setUpModalNodeResize(modalNode, parent);
+                    setUpModalNodeResizeRelocate(modalNode, parent);
                 }
             });
             return;
@@ -113,4 +105,65 @@ public class DialogUtil {
         dialogContent.getOkButton().setOnAction(event -> okConsumer.accept(dialogCallback));
     }
 
+    public static DialogCallback showDropDownDialog(Region dialogNode, Region buttonNode, Pane parent, Property resizeProperty) {
+        DialogCallback dialogCallback = createDialogCallback(dialogNode, parent);
+        dialogNode.setManaged(false);
+        setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty);
+        return dialogCallback;
+    }
+
+    private static DialogCallback createDialogCallback(Region dialogNode, Pane parent) {
+        parent.getChildren().add(dialogNode);
+        return new DialogCallback() {
+            @Override
+            public void closeDialog() {
+                Toolkit.get().scheduler().runInUiThread(() -> parent.getChildren().remove(dialogNode));
+            }
+
+            @Override
+            public void showException(Throwable e) {
+                Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
+            }
+        };
+    }
+
+    private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, Property resizeProperty) {
+        Scene scene = buttonNode.getScene();
+        if (scene == null) {
+            buttonNode.sceneProperty().addListener(new ChangeListener<Scene>() {
+                @Override
+                public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
+                    observable.removeListener(this);
+                    setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty);
+                }
+            });
+            return;
+        }
+        Properties.runNowAndOnPropertiesChange(p -> {
+            Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
+            Point2D parentSceneXY = parent.localToScene(0, 0);
+            double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
+            double height = dialogNode.prefHeight(width);
+            Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + buttonNode.getHeight(), width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
+        }, buttonNode.widthProperty(), buttonNode.heightProperty(), scene.widthProperty(), scene.heightProperty(), resizeProperty);
+        scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
+            @Override
+            public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
+                if (!hasAncestor(newFocusOwner, dialogNode)) {
+                    dialogCallback.closeDialog();
+                    scene.focusOwnerProperty().removeListener(this);
+                }
+            }
+        });
+    }
+
+    private static boolean hasAncestor(Node node, Parent parent) {
+        while (true) {
+            if (node == parent)
+                return true;
+            if (node == null)
+                return false;
+            node = node.getParent();
+        }
+    }
 }

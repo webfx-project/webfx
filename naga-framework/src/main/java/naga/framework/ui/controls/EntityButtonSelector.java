@@ -1,14 +1,19 @@
 package naga.framework.ui.controls;
 
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import naga.commons.util.Arrays;
 import naga.commons.util.Strings;
 import naga.commons.util.collection.Collections;
@@ -30,6 +35,7 @@ import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.ToolkitDataGrid;
+import naga.fxdata.displaydata.DisplayResultSet;
 
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
 import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
@@ -50,6 +56,7 @@ public class EntityButtonSelector {
     private ValueRenderer entityRenderer;
     private final Property<Entity> entityProperty = new SimpleObjectProperty<>();
 
+    private boolean modelDialog = false; // flag specifying if the choice is displayed in a modal dialog or a drop down menu
     private EntityStore loadingStore;
     private BorderPane entityDialogPane;
     private TextField searchBox;
@@ -63,6 +70,10 @@ public class EntityButtonSelector {
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
         Properties.runOnPropertiesChange(p -> updateEntityButton(), entityProperty);
+    }
+
+    public void setModelDialog(boolean modelDialog) {
+        this.modelDialog = modelDialog;
     }
 
     public void setJsonOrClass(Object jsonOrClass) {
@@ -127,12 +138,20 @@ public class EntityButtonSelector {
         setUpEntityDialog(true);
     }
 
+    private DataGrid dataGrid;
+
     private void setUpEntityDialog(boolean show) {
         if (entityDialogPane == null) {
             if (entityRenderer == null)
                 return;
-            DataGrid dataGrid = new ToolkitDataGrid();
-            entityDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
+            dataGrid = new ToolkitDataGrid();
+            dataGrid.setHeaderVisible(false);
+            BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
+            entityDialogPane = new BorderPane(dataGrid);
+            if (modelDialog)
+                setPrefSizeToInfinite(dataGrid);
+            else
+                dataGrid.setMaxHeight(200d);
             I18n i18n = viewActivityContextMixin.getI18n();
             EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
@@ -146,6 +165,12 @@ public class EntityButtonSelector {
                     setSearchParameters(s, entityDialogFilter.getStore());
                     return "{where: `" + searchCondition + "`}";
                 });
+                searchBox.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                    if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
+                        entityDialogCallback.closeDialog();
+                        e.consume();
+                    }
+                });
             }
             entityDialogFilter
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))
@@ -153,23 +178,33 @@ public class EntityButtonSelector {
                     .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
                     //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> onOkEntityDialog())
                     .start();
-            okButton = viewActivityContextMixin.newOkButton(this::onOkEntityDialog);
-            cancelButton = viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog);
-            HBox hBox = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
-            hBox.setPadding(new Insets(20, 0, 0, 0));
-            entityDialogPane.setBottom(hBox);
+            if (modelDialog) {
+                okButton = viewActivityContextMixin.newOkButton(this::onOkEntityDialog);
+                cancelButton = viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog);
+                HBox hBox = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
+                hBox.setPadding(new Insets(20, 0, 0, 0));
+                entityDialogPane.setBottom(hBox);
+            }
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
+            entityDialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
         }
         entityDialogFilter.setActive(true);
-        if (show)
-            entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
+        if (show) {
+            if (modelDialog) {
+                entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
+                // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
+                ButtonUtil.resetDefaultButton(okButton);
+                ButtonUtil.resetCancelButton(cancelButton);
+            } else {
+                Property<DisplayResultSet> deferred = new SimpleObjectProperty<>();
+                dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferred.setValue(newValue)));
+                entityDialogCallback = DialogUtil.showDropDownDialog(entityDialogPane, entityButton, parent, deferred);
+            }
+        }
         if (searchBox != null) {
             searchBox.setText(null); // Resetting the search box
             searchBox.requestFocus();
         }
-        // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
-        ButtonUtil.resetDefaultButton(okButton);
-        ButtonUtil.resetCancelButton(cancelButton);
     }
 
     protected void setSearchParameters(String search, EntityStore store) {
