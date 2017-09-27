@@ -190,7 +190,7 @@ public class GraphicDecoration extends Decoration {
                     y -= decorationNodeHeight / 2.0;
                     break;
                 case BOTTOM:
-                    y += targetHeight - decorationNodeWidth / 2.0;
+                    y += targetHeight - decorationNodeHeight / 2.0;
                     break;
                 case BASELINE:
                     y += targetNode.getBaselineOffset() - decorationNode.getBaselineOffset() - decorationNodeHeight / 2.0;
