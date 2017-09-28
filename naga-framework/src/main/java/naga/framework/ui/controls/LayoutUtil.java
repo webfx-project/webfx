@@ -183,7 +183,7 @@ public class LayoutUtil {
     }
 
     public static ScrollPane createVerticalScrollPane(Region content) {
-        ScrollPane scrollPane = new ScrollPane(content);
+        ScrollPane scrollPane = createScrollPane(content);
         LayoutUtil.setMinMaxWidthToPref(content);
         content.prefWidthProperty().bind(
                 // scrollPane.widthProperty().subtract(16) // doesn't compile with GWT
@@ -192,4 +192,32 @@ public class LayoutUtil {
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         return scrollPane;
     }
+
+    public static ScrollPane createScrollPane(Node content) {
+        ScrollPane scrollPane = new ScrollPane(content);
+        content.getProperties().put("parentScrollPane", scrollPane); // Used by LayoutUtil.findScrollPaneAncestor()
+        return scrollPane;
+    }
+
+/*
+    public static double computeScrollPaneHoffset(ScrollPane scrollPane) {
+        double hmin = scrollPane.getHmin();
+        double hmax = scrollPane.getHmax();
+        double hvalue = scrollPane.getHvalue();
+        double contentWidth = scrollPane.getLayoutBounds().getWidth();
+        double viewportWidth = scrollPane.getViewportBounds().getWidth();
+        double hoffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
+        return hoffset;
+    }
+
+    public static double computeScrollPaneVoffset(ScrollPane scrollPane) {
+        double vmin = scrollPane.getVmin();
+        double vmax = scrollPane.getVmax();
+        double vvalue = scrollPane.getVvalue();
+        double contentHeight = scrollPane.getLayoutBounds().getHeight();
+        double viewportHeight = scrollPane.getViewportBounds().getHeight();
+        double voffset = Math.max(0, contentHeight - viewportHeight) * (vvalue - vmin) / (vmax - vmin);
+        return voffset;
+    }
+*/
 }

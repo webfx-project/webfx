@@ -11,10 +11,14 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
+
+import java.util.List;
 
 import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
 import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToPref;
@@ -139,13 +143,18 @@ public class DialogUtil {
             });
             return;
         }
+        List<ObservableValue> reactingProperties = Collections.listOf(buttonNode.widthProperty(), buttonNode.heightProperty(), scene.widthProperty(), scene.heightProperty(), resizeProperty);
+        for (ScrollPane scrollPane = findScrollPaneAncestor(buttonNode); scrollPane != null; scrollPane = findScrollPaneAncestor(scrollPane)) {
+            reactingProperties.add(scrollPane.hvalueProperty());
+            reactingProperties.add(scrollPane.vvalueProperty());
+        }
         Properties.runNowAndOnPropertiesChange(p -> {
             Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
             Point2D parentSceneXY = parent.localToScene(0, 0);
             double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
             double height = dialogNode.prefHeight(width);
             Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + buttonNode.getHeight(), width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
-        }, buttonNode.widthProperty(), buttonNode.heightProperty(), scene.widthProperty(), scene.heightProperty(), resizeProperty);
+        }, Collections.toArray(reactingProperties, ObservableValue[]::new));
         scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
@@ -164,6 +173,20 @@ public class DialogUtil {
             if (node == null)
                 return false;
             node = node.getParent();
+        }
+    }
+
+    private static ScrollPane findScrollPaneAncestor(Node node) {
+        while (true) {
+            if (node == null)
+                return null;
+            // Assuming ScrollPane has been created through LayoutUtil.createScrollPane() which stores the scrollPane into "parentScrollPane" node property
+            ScrollPane parentScrollPane = (ScrollPane) node.getProperties().get("parentScrollPane");
+            if (parentScrollPane != null)
+                return parentScrollPane;
+            node = node.getParent();
+            if (node instanceof ScrollPane)
+                return (ScrollPane) node;
         }
     }
 }
