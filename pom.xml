@@ -543,7 +543,7 @@
                         <jvmArgs>
                             <jvmArg>-Xmx1024m</jvmArg>
                         </jvmArgs>
-                        <localWorkers>1</localWorkers>
+                        <!--<localWorkers>1</localWorkers>-->
                     </configuration>
                 </plugin>
 
