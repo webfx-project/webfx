@@ -1521,7 +1521,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return new Point2D(tempPt.x, tempPt.y);
     }
 
-    void localToScene(emul.com.sun.javafx.geom.Point2D pt) {
+    protected void localToScene(emul.com.sun.javafx.geom.Point2D pt) {
         localToParent(pt);
         if (getParent() != null) {
             getParent().localToScene(pt);
@@ -1548,7 +1548,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return new Point2D(tempPt.x, tempPt.y);
     }
 
-    void sceneToLocal(emul.com.sun.javafx.geom.Point2D pt) {
+    protected void sceneToLocal(emul.com.sun.javafx.geom.Point2D pt) {
         if (getParent() != null) {
             getParent().sceneToLocal(pt);
         }
