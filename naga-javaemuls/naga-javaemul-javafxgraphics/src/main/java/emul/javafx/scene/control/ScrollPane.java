@@ -45,7 +45,7 @@ public class ScrollPane extends Pane {
         hbarPolicyProperty.setValue(value);
     }
 
-    ScrollBarPolicy getHbarPolicy() {
+    public ScrollBarPolicy getHbarPolicy() {
         return hbarPolicyProperty.getValue();
     }
 
@@ -59,7 +59,7 @@ public class ScrollPane extends Pane {
         vbarPolicyProperty.setValue(value);
     }
 
-    ScrollBarPolicy getvbarPolicy() {
+    public ScrollBarPolicy getvbarPolicy() {
         return vbarPolicyProperty.getValue();
     }
     /**

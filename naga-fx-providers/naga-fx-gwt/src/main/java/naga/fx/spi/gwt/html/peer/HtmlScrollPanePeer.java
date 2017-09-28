@@ -34,23 +34,25 @@ public final class HtmlScrollPanePeer
         super.bind(node, sceneRequester);
         node.setOnChildrenLayout(this::scheduleUpdate);
         HTMLElement element = getElement();
-        callPerfectScrollbarInitialize(element);
+        callPerfectScrollbarInitialize(element, node.getHbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER, node.getvbarPolicy() == ScrollPane.ScrollBarPolicy.NEVER);
         HtmlUtil.onNodeInsertedIntoDocument(element, this::scheduleUpdate);
     }
 
     private double scrollTop, scrollLeft;
+    private boolean syncing;
 
     private void setScrollTop(double scrollTop) {
         this.scrollTop = scrollTop;
-        syncModelFromUi(false);
+        syncModelFromUi(false, true);
     }
 
     private void setScrollLeft(double scrollLeft) {
         this.scrollLeft = scrollLeft;
-        syncModelFromUi(true);
+        syncModelFromUi(true, false);
     }
 
-    private void syncModelFromUi(boolean horizontal) {
+    private void syncModelFromUi(boolean horizontal, boolean vertical) {
+        syncing = true;
         N node = getNode();
         double viewportWidth = node.getWidth();
         double viewportHeight = node.getHeight();
@@ -66,7 +68,8 @@ public final class HtmlScrollPanePeer
                 if (contentWidth > viewportWidth)
                     hvalue += scrollLeft * (node.getHmax() - hmin) / (contentWidth - viewportWidth);
                 node.setHvalue(hvalue);
-            } else {
+            }
+            if (vertical) {
                 double vmin = node.getVmin();
                 double vvalue = vmin;
                 double vmax = node.getVmax();
@@ -76,10 +79,41 @@ public final class HtmlScrollPanePeer
                 node.setVvalue(vvalue);
             }
         }
+        syncing = false;
     }
 
-    private native void callPerfectScrollbarInitialize(Element element) /*-{
-        $wnd.Ps.initialize(element);
+    private void syncUiFromModel(boolean horizontal, boolean vertical) {
+        syncing = true;
+        N node = getNode();
+        Node content = node.getContent();
+        if (content != null) {
+            Bounds contentLayoutBounds = content.getLayoutBounds();
+            if (horizontal) {
+                double hmin = node.getHmin();
+                double hvalue = node.getHvalue();
+                double contentWidth = contentLayoutBounds.getWidth();
+                double viewportWidth = node.getWidth();
+                if (contentWidth > viewportWidth)
+                    scrollLeft = (contentWidth - viewportWidth) * (hvalue - hmin) / (node.getHmax() - hmin);
+                else
+                    scrollLeft = 0;
+            }
+            if (vertical) {
+                double vmin = node.getVmin();
+                double vvalue = node.getVvalue();
+                double contentHeight = contentLayoutBounds.getHeight();
+                double viewportHeight = node.getHeight();
+                if (contentHeight > viewportHeight)
+                    scrollTop = (contentHeight - viewportHeight) * (vvalue - vmin) / (node.getVmax() - vmin);
+                else
+                    scrollTop = 0;
+            }
+        }
+        syncing = false;
+    }
+
+    private native void callPerfectScrollbarInitialize(Element element, boolean suppressScrollX, boolean suppressScrollY) /*-{
+        $wnd.Ps.initialize(element, {suppressScrollX: suppressScrollX, suppressScrollY: suppressScrollY});
         var self = this;
         element.addEventListener('ps-scroll-x', function() { self.@naga.fx.spi.gwt.html.peer.HtmlScrollPanePeer::setScrollLeft(D)(element.scrollLeft)});
         element.addEventListener('ps-scroll-y', function() { self.@naga.fx.spi.gwt.html.peer.HtmlScrollPanePeer::setScrollTop(D)(element.scrollTop)});
@@ -113,4 +147,45 @@ public final class HtmlScrollPanePeer
         super.updateHeight(height);
         scheduleUpdate();
     }
+
+    @Override
+    public void updateHbarPolicy(ScrollPane.ScrollBarPolicy hbarPolicy) {
+    }
+
+    @Override
+    public void updateVbarPolicy(ScrollPane.ScrollBarPolicy vbarPolicy) {
+    }
+
+    @Override
+    public void updateHmin(Number hmin) {
+    }
+
+    @Override
+    public void updateHvalue(Number hValue) {
+        if (!syncing) {
+            syncUiFromModel(true, false);
+            scheduleUpdate();
+        }
+    }
+
+    @Override
+    public void updateHmax(Number hmax) {
+    }
+
+    @Override
+    public void updateVmin(Number vmin) {
+    }
+
+    @Override
+    public void updateVvalue(Number vValue) {
+        if (!syncing) {
+            syncUiFromModel(false, true);
+            scheduleUpdate();
+        }
+    }
+
+    @Override
+    public void updateVmax(Number vmax) {
+    }
+
 }
