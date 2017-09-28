@@ -10,6 +10,12 @@ import java.util.*;
  */
 public class Collections {
 
+    public static <T> List<T> listOf(T... elements) {
+        List list = new ArrayList(elements.length);
+        java.util.Collections.addAll(list, elements);
+        return list;
+    }
+
     public static <T> void forEach(Iterable<T> iterable, Consumer<T> consumer) {
         // iterable.forEach(consumer); // Not GWT compilable for now
         for (T element : iterable)
@@ -148,6 +154,31 @@ public class Collections {
         return list.get(i);
     }
 
+    public static int indexOf(List list, Object element) {
+        return list == null ? -1 : list.indexOf(element);
+    }
+
+    public static int indexOf(Iterable iterable, Object element) {
+        if (iterable != null) {
+            int i = 0;
+            for (Object e : iterable)
+                if (Objects.equals(e, element))
+                    return i;
+                else
+                    i++;
+
+        }
+        return -1;
+    }
+
+    public static boolean contains(List list, Object element) {
+        return list != null && list.contains(element);
+    }
+
+    public static boolean contains(Iterable iterable, Object element) {
+        return indexOf(iterable, element) != -1;
+    }
+
     public static <T> boolean addIfNotNull(T element, Collection<T> collection) {
         if (element == null || collection == null)
             return false;
@@ -156,7 +187,7 @@ public class Collections {
     }
 
     public static <T> boolean allNonNulls(List<T> list) {
-        return list.indexOf(null) == -1;
+        return indexOf(list, (T) null) == -1;
     }
 
     public static <T> Iterator<T> iterator(Iterable<T> iterable) {
@@ -219,11 +250,19 @@ public class Collections {
         return toString(iterator, false, false);
     }
 
-    private static String toString(Iterable iterable, boolean brackets, boolean lineFeeds) {
-        return toString(iterable.iterator(), brackets, lineFeeds);
+    public static String toString(Iterable iterable, boolean brackets, boolean lineFeeds) {
+        return toString(iterable, ", ", brackets, lineFeeds);
+    }
+
+    public static String toString(Iterable iterable, String separator, boolean brackets, boolean lineFeeds) {
+        return toString(iterable.iterator(), separator, brackets, lineFeeds);
     }
 
     private static String toString(Iterator it, boolean brackets, boolean lineFeeds) {
+        return toString(it, ", ", brackets, lineFeeds);
+    }
+
+    private static String toString(Iterator it, String separator, boolean brackets, boolean lineFeeds) {
         if (it == null)
             return null;
         if (!it.hasNext())
@@ -236,7 +275,7 @@ public class Collections {
             int length = sb.length();
             if (length > 0) {
                 if (length > initialLength)
-                    sb.append(", ");
+                    sb.append(separator);
                 if (lineFeeds)
                     sb.append('\n');
             }
