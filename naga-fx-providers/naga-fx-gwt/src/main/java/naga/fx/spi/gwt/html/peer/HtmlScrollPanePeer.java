@@ -2,6 +2,9 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import emul.javafx.geometry.BoundingBox;
+import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.Node;
 import emul.javafx.scene.control.ScrollPane;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.Toolkit;
@@ -37,11 +40,49 @@ public final class HtmlScrollPanePeer
 
     private double scrollTop, scrollLeft;
 
+    private void setScrollTop(double scrollTop) {
+        this.scrollTop = scrollTop;
+        syncModelFromUi(false);
+    }
+
+    private void setScrollLeft(double scrollLeft) {
+        this.scrollLeft = scrollLeft;
+        syncModelFromUi(true);
+    }
+
+    private void syncModelFromUi(boolean horizontal) {
+        N node = getNode();
+        double viewportWidth = node.getWidth();
+        double viewportHeight = node.getHeight();
+        Bounds viewportBounds = new BoundingBox(scrollLeft, scrollTop, viewportWidth, viewportHeight);
+        node.setViewportBounds(viewportBounds);
+        Node content = node.getContent();
+        if (content != null) {
+            Bounds contentLayoutBounds = content.getLayoutBounds();
+            if (horizontal) {
+                double hmin = node.getHmin();
+                double hvalue = hmin;
+                double contentWidth = contentLayoutBounds.getWidth();
+                if (contentWidth > viewportWidth)
+                    hvalue += scrollLeft * (node.getHmax() - hmin) / (contentWidth - viewportWidth);
+                node.setHvalue(hvalue);
+            } else {
+                double vmin = node.getVmin();
+                double vvalue = vmin;
+                double vmax = node.getVmax();
+                double contentHeight = contentLayoutBounds.getHeight();
+                if (contentHeight > viewportHeight)
+                    vvalue += scrollTop * (vmax - vmin) / (contentHeight - viewportHeight);
+                node.setVvalue(vvalue);
+            }
+        }
+    }
+
     private native void callPerfectScrollbarInitialize(Element element) /*-{
         $wnd.Ps.initialize(element);
         var self = this;
-        element.addEventListener('ps-scroll-x', function() { self.@naga.fx.spi.gwt.html.peer.HtmlScrollPanePeer::scrollLeft = element.scrollLeft});
-        element.addEventListener('ps-scroll-y', function() { self.@naga.fx.spi.gwt.html.peer.HtmlScrollPanePeer::scrollTop = element.scrollTop});
+        element.addEventListener('ps-scroll-x', function() { self.@naga.fx.spi.gwt.html.peer.HtmlScrollPanePeer::setScrollLeft(D)(element.scrollLeft)});
+        element.addEventListener('ps-scroll-y', function() { self.@naga.fx.spi.gwt.html.peer.HtmlScrollPanePeer::setScrollTop(D)(element.scrollTop)});
     }-*/;
 
     private native void callPerfectScrollbarUpdate(Element element) /*-{
