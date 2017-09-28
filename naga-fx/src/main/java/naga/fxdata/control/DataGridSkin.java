@@ -33,6 +33,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     private final GridHead head = new GridHead();
     private final GridBody body = new GridBody();
     private final ScrollPane bodyScrollPane = new ScrollPane(body);
+    private double headOffset;
     private final static Pane fakeCell = new Pane();
     private List<Node> fakeCellChildren;
 
@@ -42,18 +43,16 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     public DataGridSkin(DataGrid dataGrid) {
         super(dataGrid, false);
         dataGrid.getStyleClass().add("grid");
-/* not yet implemented in gwt
         bodyScrollPane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
                     double hmin = bodyScrollPane.getHmin();
                     double hmax = bodyScrollPane.getHmax();
                     double hvalue = bodyScrollPane.getHvalue();
                     double contentWidth = body.getLayoutBounds().getWidth();
                     double viewportWidth = bodyScrollPane.getViewportBounds().getWidth();
-                    double hoffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
-                    head.relocate(-hoffset, 0);
+                    headOffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
+                    head.relocate(-headOffset, 0);
                 }
         );
-*/
         bodyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         Properties.runNowAndOnPropertiesChange(p -> {
             if (dataGrid.isHeaderVisible())
@@ -178,11 +177,11 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         updateColumnWidths(contentWidth);
         if (getSkinnable().isHeaderVisible()) {
-            layoutInArea(head, contentX, contentY, columnWidthsTotal, headerHeight, -1, HPos.LEFT, VPos.TOP);
+            layoutInArea(head, contentX - headOffset, contentY, columnWidthsTotal, headerHeight, -1, HPos.LEFT, VPos.TOP);
             contentY += headerHeight;
             contentHeight -= headerHeight;
         }
-        layoutInArea(bodyScrollPane, contentX, contentY, columnWidthsTotal, contentHeight, -1, HPos.LEFT, VPos.TOP);
+        layoutInArea(bodyScrollPane, contentX, contentY, contentWidth, contentHeight, -1, HPos.LEFT, VPos.TOP);
     }
 
     private double lastContentWidth;
@@ -340,7 +339,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
         @Override
         protected void layoutChildren() {
-            double width = getWidth();
+            double width = columnWidthsTotal;
             for (Pane row : bodyRows)
                 row.resize(width, rowHeight);
             double x = 0;
