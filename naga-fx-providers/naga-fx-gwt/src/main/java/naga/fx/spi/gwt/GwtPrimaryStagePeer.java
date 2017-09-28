@@ -10,6 +10,7 @@ import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.StagePeer;
 
 import static elemental2.dom.DomGlobal.document;
+import static elemental2.dom.DomGlobal.window;
 
 
 /**
@@ -45,8 +46,8 @@ class GwtPrimaryStagePeer implements StagePeer {
     private float lastWidth, lastHeight;
 
     private void changedWindowSize() {
-        float width = (float) document.documentElement.clientWidth; //window.innerWidth;
-        float height = (float) document.documentElement.clientHeight; // window.innerHeight
+        float width = (float) window.innerWidth;
+        float height = (float) window.innerHeight;
         if (width == lastWidth && height == lastHeight)
             return;
         if (listener != null)
