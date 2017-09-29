@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -47,7 +48,8 @@ public class EntityButtonSelector {
     public enum ShowMode {
         MODAL_DIALOG,
         DROP_DOWN,
-        DROP_UP
+        DROP_UP,
+        AUTO
     }
 
     private Object jsonOrClass;
@@ -61,7 +63,7 @@ public class EntityButtonSelector {
     private ValueRenderer entityRenderer;
     private final Property<Entity> entityProperty = new SimpleObjectProperty<>();
 
-    private ShowMode showMode = ShowMode.DROP_DOWN;
+    private ShowMode showMode = ShowMode.AUTO;
     private EntityStore loadingStore;
     private BorderPane entityDialogPane;
     private TextField searchBox;
@@ -183,6 +185,7 @@ public class EntityButtonSelector {
         }
         entityDialogFilter.setActive(true);
         if (show) {
+            ShowMode decidedShowMode = showMode;
             switch (showMode) {
                 case MODAL_DIALOG:
                     setPrefSizeToInfinite(dataGrid);
@@ -199,16 +202,22 @@ public class EntityButtonSelector {
                     ButtonUtil.resetCancelButton(cancelButton);
                     break;
 
+                case AUTO:
+                    Point2D buttonBottom = entityButton.localToScene(0, entityButton.getHeight());
+                    decidedShowMode = entityButton.getScene().getHeight() - buttonBottom.getY() < 200d + searchBox.getHeight() ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
                 case DROP_DOWN:
                 case DROP_UP:
-                    if (showMode == ShowMode.DROP_DOWN)
+                    if (decidedShowMode == ShowMode.DROP_DOWN) {
+                        entityDialogPane.setBottom(null);
                         entityDialogPane.setTop(searchBox);
-                    else
+                    } else {
+                        entityDialogPane.setTop(null);
                         entityDialogPane.setBottom(searchBox);
+                    }
                     dataGrid.setMaxHeight(200d);
                     Property<DisplayResultSet> deferred = new SimpleObjectProperty<>();
                     dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferred.setValue(newValue)));
-                    entityDialogCallback = DialogUtil.showDropUpOrDownDialog(entityDialogPane, entityButton, parent, deferred, showMode == ShowMode.DROP_UP);
+                    entityDialogCallback = DialogUtil.showDropUpOrDownDialog(entityDialogPane, entityButton, parent, deferred, decidedShowMode == ShowMode.DROP_UP);
                     break;
             }
         }
