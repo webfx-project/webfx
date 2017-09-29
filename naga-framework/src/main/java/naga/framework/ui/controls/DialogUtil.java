@@ -113,7 +113,7 @@ public class DialogUtil {
         return showDropUpOrDownDialog(dialogNode, buttonNode, parent, resizeProperty, true);
     }
 
-    public static DialogCallback showDropUpOrDownDialog(Region dialogNode, Region buttonNode, Pane parent, Property resizeProperty, boolean up) {
+    public static DialogCallback showDropUpOrDownDialog(Region dialogNode, Region buttonNode, Pane parent, ObservableValue resizeProperty, boolean up) {
         DialogCallback dialogCallback = createDialogCallback(dialogNode, parent);
         dialogNode.setManaged(false);
         setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty, up);
@@ -135,7 +135,7 @@ public class DialogUtil {
         };
     }
 
-    private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, Property resizeProperty, boolean up) {
+    private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, ObservableValue resizeProperty, boolean up) {
         Scene scene = buttonNode.getScene();
         if (scene == null) {
             buttonNode.sceneProperty().addListener(new ChangeListener<Scene>() {

@@ -31,8 +31,11 @@ public class ButtonUtil {
         return button;
     }
 
-    public static Button newDrowDownButton() {
-        return decorateButtonWithDropDownArrow(new Button());
+    public static Button newDropDownButton() {
+        Button button = decorateButtonWithDropDownArrow(new Button());
+        button.setMinWidth(0d);
+        button.setAlignment(Pos.CENTER_LEFT);
+        return button;
     }
 
     public static Button decorateButtonWithDropDownArrow(Button button) {
