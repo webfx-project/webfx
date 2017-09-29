@@ -1,5 +1,6 @@
 package emul.javafx.scene;
 
+import emul.com.sun.javafx.collections.SourceAdapterChange;
 import emul.com.sun.javafx.scene.SceneEventDispatcher;
 import emul.com.sun.javafx.tk.TKPulseListener;
 import emul.com.sun.javafx.tk.TKSceneListener;
@@ -36,7 +37,9 @@ import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -456,6 +459,7 @@ public class Scene implements EventTarget,
 
 
     private final SceneRequester sceneRequester = new SceneRequester() {
+        private final UiScheduler uiScheduler = Toolkit.get().scheduler();
 
         @Override
         public void requestNodePeerPropertyUpdate(Node node, ObservableValue changedProperty) {
@@ -464,11 +468,13 @@ public class Scene implements EventTarget,
 
         @Override
         public void requestNodePeerListUpdate(Node node, ObservableList changedList, ListChangeListener.Change change) {
-            executePropertyChange(() -> updateViewList(node, changedList, change));
+            if (change != null && !uiScheduler.isAnimationFrameNow())
+                change = new SnapshotChange(change);
+            ListChangeListener.Change finalChange = change;
+            executePropertyChange(() -> updateViewList(node, changedList, finalChange));
         }
 
         private void executePropertyChange(Runnable runnable) {
-            UiScheduler uiScheduler = Toolkit.get().scheduler();
             if (uiScheduler.isAnimationFrameNow())
                 runnable.run();
             else
@@ -1277,5 +1283,19 @@ public class Scene implements EventTarget,
 */
     }
 
+    private static class SnapshotChange<E> extends SourceAdapterChange<E> {
+
+        private final List<E> snapshotList;
+
+        SnapshotChange(ListChangeListener.Change<E> change) {
+            super(change.getList(), change);
+            snapshotList = new ArrayList<>(change.getList());
+        }
+
+        @Override
+        public List<E> getAddedSubList() {
+            return wasAdded()? snapshotList.subList(getFrom(), getTo()) : java.util.Collections.emptyList();
+        }
+    }
 
 }
