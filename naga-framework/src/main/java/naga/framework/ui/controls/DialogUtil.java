@@ -15,6 +15,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
+import naga.commons.util.tuples.Unit;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 
@@ -147,19 +148,30 @@ public class DialogUtil {
             });
             return;
         }
-        List<ObservableValue> reactingProperties = Collections.listOf(buttonNode.widthProperty(), buttonNode.heightProperty(), scene.widthProperty(), scene.heightProperty(), resizeProperty);
+        List<ObservableValue> reactingProperties = Collections.listOf(
+                buttonNode.widthProperty(),
+                buttonNode.heightProperty(),
+                resizeProperty);
         for (ScrollPane scrollPane = findScrollPaneAncestor(buttonNode); scrollPane != null; scrollPane = findScrollPaneAncestor(scrollPane)) {
             reactingProperties.add(scrollPane.hvalueProperty());
             reactingProperties.add(scrollPane.vvalueProperty());
         }
-        Properties.runOnPropertiesChange(p -> {
+        Unit<Runnable> runnableHolder = new Unit<>();
+        Runnable runnable = () -> {
             Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
             Point2D parentSceneXY = parent.localToScene(0, 0);
             double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
             double height = dialogNode.prefHeight(width);
             double deltaY = up ? -height : buttonNode.getHeight();
             Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
-        }, Collections.toArray(reactingProperties, ObservableValue[]::new));
+            // Hack for the html version which may have an incorrect height computation on first iteration
+            if (height <= 32)
+                javafx.application.Platform.runLater(runnableHolder.get());
+        };
+        runnableHolder.set(runnable);
+        Properties.runOnPropertiesChange(p -> runnable.run(), Collections.toArray(reactingProperties, ObservableValue[]::new));
+        if (dialogNode.prefHeight(-1) > 200)
+            runnable.run();
         scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
