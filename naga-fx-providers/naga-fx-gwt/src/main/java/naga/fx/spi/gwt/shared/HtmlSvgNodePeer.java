@@ -115,7 +115,7 @@ public abstract class HtmlSvgNodePeer
     protected boolean onClickElement(Event e) {
         emul.javafx.event.Event event = toFxClickEvent(e);
         getNode().fireEvent(event);
-        return event.isConsumed();
+        return true; // event.isConsumed();
     }
 
     protected emul.javafx.event.Event toFxClickEvent(Event e) {
