@@ -110,9 +110,13 @@ public class DialogUtil {
     }
 
     public static DialogCallback showDropDownDialog(Region dialogNode, Region buttonNode, Pane parent, Property resizeProperty) {
+        return showDropUpOrDownDialog(dialogNode, buttonNode, parent, resizeProperty, true);
+    }
+
+    public static DialogCallback showDropUpOrDownDialog(Region dialogNode, Region buttonNode, Pane parent, Property resizeProperty, boolean up) {
         DialogCallback dialogCallback = createDialogCallback(dialogNode, parent);
         dialogNode.setManaged(false);
-        setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty);
+        setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty, up);
         return dialogCallback;
     }
 
@@ -131,14 +135,14 @@ public class DialogUtil {
         };
     }
 
-    private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, Property resizeProperty) {
+    private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, Property resizeProperty, boolean up) {
         Scene scene = buttonNode.getScene();
         if (scene == null) {
             buttonNode.sceneProperty().addListener(new ChangeListener<Scene>() {
                 @Override
                 public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
                     observable.removeListener(this);
-                    setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty);
+                    setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty, up);
                 }
             });
             return;
@@ -148,12 +152,13 @@ public class DialogUtil {
             reactingProperties.add(scrollPane.hvalueProperty());
             reactingProperties.add(scrollPane.vvalueProperty());
         }
-        Properties.runNowAndOnPropertiesChange(p -> {
+        Properties.runOnPropertiesChange(p -> {
             Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
             Point2D parentSceneXY = parent.localToScene(0, 0);
             double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
             double height = dialogNode.prefHeight(width);
-            Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + buttonNode.getHeight(), width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
+            double deltaY = up ? -height : buttonNode.getHeight();
+            Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
         }, Collections.toArray(reactingProperties, ObservableValue[]::new));
         scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
             @Override
