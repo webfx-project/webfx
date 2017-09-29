@@ -56,7 +56,8 @@ public class ReactiveExpressionFilter {
     private DataSourceModel dataSourceModel;
     private I18n i18n;
     private EntityStore store;
-    private Object listId = "default";
+    private static int filterCount = 0;
+    private Object listId = "filter-" + ++filterCount;
     private boolean autoRefresh = false;
     private boolean requestRefreshOnActive = false;
     private boolean startsWithEmptyResult = true;
