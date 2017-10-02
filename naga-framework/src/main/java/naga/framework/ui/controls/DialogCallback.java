@@ -9,4 +9,6 @@ public interface DialogCallback {
 
     void showException(Throwable e);
 
+    void addCloseHook(Runnable closeHook);
+
 }

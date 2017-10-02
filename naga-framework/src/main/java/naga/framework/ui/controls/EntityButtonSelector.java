@@ -11,9 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import naga.commons.util.Arrays;
 import naga.commons.util.Strings;
@@ -63,11 +61,13 @@ public class EntityButtonSelector {
     private ValueRenderer entityRenderer;
     private final Property<Entity> entityProperty = new SimpleObjectProperty<>();
 
-    private ShowMode showMode = ShowMode.AUTO;
+    private Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
     private EntityStore loadingStore;
     private BorderPane entityDialogPane;
-    private TextField searchBox;
+    private Button modalButton;
+    private TextField searchTextField;
     private Button okButton, cancelButton;
+    private HBox buttonBar;
     private DialogCallback entityDialogCallback;
     private ReactiveExpressionFilter entityDialogFilter;
 
@@ -79,8 +79,16 @@ public class EntityButtonSelector {
         Properties.runOnPropertiesChange(p -> updateEntityButton(), entityProperty);
     }
 
-    public void setShowMode(ShowMode showMode) {
-        this.showMode = showMode;
+    public ShowMode getShowMode() {
+        return showModeProperty.getValue();
+    }
+
+    public Property<ShowMode> showModeProperty() {
+        return showModeProperty;
+    }
+
+    public void setShowMode(ShowMode showModeProperty) {
+        this.showModeProperty.setValue(showModeProperty);
     }
 
     public void setJsonOrClass(Object jsonOrClass) {
@@ -146,6 +154,7 @@ public class EntityButtonSelector {
     }
 
     private DataGrid dataGrid;
+    private final Property<DisplayResultSet> deferredDisplayResultSet = new SimpleObjectProperty<>();
 
     private void setUpEntityDialog(boolean show) {
         if (entityDialogPane == null) {
@@ -160,18 +169,25 @@ public class EntityButtonSelector {
             entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
             if (searchCondition != null) {
-                searchBox = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
-                entityDialogFilter.combine(searchBox.textProperty(), s -> {
+                searchTextField = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
+                entityDialogFilter.combine(searchTextField.textProperty(), s -> {
                     if (Strings.isEmpty(s))
                         return null;
                     setSearchParameters(s, entityDialogFilter.getStore());
                     return "{where: `" + searchCondition + "`}";
                 });
-                searchBox.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                     if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
                         entityDialogCallback.closeDialog();
                         e.consume();
                     }
+                });
+                HBox.setHgrow(searchTextField, Priority.ALWAYS);
+                modalButton = new Button("...");
+                modalButton.setOnAction(e -> {
+                    entityDialogCallback.closeDialog();
+                    entityDialogPane = null; setUpEntityDialog(false); // This line could be removed but
+                    show(ShowMode.MODAL_DIALOG);
                 });
             }
             entityDialogFilter
@@ -182,48 +198,57 @@ public class EntityButtonSelector {
                     .start();
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
             entityDialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
+            dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
         }
         entityDialogFilter.setActive(true);
         if (show) {
-            ShowMode decidedShowMode = showMode;
-            switch (showMode) {
-                case MODAL_DIALOG:
-                    setPrefSizeToInfinite(dataGrid);
-                    if (okButton == null) {
-                        okButton = viewActivityContextMixin.newOkButton(this::onOkEntityDialog);
-                        cancelButton = viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog);
-                        HBox hBox = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
-                        hBox.setPadding(new Insets(20, 0, 0, 0));
-                        entityDialogPane.setBottom(hBox);
-                    }
-                    entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
-                    // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
-                    ButtonUtil.resetDefaultButton(okButton);
-                    ButtonUtil.resetCancelButton(cancelButton);
-                    break;
-
-                case AUTO:
-                    Point2D buttonBottom = entityButton.localToScene(0, entityButton.getHeight());
-                    decidedShowMode = entityButton.getScene().getHeight() - buttonBottom.getY() < 200d + searchBox.getHeight() ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
-                case DROP_DOWN:
-                case DROP_UP:
-                    if (decidedShowMode == ShowMode.DROP_DOWN) {
-                        entityDialogPane.setBottom(null);
-                        entityDialogPane.setTop(searchBox);
-                    } else {
-                        entityDialogPane.setTop(null);
-                        entityDialogPane.setBottom(searchBox);
-                    }
-                    dataGrid.setMaxHeight(200d);
-                    Property<DisplayResultSet> deferred = new SimpleObjectProperty<>();
-                    dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferred.setValue(newValue)));
-                    entityDialogCallback = DialogUtil.showDropUpOrDownDialog(entityDialogPane, entityButton, parent, deferred, decidedShowMode == ShowMode.DROP_UP);
-                    break;
+            ShowMode decidedShowMode = getShowMode();
+            if (decidedShowMode == ShowMode.AUTO) {
+                Point2D buttonBottom = entityButton.localToScene(0, entityButton.getHeight());
+                decidedShowMode = entityButton.getScene().getHeight() - buttonBottom.getY() < 200d + searchTextField.getHeight() ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
             }
+            show(decidedShowMode);
         }
-        if (searchBox != null) {
-            searchBox.setText(null); // Resetting the search box
-            searchBox.requestFocus();
+    }
+
+    private void show(ShowMode decidedShowMode) {
+        if (entityDialogCallback != null)
+            entityDialogCallback.closeDialog();
+        switch (decidedShowMode) {
+            case MODAL_DIALOG:
+                dataGrid.setMaxHeight(Region.USE_PREF_SIZE);
+                setPrefSizeToInfinite(dataGrid);
+                if (buttonBar == null) {
+                    okButton = viewActivityContextMixin.newOkButton(this::onOkEntityDialog);
+                    cancelButton = viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog);
+                    buttonBar = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
+                    buttonBar.setPadding(new Insets(20, 0, 0, 0));
+                }
+                entityDialogPane.setTop(searchTextField);
+                entityDialogPane.setBottom(buttonBar);
+                entityDialogCallback = DialogUtil.showModalNodeInGoldLayout(entityDialogPane, parent, 0.9, 0.8);
+                // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
+                ButtonUtil.resetDefaultButton(okButton);
+                ButtonUtil.resetCancelButton(cancelButton);
+                break;
+
+            case DROP_DOWN:
+            case DROP_UP:
+                dataGrid.setMaxHeight(200d);
+                HBox searchBox = new HBox(searchTextField, modalButton);
+                if (decidedShowMode == ShowMode.DROP_DOWN) {
+                    entityDialogPane.setTop(searchBox);
+                    entityDialogPane.setBottom(null);
+                } else {
+                    entityDialogPane.setTop(null);
+                    entityDialogPane.setBottom(searchBox);
+                }
+                entityDialogCallback = DialogUtil.showDropUpOrDownDialog(entityDialogPane, entityButton, parent, deferredDisplayResultSet, decidedShowMode == ShowMode.DROP_UP);
+                break;
+        }
+        if (searchTextField != null) {
+            searchTextField.setText(null); // Resetting the search box
+            searchTextField.requestFocus();
         }
     }
 
@@ -246,6 +271,7 @@ public class EntityButtonSelector {
     private void closeEntityDialog() {
         entityDialogCallback.closeDialog();
         entityDialogFilter.setActive(false);
+        entityDialogCallback = null;
     }
 
     public void autoSelectFirstEntity() {
@@ -253,5 +279,4 @@ public class EntityButtonSelector {
         if (entityDialogFilter != null)
             entityDialogFilter.setEntitiesHandler(entityList -> setEntity(Collections.first(entityList)));
     }
-    
 }

@@ -17,8 +17,10 @@ import naga.commons.util.collection.Collections;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.tuples.Unit;
 import naga.fx.properties.Properties;
+import naga.fx.properties.Unregistrable;
 import naga.fx.spi.Toolkit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
@@ -60,33 +62,38 @@ public class DialogUtil {
     }
 
     public static DialogCallback showModalNodeInGoldLayout(Region modalNode, Pane parent, double percentageWidth, double percentageHeight) {
-        return showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode), percentageWidth, percentageHeight), parent);
+        Insets padding = modalNode.getPadding();
+        DialogCallback dialogCallback = showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode), percentageWidth, percentageHeight), parent);
+        dialogCallback.addCloseHook(() -> modalNode.setPadding(padding));
+        return dialogCallback;
     }
 
     public static DialogCallback showModalNode(Region modalNode, Pane parent) {
         setMaxSizeToInfinite(modalNode).setManaged(false);
-        setUpModalNodeResizeRelocate(modalNode, parent);
-        return createDialogCallback(modalNode, parent);
+        DialogCallback dialogCallback = createDialogCallback(modalNode, parent);
+        setUpModalNodeResizeRelocate(modalNode, parent, dialogCallback);
+        return dialogCallback;
     }
 
-    private static void setUpModalNodeResizeRelocate(Region modalNode, Pane parent) {
+    private static void setUpModalNodeResizeRelocate(Region modalNode, Pane parent, DialogCallback dialogCallback) {
         Scene scene = parent.getScene();
         if (scene == null) {
             parent.sceneProperty().addListener(new ChangeListener<Scene>() {
                 @Override
                 public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
                     observable.removeListener(this);
-                    setUpModalNodeResizeRelocate(modalNode, parent);
+                    setUpModalNodeResizeRelocate(modalNode, parent, dialogCallback);
                 }
             });
             return;
         }
-        Properties.runNowAndOnPropertiesChange(p -> {
-            Point2D parentSceneXY = parent.localToScene(0, 0);
-            double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
-            double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
-            modalNode.resizeRelocate(0, 0, width, height);
-        }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty());
+        Unregistrable unregistrable = Properties.runNowAndOnPropertiesChange(p -> {
+                Point2D parentSceneXY = parent.localToScene(0, 0);
+                double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
+                double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
+                modalNode.resizeRelocate(0, 0, width, height);
+            }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty());
+        dialogCallback.addCloseHook(unregistrable::unregister);
     }
 
     public static BorderPane decorate(Node content) {
@@ -94,8 +101,7 @@ public class DialogUtil {
             Region region = (Region) content;
             // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
             setMaxSizeToPref(region);
-            double padding = 30;
-            region.setPadding(new Insets(padding));
+            region.setPadding(new Insets(30));
         }
         BorderPane decorator = new BorderPane(content);
         decorator.backgroundProperty().bind(dialogBackgroundProperty());
@@ -110,10 +116,6 @@ public class DialogUtil {
         dialogContent.getOkButton().setOnAction(event -> okConsumer.accept(dialogCallback));
     }
 
-    public static DialogCallback showDropDownDialog(Region dialogNode, Region buttonNode, Pane parent, Property resizeProperty) {
-        return showDropUpOrDownDialog(dialogNode, buttonNode, parent, resizeProperty, true);
-    }
-
     public static DialogCallback showDropUpOrDownDialog(Region dialogNode, Region buttonNode, Pane parent, ObservableValue resizeProperty, boolean up) {
         DialogCallback dialogCallback = createDialogCallback(dialogNode, parent);
         dialogNode.setManaged(false);
@@ -124,14 +126,24 @@ public class DialogUtil {
     private static DialogCallback createDialogCallback(Region dialogNode, Pane parent) {
         parent.getChildren().add(dialogNode);
         return new DialogCallback() {
+            private final List<Runnable> closeHooks = new ArrayList<>();
             @Override
             public void closeDialog() {
-                Toolkit.get().scheduler().runInUiThread(() -> parent.getChildren().remove(dialogNode));
+                Toolkit.get().scheduler().runInUiThread(() -> {
+                    parent.getChildren().remove(dialogNode);
+                    for (Runnable closeHook: closeHooks)
+                        closeHook.run();
+                });
             }
 
             @Override
             public void showException(Throwable e) {
                 Toolkit.get().scheduler().runInUiThread(() -> AlertUtil.showExceptionAlert(e, parent.getScene().getWindow()));
+            }
+
+            @Override
+            public void addCloseHook(Runnable closeHook) {
+                closeHooks.add(closeHook);
             }
         };
     }
@@ -165,13 +177,16 @@ public class DialogUtil {
             double deltaY = up ? -height : buttonNode.getHeight();
             Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
             // Hack for the html version which may have an incorrect height computation on first iteration
-            if (height <= 32)
+            if (height <= 32 && runnableHolder.get() != null) {
                 javafx.application.Platform.runLater(runnableHolder.get());
+                runnableHolder.set(null);
+            }
         };
+        runnable.run();
         runnableHolder.set(runnable);
-        Properties.runOnPropertiesChange(p -> runnable.run(), Collections.toArray(reactingProperties, ObservableValue[]::new));
-        if (dialogNode.prefHeight(-1) > 200)
-            runnable.run();
+        Unregistrable unregistrable = Properties.runOnPropertiesChange(p -> runnable.run(), Collections.toArray(reactingProperties, ObservableValue[]::new));
+        dialogCallback.addCloseHook(unregistrable::unregister);
+        dialogCallback.addCloseHook(() -> dialogNode.relocate(0, 0));
         scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
             @Override
             public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
