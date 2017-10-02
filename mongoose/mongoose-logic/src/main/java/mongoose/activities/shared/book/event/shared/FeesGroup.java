@@ -1,8 +1,10 @@
 package mongoose.activities.shared.book.event.shared;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -15,7 +17,9 @@ import naga.commons.util.Numbers;
 import naga.commons.util.Objects;
 import naga.commons.util.async.Handler;
 import naga.commons.util.tuples.Pair;
+import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.i18n.I18n;
+import naga.fx.spi.Toolkit;
 import naga.fx.util.ImageStore;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 import naga.fxdata.cell.renderer.TextRenderer;
@@ -98,7 +102,20 @@ public class FeesGroup {
                             if (soldout)
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
                             Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book>>");
-                            button.setOnAction(e -> bookHandler.handle(optionsPreselection));
+                            button.setOnAction(e -> {
+                                // Creating a press down effect (inverting the background gradient) especially for low-end mobiles
+                                // where several seconds can happen before next page is displayed (at least they know click is happening)
+                                Background background = button.getBackground();
+                                button.setBackground(BackgroundUtil.newVerticalLinearGradientBackground("#2a8236", "#7fd504", 5));
+                                Toolkit.get().scheduler().schedulePropertyChangeInNextAnimationFrame(() -> {
+                                    Toolkit.get().scheduler().schedulePropertyChangeInNextAnimationFrame(() -> {
+                                        Platform.runLater(() -> {
+                                            bookHandler.handle(optionsPreselection);
+                                            button.setBackground(background);
+                                        });
+                                    });
+                                });
+                            });
                             if (availability == null || !showBadges)
                                 return button;
                             HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
