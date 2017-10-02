@@ -4,6 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
+import emul.com.sun.javafx.event.EventUtil;
 import emul.javafx.application.Platform;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.event.EventType;
@@ -113,9 +114,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected boolean onClickElement(Event e) {
-        emul.javafx.event.Event event = toFxClickEvent(e);
-        getNode().fireEvent(event);
-        return true; // event.isConsumed();
+        emul.javafx.event.Event event = EventUtil.fireEvent(getNode(), toFxClickEvent(e));
+        return event == null || event.isConsumed();
     }
 
     protected emul.javafx.event.Event toFxClickEvent(Event e) {
