@@ -2,7 +2,6 @@ package naga.fx.properties;
 
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
-import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
 import naga.commons.util.function.Consumer;
 import naga.commons.util.function.Func2;
@@ -15,27 +14,13 @@ import naga.fx.spi.Toolkit;
  */
 public class Properties {
 
-    public static void runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
+    public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
         runnable.accept(properties.length == 1 ? properties[0] : null);
-        runOnPropertiesChange(runnable, properties);
+        return runOnPropertiesChange(runnable, properties);
     }
 
-    public static void runOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        for (ObservableValue property : properties)
-            property.addListener((observable, oldValue, newValue) -> runnable.accept(property));
-    }
-
-    public static void runOnceOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        int n = properties.length;
-        ChangeListener[] listeners = new ChangeListener[n];
-        for (int i = 0; i < n; i++) {
-            ObservableValue property = properties[i];
-            property.addListener(listeners[i] = (observable, oldValue, newValue) -> {
-                for (int j = 0; j < n; j++)
-                    properties[j].removeListener(listeners[j]);
-                runnable.accept(property);
-            });
-        }
+    public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
+        return new Unregistrable(runnable, properties);
     }
 
     public static <T, R> ObservableValue<R> compute(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
