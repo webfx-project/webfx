@@ -137,14 +137,7 @@ abstract class HtmlRegionPeer
 
     @Override
     public void updatePadding(Insets padding) {
-        getElement().style.padding = toCssPadding(padding);
-    }
-
-    protected CSSProperties.PaddingUnionType toCssPadding(Insets padding) {
-        if (padding == null)
-            return null;
-        String cssPadding = toPx(padding.getTop());
-        return CSSProperties.PaddingUnionType.of(cssPadding);
+        // We do not apply the padding into css here because it is already considered by the JavaFx layout system
     }
 
     private void applyBorderRadii(CornerRadii radii) {

@@ -21,6 +21,6 @@ public class HtmlLabelPeer
         super(base, HtmlUtil.createSpanElement());
         // to have the text vertically centered, we need to set the line-height
         setElementStyleAttribute("line-height", "100%"); // when expressed as %, it's regarding the font height (and not the node height)
-        subtractNodePaddingBorderWhenUpdatingSize = true;
+        subtractCssPaddingBorderWhenUpdatingSize = true;
     }
 }
