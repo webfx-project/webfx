@@ -42,15 +42,17 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     public DataGridSkin(DataGrid dataGrid) {
         super(dataGrid, false);
         dataGrid.getStyleClass().add("grid");
+        clipChildren(gridBody, 0);
+        gridBody.setBackground(new Background(new BackgroundFill(Color.grayRgb(245), null, null)));
         Properties.runNowAndOnPropertiesChange(p -> {
             if (dataGrid.isFullHeight()) {
+                if (bodyScrollPane != null)
+                    bodyScrollPane.setContent(null);
                 body = gridBody;
-                body.setBackground(new Background(new BackgroundFill(Color.grayRgb(245), null, null)));
-                clipChildren(body, 0);
             } else {
                 if (!(body instanceof ScrollPane)) {
                     if (bodyScrollPane == null) {
-                        bodyScrollPane = new ScrollPane(gridBody);
+                        bodyScrollPane = new ScrollPane();
                         bodyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                         bodyScrollPane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
                                     double hmin = bodyScrollPane.getHmin();
@@ -63,6 +65,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
                                 }
                         );
                     }
+                    bodyScrollPane.setContent(gridBody);
                     body = bodyScrollPane;
                 }
             }
@@ -291,8 +294,8 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
         @Override
         protected void layoutChildren() {
-            boolean isJavaFxScrollPane = bodyScrollPane.getSkin() != null;
-            double x = isJavaFxScrollPane ? 1 : 0;
+            boolean isJavaFxScrollPane = body == bodyScrollPane && bodyScrollPane.getSkin() != null;
+            double x = 0; // isJavaFxScrollPane ? 1 : 0;
             double height = rowHeight;
             for (GridColumn headColumn : headColumns) {
                 double columnWidth = headColumn.getColumnWidth();
