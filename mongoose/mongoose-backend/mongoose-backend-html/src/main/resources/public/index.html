@@ -130,17 +130,16 @@
             background-color: transparent;
         }
 
-        .grid-head {
-            border-bottom: 1px solid #bbbbbb;
-        }
-
-        .grid-col:not(:last-child) {
+        .grid-head, .grid-body, .grid-col, .grid-row {
             overflow: hidden;
-            border-right: 1px solid #bbbbbb;
         }
 
-        .grid-row {
-            border-top: 1px solid #bbbbbb;
+        .grid-head, .grid-row {
+            border-bottom: 1px solid var(--grid-border-color);
+        }
+
+        .grid-col {
+            border-right: 1px solid var(--grid-border-color);
         }
 
         tr, .grid-row {
