@@ -22,6 +22,17 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
     protected void startLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         filter = createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+                .combine("{columns: `[" +
+                        "'ref'," +
+                        "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
+                        "'person_firstName'," +
+                        "'person_lastName'," +
+                        "'person_age','noteIcon'," +
+                        "{expression: 'price_net', format: 'price'}," +
+                        "{expression: 'price_minDeposit', format: 'price'}," +
+                        "{expression: 'price_deposit', format: 'price'}," +
+                        "{expression: 'price_balance', format: 'price'}" +
+                        "]`}")
                 // Condition
                 .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
                 // Search box condition
@@ -36,25 +47,7 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                     return "{where: 'person_abcNames like `" + AbcNames.evaluate(s, true) + "`'}";
                 })
                 // Limit condition
-                .combine(pm.limitProperty(), "{limit: '100'}")
-                .combine(pm.limitProperty(), l -> l ? "{columns: `[" +
-                        "'ref'," +
-                        "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
-                        "'person_firstName'," +
-                        "'person_lastName'," +
-                        "'person_age','noteIcon'," +
-                        "{expression: 'price_net', format: 'price'}," +
-                        "{expression: 'price_minDeposit', format: 'price'}," +
-                        "{expression: 'price_deposit', format: 'price'}," +
-                        "{expression: 'price_balance', format: 'price'}" +
-                        "]`}"
-                        : "{columns: `[" +
-                        "'ref'," +
-                        "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
-                        "'person_firstName'," +
-                        "'person_lastName'," +
-                        "'person_age','noteIcon'" +
-                        "]`}")
+                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {

@@ -23,7 +23,7 @@ public class OrganizationsPresentationLogicActivity extends DomainPresentationLo
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
-                .combine(pm.limitProperty(), "{limit: '100'}")
+                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
                 .combine(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)', orderBy: 'id'}")
                 .setExpressionColumns("[" +
                         "{label: 'Centre', expression: '[icon, name + ` (` + type.code + `)`]'}," +

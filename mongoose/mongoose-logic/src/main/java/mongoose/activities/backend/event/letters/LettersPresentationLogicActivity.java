@@ -20,7 +20,7 @@ public class LettersPresentationLogicActivity extends EventDependentPresentation
                 // Search box condition
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
-                .combine(pm.limitProperty(), "{limit: '100'}")
+                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
                 .setExpressionColumns("[" +
                         "'name'," +
                         "'type'" +

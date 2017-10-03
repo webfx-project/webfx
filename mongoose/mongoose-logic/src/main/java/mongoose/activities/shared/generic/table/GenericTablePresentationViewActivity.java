@@ -7,8 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
-import naga.fxdata.control.ToolkitDataGrid;
+
+import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
 
 /**
  * @author Bruno Salmon
@@ -23,7 +25,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
     @Override
     protected void createViewNodes(PM pm) {
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
-        table = new ToolkitDataGrid(); //setMaxSizeToInfinite(new DataGrid());
+        table = setMaxSizeToInfinite(new DataGrid());
         BorderPane.setAlignment(table, Pos.TOP_CENTER);
         limitCheckBox = newCheckBox("LimitTo100");
 
@@ -31,13 +33,16 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
 
         // Initialization from the presentation model current state
         searchBox.setText(pm.searchTextProperty().getValue());
-        limitCheckBox.setSelected(pm.limitProperty().getValue());
+        limitCheckBox.setSelected(true);
         //searchBox.requestFocus();
 
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
-        pm.limitProperty().bind(limitCheckBox.selectedProperty());
+        //pm.limitProperty().bind(Bindings.when(limitCheckBox.selectedProperty()).then(table.heightProperty().divide(36)).otherwise(-1));
+        Properties.runNowAndOnPropertiesChange((p) -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? table.getHeight() / 36 : -1), limitCheckBox.selectedProperty(), table.heightProperty());
+        table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
+        //pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());
         // User outputs: the presentation model changes are transferred in the UI
         table.displayResultSetProperty().bind(pm.genericDisplayResultSetProperty());
@@ -45,7 +50,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
 
     @Override
     protected Node assemblyViewNodes() {
-        return new BorderPane(table, searchBox, null, limitCheckBox, null);
+        return new BorderPane(table, searchBox, null, null, null);
     }
 
     @Override

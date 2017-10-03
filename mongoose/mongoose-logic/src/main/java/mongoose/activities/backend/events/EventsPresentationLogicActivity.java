@@ -29,7 +29,7 @@ public class EventsPresentationLogicActivity extends DomainPresentationLogicActi
                 .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 .combine(pm.organizationIdProperty(), o -> o == null ? null : "{where: 'organization=" + o + "'}")
                 // Limit condition
-                .combine(pm.limitProperty(), "{limit: '100'}")
+                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
                 // With bookings condition
                 //.combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .setExpressionColumns("[" +
