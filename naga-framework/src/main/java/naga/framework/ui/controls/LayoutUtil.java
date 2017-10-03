@@ -65,11 +65,15 @@ public class LayoutUtil {
     }
 
     public static <N extends Region> N setMinSizeToZeroAndPrefSizeToInfinite(N region) {
-        return setMinSizeToZero(setPrefSizeToInfinite(region));
+        return setMinSizeToZero(setMaxPrefSizeToInfinite(region));
     }
 
-    public static <N extends Region> N setPrefSizeToInfinite(N region) {
-        return setPrefSize(setMaxSizeToInfinite(region), Double.MAX_VALUE);
+    public static <N extends Region> N setMaxPrefSizeToInfinite(N region) {
+        return setPrefSize(setMaxSize(region, Double.MAX_VALUE), Double.MAX_VALUE);
+    }
+
+    public static <N extends Region> N setMaxPrefSize(N region, double value) {
+        return setPrefSize(setMaxSize(region, value), value);
     }
 
     private static <N extends Region> N setPrefSize(N region, double value) {

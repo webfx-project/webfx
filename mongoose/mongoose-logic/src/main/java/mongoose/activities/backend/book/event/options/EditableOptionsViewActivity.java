@@ -119,7 +119,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     private void showAddOptionDialog() {
         if (addOptionDialogPane == null) {
             DataGrid dataGrid = new DataGrid();
-            addOptionDialogPane = new BorderPane(setPrefSizeToInfinite(dataGrid));
+            addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(dataGrid));
             addOptionDialogFilter = new ReactiveExpressionFilter("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel()).setI18n(getI18n())
                     .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
                     .setExpressionColumns("[" +

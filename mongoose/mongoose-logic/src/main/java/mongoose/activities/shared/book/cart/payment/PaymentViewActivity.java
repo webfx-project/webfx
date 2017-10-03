@@ -263,7 +263,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                         Toolkit.get().scheduler().runInUiThread(() -> {
                             String innerHtml = generateHtmlForm(gatewayParameters);
                             //Platform.log(innerHtml);
-                            HtmlText htmlText = LayoutUtil.setPrefSizeToInfinite(new HtmlText(innerHtml));
+                            HtmlText htmlText = LayoutUtil.setMaxPrefSizeToInfinite(new HtmlText(innerHtml));
                             DialogUtil.showModalNodeInGoldLayout(htmlText, (Pane) getNode(), 0.9, 0.8);
                         });
                     }

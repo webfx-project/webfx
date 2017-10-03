@@ -27,7 +27,7 @@ import java.util.Map;
 
 import static mongoose.actions.MongooseIcons.getLanguageIcon32;
 import static naga.framework.ui.action.ActionRegistry.*;
-import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
+import static naga.framework.ui.controls.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon
@@ -47,7 +47,7 @@ public class MultiLanguageEditor {
 
     private final Map<Object, ToggleButton> languageButtons = new HashMap<>();
     private final ToggleGroup toggleGroup = new ToggleGroup();
-    private final BorderPane borderPane = setPrefSizeToInfinite(new BorderPane());
+    private final BorderPane borderPane = setMaxPrefSizeToInfinite(new BorderPane());
     private Handler<Entity> closeCallback;
 
     private final Map<Object /*entityId*/, EditedEntity> entityUpdates = new HashMap<>();

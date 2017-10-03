@@ -46,7 +46,7 @@ public class TermsDialog implements ButtonFactoryMixin {
 
     public void show() {
         GridCollator termsLetterCollator = new GridCollator("first", "first");
-        BorderPane entityDialogPane = new BorderPane(LayoutUtil.setPrefSizeToInfinite(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator)));
+        BorderPane entityDialogPane = new BorderPane(LayoutUtil.setMaxPrefSizeToInfinite(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator)));
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine("{where: 'event=" + eventId + "'}")
                 .combine(i18n.languageProperty(), lang -> "{columns: '[`html(" + lang + ")`]'}")
