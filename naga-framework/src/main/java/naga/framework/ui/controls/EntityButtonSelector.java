@@ -1,7 +1,9 @@
 package naga.framework.ui.controls;
 
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -63,15 +65,18 @@ public class EntityButtonSelector {
     private ValueRenderer entityRenderer;
     private final Property<Entity> entityProperty = new SimpleObjectProperty<>();
 
-    private Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
+    private final Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
     private EntityStore loadingStore;
     private BorderPane entityDialogPane;
+    private final DoubleProperty entityDialogPaneHeightProperty = new SimpleDoubleProperty();
     private Button modalButton;
     private TextField searchTextField;
     private Button okButton, cancelButton;
     private HBox buttonBar;
     private DialogCallback entityDialogCallback;
     private ReactiveExpressionFilter entityDialogFilter;
+    // Good to put a limit especially for low-end mobiles
+    private int adaptiveLimit = 6; // starting with 6 entries (fit with drop down/up) but can be increased in modal in dependence of the available height
 
     public EntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
         this.viewActivityContextMixin = viewActivityContextMixin;
@@ -193,6 +198,7 @@ public class EntityButtonSelector {
                     });
                 }
                 entityDialogFilter
+                        .combine(entityDialogPaneHeightProperty, height -> "{limit: " + updateAdaptiveLimit(height) + "}")
                         .setExpressionColumns(ExpressionColumn.create(renderingExpression))
                         .displayResultSetInto(dataGrid.displayResultSetProperty())
                         .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
@@ -203,9 +209,11 @@ public class EntityButtonSelector {
             }
             entityDialogPane = new BorderPane(dataGrid);
             entityDialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
+            entityDialogPaneHeightProperty.bind(entityDialogPane.heightProperty());
         }
         entityDialogFilter.setActive(true);
         if (show) {
+            entityDialogPane.setPadding(Insets.EMPTY);
             ShowMode decidedShowMode = getShowMode();
             if (decidedShowMode == ShowMode.AUTO) {
                 Point2D buttonBottom = entityButton.localToScene(0, entityButton.getHeight());
@@ -254,6 +262,13 @@ public class EntityButtonSelector {
             searchTextField.setText(null); // Resetting the search box
             searchTextField.requestFocus();
         }
+    }
+
+    private int updateAdaptiveLimit(Number height) {
+        int maxNumberOfVisibleEntries = height.intValue() / 36;
+        if (maxNumberOfVisibleEntries > adaptiveLimit)
+            adaptiveLimit = maxNumberOfVisibleEntries + 6; // extra 6 to avoid repetitive requests when resizing window
+        return adaptiveLimit;
     }
 
     protected void setSearchParameters(String search, EntityStore store) {
