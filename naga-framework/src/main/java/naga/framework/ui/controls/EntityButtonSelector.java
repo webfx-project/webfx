@@ -35,8 +35,10 @@ import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
-import static naga.framework.ui.controls.LayoutUtil.setPrefSizeToInfinite;
+import static naga.framework.ui.controls.LayoutUtil.setMaxPrefSize;
+import static naga.framework.ui.controls.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon
@@ -160,45 +162,47 @@ public class EntityButtonSelector {
         if (entityDialogPane == null) {
             if (entityRenderer == null)
                 return;
-            dataGrid = new DataGrid();
-            dataGrid.setHeaderVisible(false);
-            BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
-            entityDialogPane = new BorderPane(dataGrid);
-            I18n i18n = viewActivityContextMixin.getI18n();
-            EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;
-            entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
-            String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
-            if (searchCondition != null) {
-                searchTextField = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
-                entityDialogFilter.combine(searchTextField.textProperty(), s -> {
-                    if (Strings.isEmpty(s))
-                        return null;
-                    setSearchParameters(s, entityDialogFilter.getStore());
-                    return "{where: `" + searchCondition + "`}";
-                });
-                searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                    if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
+            if (dataGrid == null) {
+                dataGrid = new DataGrid();
+                dataGrid.setHeaderVisible(false);
+                BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
+                I18n i18n = viewActivityContextMixin.getI18n();
+                EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;
+                entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
+                String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
+                if (searchCondition != null) {
+                    searchTextField = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
+                    entityDialogFilter.combine(searchTextField.textProperty(), s -> {
+                        if (Strings.isEmpty(s))
+                            return null;
+                        setSearchParameters(s, entityDialogFilter.getStore());
+                        return "{where: `" + searchCondition + "`}";
+                    });
+                    searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                        if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
+                            entityDialogCallback.closeDialog();
+                            e.consume();
+                        }
+                    });
+                    HBox.setHgrow(searchTextField, Priority.ALWAYS);
+                    modalButton = new Button("...");
+                    modalButton.setOnAction(e -> {
                         entityDialogCallback.closeDialog();
-                        e.consume();
-                    }
-                });
-                HBox.setHgrow(searchTextField, Priority.ALWAYS);
-                modalButton = new Button("...");
-                modalButton.setOnAction(e -> {
-                    entityDialogCallback.closeDialog();
-                    entityDialogPane = null; setUpEntityDialog(false); // This line could be removed but
-                    show(ShowMode.MODAL_DIALOG);
-                });
+                        entityDialogPane = null; setUpEntityDialog(false); // This line could be removed but
+                        show(ShowMode.MODAL_DIALOG);
+                    });
+                }
+                entityDialogFilter
+                        .setExpressionColumns(ExpressionColumn.create(renderingExpression))
+                        .displayResultSetInto(dataGrid.displayResultSetProperty())
+                        .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
+                        //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> onOkEntityDialog())
+                        .start();
+                dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
+                dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
             }
-            entityDialogFilter
-                    .setExpressionColumns(ExpressionColumn.create(renderingExpression))
-                    .displayResultSetInto(dataGrid.displayResultSetProperty())
-                    .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
-                    //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> onOkEntityDialog())
-                    .start();
-            dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onOkEntityDialog(); });
+            entityDialogPane = new BorderPane(dataGrid);
             entityDialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
-            dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
         }
         entityDialogFilter.setActive(true);
         if (show) {
@@ -216,8 +220,7 @@ public class EntityButtonSelector {
             entityDialogCallback.closeDialog();
         switch (decidedShowMode) {
             case MODAL_DIALOG:
-                dataGrid.setMaxHeight(Region.USE_PREF_SIZE);
-                setPrefSizeToInfinite(dataGrid);
+                setMaxPrefSizeToInfinite(dataGrid);
                 if (buttonBar == null) {
                     okButton = viewActivityContextMixin.newOkButton(this::onOkEntityDialog);
                     cancelButton = viewActivityContextMixin.newCancelButton(this::onCancelEntityDialog);
@@ -234,6 +237,7 @@ public class EntityButtonSelector {
 
             case DROP_DOWN:
             case DROP_UP:
+                setMaxPrefSize(dataGrid, USE_COMPUTED_SIZE);
                 dataGrid.setMaxHeight(200d);
                 HBox searchBox = new HBox(searchTextField, modalButton);
                 if (decidedShowMode == ShowMode.DROP_DOWN) {
