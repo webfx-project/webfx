@@ -336,7 +336,7 @@ public class ReactiveExpressionFilter {
         Observable<EntityList> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
             Object[] parameterValues = null;
             // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
-            if ("false".equals(stringFilter.getWhere()))
+            if ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit()))
                 lastEntityListObservable = Observable.just(emptyCurrentList());
             else {
                 // Otherwise we compile the final string filter into sql
