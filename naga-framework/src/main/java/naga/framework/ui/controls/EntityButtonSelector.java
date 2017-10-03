@@ -170,6 +170,7 @@ public class EntityButtonSelector {
             if (dataGrid == null) {
                 dataGrid = new DataGrid();
                 dataGrid.setHeaderVisible(false);
+                dataGrid.setFullHeight(true);
                 BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
                 I18n i18n = viewActivityContextMixin.getI18n();
                 EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;

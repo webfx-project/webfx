@@ -27,8 +27,22 @@ public class DataGrid extends SelectableDisplayResultSetControl {
         return headerVisibleProperty.get();
     }
 
-    public void setHeaderVisible(boolean showHeaderProperty) {
-        this.headerVisibleProperty.set(showHeaderProperty);
+    public void setHeaderVisible(boolean headerVisible) {
+        this.headerVisibleProperty.set(headerVisible);
+    }
+
+    private final BooleanProperty fullHeightProperty = new SimpleBooleanProperty(false);
+
+    public BooleanProperty fullHeightProperty() {
+        return fullHeightProperty;
+    }
+
+    public boolean isFullHeight() {
+        return fullHeightProperty.get();
+    }
+
+    public void setFullHeight(boolean fullHeight) {
+        this.fullHeightProperty.set(fullHeight);
     }
 
     @Override

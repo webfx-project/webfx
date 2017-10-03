@@ -9,6 +9,7 @@ import emul.javafx.scene.layout.Background;
 import emul.javafx.scene.layout.BackgroundFill;
 import emul.javafx.scene.layout.Pane;
 import emul.javafx.scene.layout.Region;
+import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.shape.Rectangle;
 import naga.commons.scheduler.AnimationFramePass;
@@ -30,9 +31,10 @@ import java.util.List;
  */
 public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<DataGrid, Pane, Pane> {
 
-    private final GridHead head = new GridHead();
-    private final GridBody body = new GridBody();
-    private final ScrollPane bodyScrollPane = new ScrollPane(body);
+    private final GridHead gridHead = new GridHead();
+    private final GridBody gridBody = new GridBody();
+    private ScrollPane bodyScrollPane;
+    private Region body;
     private double headOffset;
     private final static Pane fakeCell = new Pane();
     private List<Node> fakeCellChildren;
@@ -43,30 +45,65 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     public DataGridSkin(DataGrid dataGrid) {
         super(dataGrid, false);
         dataGrid.getStyleClass().add("grid");
-        bodyScrollPane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
-                    double hmin = bodyScrollPane.getHmin();
-                    double hmax = bodyScrollPane.getHmax();
-                    double hvalue = bodyScrollPane.getHvalue();
-                    double contentWidth = body.getLayoutBounds().getWidth();
-                    double viewportWidth = bodyScrollPane.getViewportBounds().getWidth();
-                    headOffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
-                    head.relocate(-headOffset, 0);
-                }
-        );
-        bodyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         Properties.runNowAndOnPropertiesChange(p -> {
+            if (dataGrid.isFullHeight()) {
+                body = gridBody;
+                body.setBackground(new Background(new BackgroundFill(Color.grayRgb(245), null, null)));
+                clipChildren(body, 0);
+            } else {
+                if (!(body instanceof ScrollPane)) {
+                    if (bodyScrollPane == null) {
+                        bodyScrollPane = new ScrollPane(gridBody);
+                        bodyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+                        bodyScrollPane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
+                                    double hmin = bodyScrollPane.getHmin();
+                                    double hmax = bodyScrollPane.getHmax();
+                                    double hvalue = bodyScrollPane.getHvalue();
+                                    double contentWidth = gridBody.getLayoutBounds().getWidth();
+                                    double viewportWidth = bodyScrollPane.getViewportBounds().getWidth();
+                                    headOffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
+                                    gridHead.relocate(-headOffset, 0);
+                                }
+                        );
+                    }
+                    body = bodyScrollPane;
+                }
+            }
             if (dataGrid.isHeaderVisible())
-                getChildren().setAll(head, bodyScrollPane);
+                getChildren().setAll(gridHead, body);
             else
-                getChildren().setAll(bodyScrollPane);
-        }, dataGrid.headerVisibleProperty());
+                getChildren().setAll(body);
+        }, dataGrid.headerVisibleProperty(), dataGrid.fullHeightProperty());
         start();
+    }
+
+    /**
+     * Clips the children of the specified {@link Region} to its current size.
+     * This requires attaching a change listener to the region’s layout bounds,
+     * as JavaFX does not currently provide any built-in way to clip children.
+     *
+     * @param region the {@link Region} whose children to clip
+     * @param arc the {@link Rectangle#arcWidth} and {@link Rectangle#arcHeight}
+     *            of the clipping {@link Rectangle}
+     * @throws NullPointerException if {@code region} is {@code null}
+     */
+    static void clipChildren(Region region, double arc) {
+
+        Rectangle outputClip = new Rectangle();
+        outputClip.setArcWidth(arc);
+        outputClip.setArcHeight(arc);
+        region.setClip(outputClip);
+
+        region.layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
+            outputClip.setWidth(newValue.getWidth());
+            outputClip.setHeight(newValue.getHeight());
+        });
     }
 
     @Override
     protected void startBuildingGrid() {
-        head.startBuildingGrid();
-        body.startBuildingGrid();
+        gridHead.startBuildingGrid();
+        gridBody.startBuildingGrid();
     }
 
     @Override
@@ -78,8 +115,8 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     @Override
     protected void endBuildingGrid() {
         if (getRowCount() <= 20) {
-            head.endBuildingGrid();
-            body.endBuildingGrid();
+            gridHead.endBuildingGrid();
+            gridBody.endBuildingGrid();
         } else
             Toolkit.get().scheduler().schedulePeriodicInAnimationFrame(new Consumer<Scheduled>() {
                 final DisplayResultSet rs = getRs();
@@ -95,8 +132,8 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
                             DataGridSkin.super.buildRowCells(null, rowIndex);
                         }
                         if (rowIndex == 0) {
-                            head.endBuildingGrid();
-                            body.endBuildingGrid();
+                            gridHead.endBuildingGrid();
+                            gridBody.endBuildingGrid();
                         }
                         rowIndex++;
                     }
@@ -106,24 +143,24 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
     @Override
     protected void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
-        head.getOrCreateHeadColumn(gridColumnIndex).setDisplayColumn(displayColumn);
-        body.getOrCreateBodyColumn(gridColumnIndex).setDisplayColumn(displayColumn);
+        gridHead.getOrCreateHeadColumn(gridColumnIndex).setDisplayColumn(displayColumn);
+        gridBody.getOrCreateBodyColumn(gridColumnIndex).setDisplayColumn(displayColumn);
         super.setUpGridColumn(gridColumnIndex, rsColumnIndex, displayColumn);
     }
 
     @Override
     protected Pane getOrAddHeadCell(int gridColumnIndex) {
-        return head.getOrAddHeadCell(gridColumnIndex);
+        return gridHead.getOrAddHeadCell(gridColumnIndex);
     }
 
     @Override
     protected Pane getOrAddBodyRow(int rowIndex) {
-        return body.getOrAddBodyRow(rowIndex);
+        return gridBody.getOrAddBodyRow(rowIndex);
     }
 
     @Override
     protected void applyBodyRowStyleAndBackground(Pane bodyRow, int rowIndex) {
-        body.applyBodyRowStyleAndBackground(bodyRow, rowIndex);
+        gridBody.applyBodyRowStyleAndBackground(bodyRow, rowIndex);
     }
 
     @Override
@@ -132,7 +169,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
     @Override
     protected Pane getOrAddBodyRowCell(Pane bodyRow, int rowIndex, int gridColumnIndex) {
-        return body.getOrAddBodyRowCell(gridColumnIndex);
+        return gridBody.getOrAddBodyRowCell(gridColumnIndex);
     }
 
     @Override
@@ -165,7 +202,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
     @Override
     protected double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
-        return (getSkinnable().isHeaderVisible() ? headerHeight : 0) + rowHeight * getRowCount() + topInset + bottomInset + 2;
+        return (getSkinnable().isHeaderVisible() ? headerHeight : 0) + rowHeight * getRowCount() + topInset + bottomInset;
     }
 
     @Override
@@ -177,11 +214,11 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     protected void layoutChildren(double contentX, double contentY, double contentWidth, double contentHeight) {
         updateColumnWidths(contentWidth);
         if (getSkinnable().isHeaderVisible()) {
-            layoutInArea(head, contentX - headOffset, contentY, columnWidthsTotal, headerHeight, -1, HPos.LEFT, VPos.TOP);
+            layoutInArea(gridHead, contentX - headOffset, contentY, columnWidthsTotal, headerHeight, -1, HPos.LEFT, VPos.TOP);
             contentY += headerHeight;
             contentHeight -= headerHeight;
         }
-        layoutInArea(bodyScrollPane, contentX, contentY, contentWidth, contentHeight, -1, HPos.LEFT, VPos.TOP);
+        layoutInArea(body, contentX, contentY, contentWidth, contentHeight, -1, HPos.LEFT, VPos.TOP);
     }
 
     private double lastContentWidth;
@@ -190,7 +227,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     private void updateColumnWidths(double contentWidth) {
         if (lastContentWidth != contentWidth) {
             columnWidthsTotal = contentWidth;
-            List<GridColumn> headColumns = head.headColumns;
+            List<GridColumn> headColumns = gridHead.headColumns;
             int columnCount = headColumns.size();
             int resizeableColumnCount = columnCount;
             double resizableColumnWidthsTotal = columnWidthsTotal;
@@ -217,8 +254,8 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
                     }
             }
             for (int i = 0; i < columnCount; i++)
-                body.bodyColumns.get(i).setColumnWidth(headColumns.get(i).getColumnWidth());
-            body.setPrefWidth(columnWidthsTotal);
+                gridBody.bodyColumns.get(i).setColumnWidth(headColumns.get(i).getColumnWidth());
+            gridBody.setPrefWidth(columnWidthsTotal);
             lastContentWidth = contentWidth;
         }
     }
@@ -273,6 +310,10 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     private class GridBody extends Region {
         private final List<Pane> bodyRows = new ArrayList<>();
         private final List<GridColumn> bodyColumns = new ArrayList<>();
+
+        public GridBody() {
+            getStyleClass().add("grid-body");
+        }
 
         void startBuildingGrid() {
             bodyRows.clear();
