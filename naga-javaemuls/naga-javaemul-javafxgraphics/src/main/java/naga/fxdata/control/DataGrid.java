@@ -44,9 +44,4 @@ public class DataGrid extends SelectableDisplayResultSetControl {
     public void setFullHeight(boolean fullHeight) {
         this.fullHeightProperty.set(fullHeight);
     }
-
-    @Override
-    protected Skin<?> createDefaultSkin() {
-        return new DataGridSkin(this);
-    }
 }

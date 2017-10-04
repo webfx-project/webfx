@@ -2,7 +2,6 @@ package naga.fxdata.control;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.scene.control.Skin;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 /**
@@ -45,8 +44,4 @@ public class DataGrid extends SelectableDisplayResultSetControl {
         this.fullHeightProperty.set(fullHeight);
     }
 
-    @Override
-    protected Skin<?> createDefaultSkin() {
-        return new DataGridSkin(this);
-    }
 }

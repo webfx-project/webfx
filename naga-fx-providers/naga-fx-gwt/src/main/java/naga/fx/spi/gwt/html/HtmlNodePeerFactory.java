@@ -13,9 +13,9 @@ import naga.fx.spi.gwt.html.peer.*;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerFactoryImpl;
 import naga.fxdata.chart.*;
+import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.HtmlText;
 import naga.fxdata.control.HtmlTextEditor;
-import naga.fxdata.control.ToolkitDataGrid;
 
 /**
  * @author Bruno Salmon
@@ -47,7 +47,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(ChoiceBox.class, HtmlChoiceBoxPeer::new);
         registerNodePeerFactory(DatePicker.class, HtmlDatePickerPeer::new);
         registerNodePeerFactory(ImageView.class, HtmlImageViewPeer::new);
-        registerNodePeerFactory(ToolkitDataGrid.class, HtmlDataGridPeer::new);
+        registerNodePeerFactory(DataGrid.class, HtmlDataGridPeer::new);
         registerNodePeerFactory(LineChart.class, HtmlLineChartPeer::new);
         registerNodePeerFactory(AreaChart.class, HtmlAreaChartPeer::new);
         registerNodePeerFactory(BarChart.class, HtmlBarChartPeer::new);

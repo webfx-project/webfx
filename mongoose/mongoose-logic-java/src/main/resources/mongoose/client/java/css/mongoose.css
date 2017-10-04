@@ -1,4 +1,4 @@
-ToolkitDataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
+DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-skin: "naga.fx.spi.javafx.skin.FxControlPeerSkin";
 }
 

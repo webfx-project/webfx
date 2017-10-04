@@ -68,13 +68,15 @@ public class CartViewActivity extends CartBasedViewActivity {
     @Override
     public Node buildUi() {
         BorderPane bookingsPanel = createSectionPanel("YourBookings");
-        DataGrid documentTable = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        DataGrid documentTable = new DataGrid(); //LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        documentTable.setFullHeight(true);
         bookingsPanel.setCenter(documentTable);
         optionsPanel = HighLevelComponents.createSectionPanel(null, bookingLabel = new Label());
         bookingOptionsPanel = new BookingOptionsPanel(getI18n());
         optionsPanel.setCenter(bookingOptionsPanel.getGrid());
         paymentsPanel = createSectionPanel("YourPayments");
         DataGrid paymentTable = new DataGrid();
+        paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
 
         HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable()

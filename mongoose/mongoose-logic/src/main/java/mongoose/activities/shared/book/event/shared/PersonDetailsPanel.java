@@ -233,7 +233,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
         //rsb.setValue(5, 1, model.getPostCode());
         rsb.setValue(5, 2, i18n.instantTranslate("Country:"));
         rsb.setValue(5, 3, model.getCountryName());
-        DataGrid dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
+        DataGrid dataGrid = new DataGrid(rsb.build()); // LayoutUtil.setMinMaxHeightToPref(new DataGrid(rsb.build()));
         dataGrid.setHeaderVisible(false);
         dataGrid.setFullHeight(true);
         dataGrid.setSelectionMode(SelectionMode.DISABLED);

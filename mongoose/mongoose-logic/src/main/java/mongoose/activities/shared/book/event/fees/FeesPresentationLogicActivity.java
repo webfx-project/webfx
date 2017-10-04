@@ -18,12 +18,12 @@ import naga.commons.util.Arrays;
 import naga.commons.util.Booleans;
 import naga.commons.util.tuples.Pair;
 import naga.framework.orm.entity.EntityList;
-import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
+import naga.fxdata.control.SkinnedDataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
@@ -188,7 +188,8 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private Node renderFeesGroupBody(DisplayResultSet rs) {
-        DataGrid dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
+        DataGrid dataGrid = new SkinnedDataGrid(rs); //LayoutUtil.setMinMaxHeightToPref(new DataGrid(rs));
+        dataGrid.setFullHeight(true);
         dataGrid.setSelectionMode(SelectionMode.DISABLED);
         return dataGrid;
     }

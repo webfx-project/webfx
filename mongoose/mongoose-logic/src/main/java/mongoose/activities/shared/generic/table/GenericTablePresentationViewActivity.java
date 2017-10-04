@@ -10,8 +10,6 @@ import naga.framework.activity.presentation.view.impl.PresentationViewActivityIm
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 
-import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
-
 /**
  * @author Bruno Salmon
  */
@@ -25,7 +23,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
     @Override
     protected void createViewNodes(PM pm) {
         searchBox = newTextFieldWithPrompt("GenericSearchPlaceholder");
-        table = setMaxSizeToInfinite(new DataGrid());
+        table = new DataGrid();
         BorderPane.setAlignment(table, Pos.TOP_CENTER);
         limitCheckBox = newCheckBox("LimitTo100");
 
@@ -39,7 +37,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         // Binding the UI with the presentation model for further state changes
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
-        //pm.limitProperty().bind(Bindings.when(limitCheckBox.selectedProperty()).then(table.heightProperty().divide(36)).otherwise(-1));
+        //pm.limitProperty().bind(Bindings.when(limitCheckBox.selectedProperty()).then(table.heightProperty().divide(36)).otherwise(-1)); // not implemented in naga-javaemul-javafxbase
         Properties.runNowAndOnPropertiesChange((p) -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? table.getHeight() / 36 : -1), limitCheckBox.selectedProperty(), table.heightProperty());
         table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
         //pm.limitProperty().bind(limitCheckBox.selectedProperty());
