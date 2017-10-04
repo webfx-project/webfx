@@ -113,6 +113,10 @@ public class GridCollator extends DataGrid {
         }
 
         @Override
+        public void updateFullHeight(boolean fullHeight) {
+        }
+
+        @Override
         public void updateBackground(Background background) {
         }
 

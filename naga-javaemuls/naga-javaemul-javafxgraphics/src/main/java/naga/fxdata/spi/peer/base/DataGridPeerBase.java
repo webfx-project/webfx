@@ -30,6 +30,7 @@ public class DataGridPeerBase
         super.bind(shape, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
                 , node.headerVisibleProperty()
+                , node.fullHeightProperty()
         );
     }
 
@@ -37,8 +38,10 @@ public class DataGridPeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.headerVisibleProperty(), changedProperty, mixin::updateHeaderVisible)
+                || updateProperty(node.fullHeightProperty(), changedProperty, mixin::updateFullHeight)
                 ;
     }
+
 
     public int getGridColumnCount() {
         return gridColumnCount;
@@ -148,7 +151,7 @@ public class DataGridPeerBase
             Paint paint = Paint.valueOf(value.toString());
             if (paint instanceof Color) {
                 Color color = (Color) paint;
-                paint = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, new Stop(0, color.deriveColor(0, 1.0, 1.0 / 0.9, 1.0)), new Stop(1, color.deriveColor(0, 1.0, 0.9, 1.0)));
+                paint = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, new Stop(0, color.deriveColor(0, 1.0, 1.2, 1.0)), new Stop(1, color.deriveColor(0, 1.0, 0.8, 1.0)));
             }
             return paint;
         }

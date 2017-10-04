@@ -14,6 +14,8 @@ public interface DataGridPeerMixin
 
     void updateHeaderVisible(boolean headerVisible);
 
+    void updateFullHeight(boolean fullHeight);
+
     void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn);
 
     void setCellContent(C cell, Node content, DisplayColumn displayColumn);

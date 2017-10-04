@@ -6,13 +6,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Region;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
 import naga.commons.util.collection.IdentityList;
@@ -55,6 +57,15 @@ public class FxDataGridPeer
     }
 
     @Override
+    protected void onFxNodeCreated() {
+        TableView<Integer> tableView = getFxNode();
+        N node = getNode();
+        tableView.prefHeightProperty().bind(node.prefHeightProperty());
+        tableView.minHeightProperty().bind(node.minHeightProperty());
+        tableView.maxHeightProperty().bind(node.maxHeightProperty());
+    }
+
+    @Override
     public void updateSelectionMode(SelectionMode mode) {
         javafx.scene.control.SelectionMode fxSelectionMode = null;
         switch (mode) {
@@ -89,10 +100,24 @@ public class FxDataGridPeer
 
     @Override
     public void updateHeaderVisible(boolean headerVisible) {
+        TableView<Integer> tableView = getFxNode();
         if (headerVisible)
-            getFxNode().getStyleClass().remove("noheader");
+            tableView.getStyleClass().remove("noHeader");
         else
-            getFxNode().getStyleClass().add("noheader");
+            tableView.getStyleClass().add("noHeader");
+    }
+
+    private final static EventHandler<Event> eventConsumer = Event::consume;
+    @Override
+    public void updateFullHeight(boolean fullHeight) {
+        TableView<Integer> tableView = getFxNode();
+        if (fullHeight) {
+            tableView.getStyleClass().add("fullHeight");
+            tableView.addEventFilter(ScrollEvent.ANY, eventConsumer);
+        } else {
+            tableView.getStyleClass().remove("fullHeight");
+            tableView.removeEventFilter(ScrollEvent.ANY, eventConsumer);
+        }
     }
 
     private List<TableColumn<Integer, ?>> currentColumns, newColumns;
@@ -119,22 +144,9 @@ public class FxDataGridPeer
                 tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
                 Toolkit.get().scheduler().scheduleDelay(100, () -> tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY));
             }
-            tableView.prefHeightProperty().bind(getNode().prefHeightProperty());
-            tableView.minHeightProperty().bind(getNode().minHeightProperty());
-            tableView.maxHeightProperty().bind(getNode().maxHeightProperty());
-            // Workaround to make the table height fit with its content
-            if (getNode().getMaxHeight() == Region.USE_PREF_SIZE) { // ugly trick: we recognize it is necessary only when LayoutUtil.setMinMaxHeightToPref() has been called so max size is bound to min size
+            if (getNode().isFullHeight())
                 fitHeightToContent(tableView, getNode());
-                addStylesheet("css/tableview-no-vertical-scrollbar.css");
-                addStylesheet("css/tableview-no-horizontal-scrollbar.css");
-            }
         }
-    }
-
-    private void addStylesheet(String css) {
-        ObservableList<String> stylesheets = getFxNode().getStylesheets();
-        if (!stylesheets.contains(css))
-            stylesheets.add(css);
     }
 
     private static DisplayResultSet transformDisplayResultSetValuesToProperties(DisplayResultSet rs) {

@@ -16,7 +16,6 @@ import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.AggregateFunction;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fx.properties.Properties;
@@ -40,8 +39,9 @@ public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
 
     public BookingOptionsPanel(I18n i18n) {
         this.i18n = i18n;
-        dataGrid = LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        dataGrid = new DataGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         dataGrid.setHeaderVisible(false);
+        dataGrid.setFullHeight(true);
         dataGrid.setSelectionMode(SelectionMode.DISABLED);
         new AggregateFunction<DocumentLine>("days_agg", PrimType.STRING) {
             @Override

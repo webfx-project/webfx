@@ -30,6 +30,7 @@ public class DataGridPeerBase
         super.bind(shape, sceneRequester);
         requestUpdateOnPropertiesChange(sceneRequester
                 , node.headerVisibleProperty()
+                , node.fullHeightProperty()
         );
     }
 
@@ -37,6 +38,7 @@ public class DataGridPeerBase
     public boolean updateProperty(ObservableValue changedProperty) {
         return super.updateProperty(changedProperty)
                 || updateProperty(node.headerVisibleProperty(), changedProperty, mixin::updateHeaderVisible)
+                || updateProperty(node.fullHeightProperty(), changedProperty, mixin::updateFullHeight)
                 ;
     }
 

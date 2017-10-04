@@ -42,7 +42,6 @@ public class HtmlDataGridPeer
         super(base, element);
         table.appendChild(tBody);
         setChild(element, table);
-        setElementStyleAttribute("overflow-y", "auto");
         setStyleAttribute(table, "width", "100%");
         // Capturing scroll position (in scrollTop field)
         element.onscroll = p0 -> {
@@ -62,10 +61,17 @@ public class HtmlDataGridPeer
     }
 
     @Override
+    public void updateFullHeight(boolean fullHeight) {
+        setElementStyleAttribute("overflow-y", fullHeight ? "hidden" : "auto");
+        if (fullHeight)
+            getElement().scrollTop = scrollTop = 0;
+    }
+
+    @Override
     public double prefHeight(double width) {
         setElementStyleAttribute("overflow-y", "visible");
         double height = measureHeight(width);
-        setElementStyleAttribute("overflow-y", "auto");
+        setElementStyleAttribute("overflow-y", getNode().isFullHeight() ? "hidden" : "auto");
         return height;
     }
 
@@ -90,9 +96,8 @@ public class HtmlDataGridPeer
     }
 
     private void applyVisualSelectionRange(int firstRow, int lastRow, boolean selected) {
-        HTMLCollection<HTMLTableRowElement> rows = table.rows;
-        firstRow = firstRow + 1;
-        lastRow = Math.min(lastRow + 1, (int) rows.getLength() - 1);
+        HTMLCollection<HTMLTableRowElement> rows = tBody.rows;
+        lastRow = Math.min(lastRow, rows.getLength() - 1);
         for (int trIndex = firstRow; trIndex <= lastRow; trIndex++)
             setPseudoClass(rows.item(trIndex), "selected", selected);
     }
@@ -113,14 +118,16 @@ public class HtmlDataGridPeer
                 int finalRowIndex = rowIndex;
                 tBodyRow.onclick = a -> {
                     DisplaySelection displaySelection = node.getDisplaySelection();
-                    if (displaySelection == null || displaySelection.getSelectedRow() != finalRowIndex)
+                    if (node.getSelectionMode() != SelectionMode.DISABLED && (displaySelection == null || displaySelection.getSelectedRow() != finalRowIndex))
                         displaySelection = DisplaySelection.createSingleRowSelection(finalRowIndex);
                     else
                         displaySelection = null;
                     node.setDisplaySelection(displaySelection);
                     return null;
                 };
-                setPseudoClass(tBodyRow, base.getRowStyle(rowIndex));
+                String rowStyle = base.getRowStyle(rowIndex);
+                if (rowStyle != null)
+                    tBodyRow.className = rowStyle;
                 tBodyRow.style.background = HtmlPaints.toCssPaint(base.getRowBackground(rowIndex), DomType.HTML);
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++) {
                     if (base.isDataColumn(columnIndex))
@@ -139,30 +146,30 @@ public class HtmlDataGridPeer
 
     @Override
     public void setCellContent(HTMLTableCellElement cell, Node content, DisplayColumn displayColumn) {
-        DisplayStyle style = displayColumn.getStyle();
-        String textAlign = style.getTextAlign();
-        if (textAlign != null)
-            setStyleAttribute(cell, "text-align", textAlign);
-        Double prefWidth = style.getPrefWidth();
+        DisplayStyle displayStyle = displayColumn.getStyle();
+        String textAlign = displayStyle.getTextAlign();
+        Double prefWidth = displayStyle.getPrefWidth();
+        CSSStyleDeclaration cssStyle = cell.style;
         if (prefWidth != null) {
             String prefWidthPx = toPx(prefWidth);
-            setStyleAttribute(cell, "width", prefWidthPx);
-            setStyleAttribute(cell, "table-layout", "fixed");
-            setStyleAttribute(cell, "overflow", "hidden");
+            cssStyle.width = CSSProperties.WidthUnionType.of(prefWidthPx);
+            cssStyle.tableLayout = "fixed";
             if (textAlign == null)
-                setStyleAttribute(cell, "text-align", "center");
+                textAlign = "center";
         }
-        Element contentViewElement = toContainerElement(content, getNode().getScene());
-        if (contentViewElement != null) {
-            setStyleAttribute(contentViewElement, "position", "relative");
-            //setStyleAttribute(contentViewElement, "width", null);
-            //setStyleAttribute(contentViewElement, "height", null);
+        if (textAlign != null)
+            cssStyle.textAlign = textAlign;
+        Element contentElement = toContainerElement(content, getNode().getScene());
+        if (contentElement != null) {
+            setStyleAttribute(contentElement, "position", "relative");
+            //setStyleAttribute(contentElement, "width", null);
+            //setStyleAttribute(contentElement, "height", null);
             if (content instanceof HBox) { // temporary code for HBox, especially for table headers
                 double spacing = content instanceof HBox ? ((HBox) content).getSpacing() : 0;
-                for (int i = 0, n = (int) contentViewElement.childElementCount; i < n; i++) {
-                    elemental2.dom.Node childNode = contentViewElement.childNodes.item(i);
+                for (int i = 0, n = (int) contentElement.childElementCount; i < n; i++) {
+                    elemental2.dom.Node childNode = contentElement.childNodes.item(i);
                     if (childNode instanceof HTMLImageElement && Strings.isEmpty(((HTMLImageElement) childNode).src)) {
-                        contentViewElement.removeChild(childNode);
+                        contentElement.removeChild(childNode);
                         i--; n--;
                     } else {
                         setStyleAttribute(childNode, "position", "relative");
@@ -173,15 +180,15 @@ public class HtmlDataGridPeer
             } else if (content instanceof Parent) {
                 if (content instanceof Region) {
                     Region region = (Region) content;
-                    if (contentViewElement.parentNode == null)
-                        contentViewElement.ownerDocument.documentElement.appendChild(contentViewElement);
+                    if (contentElement.parentNode == null)
+                        contentElement.ownerDocument.documentElement.appendChild(contentElement);
                     double width = region.prefWidth(-1);
                     double height = region.prefHeight(-1);
                     region.resize(width, height);
                 }
                 ((Parent) content).layout();
             }
-            cell.appendChild(contentViewElement);
+            cell.appendChild(contentElement);
         }
     }
 

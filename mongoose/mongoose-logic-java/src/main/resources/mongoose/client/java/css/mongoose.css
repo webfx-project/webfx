@@ -32,10 +32,16 @@ ToolkitDataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     -fx-cursor: hand;
 }
 
-.table-view.noheader .column-header-background {
+.table-view.noHeader .column-header-background {
     -fx-max-height: 0;
     -fx-pref-height: 0;
     -fx-min-height: 0;
+}
+
+.table-view.fullHeight *.scroll-bar:vertical {
+    -fx-max-width: 0;
+    -fx-pref-width: 0;
+    -fx-min-width: 0;
 }
 
 .table-row-cell:empty {
