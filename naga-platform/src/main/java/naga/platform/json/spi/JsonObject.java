@@ -1,6 +1,6 @@
 package naga.platform.json.spi;
 
-import naga.commons.keyobject.KeyObject;
+import naga.commons.noreflect.KeyObject;
 
 /**
  * @author Bruno Salmon

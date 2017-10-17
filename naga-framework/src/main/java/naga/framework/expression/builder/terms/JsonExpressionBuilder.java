@@ -1,6 +1,6 @@
 package naga.framework.expression.builder.terms;
 
-import naga.commons.keyobject.IndexedArray;
+import naga.commons.noreflect.IndexedArray;
 import naga.framework.expression.terms.JsonExpression;
 import naga.platform.json.Json;
 import naga.platform.json.spi.WritableJsonObject;

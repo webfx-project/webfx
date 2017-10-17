@@ -1,4 +1,4 @@
-package naga.commons.keyobject;
+package naga.commons.noreflect;
 
 /**
  * @author Bruno Salmon

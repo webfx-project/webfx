@@ -5,7 +5,7 @@ module naga.commons {
 
     requires naga.util;
 
-    exports naga.commons.keyobject;
+    exports naga.commons.noreflect;
     exports naga.commons.scheduler;
     exports naga.commons.scheduler.impl;
 

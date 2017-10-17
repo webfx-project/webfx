@@ -1,6 +1,6 @@
 package naga.platform.json.spi;
 
-import naga.commons.keyobject.IndexedArray;
+import naga.commons.noreflect.IndexedArray;
 
 /**
  * @author Bruno Salmon
