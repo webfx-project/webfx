@@ -20,6 +20,12 @@
         </dependency>
 
         <dependency>
+            <artifactId>naga-type</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
             <artifactId>naga-commons</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>

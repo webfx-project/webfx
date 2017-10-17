@@ -14,14 +14,20 @@
     <dependencies>
 
         <dependency>
-            <groupId>${naga.groupId}</groupId>
             <artifactId>naga-javaemul-javafxbase</artifactId>
+            <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>${naga.groupId}</groupId>
             <artifactId>naga-commons</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <artifactId>naga-type</artifactId>
+            <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>
 

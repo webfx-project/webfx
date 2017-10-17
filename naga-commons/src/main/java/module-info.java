@@ -8,6 +8,5 @@ module naga.commons {
     exports naga.commons.keyobject;
     exports naga.commons.scheduler;
     exports naga.commons.scheduler.impl;
-    exports naga.type;
 
 }

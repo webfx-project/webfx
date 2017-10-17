@@ -4,6 +4,7 @@
 module naga.fx.javafx {
     requires naga.commons;
     requires naga.util;
+    requires naga.type;
     requires naga.fx;
 
     requires javafx.controls;

@@ -5,6 +5,7 @@ module naga.framework {
 
     requires naga.commons;
     requires naga.util;
+    requires naga.type;
     requires naga.platform;
     requires naga.fx;
     requires naga.javalib.javacupruntime;
