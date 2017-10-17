@@ -5,4 +5,5 @@
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/commons"/>
+    <source path="naga/noreflect"/>
 </module>

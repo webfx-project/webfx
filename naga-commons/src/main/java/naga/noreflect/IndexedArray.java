@@ -1,4 +1,4 @@
-package naga.commons.noreflect;
+package naga.noreflect;
 
 import naga.util.Booleans;
 import naga.util.Numbers;

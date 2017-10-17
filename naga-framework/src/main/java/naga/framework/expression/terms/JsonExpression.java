@@ -1,7 +1,7 @@
 package naga.framework.expression.terms;
 
-import naga.commons.noreflect.IndexedArray;
-import naga.commons.noreflect.KeyObject;
+import naga.noreflect.IndexedArray;
+import naga.noreflect.KeyObject;
 import naga.type.Type;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;

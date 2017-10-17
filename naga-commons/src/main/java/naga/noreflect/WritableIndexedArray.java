@@ -1,4 +1,4 @@
-package naga.commons.noreflect;
+package naga.noreflect;
 
 /**
  * @author Bruno Salmon

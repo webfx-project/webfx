@@ -1,8 +1,8 @@
 package naga.platform.json.spi;
 
-import naga.commons.noreflect.IndexedArray;
-import naga.commons.noreflect.KeyObject;
-import naga.commons.noreflect.WritableKeyObject;
+import naga.noreflect.IndexedArray;
+import naga.noreflect.KeyObject;
+import naga.noreflect.WritableKeyObject;
 
 /**
  * @author Bruno Salmon
