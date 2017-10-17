@@ -2,7 +2,7 @@ package naga.fx.spi.javafx.peer;
 
 import javafx.geometry.Insets;
 import javafx.scene.web.WebView;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import naga.fxdata.control.HtmlText;

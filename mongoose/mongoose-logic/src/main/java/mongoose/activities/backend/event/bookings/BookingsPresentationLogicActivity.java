@@ -3,7 +3,7 @@ package mongoose.activities.backend.event.bookings;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.services.EventService;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import mongoose.domainmodel.functions.AbcNames;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.platform.spi.Platform;

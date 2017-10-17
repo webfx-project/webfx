@@ -4,7 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLScriptElement;
 import elemental2.dom.Node;
 import elemental2.dom.NodeList;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fxdata.control.HtmlText;
 import naga.fxdata.spi.peer.base.HtmlTextPeerBase;

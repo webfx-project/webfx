@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.fxdata.control.HtmlTextEditor;
 import naga.fxdata.spi.peer.base.HtmlTextEditorPeerBase;
 import naga.fxdata.spi.peer.base.HtmlTextEditorPeerMixin;

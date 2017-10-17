@@ -2,7 +2,7 @@ package mongoose.activities.shared.logic.ui.calendargraphic.impl;
 
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

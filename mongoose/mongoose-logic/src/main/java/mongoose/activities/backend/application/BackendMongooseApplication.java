@@ -15,7 +15,7 @@ import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginViewActivity;
 import mongoose.activities.shared.auth.UnauthorizedViewActivity;
 import mongoose.auth.MongooseAuth;
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRouter;

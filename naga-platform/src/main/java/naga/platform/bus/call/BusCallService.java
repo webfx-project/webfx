@@ -3,12 +3,12 @@ package naga.platform.bus.call;
 import naga.platform.bus.Bus;
 import naga.platform.bus.Message;
 import naga.platform.json.codec.JsonCodecManager;
-import naga.commons.util.async.AsyncFunction;
-import naga.commons.util.async.Future;
-import naga.commons.util.async.Handler;
-import naga.commons.util.function.BiConsumer;
-import naga.commons.util.function.Callable;
-import naga.commons.util.function.Function;
+import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
+import naga.util.async.Handler;
+import naga.util.function.BiConsumer;
+import naga.util.function.Callable;
+import naga.util.function.Function;
 import naga.platform.spi.Platform;
 
 /**

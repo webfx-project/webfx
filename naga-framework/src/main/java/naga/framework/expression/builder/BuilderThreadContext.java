@@ -1,7 +1,7 @@
 package naga.framework.expression.builder;
 
 import naga.framework.expression.lci.ParserDomainModelReader;
-import naga.commons.util.function.Callable;
+import naga.util.function.Callable;
 
 /**
  * @author Bruno Salmon

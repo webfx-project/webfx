@@ -140,7 +140,7 @@ abstract class AbstractMasterTimer {
 
     public void removePulseReceiver(PulseReceiver target) {
         if (receiversLocked) {
-            receivers = naga.commons.util.Arrays.clone(receivers, PulseReceiver[]::new);
+            receivers = naga.util.Arrays.clone(receivers, PulseReceiver[]::new);
             receiversLocked = false;
         }
         for (int i = 0; i < receiversLength; ++i) {
@@ -172,7 +172,7 @@ abstract class AbstractMasterTimer {
 
     public void removeAnimationTimer(TimerReceiver timer) {
         if (animationTimersLocked) {
-            animationTimers = naga.commons.util.Arrays.clone(animationTimers, TimerReceiver[]::new);
+            animationTimers = naga.util.Arrays.clone(animationTimers, TimerReceiver[]::new);
             animationTimersLocked = false;
         }
         for (int i = 0; i < animationTimersLength; ++i) {

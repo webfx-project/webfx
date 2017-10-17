@@ -25,7 +25,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
 import naga.fx.properties.Properties;

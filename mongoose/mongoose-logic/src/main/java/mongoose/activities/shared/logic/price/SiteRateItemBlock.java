@@ -6,8 +6,8 @@ import mongoose.entities.Document;
 import mongoose.entities.Item;
 import mongoose.entities.Rate;
 import mongoose.entities.Site;
-import naga.commons.util.Booleans;
-import naga.commons.util.Objects;
+import naga.util.Booleans;
+import naga.util.Objects;
 import naga.framework.orm.entity.Entity;
 
 import java.time.LocalDate;

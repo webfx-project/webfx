@@ -2,8 +2,8 @@ package naga.fx.spi.gwt.util;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.*;
-import naga.commons.util.Strings;
-import naga.commons.util.async.Future;
+import naga.util.Strings;
+import naga.util.async.Future;
 
 import static elemental2.dom.DomGlobal.document;
 

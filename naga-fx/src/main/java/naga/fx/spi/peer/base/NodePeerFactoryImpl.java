@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Region;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.NodePeerFactory;
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;

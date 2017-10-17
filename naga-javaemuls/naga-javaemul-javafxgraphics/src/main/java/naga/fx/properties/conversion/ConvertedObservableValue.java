@@ -3,7 +3,7 @@ package naga.fx.properties.conversion;
 import emul.javafx.beans.InvalidationListener;
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
-import naga.commons.util.function.Converter;
+import naga.util.function.Converter;
 
 /**
  * @author Bruno Salmon

@@ -18,7 +18,7 @@ import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.BackgroundUtil;

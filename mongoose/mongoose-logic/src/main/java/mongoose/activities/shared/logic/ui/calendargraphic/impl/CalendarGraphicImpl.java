@@ -19,9 +19,9 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
-import naga.commons.util.async.Handler;
-import naga.commons.util.collection.Collections;
-import naga.commons.util.tuples.Unit;
+import naga.util.async.Handler;
+import naga.util.collection.Collections;
+import naga.util.tuples.Unit;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 

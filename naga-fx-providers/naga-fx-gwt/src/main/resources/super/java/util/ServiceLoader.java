@@ -6,8 +6,8 @@
 
 package java.util;
 
-import naga.commons.util.numbers.providers.StandardPlatformNumbers;
-import naga.commons.util.numbers.spi.NumbersProvider;
+import naga.util.numbers.providers.StandardPlatformNumbers;
+import naga.util.numbers.spi.NumbersProvider;
 import naga.platform.spi.Platform;
 import naga.providers.platform.client.gwt.GwtPlatform;
 import naga.fx.spi.gwt.GwtToolkit;

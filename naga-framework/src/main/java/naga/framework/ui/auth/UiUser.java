@@ -2,7 +2,7 @@ package naga.framework.ui.auth;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.framework.ui.auth.impl.UiUserImpl;
 import naga.platform.services.auth.spi.User;
 import naga.platform.services.auth.spi.UserMixin;

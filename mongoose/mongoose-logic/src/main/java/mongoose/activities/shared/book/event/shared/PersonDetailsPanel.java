@@ -21,7 +21,7 @@ import mongoose.entities.Organization;
 import mongoose.entities.Person;
 import mongoose.entities.markers.HasPersonDetails;
 import naga.commons.type.PrimType;
-import naga.commons.util.Booleans;
+import naga.util.Booleans;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;

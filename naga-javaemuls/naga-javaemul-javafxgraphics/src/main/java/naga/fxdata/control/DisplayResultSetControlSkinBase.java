@@ -3,7 +3,7 @@ package naga.fxdata.control;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.SkinBase;
 import emul.javafx.scene.paint.*;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ImageRenderer;

@@ -1,6 +1,6 @@
 package naga.platform.services.query;
 
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.platform.compression.values.repeat.RepeatedValuesCompressor;
 import naga.platform.json.Json;
 import naga.platform.json.codec.AbstractJsonCodec;
@@ -128,7 +128,7 @@ public class QueryResultSet {
     private final static String VALUES_KEY = "values";
     private final static String COMPRESSED_VALUES_KEY = "cvalues";
 
-    private final static boolean COMPRESSION = true;
+    public static boolean COMPRESSION = true;
 
     public static void registerJsonCodec() {
         new AbstractJsonCodec<QueryResultSet>(QueryResultSet.class, CODEC_ID) {
@@ -151,7 +151,7 @@ public class QueryResultSet {
                     if (COMPRESSION)
                         json.set(COMPRESSED_VALUES_KEY, Json.fromJavaArray(RepeatedValuesCompressor.SINGLETON.compress(result.values)));
                     else
-                        json.set(VALUES_KEY, result.values);
+                        json.set(VALUES_KEY, Json.fromJavaArray(result.values));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

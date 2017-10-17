@@ -17,8 +17,8 @@
  */
 package naga.commons.scheduler;
 
-import naga.commons.util.function.Consumer;
-import naga.commons.util.tuples.Unit;
+import naga.util.function.Consumer;
+import naga.util.tuples.Unit;
 
 /**
  * This class provides low-level task scheduling primitives.

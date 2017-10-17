@@ -1,8 +1,8 @@
 package naga.fxdata.cell.rowstyle;
 
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
-import naga.commons.util.function.Function;
+import naga.util.Objects;
+import naga.util.Strings;
+import naga.util.function.Function;
 import javafx.scene.paint.Paint;
 
 /**

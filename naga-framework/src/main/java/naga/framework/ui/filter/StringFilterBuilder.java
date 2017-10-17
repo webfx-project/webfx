@@ -2,7 +2,7 @@ package naga.framework.ui.filter;
 
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.Json;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

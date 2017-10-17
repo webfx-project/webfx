@@ -2,8 +2,8 @@ package naga.platform.services.update.spi;
 
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
-import naga.commons.util.async.Batch;
-import naga.commons.util.async.Future;
+import naga.util.async.Batch;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon

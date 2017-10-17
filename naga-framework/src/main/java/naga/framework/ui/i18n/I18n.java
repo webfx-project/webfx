@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.framework.ui.i18n.impl.I18nImpl;
 import naga.framework.ui.i18n.impl.ResourceDictionaryLoader;
 

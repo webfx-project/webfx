@@ -1,7 +1,7 @@
 package naga.framework.orm.entity;
 
-import naga.commons.util.async.Batch;
-import naga.commons.util.async.Future;
+import naga.util.async.Batch;
+import naga.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.impl.UpdateStoreImpl;

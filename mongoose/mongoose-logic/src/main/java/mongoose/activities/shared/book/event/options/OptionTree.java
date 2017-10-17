@@ -5,7 +5,7 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Event;
 import mongoose.entities.ItemFamily;
 import mongoose.entities.Option;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
 

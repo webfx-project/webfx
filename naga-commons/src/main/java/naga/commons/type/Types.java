@@ -19,7 +19,7 @@ public class Types {
     }
 
     public static Type guessType(Object o) {
-        if (o instanceof Object[])
+        if (o instanceof Object[]) // to replace by o.getClass().isArray() for TeaVm WebAssembly?
             return guessArrayType((Object[]) o);
         if (o instanceof Collection)
             return guessCollectionType((Collection) o);

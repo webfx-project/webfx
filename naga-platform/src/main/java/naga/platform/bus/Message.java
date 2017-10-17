@@ -17,7 +17,7 @@
  */
 package naga.platform.bus;
 
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * Represents a message on the event bus.

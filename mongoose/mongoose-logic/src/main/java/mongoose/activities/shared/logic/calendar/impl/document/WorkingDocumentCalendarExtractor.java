@@ -13,7 +13,7 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.framework.ui.i18n.I18n;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;

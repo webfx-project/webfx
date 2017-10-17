@@ -1,7 +1,7 @@
 package naga.framework.orm.entity.resultset;
 
-import naga.commons.util.Arrays;
-import naga.commons.util.async.Batch;
+import naga.util.Arrays;
+import naga.util.async.Batch;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.CompilerDomainModelReader;
 import naga.framework.expression.lci.ParserDomainModelReader;

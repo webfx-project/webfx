@@ -1,7 +1,7 @@
 package naga.fx.spi.gwt.util;
 
 import elemental2.dom.Element;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.CycleMethod;
 import emul.javafx.scene.paint.LinearGradient;

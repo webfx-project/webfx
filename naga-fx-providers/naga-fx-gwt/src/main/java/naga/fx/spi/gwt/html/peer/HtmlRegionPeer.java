@@ -4,7 +4,7 @@ import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.Insets;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import emul.javafx.scene.layout.*;

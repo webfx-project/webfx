@@ -1,6 +1,6 @@
 package naga.platform.services.update.remote;
 
-import naga.commons.util.async.Batch;
+import naga.util.async.Batch;
 import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
@@ -9,7 +9,7 @@ import naga.platform.services.update.LocalUpdateServiceRegistry;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 import naga.platform.services.update.spi.UpdateService;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon

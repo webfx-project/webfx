@@ -20,7 +20,7 @@ package naga.platform.client.bus;
 
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project

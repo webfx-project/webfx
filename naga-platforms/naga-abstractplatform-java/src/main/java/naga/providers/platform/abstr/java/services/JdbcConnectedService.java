@@ -9,8 +9,8 @@ import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 import naga.platform.services.update.spi.UpdateService;
-import naga.commons.util.Arrays;
-import naga.commons.util.async.Future;
+import naga.util.Arrays;
+import naga.util.async.Future;
 
 import javax.sql.DataSource;
 import java.sql.*;

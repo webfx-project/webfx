@@ -1,6 +1,6 @@
 package naga.framework.orm.entity.impl;
 
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;

@@ -2,7 +2,7 @@ package naga.fx.properties;
 
 import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
-import naga.commons.util.function.Consumer;
+import naga.util.function.Consumer;
 
 /**
  * @author Bruno Salmon

@@ -4,7 +4,7 @@ import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.HistoryLocation;
 import naga.framework.router.Router;
 import naga.platform.spi.Platform;
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * @author Bruno Salmon

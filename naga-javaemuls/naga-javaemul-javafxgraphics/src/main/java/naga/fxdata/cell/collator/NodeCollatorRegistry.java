@@ -4,7 +4,7 @@ import emul.javafx.geometry.Pos;
 import emul.javafx.scene.layout.FlowPane;
 import emul.javafx.scene.layout.HBox;
 import emul.javafx.scene.layout.VBox;
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 
 import java.util.HashMap;
 import java.util.Map;

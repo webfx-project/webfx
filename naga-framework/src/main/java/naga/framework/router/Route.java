@@ -1,6 +1,6 @@
 package naga.framework.router;
 
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * @author Bruno Salmon

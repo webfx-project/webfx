@@ -1,7 +1,7 @@
 package naga.fx.spi.javafx.peer;
 
 import javafx.geometry.Pos;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import naga.fx.spi.peer.base.TextFieldPeerBase;

@@ -1,6 +1,6 @@
 package naga.framework.orm.domainmodel;
 
-import naga.commons.util.Booleans;
+import naga.util.Booleans;
 import naga.framework.expression.Expression;
 import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.terms.*;

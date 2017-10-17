@@ -2,7 +2,7 @@ package naga.framework.ui.controls;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
-import naga.commons.util.function.Consumer;
+import naga.util.function.Consumer;
 import naga.framework.ui.action.ButtonFactoryMixin;
 
 /**

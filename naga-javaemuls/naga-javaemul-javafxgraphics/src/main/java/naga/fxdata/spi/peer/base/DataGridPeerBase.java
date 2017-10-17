@@ -2,7 +2,7 @@ package naga.fxdata.spi.peer.base;
 
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.scene.paint.*;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.fx.scene.SceneRequester;
 import naga.fxdata.cell.renderer.ImageTextRenderer;
 import naga.fxdata.cell.renderer.TextRenderer;

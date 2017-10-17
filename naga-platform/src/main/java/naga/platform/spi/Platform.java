@@ -19,8 +19,8 @@ package naga.platform.spi;
 
 import naga.commons.scheduler.Scheduled;
 import naga.commons.scheduler.Scheduler;
-import naga.commons.util.function.Consumer;
-import naga.commons.util.serviceloader.ServiceLoaderHelper;
+import naga.util.function.Consumer;
+import naga.util.serviceloader.ServiceLoaderHelper;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;

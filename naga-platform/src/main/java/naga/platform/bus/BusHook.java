@@ -17,7 +17,7 @@
  */
 package naga.platform.bus;
 
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * A hook that you can use to receive various events on the Bus.

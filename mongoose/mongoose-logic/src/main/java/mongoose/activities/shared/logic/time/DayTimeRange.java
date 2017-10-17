@@ -1,6 +1,6 @@
 package mongoose.activities.shared.logic.time;
 
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;

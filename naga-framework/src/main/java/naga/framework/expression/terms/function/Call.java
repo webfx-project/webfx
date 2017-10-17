@@ -1,6 +1,6 @@
 package naga.framework.expression.terms.function;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.ExpressionArray;

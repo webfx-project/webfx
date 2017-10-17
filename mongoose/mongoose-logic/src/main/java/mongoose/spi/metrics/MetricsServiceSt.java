@@ -1,6 +1,6 @@
 package mongoose.spi.metrics;
 
-import naga.commons.util.serviceloader.ServiceLoaderHelper;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon

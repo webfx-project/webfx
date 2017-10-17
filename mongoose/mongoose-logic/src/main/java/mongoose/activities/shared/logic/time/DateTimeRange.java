@@ -1,6 +1,6 @@
 package mongoose.activities.shared.logic.time;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 
 import java.util.concurrent.TimeUnit;
 

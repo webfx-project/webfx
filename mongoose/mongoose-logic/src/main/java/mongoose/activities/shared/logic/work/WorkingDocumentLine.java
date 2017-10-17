@@ -8,8 +8,8 @@ import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.entities.*;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.services.EventService;
-import naga.commons.util.Objects;
-import naga.commons.util.collection.Collections;
+import naga.util.Objects;
+import naga.util.collection.Collections;
 import naga.framework.orm.entity.Entity;
 
 import java.time.LocalDate;

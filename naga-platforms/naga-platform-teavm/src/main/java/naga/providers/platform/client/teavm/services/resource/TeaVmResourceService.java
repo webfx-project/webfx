@@ -1,7 +1,7 @@
 package naga.providers.platform.client.teavm.services.resource;
 
 import naga.platform.services.resource.spi.ResourceService;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

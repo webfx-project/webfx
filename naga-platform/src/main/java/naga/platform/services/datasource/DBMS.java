@@ -1,6 +1,6 @@
 package naga.platform.services.datasource;
 
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

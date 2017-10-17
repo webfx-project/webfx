@@ -3,10 +3,10 @@ package naga.fx.properties;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.value.ObservableValue;
-import naga.commons.util.function.Consumer;
-import naga.commons.util.function.Func2;
-import naga.commons.util.function.Function;
-import naga.commons.util.function.Predicate;
+import naga.util.function.Consumer;
+import naga.util.function.Func2;
+import naga.util.function.Function;
+import naga.util.function.Predicate;
 import naga.fx.spi.Toolkit;
 
 /**

@@ -1,5 +1,5 @@
 <module rename-to="naga_commons">
     <!-- Specify the paths for translatable code                    -->
-    <source path="naga/commons"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
-    <resource path="naga/commons"/>               <!-- source path to rxjava library (naga-javalib-rxjava) -->
+    <source path="naga/commons"/>
+    <source path="naga/util"/>
 </module>

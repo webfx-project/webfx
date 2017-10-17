@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.fx.properties.Properties;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;

@@ -6,7 +6,7 @@ import io.vertx.core.json.JsonObject;
 import naga.platform.bus.*;
 import naga.platform.json.Json;
 import naga.platform.json.listmap.MapBasedJsonObject;
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * @author Bruno Salmon

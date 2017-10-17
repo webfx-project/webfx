@@ -1,6 +1,6 @@
 package naga.fxdata.cell.renderer;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.fxdata.cell.collator.NodeCollator;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;

@@ -1,6 +1,6 @@
 package naga.framework.activity.combinations.domainpresentation.impl;
 
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 import naga.framework.activity.presentation.impl.PresentationActivityBase;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityContextFinal;

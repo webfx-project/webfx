@@ -1,6 +1,6 @@
 package naga.framework.ui.rx;
 
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import rx.Observable;
 import rx.Subscriber;
 import rx.exceptions.Exceptions;

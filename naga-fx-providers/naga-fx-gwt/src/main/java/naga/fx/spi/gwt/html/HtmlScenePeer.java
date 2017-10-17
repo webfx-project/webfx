@@ -6,7 +6,7 @@ import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.scene.Scene;
 import emul.javafx.scene.text.TextFlow;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.fx.properties.Properties;
 import naga.fx.spi.gwt.html.peer.HtmlHtmlTextPeer;
 import naga.fx.spi.gwt.html.peer.HtmlNodePeer;

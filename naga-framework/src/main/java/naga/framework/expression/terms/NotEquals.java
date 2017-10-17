@@ -1,7 +1,7 @@
 package naga.framework.expression.terms;
 
 import naga.framework.expression.Expression;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 
 /**
  * @author Bruno Salmon

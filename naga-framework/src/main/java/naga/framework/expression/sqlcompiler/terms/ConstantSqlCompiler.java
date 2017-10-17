@@ -1,7 +1,7 @@
 package naga.framework.expression.sqlcompiler.terms;
 
 import naga.framework.expression.terms.Constant;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

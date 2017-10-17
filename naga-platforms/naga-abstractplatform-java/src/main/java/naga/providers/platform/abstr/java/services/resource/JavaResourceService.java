@@ -1,7 +1,7 @@
 package naga.providers.platform.abstr.java.services.resource;
 
 import naga.platform.services.resource.spi.ResourceService;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 
 import java.io.InputStream;
 import java.util.Scanner;

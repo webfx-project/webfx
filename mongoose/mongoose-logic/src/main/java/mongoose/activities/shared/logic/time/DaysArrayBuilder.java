@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.time;
 
-import naga.commons.util.collection.Collections;
-import naga.commons.util.collection.HashList;
+import naga.util.collection.Collections;
+import naga.util.collection.HashList;
 
 import java.time.LocalDate;
 import java.util.Arrays;

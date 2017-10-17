@@ -2,8 +2,8 @@ package naga.framework.expression.terms;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataWriter;
-import naga.commons.util.Booleans;
-import naga.commons.util.Objects;
+import naga.util.Booleans;
+import naga.util.Objects;
 
 /**
  * @author Bruno Salmon

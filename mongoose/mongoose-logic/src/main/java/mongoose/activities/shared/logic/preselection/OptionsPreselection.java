@@ -8,8 +8,8 @@ import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
 import mongoose.util.Labels;
-import naga.commons.util.Booleans;
-import naga.commons.util.collection.Collections;
+import naga.util.Booleans;
+import naga.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.platform.services.query.QueryResultSet;
 

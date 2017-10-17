@@ -1,6 +1,6 @@
 package mongoose.auth;
 
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.platform.services.auth.UsernamePasswordToken;

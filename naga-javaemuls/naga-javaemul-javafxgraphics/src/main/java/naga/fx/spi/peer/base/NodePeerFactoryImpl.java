@@ -1,6 +1,6 @@
 package naga.fx.spi.peer.base;
 
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.Region;
 import naga.fx.spi.peer.NodePeer;

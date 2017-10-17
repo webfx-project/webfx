@@ -1,9 +1,9 @@
 package naga.framework.orm.entity.impl;
 
-import naga.commons.util.Arrays;
-import naga.commons.util.Objects;
-import naga.commons.util.async.Batch;
-import naga.commons.util.async.Future;
+import naga.util.Arrays;
+import naga.util.Objects;
+import naga.util.async.Batch;
+import naga.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.Entity;

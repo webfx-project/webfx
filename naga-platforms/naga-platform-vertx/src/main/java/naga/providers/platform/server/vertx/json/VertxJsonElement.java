@@ -1,6 +1,6 @@
 package naga.providers.platform.server.vertx.json;
 
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.platform.json.listmap.ListMapBasedJsonElement;
 import naga.platform.json.listmap.MapBasedJsonObject;
 import naga.platform.json.spi.ElementType;

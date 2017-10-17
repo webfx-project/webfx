@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.ui.calendargraphic;
 
 import javafx.beans.property.Property;
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * @author Bruno Salmon

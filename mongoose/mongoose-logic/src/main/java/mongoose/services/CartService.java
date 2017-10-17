@@ -4,7 +4,7 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import mongoose.entities.MoneyTransfer;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.EntityList;
 

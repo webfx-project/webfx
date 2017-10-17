@@ -1,8 +1,8 @@
 package mongoose.activities.shared.logic.time;
 
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
-import naga.commons.util.collection.Collections;
+import naga.util.Objects;
+import naga.util.Strings;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

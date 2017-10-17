@@ -9,7 +9,7 @@ import mongoose.activities.shared.logic.calendar.CalendarTimeline;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnBodyBlockViewModel;
 import mongoose.activities.shared.logic.ui.calendargraphic.impl.DayColumnHeaderViewModel;
-import naga.commons.util.function.BiConsumer;
+import naga.util.function.BiConsumer;
 import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.controls.GridPaneBuilder;

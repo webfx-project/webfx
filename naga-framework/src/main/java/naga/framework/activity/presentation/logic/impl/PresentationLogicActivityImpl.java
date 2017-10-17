@@ -1,6 +1,6 @@
 package naga.framework.activity.presentation.logic.impl;
 
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon

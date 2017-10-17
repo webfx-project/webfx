@@ -1,6 +1,6 @@
 package naga.platform.client.bus;
 
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.BusOptions;
 

@@ -2,7 +2,7 @@ package naga.providers.platform.client.teavm.url.location;
 
 
 import naga.platform.client.url.location.WindowLocation;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import org.teavm.jso.browser.Location;
 
 /**

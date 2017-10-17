@@ -1,6 +1,6 @@
 package naga.platform.services.auth;
 
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.platform.services.auth.spi.User;
 
 /**

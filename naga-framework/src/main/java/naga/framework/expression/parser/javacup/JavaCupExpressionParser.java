@@ -6,8 +6,7 @@
 package naga.framework.expression.parser.javacup;
 
 import naga.framework.expression.builder.terms.*;
-import naga.commons.util.Numbers;
-import java_cup.runtime.XMLElement;
+import naga.util.Numbers;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */

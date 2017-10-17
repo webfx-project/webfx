@@ -1,6 +1,6 @@
 package mongoose.entities.markers;
 
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 

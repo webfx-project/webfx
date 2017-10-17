@@ -1,6 +1,6 @@
 package naga.fxdata.displaydata;
 
-import naga.commons.util.function.Consumer;
+import naga.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.List;

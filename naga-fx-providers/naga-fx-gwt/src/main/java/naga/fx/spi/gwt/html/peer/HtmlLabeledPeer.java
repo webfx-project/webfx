@@ -2,7 +2,7 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.Labeled;

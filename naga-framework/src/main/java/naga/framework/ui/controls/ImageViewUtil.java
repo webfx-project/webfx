@@ -1,7 +1,7 @@
 package naga.framework.ui.controls;
 
 import javafx.scene.image.ImageView;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.fx.util.ImageStore;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;

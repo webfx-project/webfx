@@ -3,7 +3,7 @@ package mongoose.activities.shared.generic.eventdependent;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 

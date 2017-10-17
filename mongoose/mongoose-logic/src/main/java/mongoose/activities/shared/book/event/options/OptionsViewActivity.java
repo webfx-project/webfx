@@ -11,7 +11,7 @@ import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fx.spi.Toolkit;

@@ -1,9 +1,9 @@
 package naga.commons.keyobject;
 
-import naga.commons.util.Booleans;
-import naga.commons.util.Numbers;
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
+import naga.util.Booleans;
+import naga.util.Numbers;
+import naga.util.Objects;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

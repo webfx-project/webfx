@@ -2,7 +2,7 @@ package naga.fxdata.spi.peer.base;
 
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.chart.Chart;

@@ -23,7 +23,7 @@ import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
 import naga.platform.spi.Platform;
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 import java.util.ArrayList;
 import java.util.HashMap;

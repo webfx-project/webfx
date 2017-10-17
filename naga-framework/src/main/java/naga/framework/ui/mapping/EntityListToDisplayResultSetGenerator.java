@@ -1,8 +1,8 @@
 package naga.framework.ui.mapping;
 
-import naga.commons.util.Arrays;
-import naga.commons.util.Booleans;
-import naga.commons.util.collection.Collections;
+import naga.util.Arrays;
+import naga.util.Booleans;
+import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Select;

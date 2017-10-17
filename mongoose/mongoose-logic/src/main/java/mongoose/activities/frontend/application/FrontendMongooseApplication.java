@@ -2,7 +2,7 @@ package mongoose.activities.frontend.application;
 
 import mongoose.activities.frontend.container.FrontendContainerViewActivity;
 import mongoose.activities.shared.application.SharedMongooseApplication;
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;

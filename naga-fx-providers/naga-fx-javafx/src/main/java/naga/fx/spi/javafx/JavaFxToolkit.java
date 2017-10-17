@@ -6,7 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import naga.commons.util.function.Consumer;
+import naga.util.function.Consumer;
 import naga.fx.spi.Toolkit;
 
 import java.util.ArrayList;

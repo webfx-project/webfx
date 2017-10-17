@@ -2,9 +2,9 @@ package naga.fx.properties;
 
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import naga.commons.util.Arrays;
-import naga.commons.util.collection.Collections;
-import naga.commons.util.function.Converter;
+import naga.util.Arrays;
+import naga.util.collection.Collections;
+import naga.util.function.Converter;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class ObservableLists {
                 list.setAll(elements);
             else
                 //Doesn't work on Android: list.setAll(elements.stream().filter(Objects::nonNull).collect(Collectors.toList()));
-                list.setAll(Collections.filter(elements, naga.commons.util.Objects::nonNull));
+                list.setAll(Collections.filter(elements, naga.util.Objects::nonNull));
         }
     }
 

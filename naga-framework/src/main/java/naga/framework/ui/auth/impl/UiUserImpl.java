@@ -3,7 +3,7 @@ package naga.framework.ui.auth.impl;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.framework.ui.auth.UiUser;
 import naga.fx.properties.Properties;
 import naga.platform.services.auth.spi.User;

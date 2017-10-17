@@ -2,8 +2,8 @@ package naga.platform.services.query.spi;
 
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
-import naga.commons.util.async.Batch;
-import naga.commons.util.async.Future;
+import naga.util.async.Batch;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon

@@ -5,8 +5,8 @@ import naga.framework.expression.lci.CompilerDomainModelReader;
 import naga.framework.expression.sqlcompiler.terms.Options;
 import naga.framework.expression.sqlcompiler.mapping.QueryColumnToEntityFieldMapping;
 import naga.framework.expression.sqlcompiler.mapping.QueryRowToEntityMapping;
-import naga.commons.util.Numbers;
-import naga.commons.util.Strings;
+import naga.util.Numbers;
+import naga.util.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;

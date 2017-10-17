@@ -1,6 +1,6 @@
 package naga.framework.orm.entity;
 
-import naga.commons.util.collection.ListMixin;
+import naga.util.collection.ListMixin;
 import naga.framework.expression.Expression;
 
 /**

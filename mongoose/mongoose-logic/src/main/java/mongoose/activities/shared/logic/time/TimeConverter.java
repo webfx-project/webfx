@@ -1,7 +1,7 @@
 package mongoose.activities.shared.logic.time;
 
-import naga.commons.util.Dates;
-import naga.commons.util.Numbers;
+import naga.util.Dates;
+import naga.util.Numbers;
 
 import java.time.LocalDateTime;
 import java.time.Month;

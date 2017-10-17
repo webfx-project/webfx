@@ -1,6 +1,6 @@
 package naga.framework.activity.combinations.domainpresentationlogic.impl;
 
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.activity.presentation.logic.impl.PresentationLogicActivityBase;
 import naga.framework.ui.filter.ReactiveExpressionFilter;

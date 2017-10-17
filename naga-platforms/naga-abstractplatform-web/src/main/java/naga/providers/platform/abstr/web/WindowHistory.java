@@ -1,8 +1,8 @@
 package naga.providers.platform.abstr.web;
 
 import naga.platform.json.spi.JsonObject;
-import naga.commons.util.async.Handler;
-import naga.commons.util.function.Function;
+import naga.util.async.Handler;
+import naga.util.function.Function;
 
 /**
  * Wrapper interface to the window history.

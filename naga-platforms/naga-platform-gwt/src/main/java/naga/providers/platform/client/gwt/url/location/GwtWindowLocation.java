@@ -1,7 +1,7 @@
 package naga.providers.platform.client.gwt.url.location;
 
 import naga.platform.client.url.location.WindowLocation;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

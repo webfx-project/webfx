@@ -7,13 +7,13 @@ module naga.commons {
     exports naga.commons.scheduler;
     exports naga.commons.scheduler.impl;
     exports naga.commons.type;
-    exports naga.commons.util;
-    exports naga.commons.util.async;
-    exports naga.commons.util.collection;
-    exports naga.commons.util.function;
-    exports naga.commons.util.numbers.spi;
-    exports naga.commons.util.numbers.providers;
-    exports naga.commons.util.serviceloader;
-    exports naga.commons.util.tuples;
-    exports naga.commons.util.uuid;
+    exports naga.util;
+    exports naga.util.async;
+    exports naga.util.collection;
+    exports naga.util.function;
+    exports naga.util.numbers.spi;
+    exports naga.util.numbers.providers;
+    exports naga.util.serviceloader;
+    exports naga.util.tuples;
+    exports naga.util.uuid;
 }

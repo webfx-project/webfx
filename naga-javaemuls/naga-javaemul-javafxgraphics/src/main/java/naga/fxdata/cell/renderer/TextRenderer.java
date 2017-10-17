@@ -1,7 +1,7 @@
 package naga.fxdata.cell.renderer;
 
 import emul.javafx.scene.text.Text;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package naga.framework.ui.i18n.impl;
 
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.framework.ui.i18n.Dictionary;
 
 import java.util.Set;

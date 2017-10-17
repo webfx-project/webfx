@@ -13,7 +13,7 @@ import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.util.Callback;
-import naga.commons.util.function.Function;
+import naga.util.function.Function;
 import naga.fx.properties.markers.HasBackgroundProperty;
 import naga.fx.properties.markers.HasBorderProperty;
 import naga.fx.properties.markers.HasPaddingProperty;

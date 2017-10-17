@@ -1,7 +1,7 @@
 package naga.framework.expression.terms;
 
-import naga.commons.util.Booleans;
-import naga.commons.util.Numbers;
+import naga.util.Booleans;
+import naga.util.Numbers;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.lci.DataWriter;

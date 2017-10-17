@@ -2,8 +2,8 @@ package naga.platform.client.url.location.impl;
 
 import naga.platform.json.spi.JsonObject;
 import naga.platform.client.url.location.PathLocation;
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
+import naga.util.Objects;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

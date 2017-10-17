@@ -7,10 +7,10 @@ import naga.platform.client.url.history.HistoryLocation;
 import naga.platform.client.url.location.PathStateLocation;
 import naga.platform.client.url.location.impl.PathLocationImpl;
 import naga.platform.client.url.location.impl.PathStateLocationImpl;
-import naga.commons.util.Strings;
-import naga.commons.util.async.Future;
-import naga.commons.util.async.Handler;
-import naga.commons.util.function.Function;
+import naga.util.Strings;
+import naga.util.async.Future;
+import naga.util.async.Handler;
+import naga.util.function.Function;
 
 /**
  * @author Bruno Salmon

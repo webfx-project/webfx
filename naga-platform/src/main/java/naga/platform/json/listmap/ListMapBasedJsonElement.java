@@ -1,7 +1,7 @@
 package naga.platform.json.listmap;
 
 import naga.platform.json.spi.*;
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

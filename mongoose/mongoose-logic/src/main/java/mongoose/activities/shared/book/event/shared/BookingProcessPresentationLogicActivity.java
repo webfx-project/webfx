@@ -2,7 +2,7 @@ package mongoose.activities.shared.book.event.shared;
 
 import javafx.event.ActionEvent;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
-import naga.commons.util.function.Factory;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon

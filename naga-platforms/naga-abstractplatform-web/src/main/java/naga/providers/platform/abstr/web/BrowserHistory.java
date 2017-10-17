@@ -7,8 +7,8 @@ import naga.platform.client.url.history.memory.MemoryHistory;
 import naga.platform.client.url.location.PathStateLocation;
 import naga.platform.client.url.location.WindowLocation;
 import naga.platform.spi.Platform;
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
+import naga.util.Objects;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon

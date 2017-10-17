@@ -1,9 +1,9 @@
 package naga.framework.activity.presentation.impl;
 
 import naga.commons.scheduler.UiScheduler;
-import naga.commons.util.async.Future;
-import naga.commons.util.function.Callable;
-import naga.commons.util.function.Factory;
+import naga.util.async.Future;
+import naga.util.function.Callable;
+import naga.util.function.Factory;
 import naga.framework.activity.presentation.PresentationActivity;
 import naga.framework.activity.presentation.PresentationActivityContext;
 import naga.framework.activity.presentation.PresentationActivityContextMixin;

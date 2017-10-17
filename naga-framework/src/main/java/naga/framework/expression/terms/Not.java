@@ -4,7 +4,7 @@ import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
-import naga.commons.util.Booleans;
+import naga.util.Booleans;
 
 /**
  * @author Bruno Salmon

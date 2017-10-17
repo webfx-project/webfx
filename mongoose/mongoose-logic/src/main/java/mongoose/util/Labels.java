@@ -8,7 +8,7 @@ import mongoose.entities.impl.LabelImpl;
 import mongoose.entities.markers.HasItem;
 import mongoose.entities.markers.HasLabel;
 import mongoose.entities.markers.HasName;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.framework.ui.i18n.I18n;
 
 /**

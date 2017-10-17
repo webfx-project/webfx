@@ -3,7 +3,7 @@ package naga.fxdata.cell.renderer;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.layout.HBox;
 import emul.javafx.scene.layout.Priority;
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.fxdata.cell.collator.NodeCollator;
 
 /**

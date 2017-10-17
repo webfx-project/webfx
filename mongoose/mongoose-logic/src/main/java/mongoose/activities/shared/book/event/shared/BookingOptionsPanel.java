@@ -10,7 +10,7 @@ import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
 import naga.commons.type.PrimType;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.AggregateFunction;
@@ -67,7 +67,7 @@ public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
         registerFormatter("priceWithCurrency", new PriceFormatter(workingDocument.getEventService().getEvent()));
         workingDocument.getComputedPrice(); // ensuring the price has been computed
         //Doesn't work on Android: syncUiFromModel(workingDocument.getWorkingDocumentLines().stream().map(BookingOptionsPanel::createDocumentLine).filter(Objects::nonNull).collect(Collectors.toList()), workingDocument.getDocument().getStore());
-        syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.commons.util.Objects::nonNull), workingDocument.getDocument().getStore());
+        syncUiFromModel(Collections.mapFilter(workingDocument.getWorkingDocumentLines(), BookingOptionsPanel::createDocumentLine, naga.util.Objects::nonNull), workingDocument.getDocument().getStore());
     }
 
     public void syncUiFromModel(List<DocumentLine> documentLines, EntityStore entityStore) {

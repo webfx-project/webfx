@@ -1,7 +1,7 @@
 package naga.framework.activity.view.impl;
 
 import javafx.scene.Node;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.framework.activity.uiroute.impl.UiRouteActivityBase;
 import naga.framework.activity.view.ViewActivity;
 import naga.framework.activity.view.ViewActivityContext;

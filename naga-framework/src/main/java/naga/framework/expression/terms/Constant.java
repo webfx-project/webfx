@@ -3,7 +3,7 @@ package naga.framework.expression.terms;
 import naga.framework.expression.lci.DataReader;
 import naga.commons.type.Type;
 import naga.commons.type.Types;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 import java.util.Date;
 import java.util.HashMap;

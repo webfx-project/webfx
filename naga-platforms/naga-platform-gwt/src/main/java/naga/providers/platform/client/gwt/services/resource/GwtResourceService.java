@@ -2,7 +2,7 @@ package naga.providers.platform.client.gwt.services.resource;
 
 import com.google.gwt.resources.client.TextResource;
 import naga.platform.services.resource.spi.ResourceService;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 
 import java.util.ArrayList;
 import java.util.List;

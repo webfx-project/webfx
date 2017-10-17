@@ -8,7 +8,7 @@ import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;

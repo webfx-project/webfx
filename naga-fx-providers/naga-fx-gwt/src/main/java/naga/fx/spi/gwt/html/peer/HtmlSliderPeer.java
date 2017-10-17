@@ -2,8 +2,8 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
-import naga.commons.util.Numbers;
-import naga.commons.util.Strings;
+import naga.util.Numbers;
+import naga.util.Strings;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import emul.javafx.scene.control.Slider;
 import naga.fx.spi.peer.base.SliderPeerBase;

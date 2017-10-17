@@ -2,7 +2,7 @@ package naga.framework.orm.entity.resultset;
 
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.resultset.impl.EntityResultSetImpl;
-import naga.commons.util.collection.HashList;
+import naga.util.collection.HashList;
 
 import java.util.ArrayList;
 import java.util.HashMap;

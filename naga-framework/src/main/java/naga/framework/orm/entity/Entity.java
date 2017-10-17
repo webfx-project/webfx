@@ -1,9 +1,9 @@
 package naga.framework.orm.entity;
 
-import naga.commons.util.Booleans;
-import naga.commons.util.Dates;
-import naga.commons.util.Numbers;
-import naga.commons.util.Strings;
+import naga.util.Booleans;
+import naga.util.Dates;
+import naga.util.Numbers;
+import naga.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.orm.domainmodel.DomainClass;
 

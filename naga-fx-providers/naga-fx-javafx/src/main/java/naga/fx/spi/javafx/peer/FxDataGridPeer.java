@@ -17,7 +17,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Paint;
 import javafx.util.Callback;
-import naga.commons.util.collection.IdentityList;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fx.util.ImageStore;
@@ -29,6 +28,7 @@ import naga.fxdata.displaydata.SelectionMode;
 import naga.fxdata.spi.peer.base.DataGridPeerBase;
 import naga.fxdata.spi.peer.base.DataGridPeerImageTextMixin;
 import naga.fxdata.spi.peer.base.DataGridPeerMixin;
+import naga.util.collection.IdentityList;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

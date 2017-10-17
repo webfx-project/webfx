@@ -3,8 +3,8 @@ package naga.framework.router.impl;
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
 import naga.platform.spi.Platform;
-import naga.commons.util.Strings;
-import naga.commons.util.async.Handler;
+import naga.util.Strings;
+import naga.util.async.Handler;
 
 /**
  * @author Bruno Salmon

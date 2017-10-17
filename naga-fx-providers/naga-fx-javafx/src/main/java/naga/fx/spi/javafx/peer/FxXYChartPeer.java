@@ -2,7 +2,7 @@ package naga.fx.spi.javafx.peer;
 
 import javafx.scene.chart.XYChart;
 import naga.commons.type.Type;
-import naga.commons.util.function.Function;
+import naga.util.function.Function;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.spi.peer.base.ChartPeerBase;
 import naga.fxdata.spi.peer.base.ChartPeerMixin;

@@ -3,7 +3,7 @@ package naga.framework.expression.sqlcompiler.terms;
 import naga.framework.expression.lci.CompilerDomainModelReader;
 import naga.framework.expression.sqlcompiler.sql.SqlBuild;
 import naga.framework.expression.sqlcompiler.sql.SqlClause;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 
 /**
  * @author Bruno Salmon

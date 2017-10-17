@@ -1,6 +1,6 @@
 package naga.framework.session.impl;
 
-import naga.commons.util.uuid.Uuid;
+import naga.util.uuid.Uuid;
 import naga.framework.session.Session;
 
 import java.util.HashMap;

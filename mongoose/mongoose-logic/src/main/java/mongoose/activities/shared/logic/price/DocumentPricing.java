@@ -4,8 +4,8 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.Item;
 import mongoose.entities.Site;
-import naga.commons.util.Objects;
-import naga.commons.util.collection.HashList;
+import naga.util.Objects;
+import naga.util.collection.HashList;
 
 /**
  * @author Bruno Salmon

@@ -1,6 +1,6 @@
 package naga.framework.orm.entity.resultset;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.framework.expression.lci.mocks.CompilerDomainModelReaderMock;
 import naga.framework.expression.lci.mocks.ParserDomainModelReaderMock;
 import naga.framework.expression.sqlcompiler.sql.DbmsSqlSyntaxOptions;

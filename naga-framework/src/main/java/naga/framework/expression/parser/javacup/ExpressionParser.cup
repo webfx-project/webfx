@@ -1,7 +1,7 @@
 package naga.framework.expression.parser.javacup;
 
 import naga.framework.expression.builder.terms.*;
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 
 /* ----------------------Preliminary Declarations Section--------------------*/
    

@@ -1,6 +1,6 @@
 package naga.framework.activity.uiroute.impl;
 
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.framework.activity.activeproperty.impl.ActivePropertyActivityBase;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.activity.uiroute.UiRouteActivityContextMixin;

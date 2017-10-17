@@ -18,7 +18,7 @@
 
 package naga.platform.bus;
 
-import naga.commons.util.async.Handler;
+import naga.util.async.Handler;
 
 /**
  * A distributed lightweight event bus which can encompass multiple machines. The event bus

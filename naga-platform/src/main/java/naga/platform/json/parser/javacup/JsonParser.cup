@@ -3,8 +3,8 @@ package naga.platform.json.parser.javacup;
 import naga.platform.json.Json;
 import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.commons.util.Numbers;
-import naga.commons.util.tuples.Pair;
+import naga.util.Numbers;
+import naga.util.tuples.Pair;
 
 /* ----------------------Preliminary Declarations Section--------------------*/
    

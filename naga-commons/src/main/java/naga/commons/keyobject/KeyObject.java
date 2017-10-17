@@ -1,6 +1,6 @@
 package naga.commons.keyobject;
 
-import naga.commons.util.*;
+import naga.util.*;
 
 import java.time.Instant;
 

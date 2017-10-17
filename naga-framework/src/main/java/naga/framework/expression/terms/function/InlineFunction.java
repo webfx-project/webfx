@@ -8,7 +8,7 @@ import naga.framework.expression.parser.ExpressionParser;
 import naga.framework.expression.builder.ReferenceResolver;
 import naga.framework.expression.builder.ThreadLocalReferenceResolver;
 import naga.commons.type.Type;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 import java.util.HashMap;
 import java.util.Map;

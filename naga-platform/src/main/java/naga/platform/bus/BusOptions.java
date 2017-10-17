@@ -1,7 +1,7 @@
 package naga.platform.bus;
 
 
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.platform.json.spi.JsonObject;
 
 /**

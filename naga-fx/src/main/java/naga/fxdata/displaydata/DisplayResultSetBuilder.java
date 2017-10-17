@@ -1,6 +1,6 @@
 package naga.fxdata.displaydata;
 
-import naga.commons.util.function.Converter;
+import naga.util.function.Converter;
 import naga.fxdata.displaydata.impl.DisplayColumnImpl;
 import naga.fxdata.displaydata.impl.DisplayResultSetImpl;
 

@@ -2,8 +2,8 @@ package naga.providers.platform.client.teavm.url.history;
 
 import naga.platform.json.spi.JsonObject;
 import naga.providers.platform.abstr.web.WindowHistory;
-import naga.commons.util.async.Handler;
-import naga.commons.util.function.Function;
+import naga.util.async.Handler;
+import naga.util.function.Function;
 import naga.providers.platform.client.teavm.json.TeaVmJsonObject;
 import org.teavm.jso.JSBody;
 import org.teavm.jso.browser.History;

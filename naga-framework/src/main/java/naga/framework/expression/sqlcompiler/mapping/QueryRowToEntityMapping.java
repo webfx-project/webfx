@@ -1,6 +1,6 @@
 package naga.framework.expression.sqlcompiler.mapping;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 
 /**
  * Mapping between the query row and an entity

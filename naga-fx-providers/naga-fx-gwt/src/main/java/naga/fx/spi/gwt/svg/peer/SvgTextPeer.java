@@ -1,6 +1,6 @@
 package naga.fx.spi.gwt.svg.peer;
 
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.fx.spi.gwt.util.SvgUtil;
 import emul.javafx.geometry.VPos;
 import emul.javafx.scene.text.Font;

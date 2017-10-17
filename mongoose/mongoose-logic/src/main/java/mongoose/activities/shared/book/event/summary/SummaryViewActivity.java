@@ -18,7 +18,7 @@ import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.platform.json.Json;

@@ -1,6 +1,6 @@
 package naga.fxdata.cell.collator;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;

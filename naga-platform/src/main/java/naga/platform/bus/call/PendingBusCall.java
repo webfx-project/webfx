@@ -2,8 +2,8 @@ package naga.platform.bus.call;
 
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
-import naga.commons.util.async.AsyncResult;
-import naga.commons.util.async.FutureImpl;
+import naga.util.async.AsyncResult;
+import naga.util.async.FutureImpl;
 
 import java.util.ArrayList;
 import java.util.List;

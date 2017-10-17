@@ -1,6 +1,6 @@
 package naga.framework.router.impl;
 
-import naga.commons.util.Booleans;
+import naga.util.Booleans;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.handler.RedirectAuthHandler;
 import naga.framework.session.Session;

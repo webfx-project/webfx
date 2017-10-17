@@ -2,9 +2,9 @@ package naga.platform.client.url.history;
 
 import naga.platform.json.spi.JsonObject;
 import naga.platform.client.url.location.PathStateLocation;
-import naga.commons.util.async.Future;
-import naga.commons.util.async.Handler;
-import naga.commons.util.function.Function;
+import naga.util.async.Future;
+import naga.util.async.Handler;
+import naga.util.function.Function;
 
 /**
  * Inspired from https://github.com/mjackson/history/blob/master/docs/Glossary.md#history

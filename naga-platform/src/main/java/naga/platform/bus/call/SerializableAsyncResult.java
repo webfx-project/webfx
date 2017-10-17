@@ -4,7 +4,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.json.codec.AbstractJsonCodec;
 import naga.platform.json.codec.JsonCodecManager;
-import naga.commons.util.async.AsyncResult;
+import naga.util.async.AsyncResult;
 
 /**
  * @author Bruno Salmon

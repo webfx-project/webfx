@@ -1,6 +1,6 @@
 package naga.platform.services.update;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.platform.json.codec.AbstractJsonCodec;
 import naga.platform.json.codec.JsonCodecManager;
 import naga.platform.json.spi.JsonObject;

@@ -1,6 +1,6 @@
 package naga.platform.services.query.remote;
 
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.services.datasource.ConnectionDetails;
@@ -9,7 +9,7 @@ import naga.platform.services.query.LocalQueryServiceRegistry;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.spi.QueryService;
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.platform.spi.Platform;
 
 /**

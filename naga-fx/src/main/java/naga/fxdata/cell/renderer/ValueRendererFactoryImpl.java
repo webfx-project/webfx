@@ -3,7 +3,7 @@ package naga.fxdata.cell.renderer;
 import naga.commons.type.ArrayType;
 import naga.commons.type.Type;
 import naga.commons.type.Types;
-import naga.commons.util.Arrays;
+import naga.util.Arrays;
 import naga.fxdata.cell.collator.NodeCollator;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 

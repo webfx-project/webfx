@@ -17,7 +17,7 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
@@ -167,7 +167,7 @@ class OptionTreeNode {
             //Doesn't work on Android: childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
             childrenOptionTreeNodes = Collections.map(childrenOptions, o -> new OptionTreeNode(o, this));
             //Doesn't work on Android: vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
-            vBox.getChildren().addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.commons.util.Objects::nonNull));
+            vBox.getChildren().addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.util.Objects::nonNull));
         }
         if (parent != null && parent.optionButtonSelectedProperty != null)
             LayoutUtil.setUnmanagedWhenInvisible(vBox, parent.optionButtonSelectedProperty);

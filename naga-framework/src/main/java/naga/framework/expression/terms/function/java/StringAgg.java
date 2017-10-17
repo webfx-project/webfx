@@ -1,7 +1,7 @@
 package naga.framework.expression.terms.function.java;
 
 import naga.commons.type.PrimType;
-import naga.commons.util.Strings;
+import naga.util.Strings;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.ExpressionArray;

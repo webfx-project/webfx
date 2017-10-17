@@ -1,6 +1,6 @@
 package naga.framework.session.impl;
 
-import naga.commons.util.async.Future;
+import naga.util.async.Future;
 import naga.framework.session.Session;
 import naga.framework.session.SessionStore;
 

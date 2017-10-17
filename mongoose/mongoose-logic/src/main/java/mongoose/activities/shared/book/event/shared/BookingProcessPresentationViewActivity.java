@@ -13,7 +13,7 @@ import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Event;
 import mongoose.services.EventService;
-import naga.commons.util.Objects;
+import naga.util.Objects;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
 
 /**

@@ -12,9 +12,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.text.Font;
-import naga.commons.util.collection.Collections;
-import naga.commons.util.function.Consumer;
-import naga.commons.util.tuples.Pair;
+import naga.util.collection.Collections;
+import naga.util.function.Consumer;
+import naga.util.tuples.Pair;
 import naga.framework.ui.i18n.I18n;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package naga.platform.compression.values.repeat;
 
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.platform.compression.values.ValuesCompressor;
 
 import java.util.*;

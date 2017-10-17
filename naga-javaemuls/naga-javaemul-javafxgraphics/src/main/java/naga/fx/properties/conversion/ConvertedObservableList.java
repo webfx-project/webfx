@@ -3,8 +3,8 @@ package naga.fx.properties.conversion;
 import emul.javafx.collections.FXCollections;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
-import naga.commons.util.function.Converter;
-import naga.commons.util.tuples.Unit;
+import naga.util.function.Converter;
+import naga.util.tuples.Unit;
 import naga.fx.properties.ObservableLists;
 
 /**

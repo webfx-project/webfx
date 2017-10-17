@@ -1,6 +1,6 @@
 package emul.javafx.scene.paint;
 
-import naga.commons.util.collection.Collections;
+import naga.util.collection.Collections;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package emul.javafx.scene.input;
 
-import naga.commons.util.Strings;
+import naga.util.Strings;
 
 /**
  * This class represents a key combination in which the main key is specified

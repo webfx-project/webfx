@@ -1,9 +1,9 @@
 package naga.fxdata.cell.rowstyle;
 
 import emul.javafx.scene.paint.Paint;
-import naga.commons.util.Objects;
-import naga.commons.util.Strings;
-import naga.commons.util.function.Function;
+import naga.util.Objects;
+import naga.util.Strings;
+import naga.util.function.Function;
 
 /**
  * @author Bruno Salmon

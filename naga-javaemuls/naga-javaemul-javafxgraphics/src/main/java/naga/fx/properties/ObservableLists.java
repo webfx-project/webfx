@@ -2,9 +2,9 @@ package naga.fx.properties;
 
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
-import naga.commons.util.Arrays;
-import naga.commons.util.collection.Collections;
-import naga.commons.util.function.Converter;
+import naga.util.Arrays;
+import naga.util.collection.Collections;
+import naga.util.function.Converter;
 
 import java.util.List;
 import java.util.Objects;

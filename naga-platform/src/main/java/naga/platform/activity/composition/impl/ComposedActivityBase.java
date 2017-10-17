@@ -1,8 +1,8 @@
 package naga.platform.activity.composition.impl;
 
-import naga.commons.util.async.Future;
-import naga.commons.util.function.Callable;
-import naga.commons.util.function.Factory;
+import naga.util.async.Future;
+import naga.util.function.Callable;
+import naga.util.function.Factory;
 import naga.platform.activity.*;
 import naga.platform.activity.composition.ComposedActivity;
 import naga.platform.activity.composition.ComposedActivityContext;

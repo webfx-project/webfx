@@ -3,7 +3,7 @@ package mongoose.domainmodel.format;
 import mongoose.entities.Event;
 import naga.commons.type.PrimType;
 import naga.commons.type.Type;
-import naga.commons.util.Numbers;
+import naga.util.Numbers;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.ui.format.Formatter;
 
