@@ -3,7 +3,7 @@ package naga.providers.platform.abstr.java;
 import naga.platform.services.query.spi.QueryService;
 import naga.platform.spi.Platform;
 import naga.platform.services.resource.spi.ResourceService;
-import naga.commons.scheduler.Scheduler;
+import naga.scheduler.Scheduler;
 import naga.platform.services.update.spi.UpdateService;
 import naga.providers.platform.abstr.java.scheduler.JavaScheduler;
 import naga.providers.platform.abstr.java.services.query.JdbcQueryService;

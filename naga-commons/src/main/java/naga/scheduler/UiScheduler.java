@@ -1,9 +1,9 @@
-package naga.commons.scheduler;
+package naga.scheduler;
 
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
 
-import static naga.commons.scheduler.AnimationFramePass.*;
+import static naga.scheduler.AnimationFramePass.*;
 
 /**
  * @author Bruno Salmon

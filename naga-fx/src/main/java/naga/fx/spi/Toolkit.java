@@ -2,7 +2,7 @@ package naga.fx.spi;
 
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import naga.commons.scheduler.UiScheduler;
+import naga.scheduler.UiScheduler;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
@@ -27,7 +27,7 @@ public abstract class Toolkit {
     public Stage getPrimaryStage() {
         if (primaryStage == null) {
             primaryStage = new Stage();
-            primaryStage.impl_setPrimary(true);
+            //primaryStage.impl_setPrimary(true); // Not accessible anymore in Java 9
         }
         return primaryStage;
     }

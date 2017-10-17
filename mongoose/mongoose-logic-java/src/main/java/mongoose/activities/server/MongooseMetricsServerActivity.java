@@ -4,7 +4,7 @@ import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.MetricsEntity;
 import mongoose.spi.metrics.Metrics;
 import mongoose.spi.metrics.MetricsService;
-import naga.commons.scheduler.Scheduled;
+import naga.scheduler.Scheduled;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;

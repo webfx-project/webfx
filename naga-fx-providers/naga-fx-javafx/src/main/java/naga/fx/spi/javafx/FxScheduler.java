@@ -4,7 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.util.Duration;
-import naga.commons.scheduler.impl.UiSchedulerBase;
+import naga.scheduler.impl.UiSchedulerBase;
 import naga.fx.spi.Toolkit;
 
 import java.util.concurrent.ExecutorService;

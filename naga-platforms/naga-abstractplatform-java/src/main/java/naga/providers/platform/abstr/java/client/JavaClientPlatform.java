@@ -17,7 +17,7 @@
  */
 package naga.providers.platform.abstr.java.client;
 
-import naga.commons.scheduler.Scheduler;
+import naga.scheduler.Scheduler;
 import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
 import naga.platform.client.bus.ReconnectBus;

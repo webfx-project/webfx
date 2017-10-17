@@ -18,8 +18,8 @@
 package naga.providers.platform.abstr.java.scheduler;
 
 
-import naga.commons.scheduler.Scheduled;
-import naga.commons.scheduler.Scheduler;
+import naga.scheduler.Scheduled;
+import naga.scheduler.Scheduler;
 import naga.platform.spi.Platform;
 
 import java.util.concurrent.Executors;

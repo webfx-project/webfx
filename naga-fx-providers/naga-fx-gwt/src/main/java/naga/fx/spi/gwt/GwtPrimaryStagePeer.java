@@ -3,7 +3,7 @@ package naga.fx.spi.gwt;
 import emul.com.sun.javafx.tk.TKStageListener;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import naga.commons.scheduler.AnimationFramePass;
+import naga.scheduler.AnimationFramePass;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;

@@ -25,7 +25,7 @@ import naga.platform.client.websocket.WebSocket;
 import naga.platform.client.websocket.WebSocketListener;
 import naga.platform.spi.client.ClientPlatform;
 import naga.platform.spi.Platform;
-import naga.commons.scheduler.Scheduled;
+import naga.scheduler.Scheduled;
 import naga.util.async.Handler;
 
 import java.util.HashMap;

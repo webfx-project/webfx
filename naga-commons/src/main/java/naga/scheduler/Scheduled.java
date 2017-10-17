@@ -1,4 +1,4 @@
-package naga.commons.scheduler;
+package naga.scheduler;
 
 /**
  * @author Bruno Salmon

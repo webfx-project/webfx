@@ -2,8 +2,8 @@ package emul.javafx.stage;
 
 import emul.javafx.beans.property.*;
 import emul.javafx.event.*;
-import naga.commons.scheduler.AnimationFramePass;
-import naga.commons.scheduler.Scheduled;
+import naga.scheduler.AnimationFramePass;
+import naga.scheduler.Scheduled;
 import emul.javafx.geometry.Rectangle2D;
 import naga.fx.properties.Properties;
 import naga.fx.properties.markers.HasHeightProperty;

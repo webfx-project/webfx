@@ -15,7 +15,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.commons.scheduler;
+package naga.scheduler;
 
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;

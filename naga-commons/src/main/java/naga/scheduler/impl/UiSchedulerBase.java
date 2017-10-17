@@ -1,8 +1,8 @@
-package naga.commons.scheduler.impl;
+package naga.scheduler.impl;
 
-import naga.commons.scheduler.AnimationFramePass;
-import naga.commons.scheduler.Scheduled;
-import naga.commons.scheduler.UiScheduler;
+import naga.scheduler.AnimationFramePass;
+import naga.scheduler.Scheduled;
+import naga.scheduler.UiScheduler;
 
 import java.util.ArrayList;
 import java.util.List;
