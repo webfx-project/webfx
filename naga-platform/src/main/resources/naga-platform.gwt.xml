@@ -1,5 +1,6 @@
 <module rename-to="naga_platform">
     <inherits name="naga-commons"/>
+    <inherits name="naga-noreflect"/>
     <inherits name="naga-javalib-javacupruntime"/>
     <inherits name="naga-javaemul-javafxbase"/>
     <!-- Specify the paths for translatable code                    -->

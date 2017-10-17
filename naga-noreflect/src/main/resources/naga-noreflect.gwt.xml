@@ -1,0 +1,7 @@
+<module rename-to="naga_noreflect">
+
+    <inherits name="naga-util"/>
+
+    <!-- Specify the paths for translatable code                    -->
+    <source path="naga/noreflect"/>
+</module>

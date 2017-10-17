@@ -2,8 +2,8 @@
 
     <inherits name="naga-util"/>
     <inherits name="naga-type"/>
+    <inherits name="naga-noreflect"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/commons"/>
-    <source path="naga/noreflect"/>
 </module>

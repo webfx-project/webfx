@@ -4,6 +4,7 @@
 module naga.platform {
     requires naga.commons;
     requires naga.util;
+    requires naga.noreflect;
     requires naga.javalib.javacupruntime;
 
     requires static javafx.base;
