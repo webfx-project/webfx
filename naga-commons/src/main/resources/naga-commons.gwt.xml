@@ -1,5 +1,8 @@
 <module rename-to="naga_commons">
+
+    <inherits name="naga-util"/>
+
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/commons"/>
-    <source path="naga/util"/>
+    <source path="naga/type"/>
 </module>

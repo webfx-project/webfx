@@ -4,6 +4,7 @@
 module mongoose.logic {
 
     requires naga.commons;
+    requires naga.util;
     requires naga.platform;
     requires naga.fx;
     requires naga.framework;

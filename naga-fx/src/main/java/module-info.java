@@ -3,6 +3,7 @@
  */
 module naga.fx {
     requires naga.commons;
+    requires naga.util;
 
     requires static javafx.controls;
 

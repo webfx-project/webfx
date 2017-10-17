@@ -7,6 +7,7 @@ module naga.platform.vertx {
     requires naga.platform;
 
     requires naga.commons;
+    requires naga.util;
 
     requires vertx.core;
     requires vertx.mysql.postgresql.client;

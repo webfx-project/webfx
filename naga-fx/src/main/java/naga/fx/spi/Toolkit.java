@@ -3,7 +3,7 @@ package naga.fx.spi;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import naga.commons.scheduler.UiScheduler;
-import naga.commons.util.serviceloader.ServiceLoaderHelper;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon

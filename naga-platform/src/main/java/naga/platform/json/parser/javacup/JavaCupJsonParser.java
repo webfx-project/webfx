@@ -10,7 +10,6 @@ import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.util.Numbers;
 import naga.util.tuples.Pair;
-import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20150930 (SVN rev 66) generated parser.
   */

@@ -6,6 +6,7 @@ module naga.platform.gwt {
     requires naga.abstractplatform.web;
     requires naga.platform;
     requires naga.commons;
+    requires naga.util;
 
     requires gwt.user.HEAD.SNAPSHOT;
     requires jsinterop.annotations.HEAD.SNAPSHOT;
