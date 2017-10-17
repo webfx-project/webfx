@@ -1,6 +1,6 @@
 package naga.fxdata.displaydata.impl;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayStyle;

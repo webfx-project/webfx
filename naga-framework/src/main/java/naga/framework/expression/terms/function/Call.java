@@ -6,7 +6,7 @@ import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Ordered;
 import naga.framework.expression.terms.UnaryExpression;
-import naga.commons.type.Type;
+import naga.type.Type;
 
 import java.util.Collection;
 import java.util.List;

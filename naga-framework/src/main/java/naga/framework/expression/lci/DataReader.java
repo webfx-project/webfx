@@ -1,6 +1,6 @@
 package naga.framework.expression.lci;
 
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 
 /**
  * Loose coupling interface used by expressions to read data (from domain objects and parameters).

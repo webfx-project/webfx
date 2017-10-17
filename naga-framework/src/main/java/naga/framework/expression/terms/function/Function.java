@@ -1,8 +1,8 @@
 package naga.framework.expression.terms.function;
 
-import naga.commons.type.PrimType;
-import naga.commons.type.SpecializedTextType;
-import naga.commons.type.Type;
+import naga.type.PrimType;
+import naga.type.SpecializedTextType;
+import naga.type.Type;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.java.*;
 

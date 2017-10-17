@@ -1,8 +1,8 @@
 package naga.framework.orm.domainmodel.loader;
 
-import naga.commons.type.DerivedType;
-import naga.commons.type.PrimType;
-import naga.commons.type.Type;
+import naga.type.DerivedType;
+import naga.type.PrimType;
+import naga.type.Type;
 import naga.util.Numbers;
 import naga.util.async.Batch;
 import naga.util.async.Future;

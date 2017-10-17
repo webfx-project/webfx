@@ -12,7 +12,7 @@ import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
 import mongoose.util.Labels;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.util.Numbers;
 import naga.util.Objects;
 import naga.util.async.Handler;

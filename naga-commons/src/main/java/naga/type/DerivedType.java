@@ -1,4 +1,4 @@
-package naga.commons.type;
+package naga.type;
 
 /**
  * @author Bruno Salmon

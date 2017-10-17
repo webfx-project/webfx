@@ -1,6 +1,6 @@
 package naga.fxdata.spi.peer.base;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.util.function.Function;
 import naga.fxdata.chart.Chart;
 import naga.fxdata.displaydata.DisplayResultSet;

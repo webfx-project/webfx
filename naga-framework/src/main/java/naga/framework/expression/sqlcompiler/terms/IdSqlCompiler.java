@@ -1,7 +1,7 @@
 package naga.framework.expression.sqlcompiler.terms;
 
 import naga.framework.expression.terms.IdExpression;
-import naga.commons.type.Types;
+import naga.type.Types;
 
 /**
  * @author Bruno Salmon

@@ -1,7 +1,7 @@
 package mongoose.domainmodel.functions;
 
-import naga.commons.type.PrimType;
-import naga.commons.type.Type;
+import naga.type.PrimType;
+import naga.type.Type;
 import naga.util.Dates;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;

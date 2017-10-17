@@ -1,6 +1,6 @@
 package naga.framework.orm.domainmodel;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.Equals;
 import naga.framework.expression.terms.Parameter;

@@ -1,6 +1,6 @@
 package naga.framework.expression.sqlcompiler.terms;
 
-import naga.commons.type.Types;
+import naga.type.Types;
 import naga.framework.expression.terms.*;
 
 /**

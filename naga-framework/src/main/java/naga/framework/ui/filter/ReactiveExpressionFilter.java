@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.util.async.Handler;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;

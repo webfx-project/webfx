@@ -13,7 +13,7 @@ import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
-import naga.commons.type.SpecializedTextType;
+import naga.type.SpecializedTextType;
 import naga.util.Arrays;
 import naga.util.Booleans;
 import naga.util.tuples.Pair;

@@ -20,7 +20,7 @@ import mongoose.entities.Event;
 import mongoose.entities.Organization;
 import mongoose.entities.Person;
 import mongoose.entities.markers.HasPersonDetails;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.util.Booleans;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;

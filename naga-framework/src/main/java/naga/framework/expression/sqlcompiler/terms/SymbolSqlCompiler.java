@@ -5,7 +5,7 @@ import naga.framework.expression.Expression;
 import naga.framework.expression.terms.Dot;
 import naga.framework.expression.terms.Symbol;
 import naga.framework.expression.sqlcompiler.sql.SqlClause;
-import naga.commons.type.Types;
+import naga.type.Types;
 import naga.framework.orm.domainmodel.FieldsGroup;
 
 /**

@@ -22,7 +22,7 @@ import mongoose.entities.History;
 import mongoose.entities.Mail;
 import mongoose.services.CartService;
 import mongoose.services.EventService;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.util.Strings;
 import naga.util.collection.Collections;
 import naga.framework.expression.lci.DataReader;

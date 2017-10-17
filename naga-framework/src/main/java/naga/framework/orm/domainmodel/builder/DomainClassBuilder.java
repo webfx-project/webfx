@@ -1,6 +1,6 @@
 package naga.framework.orm.domainmodel.builder;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.framework.expression.sqlcompiler.ExpressionSqlCompiler;
 import naga.framework.expression.terms.IdExpression;
 import naga.framework.orm.domainmodel.DomainClass;

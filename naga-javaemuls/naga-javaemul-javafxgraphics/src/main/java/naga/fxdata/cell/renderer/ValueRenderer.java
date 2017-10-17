@@ -1,7 +1,7 @@
 package naga.fxdata.cell.renderer;
 
 import emul.javafx.scene.Node;
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.fxdata.cell.collator.NodeCollator;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 

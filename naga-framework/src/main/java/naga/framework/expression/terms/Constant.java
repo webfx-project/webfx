@@ -1,8 +1,8 @@
 package naga.framework.expression.terms;
 
 import naga.framework.expression.lci.DataReader;
-import naga.commons.type.Type;
-import naga.commons.type.Types;
+import naga.type.Type;
+import naga.type.Types;
 import naga.util.Strings;
 
 import java.util.Date;

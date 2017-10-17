@@ -1,7 +1,7 @@
 package naga.framework.expression.terms;
 
 import naga.framework.expression.lci.DataReader;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 
 /**
  * @author Bruno Salmon

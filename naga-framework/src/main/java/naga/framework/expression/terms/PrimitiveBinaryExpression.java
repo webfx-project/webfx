@@ -1,8 +1,8 @@
 package naga.framework.expression.terms;
 
-import naga.commons.type.PrimType;
-import naga.commons.type.Type;
-import naga.commons.type.Types;
+import naga.type.PrimType;
+import naga.type.Type;
+import naga.type.Types;
 import naga.util.Booleans;
 import naga.util.Dates;
 import naga.util.Numbers;

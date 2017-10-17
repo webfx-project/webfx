@@ -2,7 +2,7 @@ package naga.framework.orm.domainmodel;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.Symbol;
-import naga.commons.type.Type;
+import naga.type.Type;
 
 /**
  * @author Bruno Salmon

@@ -2,9 +2,9 @@ package naga.framework.expression.terms;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
-import naga.commons.type.ArrayType;
-import naga.commons.type.Type;
-import naga.commons.type.Types;
+import naga.type.ArrayType;
+import naga.type.Type;
+import naga.type.Types;
 
 import java.util.Collection;
 

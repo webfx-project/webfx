@@ -1,6 +1,6 @@
 package naga.fxdata.cell.renderer;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 
 /**
  * @author Bruno Salmon

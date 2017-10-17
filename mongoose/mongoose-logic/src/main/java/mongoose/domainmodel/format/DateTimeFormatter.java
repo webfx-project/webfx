@@ -1,7 +1,7 @@
 package mongoose.domainmodel.format;
 
-import naga.commons.type.PrimType;
-import naga.commons.type.Type;
+import naga.type.PrimType;
+import naga.type.Type;
 import naga.util.Dates;
 import naga.framework.ui.format.Formatter;
 

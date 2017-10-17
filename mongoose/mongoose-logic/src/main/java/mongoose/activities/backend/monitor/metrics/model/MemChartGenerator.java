@@ -3,7 +3,7 @@ package mongoose.activities.backend.monitor.metrics.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.metrics.Metrics;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.platform.spi.Platform;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;

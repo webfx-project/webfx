@@ -1,6 +1,6 @@
 package naga.framework.ui.format;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 
 /**
  * @author Bruno Salmon

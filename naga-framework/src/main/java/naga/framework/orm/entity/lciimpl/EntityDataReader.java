@@ -5,7 +5,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.expression.lci.DataReader;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 
 /**
  * @author Bruno Salmon

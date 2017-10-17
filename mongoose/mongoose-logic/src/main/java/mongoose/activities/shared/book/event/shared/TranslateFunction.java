@@ -1,7 +1,7 @@
 package mongoose.activities.shared.book.event.shared;
 
 import mongoose.util.Labels;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
 import naga.framework.ui.i18n.I18n;

@@ -2,7 +2,7 @@ package naga.framework.expression;
 
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.lci.DataWriter;
-import naga.commons.type.Type;
+import naga.type.Type;
 
 import java.util.Collection;
 

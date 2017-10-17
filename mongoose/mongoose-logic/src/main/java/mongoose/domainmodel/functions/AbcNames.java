@@ -2,7 +2,7 @@ package mongoose.domainmodel.functions;
 
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.util.Strings;
 
 import java.util.Arrays;

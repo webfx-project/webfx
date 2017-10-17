@@ -9,7 +9,7 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
-import naga.commons.type.PrimType;
+import naga.type.PrimType;
 import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;

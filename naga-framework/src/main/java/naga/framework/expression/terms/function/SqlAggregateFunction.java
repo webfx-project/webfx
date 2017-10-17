@@ -1,6 +1,6 @@
 package naga.framework.expression.terms.function;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 
 /**
  * @author Bruno Salmon

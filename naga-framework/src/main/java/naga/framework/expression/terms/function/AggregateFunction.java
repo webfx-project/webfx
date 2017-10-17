@@ -1,6 +1,6 @@
 package naga.framework.expression.terms.function;
 
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 

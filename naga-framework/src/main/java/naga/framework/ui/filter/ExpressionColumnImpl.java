@@ -1,7 +1,7 @@
 package naga.framework.ui.filter;
 
-import naga.commons.type.Type;
-import naga.commons.type.Types;
+import naga.type.Type;
+import naga.type.Types;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.As;
 import naga.framework.expression.terms.Dot;

@@ -1,8 +1,8 @@
 package naga.fxdata.cell.renderer;
 
-import naga.commons.type.ArrayType;
-import naga.commons.type.Type;
-import naga.commons.type.Types;
+import naga.type.ArrayType;
+import naga.type.Type;
+import naga.type.Types;
 import naga.util.Arrays;
 import naga.fxdata.cell.collator.NodeCollator;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;

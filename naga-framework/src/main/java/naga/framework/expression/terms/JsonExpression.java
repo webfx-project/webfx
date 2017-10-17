@@ -2,7 +2,7 @@ package naga.framework.expression.terms;
 
 import naga.commons.keyobject.IndexedArray;
 import naga.commons.keyobject.KeyObject;
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 // TODO: remove platform dependency

@@ -2,7 +2,7 @@ package naga.fx.spi.javafx.peer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import naga.commons.type.Type;
+import naga.type.Type;
 import naga.util.Numbers;
 import naga.util.function.Function;
 import naga.fxdata.chart.PieChart;
