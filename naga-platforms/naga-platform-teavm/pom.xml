@@ -80,259 +80,267 @@
 
                                 <!-- Emulated java classes required for naga-core TeaVM compilation -->
                                 <relocation>
-                                    <pattern>java.util.Base64</pattern>
+                                    <pattern>emul.java.util.Base64</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TBase64</shadedPattern>
                                 </relocation>
 
                                 <!-- Emulated java classes required for java_cup TeaVM compilation -->
                                 <relocation>
-                                    <pattern>java.util.Stack</pattern>
+                                    <pattern>emul.java.util.Stack</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TStack</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.util.EmptyStackException</pattern>
+                                    <pattern>emul.java.util.EmptyStackException</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.TEmptyStackException</shadedPattern>
                                 </relocation>
 
                                 <!-- Emulated java classes required for naga-javalib-rxjava TeaVM compilation -->
                                 <relocation>
-                                    <pattern>java.util.concurrent.atomic.AtomicReference</pattern>
+                                    <pattern>emul.java.util.concurrent.atomic.AtomicReference</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicReference</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.util.concurrent.atomic.AtomicReferenceArray</pattern>
+                                    <pattern>emul.java.util.concurrent.atomic.AtomicReferenceArray</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicReferenceArray</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.util.concurrent.atomic.AtomicInteger</pattern>
+                                    <pattern>emul.java.util.concurrent.atomic.AtomicInteger</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicInteger</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.util.concurrent.atomic.AtomicLong</pattern>
+                                    <pattern>emul.java.util.concurrent.atomic.AtomicLong</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicLong</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.util.concurrent.TimeUnit</pattern>
+                                    <pattern>emul.java.util.concurrent.atomic.AtomicBoolean</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.util.concurrent.atomic.TAtomicBoolean</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>emul.java.util.concurrent.TimeUnit</pattern>
                                     <shadedPattern>org.teavm.classlib.java.util.concurrent.TTimeUnit</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.lang.StackOverflowError</pattern>
+                                    <pattern>emul.java.lang.StackOverflowError</pattern>
                                     <shadedPattern>org.teavm.classlib.java.lang.TStackOverflowError</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.lang.ThreadDeath</pattern>
+                                    <pattern>emul.java.lang.ThreadDeath</pattern>
                                     <shadedPattern>org.teavm.classlib.java.lang.TThreadDeath</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.lang.LinkageError</pattern>
+                                    <pattern>emul.java.lang.LinkageError</pattern>
                                     <shadedPattern>org.teavm.classlib.java.lang.TLinkageError</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.Clock</pattern>
+                                    <pattern>emul.java.lang.VirtualMachineError</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.lang.TVirtualMachineError</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>emul.java.time.Clock</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TClock</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.DateTimeException</pattern>
+                                    <pattern>emul.java.time.DateTimeException</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TDateTimeException</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.DayOfWeek</pattern>
+                                    <pattern>emul.java.time.DayOfWeek</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TDayOfWeek</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.Duration</pattern>
+                                    <pattern>emul.java.time.Duration</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TDuration</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.Instant</pattern>
+                                    <pattern>emul.java.time.Instant</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TInstant</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.LocalDate</pattern>
+                                    <pattern>emul.java.time.LocalDate</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TLocalDate</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.LocalTime</pattern>
+                                    <pattern>emul.java.time.LocalTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TLocalTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.Month</pattern>
+                                    <pattern>emul.java.time.Month</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TMonth</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.MonthDay</pattern>
+                                    <pattern>emul.java.time.MonthDay</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TMonthDay</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.OffsetDate</pattern>
+                                    <pattern>emul.java.time.OffsetDate</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TOffsetDate</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.OffsetDateTime</pattern>
+                                    <pattern>emul.java.time.OffsetDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TOffsetDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.OffsetTime</pattern>
+                                    <pattern>emul.java.time.OffsetTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TOffsetTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.Period</pattern>
+                                    <pattern>emul.java.time.Period</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TPeriod</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.PeriodParser</pattern>
+                                    <pattern>emul.java.time.PeriodParser</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TPeriodParser</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.Year</pattern>
+                                    <pattern>emul.java.time.Year</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TYear</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.YearMonth</pattern>
+                                    <pattern>emul.java.time.YearMonth</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TYearMonth</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.ZonedDateTime</pattern>
+                                    <pattern>emul.java.time.ZonedDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TZonedDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.ZoneId</pattern>
+                                    <pattern>emul.java.time.ZoneId</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TZoneId</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.ZoneOffset</pattern>
+                                    <pattern>emul.java.time.ZoneOffset</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.TZoneOffset</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.ChronoField</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TChronoField</shadedPattern>
+                                    <pattern>emul.java.time.temporal.ChronoField</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TChronoField</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.ChronoUnit</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TChronoUnit</shadedPattern>
+                                    <pattern>emul.java.time.temporal.ChronoUnit</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TChronoUnit</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.DateTime</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TDateTime</shadedPattern>
+                                    <pattern>emul.java.time.temporal.DateTime</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.DateTimeAccessor</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TDateTimeAccessor</shadedPattern>
+                                    <pattern>emul.java.time.temporal.DateTimeAccessor</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TDateTimeAccessor</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.DateTimeAdjusters</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TDateTimeAdjusters</shadedPattern>
+                                    <pattern>emul.java.time.temporal.DateTimeAdjusters</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TDateTimeAdjusters</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.DateTimeBuilder</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TDateTimeBuilder</shadedPattern>
+                                    <pattern>emul.java.time.temporal.DateTimeBuilder</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TDateTimeBuilder</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.DateTimeField</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TDateTimeField</shadedPattern>
+                                    <pattern>emul.java.time.temporal.DateTimeField</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TDateTimeField</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.DateTimeValueRange</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TDateTimeValueRange</shadedPattern>
+                                    <pattern>emul.java.time.temporal.DateTimeValueRange</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TDateTimeValueRange</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.ISOWeeks</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TISOWeeks</shadedPattern>
+                                    <pattern>emul.java.time.temporal.ISOWeeks</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TISOWeeks</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.JulianDayField</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TJulianDayField</shadedPattern>
+                                    <pattern>emul.java.time.temporal.JulianDayField</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TJulianDayField</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.PeriodUnit</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TPeriodUnit</shadedPattern>
+                                    <pattern>emul.java.time.temporal.PeriodUnit</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TPeriodUnit</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.calendrical.WeekDefinition</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.calendrical.TWeekDefinition</shadedPattern>
+                                    <pattern>emul.java.time.temporal.WeekDefinition</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.temporal.TWeekDefinition</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.Chrono</pattern>
+                                    <pattern>emul.java.time.chrono.Chrono</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TChrono</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ChronoDateTimeImpl</pattern>
+                                    <pattern>emul.java.time.chrono.ChronoDateTimeImpl</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TChronoDateTimeImpl</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ChronoLocalDate</pattern>
+                                    <pattern>emul.java.time.chrono.ChronoLocalDate</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TChronoLocalDate</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ChronoLocalDateTime</pattern>
+                                    <pattern>emul.java.time.chrono.ChronoLocalDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TChronoLocalDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ChronoZonedDateTime</pattern>
+                                    <pattern>emul.java.time.chrono.ChronoZonedDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TChronoZonedDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ChronoZonedDateTimeImpl</pattern>
+                                    <pattern>emul.java.time.chrono.ChronoZonedDateTimeImpl</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TChronoZonedDateTimeImpl</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.Era</pattern>
+                                    <pattern>emul.java.time.chrono.Era</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TEra</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ISOChrono</pattern>
+                                    <pattern>emul.java.time.chrono.ISOChrono</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TISOChrono</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.chrono.ISOEra</pattern>
+                                    <pattern>emul.java.time.chrono.ISOEra</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TISOEra</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.format.DateTimeParseException</pattern>
-                                    <shadedPattern>org.teavm.classlib.java.time.chrono.TDateTimeParseException</shadedPattern>
+                                    <pattern>emul.java.time.format.DateTimeParseException</pattern>
+                                    <shadedPattern>org.teavm.classlib.java.time.format.TDateTimeParseException</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.format.FormatStyle</pattern>
+                                    <pattern>emul.java.time.format.FormatStyle</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TFormatStyle</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.format.SignStyle</pattern>
+                                    <pattern>emul.java.time.format.SignStyle</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TSignStyle</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.format.TextStyle</pattern>
+                                    <pattern>emul.java.time.format.TextStyle</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.chrono.TTextStyle</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.DefaultInterfaceChronoLocalDate</pattern>
+                                    <pattern>emul.java.time.jdk8.DefaultInterfaceChronoLocalDate</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TDefaultInterfaceChronoLocalDate</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.DefaultInterfaceChronoLocalDateTime</pattern>
+                                    <pattern>emul.java.time.jdk8.DefaultInterfaceChronoLocalDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TDefaultInterfaceChronoLocalDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.DefaultInterfaceChronoZonedDateTime</pattern>
+                                    <pattern>emul.java.time.jdk8.DefaultInterfaceChronoZonedDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TDefaultInterfaceChronoZonedDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.DefaultInterfaceDateTime</pattern>
+                                    <pattern>emul.java.time.jdk8.DefaultInterfaceDateTime</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TDefaultInterfaceDateTime</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.DefaultInterfaceDateTimeAccessor</pattern>
+                                    <pattern>emul.java.time.jdk8.DefaultInterfaceDateTimeAccessor</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TDefaultInterfaceDateTimeAccessor</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.Jdk7Methods</pattern>
+                                    <pattern>emul.java.time.jdk8.Jdk7Methods</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TJdk7Methods</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.jdk8.Jdk8Methods</pattern>
+                                    <pattern>emul.java.time.jdk8.Jdk8Methods</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.jdk8.TJdk8Methods</shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>java.time.zone.ZoneRules</pattern>
+                                    <pattern>emul.java.time.zone.ZoneRules</pattern>
                                     <shadedPattern>org.teavm.classlib.java.time.zone.TZoneRules</shadedPattern>
                                 </relocation>
                             </relocations>
