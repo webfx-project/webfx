@@ -5,7 +5,7 @@ module naga.platform.gwt {
 
     requires naga.abstractplatform.web;
     requires naga.platform;
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
 
     requires gwt.user.HEAD.SNAPSHOT;

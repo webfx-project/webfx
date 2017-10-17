@@ -20,7 +20,7 @@ public class Numbers {
         provider = ServiceLoaderHelper.loadService(NumbersProvider.class);
         /**
          * Note: for better performance, the default service declared in the META-INF/services resource folder of the
-         * naga-commons module is the StandardPlatformNumbers which finally uses the java.lang.Number class to reduce the
+         * naga-util module is the StandardPlatformNumbers which finally uses the java.lang.Number class to reduce the
          * usage of instanceof operator (which is more consequent in the CldcPlatformNumbers provider). But the
          * naga-platform-cn1 changes it to StandardPlatformNumbers.
          */

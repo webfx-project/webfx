@@ -6,7 +6,7 @@ module naga.platform.vertx {
     requires naga.abstractplatform.java;
     requires naga.platform;
 
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
 
     requires vertx.core;

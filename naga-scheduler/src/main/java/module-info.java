@@ -1,7 +1,7 @@
 /**
  * @author Bruno Salmon
  */
-module naga.commons {
+module naga.scheduler {
 
     requires naga.util;
 

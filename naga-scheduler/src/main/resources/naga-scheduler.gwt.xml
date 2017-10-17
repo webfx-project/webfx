@@ -1,8 +1,6 @@
-<module rename-to="naga_commons">
+<module rename-to="naga_scheduler">
 
     <inherits name="naga-util"/>
-    <inherits name="naga-type"/>
-    <inherits name="naga-noreflect"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/scheduler"/>

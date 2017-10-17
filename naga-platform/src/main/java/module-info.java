@@ -2,7 +2,7 @@
  * @author Bruno Salmon
  */
 module naga.platform {
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
     requires naga.noreflect;
     requires naga.javalib.javacupruntime;

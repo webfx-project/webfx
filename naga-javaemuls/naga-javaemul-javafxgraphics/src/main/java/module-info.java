@@ -5,7 +5,7 @@ module naga.javaemul.javafxgraphics {
 
     requires naga.javaemul.javafxbase;
 
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
     requires naga.type;
 

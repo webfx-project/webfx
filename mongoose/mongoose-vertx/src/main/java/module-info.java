@@ -11,7 +11,6 @@ module mongoose.vertx {
     requires naga.platform.vertx;
     requires naga.platform;
 
-    requires naga.commons;
     requires naga.util;
 
 }

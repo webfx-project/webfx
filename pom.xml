@@ -16,7 +16,7 @@
         <module>naga-util</module>
         <module>naga-type</module>
         <module>naga-noreflect</module>
-        <module>naga-commons</module>
+        <module>naga-scheduler</module>
         <module>naga-platform</module>
         <module>naga-fx</module>
         <module>naga-framework</module>

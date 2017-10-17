@@ -2,7 +2,7 @@
  * @author Bruno Salmon
  */
 module naga.fx.javafx {
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
     requires naga.type;
     requires naga.fx;

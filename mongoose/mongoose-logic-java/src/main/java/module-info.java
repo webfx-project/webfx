@@ -3,7 +3,7 @@
  */
 module mongoose.logic.java {
 
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
     requires naga.platform;
     requires naga.framework;

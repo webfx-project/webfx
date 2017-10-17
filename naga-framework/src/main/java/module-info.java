@@ -3,7 +3,7 @@
  */
 module naga.framework {
 
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
     requires naga.type;
     requires naga.noreflect;

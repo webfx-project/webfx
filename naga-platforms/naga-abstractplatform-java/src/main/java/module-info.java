@@ -3,7 +3,7 @@
  */
 module naga.abstractplatform.java {
 
-    requires naga.commons;
+    requires naga.scheduler;
     requires naga.util;
     requires naga.platform;
 
