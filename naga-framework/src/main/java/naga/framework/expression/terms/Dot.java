@@ -2,8 +2,8 @@ package naga.framework.expression.terms;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
-import naga.commons.type.Type;
-import naga.commons.util.collection.HashList;
+import naga.type.Type;
+import naga.util.collection.HashList;
 
 import java.util.Collection;
 import java.util.List;
@@ -48,11 +48,9 @@ public class Dot<T> extends BinaryExpression<T> {
     public Object evaluate(T domainObject, DataReader<T> dataReader) {
         Object leftValue = left.evaluate(domainObject, dataReader);
         if (leftValue == null)
-            return null; // NoValue.singleton;
-        /*if (leftValue instanceof SystemValue)
-            return leftValue;*/
+            return null;
         T rightData = dataReader.getDomainObjectFromId(leftValue, domainObject);
-        return right == null ? null : right.evaluate(rightData, dataReader);
+        return right.evaluate(rightData, dataReader);
     }
 
     @Override
