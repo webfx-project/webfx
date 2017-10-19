@@ -2,7 +2,6 @@ package naga.providers.platform.client.teavm;
 
 import naga.platform.spi.Platform;
 import naga.providers.platform.abstr.web.WebPlatform;
-import naga.providers.platform.client.teavm.json.TeaVmJsonObject;
 import naga.providers.platform.client.teavm.services.resource.TeaVmResourceService;
 import naga.providers.platform.client.teavm.url.history.TeaVmWindowHistory;
 import naga.providers.platform.client.teavm.url.location.TeaVmWindowLocation;
@@ -18,6 +17,6 @@ public final class TeaVmPlatform extends WebPlatform {
     }
 
     public TeaVmPlatform() {
-        super(new TeaVmJsonObject(), new TeaVmWebSocketFactory(), TeaVmResourceService.SINGLETON, TeaVmWindowLocation.current(), TeaVmWindowHistory.current());
+        super(new TeaVmWebSocketFactory(), TeaVmResourceService.SINGLETON, TeaVmWindowLocation.current(), TeaVmWindowHistory.current());
     }
 }

@@ -1,11 +1,9 @@
 package naga.platform.json.spi;
 
-import naga.platform.json.listmap.MapJsonObject;
-
 /**
  * @author Bruno Salmon
  */
-public interface JsonFactory extends JsonParser, JsonFormatter {
+public interface JsonProvider extends JsonParser, JsonFormatter {
 
     /**
      * Create an empty native object.
@@ -35,5 +33,4 @@ public interface JsonFactory extends JsonParser, JsonFormatter {
         return nativeToJavaJsonArray(createNativeArray());
     }
 
-    JsonFactory builtInFactory = new MapJsonObject();
 }

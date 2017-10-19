@@ -23,10 +23,7 @@ import naga.platform.json.spi.WritableJsonObject;
 /**
  * Client-side implementation of JsonObject interface.
  *
- * @author 田传武 (aka Larry Tin) - author of Goodow realtime-json project
- * @author Bruno Salmon - fork, refactor & update for the naga project
- * 
- * <a href="https://github.com/goodow/realtime-json/tree/master/src/main/java/com/goodow/realtime/json/js/JsJsonObject.java">Original Goodow class</a>
+ * @author Bruno Salmon
  */
 public final class GwtJsonObject extends GwtJsonElement implements WritableJsonObject {
 

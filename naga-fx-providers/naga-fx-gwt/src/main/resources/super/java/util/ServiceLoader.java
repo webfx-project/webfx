@@ -6,6 +6,8 @@
 
 package java.util;
 
+import naga.platform.json.spi.JsonProvider;
+import naga.providers.platform.client.gwt.json.GwtJsonObject;
 import naga.providers.platform.client.gwt.scheduler.GwtSchedulerProvider;
 import naga.scheduler.SchedulerProvider;
 import naga.util.numbers.providers.StandardPlatformNumbers;
@@ -22,6 +24,8 @@ public class ServiceLoader<S> {
             return new ServiceLoader<>(new GwtPlatform());
         if (service.equals(SchedulerProvider.class))
             return new ServiceLoader<>(new GwtSchedulerProvider());
+        if (service.equals(JsonProvider.class))
+            return new ServiceLoader<>(GwtJsonObject.create());
         if (service.equals(Toolkit.class))
             return new ServiceLoader<>(new GwtToolkit());
         if (service.equals(NumbersProvider.class))

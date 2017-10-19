@@ -23,8 +23,6 @@ import naga.platform.bus.BusOptions;
 import naga.platform.bus.call.ThreadLocalBusContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.memory.MemoryHistory;
-import naga.platform.json.Json;
-import naga.platform.json.spi.JsonFactory;
 import naga.platform.services.query.remote.RemoteQueryService;
 import naga.platform.services.query.spi.QueryService;
 import naga.platform.services.resource.spi.ResourceService;
@@ -42,12 +40,6 @@ import naga.util.serviceloader.ServiceLoaderHelper;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
 public abstract class Platform {
-
-    public JsonFactory jsonFactory() {
-        // Using the built-in json factory by default.
-        // Platforms must override this if json interoperability with the target platform is required
-        return JsonFactory.builtInFactory;
-    }
 
     public abstract BusFactory busFactory();
 
@@ -80,7 +72,6 @@ public abstract class Platform {
 
     public static void register(Platform platform) {
         PLATFORM = platform;
-        Json.registerFactory(platform.jsonFactory());
     }
 
     public static synchronized Platform get() {

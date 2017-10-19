@@ -2,7 +2,6 @@ package naga.providers.platform.client.gwt;
 
 import naga.platform.spi.Platform;
 import naga.providers.platform.abstr.web.WebPlatform;
-import naga.providers.platform.client.gwt.json.GwtJsonObject;
 import naga.providers.platform.client.gwt.services.resource.GwtBundle;
 import naga.providers.platform.client.gwt.services.resource.GwtResourceService;
 import naga.providers.platform.client.gwt.url.history.GwtWindowHistory;
@@ -25,7 +24,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     public GwtPlatform() {
-        super(/* json factory: */ GwtJsonObject.create(), new GwtWebSocketFactory(), GwtResourceService.SINGLETON, GwtWindowLocation.current(), GwtWindowHistory.SINGLETON);
+        super(/* json factory: */  new GwtWebSocketFactory(), GwtResourceService.SINGLETON, GwtWindowLocation.current(), GwtWindowHistory.SINGLETON);
         setWebLogger(GwtPlatform::logConsole);
     }
 

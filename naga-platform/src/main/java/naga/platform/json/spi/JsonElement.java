@@ -3,7 +3,7 @@ package naga.platform.json.spi;
 /**
  * @author Bruno Salmon
  */
-public interface JsonElement extends JsonFactory {
+public interface JsonElement extends JsonProvider {
 
     Object getNativeElement();
 

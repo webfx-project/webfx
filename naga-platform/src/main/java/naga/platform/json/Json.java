@@ -2,9 +2,10 @@ package naga.platform.json;
 
 import naga.platform.json.listmap.MapJsonObject;
 import naga.platform.json.spi.JsonArray;
-import naga.platform.json.spi.JsonFactory;
+import naga.platform.json.spi.JsonProvider;
 import naga.platform.json.spi.WritableJsonArray;
 import naga.platform.json.spi.WritableJsonObject;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon
@@ -44,18 +45,21 @@ public class Json {
     }
 
 
-    private static JsonFactory FACTORY;
+    private static JsonProvider PROVIDER;
 
-    public static void registerFactory(JsonFactory factory) {
-        FACTORY = factory;
+    public static void registerProvider(JsonProvider factory) {
+        PROVIDER = factory;
     }
 
-    public static JsonFactory getFactory() {
-        if (FACTORY == null) {
-            System.out.println("Using default built-in JSON factory which is not interoperable with the underlying platform! Be sure you haven't forget to call Json.registerFactory().");
-            FACTORY = new MapJsonObject();
+    public static JsonProvider getFactory() {
+        if (PROVIDER == null) {
+            registerProvider(ServiceLoaderHelper.loadService(JsonProvider.class, ServiceLoaderHelper.NotFoundPolicy.TRACE_AND_RETURN_NULL));
+            if (PROVIDER == null) {
+                System.out.println("Using default built-in JSON factory which is not interoperable with the underlying platform! Be sure you haven't forget to call Json.registerFactory().");
+                PROVIDER = new MapJsonObject();
+            }
         }
-        return FACTORY;
+        return PROVIDER;
     }
 
     /***********************************

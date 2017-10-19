@@ -16,4 +16,5 @@ module naga.platform.gwt {
 
     provides naga.providers.platform.abstr.web.WebPlatform with naga.providers.platform.client.gwt.GwtPlatform;
     provides naga.scheduler.SchedulerProvider with naga.providers.platform.client.gwt.scheduler.GwtSchedulerProvider;
+    //provides naga.platform.json.spi.JsonProvider with naga.providers.platform.client.gwt.json.GwtJsonObject; // protected constructor
 }

@@ -6,7 +6,7 @@ import io.vertx.core.Verticle;
 import io.vertx.core.Vertx;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.BusFactory;
-import naga.platform.json.spi.JsonFactory;
+import naga.platform.json.Json;
 import naga.platform.services.query.spi.QueryService;
 import naga.platform.services.update.spi.UpdateService;
 import naga.platform.spi.Platform;
@@ -27,9 +27,9 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
     public static void register(Vertx vertx) {
         Platform.register(new VertxPlatform(vertx));
         Scheduler.registerProvider(new VertxSchedulerProvider(vertx));
+        Json.registerProvider(new VertxJsonObject());
     }
 
-    private final JsonFactory vertxJsonProvider = new VertxJsonObject();
     private final BusFactory vertxBusFactory;
     private final QueryService vertxQueryService;
     private final UpdateService vertxUpdateService;
@@ -40,11 +40,6 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
         vertxQueryService = new VertxQueryService(vertx);
         vertxUpdateService = new VertxUpdateService(vertx);
         this.vertx = vertx;
-    }
-
-    @Override
-    public JsonFactory jsonFactory() {
-        return vertxJsonFactory;
     }
 
     @Override
