@@ -1,9 +1,9 @@
 package naga.framework.ui.i18n.impl;
 
+import naga.framework.ui.i18n.Dictionary;
+import naga.platform.services.resource.spi.ResourceService;
 import naga.util.Strings;
 import naga.util.async.Future;
-import naga.framework.ui.i18n.Dictionary;
-import naga.platform.spi.Platform;
 
 import java.util.Set;
 
@@ -24,6 +24,6 @@ public class ResourceDictionaryLoader implements DictionaryLoader {
 
     @Override
     public Future<Dictionary> loadDictionary(Object lang, Set keys) {
-        return Platform.getResourceService().getText(getDictionaryResourcePath(lang)).map(JsonDictionary::new);
+        return ResourceService.getText(getDictionaryResourcePath(lang)).map(JsonDictionary::new);
     }
 }

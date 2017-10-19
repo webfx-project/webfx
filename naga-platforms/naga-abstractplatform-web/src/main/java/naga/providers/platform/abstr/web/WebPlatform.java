@@ -18,13 +18,11 @@ import naga.platform.spi.client.ClientPlatform;
 public abstract class WebPlatform extends Platform implements ClientPlatform {
 
     private final WebSocketFactory webSocketFactory;
-    private final ResourceService resourceService;
     private final WindowLocation windowLocation;
     private final BrowserHistory browserHistory;
 
-    public WebPlatform(WebSocketFactory webSocketFactory, ResourceService resourceService, WindowLocation windowLocation, WindowHistory windowHistory) {
+    public WebPlatform(WebSocketFactory webSocketFactory, WindowLocation windowLocation, WindowHistory windowHistory) {
         this.webSocketFactory = webSocketFactory;
-        this.resourceService = resourceService;
         this.windowLocation = windowLocation;
         this.browserHistory = new BrowserHistory(windowHistory);
     }
@@ -42,11 +40,6 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
     @Override
     public WebSocketFactory webSocketFactory() {
         return webSocketFactory;
-    }
-
-    @Override
-    public ResourceService resourceService() {
-        return resourceService;
     }
 
     @Override
@@ -80,7 +73,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
         if (socketBusOptions.isServerSSL() == null)
             socketBusOptions.setServerSSL("https".equals(windowLocation.getProtocol()));
         super.setPlatformBusOptions(options);
-        String json = resourceService().getText("naga/platform/client/bus/conf/BusOptions.json").result();
+        String json = ResourceService.getText("naga/platform/client/bus/conf/BusOptions.json").result();
         if (json != null)
             options.applyJson(Json.parseObject(json));
     }

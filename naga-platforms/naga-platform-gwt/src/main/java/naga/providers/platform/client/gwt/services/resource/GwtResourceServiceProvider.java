@@ -1,7 +1,7 @@
 package naga.providers.platform.client.gwt.services.resource;
 
 import com.google.gwt.resources.client.TextResource;
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.spi.ResourceServiceProvider;
 import naga.util.async.Future;
 
 import java.util.ArrayList;
@@ -10,14 +10,9 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public final class GwtResourceService implements ResourceService {
-
-    public static GwtResourceService SINGLETON = new GwtResourceService();
+public final class GwtResourceServiceProvider implements ResourceServiceProvider {
 
     private List<GwtBundle> bundles = new ArrayList<>();
-
-    private GwtResourceService() {
-    }
 
     public void register(GwtBundle bundle) {
         bundles.add(bundle);

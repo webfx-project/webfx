@@ -1,6 +1,6 @@
 package naga.providers.platform.client.teavm.services.resource;
 
-import naga.platform.services.resource.spi.ResourceService;
+import naga.platform.services.resource.spi.ResourceServiceProvider;
 import naga.util.async.Future;
 
 import java.io.BufferedReader;
@@ -10,12 +10,7 @@ import java.io.InputStreamReader;
 /**
  * @author Bruno Salmon
  */
-public final class TeaVmResourceService implements ResourceService {
-
-    public static TeaVmResourceService SINGLETON = new TeaVmResourceService();
-
-    private TeaVmResourceService() {
-    }
+public final class TeaVmResourceServiceProvider implements ResourceServiceProvider {
 
     @Override
     public Future<String> getText(String resourcePath) {

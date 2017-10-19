@@ -7,12 +7,12 @@ import emul.javafx.geometry.BoundingBox;
 import emul.javafx.geometry.Bounds;
 import emul.javafx.scene.image.Image;
 import emul.javafx.scene.image.ImageView;
-import naga.util.Numbers;
-import naga.util.Strings;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
-import naga.platform.spi.Platform;
+import naga.platform.services.resource.spi.ResourceService;
+import naga.util.Numbers;
+import naga.util.Strings;
 
 import static naga.fx.spi.gwt.util.HtmlUtil.createImageElement;
 import static naga.fx.spi.gwt.util.HtmlUtil.createNodeFromHtml;
@@ -90,7 +90,7 @@ public class HtmlImageViewPeer
         // First checking the extension is svg
         if (Strings.endsWith(url, ".svg")) {
             // We do inline svg only for images that have been included in the resources
-            String svgFile = Platform.getResourceService().getText(url).result();
+            String svgFile = ResourceService.getText(url).result();
             if (svgFile != null) { // Yes the images is in the resources so we have the content already
                 // Removing all what is before the svg tag (ex: <?xml ...?>)
                 int svgTagIndex = svgFile.indexOf("<svg");

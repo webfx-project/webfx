@@ -25,6 +25,7 @@ import naga.platform.client.url.location.WindowLocation;
 import naga.platform.client.url.location.impl.WindowLocationImpl;
 import naga.platform.client.websocket.WebSocketFactory;
 import naga.platform.json.Json;
+import naga.platform.services.resource.spi.ResourceService;
 import naga.platform.spi.client.ClientPlatform;
 import naga.providers.platform.abstr.java.JavaPlatform;
 import naga.providers.platform.abstr.java.client.websocket.JavaWebSocketFactory;
@@ -52,7 +53,7 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
 
     public void setPlatformBusOptions(BusOptions options) {
         super.setPlatformBusOptions(options);
-        String json = resourceService().getText("naga/platform/client/bus/conf/BusOptions.json").result();
+        String json = ResourceService.getText("naga/platform/client/bus/conf/BusOptions.json").result();
         if (json != null)
             options.applyJson(Json.parseObject(json));
     }
