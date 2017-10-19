@@ -5,5 +5,5 @@
     <inherits name="naga-javaemul-javafxbase"/>
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/platform"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
-    <resource path="naga/platform/client/bus"/>     <!-- for naga/platform/client/bus/BusOptions.json -->
+    <resource path="naga/platform/client/bus/conf"/>     <!-- for naga/platform/client/bus/conf/BusOptions.json -->
 </module>

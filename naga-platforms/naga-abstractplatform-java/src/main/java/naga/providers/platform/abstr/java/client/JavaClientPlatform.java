@@ -52,7 +52,7 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
 
     public void setPlatformBusOptions(BusOptions options) {
         super.setPlatformBusOptions(options);
-        String json = resourceService().getText("naga/platform/client/bus/BusOptions.json").result();
+        String json = resourceService().getText("naga/platform/client/bus/conf/BusOptions.json").result();
         if (json != null)
             options.applyJson(Json.parseObject(json));
     }

@@ -15,7 +15,7 @@ public interface WebMongooseBundle extends ClientBundle {
     @Source("mongoose/domainmodel/DomainModelSnapshot.json")
     TextResource lzBase64DomainModelSnapshot();
 
-    @Source("naga/platform/client/bus/BusOptions.json")
+    @Source("naga/platform/client/bus/conf/BusOptions.json")
     TextResource jsonClientBusOptions();
 
     @Source("mongoose/dictionaries/en.json")
@@ -33,7 +33,7 @@ public interface WebMongooseBundle extends ClientBundle {
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
             case "mongoose/domainmodel/DomainModelSnapshot.json": return R.lzBase64DomainModelSnapshot();
-            case "naga/platform/client/bus/BusOptions.json": return R.jsonClientBusOptions();
+            case "naga/platform/client/bus/conf/BusOptions.json": return R.jsonClientBusOptions();
             case "mongoose/dictionaries/en.json": return R.englishDictionary();
             case "mongoose/dictionaries/fr.json": return R.frenchDictionary();
             case "images/certificate.svg": return R.certificateSvg();

@@ -116,5 +116,6 @@ bower_components/
 
 
 ### Mongoose
-/mongoose/mongoose-logic/src/main/resources/naga/platform/client/bus/BusOptions.json
+/mongoose/mongoose-logic-java/src/main/resources/naga/platform/client/bus/conf/BusOptions.json
+/mongoose/mongoose-logic-web/src/main/resources/naga/platform/client/bus/conf/BusOptions.json
 /mongoose/mongoose-vertx/src/main/resources/mongoose/datasource/3/ConnectionDetails.json
