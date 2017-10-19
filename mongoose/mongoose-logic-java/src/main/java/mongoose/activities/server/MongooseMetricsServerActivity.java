@@ -4,6 +4,7 @@ import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.MetricsEntity;
 import mongoose.spi.metrics.Metrics;
 import mongoose.spi.metrics.MetricsService;
+import naga.platform.services.update.spi.UpdateService;
 import naga.scheduler.Scheduled;
 import naga.framework.activity.domain.DomainActivityContext;
 import naga.framework.activity.domain.DomainActivityContextMixin;
@@ -66,7 +67,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, runnable1);
 
         Runnable runnable = () ->
-            Platform.get().updateService().executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
+                UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     Platform.log("Deleting metrics in database failed!", asyncResult.cause());
                 else

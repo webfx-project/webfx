@@ -5,7 +5,7 @@ import mongoose.entities.Event;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.spi.Platform;
+import naga.platform.services.update.spi.UpdateService;
 
 import java.time.LocalDate;
 
@@ -35,7 +35,7 @@ public class CloneEventPresentationLogicActivity extends EventDependentPresentat
 
         pm.setOnSubmit(event -> {
             LocalDate startDate = pm.getDate();
-            Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceModel().getId())).setHandler(ar -> {
+            UpdateService.executeUpdate(new UpdateArgument("select copy_event(?,?,?)", new Object[]{getEventId(), pm.getName(), startDate}, true, getDataSourceModel().getId())).setHandler(ar -> {
                 if (ar.succeeded())
                     Toolkit.get().scheduler().runInUiThread(() ->
                     getHistory().push("/event/" + ar.result().getGeneratedKeys()[0] + "/bookings")

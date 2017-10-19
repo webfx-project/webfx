@@ -1,6 +1,6 @@
 package naga.platform.services.update;
 
-import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.update.spi.UpdateServiceProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,15 +10,15 @@ import java.util.Map;
  */
 public class LocalUpdateServiceRegistry {
 
-    private static Map</* dataSourceId */ Object, UpdateService> localConnectedUpdateServices;
+    private static Map</* dataSourceId */ Object, UpdateServiceProvider> localConnectedUpdateServices;
 
-    public static void registerLocalConnectedUpdateService(Object dataSourceId, UpdateService localUpdateService) {
+    public static void registerLocalConnectedUpdateService(Object dataSourceId, UpdateServiceProvider localUpdateServiceProvider) {
         if (localConnectedUpdateServices == null)
             localConnectedUpdateServices = new HashMap<>();
-        localConnectedUpdateServices.put(dataSourceId, localUpdateService);
+        localConnectedUpdateServices.put(dataSourceId, localUpdateServiceProvider);
     }
 
-    public static UpdateService getLocalConnectedUpdateService(Object dataSourceId) {
+    public static UpdateServiceProvider getLocalConnectedUpdateService(Object dataSourceId) {
         return localConnectedUpdateServices == null ? null : localConnectedUpdateServices.get(dataSourceId);
     }
 }

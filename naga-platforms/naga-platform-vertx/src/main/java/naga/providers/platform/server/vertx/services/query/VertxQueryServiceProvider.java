@@ -4,7 +4,7 @@ import io.vertx.core.Vertx;
 import naga.platform.services.query.remote.RemoteQueryServiceProvider;
 import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.datasource.ConnectionDetails;
-import naga.providers.platform.server.vertx.services.VertxConnectedServiceProvider;
+import naga.providers.platform.server.vertx.services.VertxConnectedServiceProviderProvider;
 
 /**
  * @author Bruno Salmon
@@ -19,7 +19,7 @@ public class VertxQueryServiceProvider extends RemoteQueryServiceProvider {
 
     @Override
     protected QueryServiceProvider createConnectedQueryService(ConnectionDetails connectionDetails) {
-        return new VertxConnectedServiceProvider(vertx, connectionDetails);
+        return new VertxConnectedServiceProviderProvider(vertx, connectionDetails);
     }
 
 }

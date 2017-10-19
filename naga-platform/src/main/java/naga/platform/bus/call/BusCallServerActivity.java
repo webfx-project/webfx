@@ -7,7 +7,7 @@ package naga.platform.bus.call;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.services.query.spi.QueryService;
-import naga.platform.spi.Platform;
+import naga.platform.services.update.spi.UpdateService;
 
 public class BusCallServerActivity implements Activity {
 
@@ -26,9 +26,9 @@ public class BusCallServerActivity implements Activity {
         // Registering java services so they can be called through the BusCallService
         BusCallService.registerCallableJavaService(VERSION_ADDRESS, this::getVersion);
         BusCallService.registerAsyncFunctionJavaService(QUERY_SERVICE_ADDRESS, QueryService::executeQuery);
-        BusCallService.registerAsyncFunctionJavaService(UPDATE_SERVICE_ADDRESS, Platform.getUpdateService()::executeUpdate);
+        BusCallService.registerAsyncFunctionJavaService(UPDATE_SERVICE_ADDRESS, UpdateService::executeUpdate);
         BusCallService.registerAsyncFunctionJavaService(QUERY_BATCH_SERVICE_ADDRESS, QueryService::executeQueryBatch);
-        BusCallService.registerAsyncFunctionJavaService(UPDATE_BATCH_SERVICE_ADDRESS, Platform.getUpdateService()::executeUpdateBatch);
+        BusCallService.registerAsyncFunctionJavaService(UPDATE_BATCH_SERVICE_ADDRESS, UpdateService::executeUpdateBatch);
 
         // Starting the BusCallService by listening entry calls
         BusCallService.listenEntryCalls();

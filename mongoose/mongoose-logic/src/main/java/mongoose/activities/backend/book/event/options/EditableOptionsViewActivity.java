@@ -27,7 +27,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.spi.Platform;
+import naga.platform.services.update.spi.UpdateService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,7 +83,6 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         });
         return labelNode;
     }
-
 
     private void showRemoveOptionDialog(Option option) {
         DialogUtil.showDialog(
@@ -143,7 +142,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     private void onOkAddOptionDialog() {
         Option selectedOption = (Option) addOptionDialogFilter.getSelectedEntity();
         if (selectedOption != null) {
-            Platform.getUpdateService().executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
+            UpdateService.executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
                 if (ar.failed())
                     addOptionDialogCallback.showException(ar.cause());
                 else {

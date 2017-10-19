@@ -26,7 +26,7 @@ import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
-import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.update.spi.UpdateServiceProvider;
 import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
@@ -36,11 +36,11 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class VertxConnectedServiceProvider implements QueryServiceProvider, UpdateService {
+public class VertxConnectedServiceProviderProvider implements QueryServiceProvider, UpdateServiceProvider {
 
     private final AsyncSQLClient sqlClient;
 
-    public VertxConnectedServiceProvider(Vertx vertx, ConnectionDetails connectionDetails) {
+    public VertxConnectedServiceProviderProvider(Vertx vertx, ConnectionDetails connectionDetails) {
         // Generating the Vertx Sql config from the connection details
         JsonObject sqlConfig = new JsonObject()
                 // common config with JDBCClient

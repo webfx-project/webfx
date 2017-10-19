@@ -16,7 +16,7 @@ import naga.providers.platform.server.vertx.bus.VertxBusFactory;
 import naga.providers.platform.server.vertx.json.VertxJsonObject;
 import naga.providers.platform.server.vertx.scheduler.VertxSchedulerProvider;
 import naga.providers.platform.server.vertx.services.query.VertxQueryServiceProvider;
-import naga.providers.platform.server.vertx.services.update.VertxUpdateService;
+import naga.providers.platform.server.vertx.services.update.VertxUpdateServiceProvider;
 import naga.scheduler.Scheduler;
 
 /**
@@ -29,26 +29,20 @@ public final class VertxPlatform extends JavaPlatform implements ServerPlatform 
         Scheduler.registerProvider(new VertxSchedulerProvider(vertx));
         Json.registerProvider(new VertxJsonObject());
         QueryService.registerProvider(new VertxQueryServiceProvider(vertx));
+        UpdateService.registerProvider(new VertxUpdateServiceProvider(vertx));
     }
 
     private final BusFactory vertxBusFactory;
-    private final UpdateService vertxUpdateService;
     private final Vertx vertx;
 
     public VertxPlatform(Vertx vertx) {
         vertxBusFactory = new VertxBusFactory(vertx.eventBus());
-        vertxUpdateService = new VertxUpdateService(vertx);
         this.vertx = vertx;
     }
 
     @Override
     public BusFactory busFactory() {
         return vertxBusFactory;
-    }
-
-    @Override
-    public UpdateService updateService() {
-        return vertxUpdateService;
     }
 
     @Override

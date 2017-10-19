@@ -1,5 +1,6 @@
 package naga.platform.services.update.remote;
 
+import naga.platform.services.update.spi.UpdateServiceProvider;
 import naga.util.async.Batch;
 import naga.platform.bus.call.BusCallServerActivity;
 import naga.platform.bus.call.BusCallService;
@@ -8,46 +9,43 @@ import naga.platform.services.datasource.LocalDataSourceRegistry;
 import naga.platform.services.update.LocalUpdateServiceRegistry;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
-import naga.platform.services.update.spi.UpdateService;
 import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public class RemoteUpdateService implements UpdateService {
-
-    public final static RemoteUpdateService REMOTE_ONLY_UPDATE_SERVICE = new RemoteUpdateService();
+public class RemoteUpdateServiceProvider implements UpdateServiceProvider {
 
     @Override
     public Future<UpdateResult> executeUpdate(UpdateArgument argument) {
-        UpdateService localUpdateService = getConnectedLocalUpdateService(argument.getDataSourceId());
-        if (localUpdateService != null)
-            return localUpdateService.executeUpdate(argument);
+        UpdateServiceProvider localUpdateServiceProvider = getConnectedLocalUpdateService(argument.getDataSourceId());
+        if (localUpdateServiceProvider != null)
+            return localUpdateServiceProvider.executeUpdate(argument);
         return executeRemoteUpdate(argument);
     }
 
     @Override
     public Future<Batch<UpdateResult>> executeUpdateBatch(Batch<UpdateArgument> batch) {
         Object dataSourceId = batch.getArray()[0].getDataSourceId();
-        UpdateService localUpdateService = getConnectedLocalUpdateService(dataSourceId);
-        if (localUpdateService != null)
-            return localUpdateService.executeUpdateBatch(batch);
+        UpdateServiceProvider localUpdateServiceProvider = getConnectedLocalUpdateService(dataSourceId);
+        if (localUpdateServiceProvider != null)
+            return localUpdateServiceProvider.executeUpdateBatch(batch);
         return executeRemoteUpdateBatch(batch);
     }
 
-    protected UpdateService getConnectedLocalUpdateService(Object dataSourceId) {
-        UpdateService connectedUpdateService = LocalUpdateServiceRegistry.getLocalConnectedUpdateService(dataSourceId);
-        if (connectedUpdateService == null) {
+    protected UpdateServiceProvider getConnectedLocalUpdateService(Object dataSourceId) {
+        UpdateServiceProvider connectedUpdateServiceProvider = LocalUpdateServiceRegistry.getLocalConnectedUpdateService(dataSourceId);
+        if (connectedUpdateServiceProvider == null) {
             ConnectionDetails connectionDetails = LocalDataSourceRegistry.getLocalDataSourceConnectionDetails(dataSourceId);
             if (connectionDetails != null) {
-                connectedUpdateService = createConnectedUpdateService(connectionDetails);
-                LocalUpdateServiceRegistry.registerLocalConnectedUpdateService(dataSourceId, connectedUpdateService);
+                connectedUpdateServiceProvider = createConnectedUpdateService(connectionDetails);
+                LocalUpdateServiceRegistry.registerLocalConnectedUpdateService(dataSourceId, connectedUpdateServiceProvider);
             }
         }
-        return connectedUpdateService;
+        return connectedUpdateServiceProvider;
     }
 
-    protected UpdateService createConnectedUpdateService(ConnectionDetails connectionDetails) {
+    protected UpdateServiceProvider createConnectedUpdateService(ConnectionDetails connectionDetails) {
         throw new UnsupportedOperationException("This platform doesn't support local update service");
     }
 

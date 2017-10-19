@@ -8,7 +8,7 @@ import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
-import naga.platform.services.update.spi.UpdateService;
+import naga.platform.services.update.spi.UpdateServiceProvider;
 import naga.util.Arrays;
 import naga.util.async.Future;
 
@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class JdbcConnectedServiceProvider implements QueryServiceProvider, UpdateService {
+public class JdbcConnectedServiceProviderProvider implements QueryServiceProvider, UpdateServiceProvider {
 
     private final DataSource jdbcDataSource;
 
-    public JdbcConnectedServiceProvider(ConnectionDetails connectionDetails) {
+    public JdbcConnectedServiceProviderProvider(ConnectionDetails connectionDetails) {
         HikariDataSource hikariDS = new HikariDataSource();
         hikariDS.setDriverClassName(connectionDetails.getDBMS().getJdbcDriverClass());
         hikariDS.setJdbcUrl(connectionDetails.getUrl());

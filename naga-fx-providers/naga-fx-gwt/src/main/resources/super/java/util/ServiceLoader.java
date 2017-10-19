@@ -14,6 +14,8 @@ import naga.platform.services.resource.spi.ResourceServiceProvider;
 import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProvider;
 import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.query.remote.RemoteQueryServiceProvider;
+import naga.platform.services.update.spi.UpdateServiceProvider;
+import naga.platform.services.update.remote.RemoteUpdateServiceProvider;
 import naga.util.numbers.spi.NumbersProvider;
 import naga.util.numbers.providers.StandardPlatformNumbers;
 import naga.platform.spi.Platform;
@@ -34,6 +36,8 @@ public class ServiceLoader<S> {
             return new ServiceLoader<>(new GwtResourceServiceProvider());
         if (service.equals(QueryServiceProvider.class))
             return new ServiceLoader<>(new RemoteQueryServiceProvider());
+        if (service.equals(UpdateServiceProvider.class))
+            return new ServiceLoader<>(new RemoteUpdateServiceProvider());
         if (service.equals(Toolkit.class))
             return new ServiceLoader<>(new GwtToolkit());
         if (service.equals(NumbersProvider.class))
