@@ -2,7 +2,7 @@ package naga.providers.platform.client.gwt.scheduler;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
-import naga.commons.scheduler.impl.UiSchedulerBase;
+import naga.scheduler.impl.UiSchedulerBase;
 import naga.platform.spi.Platform;
 
 
@@ -11,8 +11,8 @@ import naga.platform.spi.Platform;
  */
 public final class GwtScheduler extends UiSchedulerBase {
 
-    private static long NANO_IN_MILLIS = 1_000_000;
-    private static long startNano = System.currentTimeMillis() * NANO_IN_MILLIS - performanceNano();
+    private static long MILLIS_IN_NANO = 1_000_000;
+    private static long START_NANO = System.currentTimeMillis() * MILLIS_IN_NANO - performanceNano();
 
     @Override
     public boolean isUiThread() {
@@ -21,11 +21,11 @@ public final class GwtScheduler extends UiSchedulerBase {
 
     @Override
     public long nanoTime() {
-        return startNano + performanceNano();
+        return START_NANO + performanceNano();
     }
 
     private static long performanceNano() {
-        return (long) (performanceNow() * NANO_IN_MILLIS);
+        return (long) (performanceNow() * MILLIS_IN_NANO);
     }
 
     private static native double performanceNow() /*-{
