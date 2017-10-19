@@ -15,5 +15,5 @@ module naga.platform.gwt {
     exports naga.providers.platform.client.gwt.services.resource;
 
     provides naga.providers.platform.abstr.web.WebPlatform with naga.providers.platform.client.gwt.GwtPlatform;
-
+    provides naga.scheduler.SchedulerProvider with naga.providers.platform.client.gwt.scheduler.GwtSchedulerProvider;
 }

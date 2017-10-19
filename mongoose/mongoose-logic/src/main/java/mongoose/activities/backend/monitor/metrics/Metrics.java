@@ -6,7 +6,7 @@ import mongoose.activities.backend.monitor.metrics.controller.SystemLookupMock;
 import mongoose.activities.backend.monitor.metrics.model.MemData;
 import mongoose.activities.backend.monitor.metrics.model.SysBean;
 import naga.fx.spi.Toolkit;
-import naga.platform.spi.Platform;
+import naga.scheduler.Scheduler;
 
 
 /**
@@ -27,7 +27,7 @@ public class Metrics {
     }
 
     public void start (boolean mode_console) {
-        Platform.get().scheduler().schedulePeriodic(1000, scheduled -> {
+        Scheduler.schedulePeriodic(1000, scheduled -> {
             long start = System.currentTimeMillis();
             long current;
 

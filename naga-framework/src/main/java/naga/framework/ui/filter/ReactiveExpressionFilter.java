@@ -4,6 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import naga.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.util.async.Handler;
 import naga.util.collection.Collections;
@@ -305,7 +306,8 @@ public class ReactiveExpressionFilter {
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
             Property<Boolean> ticTacProperty = new SimpleObjectProperty<>(true);
-            Platform.schedulePeriodic(5000, () -> {if (isActive()) ticTacProperty.setValue(!ticTacProperty.getValue());});
+            Runnable runnable = () -> {if (isActive()) ticTacProperty.setValue(!ticTacProperty.getValue());};
+            Scheduler.schedulePeriodic(5000, runnable);
             combine(ticTacProperty, "{}");
         }
         // The following call is to set stringFilterObservableLastIndex on the latest filterDisplay

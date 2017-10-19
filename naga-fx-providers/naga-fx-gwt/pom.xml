@@ -29,10 +29,16 @@
             <artifactId>elemental2-dom</artifactId>
         </dependency>
 
+        <!-- TODO: remove this dependency -->
         <dependency>
             <artifactId>naga-platform-gwt</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
         </dependency>
 
         <dependency>

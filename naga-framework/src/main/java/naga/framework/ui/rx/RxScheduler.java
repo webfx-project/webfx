@@ -1,8 +1,8 @@
 package naga.framework.ui.rx;
 
-import naga.platform.spi.Platform;
-import naga.scheduler.Scheduled;
 import naga.fx.spi.Toolkit;
+import naga.scheduler.Scheduled;
+import naga.scheduler.SchedulerProvider;
 import rx.Scheduler;
 import rx.Subscription;
 import rx.functions.Action0;
@@ -20,13 +20,13 @@ import static java.lang.Math.max;
  */
 public final class RxScheduler extends Scheduler {
 
-    public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(Platform.get().scheduler());
+    public static RxScheduler BACKGROUND_SCHEDULER = new RxScheduler(naga.scheduler.Scheduler.getProvider());
     public static RxScheduler UI_SCHEDULER = new RxScheduler(Toolkit.get().scheduler());
 
-    private final naga.scheduler.Scheduler nagaScheduler;
+    private final SchedulerProvider nagaSchedulerProvider;
 
-    public RxScheduler(naga.scheduler.Scheduler nagaScheduler) {
-        this.nagaScheduler = nagaScheduler;
+    public RxScheduler(SchedulerProvider nagaSchedulerProvider) {
+        this.nagaSchedulerProvider = nagaSchedulerProvider;
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class RxScheduler extends Scheduler {
                 BooleanSubscription s = BooleanSubscription.create();
 
                 long delayMillis = unit.toMillis(max(delayTime, 0));
-                Scheduled scheduled = nagaScheduler.scheduleDelay(delayMillis, () -> {
+                Scheduled scheduled = nagaSchedulerProvider.scheduleDelay(delayMillis, () -> {
                     if (innerSubscription.isUnsubscribed() || s.isUnsubscribed()) {
                         return;
                     }
@@ -70,7 +70,7 @@ public final class RxScheduler extends Scheduler {
             @Override
             public Subscription schedule(final Action0 action) {
                 final BooleanSubscription s = BooleanSubscription.create();
-                nagaScheduler.scheduleDeferred(() -> {
+                nagaSchedulerProvider.scheduleDeferred(() -> {
                     if (innerSubscription.isUnsubscribed() || s.isUnsubscribed()) {
                         return;
                     }

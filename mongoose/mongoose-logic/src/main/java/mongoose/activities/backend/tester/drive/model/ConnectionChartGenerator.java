@@ -4,12 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.listener.EventListener;
 import mongoose.activities.backend.monitor.listener.EventListenerImpl;
-import naga.platform.spi.Platform;
 import naga.fx.spi.Toolkit;
-import naga.type.PrimType;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
+import naga.scheduler.Scheduler;
+import naga.type.PrimType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class ConnectionChartGenerator {
     private ObjectProperty<DisplayResultSet> connectionListProperty = new SimpleObjectProperty<>();
 
     public void start() {
-        Platform.get().scheduler().schedulePeriodic(1000, this::readTask);
+        Scheduler.schedulePeriodic(1000, this::readTask);
     }
 
     public void reset() {

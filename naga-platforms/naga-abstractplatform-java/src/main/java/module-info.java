@@ -14,4 +14,6 @@ module naga.abstractplatform.java {
 
     exports naga.providers.platform.abstr.java;
     exports naga.providers.platform.abstr.java.client;
+
+    provides naga.scheduler.SchedulerProvider with naga.providers.platform.abstr.java.scheduler.JavaSchedulerProvider;
 }

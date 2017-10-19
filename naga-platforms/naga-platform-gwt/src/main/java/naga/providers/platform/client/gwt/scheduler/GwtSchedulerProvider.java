@@ -2,6 +2,7 @@ package naga.providers.platform.client.gwt.scheduler;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
+import naga.scheduler.Scheduler;
 import naga.uischeduler.impl.UiSchedulerBase;
 import naga.platform.spi.Platform;
 
@@ -9,7 +10,7 @@ import naga.platform.spi.Platform;
 /**
  * @author Bruno Salmon
  */
-public final class GwtScheduler extends UiSchedulerBase {
+public final class GwtSchedulerProvider extends UiSchedulerBase {
 
     private static long MILLIS_IN_NANO = 1_000_000;
     private static long START_NANO = System.currentTimeMillis() * MILLIS_IN_NANO - performanceNano();

@@ -1,6 +1,5 @@
 package naga.providers.platform.abstr.web;
 
-import naga.scheduler.Scheduler;
 import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
 import naga.platform.client.bus.ReconnectBus;
@@ -25,8 +24,7 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
     private final WindowLocation windowLocation;
     private final BrowserHistory browserHistory;
 
-    public WebPlatform(Scheduler scheduler, JsonFactory jsonFactory, WebSocketFactory webSocketFactory, ResourceService resourceService, WindowLocation windowLocation, WindowHistory windowHistory) {
-        super(scheduler);
+    public WebPlatform(JsonFactory jsonFactory, WebSocketFactory webSocketFactory, ResourceService resourceService, WindowLocation windowLocation, WindowHistory windowHistory) {
         this.jsonFactory = jsonFactory;
         this.webSocketFactory = webSocketFactory;
         this.resourceService = resourceService;

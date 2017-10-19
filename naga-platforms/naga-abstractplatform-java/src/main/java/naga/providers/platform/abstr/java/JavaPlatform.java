@@ -1,11 +1,9 @@
 package naga.providers.platform.abstr.java;
 
 import naga.platform.services.query.spi.QueryService;
-import naga.platform.spi.Platform;
 import naga.platform.services.resource.spi.ResourceService;
-import naga.scheduler.Scheduler;
 import naga.platform.services.update.spi.UpdateService;
-import naga.providers.platform.abstr.java.scheduler.JavaScheduler;
+import naga.platform.spi.Platform;
 import naga.providers.platform.abstr.java.services.query.JdbcQueryService;
 import naga.providers.platform.abstr.java.services.resource.JavaResourceService;
 import naga.providers.platform.abstr.java.services.update.JdbcUpdateService;
@@ -15,13 +13,7 @@ import naga.providers.platform.abstr.java.services.update.JdbcUpdateService;
  */
 public abstract class JavaPlatform extends Platform {
 
-    protected JavaPlatform() {
-        this(new JavaScheduler());
-    }
-
-    protected JavaPlatform(Scheduler scheduler) {
-        super(scheduler);
-    }
+    protected JavaPlatform() {}
 
     @Override
     public QueryService queryService() {

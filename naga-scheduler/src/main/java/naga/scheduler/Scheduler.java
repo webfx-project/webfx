@@ -1,38 +1,30 @@
-/*
- * Note: this code is a fork of Goodow realtime-channel project https://github.com/goodow/realtime-channel
- */
-
-/*
- * Copyright 2014 Goodow.com
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
- */
 package naga.scheduler;
 
 import naga.util.function.Consumer;
-import naga.util.tuples.Unit;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
- * This class provides low-level task scheduling primitives.
- *
- * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
- * @author Bruno Salmon - fork, refactor & update for the naga project
- *
- * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/Scheduler.java">Original Goodow class</a>
+ * @author Bruno Salmon
  */
-public interface Scheduler {
+public class Scheduler {
+
+    private static SchedulerProvider PROVIDER;
+    public static SchedulerProvider getProvider() {
+        if (PROVIDER == null)
+            registerProvider(ServiceLoaderHelper.loadService(SchedulerProvider.class));
+        return PROVIDER;
+    }
+
+    public static void registerProvider(SchedulerProvider provider) {
+        PROVIDER = provider;
+    }
+
     /**
      * A deferred command is executed not now but as soon as possible (ex: after the event loop returns).
      */
-    void scheduleDeferred(Runnable runnable);
+    public static void scheduleDeferred(Runnable runnable) {
+        getProvider().scheduleDeferred(runnable);
+    }
 
     /**
      * Set a one-shot timer to fire after {@code delayMs} milliseconds, at which point {@code handler}
@@ -40,13 +32,12 @@ public interface Scheduler {
      *
      * @return the timer
      */
-    Scheduled scheduleDelay(long delayMs, Runnable runnable);
+    public static Scheduled scheduleDelay(long delayMs, Runnable runnable) {
+        return getProvider().scheduleDelay(delayMs, runnable);
+    }
 
-    default Scheduled scheduleDelay(long delayMs, Consumer<Scheduled> runnable) {
-        Unit<Scheduled> scheduledHolder = new Unit<>();
-        Scheduled scheduled = scheduleDelay(delayMs, () -> runnable.accept(scheduledHolder.get()));
-        scheduledHolder.set(scheduled);
-        return scheduled;
+    public static Scheduled scheduleDelay(long delayMs, Consumer<Scheduled> runnable) {
+        return getProvider().scheduleDelay(delayMs, runnable);
     }
 
     /**
@@ -58,18 +49,20 @@ public interface Scheduler {
      * @param runnable the handler to execute
      * @return the timer
      */
-    Scheduled schedulePeriodic(long delayMs, Runnable runnable);
-
-    default Scheduled schedulePeriodic(long delayMs, Consumer<Scheduled> runnable) {
-        Unit<Scheduled> scheduledHolder = new Unit<>();
-        Scheduled scheduled = schedulePeriodic(delayMs, () -> runnable.accept(scheduledHolder.get()));
-        scheduledHolder.set(scheduled);
-        return scheduled;
+    public static Scheduled schedulePeriodic(long delayMs, Runnable runnable) {
+        return getProvider().schedulePeriodic(delayMs, runnable);
     }
 
-    default void runInBackground(Runnable runnable) {
-        scheduleDeferred(runnable);
+    public static Scheduled schedulePeriodic(long delayMs, Consumer<Scheduled> runnable) {
+        return getProvider().schedulePeriodic(delayMs, runnable);
     }
 
-    long nanoTime(); // because System.nanoTime() is not GWT compatible
+    public static void runInBackground(Runnable runnable) {
+        getProvider().runInBackground(runnable);
+    }
+
+    public static long nanoTime() { // because System.nanoTime() is not GWT compatible
+        return getProvider().nanoTime();
+    }
+
 }

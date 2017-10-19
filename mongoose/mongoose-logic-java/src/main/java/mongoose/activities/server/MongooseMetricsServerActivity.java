@@ -13,6 +13,7 @@ import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.spi.Platform;
+import naga.scheduler.Scheduler;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -49,7 +50,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
 
         Platform.log("Starting Mongoose metrics server activity...");
         // Starting a periodic timer to capture metrics every seconds and store it in the database
-        metricsCapturePeriodicTimer = Platform.schedulePeriodic(1000, () -> {
+        Runnable runnable1 = () -> {
             // Creating an update store for metrics entity
             UpdateStore store = UpdateStore.create(getDataSourceModel());
             // Instantiating a Metrics entity to be inserted in the database
@@ -61,15 +62,17 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
                 if (asyncResult.failed())
                     Platform.log("Inserting metrics in database failed!", asyncResult.cause());
             });
-        });
+        };
+        metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, runnable1);
 
-        metricsCleaningPeriodicTimer = Platform.schedulePeriodic(24 * 3600 * 1000, () ->
+        Runnable runnable = () ->
             Platform.get().updateService().executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
                 if (asyncResult.failed())
                     Platform.log("Deleting metrics in database failed!", asyncResult.cause());
                 else
                     Platform.log("" + asyncResult.result().getRowCount() + " metrics records have been deleted from the database");
-            }));
+            });
+        metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(24 * 3600 * 1000, runnable);
     }
 
     @Override

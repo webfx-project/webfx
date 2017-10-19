@@ -19,7 +19,7 @@ package naga.providers.platform.abstr.java.scheduler;
 
 
 import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
+import naga.scheduler.SchedulerProvider;
 import naga.platform.spi.Platform;
 
 import java.util.concurrent.Executors;
@@ -28,15 +28,12 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /*
- * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
- * @author Bruno Salmon - fork, refactor & update for the naga project
- *
- * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
+ * @author Bruno Salmon
  */
-public class JavaScheduler implements Scheduler {
+public class JavaSchedulerProvider implements SchedulerProvider {
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
-    public JavaScheduler() {
+    public JavaSchedulerProvider() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

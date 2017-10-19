@@ -7,6 +7,7 @@ import naga.platform.client.url.history.memory.MemoryHistory;
 import naga.platform.client.url.location.PathStateLocation;
 import naga.platform.client.url.location.WindowLocation;
 import naga.platform.spi.Platform;
+import naga.scheduler.Scheduler;
 import naga.util.Objects;
 import naga.util.Strings;
 
@@ -39,7 +40,7 @@ public class BrowserHistory extends MemoryHistory {
             setMountPoint(mountPath);
             onPopState(supportsStates ? windowHistory.state() : null);
             if (!supportsStates)
-                Platform.get().scheduler().schedulePeriodic(500, () -> {
+                Scheduler.schedulePeriodic(500, () -> {
                     if (!Objects.areEquals(getCurrentWindowLocation().getFragment(), getCurrentLocation().getFragment()))
                         onPopState(null);
                 });
@@ -89,7 +90,8 @@ public class BrowserHistory extends MemoryHistory {
         } else
             super.doAcceptedPush(location = createHistoryLocation(pathStateLocation, HistoryEvent.POPPED));
         // For any reason there is a performance issue with Chrome if we fire the location change now, so we defer it
-        Platform.scheduleDeferred(() -> fireLocationChanged(location)); // this will call the router, probably resulting in activity change (with its node)
+        Runnable runnable = () -> fireLocationChanged(location);
+        Scheduler.scheduleDeferred(runnable);
         //Platform.log("Exiting onPopState");
     }
 

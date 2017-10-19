@@ -10,6 +10,7 @@ module mongoose.backend.javafx {
     requires naga.platform.jre;
     requires naga.fx;
     requires naga.fx.javafx;
+    requires naga.util;
 
     requires javafx.controls;
 }

@@ -17,10 +17,6 @@
  */
 package naga.platform.spi;
 
-import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
-import naga.util.function.Consumer;
-import naga.util.serviceloader.ServiceLoaderHelper;
 import naga.platform.bus.Bus;
 import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
@@ -34,6 +30,8 @@ import naga.platform.services.query.spi.QueryService;
 import naga.platform.services.resource.spi.ResourceService;
 import naga.platform.services.update.remote.RemoteUpdateService;
 import naga.platform.services.update.spi.UpdateService;
+import naga.util.function.Consumer;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * Generic platform class. New platforms are defined as extension of this abstract class.
@@ -44,16 +42,6 @@ import naga.platform.services.update.spi.UpdateService;
  * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/PlatformFactory.java">Original Goodow class</a>
  */
 public abstract class Platform {
-
-    protected final Scheduler scheduler;
-
-    public Platform(Scheduler scheduler) {
-        this.scheduler = scheduler;
-    }
-
-    public Scheduler scheduler() {
-        return scheduler;
-    }
 
     public JsonFactory jsonFactory() {
         // Using the built-in json factory by default.
@@ -125,20 +113,6 @@ public abstract class Platform {
     private static Consumer<String> webLogger;
     public static void setWebLogger(Consumer<String> webLogger) {
         Platform.webLogger = webLogger;
-    }
-
-    // Scheduler methods
-
-    public static void scheduleDeferred(Runnable runnable) {
-        get().scheduler().scheduleDeferred(runnable);
-    }
-
-    public static Scheduled scheduleDelay(int delayMs, Runnable runnable) {
-        return get().scheduler().scheduleDelay(delayMs, runnable);
-    }
-
-    public static Scheduled schedulePeriodic(int delayMs, Runnable runnable) {
-        return get().scheduler().schedulePeriodic(delayMs, runnable);
     }
 
     // BusFactory methods

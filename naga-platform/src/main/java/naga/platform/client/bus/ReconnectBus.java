@@ -21,7 +21,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
 import naga.platform.client.websocket.WebSocket;
-import naga.platform.spi.Platform;
+import naga.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,11 +77,11 @@ public class ReconnectBus extends WebSocketBus {
             @Override
             public void handlePostClose() {
                 if (reconnect) {
-                    Platform.scheduleDelay(backOffGenerator.next().targetDelay,
-                            () -> {
-                                if (reconnect)
-                                    reconnect();
-                            });
+                    Runnable runnable = () -> {
+                        if (reconnect)
+                            reconnect();
+                    };
+                    Scheduler.scheduleDelay(backOffGenerator.next().targetDelay, runnable);
                 }
                 super.handlePostClose();
             }

@@ -3,6 +3,7 @@ package mongoose.activities.backend.monitor.metrics.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.metrics.Metrics;
+import naga.scheduler.Scheduler;
 import naga.type.PrimType;
 import naga.platform.spi.Platform;
 import naga.fxdata.displaydata.DisplayColumn;
@@ -22,7 +23,7 @@ public class MemChartGenerator {
     private ObjectProperty<DisplayResultSet> memListProperty = new SimpleObjectProperty<>();
 
     public void start() {
-        Platform.get().scheduler().schedulePeriodic(1000, this::readTask);
+        Scheduler.schedulePeriodic(1000, this::readTask);
     }
 
     public DisplayResultSet createDisplayResultSet (){

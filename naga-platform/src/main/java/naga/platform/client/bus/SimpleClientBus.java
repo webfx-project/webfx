@@ -23,6 +23,7 @@ import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
 import naga.platform.spi.Platform;
+import naga.scheduler.Scheduler;
 import naga.util.async.Handler;
 
 import java.util.ArrayList;
@@ -200,8 +201,10 @@ public class SimpleClientBus implements Bus {
         //Platform.log("scheduleHandle(), topic = " + topic + ", handler = " + handler + ", message = " + message);
         if (message.isLocal())
             handle(topic, handler, message);
-        else
-            Platform.scheduleDeferred(() -> SimpleClientBus.this.handle(topic, handler, message));
+        else {
+            Runnable runnable = () -> SimpleClientBus.this.handle(topic, handler, message);
+            Scheduler.scheduleDeferred(runnable);
+        }
     }
 
     private Registration subscribeImpl(boolean local, String topic, Handler<? extends Message> handler) {

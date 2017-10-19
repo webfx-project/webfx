@@ -6,13 +6,13 @@ import emul.javafx.scene.Scene;
 import emul.javafx.stage.Screen;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import naga.uischeduler.UiScheduler;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
 import naga.fx.spi.peer.WindowPeer;
-import naga.platform.spi.Platform;
+import naga.scheduler.Scheduler;
+import naga.uischeduler.UiScheduler;
 
 
 /**
@@ -21,7 +21,7 @@ import naga.platform.spi.Platform;
 public class GwtToolkit extends Toolkit {
 
     public GwtToolkit() {
-        super(/* TODO: remove this dependency to Platform */(UiScheduler) Platform.get().scheduler());
+        super((UiScheduler) Scheduler.getProvider());
     }
 
     @Override

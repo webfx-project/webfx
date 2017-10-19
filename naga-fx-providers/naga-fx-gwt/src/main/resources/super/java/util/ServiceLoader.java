@@ -6,6 +6,8 @@
 
 package java.util;
 
+import naga.providers.platform.client.gwt.scheduler.GwtSchedulerProvider;
+import naga.scheduler.SchedulerProvider;
 import naga.util.numbers.providers.StandardPlatformNumbers;
 import naga.util.numbers.spi.NumbersProvider;
 import naga.platform.spi.Platform;
@@ -18,6 +20,8 @@ public class ServiceLoader<S> {
     public static <S> ServiceLoader<S> load(Class<S> service) {
         if (service.equals(Platform.class))
             return new ServiceLoader<>(new GwtPlatform());
+        if (service.equals(SchedulerProvider.class))
+            return new ServiceLoader<>(new GwtSchedulerProvider());
         if (service.equals(Toolkit.class))
             return new ServiceLoader<>(new GwtToolkit());
         if (service.equals(NumbersProvider.class))

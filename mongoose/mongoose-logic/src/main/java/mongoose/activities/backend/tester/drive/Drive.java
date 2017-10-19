@@ -18,6 +18,7 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.platform.bus.call.BusCallService;
 import naga.platform.spi.Platform;
 import naga.fx.spi.Toolkit;
+import naga.scheduler.Scheduler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class Drive {
     public void start(boolean mode_console) {
         long t0 = System.currentTimeMillis();
         BusCallService.call("version", "ignored").setHandler(asyncResult -> Platform.log(asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause()));
-        Platform.get().scheduler().schedulePeriodic(10, () -> {
+        Scheduler.schedulePeriodic(10, () -> {
             int requested = requestedConnectionCount.getValue();
 
             if (currentRequested != requested) {

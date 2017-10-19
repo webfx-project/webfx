@@ -17,7 +17,6 @@
  */
 package naga.providers.platform.abstr.java.client;
 
-import naga.scheduler.Scheduler;
 import naga.platform.bus.BusFactory;
 import naga.platform.bus.BusOptions;
 import naga.platform.client.bus.ReconnectBus;
@@ -40,12 +39,6 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
 
     private final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
 
-    protected JavaClientPlatform() {
-    }
-
-    protected JavaClientPlatform(Scheduler scheduler) {
-        super(scheduler);
-    }
 
     @Override
     public BusFactory busFactory() { // ClientPlatform default method doesn't work while extending JavaPlatform

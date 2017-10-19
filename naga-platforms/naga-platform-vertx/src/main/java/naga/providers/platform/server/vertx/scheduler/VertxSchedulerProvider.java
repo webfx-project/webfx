@@ -2,16 +2,16 @@ package naga.providers.platform.server.vertx.scheduler;
 
 import io.vertx.core.Vertx;
 import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
+import naga.scheduler.SchedulerProvider;
 
 /**
  * @author Bruno Salmon
  */
-public final class VertxScheduler implements Scheduler {
+public final class VertxSchedulerProvider implements SchedulerProvider {
 
     private final Vertx vertx;
 
-    public VertxScheduler(Vertx vertx) {
+    public VertxSchedulerProvider(Vertx vertx) {
         this.vertx = vertx;
     }
 

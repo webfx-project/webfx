@@ -1,9 +1,9 @@
 package mongoose.activities.backend.tester.drive.connection;
 
 
-import mongoose.activities.backend.tester.drive.command.Command;
 import mongoose.activities.backend.monitor.listener.ConnectionEvent;
 import mongoose.activities.backend.monitor.listener.EventType;
+import mongoose.activities.backend.tester.drive.command.Command;
 import naga.platform.spi.Platform;
 import naga.scheduler.Scheduler;
 
@@ -14,16 +14,15 @@ public class ConnectionMock extends ConnectionBase {
 
     @Override
     public ConnectionEvent executeCommand(Command t) {
-        Scheduler scheduler = Platform.get().scheduler();
         ConnectionEvent event;
         switch (t) {
             case OPEN:
                 event = new ConnectionEvent(EventType.CONNECTING);
-                scheduler.scheduleDelay(1000, SimConnection);
+                Scheduler.scheduleDelay(1000, SimConnection);
                 break;
             case CLOSE:
                 event = new ConnectionEvent(EventType.DISCONNECTING);
-                scheduler.scheduleDelay(500, SimClose);
+                Scheduler.scheduleDelay(500, SimClose);
                 break;
             default:
                 event = null;

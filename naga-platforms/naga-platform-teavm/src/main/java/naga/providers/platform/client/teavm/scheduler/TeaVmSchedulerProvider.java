@@ -1,7 +1,7 @@
 package naga.providers.platform.client.teavm.scheduler;
 
 import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
+import naga.scheduler.SchedulerProvider;
 import naga.util.tuples.Unit;
 import org.teavm.platform.Platform;
 import org.teavm.platform.PlatformRunnable;
@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public final class TeaVmScheduler implements Scheduler {
+public final class TeaVmSchedulerProvider implements SchedulerProvider {
 
     private final Map<Integer, Integer> periodicIds = new HashMap<>();
 

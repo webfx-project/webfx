@@ -1,7 +1,7 @@
 package naga.uischeduler;
 
 import naga.scheduler.Scheduled;
-import naga.scheduler.Scheduler;
+import naga.scheduler.SchedulerProvider;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
 
@@ -10,7 +10,7 @@ import static naga.uischeduler.AnimationFramePass.*;
 /**
  * @author Bruno Salmon
  */
-public interface UiScheduler extends Scheduler {
+public interface UiScheduler extends SchedulerProvider {
 
     boolean isUiThread();
 
