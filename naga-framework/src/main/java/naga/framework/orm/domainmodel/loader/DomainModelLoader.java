@@ -1,5 +1,6 @@
 package naga.framework.orm.domainmodel.loader;
 
+import naga.platform.services.query.spi.QueryService;
 import naga.type.DerivedType;
 import naga.type.PrimType;
 import naga.type.Type;
@@ -36,7 +37,7 @@ public class DomainModelLoader {
     }
 
     public Future<DomainModel> loadDomainModel() {
-        return Platform.getQueryService().executeQueryBatch(generateDomainModelQueryBatch()).map(this::generateDomainModel);
+        return QueryService.executeQueryBatch(generateDomainModelQueryBatch()).map(this::generateDomainModel);
     }
 
     public Batch<QueryArgument> generateDomainModelQueryBatch() {

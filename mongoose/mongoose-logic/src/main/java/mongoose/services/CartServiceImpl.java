@@ -3,6 +3,7 @@ package mongoose.services;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.*;
+import naga.platform.services.query.spi.QueryService;
 import naga.util.Strings;
 import naga.util.async.Batch;
 import naga.util.async.Future;
@@ -137,7 +138,7 @@ class CartServiceImpl implements CartService {
         SqlCompiled sqlCompiled1 = domainModel.compileSelect(Strings.replaceAll(WorkingDocument.DOCUMENT_LINE_LOAD_QUERY, "document=?", documentCondition));
         SqlCompiled sqlCompiled2 = domainModel.compileSelect(Strings.replaceAll(WorkingDocument.ATTENDANCE_LOAD_QUERY, "document=?", documentCondition));
         SqlCompiled sqlCompiled3 = domainModel.compileSelect(Strings.replaceAll(WorkingDocument.PAYMENT_LOAD_QUERY, "document=?", documentCondition));
-        Future<Batch<QueryResultSet>> queryBatchFuture = Platform.getQueryService().executeQueryBatch(
+        Future<Batch<QueryResultSet>> queryBatchFuture = QueryService.executeQueryBatch(
                 new Batch<>(new QueryArgument[]{
                         new QueryArgument(sqlCompiled1.getSql(), parameter, dataSourceId),
                         new QueryArgument(sqlCompiled2.getSql(), parameter, dataSourceId),

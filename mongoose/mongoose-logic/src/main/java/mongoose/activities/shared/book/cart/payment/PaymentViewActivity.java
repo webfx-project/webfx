@@ -15,6 +15,7 @@ import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasName;
 import mongoose.util.Labels;
+import naga.platform.services.query.spi.QueryService;
 import naga.util.Dates;
 import naga.util.Strings;
 import naga.util.async.Batch;
@@ -249,7 +250,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                 DomainModel domainModel = dataSourceModel.getDomainModel();
                 SqlCompiled sqlCompiled1 = domainModel.compileSelect("select <frontend_loadEvent> from GatewayParameter gp where exists(select MoneyTransfer mt where mt=? and (gp.account=mt.toMoneyAccount or gp.account=null and gp.company=mt.toMoneyAccount.gatewayCompany)) order by company");
                 SqlCompiled sqlCompiled2 = domainModel.compileSelect("select <frontend_cart> from MoneyTransfer where id=?");
-                Platform.getQueryService().executeQueryBatch(
+                QueryService.executeQueryBatch(
                         new Batch<>(new QueryArgument[]{
                                 new QueryArgument(sqlCompiled1.getSql(), paymentIdParameter, dataSourceId),
                                 new QueryArgument(sqlCompiled2.getSql(), paymentIdParameter, dataSourceId)

@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.QueryResultSetBuilder;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.datasource.ConnectionDetails;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class JdbcConnectedService implements QueryService, UpdateService {
+public class JdbcConnectedServiceProvider implements QueryServiceProvider, UpdateService {
 
     private final DataSource jdbcDataSource;
 
-    public JdbcConnectedService(ConnectionDetails connectionDetails) {
+    public JdbcConnectedServiceProvider(ConnectionDetails connectionDetails) {
         HikariDataSource hikariDS = new HikariDataSource();
         hikariDS.setDriverClassName(connectionDetails.getDBMS().getJdbcDriverClass());
         hikariDS.setJdbcUrl(connectionDetails.getUrl());

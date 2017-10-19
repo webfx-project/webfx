@@ -4,12 +4,6 @@ import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import naga.scheduler.Scheduler;
-import naga.type.PrimType;
-import naga.util.async.Handler;
-import naga.util.collection.Collections;
-import naga.util.function.Consumer;
-import naga.util.function.Converter;
 import naga.framework.expression.Expression;
 import naga.framework.expression.builder.ReferenceResolver;
 import naga.framework.expression.builder.ThreadLocalReferenceResolver;
@@ -37,7 +31,13 @@ import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
-import naga.platform.spi.Platform;
+import naga.platform.services.query.spi.QueryService;
+import naga.scheduler.Scheduler;
+import naga.type.PrimType;
+import naga.util.async.Handler;
+import naga.util.collection.Collections;
+import naga.util.function.Consumer;
+import naga.util.function.Converter;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
@@ -349,7 +349,7 @@ public class ReactiveExpressionFilter {
                     // We increment and capture the sequence to check if the request is still the latest one when receiving the result
                     int sequence = querySequence.incrementAndGet();
                     // Then we ask the query service to execute the sql query
-                    lastEntityListObservable = RxFuture.from(Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, dataSourceModel.getId())))
+                    lastEntityListObservable = RxFuture.from(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, dataSourceModel.getId())))
                             // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
                             // Otherwise transforming the QueryResultSet into an EntityList
                             .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));

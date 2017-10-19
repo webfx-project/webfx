@@ -23,8 +23,6 @@ import naga.platform.bus.BusOptions;
 import naga.platform.bus.call.ThreadLocalBusContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.memory.MemoryHistory;
-import naga.platform.services.query.remote.RemoteQueryService;
-import naga.platform.services.query.spi.QueryService;
 import naga.platform.services.update.remote.RemoteUpdateService;
 import naga.platform.services.update.spi.UpdateService;
 import naga.util.function.Consumer;
@@ -46,10 +44,6 @@ public abstract class Platform {
 
     public void setPlatformBusOptions(BusOptions options) {
         options.turnUnsetPropertiesToDefault();
-    }
-
-    public QueryService queryService() {
-        return RemoteQueryService.REMOTE_ONLY_QUERY_SERVICE;
     }
 
     public UpdateService updateService() {
@@ -140,11 +134,7 @@ public abstract class Platform {
         return bus;
     }
 
-    // QueryService methods
-
-    public static QueryService getQueryService() {
-        return get().queryService();
-    }
+    // QueryServiceProvider methods
 
     public static UpdateService getUpdateService() {
         return get().updateService();

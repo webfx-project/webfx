@@ -3,12 +3,6 @@ package mongoose.activities.backend.util;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import naga.util.Objects;
-import naga.util.Strings;
-import naga.util.async.Handler;
-import naga.util.function.Callable;
-import naga.util.function.Function;
-import naga.util.tuples.Pair;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
@@ -20,7 +14,13 @@ import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.HtmlTextEditor;
 import naga.platform.services.query.QueryArgument;
-import naga.platform.spi.Platform;
+import naga.platform.services.query.spi.QueryService;
+import naga.util.Objects;
+import naga.util.Strings;
+import naga.util.async.Handler;
+import naga.util.function.Callable;
+import naga.util.function.Function;
+import naga.util.tuples.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -112,7 +112,7 @@ public class MultiLanguageEditor {
         else if (loadingSelect != null) {
             SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(loadingSelect);
             // Then we ask the query service to execute the sql query
-            Platform.getQueryService().executeQuery(new QueryArgument(sqlCompiled.getSql(), new Object[]{entityId}, dataSourceModel.getId())).setHandler(ar -> {
+            QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), new Object[]{entityId}, dataSourceModel.getId())).setHandler(ar -> {
                 if (ar.succeeded()) {
                     Entity entity = QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), loadingStore, entityListId).get(0);
                     EditedEntity editedEntity = new EditedEntity(entity);

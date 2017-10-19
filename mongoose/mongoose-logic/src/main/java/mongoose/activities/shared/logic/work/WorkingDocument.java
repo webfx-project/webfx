@@ -9,11 +9,6 @@ import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
 import mongoose.services.EventService;
-import naga.util.async.Batch;
-import naga.util.async.Future;
-import naga.util.collection.Collections;
-import naga.util.function.Predicate;
-import naga.util.uuid.Uuid;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainModel;
@@ -24,8 +19,13 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.spi.QueryService;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.spi.Platform;
+import naga.util.async.Batch;
+import naga.util.async.Future;
+import naga.util.collection.Collections;
+import naga.util.function.Predicate;
+import naga.util.uuid.Uuid;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -447,7 +447,7 @@ public class WorkingDocument {
         SqlCompiled sqlCompiled2 = domainModel.compileSelect(ATTENDANCE_LOAD_QUERY);
         Object[] documentPkParameter = {documentPk};
         Future<Batch<QueryResultSet>> queryBatchFuture;
-        return Future.allOf(eventService.onEventOptions(), queryBatchFuture = Platform.getQueryService().executeQueryBatch(
+        return Future.allOf(eventService.onEventOptions(), queryBatchFuture = QueryService.executeQueryBatch(
                 new Batch<>(new QueryArgument[]{
                         new QueryArgument(sqlCompiled1.getSql(), documentPkParameter, dataSourceId),
                         new QueryArgument(sqlCompiled2.getSql(), documentPkParameter, dataSourceId)

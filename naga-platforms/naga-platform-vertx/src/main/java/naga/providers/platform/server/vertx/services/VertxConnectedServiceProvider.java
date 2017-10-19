@@ -22,7 +22,7 @@ import naga.platform.services.datasource.DBMS;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.QueryResultSetBuilder;
-import naga.platform.services.query.spi.QueryService;
+import naga.platform.services.query.spi.QueryServiceProvider;
 import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
@@ -36,11 +36,11 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class VertxConnectedService implements QueryService, UpdateService {
+public class VertxConnectedServiceProvider implements QueryServiceProvider, UpdateService {
 
     private final AsyncSQLClient sqlClient;
 
-    public VertxConnectedService(Vertx vertx, ConnectionDetails connectionDetails) {
+    public VertxConnectedServiceProvider(Vertx vertx, ConnectionDetails connectionDetails) {
         // Generating the Vertx Sql config from the connection details
         JsonObject sqlConfig = new JsonObject()
                 // common config with JDBCClient

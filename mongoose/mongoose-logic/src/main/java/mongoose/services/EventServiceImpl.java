@@ -5,6 +5,7 @@ import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
+import naga.platform.services.query.spi.QueryService;
 import naga.util.Numbers;
 import naga.util.Objects;
 import naga.util.async.Batch;
@@ -285,7 +286,7 @@ class EventServiceImpl implements EventService {
     }
 
     private Future<QueryResultSet> executeQuery(String queryString, Object... parameters) {
-        return Platform.getQueryService().executeQuery(new QueryArgument(queryString, parameters, getEventDataSourceModel().getId()));
+        return QueryService.executeQuery(new QueryArgument(queryString, parameters, getEventDataSourceModel().getId()));
     }
 
     private static class EventQuery {
