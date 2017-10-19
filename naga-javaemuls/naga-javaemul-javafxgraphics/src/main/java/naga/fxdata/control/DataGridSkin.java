@@ -12,7 +12,7 @@ import emul.javafx.scene.layout.Region;
 import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.shape.Rectangle;
-import naga.scheduler.AnimationFramePass;
+import naga.uischeduler.AnimationFramePass;
 import naga.scheduler.Scheduled;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;

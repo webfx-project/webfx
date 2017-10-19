@@ -2,7 +2,7 @@ package naga.providers.platform.client.gwt.scheduler;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
-import naga.scheduler.impl.UiSchedulerBase;
+import naga.uischeduler.impl.UiSchedulerBase;
 import naga.platform.spi.Platform;
 
 

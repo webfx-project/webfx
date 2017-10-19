@@ -9,7 +9,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import naga.scheduler.AnimationFramePass;
+import naga.uischeduler.AnimationFramePass;
 import naga.scheduler.Scheduled;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;

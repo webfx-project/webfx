@@ -4,4 +4,5 @@
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/scheduler"/>
+    <source path="naga/uischeduler"/>
 </module>

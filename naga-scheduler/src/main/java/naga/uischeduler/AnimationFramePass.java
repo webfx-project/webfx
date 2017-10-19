@@ -1,4 +1,4 @@
-package naga.scheduler;
+package naga.uischeduler;
 
 /**
  * @author Bruno Salmon

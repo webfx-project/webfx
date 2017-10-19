@@ -6,7 +6,7 @@ import emul.javafx.scene.Scene;
 import emul.javafx.stage.Screen;
 import emul.javafx.stage.Stage;
 import emul.javafx.stage.Window;
-import naga.scheduler.UiScheduler;
+import naga.uischeduler.UiScheduler;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.html.HtmlScenePeer;
 import naga.fx.spi.peer.ScenePeer;

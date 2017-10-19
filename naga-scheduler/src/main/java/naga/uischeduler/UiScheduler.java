@@ -1,9 +1,11 @@
-package naga.scheduler;
+package naga.uischeduler;
 
+import naga.scheduler.Scheduled;
+import naga.scheduler.Scheduler;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
 
-import static naga.scheduler.AnimationFramePass.*;
+import static naga.uischeduler.AnimationFramePass.*;
 
 /**
  * @author Bruno Salmon

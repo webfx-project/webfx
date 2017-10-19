@@ -1,6 +1,6 @@
 package emul.javafx.animation;
 
-import naga.scheduler.AnimationFramePass;
+import naga.uischeduler.AnimationFramePass;
 import naga.fx.spi.Toolkit;
 
 /**

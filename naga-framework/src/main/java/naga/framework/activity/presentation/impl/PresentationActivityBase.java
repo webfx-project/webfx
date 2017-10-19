@@ -1,6 +1,6 @@
 package naga.framework.activity.presentation.impl;
 
-import naga.scheduler.UiScheduler;
+import naga.uischeduler.UiScheduler;
 import naga.util.async.Future;
 import naga.util.function.Callable;
 import naga.util.function.Factory;

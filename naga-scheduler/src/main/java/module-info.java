@@ -6,6 +6,7 @@ module naga.scheduler {
     requires naga.util;
 
     exports naga.scheduler;
-    exports naga.scheduler.impl;
+    exports naga.uischeduler;
+    exports naga.uischeduler.impl;
 
 }
