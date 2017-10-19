@@ -6,7 +6,7 @@ import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 /**
  * @author Bruno Salmon
@@ -50,7 +50,7 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
     private void startLogic() {
         onFeesGroups().setHandler(ar -> {
             if (ar.failed())
-                Platform.log(ar.cause());
+                Logger.log(ar.cause());
             else {
                 noAccommodationOptionsPreselection = findNoAccommodationOptionsPreselection(ar.result());
                 showBookingCalendarIfReady();

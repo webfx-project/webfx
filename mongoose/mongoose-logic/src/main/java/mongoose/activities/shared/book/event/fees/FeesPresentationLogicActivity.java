@@ -13,6 +13,7 @@ import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
+import naga.platform.services.log.spi.Logger;
 import naga.type.SpecializedTextType;
 import naga.util.Arrays;
 import naga.util.Booleans;
@@ -31,7 +32,6 @@ import naga.fxdata.displaydata.SelectionMode;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.spi.Platform;
 
 import static naga.framework.ui.controls.ImageViewUtil.createImageView;
 
@@ -97,7 +97,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         onFeesGroups().setHandler(ar -> {
             lastLoadedEventOptions = getEventOptions();
             if (ar.failed())
-                Platform.log(ar.cause());
+                Logger.log(ar.cause());
             else
                 displayFeesGroupsAndRefreshAvailabilities(ar.result());
         });

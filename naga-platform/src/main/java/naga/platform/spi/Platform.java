@@ -23,7 +23,6 @@ import naga.platform.bus.BusOptions;
 import naga.platform.bus.call.ThreadLocalBusContext;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.memory.MemoryHistory;
-import naga.util.function.Consumer;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
@@ -63,32 +62,6 @@ public abstract class Platform {
         if (PLATFORM == null)
             register(ServiceLoaderHelper.loadService(Platform.class));
         return PLATFORM;
-    }
-
-    /*** Static shortcut methods ***/
-
-    // Logger methods
-
-    public static void log(Object message) {
-        log(message == null ? "null" : message.toString());
-    }
-
-    public static void log(String message) {
-        System.out.println(message);
-        if (webLogger != null)
-            webLogger.accept(message);
-    }
-
-    public static void log(String message, Throwable error) {
-        log(message);
-        error.printStackTrace();
-    }
-
-    // Temporary code to help displaying logs on the web page (and not only on the hidden web console)
-    // This will disappear when the user interface will become richer
-    private static Consumer<String> webLogger;
-    public static void setWebLogger(Consumer<String> webLogger) {
-        Platform.webLogger = webLogger;
     }
 
     // BusFactory methods

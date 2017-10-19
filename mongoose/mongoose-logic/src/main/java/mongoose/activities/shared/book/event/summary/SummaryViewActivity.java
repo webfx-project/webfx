@@ -18,11 +18,11 @@ import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
+import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.platform.json.Json;
-import naga.platform.spi.Platform;
 
 import java.time.Instant;
 
@@ -122,7 +122,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     protected void onNextButtonPressed(ActionEvent event) {
         getWorkingDocument().submit(commentTextArea.getText()).setHandler(ar -> {
             if (ar.failed())
-                Platform.log("Error submitting booking", ar.cause());
+                Logger.log("Error submitting booking", ar.cause());
             else {
                 Document document = ar.result();
                 Cart cart = document.getCart();

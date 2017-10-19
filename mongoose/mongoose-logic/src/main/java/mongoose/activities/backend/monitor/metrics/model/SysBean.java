@@ -1,6 +1,6 @@
 package mongoose.activities.backend.monitor.metrics.model;
 
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 import java.time.Instant;
 
@@ -26,17 +26,17 @@ public class SysBean {
 
     public void printState() {
 
-        Platform.log("date     : " + getDate());
-        Platform.log("commited : " + getCommittedMem() + " MB");
-        Platform.log("total    : " + getTotalMem() + " MB");
-        Platform.log("used     : " + getUsedMem() + " MB");
-        Platform.log("free     : " + getFreeMem() + " MB\n");
-        Platform.log("sys max  : " + getMaxMem() + " MB");
-        Platform.log("sys free : " + getFreePhMem() + " MB\n");
-//        Platform.log("proc     : " + getAvailableProcessors());
-        Platform.log("sys load : " + getSysLoad());
-        Platform.log("cpu load : " + (getCpuLoad()*100) + " %");
-        Platform.log("cpu time : " + (getCpuTime()/NANO) + " ms");
+        Logger.log("date     : " + getDate());
+        Logger.log("commited : " + getCommittedMem() + " MB");
+        Logger.log("total    : " + getTotalMem() + " MB");
+        Logger.log("used     : " + getUsedMem() + " MB");
+        Logger.log("free     : " + getFreeMem() + " MB\n");
+        Logger.log("sys max  : " + getMaxMem() + " MB");
+        Logger.log("sys free : " + getFreePhMem() + " MB\n");
+        //        Platform.log("proc     : " + getAvailableProcessors());
+        Logger.log("sys load : " + getSysLoad());
+        Logger.log("cpu load : " + (getCpuLoad()*100) + " %");
+        Logger.log("cpu time : " + (getCpuTime()/NANO) + " ms");
 
     }
 

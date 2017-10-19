@@ -12,6 +12,7 @@ import io.vertx.ext.jdbc.JDBCClient;
 import io.vertx.ext.sql.ResultSet;
 import io.vertx.ext.sql.SQLClient;
 import io.vertx.ext.sql.SQLConnection;
+import naga.platform.services.log.spi.Logger;
 import naga.util.Arrays;
 import naga.util.async.Batch;
 import naga.util.async.Future;
@@ -27,7 +28,6 @@ import naga.platform.services.update.GeneratedKeyBatchIndex;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
 import naga.platform.services.update.spi.UpdateServiceProvider;
-import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -168,7 +168,7 @@ public class VertxConnectedServiceProviderProvider implements QueryServiceProvid
     private Future<UpdateResult> executeReturningUpdateOnConnection(UpdateArgument updateArgument, SQLConnection connection, boolean close, Future<UpdateResult> future) {
         executeQueryOnConnection(updateArgument.getUpdateString(), updateArgument.getParameters(), connection, res -> {
             if (res.failed()) { // Sql error
-                Platform.log("Error executing " + updateArgument, res.cause());
+                Logger.log("Error executing " + updateArgument, res.cause());
                 future.fail(res.cause());
             } else { // Sql succeeded
                 // Transforming the result set into columnNames and values arrays

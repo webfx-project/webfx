@@ -1,7 +1,7 @@
 package mongoose.activities.backend.monitor.listener;
 
 import mongoose.activities.backend.monitor.metrics.model.MemData;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 /**
  * @author Jean-Pierre Alonso.
@@ -38,7 +38,7 @@ public class EventListenerImpl implements EventListener {
             case SYSTEM:
                 memData = (MemData)event.getObject();
             default:
-                Platform.log("Event type unkwon !");
+                Logger.log("Event type unkwon !");
         }
     }
 

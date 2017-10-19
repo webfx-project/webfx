@@ -23,8 +23,8 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.client.websocket.WebSocket;
 import naga.platform.client.websocket.WebSocketListener;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.spi.client.ClientPlatform;
-import naga.platform.spi.Platform;
 import naga.scheduler.Scheduled;
 import naga.scheduler.Scheduler;
 import naga.util.async.Handler;
@@ -81,7 +81,7 @@ public class WebSocketBus extends SimpleClientBus {
                 if (webSocketListener != null)
                     webSocketListener.onOpen();
                 else
-                    Platform.log("Connection open");
+                    Logger.log("Connection open");
                 // sendLogin(); // Disabling the auto logic mechanism
                 // Send the first ping then send a ping every 5 seconds
                 sendPing();
@@ -108,7 +108,7 @@ public class WebSocketBus extends SimpleClientBus {
                 if (webSocketListener != null)
                     webSocketListener.onError(error);
                 else
-                    Platform.log("Connection error = " + error);
+                    Logger.log("Connection error = " + error);
                 publishLocal(ON_ERROR, Json.createObject().set("message", error));
             }
 
@@ -117,7 +117,7 @@ public class WebSocketBus extends SimpleClientBus {
                 if (webSocketListener != null)
                     webSocketListener.onClose(reason);
                 else
-                    Platform.log("Connection closed, reason = " + reason);
+                    Logger.log("Connection closed, reason = " + reason);
                 cancelPingTimer();
                 publishLocal(ON_CLOSE, reason);
                 if (hook != null)
@@ -148,7 +148,7 @@ public class WebSocketBus extends SimpleClientBus {
         password = options.getPassword();
 
         if (webSocketListener == null)
-            Platform.log("Connecting to " + serverUri);
+            Logger.log("Connecting to " + serverUri);
 
         webSocket = ClientPlatform.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListener(internalWebSocketHandler);

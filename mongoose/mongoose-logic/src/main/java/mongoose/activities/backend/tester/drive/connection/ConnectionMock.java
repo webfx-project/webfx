@@ -4,7 +4,7 @@ package mongoose.activities.backend.tester.drive.connection;
 import mongoose.activities.backend.monitor.listener.ConnectionEvent;
 import mongoose.activities.backend.monitor.listener.EventType;
 import mongoose.activities.backend.tester.drive.command.Command;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 import naga.scheduler.Scheduler;
 
 /**
@@ -37,7 +37,7 @@ public class ConnectionMock extends ConnectionBase {
         ConnectionEvent event = new ConnectionEvent(EventType.CONNECTED);
         applyEvent(event);
         recordEvent(event);
-        Platform.log("CnxMock-CONNECTED");
+        Logger.log("CnxMock-CONNECTED");
     };
 
     private Runnable SimClose = () -> {
@@ -45,6 +45,6 @@ public class ConnectionMock extends ConnectionBase {
         ConnectionEvent event = new ConnectionEvent(EventType.NOT_CONNECTED);
         applyEvent(event);
         recordEvent(event);
-        Platform.log("CnxMock-CLOSED");
+        Logger.log("CnxMock-CLOSED");
     };
 }

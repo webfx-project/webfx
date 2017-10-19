@@ -1,5 +1,6 @@
 package naga.framework.orm.entity.impl;
 
+import naga.platform.services.log.spi.Logger;
 import naga.platform.services.update.spi.UpdateService;
 import naga.util.Arrays;
 import naga.util.Objects;
@@ -14,7 +15,6 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.entity.resultset.*;
 import naga.platform.services.update.UpdateArgument;
 import naga.platform.services.update.UpdateResult;
-import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -87,7 +87,7 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
         try {
             EntityChangesToUpdateBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToUpdateBatchGenerator.createUpdateBatchGenerator(getEntityChanges(), dataSourceModel, initialUpdates);
             Batch<UpdateArgument> batch = updateBatchGenerator.generate();
-            Platform.log("Executing update batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
+            Logger.log("Executing update batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
             Future<Batch<UpdateResult>> next = Future.future();
             return UpdateService.executeUpdateBatch(batch).compose(ar -> {
                 markChangesAsCommitted();

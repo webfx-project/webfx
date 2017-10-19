@@ -26,10 +26,7 @@ public final class GwtPlatform extends WebPlatform {
 
     public GwtPlatform() {
         super(/* json factory: */  new GwtWebSocketFactory(), GwtWindowLocation.current(), GwtWindowHistory.SINGLETON);
-        setWebLogger(GwtPlatform::logConsole);
     }
-
-    private static native void logConsole(String message) /*-{ $wnd.console.log(message); }-*/;
 
     public static void registerBundle(GwtBundle bundle) {
         ((GwtResourceServiceProvider) ResourceService.getProvider()).register(bundle);

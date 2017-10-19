@@ -3,6 +3,7 @@ package naga.fx.spi.gwt.html.peer;
 import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
+import naga.platform.services.log.spi.Logger;
 import naga.util.Objects;
 import naga.util.Strings;
 import naga.fx.scene.SceneRequester;
@@ -10,7 +11,6 @@ import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fxdata.control.HtmlTextEditor;
 import naga.fxdata.spi.peer.base.HtmlTextEditorPeerBase;
 import naga.fxdata.spi.peer.base.HtmlTextEditorPeerMixin;
-import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -63,7 +63,7 @@ public class HtmlHtmlTextEditorPeer
     private boolean recreateCKEditorIfRequired() {
         if (ckEditor != null && !Strings.isEmpty(getCKEditorInnerHTML(ckEditor)))
             return false;
-        Platform.log("Recreating CKEditor");
+        Logger.log("Recreating CKEditor");
         if (ckEditor != null)
             callCKEditorDestroy(ckEditor);
         else

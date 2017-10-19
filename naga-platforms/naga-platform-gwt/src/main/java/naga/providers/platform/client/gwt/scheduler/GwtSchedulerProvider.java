@@ -2,9 +2,8 @@ package naga.providers.platform.client.gwt.scheduler;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Timer;
-import naga.scheduler.Scheduler;
+import naga.platform.services.log.spi.Logger;
 import naga.uischeduler.impl.UiSchedulerBase;
-import naga.platform.spi.Platform;
 
 
 /**
@@ -66,6 +65,6 @@ public final class GwtSchedulerProvider extends UiSchedulerBase {
 
     @Override
     protected void log(String message) {
-        Platform.log(message);
+        Logger.log(message);
     }
 }

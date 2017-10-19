@@ -20,7 +20,7 @@ import mongoose.util.PerformanceLogger;
 import naga.framework.orm.entity.Entity;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 import java.util.concurrent.TimeUnit;
 
@@ -117,7 +117,7 @@ public class BookingCalendar {
                     return optionsPreselection;
             }
         }
-        Platform.log("Warning: no OptionsPreselection found for this working document");
+        Logger.log("Warning: no OptionsPreselection found for this working document");
         return null;
     }
 

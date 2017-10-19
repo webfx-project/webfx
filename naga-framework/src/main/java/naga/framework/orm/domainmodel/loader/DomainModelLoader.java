@@ -1,5 +1,6 @@
 package naga.framework.orm.domainmodel.loader;
 
+import naga.platform.services.log.spi.Logger;
 import naga.platform.services.query.spi.QueryService;
 import naga.type.DerivedType;
 import naga.type.PrimType;
@@ -15,7 +16,6 @@ import naga.framework.orm.domainmodel.builder.DomainModelBuilder;
 import naga.fxdata.displaydata.Label;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
-import naga.platform.spi.Platform;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -174,7 +174,7 @@ public class DomainModelLoader {
             DomainFieldsGroupBuilder groupBuilder = classBuilder.newFieldsGroupBuilder(rs.getValue(row, 0 /*"name"*/), true);
             groupBuilder.fieldsDefinition = rs.getValue(row, 2 /*"fields"*/);
         }
-        Platform.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[3].getRowCount() + " fields, " + resultSets[4].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
+        Logger.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[3].getRowCount() + " fields, " + resultSets[4].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
         // Building and returning final domain model
         return dmb.build();
     }

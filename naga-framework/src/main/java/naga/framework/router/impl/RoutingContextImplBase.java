@@ -7,7 +7,7 @@ import naga.platform.json.spi.WritableJsonObject;
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
 import naga.platform.services.auth.spi.User;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -68,13 +68,13 @@ abstract class RoutingContextImplBase implements RoutingContext {
                     else
                         route.handleContext(this);
                 } catch (Throwable t) {
-                    Platform.log("Throwable thrown from handler", t);
+                    Logger.log("Throwable thrown from handler", t);
                     if (!failed) {
-                        Platform.log("Failing the routing");
+                        Logger.log("Failing the routing");
                         fail(t);
                     } else {
                         // Failure in handling failure!
-                        Platform.log("Failure in handling failure");
+                        Logger.log("Failure in handling failure");
                         unhandledFailure(-1, t, route.router());
                     }
                 } finally {
@@ -92,7 +92,7 @@ abstract class RoutingContextImplBase implements RoutingContext {
             if (router.exceptionHandler() != null)
                 router.exceptionHandler().handle(failure);
             else
-                Platform.log("Unexpected exception in route", failure);
+                Logger.log("Unexpected exception in route", failure);
         }
         /*if (!response().ended()) {
             try {

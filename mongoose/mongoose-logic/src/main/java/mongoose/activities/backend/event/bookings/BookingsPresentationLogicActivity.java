@@ -3,10 +3,10 @@ package mongoose.activities.backend.event.bookings;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.services.EventService;
+import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
 import mongoose.domainmodel.functions.AbcNames;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
-import naga.platform.spi.Platform;
 
 /**
  * @author Bruno Salmon
@@ -55,7 +55,7 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                         EventService eventService = getEventService();
                         WorkingDocument.load(eventService, document.getPrimaryKey()).setHandler(ar -> {
                             if (ar.failed())
-                                Platform.log("Error loading document", ar.cause());
+                                Logger.log("Error loading document", ar.cause());
                             else {
                                 eventService.setSelectedOptionsPreselection(null);
                                 eventService.setWorkingDocument(ar.result());

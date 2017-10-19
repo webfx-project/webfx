@@ -22,7 +22,7 @@ import naga.platform.bus.Bus;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.Message;
 import naga.platform.bus.Registration;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 import naga.scheduler.Scheduler;
 import naga.util.async.Handler;
 
@@ -192,7 +192,7 @@ public class SimpleClientBus implements Bus {
         try {
             handler.handle(message);
         } catch (Throwable e) {
-            Platform.log("Failed to handle on topic: " + topic, e);
+            Logger.log("Failed to handle on topic: " + topic, e);
             publishLocal(WebSocketBus.ON_ERROR, Json.createObject().set("topic", topic).set("message", message).set("cause", e));
         }
     }

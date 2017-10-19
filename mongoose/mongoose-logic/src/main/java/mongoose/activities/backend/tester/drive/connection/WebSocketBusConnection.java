@@ -7,6 +7,7 @@ import naga.platform.bus.call.BusCallService;
 import naga.platform.client.bus.WebSocketBus;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.client.websocket.WebSocketListener;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.spi.Platform;
 
 /**
@@ -27,7 +28,8 @@ public class WebSocketBusConnection extends ConnectionBase {
                 long t0 = System.currentTimeMillis();
                 BusCallService.call("version", "ignored", bus).setHandler(asyncResult -> {
                     long t1 = System.currentTimeMillis();
-                    Platform.log((asyncResult.succeeded() ? "Connected : "+bus.toString() : "Error : " + asyncResult.cause()) + " in " + (t1 - t0) + "ms");
+                    String message = (asyncResult.succeeded() ? "Connected : "+bus.toString() : "Error : " + asyncResult.cause()) + " in " + (t1 - t0) + "ms";
+                    Logger.log(message);
                 });
                 break;
             case CLOSE:
@@ -50,7 +52,7 @@ public class WebSocketBusConnection extends ConnectionBase {
                 ConnectionEvent event1 = new ConnectionEvent(EventType.CONNECTED);
                 applyEvent(event1);
                 recordEvent(event1);
-                Platform.log("Cnx-CONNECTED : "+bus.toString());
+                Logger.log("Cnx-CONNECTED : "+bus.toString());
             }
 
             @Override
@@ -61,7 +63,7 @@ public class WebSocketBusConnection extends ConnectionBase {
                     recordEvent(event1);
                     opened = false;
                 }
-                Platform.log("Cnx-CLOSED : "+reason);
+                Logger.log("Cnx-CLOSED : "+reason);
             }
 
             @Override
@@ -71,7 +73,7 @@ public class WebSocketBusConnection extends ConnectionBase {
 
             @Override
             public void onError(String error) {
-                Platform.log("Cnx-ERROR ("+bus.toString()+") : "+error);
+                Logger.log("Cnx-ERROR ("+bus.toString()+") : "+error);
             }
         };
     }

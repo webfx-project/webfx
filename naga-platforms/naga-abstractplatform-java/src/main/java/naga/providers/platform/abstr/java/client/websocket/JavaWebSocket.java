@@ -21,7 +21,7 @@ import naga.platform.client.websocket.WebSocketListener;
 import naga.platform.json.Json;
 import naga.platform.client.websocket.WebSocket;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_17;
@@ -82,7 +82,7 @@ public final class JavaWebSocket implements WebSocket {
                     if (listener != null)
                         listener.onMessage(JavaWebSocket.toString(buffer));
                 } catch (CharacterCodingException e) {
-                    Platform.log("Websocket Failed when Charset Decoding", e);
+                    Logger.log("Websocket Failed when Charset Decoding", e);
                 }
             }
 

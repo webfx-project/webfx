@@ -4,8 +4,8 @@ import naga.platform.json.spi.JsonObject;
 import naga.framework.router.Route;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
+import naga.platform.services.log.spi.Logger;
 import naga.util.async.Handler;
-import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -41,7 +41,7 @@ public class RouterImpl implements Router {
 
     @Override
     public void accept(String path, JsonObject state) {
-        Platform.log("Routing " + path);
+        Logger.log("Routing " + path);
         new RoutingContextImpl(null, this, path, routes, state).next();
     }
 

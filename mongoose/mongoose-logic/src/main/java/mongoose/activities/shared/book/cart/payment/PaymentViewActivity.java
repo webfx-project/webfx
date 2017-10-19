@@ -15,6 +15,7 @@ import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasName;
 import mongoose.util.Labels;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.services.query.spi.QueryService;
 import naga.util.Dates;
 import naga.util.Strings;
@@ -241,7 +242,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
         }
         updateStore.executeUpdate().setHandler(ar -> {
             if (ar.failed())
-                Platform.log("Error submitting payment", ar.cause());
+                Logger.log("Error submitting payment", ar.cause());
             else {
                 cartService().unload();
                 DataSourceModel dataSourceModel = loadStore.getDataSourceModel();
@@ -257,7 +258,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                         })
                 ).setHandler(ar2 -> {
                     if (ar.failed())
-                        Platform.log("Error submitting payment", ar.cause());
+                        Logger.log("Error submitting payment", ar.cause());
                     else {
                         EntityList<GatewayParameter> gatewayParameters = QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[0], sqlCompiled1.getQueryMapping(), loadStore, "gatewayParameters");
                         lastPayment = (MoneyTransfer) QueryResultSetToEntityListGenerator.createEntityList(ar2.result().getArray()[1], sqlCompiled2.getQueryMapping(), loadStore, "lastPayment").get(0);

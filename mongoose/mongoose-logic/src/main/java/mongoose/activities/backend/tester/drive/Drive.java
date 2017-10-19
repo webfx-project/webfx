@@ -16,7 +16,7 @@ import mongoose.entities.LtTestSetEntity;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.UpdateStore;
 import naga.platform.bus.call.BusCallService;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 import naga.fx.spi.Toolkit;
 import naga.scheduler.Scheduler;
 
@@ -44,7 +44,10 @@ public class Drive {
 
     public void start(boolean mode_console) {
         long t0 = System.currentTimeMillis();
-        BusCallService.call("version", "ignored").setHandler(asyncResult -> Platform.log(asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause()));
+        BusCallService.call("version", "ignored").setHandler(asyncResult -> {
+            Object message = asyncResult.succeeded() ? asyncResult.result() : "Error: " + asyncResult.cause();
+            Logger.log(message);
+        });
         Scheduler.schedulePeriodic(10, () -> {
             int requested = requestedConnectionCount.getValue();
 
@@ -69,9 +72,9 @@ public class Drive {
                 Toolkit.get().scheduler().scheduleDeferred(() -> startedConnectionCount.setValue(started));
 
                 if (mode_console)
-                    Platform.log("Drive - connections : R="+ requested
-                            +" , S="+ started
-                            +" (time = "+ (System.currentTimeMillis()-t0) +"ms)");
+                    Logger.log("Drive - connections : R="+ requested
+                                        +" , S="+ started
+                                        +" (time = "+ (System.currentTimeMillis()-t0) +"ms)");
             }
         });
     }
@@ -94,11 +97,11 @@ public class Drive {
         // Writing the result in the database
         store.executeUpdate().setHandler(asyncResult -> {
             if (asyncResult.failed())
-                Platform.log(asyncResult.cause());
+                Logger.log(asyncResult.cause());
             else {
                 connexionList.clear();
                 nextToRemove = 0;
-                Platform.log("Recorded !!! :-)");
+                Logger.log("Recorded !!! :-)");
             }
         });
 

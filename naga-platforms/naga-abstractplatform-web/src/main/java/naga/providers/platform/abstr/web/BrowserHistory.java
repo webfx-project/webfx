@@ -6,6 +6,7 @@ import naga.platform.client.url.history.baseimpl.HistoryLocationImpl;
 import naga.platform.client.url.history.memory.MemoryHistory;
 import naga.platform.client.url.location.PathStateLocation;
 import naga.platform.client.url.location.WindowLocation;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.spi.Platform;
 import naga.scheduler.Scheduler;
 import naga.util.Objects;
@@ -78,7 +79,7 @@ public class BrowserHistory extends MemoryHistory {
         //Platform.log("Entering onPopState");
         // Transforming the current window location into a history location descriptor
         String path = fullToMountPath(getCurrentWindowLocation().getPath());
-        Platform.log("Pop state with path = " + path);
+        Logger.log("Pop state with path = " + path);
         PathStateLocation pathStateLocation = createPathStateLocation(path, state);
         HistoryLocationImpl location;
         int p = locationStack.indexOf(pathStateLocation);

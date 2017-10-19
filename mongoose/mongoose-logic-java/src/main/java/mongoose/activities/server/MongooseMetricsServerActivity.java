@@ -4,6 +4,7 @@ import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.MetricsEntity;
 import mongoose.spi.metrics.Metrics;
 import mongoose.spi.metrics.MetricsService;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.services.update.spi.UpdateService;
 import naga.scheduler.Scheduled;
 import naga.framework.activity.domain.DomainActivityContext;
@@ -13,7 +14,6 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.services.update.UpdateArgument;
-import naga.platform.spi.Platform;
 import naga.scheduler.Scheduler;
 
 import java.time.Instant;
@@ -44,12 +44,12 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
 
         // Stopping the activity if there is actually no metrics service for this platform
         if (metricsService == null) {
-            Platform.log("MongooseMetricsServerActivity will not start as no MetricsService is registered for this platform");
+            Logger.log("MongooseMetricsServerActivity will not start as no MetricsService is registered for this platform");
             getActivityManager().destroy(); // Asking the activity manager to stop and destroy this activity
             return;
         }
 
-        Platform.log("Starting Mongoose metrics server activity...");
+        Logger.log("Starting Mongoose metrics server activity...");
         // Starting a periodic timer to capture metrics every seconds and store it in the database
         Runnable runnable1 = () -> {
             // Creating an update store for metrics entity
@@ -61,7 +61,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
             // Asking the update store to record this in the database
             store.executeUpdate().setHandler(asyncResult -> {
                 if (asyncResult.failed())
-                    Platform.log("Inserting metrics in database failed!", asyncResult.cause());
+                    Logger.log("Inserting metrics in database failed!", asyncResult.cause());
             });
         };
         metricsCapturePeriodicTimer = Scheduler.schedulePeriodic(1000, runnable1);
@@ -69,9 +69,9 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
         Runnable runnable = () ->
                 UpdateService.executeUpdate(new UpdateArgument("delete from metrics where lt_test_set_id is null and date < ?", new Object[]{Instant.now().minus(1, ChronoUnit.DAYS)}, false, getDataSourceModel().getId())).setHandler(asyncResult -> {
                 if (asyncResult.failed())
-                    Platform.log("Deleting metrics in database failed!", asyncResult.cause());
+                    Logger.log("Deleting metrics in database failed!", asyncResult.cause());
                 else
-                    Platform.log("" + asyncResult.result().getRowCount() + " metrics records have been deleted from the database");
+                    Logger.log("" + asyncResult.result().getRowCount() + " metrics records have been deleted from the database");
             });
         metricsCleaningPeriodicTimer = Scheduler.schedulePeriodic(24 * 3600 * 1000, runnable);
     }
@@ -79,7 +79,7 @@ public class MongooseMetricsServerActivity implements Activity<DomainActivityCon
     @Override
     public void onStop() {
         if (metricsCapturePeriodicTimer != null) {
-            Platform.log("Stopping Mongoose metrics server activity...");
+            Logger.log("Stopping Mongoose metrics server activity...");
             metricsCapturePeriodicTimer.cancel();
             metricsCapturePeriodicTimer = null;
             metricsCleaningPeriodicTimer.cancel();

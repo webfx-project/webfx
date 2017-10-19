@@ -3,7 +3,7 @@ package naga.framework.ui.router;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.history.HistoryLocation;
 import naga.framework.router.Router;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 import naga.util.async.Handler;
 
 /**
@@ -22,7 +22,7 @@ public class HistoryRouter {
         router.exceptionHandler(new Handler<Throwable>() {
             @Override
             public void handle(Throwable throwable) {
-                Platform.log("Path not found", throwable);
+                Logger.log("Path not found", throwable);
                 router.exceptionHandler(null); // removing the handler to avoid an infinite recursion if the default path can't be found
                 replaceCurrentHistoryWithInitialDefaultPath();
                 router.exceptionHandler(this); // restoring the handler

@@ -1,6 +1,6 @@
 package mongoose.util;
 
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 /**
  * @author Bruno Salmon
@@ -11,7 +11,7 @@ public class PerformanceLogger {
 
     public void log(String message) {
         long t1 = System.currentTimeMillis();
-        Platform.log(message + ": " + (t1 - t0) + "ms");
+        Logger.log(message + ": " + (t1 - t0) + "ms");
         t0 = t1;
     }
 }

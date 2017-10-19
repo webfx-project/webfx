@@ -5,7 +5,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +59,7 @@ public class DynamicEntity implements Entity {
             foreignEntityId = entity.getId();
             if (entity.getStore() != store && store.getEntity(foreignEntityId) == null) {
                 store.copyEntity(entity);
-                Platform.log("Warning: this foreign entity has been copied into the store otherwise it was not accessible: " + entity); //store.copyEntity(entity);
+                Logger.log("Warning: this foreign entity has been copied into the store otherwise it was not accessible: " + entity);
             }
         } else {
             Object foreignClass = getDomainClass().getForeignClass(foreignFieldId);

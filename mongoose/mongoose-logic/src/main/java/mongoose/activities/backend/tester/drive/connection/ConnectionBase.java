@@ -4,7 +4,7 @@ package mongoose.activities.backend.tester.drive.connection;
 import mongoose.activities.backend.monitor.listener.ConnectionEvent;
 import mongoose.activities.backend.monitor.listener.EventListener;
 import mongoose.activities.backend.monitor.listener.EventListenerImpl;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ public abstract class ConnectionBase implements Connection {
                 break;
             default:
                 state = null;
-                Platform.log("Connection state undefined !");
+                Logger.log("Connection state undefined !");
         }
         if (listener != null) {
             listener.onEvent(event);

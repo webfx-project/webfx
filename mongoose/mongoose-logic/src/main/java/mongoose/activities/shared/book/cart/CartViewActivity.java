@@ -22,6 +22,7 @@ import mongoose.entities.History;
 import mongoose.entities.Mail;
 import mongoose.services.CartService;
 import mongoose.services.EventService;
+import naga.platform.services.log.spi.Logger;
 import naga.type.PrimType;
 import naga.util.Strings;
 import naga.util.collection.Collections;
@@ -38,7 +39,6 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
-import naga.platform.spi.Platform;
 
 import java.util.List;
 
@@ -308,7 +308,7 @@ public class CartViewActivity extends CartBasedViewActivity {
                                     history.setComment("Sent '" + subjectTextField.getText() + "'");
                                     updateStore.executeUpdate().setHandler(ar -> {
                                         if (ar.failed())
-                                            Platform.log("Error", ar.cause());
+                                            Logger.log("Error", ar.cause());
                                         else {
                                             dialogCallback.closeDialog();
                                         }

@@ -2,7 +2,7 @@ package naga.framework.router.impl;
 
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
 import naga.util.async.Handler;
 
@@ -147,7 +147,7 @@ class RouteImpl implements Route {
     @Override
     public synchronized Route failureHandler(Handler<RoutingContext> exceptionHandler) {
         if (this.failureHandler != null)
-            Platform.log("Setting failureHandler for a route more than once!");
+            Logger.log("Setting failureHandler for a route more than once!");
         this.failureHandler = exceptionHandler;
         checkAdded();
         return this;

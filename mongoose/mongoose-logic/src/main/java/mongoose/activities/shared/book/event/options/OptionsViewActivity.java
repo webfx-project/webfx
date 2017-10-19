@@ -11,11 +11,11 @@ import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
+import naga.platform.services.log.spi.Logger;
 import naga.util.Arrays;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fx.spi.Toolkit;
-import naga.platform.spi.Platform;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         boolean forceRefresh = true; //getEventOptions() == null; // forcing refresh in case the working document has changed (ex: going back from the personal details after having changed the age)
         onFeesGroups().setHandler(async -> {
             if (async.failed())
-                Platform.log(async.cause());
+                Logger.log(async.cause());
             else
                 createOrUpdateOptionPanelsIfReady(forceRefresh);
         });

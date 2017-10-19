@@ -3,6 +3,7 @@ package mongoose.services;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.*;
+import naga.platform.services.log.spi.Logger;
 import naga.platform.services.query.spi.QueryService;
 import naga.util.Strings;
 import naga.util.async.Batch;
@@ -17,7 +18,6 @@ import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
-import naga.platform.spi.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -160,7 +160,7 @@ class CartServiceImpl implements CartService {
             eventService = EventService.getOrCreateFromDocument(dls.get(0).getDocument());
             return eventService.onEventOptions().compose(v2 -> {
                 if (!cartDocuments.isEmpty()) {
-                    Platform.log("Warning: CartService.onCart() has been called again before the first call is finished");
+                    Logger.log("Warning: CartService.onCart() has been called again before the first call is finished");
                     cartDocuments.clear();
                     cartWorkingDocuments.clear();
                 }

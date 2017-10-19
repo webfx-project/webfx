@@ -18,9 +18,9 @@
 package naga.providers.platform.abstr.java.scheduler;
 
 
+import naga.platform.services.log.spi.Logger;
 import naga.scheduler.Scheduled;
 import naga.scheduler.SchedulerProvider;
-import naga.platform.spi.Platform;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -68,7 +68,7 @@ public class JavaSchedulerProvider implements SchedulerProvider {
             try {
                 runnable.run();
             } catch (Throwable t) {
-                Platform.log("Uncaught exception in scheduled runnable " + runnable, t);
+                Logger.log("Uncaught exception in scheduled runnable " + runnable, t);
             }
         };
     }

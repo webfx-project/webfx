@@ -3,9 +3,9 @@ package mongoose.activities.backend.monitor.metrics.model;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.backend.monitor.metrics.Metrics;
+import naga.platform.services.log.spi.Logger;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
-import naga.platform.spi.Platform;
 import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
@@ -44,7 +44,7 @@ public class MemChartGenerator {
         }
         DisplayResultSet displayResultSet = rsb.build();
 //        Platform.log("Ok: " + displayResultSet);
-        Platform.log("Chart - [" + rowCount
+        Logger.log("Chart - [" + rowCount
                     +", "+ memList.get(rowCount-1).totalMemProperty().getValue()
                     +", "+ memList.get(rowCount-1).freeMemProperty().getValue()
                     +", "+ memList.get(rowCount-1).freePhMemProperty().getValue()
