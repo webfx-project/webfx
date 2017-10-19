@@ -23,7 +23,7 @@ module naga.platform {
     exports naga.platform.client.url.history.memory;
     exports naga.platform.client.url.location;
     exports naga.platform.client.url.location.impl;
-    exports naga.platform.client.websocket;
+    exports naga.platform.client.websocket.spi;
     exports naga.platform.compression.values;
     exports naga.platform.compression.values.repeat;
     exports naga.platform.json;

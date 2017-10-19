@@ -17,9 +17,9 @@
  */
 package naga.providers.platform.abstr.java.client.websocket;
 
-import naga.platform.client.websocket.WebSocketListener;
+import naga.platform.client.websocket.spi.WebSocketListener;
 import naga.platform.json.Json;
-import naga.platform.client.websocket.WebSocket;
+import naga.platform.client.websocket.spi.WebSocket;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.log.spi.Logger;
 import org.java_websocket.WebSocket.READYSTATE;

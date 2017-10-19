@@ -4,7 +4,6 @@ import naga.platform.spi.Platform;
 import naga.providers.platform.abstr.web.WebPlatform;
 import naga.providers.platform.client.teavm.url.history.TeaVmWindowHistory;
 import naga.providers.platform.client.teavm.url.location.TeaVmWindowLocation;
-import naga.providers.platform.client.teavm.websocket.TeaVmWebSocketFactory;
 
 /**
  * @author Bruno Salmon
@@ -16,6 +15,6 @@ public final class TeaVmPlatform extends WebPlatform {
     }
 
     public TeaVmPlatform() {
-        super(new TeaVmWebSocketFactory(), TeaVmWindowLocation.current(), TeaVmWindowHistory.current());
+        super(TeaVmWindowLocation.current(), TeaVmWindowHistory.current());
     }
 }

@@ -18,13 +18,13 @@
 package naga.platform.client.bus;
 
 import naga.platform.bus.Message;
+import naga.platform.client.websocket.spi.WebSocketFactory;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.client.websocket.WebSocket;
-import naga.platform.client.websocket.WebSocketListener;
+import naga.platform.client.websocket.spi.WebSocket;
+import naga.platform.client.websocket.spi.WebSocketListener;
 import naga.platform.services.log.spi.Logger;
-import naga.platform.spi.client.ClientPlatform;
 import naga.scheduler.Scheduled;
 import naga.scheduler.Scheduler;
 import naga.util.async.Handler;
@@ -150,7 +150,7 @@ public class WebSocketBus extends SimpleClientBus {
         if (webSocketListener == null)
             Logger.log("Connecting to " + serverUri);
 
-        webSocket = ClientPlatform.createWebSocket(serverUri, options.getSocketOptions());
+        webSocket = WebSocketFactory.createWebSocket(serverUri, options.getSocketOptions());
         webSocket.setListener(internalWebSocketHandler);
     }
 

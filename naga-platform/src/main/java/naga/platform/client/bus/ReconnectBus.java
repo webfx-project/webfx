@@ -20,7 +20,7 @@ package naga.platform.client.bus;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.bus.BusHook;
 import naga.platform.bus.BusOptions;
-import naga.platform.client.websocket.WebSocket;
+import naga.platform.client.websocket.spi.WebSocket;
 import naga.scheduler.Scheduler;
 
 import java.util.ArrayList;

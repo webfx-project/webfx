@@ -23,12 +23,10 @@ import naga.platform.client.bus.ReconnectBus;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.client.url.location.WindowLocation;
 import naga.platform.client.url.location.impl.WindowLocationImpl;
-import naga.platform.client.websocket.WebSocketFactory;
 import naga.platform.json.Json;
 import naga.platform.services.resource.spi.ResourceService;
 import naga.platform.spi.client.ClientPlatform;
 import naga.providers.platform.abstr.java.JavaPlatform;
-import naga.providers.platform.abstr.java.client.websocket.JavaWebSocketFactory;
 
 /*
  * @author 田传武 (aka Larry Tin) - author of Goodow realtime-android project
@@ -37,9 +35,6 @@ import naga.providers.platform.abstr.java.client.websocket.JavaWebSocketFactory;
  * <a href="https://github.com/goodow/realtime-android/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
  */
 public abstract class JavaClientPlatform extends JavaPlatform implements ClientPlatform {
-
-    private final WebSocketFactory webSocketFactory = new JavaWebSocketFactory();
-
 
     @Override
     public BusFactory busFactory() { // ClientPlatform default method doesn't work while extending JavaPlatform
@@ -56,11 +51,6 @@ public abstract class JavaClientPlatform extends JavaPlatform implements ClientP
         String json = ResourceService.getText("naga/platform/client/bus/conf/BusOptions.json").result();
         if (json != null)
             options.applyJson(Json.parseObject(json));
-    }
-
-    @Override
-    public WebSocketFactory webSocketFactory() {
-        return webSocketFactory;
     }
 
     @Override

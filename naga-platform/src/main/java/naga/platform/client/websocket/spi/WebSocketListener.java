@@ -1,4 +1,4 @@
-package naga.platform.client.websocket;
+package naga.platform.client.websocket.spi;
 
 import naga.platform.json.spi.JsonObject;
 

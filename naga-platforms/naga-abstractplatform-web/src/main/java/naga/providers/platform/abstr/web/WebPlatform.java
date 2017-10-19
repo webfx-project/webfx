@@ -6,7 +6,6 @@ import naga.platform.client.bus.ReconnectBus;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.client.url.history.History;
 import naga.platform.client.url.location.WindowLocation;
-import naga.platform.client.websocket.WebSocketFactory;
 import naga.platform.json.Json;
 import naga.platform.services.resource.spi.ResourceService;
 import naga.platform.spi.Platform;
@@ -17,12 +16,10 @@ import naga.platform.spi.client.ClientPlatform;
  */
 public abstract class WebPlatform extends Platform implements ClientPlatform {
 
-    private final WebSocketFactory webSocketFactory;
     private final WindowLocation windowLocation;
     private final BrowserHistory browserHistory;
 
-    public WebPlatform(WebSocketFactory webSocketFactory, WindowLocation windowLocation, WindowHistory windowHistory) {
-        this.webSocketFactory = webSocketFactory;
+    public WebPlatform(WindowLocation windowLocation, WindowHistory windowHistory) {
         this.windowLocation = windowLocation;
         this.browserHistory = new BrowserHistory(windowHistory);
     }
@@ -35,11 +32,6 @@ public abstract class WebPlatform extends Platform implements ClientPlatform {
     @Override
     public BusOptions createBusOptions() { // ClientPlatform default method doesn't work while extending JavaPlatform
         return new WebSocketBusOptions(); // So repeating it again...
-    }
-
-    @Override
-    public WebSocketFactory webSocketFactory() {
-        return webSocketFactory;
     }
 
     @Override

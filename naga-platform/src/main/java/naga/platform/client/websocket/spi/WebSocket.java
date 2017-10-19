@@ -15,13 +15,10 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package naga.platform.client.websocket;
+package naga.platform.client.websocket.spi;
 
 /*
- * @author 田传武 (aka Larry Tin) - author of Goodow realtime-channel project
- * @author Bruno Salmon - fork, refactor & update for the naga project
- *
- * <a href="https://github.com/goodow/realtime-channel/blob/master/src/main/java/com/goodow/realtime/core/WebSocket.java">Original Goodow class</a>
+ * @author Bruno Salmon
  */
 public interface WebSocket {
 

@@ -7,7 +7,6 @@ import naga.providers.platform.client.gwt.services.resource.GwtBundle;
 import naga.providers.platform.client.gwt.services.resource.GwtResourceServiceProvider;
 import naga.providers.platform.client.gwt.url.history.GwtWindowHistory;
 import naga.providers.platform.client.gwt.url.location.GwtWindowLocation;
-import naga.providers.platform.client.gwt.websocket.GwtWebSocketFactory;
 
 /**
  * @author Bruno Salmon
@@ -25,7 +24,7 @@ public final class GwtPlatform extends WebPlatform {
     }
 
     public GwtPlatform() {
-        super(/* json factory: */  new GwtWebSocketFactory(), GwtWindowLocation.current(), GwtWindowHistory.SINGLETON);
+        super(/* json factory: */   GwtWindowLocation.current(), GwtWindowHistory.SINGLETON);
     }
 
     public static void registerBundle(GwtBundle bundle) {
