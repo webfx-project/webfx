@@ -8,7 +8,7 @@ package mongoose.activities.shared.book.cart.payment;
  * details.
  */
 
-import naga.platform.spi.Platform;
+import naga.platform.services.log.spi.Logger;
 
 /**
  * @author Bruno Salmon
@@ -26,7 +26,7 @@ class Sha1 {
 */
             return hash(bytes); // alternative algorithm implementation that works with GWT
         } catch (Exception e) { // UnsupportedEncodingException or NoSuchAlgorithmException
-            Platform.log("Error while computing SHA-1", e);
+            Logger.log("Error while computing SHA-1", e);
             return msg;
         }
     }
@@ -110,7 +110,7 @@ class Sha1 {
         return 0;
     }
 
-    /*
+    /**
      * Bitwise rotate a 32-bit number to the left
      */
     private static int rol(int num, int cnt) {
