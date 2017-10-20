@@ -26,7 +26,7 @@ public class JavaFxToolkit extends Toolkit {
     }
 
     public JavaFxToolkit() {
-        super(FxScheduler.SINGLETON, startingStage);
+        super(FxSchedulerProvider.SINGLETON, startingStage);
         if (startingStage != null) {
             getPrimaryStage();
             onJavaFxPlatformReady();
