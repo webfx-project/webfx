@@ -5,6 +5,8 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -13,11 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
-import naga.util.Arrays;
-import naga.util.Strings;
-import naga.util.collection.Collections;
 import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.ExpressionArray;
@@ -36,11 +38,12 @@ import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
+import naga.util.Arrays;
+import naga.util.Strings;
+import naga.util.collection.Collections;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
-import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
-import static naga.framework.ui.controls.LayoutUtil.setMaxPrefSize;
-import static naga.framework.ui.controls.LayoutUtil.setMaxPrefSizeToInfinite;
+import static naga.framework.ui.controls.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon
@@ -71,6 +74,7 @@ public class EntityButtonSelector {
     private final DoubleProperty entityDialogPaneHeightProperty = new SimpleDoubleProperty();
     private Button modalButton;
     private TextField searchTextField;
+    private HBox searchBox;
     private Button okButton, cancelButton;
     private HBox buttonBar;
     private DialogCallback entityDialogCallback;
@@ -215,13 +219,17 @@ public class EntityButtonSelector {
         entityDialogFilter.setActive(true);
         if (show) {
             entityDialogPane.setPadding(Insets.EMPTY);
-            ShowMode decidedShowMode = getShowMode();
-            if (decidedShowMode == ShowMode.AUTO) {
-                Point2D buttonBottom = entityButton.localToScene(0, entityButton.getHeight());
-                decidedShowMode = entityButton.getScene().getHeight() - buttonBottom.getY() < 200d + searchTextField.getHeight() ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
-            }
-            show(decidedShowMode);
+            show(computeDecidedShowMode());
         }
+    }
+
+    private ShowMode computeDecidedShowMode() {
+        ShowMode decidedShowMode = getShowMode();
+        if (decidedShowMode == ShowMode.AUTO) {
+            Point2D buttonBottom = entityButton.localToScene(0, entityButton.getHeight());
+            decidedShowMode = entityButton.getScene().getHeight() - buttonBottom.getY() < 200d + searchTextField.getHeight() ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
+        }
+        return decidedShowMode;
     }
 
     private void show(ShowMode decidedShowMode) {
@@ -248,21 +256,40 @@ public class EntityButtonSelector {
             case DROP_UP:
                 setMaxPrefSize(dataGrid, USE_COMPUTED_SIZE);
                 dataGrid.setMaxHeight(200d);
-                HBox searchBox = new HBox(searchTextField, modalButton);
-                if (decidedShowMode == ShowMode.DROP_DOWN) {
-                    entityDialogPane.setTop(searchBox);
-                    entityDialogPane.setBottom(null);
-                } else {
-                    entityDialogPane.setTop(null);
-                    entityDialogPane.setBottom(searchBox);
-                }
+                searchBox = new HBox(searchTextField, modalButton);
+                onDecidedShowMode(decidedShowMode);
                 entityDialogCallback = DialogUtil.showDropUpOrDownDialog(entityDialogPane, entityButton, parent, deferredDisplayResultSet, decidedShowMode == ShowMode.DROP_UP);
+                ChangeListener<Number> sceneHeightListener = (observable, oldValue, newValue) -> {
+                    Platform.runLater(() -> {
+                        if (!LayoutUtil.isNodeVerticallyVisibleOnScene(entityButton))
+                            LayoutUtil.scrollNodeToBeVerticallyVisibleOnScene(entityButton);
+                        onDecidedShowMode(computeDecidedShowMode()); // decided show mode may change in dependence of the height
+                        DialogUtil.updateDropUpOrDownDialogPosition(entityDialogPane);
+                    });
+                };
+                ObservableValue<? extends Number> sceneHeightProperty = entityDialogPane.getScene().heightProperty();
+                sceneHeightProperty.addListener(sceneHeightListener);
+                entityDialogCallback.addCloseHook(() -> sceneHeightProperty.removeListener(sceneHeightListener));
                 break;
         }
         if (searchTextField != null) {
             searchTextField.setText(null); // Resetting the search box
             searchTextField.requestFocus();
         }
+    }
+
+    private void onDecidedShowMode(ShowMode decidedShowMode) {
+        boolean focused = searchTextField.isFocused();
+        if (decidedShowMode == ShowMode.DROP_DOWN) {
+            entityDialogPane.setBottom(null);
+            entityDialogPane.setTop(searchBox);
+        } else {
+            entityDialogPane.setTop(null);
+            entityDialogPane.setBottom(searchBox);
+        }
+        if (focused)
+            searchTextField.requestFocus();
+        DialogUtil.setDropDialogUp(entityDialogPane, decidedShowMode == ShowMode.DROP_UP);
     }
 
     private int updateAdaptiveLimit(Number height) {

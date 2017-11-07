@@ -1,5 +1,6 @@
 package naga.framework.ui.controls;
 
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import naga.util.Booleans;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
@@ -164,27 +166,29 @@ public class DialogUtil {
                 buttonNode.widthProperty(),
                 buttonNode.heightProperty(),
                 resizeProperty);
-        for (ScrollPane scrollPane = findScrollPaneAncestor(buttonNode); scrollPane != null; scrollPane = findScrollPaneAncestor(scrollPane)) {
+        for (ScrollPane scrollPane = LayoutUtil.findScrollPaneAncestor(buttonNode); scrollPane != null; scrollPane = LayoutUtil.findScrollPaneAncestor(scrollPane)) {
             reactingProperties.add(scrollPane.hvalueProperty());
             reactingProperties.add(scrollPane.vvalueProperty());
         }
-        Unit<Runnable> runnableHolder = new Unit<>();
-        Runnable runnable = () -> {
+        setDropDialogUp(dialogNode, up);
+        Unit<Runnable> positionUpdaterHolder = new Unit<>();
+        Runnable positionUpdater = () -> {
             Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
             Point2D parentSceneXY = parent.localToScene(0, 0);
             double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
             double height = dialogNode.prefHeight(width);
-            double deltaY = up ? -height : buttonNode.getHeight();
+            double deltaY = isDropDialogUp(dialogNode) ? -height : buttonNode.getHeight();
             Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
             // Hack for the html version which may have an incorrect height computation on first iteration
-            if (height <= 32 && runnableHolder.get() != null) {
-                javafx.application.Platform.runLater(runnableHolder.get());
-                runnableHolder.set(null);
+            if (height <= 32 && positionUpdaterHolder.get() != null) {
+                javafx.application.Platform.runLater(positionUpdaterHolder.get());
+                positionUpdaterHolder.set(null);
             }
         };
-        runnable.run();
-        runnableHolder.set(runnable);
-        Unregistrable unregistrable = Properties.runOnPropertiesChange(p -> runnable.run(), Collections.toArray(reactingProperties, ObservableValue[]::new));
+        positionUpdater.run();
+        positionUpdaterHolder.set(positionUpdater);
+        dialogNode.getProperties().put("positionUpdater", positionUpdater);
+        Unregistrable unregistrable = Properties.runOnPropertiesChange(p -> positionUpdater.run(), Collections.toArray(reactingProperties, ObservableValue[]::new));
         dialogCallback.addCloseHook(unregistrable::unregister);
         dialogCallback.addCloseHook(() -> dialogNode.relocate(0, 0));
         scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
@@ -198,6 +202,20 @@ public class DialogUtil {
         });
     }
 
+    public static void setDropDialogUp(Region dialogNode, boolean up) {
+        dialogNode.getProperties().put("up", up);
+    }
+
+    public static boolean isDropDialogUp(Region dialogNode) {
+        return Booleans.isTrue(dialogNode.getProperties().get("up"));
+    }
+
+    public static void updateDropUpOrDownDialogPosition(Region dialogNode) {
+        Object positionUpdater = dialogNode.getProperties().get("positionUpdater");
+        if (positionUpdater instanceof Runnable)
+            Platform.runLater((Runnable) positionUpdater);
+    }
+
     private static boolean hasAncestor(Node node, Parent parent) {
         while (true) {
             if (node == parent)
@@ -208,17 +226,4 @@ public class DialogUtil {
         }
     }
 
-    private static ScrollPane findScrollPaneAncestor(Node node) {
-        while (true) {
-            if (node == null)
-                return null;
-            // Assuming ScrollPane has been created through LayoutUtil.createScrollPane() which stores the scrollPane into "parentScrollPane" node property
-            ScrollPane parentScrollPane = (ScrollPane) node.getProperties().get("parentScrollPane");
-            if (parentScrollPane != null)
-                return parentScrollPane;
-            node = node.getParent();
-            if (node instanceof ScrollPane)
-                return (ScrollPane) node;
-        }
-    }
 }

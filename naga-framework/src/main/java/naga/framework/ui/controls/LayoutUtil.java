@@ -1,15 +1,23 @@
 package naga.framework.ui.controls;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WritableValue;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import naga.util.Numbers;
+import javafx.util.Duration;
 import naga.fx.properties.Properties;
+import naga.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -199,8 +207,22 @@ public class LayoutUtil {
 
     public static ScrollPane createScrollPane(Node content) {
         ScrollPane scrollPane = new ScrollPane(content);
-        content.getProperties().put("parentScrollPane", scrollPane); // Used by LayoutUtil.findScrollPaneAncestor()
+        content.getProperties().put("parentScrollPane", scrollPane); // Used by findScrollPaneAncestor()
         return scrollPane;
+    }
+
+    public static ScrollPane findScrollPaneAncestor(Node node) {
+        while (true) {
+            if (node == null)
+                return null;
+            // Assuming ScrollPane has been created using createScrollPane() which stores the scrollPane into "parentScrollPane" node property
+            ScrollPane parentScrollPane = (ScrollPane) node.getProperties().get("parentScrollPane");
+            if (parentScrollPane != null)
+                return parentScrollPane;
+            node = node.getParent();
+            if (node instanceof ScrollPane)
+                return (ScrollPane) node;
+        }
     }
 
 /*
@@ -224,4 +246,36 @@ public class LayoutUtil {
         return voffset;
     }
 */
+
+    public static boolean isNodeVerticallyVisibleOnScene(Node node) {
+        Bounds layoutBounds = node.getLayoutBounds();
+        double minY = node.localToScene(0, layoutBounds.getMinY()).getY();
+        double maxY = node.localToScene(0, layoutBounds.getMaxY()).getY();
+        Scene scene = node.getScene();
+        return minY >= 0 && maxY <= scene.getHeight();
+    }
+
+    public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node) {
+        return scrollNodeToBeVerticallyVisibleOnScene(node, true);
+    }
+
+    public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node, boolean animate) {
+        ScrollPane scrollPane = findScrollPaneAncestor(node);
+        if (scrollPane != null) {
+            double vValue = 1.0; // TODO: compute value in dependence of the current node position
+            animateProperty(scrollPane.vvalueProperty(), vValue, animate);
+            return true;
+        }
+        return false;
+    }
+
+    private static <T> void animateProperty(WritableValue<T> target, T finalValue, boolean animate) {
+        if (!animate)
+            target.setValue(finalValue);
+        else {
+            Timeline timeline = new Timeline();
+            timeline.getKeyFrames().setAll(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, Interpolator.EASE_OUT)));
+            timeline.play();
+        }
+    }
 }
