@@ -43,72 +43,93 @@ public final class HtmlScrollPanePeer
 
     private void setScrollTop(double scrollTop) {
         this.scrollTop = scrollTop;
-        syncModelFromUi(false, true);
+        vSyncModelFromUi();
     }
 
     private void setScrollLeft(double scrollLeft) {
         this.scrollLeft = scrollLeft;
-        syncModelFromUi(true, false);
+        hSyncModelFromUi();
+    }
+
+    private void hSyncModelFromUi() {
+        if (!syncing)
+            syncModelFromUi(true, false);
+    }
+
+    private void vSyncModelFromUi() {
+        if (!syncing)
+            syncModelFromUi(false, true);
     }
 
     private void syncModelFromUi(boolean horizontal, boolean vertical) {
         syncing = true;
-        N node = getNode();
-        double viewportWidth = node.getWidth();
-        double viewportHeight = node.getHeight();
+        N scrollPane = getNode();
+        double viewportWidth = scrollPane.getWidth();
+        double viewportHeight = scrollPane.getHeight();
         Bounds viewportBounds = new BoundingBox(scrollLeft, scrollTop, viewportWidth, viewportHeight);
-        node.setViewportBounds(viewportBounds);
-        Node content = node.getContent();
+        scrollPane.setViewportBounds(viewportBounds);
+        Node content = scrollPane.getContent();
         if (content != null) {
             Bounds contentLayoutBounds = content.getLayoutBounds();
             if (horizontal) {
-                double hmin = node.getHmin();
+                double hmin = scrollPane.getHmin();
                 double hvalue = hmin;
                 double contentWidth = contentLayoutBounds.getWidth();
                 if (contentWidth > viewportWidth)
-                    hvalue += scrollLeft * (node.getHmax() - hmin) / (contentWidth - viewportWidth);
-                node.setHvalue(hvalue);
+                    hvalue += scrollLeft * (scrollPane.getHmax() - hmin) / (contentWidth - viewportWidth);
+                scrollPane.setHvalue(hvalue);
             }
             if (vertical) {
-                double vmin = node.getVmin();
+                double vmin = scrollPane.getVmin();
                 double vvalue = vmin;
-                double vmax = node.getVmax();
+                double vmax = scrollPane.getVmax();
                 double contentHeight = contentLayoutBounds.getHeight();
                 if (contentHeight > viewportHeight)
                     vvalue += scrollTop * (vmax - vmin) / (contentHeight - viewportHeight);
-                node.setVvalue(vvalue);
+                scrollPane.setVvalue(vvalue);
             }
         }
         syncing = false;
     }
 
+    private void hSyncUiFromModel() {
+        if (!syncing)
+            syncUiFromModel(true, false);
+    }
+
+    private void vSyncUiFromModel() {
+        if (!syncing)
+            syncUiFromModel(false, true);
+    }
+
     private void syncUiFromModel(boolean horizontal, boolean vertical) {
         syncing = true;
-        N node = getNode();
-        Node content = node.getContent();
+        N scrollPane = getNode();
+        Node content = scrollPane.getContent();
         if (content != null) {
             Bounds contentLayoutBounds = content.getLayoutBounds();
             if (horizontal) {
-                double hmin = node.getHmin();
-                double hvalue = node.getHvalue();
+                double hmin = scrollPane.getHmin();
+                double hvalue = scrollPane.getHvalue();
                 double contentWidth = contentLayoutBounds.getWidth();
-                double viewportWidth = node.getWidth();
+                double viewportWidth = scrollPane.getWidth();
                 if (contentWidth > viewportWidth)
-                    scrollLeft = (contentWidth - viewportWidth) * (hvalue - hmin) / (node.getHmax() - hmin);
+                    scrollLeft = (contentWidth - viewportWidth) * (hvalue - hmin) / (scrollPane.getHmax() - hmin);
                 else
                     scrollLeft = 0;
             }
             if (vertical) {
-                double vmin = node.getVmin();
-                double vvalue = node.getVvalue();
+                double vmin = scrollPane.getVmin();
+                double vvalue = scrollPane.getVvalue();
                 double contentHeight = contentLayoutBounds.getHeight();
-                double viewportHeight = node.getHeight();
+                double viewportHeight = scrollPane.getHeight();
                 if (contentHeight > viewportHeight)
-                    scrollTop = (contentHeight - viewportHeight) * (vvalue - vmin) / (node.getVmax() - vmin);
+                    scrollTop = (contentHeight - viewportHeight) * (vvalue - vmin) / (scrollPane.getVmax() - vmin);
                 else
                     scrollTop = 0;
             }
         }
+        scheduleUpdate();
         syncing = false;
     }
 
@@ -139,13 +160,13 @@ public final class HtmlScrollPanePeer
     @Override
     public void updateWidth(Double width) {
         super.updateWidth(width);
-        scheduleUpdate();
+        hSyncUiFromModel();
     }
 
     @Override
     public void updateHeight(Double height) {
         super.updateHeight(height);
-        scheduleUpdate();
+        vSyncUiFromModel();
     }
 
     @Override
@@ -162,10 +183,7 @@ public final class HtmlScrollPanePeer
 
     @Override
     public void updateHvalue(Number hValue) {
-        if (!syncing) {
-            syncUiFromModel(true, false);
-            scheduleUpdate();
-        }
+        hSyncUiFromModel();
     }
 
     @Override
@@ -178,10 +196,7 @@ public final class HtmlScrollPanePeer
 
     @Override
     public void updateVvalue(Number vValue) {
-        if (!syncing) {
-            syncUiFromModel(false, true);
-            scheduleUpdate();
-        }
+        vSyncUiFromModel();
     }
 
     @Override
