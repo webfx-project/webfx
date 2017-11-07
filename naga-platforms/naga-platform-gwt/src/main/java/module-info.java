@@ -8,7 +8,7 @@ module naga.platform.gwt {
     requires naga.scheduler;
     requires naga.util;
 
-    requires gwt.user.HEAD.SNAPSHOT;
+    requires gwt.user;
     requires jsinterop.annotations.HEAD.SNAPSHOT;
 
     exports naga.providers.platform.client.gwt;

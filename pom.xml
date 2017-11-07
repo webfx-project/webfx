@@ -42,7 +42,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- libraries versions -->
-        <lib.gwt.version>HEAD-SNAPSHOT</lib.gwt.version> <!-- For Java 9 compilation -->
+        <lib.gwt.version>2.8.2</lib.gwt.version> <!-- For Java 9 compilation -->
         <lib.elemental2.version>1.0.0-beta-1</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.vertx.version>3.5.0</lib.vertx.version>
@@ -72,7 +72,7 @@
         <plugin.jflex.version>1.6.1</plugin.jflex.version>
         <plugin.proguard.version>2.0.11</plugin.proguard.version>
         <plugin.retrolambda.version>2.1.0</plugin.retrolambda.version>
-        <plugin.gwt.version>1.0-SNAPSHOT</plugin.gwt.version> <!-- For Java 9 compilation -->
+        <plugin.gwt.version>1.0-rc-9</plugin.gwt.version> <!-- For Java 9 compilation -->
 
         <plugin.teavm.version>${lib.teavm.version}</plugin.teavm.version>
 

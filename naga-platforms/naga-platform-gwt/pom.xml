@@ -25,6 +25,12 @@
             <artifactId>gwt-user</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.jsinterop</groupId>
+            <artifactId>jsinterop-annotations</artifactId>
+            <version>HEAD-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <properties>

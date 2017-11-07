@@ -8,6 +8,6 @@ module mongoose.logic.web {
     requires naga.platform;
     requires naga.util;
 
-    requires gwt.user.HEAD.SNAPSHOT;
+    requires gwt.user;
 
 }
