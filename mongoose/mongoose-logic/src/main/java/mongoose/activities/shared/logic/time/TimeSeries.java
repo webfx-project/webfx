@@ -137,11 +137,11 @@ public final class TimeSeries {
         TimeInterval endDayTimeInterval = dayTimeRange.getDayTimeInterval(endDay, TimeUnit.MINUTES).shift(endDay, TimeUnit.MINUTES);
         if (start < startDayTimeInterval.getIncludedStart())
             start = startDayTimeInterval.getIncludedStart();
-        else if (start > startDayTimeInterval.getExcludedEnd())
+        else if (start >= startDayTimeInterval.getExcludedEnd())
             start = startDayTimeInterval.getIncludedStart() + TimeConverter.oneDay(TimeUnit.MINUTES);
         if (end > endDayTimeInterval.getExcludedEnd())
             end = endDayTimeInterval.getExcludedEnd();
-        else if (end < endDayTimeInterval.getIncludedStart())
+        else if (end <= endDayTimeInterval.getIncludedStart())
             end = endDayTimeInterval.getExcludedEnd() - TimeConverter.oneDay(TimeUnit.MINUTES);
         if (start < end)
             intervalIntersectInterval(new TimeInterval(start, end, TimeUnit.MINUTES), interval, tsb);
