@@ -16,6 +16,8 @@ public final class TimeInterval {
     private final TimeUnit timeUnit;
 
     public TimeInterval(long includedStart, long excludedEnd, TimeUnit timeUnit) {
+        if (excludedEnd < includedStart)
+            throw new IllegalArgumentException("TimeInterval start must be before end");
         this.includedStart = includedStart;
         this.excludedEnd = excludedEnd;
         this.timeUnit = timeUnit;
