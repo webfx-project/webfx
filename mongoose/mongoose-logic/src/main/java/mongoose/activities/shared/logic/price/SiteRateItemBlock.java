@@ -63,6 +63,7 @@ class SiteRateItemBlock {
                 // selecting the cheapest rate for the next attendances
                 RateInfo cheapest = null;
                 RateInfo second = null;
+                RateInfo cheapestFixedThreshold = null; // Used for Festivals while daily rates are variable
                 for (Rate rate : rates) {
                     LocalDate startDate = rate.getStartDate();
                     LocalDate endDate = rate.getEndDate();
@@ -83,6 +84,8 @@ class SiteRateItemBlock {
                         ratePrice = ratePrice * minDay; // we transform the daily rate into a fixed rate with the upper limit
                         maxDay = minDay; // that applies over that period
                     }
+                    if (startDate == null && endDate == null && blockLength <= maxDay && (cheapestFixedThreshold == null || cheapestFixedThreshold.price > ratePrice))
+                        cheapestFixedThreshold = new RateInfo(ratePrice / blockLength, ratePrice, blockLength);
                     int consumableDays = Math.min(remainingDays, maxDay);
                     int dailyPrice = ratePrice / consumableDays;
                     RateInfo memo = new RateInfo(dailyPrice, ratePrice, consumableDays);
@@ -94,7 +97,14 @@ class SiteRateItemBlock {
                     } else if (second == null || dailyPrice < second.dailyPrice)
                         second = memo;
                 }
-                // applying the found cheapest rate on the next consumable days (applyable for this rate)
+                if (cheapestFixedThreshold != null && price + cheapest.price > cheapestFixedThreshold.price) {
+                    cheapest = cheapestFixedThreshold;
+                    price = 0;
+                    consumedDays = 0;
+                    remainingDays = blockLength;
+                    second = null;
+                }
+                // applying the found cheapest rate on the next consumable days (applicable for this rate)
                 int remainingPrice = cheapest.price;
                 if (second == null)
                     second = cheapest;
