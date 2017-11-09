@@ -216,11 +216,11 @@ class EventServiceImpl implements EventService {
         EntityList<DateInfo> dateInfos = getEventDateInfos();
         List<Option> defaultOptions = selectDefaultOptions();
         List<Option> accommodationOptions = selectOptions(o -> o.isConcrete() && o.isAccommodation());
-        if (dateInfos.isEmpty())
-            populateFeesGroups(null, defaultOptions, accommodationOptions, feesGroups);
-        else
+        if (!dateInfos.isEmpty())
             for (DateInfo dateInfo : dateInfos)
                 populateFeesGroups(dateInfo, defaultOptions, accommodationOptions, feesGroups);
+        else if (getEvent() != null) // May happen if event is empty (ie has no option)
+            populateFeesGroups(null, defaultOptions, accommodationOptions, feesGroups);
         return this.feesGroups = Collections.toArray(feesGroups, FeesGroup[]::new);
     }
 
