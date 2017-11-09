@@ -141,17 +141,39 @@ public class BookingCalendar {
     }
 
     private void updateArrivalOrDepartureDateTime(CalendarClickEvent event, boolean arrival) {
-        CalendarCell cell = event.getCalendarCell();
-        TimeInterval dayTimeMinuteInterval = cell.getDayTimeMinuteInterval();
-        long clickedDayMinute = cell.getEpochDay() * 24 * 60;
+        //Logger.log("currentWorkingDocument: " + workingDocument.getDateTimeRange().getText());
+        CalendarCell clickedCell = event.getCalendarCell();
+        long clickedDayMinute = clickedCell.getEpochDay() * 24 * 60;
+        TimeInterval clickedDayTimeMinuteInterval = clickedCell.getDayTimeMinuteInterval();
+        long clickedIncludedStart = clickedDayMinute + clickedDayTimeMinuteInterval.getIncludedStart();
+        long clickedExcludedEnd = clickedDayMinute + clickedDayTimeMinuteInterval.getExcludedEnd();
         TimeInterval currentWorkingDocumentInterval = workingDocument.getDateTimeRange().getInterval().changeTimeUnit(TimeUnit.MINUTES);
+        long workingIncludedStart = currentWorkingDocumentInterval.getIncludedStart();
+        long workingExcludedEnd = currentWorkingDocumentInterval.getExcludedEnd();
+        // If the document is empty (no cell selected)
+        if (workingIncludedStart >= workingExcludedEnd) { // this indicates the document is empty
+            // In this case, we select the clicked cell (the cell behaves like an empty checkbox that the user ticks)
+            workingIncludedStart = clickedIncludedStart;
+            workingExcludedEnd = clickedExcludedEnd;
+        } else if (arrival) { // The user specified the arrival cell
+            // If that clicked cell was already the arrival cell, we deselect it (the cell behaves like a checked checkbox that the user unticks)
+            if (workingIncludedStart >= clickedIncludedStart && workingIncludedStart < clickedExcludedEnd)
+                clickedIncludedStart = clickedExcludedEnd; // This will unselect the clicked cell
+        } else { // The user specified the departure cell
+            // If that clicked cell was already the departure cell, we deselect it (the cell behaves like a checked checkbox that the user unticks)
+            if (workingExcludedEnd > clickedIncludedStart && workingExcludedEnd <= clickedExcludedEnd)
+                clickedExcludedEnd = clickedIncludedStart; // This will unselect the clicked cell
+        }
         TimeInterval newRequestedDocumentInterval =
-                arrival ? new TimeInterval(clickedDayMinute + dayTimeMinuteInterval.getIncludedStart(), currentWorkingDocumentInterval.getExcludedEnd(), TimeUnit.MINUTES)
-                        : new TimeInterval(currentWorkingDocumentInterval.getIncludedStart(), clickedDayMinute + cell.getDayTimeMinuteInterval().getExcludedEnd(), TimeUnit.MINUTES);
+                arrival ? new TimeInterval(clickedIncludedStart, workingExcludedEnd, TimeUnit.MINUTES)
+                        : new TimeInterval(workingIncludedStart, clickedExcludedEnd, TimeUnit.MINUTES);
         EventService eventService = workingDocument.getEventService();
         DateTimeRange newWorkingDocumentDateTimeRange = eventService.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
+        //Logger.log("newWorkingDocumentDateTimeRange: " + newWorkingDocumentDateTimeRange.getText());
         WorkingDocument newCalendarWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange, false);
+        //Logger.log("newCalendarWorkingDocument: " + newCalendarWorkingDocument.getDateTimeRange().getText());
         WorkingDocument newWorkingDocument = workingDocument.mergeWithCalendarWorkingDocument(newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
+        //Logger.log("newWorkingDocument: " + newWorkingDocument.getDateTimeRange().getText());
         eventService.setWorkingDocument(newWorkingDocument);
         createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
     }
