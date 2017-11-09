@@ -90,25 +90,34 @@ public class WorkingDocument {
     private DateTimeRange dateTimeRange;
 
     public DateTimeRange getDateTimeRange() {
-        if (dateTimeRange == null) {
-            long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
-            for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
-                if (isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(wdl)) {
-                    DateTimeRange wdlDateTimeRange = wdl.getDateTimeRange();
-                    if (wdlDateTimeRange != null && !wdlDateTimeRange.isEmpty()) {
-                        TimeInterval interval = wdlDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES);
-                        includedStart = Math.min(includedStart, interval.getIncludedStart());
-                        excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
-                    }
+        if (dateTimeRange == null)
+            computeDateTimeRange();
+        return dateTimeRange;
+    }
+
+    private DateTimeRange computeDateTimeRange() {
+        long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
+        for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
+            if (isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(wdl)) {
+                DateTimeRange wdlDateTimeRange = wdl.getDateTimeRange();
+                if (wdlDateTimeRange != null && !wdlDateTimeRange.isEmpty()) {
+                    TimeInterval interval = wdlDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES);
+                    includedStart = Math.min(includedStart, interval.getIncludedStart());
+                    excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
                 }
             }
-            dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
         }
-        return dateTimeRange;
+        if (excludedEnd < includedStart)
+            includedStart = excludedEnd = 0;
+        return dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
     }
 
     private boolean isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(WorkingDocumentLine wdl) {
         return wdl.getDayTimeRange() != null; // Excluding lines with no day time range (ex: diet option)
+    }
+
+    private boolean isWorkingDocumentLineManagedByBusinessRules(WorkingDocumentLine wdl) {
+        return wdl == getDietLine() || wdl == getBreakfastLine() || wdl == getTouristTaxLine();
     }
 
     public WorkingDocument applyBusinessRules() {
@@ -315,9 +324,14 @@ public class WorkingDocument {
         List<WorkingDocumentLine> lines = new ArrayList<>(calendarWorkingDocument.getWorkingDocumentLines());
         for (WorkingDocumentLine thisLine : getWorkingDocumentLines()) {
             WorkingDocumentLine line = calendarWorkingDocument.findSameWorkingDocumentLine(thisLine);
-            if (line == null)
-                lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
-            line.syncInfoFrom(thisLine);
+            if (line == null) {
+                // Ignoring lines managed by business rules (their dates are output, not input) unless they are shown on calendar (which is the case for breakfast only)
+                boolean shownOnCalendar = !isWorkingDocumentLineManagedByBusinessRules(thisLine) || thisLine == getBreakfastLine();
+                if (shownOnCalendar)
+                    lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
+            }
+            if (line != null)
+                line.syncInfoFrom(thisLine);
         }
         return new WorkingDocument(eventService, this, lines).applyBusinessRules();
     }
