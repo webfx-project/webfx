@@ -30,7 +30,7 @@ public class EntityDataReader implements DataReader<Entity> {
 
     @Override
     public Object getDomainObjectId(Entity entity) {
-        return entity.getId();
+        return entity == null ? null : entity.getId();
     }
 
     @Override
