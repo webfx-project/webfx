@@ -107,6 +107,12 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
+    default Option findFirstConcreteOption(Predicate<? super Option> predicate) {
+        return getEventService().findFirstConcreteOption(predicate);
+    }
+
+
+    @Override
     default Option getBreakfastOption() {
         return getEventService().getBreakfastOption();
     }

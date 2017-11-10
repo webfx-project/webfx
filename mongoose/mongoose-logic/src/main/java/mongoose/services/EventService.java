@@ -94,12 +94,16 @@ public interface EventService {
         return Collections.findFirst(getEventOptions(), predicate);
     }
 
+    default Option findFirstConcreteOption(Predicate<? super Option> predicate) {
+        return findFirstOption(option -> option.isConcrete() && predicate.test(option));
+    }
+
     default Option getBreakfastOption() {
-        return findFirstOption(Option::isBreakfast);
+        return findFirstConcreteOption(Option::isBreakfast);
     }
 
     default Option getDietOption() {
-        return findFirstOption(Option::isDiet);
+        return findFirstConcreteOption(Option::isDiet);
     }
 
     default List<Rate> selectRates(Predicate<? super Rate> predicate) {
