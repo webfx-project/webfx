@@ -159,14 +159,23 @@ class EventServiceImpl implements EventService {
 
 
     //// Breakfast option
-
-    private Option breakfastOption;
+    private Option breakfastOption; // cached for better performance
 
     @Override
     public Option getBreakfastOption() {
         if (breakfastOption == null)
-            breakfastOption = findFirstOption(Option::isBreakfast);
+            breakfastOption = findFirstConcreteOption(Option::isBreakfast);
         return breakfastOption;
+    }
+
+    //// Diet option
+    private Option dietOption; // cached for better performance
+
+    @Override
+    public Option getDietOption() {
+        if (dietOption == null)
+            dietOption = findFirstConcreteOption(Option::isDiet);
+        return dietOption;
     }
 
     private Rate findFirstRate(Predicate<? super Rate> predicate) {
