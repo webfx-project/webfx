@@ -47,11 +47,7 @@ class SiteRateItemBlock {
             return price;
         int consumedDays = 0;
         //if (update)
-            for (AttendanceBlock block : attendanceBlocks) {
-                WorkingDocumentLine dl = block.getWorkingDocumentLine();
-                dl.setPrice(0);
-                dl.setRounded(false);
-            }
+            resetBlockWorkingDocumentLinesPrice();
         LocalDate firstDay = attendanceBlocks.get(0).getDate();
         LocalDate lastDay = attendanceBlocks.get(blockLength - 1).getDate();
         List<Rate> rates = workingDocument.getEventService().selectRates(
@@ -103,6 +99,7 @@ class SiteRateItemBlock {
                     consumedDays = 0;
                     remainingDays = blockLength;
                     second = null;
+                    resetBlockWorkingDocumentLinesPrice();
                 }
                 // applying the found cheapest rate on the next consumable days (applicable for this rate)
                 int remainingPrice = cheapest.price;
@@ -138,6 +135,14 @@ class SiteRateItemBlock {
         }
 */
         return price;
+    }
+
+    private void resetBlockWorkingDocumentLinesPrice() {
+        for (AttendanceBlock block : attendanceBlocks) {
+            WorkingDocumentLine dl = block.getWorkingDocumentLine();
+            dl.setPrice(0);
+            dl.setRounded(false);
+        }
     }
 
     private boolean dateNullOrBefore(LocalDate date, LocalDate compareToDate) {
