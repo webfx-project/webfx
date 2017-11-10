@@ -1,6 +1,7 @@
 package mongoose.activities.shared.book.event.options;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,10 +18,11 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.util.collection.Collections;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
+import naga.platform.services.log.spi.Logger;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ class OptionTreeNode {
     private ChoiceBox<Label> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
     private List<OptionTreeNode> childrenOptionTreeNodes;
+    private OptionTreeNode lastSelectedChildOptionTreeNode;
 
     private OptionTreeNode(Option option, OptionTree tree, OptionTreeNode parent) {
         this.option = option;
@@ -72,10 +75,10 @@ class OptionTreeNode {
         return tree.getWorkingDocument();
     }
 
-    Node createOrUpdateNodeFromWorkingDocument() {
+    Node createOrUpdateNodeFromModel() {
         if (node == null)
             node = createTopLevelOptionPanel();
-        updateNodeFromWorkingDocument();
+        syncUiFromModel();
         return node;
     }
 
@@ -97,20 +100,15 @@ class OptionTreeNode {
         return tree.getActivity().createLabelNode(label);
     }
 
+    private ButtonBase optionButton;
     private Property<Boolean> optionButtonSelectedProperty;
 
-    private Region createPanelBodyNode() {
-        VBox vBox = new VBox();
-        if (parent != null && parent.parent != null && parent.parent.childrenToggleGroup != null) // If under a radio button (ex: Ecommoy shuttle)
-            vBox.setPadding(new Insets(0, 0, 0, 20)); // Adding a left padding
-        mongoose.entities.Label topLabel = option.getTopLabel();
-        ObservableList<Node> vBoxChildren = vBox.getChildren();
-        if (topLabel != null)
-            vBoxChildren.add(createLabelNode(topLabel));
-        if (!option.isObligatory()) {
+    private void createOptionButtonAndSelectedProperty() {
+        if (option.isObligatory())
+            optionButtonSelectedProperty = new SimpleBooleanProperty(true); // new ReadOnlyBooleanWrapper(true); // not emulated
+        else {
             Label promptLabel = option.getPromptLabel();
             Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
-            ButtonBase optionButton = null;
             ToggleGroup toggleGroup = parent == null ? null : parent.getChildrenToggleGroup();
             ChoiceBox<Label> choiceBox = parent == null ? null : parent.childrenChoiceBox;
             if (toggleGroup != null) {
@@ -128,18 +126,33 @@ class OptionTreeNode {
                     }
                 };
                 Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == buttonLabel), choiceBox.getSelectionModel().selectedItemProperty());
-                vBox = null;
+                optionButton = null;
             } else {
                 CheckBox checkBox = new CheckBox();
                 optionButtonSelectedProperty = checkBox.selectedProperty();
                 optionButton = checkBox;
             }
             if (optionButton != null)
-                vBoxChildren.add(Labels.translateLabel(optionButton, buttonLabel, getI18n()));
-            Properties.runOnPropertiesChange(p -> onOptionButtonChanged(), optionButtonSelectedProperty);
+                Labels.translateLabel(optionButton, buttonLabel, getI18n());
+            Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
         }
+    }
+
+    private Region createPanelBodyNode() {
+        createOptionButtonAndSelectedProperty();
+        if (optionButton == null && !option.isObligatory())
+            return null;
+        VBox vBox = new VBox();
+        if (parent != null && parent.parent != null && parent.parent.childrenToggleGroup != null) // If under a radio button (ex: Ecommoy shuttle)
+            vBox.setPadding(new Insets(0, 0, 0, 20)); // Adding a left padding
+        mongoose.entities.Label topLabel = option.getTopLabel();
+        ObservableList<Node> vBoxChildren = vBox.getChildren();
+        if (topLabel != null)
+            vBoxChildren.add(createLabelNode(topLabel));
+        if (optionButton != null)
+            vBoxChildren.add(optionButton);
         List<Option> childrenOptions = getChildrenOptions(option);
-        if (vBox != null && !Collections.isEmpty(childrenOptions)) {
+        if (!Collections.isEmpty(childrenOptions)) {
             if ("select".equals(option.getLayout())) {
                 childrenChoiceBox = new ChoiceBox<>();
                 childrenChoiceBox.setConverter(new StringConverter<Label>() {
@@ -154,20 +167,19 @@ class OptionTreeNode {
                     }
                 });
                 Label childrenPromptLabel = option.getChildrenPromptLabel();
-                if (childrenPromptLabel == null)
-                    vBoxChildren.add(childrenChoiceBox);
-                else {
-                    Node labelNode = createLabelNode(childrenPromptLabel);
-                    HBox hBox = new HBox(10, labelNode, childrenChoiceBox);
-                    vBoxChildren.add(hBox);
-                }
+                Node selectNode = childrenChoiceBox;
+                if (childrenPromptLabel != null)
+                    selectNode =  new HBox(10, createLabelNode(childrenPromptLabel), selectNode);
+                vBoxChildren.add(selectNode);
+                if (optionButtonSelectedProperty != null)
+                    LayoutUtil.setUnmanagedWhenInvisible(selectNode, optionButtonSelectedProperty);
                 Properties.runOnPropertiesChange(p -> refreshChildrenChoiceBoxOnLanguageChange(), getI18n().languageProperty());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
             //Doesn't work on Android: childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
             childrenOptionTreeNodes = Collections.map(childrenOptions, o -> new OptionTreeNode(o, this));
-            //Doesn't work on Android: vBox.getChildren().addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
-            vBox.getChildren().addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.util.Objects::nonNull));
+            //Doesn't work on Android: vBoxChildren.addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
+            vBoxChildren.addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, naga.util.Objects::nonNull));
         }
         if (parent != null && parent.optionButtonSelectedProperty != null)
             LayoutUtil.setUnmanagedWhenInvisible(vBox, parent.optionButtonSelectedProperty);
@@ -182,88 +194,93 @@ class OptionTreeNode {
         childrenChoiceBox.getSelectionModel().select(selectedItem);
     }
 
-    private void onOptionButtonChanged() {
-        if (!updatingNodeFromWorkingDocument)
-            updateWorkingDocumentFromNode(false);
+    private void onUiOptionButtonChanged() {
+        if (!syncingUiFromModel)
+            syncModelFromUi(false);
     }
 
-    private void updateWorkingDocumentFromNode(boolean unselectedParent) {
-        boolean selected = !unselectedParent && (optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue());
-        if (selected)
-            addOptionToWorkingDocument();
+    private void syncModelFromUi(boolean unselectedParent) {
+        boolean uiSelected = !unselectedParent && (optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue());
+        Logger.log("Syncing model from TreeNode uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem() : ", option = " + option));
+        if (uiSelected)
+            addOptionToModelIfNotAlreadyPresent();
         else
-            removeOptionFromWorkingDocument();
+            removeOptionFromModel();
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childOptionTreeNode : childrenOptionTreeNodes)
-                childOptionTreeNode.updateWorkingDocumentFromNode(!selected);
-        tree.applyBusinessRulesAndUpdateUi();
+                childOptionTreeNode.syncModelFromUi(!uiSelected);
+        tree.deferBusinessRulesAndUiSync();
     }
 
-    private void addOptionToWorkingDocument() {
-        if (!isWorkingOptionSelected(option))
-            addOptionToWorkingDocument(option);
+    private void addOptionToModelIfNotAlreadyPresent() {
+        if (!isModelOptionSelected())
+            addOptionToModel();
     }
 
-    private void addOptionToWorkingDocument(Option option) {
+    private void addOptionToModel() {
         if (option.getItem() != null) {
             WorkingDocument workingDocument = getWorkingDocument();
             workingDocument.getWorkingDocumentLines().add(new WorkingDocumentLine(option, workingDocument));
             workingDocument.clearLinesCache();
+            syncUiOptionButtonSelected(true);
         }
-        boolean childAdded = false;
-        for (Option childOption: getChildrenOptions(option))
-            if (childOption.isObligatory()) {
-                addOptionToWorkingDocument(childOption);
-                childAdded = true;
+        if (childrenOptionTreeNodes != null) {
+            boolean childAdded = false;
+            for (OptionTreeNode childTreeNode: childrenOptionTreeNodes)
+                if (childTreeNode.option.isObligatory()) {
+                    childTreeNode.addOptionToModel();
+                    childAdded = true;
+                }
+            if (!childAdded) {
+                if (lastSelectedChildOptionTreeNode == null)
+                    lastSelectedChildOptionTreeNode = Collections.first(childrenOptionTreeNodes);
+                if (lastSelectedChildOptionTreeNode != null)
+                    lastSelectedChildOptionTreeNode.addOptionToModel();
             }
-        if (!childAdded) {
-            Option childOption = tree.getLastSelectedChildOption(option);
-            if (childOption != null)
-                addOptionToWorkingDocument(childOption);
         }
     }
 
 
-    private void removeOptionFromWorkingDocument() {
-        removeOptionFromWorkingDocument(option);
-    }
-
-    private void removeOptionFromWorkingDocument(Option option) {
-        Option parent = option.getParent();
-        if (parent != null)
-            tree.setLastSelectedChildOption(parent, option);
+    private void removeOptionFromModel() {
         //Doesn't work on Android: getWorkingDocument().getWorkingDocumentLines().removeIf(wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
         WorkingDocument workingDocument = getWorkingDocument();
-        Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
-        workingDocument.clearLinesCache();
-        for (Option childOption: getChildrenOptions(option))
-            removeOptionFromWorkingDocument(childOption);
+        if (Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)))
+            workingDocument.clearLinesCache();
+        if (childrenOptionTreeNodes != null)
+            for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
+                childTreeNode.removeOptionFromModel();
     }
 
     private List<Option> getChildrenOptions(Option parent) {
         return tree.getActivity().getChildrenOptions(parent);
     }
 
-    private boolean updatingNodeFromWorkingDocument;
+    private boolean syncingUiFromModel;
 
-    private void updateNodeFromWorkingDocument() {
-        boolean selected = isWorkingOptionSelected(option);
-        if (optionButtonSelectedProperty != null) {
-            updatingNodeFromWorkingDocument = true;
-            optionButtonSelectedProperty.setValue(selected);
-            updatingNodeFromWorkingDocument = false;
-        }
-        if (childrenOptionTreeNodes != null && selected)
+    private void syncUiFromModel() {
+        boolean modelSelected = isModelOptionSelected();
+        syncUiOptionButtonSelected(modelSelected);
+        if (childrenOptionTreeNodes != null && modelSelected)
             for (OptionTreeNode childOptionTreeNode : childrenOptionTreeNodes)
-                childOptionTreeNode.updateNodeFromWorkingDocument();
+                childOptionTreeNode.syncUiFromModel();
     }
 
-    private boolean isWorkingOptionSelected(Option option) {
+    private void syncUiOptionButtonSelected(boolean selected) {
+        if (optionButtonSelectedProperty != null) {
+            syncingUiFromModel = true;
+            optionButtonSelectedProperty.setValue(selected);
+            syncingUiFromModel = false;
+        }
+        if (parent != null && selected)
+            parent.lastSelectedChildOptionTreeNode = this;
+    }
+
+    private boolean isModelOptionSelected() {
         if (Collections.hasAtLeastOneMatching(getWorkingDocument().getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)))
             return true;
-        if (option.isFolder()) {
-            for (Option childOption: getChildrenOptions(option)) {
-                if (isWorkingOptionSelected(childOption))
+        if (childrenOptionTreeNodes != null) {
+            for (OptionTreeNode childTreeNode: childrenOptionTreeNodes) {
+                if (childTreeNode.isModelOptionSelected())
                     return true;
             }
         }

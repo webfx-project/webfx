@@ -19,7 +19,6 @@ class OptionTree {
     private final OptionsViewActivity activity;
     private Event event;
     private List<Option> topLevelOptions;
-    private Map<Option /*parent*/, Option /*child*/> lastSelectedChildrenOptions = new HashMap<>();
 
     OptionTree(OptionsViewActivity activity) {
         this.activity = activity;
@@ -41,7 +40,6 @@ class OptionTree {
         Event currentEvent = activity.getEvent();
         if (this.event != currentEvent) {
             topLevelOptions = null;
-            lastSelectedChildrenOptions.clear();
             this.event = currentEvent;
         }
     }
@@ -65,11 +63,11 @@ class OptionTree {
     }
 
     List<Node> getUpdatedTopLevelNodesAboveAttendance() {
-        return Collections.map(getTopLevelOptionsAboveAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromWorkingDocument());
+        return Collections.map(getTopLevelOptionsAboveAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromModel());
     }
 
     List<Node> getUpdatedTopLevelNodesBelowAttendance() {
-        return Collections.map(getTopLevelOptionsBelowAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromWorkingDocument());
+        return Collections.map(getTopLevelOptionsBelowAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromModel());
     }
 
     private int optionSectionOrder(Option option) {
@@ -112,23 +110,15 @@ class OptionTree {
         return new OptionTreeNode(option, this);
     }
 
-    Option getLastSelectedChildOption(Option parent) {
-        return lastSelectedChildrenOptions.get(parent);
-    }
+    private boolean pendingBusinessRulesAndUiSync;
 
-    void setLastSelectedChildOption(Option parent, Option child) {
-        lastSelectedChildrenOptions.put(parent, child);
-    }
-
-    private boolean applyingBusinessRulesAndUpdateUi;
-
-    void applyBusinessRulesAndUpdateUi() {
-        if (!applyingBusinessRulesAndUpdateUi) {
-            applyingBusinessRulesAndUpdateUi = true;
+    void deferBusinessRulesAndUiSync() {
+        if (!pendingBusinessRulesAndUiSync) {
+            pendingBusinessRulesAndUiSync = true;
             Toolkit.get().scheduler().scheduleDeferred(() -> {
                 getWorkingDocument().applyBusinessRules();
                 getActivity().createOrUpdateOptionPanelsIfReady(true);
-                applyingBusinessRulesAndUpdateUi = false;
+                pendingBusinessRulesAndUiSync = false;
             });
         }
     }
