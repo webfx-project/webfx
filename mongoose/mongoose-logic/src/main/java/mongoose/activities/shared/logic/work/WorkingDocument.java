@@ -124,6 +124,7 @@ public class WorkingDocument {
         applyBreakfastRule();
         applyDietRule();
         applyTouristTaxRule();
+        applyTranslationRule();
         return this;
     }
 
@@ -169,8 +170,15 @@ public class WorkingDocument {
         }
     }
 
+    private void applyTranslationRule() {
+        if (!hasTeaching())
+            workingDocumentLines.remove(getTranslationLine());
+        else if (hasTranslation())
+            applySameAttendances(getTranslationLine(), getTeachingLine(), 0);
+    }
+
     public void clearLinesCache() {
-        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = touristTaxLine = null;
+        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = touristTaxLine = teachingLine = translationLine = null;
         clearComputedPrice();
     }
 
@@ -252,7 +260,6 @@ public class WorkingDocument {
         return getSupperLine() != null;
     }
 
-
     //// Diet line
 
     private WorkingDocumentLine dietLine;
@@ -279,6 +286,34 @@ public class WorkingDocument {
 
     private boolean hasTouristTax() {
         return getTouristTaxLine() != null;
+    }
+
+    //// Teaching line
+
+    private WorkingDocumentLine teachingLine;
+
+    private WorkingDocumentLine getTeachingLine() {
+        if (teachingLine == null)
+            teachingLine = findOptionLine(Option::isTeaching);
+        return teachingLine;
+    }
+
+    private boolean hasTeaching() {
+        return getTeachingLine() != null;
+    }
+
+    //// Translation line
+
+    private WorkingDocumentLine translationLine;
+
+    private WorkingDocumentLine getTranslationLine() {
+        if (translationLine == null)
+            translationLine = findOptionLine(Option::isTranslation);
+        return translationLine;
+    }
+
+    private boolean hasTranslation() {
+        return getTranslationLine() != null;
     }
 
     private WorkingDocumentLine addNewDependantLine(Option dependantOption, WorkingDocumentLine masterLine, long shiftDays) {
