@@ -21,7 +21,6 @@ import mongoose.util.Labels;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
-import naga.platform.services.log.spi.Logger;
 import naga.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -102,6 +101,12 @@ class OptionTreeNode {
 
     private ButtonBase optionButton;
     private Property<Boolean> optionButtonSelectedProperty;
+    private boolean keepButtonSelectedAsItIsATemporaryUiTransitionalState; /* Set to true to allow the ui to be temporary
+     desynchronized from the model during a transitional state. Ex: The booker ticked the translation checkbox but hasn't
+     yet selected the language. This is a transitional state because the translation option can't yet be added to the
+     model (as no language selected) but it is necessary to keep the checkbox ticked in the ui to let the booker select
+     the language. Once selected, this language selection causes the translation option to be added to the model so this
+     flag should be set back to false because the ui and model are synchronized again.*/
 
     private void createOptionButtonAndSelectedProperty() {
         if (option.isObligatory())
@@ -201,7 +206,7 @@ class OptionTreeNode {
 
     private void syncModelFromUi(boolean unselectedParent) {
         boolean uiSelected = !unselectedParent && (optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue());
-        Logger.log("Syncing model from TreeNode uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem() : ", option = " + option));
+        //Logger.log("Syncing model from TreeNode uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem() : ", option = " + option));
         if (uiSelected)
             addOptionToModelIfNotAlreadyPresent();
         else
@@ -232,10 +237,10 @@ class OptionTreeNode {
                     childAdded = true;
                 }
             if (!childAdded) {
-                if (lastSelectedChildOptionTreeNode == null)
-                    lastSelectedChildOptionTreeNode = Collections.first(childrenOptionTreeNodes);
                 if (lastSelectedChildOptionTreeNode != null)
                     lastSelectedChildOptionTreeNode.addOptionToModel();
+                else if (optionButtonSelectedProperty != null && optionButtonSelectedProperty.getValue())
+                    keepButtonSelectedAsItIsATemporaryUiTransitionalState = true;
             }
         }
     }
@@ -268,11 +273,13 @@ class OptionTreeNode {
     private void syncUiOptionButtonSelected(boolean selected) {
         if (optionButtonSelectedProperty != null) {
             syncingUiFromModel = true;
-            optionButtonSelectedProperty.setValue(selected);
+            optionButtonSelectedProperty.setValue(selected || keepButtonSelectedAsItIsATemporaryUiTransitionalState);
             syncingUiFromModel = false;
         }
-        if (parent != null && selected)
+        if (parent != null && selected) {
             parent.lastSelectedChildOptionTreeNode = this;
+            parent.keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
+        }
     }
 
     private boolean isModelOptionSelected() {
