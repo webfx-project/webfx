@@ -86,8 +86,10 @@ class OptionTreeNode {
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
                 , Node[]::new));
         Region panelBodyNode = createPanelBodyNode();
-        panelBodyNode.setPadding(new Insets(20));
-        sectionPanel.setCenter(panelBodyNode);
+        if (panelBodyNode != null) {
+            panelBodyNode.setPadding(new Insets(20));
+            sectionPanel.setCenter(panelBodyNode);
+        }
         return sectionPanel;
     }
 
@@ -223,7 +225,7 @@ class OptionTreeNode {
     }
 
     private void addOptionToModel() {
-        if (option.getItem() != null) {
+        if (option.isConcrete()) {
             WorkingDocument workingDocument = getWorkingDocument();
             workingDocument.getWorkingDocumentLines().add(new WorkingDocumentLine(option, workingDocument));
             workingDocument.clearLinesCache();
@@ -251,6 +253,7 @@ class OptionTreeNode {
         WorkingDocument workingDocument = getWorkingDocument();
         if (Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)))
             workingDocument.clearLinesCache();
+        keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
                 childTreeNode.removeOptionFromModel();
