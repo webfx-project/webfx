@@ -145,7 +145,7 @@ public class WorkingDocument {
         } else {
             WorkingDocumentLine dietLine = getDietLine();
             if (dietLine == null) {
-                Option dietOption = eventService.getDietOption();
+                Option dietOption = eventService.getDefaultDietOption();
                 if (dietOption == null)
                     return;
                 dietLine = new WorkingDocumentLine(dietOption, this);

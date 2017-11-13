@@ -144,7 +144,7 @@ class EventServiceImpl implements EventService {
     }
 
     public List<Option> selectDefaultOptions() {
-        return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? mealsAreIncludedByDefault() : o.isObligatory())) && !o.isDependant());
+        return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault() : o.isObligatory())) && !o.isDependant());
     }
 
     @Override
@@ -152,9 +152,12 @@ class EventServiceImpl implements EventService {
         return selectOptions(o -> o.getParent() == parent);
     }
 
-    private boolean mealsAreIncludedByDefault() {
+    private boolean areMealsIncludedByDefault() {
+        // Answer: yes except for day courses, public talks and International Festivals
         String eventName = getEvent().getName();
-        return !eventName.contains("Day Course") && !eventName.contains("Public Talk");
+        return !eventName.contains("Day Course")
+                && !eventName.contains("Public Talk")
+                && Numbers.toInteger(getEvent().getOrganizationId().getPrimaryKey()) != 1;
     }
 
 
@@ -169,13 +172,17 @@ class EventServiceImpl implements EventService {
     }
 
     //// Diet option
-    private Option dietOption; // cached for better performance
+    private Option defaultDietOption; // cached for better performance
 
     @Override
-    public Option getDietOption() {
-        if (dietOption == null)
-            dietOption = findFirstConcreteOption(Option::isDiet);
-        return dietOption;
+    public Option getDefaultDietOption() {
+        // If meals are included by default, then we return a default diet option (the first proposed one) which will be
+        // automatically selected as initial choice
+        if (defaultDietOption == null && areMealsIncludedByDefault())
+            defaultDietOption = findFirstConcreteOption(Option::isDiet);
+        // If meals are not included by default, we don't return a default diet option so bookers will need to
+        // explicitly select the diet option when ticking meals (the diet option will initially be blank)
+        return defaultDietOption;
     }
 
     private Rate findFirstRate(Predicate<? super Rate> predicate) {

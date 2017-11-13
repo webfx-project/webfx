@@ -118,8 +118,8 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
-    default Option getDietOption() {
-        return getEventService().getDietOption();
+    default Option getDefaultDietOption() {
+        return getEventService().getDefaultDietOption();
     }
 
     @Override

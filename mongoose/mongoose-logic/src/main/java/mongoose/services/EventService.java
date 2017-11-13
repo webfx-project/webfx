@@ -102,7 +102,7 @@ public interface EventService {
         return findFirstConcreteOption(Option::isBreakfast);
     }
 
-    default Option getDietOption() {
+    default Option getDefaultDietOption() {
         return findFirstConcreteOption(Option::isDiet);
     }
 
