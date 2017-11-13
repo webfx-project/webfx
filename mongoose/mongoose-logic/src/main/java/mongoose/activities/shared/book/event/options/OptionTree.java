@@ -75,14 +75,15 @@ class OptionTree {
     }
 
     private int itemFamilySectionOrder(ItemFamily itemFamily) {
-        switch (itemFamily.getItemFamilyType()) {
-            case TEACHING: return 0;
-            case MEALS: return 1;
-            case ACCOMMODATION: return 2;
-            case TRANSLATION: return 11;
-            case PARKING: return 12;
-            case TRANSPORT: return 13;
-        }
+        if (itemFamily != null)
+            switch (itemFamily.getItemFamilyType()) {
+                case TEACHING: return 0;
+                case MEALS: return 1;
+                case ACCOMMODATION: return 2;
+                case TRANSLATION: return 11;
+                case PARKING: return 12;
+                case TRANSPORT: return 13;
+            }
         return 20;
     }
 
