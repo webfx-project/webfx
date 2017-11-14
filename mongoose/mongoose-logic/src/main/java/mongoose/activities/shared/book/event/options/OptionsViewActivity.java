@@ -97,7 +97,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         Label label = new Label();
         label.textProperty().bind(i18nTitle);
         return Arrays.asList(
-                ImageViewUtil.createImageView("images/16/itemFamilies/" + option.getItemFamily().getCode() + ".png"),
+                ImageViewUtil.createImageView("images/16/itemFamilies/" + option.getItemFamilyCode() + ".png"),
                 label
         );
     }

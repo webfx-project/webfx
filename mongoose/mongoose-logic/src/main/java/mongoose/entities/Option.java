@@ -129,16 +129,26 @@ public interface Option extends Entity,
     
     //// Enriched fields and methods
 
-    @Override
-    default ItemFamilyType getItemFamilyType() {
+    default ItemFamily findItemFamily() {
         Item item = getItem();
         if (item != null)
-            return item.getItemFamilyType();
+            return item.getFamily();
         ItemFamily itemFamily = getItemFamily();
         if (itemFamily != null)
-            return itemFamily.getItemFamilyType();
+            return itemFamily;
         Option parent = getParent();
-        return parent == null ? ItemFamilyType.UNKNOWN : parent.getItemFamilyType();
+        return parent == null ? null : parent.findItemFamily();
+    }
+
+    default String getItemFamilyCode() {
+        ItemFamily itemFamily = findItemFamily();
+        return itemFamily == null ? null : itemFamily.getCode();
+    }
+
+    @Override
+    default ItemFamilyType getItemFamilyType() {
+        ItemFamily itemFamily = findItemFamily();
+        return itemFamily == null ? ItemFamilyType.UNKNOWN : itemFamily.getItemFamilyType();
     }
 
     default boolean isConcrete() {

@@ -71,7 +71,7 @@ class OptionTree {
     }
 
     private int optionSectionOrder(Option option) {
-        return itemFamilySectionOrder(option.getItemFamily());
+        return itemFamilySectionOrder(option.findItemFamily());
     }
 
     private int itemFamilySectionOrder(ItemFamily itemFamily) {
