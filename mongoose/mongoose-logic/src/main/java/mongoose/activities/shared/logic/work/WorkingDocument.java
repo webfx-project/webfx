@@ -171,7 +171,7 @@ public class WorkingDocument {
 
     WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
-            breakfastLine = findOptionLine(Option::isBreakfast);
+            breakfastLine = findOptionLine(BusinessRules::isBreakfastOption);
         return breakfastLine;
     }
 
@@ -189,7 +189,7 @@ public class WorkingDocument {
 
     WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
-            lunchLine = findOptionLine(Option::isLunch);
+            lunchLine = findOptionLine(BusinessRules::isLunchOption);
         return lunchLine;
     }
 
@@ -203,7 +203,7 @@ public class WorkingDocument {
 
     WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
-            supperLine = findOptionLine(Option::isSupper);
+            supperLine = findOptionLine(BusinessRules::isSupperOption);
         return supperLine;
     }
 
@@ -231,7 +231,7 @@ public class WorkingDocument {
 
     WorkingDocumentLine getTouristTaxLine() {
         if (touristTaxLine == null)
-            touristTaxLine = findOptionLine(Option::isTouristTax);
+            touristTaxLine = findOptionLine(BusinessRules::isTouristTaxOption);
         return touristTaxLine;
     }
 

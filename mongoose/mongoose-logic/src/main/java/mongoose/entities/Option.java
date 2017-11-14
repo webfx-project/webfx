@@ -2,12 +2,9 @@ package mongoose.entities;
 
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
-import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.markers.*;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
@@ -153,41 +150,6 @@ public interface Option extends Entity,
 
     default boolean isConcrete() {
         return !isFolder() && hasSiteAndItem();
-    }
-
-    default boolean isIncludedByDefault() {
-        return isConcrete() ||
-                hasItem() && hasTimeRange(); // Ex: Prayers -> to include in the working document so it is displayed in the calendar
-    }
-
-    default boolean isBreakfast() {
-        return isMealsDayTimeRange(0, 10 * 60);
-    }
-
-    default boolean isLunch() {
-        return isMealsDayTimeRange(10 * 60, 15 * 60);
-    }
-
-    default boolean isSupper() {
-        return isMealsDayTimeRange(15 * 60, 24 * 60);
-    }
-
-    default boolean isMealsDayTimeRange(long startMinutes, long endMinutes) {
-        if (!isMeals())
-            return false;
-        DayTimeRange dayTimeRange = DayTimeRange.parse(getTimeRangeOrParent());
-        if (dayTimeRange == null)
-            return false;
-        TimeInterval dayTimeInterval = dayTimeRange.getDayTimeInterval(0, TimeUnit.DAYS);
-        return dayTimeInterval.getIncludedStart() >= startMinutes && dayTimeInterval.getExcludedEnd() < endMinutes;
-    }
-
-    default boolean isTouristTax() {
-        return isTax(); // The only tax for now is the tourist tax
-    }
-
-    default boolean isDependant() {
-        return isDiet() || isBreakfast() || isTouristTax();
     }
 
     default boolean hasTimeRange() {

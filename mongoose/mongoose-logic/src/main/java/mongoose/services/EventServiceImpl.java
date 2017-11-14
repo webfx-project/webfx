@@ -1,17 +1,13 @@
 package mongoose.services;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
-import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.activities.shared.logic.work.BusinessRules;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.entities.*;
-import naga.platform.services.query.spi.QueryService;
-import naga.util.Numbers;
-import naga.util.Objects;
-import naga.util.async.Batch;
-import naga.util.async.Future;
-import naga.util.collection.Collections;
-import naga.util.function.Predicate;
+import mongoose.entities.Cart;
+import mongoose.entities.Event;
+import mongoose.entities.Option;
+import mongoose.entities.Rate;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
@@ -22,9 +18,15 @@ import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.platform.client.bus.WebSocketBusOptions;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.QueryResultSet;
+import naga.platform.services.query.spi.QueryService;
 import naga.platform.spi.Platform;
+import naga.util.Numbers;
+import naga.util.Objects;
+import naga.util.async.Batch;
+import naga.util.async.Future;
+import naga.util.collection.Collections;
+import naga.util.function.Predicate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -143,32 +145,27 @@ class EventServiceImpl implements EventService {
         feesGroups = null;
     }
 
-    public List<Option> selectDefaultOptions() {
-        return selectOptions(o -> o.isIncludedByDefault() && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault() : o.isObligatory())) && !o.isDependant());
-    }
-
     @Override
     public List<Option> getChildrenOptions(Option parent) {
         return selectOptions(o -> o.getParent() == parent);
     }
-
-    private boolean areMealsIncludedByDefault() {
-        // Answer: yes except for day courses, public talks and International Festivals
-        String eventName = getEvent().getName();
-        return !eventName.contains("Day Course")
-                && !eventName.contains("Public Talk")
-                && Numbers.toInteger(getEvent().getOrganizationId().getPrimaryKey()) != 1;
-    }
-
 
     //// Breakfast option
     private Option breakfastOption; // cached for better performance
 
     @Override
     public Option getBreakfastOption() {
-        if (breakfastOption == null)
-            breakfastOption = findFirstConcreteOption(Option::isBreakfast);
         return breakfastOption;
+    }
+
+    @Override
+    public void setBreakfastOption(Option breakfastOption) {
+        this.breakfastOption = breakfastOption;
+    }
+
+    @Override
+    public void setDefaultDietOption(Option defaultDietOption) {
+        this.defaultDietOption = defaultDietOption;
     }
 
     //// Diet option
@@ -176,12 +173,6 @@ class EventServiceImpl implements EventService {
 
     @Override
     public Option getDefaultDietOption() {
-        // If meals are included by default, then we return a default diet option (the first proposed one) which will be
-        // automatically selected as initial choice
-        if (defaultDietOption == null && areMealsIncludedByDefault())
-            defaultDietOption = findFirstConcreteOption(Option::isDiet);
-        // If meals are not included by default, we don't return a default diet option so bookers will need to
-        // explicitly select the diet option when ticking meals (the diet option will initially be blank)
         return defaultDietOption;
     }
 
@@ -216,7 +207,7 @@ class EventServiceImpl implements EventService {
     @Override
     public FeesGroup[] getFeesGroups() {
         if (feesGroups == null)
-            createFeesGroups();
+            feesGroups = BusinessRules.createFeesGroups(this);
         return feesGroups;
     }
 
@@ -224,32 +215,7 @@ class EventServiceImpl implements EventService {
     public Future<FeesGroup[]> onFeesGroups() {
         if (feesGroups != null)
             return Future.succeededFuture(feesGroups);
-        return onEventOptions().map(this::createFeesGroups);
-    }
-
-    private FeesGroup[] createFeesGroups() {
-        List<FeesGroup> feesGroups = new ArrayList<>();
-        EntityList<DateInfo> dateInfos = getEventDateInfos();
-        List<Option> defaultOptions = selectDefaultOptions();
-        List<Option> accommodationOptions = selectOptions(o -> o.isConcrete() && o.isAccommodation());
-        if (!dateInfos.isEmpty())
-            for (DateInfo dateInfo : dateInfos)
-                populateFeesGroups(dateInfo, defaultOptions, accommodationOptions, feesGroups);
-        else if (getEvent() != null) // May happen if event is empty (ie has no option)
-            populateFeesGroups(null, defaultOptions, accommodationOptions, feesGroups);
-        return this.feesGroups = Collections.toArray(feesGroups, FeesGroup[]::new);
-    }
-
-    private void populateFeesGroups(DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions, List<FeesGroup> feesGroups) {
-        feesGroups.add(createFeesGroup(dateInfo, defaultOptions, accommodationOptions));
-    }
-
-    private FeesGroup createFeesGroup(DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions) {
-        return new FeesGroupBuilder(this)
-                .setDateInfo(dateInfo)
-                .setDefaultOptions(defaultOptions)
-                .setAccommodationOptions(accommodationOptions)
-                .build();
+        return onEventOptions().map(this::getFeesGroups);
     }
 
     // Event availability loading method

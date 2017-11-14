@@ -92,11 +92,6 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
-    default List<Option> selectDefaultOptions() {
-        return getEventService().selectDefaultOptions();
-    }
-
-    @Override
     default List<Option> getChildrenOptions(Option parent) {
         return getEventService().getChildrenOptions(parent);
     }
@@ -111,15 +106,24 @@ public interface EventServiceMixin extends EventService {
         return getEventService().findFirstConcreteOption(predicate);
     }
 
-
     @Override
     default Option getBreakfastOption() {
         return getEventService().getBreakfastOption();
     }
 
     @Override
+    default void setBreakfastOption(Option breakfastOption) {
+        getEventService().setBreakfastOption(breakfastOption);
+    }
+
+    @Override
     default Option getDefaultDietOption() {
         return getEventService().getDefaultDietOption();
+    }
+
+    @Override
+    default void setDefaultDietOption(Option defaultDietOption) {
+        getEventService().setDefaultDietOption(defaultDietOption);
     }
 
     @Override

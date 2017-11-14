@@ -86,8 +86,6 @@ public interface EventService {
         return selectEntities(getEventOptions(), predicate);
     }
 
-    List<Option> selectDefaultOptions();
-
     List<Option> getChildrenOptions(Option parent);
 
     default Option findFirstOption(Predicate<? super Option> predicate) {
@@ -98,13 +96,13 @@ public interface EventService {
         return findFirstOption(option -> option.isConcrete() && predicate.test(option));
     }
 
-    default Option getBreakfastOption() {
-        return findFirstConcreteOption(Option::isBreakfast);
-    }
+    Option getBreakfastOption();
 
-    default Option getDefaultDietOption() {
-        return findFirstConcreteOption(Option::isDiet);
-    }
+    void setBreakfastOption(Option breakfastOption);
+
+    Option getDefaultDietOption();
+
+    void setDefaultDietOption(Option defaultDietOption);
 
     default List<Rate> selectRates(Predicate<? super Rate> predicate) {
         return selectEntities(getEventRates(), predicate);
