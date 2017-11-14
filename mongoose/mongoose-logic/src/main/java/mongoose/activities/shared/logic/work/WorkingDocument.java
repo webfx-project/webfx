@@ -3,7 +3,6 @@ package mongoose.activities.shared.logic.work;
 import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
-import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.*;
 import mongoose.entities.markers.EntityHasPersonDetails;
@@ -121,60 +120,8 @@ public class WorkingDocument {
     }
 
     public WorkingDocument applyBusinessRules() {
-        applyBreakfastRule();
-        applyDietRule();
-        applyTouristTaxRule();
-        applyTranslationRule();
+        BusinessRules.applyBusinessRules(this);
         return this;
-    }
-
-    private void applyBreakfastRule() {
-        if (!hasAccommodation())
-            workingDocumentLines.remove(getBreakfastLine());
-        else if (!hasBreakfast()) {
-            Option breakfastOption = eventService.getBreakfastOption();
-            if (breakfastOption != null)
-                breakfastLine = addNewDependantLine(breakfastOption, getAccommodationLine(), 1);
-        }
-    }
-
-    private void applyDietRule() {
-        if (!hasLunch() && !hasSupper()) {
-            if (hasDiet())
-                workingDocumentLines.remove(getDietLine());
-        } else {
-            WorkingDocumentLine dietLine = getDietLine();
-            if (dietLine == null) {
-                Option dietOption = eventService.getDefaultDietOption();
-                if (dietOption == null)
-                    return;
-                dietLine = new WorkingDocumentLine(dietOption, this);
-                workingDocumentLines.add(dietLine);
-            }
-            DaysArrayBuilder dab = new DaysArrayBuilder();
-            if (hasLunch())
-                dab.addSeries(getLunchLine().getDaysArray().toSeries(), null);
-            if (hasSupper())
-                dab.addSeries(getSupperLine().getDaysArray().toSeries(), null);
-            dietLine.setDaysArray(dab.build());
-        }
-    }
-
-    private void applyTouristTaxRule() {
-        if (!hasAccommodation())
-            workingDocumentLines.remove(getTouristTaxLine());
-        else if (!hasTouristTax()) {
-            Option touristTaxOption = eventService.findFirstOption(o -> o.isTouristTax() && (o.getParent() == null || getAccommodationLine() != null && o.getParent().getItem() == getAccommodationLine().getItem()));
-            if (touristTaxOption != null)
-                touristTaxLine = addNewDependantLine(touristTaxOption, getAccommodationLine(), 0);
-        }
-    }
-
-    private void applyTranslationRule() {
-        if (!hasTeaching())
-            workingDocumentLines.remove(getTranslationLine());
-        else if (hasTranslation())
-            applySameAttendances(getTranslationLine(), getTeachingLine(), 0);
     }
 
     public void clearLinesCache() {
@@ -214,7 +161,7 @@ public class WorkingDocument {
         return findLine(wdl -> predicate.test(wdl.getOption()));
     }
 
-    private boolean hasAccommodation() {
+    boolean hasAccommodation() {
         return getAccommodationLine() != null;
     }
 
@@ -222,27 +169,31 @@ public class WorkingDocument {
 
     private WorkingDocumentLine breakfastLine;
 
-    private WorkingDocumentLine getBreakfastLine() {
+    WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
             breakfastLine = findOptionLine(Option::isBreakfast);
         return breakfastLine;
     }
 
-    private boolean hasBreakfast() {
+    boolean hasBreakfast() {
         return getBreakfastLine() != null;
+    }
+
+    void setBreakfastLine(WorkingDocumentLine breakfastLine) {
+        this.breakfastLine = breakfastLine;
     }
 
     //// Lunch line
 
     private WorkingDocumentLine lunchLine;
 
-    private WorkingDocumentLine getLunchLine() {
+    WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
             lunchLine = findOptionLine(Option::isLunch);
         return lunchLine;
     }
 
-    private boolean hasLunch() {
+    boolean hasLunch() {
         return getLunchLine() != null;
     }
 
@@ -250,13 +201,13 @@ public class WorkingDocument {
 
     private WorkingDocumentLine supperLine;
 
-    private WorkingDocumentLine getSupperLine() {
+    WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
             supperLine = findOptionLine(Option::isSupper);
         return supperLine;
     }
 
-    private boolean hasSupper() {
+    boolean hasSupper() {
         return getSupperLine() != null;
     }
 
@@ -264,13 +215,13 @@ public class WorkingDocument {
 
     private WorkingDocumentLine dietLine;
 
-    private WorkingDocumentLine getDietLine() {
+    WorkingDocumentLine getDietLine() {
         if (dietLine == null)
             dietLine = findLine(WorkingDocumentLine::isDiet);
         return dietLine;
     }
 
-    private boolean hasDiet() {
+    boolean hasDiet() {
         return getDietLine() != null;
     }
 
@@ -278,27 +229,31 @@ public class WorkingDocument {
 
     private WorkingDocumentLine touristTaxLine;
 
-    private WorkingDocumentLine getTouristTaxLine() {
+    WorkingDocumentLine getTouristTaxLine() {
         if (touristTaxLine == null)
             touristTaxLine = findOptionLine(Option::isTouristTax);
         return touristTaxLine;
     }
 
-    private boolean hasTouristTax() {
+    boolean hasTouristTax() {
         return getTouristTaxLine() != null;
+    }
+
+    void setTouristTaxLine(WorkingDocumentLine touristTaxLine) {
+        this.touristTaxLine = touristTaxLine;
     }
 
     //// Teaching line
 
     private WorkingDocumentLine teachingLine;
 
-    private WorkingDocumentLine getTeachingLine() {
+    WorkingDocumentLine getTeachingLine() {
         if (teachingLine == null)
             teachingLine = findOptionLine(Option::isTeaching);
         return teachingLine;
     }
 
-    private boolean hasTeaching() {
+    boolean hasTeaching() {
         return getTeachingLine() != null;
     }
 
@@ -306,24 +261,24 @@ public class WorkingDocument {
 
     private WorkingDocumentLine translationLine;
 
-    private WorkingDocumentLine getTranslationLine() {
+    WorkingDocumentLine getTranslationLine() {
         if (translationLine == null)
             translationLine = findOptionLine(Option::isTranslation);
         return translationLine;
     }
 
-    private boolean hasTranslation() {
+    boolean hasTranslation() {
         return getTranslationLine() != null;
     }
 
-    private WorkingDocumentLine addNewDependantLine(Option dependantOption, WorkingDocumentLine masterLine, long shiftDays) {
+    WorkingDocumentLine addNewDependantLine(Option dependantOption, WorkingDocumentLine masterLine, long shiftDays) {
         WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependantOption, this);
         workingDocumentLines.add(dependantLine);
         applySameAttendances(dependantLine, masterLine, shiftDays);
         return dependantLine;
     }
 
-    private void applySameAttendances(WorkingDocumentLine dependantLine, WorkingDocumentLine masterLine, long shiftDays) {
+    void applySameAttendances(WorkingDocumentLine dependantLine, WorkingDocumentLine masterLine, long shiftDays) {
         dependantLine.setDaysArray(masterLine.getDaysArray().shift(shiftDays));
     }
 
