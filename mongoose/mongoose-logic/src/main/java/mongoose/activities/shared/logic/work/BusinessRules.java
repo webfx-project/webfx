@@ -63,7 +63,7 @@ public class BusinessRules {
     }
 
     private static void applyBreakfastRule(WorkingDocument wd) {
-        if (!wd.hasAccommodation())
+        if (!wd.hasAccommodation() || !hasMeals(wd))
             wd.getWorkingDocumentLines().remove(wd.getBreakfastLine());
         else if (!wd.hasBreakfast()) {
             Option breakfastOption = getBreakfastOption(wd.getEventService());
