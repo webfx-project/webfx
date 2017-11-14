@@ -64,24 +64,24 @@ public class BusinessRules {
 
     private static void applyBreakfastRule(WorkingDocument wd) {
         if (!wd.hasAccommodation() || !hasMeals(wd))
-            wd.getWorkingDocumentLines().remove(wd.getBreakfastLine());
+            wd.removeBreakfastLine();
         else if (!wd.hasBreakfast()) {
             Option breakfastOption = getBreakfastOption(wd.getEventService());
             if (breakfastOption != null)
-                wd.setBreakfastLine(wd.addNewDependantLine(breakfastOption, wd.getAccommodationLine(), 1));
+                wd.setBreakfastLine(addNewDependentLine(wd, breakfastOption, wd.getAccommodationLine(), 1));
         }
     }
 
     private static void applyDietRule(WorkingDocument wd) {
         if (!hasMeals(wd))
-                wd.getWorkingDocumentLines().remove(wd.getDietLine());
+            wd.removeDietLine();
         else {
             WorkingDocumentLine dietLine = wd.getDietLine();
             if (dietLine == null) {
                 Option dietOption = getDefaultDietOption(wd.getEventService());
                 if (dietOption == null)
                     return;
-                dietLine = new WorkingDocumentLine(dietOption, wd);
+                wd.setDietLine(dietLine = new WorkingDocumentLine(dietOption, wd));
                 wd.getWorkingDocumentLines().add(dietLine);
             }
             DaysArrayBuilder dab = new DaysArrayBuilder();
@@ -95,19 +95,30 @@ public class BusinessRules {
 
     private static void applyTouristTaxRule(WorkingDocument wd) {
         if (!wd.hasAccommodation())
-            wd.getWorkingDocumentLines().remove(wd.getTouristTaxLine());
+            wd.removeTouristTaxLine();
         else if (!wd.hasTouristTax()) {
             Option touristTaxOption = wd.getEventService().findFirstOption(o -> isTouristTaxOption(o) && (o.getParent() == null || wd.getAccommodationLine() != null && o.getParent().getItem() == wd.getAccommodationLine().getItem()));
             if (touristTaxOption != null)
-                wd.setTouristTaxLine(wd.addNewDependantLine(touristTaxOption, wd.getAccommodationLine(), 0));
+                wd.setTouristTaxLine(addNewDependentLine(wd, touristTaxOption, wd.getAccommodationLine(), 0));
         }
     }
 
     private static void applyTranslationRule(WorkingDocument wd) {
         if (!wd.hasTeaching())
-            wd.getWorkingDocumentLines().remove(wd.getTranslationLine());
+            wd.removeTranslationLine();
         else if (wd.hasTranslation())
-            wd.applySameAttendances(wd.getTranslationLine(), wd.getTeachingLine(), 0);
+            applySameAttendances(wd.getTranslationLine(), wd.getTeachingLine(), 0);
+    }
+
+    private static WorkingDocumentLine addNewDependentLine(WorkingDocument wd, Option dependentOption, WorkingDocumentLine masterLine, long shiftDays) {
+        WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependentOption, wd);
+        wd.getWorkingDocumentLines().add(dependantLine);
+        applySameAttendances(dependantLine, masterLine, shiftDays);
+        return dependantLine;
+    }
+
+    private static void applySameAttendances(WorkingDocumentLine dependentLine, WorkingDocumentLine masterLine, long shiftDays) {
+        dependentLine.setDaysArray(masterLine.getDaysArray().shift(shiftDays));
     }
 
     private static boolean hasMeals(WorkingDocument wd) {
