@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.price;
+package mongoose.activities.shared.logic.work.price;
 
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 

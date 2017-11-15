@@ -3,7 +3,7 @@ package mongoose.activities.shared.logic.work;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import mongoose.activities.shared.logic.price.DocumentPricing;
+import mongoose.activities.shared.logic.work.price.WorkingDocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.Document;
@@ -131,7 +131,7 @@ public class WorkingDocument {
     }
 
     public int computePrice() {
-        return computedPrice = DocumentPricing.computeDocumentPrice(this);
+        return computedPrice = WorkingDocumentPricing.computeDocumentPrice(this);
     }
 
     private void clearLinesCache() {

@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.price;
+package mongoose.activities.shared.logic.work.price;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
@@ -10,7 +10,7 @@ import naga.util.collection.HashList;
 /**
  * @author Bruno Salmon
  */
-public class DocumentPricing {
+public class WorkingDocumentPricing {
 
     public static int computeDocumentPrice(WorkingDocument workingDocument) {
         HashList<SiteRateItemBlock> siteRateItemBlocks = new HashList<>();
