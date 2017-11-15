@@ -1,7 +1,7 @@
 package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
-import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLoader;
 import mongoose.services.EventService;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
@@ -53,7 +53,7 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
                     if (document != null) {
                         EventService eventService = getEventService();
-                        WorkingDocument.load(eventService, document.getPrimaryKey()).setHandler(ar -> {
+                        WorkingDocumentLoader.load(eventService, document.getPrimaryKey()).setHandler(ar -> {
                             if (ar.failed())
                                 Logger.log("Error loading document", ar.cause());
                             else {
