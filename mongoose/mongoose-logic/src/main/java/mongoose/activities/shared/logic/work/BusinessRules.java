@@ -47,7 +47,10 @@ public class BusinessRules {
     // Private implementation
 
     private static boolean isOptionManagedByBusinessRules(Option o) {
-        return isBreakfastOption(o) || o.isDiet() || isTouristTaxOption(o) || o.isTranslation();
+        return isBreakfastOption(o)
+                || o.isDiet()
+                || isTouristTaxOption(o)
+                || o.isTranslation();
     }
 
     private static void populateFeesGroups(EventService eventService, DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions, List<FeesGroup> feesGroups) {
@@ -63,7 +66,7 @@ public class BusinessRules {
     }
 
     private static void applyBreakfastRule(WorkingDocument wd) {
-        if (!wd.hasAccommodation() || !hasMeals(wd))
+        if (!wd.hasAccommodation() || !wd.hasMeals())
             wd.removeBreakfastLine();
         else if (!wd.hasBreakfast()) {
             Option breakfastOption = getBreakfastOption(wd.getEventService());
@@ -73,7 +76,7 @@ public class BusinessRules {
     }
 
     private static void applyDietRule(WorkingDocument wd) {
-        if (!hasMeals(wd))
+        if (!wd.hasMeals())
             wd.removeDietLine();
         else {
             WorkingDocumentLine dietLine = wd.getDietLine();
@@ -119,10 +122,6 @@ public class BusinessRules {
 
     private static void applySameAttendances(WorkingDocumentLine dependentLine, WorkingDocumentLine masterLine, long shiftDays) {
         dependentLine.setDaysArray(masterLine.getDaysArray().shift(shiftDays));
-    }
-
-    private static boolean hasMeals(WorkingDocument wd) {
-        return wd.hasLunch() || wd.hasSupper();
     }
 
     private static List<Option> selectDefaultOptions(EventService eventService) {

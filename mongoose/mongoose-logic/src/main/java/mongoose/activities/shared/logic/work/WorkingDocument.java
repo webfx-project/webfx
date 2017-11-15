@@ -222,6 +222,11 @@ public class WorkingDocument {
         return getSupperLine() != null;
     }
 
+    boolean hasMeals() {
+        return hasLunch() || hasSupper();
+    }
+
+
     //// Diet line
 
     private WorkingDocumentLine dietLine;
@@ -327,11 +332,25 @@ public class WorkingDocument {
     }
 
     public WorkingDocument mergeWithCalendarWorkingDocument(WorkingDocument calendarWorkingDocument, DateTimeRange dateTimeRange) {
-        List<WorkingDocumentLine> lines = calendarWorkingDocument.getWorkingDocumentLines();
+        List<WorkingDocumentLine> lines = new ArrayList<>(calendarWorkingDocument.getWorkingDocumentLines());
+        // If the calendar working document (coming from the preselected options) has accommodation but not the current
+        // working document (because the booker probably unselected it), we should not reestablish it
+        if (!hasAccommodation())
+            lines.removeIf(WorkingDocumentLine::isAccommodation);
+        // Same thing with meals
+        if (!hasMeals())
+            lines.removeIf(WorkingDocumentLine::isMeals);
         for (WorkingDocumentLine thisLine : getWorkingDocumentLines()) {
             WorkingDocumentLine line = calendarWorkingDocument.findSameWorkingDocumentLine(thisLine);
-            if (line == null)
-                lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
+            if (line == null) {
+                line = new WorkingDocumentLine(thisLine, dateTimeRange);
+                if (line.isAccommodation()) {
+                    /* The fact that it could not be found in the preselected calendar working document is probably due
+                     * to a booker change in the accommodation type, so we should remove the initial accommodation option */
+                    lines.removeIf(WorkingDocumentLine::isAccommodation);
+                }
+                lines.add(line);
+            }
             line.syncInfoFrom(thisLine);
         }
         return new WorkingDocument(eventService, this, lines).applyBusinessRules();
