@@ -98,6 +98,17 @@ public class Arrays {
         return collectNonNulls(array, new ArrayList<>(length(array)));
     }
 
+    public static <T> boolean contains(T[] array, T element) {
+        return indexOf(array, element) >= 0;
+    }
+
+    public static <T> int indexOf(T[] array, T element) {
+        for (int i = 0, n = length(array); i < n; i++)
+            if (Objects.areEquals(array[i], element))
+                return i;
+        return -1;
+    }
+
     public static <T> int indexOfNull(T[] array) {
         for (int i = 0, n = length(array); i < n; i++)
             if (array[i] == null)
