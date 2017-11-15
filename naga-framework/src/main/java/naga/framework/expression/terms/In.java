@@ -2,8 +2,9 @@ package naga.framework.expression.terms;
 
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
+import naga.util.Arrays;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author Bruno Salmon
@@ -16,6 +17,10 @@ public class In<T> extends BinaryBooleanExpression<T> {
 
     @Override
     public Boolean evaluateCondition(Object a, Object b, DataReader<T> dataReader) {
-        return b instanceof List && ((List) b).contains(a);
+        if (b instanceof Object[])
+            return Arrays.contains((Object[]) b, a);
+        if (b instanceof Collection)
+            return ((Collection) b).contains(a);
+        return false;
     }
 }
