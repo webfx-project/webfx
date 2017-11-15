@@ -1,7 +1,7 @@
 package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
-import mongoose.activities.shared.logic.work.WorkingDocumentLoader;
+import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.services.EventService;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;

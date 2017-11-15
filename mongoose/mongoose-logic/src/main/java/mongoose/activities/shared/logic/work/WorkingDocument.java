@@ -295,7 +295,7 @@ public class WorkingDocument {
         syncPersonDetails(p, document);
     }
 
-    UpdateStore getUpdateStore() {
+    public UpdateStore getUpdateStore() {
         if (updateStore == null)
             updateStore = getUpdateStore(document);
         return updateStore;
@@ -344,7 +344,7 @@ public class WorkingDocument {
         return new WorkingDocument(eventService, this, lines).applyBusinessRules();
     }
 
-    static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
+    public static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
         p2.setFirstName(p1.getFirstName());
         p2.setLastName(p1.getLastName());
         p2.setLayName(p1.getLayName());
@@ -373,7 +373,7 @@ public class WorkingDocument {
         p2.setResident2(p1.isResident2());
     }
 
-    WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
+    public WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
         for (WorkingDocumentLine thisWdl : getWorkingDocumentLines()) {
             if (sameLine(thisWdl, wdl))
                 return thisWdl;

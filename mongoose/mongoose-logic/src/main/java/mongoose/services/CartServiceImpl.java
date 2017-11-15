@@ -2,7 +2,7 @@ package mongoose.services;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
-import mongoose.activities.shared.logic.work.WorkingDocumentLoader;
+import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.entities.*;
 import naga.platform.services.log.spi.Logger;
 import naga.platform.services.query.spi.QueryService;

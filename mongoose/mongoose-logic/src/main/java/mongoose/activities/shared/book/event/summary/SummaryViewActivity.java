@@ -17,7 +17,7 @@ import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.activities.shared.logic.work.WorkingDocumentSubmitter;
+import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import naga.framework.ui.controls.LayoutUtil;

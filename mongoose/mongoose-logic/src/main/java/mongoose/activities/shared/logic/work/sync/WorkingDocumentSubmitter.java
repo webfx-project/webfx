@@ -1,6 +1,8 @@
-package mongoose.activities.shared.logic.work;
+package mongoose.activities.shared.logic.work.sync;
 
 import mongoose.activities.shared.logic.time.DaysArray;
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.Attendance;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
