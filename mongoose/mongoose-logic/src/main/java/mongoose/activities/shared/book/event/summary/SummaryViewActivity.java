@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.event.summary;
 
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -16,13 +17,14 @@ import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
-import naga.platform.services.log.spi.Logger;
-import naga.util.Strings;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.platform.json.Json;
+import naga.platform.services.log.spi.Logger;
+import naga.util.Strings;
 
 import java.time.Instant;
 
@@ -68,7 +70,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     }
 
     private void setTermsCheckBoxText(String text) {
-        javafx.application.Platform.runLater(() -> {
+        Platform.runLater(() -> {
             int aStartPos = text.indexOf("<a");
             int aTextStart = text.indexOf(">", aStartPos) + 1;
             int aTextEnd = text.indexOf("</a>", aTextStart);
@@ -120,7 +122,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
 
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
-        getWorkingDocument().submit(commentTextArea.getText()).setHandler(ar -> {
+        WorkingDocumentSubmitter.submit(getWorkingDocument(), commentTextArea.getText()).setHandler(ar -> {
             if (ar.failed())
                 Logger.log("Error submitting booking", ar.cause());
             else {
