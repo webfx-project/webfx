@@ -100,7 +100,7 @@ public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
         return EntityListToDisplayResultSetGenerator.select(lineEntities,
                 "select [" +
                         "'item.family.icon," +
-                        "translate(item.family) + `: ` + string_agg(translate(item), `, ` order by item.name)'," +
+                        "translate(item.family) + (item.family.code in (`teach`, `meals`) ? `` : `: ` + string_agg(translate(item), `, ` order by item.name))'," +
                         "{expression: 'days_agg()', textAlign: 'center'}," +
                         "{expression: 'sum(price_net)', format: 'priceWithCurrency'}" +
                         "] from DocumentLine where dates<>'' group by item.family order by item.family.ord", i18n);
