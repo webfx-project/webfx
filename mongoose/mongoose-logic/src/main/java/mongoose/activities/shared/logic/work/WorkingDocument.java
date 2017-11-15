@@ -45,6 +45,7 @@ public class WorkingDocument {
     private Integer computedPrice;
     private UpdateStore updateStore;
     private WorkingDocument loadedWorkingDocument;
+    private boolean changedSinceLastApplyBusinessRules = true;
 
     public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
         this(eventService, eventService.getPersonService().getPreselectionProfilePerson(), workingDocumentLines);
@@ -67,6 +68,7 @@ public class WorkingDocument {
         workingDocumentLines.addListener((ListChangeListener<WorkingDocumentLine>) c -> {
             clearLinesCache();
             clearComputedPrice();
+            changedSinceLastApplyBusinessRules = true;
         });
     }
 
@@ -123,7 +125,10 @@ public class WorkingDocument {
     }
 
     public WorkingDocument applyBusinessRules() {
-        BusinessRules.applyBusinessRules(this);
+        if (changedSinceLastApplyBusinessRules) {
+            BusinessRules.applyBusinessRules(this);
+            changedSinceLastApplyBusinessRules = false;
+        }
         return this;
     }
 
