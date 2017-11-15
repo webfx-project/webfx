@@ -115,10 +115,6 @@ public class WorkingDocument {
         return wdl.getDayTimeRange() != null; // Excluding lines with no day time range (ex: diet option)
     }
 
-    private boolean isWorkingDocumentLineManagedByBusinessRules(WorkingDocumentLine wdl) {
-        return wdl == getDietLine() || wdl == getBreakfastLine() || wdl == getTouristTaxLine();
-    }
-
     public WorkingDocument applyBusinessRules() {
         BusinessRules.applyBusinessRules(this);
         return this;
@@ -327,14 +323,9 @@ public class WorkingDocument {
         List<WorkingDocumentLine> lines = new ArrayList<>(calendarWorkingDocument.getWorkingDocumentLines());
         for (WorkingDocumentLine thisLine : getWorkingDocumentLines()) {
             WorkingDocumentLine line = calendarWorkingDocument.findSameWorkingDocumentLine(thisLine);
-            if (line == null) {
-                // Ignoring lines managed by business rules (their dates are output, not input) unless they are shown on calendar (which is the case for breakfast only)
-                boolean shownOnCalendar = !isWorkingDocumentLineManagedByBusinessRules(thisLine) || thisLine == getBreakfastLine();
-                if (shownOnCalendar)
-                    lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
-            }
-            if (line != null)
-                line.syncInfoFrom(thisLine);
+            if (line == null)
+                lines.add(line = new WorkingDocumentLine(thisLine, dateTimeRange));
+            line.syncInfoFrom(thisLine);
         }
         return new WorkingDocument(eventService, this, lines).applyBusinessRules();
     }
