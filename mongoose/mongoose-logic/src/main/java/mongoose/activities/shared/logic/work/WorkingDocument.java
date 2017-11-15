@@ -1,5 +1,8 @@
 package mongoose.activities.shared.logic.work;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import mongoose.activities.shared.logic.price.DocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
@@ -38,7 +41,7 @@ public class WorkingDocument {
 
     private final EventService eventService;
     private final Document document;
-    private final List<WorkingDocumentLine> workingDocumentLines;
+    private final ObservableList<WorkingDocumentLine> workingDocumentLines;
     private Integer computedPrice;
     private UpdateStore updateStore;
     private WorkingDocument loadedWorkingDocument;
@@ -56,11 +59,15 @@ public class WorkingDocument {
         this(eventService, createDocument(person), workingDocumentLines);
     }
 
-    public WorkingDocument(EventService eventService, Document document, List<WorkingDocumentLine> workingDocumentLines) {
+    public WorkingDocument(EventService eventService, Document document, List<WorkingDocumentLine> lines) {
         this.eventService = eventService;
         this.document = document;
-        this.workingDocumentLines = workingDocumentLines;
+        workingDocumentLines = FXCollections.observableArrayList(lines);
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
+        workingDocumentLines.addListener((ListChangeListener<WorkingDocumentLine>) c -> {
+            clearLinesCache();
+            clearComputedPrice();
+        });
     }
 
     // Constructor used to make a copy (that can be changed) of a loaded working document (that shouldn't be changed).
@@ -94,7 +101,7 @@ public class WorkingDocument {
         return dateTimeRange;
     }
 
-    private DateTimeRange computeDateTimeRange() {
+    private void computeDateTimeRange() {
         long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
         for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
             if (isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(wdl)) {
@@ -108,21 +115,16 @@ public class WorkingDocument {
         }
         if (excludedEnd < includedStart)
             includedStart = excludedEnd = 0;
-        return dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
+        dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
     }
 
-    private boolean isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(WorkingDocumentLine wdl) {
+    private static boolean isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(WorkingDocumentLine wdl) {
         return wdl.getDayTimeRange() != null; // Excluding lines with no day time range (ex: diet option)
     }
 
     public WorkingDocument applyBusinessRules() {
         BusinessRules.applyBusinessRules(this);
         return this;
-    }
-
-    public void clearLinesCache() {
-        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = touristTaxLine = teachingLine = translationLine = null;
-        clearComputedPrice();
     }
 
     public void clearComputedPrice() {
@@ -137,6 +139,10 @@ public class WorkingDocument {
 
     public int computePrice() {
         return computedPrice = DocumentPricing.computeDocumentPrice(this);
+    }
+
+    private void clearLinesCache() {
+        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = touristTaxLine = teachingLine = translationLine = null;
     }
 
     //// Accommodation line
@@ -165,7 +171,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine breakfastLine;
 
-    WorkingDocumentLine getBreakfastLine() {
+    private WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
             setBreakfastLine(findOptionLine(BusinessRules::isBreakfastOption));
         return breakfastLine;
@@ -181,7 +187,6 @@ public class WorkingDocument {
 
     void removeBreakfastLine() {
         workingDocumentLines.remove(getBreakfastLine());
-        setBreakfastLine(null);
     }
 
     //// Lunch line
@@ -228,14 +233,13 @@ public class WorkingDocument {
 
     void removeDietLine() {
         workingDocumentLines.remove(getDietLine());
-        setDietLine(null);
     }
 
     //// TouristTax line
 
     private WorkingDocumentLine touristTaxLine;
 
-    WorkingDocumentLine getTouristTaxLine() {
+    private WorkingDocumentLine getTouristTaxLine() {
         if (touristTaxLine == null)
             setTouristTaxLine(findOptionLine(BusinessRules::isTouristTaxOption));
         return touristTaxLine;
@@ -251,7 +255,6 @@ public class WorkingDocument {
 
     void removeTouristTaxLine() {
         workingDocumentLines.remove(getTouristTaxLine());
-        setTouristTaxLine(null);
     }
 
     //// Teaching line
@@ -278,7 +281,7 @@ public class WorkingDocument {
         return translationLine;
     }
 
-    void setTranslationLine(WorkingDocumentLine translationLine) {
+    private void setTranslationLine(WorkingDocumentLine translationLine) {
         this.translationLine = translationLine;
     }
 
@@ -288,7 +291,6 @@ public class WorkingDocument {
 
     void removeTranslationLine() {
         workingDocumentLines.remove(getTranslationLine());
-        setTranslationLine(null);
     }
 
     public void syncPersonDetails(HasPersonDetails p) {
@@ -320,7 +322,7 @@ public class WorkingDocument {
     }
 
     public WorkingDocument mergeWithCalendarWorkingDocument(WorkingDocument calendarWorkingDocument, DateTimeRange dateTimeRange) {
-        List<WorkingDocumentLine> lines = new ArrayList<>(calendarWorkingDocument.getWorkingDocumentLines());
+        List<WorkingDocumentLine> lines = calendarWorkingDocument.getWorkingDocumentLines();
         for (WorkingDocumentLine thisLine : getWorkingDocumentLines()) {
             WorkingDocumentLine line = calendarWorkingDocument.findSameWorkingDocumentLine(thisLine);
             if (line == null)
@@ -359,7 +361,7 @@ public class WorkingDocument {
         p2.setResident2(p1.isResident2());
     }
 
-    public WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
+    private WorkingDocumentLine findSameWorkingDocumentLine(WorkingDocumentLine wdl) {
         for (WorkingDocumentLine thisWdl : getWorkingDocumentLines()) {
             if (sameLine(thisWdl, wdl))
                 return thisWdl;

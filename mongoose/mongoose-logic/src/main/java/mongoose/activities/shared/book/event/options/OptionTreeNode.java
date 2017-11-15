@@ -228,7 +228,6 @@ class OptionTreeNode {
         if (option.isConcrete()) {
             WorkingDocument workingDocument = getWorkingDocument();
             workingDocument.getWorkingDocumentLines().add(new WorkingDocumentLine(option, workingDocument));
-            workingDocument.clearLinesCache();
             syncUiOptionButtonSelected(true);
         }
         if (childrenOptionTreeNodes != null) {
@@ -251,8 +250,7 @@ class OptionTreeNode {
     private void removeOptionFromModel() {
         //Doesn't work on Android: getWorkingDocument().getWorkingDocumentLines().removeIf(wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
         WorkingDocument workingDocument = getWorkingDocument();
-        if (Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)))
-            workingDocument.clearLinesCache();
+        Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
         keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
