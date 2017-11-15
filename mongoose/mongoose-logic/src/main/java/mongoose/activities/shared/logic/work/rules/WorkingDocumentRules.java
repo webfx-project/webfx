@@ -1,10 +1,12 @@
-package mongoose.activities.shared.logic.work;
+package mongoose.activities.shared.logic.work.rules;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.time.TimeInterval;
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
@@ -20,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public class BusinessRules {
+public class WorkingDocumentRules {
 
     // External entry points
 
@@ -37,7 +39,7 @@ public class BusinessRules {
         return Collections.toArray(feesGroups, FeesGroup[]::new);
     }
 
-    static void applyBusinessRules(WorkingDocument workingDocument) {
+    public static void applyBusinessRules(WorkingDocument workingDocument) {
         applyBreakfastRule(workingDocument);
         applyDietRule(workingDocument);
         applyTouristTaxRule(workingDocument);
@@ -144,15 +146,15 @@ public class BusinessRules {
                 ;
     }
 
-    static boolean isBreakfastOption(Option option) {
+    public static boolean isBreakfastOption(Option option) {
         return isMealsOptionInDayTimeRange(option, 0, 10 * 60);
     }
 
-    static boolean isLunchOption(Option option) {
+    public static boolean isLunchOption(Option option) {
         return isMealsOptionInDayTimeRange(option, 10 * 60, 15 * 60);
     }
 
-    static boolean isSupperOption(Option option) {
+    public static boolean isSupperOption(Option option) {
         return isMealsOptionInDayTimeRange(option,15 * 60, 24 * 60);
     }
 
@@ -166,14 +168,14 @@ public class BusinessRules {
         return dayTimeInterval.getIncludedStart() >= startMinutes && dayTimeInterval.getExcludedEnd() < endMinutes;
     }
 
-    static boolean isTouristTaxOption(Option option) {
+    public static boolean isTouristTaxOption(Option option) {
         return option.isTax(); // The only tax for now is the tourist tax
     }
 
     private static Option getBreakfastOption(EventService eventService) {
         Option breakfastOption = eventService.getBreakfastOption();
         if (breakfastOption == null)
-            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(BusinessRules::isBreakfastOption));
+            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(WorkingDocumentRules::isBreakfastOption));
         return breakfastOption;
     }
 

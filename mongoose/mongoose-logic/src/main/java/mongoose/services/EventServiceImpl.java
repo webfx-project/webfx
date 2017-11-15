@@ -2,7 +2,7 @@ package mongoose.services;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.work.BusinessRules;
+import mongoose.activities.shared.logic.work.rules.WorkingDocumentRules;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Event;
@@ -207,7 +207,7 @@ class EventServiceImpl implements EventService {
     @Override
     public FeesGroup[] getFeesGroups() {
         if (feesGroups == null)
-            feesGroups = BusinessRules.createFeesGroups(this);
+            feesGroups = WorkingDocumentRules.createFeesGroups(this);
         return feesGroups;
     }
 

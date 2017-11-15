@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import mongoose.activities.shared.logic.work.price.WorkingDocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
+import mongoose.activities.shared.logic.work.rules.WorkingDocumentRules;
 import mongoose.entities.Document;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
@@ -114,7 +115,7 @@ public class WorkingDocument {
 
     public WorkingDocument applyBusinessRules() {
         if (changedSinceLastApplyBusinessRules) {
-            BusinessRules.applyBusinessRules(this);
+            WorkingDocumentRules.applyBusinessRules(this);
             changedSinceLastApplyBusinessRules = false;
         }
         return this;
@@ -156,7 +157,7 @@ public class WorkingDocument {
         return findLine(wdl -> predicate.test(wdl.getOption()));
     }
 
-    boolean hasAccommodation() {
+    public boolean hasAccommodation() {
         return getAccommodationLine() != null;
     }
 
@@ -166,19 +167,19 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
-            setBreakfastLine(findOptionLine(BusinessRules::isBreakfastOption));
+            setBreakfastLine(findOptionLine(WorkingDocumentRules::isBreakfastOption));
         return breakfastLine;
     }
 
-    void setBreakfastLine(WorkingDocumentLine breakfastLine) {
+    public void setBreakfastLine(WorkingDocumentLine breakfastLine) {
         this.breakfastLine = breakfastLine;
     }
 
-    boolean hasBreakfast() {
+    public boolean hasBreakfast() {
         return getBreakfastLine() != null;
     }
 
-    void removeBreakfastLine() {
+    public void removeBreakfastLine() {
         workingDocumentLines.remove(getBreakfastLine());
     }
 
@@ -186,13 +187,13 @@ public class WorkingDocument {
 
     private WorkingDocumentLine lunchLine;
 
-    WorkingDocumentLine getLunchLine() {
+    public WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
-            lunchLine = findOptionLine(BusinessRules::isLunchOption);
+            lunchLine = findOptionLine(WorkingDocumentRules::isLunchOption);
         return lunchLine;
     }
 
-    boolean hasLunch() {
+    public boolean hasLunch() {
         return getLunchLine() != null;
     }
 
@@ -200,17 +201,17 @@ public class WorkingDocument {
 
     private WorkingDocumentLine supperLine;
 
-    WorkingDocumentLine getSupperLine() {
+    public WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
-            supperLine = findOptionLine(BusinessRules::isSupperOption);
+            supperLine = findOptionLine(WorkingDocumentRules::isSupperOption);
         return supperLine;
     }
 
-    boolean hasSupper() {
+    public boolean hasSupper() {
         return getSupperLine() != null;
     }
 
-    boolean hasMeals() {
+    public boolean hasMeals() {
         return hasLunch() || hasSupper();
     }
 
@@ -219,17 +220,17 @@ public class WorkingDocument {
 
     private WorkingDocumentLine dietLine;
 
-    WorkingDocumentLine getDietLine() {
+    public WorkingDocumentLine getDietLine() {
         if (dietLine == null)
             setDietLine(findLine(WorkingDocumentLine::isDiet));
         return dietLine;
     }
 
-    void setDietLine(WorkingDocumentLine dietLine) {
+    public void setDietLine(WorkingDocumentLine dietLine) {
         this.dietLine = dietLine;
     }
 
-    void removeDietLine() {
+    public void removeDietLine() {
         workingDocumentLines.remove(getDietLine());
     }
 
@@ -239,19 +240,19 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getTouristTaxLine() {
         if (touristTaxLine == null)
-            setTouristTaxLine(findOptionLine(BusinessRules::isTouristTaxOption));
+            setTouristTaxLine(findOptionLine(WorkingDocumentRules::isTouristTaxOption));
         return touristTaxLine;
     }
 
-    void setTouristTaxLine(WorkingDocumentLine touristTaxLine) {
+    public void setTouristTaxLine(WorkingDocumentLine touristTaxLine) {
         this.touristTaxLine = touristTaxLine;
     }
 
-    boolean hasTouristTax() {
+    public boolean hasTouristTax() {
         return getTouristTaxLine() != null;
     }
 
-    void removeTouristTaxLine() {
+    public void removeTouristTaxLine() {
         workingDocumentLines.remove(getTouristTaxLine());
     }
 
@@ -259,13 +260,13 @@ public class WorkingDocument {
 
     private WorkingDocumentLine teachingLine;
 
-    WorkingDocumentLine getTeachingLine() {
+    public WorkingDocumentLine getTeachingLine() {
         if (teachingLine == null)
             teachingLine = findOptionLine(Option::isTeaching);
         return teachingLine;
     }
 
-    boolean hasTeaching() {
+    public boolean hasTeaching() {
         return getTeachingLine() != null;
     }
 
@@ -273,7 +274,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine translationLine;
 
-    WorkingDocumentLine getTranslationLine() {
+    public WorkingDocumentLine getTranslationLine() {
         if (translationLine == null)
             setTranslationLine(findOptionLine(Option::isTranslation));
         return translationLine;
@@ -283,11 +284,11 @@ public class WorkingDocument {
         this.translationLine = translationLine;
     }
 
-    boolean hasTranslation() {
+    public boolean hasTranslation() {
         return getTranslationLine() != null;
     }
 
-    void removeTranslationLine() {
+    public void removeTranslationLine() {
         workingDocumentLines.remove(getTranslationLine());
     }
 
