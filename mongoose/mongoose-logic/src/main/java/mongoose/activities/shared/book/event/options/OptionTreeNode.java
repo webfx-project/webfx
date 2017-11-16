@@ -267,13 +267,15 @@ class OptionTreeNode {
                 childOptionTreeNode.syncUiFromModel();
     }
 
-    private void syncUiOptionButtonSelected(boolean selected) {
-        if (optionButtonSelectedProperty != null) {
+    private void syncUiOptionButtonSelected(boolean modelSelected) {
+        if (optionButtonSelectedProperty != null && !option.isObligatory()) { // obligatory options should not be ui updated (ex: Airport transfer section)
             syncingUiFromModel = true;
-            optionButtonSelectedProperty.setValue(selected || keepButtonSelectedAsItIsATemporaryUiTransitionalState);
+            boolean uiSelected = modelSelected || keepButtonSelectedAsItIsATemporaryUiTransitionalState;
+            //Logger.log("Syncing ui from model uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem().getName() : ", option = " + option.getName()));
+            optionButtonSelectedProperty.setValue(uiSelected);
             syncingUiFromModel = false;
         }
-        if (parent != null && selected) {
+        if (parent != null && modelSelected) {
             parent.lastSelectedChildOptionTreeNode = this;
             parent.keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
         }
