@@ -2,6 +2,7 @@ package mongoose.activities.shared.book.event.options;
 
 import javafx.scene.Node;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Event;
 import mongoose.entities.ItemFamily;
 import mongoose.entities.Option;
@@ -19,6 +20,7 @@ class OptionTree {
     private final OptionsViewActivity activity;
     private Event event;
     private List<Option> topLevelOptions;
+    private WorkingDocumentTransaction workingDocumentTransaction;
 
     OptionTree(OptionsViewActivity activity) {
         this.activity = activity;
@@ -30,6 +32,13 @@ class OptionTree {
 
     WorkingDocument getWorkingDocument() {
         return activity.getWorkingDocument();
+    }
+
+    public WorkingDocumentTransaction getWorkingDocumentTransaction() {
+        WorkingDocument workingDocument = getWorkingDocument();
+        if (workingDocumentTransaction == null || workingDocumentTransaction.getWorkingDocument() != workingDocument)
+            workingDocumentTransaction = new WorkingDocumentTransaction(workingDocument);
+        return workingDocumentTransaction;
     }
 
     I18n getI18n() {
@@ -111,15 +120,15 @@ class OptionTree {
         return new OptionTreeNode(option, this);
     }
 
-    private boolean pendingBusinessRulesAndUiSync;
+    private boolean pendingTransactionCommitAndUiSync;
 
-    void deferBusinessRulesAndUiSync() {
-        if (!pendingBusinessRulesAndUiSync) {
-            pendingBusinessRulesAndUiSync = true;
+    void deferTransactionCommitAndUiSync() {
+        if (!pendingTransactionCommitAndUiSync) {
+            pendingTransactionCommitAndUiSync = true;
             Toolkit.get().scheduler().scheduleDeferred(() -> {
-                getWorkingDocument().applyBusinessRules();
+                getWorkingDocumentTransaction().commit();
                 getActivity().createOrUpdateOptionPanelsIfReady(true);
-                pendingBusinessRulesAndUiSync = false;
+                pendingTransactionCommitAndUiSync = false;
             });
         }
     }

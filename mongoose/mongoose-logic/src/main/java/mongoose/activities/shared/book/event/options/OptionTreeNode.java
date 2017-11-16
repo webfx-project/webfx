@@ -13,8 +13,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
-import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
@@ -70,8 +69,8 @@ class OptionTreeNode {
         return tree.getI18n();
     }
 
-    private WorkingDocument getWorkingDocument() {
-        return tree.getWorkingDocument();
+    private WorkingDocumentTransaction getWorkingDocumentTransaction() {
+        return tree.getWorkingDocumentTransaction();
     }
 
     Node createOrUpdateNodeFromModel() {
@@ -216,7 +215,7 @@ class OptionTreeNode {
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childOptionTreeNode : childrenOptionTreeNodes)
                 childOptionTreeNode.syncModelFromUi(!uiSelected);
-        tree.deferBusinessRulesAndUiSync();
+        tree.deferTransactionCommitAndUiSync();
     }
 
     private void addOptionToModelIfNotAlreadyPresent() {
@@ -226,8 +225,7 @@ class OptionTreeNode {
 
     private void addOptionToModel() {
         if (option.isConcrete()) {
-            WorkingDocument workingDocument = getWorkingDocument();
-            workingDocument.getWorkingDocumentLines().add(new WorkingDocumentLine(option, workingDocument));
+            getWorkingDocumentTransaction().addOption(option);
             syncUiOptionButtonSelected(true);
         }
         if (childrenOptionTreeNodes != null) {
@@ -248,9 +246,7 @@ class OptionTreeNode {
 
 
     private void removeOptionFromModel() {
-        //Doesn't work on Android: getWorkingDocument().getWorkingDocumentLines().removeIf(wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
-        WorkingDocument workingDocument = getWorkingDocument();
-        Collections.removeIf(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
+        getWorkingDocumentTransaction().removeOption(option);
         keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
@@ -284,7 +280,7 @@ class OptionTreeNode {
     }
 
     private boolean isModelOptionSelected() {
-        if (Collections.hasAtLeastOneMatching(getWorkingDocument().getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option)))
+        if (getWorkingDocumentTransaction().isOptionBooked(option))
             return true;
         if (childrenOptionTreeNodes != null) {
             for (OptionTreeNode childTreeNode: childrenOptionTreeNodes) {
@@ -293,10 +289,5 @@ class OptionTreeNode {
             }
         }
         return false;
-    }
-
-    private boolean isOptionBookedInWorkingDocumentLine(WorkingDocumentLine wdl, Option option) {
-        Option wdlOption = wdl.getOption();
-        return wdlOption != null ? wdlOption == option : wdl.getSite() == option.getSite() && wdl.getItem() == option.getItem();
     }
 }
