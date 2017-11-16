@@ -320,31 +320,6 @@ public class WorkingDocument {
         return document;
     }
 
-    public WorkingDocument mergeWithCalendarWorkingDocument(WorkingDocument calendarWorkingDocument, DateTimeRange dateTimeRange) {
-        List<WorkingDocumentLine> lines = new ArrayList<>(calendarWorkingDocument.getWorkingDocumentLines());
-        // If the calendar working document (coming from the preselected options) has accommodation but not the current
-        // working document (because the booker probably unselected it), we should not reestablish it
-        if (!hasAccommodation())
-            lines.removeIf(WorkingDocumentLine::isAccommodation);
-        // Same thing with meals
-        if (!hasMeals())
-            lines.removeIf(WorkingDocumentLine::isMeals);
-        for (WorkingDocumentLine thisLine : getWorkingDocumentLines()) {
-            WorkingDocumentLine line = calendarWorkingDocument.findSameWorkingDocumentLine(thisLine);
-            if (line == null) {
-                line = new WorkingDocumentLine(thisLine, dateTimeRange);
-                if (line.isAccommodation()) {
-                    /* The fact that it could not be found in the preselected calendar working document is probably due
-                     * to a booker change in the accommodation type, so we should remove the initial accommodation option */
-                    lines.removeIf(WorkingDocumentLine::isAccommodation);
-                }
-                lines.add(line);
-            }
-            line.syncInfoFrom(thisLine);
-        }
-        return new WorkingDocument(eventService, this, lines).applyBusinessRules();
-    }
-
     public static void syncPersonDetails(HasPersonDetails p1, HasPersonDetails p2) {
         p2.setFirstName(p1.getFirstName());
         p2.setLastName(p1.getLastName());

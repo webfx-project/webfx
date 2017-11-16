@@ -131,6 +131,10 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         return documentLine;
     }
 
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
+    }
+
     public List<Attendance> getAttendances() {
         return attendances;
     }
@@ -170,11 +174,6 @@ public class WorkingDocumentLine implements HasItemFamilyType {
     public LocalDate firstDate() {
         //return attendances.get(0).getDate();
         return daysArray.getFirstDate();
-    }
-
-    void syncInfoFrom(WorkingDocumentLine wdl) {
-        documentLine = wdl.documentLine;
-        attendances = wdl.attendances;
     }
 
     public int getPrice() {

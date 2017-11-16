@@ -14,6 +14,7 @@ import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.activities.shared.logic.work.merge.WorkingDocumentMerger;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.services.EventService;
 import mongoose.util.PerformanceLogger;
@@ -172,7 +173,7 @@ public class BookingCalendar {
         //Logger.log("newWorkingDocumentDateTimeRange: " + newWorkingDocumentDateTimeRange.getText());
         WorkingDocument newCalendarWorkingDocument = createNewDateTimeRangeWorkingDocument(newWorkingDocumentDateTimeRange, false);
         //Logger.log("newCalendarWorkingDocument: " + newCalendarWorkingDocument.getDateTimeRange().getText());
-        WorkingDocument newWorkingDocument = workingDocument.mergeWithCalendarWorkingDocument(newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
+        WorkingDocument newWorkingDocument = WorkingDocumentMerger.mergeWorkingDocuments(workingDocument, newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
         //Logger.log("newWorkingDocument: " + newWorkingDocument.getDateTimeRange().getText());
         eventService.setWorkingDocument(newWorkingDocument);
         createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
