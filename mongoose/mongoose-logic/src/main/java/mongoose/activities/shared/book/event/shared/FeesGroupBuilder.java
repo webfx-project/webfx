@@ -22,6 +22,7 @@ public class FeesGroupBuilder {
     private DateInfo dateInfo;
     private Object id;
     private Label label;
+    private String i18nKey;
     private Label feesBottomLabel;
     private Label feesPopupLabel;
     private boolean forceSoldout;
@@ -43,6 +44,16 @@ public class FeesGroupBuilder {
             feesPopupLabel = dateInfo.getFeesPopupLabel();
             forceSoldout = dateInfo.isForceSoldout();
         }
+        return this;
+    }
+
+    public FeesGroupBuilder setLabel(Label label) {
+        this.label = label;
+        return this;
+    }
+
+    public FeesGroupBuilder setI18nKey(String i18nKey) {
+        this.i18nKey = i18nKey;
         return this;
     }
 
@@ -78,7 +89,7 @@ public class FeesGroupBuilder {
                 addNoAccommodationOption)     // If there are accommodation options, checking we can offer no accommodation (not the case for Refresh and Revive Overnighter)
             addOptionsPreselection(null, dateTimeRange, optionsPreselections);
 
-        return new FeesGroup(getEvent(), id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
+        return new FeesGroup(getEvent(), id, label, i18nKey, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));
     }
 
     private void addOptionsPreselection(Option accommodationOption, DateTimeRange dateTimeRange, List<OptionsPreselection> optionsPreselections) {

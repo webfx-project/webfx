@@ -32,15 +32,17 @@ public class FeesGroup {
     private final Event event;
     private final Object id;
     private final Label label;
+    private final String i18nKey; // alternative i18n key if label is null
     private final Label feesBottomLabel;
     private final Label feesPopupLabel;
     private final boolean forceSoldout;
     private final OptionsPreselection[] optionsPreselections;
 
-    FeesGroup(Event event, Object id, Label label, Label feesBottomLabel, Label feesPopupLabel, boolean forceSoldout, OptionsPreselection[] optionsPreselections) {
+    FeesGroup(Event event, Object id, Label label, String i18nKey, Label feesBottomLabel, Label feesPopupLabel, boolean forceSoldout, OptionsPreselection[] optionsPreselections) {
         this.event = event;
         this.id = id;
         this.label = label;
+        this.i18nKey = i18nKey != null ? i18nKey : "Fees";
         this.feesBottomLabel = feesBottomLabel;
         this.feesPopupLabel = feesPopupLabel;
         this.forceSoldout = forceSoldout;
@@ -72,7 +74,7 @@ public class FeesGroup {
     }
 
     public String getDisplayName(I18n i18n) {
-        return Labels.instantTranslateLabel(label, i18n, "Fees");
+        return Labels.instantTranslateLabel(label, i18n, i18nKey);
     }
 
     public String getDisplayName(Object language) {

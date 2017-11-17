@@ -22,11 +22,13 @@ public class OptionsPreselection {
 
     private final EventService eventService;
     private final Label label;
+    private final String i18nKey; // alternative i18n key if label is null
     private final List<OptionPreselection> optionPreselections;
 
-    public OptionsPreselection(EventService eventService, Label label, List<OptionPreselection> optionPreselections) {
+    public OptionsPreselection(EventService eventService, Label label, String i18nKey, List<OptionPreselection> optionPreselections) {
         this.eventService = eventService;
         this.label = label;
+        this.i18nKey = i18nKey;
         this.optionPreselections = optionPreselections;
     }
 
@@ -85,11 +87,11 @@ public class OptionsPreselection {
     }
 
     public String getDisplayName(I18n i18n) {
-        return Labels.instantTranslateLabel(label, i18n, "NoAccommodation");
+        return Labels.instantTranslateLabel(label, i18n, i18nKey);
     }
 
     public String getDisplayName(Object language) {
-        return Labels.instantTranslateLabel(label, language, "NoAccommodation");
+        return Labels.instantTranslateLabel(label, language, i18nKey);
     }
 
     public Object getDisplayPrice() {

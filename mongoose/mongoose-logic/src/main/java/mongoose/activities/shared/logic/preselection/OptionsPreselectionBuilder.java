@@ -19,6 +19,7 @@ public class OptionsPreselectionBuilder {
     private final DateTimeRange dateTimeRange;
     private final List<OptionPreselection> optionPreselections = new ArrayList<>();
     private Label label;
+    private String i18nKey; // alternative i18n key if label is null
     private boolean hasAccommodation;
     private boolean nightIsCovered;
 
@@ -39,7 +40,8 @@ public class OptionsPreselectionBuilder {
             if (addOption(option))
                 nightIsCovered = true;
             label = Labels.bestLabelOrName(option);
-        }
+        } else
+            i18nKey = "NoAccommodation";
         return this;
     }
 
@@ -58,7 +60,7 @@ public class OptionsPreselectionBuilder {
     }
 
     public OptionsPreselection build() {
-        return hasAccommodation && !nightIsCovered ? null : new OptionsPreselection(eventService, label, optionPreselections);
+        return hasAccommodation && !nightIsCovered ? null : new OptionsPreselection(eventService, label, i18nKey, optionPreselections);
     }
 
 }
