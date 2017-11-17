@@ -28,7 +28,8 @@ public class HtmlHtmlTextPeer
 
     @Override
     public void updateText(String text) {
-        getElement().innerHTML = Strings.toSafeString(text);
+        text = Strings.toSafeString(text);
+        getElement().innerHTML = text;
         if (text.contains("<script"))
             executeScripts(getElement());
     }
