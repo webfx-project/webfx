@@ -28,6 +28,7 @@ public class FeesGroupBuilder {
 
     private Iterable<Option> defaultOptions;
     private Iterable<Option> accommodationOptions;
+    private boolean addNoAccommodationOption;
 
     public FeesGroupBuilder(EventService eventService) {
         this.eventService = eventService;
@@ -59,8 +60,9 @@ public class FeesGroupBuilder {
         return this;
     }
 
-    private boolean includeNoAccommodation() {
-        return !getEvent().getName().contains("Overnight");
+    public FeesGroupBuilder setAddNoAccommodationOption(boolean addNoAccommodationOption) {
+        this.addNoAccommodationOption = addNoAccommodationOption;
+        return this;
     }
 
     public FeesGroup build() {
@@ -73,7 +75,7 @@ public class FeesGroupBuilder {
                 addOptionsPreselection(accommodationOption, dateTimeRange, optionsPreselections);
         // Adding Course or No accommodation option
         if (optionsPreselections.isEmpty() || // Ex: a day course or a section with no accommodation (like Food for Thought)
-                includeNoAccommodation())     // If there are accommodation options, checking we can offer no accommodation (not the case for Refresh and Revive Overnighter)
+                addNoAccommodationOption)     // If there are accommodation options, checking we can offer no accommodation (not the case for Refresh and Revive Overnighter)
             addOptionsPreselection(null, dateTimeRange, optionsPreselections);
 
         return new FeesGroup(getEvent(), id, label, feesBottomLabel, feesPopupLabel, forceSoldout, Collections.toArray(optionsPreselections, OptionsPreselection[]::new));

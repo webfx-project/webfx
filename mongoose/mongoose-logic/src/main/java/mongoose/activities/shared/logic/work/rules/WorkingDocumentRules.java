@@ -10,13 +10,16 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.DateInfo;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
+import mongoose.entities.Site;
 import mongoose.services.EventService;
 import naga.framework.orm.entity.EntityList;
 import naga.util.Numbers;
 import naga.util.collection.Collections;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,14 +59,22 @@ public class WorkingDocumentRules {
     }
 
     private static void populateFeesGroups(EventService eventService, DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions, List<FeesGroup> feesGroups) {
-        feesGroups.add(createFeesGroup(eventService, dateInfo, defaultOptions, accommodationOptions));
+        Map<Site, List<Option>> accommodationOptionsBySite = new LinkedHashMap<>(); // accommodationOptions.stream().collect(Collectors.groupingBy(Option::getSite));
+        Collections.forEach(accommodationOptions, o -> accommodationOptionsBySite.computeIfAbsent(o.getSite(), k -> new ArrayList<>()).add(o));
+        boolean multiAccommodationSites = accommodationOptionsBySite.size() > 1;
+        if (multiAccommodationSites)
+            feesGroups.add(createFeesGroup(eventService, dateInfo, defaultOptions, java.util.Collections.emptyList(), true));
+        boolean addNoAccommodationOption = !multiAccommodationSites && !eventService.getEvent().getName().contains("Overnight");
+        for (Map.Entry<Site, List<Option>> entry : accommodationOptionsBySite.entrySet())
+            feesGroups.add(createFeesGroup(eventService, dateInfo, defaultOptions, entry.getValue(), addNoAccommodationOption));
     }
 
-    private static FeesGroup createFeesGroup(EventService eventService, DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions) {
+    private static FeesGroup createFeesGroup(EventService eventService, DateInfo dateInfo, List<Option> defaultOptions, List<Option> accommodationOptions, boolean addNoAccommodationOption) {
         return new FeesGroupBuilder(eventService)
                 .setDateInfo(dateInfo)
                 .setDefaultOptions(defaultOptions)
                 .setAccommodationOptions(accommodationOptions)
+                .setAddNoAccommodationOption(addNoAccommodationOption)
                 .build();
     }
 
