@@ -83,7 +83,8 @@ public class WorkingDocumentRules {
             wd.removeBreakfastLine();
         else if (!wd.hasBreakfast()) {
             Option breakfastOption = getBreakfastOption(wd.getEventService());
-            if (breakfastOption != null)
+            // Breakfast added only if it is on same site as accommodation
+            if (breakfastOption != null && breakfastOption.getSite() == wd.getAccommodationLine().getSite())
                 wd.setBreakfastLine(addNewDependentLine(wd, breakfastOption, wd.getAccommodationLine(), 1));
         }
     }
