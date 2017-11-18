@@ -47,6 +47,11 @@ public class WorkingDocumentRules {
         applyTranslationRule(workingDocument);
     }
 
+
+    public static boolean isOptionDisplayableOnCalendar(Option option, boolean isMax) {
+        return option != null && ((option.isTeaching() || !isMax && (option.isMeals() || option.isAccommodation() || option.isTransport())) && option.getParsedTimeRangeOrParent() != null);
+    }
+
     // Private implementation
 
     private static boolean isOptionManagedByBusinessRules(Option o) {
@@ -154,7 +159,7 @@ public class WorkingDocumentRules {
     private static boolean isOptionIncludedByDefault(Option o, EventService eventService) {
         return (o.isConcrete() || o.hasItem() && o.hasTimeRange()/* Ex: Prayers -> to include in the working document so it is displayed in the calendar*/ )
                 && !isOptionManagedByBusinessRules(o)
-                && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault(eventService) : o.isObligatory()))
+                && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault(eventService) : o.isObligatory() && (o.getParent() == null || isOptionIncludedByDefault(o.getParent(), eventService))))
                 ;
     }
 

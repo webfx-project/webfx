@@ -10,6 +10,7 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.activities.shared.logic.work.rules.WorkingDocumentRules;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
@@ -34,6 +35,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
     private final static Paint TEACHING_FILL = Color.web("0xF5A463");
     private final static Paint ACCOMMODATION_FILL = Color.web("0x484A61");
     private final static Paint MEALS_FILL = Color.web("0xA44F5F");
+    private final static Paint TRANSPORT_FILL = Color.web("0x8CA76A");
     private final static Paint UNATTENDED_FILL = Color.DARKGRAY;
     private final static Paint NOTHING_FILL = Color.LIGHTGRAY;
 
@@ -76,7 +78,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
             if (workingDocumentLine != null) {
                 DateTimeRange dateTimeRange = new DateTimeRange(workingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
-                    Paint fill = option.isTeaching() ? TEACHING_FILL : option.isAccommodation() ? ACCOMMODATION_FILL : option.isMeals() ? MEALS_FILL : UNATTENDED_FILL;
+                    Paint fill = option.isTeaching() ? TEACHING_FILL : option.isAccommodation() ? ACCOMMODATION_FILL : option.isMeals() ? MEALS_FILL : option.isTransport() ? TRANSPORT_FILL : UNATTENDED_FILL;
                     timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, workingDocumentLine));
                 }
             }
@@ -108,7 +110,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
         if (wd != null)
             for (WorkingDocumentLine wdl : wd.getWorkingDocumentLines()) {
                 Option option = wdl.getOption();
-                if (isOptionDisplayableOnCalendar(option, isMax)) {
+                if (WorkingDocumentRules.isOptionDisplayableOnCalendar(option, isMax)) {
                     OptionTimeline optionTimeline = optionTimelines.get(option.getPrimaryKey());
                     if (optionTimeline != null)
                         optionTimeline.setWorkingDocumentLine(wdl, isMax);
@@ -118,7 +120,4 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
             }
     }
 
-    private boolean isOptionDisplayableOnCalendar(Option option, boolean isMax) {
-        return option != null && ((option.isTeaching() || !isMax && (option.isMeals() || option.isAccommodation())) && option.getParsedTimeRangeOrParent() != null);
-    }
 }
