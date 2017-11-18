@@ -93,6 +93,8 @@ class SiteRateItemBlock {
                     } else if (second == null || dailyPrice < second.dailyPrice)
                         second = memo;
                 }
+                if (cheapest == null)
+                    break;
                 if (cheapestFixedThreshold != null && price + cheapest.price > cheapestFixedThreshold.price) {
                     cheapest = cheapestFixedThreshold;
                     price = 0;
