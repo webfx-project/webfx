@@ -152,7 +152,8 @@ public class HtmlDataGridPeer
         CSSStyleDeclaration cssStyle = cell.style;
         if (prefWidth != null) {
             String prefWidthPx = toPx(prefWidth);
-            cssStyle.width = CSSProperties.WidthUnionType.of(prefWidthPx);
+            cssStyle.width = CSSProperties.WidthUnionType.of(prefWidthPx); // Enough for Chrome
+            cssStyle.maxWidth = CSSProperties.MaxWidthUnionType.of(prefWidthPx); // Required for FireFox
             cssStyle.tableLayout = "fixed";
             if (textAlign == null)
                 textAlign = "center";
