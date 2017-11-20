@@ -26,6 +26,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
     private DocumentLine documentLine;
     private List<Attendance> attendances;
     private final Site site;
+    private final Site arrivalSite;
     private final Item item;
     private final DateTimeRange dateTimeRange;
     private final DayTimeRange dayTimeRange;
@@ -41,6 +42,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         this.optionPreselection = optionPreselection;
         option = optionPreselection.getOption();
         site = option.getSite();
+        arrivalSite = option.getArrivalSite();
         item = option.getItem();
         dayTimeRange = optionPreselection.getDayTimeRange();
         DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange == null ? optionPreselection.getDateTimeRange()
@@ -55,6 +57,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         optionPreselection = null;
         this.option = option;
         site = option.getSite();
+        arrivalSite = option.getArrivalSite();
         item = option.getItem();
         dayTimeRange = option.getParsedTimeRangeOrParent();
         DateTimeRange workingDocumentDateTimeRange = Objects.coalesce(option.getParsedDateTimeRangeOrParent(), workingDocument.getDateTimeRange());
@@ -72,6 +75,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         optionPreselection = null;
         option = findDocumentLineOption(eventService);
         site = documentLine.getSite();
+        arrivalSite = documentLine.getArrivalSite();
         item = documentLine.getItem();
         dayTimeRange = option == null ? null : DayTimeRange.parse(option.getTimeRange());
         DaysArrayBuilder b = new DaysArrayBuilder();
@@ -86,6 +90,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         optionPreselection = wdl.optionPreselection;
         option = wdl.option;
         site = wdl.site;
+        arrivalSite = wdl.arrivalSite;
         item = wdl.item;
         dayTimeRange = wdl.dayTimeRange;
         DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
@@ -141,6 +146,10 @@ public class WorkingDocumentLine implements HasItemFamilyType {
 
     public Site getSite() {
         return site;
+    }
+
+    public Site getArrivalSite() {
+        return arrivalSite;
     }
 
     public Item getItem() {
