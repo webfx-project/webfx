@@ -1,7 +1,6 @@
 package mongoose.entities;
 
-import mongoose.entities.markers.EntityHasItem;
-import mongoose.entities.markers.EntityHasSite;
+import mongoose.entities.markers.EntityHasArrivalSiteAndItem;
 import naga.framework.orm.entity.Entity;
 
 import java.time.LocalDate;
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public interface Rate extends Entity, EntityHasSite, EntityHasItem {
+public interface Rate extends Entity, EntityHasArrivalSiteAndItem {
 
     default void setStartDate(LocalDate startDate) {
         setFieldValue("startDate", startDate);

@@ -14,8 +14,8 @@ public interface Option extends Entity,
         EntityHasEvent,
         EntityHasName,
         EntityHasLabel,
-        EntityHasSiteAndItem,
-        HasItemFamilyType,
+        EntityHasArrivalSiteAndItem,
+        EntityHasItemFamily,
         EntityHasDateTimeRange {
 
     //// Domain fields
@@ -50,18 +50,6 @@ public interface Option extends Entity,
 
     default Boolean isObligatory() {
         return getBooleanFieldValue("obligatory");
-    }
-
-    default void setItemFamily(Object family) {
-        setForeignField("itemFamily", family);
-    }
-
-    default EntityId getItemFamilyId() {
-        return getForeignEntityId("itemFamily");
-    }
-
-    default ItemFamily getItemFamily() {
-        return getForeignEntity("itemFamily");
     }
 
     default void setFloating(Boolean floating) {

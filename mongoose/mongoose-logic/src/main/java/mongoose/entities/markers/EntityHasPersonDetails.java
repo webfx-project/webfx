@@ -2,13 +2,12 @@ package mongoose.entities.markers;
 
 import mongoose.entities.Country;
 import mongoose.entities.Organization;
-import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityId;
 
 /**
  * @author Bruno Salmon
  */
-public interface EntityHasPersonDetails extends Entity, EntityHasOrganization, HasPersonDetails {
+public interface EntityHasPersonDetails extends EntityHasOrganization, HasPersonDetails {
 
     default Object getFirstNameField() { return "firstName";}
 

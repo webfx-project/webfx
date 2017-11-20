@@ -5,8 +5,4 @@ package mongoose.entities.markers;
  */
 public interface EntityHasSiteAndItem extends EntityHasSite, EntityHasItem, HasSiteAndItem {
 
-    default boolean hasSiteAndItem() {
-        return hasSite() && hasItem();
-    }
-
 }
