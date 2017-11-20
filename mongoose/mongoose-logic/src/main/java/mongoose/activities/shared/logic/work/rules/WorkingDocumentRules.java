@@ -13,6 +13,7 @@ import mongoose.util.Labels;
 import naga.framework.orm.entity.EntityList;
 import naga.util.Numbers;
 import naga.util.collection.Collections;
+import naga.util.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -45,6 +46,7 @@ public class WorkingDocumentRules {
         applyDietRule(workingDocument);
         applyTouristTaxRule(workingDocument);
         applyTranslationRule(workingDocument);
+        applyHotelShuttlesRules(workingDocument);
     }
 
 
@@ -132,6 +134,23 @@ public class WorkingDocumentRules {
             applySameAttendances(wd.getTranslationLine(), wd.getTeachingLine(), 0);
     }
 
+    private static void applyHotelShuttlesRules(WorkingDocument wd) {
+        Site hotel = wd.hasAccommodation() ? wd.getAccommodationLine().getSite() : null;
+        removeLines(wd, wdl -> WorkingDocumentRules.isAHotelShuttleLineButOtherThanForThisHotel(wdl, hotel));
+    }
+
+    private static void removeLines(WorkingDocument wd, Predicate<WorkingDocumentLine> predicate) {
+        Collections.removeIf(wd.getWorkingDocumentLines(), predicate);
+    }
+
+    private static boolean isAHotelShuttleLineButOtherThanForThisHotel(WorkingDocumentLine wdl, Site hotel) {
+        return wdl.isTransport() && (isAHotelButOtherThan(wdl.getSite(), hotel) || isAHotelButOtherThan(wdl.getArrivalSite(), hotel));
+    }
+
+    private static boolean isAHotelButOtherThan(Site site, Site hotel) {
+        return site != null && site.isAccommodation() && site != hotel;
+    }
+
     private static WorkingDocumentLine addNewDependentLine(WorkingDocument wd, Option dependentOption, WorkingDocumentLine masterLine, long shiftDays) {
         WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependentOption, wd);
         wd.getWorkingDocumentLines().add(dependantLine);
@@ -176,13 +195,23 @@ public class WorkingDocumentRules {
     }
 
     private static boolean isMealsOptionInDayTimeRange(Option option, long startMinutes, long endMinutes) {
-        if (!option.isMeals())
-            return false;
+        return option.isMeals() && isOptionInDayTimeRange(option, startMinutes, endMinutes);
+    }
+
+    private static boolean isOptionInDayTimeRange(Option option, long startMinutes, long endMinutes) {
         DayTimeRange dayTimeRange = option.getParsedTimeRangeOrParent();
         if (dayTimeRange == null)
             return false;
         TimeInterval dayTimeInterval = dayTimeRange.getDayTimeInterval(0, TimeUnit.DAYS);
         return dayTimeInterval.getIncludedStart() >= startMinutes && dayTimeInterval.getExcludedEnd() < endMinutes;
+    }
+
+    public static boolean isMorningHotelShuttleOption(Option option, WorkingDocument wd) {
+        return option.isTransport() && option.getSite() == wd.getAccommodationLine(); // && isOptionInDayTimeRange(option, 0, 12 * 60);
+    }
+
+    public static boolean isEveningHotelShuttleOption(Option option, WorkingDocument wd) {
+        return option.isTransport() && option.getArrivalSite() == wd.getAccommodationLine(); // && isOptionInDayTimeRange(option, 0, 12 * 60);
     }
 
     public static boolean isTouristTaxOption(Option option) {
