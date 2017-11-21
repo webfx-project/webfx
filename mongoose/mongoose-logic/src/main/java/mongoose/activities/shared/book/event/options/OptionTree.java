@@ -4,13 +4,14 @@ import javafx.scene.Node;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Event;
-import mongoose.entities.ItemFamily;
 import mongoose.entities.Option;
-import naga.util.collection.Collections;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
+import naga.util.collection.Collections;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -34,7 +35,7 @@ class OptionTree {
         return activity.getWorkingDocument();
     }
 
-    public WorkingDocumentTransaction getWorkingDocumentTransaction() {
+    WorkingDocumentTransaction getWorkingDocumentTransaction() {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocumentTransaction == null || workingDocumentTransaction.getWorkingDocument() != workingDocument)
             workingDocumentTransaction = new WorkingDocumentTransaction(workingDocument);
@@ -55,55 +56,29 @@ class OptionTree {
 
     private List<Option> getTopLevelOptions() {
         clearDataOnEventChange();
-        if (topLevelOptions == null) {
-            topLevelOptions = Collections.filter(activity.getEventOptions(), o -> o.getParent() == null);
-            //Doesn't work on Android: topLevelOptions.sort(Comparator.comparingInt(this::optionSectionOrder));
-            Collections.sort(topLevelOptions, Collections.comparingInt(this::optionSectionOrder));
-        }
+        if (topLevelOptions == null)
+            topLevelOptions = Collections.filter(activity.getEventOptions(), Option::hasNoParent);
         return topLevelOptions;
     }
 
-    private List<Option> getTopLevelOptionsAboveAttendance() {
-        return Collections.filter(getTopLevelOptions(), this::isOptionSectionAboveAttendance);
-    }
-
-    private List<Option> getTopLevelOptionsBelowAttendance() {
-        return Collections.filter(getTopLevelOptions(), this::isOptionSectionBelowAttendance);
+    private List<Option> getTopLevelNonObligatoryOptions() {
+        return Collections.filter(getTopLevelOptions(), Option::isNotObligatory);
     }
 
     List<Node> getUpdatedTopLevelNodesAboveAttendance() {
-        return Collections.map(getTopLevelOptionsAboveAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromModel());
+        return Collections.map(getTopLevelNonObligatoryOptions(), this::getUpdatedOptionButtonNode);
     }
 
     List<Node> getUpdatedTopLevelNodesBelowAttendance() {
-        return Collections.map(getTopLevelOptionsBelowAttendance(), o -> getOptionTreeNode(o).createOrUpdateNodeFromModel());
+        return Collections.map(getTopLevelOptions(), this::getUpdatedOptionDetailedNode);
     }
 
-    private int optionSectionOrder(Option option) {
-        return itemFamilySectionOrder(option.findItemFamily());
+    private Node getUpdatedOptionButtonNode(Option o) {
+        return getOptionTreeNode(o).createOrUpdateButtonNodeFromModel();
     }
 
-    private int itemFamilySectionOrder(ItemFamily itemFamily) {
-        if (itemFamily != null)
-            switch (itemFamily.getItemFamilyType()) {
-                case TEACHING: return 0;
-                case MEALS: return 1;
-                case ACCOMMODATION: return 2;
-                case TRANSLATION: return 11;
-                case PARKING: return 12;
-                case TRANSPORT: return 13;
-            }
-        return 20;
-    }
-
-    private boolean isOptionSectionAboveAttendance(Option option) {
-        int order = optionSectionOrder(option);
-        return order < 10 && order != 0;
-    }
-
-    private boolean isOptionSectionBelowAttendance(Option option) {
-        int order = optionSectionOrder(option);
-        return order >= 10 && order != 0;
+    private Node getUpdatedOptionDetailedNode(Option o) {
+        return getOptionTreeNode(o).createOrUpdateDetailedNodeFromModel();
     }
 
     private Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();

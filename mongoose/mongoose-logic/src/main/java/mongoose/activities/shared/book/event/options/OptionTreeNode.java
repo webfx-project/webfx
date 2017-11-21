@@ -9,10 +9,11 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
+import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
@@ -33,7 +34,8 @@ class OptionTreeNode {
     private final Option option;
     private final OptionTree tree;
     private final OptionTreeNode parent;
-    private Node node;
+    private ToggleButton buttonNode;
+    private Node detailedNode;
     private ChoiceBox<Label> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
     private List<OptionTreeNode> childrenOptionTreeNodes;
@@ -57,10 +59,6 @@ class OptionTreeNode {
         return option;
     }
 
-    public Node getNode() {
-        return node;
-    }
-
     private ToggleGroup getChildrenToggleGroup() {
         return childrenToggleGroup;
     }
@@ -73,23 +71,49 @@ class OptionTreeNode {
         return tree.getWorkingDocumentTransaction();
     }
 
-    Node createOrUpdateNodeFromModel() {
-        if (node == null)
-            node = createTopLevelOptionPanel();
+    Node createOrUpdateButtonNodeFromModel() {
+        if (buttonNode == null) {
+            buttonNode = new ToggleButton(null, createTopLevelOptionPanel(false));
+            buttonNode.selectedProperty().bindBidirectional(optionButtonSelectedProperty);
+            buttonNode.setOnAction(e -> keepButtonSelectedAsItIsATemporaryUiTransitionalState(buttonNode.isSelected()));
+            LayoutUtil.setMinWidthToPref(buttonNode);
+            LayoutUtil.setMaxSizeToInfinite(buttonNode);
+        }
+        keepButtonSelectedAsItIsATemporaryUiTransitionalState(keepButtonSelectedAsItIsATemporaryUiTransitionalState());
         syncUiFromModel();
-        return node;
+        return buttonNode;
     }
 
-    private Node createTopLevelOptionPanel() {
+    Node createOrUpdateDetailedNodeFromModel() {
+        if (detailedNode == null)
+            detailedNode = createTopLevelOptionPanel(true);
+        syncUiFromModel();
+        return detailedNode;
+    }
+
+    private Node createTopLevelOptionPanel(boolean detailed) {
         BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
                 , Node[]::new));
-        Region panelBodyNode = createPanelBodyNode();
-        if (panelBodyNode != null) {
-            panelBodyNode.setPadding(new Insets(20));
-            sectionPanel.setCenter(panelBodyNode);
+        createOptionButtonAndSelectedProperty();
+        if (detailed) {
+            Pane panelBodyNode = createPanelBodyNode();
+            if (panelBodyNode != null) {
+                panelBodyNode.setPadding(new Insets(20));
+                sectionPanel.setCenter(panelBodyNode);
+                if (option.hasNoParent())
+                    LayoutUtil.setUnmanagedWhenInvisible(sectionPanel, Properties.compute(optionButtonSelectedProperty,
+                            selected -> selected && hasVisibleContent(panelBodyNode)));
+            }
         }
         return sectionPanel;
+    }
+
+    private static boolean hasVisibleContent(Pane parent) {
+        for (Node child : parent.getChildren())
+            if (child.isVisible() && (!(child instanceof Pane) || hasVisibleContent((Pane) child)))
+                return true;
+        return false;
     }
 
     private List<Node> createOptionPanelHeaderNodes(Property<String> i18nTitle) {
@@ -102,16 +126,26 @@ class OptionTreeNode {
 
     private ButtonBase optionButton;
     private Property<Boolean> optionButtonSelectedProperty;
-    private boolean keepButtonSelectedAsItIsATemporaryUiTransitionalState; /* Set to true to allow the ui to be temporary
+    private WorkingDocument keepButtonSelectedAsItIsATemporaryUiTransitionalState; /* Set to true to allow the ui to be temporary
      desynchronized from the model during a transitional state. Ex: The booker ticked the translation checkbox but hasn't
      yet selected the language. This is a transitional state because the translation option can't yet be added to the
      model (as no language selected) but it is necessary to keep the checkbox ticked in the ui to let the booker select
      the language. Once selected, this language selection causes the translation option to be added to the model so this
      flag should be set back to false because the ui and model are synchronized again.*/
 
+    private void keepButtonSelectedAsItIsATemporaryUiTransitionalState(boolean value) {
+        keepButtonSelectedAsItIsATemporaryUiTransitionalState = value ? tree.getWorkingDocument() : null;
+    }
+
+    private boolean keepButtonSelectedAsItIsATemporaryUiTransitionalState() {
+        return keepButtonSelectedAsItIsATemporaryUiTransitionalState == tree.getWorkingDocument();
+    }
+
     private void createOptionButtonAndSelectedProperty() {
-        if (option.isObligatory())
-            optionButtonSelectedProperty = new SimpleBooleanProperty(true); // new ReadOnlyBooleanWrapper(true); // not emulated
+        if (optionButtonSelectedProperty != null)
+            return;
+        if (option.isObligatory() || option.hasNoParent())
+            optionButtonSelectedProperty = new SimpleBooleanProperty(option.isObligatory()); // new ReadOnlyBooleanWrapper(true); // not emulated
         else {
             Label promptLabel = option.getPromptLabel();
             Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
@@ -140,13 +174,13 @@ class OptionTreeNode {
             }
             if (optionButton != null)
                 Labels.translateLabel(optionButton, buttonLabel, getI18n());
-            Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
         }
+        Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
     }
 
-    private Region createPanelBodyNode() {
+    private Pane createPanelBodyNode() {
         createOptionButtonAndSelectedProperty();
-        if (optionButton == null && !option.isObligatory())
+        if (optionButton == null && option.isNotObligatory() && option.hasParent())
             return null;
         VBox vBox = new VBox();
         if (parent != null && parent.parent != null && parent.parent.childrenToggleGroup != null) // If under a radio button (ex: Ecommoy shuttle)
@@ -239,7 +273,7 @@ class OptionTreeNode {
                 if (lastSelectedChildOptionTreeNode != null)
                     lastSelectedChildOptionTreeNode.addOptionToModel();
                 else if (optionButtonSelectedProperty != null && optionButtonSelectedProperty.getValue())
-                    keepButtonSelectedAsItIsATemporaryUiTransitionalState = true;
+                    keepButtonSelectedAsItIsATemporaryUiTransitionalState(true);
             }
         }
     }
@@ -247,7 +281,8 @@ class OptionTreeNode {
 
     private void removeOptionFromModel() {
         getWorkingDocumentTransaction().removeOption(option);
-        keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
+        if (option.hasNoParent())
+            keepButtonSelectedAsItIsATemporaryUiTransitionalState(false);
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
                 childTreeNode.removeOptionFromModel();
@@ -268,16 +303,17 @@ class OptionTreeNode {
     }
 
     private void syncUiOptionButtonSelected(boolean modelSelected) {
-        if (optionButtonSelectedProperty != null && !option.isObligatory()) { // obligatory options should not be ui updated (ex: Airport transfer section)
+        if (optionButtonSelectedProperty != null && option.isNotObligatory()) { // obligatory options should not be ui updated (ex: Airport transfer section)
             syncingUiFromModel = true;
-            boolean uiSelected = modelSelected || keepButtonSelectedAsItIsATemporaryUiTransitionalState;
+            boolean uiSelected = modelSelected || keepButtonSelectedAsItIsATemporaryUiTransitionalState();
             //Logger.log("Syncing ui from model uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem().getName() : ", option = " + option.getName()));
             optionButtonSelectedProperty.setValue(uiSelected);
             syncingUiFromModel = false;
         }
         if (parent != null && modelSelected) {
             parent.lastSelectedChildOptionTreeNode = this;
-            parent.keepButtonSelectedAsItIsATemporaryUiTransitionalState = false;
+            if (parent.option.hasParent())
+                parent.keepButtonSelectedAsItIsATemporaryUiTransitionalState(false);
         }
     }
 

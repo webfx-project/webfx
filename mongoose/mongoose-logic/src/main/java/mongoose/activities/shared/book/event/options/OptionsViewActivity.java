@@ -5,17 +5,19 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.platform.services.log.spi.Logger;
-import naga.util.Arrays;
 import naga.framework.ui.controls.ImageViewUtil;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.fx.spi.Toolkit;
+import naga.platform.services.log.spi.Logger;
+import naga.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,7 @@ import static naga.framework.ui.controls.LayoutUtil.setMaxWidthToInfinite;
 public class OptionsViewActivity extends BookingProcessViewActivity {
 
     private VBox vBox;
+    private Pane primaryOptionsFlowPane;
     private Node attendancePanel;
     protected Label priceText;
 
@@ -57,6 +60,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         super.createViewNodes();
         borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox = new VBox(10)));
 
+        primaryOptionsFlowPane = new FlowPane();
         bookingCalendar = createBookingCalendar();
         attendancePanel = createAttendancePanel();
 
@@ -74,14 +78,15 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     protected BookingCalendar bookingCalendar;
     private final OptionTree optionTree = new OptionTree(this);
 
-    protected void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
+    void createOrUpdateOptionPanelsIfReady(boolean forceRefresh) {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null && bookingCalendar != null) {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
 
             Toolkit.get().scheduler().runInUiThread(() -> {
                 ObservableList<Node> sectionPanels = vBox.getChildren();
-                sectionPanels.setAll(optionTree.getUpdatedTopLevelNodesAboveAttendance());
+                primaryOptionsFlowPane.getChildren().setAll(optionTree.getUpdatedTopLevelNodesAboveAttendance());
+                sectionPanels.setAll(primaryOptionsFlowPane);
                 sectionPanels.add(attendancePanel);
                 sectionPanels.addAll(optionTree.getUpdatedTopLevelNodesBelowAttendance());
             });
