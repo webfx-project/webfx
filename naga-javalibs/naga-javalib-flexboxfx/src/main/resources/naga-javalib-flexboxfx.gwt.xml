@@ -1,0 +1,5 @@
+<module rename-to="naga_javalib_controlsfx_validation">
+    <!-- Specify the paths for translatable code                    -->
+    <source path="com/onexip/flexboxfx"/>   <!-- source path to javacup-runtime library (naga-javalib-javacupruntime) -->
+
+</module>

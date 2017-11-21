@@ -19,6 +19,7 @@
         <module>naga-javalib-rxjava</module>
         <module>naga-javalib-controlsfx-validation</module>
         <module>naga-javalib-mvvmfx-validation</module>
+        <module>naga-javalib-flexboxfx</module>
     </modules>
 
 
