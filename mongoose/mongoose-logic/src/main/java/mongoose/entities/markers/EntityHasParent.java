@@ -37,4 +37,12 @@ public interface EntityHasParent<P extends Entity> extends Entity, HasParent<P> 
     default String getStringFieldValueOrParent(Object domainFieldId) {
         return Strings.toString(getFieldValueOrParent(domainFieldId));
     }
+
+    default boolean hasParent() {
+        return getParent() != null;
+    }
+
+    default boolean hasNoParent() {
+        return !hasParent();
+    }
 }

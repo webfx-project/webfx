@@ -121,7 +121,7 @@ public class WorkingDocumentRules {
         if (!wd.hasAccommodation())
             wd.removeTouristTaxLine();
         else if (!wd.hasTouristTax()) {
-            Option touristTaxOption = wd.getEventService().findFirstOption(o -> isTouristTaxOption(o) && (o.getParent() == null || wd.getAccommodationLine() != null && o.getParent().getItem() == wd.getAccommodationLine().getItem()));
+            Option touristTaxOption = wd.getEventService().findFirstOption(o -> isTouristTaxOption(o) && (o.hasNoParent() || wd.getAccommodationLine() != null && o.getParent().getItem() == wd.getAccommodationLine().getItem()));
             if (touristTaxOption != null)
                 wd.setTouristTaxLine(addNewDependentLine(wd, touristTaxOption, wd.getAccommodationLine(), 0));
         }
@@ -178,7 +178,7 @@ public class WorkingDocumentRules {
     private static boolean isOptionIncludedByDefault(Option o, EventService eventService) {
         return (o.isConcrete() || o.hasItem() && o.hasTimeRange()/* Ex: Prayers -> to include in the working document so it is displayed in the calendar*/ )
                 && !isOptionManagedByBusinessRules(o)
-                && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault(eventService) : o.isObligatory() && (o.getParent() == null || isOptionIncludedByDefault(o.getParent(), eventService))))
+                && (o.isTeaching() || (o.isMeals() ? areMealsIncludedByDefault(eventService) : o.isObligatory() && (o.hasNoParent() || isOptionIncludedByDefault(o.getParent(), eventService))))
                 ;
     }
 

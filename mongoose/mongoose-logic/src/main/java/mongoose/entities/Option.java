@@ -114,6 +114,10 @@ public interface Option extends Entity,
     
     //// Enriched fields and methods
 
+    default boolean isNotObligatory() {
+        return !isObligatory();
+    }
+
     default ItemFamily findItemFamily() {
         Item item = getItem();
         if (item != null)
