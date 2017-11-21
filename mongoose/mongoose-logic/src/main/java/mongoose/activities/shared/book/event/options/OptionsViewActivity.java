@@ -1,11 +1,11 @@
 package mongoose.activities.shared.book.event.options;
 
+import com.onexip.flexboxfx.FlexBox;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
@@ -60,7 +60,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         super.createViewNodes();
         borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox = new VBox(10)));
 
-        primaryOptionsFlowPane = new FlowPane();
+        primaryOptionsFlowPane = new FlexBox();
         bookingCalendar = createBookingCalendar();
         attendancePanel = createAttendancePanel();
 

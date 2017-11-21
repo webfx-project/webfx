@@ -44,6 +44,13 @@
         </dependency>
 
         <dependency>
+            <artifactId>naga-javalib-flexboxfx</artifactId>
+            <groupId>${naga.groupId}</groupId>
+            <version>${naga.version}</version>
+            <classifier>sources</classifier>
+        </dependency>
+
+        <dependency>
             <artifactId>naga-framework</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
