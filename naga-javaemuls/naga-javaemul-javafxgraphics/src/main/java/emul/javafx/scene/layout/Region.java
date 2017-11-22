@@ -405,7 +405,7 @@ public class Region extends Parent implements
      * @param value the size value to be snapped
      * @return value ceiled to nearest pixel
      */
-    public double snapSize(double value) {
+    protected double snapSize(double value) {
         return snapSize(value, isSnapToPixel());
     }
 
@@ -419,6 +419,16 @@ public class Region extends Parent implements
      */
     private static double snapPosition(double value, boolean snapToPixel) {
         return snapToPixel ? Math.round(value) : value;
+    }
+
+    /**
+     * If this region's snapToPixel property is true, returns a value rounded
+     * to the nearest pixel, else returns the same value.
+     * @param value the position value to be snapped
+     * @return value rounded to nearest pixel
+     */
+    protected double snapPosition(double value) {
+        return snapPosition(value, isSnapToPixel());
     }
 
     private static double snapPortion(double value, boolean snapToPixel) {
