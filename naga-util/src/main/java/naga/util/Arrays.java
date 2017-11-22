@@ -4,6 +4,7 @@ import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.util.function.Converter;
 import naga.util.function.IntFunction;
+import naga.util.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,6 +124,16 @@ public class Arrays {
     public static <T> boolean hasNulls(T[] array) {
         return !allNonNulls(array);
     }
+
+    public static <T> T findFirst(T[] array, Predicate<? super T> predicate) {
+        for (int i = 0, n = length(array); i < n; i++) {
+            T element = array[i];
+            if (predicate.test(element))
+                return element;
+        }
+        return null;
+    }
+
 
     public static <T> T getValue(T[] array, int index) {
         return array == null || index >= array.length ? null : array[index];
