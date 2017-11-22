@@ -3,6 +3,7 @@ package naga.fx.spi.javafx.peer;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventTarget;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.effect.Effect;
@@ -114,6 +115,12 @@ public abstract class FxNodePeer
         // never called
     }
 
+    @Override
+    public void updateCursor(Cursor cursor) {
+        getFxNode().setCursor(cursor);
+    }
+
+
     private static MouseEvent toMouseEvent(Object source, EventTarget target, javafx.scene.input.MouseEvent e) {
         return new MouseEvent(source, target, e.getEventType(), e.getX(), e.getY(), e.getScreenX(), e.getScreenY(), null, e.getClickCount(), e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(), e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(), e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), null);
     }
@@ -121,5 +128,4 @@ public abstract class FxNodePeer
     private static ActionEvent toActionEvent(Object source, EventTarget target, javafx.event.ActionEvent e) {
         return new ActionEvent(source, target);
     }
-
 }

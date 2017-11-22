@@ -3,6 +3,7 @@ package naga.fx.spi.peer.base;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
+import emul.javafx.scene.Cursor;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
@@ -70,4 +71,6 @@ public interface NodePeerMixin
     void updateDisabled(Boolean disabled);
 
     void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change);
+
+    void updateCursor(Cursor cursor);
 }

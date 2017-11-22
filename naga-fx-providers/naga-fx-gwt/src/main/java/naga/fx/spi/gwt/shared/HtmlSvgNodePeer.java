@@ -8,6 +8,7 @@ import emul.com.sun.javafx.event.EventUtil;
 import emul.javafx.application.Platform;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.event.EventType;
+import emul.javafx.scene.Cursor;
 import emul.javafx.scene.LayoutMeasurable;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
@@ -194,6 +195,11 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void updateClip(Node clip) {
         setElementAttribute("clip-path", toClipPath(clip));
+    }
+
+    @Override
+    public void updateCursor(Cursor cursor) {
+        setElementStyleAttribute("cursor", toCssCursor(cursor));
     }
 
     protected abstract String toClipPath(Node clip);
@@ -430,6 +436,12 @@ public abstract class HtmlSvgNodePeer
                 case GREEN: return "";
                 case BLUE: return "";
             }
+        return null;
+    }
+
+    private static String toCssCursor(Cursor cursor) {
+        if (cursor == Cursor.HAND)
+            return "pointer";
         return null;
     }
 

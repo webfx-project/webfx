@@ -6,6 +6,7 @@ import emul.javafx.collections.ObservableList;
 import emul.javafx.geometry.HPos;
 import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.VPos;
+import emul.javafx.scene.Cursor;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
 import emul.javafx.scene.effect.BlendMode;
@@ -126,6 +127,10 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updatePadding(Insets padding) {
+        }
+
+        @Override
+        public void updateCursor(Cursor cursor) {
         }
 
         @Override

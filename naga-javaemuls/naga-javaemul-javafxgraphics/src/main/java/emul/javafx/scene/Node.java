@@ -89,6 +89,27 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return visibleProperty;
     }
 
+    private final ObjectProperty<Cursor> cursorProperty = new SimpleObjectProperty<>();
+    public final void setCursor(Cursor value) {
+        cursorProperty().set(value);
+    }
+
+    public final Cursor getCursor() {
+        return cursorProperty.getValue();
+    }
+
+    /**
+     * Defines the mouse cursor for this {@code Node} and subnodes. If null,
+     * then the cursor of the first parent node with a non-null cursor will be
+     * used. If no Node in the scene graph defines a cursor, then the cursor
+     * of the {@code Scene} will be used.
+     *
+     * @defaultValue null
+     */
+    public final ObjectProperty<Cursor> cursorProperty() {
+        return cursorProperty;
+    }
+
     private final Property<Double> opacityProperty = new SimpleObjectProperty<>(1d);
     @Override
     public Property<Double> opacityProperty() {
