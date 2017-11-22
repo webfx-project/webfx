@@ -1,6 +1,5 @@
 package mongoose.activities.shared.book.event.options;
 
-import com.onexip.flexboxfx.FlexBox;
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -13,6 +12,7 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.framework.ui.controls.ImageViewUtil;
+import naga.framework.ui.layouts.FlexBox;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.log.spi.Logger;

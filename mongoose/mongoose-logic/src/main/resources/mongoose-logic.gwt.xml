@@ -1,7 +1,6 @@
 <module rename-to="mongoose_logic">
 
     <inherits name="naga-javalib-mvvmfx-validation"/>
-    <inherits name="naga-javalib-flexboxfx"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="mongoose"/>   <!-- code is under mongoose package -->
