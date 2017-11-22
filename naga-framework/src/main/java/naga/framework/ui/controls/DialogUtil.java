@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.util.Booleans;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
@@ -25,8 +26,8 @@ import naga.fx.spi.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
 
-import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
-import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToPref;
+import static naga.framework.ui.layouts.LayoutUtil.setMaxSizeToInfinite;
+import static naga.framework.ui.layouts.LayoutUtil.setMaxSizeToPref;
 
 /**
  * @author Bruno Salmon

@@ -9,7 +9,7 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.HtmlTextEditor;
@@ -27,7 +27,7 @@ import java.util.Map;
 
 import static mongoose.actions.MongooseIcons.getLanguageIcon32;
 import static naga.framework.ui.action.ActionRegistry.*;
-import static naga.framework.ui.controls.LayoutUtil.setMaxPrefSizeToInfinite;
+import static naga.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

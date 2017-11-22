@@ -29,7 +29,7 @@ import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.controls.DialogUtil;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.HtmlText;
 import naga.platform.client.bus.WebSocketBus;

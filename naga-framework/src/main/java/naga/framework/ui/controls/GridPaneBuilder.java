@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
+import static naga.framework.ui.layouts.LayoutUtil.createHGrowable;
 
 /**
  * @author Bruno Salmon

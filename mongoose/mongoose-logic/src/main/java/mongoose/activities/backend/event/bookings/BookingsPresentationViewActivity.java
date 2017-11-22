@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
 
-import static naga.framework.ui.controls.LayoutUtil.setHGrowable;
+import static naga.framework.ui.layouts.LayoutUtil.setHGrowable;
 
 /**
  * @author Bruno Salmon

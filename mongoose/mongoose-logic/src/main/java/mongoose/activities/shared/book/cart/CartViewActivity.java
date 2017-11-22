@@ -33,7 +33,7 @@ import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;

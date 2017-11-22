@@ -16,7 +16,7 @@ import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.ButtonUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.platform.services.auth.UsernamePasswordToken;

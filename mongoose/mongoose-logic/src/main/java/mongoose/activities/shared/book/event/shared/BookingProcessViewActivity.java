@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 
 /**
  * @author Bruno Salmon

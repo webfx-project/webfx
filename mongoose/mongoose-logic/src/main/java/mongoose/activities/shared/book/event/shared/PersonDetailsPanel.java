@@ -29,7 +29,7 @@ import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;

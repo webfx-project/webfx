@@ -13,7 +13,7 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.framework.ui.controls.ImageViewUtil;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static naga.framework.ui.controls.LayoutUtil.setMaxWidthToInfinite;
+import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 
 /**
  * @author Bruno Salmon

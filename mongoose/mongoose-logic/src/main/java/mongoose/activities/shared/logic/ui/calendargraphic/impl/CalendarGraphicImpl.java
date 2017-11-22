@@ -28,7 +28,7 @@ import naga.fx.properties.Properties;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static naga.framework.ui.controls.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
+import static naga.framework.ui.layouts.LayoutUtil.setMinSizeToZeroAndPrefSizeToInfinite;
 
 /**
  * @author Bruno Salmon

@@ -3,7 +3,7 @@ package mongoose.activities.shared.book.event.terms;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationViewActivity;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
 /**

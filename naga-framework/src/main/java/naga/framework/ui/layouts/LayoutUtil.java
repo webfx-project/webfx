@@ -1,4 +1,4 @@
-package naga.framework.ui.controls;
+package naga.framework.ui.layouts;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -16,6 +16,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import naga.framework.ui.controls.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.util.Numbers;
 

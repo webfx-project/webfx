@@ -6,7 +6,7 @@ import naga.framework.activity.presentation.view.impl.PresentationViewActivityIm
 import naga.fxdata.chart.Chart;
 import naga.fxdata.chart.LineChart;
 
-import static naga.framework.ui.controls.LayoutUtil.setVGrowable;
+import static naga.framework.ui.layouts.LayoutUtil.setVGrowable;
 
 /**
  * @author Bruno Salmon

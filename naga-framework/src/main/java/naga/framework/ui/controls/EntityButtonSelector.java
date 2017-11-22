@@ -32,6 +32,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;
 import naga.framework.ui.filter.StringFilterBuilder;
 import naga.framework.ui.i18n.I18n;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ValueRenderer;
@@ -43,7 +44,7 @@ import naga.util.Strings;
 import naga.util.collection.Collections;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
-import static naga.framework.ui.controls.LayoutUtil.*;
+import static naga.framework.ui.layouts.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon

@@ -10,7 +10,7 @@ import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationViewActivity;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
 /**

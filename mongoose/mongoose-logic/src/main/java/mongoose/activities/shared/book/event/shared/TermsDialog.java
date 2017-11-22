@@ -8,12 +8,12 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.cell.collator.GridCollator;
 
-import static naga.framework.ui.controls.LayoutUtil.createHGrowable;
+import static naga.framework.ui.layouts.LayoutUtil.createHGrowable;
 
 /**
  * @author Bruno Salmon

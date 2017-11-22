@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static naga.framework.ui.controls.LayoutUtil.*;
+import static naga.framework.ui.layouts.LayoutUtil.*;
 
 /**
  * @author Bruno Salmon

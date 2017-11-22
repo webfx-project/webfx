@@ -6,8 +6,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Window;
 
-import static naga.framework.ui.controls.LayoutUtil.setMaxSizeToInfinite;
-import static naga.framework.ui.controls.LayoutUtil.setMaxWidthToInfinite;
+import static naga.framework.ui.layouts.LayoutUtil.setMaxSizeToInfinite;
+import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 
 /**
  * @author Bruno Salmon

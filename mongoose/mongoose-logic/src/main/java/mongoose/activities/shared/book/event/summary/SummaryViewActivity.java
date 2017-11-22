@@ -20,7 +20,7 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
-import naga.framework.ui.controls.LayoutUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.platform.json.Json;
 import naga.platform.services.log.spi.Logger;
