@@ -5,12 +5,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -21,6 +20,7 @@ import mongoose.util.Labels;
 import naga.framework.ui.controls.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
+import naga.fx.util.ImageStore;
 import naga.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ class OptionTreeNode {
     private final Option option;
     private final OptionTree tree;
     private final OptionTreeNode parent;
-    private ToggleButton buttonNode;
+    private BorderPane buttonNode;
     private Node detailedNode;
     private ChoiceBox<Label> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
@@ -73,9 +73,18 @@ class OptionTreeNode {
 
     Node createOrUpdateButtonNodeFromModel() {
         if (buttonNode == null) {
-            buttonNode = new ToggleButton(null, createTopLevelOptionPanel(false));
-            buttonNode.selectedProperty().bindBidirectional(optionButtonSelectedProperty);
-            buttonNode.setOnAction(e -> keepButtonSelectedAsItIsATemporaryUiTransitionalState(buttonNode.isSelected()));
+            buttonNode = createTopLevelOptionPanel(false);
+            buttonNode.setOnMouseClicked(e -> {
+                boolean selected = !optionButtonSelectedProperty.getValue();
+                optionButtonSelectedProperty.setValue(selected);
+                keepButtonSelectedAsItIsATemporaryUiTransitionalState(selected);
+            });
+            buttonNode.setCursor(Cursor.HAND);
+            ImageView checkBoxView = new ImageView();
+            checkBoxView.imageProperty().bind(Properties.compute(optionButtonSelectedProperty, selected ->
+                    ImageStore.getOrCreateImage(selected ? "images/16/checked.png" : "images/16/unchecked.png", 16, 16)));
+            //
+            ((HBox) buttonNode.getTop()).getChildren().add(0, checkBoxView);
             LayoutUtil.setMinWidthToPref(buttonNode);
             LayoutUtil.setMaxSizeToInfinite(buttonNode);
         }
@@ -91,7 +100,7 @@ class OptionTreeNode {
         return detailedNode;
     }
 
-    private Node createTopLevelOptionPanel(boolean detailed) {
+    private BorderPane createTopLevelOptionPanel(boolean detailed) {
         BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
                 , Node[]::new));

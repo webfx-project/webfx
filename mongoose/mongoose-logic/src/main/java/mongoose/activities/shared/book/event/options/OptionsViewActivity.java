@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
@@ -31,7 +30,7 @@ import static naga.framework.ui.controls.LayoutUtil.setMaxWidthToInfinite;
 public class OptionsViewActivity extends BookingProcessViewActivity {
 
     private VBox vBox;
-    private Pane primaryOptionsFlowPane;
+    private FlexBox primaryOptionsFlowPane;
     private Node attendancePanel;
     protected Label priceText;
 
@@ -61,6 +60,8 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox = new VBox(10)));
 
         primaryOptionsFlowPane = new FlexBox();
+        primaryOptionsFlowPane.setHorizontalSpace(4);
+        primaryOptionsFlowPane.setVerticalSpace(4);
         bookingCalendar = createBookingCalendar();
         attendancePanel = createAttendancePanel();
 
