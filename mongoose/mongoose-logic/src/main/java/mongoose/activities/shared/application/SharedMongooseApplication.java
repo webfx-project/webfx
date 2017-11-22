@@ -7,11 +7,10 @@ import mongoose.activities.shared.book.event.fees.FeesPresentationActivity;
 import mongoose.activities.shared.book.event.options.OptionsViewActivity;
 import mongoose.activities.shared.book.event.person.PersonViewActivity;
 import mongoose.activities.shared.book.event.program.ProgramViewActivity;
+import mongoose.activities.shared.book.event.start.StartBookingViewActivity;
 import mongoose.activities.shared.book.event.summary.SummaryViewActivity;
 import mongoose.activities.shared.book.event.terms.TermsPresentationActivity;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import naga.util.function.Consumer;
-import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
@@ -24,6 +23,8 @@ import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.spi.Platform;
+import naga.util.function.Consumer;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -42,6 +43,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
 
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter
+                .route("/book/event/:eventId/start", StartBookingViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/fees", FeesPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/book/event/:eventId/terms", TermsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/book/event/:eventId/program", ProgramViewActivity::new, ViewDomainActivityContextFinal::new)
