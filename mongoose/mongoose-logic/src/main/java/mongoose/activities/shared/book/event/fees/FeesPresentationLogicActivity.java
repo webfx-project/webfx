@@ -196,7 +196,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {
         setSelectedOptionsPreselection(optionsPreselection);
-        setWorkingDocument(optionsPreselection.getWorkingDocument());
+        setWorkingDocument(null);
         onNextButtonPressed(null);
     }
 }

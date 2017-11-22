@@ -8,6 +8,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.FeesGroup;
+import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
@@ -46,12 +48,32 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     protected void startLogic() {
         boolean forceRefresh = true; //getEventOptions() == null; // forcing refresh in case the working document has changed (ex: going back from the personal details after having changed the age)
-        onFeesGroups().setHandler(async -> {
-            if (async.failed())
-                Logger.log(async.cause());
-            else
+        onFeesGroups().setHandler(ar -> {
+            if (ar.failed())
+                Logger.log(ar.cause());
+            else {
+                OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
+                WorkingDocument workingDocument = getWorkingDocument();
+                // Detecting if it's a new booking
+                if (workingDocument == null || selectedOptionsPreselection == null || selectedOptionsPreselection.getWorkingDocument() == workingDocument) {
+                    // Using no accommodation option by default if no preselection was selected
+                    if (selectedOptionsPreselection == null)
+                        setSelectedOptionsPreselection(selectedOptionsPreselection = findNoAccommodationOptionsPreselection(ar.result()));
+                    // Ensuring the working document is a duplication of the preselection one to not alter the original one
+                    setWorkingDocument(selectedOptionsPreselection.createNewWorkingDocument(null));
+                }
                 createOrUpdateOptionPanelsIfReady(forceRefresh);
+            }
         });
+    }
+
+    private OptionsPreselection findNoAccommodationOptionsPreselection(FeesGroup[] feesGroups) {
+        for (FeesGroup feesGroup : feesGroups) {
+            OptionsPreselection noAccommodationPreselection = Arrays.findFirst(feesGroup.getOptionsPreselections(), op -> !op.hasAccommodation());
+            if (noAccommodationPreselection != null)
+                return noAccommodationPreselection;
+        }
+        return null;
     }
 
     @Override
