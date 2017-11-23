@@ -39,6 +39,15 @@ public class Collections {
         return list;
     }
 
+    public static <A, B> List<B> filterMap(Collection<A> aCollection, Predicate<? super A> predicate, Converter<A, B> aToBConverter) {
+        List<B> bList = new ArrayList<>(aCollection.size());
+        forEach(aCollection, a -> {
+            if (predicate == null || predicate.test(a))
+                bList.add(aToBConverter.convert(a));
+        });
+        return bList;
+    }
+
     public static <A, B> List<B> mapFilter(Collection<A> aCollection, Converter<A, B> aToBConverter, Predicate<? super B> predicate) {
         // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
         List<B> bList = new ArrayList<>(aCollection.size());
@@ -91,6 +100,7 @@ public class Collections {
     }
 
     public static <T> boolean removeIf(Iterable<T> iterable, Predicate<? super T> predicate) {
+        //Doesn't work on Android: Collection.removeIf();
         boolean removed = false;
         final Iterator<T> each = iterable.iterator();
         while (each.hasNext()) {
