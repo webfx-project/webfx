@@ -2,7 +2,6 @@ package naga.fx.util;
 
 import emul.javafx.scene.image.Image;
 import emul.javafx.scene.image.ImageView;
-import naga.fxdata.displaydata.Label;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,10 +38,6 @@ public class ImageStore {
         if (image != null && (w != 0 && image.getWidth() != w || h != 0 && image.getHeight() != h))
             image = null;
         return image;
-    }
-
-    public static ImageView createLabelIconImageView(Label label) {
-        return createImageView(label == null ? null : label.getIconPath());
     }
 
     public static ImageView createImageView(String iconPath) {

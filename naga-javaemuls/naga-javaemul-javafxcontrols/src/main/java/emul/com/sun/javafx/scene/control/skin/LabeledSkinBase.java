@@ -566,7 +566,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
 
         // Now update the children (and add the graphicPropertyChangedListener as necessary)
         if (isIgnoreGraphic()) {
-            if (labeled.getContentDisplay() == ContentDisplay.GRAPHIC_ONLY) {
+            if (labeled.getContentDisplay() == GRAPHIC_ONLY) {
                 getChildren().clear();
             } else {
                 getChildren().setAll(text);
@@ -594,7 +594,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
     protected boolean isIgnoreGraphic() {
         return (graphic == null ||
                 !graphic.isManaged() ||
-                getSkinnable().getContentDisplay() == ContentDisplay.TEXT_ONLY);
+                getSkinnable().getContentDisplay() == TEXT_ONLY);
     }
 
     /**
@@ -606,7 +606,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
         final String txt = labeled.getText();
         return (txt == null ||
                 txt.equals("") ||
-                labeled.getContentDisplay() == ContentDisplay.GRAPHIC_ONLY);
+                labeled.getContentDisplay() == GRAPHIC_ONLY);
     }
 
     /***************************************************************************
@@ -1084,7 +1084,7 @@ public abstract class LabeledSkinBase<C extends Labeled, B extends BehaviorBase<
                 textX = graphicX + graphicWidth + gap;
                 graphicY = contentY + ((contentHeight - graphicHeight) / 2.0);
                 textY = contentY + ((contentHeight - textHeight) / 2.0);
-            } else if (contentDisplay == ContentDisplay.CENTER) {
+            } else if (contentDisplay == CENTER) {
                 graphicX = contentX + ((contentWidth - graphicWidth) / 2.0);
                 textX = contentX + ((contentWidth - textWidth) / 2.0);
                 graphicY = contentY + ((contentHeight - graphicHeight) / 2.0);

@@ -9,14 +9,14 @@ import emul.javafx.scene.transform.Rotate;
 import emul.javafx.scene.transform.Scale;
 import emul.javafx.scene.transform.Transform;
 import emul.javafx.scene.transform.Translate;
-import naga.util.Arrays;
-import naga.util.collection.Collections;
-import naga.util.function.BiConsumer;
-import naga.util.function.Consumer;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.Properties;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.peer.NodePeer;
+import naga.util.Arrays;
+import naga.util.collection.Collections;
+import naga.util.function.BiConsumer;
+import naga.util.function.Consumer;
 
 import java.util.List;
 

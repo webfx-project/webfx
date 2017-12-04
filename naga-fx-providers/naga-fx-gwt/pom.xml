@@ -14,7 +14,7 @@
     <dependencies>
 
         <dependency>
-            <artifactId>naga-javaemul-javafxgraphics</artifactId>
+            <artifactId>naga-javaemul-javafxcontrols</artifactId>
             <groupId>${naga.groupId}</groupId>
             <version>${naga.version}</version>
         </dependency>

@@ -800,9 +800,9 @@ public class DialogPane extends Pane {
             if (isDialogGrowing) {
                 double _h = currentHeight < prefHeight ?
                         Math.min(prefHeight, currentHeight) : Math.max(prefHeight, dialogHeight);
-                h = boundedSize(minHeight, _h, maxHeight);
+                h = Region.boundedSize(minHeight, _h, maxHeight);
             } else {
-                h = boundedSize(minHeight, Math.min(currentHeight, dialogHeight), maxHeight);
+                h = Region.boundedSize(minHeight, Math.min(currentHeight, dialogHeight), maxHeight);
             }
             resize(w, h);
         }

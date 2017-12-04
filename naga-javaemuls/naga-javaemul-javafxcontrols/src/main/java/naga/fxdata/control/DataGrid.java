@@ -2,7 +2,6 @@ package naga.fxdata.control;
 
 import emul.javafx.beans.property.BooleanProperty;
 import emul.javafx.beans.property.SimpleBooleanProperty;
-import emul.javafx.scene.control.Skin;
 import naga.fxdata.displaydata.DisplayResultSet;
 
 /**

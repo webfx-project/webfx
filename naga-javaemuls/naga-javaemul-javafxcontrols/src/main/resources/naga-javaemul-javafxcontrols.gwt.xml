@@ -1,5 +1,5 @@
-<module rename-to="naga_javaemul_javafxgraphics">
-    <inherits name="naga-javaemul-javafxbase" />
+<module rename-to="naga_javaemul_javafxcontrols">
+    <inherits name="naga-javaemul-javafxgraphics" />
     <!-- Specify the paths for translatable code                    -->
     <source path="com/sun/javafx"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->
     <source path="javafx"/>     <!-- source path to javafx properties library (naga-javalib-javafxbindings) -->

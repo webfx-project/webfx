@@ -447,7 +447,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
             double cellHeight = rowHeight;
             double y = 0;
             for (Node child : getChildren()) {
-                layoutInArea(child, 0, y, cellWidth, cellHeight, -1, CELL_MARGIN, false, false, hAlignment, vAlignment, snapToPixel);
+                Region.layoutInArea(child, 0, y, cellWidth, cellHeight, -1, CELL_MARGIN, false, false, hAlignment, vAlignment, snapToPixel);
                 y += rowHeight;
             }
         }

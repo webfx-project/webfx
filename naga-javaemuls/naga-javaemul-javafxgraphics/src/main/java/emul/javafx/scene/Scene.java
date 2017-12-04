@@ -17,16 +17,10 @@ import emul.javafx.event.EventDispatchChain;
 import emul.javafx.event.EventDispatcher;
 import emul.javafx.event.EventTarget;
 import emul.javafx.geometry.Orientation;
-import emul.javafx.scene.control.Button;
-import emul.javafx.scene.control.Skin;
-import emul.javafx.scene.control.Skinnable;
 import emul.javafx.scene.input.KeyCombination;
+import emul.javafx.scene.paint.Color;
+import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.stage.Window;
-import naga.uischeduler.AnimationFramePass;
-import naga.scheduler.Scheduled;
-import naga.uischeduler.UiScheduler;
-import naga.util.Strings;
-import naga.util.collection.Collections;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasRootProperty;
@@ -36,6 +30,10 @@ import naga.fx.spi.Toolkit;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.ScenePeer;
 import naga.fx.spi.peer.StagePeer;
+import naga.scheduler.Scheduled;
+import naga.uischeduler.AnimationFramePass;
+import naga.uischeduler.UiScheduler;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -542,28 +540,18 @@ public class Scene implements EventTarget,
             if (nodePeer == null) // The node view factory was unable to create a view for this node!
                 node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying a "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
-                Parent parent = null;
-                Skinnable skinnable = null;
-                Skin skin = null;
-                if (node instanceof Parent) {
-                    parent = (Parent) node;
-                    if (parent instanceof Skinnable) {
-                        skinnable = (Skinnable) parent;
-                        skin = skinnable.getSkin();
-                    }
-                }
                 nodePeer.bind(node, sceneRequester);
-                if (skin == null && skinnable != null) {
-                    skinnable.skinProperty().addListener(new ChangeListener<Skin<?>>() {
+                ObservableValue skinProperty = (ObservableValue) node.getProperties().get("skinProperty");
+                if (skinProperty != null && skinProperty.getValue() == null)
+                    skinProperty.addListener(new ChangeListener() {
                         @Override
-                        public void changed(ObservableValue<? extends Skin<?>> observable, Skin<?> oldValue, Skin<?> newValue) {
+                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
                             observable.removeListener(this);
                             keepParentAndChildrenPeersUpdated((Parent) node);
                         }
                     });
-                    return nodePeer;
-                } else if (parent != null)
-                    keepParentAndChildrenPeersUpdated(parent);
+                else if (node instanceof Parent)
+                    keepParentAndChildrenPeersUpdated((Parent) node);
             }
         }
         return nodePeer;
@@ -578,16 +566,22 @@ public class Scene implements EventTarget,
     }
 
     private NodePeer createUnimplementedNodePeer(Node node) {
-        // Creating a button as replacement (assuming the target toolkit at least implements a button view!)
-        Button button = new Button(Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " peer not provided");
+        return getOrCreateAndBindNodePeer(createUnimplementedNodeReplacer(node));
+    }
+
+    private Node createUnimplementedNodeReplacer(Node node) {
+        // Creating a rectangle as replacement (assuming the node peer factory at least implements a rectangle peer!)
+        Rectangle nodeReplacer = new Rectangle(10, 10, Color.LIGHTGRAY);
+        // TODO: add a text within the rectangle with the following message
+        //String message = Strings.removeSuffix(node.getClass().getSimpleName(), "Impl") + " peer not provided";
         // Binding to allow the button to respond to the original node layout
-        button.layoutXProperty().bind(node.layoutXProperty());
-        button.layoutYProperty().bind(node.layoutYProperty());
+        nodeReplacer.layoutXProperty().bind(node.layoutXProperty());
+        nodeReplacer.layoutYProperty().bind(node.layoutYProperty());
         if (node instanceof HasWidthProperty)
-            button.widthProperty().bind(((HasWidthProperty) node).widthProperty());
+            nodeReplacer.widthProperty().bind(((HasWidthProperty) node).widthProperty());
         if (node instanceof HasHeightProperty)
-            button.heightProperty().bind(((HasHeightProperty) node).heightProperty());
-        return getOrCreateAndBindNodePeer(button); // Finally retuning the button view
+            nodeReplacer.heightProperty().bind(((HasHeightProperty) node).heightProperty());
+        return nodeReplacer;
     }
 
     private Scheduled pulseScheduled;

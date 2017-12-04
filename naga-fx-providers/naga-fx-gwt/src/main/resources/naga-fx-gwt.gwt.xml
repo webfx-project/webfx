@@ -12,6 +12,7 @@
 
     <inherits name="naga-javaemul-javafxbase"/>
     <inherits name="naga-javaemul-javafxgraphics"/>
+    <inherits name="naga-javaemul-javafxcontrols"/>
 
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/fx/spi/gwt"/>               <!-- source path to naga-fx-gwt -->
