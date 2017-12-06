@@ -38,6 +38,7 @@ public class BookingCalendar {
     protected final I18n i18n;
     protected WorkingDocument workingDocument;
     private CalendarGraphic calendarGraphic;
+    private Runnable onAttendanceChangedRunnable;
 
     public BookingCalendar(boolean amendable, I18n i18n) {
         this.amendable = amendable;
@@ -66,6 +67,10 @@ public class BookingCalendar {
 
     public ReadOnlyProperty<String> formattedBookingPriceProperty() {
         return formattedBookingPrice;
+    }
+
+    public void setOnAttendanceChangedRunnable(Runnable onAttendanceChangedRunnable) {
+        this.onAttendanceChangedRunnable = onAttendanceChangedRunnable;
     }
 
     public void createOrUpdateCalendarGraphicFromOptionsPreselection(OptionsPreselection optionsPreselection) {
@@ -177,6 +182,8 @@ public class BookingCalendar {
         //Logger.log("newWorkingDocument: " + newWorkingDocument.getDateTimeRange().getText());
         eventService.setWorkingDocument(newWorkingDocument);
         createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
+        if (onAttendanceChangedRunnable != null)
+            onAttendanceChangedRunnable.run();
     }
 
     private void displayWorkingTotalPrice() {
