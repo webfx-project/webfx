@@ -8,9 +8,8 @@ import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.entities.*;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.services.EventService;
-import naga.util.Objects;
-import naga.util.collection.Collections;
 import naga.framework.orm.entity.Entity;
+import naga.util.collection.Collections;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -60,7 +59,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         arrivalSite = option.getArrivalSite();
         item = option.getItem();
         dayTimeRange = option.getParsedTimeRangeOrParent();
-        DateTimeRange workingDocumentDateTimeRange = Objects.coalesce(option.getParsedDateTimeRangeOrParent(), workingDocument.getDateTimeRange());
+        DateTimeRange workingDocumentDateTimeRange = workingDocument.getDateTimeRange();
         DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
         dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
         documentLine = null;

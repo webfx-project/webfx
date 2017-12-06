@@ -35,6 +35,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     private FlexBox primaryOptionsFlowPane;
     private Node attendancePanel;
     protected Label priceText;
+    private WorkingDocument lastWorkingDocument;
 
     public OptionsViewActivity() {
         super("person");
@@ -46,6 +47,13 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         startLogic();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        lastWorkingDocument = getWorkingDocument();
+
+    }
+
     protected void startLogic() {
         boolean forceRefresh = true; //getEventOptions() == null; // forcing refresh in case the working document has changed (ex: going back from the personal details after having changed the age)
         onFeesGroups().setHandler(ar -> {
@@ -55,13 +63,15 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                 OptionsPreselection selectedOptionsPreselection = getSelectedOptionsPreselection();
                 WorkingDocument workingDocument = getWorkingDocument();
                 // Detecting if it's a new booking
-                if (workingDocument == null || selectedOptionsPreselection == null || selectedOptionsPreselection.getWorkingDocument() == workingDocument) {
+                if (workingDocument == null || selectedOptionsPreselection != null && selectedOptionsPreselection.getWorkingDocument() == workingDocument) {
                     // Using no accommodation option by default if no preselection was selected
                     if (selectedOptionsPreselection == null)
                         setSelectedOptionsPreselection(selectedOptionsPreselection = findNoAccommodationOptionsPreselection(ar.result()));
                     // Ensuring the working document is a duplication of the preselection one to not alter the original one
                     setWorkingDocument(selectedOptionsPreselection.createNewWorkingDocument(null));
                 }
+                if (lastWorkingDocument != workingDocument)
+                    optionTree.reset();
                 createOrUpdateOptionPanelsIfReady(forceRefresh);
             }
         });
@@ -85,6 +95,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         primaryOptionsFlowPane.setHorizontalSpace(4);
         primaryOptionsFlowPane.setVerticalSpace(4);
         bookingCalendar = createBookingCalendar();
+        bookingCalendar.setOnAttendanceChangedRunnable(optionTree::getUpdatedTopLevelNodesBelowAttendance);
         attendancePanel = createAttendancePanel();
 
         priceText = new Label();

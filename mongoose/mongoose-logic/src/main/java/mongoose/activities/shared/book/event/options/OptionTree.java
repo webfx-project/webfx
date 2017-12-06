@@ -108,4 +108,7 @@ class OptionTree {
         }
     }
 
+    public void reset() {
+        Collections.forEach(optionTreeNodes.values(), OptionTreeNode::reset);
+    }
 }
