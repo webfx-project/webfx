@@ -18,8 +18,9 @@ public class Collections {
 
     public static <T> void forEach(Iterable<T> iterable, Consumer<T> consumer) {
         // iterable.forEach(consumer); // Not GWT compilable for now
-        for (T element : iterable)
-            consumer.accept(element);
+        if (iterable != null)
+            for (T element : iterable)
+                consumer.accept(element);
     }
 
     public static <A, B> List<B> map(Collection<A> aCollection, Converter<A, B> aToBConverter) {
