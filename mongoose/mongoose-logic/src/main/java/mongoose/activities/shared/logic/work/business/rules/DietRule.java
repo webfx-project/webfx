@@ -1,9 +1,9 @@
-package mongoose.activities.shared.logic.work.businesslogic.rules;
+package mongoose.activities.shared.logic.work.business.rules;
 
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
-import mongoose.activities.shared.logic.work.businesslogic.OptionLogic;
+import mongoose.activities.shared.logic.work.business.logic.OptionLogic;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
 

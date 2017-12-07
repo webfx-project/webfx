@@ -1,6 +1,8 @@
-package mongoose.activities.shared.logic.work;
+package mongoose.activities.shared.logic.work.business;
 
-import mongoose.activities.shared.logic.work.businesslogic.OptionLogic;
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.activities.shared.logic.work.business.logic.OptionLogic;
 import mongoose.entities.Option;
 import naga.util.collection.Collections;
 import naga.util.function.Predicate;
@@ -16,7 +18,7 @@ public class BusinessLines {
     private final WorkingDocument workingDocument;
     private List<WorkingDocumentLine> businessWorkingDocumentLines;
 
-    BusinessLines(BusinessType businessType, WorkingDocument workingDocument) {
+    public BusinessLines(BusinessType businessType, WorkingDocument workingDocument) {
         this.businessType = businessType;
         this.workingDocument = workingDocument;
     }

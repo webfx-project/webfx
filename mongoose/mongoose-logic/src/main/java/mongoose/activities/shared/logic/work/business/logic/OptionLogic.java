@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.businesslogic;
+package mongoose.activities.shared.logic.work.business.logic;
 
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;

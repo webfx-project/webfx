@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.businesslogic.rules;
+package mongoose.activities.shared.logic.work.business.rules;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;

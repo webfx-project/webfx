@@ -1,9 +1,9 @@
-package mongoose.activities.shared.logic.work.businesslogic.rules;
+package mongoose.activities.shared.logic.work.business.rules;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 
-import static mongoose.activities.shared.logic.work.businesslogic.OptionLogic.isTouristTaxOption;
+import static mongoose.activities.shared.logic.work.business.logic.OptionLogic.isTouristTaxOption;
 
 /**
  * @author Bruno Salmon

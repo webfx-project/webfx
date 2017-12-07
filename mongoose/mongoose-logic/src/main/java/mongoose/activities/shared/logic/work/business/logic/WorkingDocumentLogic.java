@@ -1,7 +1,7 @@
-package mongoose.activities.shared.logic.work.businesslogic;
+package mongoose.activities.shared.logic.work.business.logic;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.activities.shared.logic.work.businesslogic.rules.*;
+import mongoose.activities.shared.logic.work.business.rules.*;
 import naga.util.Arrays;
 
 /**

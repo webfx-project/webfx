@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work;
+package mongoose.activities.shared.logic.work.business;
 
 /**
  * @author Bruno Salmon

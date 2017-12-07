@@ -2,7 +2,7 @@ package mongoose.services;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.work.businesslogic.FeesGroupLogic;
+import mongoose.activities.shared.logic.work.business.logic.FeesGroupLogic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Cart;
 import mongoose.entities.Event;

@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.businesslogic;
+package mongoose.activities.shared.logic.work.business.logic;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
