@@ -37,7 +37,7 @@ class DietRule extends WorkingDocumentRule {
         Option defaultDietOption = eventService.getDefaultDietOption();
         // If meals are included by default, then we return a default diet option (the first proposed one) which will be
         // automatically selected as initial choice
-        if (defaultDietOption == null && WorkingDocumentRules.areMealsIncludedByDefault(eventService))
+        if (defaultDietOption == null && OptionRules.areMealsIncludedByDefault(eventService))
             eventService.setDefaultDietOption(defaultDietOption = eventService.findFirstConcreteOption(Option::isDiet));
         // If meals are not included by default, we don't return a default diet option so bookers will need to
         // explicitly select the diet option when ticking meals (the diet option will initially be blank)

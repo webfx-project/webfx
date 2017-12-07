@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import mongoose.activities.shared.logic.work.price.WorkingDocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
+import mongoose.activities.shared.logic.work.rules.OptionRules;
 import mongoose.activities.shared.logic.work.rules.WorkingDocumentRules;
 import mongoose.entities.Document;
 import mongoose.entities.Option;
@@ -167,7 +168,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
-            setBreakfastLine(findOptionLine(WorkingDocumentRules::isBreakfastOption));
+            setBreakfastLine(findOptionLine(OptionRules::isBreakfastOption));
         return breakfastLine;
     }
 
@@ -189,7 +190,7 @@ public class WorkingDocument {
 
     public WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
-            lunchLine = findOptionLine(WorkingDocumentRules::isLunchOption);
+            lunchLine = findOptionLine(OptionRules::isLunchOption);
         return lunchLine;
     }
 
@@ -203,7 +204,7 @@ public class WorkingDocument {
 
     public WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
-            supperLine = findOptionLine(WorkingDocumentRules::isSupperOption);
+            supperLine = findOptionLine(OptionRules::isSupperOption);
         return supperLine;
     }
 
@@ -240,7 +241,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getTouristTaxLine() {
         if (touristTaxLine == null)
-            setTouristTaxLine(findOptionLine(WorkingDocumentRules::isTouristTaxOption));
+            setTouristTaxLine(findOptionLine(OptionRules::isTouristTaxOption));
         return touristTaxLine;
     }
 

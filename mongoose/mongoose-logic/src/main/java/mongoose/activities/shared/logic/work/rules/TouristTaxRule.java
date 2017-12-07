@@ -3,7 +3,7 @@ package mongoose.activities.shared.logic.work.rules;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 
-import static mongoose.activities.shared.logic.work.rules.WorkingDocumentRules.isTouristTaxOption;
+import static mongoose.activities.shared.logic.work.rules.OptionRules.isTouristTaxOption;
 
 /**
  * @author Bruno Salmon

@@ -24,7 +24,7 @@ class BreakfastRule extends WorkingDocumentRule {
     private static Option getBreakfastOption(EventService eventService) {
         Option breakfastOption = eventService.getBreakfastOption();
         if (breakfastOption == null)
-            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(WorkingDocumentRules::isBreakfastOption));
+            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(OptionRules::isBreakfastOption));
         return breakfastOption;
     }
 
