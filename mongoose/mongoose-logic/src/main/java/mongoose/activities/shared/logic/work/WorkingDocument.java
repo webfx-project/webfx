@@ -3,13 +3,11 @@ package mongoose.activities.shared.logic.work;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import mongoose.activities.shared.logic.work.price.WorkingDocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import mongoose.activities.shared.logic.work.businesslogic.OptionLogic;
 import mongoose.activities.shared.logic.work.businesslogic.WorkingDocumentLogic;
+import mongoose.activities.shared.logic.work.price.WorkingDocumentPricing;
 import mongoose.entities.Document;
-import mongoose.entities.Option;
 import mongoose.entities.Person;
 import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
@@ -18,10 +16,11 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.util.collection.Collections;
-import naga.util.function.Predicate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -136,80 +135,73 @@ public class WorkingDocument {
         return computedPrice = WorkingDocumentPricing.computeDocumentPrice(this);
     }
 
+    private Map<BusinessType, BusinessLines> businessLinesMap = new HashMap<>();
+
     private void clearLinesCache() {
-        accommodationLine = breakfastLine = lunchLine = supperLine = dietLine = touristTaxLine = teachingLine = translationLine = null;
+        businessLinesMap.clear();
+    }
+
+    public BusinessLines getBusinessLines(BusinessType businessType) {
+        BusinessLines businessLines = businessLinesMap.get(businessType);
+        if (businessLines == null)
+            businessLinesMap.put(businessType, businessLines = new BusinessLines(businessType, this));
+        return businessLines;
+    }
+
+    public boolean hasBusinessLines(BusinessType businessType) {
+        return !getBusinessLines(businessType).isEmpty();
+    }
+
+    public void removeBusinessLines(BusinessType businessType) {
+        getBusinessLines(businessType).removeLines();
+    }
+
+    @Deprecated
+    public WorkingDocumentLine getBusinessLine(BusinessType businessType) {
+        return Collections.first(getBusinessLines(businessType).getBusinessWorkingDocumentLines());
     }
 
     //// Accommodation line
 
-    private WorkingDocumentLine accommodationLine;
-
+    @Deprecated
     public WorkingDocumentLine getAccommodationLine() {
-        if (accommodationLine == null)
-            accommodationLine = findLine(WorkingDocumentLine::isAccommodation);
-        return accommodationLine;
-    }
-
-    private WorkingDocumentLine findLine(Predicate<WorkingDocumentLine> predicate) {
-        return Collections.findFirst(workingDocumentLines, predicate);
-    }
-
-    private WorkingDocumentLine findOptionLine(Predicate<Option> predicate) {
-        return findLine(wdl -> predicate.test(wdl.getOption()));
+        return getBusinessLine(BusinessType.ACCOMMODATION);
     }
 
     public boolean hasAccommodation() {
-        return getAccommodationLine() != null;
+        return hasBusinessLines(BusinessType.ACCOMMODATION);
     }
 
     //// Breakfast line
 
-    private WorkingDocumentLine breakfastLine;
-
-    private WorkingDocumentLine getBreakfastLine() {
-        if (breakfastLine == null)
-            setBreakfastLine(findOptionLine(OptionLogic::isBreakfastOption));
-        return breakfastLine;
-    }
-
-    public void setBreakfastLine(WorkingDocumentLine breakfastLine) {
-        this.breakfastLine = breakfastLine;
-    }
-
     public boolean hasBreakfast() {
-        return getBreakfastLine() != null;
+        return hasBusinessLines(BusinessType.BREAKFAST);
     }
 
-    public void removeBreakfastLine() {
-        workingDocumentLines.remove(getBreakfastLine());
+    public void removeBreakfast() {
+        removeBusinessLines(BusinessType.BREAKFAST);
     }
 
     //// Lunch line
 
-    private WorkingDocumentLine lunchLine;
-
+    @Deprecated
     public WorkingDocumentLine getLunchLine() {
-        if (lunchLine == null)
-            lunchLine = findOptionLine(OptionLogic::isLunchOption);
-        return lunchLine;
+        return getBusinessLine(BusinessType.LUNCH);
     }
 
     public boolean hasLunch() {
-        return getLunchLine() != null;
+        return hasBusinessLines(BusinessType.LUNCH);
     }
 
     //// Supper line
 
-    private WorkingDocumentLine supperLine;
-
+    @Deprecated
     public WorkingDocumentLine getSupperLine() {
-        if (supperLine == null)
-            supperLine = findOptionLine(OptionLogic::isSupperOption);
-        return supperLine;
+        return getBusinessLine(BusinessType.SUPPER);
     }
 
     public boolean hasSupper() {
-        return getSupperLine() != null;
+        return hasBusinessLines(BusinessType.SUPPER);
     }
 
     public boolean hasMeals() {
@@ -219,80 +211,50 @@ public class WorkingDocument {
 
     //// Diet line
 
-    private WorkingDocumentLine dietLine;
-
+    @Deprecated
     public WorkingDocumentLine getDietLine() {
-        if (dietLine == null)
-            setDietLine(findLine(WorkingDocumentLine::isDiet));
-        return dietLine;
+        return getBusinessLine(BusinessType.DIET);
     }
 
-    public void setDietLine(WorkingDocumentLine dietLine) {
-        this.dietLine = dietLine;
-    }
-
-    public void removeDietLine() {
-        workingDocumentLines.remove(getDietLine());
+    public void removeDiet() {
+        removeBusinessLines(BusinessType.DIET);
     }
 
     //// TouristTax line
 
-    private WorkingDocumentLine touristTaxLine;
-
-    private WorkingDocumentLine getTouristTaxLine() {
-        if (touristTaxLine == null)
-            setTouristTaxLine(findOptionLine(OptionLogic::isTouristTaxOption));
-        return touristTaxLine;
-    }
-
-    public void setTouristTaxLine(WorkingDocumentLine touristTaxLine) {
-        this.touristTaxLine = touristTaxLine;
-    }
-
     public boolean hasTouristTax() {
-        return getTouristTaxLine() != null;
+        return hasBusinessLines(BusinessType.TOURIST_TAX);
     }
 
-    public void removeTouristTaxLine() {
-        workingDocumentLines.remove(getTouristTaxLine());
+    public void removeTouristTax() {
+        removeBusinessLines(BusinessType.TOURIST_TAX);
     }
 
     //// Teaching line
 
-    private WorkingDocumentLine teachingLine;
-
+    @Deprecated
     public WorkingDocumentLine getTeachingLine() {
-        if (teachingLine == null)
-            teachingLine = findOptionLine(Option::isTeaching);
-        return teachingLine;
+        return getBusinessLine(BusinessType.TEACHING);
     }
 
     public boolean hasTeaching() {
-        return getTeachingLine() != null;
+        return hasBusinessLines(BusinessType.TEACHING);
     }
 
     //// Translation line
 
-    private WorkingDocumentLine translationLine;
-
+    @Deprecated
     public WorkingDocumentLine getTranslationLine() {
-        if (translationLine == null)
-            setTranslationLine(findOptionLine(Option::isTranslation));
-        return translationLine;
-    }
-
-    private void setTranslationLine(WorkingDocumentLine translationLine) {
-        this.translationLine = translationLine;
+        return getBusinessLine(BusinessType.TRANSLATION);
     }
 
     public boolean hasTranslation() {
-        return getTranslationLine() != null;
+        return hasBusinessLines(BusinessType.TRANSLATION);
     }
 
-    public void removeTranslationLine() {
-        workingDocumentLines.remove(getTranslationLine());
+    public void removeTranslation() {
+        removeBusinessLines(BusinessType.TRANSLATION);
     }
-
     public void syncPersonDetails(HasPersonDetails p) {
         syncPersonDetails(p, document);
     }

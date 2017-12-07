@@ -15,15 +15,14 @@ public class DietRule extends BusinessRule {
     @Override
     public void apply(WorkingDocument wd) {
         if (!wd.hasMeals())
-            wd.removeDietLine();
+            wd.removeDiet();
         else {
             WorkingDocumentLine dietLine = wd.getDietLine();
             if (dietLine == null) {
                 Option dietOption = getDefaultDietOption(wd.getEventService());
                 if (dietOption == null)
                     return;
-                wd.setDietLine(dietLine = new WorkingDocumentLine(dietOption, wd));
-                wd.getWorkingDocumentLines().add(dietLine);
+                wd.getWorkingDocumentLines().add(dietLine = new WorkingDocumentLine(dietOption, wd));
             }
             DaysArrayBuilder dab = new DaysArrayBuilder();
             if (wd.hasLunch())
