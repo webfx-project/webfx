@@ -1,17 +1,17 @@
-package mongoose.activities.shared.logic.work.rules;
+package mongoose.activities.shared.logic.work.businesslogic.rules;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 
-import static mongoose.activities.shared.logic.work.rules.OptionRules.isTouristTaxOption;
+import static mongoose.activities.shared.logic.work.businesslogic.OptionLogic.isTouristTaxOption;
 
 /**
  * @author Bruno Salmon
  */
-class TouristTaxRule extends WorkingDocumentRule {
+public class TouristTaxRule extends BusinessRule {
 
     @Override
-    void apply(WorkingDocument wd) {
+    public void apply(WorkingDocument wd) {
         if (!wd.hasAccommodation())
             wd.removeTouristTaxLine();
         else if (!wd.hasTouristTax()) {

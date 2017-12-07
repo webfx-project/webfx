@@ -1,16 +1,17 @@
-package mongoose.activities.shared.logic.work.rules;
+package mongoose.activities.shared.logic.work.businesslogic.rules;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.businesslogic.OptionLogic;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
 
 /**
  * @author Bruno Salmon
  */
-class BreakfastRule extends WorkingDocumentRule {
+public class BreakfastRule extends BusinessRule {
 
     @Override
-    void apply(WorkingDocument wd) {
+    public void apply(WorkingDocument wd) {
         if (!wd.hasAccommodation() || !wd.hasMeals())
             wd.removeBreakfastLine();
         else if (!wd.hasBreakfast()) {
@@ -24,8 +25,7 @@ class BreakfastRule extends WorkingDocumentRule {
     private static Option getBreakfastOption(EventService eventService) {
         Option breakfastOption = eventService.getBreakfastOption();
         if (breakfastOption == null)
-            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(OptionRules::isBreakfastOption));
+            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(OptionLogic::isBreakfastOption));
         return breakfastOption;
     }
-
 }

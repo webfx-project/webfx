@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.rules;
+package mongoose.activities.shared.logic.work.businesslogic.rules;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
@@ -10,10 +10,10 @@ import naga.util.function.Predicate;
 /**
  * @author Bruno Salmon
  */
-class HotelShuttleRules extends WorkingDocumentRule {
+public class HotelShuttleRules extends BusinessRule {
 
     @Override
-    void apply(WorkingDocument wd) {
+    public void apply(WorkingDocument wd) {
         Site hotel = wd.hasAccommodation() ? wd.getAccommodationLine().getSite() : null;
         removeLines(wd, wdl -> isAHotelShuttleLineButOtherThanForThisHotel(wdl, hotel));
     }
@@ -37,6 +37,5 @@ class HotelShuttleRules extends WorkingDocumentRule {
     public static boolean isEveningHotelShuttleOption(Option option, WorkingDocument wd) {
         return option.isTransport() && option.getArrivalSite() == wd.getAccommodationLine(); // && isOptionInDayTimeRange(option, 0, 12 * 60);
     }
-
 
 }

@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.rules;
+package mongoose.activities.shared.logic.work.businesslogic;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
@@ -18,12 +18,12 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class FeesGroupRules {
+public class FeesGroupLogic {
 
     public static FeesGroup[] createFeesGroups(EventService eventService) {
         List<FeesGroup> feesGroups = new ArrayList<>();
         EntityList<DateInfo> dateInfos = eventService.getEventDateInfos();
-        List<Option> defaultOptions = OptionRules.selectDefaultOptions(eventService);
+        List<Option> defaultOptions = OptionLogic.selectDefaultOptions(eventService);
         List<Option> accommodationOptions = eventService.selectOptions(o -> o.isConcrete() && o.isAccommodation());
         if (!dateInfos.isEmpty())
             for (DateInfo dateInfo : dateInfos)

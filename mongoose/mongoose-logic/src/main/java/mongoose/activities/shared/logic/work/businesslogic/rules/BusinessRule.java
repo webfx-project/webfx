@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.rules;
+package mongoose.activities.shared.logic.work.businesslogic.rules;
 
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
@@ -7,9 +7,9 @@ import mongoose.entities.Option;
 /**
  * @author Bruno Salmon
  */
-abstract class WorkingDocumentRule {
+public abstract class BusinessRule {
 
-    abstract void apply(WorkingDocument wd);
+    abstract public void apply(WorkingDocument wd);
 
     static WorkingDocumentLine addNewDependentLine(WorkingDocument wd, Option dependentOption, WorkingDocumentLine masterLine, long shiftDays) {
         WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependentOption, wd);
@@ -21,7 +21,4 @@ abstract class WorkingDocumentRule {
     static void applySameAttendances(WorkingDocumentLine dependentLine, WorkingDocumentLine masterLine, long shiftDays) {
         dependentLine.setDaysArray(masterLine.getDaysArray().shift(shiftDays));
     }
-
-
-
 }

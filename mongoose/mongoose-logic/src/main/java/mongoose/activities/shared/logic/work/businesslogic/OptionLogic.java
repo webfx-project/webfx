@@ -1,4 +1,4 @@
-package mongoose.activities.shared.logic.work.rules;
+package mongoose.activities.shared.logic.work.businesslogic;
 
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Bruno Salmon
  */
-public class OptionRules {
+public class OptionLogic {
 
     public static boolean isOptionDisplayableOnCalendar(Option option, boolean isMax) {
         return option != null && ((option.isTeaching() || !isMax && (option.isMeals() || option.isAccommodation() || option.isTransport())) && option.getParsedTimeRangeOrParent() != null);
@@ -30,7 +30,7 @@ public class OptionRules {
         return eventService.selectOptions(o -> isOptionIncludedByDefault(o, eventService));
     }
 
-    static boolean areMealsIncludedByDefault(EventService eventService) {
+    public static boolean areMealsIncludedByDefault(EventService eventService) {
         // Answer: yes except for day courses, public talks and International Festivals
         Event event = eventService.getEvent();
         String eventName = event.getName();

@@ -6,8 +6,8 @@ import javafx.collections.ObservableList;
 import mongoose.activities.shared.logic.work.price.WorkingDocumentPricing;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
-import mongoose.activities.shared.logic.work.rules.OptionRules;
-import mongoose.activities.shared.logic.work.rules.WorkingDocumentRules;
+import mongoose.activities.shared.logic.work.businesslogic.OptionLogic;
+import mongoose.activities.shared.logic.work.businesslogic.WorkingDocumentLogic;
 import mongoose.entities.Document;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
@@ -116,7 +116,7 @@ public class WorkingDocument {
 
     public WorkingDocument applyBusinessRules() {
         if (changedSinceLastApplyBusinessRules) {
-            WorkingDocumentRules.applyBusinessRules(this);
+            WorkingDocumentLogic.applyBusinessRules(this);
             changedSinceLastApplyBusinessRules = false;
         }
         return this;
@@ -168,7 +168,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getBreakfastLine() {
         if (breakfastLine == null)
-            setBreakfastLine(findOptionLine(OptionRules::isBreakfastOption));
+            setBreakfastLine(findOptionLine(OptionLogic::isBreakfastOption));
         return breakfastLine;
     }
 
@@ -190,7 +190,7 @@ public class WorkingDocument {
 
     public WorkingDocumentLine getLunchLine() {
         if (lunchLine == null)
-            lunchLine = findOptionLine(OptionRules::isLunchOption);
+            lunchLine = findOptionLine(OptionLogic::isLunchOption);
         return lunchLine;
     }
 
@@ -204,7 +204,7 @@ public class WorkingDocument {
 
     public WorkingDocumentLine getSupperLine() {
         if (supperLine == null)
-            supperLine = findOptionLine(OptionRules::isSupperOption);
+            supperLine = findOptionLine(OptionLogic::isSupperOption);
         return supperLine;
     }
 
@@ -241,7 +241,7 @@ public class WorkingDocument {
 
     private WorkingDocumentLine getTouristTaxLine() {
         if (touristTaxLine == null)
-            setTouristTaxLine(findOptionLine(OptionRules::isTouristTaxOption));
+            setTouristTaxLine(findOptionLine(OptionLogic::isTouristTaxOption));
         return touristTaxLine;
     }
 
