@@ -3,17 +3,18 @@ package mongoose.activities.shared.logic.work.rules;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.book.event.shared.FeesGroupBuilder;
 import mongoose.activities.shared.logic.time.DayTimeRange;
-import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import mongoose.activities.shared.logic.work.WorkingDocumentLine;
-import mongoose.entities.*;
+import mongoose.entities.DateInfo;
+import mongoose.entities.Event;
+import mongoose.entities.Option;
+import mongoose.entities.Site;
 import mongoose.services.EventService;
 import mongoose.util.Labels;
 import naga.framework.orm.entity.EntityList;
+import naga.util.Arrays;
 import naga.util.Numbers;
 import naga.util.collection.Collections;
-import naga.util.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -25,6 +26,14 @@ import java.util.concurrent.TimeUnit;
  * @author Bruno Salmon
  */
 public class WorkingDocumentRules {
+
+    private final static WorkingDocumentRule[] BUSINESS_RULES = {
+            new BreakfastRule(),
+            new DietRule(),
+            new TouristTaxRule(),
+            new TranslationRule(),
+            new HotelShuttleRules()
+    };
 
     // External entry points
 
@@ -42,11 +51,7 @@ public class WorkingDocumentRules {
     }
 
     public static void applyBusinessRules(WorkingDocument workingDocument) {
-        applyBreakfastRule(workingDocument);
-        applyDietRule(workingDocument);
-        applyTouristTaxRule(workingDocument);
-        applyTranslationRule(workingDocument);
-        applyHotelShuttlesRules(workingDocument);
+        Arrays.forEach(BUSINESS_RULES, rule -> rule.apply(workingDocument));
     }
 
 
@@ -85,88 +90,11 @@ public class WorkingDocumentRules {
                 .build();
     }
 
-    private static void applyBreakfastRule(WorkingDocument wd) {
-        if (!wd.hasAccommodation() || !wd.hasMeals())
-            wd.removeBreakfastLine();
-        else if (!wd.hasBreakfast()) {
-            Option breakfastOption = getBreakfastOption(wd.getEventService());
-            // Breakfast added only if it is on same site as accommodation
-            if (breakfastOption != null && breakfastOption.getSite() == wd.getAccommodationLine().getSite())
-                wd.setBreakfastLine(addNewDependentLine(wd, breakfastOption, wd.getAccommodationLine(), 1));
-        }
-    }
-
-    private static void applyDietRule(WorkingDocument wd) {
-        if (!wd.hasMeals())
-            wd.removeDietLine();
-        else {
-            WorkingDocumentLine dietLine = wd.getDietLine();
-            if (dietLine == null) {
-                Option dietOption = getDefaultDietOption(wd.getEventService());
-                if (dietOption == null)
-                    return;
-                wd.setDietLine(dietLine = new WorkingDocumentLine(dietOption, wd));
-                wd.getWorkingDocumentLines().add(dietLine);
-            }
-            DaysArrayBuilder dab = new DaysArrayBuilder();
-            if (wd.hasLunch())
-                dab.addSeries(wd.getLunchLine().getDaysArray().toSeries(), null);
-            if (wd.hasSupper())
-                dab.addSeries(wd.getSupperLine().getDaysArray().toSeries(), null);
-            dietLine.setDaysArray(dab.build());
-        }
-    }
-
-    private static void applyTouristTaxRule(WorkingDocument wd) {
-        if (!wd.hasAccommodation())
-            wd.removeTouristTaxLine();
-        else if (!wd.hasTouristTax()) {
-            Option touristTaxOption = wd.getEventService().findFirstOption(o -> isTouristTaxOption(o) && (o.hasNoParent() || wd.getAccommodationLine() != null && o.getParent().getItem() == wd.getAccommodationLine().getItem()));
-            if (touristTaxOption != null)
-                wd.setTouristTaxLine(addNewDependentLine(wd, touristTaxOption, wd.getAccommodationLine(), 0));
-        }
-    }
-
-    private static void applyTranslationRule(WorkingDocument wd) {
-        if (!wd.hasTeaching())
-            wd.removeTranslationLine();
-        else if (wd.hasTranslation())
-            applySameAttendances(wd.getTranslationLine(), wd.getTeachingLine(), 0);
-    }
-
-    private static void applyHotelShuttlesRules(WorkingDocument wd) {
-        Site hotel = wd.hasAccommodation() ? wd.getAccommodationLine().getSite() : null;
-        removeLines(wd, wdl -> WorkingDocumentRules.isAHotelShuttleLineButOtherThanForThisHotel(wdl, hotel));
-    }
-
-    private static void removeLines(WorkingDocument wd, Predicate<WorkingDocumentLine> predicate) {
-        Collections.removeIf(wd.getWorkingDocumentLines(), predicate);
-    }
-
-    private static boolean isAHotelShuttleLineButOtherThanForThisHotel(WorkingDocumentLine wdl, Site hotel) {
-        return wdl.isTransport() && (isAHotelButOtherThan(wdl.getSite(), hotel) || isAHotelButOtherThan(wdl.getArrivalSite(), hotel));
-    }
-
-    private static boolean isAHotelButOtherThan(Site site, Site hotel) {
-        return site != null && site.isAccommodation() && site != hotel;
-    }
-
-    private static WorkingDocumentLine addNewDependentLine(WorkingDocument wd, Option dependentOption, WorkingDocumentLine masterLine, long shiftDays) {
-        WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependentOption, wd);
-        wd.getWorkingDocumentLines().add(dependantLine);
-        applySameAttendances(dependantLine, masterLine, shiftDays);
-        return dependantLine;
-    }
-
-    private static void applySameAttendances(WorkingDocumentLine dependentLine, WorkingDocumentLine masterLine, long shiftDays) {
-        dependentLine.setDaysArray(masterLine.getDaysArray().shift(shiftDays));
-    }
-
     private static List<Option> selectDefaultOptions(EventService eventService) {
         return eventService.selectOptions(o -> isOptionIncludedByDefault(o, eventService));
     }
 
-    private static boolean areMealsIncludedByDefault(EventService eventService) {
+    static boolean areMealsIncludedByDefault(EventService eventService) {
         // Answer: yes except for day courses, public talks and International Festivals
         Event event = eventService.getEvent();
         String eventName = event.getName();
@@ -206,33 +134,7 @@ public class WorkingDocumentRules {
         return dayTimeInterval.getIncludedStart() >= startMinutes && dayTimeInterval.getExcludedEnd() < endMinutes;
     }
 
-    public static boolean isMorningHotelShuttleOption(Option option, WorkingDocument wd) {
-        return option.isTransport() && option.getSite() == wd.getAccommodationLine(); // && isOptionInDayTimeRange(option, 0, 12 * 60);
-    }
-
-    public static boolean isEveningHotelShuttleOption(Option option, WorkingDocument wd) {
-        return option.isTransport() && option.getArrivalSite() == wd.getAccommodationLine(); // && isOptionInDayTimeRange(option, 0, 12 * 60);
-    }
-
     public static boolean isTouristTaxOption(Option option) {
         return option.isTax(); // The only tax for now is the tourist tax
-    }
-
-    private static Option getBreakfastOption(EventService eventService) {
-        Option breakfastOption = eventService.getBreakfastOption();
-        if (breakfastOption == null)
-            eventService.setBreakfastOption(breakfastOption = eventService.findFirstConcreteOption(WorkingDocumentRules::isBreakfastOption));
-        return breakfastOption;
-    }
-
-    private static Option getDefaultDietOption(EventService eventService) {
-        Option defaultDietOption = eventService.getDefaultDietOption();
-        // If meals are included by default, then we return a default diet option (the first proposed one) which will be
-        // automatically selected as initial choice
-        if (defaultDietOption == null && areMealsIncludedByDefault(eventService))
-            eventService.setDefaultDietOption(defaultDietOption = eventService.findFirstConcreteOption(Option::isDiet));
-        // If meals are not included by default, we don't return a default diet option so bookers will need to
-        // explicitly select the diet option when ticking meals (the diet option will initially be blank)
-        return defaultDietOption;
     }
 }
