@@ -42,7 +42,7 @@ class OptionTreeNode {
     private boolean inited;
     private BorderPane buttonNode;
     private BorderPane detailedNode;
-    private ChoiceBox<Label> childrenChoiceBox;
+    private ChoiceBox<Option> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
     private List<OptionTreeNode> childrenOptionTreeNodes;
     private OptionTreeNode lastSelectedChildOptionTreeNode;
@@ -73,6 +73,10 @@ class OptionTreeNode {
 
     protected I18n getI18n() {
         return tree.getI18n();
+    }
+
+    protected String bestTranslationOrName(Object o) {
+        return Labels.instantTranslateLabel(Labels.bestLabelOrName(o), getI18n());
     }
 
     private WorkingDocumentTransaction getWorkingDocumentTransaction() {
@@ -186,33 +190,34 @@ class OptionTreeNode {
         if (option.isObligatory() || option.hasNoParent())
             optionButtonSelectedProperty = new SimpleBooleanProperty(option.isObligatory());
         else {
-            Label promptLabel = option.getPromptLabel();
-            Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
             ToggleGroup toggleGroup = parent == null ? null : parent.getChildrenToggleGroup();
-            ChoiceBox<Label> choiceBox = parent == null ? null : parent.childrenChoiceBox;
+            ChoiceBox<Option> choiceBox = parent == null ? null : parent.childrenChoiceBox;
             if (toggleGroup != null) {
                 RadioButton radioButton = new RadioButton();
                 radioButton.setToggleGroup(toggleGroup);
                 optionButtonSelectedProperty = radioButton.selectedProperty();
                 optionButton = radioButton;
             } else if (choiceBox != null) {
-                choiceBox.getItems().add(buttonLabel);
+                choiceBox.getItems().add(option);
                 optionButtonSelectedProperty = new SimpleObjectProperty<Boolean>(false) {
                     @Override
                     protected void invalidated() {
                         if (getValue())
-                            choiceBox.getSelectionModel().select(buttonLabel);
+                            choiceBox.getSelectionModel().select(option);
                     }
                 };
-                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == buttonLabel), choiceBox.getSelectionModel().selectedItemProperty());
+                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == option), choiceBox.getSelectionModel().selectedItemProperty());
                 optionButton = null;
             } else {
                 CheckBox checkBox = new CheckBox();
                 optionButtonSelectedProperty = checkBox.selectedProperty();
                 optionButton = checkBox;
             }
-            if (optionButton != null)
+            if (optionButton != null) {
+                Label promptLabel = option.getPromptLabel();
+                Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
                 Labels.translateLabel(optionButton, buttonLabel, getI18n());
+            }
         }
         Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
     }
@@ -234,14 +239,14 @@ class OptionTreeNode {
         if (!Collections.isEmpty(childrenOptions)) {
             if ("select".equals(option.getLayout())) {
                 childrenChoiceBox = new ChoiceBox<>();
-                childrenChoiceBox.setConverter(new StringConverter<Label>() {
+                childrenChoiceBox.setConverter(new StringConverter<Option>() {
                     @Override
-                    public String toString(Label label) {
-                        return Labels.instantTranslateLabel(label, getI18n());
+                    public String toString(Option option) {
+                        return bestTranslationOrName(option);
                     }
 
                     @Override
-                    public Label fromString(String string) {
+                    public Option fromString(String string) {
                         return null;
                     }
                 });
@@ -265,7 +270,7 @@ class OptionTreeNode {
     }
 
     private void refreshChildrenChoiceBoxOnLanguageChange() {
-        Label selectedItem = childrenChoiceBox.getSelectionModel().getSelectedItem();
+        Option selectedItem = childrenChoiceBox.getSelectionModel().getSelectedItem();
         // Resetting the items with an identical duplicated list (to force the ui update)
         childrenChoiceBox.getItems().setAll(new ArrayList<>(childrenChoiceBox.getItems()));
         // The later operation removed the selected item so we restore it
