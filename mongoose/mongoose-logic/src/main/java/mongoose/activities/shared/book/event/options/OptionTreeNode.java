@@ -242,7 +242,11 @@ class OptionTreeNode {
                 childrenChoiceBox.setConverter(new StringConverter<Option>() {
                     @Override
                     public String toString(Option option) {
-                        return bestTranslationOrName(option);
+                        String optionTranslation = bestTranslationOrName(option);
+                        boolean multiSite = option.getParent() != null && option.getParent().getSite() == null;
+                        if (multiSite)
+                            optionTranslation = bestTranslationOrName(option.getSite()) + " - " + optionTranslation;
+                        return optionTranslation;
                     }
 
                     @Override
