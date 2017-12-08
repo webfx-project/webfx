@@ -14,11 +14,13 @@ public class BreakfastRule extends BusinessRule {
     public void apply(WorkingDocument wd) {
         if (!wd.hasAccommodation() || !wd.hasMeals())
             wd.removeBreakfast();
-        else if (!wd.hasBreakfast()) {
+        else {
             Option breakfastOption = getBreakfastOption(wd.getEventService());
             // Breakfast added only if it is on same site as accommodation
-            if (breakfastOption != null && breakfastOption.getSite() == wd.getAccommodationLine().getSite())
+            if (!wd.hasBreakfast() && breakfastOption != null && breakfastOption.getSite() == wd.getAccommodationLine().getSite())
                 addNewDependentLine(wd, breakfastOption, wd.getAccommodationLine(), 1);
+            else
+                wd.removeBreakfast();
         }
     }
 
