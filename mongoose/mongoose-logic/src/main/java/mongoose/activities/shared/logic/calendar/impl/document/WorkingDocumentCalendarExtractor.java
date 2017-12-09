@@ -1,6 +1,8 @@
 package mongoose.activities.shared.logic.calendar.impl.document;
 
 import javafx.beans.property.Property;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.calendar.CalendarTimeline;
@@ -10,14 +12,14 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
-import mongoose.activities.shared.logic.work.rules.WorkingDocumentRules;
+import mongoose.activities.shared.logic.work.business.logic.OptionLogic;
+import mongoose.entities.ItemFamilyType;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
+import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.util.Labels;
-import naga.util.Objects;
 import naga.framework.ui.i18n.I18n;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import naga.util.Objects;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +43,20 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
 
     public static WorkingDocumentCalendarExtractor get() {
         return SINGLETON;
+    }
+
+    public static Paint getItemFamilyFillColor(HasItemFamilyType hasItemFamilyType) {
+        return getItemFamilyFillColor(hasItemFamilyType.getItemFamilyType());
+    }
+
+    public static Paint getItemFamilyFillColor(ItemFamilyType itemFamilyType) {
+        switch (itemFamilyType) {
+            case TEACHING: return TEACHING_FILL;
+            case ACCOMMODATION: return ACCOMMODATION_FILL;
+            case MEALS: return MEALS_FILL;
+            case TRANSPORT: return TRANSPORT_FILL;
+        }
+        return null;
     }
 
     private WorkingDocumentCalendarExtractor() {
@@ -71,14 +87,14 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
             if (maxWorkingDocumentLine != null) {
                 DateTimeRange dateTimeRange = new DateTimeRange(maxWorkingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
-                    Paint fill = UNATTENDED_FILL; //option.isTeaching() ? TEACHING_FILL : option.isAccommodation() ? ACCOMMODATION_FILL : option.isMeals() ? MEALS_FILL : UNATTENDED_FILL;
+                    Paint fill = UNATTENDED_FILL;
                     timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, maxWorkingDocumentLine));
                 }
             }
             if (workingDocumentLine != null) {
                 DateTimeRange dateTimeRange = new DateTimeRange(workingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
-                    Paint fill = option.isTeaching() ? TEACHING_FILL : option.isAccommodation() ? ACCOMMODATION_FILL : option.isMeals() ? MEALS_FILL : option.isTransport() ? TRANSPORT_FILL : UNATTENDED_FILL;
+                    Paint fill = Objects.coalesce(getItemFamilyFillColor(option), UNATTENDED_FILL);
                     timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, workingDocumentLine));
                 }
             }
@@ -110,7 +126,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
         if (wd != null)
             for (WorkingDocumentLine wdl : wd.getWorkingDocumentLines()) {
                 Option option = wdl.getOption();
-                if (WorkingDocumentRules.isOptionDisplayableOnCalendar(option, isMax)) {
+                if (OptionLogic.isOptionDisplayableOnCalendar(option, isMax)) {
                     OptionTimeline optionTimeline = optionTimelines.get(option.getPrimaryKey());
                     if (optionTimeline != null)
                         optionTimeline.setWorkingDocumentLine(wdl, isMax);
