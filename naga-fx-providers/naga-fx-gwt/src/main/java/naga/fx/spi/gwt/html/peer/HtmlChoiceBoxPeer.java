@@ -19,7 +19,7 @@ public class HtmlChoiceBoxPeer
         <T, N extends ChoiceBox<T>, NB extends ChoiceBoxPeerBase<T, N, NB, NM>, NM extends ChoiceBoxPeerMixin<T, N, NB, NM>>
 
         extends HtmlControlPeer<N, NB, NM>
-        implements ChoiceBoxPeerMixin<T, N, NB, NM> {
+        implements ChoiceBoxPeerMixin<T, N, NB, NM>, HtmlLayoutMeasurableNoGrow {
 
     private final HTMLSelectElement select;
 
