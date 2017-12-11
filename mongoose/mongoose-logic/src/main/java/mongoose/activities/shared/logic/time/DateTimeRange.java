@@ -124,4 +124,9 @@ public final class DateTimeRange {
             return this;
         return from(getSeries().changeTimeUnit(TimeUnit.MINUTES).intersect(dayTimeRange));
     }
+
+    public boolean overlaps(DateTimeRange dateTimeRange) {
+        DateTimeRange intersect = intersect(dateTimeRange);
+        return intersect != null && !intersect.isEmpty();
+    }
 }
