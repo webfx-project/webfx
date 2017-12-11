@@ -26,9 +26,11 @@ public class WorkingDocumentMerger {
             if (line == null) {
                 line = new WorkingDocumentLine(thisLine, dateTimeRange);
                 if (line.isAccommodation()) {
+                    final WorkingDocumentLine finalLine = line;
                     /* The fact that it could not be found in the preselected calendar working document is probably due
-                     * to a booker change in the accommodation type, so we should remove the initial accommodation option */
-                    lines.removeIf(WorkingDocumentLine::isAccommodation);
+                     * to a booker change in the accommodation type, so we should remove the initial accommodation line
+                     * unless lines don't overlap (ex: Early accommodation and Festival accommodation can coexist) */
+                    lines.removeIf(wdl -> wdl.isAccommodation() && wdl.getDateTimeRange().overlaps(finalLine.getDateTimeRange()));
                 }
                 lines.add(line);
             }
