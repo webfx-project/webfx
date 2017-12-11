@@ -103,7 +103,9 @@ class OptionTreeNode {
         ImageView checkBoxView = new ImageView();
         checkBoxView.imageProperty().bind(Properties.compute(optionButtonSelectedProperty, selected ->
                 ImageStore.getOrCreateImage(selected ? "images/16/checked.png" : "images/16/unchecked.png", 16, 16)));
-        ((HBox) buttonNode.getTop()).getChildren().add(0, checkBoxView);
+        ObservableList<Node> hBoxChildren = ((HBox) buttonNode.getTop()).getChildren();
+        hBoxChildren.add(0, checkBoxView);
+        hBoxChildren.add(0, LayoutUtil.createHGrowable()); // To shift the button content and make it centered
         LayoutUtil.setMinWidthToPref(buttonNode);
         LayoutUtil.setMaxSizeToInfinite(buttonNode);
     }
