@@ -176,6 +176,11 @@ public class WorkingDocument {
 
     //// Breakfast line
 
+    @Deprecated
+    public WorkingDocumentLine getBreakfastLine() {
+        return getBusinessLine(BusinessType.BREAKFAST);
+    }
+
     public boolean hasBreakfast() {
         return hasBusinessLines(BusinessType.BREAKFAST);
     }

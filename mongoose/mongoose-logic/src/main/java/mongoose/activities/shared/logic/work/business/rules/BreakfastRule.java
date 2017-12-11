@@ -17,10 +17,12 @@ public class BreakfastRule extends BusinessRule {
         else {
             Option breakfastOption = getBreakfastOption(wd.getEventService());
             // Breakfast added only if it is on same site as accommodation
-            if (!wd.hasBreakfast() && breakfastOption != null && breakfastOption.getSite() == wd.getAccommodationLine().getSite())
+            if (breakfastOption == null || breakfastOption.getSite() != wd.getAccommodationLine().getSite())
+                wd.removeBreakfast();
+            else if (!wd.hasBreakfast())
                 addNewDependentLine(wd, breakfastOption, wd.getAccommodationLine(), 1);
             else
-                wd.removeBreakfast();
+                applySameAttendances(wd.getBreakfastLine(), wd.getAccommodationLine(), 1);
         }
     }
 
