@@ -30,7 +30,8 @@ public class BusinessLines {
     }
 
     public boolean isEmpty() {
-        return getBusinessWorkingDocumentLines().isEmpty();
+        //return getBusinessWorkingDocumentLines().isEmpty();
+        return Collections.hasNoOneMatching(getBusinessWorkingDocumentLines(), wdl -> !wdl.getDaysArray().isEmpty());
     }
 
     public void removeLines() {
