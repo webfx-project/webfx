@@ -155,7 +155,7 @@ public class WorkingDocument {
     }
 
     public void removeBusinessLines(BusinessType businessType) {
-        getBusinessLines(businessType).removeLines();
+        getBusinessLines(businessType).removeAllLines();
     }
 
     @Deprecated

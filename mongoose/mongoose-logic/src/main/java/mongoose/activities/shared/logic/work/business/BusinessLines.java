@@ -7,6 +7,7 @@ import mongoose.entities.Option;
 import naga.util.collection.Collections;
 import naga.util.function.Predicate;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,9 +35,15 @@ public class BusinessLines {
         return Collections.hasNoOneMatching(getBusinessWorkingDocumentLines(), wdl -> !wdl.getDaysArray().isEmpty());
     }
 
-    public void removeLines() {
-        workingDocument.getWorkingDocumentLines().removeAll(getBusinessWorkingDocumentLines());
-        businessWorkingDocumentLines = null;
+    public void removeAllLines() {
+        removeLines(getBusinessWorkingDocumentLines());
+    }
+
+    public void removeLines(Collection<WorkingDocumentLine> lines) {
+        if (lines != null) {
+            workingDocument.getWorkingDocumentLines().removeAll(lines);
+            businessWorkingDocumentLines = null;
+        }
     }
 
     private List<WorkingDocumentLine> findBusinessWorkingLines() {
