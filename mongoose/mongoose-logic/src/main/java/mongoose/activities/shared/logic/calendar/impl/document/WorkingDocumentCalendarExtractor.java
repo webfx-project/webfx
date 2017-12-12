@@ -21,10 +21,7 @@ import mongoose.util.Labels;
 import naga.framework.ui.i18n.I18n;
 import naga.util.Objects;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -64,19 +61,19 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
 
     private static class OptionTimeline {
         final Option option;
-        WorkingDocumentLine workingDocumentLine;
+        List<WorkingDocumentLine> workingDocumentLines = new ArrayList<>(); // List because possible multi-lines with same option (ex: early breakfast and festival breakfast)
         WorkingDocumentLine maxWorkingDocumentLine;
 
         OptionTimeline(Option option, WorkingDocumentLine workingDocumentLine, boolean isMax) {
             this.option = option;
-            setWorkingDocumentLine(workingDocumentLine, isMax);
+            addWorkingDocumentLine(workingDocumentLine, isMax);
         }
 
-        void setWorkingDocumentLine(WorkingDocumentLine wdl, boolean isMax) {
+        void addWorkingDocumentLine(WorkingDocumentLine wdl, boolean isMax) {
             if (isMax)
                 maxWorkingDocumentLine = wdl;
             else
-                workingDocumentLine = wdl;
+                workingDocumentLines.add(wdl);
         }
 
         void addToCalendarTimelines(Collection<CalendarTimeline> timelines, I18n i18n, DateTimeRange calendarDateTimeRange) {
@@ -86,12 +83,10 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
             Property<String> displayNameProperty = Labels.translateLabel(label, i18n);
             if (maxWorkingDocumentLine != null) {
                 DateTimeRange dateTimeRange = new DateTimeRange(maxWorkingDocumentLine.getDaysArray());
-                if (!dateTimeRange.isEmpty()) {
-                    Paint fill = UNATTENDED_FILL;
-                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, maxWorkingDocumentLine));
-                }
+                if (!dateTimeRange.isEmpty())
+                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, UNATTENDED_FILL, maxWorkingDocumentLine));
             }
-            if (workingDocumentLine != null) {
+            for (WorkingDocumentLine workingDocumentLine : workingDocumentLines) {
                 DateTimeRange dateTimeRange = new DateTimeRange(workingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
                     Paint fill = Objects.coalesce(getItemFamilyFillColor(option), UNATTENDED_FILL);
@@ -129,7 +124,7 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
                 if (OptionLogic.isOptionDisplayableOnCalendar(option, isMax)) {
                     OptionTimeline optionTimeline = optionTimelines.get(option.getPrimaryKey());
                     if (optionTimeline != null)
-                        optionTimeline.setWorkingDocumentLine(wdl, isMax);
+                        optionTimeline.addWorkingDocumentLine(wdl, isMax);
                     else
                         optionTimelines.put(option.getPrimaryKey(), new OptionTimeline(option, wdl, isMax));
                 }
