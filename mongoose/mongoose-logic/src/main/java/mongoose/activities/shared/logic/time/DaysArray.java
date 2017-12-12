@@ -47,6 +47,19 @@ public class DaysArray implements Iterable<Long> {
         return getDate(0);
     }
 
+    public int indexOfDay(long day) {
+        int n = array.length;
+        if (n > 0 && day >= array[0] && day <= array[n - 1])
+            for (int i = 0; i < n; i++) {
+                long d = array[i];
+                if (d == day)
+                    return i;
+                if (d > day)
+                    break;
+            }
+        return -1;
+    }
+
     @Override
     public Iterator<Long> iterator() {
         return new Iterator<Long>() {
@@ -113,6 +126,16 @@ public class DaysArray implements Iterable<Long> {
         for (long day : array)
             newArray[i++] = day + shiftDays;
         return new DaysArray(newArray, timeUnit);
+    }
+
+    public boolean overlaps(DaysArray daysArray) {
+        if (!daysArray.isEmpty()) {
+            daysArray = daysArray.changeTimeUnit(timeUnit);
+            for (long day : array)
+                if (daysArray.indexOfDay(day) != -1)
+                    return true;
+        }
+        return false;
     }
 
     public TimeSeries toSeries() {
