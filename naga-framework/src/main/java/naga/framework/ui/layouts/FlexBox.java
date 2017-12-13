@@ -97,22 +97,33 @@ public class FlexBox extends Pane {
         return null;
     }
 
-
     @Override
     protected double computeMinHeight(double width) {
-        //return super.computeMinHeight(width);
-        return computedMinHeight;
+        return computePrefHeight(width);
     }
 
     @Override
     protected double computePrefHeight(double width) {
-//        return super.computePrefHeight(width);
+        if (width != getWidth())
+            computeLayout(width, false);
         return computedMinHeight;
     }
 
     @Override
     protected void layoutChildren() {
         performingLayout = true;
+        computeLayout(getWidth(),true);
+        performingLayout = false;
+    }
+
+
+    @Override
+    public void requestLayout() {
+        if (!performingLayout)
+            super.requestLayout();
+    }
+
+    private void computeLayout(double width, boolean apply) {
         grid.clear();
         /*
          * First we transform all Nodes to a FlexBoxItem for caching purposes.
@@ -129,8 +140,7 @@ public class FlexBox extends Pane {
         FlexBoxRow flexBoxRow = new FlexBoxRow();
         addToGrid(row, flexBoxRow);
 
-
-        double width = getWidth();
+        double horizontalSpace = getHorizontalSpace();
         double minWidthSum = 0;
 
         for (int i = 0, n = flexBoxItems.size(); i < n; i++) {
@@ -138,9 +148,9 @@ public class FlexBox extends Pane {
             double nodeWidth = flexBoxItem.minWidth;
             minWidthSum += nodeWidth;
 
-            //is there one more node?
+            // is there one more node?
             if (i + 1 < n)
-                minWidthSum += getHorizontalSpace();
+                minWidthSum += horizontalSpace;
 
             if (minWidthSum > width) {
                 addToGrid(++row,  flexBoxRow = new FlexBoxRow());
@@ -149,7 +159,7 @@ public class FlexBox extends Pane {
             flexBoxRow.addItem(flexBoxItem);
         }
 
-        //iterate rows and calculate width
+        // iterate rows and calculate width
         double y = getPadding().getTop();
         int i = 0;
         int noGridRows = grid.size();
@@ -159,52 +169,46 @@ public class FlexBox extends Pane {
          * iterate grid-rows first
          */
         for (Integer rowIndex : grid.keySet()) {
-            //contains all nodes per row
+            // contains all nodes per row
             flexBoxRow = grid.get(rowIndex);
             List<FlexBoxItem> rowItems = flexBoxRow.getItems();
             int noRowItems = rowItems.size();
 
-            double remainingWidth = width - flexBoxRow.rowMinWidth - (getHorizontalSpace() * (noRowItems - 1)) - getPadding().getLeft() - getPadding().getRight();
+            double remainingWidth = width - flexBoxRow.rowMinWidth - (horizontalSpace * (noRowItems - 1)) - getPadding().getLeft() - getPadding().getRight();
             double flexGrowCellWidth = remainingWidth / flexBoxRow.flexGrowSum;
 
             double x = getPadding().getLeft();
             double rowMaxHeight = 0;
 
-            //iterate nodes of row
+            // iterate nodes of row
             for (FlexBoxItem flexBoxItem : rowItems) {
                 Node rowNode = flexBoxItem.node;
 
                 double rowNodeMinWidth = flexBoxItem.minWidth;
                 double rowNodeMaxWidth = rowNode.maxWidth(-1);
-                double rowNodeStrechtedWidth = rowNodeMinWidth + (flexGrowCellWidth * flexBoxItem.grow);
-                double rowNodeWidth = snapSize(Math.min(rowNodeMaxWidth, Math.max(rowNodeStrechtedWidth, rowNodeMinWidth)));
+                double rowNodeStretchedWidth = rowNodeMinWidth + (flexGrowCellWidth * flexBoxItem.grow);
+                double rowNodeWidth = Math.min(rowNodeMaxWidth, Math.max(rowNodeStretchedWidth, rowNodeMinWidth));
 
-                double h = snapSize(rowNode.prefHeight(rowNodeWidth));
-                rowNode.resizeRelocate(x, y, rowNodeWidth, h);
+                double h = rowNode.prefHeight(rowNodeWidth);
+                if (apply)
+                    rowNode.resizeRelocate(snapPosition(x), snapPosition(y), snapSize(x + rowNodeWidth) - snapPosition(x), snapSize(h));
                 rowMaxHeight = Math.max(rowMaxHeight, h);
-                x = snapPosition(x + rowNodeWidth + getHorizontalSpace());
+                x += rowNodeWidth + horizontalSpace;
             }
 
             y += rowMaxHeight;
             if (i + 1 < noGridRows)
                 y += getVerticalSpace();
-            y = snapPosition(y);
             i++;
         }
         y += getPadding().getBottom();
 
-        setMinHeight(y);
-        setPrefHeight(y);
-        setPrefWidth(y);
+        if (apply) {
+            setMinHeight(y);
+            setPrefHeight(y);
+            setPrefWidth(y);
+        }
         computedMinHeight = y;
-        performingLayout = false;
-    }
-
-
-    @Override
-    public void requestLayout() {
-        if (!performingLayout)
-            super.requestLayout();
     }
 
     private void addToGrid(int row, FlexBoxRow flexBoxRow) {
