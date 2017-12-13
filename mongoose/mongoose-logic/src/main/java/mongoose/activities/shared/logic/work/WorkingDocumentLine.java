@@ -27,8 +27,8 @@ public class WorkingDocumentLine implements HasItemFamilyType {
     private final Site site;
     private final Site arrivalSite;
     private final Item item;
-    private final DateTimeRange dateTimeRange;
     private final DayTimeRange dayTimeRange;
+    private DateTimeRange dateTimeRange;
     private DaysArray daysArray;
     private int price;
     private boolean rounded;
@@ -46,8 +46,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         dayTimeRange = optionPreselection.getDayTimeRange();
         DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange == null ? optionPreselection.getDateTimeRange()
                 : workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
-        dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
-        daysArray = dateTimeRange.getDaysArray(dayTimeRange);
+        setDateTimeRange(cropDateTimeRange(croppingDateTimeRange, dayTimeRange));
         documentLine = null;
         attendances = null;
     }
@@ -61,10 +60,9 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         dayTimeRange = option.getParsedTimeRangeOrParent();
         DateTimeRange workingDocumentDateTimeRange = workingDocument.getDateTimeRange();
         DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
-        dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
+        setDateTimeRange(cropDateTimeRange(croppingDateTimeRange, dayTimeRange));
         documentLine = null;
         attendances = null;
-        daysArray = dateTimeRange == null ? null : dateTimeRange.getDaysArray(dayTimeRange);
         setWorkingDocument(workingDocument);
     }
 
@@ -77,10 +75,9 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         arrivalSite = documentLine.getArrivalSite();
         item = documentLine.getItem();
         dayTimeRange = option == null ? null : DayTimeRange.parse(option.getTimeRange());
-        DaysArrayBuilder b = new DaysArrayBuilder();
-        Collections.forEach(attendances, a -> b.addDate(a.getDate()));
-        daysArray = b.build();
-        dateTimeRange = cropDateTimeRange(new DateTimeRange(daysArray.toSeries()), dayTimeRange);
+        DaysArrayBuilder dab = new DaysArrayBuilder();
+        Collections.forEach(attendances, a -> dab.addDate(a.getDate()));
+        setDaysArray(dab.build());
     }
 
     public WorkingDocumentLine(WorkingDocumentLine wdl, DateTimeRange workingDocumentDateTimeRange) {
@@ -93,8 +90,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         item = wdl.item;
         dayTimeRange = wdl.dayTimeRange;
         DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
-        dateTimeRange = cropDateTimeRange(croppingDateTimeRange, dayTimeRange);
-        daysArray = dateTimeRange == null ? null : dateTimeRange.getDaysArray(dayTimeRange);
+        setDateTimeRange(cropDateTimeRange(croppingDateTimeRange, dayTimeRange));
     }
 
     private static DateTimeRange cropDateTimeRange(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
@@ -159,7 +155,15 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         return option == null || option.isConcrete();
     }
 
+    public void setDateTimeRange(DateTimeRange dateTimeRange) {
+        this.dateTimeRange = dateTimeRange;
+        daysArray = null; // will be lazy computed on getter from daysArray
+    }
+
     public DateTimeRange getDateTimeRange() {
+        // Lazy computation if not set
+        if (dateTimeRange == null && daysArray != null)
+            dateTimeRange = cropDateTimeRange(new DateTimeRange(daysArray.toSeries()), dayTimeRange);
         return dateTimeRange;
     }
 
@@ -169,9 +173,13 @@ public class WorkingDocumentLine implements HasItemFamilyType {
 
     public void setDaysArray(DaysArray daysArray) {
         this.daysArray = daysArray;
+        dateTimeRange = null; // will be lazy computed on getter from daysArray
     }
 
     public DaysArray getDaysArray() {
+        // Lazy computation if not set
+        if (daysArray == null && dateTimeRange != null)
+            daysArray = dateTimeRange.getDaysArray(dayTimeRange);
         return daysArray;
     }
 
@@ -181,7 +189,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
 
     public LocalDate firstDate() {
         //return attendances.get(0).getDate();
-        return daysArray.getFirstDate();
+        return getDaysArray().getFirstDate();
     }
 
     public int getPrice() {
