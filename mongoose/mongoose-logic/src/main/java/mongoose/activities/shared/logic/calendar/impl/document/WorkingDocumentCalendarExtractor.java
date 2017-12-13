@@ -81,15 +81,16 @@ public class WorkingDocumentCalendarExtractor implements CalendarExtractor<Worki
             //timelines.add(new CalendarTimelineImpl(calendarDateTimeRange, dayTimeRange, null, NOTHING_FILL));
             Label label = Labels.bestLabelOrName(!option.isAccommodation() ? option : option.getParent() /* normally: night */);
             Property<String> displayNameProperty = Labels.translateLabel(label, i18n);
-            if (maxWorkingDocumentLine != null) {
-                DateTimeRange dateTimeRange = new DateTimeRange(maxWorkingDocumentLine.getDaysArray());
-                if (!dateTimeRange.isEmpty())
-                    timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, UNATTENDED_FILL, maxWorkingDocumentLine));
-            }
-            for (WorkingDocumentLine workingDocumentLine : workingDocumentLines) {
+            addWorkingDocumentLineToCalendarTimelines(timelines, maxWorkingDocumentLine, dayTimeRange, displayNameProperty);
+            for (WorkingDocumentLine workingDocumentLine : workingDocumentLines)
+                addWorkingDocumentLineToCalendarTimelines(timelines, workingDocumentLine, dayTimeRange, displayNameProperty);
+        }
+
+        private void addWorkingDocumentLineToCalendarTimelines(Collection<CalendarTimeline> timelines, WorkingDocumentLine workingDocumentLine, DayTimeRange dayTimeRange, Property<String> displayNameProperty) {
+            if (workingDocumentLine != null) {
                 DateTimeRange dateTimeRange = new DateTimeRange(workingDocumentLine.getDaysArray());
                 if (!dateTimeRange.isEmpty()) {
-                    Paint fill = Objects.coalesce(getItemFamilyFillColor(option), UNATTENDED_FILL);
+                    Paint fill = workingDocumentLine == maxWorkingDocumentLine ? UNATTENDED_FILL : Objects.coalesce(getItemFamilyFillColor(option), UNATTENDED_FILL);
                     timelines.add(new CalendarTimelineImpl(dateTimeRange, dayTimeRange, displayNameProperty, fill, workingDocumentLine));
                 }
             }
