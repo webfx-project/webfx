@@ -137,11 +137,11 @@ public class FlexBox extends Pane {
          * Calculate column-row-grid for auto wrapping
          */
         int row = 0;
-        FlexBoxRow flexBoxRow = new FlexBoxRow();
+        FlexBoxRow flexBoxRow = new FlexBoxRow(), previousFlexBoxRow = null;
         addToGrid(row, flexBoxRow);
 
         double horizontalSpace = getHorizontalSpace();
-        double minWidthSum = 0;
+        double minWidthSum = 0, previousMinWidthSum = 0;
 
         for (int i = 0, n = flexBoxItems.size(); i < n; i++) {
             FlexBoxItem flexBoxItem = flexBoxItems.get(i);
@@ -153,10 +153,27 @@ public class FlexBox extends Pane {
                 minWidthSum += horizontalSpace;
 
             if (minWidthSum > width) {
+                previousFlexBoxRow = flexBoxRow;
+                previousMinWidthSum = minWidthSum;
                 addToGrid(++row,  flexBoxRow = new FlexBoxRow());
                 minWidthSum = nodeWidth;
             }
             flexBoxRow.addItem(flexBoxItem);
+        }
+
+        // Moving tight items to last row to equalize pressure
+        if (previousFlexBoxRow != null) {
+            List<FlexBoxItem> previousItems = previousFlexBoxRow.items;
+            while (previousItems.size() > 1) {
+                FlexBoxItem lastItem = Collections.last(previousItems);
+                double lastWidth = lastItem.minWidth + horizontalSpace;
+                if (minWidthSum + lastWidth > previousMinWidthSum - lastWidth)
+                    break;
+                previousFlexBoxRow.removeItem(lastItem);
+                flexBoxRow.addFirstItem(lastItem);
+                previousMinWidthSum -= lastWidth;
+                minWidthSum += lastWidth;
+            }
         }
 
         // iterate rows and calculate width
@@ -238,6 +255,19 @@ public class FlexBox extends Pane {
             items.add(flexBoxItem);
             rowMinWidth += flexBoxItem.minWidth;
             flexGrowSum += flexBoxItem.grow;
+        }
+
+        void addFirstItem(FlexBoxItem flexBoxItem) {
+            items.add(0, flexBoxItem);
+            rowMinWidth += flexBoxItem.minWidth;
+            flexGrowSum += flexBoxItem.grow;
+        }
+
+        void removeItem(FlexBoxItem flexBoxItem) {
+            if (items.remove(flexBoxItem)) {
+                rowMinWidth -= flexBoxItem.minWidth;
+                flexGrowSum -= flexBoxItem.grow;
+            }
         }
 
         ArrayList<FlexBoxItem> getItems() {
