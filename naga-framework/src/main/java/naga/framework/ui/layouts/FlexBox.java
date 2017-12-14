@@ -1,12 +1,16 @@
 package naga.framework.ui.layouts;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import naga.util.collection.Collections;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Bruno Salmon
@@ -17,7 +21,15 @@ public class FlexBox extends Pane {
     private final DoubleProperty horizontalSpace = new SimpleDoubleProperty(0);
     private final DoubleProperty verticalSpace = new SimpleDoubleProperty(0);
     private double computedMinHeight;
+    private double lastComputationWidthInput;
     private boolean performingLayout;
+
+    public FlexBox() {
+        // This is necessary to clear the previous computed min/pref/max height cached value memorized in Region.min/pref/maxHeight()
+        widthProperty().addListener(observable -> requestLayout());
+        getChildren().addListener((InvalidationListener) observable -> requestLayout());
+        //Properties.runOnPropertiesChange(p -> requestLayout(), widthProperty());
+    }
 
     public double getHorizontalSpace() {
         return horizontalSpace.get();
@@ -44,7 +56,6 @@ public class FlexBox extends Pane {
     }
 
     private final Map<Integer, FlexBoxRow> grid = new HashMap<>();
-
 
     /**
      * By default, flex items are laid out in the source order.
@@ -99,14 +110,16 @@ public class FlexBox extends Pane {
 
     @Override
     protected double computeMinHeight(double width) {
-        return computePrefHeight(width);
+        if (width < 0)
+            width = getWidth();
+        if (width != lastComputationWidthInput)
+            computeLayout(width, false);
+        return computedMinHeight;
     }
 
     @Override
     protected double computePrefHeight(double width) {
-        if (width != getWidth())
-            computeLayout(width, false);
-        return computedMinHeight;
+        return computeMinHeight(width);
     }
 
     @Override
@@ -220,12 +233,8 @@ public class FlexBox extends Pane {
         }
         y += getPadding().getBottom();
 
-        if (apply) {
-            setMinHeight(y);
-            setPrefHeight(y);
-            setPrefWidth(y);
-        }
         computedMinHeight = y;
+        lastComputationWidthInput = width;
     }
 
     private void addToGrid(int row, FlexBoxRow flexBoxRow) {
