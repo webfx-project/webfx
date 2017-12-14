@@ -10,4 +10,15 @@ import naga.framework.orm.entity.Entity;
  * @author Bruno Salmon
  */
 public interface Site extends Entity, EntityHasName, EntityHasLabel, EntityHasEvent, EntityHasItemFamily {
+
+    //// Domain fields
+
+    default void setMain(Boolean main) {
+        setFieldValue("main", main);
+    }
+
+    default Boolean isMain() {
+        return getBooleanFieldValue("main");
+    }
+
 }
