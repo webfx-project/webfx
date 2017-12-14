@@ -56,6 +56,7 @@ public class BusinessLines {
             case SUPPER: return findOptionLines(OptionLogic::isSupperOption);
             case DIET: return findBusinessWorkingLines(WorkingDocumentLine::isDiet);
             case TOURIST_TAX: return findOptionLines(OptionLogic::isTouristTaxOption);
+            case HOTEL_SHUTTLE: return findOptionLines(OptionLogic::isHotelShuttleOption);
         }
         return null; // shouldn't happen
     }

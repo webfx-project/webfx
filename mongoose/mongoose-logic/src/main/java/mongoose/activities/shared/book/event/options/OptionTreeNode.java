@@ -55,6 +55,7 @@ class OptionTreeNode {
         this.option = option;
         this.tree = tree;
         this.parent = parent;
+        tree.registerOptionTreeNode(this);
     }
 
     private OptionTreeNode(Option option, OptionTreeNode parent) {
@@ -289,7 +290,7 @@ class OptionTreeNode {
 
     private void syncModelFromUi(boolean unselectedParent) {
         try (SyncingContext syncingContext = new SyncingContext()) {
-            boolean uiSelected = !unselectedParent && (optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue());
+            boolean uiSelected = !unselectedParent && isUiOptionSelected(false);
             if (syncingContext.isUserAction())
                 setUserExplicitSelection(uiSelected);
             //Logger.log("Syncing model from TreeNode uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem() : ", option = " + option));
@@ -375,7 +376,7 @@ class OptionTreeNode {
             parent.lastSelectedChildOptionTreeNode = this;
     }
 
-    private boolean isModelOptionSelected() {
+    boolean isModelOptionSelected() {
         if (getWorkingDocumentTransaction().isOptionBooked(option))
             return true;
         if (childrenOptionTreeNodes != null) {
@@ -387,9 +388,14 @@ class OptionTreeNode {
         return false;
     }
 
+    boolean isUiOptionSelected(boolean checkParents) {
+        return optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue()
+                && (!checkParents || parent == null || parent.isUiOptionSelected(true));
+    }
+
     void reset() {
         userExplicitSelection = null;
-        Collections.forEach(childrenOptionTreeNodes, OptionTreeNode::reset);
+        //Collections.forEach(childrenOptionTreeNodes, OptionTreeNode::reset);
     }
 
     private class SyncingContext implements Closeable {
@@ -404,7 +410,6 @@ class OptionTreeNode {
         boolean isUserAction() {
             return !staticSyncingSnapshot;
         }
-
 
         @Override
         public void close() {

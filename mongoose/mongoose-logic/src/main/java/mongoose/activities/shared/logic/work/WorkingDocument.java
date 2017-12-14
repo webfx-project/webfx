@@ -3,6 +3,7 @@ package mongoose.activities.shared.logic.work;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import mongoose.activities.shared.book.event.options.OptionTree;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.business.BusinessLines;
@@ -37,6 +38,7 @@ public class WorkingDocument {
     private UpdateStore updateStore;
     private WorkingDocument loadedWorkingDocument;
     private boolean changedSinceLastApplyBusinessRules = true;
+    private OptionTree optionTree;
 
     public WorkingDocument(EventService eventService, List<WorkingDocumentLine> workingDocumentLines) {
         this(eventService, eventService.getPersonService().getPreselectionProfilePerson(), workingDocumentLines);
@@ -84,6 +86,14 @@ public class WorkingDocument {
 
     public List<WorkingDocumentLine> getWorkingDocumentLines() {
         return workingDocumentLines;
+    }
+
+    public OptionTree getOptionTree() {
+        return optionTree;
+    }
+
+    public void setOptionTree(OptionTree optionTree) {
+        this.optionTree = optionTree;
     }
 
     private DateTimeRange dateTimeRange;
@@ -176,15 +186,6 @@ public class WorkingDocument {
 
     //// Breakfast line
 
-    @Deprecated
-    public WorkingDocumentLine getBreakfastLine() {
-        return getBusinessLine(BusinessType.BREAKFAST);
-    }
-
-    public boolean hasBreakfast() {
-        return hasBusinessLines(BusinessType.BREAKFAST);
-    }
-
     public void removeBreakfast() {
         removeBusinessLines(BusinessType.BREAKFAST);
     }
@@ -262,6 +263,14 @@ public class WorkingDocument {
     public void removeTranslation() {
         removeBusinessLines(BusinessType.TRANSLATION);
     }
+
+    //// Hotel shuttle lines
+
+    public void removeHotelShuttle() {
+        removeBusinessLines(BusinessType.HOTEL_SHUTTLE);
+    }
+
+
     public void syncPersonDetails(HasPersonDetails p) {
         syncPersonDetails(p, document);
     }

@@ -14,7 +14,7 @@ public class WorkingDocumentLogic {
             new DietRule(),
             new TouristTaxRule(),
             new TranslationRule(),
-            new HotelShuttleRules()
+            new HotelShuttleRule()
     };
 
     public static void applyBusinessRules(WorkingDocument workingDocument) {

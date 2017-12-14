@@ -4,6 +4,7 @@ import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
+import mongoose.entities.Site;
 import mongoose.services.EventService;
 import naga.util.Numbers;
 
@@ -72,5 +73,13 @@ public class OptionLogic {
 
     public static boolean isTouristTaxOption(Option option) {
         return option.isTax(); // The only tax for now is the tourist tax
+    }
+
+    public static boolean isHotelShuttleOption(Option option) {
+        return option.isTransport() && (isHotel(option.getSite()) || isHotel(option.getArrivalSite()));
+    }
+
+    public static boolean isHotel(Site site) {
+        return site != null && site.isAccommodation() && !site.isMain(); // Excluding the main site
     }
 }

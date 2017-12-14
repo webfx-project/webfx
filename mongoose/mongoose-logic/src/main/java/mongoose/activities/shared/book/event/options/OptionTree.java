@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-class OptionTree {
+public class OptionTree {
 
     private final OptionsViewActivity activity;
     private Event event;
@@ -37,6 +37,7 @@ class OptionTree {
 
     WorkingDocumentTransaction getWorkingDocumentTransaction() {
         WorkingDocument workingDocument = getWorkingDocument();
+        workingDocument.setOptionTree(this);
         if (workingDocumentTransaction == null || workingDocumentTransaction.getWorkingDocument() != workingDocument)
             workingDocumentTransaction = new WorkingDocumentTransaction(workingDocument);
         return workingDocumentTransaction;
@@ -87,12 +88,21 @@ class OptionTree {
         //Doesn't work on Android: return optionTreeNodes.computeIfAbsent(option, this::newOptionTreeNode);
         OptionTreeNode optionTreeNode = optionTreeNodes.get(option);
         if (optionTreeNode == null)
-            optionTreeNodes.put(option, optionTreeNode = newOptionTreeNode(option));
+            optionTreeNode = newOptionTreeNode(option);
         return optionTreeNode;
     }
 
-    private OptionTreeNode newOptionTreeNode(Option option) {
+    OptionTreeNode newOptionTreeNode(Option option) {
         return new OptionTreeNode(option, this);
+    }
+
+    void registerOptionTreeNode(OptionTreeNode optionTreeNode) {
+        optionTreeNodes.put(optionTreeNode.getOption(), optionTreeNode);
+    }
+
+    public boolean isOptionSelected(Option option) {
+        OptionTreeNode optionTreeNode = optionTreeNodes.get(option);
+        return optionTreeNode != null && (optionTreeNode.isModelOptionSelected() || optionTreeNode.isUiOptionSelected(true));
     }
 
     private boolean pendingTransactionCommitAndUiSync;
@@ -108,7 +118,7 @@ class OptionTree {
         }
     }
 
-    public void reset() {
+    void reset() {
         Collections.forEach(optionTreeNodes.values(), OptionTreeNode::reset);
     }
 }
