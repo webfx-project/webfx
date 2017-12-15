@@ -3,6 +3,7 @@ package mongoose.activities.shared.logic.work.business.rules;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
+import mongoose.activities.shared.logic.work.business.BusinessType;
 import mongoose.activities.shared.logic.work.business.logic.OptionLogic;
 import mongoose.entities.Option;
 import mongoose.services.EventService;
@@ -25,10 +26,10 @@ public class DietRule extends BusinessRule {
                 wd.getWorkingDocumentLines().add(dietLine = new WorkingDocumentLine(dietOption, wd));
             }
             DaysArrayBuilder dab = new DaysArrayBuilder();
-            if (wd.hasLunch())
-                dab.addSeries(wd.getLunchLine().getDaysArray().toSeries(), null);
-            if (wd.hasSupper())
-                dab.addSeries(wd.getSupperLine().getDaysArray().toSeries(), null);
+            for (WorkingDocumentLine mealsLine : wd.getBusinessLines(BusinessType.LUNCH).getBusinessWorkingDocumentLines())
+                dab.addDaysArray(mealsLine.getDaysArray(), null);
+            for (WorkingDocumentLine mealsLine : wd.getBusinessLines(BusinessType.SUPPER).getBusinessWorkingDocumentLines())
+                dab.addDaysArray(mealsLine.getDaysArray(), null);
             dietLine.setDaysArray(dab.build());
         }
     }

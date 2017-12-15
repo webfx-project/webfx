@@ -192,21 +192,11 @@ public class WorkingDocument {
 
     //// Lunch line
 
-    @Deprecated
-    public WorkingDocumentLine getLunchLine() {
-        return getBusinessLine(BusinessType.LUNCH);
-    }
-
     public boolean hasLunch() {
         return hasBusinessLines(BusinessType.LUNCH);
     }
 
     //// Supper line
-
-    @Deprecated
-    public WorkingDocumentLine getSupperLine() {
-        return getBusinessLine(BusinessType.SUPPER);
-    }
 
     public boolean hasSupper() {
         return hasBusinessLines(BusinessType.SUPPER);
