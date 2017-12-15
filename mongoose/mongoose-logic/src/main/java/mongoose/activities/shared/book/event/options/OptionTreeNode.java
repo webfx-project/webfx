@@ -328,13 +328,13 @@ class OptionTreeNode {
                     }
                 }
                 if (addingChild) {
-                    childTreeNode.addOptionToModel();
+                    childTreeNode.addOptionToModelIfNotAlreadyPresent();
                     childAdded = true;
                 }
             }
             if (!childAdded) {
                 if (lastSelectedChildOptionTreeNode != null)
-                    lastSelectedChildOptionTreeNode.addOptionToModel();
+                    lastSelectedChildOptionTreeNode.addOptionToModelIfNotAlreadyPresent();
                 else if (optionButtonSelectedProperty != null && optionButtonSelectedProperty.getValue())
                     setUserExplicitSelection(true);
             }
