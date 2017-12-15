@@ -58,6 +58,10 @@ public class DaysArrayBuilder {
         return addIntervals(series.getArray(), dayTimeRange);
     }
 
+    public DaysArrayBuilder addDaysArray(DaysArray daysArray, DayTimeRange dayTimeRange) {
+        return addSeries(daysArray.toSeries(), dayTimeRange);
+    }
+
     public DaysArrayBuilder addDate(LocalDate date) {
         days.add(convertTime(date.toEpochDay(), TimeUnit.DAYS, timeUnit));
         return this;
