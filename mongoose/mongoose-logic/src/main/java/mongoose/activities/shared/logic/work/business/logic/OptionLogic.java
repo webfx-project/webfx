@@ -82,4 +82,12 @@ public class OptionLogic {
     public static boolean isHotel(Site site) {
         return site != null && site.isAccommodation() && !site.isMain(); // Excluding the main site
     }
+
+    public static boolean isAirportShuttleOption(Option option) {
+        return option.isTransport() && (isAirport(option.getSite()) || isAirport(option.getArrivalSite()));
+    }
+
+    public static boolean isAirport(Site site) {
+        return site != null && site.isTransport();
+    }
 }

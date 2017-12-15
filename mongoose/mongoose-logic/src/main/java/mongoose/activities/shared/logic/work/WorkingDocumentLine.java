@@ -5,6 +5,7 @@ import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.time.DayTimeRange;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
+import mongoose.activities.shared.logic.work.business.logic.OptionLogic;
 import mongoose.entities.*;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.services.EventService;
@@ -58,9 +59,13 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         arrivalSite = option.getArrivalSite();
         item = option.getItem();
         dayTimeRange = option.getParsedTimeRangeOrParent();
-        DateTimeRange workingDocumentDateTimeRange = workingDocument.getDateTimeRange();
-        DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
-        setDateTimeRange(cropDateTimeRange(croppingDateTimeRange, dayTimeRange));
+        if (OptionLogic.isAirportShuttleOption(option))
+            setDateTimeRange(option.getParsedDateTimeRangeOrParent());
+        else {
+            DateTimeRange workingDocumentDateTimeRange = workingDocument.getDateTimeRange();
+            DateTimeRange croppingDateTimeRange = workingDocumentDateTimeRange.intersect(option.getParsedDateTimeRangeOrParent());
+            setDateTimeRange(cropDateTimeRange(croppingDateTimeRange, dayTimeRange));
+        }
         documentLine = null;
         attendances = null;
         setWorkingDocument(workingDocument);
