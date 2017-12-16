@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Label;
 import mongoose.entities.Option;
@@ -86,6 +88,10 @@ class OptionTreeNode {
         return tree.getWorkingDocumentTransaction();
     }
 
+    private WorkingDocument getWorkingDocument() {
+        return getWorkingDocumentTransaction().getWorkingDocument();
+    }
+
     Node createOrUpdateButtonNodeFromModel() {
         if (buttonNode == null)
             createButtonNode();
@@ -147,17 +153,14 @@ class OptionTreeNode {
         DateTimeRange optionDateTimeRange = option.getParsedDateTimeRangeOrParent();
         if (parent != null && optionDateTimeRange == null && parent.optionButtonSelectedProperty != null && !parent.optionButtonSelectedProperty.getValue())
             return false;
-        if (!dateTimeRangeOverlapsWorkingDocument(optionDateTimeRange))
+        DateTimeRange modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
+        if (modelDateTimeRange != null && modelDateTimeRange.isEmpty())
             return false;
         return true;
     }
 
-    private boolean optionDateTimeRangeOverlapsWorkingDocument() {
-        return dateTimeRangeOverlapsWorkingDocument(option.getParsedDateTimeRange());
-    }
-
     private boolean dateTimeRangeOverlapsWorkingDocument(DateTimeRange dateTimeRange) {
-        return dateTimeRange == null || getWorkingDocumentTransaction().getWorkingDocument().getDateTimeRange().overlaps(dateTimeRange);
+        return dateTimeRange == null || getWorkingDocument().getDateTimeRange().overlaps(dateTimeRange);
     }
 
     private List<Node> createOptionPanelHeaderNodes(Property<String> i18nTitle) {
@@ -351,7 +354,6 @@ class OptionTreeNode {
     private List<Option> getChildrenOptions(Option parent) {
         return tree.getActivity().getChildrenOptions(parent);
     }
-
 
     private void syncUiFromModel() {
         try (SyncingContext syncingContext = new SyncingContext()) {
