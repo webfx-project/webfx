@@ -48,9 +48,12 @@ public class WorkingDocumentTransaction {
         return linesToRemove;
     }
 
-    public void addOption(Option option) {
-        addLine(new WorkingDocumentLine(option, workingDocument)); // This constructor deduces the line date time range
-        // from the working document one (that's why the working document still contains removed lines before the commit)
+    public WorkingDocumentLine addOption(Option option) {
+        WorkingDocumentLine line = new WorkingDocumentLine(option, workingDocument); // This constructor deduces the
+        // line date time range from the working document one (that's why the working document still contains removed
+        // lines before the commit)
+        addLine(line);
+        return line;
     }
 
     public void removeOption(Option option) {

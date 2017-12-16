@@ -52,6 +52,7 @@ class OptionTreeNode {
     private final BooleanProperty visibleProperty = new SimpleBooleanProperty(true);
     private static boolean staticSyncing;
     private boolean thisSyncing;
+    private WorkingDocumentLine modelLine;
 
     private OptionTreeNode(Option option, OptionTree tree, OptionTreeNode parent) {
         this.option = option;
@@ -148,12 +149,14 @@ class OptionTreeNode {
     }
 
     private boolean computeIsVisible() {
-        if (option.hasNoParent())
-            return detailedNode != null && (isUserExplicitlySelected() || optionButtonSelectedProperty.getValue() && hasVisibleContent((Pane) detailedNode.getCenter()));
-        DateTimeRange optionDateTimeRange = option.getParsedDateTimeRangeOrParent();
-        if (parent != null && optionDateTimeRange == null && parent.optionButtonSelectedProperty != null && !parent.optionButtonSelectedProperty.getValue())
-            return false;
-        DateTimeRange modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
+        DateTimeRange modelDateTimeRange = modelLine != null ? modelLine.getDateTimeRange() : null;
+        if (modelDateTimeRange == null) {
+            if (option.hasNoParent())
+                return detailedNode != null && (isUserExplicitlySelected() || optionButtonSelectedProperty.getValue() && hasVisibleContent((Pane) detailedNode.getCenter()));
+            if (parent != null && option.getParsedDateTimeRangeOrParent() == null && parent.optionButtonSelectedProperty != null && !parent.optionButtonSelectedProperty.getValue())
+                return false;
+            modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
+        }
         if (modelDateTimeRange != null && modelDateTimeRange.isEmpty())
             return false;
         return true;
@@ -314,7 +317,7 @@ class OptionTreeNode {
 
     private void addOptionToModel() {
         if (option.isConcrete()) {
-            getWorkingDocumentTransaction().addOption(option);
+            modelLine = getWorkingDocumentTransaction().addOption(option);
             syncUiOptionButtonSelected(true);
         }
         if (childrenOptionTreeNodes != null) {
@@ -346,6 +349,7 @@ class OptionTreeNode {
 
     private void removeOptionFromModel() {
         getWorkingDocumentTransaction().removeOption(option);
+        modelLine = null;
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
                 childTreeNode.removeOptionFromModel();
@@ -397,6 +401,7 @@ class OptionTreeNode {
 
     void reset() {
         userExplicitSelection = null;
+        modelLine = null;
         //Collections.forEach(childrenOptionTreeNodes, OptionTreeNode::reset);
     }
 
