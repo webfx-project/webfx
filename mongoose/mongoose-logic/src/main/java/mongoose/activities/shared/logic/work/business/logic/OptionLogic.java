@@ -90,4 +90,8 @@ public class OptionLogic {
     public static boolean isAirport(Site site) {
         return site != null && site.isTransport();
     }
+
+    public static boolean isOptionAttendanceVariable(Option option) {
+        return !isAirportShuttleOption(option);
+    }
 }

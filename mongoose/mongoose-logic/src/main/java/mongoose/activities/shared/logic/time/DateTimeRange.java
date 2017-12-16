@@ -129,4 +129,8 @@ public final class DateTimeRange {
         DateTimeRange intersect = intersect(dateTimeRange);
         return intersect != null && !intersect.isEmpty();
     }
+
+    public static DateTimeRange cropDateTimeRangeWithDayTime(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
+        return dateTimeRange == null || dayTimeRange == null ? dateTimeRange : dateTimeRange.intersect(dayTimeRange);
+    }
 }
