@@ -161,8 +161,15 @@ public class WorkingDocumentLine implements HasItemFamilyType {
     }
 
     public void setDateTimeRange(DateTimeRange dateTimeRange) {
+        clearAttendanceCache();
         this.dateTimeRange = dateTimeRange;
-        daysArray = null; // will be lazy computed on getter from daysArray
+    }
+
+    private void clearAttendanceCache() {
+        dateTimeRange = null; // will be lazy computed on getter from daysArray (if set)
+        daysArray = null; // will be lazy computed on getter from dateTimeRange (if set)
+        if (workingDocument != null)
+            workingDocument.clearComputedDateTimeRange();
     }
 
     public DateTimeRange getDateTimeRange() {
@@ -177,8 +184,8 @@ public class WorkingDocumentLine implements HasItemFamilyType {
     }
 
     public void setDaysArray(DaysArray daysArray) {
+        clearAttendanceCache();
         this.daysArray = daysArray;
-        dateTimeRange = null; // will be lazy computed on getter from daysArray
     }
 
     public DaysArray getDaysArray() {

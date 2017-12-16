@@ -60,6 +60,7 @@ public class WorkingDocument {
         Collections.forEach(workingDocumentLines, wdl -> wdl.setWorkingDocument(this));
         workingDocumentLines.addListener((ListChangeListener<WorkingDocumentLine>) c -> {
             clearLinesCache();
+            clearComputedDateTimeRange();
             clearComputedPrice();
             changedSinceLastApplyBusinessRules = true;
         });
@@ -119,6 +120,10 @@ public class WorkingDocument {
         if (excludedEnd < includedStart)
             includedStart = excludedEnd = 0;
         dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
+    }
+
+    void clearComputedDateTimeRange() {
+        dateTimeRange = null;
     }
 
     private static boolean isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(WorkingDocumentLine wdl) {
