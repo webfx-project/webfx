@@ -146,9 +146,17 @@ public class BookingCalendar {
         }
     }
 
-    private void updateArrivalOrDepartureDateTime(CalendarClickEvent event, boolean arrival) {
+    private void updateArrivalOrDepartureDateTime(CalendarClickEvent clickEvent, boolean arrival) {
+        updateCalendarWorkingDocumentInterval(computeNewRequestedDocumentInterval(clickEvent, arrival));
+        if (onAttendanceChangedRunnable != null)
+            onAttendanceChangedRunnable.run();
+        else
+            createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, true);
+    }
+
+    private TimeInterval computeNewRequestedDocumentInterval(CalendarClickEvent clickEvent, boolean arrival) {
         //Logger.log("currentWorkingDocument: " + workingDocument.getDateTimeRange().getText());
-        CalendarCell clickedCell = event.getCalendarCell();
+        CalendarCell clickedCell = clickEvent.getCalendarCell();
         long clickedDayMinute = clickedCell.getEpochDay() * 24 * 60;
         TimeInterval clickedDayTimeMinuteInterval = clickedCell.getDayTimeMinuteInterval();
         long clickedIncludedStart = clickedDayMinute + clickedDayTimeMinuteInterval.getIncludedStart();
@@ -170,9 +178,11 @@ public class BookingCalendar {
             if (workingExcludedEnd > clickedIncludedStart && workingExcludedEnd <= clickedExcludedEnd)
                 clickedExcludedEnd = clickedIncludedStart; // This will unselect the clicked cell
         }
-        TimeInterval newRequestedDocumentInterval =
-                arrival ? new TimeInterval(clickedIncludedStart, workingExcludedEnd, TimeUnit.MINUTES)
-                        : new TimeInterval(workingIncludedStart, clickedExcludedEnd, TimeUnit.MINUTES);
+        return arrival ? new TimeInterval(clickedIncludedStart, workingExcludedEnd, TimeUnit.MINUTES)
+                       : new TimeInterval(workingIncludedStart, clickedExcludedEnd, TimeUnit.MINUTES);
+    }
+
+    private void updateCalendarWorkingDocumentInterval(TimeInterval newRequestedDocumentInterval) {
         EventService eventService = workingDocument.getEventService();
         DateTimeRange newWorkingDocumentDateTimeRange = eventService.getEvent().computeMaxDateTimeRange().intersect(newRequestedDocumentInterval.toSeries());
         //Logger.log("newWorkingDocumentDateTimeRange: " + newWorkingDocumentDateTimeRange.getText());
@@ -180,10 +190,7 @@ public class BookingCalendar {
         //Logger.log("newCalendarWorkingDocument: " + newCalendarWorkingDocument.getDateTimeRange().getText());
         WorkingDocument newWorkingDocument = WorkingDocumentMerger.mergeWorkingDocuments(workingDocument, newCalendarWorkingDocument, newWorkingDocumentDateTimeRange);
         //Logger.log("newWorkingDocument: " + newWorkingDocument.getDateTimeRange().getText());
-        eventService.setWorkingDocument(newWorkingDocument);
-        createOrUpdateCalendarGraphicFromWorkingDocument(newWorkingDocument, false);
-        if (onAttendanceChangedRunnable != null)
-            onAttendanceChangedRunnable.run();
+        eventService.setWorkingDocument(workingDocument = newWorkingDocument);
     }
 
     private void displayWorkingTotalPrice() {
