@@ -23,7 +23,7 @@ public class DietRule extends BusinessRule {
                 Option dietOption = getDefaultDietOption(wd.getEventService());
                 if (dietOption == null)
                     return;
-                wd.getWorkingDocumentLines().add(dietLine = new WorkingDocumentLine(dietOption, wd));
+                wd.getWorkingDocumentLines().add(dietLine = new WorkingDocumentLine(dietOption, wd, null));
             }
             DaysArrayBuilder dab = new DaysArrayBuilder();
             for (WorkingDocumentLine mealsLine : wd.getBusinessLines(BusinessType.LUNCH).getBusinessWorkingDocumentLines())

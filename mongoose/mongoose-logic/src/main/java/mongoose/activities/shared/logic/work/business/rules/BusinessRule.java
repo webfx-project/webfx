@@ -12,9 +12,9 @@ public abstract class BusinessRule {
     abstract public void apply(WorkingDocument wd);
 
     static WorkingDocumentLine addNewDependentLine(WorkingDocument wd, Option dependentOption, WorkingDocumentLine masterLine, long shiftDays) {
-        WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependentOption, wd);
-        wd.getWorkingDocumentLines().add(dependantLine);
+        WorkingDocumentLine dependantLine = new WorkingDocumentLine(dependentOption, wd, null);
         applySameAttendances(dependantLine, masterLine, shiftDays);
+        wd.getWorkingDocumentLines().add(dependantLine);
         return dependantLine;
     }
 
