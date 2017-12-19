@@ -131,8 +131,17 @@ class OptionTreeNode {
         userExplicitSelection = null;
         modelLine = null;
         lastSelectedChildOptionTreeNode = null;
-        if (childrenChoiceBox != null)
+        // Also cleaning the choice box if present
+        if (childrenChoiceBox != null) {
+            // Necessary to set all children sync flags to true to avoid any UI => model sync at this stage before making the call
+            for (OptionTreeNode child : childrenOptionTreeNodes)
+                child.thisSyncing = true;
+            // Now ok to clean the choice box (all children are listening it but this won't trigger UI => model sync)
             childrenChoiceBox.getSelectionModel().select(null);
+            // Restoring all sync flags
+            for (OptionTreeNode child : childrenOptionTreeNodes)
+                child.thisSyncing = false;
+        }
     }
 
 
