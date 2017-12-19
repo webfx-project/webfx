@@ -1,7 +1,9 @@
 package mongoose.activities.shared.logic.time;
 
 import naga.util.Arrays;
+import naga.util.collection.Collections;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -132,5 +134,16 @@ public final class DateTimeRange {
 
     public static DateTimeRange cropDateTimeRangeWithDayTime(DateTimeRange dateTimeRange, DayTimeRange dayTimeRange) {
         return dateTimeRange == null || dayTimeRange == null ? dateTimeRange : dateTimeRange.intersect(dayTimeRange);
+    }
+
+    public static DateTimeRange merge(List<DateTimeRange> dateTimeRanges) {
+        switch (Collections.size( dateTimeRanges)) {
+            case 0:
+                return null;
+            case 1:
+                return Collections.first(dateTimeRanges);
+            default:
+                return new DateTimeRange(TimeSeries.merge(Collections.map(dateTimeRanges, DateTimeRange::getSeries)));
+        }
     }
 }
