@@ -1,7 +1,11 @@
 package mongoose.activities.shared.logic.time;
 
 import naga.util.Arrays;
+import naga.util.collection.Collections;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,6 +23,10 @@ public final class TimeSeries {
     public TimeSeries(TimeInterval[] array, TimeUnit timeUnit) {
         this.array = array;
         this.timeUnit = timeUnit;
+    }
+
+    public TimeSeries(Collection<TimeInterval> intervals, TimeUnit timeUnit) {
+        this(Collections.toArray(intervals, TimeInterval[]::new), timeUnit);
     }
 
     public TimeInterval[] getArray() {
@@ -146,5 +154,16 @@ public final class TimeSeries {
         if (start < end)
             intervalIntersectInterval(new TimeInterval(start, end, TimeUnit.MINUTES), interval, tsb);
         return tsb;
+    }
+
+    public static TimeSeries merge(Collection<TimeSeries> seriesCollection) {
+        TimeUnit timeUnit = seriesCollection.stream().min(Collections.comparing(TimeSeries::getTimeUnit)).get().getTimeUnit();
+        List<TimeInterval> intervals = new ArrayList<>();
+        Collections.forEach(seriesCollection, series -> java.util.Collections.addAll(intervals, series.changeTimeUnit(timeUnit).getArray()));
+        Collections.sort(intervals, Collections.comparingLong(TimeInterval::getIncludedStart));
+        TimeSeriesBuilder tsb = new TimeSeriesBuilder(timeUnit);
+        for (TimeInterval interval : intervals)
+            tsb.addInterval(interval);
+        return tsb.build();
     }
 }

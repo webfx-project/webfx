@@ -23,7 +23,7 @@ class TimeSeriesBuilder {
     }
 
     TimeSeries build() {
-        return new TimeSeries(Collections.toArray(series, TimeInterval[]::new), timeUnit);
+        return new TimeSeries(series, timeUnit);
     }
 
     TimeSeriesBuilder addDaysArrays(DaysArray daysArray) {
@@ -71,10 +71,10 @@ class TimeSeriesBuilder {
     TimeSeriesBuilder addInterval(TimeInterval interval) {
         interval = interval.changeTimeUnit(timeUnit);
         TimeInterval lastInterval = Collections.last(series);
-        if (lastInterval != null && interval.getIncludedStart() <= lastInterval.getExcludedEnd())
-            series.set(series.size() - 1, new TimeInterval(lastInterval.getIncludedStart(), interval.getExcludedEnd(), timeUnit));
-        else
+        if (lastInterval == null || interval.getIncludedStart() > lastInterval.getExcludedEnd())
             series.add(interval);
+        else if (interval.getExcludedEnd() > lastInterval.getExcludedEnd())
+            series.set(series.size() - 1, new TimeInterval(lastInterval.getIncludedStart(), interval.getExcludedEnd(), timeUnit));
         return this;
     }
 
