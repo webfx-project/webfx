@@ -45,6 +45,8 @@ class OptionTreeNode {
     private final OptionTreeNode parent;
     private BorderPane buttonNode;
     private BorderPane detailedNode;
+    private ButtonBase optionButton;
+    private Property<Boolean> optionButtonSelectedProperty;
     private ChoiceBox<Option> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
     private List<OptionTreeNode> childrenOptionTreeNodes;
@@ -53,6 +55,25 @@ class OptionTreeNode {
     private static boolean staticSyncing;
     private boolean thisSyncing;
     private WorkingDocumentLine modelLine;
+    private Boolean userExplicitSelection; /* Set to non null value to allow the ui to be temporary
+     desynchronized from the model during a transitional state. Ex: The booker ticked the translation checkbox but hasn't
+     yet selected the language. This is a transitional state because the translation option can't yet be added to the
+     model (as no language selected) but it is necessary to keep the checkbox ticked in the ui to let the booker select
+     the language. Once selected, this language selection causes the translation option to be added to the model so this
+     flag should be set back to false because the ui and model are synchronized again.*/
+
+
+    /*******************************************************************************************************************
+     *  CONSTRUCTORS  **************************************************************************************************
+     ******************************************************************************************************************/
+
+    OptionTreeNode(Option option, OptionTree tree) {
+        this(option, tree, null);
+    }
+
+    private OptionTreeNode(Option option, OptionTreeNode parent) {
+        this(option, parent.tree, parent);
+    }
 
     private OptionTreeNode(Option option, OptionTree tree, OptionTreeNode parent) {
         this.option = option;
@@ -61,13 +82,10 @@ class OptionTreeNode {
         tree.registerOptionTreeNode(this);
     }
 
-    private OptionTreeNode(Option option, OptionTreeNode parent) {
-        this(option, parent.tree, parent);
-    }
 
-    OptionTreeNode(Option option, OptionTree tree) {
-        this(option, tree, null);
-    }
+    /*******************************************************************************************************************
+     *  GETTERS AND SETTERS  *******************************************************************************************
+     ******************************************************************************************************************/
 
     public Option getOption() {
         return option;
@@ -92,6 +110,35 @@ class OptionTreeNode {
     private WorkingDocument getWorkingDocument() {
         return getWorkingDocumentTransaction().getWorkingDocument();
     }
+
+    private void setUserExplicitSelection(Boolean value) {
+        userExplicitSelection = value;
+    }
+
+    private boolean isUserExplicitlySelected() {
+        return Booleans.isTrue(userExplicitSelection);
+    }
+
+    private List<Option> getChildrenOptions(Option parent) {
+        return tree.getActivity().getChildrenOptions(parent);
+    }
+
+    private boolean isChildMultipleSelectionAllowed() {
+        return childrenToggleGroup == null && childrenChoiceBox == null;
+    }
+
+    void reset() { // Called when working with a complete new working document
+        userExplicitSelection = null;
+        modelLine = null;
+        lastSelectedChildOptionTreeNode = null;
+        if (childrenChoiceBox != null)
+            childrenChoiceBox.getSelectionModel().select(null);
+    }
+
+
+    /*******************************************************************************************************************
+     *  UI BUILDERS  ***************************************************************************************************
+     ******************************************************************************************************************/
 
     Node createOrUpdateButtonNodeFromModel() {
         if (buttonNode == null)
@@ -137,97 +184,8 @@ class OptionTreeNode {
         return sectionPanel;
     }
 
-    private static boolean hasVisibleContent(Pane parent) {
-        for (Node child : parent.getChildren())
-            if (child.isVisible() && (!(child instanceof Pane) || hasVisibleContent((Pane) child)))
-                return true;
-        return false;
-    }
-
-    private void updateVisibleProperty() {
-        visibleProperty.set(computeIsVisible());
-    }
-
-    private boolean computeIsVisible() {
-        DateTimeRange modelDateTimeRange = modelLine != null ? modelLine.getDateTimeRange() : null;
-        if (modelDateTimeRange == null) {
-            if (option.hasNoParent())
-                return detailedNode != null && (isUserExplicitlySelected() || optionButtonSelectedProperty.getValue() && hasVisibleContent((Pane) detailedNode.getCenter()));
-            if (parent != null && option.getParsedDateTimeRangeOrParent() == null && parent.optionButtonSelectedProperty != null && !parent.optionButtonSelectedProperty.getValue())
-                return false;
-            modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
-        }
-        if (modelDateTimeRange != null && modelDateTimeRange.isEmpty())
-            return false;
-        return true;
-    }
-
-    private boolean dateTimeRangeOverlapsWorkingDocument(DateTimeRange dateTimeRange) {
-        return dateTimeRange == null || getWorkingDocument().getDateTimeRange().overlaps(dateTimeRange);
-    }
-
     private List<Node> createOptionPanelHeaderNodes(Property<String> i18nTitle) {
         return tree.getActivity().createOptionPanelHeaderNodes(option, i18nTitle);
-    }
-
-    private Node createLabelNode(Label label) {
-        return tree.getActivity().createLabelNode(label);
-    }
-
-    private ButtonBase optionButton;
-    private Property<Boolean> optionButtonSelectedProperty;
-    private Boolean userExplicitSelection; /* Set to non null value to allow the ui to be temporary
-     desynchronized from the model during a transitional state. Ex: The booker ticked the translation checkbox but hasn't
-     yet selected the language. This is a transitional state because the translation option can't yet be added to the
-     model (as no language selected) but it is necessary to keep the checkbox ticked in the ui to let the booker select
-     the language. Once selected, this language selection causes the translation option to be added to the model so this
-     flag should be set back to false because the ui and model are synchronized again.*/
-
-    private void setUserExplicitSelection(Boolean value) {
-        userExplicitSelection = value;
-    }
-
-    private boolean isUserExplicitlySelected() {
-        return Booleans.isTrue(userExplicitSelection);
-    }
-
-    private void createOptionButtonAndSelectedProperty() {
-        if (optionButtonSelectedProperty != null)
-            return;
-        if (option.isObligatory() || option.hasNoParent())
-            optionButtonSelectedProperty = new SimpleBooleanProperty(option.isObligatory());
-        else {
-            ToggleGroup toggleGroup = parent == null ? null : parent.getChildrenToggleGroup();
-            ChoiceBox<Option> choiceBox = parent == null ? null : parent.childrenChoiceBox;
-            if (toggleGroup != null) {
-                RadioButton radioButton = new RadioButton();
-                radioButton.setToggleGroup(toggleGroup);
-                optionButtonSelectedProperty = radioButton.selectedProperty();
-                optionButton = radioButton;
-            } else if (choiceBox != null) {
-                choiceBox.getItems().add(option);
-                optionButtonSelectedProperty = new SimpleObjectProperty<Boolean>(false) {
-                    @Override
-                    protected void invalidated() {
-                        if (getValue())
-                            choiceBox.getSelectionModel().select(option);
-                        //Logger.log(bestTranslationOrName(option) + ": " + getValue());
-                    }
-                };
-                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == option), choiceBox.getSelectionModel().selectedItemProperty());
-                optionButton = null;
-            } else {
-                CheckBox checkBox = new CheckBox();
-                optionButtonSelectedProperty = checkBox.selectedProperty();
-                optionButton = checkBox;
-            }
-            if (optionButton != null) {
-                Label promptLabel = option.getPromptLabel();
-                Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
-                Labels.translateLabel(optionButton, buttonLabel, getI18n());
-            }
-        }
-        Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
     }
 
     private Pane createPanelBodyNode() {
@@ -281,6 +239,67 @@ class OptionTreeNode {
         return vBox;
     }
 
+    private Node createLabelNode(Label label) {
+        return tree.getActivity().createLabelNode(label);
+    }
+
+    private void updateVisibleProperty() {
+        visibleProperty.set(computeIsVisible());
+    }
+
+    private boolean computeIsVisible() {
+        DateTimeRange modelDateTimeRange = modelLine != null ? modelLine.getDateTimeRange() : null;
+        if (modelDateTimeRange == null) {
+            if (option.hasNoParent())
+                return detailedNode != null && (isUserExplicitlySelected() || optionButtonSelectedProperty.getValue() && hasVisibleContent((Pane) detailedNode.getCenter()));
+            if (parent != null && option.getParsedDateTimeRangeOrParent() == null && parent.optionButtonSelectedProperty != null && !parent.optionButtonSelectedProperty.getValue())
+                return false;
+            modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
+        }
+        if (modelDateTimeRange != null && modelDateTimeRange.isEmpty())
+            return false;
+        return true;
+    }
+
+    private void createOptionButtonAndSelectedProperty() {
+        if (optionButtonSelectedProperty != null)
+            return;
+        if (option.isObligatory() || option.hasNoParent())
+            optionButtonSelectedProperty = new SimpleBooleanProperty(option.isObligatory());
+        else {
+            ToggleGroup toggleGroup = parent == null ? null : parent.getChildrenToggleGroup();
+            ChoiceBox<Option> choiceBox = parent == null ? null : parent.childrenChoiceBox;
+            if (toggleGroup != null) {
+                RadioButton radioButton = new RadioButton();
+                radioButton.setToggleGroup(toggleGroup);
+                optionButtonSelectedProperty = radioButton.selectedProperty();
+                optionButton = radioButton;
+            } else if (choiceBox != null) {
+                choiceBox.getItems().add(option);
+                optionButtonSelectedProperty = new SimpleObjectProperty<Boolean>(false) {
+                    @Override
+                    protected void invalidated() {
+                        if (getValue())
+                            choiceBox.getSelectionModel().select(option);
+                        //Logger.log(bestTranslationOrName(option) + ": " + getValue());
+                    }
+                };
+                Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == option), choiceBox.getSelectionModel().selectedItemProperty());
+                optionButton = null;
+            } else {
+                CheckBox checkBox = new CheckBox();
+                optionButtonSelectedProperty = checkBox.selectedProperty();
+                optionButton = checkBox;
+            }
+            if (optionButton != null) {
+                Label promptLabel = option.getPromptLabel();
+                Label buttonLabel = promptLabel != null ? promptLabel : Labels.bestLabelOrName(option);
+                Labels.translateLabel(optionButton, buttonLabel, getI18n());
+            }
+        }
+        Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
+    }
+
     private void refreshChildrenChoiceBoxOnLanguageChange() {
         Option selectedItem = childrenChoiceBox.getSelectionModel().getSelectedItem();
         // Resetting the items with an identical duplicated list (to force the ui update)
@@ -289,97 +308,92 @@ class OptionTreeNode {
         childrenChoiceBox.getSelectionModel().select(selectedItem);
     }
 
+
+    /*******************************************************************************************************************
+     *  UI => MODEL SYNCHRONIZATION  ***********************************************************************************
+     ******************************************************************************************************************/
+
     private void onUiOptionButtonChanged() {
         if (!thisSyncing)
             syncModelFromUi(false);
     }
 
     private void syncModelFromUi(boolean unselectedParent) {
+        syncModel(!unselectedParent && isUiOptionSelected(false));
+    }
+
+    boolean isUiOptionSelected(boolean checkParents) {
+        return optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue()
+                && (!checkParents || parent == null || parent.isUiOptionSelected(true));
+    }
+
+    private boolean syncModel(boolean selected) {
         try (SyncingContext syncingContext = new SyncingContext()) {
-            boolean uiSelected = !unselectedParent && isUiOptionSelected(false);
             if (syncingContext.isUserAction())
-                setUserExplicitSelection(uiSelected);
-            //Logger.log("Syncing model from TreeNode uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem() : ", option = " + option));
-            if (uiSelected)
-                addOptionToModelIfNotAlreadyPresent();
+                setUserExplicitSelection(selected);
+            //Logger.log("Syncing model from TreeNode selected = " + selected + (option.getItem() != null ? ", item = " + option.getItem() : ", option = " + option));
+            if (selected)
+                return addOptionToModelIfNotAlreadyPresent();
             else
-                removeOptionFromModel();
-            if (childrenOptionTreeNodes != null)
-                for (OptionTreeNode childOptionTreeNode : childrenOptionTreeNodes)
-                    childOptionTreeNode.syncModelFromUi(!uiSelected);
-        }
+                return removeOptionFromModel();
+        } // syncingContext.close() implicitly called when exiting try block
     }
 
-    private void addOptionToModelIfNotAlreadyPresent() {
-        if (!isModelOptionSelected())
-            addOptionToModel();
+    private boolean addOptionToModelIfNotAlreadyPresent() {
+        return isModelOptionSelected() || addOptionToModel();
     }
 
-    private void addOptionToModel() {
+    private boolean addOptionToModel() {
+        boolean result = false;
+        DateTimeRange optionDateTimeRange = option.getParsedDateTimeRangeOrParent();
+        if (optionButtonSelectedProperty != null && optionDateTimeRange != null && option.isNotObligatory() && parent != null && parent.isUserExplicitlySelected() && Booleans.isNotFalse(userExplicitSelection))
+            optionButtonSelectedProperty.setValue(userExplicitSelection = true);
         if (option.isConcrete()) {
             modelLine = getWorkingDocumentTransaction().addOption(option);
+            result = true;
             syncUiOptionButtonSelected(true);
         }
         if (childrenOptionTreeNodes != null) {
+            boolean multipleSelection = isChildMultipleSelectionAllowed();
+            boolean singleSelection = !multipleSelection;
             boolean childAdded = false;
-            for (OptionTreeNode childTreeNode: childrenOptionTreeNodes) {
-                Option childOption = childTreeNode.option;
-                boolean addingChild = childOption.isObligatory();
-                if (!addingChild && lastSelectedChildOptionTreeNode == null && isUserExplicitlySelected() && Booleans.isNotFalse(childTreeNode.userExplicitSelection)) {
-                    DateTimeRange childOptionTimeRange = childOption.getParsedDateTimeRangeOrParent();
-                    if (childOptionTimeRange != null) {
-                        if (childTreeNode.optionButtonSelectedProperty != null)
-                            childTreeNode.optionButtonSelectedProperty.setValue(childTreeNode.userExplicitSelection = true);
-                        addingChild = dateTimeRangeOverlapsWorkingDocument(childOptionTimeRange);
-                    }
-                }
-                if (addingChild) {
-                    childTreeNode.addOptionToModelIfNotAlreadyPresent();
-                    childAdded = true;
-                }
-            }
-            if (!childAdded) {
+            if (singleSelection) {
                 if (lastSelectedChildOptionTreeNode != null)
-                    lastSelectedChildOptionTreeNode.addOptionToModelIfNotAlreadyPresent();
-                else if (optionButtonSelectedProperty != null && optionButtonSelectedProperty.getValue())
-                    setUserExplicitSelection(true);
+                    childAdded = lastSelectedChildOptionTreeNode.syncModel(true);
             }
+            if (multipleSelection || !childAdded && option.getParsedTimeRangeOrParent() != null)
+                for (OptionTreeNode childTreeNode: childrenOptionTreeNodes) {
+                    childAdded = childTreeNode.syncModel(true);
+                    if (childAdded && singleSelection)
+                        break;
+                }
         }
+        return result;
     }
 
-    private void removeOptionFromModel() {
+    private boolean removeOptionFromModel() {
         getWorkingDocumentTransaction().removeOption(option);
         modelLine = null;
         if (childrenOptionTreeNodes != null)
             for (OptionTreeNode childTreeNode : childrenOptionTreeNodes)
-                childTreeNode.removeOptionFromModel();
+                childTreeNode.syncModel(false);
+        return true;
     }
 
-    private List<Option> getChildrenOptions(Option parent) {
-        return tree.getActivity().getChildrenOptions(parent);
-    }
+
+    /*******************************************************************************************************************
+     *  MODEL => UI SYNCHRONIZATION  ***********************************************************************************
+     ******************************************************************************************************************/
 
     private void syncUiFromModel() {
         try (SyncingContext syncingContext = new SyncingContext()) {
             boolean modelSelected = isModelOptionSelected();
             syncUiOptionButtonSelected(modelSelected);
-            if (childrenOptionTreeNodes != null /*&& modelSelected*/)
+            if (childrenOptionTreeNodes != null)
                 for (OptionTreeNode childOptionTreeNode : childrenOptionTreeNodes)
                     childOptionTreeNode.syncUiFromModel();
             updateVisibleProperty();
-        }
-    }
-
-    private void syncUiOptionButtonSelected(boolean modelSelected) {
-        if (optionButtonSelectedProperty != null && option.isNotObligatory()) { // obligatory options should not be ui updated (ex: Airport transfer section)
-            if (modelSelected && buttonNode != null && userExplicitSelection == null) // When button node is initialized from the model
-                userExplicitSelection = true; // we behave as if it was explicitly ticked by the user
-            boolean uiSelected = modelSelected || isUserExplicitlySelected();
-            //Logger.log("Syncing ui from model uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem().getName() : ", option = " + option.getName()));
-            optionButtonSelectedProperty.setValue(uiSelected);
-        }
-        if (parent != null && modelSelected)
-            parent.lastSelectedChildOptionTreeNode = this;
+        } // syncingContext.close() implicitly called when exiting try block
     }
 
     boolean isModelOptionSelected() {
@@ -394,16 +408,22 @@ class OptionTreeNode {
         return false;
     }
 
-    boolean isUiOptionSelected(boolean checkParents) {
-        return optionButtonSelectedProperty == null /* obligatory */ || optionButtonSelectedProperty.getValue()
-                && (!checkParents || parent == null || parent.isUiOptionSelected(true));
+    private void syncUiOptionButtonSelected(boolean modelSelected) {
+        if (optionButtonSelectedProperty != null && option.isNotObligatory()) { // obligatory options should not be ui updated (ex: Airport transfer section)
+            if (modelSelected && buttonNode != null && userExplicitSelection == null) // When button node is initialized from the model
+                userExplicitSelection = true; // we behave as if it was explicitly ticked by the user
+            boolean uiSelected = modelSelected || isUserExplicitlySelected();
+            //Logger.log("Syncing ui from model uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem().getName() : ", option = " + option.getName()));
+            optionButtonSelectedProperty.setValue(uiSelected);
+        }
+        if (parent != null && modelSelected)
+            parent.lastSelectedChildOptionTreeNode = this;
     }
 
-    void reset() {
-        userExplicitSelection = null;
-        modelLine = null;
-        //Collections.forEach(childrenOptionTreeNodes, OptionTreeNode::reset);
-    }
+
+    /*******************************************************************************************************************
+     *  SYNCHRONIZATION CONTEXT CLASS  *********************************************************************************
+     ******************************************************************************************************************/
 
     private class SyncingContext implements Closeable {
 
@@ -425,4 +445,17 @@ class OptionTreeNode {
             tree.deferTransactionCommitAndUiSync();
         }
     }
+
+
+    /*******************************************************************************************************************
+     *  STATIC HELPERS  ************************************************************************************************
+     ******************************************************************************************************************/
+
+    private static boolean hasVisibleContent(Pane parent) {
+        for (Node child : parent.getChildren())
+            if (child.isVisible() && (!(child instanceof Pane) || hasVisibleContent((Pane) child)))
+                return true;
+        return false;
+    }
+
 }
