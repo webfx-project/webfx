@@ -5,7 +5,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import mongoose.activities.shared.book.event.options.OptionTree;
 import mongoose.activities.shared.logic.time.DateTimeRange;
-import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.business.BusinessLines;
 import mongoose.activities.shared.logic.work.business.BusinessType;
 import mongoose.activities.shared.logic.work.business.logic.WorkingDocumentLogic;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Bruno Salmon
@@ -62,7 +60,7 @@ public class WorkingDocument {
             clearLinesCache();
             clearComputedDateTimeRange();
             clearComputedPrice();
-            changedSinceLastApplyBusinessRules = true;
+            markAsChangedForBusinessRules();
         });
     }
 
@@ -101,25 +99,13 @@ public class WorkingDocument {
 
     public DateTimeRange getDateTimeRange() {
         if (dateTimeRange == null)
-            computeDateTimeRange();
+            computeDocumentDateTimeRangeFromLines();
         return dateTimeRange;
     }
 
-    private void computeDateTimeRange() {
-        long includedStart = Long.MAX_VALUE, excludedEnd = Long.MIN_VALUE;
-        for (WorkingDocumentLine wdl : getWorkingDocumentLines()) {
-            if (isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(wdl)) {
-                DateTimeRange wdlDateTimeRange = wdl.getDateTimeRange();
-                if (wdlDateTimeRange != null && !wdlDateTimeRange.isEmpty()) {
-                    TimeInterval interval = wdlDateTimeRange.getInterval().changeTimeUnit(TimeUnit.MINUTES);
-                    includedStart = Math.min(includedStart, interval.getIncludedStart());
-                    excludedEnd = Math.max(excludedEnd, interval.getExcludedEnd());
-                }
-            }
-        }
-        if (excludedEnd < includedStart)
-            includedStart = excludedEnd = 0;
-        dateTimeRange = new DateTimeRange(new TimeInterval(includedStart, excludedEnd, TimeUnit.MINUTES));
+    private void computeDocumentDateTimeRangeFromLines() {
+        dateTimeRange = DateTimeRange.merge(Collections.filterMap(getWorkingDocumentLines(), WorkingDocument::isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange, WorkingDocumentLine::getDateTimeRange));
+        //System.out.println(dateTimeRange.getText());
     }
 
     void clearComputedDateTimeRange() {
@@ -128,6 +114,10 @@ public class WorkingDocument {
 
     private static boolean isWorkingDocumentLineToBeIncludedInWorkingDocumentDateTimeRange(WorkingDocumentLine wdl) {
         return wdl.getDayTimeRange() != null; // Excluding lines with no day time range (ex: diet option)
+    }
+
+    public void markAsChangedForBusinessRules() {
+        changedSinceLastApplyBusinessRules = true;
     }
 
     public WorkingDocument applyBusinessRules() {
@@ -332,7 +322,11 @@ public class WorkingDocument {
     }
 
     private static boolean sameLine(WorkingDocumentLine wdl1, WorkingDocumentLine wdl2) {
-        return wdl1 == wdl2 || wdl1 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
+        return wdl1 == wdl2 || wdl1 != null && (
+                wdl1.getOption() != null && wdl2.getOption() != null ? wdl1.getOption() == wdl2.getOption() :
+                Entity.sameId(wdl1.getSite(), wdl2.getSite()) &&
+                Entity.sameId(wdl1.getItem(), wdl2.getItem())
+        );
     }
 
 }
