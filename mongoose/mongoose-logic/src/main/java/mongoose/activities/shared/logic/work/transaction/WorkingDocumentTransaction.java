@@ -1,5 +1,7 @@
 package mongoose.activities.shared.logic.work.transaction;
 
+import mongoose.activities.shared.logic.time.DateTimeRange;
+import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.entities.Option;
@@ -25,6 +27,7 @@ import java.util.List;
 public class WorkingDocumentTransaction {
 
     private final WorkingDocument workingDocument;
+    private DateTimeRange initialWorkingDocumentDateTimeRange;
     private List<WorkingDocumentLine> addedLines; // memorized just for a possible rollback
     private List<WorkingDocumentLine> linesToRemove; // really removed on commit
 
@@ -34,6 +37,12 @@ public class WorkingDocumentTransaction {
 
     public WorkingDocument getWorkingDocument() {
         return workingDocument;
+    }
+
+    private DateTimeRange getInitialWorkingDocumentDateTimeRange() {
+        if (initialWorkingDocumentDateTimeRange == null)
+            initialWorkingDocumentDateTimeRange = new DateTimeRange(workingDocument.getDateTimeRange().getInterval());
+        return initialWorkingDocumentDateTimeRange;
     }
 
     private List<WorkingDocumentLine> getAddedLines() {
@@ -49,14 +58,15 @@ public class WorkingDocumentTransaction {
     }
 
     public WorkingDocumentLine addOption(Option option) {
-        WorkingDocumentLine line = new WorkingDocumentLine(option, workingDocument); // This constructor deduces the
-        // line date time range from the working document one (that's why the working document still contains removed
-        // lines before the commit)
+        // The WorkingDocumentLine constructor deduces the line date time range from the working document one
+        // (that's why the working document still contains removed lines before the commit)
+        WorkingDocumentLine line = new WorkingDocumentLine(option, workingDocument, getInitialWorkingDocumentDateTimeRange());
         addLine(line);
         return line;
     }
 
     public void removeOption(Option option) {
+        getInitialWorkingDocumentDateTimeRange();
         List<WorkingDocumentLine> linesToRemove = Collections.filter(workingDocument.getWorkingDocumentLines(), wdl -> isOptionBookedInWorkingDocumentLine(wdl, option));
         Collections.forEach(linesToRemove, this::removeLine);
     }
@@ -71,12 +81,12 @@ public class WorkingDocumentTransaction {
         return wdlOption != null ? wdlOption == option : wdl.getSite() == option.getSite() && wdl.getItem() == option.getItem();
     }
 
-    public void addLine(WorkingDocumentLine line) {
+    private void addLine(WorkingDocumentLine line) {
         getAddedLines().add(line);
         workingDocument.getWorkingDocumentLines().add(line);
     }
 
-    public void removeLine(WorkingDocumentLine line) {
+    private void removeLine(WorkingDocumentLine line) {
         getLinesToRemove().add(line);
     }
 
@@ -95,6 +105,23 @@ public class WorkingDocumentTransaction {
         if (linesToRemove != null && commit)
             lines.removeAll(linesToRemove);
         addedLines = linesToRemove = null;
+        // Calling business rules. As there are possible changes that the working document is not aware of (such as
+        // a selected option button but with no new lines added yet - they will be added thanks to business rules),
+        workingDocument.markAsChangedForBusinessRules(); // we call this method to force business rules execution.
         workingDocument.applyBusinessRules();
+        if (initialWorkingDocumentDateTimeRange != null) {
+            // Finally we check if this transaction has changed the working document interval
+            TimeInterval workingDocumentInterval = workingDocument.getDateTimeRange().getInterval();
+            if (!workingDocumentInterval.equals(initialWorkingDocumentDateTimeRange.getInterval())) {
+                // If yes, we should reinitialize the empty lines because they may now be included in the new interval
+                // (Ex: adding an arrival airport shuttle option may cause the early lunch be attended by default)
+                DateTimeRange intervalDateTimeRange = new DateTimeRange(workingDocumentInterval);
+                Collections.forEach(lines, wdl -> {
+                    if (wdl.getDateTimeRange().isEmpty())
+                        wdl.initializeDateTimeRange(intervalDateTimeRange);
+                });
+            }
+            initialWorkingDocumentDateTimeRange = null; // For next possible reuse of this transaction instance
+        }
     }
 }
