@@ -18,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.fx.properties.Properties;
+import naga.fx.spi.Toolkit;
 import naga.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
@@ -198,10 +199,14 @@ public class LayoutUtil {
     public static ScrollPane createVerticalScrollPane(Region content) {
         ScrollPane scrollPane = createScrollPane(content);
         LayoutUtil.setMinMaxWidthToPref(content);
-        content.prefWidthProperty().bind(
-                // scrollPane.widthProperty().subtract(16) // doesn't compile with GWT
-                Properties.compute(scrollPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 16))
-        );
+        double verticalScrollbarExtraWidth = Toolkit.get().getVerticalScrollbarExtraWidth();
+        if (verticalScrollbarExtraWidth == 0)
+            content.prefWidthProperty().bind(scrollPane.widthProperty());
+        else
+            content.prefWidthProperty().bind(
+                    // scrollPane.widthProperty().subtract(verticalScrollbarExtraWidth) // doesn't compile with GWT
+                    Properties.compute(scrollPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - verticalScrollbarExtraWidth))
+            );
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         return scrollPane;
     }
