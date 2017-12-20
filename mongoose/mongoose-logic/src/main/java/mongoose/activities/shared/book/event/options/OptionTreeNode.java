@@ -290,6 +290,7 @@ class OptionTreeNode {
                 optionButtonSelectedProperty = checkBox.selectedProperty();
                 optionButton = checkBox;
                 setUserExplicitSelection(false); // A checkbox selection is always explicit and it is not selected at start
+                LayoutUtil.setUnmanagedWhenInvisible(checkBox);
             }
             if (optionButton != null) {
                 Label promptLabel = option.getPromptLabel();
@@ -421,18 +422,23 @@ class OptionTreeNode {
     }
 
     private void updateVisibleProperty() {
-        visibleProperty.set(computeIsVisible());
+        boolean visible = computeIsVisible();
+        visibleProperty.set(visible);
+        // Also hiding checkbox if it is the only one applicable whereas the booker already pressed the top level option button
+        if (visible && parent != null && parent.topLevelOptionButton != null && optionButton instanceof CheckBox) {
+            OptionTreeNode that = this;
+            optionButton.setVisible(Collections.hasAtLeastOneMatching(parent.childrenOptionTreeNodes, n -> n != that && n.optionButton instanceof CheckBox && n.computeIsVisible()));
+        }
     }
 
     private boolean computeIsVisible() {
+        if (parent == null)
+            return topLevelOptionSection != null && ((isUserExplicitlySelected() || optionButtonSelectedProperty.getValue()) && hasVisibleOptionBody());
+        if (parent.isUserExplicitlyDeselected()) // Ex: node under a deselected checkbox
+            return false;
         DateTimeRange modelDateTimeRange = modelLine != null ? modelLine.getDateTimeRange() : null;
-        if (modelDateTimeRange == null) {
-            if (parent == null)
-                return topLevelOptionSection != null && ((isUserExplicitlySelected() || optionButtonSelectedProperty.getValue()) && hasVisibleOptionBody());
-            if (parent.isUserExplicitlyDeselected()) // Ex: node under a deselected checkbox
-                return false;
+        if (modelDateTimeRange == null)
             modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
-        }
         return modelDateTimeRange == null || !modelDateTimeRange.isEmpty();
     }
 
