@@ -234,7 +234,7 @@ class OptionTreeNode {
                 Label childrenPromptLabel = option.getChildrenPromptLabel();
                 Node selectNode = childrenChoiceBox;
                 if (childrenPromptLabel != null)
-                    selectNode =  new HBox(10, createLabelNode(childrenPromptLabel), selectNode);
+                    selectNode = new FlowPane(10, 0, createLabelNode(childrenPromptLabel), selectNode);
                 optionBodyChildren.add(selectNode);
                 bindToVisibleProperty(selectNode);
                 Properties.runOnPropertiesChange(p -> refreshChildrenChoiceBoxOnLanguageChange(), getI18n().languageProperty());
