@@ -120,6 +120,10 @@ class OptionTreeNode {
         return Booleans.isTrue(userExplicitSelection);
     }
 
+    private boolean isUserExplicitlyDeselected() {
+        return Booleans.isFalse(userExplicitSelection);
+    }
+
     private List<Option> getChildrenOptions(Option parent) {
         return tree.getActivity().getChildrenOptions(parent);
     }
@@ -287,6 +291,7 @@ class OptionTreeNode {
                 CheckBox checkBox = new CheckBox();
                 optionButtonSelectedProperty = checkBox.selectedProperty();
                 optionButton = checkBox;
+                setUserExplicitSelection(false); // A checkbox selection is always explicit and it is not selected at start
             }
             if (optionButton != null) {
                 Label promptLabel = option.getPromptLabel();
@@ -426,6 +431,8 @@ class OptionTreeNode {
         if (modelDateTimeRange == null) {
             if (parent == null)
                 return topLevelOptionSection != null && ((isUserExplicitlySelected() || optionButtonSelectedProperty.getValue()) && hasVisibleOptionBody());
+            if (parent.isUserExplicitlyDeselected()) // Ex: node under a deselected checkbox
+                return false;
             modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
         }
         return modelDateTimeRange == null || !modelDateTimeRange.isEmpty();
