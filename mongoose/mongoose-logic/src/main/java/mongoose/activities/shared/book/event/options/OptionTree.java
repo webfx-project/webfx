@@ -66,37 +66,32 @@ public class OptionTree {
         return Collections.filter(getTopLevelOptions(), Option::isNotObligatory);
     }
 
-    List<Node> getUpdatedTopLevelNodesAboveAttendance() {
-        return Collections.map(getTopLevelNonObligatoryOptions(), this::getUpdatedOptionButtonNode);
+    List<Node> getUpdatedTopLevelOptionButtons() {
+        return Collections.map(getTopLevelNonObligatoryOptions(), this::getUpdatedTopLevelOptionButton);
     }
 
-    List<Node> getUpdatedTopLevelNodesBelowAttendance() {
-        return Collections.map(getTopLevelOptions(), this::getUpdatedOptionDetailedNode);
+    List<Node> getUpdatedTopLevelOptionSections() {
+        return Collections.map(getTopLevelOptions(), this::getUpdatedTopLevelOptionSection);
     }
 
-    private Node getUpdatedOptionButtonNode(Option o) {
+    private Node getUpdatedTopLevelOptionButton(Option o) {
         return getOptionTreeNode(o).createOrUpdateTopLevelOptionButtonFromModel();
     }
 
-    private Node getUpdatedOptionDetailedNode(Option o) {
+    private Node getUpdatedTopLevelOptionSection(Option o) {
         return getOptionTreeNode(o).createOrUpdateTopLevelOptionSectionFromModel();
     }
 
     private Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();
 
     private OptionTreeNode getOptionTreeNode(Option option) {
-        //Doesn't work on Android: return optionTreeNodes.computeIfAbsent(option, this::newOptionTreeNode);
         OptionTreeNode optionTreeNode = optionTreeNodes.get(option);
         if (optionTreeNode == null)
-            optionTreeNode = newOptionTreeNode(option);
+            optionTreeNode = new OptionTreeNode(option, this);
         return optionTreeNode;
     }
 
-    OptionTreeNode newOptionTreeNode(Option option) {
-        return new OptionTreeNode(option, this);
-    }
-
-    void registerOptionTreeNode(OptionTreeNode optionTreeNode) {
+    void registerOptionTreeNode(OptionTreeNode optionTreeNode) { // Called by OptionTreeNode constructor
         optionTreeNodes.put(optionTreeNode.getOption(), optionTreeNode);
     }
 

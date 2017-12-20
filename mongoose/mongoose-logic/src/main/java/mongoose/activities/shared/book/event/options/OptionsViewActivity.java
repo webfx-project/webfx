@@ -20,9 +20,7 @@ import naga.fx.spi.Toolkit;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Arrays;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 
@@ -31,9 +29,9 @@ import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
  */
 public class OptionsViewActivity extends BookingProcessViewActivity {
 
-    private VBox vBox;
-    private FlexBox primaryOptionsFlowPane;
-    private Node attendancePanel;
+    private VBox verticalStack;
+    private FlexBox topLevelOptionButtonsContainer;
+    private Node bookingCalendarSection;
     protected Label priceText;
     private WorkingDocument lastWorkingDocument;
 
@@ -51,7 +49,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     public void onPause() {
         super.onPause();
         lastWorkingDocument = getWorkingDocument();
-
     }
 
     protected void startLogic() {
@@ -89,14 +86,12 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox = new VBox(10)));
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(verticalStack = new VBox(10)));
 
-        primaryOptionsFlowPane = new FlexBox();
-        primaryOptionsFlowPane.setHorizontalSpace(4);
-        primaryOptionsFlowPane.setVerticalSpace(4);
+        topLevelOptionButtonsContainer = new FlexBox(4, 4);
         bookingCalendar = createBookingCalendar();
-        bookingCalendar.setOnAttendanceChangedRunnable(optionTree::getUpdatedTopLevelNodesBelowAttendance);
-        attendancePanel = createAttendancePanel();
+        bookingCalendar.setOnAttendanceChangedRunnable(optionTree::getUpdatedTopLevelOptionSections);
+        bookingCalendarSection = createBookingCalendarSection();
 
         priceText = new Label();
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());
@@ -118,11 +113,11 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
             bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, forceRefresh);
 
             Toolkit.get().scheduler().runInUiThread(() -> {
-                ObservableList<Node> sectionPanels = vBox.getChildren();
-                primaryOptionsFlowPane.getChildren().setAll(optionTree.getUpdatedTopLevelNodesAboveAttendance());
-                sectionPanels.setAll(primaryOptionsFlowPane);
-                sectionPanels.add(attendancePanel);
-                sectionPanels.addAll(optionTree.getUpdatedTopLevelNodesBelowAttendance());
+                topLevelOptionButtonsContainer.getChildren().setAll(optionTree.getUpdatedTopLevelOptionButtons());
+                ObservableList<Node> verticalStackChildren = verticalStack.getChildren();
+                verticalStackChildren.setAll(topLevelOptionButtonsContainer);
+                verticalStackChildren.addAll(optionTree.getUpdatedTopLevelOptionSections());
+                verticalStackChildren.add(bookingCalendarSection);
             });
         }
     }
@@ -141,7 +136,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         );
     }
 
-    private Node createAttendancePanel() {
+    private Node createBookingCalendarSection() {
         return createSectionPanel("images/16/itemFamilies/attendance.png",
                 "Attendance",
                 bookingCalendar.calendarNodeProperty());
