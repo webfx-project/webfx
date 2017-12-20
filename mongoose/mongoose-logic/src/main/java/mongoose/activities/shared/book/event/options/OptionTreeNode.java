@@ -187,6 +187,7 @@ class OptionTreeNode {
         if (detailed) {
             createOptionBodyPane();
             if (optionBodyPane != null) {
+                LayoutUtil.setMinWidth(optionBodyPane, 0);
                 optionBodyPane.setPadding(new Insets(20));
                 sectionPanel.setCenter(optionBodyPane);
                 bindToVisibleProperty(sectionPanel);
