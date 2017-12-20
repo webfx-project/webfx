@@ -50,4 +50,9 @@ public class GwtToolkit extends Toolkit {
     private static Rectangle2D toRectangle2D(double width, double height) {
         return new Rectangle2D(0, 0, width, height);
     }
+
+    @Override
+    public double getVerticalScrollbarExtraWidth() {
+        return 0; // Perfect scrollbar library is used and the transparent scrollbar overlays the view port (so no extra width)
+    }
 }

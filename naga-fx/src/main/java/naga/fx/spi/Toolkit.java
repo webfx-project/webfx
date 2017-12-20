@@ -56,6 +56,10 @@ public abstract class Toolkit {
         return get().scheduler().isUiThread();
     }
 
+    public double getVerticalScrollbarExtraWidth() {
+        return 16;
+    }
+
     private static Toolkit TOOLKIT;
 
     public static synchronized Toolkit get() {
