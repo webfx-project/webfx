@@ -10,10 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.StringConverter;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
@@ -206,15 +203,15 @@ class OptionTreeNode {
         createOptionButtonAndSelectedProperty();
         if (optionButton == null && option.isNotObligatory() && option.hasParent())
             return optionBodyPane = null;
-        VBox vBox = new VBox();
-        if (parent != null && parent.parent != null && parent.parent.childrenToggleGroup != null) // If under a radio button (ex: Ecommoy shuttle)
-            vBox.setPadding(new Insets(0, 0, 0, 20)); // Adding a left padding
+        optionBodyPane = new VBox();
+        if (parent != null && parent.optionButton != null) // Adding a left padding when under a parent button
+            optionBodyPane.setPadding(new Insets(0, 0, 0, 20));
         Label topLabel = option.getTopLabel();
-        ObservableList<Node> vBoxChildren = vBox.getChildren();
+        ObservableList<Node> optionBodyChildren = optionBodyPane.getChildren();
         if (topLabel != null)
-            vBoxChildren.add(createLabelNode(topLabel));
+            optionBodyChildren.add(createLabelNode(topLabel));
         if (optionButton != null)
-            vBoxChildren.add(optionButton);
+            optionBodyChildren.add(optionButton);
         List<Option> childrenOptions = getChildrenOptions(option);
         if (!Collections.isEmpty(childrenOptions)) {
             if ("select".equals(option.getLayout())) {
@@ -238,19 +235,19 @@ class OptionTreeNode {
                 Node selectNode = childrenChoiceBox;
                 if (childrenPromptLabel != null)
                     selectNode =  new HBox(10, createLabelNode(childrenPromptLabel), selectNode);
-                vBoxChildren.add(selectNode);
+                optionBodyChildren.add(selectNode);
                 bindToVisibleProperty(selectNode);
                 Properties.runOnPropertiesChange(p -> refreshChildrenChoiceBoxOnLanguageChange(), getI18n().languageProperty());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
             //Doesn't work on Android: childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
             childrenOptionTreeNodes = Collections.map(childrenOptions, o -> new OptionTreeNode(o, this));
-            //Doesn't work on Android: vBoxChildren.addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
-            vBoxChildren.addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createOptionBodyPane, Objects::nonNull));
+            //Doesn't work on Android: optionBodyChildren.addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
+            optionBodyChildren.addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createOptionBodyPane, Objects::nonNull));
         }
         if (parent != null) // visibility binding is not necessary at top level because the body is embed in the section where visibility is already managed
-            bindToVisibleProperty(vBox);
-        return optionBodyPane = vBox;
+            bindToVisibleProperty(optionBodyPane);
+        return optionBodyPane;
     }
 
     private void bindToVisibleProperty(Node node) {
@@ -317,11 +314,11 @@ class OptionTreeNode {
 
     private void onUiOptionButtonChanged() {
         if (!thisSyncing)
-            syncModelFromUi(false);
+            syncModelFromUi();
     }
 
-    private void syncModelFromUi(boolean unselectedParent) {
-        syncModel(!unselectedParent && isUiOptionSelected(false));
+    private void syncModelFromUi() {
+        syncModel(isUiOptionSelected(false));
     }
 
     boolean isUiOptionSelected(boolean checkParents) {
