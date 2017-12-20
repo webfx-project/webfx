@@ -43,8 +43,9 @@ class OptionTreeNode {
     private final Option option;
     private final OptionTree tree;
     private final OptionTreeNode parent;
-    private BorderPane buttonNode;
-    private BorderPane detailedNode;
+    private BorderPane topLevelOptionButton;
+    private BorderPane topLevelOptionSection;
+    private Pane optionBodyPane;
     private ButtonBase optionButton;
     private Property<Boolean> optionButtonSelectedProperty;
     private ChoiceBox<Option> childrenChoiceBox;
@@ -149,45 +150,45 @@ class OptionTreeNode {
      *  UI BUILDERS  ***************************************************************************************************
      ******************************************************************************************************************/
 
-    Node createOrUpdateButtonNodeFromModel() {
-        if (buttonNode == null)
-            createButtonNode();
+    Node createOrUpdateTopLevelOptionButtonFromModel() {
+        if (topLevelOptionButton == null)
+            createTopLevelOptionButton();
         syncUiFromModel();
-        return buttonNode;
+        return topLevelOptionButton;
     }
 
-    private void createButtonNode() {
-        buttonNode = createTopLevelOptionPanel(false);
-        buttonNode.setOnMouseClicked(e -> optionButtonSelectedProperty.setValue(!optionButtonSelectedProperty.getValue()));
-        buttonNode.setCursor(Cursor.HAND);
+    private void createTopLevelOptionButton() {
+        topLevelOptionButton = createTopLevelOptionSection(false);
+        topLevelOptionButton.setOnMouseClicked(e -> optionButtonSelectedProperty.setValue(!optionButtonSelectedProperty.getValue()));
+        topLevelOptionButton.setCursor(Cursor.HAND);
         ImageView checkBoxView = new ImageView();
         checkBoxView.imageProperty().bind(Properties.compute(optionButtonSelectedProperty, selected ->
                 ImageStore.getOrCreateImage(selected ? "images/16/checked.png" : "images/16/unchecked.png", 16, 16)));
-        ObservableList<Node> hBoxChildren = ((HBox) buttonNode.getTop()).getChildren();
+        ObservableList<Node> hBoxChildren = ((HBox) topLevelOptionButton.getTop()).getChildren();
         hBoxChildren.add(0, checkBoxView);
         hBoxChildren.add(0, LayoutUtil.createHGrowable()); // To shift the button content and make it centered
-        LayoutUtil.setMinWidthToPref(buttonNode);
-        LayoutUtil.setMaxSizeToInfinite(buttonNode);
+        LayoutUtil.setMinWidthToPref(topLevelOptionButton);
+        LayoutUtil.setMaxSizeToInfinite(topLevelOptionButton);
     }
 
-    Node createOrUpdateDetailedNodeFromModel() {
-        if (detailedNode == null)
-            detailedNode = createTopLevelOptionPanel(true);
+    Node createOrUpdateTopLevelOptionSectionFromModel() {
+        if (topLevelOptionSection == null)
+            topLevelOptionSection = createTopLevelOptionSection(true);
         syncUiFromModel();
-        return detailedNode;
+        return topLevelOptionSection;
     }
 
-    private BorderPane createTopLevelOptionPanel(boolean detailed) {
+    private BorderPane createTopLevelOptionSection(boolean detailed) {
         BorderPane sectionPanel = HighLevelComponents.createSectionPanel(null, Collections.toArray(
                 createOptionPanelHeaderNodes(Labels.translateLabel(Labels.bestLabelOrName(option), getI18n()))
                 , Node[]::new));
         createOptionButtonAndSelectedProperty();
         if (detailed) {
-            Pane panelBodyNode = createPanelBodyNode();
-            if (panelBodyNode != null) {
-                panelBodyNode.setPadding(new Insets(20));
-                sectionPanel.setCenter(panelBodyNode);
-                LayoutUtil.setUnmanagedWhenInvisible(sectionPanel, visibleProperty);
+            createOptionBodyPane();
+            if (optionBodyPane != null) {
+                optionBodyPane.setPadding(new Insets(20));
+                sectionPanel.setCenter(optionBodyPane);
+                bindToVisibleProperty(sectionPanel);
             }
         }
         return sectionPanel;
@@ -197,14 +198,14 @@ class OptionTreeNode {
         return tree.getActivity().createOptionPanelHeaderNodes(option, i18nTitle);
     }
 
-    private Pane createPanelBodyNode() {
+    private Pane createOptionBodyPane() {
         createOptionButtonAndSelectedProperty();
         if (optionButton == null && option.isNotObligatory() && option.hasParent())
-            return null;
+            return optionBodyPane = null;
         VBox vBox = new VBox();
         if (parent != null && parent.parent != null && parent.parent.childrenToggleGroup != null) // If under a radio button (ex: Ecommoy shuttle)
             vBox.setPadding(new Insets(0, 0, 0, 20)); // Adding a left padding
-        mongoose.entities.Label topLabel = option.getTopLabel();
+        Label topLabel = option.getTopLabel();
         ObservableList<Node> vBoxChildren = vBox.getChildren();
         if (topLabel != null)
             vBoxChildren.add(createLabelNode(topLabel));
@@ -234,40 +235,27 @@ class OptionTreeNode {
                 if (childrenPromptLabel != null)
                     selectNode =  new HBox(10, createLabelNode(childrenPromptLabel), selectNode);
                 vBoxChildren.add(selectNode);
-                LayoutUtil.setUnmanagedWhenInvisible(selectNode, visibleProperty);
+                bindToVisibleProperty(selectNode);
                 Properties.runOnPropertiesChange(p -> refreshChildrenChoiceBoxOnLanguageChange(), getI18n().languageProperty());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
             //Doesn't work on Android: childrenOptionTreeNodes = childrenOptions.stream().map(o -> new OptionTreeNode(o, this)).collect(Collectors.toList());
             childrenOptionTreeNodes = Collections.map(childrenOptions, o -> new OptionTreeNode(o, this));
             //Doesn't work on Android: vBoxChildren.addAll(childrenOptionTreeNodes.stream().map(OptionTreeNode::createPanelBodyNode).filter(Objects::nonNull).collect(Collectors.toList()));
-            vBoxChildren.addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createPanelBodyNode, Objects::nonNull));
+            vBoxChildren.addAll(Collections.mapFilter(childrenOptionTreeNodes, OptionTreeNode::createOptionBodyPane, Objects::nonNull));
         }
-        if (option.hasParent())
-            LayoutUtil.setUnmanagedWhenInvisible(vBox, visibleProperty);
-        return vBox;
+        if (parent != null) // visibility binding is not necessary at top level because the body is embed in the section where visibility is already managed
+            bindToVisibleProperty(vBox);
+        return optionBodyPane = vBox;
+    }
+
+    private void bindToVisibleProperty(Node node) {
+        LayoutUtil.setUnmanagedWhenInvisible(node, visibleProperty);
+        node.getProperties().put("visiblePropertyOptionTreeNode", this); // used by computeVisibleProperty()
     }
 
     private Node createLabelNode(Label label) {
         return tree.getActivity().createLabelNode(label);
-    }
-
-    private void updateVisibleProperty() {
-        visibleProperty.set(computeIsVisible());
-    }
-
-    private boolean computeIsVisible() {
-        DateTimeRange modelDateTimeRange = modelLine != null ? modelLine.getDateTimeRange() : null;
-        if (modelDateTimeRange == null) {
-            if (option.hasNoParent())
-                return detailedNode != null && (isUserExplicitlySelected() || optionButtonSelectedProperty.getValue() && hasVisibleContent((Pane) detailedNode.getCenter()));
-            if (parent != null && option.getParsedDateTimeRangeOrParent() == null && parent.optionButtonSelectedProperty != null && !parent.optionButtonSelectedProperty.getValue())
-                return false;
-            modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
-        }
-        if (modelDateTimeRange != null && modelDateTimeRange.isEmpty())
-            return false;
-        return true;
     }
 
     private void createOptionButtonAndSelectedProperty() {
@@ -419,7 +407,7 @@ class OptionTreeNode {
 
     private void syncUiOptionButtonSelected(boolean modelSelected) {
         if (optionButtonSelectedProperty != null && option.isNotObligatory()) { // obligatory options should not be ui updated (ex: Airport transfer section)
-            if (modelSelected && buttonNode != null && userExplicitSelection == null) // When button node is initialized from the model
+            if (modelSelected && topLevelOptionButton != null && userExplicitSelection == null) // When button node is initialized from the model
                 userExplicitSelection = true; // we behave as if it was explicitly ticked by the user
             boolean uiSelected = modelSelected || isUserExplicitlySelected();
             //Logger.log("Syncing ui from model uiSelected = " + uiSelected + (option.getItem() != null ? ", item = " + option.getItem().getName() : ", option = " + option.getName()));
@@ -429,6 +417,38 @@ class OptionTreeNode {
             parent.lastSelectedChildOptionTreeNode = this;
     }
 
+    private void updateVisibleProperty() {
+        visibleProperty.set(computeIsVisible());
+    }
+
+    private boolean computeIsVisible() {
+        DateTimeRange modelDateTimeRange = modelLine != null ? modelLine.getDateTimeRange() : null;
+        if (modelDateTimeRange == null) {
+            if (parent == null)
+                return topLevelOptionSection != null && ((isUserExplicitlySelected() || optionButtonSelectedProperty.getValue()) && hasVisibleOptionBody());
+            modelDateTimeRange = WorkingDocumentLine.computeCroppedOptionDateTimeRange(option, getWorkingDocument().getDateTimeRange());
+        }
+        return modelDateTimeRange == null || !modelDateTimeRange.isEmpty();
+    }
+
+    private boolean hasVisibleOptionBody() {
+        if (hasVisibleContent(optionBodyPane, this))
+            return true;
+        if (childrenOptionTreeNodes != null)
+            for (OptionTreeNode child : childrenOptionTreeNodes)
+                if (child.visibleProperty.get() && child.hasVisibleOptionBody())
+                    return true;
+        return false;
+    }
+
+    private static boolean hasVisibleContent(Pane parent, OptionTreeNode testingNode) {
+        if (parent != null)
+            for (Node child : parent.getChildren())
+                if ((child.isVisible() || child.getProperties().get("visiblePropertyOptionTreeNode") == testingNode) &&
+                        (!(child instanceof Pane) || hasVisibleContent((Pane) child, testingNode)))
+                    return true;
+        return false;
+    }
 
     /*******************************************************************************************************************
      *  SYNCHRONIZATION CONTEXT CLASS  *********************************************************************************
@@ -454,17 +474,4 @@ class OptionTreeNode {
             tree.deferTransactionCommitAndUiSync();
         }
     }
-
-
-    /*******************************************************************************************************************
-     *  STATIC HELPERS  ************************************************************************************************
-     ******************************************************************************************************************/
-
-    private static boolean hasVisibleContent(Pane parent) {
-        for (Node child : parent.getChildren())
-            if (child.isVisible() && (!(child instanceof Pane) || hasVisibleContent((Pane) child)))
-                return true;
-        return false;
-    }
-
 }

@@ -75,11 +75,11 @@ public class OptionTree {
     }
 
     private Node getUpdatedOptionButtonNode(Option o) {
-        return getOptionTreeNode(o).createOrUpdateButtonNodeFromModel();
+        return getOptionTreeNode(o).createOrUpdateTopLevelOptionButtonFromModel();
     }
 
     private Node getUpdatedOptionDetailedNode(Option o) {
-        return getOptionTreeNode(o).createOrUpdateDetailedNodeFromModel();
+        return getOptionTreeNode(o).createOrUpdateTopLevelOptionSectionFromModel();
     }
 
     private Map<Option, OptionTreeNode> optionTreeNodes = new HashMap<>();
