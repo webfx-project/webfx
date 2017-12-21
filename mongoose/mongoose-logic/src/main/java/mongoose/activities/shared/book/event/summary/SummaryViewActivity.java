@@ -5,6 +5,7 @@ import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -12,10 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
-import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
-import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
-import mongoose.activities.shared.book.event.shared.TermsDialog;
+import mongoose.activities.shared.book.event.shared.*;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
@@ -33,8 +31,10 @@ import java.time.Instant;
  */
 public class SummaryViewActivity extends BookingProcessViewActivity {
 
-    private PersonDetailsPanel personDetailsPanel;
     private BookingOptionsPanel bookingOptionsPanel;
+    private Node bookingCalendarSection;
+    private BookingCalendar bookingCalendar;
+    private PersonDetailsPanel personDetailsPanel;
     private TextArea commentTextArea;
     private CheckBox termsCheckBox;
     private Property<String> agreeTCTranslationProperty; // to avoid GC
@@ -46,9 +46,11 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
+        bookingOptionsPanel = new BookingOptionsPanel(getI18n());
+        bookingCalendar = new BookingCalendar(false, getI18n());
+        bookingCalendarSection = createBookingCalendarSection(bookingCalendar);
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
         personDetailsPanel.setEditable(false);
-        bookingOptionsPanel = new BookingOptionsPanel(getI18n());
 
         BorderPane commentPanel = createSectionPanel("Comment");
         commentPanel.setCenter(commentTextArea = newTextAreaWithPrompt("CommentPlaceholder"));
@@ -60,8 +62,13 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         agreeTCTranslationProperty = translationProperty("AgreeTC");
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
-        VBox panelsVBox = new VBox(20, bookingOptionsPanel.getOptionsPanel(), personDetailsPanel.getSectionPanel(), commentPanel, termsPanel);
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(panelsVBox));
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20,
+                bookingOptionsPanel.getOptionsPanel(),
+                bookingCalendarSection,
+                personDetailsPanel.getSectionPanel(),
+                commentPanel,
+                termsPanel
+        )));
 
         nextButton.disableProperty().bind(
                 // termsCheckBox.selectedProperty().not() // Doesn't compile with GWT
@@ -97,6 +104,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     private void syncUiFromModel() {
         WorkingDocument workingDocument = getWorkingDocument();
         if (workingDocument != null) {
+            bookingCalendar.createOrUpdateCalendarGraphicFromWorkingDocument(workingDocument, true);
             bookingOptionsPanel.syncUiFromModel(workingDocument);
             personDetailsPanel.syncUiFromModel(workingDocument.getDocument());
         }
