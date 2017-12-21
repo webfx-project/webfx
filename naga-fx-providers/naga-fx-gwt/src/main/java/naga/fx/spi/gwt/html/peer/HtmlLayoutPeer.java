@@ -1,5 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
+import emul.javafx.geometry.Insets;
 import emul.javafx.scene.layout.Region;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.RegionPeerBase;
@@ -16,5 +17,10 @@ public class HtmlLayoutPeer
     public HtmlLayoutPeer() {
         super((NB) new RegionPeerBase<N, NB, NM>(), HtmlUtil.createSpanElement());
         subtractCssPaddingBorderWhenUpdatingSize = true;
+    }
+
+    @Override
+    public void updatePadding(Insets padding) {
+        // We do not apply the padding into css here because it is already considered by the JavaFx layout system
     }
 }

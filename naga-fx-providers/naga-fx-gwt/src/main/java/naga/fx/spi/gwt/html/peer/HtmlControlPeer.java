@@ -1,6 +1,7 @@
 package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
+import emul.javafx.geometry.Insets;
 import emul.javafx.scene.control.Control;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ControlPeerBase;
@@ -26,6 +27,12 @@ abstract class HtmlControlPeer
         HtmlUtil.setStyleAttribute(childrenContainer, "pointer-events", "none");
         setChildrenContainer(childrenContainer);
         HtmlUtil.setChildren(spanContainer, getElement(), childrenContainer);
+    }
+
+    @Override
+    public void updatePadding(Insets padding) {
+        if (doesSkinRelyOnPeerToProvideVisualContent())
+            super.updatePadding(padding);
     }
 
     protected boolean doesSkinRelyOnPeerToProvideVisualContent() {

@@ -1,7 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
-import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.Pos;
 import emul.javafx.scene.control.PasswordField;
 import emul.javafx.scene.control.TextField;
@@ -32,10 +31,6 @@ public class HtmlTextFieldPeer
         if (node instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
             HtmlUtil.setAttribute(getElement(), "type", "password");
         super.bind(node, sceneRequester);
-    }
-
-    @Override
-    public void updatePadding(Insets padding) {
     }
 
     @Override
