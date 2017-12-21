@@ -17,7 +17,7 @@ public class HtmlRadioButtonPeer
         <N extends RadioButton, NB extends RadioButtonPeerBase<N, NB, NM>, NM extends RadioButtonPeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>
-        implements RadioButtonPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements RadioButtonPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoGrow {
 
     private final HTMLInputElement radioButtonElement;
 
@@ -27,6 +27,7 @@ public class HtmlRadioButtonPeer
 
     public HtmlRadioButtonPeer(NB base, HTMLElement element) {
         super(base, element);
+        prepareDomForAdditionalSkinChildren();
         radioButtonElement = HtmlUtil.createRadioButton();
         radioButtonElement.onclick = event -> {
             getNode().setSelected(radioButtonElement.checked);

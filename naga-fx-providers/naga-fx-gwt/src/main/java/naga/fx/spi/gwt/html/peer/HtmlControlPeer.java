@@ -27,4 +27,8 @@ abstract class HtmlControlPeer
         setChildrenContainer(childrenContainer);
         HtmlUtil.setChildren(spanContainer, getElement(), childrenContainer);
     }
+
+    protected boolean doesSkinRelyOnPeerToProvideVisualContent() {
+        return getNode().shouldUseLayoutMeasurable();
+    }
 }

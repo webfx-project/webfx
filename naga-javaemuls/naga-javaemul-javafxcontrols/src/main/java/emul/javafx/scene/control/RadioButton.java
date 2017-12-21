@@ -1,5 +1,6 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.skin.RadioButtonSkin;
 import emul.javafx.scene.Node;
 
 /**
@@ -24,6 +25,12 @@ public class RadioButton extends ToggleButton {
 
     @Override
     protected Skin<?> createDefaultSkin() {
-        return null;
+        return new RadioButtonSkin(this);
+    }
+
+    // We continue to use the target toolkit layout measurable even if there is a skin
+    @Override
+    public boolean shouldUseLayoutMeasurable() {
+        return true;
     }
 }

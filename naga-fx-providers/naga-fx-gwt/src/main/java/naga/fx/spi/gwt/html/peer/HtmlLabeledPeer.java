@@ -2,16 +2,16 @@ package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
-import naga.util.Strings;
-import naga.fx.spi.gwt.util.HtmlPaints;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.control.Labeled;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.TextAlignment;
+import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.LabeledPeerBase;
 import naga.fx.spi.peer.base.LabeledPeerMixin;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -37,13 +37,13 @@ abstract class HtmlLabeledPeer
     }
 
     protected void updateHtmlContent() {
-        N node = getNode();
-        if (node.getSkin() == null) {
+        if (doesSkinRelyOnPeerToProvideVisualContent()) {
             // Embedding text into a span element so that we can align it with a possible graphic (image on the left)
             HTMLElement spanElement = HtmlUtil.createSpanElement();
             HtmlUtil.setStyleAttribute(spanElement, "position", "relative");
             HtmlUtil.setStyleAttribute(spanElement, "vertical-align", "middle");
-            HTMLElement buttonElement = getElement();
+            HTMLElement element = getElement();
+            N node = getNode();
             Node graphic = node.getGraphic();
             String text = Strings.toSafeString(node.getText());
             if (text.isEmpty() && graphic == null)
@@ -51,11 +51,11 @@ abstract class HtmlLabeledPeer
             else
                 spanElement.textContent = text;
             if (graphic == null)
-                HtmlUtil.setChild(buttonElement, spanElement);
+                HtmlUtil.setChild(element, spanElement);
             else {
                 Element graphicElement = toContainerElement(graphic, node.getScene());
                 HtmlUtil.setStyleAttribute(graphicElement, "position", "relative");
-                HtmlUtil.setChildren(buttonElement, graphicElement, spanElement);
+                HtmlUtil.setChildren(element, graphicElement, spanElement);
             }
         }
         clearLayoutCache();

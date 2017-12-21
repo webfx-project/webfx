@@ -374,7 +374,7 @@ public abstract class Control extends Region implements Skinnable {
     }
 
     @Override
-    protected boolean shouldUseLayoutMeasurable() {
+    public boolean shouldUseLayoutMeasurable() {
         return getSkin() == null;
     }
 
