@@ -3,6 +3,7 @@ package mongoose.activities.shared.book.cart;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.entities.Event;
 import mongoose.services.CartService;
 import naga.framework.activity.view.impl.ViewActivityImpl;
@@ -11,7 +12,9 @@ import naga.fx.properties.Properties;
 /**
  * @author Bruno Salmon
  */
-public abstract class CartBasedViewActivity extends ViewActivityImpl implements MongooseButtonFactoryMixin {
+public abstract class CartBasedViewActivity
+        extends ViewActivityImpl
+        implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
 
     private final Property<Object> cartUuidProperty = new SimpleObjectProperty<>();
 

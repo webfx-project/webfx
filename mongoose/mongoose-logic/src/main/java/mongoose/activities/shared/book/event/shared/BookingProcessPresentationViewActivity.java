@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.calendar.Calendar;
 import mongoose.activities.shared.logic.calendar.CalendarExtractor;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
@@ -20,7 +21,8 @@ import naga.framework.activity.presentation.view.impl.PresentationViewActivityIm
  * @author Bruno Salmon
  */
 public abstract class BookingProcessPresentationViewActivity<PM extends BookingProcessPresentationModel>
-    extends PresentationViewActivityImpl<PM> implements MongooseButtonFactoryMixin {
+        extends PresentationViewActivityImpl<PM>
+        implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
 
     protected Button previousButton;
     protected Button nextButton;

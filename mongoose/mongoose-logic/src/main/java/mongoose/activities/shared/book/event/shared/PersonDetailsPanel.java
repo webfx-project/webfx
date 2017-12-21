@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.auth.MongooseUser;
 import mongoose.domainmodel.format.DateFormatter;
@@ -45,7 +46,7 @@ import java.time.LocalDate;
 /**
  * @author Bruno Salmon
  */
-public class PersonDetailsPanel implements MongooseButtonFactoryMixin {
+public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
     private final Event event;
     private final I18n i18n;
     private final TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;

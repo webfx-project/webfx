@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.ButtonUtil;
@@ -26,7 +27,7 @@ import naga.platform.services.auth.spi.AuthService;
 /**
  * @author Bruno Salmon
  */
-public class LoginPanel implements MongooseButtonFactoryMixin {
+public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
     private final I18n i18n;
     private final Node node;
     private final TextField usernameField;

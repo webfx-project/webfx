@@ -1,7 +1,7 @@
 package mongoose.activities.shared.book.event.shared;
 
 import javafx.scene.layout.BorderPane;
-import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.time.DaysArray;
 import mongoose.activities.shared.logic.time.DaysArrayBuilder;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -9,8 +9,6 @@ import mongoose.activities.shared.logic.work.WorkingDocumentLine;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.entities.DocumentLine;
 import mongoose.entities.Item;
-import naga.type.PrimType;
-import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.AggregateFunction;
@@ -22,6 +20,8 @@ import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.SelectionMode;
+import naga.type.PrimType;
+import naga.util.collection.Collections;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
 /**
  * @author Bruno Salmon
  */
-public class BookingOptionsPanel implements MongooseButtonFactoryMixin {
+public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
 
     private final I18n i18n;
     private final DataGrid dataGrid;

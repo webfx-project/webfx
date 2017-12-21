@@ -5,13 +5,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
 import naga.framework.ui.layouts.LayoutUtil;
 
 /**
  * @author Bruno Salmon
  */
-public abstract class BookingProcessViewActivity extends EventDependentViewDomainActivity {
+public abstract class BookingProcessViewActivity
+        extends EventDependentViewDomainActivity
+        implements MongooseSectionFactoryMixin {
 
     private final String nextPage;
 
