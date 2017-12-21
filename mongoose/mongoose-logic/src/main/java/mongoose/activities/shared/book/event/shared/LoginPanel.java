@@ -84,6 +84,6 @@ public class LoginPanel implements MongooseButtonFactoryMixin {
     public void prepareShowing() {
         // Resetting the default button (required for JavaFx if displayed a second time)
         ButtonUtil.resetDefaultButton(button);
-        usernameField.requestFocus();
+        LayoutUtil.autoFocusIfEnabled(usernameField);
     }
 }

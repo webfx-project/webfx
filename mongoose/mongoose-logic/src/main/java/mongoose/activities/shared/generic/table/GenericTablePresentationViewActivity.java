@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
 
@@ -54,6 +55,6 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
     @Override
     public void onResume() {
         super.onResume();
-        searchBox.requestFocus();
+        LayoutUtil.autoFocusIfEnabled(searchBox);
     }
 }

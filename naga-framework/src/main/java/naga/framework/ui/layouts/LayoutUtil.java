@@ -284,4 +284,20 @@ public class LayoutUtil {
             timeline.play();
         }
     }
+
+    public static void autoFocusIfEnabled(Node node) {
+        if (isAutoFocusEnabled())
+            node.requestFocus();
+    }
+
+    public static boolean isAutoFocusEnabled() {
+        // TODO: make it a user setting that can be stored in the device
+        // Default behaviour is to disable auto focus if this can cause a (probably unwanted) virtual keyboard to appear
+        return !willAVirtualKeyboardAppearOnFocus();
+    }
+
+    public static boolean willAVirtualKeyboardAppearOnFocus() {
+        // No API for this so temporary implementation based on screen width size
+        return Toolkit.get().getPrimaryScreen().getVisualBounds().getWidth() < 800;
+    }
 }

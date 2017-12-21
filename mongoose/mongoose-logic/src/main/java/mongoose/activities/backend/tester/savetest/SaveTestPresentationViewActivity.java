@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
+import naga.framework.ui.layouts.LayoutUtil;
 
 /**
  * @author Bruno Salmon
@@ -29,7 +30,7 @@ public class SaveTestPresentationViewActivity extends PresentationViewActivityIm
         pm.testCommentProperty().bind(testComment.textProperty());
         saveTest.onActionProperty().bind(pm.onSaveTestProperty());
 
-        testName.requestFocus();
+        LayoutUtil.autoFocusIfEnabled(testName);
     }
 
     @Override

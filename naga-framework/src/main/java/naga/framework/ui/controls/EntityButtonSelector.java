@@ -275,7 +275,7 @@ public class EntityButtonSelector {
         }
         if (searchTextField != null) {
             searchTextField.setText(null); // Resetting the search box
-            searchTextField.requestFocus();
+            LayoutUtil.autoFocusIfEnabled(searchTextField);
         }
     }
 
