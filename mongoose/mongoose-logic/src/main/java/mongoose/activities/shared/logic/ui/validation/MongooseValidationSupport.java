@@ -8,13 +8,13 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -25,10 +25,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
-import naga.util.collection.Collections;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
 import naga.fx.properties.Properties;
+import naga.util.collection.Collections;
 import org.controlsfx.control.decoration.Decoration;
 import org.controlsfx.control.decoration.GraphicDecoration;
 import org.controlsfx.validation.decoration.GraphicValidationDecoration;
@@ -116,7 +116,11 @@ public class MongooseValidationSupport {
 
             @Override
             protected Collection<Decoration> createValidationDecorations(org.controlsfx.validation.ValidationMessage message) {
-                return Arrays.asList(new GraphicDecoration(createDecorationNode(message), Pos.CENTER_RIGHT, control instanceof Button ?  -20 : 0, 0, -1, 0));
+                boolean isButton = control instanceof Button; // Probably an entity button with already a drop down arrow icon on right
+                boolean isTextInput = !isButton && control instanceof TextInputControl;
+                double xRelativeOffset = isButton || isTextInput ? -1 : 1; // positioning the decoration inside the control for button and text input
+                double xOffset = isButton ?  -20 : 0; // moving the decoration before the drop down arrow
+                return Arrays.asList(new GraphicDecoration(createDecorationNode(message), Pos.CENTER_RIGHT, xOffset, 0, xRelativeOffset, 0));
             }
 
             @Override
@@ -154,6 +158,17 @@ public class MongooseValidationSupport {
             //popOverContentNode.setOpacity(0.75);
             //popOverContentNode.setEffect(new DropShadow());
             showPopOver(errorDecorationNode);
+            // Removing the error pop over when the status is valid again
+            validator.getValidationStatus().validProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    if (newValue) {
+                        observable.removeListener(this);
+                        popOverOwnerNode = null;
+                        hidePopOver();
+                    }
+                }
+            });
         }
     }
 
@@ -199,10 +214,7 @@ public class MongooseValidationSupport {
 
     private void showPopOverNow() {
         Platform.runLater(() -> {
-            if (popOverDecoration != null) {
-                popOverDecoration.removeDecoration(popOverDecorationTarget);
-                popOverDecoration = null;
-            }
+            hidePopOver();
             if (isShowing(popOverOwnerNode)) {
                 popOverDecorationTarget = (Node) popOverOwnerNode.getProperties().get("control");
                 popOverDecoration = new GraphicDecoration(popOverContentNode, 0, -1, 0, -1);
@@ -211,13 +223,23 @@ public class MongooseValidationSupport {
         });
     }
 
+    private void hidePopOver() {
+        if (popOverDecoration != null) {
+            popOverDecoration.removeDecoration(popOverDecorationTarget);
+            popOverDecoration = null;
+        }
+    }
+
     private static boolean isShowing(Node node) {
         if (!node.isVisible())
             return false;
         if (node.getParent() != null)
             return isShowing(node.getParent());
+/* This code doesn't work with choice boxes for any reason...
         Scene scene = node.getScene();
         return scene != null && scene.getRoot() == node;
+*/
+        return node.impl_isTreeVisible(); // So using this deprecated method instead
     }
 
 }
