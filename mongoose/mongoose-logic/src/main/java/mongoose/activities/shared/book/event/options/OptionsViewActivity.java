@@ -2,6 +2,7 @@ package mongoose.activities.shared.book.event.options;
 
 import javafx.beans.property.Property;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -154,5 +155,11 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         Property<String> textProperty = labelTexts.get(label);
         if (textProperty != null)
             bindTextWithLabel(textProperty, label);
+    }
+
+    @Override
+    protected void onNextButtonPressed(ActionEvent event) {
+        if (optionTree.getValidationSupport().isValid())
+            super.onNextButtonPressed(event);
     }
 }

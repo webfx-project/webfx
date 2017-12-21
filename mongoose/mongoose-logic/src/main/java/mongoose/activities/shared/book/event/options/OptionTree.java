@@ -1,6 +1,7 @@
 package mongoose.activities.shared.book.event.options;
 
 import javafx.scene.Node;
+import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
 import mongoose.entities.Event;
@@ -22,6 +23,7 @@ public class OptionTree {
     private Event event;
     private List<Option> topLevelOptions;
     private WorkingDocumentTransaction workingDocumentTransaction;
+    private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     OptionTree(OptionsViewActivity activity) {
         this.activity = activity;
@@ -45,6 +47,10 @@ public class OptionTree {
 
     I18n getI18n() {
         return activity.getI18n();
+    }
+
+    MongooseValidationSupport getValidationSupport() {
+        return validationSupport;
     }
 
     private void clearDataOnEventChange() {

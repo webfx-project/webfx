@@ -47,6 +47,7 @@ class OptionTreeNode {
     private Property<Boolean> optionButtonSelectedProperty;
     private ChoiceBox<Option> childrenChoiceBox;
     private ToggleGroup childrenToggleGroup;
+    private boolean childrenToggleGroupValidationInitialized;
     private List<OptionTreeNode> childrenOptionTreeNodes;
     private OptionTreeNode lastSelectedChildOptionTreeNode;
     private final BooleanProperty visibleProperty = new SimpleBooleanProperty(true);
@@ -273,6 +274,10 @@ class OptionTreeNode {
                 radioButton.setToggleGroup(toggleGroup);
                 optionButtonSelectedProperty = radioButton.selectedProperty();
                 optionButton = radioButton;
+                if (!parent.childrenToggleGroupValidationInitialized) {
+                    tree.getValidationSupport().addNotEmptyControlValidation(toggleGroup.selectedToggleProperty(), radioButton);
+                    parent.childrenToggleGroupValidationInitialized = true;
+                }
             } else if (choiceBox != null) {
                 choiceBox.getItems().add(option);
                 optionButtonSelectedProperty = new SimpleObjectProperty<Boolean>(false) {
@@ -285,6 +290,7 @@ class OptionTreeNode {
                 };
                 Properties.runOnPropertiesChange(p -> optionButtonSelectedProperty.setValue(p.getValue() == option), choiceBox.getSelectionModel().selectedItemProperty());
                 optionButton = null;
+                tree.getValidationSupport().addNotEmptyControlValidation(choiceBox.getSelectionModel().selectedItemProperty(), choiceBox);
             } else {
                 CheckBox checkBox = new CheckBox();
                 optionButtonSelectedProperty = checkBox.selectedProperty();
