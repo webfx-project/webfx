@@ -91,7 +91,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
         topLevelOptionButtonsContainer = new FlexBox(4, 4);
         bookingCalendar = createBookingCalendar();
         bookingCalendar.setOnAttendanceChangedRunnable(optionTree::getUpdatedTopLevelOptionSections);
-        bookingCalendarSection = createBookingCalendarSection();
+        bookingCalendarSection = createBookingCalendarSection(bookingCalendar);
 
         priceText = new Label();
         priceText.textProperty().bind(bookingCalendar.formattedBookingPriceProperty());
@@ -134,12 +134,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                 ImageViewUtil.createImageView("images/16/itemFamilies/" + option.getItemFamilyCode() + ".png"),
                 label
         );
-    }
-
-    private Node createBookingCalendarSection() {
-        return createSectionPanel("images/16/itemFamilies/attendance.png",
-                "Attendance",
-                bookingCalendar.calendarNodeProperty());
     }
 
     protected Node createLabelNode(mongoose.entities.Label label) {
