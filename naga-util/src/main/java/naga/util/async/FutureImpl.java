@@ -24,7 +24,7 @@ public class FutureImpl<T> implements Future<T> {
      */
     FutureImpl(Throwable t) {
         if (t == null)
-            complete(null);
+            complete();
         else
             fail(t);
     }
@@ -103,7 +103,7 @@ public class FutureImpl<T> implements Future<T> {
 
     @Override
     public void complete() {
-        complete(null);
+        complete((T) null);
     }
 
     /**

@@ -134,6 +134,20 @@ public interface Future<T> extends AsyncResult<T> {
 
     void complete();
 
+    default void complete(AsyncResult<T> ar) {
+        if (ar.succeeded())
+            complete(ar.result());
+        else
+            fail(ar.cause());
+    }
+
+    /**
+     * @return an handler completing this future
+     */
+    default Handler<AsyncResult<T>> completer() {
+        return this::complete;
+    }
+
     /**
      * Set the failure. Any handler will be called, if there is one
      */
@@ -266,18 +280,6 @@ public interface Future<T> extends AsyncResult<T> {
                 ret.fail(ar.cause());
         });
         return ret;
-    }
-
-    /**
-     * @return an handler completing this future
-     */
-    default Handler<AsyncResult<T>> completer() {
-        return ar -> {
-            if (ar.succeeded())
-                complete(ar.result());
-            else
-                fail(ar.cause());
-        };
     }
 
     static Future<Void> allOf(Future... futures) {
