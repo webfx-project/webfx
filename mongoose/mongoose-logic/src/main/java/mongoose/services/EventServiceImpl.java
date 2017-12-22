@@ -2,8 +2,8 @@ package mongoose.services;
 
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
-import mongoose.activities.shared.logic.work.business.logic.FeesGroupLogic;
 import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.activities.shared.logic.work.business.logic.FeesGroupLogic;
 import mongoose.entities.Cart;
 import mongoose.entities.Event;
 import mongoose.entities.Option;
@@ -24,6 +24,7 @@ import naga.util.Numbers;
 import naga.util.Objects;
 import naga.util.async.Batch;
 import naga.util.async.Future;
+import naga.util.async.FutureBroadcaster;
 import naga.util.collection.Collections;
 import naga.util.function.Predicate;
 
@@ -72,7 +73,7 @@ class EventServiceImpl implements EventService {
     private Cart currentCart;
     private PersonService personService;
 
-    public EventServiceImpl(Object eventId, EntityStore store) {
+    private EventServiceImpl(Object eventId, EntityStore store) {
         this.eventId = eventId;
         this.store = store;
     }
@@ -95,24 +96,25 @@ class EventServiceImpl implements EventService {
     }
 
     // Event options loading method
+    private FutureBroadcaster<EntityList<Option>> eventOptionsFutureBroadcaster;
 
     @Override
     public Future<EntityList<Option>> onEventOptions() {
-        EntityList<Option> options = getEventOptions();
-        if (options != null)
-            return Future.succeededFuture(options);
-        String host = getHost();
-        Object[] parameters = {eventId, host, host, false /* isDeveloper */};
-        // Loading event options
-        String optionCondition = "event.(id=? and (host=null or host=? or ?='localhost')) and online and (!dev or ?=true)";
-        String siteIds = "(select site.id from Option where " + optionCondition + ")";
-        String rateCondition = "site.id in " + siteIds + " and (startDate is null or startDate <= site.event.endDate) and (endDate is null or endDate >= site.event.startDate) and (onDate is null or onDate <= now()) and (offDate is null or offDate > now())";
-        return executeParallelEventQueries(
-                new EventQuery(OPTIONS_LIST_ID,    "select <frontend_loadEvent> from Option where " + optionCondition + " order by ord", parameters),
-                new EventQuery(SITES_LIST_ID,      "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
-                new EventQuery(RATES_LIST_ID,      "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
-                new EventQuery(DATE_INFOS_LIST_ID, "select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
-        ).map(this::getEventOptions);
+        if (eventOptionsFutureBroadcaster == null) {
+            String host = getHost();
+            Object[] parameters = {eventId, host, host, false /* isDeveloper */};
+            // Loading event options
+            String optionCondition = "event.(id=? and (host=null or host=? or ?='localhost')) and online and (!dev or ?=true)";
+            String siteIds = "(select site.id from Option where " + optionCondition + ")";
+            String rateCondition = "site.id in " + siteIds + " and (startDate is null or startDate <= site.event.endDate) and (endDate is null or endDate >= site.event.startDate) and (onDate is null or onDate <= now()) and (offDate is null or offDate > now())";
+            eventOptionsFutureBroadcaster = new FutureBroadcaster<>(executeParallelEventQueries(
+                    new EventQuery(OPTIONS_LIST_ID,    "select <frontend_loadEvent> from Option where " + optionCondition + " order by ord", parameters),
+                    new EventQuery(SITES_LIST_ID,      "select <frontend_loadEvent> from Site where id in " + siteIds, parameters),
+                    new EventQuery(RATES_LIST_ID,      "select <frontend_loadEvent> from Rate where " + rateCondition, parameters),
+                    new EventQuery(DATE_INFOS_LIST_ID, "select <frontend_loadEvent> from DateInfo where event=? order by id", eventId)
+            ).map(this::getEventOptions));
+        }
+        return eventOptionsFutureBroadcaster.newClient();
     }
 
     // Event options accessors (once loaded)
@@ -143,6 +145,7 @@ class EventServiceImpl implements EventService {
     public void clearEventOptions() {
         clearEntityList(OPTIONS_LIST_ID);
         feesGroups = null;
+        eventOptionsFutureBroadcaster = null;
     }
 
     @Override
@@ -219,10 +222,12 @@ class EventServiceImpl implements EventService {
     }
 
     // Event availability loading method
+    private FutureBroadcaster<QueryResultSet> eventAvailabilitiesFutureBroadcaster;
 
     @Override
     public Future<QueryResultSet> onEventAvailabilities() {
-        return executeQuery(
+        if (eventAvailabilitiesFutureBroadcaster == null)
+            eventAvailabilitiesFutureBroadcaster = new FutureBroadcaster<>(() -> executeQuery(
                 // getting all resource availabilities (per site, per item, per day) for this event
                 "with ra as (select * from resource_availability_by_event_items(?) where max>0)," + // resources with max(=max_online)=0 (like private rooms) are not displayed in the frontend
                         // let's see if some options for this event require to have the per day availabilities details
@@ -234,8 +239,8 @@ class EventServiceImpl implements EventService {
                         " (select min(row_number), min(site_id) as site, min(item_id) as item, null as date, min(max - current) as available, min(i.ord) as ord from ra join item i on i.id=item_id where not exists(select * from pda where site_id=ra.site_id and (item_id=ra.item_id or item_id is null and item_family_id=i.family_id)) group by site_id,item_id)" +
                         // finally we order this query union by site, item and date
                         " order by site,ord,date",
-                eventId, eventId
-        ).map(rs -> eventAvailabilities = rs);
+                eventId, eventId).map(rs -> eventAvailabilities = rs));
+        return eventAvailabilitiesFutureBroadcaster.newClient();
     }
 
     // Event availability accessor
