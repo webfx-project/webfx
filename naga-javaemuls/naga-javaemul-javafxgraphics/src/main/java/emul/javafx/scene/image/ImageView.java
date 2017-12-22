@@ -1,11 +1,10 @@
 package emul.javafx.scene.image;
 
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.com.sun.javafx.geom.BaseBounds;
 import emul.com.sun.javafx.geom.transform.BaseTransform;
-import naga.fx.properties.markers.*;
+import emul.javafx.beans.property.*;
 import emul.javafx.scene.Node;
+import naga.fx.properties.markers.*;
 
 /**
  * @author Bruno Salmon
@@ -34,7 +33,7 @@ public class ImageView extends Node implements
         @Override
         protected void invalidated() {
             invalidateWidthHeight();
-            //impl_geomChanged();
+            impl_geomChanged();
             //impl_markDirty(DirtyBits.NODE_CONTENTS);
         }
     };
@@ -54,13 +53,25 @@ public class ImageView extends Node implements
         return imageUrlProperty;
     }
 
-    private final Property<Double> fitWidthProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> fitWidthProperty = new SimpleObjectProperty<Double>(0d) {
+        @Override
+        protected void invalidated() {
+            invalidateWidthHeight();
+            impl_geomChanged();
+        }
+    };
     @Override
     public Property<Double> fitWidthProperty() {
         return fitWidthProperty;
     }
 
-    private final Property<Double> fitHeightProperty = new SimpleObjectProperty<>(0d);
+    private final Property<Double> fitHeightProperty = new SimpleObjectProperty<Double>(0d) {
+        @Override
+        protected void invalidated() {
+            invalidateWidthHeight();
+            impl_geomChanged();
+        }
+    };
     @Override
     public Property<Double> fitHeightProperty() {
         return fitHeightProperty;
@@ -81,6 +92,70 @@ public class ImageView extends Node implements
     private double destWidth, destHeight;
 
     /**
+     * Indicates whether to preserve the aspect ratio of the source image when
+     * scaling to fit the image within the fitting bounding box.
+     * <p/>
+     * If set to {@code true}, it affects the dimensions of this
+     * {@code ImageView} in the following way *
+     * <ul>
+     * <li>If only {@code fitWidth} is set, height is scaled to preserve ratio
+     * <li>If only {@code fitHeight} is set, width is scaled to preserve ratio
+     * <li>If both are set, they both may be scaled to get the best fit in a
+     * width by height rectangle while preserving the original aspect ratio
+     * </ul>
+     *
+     * If unset or set to {@code false}, it affects the dimensions of this
+     * {@code ImageView} in the following way *
+     * <ul>
+     * <li>If only {@code fitWidth} is set, image's view width is scaled to
+     * match and height is unchanged;
+     * <li>If only {@code fitHeight} is set, image's view height is scaled to
+     * match and height is unchanged;
+     * <li>If both are set, the image view is scaled to match both.
+     * </ul>
+     * </p>
+     * Note that the dimensions of this node as reported by the node's bounds
+     * will be equal to the size of the scaled image and is guaranteed to be
+     * contained within {@code fitWidth x fitHeight} bonding box.
+     *
+     * @defaultValue false
+     */
+    private BooleanProperty preserveRatio;
+
+
+    public final void setPreserveRatio(boolean value) {
+        preserveRatioProperty().set(value);
+    }
+
+    public final boolean isPreserveRatio() {
+        return preserveRatio == null ? false : preserveRatio.get();
+    }
+
+    public final BooleanProperty preserveRatioProperty() {
+        if (preserveRatio == null) {
+            preserveRatio = new BooleanPropertyBase() {
+
+                @Override
+                protected void invalidated() {
+                    invalidateWidthHeight();
+                    //impl_markDirty(DirtyBits.NODE_VIEWPORT);
+                    impl_geomChanged();
+                }
+
+                @Override
+                public Object getBean() {
+                    return ImageView.this;
+                }
+
+                @Override
+                public String getName() {
+                    return "preserveRatio";
+                }
+            };
+        }
+        return preserveRatio;
+    }
+    /**
      * @treatAsPrivate implementation detail
      * @deprecated This is an internal API that is not intended for use and will be removed in the next version
      */
@@ -97,6 +172,12 @@ public class ImageView extends Node implements
 
     private void invalidateWidthHeight() {
         validWH = false;
+    }
+
+    @Override
+    protected void onPeerSizeChanged() {
+        invalidateWidthHeight();
+        super.onPeerSizeChanged();
     }
 
     private void recomputeWidthHeight() {
@@ -118,7 +199,7 @@ public class ImageView extends Node implements
         double localFitWidth = getFitWidth();
         double localFitHeight = getFitHeight();
 
-        /*if (isPreserveRatio() && w > 0 && h > 0 && (localFitWidth > 0 || localFitHeight > 0)) {
+        if (isPreserveRatio() && w > 0 && h > 0 && (localFitWidth > 0 || localFitHeight > 0)) {
             if (localFitWidth <= 0 || (localFitHeight > 0 && localFitWidth * h > localFitHeight * w)) {
                 w = w * localFitHeight / h;
                 h = localFitHeight;
@@ -126,7 +207,7 @@ public class ImageView extends Node implements
                 h = h * localFitWidth / w;
                 w = localFitWidth;
             }
-        } else*/ {
+        } else {
             if (localFitWidth > 0f) {
                 w = localFitWidth;
             }
