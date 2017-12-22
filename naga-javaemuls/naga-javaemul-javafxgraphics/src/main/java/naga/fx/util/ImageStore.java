@@ -13,7 +13,7 @@ public class ImageStore {
 
     private final static Map<String, Image> imagesCache =  new HashMap<>(); // new WeakHashMap<>();
 
-    private static Image getOrCreateImage(String url) {
+    public static Image getOrCreateImage(String url) {
         return getOrCreateImage(url, 0, 0);
     }
 
