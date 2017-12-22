@@ -13,11 +13,11 @@ import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Parent;
 import emul.javafx.util.Callback;
-import naga.util.function.Function;
 import naga.fx.properties.markers.HasBackgroundProperty;
 import naga.fx.properties.markers.HasBorderProperty;
 import naga.fx.properties.markers.HasPaddingProperty;
 import naga.fx.properties.markers.HasSnapToPixelProperty;
+import naga.util.function.Function;
 
 import java.util.List;
 
@@ -1391,19 +1391,20 @@ public class Region extends Parent implements
                                  double areaBaselineOffset,
                                  double topMargin, double rightMargin, double bottomMargin, double leftMargin,
                                  HPos hpos, VPos vpos, boolean isSnapToPixel) {
+        Bounds childLayoutBounds = child.getLayoutBounds();
         double xoffset = leftMargin + computeXOffset(areaWidth - leftMargin - rightMargin,
-                child.getLayoutBounds().getWidth(), hpos);
+                childLayoutBounds.getWidth(), hpos);
         double yoffset;
         if (vpos == VPos.BASELINE) {
             double bo = child.getBaselineOffset();
             if (bo == BASELINE_OFFSET_SAME_AS_HEIGHT)
                 // We already know the layout bounds at this stage, so we can use them
-                yoffset = areaBaselineOffset - child.getLayoutBounds().getHeight();
+                yoffset = areaBaselineOffset - childLayoutBounds.getHeight();
             else
                 yoffset = areaBaselineOffset - bo;
         } else
             yoffset = topMargin + computeYOffset(areaHeight - topMargin - bottomMargin,
-                    child.getLayoutBounds().getHeight(), vpos);
+                    childLayoutBounds.getHeight(), vpos);
         double x = snapPosition(areaX + xoffset, isSnapToPixel);
         double y = snapPosition(areaY + yoffset, isSnapToPixel);
 
