@@ -3,8 +3,7 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
-import emul.javafx.geometry.BoundingBox;
-import emul.javafx.geometry.Bounds;
+import emul.javafx.scene.HasSizeChangedCallback;
 import emul.javafx.scene.image.Image;
 import emul.javafx.scene.image.ImageView;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -24,9 +23,9 @@ public class HtmlImageViewPeer
         <N extends ImageView, NB extends ImageViewPeerBase<N, NB, NM>, NM extends ImageViewPeerMixin<N, NB, NM>>
 
         extends HtmlNodePeer<N, NB, NM>
-        implements ImageViewPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements ImageViewPeerMixin<N, NB, NM>, HasSizeChangedCallback {
 
-    private Double loadedWidth, loadedHeight;
+    //private Double loadedWidth, loadedHeight;
 
     public HtmlImageViewPeer() {
         this((NB) new ImageViewPeerBase(), createImageElement());
@@ -52,7 +51,7 @@ public class HtmlImageViewPeer
     public void updateImage(Image image) {
         // Trying to inline svg images when possible to allow css rules such as svg {fill: currentColor} which is useful
         // to have the same color for the image and the text (in a button for example).
-        loadedWidth = loadedHeight = null;
+        //loadedWidth = loadedHeight = null;
         String imageUrl = image == null ? null : image.getUrl();
         if (tryInlineSvg(imageUrl))
             onLoad();
@@ -62,7 +61,16 @@ public class HtmlImageViewPeer
 
     private void onLoad() {
         N node = getNode();
-        if (sizeChangedCallback != null && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
+        Image image = node.getImage();
+        if (image != null) {
+            HTMLElement element = getElement();
+            if (element instanceof HTMLImageElement) {
+                HTMLImageElement imageElement = (HTMLImageElement) element;
+                image.setWidth(imageElement.naturalWidth);
+                image.setHeight(imageElement.naturalHeight);
+            }
+        }
+        if (sizeChangedCallback != null); // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
             sizeChangedCallback.run();
     }
 
@@ -120,6 +128,7 @@ public class HtmlImageViewPeer
     // 2) there is no SvgLayoutMeasurer at the moment (should be based on getBBox)
     // For now, we run with the following code that at least works when fitWith and fitHeight are set
 
+/*
     @Override
     public Bounds getLayoutBounds() {
         return new BoundingBox(0, 0, 0, prefWidth(-1), prefHeight(-1), 0);
@@ -192,4 +201,5 @@ public class HtmlImageViewPeer
         }
         return height;
     }
+*/
 }

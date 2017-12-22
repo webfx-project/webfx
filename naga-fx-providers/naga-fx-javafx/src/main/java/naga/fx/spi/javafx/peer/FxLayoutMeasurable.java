@@ -1,9 +1,8 @@
 package naga.fx.spi.javafx.peer;
 
-import javafx.scene.Node;
-import javafx.scene.control.Skinnable;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
+import javafx.scene.Node;
 import naga.fx.scene.LayoutMeasurable;
 
 /**
@@ -13,12 +12,14 @@ public interface FxLayoutMeasurable extends LayoutMeasurable {
 
     Node getFxNode();
 
+/*
     @Override
     default void setSizeChangedCallback(Runnable callback) {
         Node fxNode = getFxNode();
         if (fxNode instanceof Skinnable)
             ((Skinnable) fxNode).skinProperty().addListener((observable, oldValue, newValue) -> callback.run());
     }
+*/
 
     default Bounds getLayoutBounds() {
         javafx.geometry.Bounds b = getFxNode().getLayoutBounds();

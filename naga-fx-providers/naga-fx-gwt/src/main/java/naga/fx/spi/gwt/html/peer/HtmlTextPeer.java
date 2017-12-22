@@ -4,6 +4,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.HTMLCanvasElement;
 import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.VPos;
+import emul.javafx.scene.HasSizeChangedCallback;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.Text;
@@ -22,7 +23,7 @@ import naga.fx.spi.peer.base.TextPeerMixin;
 public class HtmlTextPeer
         <N extends Text, NB extends TextPeerBase<N, NB, NM>, NM extends TextPeerMixin<N, NB, NM>>
         extends HtmlShapePeer<N, NB, NM>
-        implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow {
+        implements TextPeerMixin<N, NB, NM>, HtmlLayoutMeasurableNoHGrow, HasSizeChangedCallback {
 
     public HtmlTextPeer() {
         this((NB) new TextPeerBase());

@@ -1144,25 +1144,27 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return true;
     }
 
-    protected void createLayoutMeasurable(Object proposedLayoutMeasurable) {
-        // Always creating a new LayoutMeasurable (even when proposedLayoutMeasurable is valid) so that min/pref/max
+    protected void onPeerSizeChanged() {
+        markDirtyLayoutBranch();
+        impl_geomChanged(); // will call parent.requestLayout()
+        layoutBounds.setValue(getLayoutBounds());
+    }
+
+    protected void createLayoutMeasurable(NodePeer nodePeer) {
+        // Always creating a new LayoutMeasurable (even when nodePeer is valid) so that min/pref/max
         // width/height user values are returned in priority whenever they have been set.
         layoutMeasurable = new LayoutMeasurable() {
-            private LayoutMeasurable acceptedLayoutMeasurable = proposedLayoutMeasurable instanceof LayoutMeasurable ? (LayoutMeasurable) proposedLayoutMeasurable : null;
+            private LayoutMeasurable acceptedLayoutMeasurable = nodePeer instanceof LayoutMeasurable && shouldUseLayoutMeasurable() ? (LayoutMeasurable) nodePeer : null;
             {
-                if (acceptedLayoutMeasurable != null)
+                if (nodePeer instanceof HasSizeChangedCallback)
                     Toolkit.get().scheduler().scheduleDeferred(() ->
-                            acceptedLayoutMeasurable.setSizeChangedCallback(() -> {
-                                markDirtyLayoutBranch();
-                                Parent parent = getParent();
-                                if (parent != null)
-                                    parent.requestLayout();
-                                layoutBounds.setValue(getLayoutBounds());
-                            })
+                            ((HasSizeChangedCallback) nodePeer).setSizeChangedCallback(() -> onPeerSizeChanged())
                     );
             }
 
-            public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.getLayoutBounds() : impl_getLayoutBounds(); }
+            public Bounds getLayoutBounds() { return acceptedLayoutMeasurable != null ?
+                    acceptedLayoutMeasurable.getLayoutBounds()
+                    : impl_getLayoutBounds(); }
 
             public double minWidth(double height) {
                 if (Node.this instanceof HasMinWidthProperty) {
@@ -1172,7 +1174,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (minWidth != USE_COMPUTED_SIZE)
                         return minWidth;
                 }
-                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.minWidth(height) : impl_minWidth(height);
+                return acceptedLayoutMeasurable != null ?
+                        acceptedLayoutMeasurable.minWidth(height)
+                        : impl_minWidth(height);
             }
 
             public double maxWidth(double height) {
@@ -1183,7 +1187,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (maxWidth != USE_COMPUTED_SIZE)
                         return maxWidth;
                 }
-                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.maxWidth(height) : impl_maxWidth(height);
+                return acceptedLayoutMeasurable != null ?
+                        acceptedLayoutMeasurable.maxWidth(height)
+                        : impl_maxWidth(height);
             }
 
             public double minHeight(double width) {
@@ -1194,7 +1200,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (minHeight != USE_COMPUTED_SIZE)
                         return minHeight;
                 }
-                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.minHeight(width) : impl_minHeight(width);
+                return acceptedLayoutMeasurable != null ?
+                        acceptedLayoutMeasurable.minHeight(width)
+                        : impl_minHeight(width);
             }
 
             public double maxHeight(double width) {
@@ -1205,7 +1213,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (maxHeight != USE_COMPUTED_SIZE)
                         return maxHeight;
                 }
-                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.maxHeight(width) : impl_maxHeight(width);
+                return acceptedLayoutMeasurable != null ?
+                        acceptedLayoutMeasurable.maxHeight(width) :
+                        impl_maxHeight(width);
             }
 
             public double prefWidth(double height) {
@@ -1214,7 +1224,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (prefWidth != USE_COMPUTED_SIZE)
                         return prefWidth;
                 }
-                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.prefWidth(height) : impl_prefWidth(height);
+                return acceptedLayoutMeasurable != null ?
+                        acceptedLayoutMeasurable.prefWidth(height)
+                        : impl_prefWidth(height);
             }
 
             public double prefHeight(double width) {
@@ -1223,7 +1235,9 @@ public abstract class Node implements INode, EventTarget, Styleable {
                     if (prefHeight != USE_COMPUTED_SIZE)
                         return prefHeight;
                 }
-                return acceptedLayoutMeasurable != null && shouldUseLayoutMeasurable() ? acceptedLayoutMeasurable.prefHeight(width) : impl_prefHeight(width);
+                return acceptedLayoutMeasurable != null ?
+                        acceptedLayoutMeasurable.prefHeight(width)
+                        : impl_prefHeight(width);
             }
 
             @Override
@@ -1383,6 +1397,69 @@ public abstract class Node implements INode, EventTarget, Styleable {
         updateGeomBounds();
         return tx.transform(geomBounds, bounds);
 */
+    }
+
+    /**
+     * Invoked by subclasses whenever their geometric bounds have changed.
+     * Because the default layout bounds is based on the node geometry, this
+     * function will invoke impl_notifyLayoutBoundsChanged. The default
+     * implementation of impl_notifyLayoutBoundsChanged() will simply invalidate
+     * layoutBounds. Resizable subclasses will want to override this function
+     * in most cases to be a no-op.
+     * <p>
+     * This function will also invalidate the cached geom bounds, and then
+     * invoke localBoundsChanged() which will eventually end up invoking a
+     * chain of functions up the tree to ensure that each parent of this
+     * Node is notified that its bounds may have also changed.
+     * <p>
+     * This function should be treated as though it were final. It is not
+     * intended to be overridden by subclasses.
+     *
+     * @treatAsPrivate implementation detail
+     * @deprecated This is an internal API that is not intended for use and will be removed in the next version
+     */
+    @Deprecated
+    protected void impl_geomChanged() {
+/*
+        if (geomBoundsInvalid) {
+            // GeomBoundsInvalid is false when node geometry changed and
+            // the untransformed node bounds haven't been recalculated yet.
+            // Most of the time, the recalculation of layout and transformed
+            // node bounds don't require validation of untransformed bounds
+            // and so we can not skip the following notifications.
+            impl_notifyLayoutBoundsChanged();
+            transformedBoundsChanged();
+            return;
+        }
+*/
+        geomBounds.makeEmpty();
+        //geomBoundsInvalid = true;
+        //impl_markDirty(DirtyBits.NODE_BOUNDS);
+        impl_notifyLayoutBoundsChanged();
+        //localBoundsChanged();
+    }
+
+    /**
+     * Invoked by impl_geomChanged(). Since layoutBounds is by default based
+     * on the geometric bounds, the default implementation of this function will
+     * invalidate the layoutBounds. Resizable Node subclasses generally base
+     * layoutBounds on the width/height instead of the geometric bounds, and so
+     * will generally want to override this function to be a no-op.
+     *
+     * @treatAsPrivate implementation detail
+     * @deprecated This is an internal API that is not intended for use and will be removed in the next version
+     */
+    @Deprecated
+    protected void impl_notifyLayoutBoundsChanged() {
+        //impl_layoutBoundsChanged();
+        // notify the parent
+        // Group instanceof check a little hoaky, but it allows us to disable
+        // unnecessary layout for the case of a non-resizable within a group
+        Parent p = getParent();
+        if (isManaged() && (p != null) && !(p instanceof Group && !isResizable())
+                && !p.performingLayout) {
+            p.requestLayout();
+        }
     }
 
     /**
