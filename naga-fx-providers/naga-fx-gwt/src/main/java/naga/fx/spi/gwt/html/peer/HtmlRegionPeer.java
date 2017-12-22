@@ -137,7 +137,16 @@ abstract class HtmlRegionPeer
 
     @Override
     public void updatePadding(Insets padding) {
-        // We do not apply the padding into css here because it is already considered by the JavaFx layout system
+        // Note: this code should be executed only if the html content is managed by the peer, otherwise it should be
+        // skipped (ex: css padding not needed for layout peers or controls with content provided by skin)
+        getElement().style.padding = toCssPadding(padding);
+    }
+
+    protected CSSProperties.PaddingUnionType toCssPadding(Insets padding) {
+        if (padding == null)
+            return null;
+        String cssPadding = toPx(padding.getTop());
+        return CSSProperties.PaddingUnionType.of(cssPadding);
     }
 
     private void applyBorderRadii(CornerRadii radii) {
@@ -172,7 +181,7 @@ abstract class HtmlRegionPeer
                 sb.append(' ').append(HtmlPaints.toCssPaint(bf.getFill(), DomType.HTML));
             BackgroundImage bi = Collections.get(images, i);
             if (bi != null) {
-                sb.append("url(" + bi.getImage().getUrl() + ")");
+                sb.append("url(").append(bi.getImage().getUrl()).append(")");
                 toCssBackgroundRepeat(bi.getRepeatX(), bi.getRepeatY(), sb);
                 toCssBackgroundPosition(bi.getPosition(), sb);
             }
