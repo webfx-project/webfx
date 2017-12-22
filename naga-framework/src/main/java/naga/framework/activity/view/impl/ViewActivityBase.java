@@ -18,7 +18,7 @@ public abstract class ViewActivityBase
         implements ViewActivity<C>,
         ViewActivityContextMixin<C> {
 
-    private Node viewNode;
+    private Node uiNode;
 
     @Override
     public Future<Void> onResumeAsync() {
@@ -34,9 +34,13 @@ public abstract class ViewActivityBase
 
     @Override
     public void onResume() {
-        super.onResume();
-        if (viewNode == null)
-            viewNode = buildUi();
-        setNode(viewNode);
+        super.onResume(); // will fetch route parameters and make the active property to true
+        startLogic(); // The good place to start the logic (before building ui but after the above update)
+        if (uiNode == null)
+            uiNode = buildUi();
+        setNode(uiNode);
+    }
+
+    protected void startLogic() {
     }
 }

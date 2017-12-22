@@ -41,17 +41,12 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        startLogic();
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         lastWorkingDocument = getWorkingDocument();
     }
 
+    @Override
     protected void startLogic() {
         boolean forceRefresh = true; //getEventOptions() == null; // forcing refresh in case the working document has changed (ex: going back from the personal details after having changed the age)
         onFeesGroups().setHandler(ar -> {

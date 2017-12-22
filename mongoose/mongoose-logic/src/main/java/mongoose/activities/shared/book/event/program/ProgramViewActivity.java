@@ -42,12 +42,7 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        startLogic();
-    }
-
-    private void startLogic() {
+    protected void startLogic() {
         onFeesGroups().setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
