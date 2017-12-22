@@ -37,6 +37,11 @@ public interface EventServiceMixin extends EventService {
     }
 
     @Override
+    default Future<Event> onEvent() {
+        return getEventService().onEvent();
+    }
+
+    @Override
     default Future<EntityList<Option>> onEventOptions() {
         return getEventService().onEventOptions();
     }

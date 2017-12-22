@@ -95,6 +95,24 @@ class EventServiceImpl implements EventService {
         return personService;
     }
 
+    private FutureBroadcaster<Event> eventFutureBroadcaster;
+
+    @Override
+    public Future<Event> onEvent() {
+        if (getEvent() != null)
+            return Future.succeededFuture(event);
+/*
+        if (eventOptionsFutureBroadcaster != null)
+            return eventOptionsFutureBroadcaster.newClient().map(this::getEvent);
+*/
+        if (eventFutureBroadcaster == null) {
+            eventFutureBroadcaster = new FutureBroadcaster<>(executeEventQuery(
+                    new EventQuery(EVENTS_LIST_ID, "select <frontend_loadEvent> from Event where id=" + eventId)
+            ).map(this::getEvent));
+        }
+        return eventFutureBroadcaster.newClient();
+    }
+
     // Event options loading method
     private FutureBroadcaster<EntityList<Option>> eventOptionsFutureBroadcaster;
 

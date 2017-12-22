@@ -21,6 +21,7 @@ import java.util.List;
 public interface EventService {
 
     // Entity lists ids used to store event options
+    Object EVENTS_LIST_ID = "events";
     Object OPTIONS_LIST_ID = "options";
     Object SITES_LIST_ID = "sites";
     Object RATES_LIST_ID = "rates";
@@ -48,23 +49,28 @@ public interface EventService {
 
     PersonService getPersonService();
 
+    // Event loading method
+
+    Future<Event> onEvent();
+
+    // Event accessor (once loaded)
+
+    Event getEvent();
     // Event options loading method
 
     Future<EntityList<Option>> onEventOptions();
 
     // Event options accessors (once loaded)
 
-    Event getEvent();
-
-    <E extends Entity> EntityList<E> getEntityList(Object listId);
-
-    void clearEntityList(Object listId);
-
     default EntityList<Option> getEventOptions() {
         return getEntityList(OPTIONS_LIST_ID);
     }
 
     void clearEventOptions();
+
+    <E extends Entity> EntityList<E> getEntityList(Object listId);
+
+    void clearEntityList(Object listId);
 
     default EntityList<Site> getEventSites() {
         return getEntityList(SITES_LIST_ID);
