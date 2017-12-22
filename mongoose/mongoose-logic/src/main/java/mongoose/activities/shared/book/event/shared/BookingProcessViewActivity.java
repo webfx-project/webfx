@@ -3,10 +3,14 @@ package mongoose.activities.shared.book.event.shared;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
+import mongoose.entities.Event;
+import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.layouts.LayoutUtil;
 
 /**
@@ -30,7 +34,7 @@ public abstract class BookingProcessViewActivity
     @Override
     public Node buildUi() {
         createViewNodes();
-        return assemblyViewNodes();
+        return styleUi(assemblyViewNodes());
     }
 
     protected void createViewNodes() {
@@ -46,6 +50,21 @@ public abstract class BookingProcessViewActivity
 
     protected Node assemblyViewNodes() {
         return borderPane;
+    }
+
+    protected Node styleUi(Node uiNode) {
+        if (uiNode instanceof Region)
+            onEvent().setHandler(ar -> {
+                if (ar.succeeded()) {
+                    Event event = ar.result();
+                    String css = event.getStringFieldValue("cssClass");
+                    if (css != null && css.startsWith("linear-gradient")) {
+                        Background eventBackground = BackgroundUtil.newLinearGradientBackground(css);
+                        ((Region) uiNode).setBackground(eventBackground);
+                    }
+                }
+            });
+        return uiNode;
     }
 
     private void onPreviousButtonPressed(ActionEvent event) {

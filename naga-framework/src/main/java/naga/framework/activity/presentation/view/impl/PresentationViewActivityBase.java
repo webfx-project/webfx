@@ -30,11 +30,14 @@ public abstract class PresentationViewActivityBase
 
     protected Node buildPresentationView(PM pm) {
         createViewNodes(pm);
-        return assemblyViewNodes();
+        return styleUi(assemblyViewNodes(), pm);
     }
 
     protected abstract void createViewNodes(PM pm);
 
     protected abstract Node assemblyViewNodes();
 
+    protected Node styleUi(Node uiNode, PM pm) {
+        return uiNode;
+    }
 }
