@@ -70,7 +70,7 @@ public class HtmlImageViewPeer
                 image.setHeight(imageElement.naturalHeight);
             }
         }
-        if (sizeChangedCallback != null); // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
+        if (sizeChangedCallback != null) // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)
             sizeChangedCallback.run();
     }
 
