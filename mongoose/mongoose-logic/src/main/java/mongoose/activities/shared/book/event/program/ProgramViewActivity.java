@@ -27,7 +27,7 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
         VBox panelsVBox = new VBox(calendarPanel);
 
         borderPane.setCenter(panelsVBox);
-        borderPane.setBottom(previousButton);
+        borderPane.setBottom(backButton);
 
         bookingCalendar = new BookingCalendar(false, getI18n());
 

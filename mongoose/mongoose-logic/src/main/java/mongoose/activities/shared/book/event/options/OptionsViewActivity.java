@@ -114,6 +114,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                 verticalStackChildren.setAll(topLevelOptionButtonsContainer);
                 verticalStackChildren.addAll(optionTree.getUpdatedTopLevelOptionSections());
                 verticalStackChildren.add(bookingCalendarSection);
+                verticalStackChildren.add(nextButton);
             });
         }
     }

@@ -35,7 +35,7 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
         Button programButton = newButton(MongooseActions.newVisitProgramAction(this::onProgramButtonPressed));
         Button feesButton = newButton(MongooseActions.newVisitFeesAction(this::onFeesButtonPressed));
         Button bookButton = newButton(MongooseActions.newVisitBookAction(this::onBookButtonPressed));
-        buttonsHBox = new HBox(previousButton, LayoutUtil.createHGrowable(), termsButton, programButton);
+        buttonsHBox = new HBox(/*backButton,*/ LayoutUtil.createHGrowable(), termsButton, programButton);
         buttonsVBox = new VBox(20, eventImageViewContainer, feesButton, bookButton);
         buttonsVBox.setFillWidth(true);
     }

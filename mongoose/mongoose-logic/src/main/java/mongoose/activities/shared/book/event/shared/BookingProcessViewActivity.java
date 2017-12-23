@@ -5,7 +5,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
@@ -22,7 +21,7 @@ public abstract class BookingProcessViewActivity
 
     private final String nextPage;
 
-    protected Button previousButton;
+    protected Button backButton;
     protected Button nextButton;
 
     protected BorderPane borderPane;
@@ -38,14 +37,14 @@ public abstract class BookingProcessViewActivity
     }
 
     protected void createViewNodes() {
-        if (previousButton == null)
-            previousButton = newButton("<<Back");
+        if (backButton == null)
+            backButton = newButton("<<Back");
         if (nextButton == null)
-            nextButton = newButton( "Next>>");
-        previousButton.setOnAction(this::onPreviousButtonPressed);
+            nextButton = LayoutUtil.setMaxWidthToInfinite(newButton( "Next>>"));
+        backButton.setOnAction(this::onPreviousButtonPressed);
         nextButton.setOnAction(this::onNextButtonPressed);
 
-        borderPane = new BorderPane(null, null, null, new HBox(previousButton, LayoutUtil.createHGrowable(), nextButton), null);
+        borderPane = new BorderPane(null, null, null, null /*new HBox(backButton, LayoutUtil.createHGrowable(), nextButton)*/, null);
     }
 
     protected Node assemblyViewNodes() {

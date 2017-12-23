@@ -40,7 +40,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        VBox vBox = new VBox();
+        VBox verticalStack = new VBox();
         BorderPane accountTopNote = new BorderPane();
         Text accountTopText = newText("AccountTopNote");
         accountTopText.setFill(Color.web("#8a6d3b"));
@@ -50,7 +50,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
                 Properties.compute(borderPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
         );
         accountTopNote.setLeft(textFlow);
-        Button closeButton = Action.create(null, MongooseIcons.removeIcon16, e -> vBox.getChildren().remove(accountTopNote)).toButton(getI18n());
+        Button closeButton = Action.create(null, MongooseIcons.removeIcon16, e -> verticalStack.getChildren().remove(accountTopNote)).toButton(getI18n());
         closeButton.setBorder(BorderUtil.transparentBorder());
         closeButton.setBackground(BackgroundUtil.transparentBackground());
         accountTopNote.setRight(closeButton);
@@ -64,7 +64,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         ObservableValue<Boolean> notLoggedIn = Properties.not(loggedInProperty);
         LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane, uiUser);
-        Node[] nodes = {personDetailsPanel.getSectionPanel(), loginPanel.getNode()};
+        Node[] nodes = {new VBox(20, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode()};
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             Node displayedNode = nodes[accountToggleGroup.getToggles().indexOf(newValue)];
@@ -77,8 +77,11 @@ public class PersonViewActivity extends BookingProcessViewActivity {
             if (loggedInProperty.getValue())
                 Platform.runLater(() -> accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0)));
         }, loggedInProperty);
-        vBox.getChildren().setAll(LayoutUtil.setUnmanagedWhenInvisible(accountTopNote, notLoggedIn), LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn), accountPane);
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(vBox));
+        verticalStack.getChildren().setAll(
+                LayoutUtil.setUnmanagedWhenInvisible(accountTopNote, notLoggedIn),
+                LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn),
+                accountPane);
+        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(verticalStack));
 
         syncUiFromModel();
     }

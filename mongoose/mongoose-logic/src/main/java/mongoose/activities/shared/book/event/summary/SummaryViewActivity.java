@@ -11,9 +11,10 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.*;
+import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
@@ -38,6 +39,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     private TextArea commentTextArea;
     private CheckBox termsCheckBox;
     private Property<String> agreeTCTranslationProperty; // to avoid GC
+    private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     public SummaryViewActivity() {
         super(null);
@@ -58,7 +60,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         BorderPane termsPanel = createSectionPanel("TermsAndConditions");
         termsPanel.setCenter(termsCheckBox = new CheckBox());
         BorderPane.setAlignment(termsCheckBox, Pos.CENTER_LEFT);
-        BorderPane.setMargin(termsCheckBox, new Insets(0, 0, 0, 10));
+        BorderPane.setMargin(termsCheckBox, new Insets(10));
         agreeTCTranslationProperty = translationProperty("AgreeTC");
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
@@ -67,13 +69,11 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
                 bookingCalendarSection,
                 personDetailsPanel.getSectionPanel(),
                 commentPanel,
-                termsPanel
+                termsPanel,
+                nextButton
         )));
 
-        nextButton.disableProperty().bind(
-                // termsCheckBox.selectedProperty().not() // Doesn't compile with GWT
-                Properties.compute(termsCheckBox.selectedProperty(), value -> !value) // GWT compatible
-        );
+        validationSupport.addControlValidation(termsCheckBox.selectedProperty(), termsCheckBox, "Please accept the terms and conditions");
     }
 
     private void setTermsCheckBoxText(String text) {
@@ -93,7 +93,9 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
             textFlow.setPrefHeight(hyperlink.getHeight());
             termsCheckBox.setGraphic(textFlow);
 */
-            termsCheckBox.setGraphic(new HBox(leftLabel, hyperlink, rightLabel));
+            FlowPane textContainer = new FlowPane(leftLabel, hyperlink, rightLabel);
+            textContainer.setAlignment(Pos.CENTER_LEFT);
+            termsCheckBox.setGraphic(textContainer);
         });
     }
 
@@ -130,22 +132,23 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
 
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
-        WorkingDocumentSubmitter.submit(getWorkingDocument(), commentTextArea.getText()).setHandler(ar -> {
-            if (ar.failed())
-                Logger.log("Error submitting booking", ar.cause());
-            else {
-                Document document = ar.result();
-                Cart cart = document.getCart();
-                if (cart == null) {
-                    WorkingDocument workingDocument = getWorkingDocument();
-                    if (workingDocument.getLoadedWorkingDocument() != null)
-                        workingDocument = workingDocument.getLoadedWorkingDocument();
-                    document = workingDocument.getDocument();
-                    cart = document.getCart();
+        if (validationSupport.isValid())
+            WorkingDocumentSubmitter.submit(getWorkingDocument(), commentTextArea.getText()).setHandler(ar -> {
+                if (ar.failed())
+                    Logger.log("Error submitting booking", ar.cause());
+                else {
+                    Document document = ar.result();
+                    Cart cart = document.getCart();
+                    if (cart == null) {
+                        WorkingDocument workingDocument = getWorkingDocument();
+                        if (workingDocument.getLoadedWorkingDocument() != null)
+                            workingDocument = workingDocument.getLoadedWorkingDocument();
+                        document = workingDocument.getDocument();
+                        cart = document.getCart();
+                    }
+                    String path = cart != null ? "/book/cart/" + cart.getUuid() : "/event/" + getEvent().getPrimaryKey() + "/bookings";
+                    getHistory().push(path, Json.createObject().set("refresh", Instant.now()));
                 }
-                String path = cart != null ? "/book/cart/" + cart.getUuid() : "/event/" + getEvent().getPrimaryKey() + "/bookings";
-                getHistory().push(path, Json.createObject().set("refresh", Instant.now()));
-            }
-        });
+            });
     }
 }
