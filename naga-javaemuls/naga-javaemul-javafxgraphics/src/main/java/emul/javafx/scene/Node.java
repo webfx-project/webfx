@@ -89,7 +89,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return visibleProperty;
     }
 
-    private final ObjectProperty<Cursor> cursorProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Cursor> cursorProperty = new SimpleObjectProperty<>(impl_cssGetCursorInitialValue());
     public final void setCursor(Cursor value) {
         cursorProperty().set(value);
     }
@@ -109,6 +109,17 @@ public abstract class Node implements INode, EventTarget, Styleable {
     public final ObjectProperty<Cursor> cursorProperty() {
         return cursorProperty;
     }
+
+    /**
+     * Not everything uses the default value of null for cursor.
+     * This method provides a way to have them return the correct initial value.
+     * @treatAsPrivate implementation detail
+     */
+    @Deprecated
+    protected /*do not make final*/ Cursor impl_cssGetCursorInitialValue() {
+        return null;
+    }
+
 
     private final Property<Double> opacityProperty = new SimpleObjectProperty<>(1d);
     @Override
