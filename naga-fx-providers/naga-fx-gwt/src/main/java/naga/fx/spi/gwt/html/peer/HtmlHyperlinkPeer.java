@@ -13,8 +13,7 @@ public class HtmlHyperlinkPeer
         <N extends Hyperlink, NB extends ButtonBasePeerBase<N, NB, NM>, NM extends ButtonBasePeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>
-        implements HtmlLayoutMeasurable {
-
+        implements HtmlLayoutMeasurableNoGrow {
 
     public HtmlHyperlinkPeer() {
         this((NB) new ButtonBasePeerBase(), HtmlUtil.createElement("a"));
@@ -23,11 +22,6 @@ public class HtmlHyperlinkPeer
     public HtmlHyperlinkPeer(NB base, HTMLElement element) {
         super(base, element);
         element.setAttribute("href", "#");
-        preventDefaultOnClickElementEvent = true;
-    }
-
-    public double maxWidth(double height) {
-        return prefWidth(height); // Looks necessary to have the same behaviour as JavaFx
     }
 
 }

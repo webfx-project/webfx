@@ -1,8 +1,10 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.skin.HyperlinkSkin;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
+import emul.javafx.scene.Cursor;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.paint.Color;
 
@@ -138,25 +140,19 @@ public class Hyperlink extends ButtonBase {
 
 
     /** {@inheritDoc} */
-/*
     @Override protected Skin<?> createDefaultSkin() {
         return new HyperlinkSkin(this);
     }
-*/
 
-    /**
-     * Hyperlink uses HAND as the default value for cursor.
-     * This method provides a way for css to get the correct initial value.
-     * @treatAsPrivate implementation detail
-     */
-/*
+     /**
+      * Hyperlink uses HAND as the default value for cursor.
+      * This method provides a way for css to get the correct initial value.
+      * @treatAsPrivate implementation detail
+      */
     @Deprecated @Override
-    protected */
-/*do not make final*//*
- Cursor impl_cssGetCursorInitialValue() {
+    protected /*do not make final*/ Cursor impl_cssGetCursorInitialValue() {
         return Cursor.HAND;
     }
-*/
 
 
     /***************************************************************************
