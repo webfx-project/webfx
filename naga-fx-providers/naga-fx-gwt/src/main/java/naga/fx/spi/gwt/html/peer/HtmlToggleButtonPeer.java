@@ -1,6 +1,5 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import emul.javafx.scene.control.ToggleButton;
 import naga.fx.spi.gwt.util.HtmlUtil;
@@ -22,12 +21,6 @@ public class HtmlToggleButtonPeer
 
     public HtmlToggleButtonPeer(NB base, HTMLElement element) {
         super(base, element);
-    }
-
-    @Override
-    protected boolean onClickElement(Event e) {
-        getNode().fire();
-        return true;
     }
 
     @Override

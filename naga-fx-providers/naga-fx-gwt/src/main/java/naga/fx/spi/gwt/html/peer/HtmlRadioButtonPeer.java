@@ -29,10 +29,6 @@ public class HtmlRadioButtonPeer
         super(base, element);
         prepareDomForAdditionalSkinChildren();
         radioButtonElement = HtmlUtil.createRadioButton();
-        radioButtonElement.onclick = event -> {
-            getNode().setSelected(radioButtonElement.checked);
-            return null;
-        };
         CSSStyleDeclaration style = element.style;
         style.margin = CSSProperties.MarginUnionType.of("0");
         style.padding = CSSProperties.PaddingUnionType.of("0");
@@ -47,7 +43,7 @@ public class HtmlRadioButtonPeer
 
     @Override
     public void updateDisabled(Boolean disabled) {
-        setElementAttribute(radioButtonElement,"disabled", Booleans.isTrue(disabled) ? "disabled" : null);
+        setElementAttribute(radioButtonElement, "disabled", Booleans.isTrue(disabled) ? "disabled" : null);
     }
 
     @Override

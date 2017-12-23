@@ -16,6 +16,7 @@ import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.input.KeyCode;
 import emul.javafx.scene.input.KeyEvent;
+import emul.javafx.scene.input.MouseButton;
 import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
@@ -47,7 +48,6 @@ public abstract class HtmlSvgNodePeer
     private Element container;
     private Element childrenContainer;
     protected DomType containerType;
-    protected boolean preventDefaultOnClickElementEvent = false; // can be set to true prevent default behaviour (ex: stop navigation on hyperlink with # href)
 
     public HtmlSvgNodePeer(NB base, E element) {
         super(base);
@@ -80,59 +80,65 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        installClickListener();
+        installMouseListeners();
         installFocusListeners();
         installKeyboardListeners();
     }
 
-    private void installClickListener() {
-        element.onclick = e -> {
-            boolean consumed = onClickElement(e);
-            if (preventDefaultOnClickElementEvent)
-                e.preventDefault();
-            if (consumed)
+    private void installMouseListeners() {
+        registerMouseListener("mousedown");
+        registerMouseListener("mouseup");
+        registerMouseListener("click");
+    }
+
+    private void registerMouseListener(String type) {
+        element.addEventListener(type, e -> {
+            boolean fxConsumed = onHtmlMouseEvent((elemental2.dom.MouseEvent) e, type);
+            if (fxConsumed) {
                 e.stopPropagation();
-            return null;
-        };
+                e.preventDefault();
+            }
+        });
     }
 
     private void installFocusListeners() {
         element.onfocus = e -> {
-            onFocusElement(e);
-            getNode().getScene().focusOwnerProperty().setValue(getNode());
+            onHtmlFocusEvent(e);
             return null;
         };
         element.onblur = e -> {
-            onBlurElement(e);
+            onHtmlBlurEvent(e);
             return null;
         };
     }
 
     private void installKeyboardListeners() {
-        element.addEventListener("keypress", this::onKeyElement);
-        element.addEventListener("keyup", this::onKeyElement);
-        element.addEventListener("keydown", this::onKeyElement);
+        registerKeyboardListener("keydown");
+        registerKeyboardListener("keyup");
+        registerKeyboardListener("keypress");
     }
 
-    protected boolean onClickElement(Event e) {
-        emul.javafx.event.Event event = EventUtil.fireEvent(getNode(), toFxClickEvent(e));
+    private void registerKeyboardListener(String type) {
+        element.addEventListener(type, e -> onHtmlKeyEvent((KeyboardEvent) e, type));
+    }
+
+    protected boolean onHtmlMouseEvent(elemental2.dom.MouseEvent e, String type) {
+        emul.javafx.event.Event event = EventUtil.fireEvent(getNode(), toFxMouseEvent(e, type));
         return event == null || event.isConsumed();
     }
 
-    protected emul.javafx.event.Event toFxClickEvent(Event e) {
-        return toMouseEvent((elemental2.dom.MouseEvent) e);
+    protected void onHtmlFocusEvent(Event e) {
+        N node = getNode();
+        node.setFocused(true);
+        node.getScene().focusOwnerProperty().setValue(node);
     }
 
-    protected void onFocusElement(Event e) {
-        getNode().setFocused(true);
-    }
-
-    protected void onBlurElement(Event e) {
+    protected void onHtmlBlurEvent(Event e) {
         getNode().setFocused(false);
     }
 
-    protected void onKeyElement(Event e) {
-        getNode().fireEvent(toKeyEvent((KeyboardEvent) e));
+    protected void onHtmlKeyEvent(KeyboardEvent e, String type) {
+        getNode().fireEvent(toFxKeyEvent(e, type));
         e.stopPropagation();
     }
 
@@ -234,17 +240,30 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
-    private MouseEvent toMouseEvent(elemental2.dom.MouseEvent me) {
-        return new MouseEvent(null, getNode(), MouseEvent.MOUSE_CLICKED, me.pageX, me.pageY, me.screenX, me.screenY, null, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
+    private MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
+        EventType<MouseEvent> eventType;
+        switch (type) {
+            case "mousedown": eventType = MouseEvent.MOUSE_PRESSED; break;
+            case "mouseup": eventType = MouseEvent.MOUSE_RELEASED; break;
+            default: eventType = MouseEvent.MOUSE_CLICKED;
+        }
+        MouseButton button;
+        switch ((int) me.button) {
+            case 0: button = MouseButton.PRIMARY; break;
+            case 1: button = MouseButton.MIDDLE; break;
+            case 2: button = MouseButton.SECONDARY; break;
+            default: button = MouseButton.NONE;
+        }
+        return new MouseEvent(null, getNode(), eventType, me.pageX, me.pageY, me.screenX, me.screenY, button, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
     }
 
-    private static KeyEvent toKeyEvent(KeyboardEvent e) {
+    private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
         KeyCode keyCode = toFxKeyCode(e.code);
         EventType<KeyEvent> eventType;
         if (keyCode == KeyCode.ESCAPE)
             eventType = KeyEvent.KEY_PRESSED;
         else
-            switch (e.type) {
+            switch (type) {
                 case "keydown": eventType = KeyEvent.KEY_TYPED; break;
                 case "keyup": eventType = KeyEvent.KEY_RELEASED; break;
                 default: eventType = KeyEvent.KEY_PRESSED;
@@ -440,6 +459,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static String toCssCursor(Cursor cursor) {
+        if (cursor == Cursor.DEFAULT)
+            return "default";
         if (cursor == Cursor.HAND)
             return "pointer";
         return null;

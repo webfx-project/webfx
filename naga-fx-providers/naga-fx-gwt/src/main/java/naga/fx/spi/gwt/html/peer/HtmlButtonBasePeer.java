@@ -1,8 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
-import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
-import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.control.ButtonBase;
 import naga.fx.spi.peer.base.ButtonBasePeerBase;
 import naga.fx.spi.peer.base.ButtonBasePeerMixin;
@@ -18,12 +16,7 @@ abstract class HtmlButtonBasePeer
 
     HtmlButtonBasePeer(NB base, HTMLElement element) {
         super(base, element);
-        element.style.overflow = "hidden"; // hiding button content overflow
-    }
-
-    @Override
-    protected emul.javafx.event.Event toFxClickEvent(Event e) {
-        N node = getNode();
-        return new ActionEvent(node, node);
+        // Line below was a good idea but commented as this prevents the validation decoration to be displayed
+        //element.style.overflow = "hidden"; // to clip the content to the button area
     }
 }
