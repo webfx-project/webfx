@@ -1,8 +1,10 @@
 package emul.com.sun.javafx.scene.control.skin;
 
+import emul.com.sun.javafx.scene.text.TextLayout;
+import emul.javafx.geometry.HPos;
+import emul.javafx.geometry.VPos;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.TextBoundsType;
-import emul.com.sun.javafx.scene.text.TextLayout;
 
 /**
  * BE REALLY CAREFUL WITH RESTORING OR RESETTING STATE OF helper NODE AS LEFTOVER
@@ -662,7 +664,7 @@ public class Utils {
     }
 */
 
-/*
+
     static double computeXOffset(double width, double contentWidth, HPos hpos) {
         if (hpos == null) {
             return 0;
@@ -679,9 +681,8 @@ public class Utils {
                 return 0;
         }
     }
-*/
 
-/*
+
     static double computeYOffset(double height, double contentHeight, VPos vpos) {
         if (vpos == null) {
             return 0;
@@ -698,7 +699,6 @@ public class Utils {
                 return 0;
         }
     }
-*/
 
     /*
     ** Returns true if the platform is to use Two-Level-Focus.

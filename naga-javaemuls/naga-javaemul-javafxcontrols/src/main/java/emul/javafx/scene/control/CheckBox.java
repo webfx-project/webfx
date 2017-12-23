@@ -1,8 +1,10 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.skin.CheckBoxSkin;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
+import emul.javafx.scene.Cursor;
 import naga.fx.properties.markers.HasSelectedProperty;
 
 /**
@@ -43,5 +45,28 @@ public class CheckBox extends ButtonBase implements
             fireEvent(new ActionEvent());
         }
     }
+
+    /**
+     * Checkbox uses DEFAULT as the default value for cursor.
+     * This method provides a way for css to get the correct initial value.
+     * @treatAsPrivate implementation detail
+     */
+    @Deprecated @Override
+    protected /*do not make final*/ Cursor impl_cssGetCursorInitialValue() {
+        return Cursor.DEFAULT;
+    }
+
+    @Override
+    protected Skin<?> createDefaultSkin() {
+        return new CheckBoxSkin(this);
+    }
+
+/*
+    // We continue to use the target toolkit layout measurable even if there is a skin
+    @Override
+    public boolean shouldUseLayoutMeasurable() {
+        return true;
+    }
+*/
 
 }
