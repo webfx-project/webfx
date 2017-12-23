@@ -10,8 +10,8 @@ import emul.javafx.scene.control.RadioButton;
  */
 public class RadioButtonSkin extends BehaviorSkinBase<RadioButton, RadioButtonBehavior> {
 
-    public RadioButtonSkin(final RadioButton textField) {
-        this(textField, new RadioButtonBehavior(textField));
+    public RadioButtonSkin(RadioButton radioButton) {
+        this(radioButton, new RadioButtonBehavior(radioButton));
     }
 
     public RadioButtonSkin(RadioButton radioButton, RadioButtonBehavior behavior) {
