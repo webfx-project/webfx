@@ -15,10 +15,9 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextInputControl;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -28,6 +27,7 @@ import javafx.scene.transform.Rotate;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
 import naga.fx.properties.Properties;
+import naga.fx.spi.Toolkit;
 import naga.util.collection.Collections;
 import org.controlsfx.control.decoration.Decoration;
 import org.controlsfx.control.decoration.GraphicDecoration;
@@ -97,7 +97,7 @@ public class MongooseValidationSupport {
         ObservableRuleBasedValidator validator = new ObservableRuleBasedValidator();
         ObservableBooleanValue rule = // ObservableRules.notEmpty(control.textProperty());
                 Bindings.createBooleanBinding(() ->
-                    !validatingProperty.get() || !isShowing(control)|| validProperty.getValue()
+                    !validatingProperty.get() || validProperty.getValue() || !isShowing(control)
                 , validProperty, validatingProperty);
         validator.addRule(rule, ValidationMessage.error(errorMessage));
         int index = validators.size();
@@ -224,22 +224,22 @@ public class MongooseValidationSupport {
     }
 
     private void hidePopOver() {
-        if (popOverDecoration != null) {
-            popOverDecoration.removeDecoration(popOverDecorationTarget);
-            popOverDecoration = null;
-        }
+        Toolkit.get().scheduler().runInUiThread(() -> {
+            if (popOverDecoration != null) {
+                popOverDecoration.removeDecoration(popOverDecorationTarget);
+                popOverDecoration = null;
+            }
+        });
     }
 
     private static boolean isShowing(Node node) {
         if (!node.isVisible())
             return false;
-        if (node.getParent() != null)
-            return isShowing(node.getParent());
-/* This code doesn't work with choice boxes for any reason...
+        Parent parent = node.getParent();
+        if (parent != null)
+            return isShowing(parent);
         Scene scene = node.getScene();
         return scene != null && scene.getRoot() == node;
-*/
-        return node.impl_isTreeVisible(); // So using this deprecated method instead
     }
 
 }
