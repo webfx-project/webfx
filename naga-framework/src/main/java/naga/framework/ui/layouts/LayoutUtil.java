@@ -10,6 +10,7 @@ import javafx.beans.value.WritableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -298,6 +299,7 @@ public class LayoutUtil {
 
     public static boolean willAVirtualKeyboardAppearOnFocus() {
         // No API for this so temporary implementation based on screen width size
-        return Toolkit.get().getPrimaryScreen().getVisualBounds().getWidth() < 800;
+        Rectangle2D visualBounds = Toolkit.get().getPrimaryScreen().getVisualBounds();
+        return Math.min(visualBounds.getWidth(), visualBounds.getHeight()) < 800;
     }
 }
