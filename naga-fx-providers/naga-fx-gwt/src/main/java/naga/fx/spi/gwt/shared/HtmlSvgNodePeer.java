@@ -93,7 +93,7 @@ public abstract class HtmlSvgNodePeer
 
     private void registerMouseListener(String type) {
         element.addEventListener(type, e -> {
-            boolean fxConsumed = onHtmlMouseEvent((elemental2.dom.MouseEvent) e, type);
+            boolean fxConsumed = passHtmlMouseEventOnToFx((elemental2.dom.MouseEvent) e, type);
             if (fxConsumed) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -101,15 +101,34 @@ public abstract class HtmlSvgNodePeer
         });
     }
 
+    protected boolean passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
+        return passOnToFx(toFxMouseEvent(e, type));
+    }
+
+    private boolean passOnToFx(emul.javafx.event.Event fxEvent) {
+        emul.javafx.event.Event event = EventUtil.fireEvent(getNode(), fxEvent);
+        return event == null || event.isConsumed();
+    }
+
     private void installFocusListeners() {
         element.onfocus = e -> {
-            onHtmlFocusEvent(e);
+            passHtmlFocusEventOnToFx(e);
             return null;
         };
         element.onblur = e -> {
-            onHtmlBlurEvent(e);
+            passHtmlBlurEventOnToFx(e);
             return null;
         };
+    }
+
+    protected void passHtmlFocusEventOnToFx(Event e) {
+        N node = getNode();
+        node.setFocused(true);
+        node.getScene().focusOwnerProperty().setValue(node);
+    }
+
+    protected void passHtmlBlurEventOnToFx(Event e) {
+        getNode().setFocused(false);
     }
 
     private void installKeyboardListeners() {
@@ -119,27 +138,17 @@ public abstract class HtmlSvgNodePeer
     }
 
     private void registerKeyboardListener(String type) {
-        element.addEventListener(type, e -> onHtmlKeyEvent((KeyboardEvent) e, type));
+        element.addEventListener(type, e -> {
+            boolean fxConsumed = passHtmlKeyEventOnToFx((KeyboardEvent) e, type);
+            if (fxConsumed) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+        });
     }
 
-    protected boolean onHtmlMouseEvent(elemental2.dom.MouseEvent e, String type) {
-        emul.javafx.event.Event event = EventUtil.fireEvent(getNode(), toFxMouseEvent(e, type));
-        return event == null || event.isConsumed();
-    }
-
-    protected void onHtmlFocusEvent(Event e) {
-        N node = getNode();
-        node.setFocused(true);
-        node.getScene().focusOwnerProperty().setValue(node);
-    }
-
-    protected void onHtmlBlurEvent(Event e) {
-        getNode().setFocused(false);
-    }
-
-    protected void onHtmlKeyEvent(KeyboardEvent e, String type) {
-        getNode().fireEvent(toFxKeyEvent(e, type));
-        e.stopPropagation();
+    protected boolean passHtmlKeyEventOnToFx(KeyboardEvent e, String type) {
+        return passOnToFx(toFxKeyEvent(e, type));
     }
 
     @Override
