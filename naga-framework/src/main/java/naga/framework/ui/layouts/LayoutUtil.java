@@ -34,6 +34,10 @@ public class LayoutUtil {
     }
 
     public static GridPane createGoldLayout(Region child, double percentageWidth, double percentageHeight) {
+        return createGoldLayout(child, percentageWidth, percentageHeight, BackgroundUtil.newBackground(Color.gray(0.3, 0.5)));
+    }
+
+    public static GridPane createGoldLayout(Region child, double percentageWidth, double percentageHeight, Background background) {
         GridPane goldPane = new GridPane();
         goldPane.setAlignment(Pos.TOP_CENTER); // Horizontal alignment
         RowConstraints headerRowConstraints = new RowConstraints();
@@ -47,7 +51,8 @@ public class LayoutUtil {
         if (percentageWidth != 0)
             child.prefWidthProperty().bind(Properties.compute(goldPane.widthProperty(), gpWidth -> gpWidth.doubleValue() * percentageWidth));
         goldPane.add(setMaxSizeToPref(child), 0, 1);
-        goldPane.setBackground(BackgroundUtil.newBackground(Color.gray(0.3, 0.5)));
+        if (background != null)
+            goldPane.setBackground(background);
         return goldPane;
     }
 
