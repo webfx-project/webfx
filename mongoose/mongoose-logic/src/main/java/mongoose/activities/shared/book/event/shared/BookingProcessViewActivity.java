@@ -10,7 +10,6 @@ import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
 import mongoose.entities.Event;
 import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.layouts.LayoutUtil;
 
 /**
  * @author Bruno Salmon
@@ -40,7 +39,7 @@ public abstract class BookingProcessViewActivity
         if (backButton == null)
             backButton = newButton("<<Back");
         if (nextButton == null)
-            nextButton = LayoutUtil.setMaxWidthToInfinite(newButton( "Next>>"));
+            nextButton = newLargeGreenButton( "Next>>");
         backButton.setOnAction(this::onPreviousButtonPressed);
         nextButton.setOnAction(this::onNextButtonPressed);
 
