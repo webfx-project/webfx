@@ -1,9 +1,13 @@
 package emul.javafx.scene;
 
 import emul.com.sun.javafx.collections.SourceAdapterChange;
+import emul.com.sun.javafx.event.EventQueue;
 import emul.com.sun.javafx.scene.SceneEventDispatcher;
 import emul.com.sun.javafx.tk.TKPulseListener;
 import emul.com.sun.javafx.tk.TKSceneListener;
+import emul.javafx.animation.KeyFrame;
+import emul.javafx.animation.Timeline;
+import emul.javafx.application.Platform;
 import emul.javafx.beans.property.ObjectProperty;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.ReadOnlyProperty;
@@ -13,14 +17,16 @@ import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.collections.ObservableMap;
+import emul.javafx.event.Event;
 import emul.javafx.event.EventDispatchChain;
 import emul.javafx.event.EventDispatcher;
 import emul.javafx.event.EventTarget;
 import emul.javafx.geometry.Orientation;
-import emul.javafx.scene.input.KeyCombination;
+import emul.javafx.scene.input.*;
 import emul.javafx.scene.paint.Color;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.stage.Window;
+import emul.javafx.util.Duration;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasRootProperty;
@@ -35,9 +41,7 @@ import naga.uischeduler.AnimationFramePass;
 import naga.uischeduler.UiScheduler;
 import naga.util.collection.Collections;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Bruno Salmon
@@ -49,7 +53,6 @@ public class Scene implements EventTarget,
 
     private double widthSetByUser = -1.0;
     private double heightSetByUser = -1.0;
-    private boolean sizeInitialized = false;
 
     public Scene(Parent root) {
         this(root, -1, -1);
@@ -69,7 +72,8 @@ public class Scene implements EventTarget,
             heightSetByUser = height;
             setHeight(height);
         }
-        sizeInitialized = (widthSetByUser >= 0 && heightSetByUser >= 0);
+        mouseHandler = new MouseHandler();
+        clickGenerator = new ClickGenerator();
     }
 
     private final Property<Double> widthProperty = new SimpleObjectProperty<Double>(0d) {
@@ -252,8 +256,6 @@ public class Scene implements EventTarget,
             setHeight(heightSetByUser);
         }
 
-        sizeInitialized = (getWidth() > 0) && (getHeight() > 0);
-
         //PerformanceTracker.logEvent("Scene preferred bounds computation complete");
     }
 
@@ -312,7 +314,7 @@ public class Scene implements EventTarget,
         preferredSize();
     }
 
-    private Node oldFocusOwner;
+    //private Node oldFocusOwner;
 
     /**
      * The scene's current focus owner node. This node's "focused"
@@ -1275,6 +1277,668 @@ public class Scene implements EventTarget,
             return getAccessible();
         }
 */
+    }
+
+
+    /*******************************************************************************
+     *                                                                             *
+     * Mouse Event Handling                                                        *
+     *                                                                             *
+     ******************************************************************************/
+
+    // mouse events handling
+    private MouseHandler mouseHandler;
+    private ClickGenerator clickGenerator;
+
+    /**
+     * @treatAsPrivate implementation detail
+     * @deprecated This is an internal API that is not intended for use and will be removed in the next version
+     */
+    // SB-dependency: RT-22747 has been filed to track this
+    @Deprecated
+    public void impl_processMouseEvent(MouseEvent e) {
+        mouseHandler.process(e, false);
+    }
+
+
+    static class ClickCounter {
+        //Toolkit toolkit = Toolkit.getToolkit();
+        private int count;
+        private boolean out;
+        private boolean still;
+        private Timeline timeout;
+        private double pressedX, pressedY;
+
+        private void inc() { count++; }
+        private int get() { return count; }
+        private boolean isStill() { return still; }
+
+        private void clear() {
+            count = 0;
+            stopTimeout();
+        }
+
+        private void out() {
+            out = true;
+            stopTimeout();
+        }
+
+        private void applyOut() {
+            if (out) clear();
+            out = false;
+        }
+
+        private void moved(double x, double y) {
+            if (Math.abs(x - pressedX) > 4 /*toolkit.getMultiClickMaxX()*/ ||
+                    Math.abs(y - pressedY) > 4 /*toolkit.getMultiClickMaxY()*/) {
+                out();
+                still = false;
+            }
+        }
+
+        private void start(double x, double y) {
+            pressedX = x;
+            pressedY = y;
+            out = false;
+
+            if (timeout != null) {
+                timeout.stop();
+            }
+            timeout = new Timeline();
+            timeout.getKeyFrames().add(
+                    new KeyFrame(new Duration(500/*toolkit.getMultiClickTime()*/),
+                            event -> {
+                                out = true;
+                                timeout = null;
+                            }
+                    ));
+            timeout.play();
+            still = true;
+        }
+
+        private void stopTimeout() {
+            if (timeout != null) {
+                timeout.stop();
+                timeout = null;
+            }
+        }
+    }
+
+    static class ClickGenerator {
+        private ClickCounter lastPress = null;
+
+        private Map<MouseButton, ClickCounter> counters =
+                new EnumMap<MouseButton, ClickCounter>(MouseButton.class);
+        private List<EventTarget> pressedTargets = new ArrayList<EventTarget>();
+        private List<EventTarget> releasedTargets = new ArrayList<EventTarget>();
+
+        public ClickGenerator() {
+            for (MouseButton mb : MouseButton.values()) {
+                if (mb != MouseButton.NONE) {
+                    counters.put(mb, new ClickCounter());
+                }
+            }
+        }
+
+        private MouseEvent preProcess(MouseEvent e) {
+            for (ClickCounter cc : counters.values()) {
+                cc.moved(e.getSceneX(), e.getSceneY());
+            }
+
+            ClickCounter cc = counters.get(e.getButton());
+            boolean still = lastPress != null ? lastPress.isStill() : false;
+
+            if (e.getEventType() == MouseEvent.MOUSE_PRESSED) {
+
+                if (! e.isPrimaryButtonDown()) { counters.get(MouseButton.PRIMARY).clear(); }
+                if (! e.isSecondaryButtonDown()) { counters.get(MouseButton.SECONDARY).clear(); }
+                if (! e.isMiddleButtonDown()) { counters.get(MouseButton.MIDDLE).clear(); }
+
+                cc.applyOut();
+                cc.inc();
+                cc.start(e.getSceneX(), e.getSceneY());
+                lastPress = cc;
+            }
+
+            return new MouseEvent(e.getEventType(), e.getSceneX(), e.getSceneY(),
+                    e.getScreenX(), e.getScreenY(), e.getButton(),
+                    cc != null && e.getEventType() != MouseEvent.MOUSE_MOVED ? cc.get() : 0,
+                    e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(),
+                    e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(),
+                    e.isSynthesized(), e.isPopupTrigger(), still, e.getPickResult());
+        }
+
+        private void postProcess(MouseEvent e, TargetWrapper target, TargetWrapper pickedTarget) {
+
+            if (e.getEventType() == MouseEvent.MOUSE_RELEASED) {
+                ClickCounter cc = counters.get(e.getButton());
+
+                target.fillHierarchy(pressedTargets);
+                pickedTarget.fillHierarchy(releasedTargets);
+                int i = pressedTargets.size() - 1;
+                int j = releasedTargets.size() - 1;
+
+                EventTarget clickedTarget = null;
+                while (i >= 0 && j >= 0 && pressedTargets.get(i) == releasedTargets.get(j)) {
+                    clickedTarget = pressedTargets.get(i);
+                    i--;
+                    j--;
+                }
+
+                pressedTargets.clear();
+                releasedTargets.clear();
+
+                if (clickedTarget != null && lastPress != null) {
+                    MouseEvent click = new MouseEvent(null, clickedTarget,
+                            MouseEvent.MOUSE_CLICKED, e.getSceneX(), e.getSceneY(),
+                            e.getScreenX(), e.getScreenY(), e.getButton(),
+                            cc.get(),
+                            e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(),
+                            e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(),
+                            e.isSynthesized(), e.isPopupTrigger(), lastPress.isStill(), e.getPickResult());
+                    Event.fireEvent(clickedTarget, click);
+                }
+            }
+        }
+    }
+
+    /**
+     * Generates mouse exited event for a node which is going to be removed
+     * and its children, where appropriate.
+     * @param removing Node which is going to be removed
+     */
+    void generateMouseExited(Node removing) {
+        mouseHandler.handleNodeRemoval(removing);
+    }
+
+    // Reusable target wrapper (to avoid creating new one for each picking)
+    private TargetWrapper tmpTargetWrapper = new TargetWrapper();
+
+    class MouseHandler {
+        private TargetWrapper pdrEventTarget = new TargetWrapper(); // pdr - press-drag-release
+        private boolean pdrInProgress = false;
+        private boolean fullPDREntered = false;
+
+        private EventTarget currentEventTarget = null;
+        private MouseEvent lastEvent;
+        private boolean hover = false;
+
+        private boolean primaryButtonDown = false;
+        private boolean secondaryButtonDown = false;
+        private boolean middleButtonDown = false;
+
+        private EventTarget fullPDRSource = null;
+        private TargetWrapper fullPDRTmpTargetWrapper = new TargetWrapper();
+
+        /* lists needed for enter/exit events generation */
+        private final List<EventTarget> pdrEventTargets = new ArrayList<EventTarget>();
+        private final List<EventTarget> currentEventTargets = new ArrayList<EventTarget>();
+        private final List<EventTarget> newEventTargets = new ArrayList<EventTarget>();
+
+        private final List<EventTarget> fullPDRCurrentEventTargets = new ArrayList<EventTarget>();
+        private final List<EventTarget> fullPDRNewEventTargets = new ArrayList<EventTarget>();
+        private EventTarget fullPDRCurrentTarget = null;
+
+        //private Cursor currCursor;
+        //private CursorFrame currCursorFrame;
+        private EventQueue queue = new EventQueue();
+
+        private Runnable pickProcess = new Runnable() {
+
+            @Override
+            public void run() {
+                // Make sure this is run only if the peer is still alive
+                // and there is an event to deliver
+                if (Scene.this.impl_peer != null && lastEvent != null) {
+                    process(lastEvent, true);
+                }
+            }
+        };
+
+        private void pulse() {
+            if (hover && lastEvent != null) {
+                //Shouldn't run user code directly. User can call stage.showAndWait() and block the pulse.
+                Platform.runLater(pickProcess);
+            }
+        }
+
+
+        private void clearPDREventTargets() {
+            pdrInProgress = false;
+            currentEventTarget = currentEventTargets.size() > 0
+                    ? currentEventTargets.get(0) : null;
+            pdrEventTarget.clear();
+        }
+
+        public void enterFullPDR(EventTarget gestureSource) {
+            fullPDREntered = true;
+            fullPDRSource = gestureSource;
+            fullPDRCurrentTarget = null;
+            fullPDRCurrentEventTargets.clear();
+        }
+
+        public void exitFullPDR(MouseEvent e) {
+            if (!fullPDREntered) {
+                return;
+            }
+            fullPDREntered = false;
+            for (int i = fullPDRCurrentEventTargets.size() - 1; i >= 0; i--) {
+                EventTarget entered = fullPDRCurrentEventTargets.get(i);
+                Event.fireEvent(entered, MouseEvent.copyForMouseDragEvent(e,
+                        entered, entered,
+                        MouseDragEvent.MOUSE_DRAG_EXITED_TARGET,
+                        fullPDRSource, e.getPickResult()));
+            }
+            fullPDRSource = null;
+            fullPDRCurrentEventTargets.clear();
+            fullPDRCurrentTarget = null;
+        }
+
+        private void handleNodeRemoval(Node removing) {
+            if (lastEvent == null) {
+                // this can happen only if everything has been exited anyway
+                return;
+            }
+
+
+            if (currentEventTargets.contains(removing)) {
+                int i = 0;
+                EventTarget trg = null;
+                while (trg != removing) {
+                    trg = currentEventTargets.get(i++);
+
+                    queue.postEvent(lastEvent.copyFor(trg, trg,
+                            MouseEvent.MOUSE_EXITED_TARGET));
+                }
+                currentEventTargets.subList(0, i).clear();
+            }
+
+            if (fullPDREntered && fullPDRCurrentEventTargets.contains(removing)) {
+                int i = 0;
+                EventTarget trg = null;
+                while (trg != removing) {
+                    trg = fullPDRCurrentEventTargets.get(i++);
+
+                    queue.postEvent(
+                            MouseEvent.copyForMouseDragEvent(lastEvent, trg, trg,
+                                    MouseDragEvent.MOUSE_DRAG_EXITED_TARGET,
+                                    fullPDRSource, lastEvent.getPickResult()));
+                }
+
+                fullPDRCurrentEventTargets.subList(0, i).clear();
+            }
+
+            queue.fire();
+
+            if (pdrInProgress && pdrEventTargets.contains(removing)) {
+                int i = 0;
+                EventTarget trg = null;
+                while (trg != removing) {
+                    trg = pdrEventTargets.get(i++);
+
+                    // trg.setHover(false) - already taken care of
+                    // by the code above which sent a mouse exited event
+                    ((Node) trg).setPressed(false);
+                }
+                pdrEventTargets.subList(0, i).clear();
+
+                trg = pdrEventTargets.get(0);
+                final PickResult res = pdrEventTarget.getResult();
+                if (trg instanceof Node) {
+                    pdrEventTarget.setNodeResult(new PickResult((Node) trg,
+                            res.getIntersectedPoint()/*, res.getIntersectedDistance()*/));
+                } else {
+                    pdrEventTarget.setSceneResult(new PickResult(null,
+                                    res.getIntersectedPoint()/*, res.getIntersectedDistance()*/),
+                            (Scene) trg);
+                }
+            }
+        }
+
+        private void handleEnterExit(MouseEvent e, TargetWrapper pickedTarget) {
+            if (pickedTarget.getEventTarget() != currentEventTarget ||
+                    e.getEventType() == MouseEvent.MOUSE_EXITED) {
+
+                if (e.getEventType() == MouseEvent.MOUSE_EXITED) {
+                    newEventTargets.clear();
+                } else {
+                    pickedTarget.fillHierarchy(newEventTargets);
+                }
+
+                int newTargetsSize = newEventTargets.size();
+                int i = currentEventTargets.size() - 1;
+                int j = newTargetsSize - 1;
+                int k = pdrEventTargets.size() - 1;
+
+                while (i >= 0 && j >= 0 && currentEventTargets.get(i) == newEventTargets.get(j)) {
+                    i--;
+                    j--;
+                    k--;
+                }
+
+                final int memk = k;
+                for (; i >= 0; i--, k--) {
+                    final EventTarget exitedEventTarget = currentEventTargets.get(i);
+                    if (pdrInProgress &&
+                            (k < 0 || exitedEventTarget != pdrEventTargets.get(k))) {
+                        break;
+                    }
+                    queue.postEvent(e.copyFor(
+                            exitedEventTarget, exitedEventTarget,
+                            MouseEvent.MOUSE_EXITED_TARGET));
+                }
+
+                k = memk;
+                for (; j >= 0; j--, k--) {
+                    final EventTarget enteredEventTarget = newEventTargets.get(j);
+                    if (pdrInProgress &&
+                            (k < 0 || enteredEventTarget != pdrEventTargets.get(k))) {
+                        break;
+                    }
+                    queue.postEvent(e.copyFor(
+                            enteredEventTarget, enteredEventTarget,
+                            MouseEvent.MOUSE_ENTERED_TARGET));
+                }
+
+                currentEventTarget = pickedTarget.getEventTarget();
+                currentEventTargets.clear();
+                for (j++; j < newTargetsSize; j++) {
+                    currentEventTargets.add(newEventTargets.get(j));
+                }
+            }
+            queue.fire();
+        }
+
+        private void process(MouseEvent e, boolean onPulse) {
+            //Toolkit.getToolkit().checkFxUserThread();
+            //Scene.inMousePick = true;
+
+            //cursorScreenPos = new Point2D(e.getScreenX(), e.getScreenY());
+            //cursorScenePos = new Point2D(e.getSceneX(), e.getSceneY());
+
+            boolean gestureStarted = false;
+            if (!onPulse) {
+                if (e.getEventType() == MouseEvent.MOUSE_PRESSED) {
+                    if (!(primaryButtonDown || secondaryButtonDown || middleButtonDown)) {
+                        //old gesture ended and new one started
+                        gestureStarted = true;
+/*
+                        if (!PLATFORM_DRAG_GESTURE_INITIATION) {
+                            Scene.this.dndGesture = new DnDGesture();
+                        }
+*/
+                        clearPDREventTargets();
+                    }
+                } else if (e.getEventType() == MouseEvent.MOUSE_MOVED) {
+                    // gesture ended
+                    clearPDREventTargets();
+                } else if (e.getEventType() == MouseEvent.MOUSE_ENTERED) {
+                    hover = true;
+                } else if (e.getEventType() == MouseEvent.MOUSE_EXITED) {
+                    hover = false;
+                }
+
+                primaryButtonDown = e.isPrimaryButtonDown();
+                secondaryButtonDown = e.isSecondaryButtonDown();
+                middleButtonDown = e.isMiddleButtonDown();
+            }
+
+
+            pick(tmpTargetWrapper, e); // pick(tmpTargetWrapper, e.getSceneX(), e.getSceneY());
+            PickResult res = tmpTargetWrapper.getResult();
+            if (res != null) {
+                e = new MouseEvent(e.getEventType(), e.getSceneX(), e.getSceneY(),
+                        e.getScreenX(), e.getScreenY(), e.getButton(), e.getClickCount(),
+                        e.isShiftDown(), e.isControlDown(), e.isAltDown(), e.isMetaDown(),
+                        e.isPrimaryButtonDown(), e.isMiddleButtonDown(), e.isSecondaryButtonDown(),
+                        e.isSynthesized(), e.isPopupTrigger(), e.isStillSincePress(), res);
+            }
+
+            if (e.getEventType() == MouseEvent.MOUSE_EXITED) {
+                tmpTargetWrapper.clear();
+            }
+
+            TargetWrapper target;
+            if (pdrInProgress) {
+                target = pdrEventTarget;
+            } else {
+                target = tmpTargetWrapper;
+            }
+
+            if (gestureStarted) {
+                pdrEventTarget.copy(target);
+                pdrEventTarget.fillHierarchy(pdrEventTargets);
+            }
+
+            if (!onPulse) {
+                e = clickGenerator.preProcess(e);
+            }
+
+            // enter/exit handling
+            handleEnterExit(e, tmpTargetWrapper);
+
+/*
+            //deliver event to the target node
+            if (Scene.this.dndGesture != null) {
+                Scene.this.dndGesture.processDragDetection(e);
+            }
+*/
+
+            if (fullPDREntered && e.getEventType() == MouseEvent.MOUSE_RELEASED) {
+                processFullPDR(e, onPulse);
+            }
+
+            if (target.getEventTarget() != null) {
+                if (e.getEventType() != MouseEvent.MOUSE_ENTERED
+                        && e.getEventType() != MouseEvent.MOUSE_EXITED
+                        && !onPulse) {
+                    Event.fireEvent(target.getEventTarget(), e);
+                }
+            }
+
+            if (fullPDREntered && e.getEventType() != MouseEvent.MOUSE_RELEASED) {
+                processFullPDR(e, onPulse);
+            }
+
+            if (!onPulse) {
+                clickGenerator.postProcess(e, target, tmpTargetWrapper);
+            }
+
+            // handle drag and drop
+
+/*
+            if (!PLATFORM_DRAG_GESTURE_INITIATION && !onPulse) {
+                if (Scene.this.dndGesture != null) {
+                    if (!Scene.this.dndGesture.process(e, target.getEventTarget())) {
+                        dndGesture = null;
+                    }
+                }
+            }
+*/
+/*
+            Cursor cursor = target.getCursor();
+            if (e.getEventType() != MouseEvent.MOUSE_EXITED) {
+                if (cursor == null && hover) {
+                    cursor = Scene.this.getCursor();
+                }
+
+                updateCursor(cursor);
+                updateCursorFrame();
+            }
+
+*/
+
+            if (gestureStarted) {
+                pdrInProgress = true;
+            }
+
+            if (pdrInProgress &&
+                    !(primaryButtonDown || secondaryButtonDown || middleButtonDown)) {
+                clearPDREventTargets();
+                exitFullPDR(e);
+                // we need to do new picking in case the originally picked node
+                // was moved or removed by the event handlers
+                pick(tmpTargetWrapper, e); // pick(tmpTargetWrapper, e.getSceneX(), e.getSceneY());
+                handleEnterExit(e, tmpTargetWrapper);
+            }
+
+            lastEvent = e.getEventType() == MouseEvent.MOUSE_EXITED ? null : e;
+            //Scene.inMousePick = false;
+        }
+
+
+        private void processFullPDR(MouseEvent e, boolean onPulse) {
+
+            pick(fullPDRTmpTargetWrapper, e); // pick(fullPDRTmpTargetWrapper, e.getSceneX(), e.getSceneY());
+            final PickResult result = fullPDRTmpTargetWrapper.getResult();
+
+            final EventTarget eventTarget = fullPDRTmpTargetWrapper.getEventTarget();
+
+            // enter/exit handling
+            if (eventTarget != fullPDRCurrentTarget) {
+
+                fullPDRTmpTargetWrapper.fillHierarchy(fullPDRNewEventTargets);
+
+                int newTargetsSize = fullPDRNewEventTargets.size();
+                int i = fullPDRCurrentEventTargets.size() - 1;
+                int j = newTargetsSize - 1;
+
+                while (i >= 0 && j >= 0 &&
+                        fullPDRCurrentEventTargets.get(i) == fullPDRNewEventTargets.get(j)) {
+                    i--;
+                    j--;
+                }
+
+                for (; i >= 0; i--) {
+                    final EventTarget exitedEventTarget = fullPDRCurrentEventTargets.get(i);
+                    Event.fireEvent(exitedEventTarget, MouseEvent.copyForMouseDragEvent(e,
+                            exitedEventTarget, exitedEventTarget,
+                            MouseDragEvent.MOUSE_DRAG_EXITED_TARGET,
+                            fullPDRSource, result));
+                }
+
+                for (; j >= 0; j--) {
+                    final EventTarget enteredEventTarget = fullPDRNewEventTargets.get(j);
+                    Event.fireEvent(enteredEventTarget, MouseEvent.copyForMouseDragEvent(e,
+                            enteredEventTarget, enteredEventTarget,
+                            MouseDragEvent.MOUSE_DRAG_ENTERED_TARGET,
+                            fullPDRSource, result));
+                }
+
+                fullPDRCurrentTarget = eventTarget;
+                fullPDRCurrentEventTargets.clear();
+                fullPDRCurrentEventTargets.addAll(fullPDRNewEventTargets);
+                fullPDRNewEventTargets.clear();
+            }
+            // done enter/exit handling
+
+            // event delivery
+            if (eventTarget != null && !onPulse) {
+                if (e.getEventType() == MouseEvent.MOUSE_DRAGGED) {
+                    Event.fireEvent(eventTarget, MouseEvent.copyForMouseDragEvent(e,
+                            eventTarget, eventTarget,
+                            MouseDragEvent.MOUSE_DRAG_OVER,
+                            fullPDRSource, result));
+                }
+                if (e.getEventType() == MouseEvent.MOUSE_RELEASED) {
+                    Event.fireEvent(eventTarget, MouseEvent.copyForMouseDragEvent(e,
+                            eventTarget, eventTarget,
+                            MouseDragEvent.MOUSE_DRAG_RELEASED,
+                            fullPDRSource, result));
+                }
+            }
+        }
+    }
+
+    /*
+     * This class represents a picked target - either node, or scne, or null.
+     * It provides functionality needed for the targets and covers the fact
+     * that they are different kinds of animals.
+     */
+    private static class TargetWrapper {
+        private Scene scene;
+        private Node node;
+        private PickResult result;
+
+        /**
+         * Fills the list with the target and all its parents (including scene)
+         */
+        public void fillHierarchy(final List<EventTarget> list) {
+            list.clear();
+            Node n = node;
+            while(n != null) {
+                list.add(n);
+                final Parent p = n.getParent();
+                n = p != null ? p : null; //n.getSubScene();
+            }
+
+            if (scene != null) {
+                list.add(scene);
+            }
+        }
+
+        public EventTarget getEventTarget() {
+            return node != null ? node : scene;
+        }
+
+        public Cursor getCursor() {
+            Cursor cursor = null;
+            if (node != null) {
+                cursor = node.getCursor();
+                Node n = node.getParent();
+                while (cursor == null && n != null) {
+                    cursor = n.getCursor();
+
+                    final Parent p = n.getParent();
+                    n = p != null ? p : null; //n.getSubScene();
+                }
+            }
+            return cursor;
+        }
+
+        public void clear() {
+            set(null, null);
+            result = null;
+        }
+
+        public void setNodeResult(PickResult result) {
+            if (result != null) {
+                this.result = result;
+                final Node n = result.getIntersectedNode();
+                set(n, n.getScene());
+            }
+        }
+
+        // Pass null scene if the mouse is outside of the window content
+        public void setSceneResult(PickResult result, Scene scene) {
+            if (result != null) {
+                this.result = result;
+                set(null, scene);
+            }
+        }
+
+        public PickResult getResult() {
+            return result;
+        }
+
+        public void copy(TargetWrapper tw) {
+            node = tw.node;
+            scene = tw.scene;
+            result = tw.result;
+        }
+
+        private void set(Node n, Scene s) {
+            node = n;
+            scene = s;
+        }
+    }
+
+    private static void pick(TargetWrapper targetWrapper, Event e) {
+        if (e.getTarget() instanceof Node) {
+            Node node = (Node) e.getTarget();
+            targetWrapper.set(node, node.getScene());
+        } else
+            targetWrapper.clear();
     }
 
     private static class SnapshotChange<E> extends SourceAdapterChange<E> {

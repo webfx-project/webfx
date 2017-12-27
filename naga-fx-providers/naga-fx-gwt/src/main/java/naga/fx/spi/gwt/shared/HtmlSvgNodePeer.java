@@ -21,9 +21,6 @@ import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
-import naga.util.Booleans;
-import naga.util.Strings;
-import naga.util.collection.Collections;
 import naga.fx.scene.SceneRequester;
 import naga.fx.spi.gwt.svg.peer.SvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
@@ -33,6 +30,9 @@ import naga.fx.spi.gwt.util.SvgTransforms;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerImpl;
 import naga.fx.spi.peer.base.NodePeerMixin;
+import naga.util.Booleans;
+import naga.util.Strings;
+import naga.util.collection.Collections;
 
 import java.util.List;
 import java.util.Objects;
@@ -88,7 +88,10 @@ public abstract class HtmlSvgNodePeer
     private void installMouseListeners() {
         registerMouseListener("mousedown");
         registerMouseListener("mouseup");
-        registerMouseListener("click");
+        //registerMouseListener("click"); // Not necessary as the JavaFx Scene already generates them based on the mouse pressed and released events
+        registerMouseListener("mouseenter");
+        registerMouseListener("mouseleave");
+        registerMouseListener("mousemove");
     }
 
     private void registerMouseListener(String type) {
@@ -102,15 +105,22 @@ public abstract class HtmlSvgNodePeer
     }
 
     protected boolean passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
-        return passOnToFx(toFxMouseEvent(e, type));
+        //return passOnToFx(toFxMouseEvent(e, type));
+        MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
+        if (fxMouseEvent != null)
+            getNode().getScene().impl_processMouseEvent(fxMouseEvent);
+        return isFxEventConsumed(fxMouseEvent);
     }
 
     private boolean passOnToFx(emul.javafx.event.Event fxEvent) {
-        emul.javafx.event.Event event = EventUtil.fireEvent(getNode(), fxEvent);
-        return event == null || event.isConsumed();
+        return isFxEventConsumed(EventUtil.fireEvent(getNode(), fxEvent));
     }
 
-    private void installFocusListeners() {
+    private boolean isFxEventConsumed(emul.javafx.event.Event fxEvent) {
+        return fxEvent == null || fxEvent.isConsumed();
+    }
+
+        private void installFocusListeners() {
         element.onfocus = e -> {
             passHtmlFocusEventOnToFx(e);
             return null;
@@ -249,13 +259,9 @@ public abstract class HtmlSvgNodePeer
         }
     }
 
+    private static boolean BUTTON_DOWN_STATES[] = {false, false, false, false};
+
     private MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
-        EventType<MouseEvent> eventType;
-        switch (type) {
-            case "mousedown": eventType = MouseEvent.MOUSE_PRESSED; break;
-            case "mouseup": eventType = MouseEvent.MOUSE_RELEASED; break;
-            default: eventType = MouseEvent.MOUSE_CLICKED;
-        }
         MouseButton button;
         switch ((int) me.button) {
             case 0: button = MouseButton.PRIMARY; break;
@@ -263,7 +269,24 @@ public abstract class HtmlSvgNodePeer
             case 2: button = MouseButton.SECONDARY; break;
             default: button = MouseButton.NONE;
         }
-        return new MouseEvent(null, getNode(), eventType, me.pageX, me.pageY, me.screenX, me.screenY, button, 1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey, false, false, false, false, false, false, null);
+        EventType<MouseEvent> eventType;
+        switch (type) {
+            case "mousedown": eventType = MouseEvent.MOUSE_PRESSED; BUTTON_DOWN_STATES[button.ordinal()] = true; break;
+            case "mouseup": eventType = MouseEvent.MOUSE_RELEASED; BUTTON_DOWN_STATES[button.ordinal()] = false; break;
+            case "mouseenter": eventType = MouseEvent.MOUSE_ENTERED; break;
+            case "mouseleave": eventType = MouseEvent.MOUSE_EXITED; break;
+            case "mousemove": eventType = BUTTON_DOWN_STATES[button.ordinal()] ? MouseEvent.MOUSE_DRAGGED : MouseEvent.MOUSE_MOVED; break;
+            default: return null;
+        }
+        return new MouseEvent(null, getNode(), eventType, me.pageX, me.pageY, me.screenX, me.screenY, button,
+                1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey,
+                 BUTTON_DOWN_STATES[MouseButton.PRIMARY.ordinal()],
+                 BUTTON_DOWN_STATES[MouseButton.MIDDLE.ordinal()],
+                 BUTTON_DOWN_STATES[MouseButton.SECONDARY.ordinal()],
+                false,
+                false,
+                false,
+                null);
     }
 
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {

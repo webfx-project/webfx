@@ -396,7 +396,6 @@ public class MouseEvent extends InputEvent {
      * @return new MouseDragEvent that was created from MouseEvent
      * @since JavaFX 8.0
      */
-/*
     public static MouseDragEvent copyForMouseDragEvent(
             MouseEvent e,
             Object source, EventTarget target,
@@ -411,7 +410,6 @@ public class MouseEvent extends InputEvent {
         ev.recomputeCoordinatesToSource(e, source);
         return ev;
     }
-*/
     private final Flags flags = new Flags();
 
     /**
