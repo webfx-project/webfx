@@ -18,24 +18,31 @@ import org.controlsfx.control.decoration.GraphicDecoration;
 public class ButtonUtil {
 
     public static Button newButton(Action action, I18n i18n) {
-        return newButton(action.getIconUrlOrJson(), action.getI18nKey(), i18n, action.getHandler());
+        return newButtonBuilder(action, i18n).build();
+    }
+
+    public static ButtonBuilder newButtonBuilder(Action action, I18n i18n) {
+        return new ButtonBuilder().setAction(action).setI18n(i18n);
     }
 
     public static Button newButton(Object iconUrlOrJson, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
-        return newButton(ImageViewUtil.createImageView(iconUrlOrJson), translationKey, i18n, onAction);
+        return newButtonBuilder(iconUrlOrJson, translationKey, i18n, onAction).build();
+    }
+
+    public static ButtonBuilder newButtonBuilder(Object iconUrlOrJson, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
+        return new ButtonBuilder().setIconUrlOrJson(iconUrlOrJson).setI18n(i18n).setI18nKey(translationKey).setOnAction(onAction);
     }
 
     public static Button newButton(Node graphic, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
-        Button button = i18n.translateText(new Button(null, graphic), translationKey);
-        button.setOnAction(onAction);
-        return button;
+        return newButtonBuilder(graphic, translationKey, i18n, onAction).build();
+    }
+
+    public static ButtonBuilder newButtonBuilder(Node graphic, Object translationKey, I18n i18n, EventHandler<ActionEvent> onAction) {
+        return new ButtonBuilder().setIcon(graphic).setI18n(i18n).setI18nKey(translationKey).setOnAction(onAction);
     }
 
     public static Button newDropDownButton() {
-        Button button = decorateButtonWithDropDownArrow(new Button());
-        button.setMinWidth(0d);
-        button.setAlignment(Pos.CENTER_LEFT);
-        return button;
+        return decorateButtonWithDropDownArrow(new Button());
     }
 
     public static Button decorateButtonWithDropDownArrow(Button button) {
@@ -46,6 +53,8 @@ public class ButtonUtil {
             else
                 button.skinProperty().addListener((observable, oldValue, newValue) -> dropDownArrowDecoration.applyDecoration(button));
         }), button.graphicProperty());
+        button.setMinWidth(0d);
+        button.setAlignment(Pos.CENTER_LEFT);
         return button;
     }
 
