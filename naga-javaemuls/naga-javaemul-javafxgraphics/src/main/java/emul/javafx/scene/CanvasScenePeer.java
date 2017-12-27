@@ -2,10 +2,11 @@ package emul.javafx.scene;
 
 import emul.com.sun.javafx.geom.Point2D;
 import emul.javafx.collections.ListChangeListener;
-import naga.fx.spi.peer.base.ScenePeerBase;
+import emul.javafx.scene.input.PickResult;
 import emul.javafx.scene.transform.Transform;
 import naga.fx.spi.peer.CanvasNodePeer;
 import naga.fx.spi.peer.NodePeerFactory;
+import naga.fx.spi.peer.base.ScenePeerBase;
 
 import java.util.Collection;
 import java.util.List;
@@ -90,7 +91,7 @@ public abstract class CanvasScenePeer
         }
         // Otherwise we ask its view if it contains the point and return this node if this is the case
         NB nodeView = (NB) scene.getOrCreateAndBindNodePeer(node);
-        return nodeView.containsPoint(point) ? new PickResult(node, nodeView, point) : null;
+        return nodeView.containsPoint(point) ? new PickResult(node, point.x, point.y) : null;
     }
 
     public abstract void requestCanvasRepaint();
