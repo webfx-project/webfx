@@ -1,17 +1,21 @@
 package naga.framework.ui.controls;
 
-import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 
 /**
  * @author Bruno Salmon
  */
 public class BackgroundUtil {
+
+    public static Background transparentBackground() {
+        return newBackground(Color.TRANSPARENT);
+    }
+
+    public static Background newWebColorBackground(String webColor) {
+        return newBackground(Color.web(webColor));
+    }
 
     public static Background newBackground(Paint fill) {
         return newBackground(fill, 0);
@@ -22,11 +26,23 @@ public class BackgroundUtil {
     }
 
     public static Background newBackground(Paint fill, double radius, double insets) {
-        return new Background(new BackgroundFill(fill, radius <= 0 ? CornerRadii.EMPTY : new CornerRadii(radius), insets <= 0 ? Insets.EMPTY : new Insets(insets)));
+        return newBackgroundBuilder(fill, radius, insets).build();
     }
 
-    public static Background newWebColorBackground(String webColor) {
-        return newBackground(Color.web(webColor));
+    public static BackgroundBuilder newBackgroundBuilder(Paint fill, double radius, double insets) {
+        return new BackgroundBuilder().setFillBuilder(newBackgroundFillBuilder(fill, radius, insets));
+    }
+
+    public static BackgroundFillBuilder newBackgroundFillBuilder(Paint fill, double radius, double insets) {
+        return new BackgroundFillBuilder().setFill(fill).setRadius(radius).setInset(insets);
+    }
+
+    public static BackgroundBuilder newBackgroundBuilder(PaintBuilder fillBuilder, double radius, double insets) {
+        return new BackgroundBuilder().setFillBuilder(newBackgroundFillBuilder(fillBuilder, radius, insets));
+    }
+
+    public static BackgroundFillBuilder newBackgroundFillBuilder(PaintBuilder fillBuilder, double radius, double insets) {
+        return new BackgroundFillBuilder().setFillBuilder(fillBuilder).setRadius(radius).setInset(insets);
     }
 
     public static Background newLinearGradientBackground(String linearGradient) {
@@ -38,7 +54,7 @@ public class BackgroundUtil {
     }
 
     public static Background newLinearGradientBackground(String linearGradient, double radius, double insets) {
-        return newBackground(LinearGradient.valueOf(linearGradient), radius, insets);
+        return newBackgroundBuilder(new PaintBuilder().setLinearGradient(linearGradient), radius, insets).build();
     }
 
     public static Background newVerticalLinearGradientBackground(String topWebColor, String bottomWebColor, double radius) {
@@ -46,10 +62,6 @@ public class BackgroundUtil {
     }
 
     public static Background newVerticalLinearGradientBackground(String topWebColor, String bottomWebColor, double radius, double insets) {
-        return newLinearGradientBackground("from 0% 0% to 0% 100%, " + topWebColor + " 0%, " + bottomWebColor + " 100%", radius, insets);
-    }
-
-    public static Background transparentBackground() {
-        return newBackground(Color.TRANSPARENT);
+        return newBackgroundBuilder(new PaintBuilder().setTopWebColor(topWebColor).setBottomWebColor(bottomWebColor), radius, insets).build();
     }
 }
