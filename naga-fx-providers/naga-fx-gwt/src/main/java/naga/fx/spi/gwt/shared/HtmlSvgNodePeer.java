@@ -64,7 +64,7 @@ public abstract class HtmlSvgNodePeer
 
     public void setContainer(Element container) {
         this.container = container;
-        containerType = "SVG".equals(container.tagName) || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
+        containerType = "SVG".equalsIgnoreCase(container.tagName) || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
     }
 
     public Element getContainer() {

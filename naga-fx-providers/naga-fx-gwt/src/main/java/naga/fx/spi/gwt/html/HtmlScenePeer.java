@@ -111,7 +111,7 @@ public class HtmlScenePeer extends ScenePeerBase {
             style.top = "0px";
             if (htmlNodePeer instanceof HtmlHtmlTextPeer)
                 style.whiteSpace = "normal";
-            else if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equals("SPAN"))
+            else if (htmlElement instanceof HTMLButtonElement || htmlElement instanceof HTMLLabelElement || htmlElement.tagName.equalsIgnoreCase("SPAN"))
                 style.whiteSpace = "nowrap";
         }
     }

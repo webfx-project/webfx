@@ -37,7 +37,7 @@ public class HtmlHtmlTextPeer
     private void executeScripts(Node node) {
         if (node instanceof Element) {
             Element element = (Element) node;
-            if ("SCRIPT".equals(element.tagName)) {
+            if ("SCRIPT".equalsIgnoreCase(element.tagName)) {
                 HTMLScriptElement script = HtmlUtil.createElement("script");
                 script.text = element.innerHTML;
                 for (int i = 0; i < element.attributes.length; i++)
