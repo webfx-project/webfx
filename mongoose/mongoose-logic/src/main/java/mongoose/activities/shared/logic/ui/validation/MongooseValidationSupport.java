@@ -24,10 +24,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
+import mongoose.actions.MongooseIcons;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
+import naga.fx.util.ImageStore;
 import naga.util.collection.Collections;
 import org.controlsfx.control.decoration.Decoration;
 import org.controlsfx.control.decoration.GraphicDecoration;
@@ -44,8 +46,8 @@ import java.util.List;
 public class MongooseValidationSupport {
 
     private static final String DEFAULT_REQUIRED_MESSAGE = "This field is required";
-    private static final Image ERROR_IMAGE = new Image("images/16/validation/decoration-error.png"); //$NON-NLS-1$
-    private static final Image REQUIRED_IMAGE = new Image("images/16/validation/required-indicator.png"); //$NON-NLS-1$
+    private static final Image ERROR_IMAGE = ImageStore.getOrCreateImage(MongooseIcons.validationErrorIcon16Url, 16, 16);
+    private static final Image REQUIRED_IMAGE = ImageStore.getOrCreateImage(MongooseIcons.validationRequiredIcon16Url);
 
     private final List<Validator> validators = new ArrayList<>();
     private final List<Node> validatorErrorDecorationNodes = new ArrayList<>();

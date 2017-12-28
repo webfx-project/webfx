@@ -50,7 +50,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
                 Properties.compute(borderPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
         );
         accountTopNote.setLeft(textFlow);
-        Button closeButton = Action.create(null, MongooseIcons.removeIcon16, e -> verticalStack.getChildren().remove(accountTopNote)).toButton(getI18n());
+        Button closeButton = Action.create(null, MongooseIcons.removeIcon16JsonUrl, e -> verticalStack.getChildren().remove(accountTopNote)).toButton(getI18n());
         closeButton.setBorder(BorderUtil.transparentBorder());
         closeButton.setBackground(BackgroundUtil.transparentBackground());
         accountTopNote.setRight(closeButton);

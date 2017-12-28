@@ -6,10 +6,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
+import naga.fx.util.ImageStore;
 import org.controlsfx.control.decoration.GraphicDecoration;
 
 /**
@@ -46,7 +46,7 @@ public class ButtonUtil {
     }
 
     public static Button decorateButtonWithDropDownArrow(Button button) {
-        GraphicDecoration dropDownArrowDecoration = new GraphicDecoration(new ImageView("images/16/dropDownArrow.png"), Pos.CENTER_RIGHT, 0, 0, -1, 0);
+        GraphicDecoration dropDownArrowDecoration = new GraphicDecoration(ImageStore.createImageView("images/16/dropDownArrow.png", 16, 16), Pos.CENTER_RIGHT, 0, 0, -1, 0);
         Properties.runNowAndOnPropertiesChange(p -> Platform.runLater(() -> {
             if (button.getSkin() != null)
                 dropDownArrowDecoration.applyDecoration(button);

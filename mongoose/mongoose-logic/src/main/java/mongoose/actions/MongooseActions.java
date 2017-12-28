@@ -15,11 +15,11 @@ public class MongooseActions {
     public final static Object ADD_OPTION_ACTION_KEY = "AddOption";
 
     public static void registerActions() {
-        ActionRegistry.registerAction(ActionRegistry.ADD_ACTION_KEY, Action.create("Add", MongooseIcons.addIcon16, null));
-        ActionRegistry.registerAction(ActionRegistry.REMOVE_ACTION_KEY, Action.create("Remove", MongooseIcons.removeIcon16, null));
-        ActionRegistry.registerAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, Action.create(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, MongooseIcons.certificateIcon16, null));
-        ActionRegistry.registerAction(VISIT_PROGRAM_ACTION_KEY, Action.create(VISIT_PROGRAM_ACTION_KEY, MongooseIcons.calendarIcon16, null));
-        ActionRegistry.registerAction(ADD_OPTION_ACTION_KEY, Action.create(ADD_OPTION_ACTION_KEY, MongooseIcons.addIcon16, null));
+        ActionRegistry.registerAction(ActionRegistry.ADD_ACTION_KEY, Action.create("Add", MongooseIcons.addIcon16JsonUrl, null));
+        ActionRegistry.registerAction(ActionRegistry.REMOVE_ACTION_KEY, Action.create("Remove", MongooseIcons.removeIcon16JsonUrl, null));
+        ActionRegistry.registerAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, Action.create(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, MongooseIcons.certificateIcon16JsonUrl, null));
+        ActionRegistry.registerAction(VISIT_PROGRAM_ACTION_KEY, Action.create(VISIT_PROGRAM_ACTION_KEY, MongooseIcons.calendarIcon16JsonUrl, null));
+        ActionRegistry.registerAction(ADD_OPTION_ACTION_KEY, Action.create(ADD_OPTION_ACTION_KEY, MongooseIcons.addIcon16JsonUrl, null));
     }
 
     public static Action newVisitTermsAndConditionsAction(Runnable handler) {

@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
@@ -14,14 +15,15 @@ import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.framework.ui.controls.ImageViewUtil;
 import naga.framework.ui.layouts.FlexBox;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Arrays;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
 
@@ -127,10 +129,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {
         Label label = new Label();
         label.textProperty().bind(i18nTitle);
-        return Arrays.asList(
-                ImageViewUtil.createImageView("images/16/itemFamilies/" + option.getItemFamilyCode() + ".png"),
-                label
-        );
+        return Arrays.asList(MongooseIcons.getItemFamilyIcon16(option), label);
     }
 
     protected Node createLabelNode(mongoose.entities.Label label) {

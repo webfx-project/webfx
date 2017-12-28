@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.StringConverter;
+import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.logic.time.DateTimeRange;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -165,7 +166,7 @@ class OptionTreeNode {
         topLevelOptionButton.setCursor(Cursor.HAND);
         ImageView checkBoxView = new ImageView();
         checkBoxView.imageProperty().bind(Properties.compute(optionButtonSelectedProperty, selected ->
-                ImageStore.getOrCreateImage(selected ? "images/16/checked.png" : "images/16/unchecked.png", 16, 16)));
+                ImageStore.getOrCreateImage(selected ? MongooseIcons.checkedIcon16Url : MongooseIcons.uncheckedIcon16Url, 16, 16)));
         ObservableList<Node> hBoxChildren = ((HBox) topLevelOptionButton.getTop()).getChildren();
         hBoxChildren.add(0, checkBoxView);
         hBoxChildren.add(0, LayoutUtil.createHGrowable()); // To shift the button content and make it centered
