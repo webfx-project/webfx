@@ -24,7 +24,12 @@ public abstract class UiSchedulerBase implements UiScheduler {
 
     @Override
     public Scheduled scheduleDelayInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(delayMs, animationTask, pass, false);
+        return scheduleInAnimationFrame(delayMs, animationTask, pass, false, 0);
+    }
+
+    @Override
+    public Scheduled scheduleInFutureAnimationFrame(int frameCount, Runnable animationTask, AnimationFramePass pass) {
+        return scheduleInAnimationFrame(0, animationTask, pass, false, frameCount);
     }
 
     @Override
@@ -34,11 +39,11 @@ public abstract class UiSchedulerBase implements UiScheduler {
 
     @Override
     public Scheduled schedulePeriodicInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass) {
-        return scheduleInAnimationFrame(delayMs, animationTask, pass, true);
+        return scheduleInAnimationFrame(delayMs, animationTask, pass, true, 0);
     }
 
-    private Scheduled scheduleInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass, boolean periodic) {
-        return new AnimationScheduled(delayMs, animationTask, pass, periodic);
+    private Scheduled scheduleInAnimationFrame(long delayMs, Runnable animationTask, AnimationFramePass pass, boolean periodic, int postponeFrameCount) {
+        return new AnimationScheduled(delayMs, animationTask, pass, periodic, postponeFrameCount);
     }
 
     @Override
@@ -50,13 +55,15 @@ public abstract class UiSchedulerBase implements UiScheduler {
         private final Runnable runnable;
         private final long delayMs;
         private final boolean periodic;
+        private int futureFrameCount;
         private long nextExecutionTime;
         private boolean cancelled;
 
-        private AnimationScheduled(long delayMs, Runnable runnable, AnimationFramePass pass, boolean periodic) {
+        private AnimationScheduled(long delayMs, Runnable runnable, AnimationFramePass pass, boolean periodic, int futureFrameCount) {
             this.runnable = runnable;
             this.delayMs = delayMs;
             this.periodic = periodic;
+            this.futureFrameCount = futureFrameCount;
             nextExecutionTime = delayMs == 0 ? 0 : System.currentTimeMillis() + delayMs;
             switch (pass) {
                 case UI_UPDATE_PASS: uiAnimations.add(this); break;
@@ -72,6 +79,10 @@ public abstract class UiSchedulerBase implements UiScheduler {
         }
 
         private boolean shouldExecuteNow() {
+            if (futureFrameCount > 0) {
+                futureFrameCount--;
+                return false;
+            }
             return nextExecutionTime == 0 || System.currentTimeMillis() >= nextExecutionTime;
         }
 
