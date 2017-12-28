@@ -13,31 +13,39 @@ public interface WebMongooseBundle extends ClientBundle {
     WebMongooseBundle R = GWT.create(WebMongooseBundle.class);
 
     @Source("mongoose/domainmodel/DomainModelSnapshot.json")
-    TextResource lzBase64DomainModelSnapshot();
+    TextResource domainModelSnapshotJson();
 
     @Source("naga/platform/client/bus/conf/BusOptions.json")
-    TextResource jsonClientBusOptions();
+    TextResource clientBusOptionsJson();
 
     @Source("mongoose/dictionaries/en.json")
-    TextResource englishDictionary();
+    TextResource englishDictionaryJson();
 
     @Source("mongoose/dictionaries/fr.json")
-    TextResource frenchDictionary();
+    TextResource frenchDictionaryJson();
 
-    @Source("images/certificate.svg")
-    TextResource certificateSvg();
+    @Source("images/svg/mono/certificate.svg")
+    TextResource certificateMonoSvg();
 
-    @Source("images/calendar.svg")
-    TextResource calendarSvg();
+    @Source("images/svg/mono/calendar.svg")
+    TextResource calendarMonoSvg();
+
+    @Source("images/svg/mono/price-tag.svg")
+    TextResource priceTagMonoSvg();
+
+    @Source("images/svg/color/price-tag.svg")
+    TextResource priceTagColorSvg();
 
     GwtBundle B = resourcePath -> {
         switch (resourcePath) {
-            case "mongoose/domainmodel/DomainModelSnapshot.json": return R.lzBase64DomainModelSnapshot();
-            case "naga/platform/client/bus/conf/BusOptions.json": return R.jsonClientBusOptions();
-            case "mongoose/dictionaries/en.json": return R.englishDictionary();
-            case "mongoose/dictionaries/fr.json": return R.frenchDictionary();
-            case "images/certificate.svg": return R.certificateSvg();
-            case "images/calendar.svg": return R.calendarSvg();
+            case "mongoose/domainmodel/DomainModelSnapshot.json": return R.domainModelSnapshotJson();
+            case "naga/platform/client/bus/conf/BusOptions.json": return R.clientBusOptionsJson();
+            case "mongoose/dictionaries/en.json": return R.englishDictionaryJson();
+            case "mongoose/dictionaries/fr.json": return R.frenchDictionaryJson();
+            case "images/svg/mono/certificate.svg": return R.certificateMonoSvg();
+            case "images/svg/mono/calendar.svg": return R.calendarMonoSvg();
+            case "images/svg/mono/price-tag.svg": return R.priceTagMonoSvg();
+            case "images/svg/color/price-tag.svg": return R.priceTagColorSvg();
             default: return null;
         }
     };
