@@ -5,10 +5,12 @@ package emul.com.sun.javafx.scene.control.skin;
  */
 
 import emul.com.sun.javafx.scene.control.behaviour.ButtonBehavior;
+import emul.javafx.geometry.Insets;
 import emul.javafx.scene.Scene;
 import emul.javafx.scene.control.Button;
 import emul.javafx.scene.input.KeyCode;
 import emul.javafx.scene.input.KeyCodeCombination;
+import emul.javafx.scene.text.Font;
 
 /**
  * A Skin for command Buttons.
@@ -39,8 +41,18 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
             setCancelButton(true);
         }
 
+        // Extra code to simulate caspian css button padding (-fx-padding: 0.3333em, 0.6666em, 0.3333em, 0.66666em)
+        paddingExplicitlySetByUser = button.getPadding() != Button.PADDING;
+        if (!paddingExplicitlySetByUser) {
+            updatePaddingOnFontChange(); // Now
+            // And in the future
+            registerChangeListener(button.fontProperty(), "FONT");
+            registerChangeListener(button.paddingProperty(), "PADDING");
+        }
     }
 
+    private boolean paddingExplicitlySetByUser;
+    private boolean updatingPadding;
 
     @Override protected void handleControlPropertyChanged(String p) {
         super.handleControlPropertyChanged(p);
@@ -68,6 +80,24 @@ public class ButtonSkin extends LabeledSkinBase<Button, ButtonBehavior<Button>> 
                     getSkinnable().getScene().getAccelerators().remove(cancelAcceleratorKeyCodeCombination);
                 }
             }
+        } else if ("FONT".equals(p)) {
+            if (!paddingExplicitlySetByUser)
+                updatePaddingOnFontChange();
+        } else if ("PADDING".equals(p)) {
+            if (!updatingPadding)
+                paddingExplicitlySetByUser = true;
+        }
+    }
+
+    private void updatePaddingOnFontChange() {
+        Font font = getSkinnable().getFont();
+        if (font != null) {
+            double fontSize = font.getSize();
+            double topBottomPadding = Math.round(0.33333 * fontSize); // 0.33333em
+            double leftRightPadding = Math.round(0.66666 * fontSize); // 0.66666em
+            updatingPadding = true;
+            getSkinnable().setPadding(new Insets(topBottomPadding, leftRightPadding, topBottomPadding, leftRightPadding));
+            updatingPadding = false;
         }
     }
 

@@ -5,12 +5,8 @@ import emul.javafx.beans.property.ObjectProperty;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.event.ActionEvent;
-import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.Pos;
 import emul.javafx.scene.Node;
-import emul.javafx.scene.layout.*;
-import emul.javafx.scene.paint.Color;
-import emul.javafx.scene.paint.LinearGradient;
 
 /**
  * @author Bruno Salmon
@@ -63,9 +59,9 @@ public class ToggleButton extends ButtonBase
         //((StyleableProperty<Pos>)(WritableValue<Pos>)alignmentProperty()).applyStyle(null, Pos.CENTER);
         //setMnemonicParsing(true);     // enable mnemonic auto-parsing by default
 
-        setBorder(BORDER);
-        setBackground(BACKGROUND);
-        setPadding(PADDING);
+        setBorder(Button.BORDER);
+        setBackground(Button.BACKGROUND);
+        setPadding(Button.PADDING);
         setAlignment(Pos.CENTER);
     }
     /***************************************************************************
@@ -198,10 +194,5 @@ public class ToggleButton extends ButtonBase
     protected Skin<?> createDefaultSkin() {
         return new ToggleButtonSkin(this);
     }
-
-    private final static CornerRadii RADII = new CornerRadii(1);
-    private final static Border BORDER = new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT));
-    private final static Background BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, white 0%, #E0E0E0 100%"), RADII, Insets.EMPTY));
-    private final static Insets PADDING = new Insets(7);
 
 }

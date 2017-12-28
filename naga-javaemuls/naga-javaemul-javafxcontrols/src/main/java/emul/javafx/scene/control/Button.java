@@ -138,10 +138,10 @@ public class Button extends ButtonBase {
         return new ButtonSkin(this);
     }
 
-    private final static CornerRadii RADII = new CornerRadii(1);
-    private final static Border BORDER = new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT));
-    private final static Background BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, white 0%, #E0E0E0 100%"), RADII, Insets.EMPTY));
-    private final static Insets PADDING = new Insets(7);
+    final static CornerRadii RADII = new CornerRadii(1);
+    final static Border BORDER = new Border(new BorderStroke(Color.DARKGRAY, BorderStrokeStyle.SOLID, RADII, BorderWidths.DEFAULT));
+    final static Background BACKGROUND = new Background(new BackgroundFill(LinearGradient.valueOf("from 0% 0% to 0% 100%, white 0%, #E0E0E0 100%"), RADII, Insets.EMPTY));
+    public final static Insets PADDING = new Insets(6);
     {
         setBorder(BORDER);
         setBackground(BACKGROUND);
