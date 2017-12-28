@@ -343,7 +343,7 @@ public class Region extends Parent implements
 
     /** Called to update the cached snapped insets */
     private void updateSnappedInsets() {
-        Insets insets = getPadding();
+        Insets insets = getInsets();
         if (isSnapToPixel()) {
             snappedTopInset = Math.ceil(insets.getTop());
             snappedRightInset = Math.ceil(insets.getRight());
