@@ -22,6 +22,7 @@ import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
 import naga.fx.scene.SceneRequester;
+import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.svg.peer.SvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlTransforms;
@@ -30,6 +31,7 @@ import naga.fx.spi.gwt.util.SvgTransforms;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerImpl;
 import naga.fx.spi.peer.base.NodePeerMixin;
+import naga.uischeduler.AnimationFramePass;
 import naga.util.Booleans;
 import naga.util.Strings;
 import naga.util.collection.Collections;
@@ -104,11 +106,27 @@ public abstract class HtmlSvgNodePeer
         });
     }
 
+    private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
+
     protected boolean passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
-        //return passOnToFx(toFxMouseEvent(e, type));
         MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
-        if (fxMouseEvent != null)
-            getNode().getScene().impl_processMouseEvent(fxMouseEvent);
+        if (fxMouseEvent != null) {
+            // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
+            Scene scene = getNode().getScene();
+            // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
+            // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
+            // the button pressedProperty) to appear before the action (which might be time consuming) is fired, so the
+            // user doesn't know if the button has been successfully pressed or not during the action execution.
+            if (fxMouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
+                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> scene.impl_processMouseEvent(fxMouseEvent), AnimationFramePass.UI_UPDATE_PASS);
+            else {
+                scene.impl_processMouseEvent(fxMouseEvent);
+                if (fxMouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
+                    atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
+                    Toolkit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
+                }
+            }
+        }
         return isFxEventConsumed(fxMouseEvent);
     }
 
