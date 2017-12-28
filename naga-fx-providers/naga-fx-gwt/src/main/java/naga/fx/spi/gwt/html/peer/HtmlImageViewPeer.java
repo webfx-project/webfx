@@ -4,8 +4,11 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
 import emul.javafx.scene.HasSizeChangedCallback;
+import emul.javafx.scene.Parent;
+import emul.javafx.scene.control.Labeled;
 import emul.javafx.scene.image.Image;
 import emul.javafx.scene.image.ImageView;
+import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.ImageViewPeerBase;
 import naga.fx.spi.peer.base.ImageViewPeerMixin;
@@ -114,6 +117,10 @@ public class HtmlImageViewPeer
                 double fitHeight = imageView.getFitHeight();
                 if (fitHeight > 0)
                     svgNode.setAttribute("height", fitHeight);
+                // Applying the same color (in case svg is monochrome) as the text if in a label
+                Parent parent = getNode().getParent();
+                if (parent instanceof Labeled)
+                    applyTextFillToSvg(svgNode, HtmlPaints.toHtmlCssPaint(((Labeled) parent).getTextFill()));
                 // Switching the node from image to svg
                 setContainer(svgNode);
                 HtmlUtil.replaceNode(getElement(), svgNode);
@@ -121,6 +128,11 @@ public class HtmlImageViewPeer
             }
         }
         return false;
+    }
+
+    public static void applyTextFillToSvg(Element svgNode, String fill) {
+        if ("SVG".equalsIgnoreCase(svgNode.tagName))
+            setElementAttribute(svgNode, "fill", fill);
     }
 
     // Overriding HtmlLayoutMeasurer for the inline svg case -> 2 problems in this case:

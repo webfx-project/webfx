@@ -446,7 +446,7 @@ public abstract class HtmlSvgNodePeer
             setElementAttribute(container, name, value);
     }
 
-    protected void setElementAttribute(Element e, String name, String value) {
+    protected static void setElementAttribute(Element e, String name, String value) {
         if (value == null)
             e.removeAttribute(name);
         else

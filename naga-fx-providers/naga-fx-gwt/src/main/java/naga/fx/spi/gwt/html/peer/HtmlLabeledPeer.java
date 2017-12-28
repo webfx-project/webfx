@@ -7,6 +7,7 @@ import emul.javafx.scene.control.Labeled;
 import emul.javafx.scene.paint.Paint;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.TextAlignment;
+import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
 import naga.fx.spi.gwt.util.HtmlPaints;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.LabeledPeerBase;
@@ -73,6 +74,14 @@ abstract class HtmlLabeledPeer
 
     @Override
     public void updateTextFill(Paint textFill) {
-        getElement().style.color = HtmlPaints.toHtmlCssPaint(textFill);
+        String cssPaint = HtmlPaints.toHtmlCssPaint(textFill);
+        getElement().style.color = cssPaint;
+        // Also if the labeled is associated with a monochrome svg image, showing the svg image in the same color
+        Node graphic = getNode().getGraphic();
+        if (graphic != null) {
+            HtmlSvgNodePeer nodePeer = (HtmlSvgNodePeer) graphic.getNodePeer();
+            if (nodePeer != null)
+                HtmlImageViewPeer.applyTextFillToSvg(nodePeer.getContainer(), cssPaint);
+        }
     }
 }
