@@ -46,11 +46,22 @@ public class ImageStore {
     }
 
     public static ImageView createImageView(String iconPath) {
+        return createImageView(iconPath, 0, 0);
+    }
+
+    public static ImageView createImageView(String iconPath, double w, double h) {
+        ImageView imageView = null;
         if (iconPath != null) {
-            Image image = getOrCreateImage(iconPath);
+            Image image = getOrCreateImage(iconPath, w, h);
             if (image != null)
-                return new ImageView(image);
+                imageView = new ImageView(image);
         }
-        return new ImageView();
+        if (imageView == null)
+            imageView = new ImageView();
+        if (w > 0)
+            imageView.setFitWidth(w);
+        if (h > 0)
+            imageView.setFitHeight(h);
+        return imageView;
     }
 }
