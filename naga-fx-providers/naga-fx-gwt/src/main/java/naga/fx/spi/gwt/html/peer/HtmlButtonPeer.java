@@ -15,7 +15,7 @@ public class HtmlButtonPeer
         <N extends Button, NB extends ButtonPeerBase<N, NB, NM>, NM extends ButtonPeerMixin<N, NB, NM>>
 
         extends HtmlButtonBasePeer<N, NB, NM>
-        implements ButtonPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
+        implements ButtonPeerMixin<N, NB, NM> {
 
     public HtmlButtonPeer() {
         this((NB) new ButtonPeerBase(), HtmlUtil.createButtonElement());
@@ -24,17 +24,6 @@ public class HtmlButtonPeer
     public HtmlButtonPeer(NB base, HTMLElement element) {
         super(base, element);
         prepareDomForAdditionalSkinChildren();
-    }
-
-    @Override
-    public double maxHeight(double width) {
-        return prefHeight(width);
-    }
-
-    private final HtmlLayoutCache cache = new HtmlLayoutCache();
-    @Override
-    public HtmlLayoutCache getCache() {
-        return cache;
     }
 
     @Override
