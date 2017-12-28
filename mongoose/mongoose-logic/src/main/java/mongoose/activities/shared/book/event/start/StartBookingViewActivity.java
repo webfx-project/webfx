@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -29,7 +29,6 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
     private BorderPane eventImageViewContainer;
     private Label eventTitle;
     private Pane eventContainer;
-    private HBox buttonsHBox;
 
     public StartBookingViewActivity() {
         super(null);
@@ -43,24 +42,27 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
         eventTitle.setTextFill(Color.WHITE);
         Button bookButton = newTransparentButton(MongooseActions.newVisitBookAction(this::onBookButtonPressed));
         Button feesButton = newTransparentButton(MongooseActions.newVisitFeesAction(this::onFeesButtonPressed));
+        Button termsButton = newTransparentButton(MongooseActions.newVisitTermsAndConditionsAction(this::onTermsButtonPressed));
+        //Button programButton = newTransparentButton(MongooseActions.newVisitProgramAction(this::onProgramButtonPressed));
         Font eventFont = Font.font("Verdana", 24);
-        Font buttonFont = Font.font("Verdana", 12);
+        Font bookButtonFont = Font.font("Verdana", 18);
+        Font otherButtonFont = Font.font("Verdana", 12);
         eventTitle.setFont(eventFont);
-        bookButton.setFont(buttonFont);
-        feesButton.setFont(buttonFont);
-        VBox vBox = new VBox(20, eventImageViewContainer, eventTitle, bookButton, feesButton);
+        bookButton.setFont(bookButtonFont);
+        feesButton.setFont(otherButtonFont);
+        termsButton.setFont(otherButtonFont);
+        //programButton.setFont(otherButtonFont);
+        FlowPane flowPane = new FlowPane(5, 20, feesButton, termsButton/*, programButton*/);
+        flowPane.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(20, eventImageViewContainer, eventTitle, bookButton, flowPane);
         vBox.setFillWidth(true);
         vBox.setAlignment(Pos.TOP_CENTER);
-        //vBox.setBackground(BackgroundUtil.newBackground(Color.BLUEVIOLET));
         eventContainer = LayoutUtil.createGoldLayout(vBox, 1.0, 0, null);
-        Button termsButton = newButton(MongooseActions.newVisitTermsAndConditionsAction(this::onTermsButtonPressed));
-        Button programButton = newButton(MongooseActions.newVisitProgramAction(this::onProgramButtonPressed));
-        buttonsHBox = new HBox(/*backButton,*/ LayoutUtil.createHGrowable(), termsButton, programButton);
     }
 
     @Override
     protected Node assemblyViewNodes() {
-        return new BorderPane(eventContainer, null, null, buttonsHBox, null);
+        return eventContainer;
     }
 
     @Override
