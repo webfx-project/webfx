@@ -8,6 +8,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
+import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.Event;
 import mongoose.services.EventService;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
@@ -41,7 +42,7 @@ public abstract class BookingProcessPresentationViewActivity<PM extends BookingP
     @Override
     protected Node styleUi(Node uiNode, PM pm) {
         if (uiNode instanceof Region) {
-            EventService.get(pm.getEventId()).onEvent().setHandler(ar -> {
+            EventService.getOrCreate(pm.getEventId(), DomainModelSnapshotLoader.getDataSourceModel()).onEvent().setHandler(ar -> {
                 if (ar.succeeded()) {
                     Event event = ar.result();
                     String css = event.getStringFieldValue("cssClass");
