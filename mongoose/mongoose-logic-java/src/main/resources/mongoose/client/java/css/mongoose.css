@@ -33,6 +33,7 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
 
 .scroll-pane {
    -fx-background-color: transparent;
+   -fx-padding: 0;
 }
 
 .table-view {
