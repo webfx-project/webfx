@@ -27,6 +27,14 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
     src: url('../fonts/Roboto-BoldItalic.ttf');
 }
 
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+
 .table-view {
     -fx-table-cell-border-color: #bbbbbb; /* same color as java 7 caspian, java 8 one is too light on colored rows */
     -fx-cursor: hand;
