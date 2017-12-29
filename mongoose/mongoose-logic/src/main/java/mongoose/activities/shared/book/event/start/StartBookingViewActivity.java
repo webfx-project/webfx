@@ -8,8 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import mongoose.actions.MongooseActions;
@@ -28,7 +27,6 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
     private ImageView eventImageView;
     private BorderPane eventImageViewContainer;
     private Label eventTitle;
-    private Pane eventContainer;
 
     public StartBookingViewActivity() {
         super(null);
@@ -52,22 +50,19 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
         feesButton.setFont(otherButtonFont);
         termsButton.setFont(otherButtonFont);
         //programButton.setFont(otherButtonFont);
-        FlowPane flowPane = new FlowPane(5, 20, feesButton, termsButton/*, programButton*/);
+        double vGap = 20;
+        FlowPane flowPane = new FlowPane(5, vGap, feesButton, termsButton/*, programButton*/);
         flowPane.setAlignment(Pos.CENTER);
-        VBox vBox = new VBox(20, eventImageViewContainer, eventTitle, bookButton, flowPane);
-        vBox.setFillWidth(true);
-        vBox.setAlignment(Pos.TOP_CENTER);
-        eventContainer = LayoutUtil.createGoldLayout(vBox, 1.0, 0, null);
-    }
-
-    @Override
-    protected Node assemblyViewNodes() {
-        return eventContainer;
+        verticalStack.setSpacing(vGap);
+        verticalStack.getChildren().setAll(eventImageViewContainer, eventTitle, bookButton, flowPane);
+        GridPane goldLayout = LayoutUtil.createGoldLayout(verticalStack, 1.0, 0, null);
+        pageContainer.setCenter(verticalScrollPane = LayoutUtil.createVerticalScrollPane(goldLayout));
+        goldLayout.minHeightProperty().bind(verticalScrollPane.heightProperty());
     }
 
     @Override
     protected Node styleUi(Node uiNode) {
-        eventContainer.setVisible(false);
+        verticalStack.setVisible(false);
         onEvent().setHandler(ar -> {
             Toolkit.get().scheduler().runInUiThread(() -> {
                 if (ar.succeeded()) {
@@ -81,7 +76,7 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
                                 (w1, w2) -> Math.min(w1.doubleValue(), w2.doubleValue())));
                     }
                 }
-                eventContainer.setVisible(true);
+                verticalStack.setVisible(true);
             });
         });
         return super.styleUi(uiNode);

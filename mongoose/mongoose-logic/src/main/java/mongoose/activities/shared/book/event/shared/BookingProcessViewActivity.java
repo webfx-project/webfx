@@ -1,6 +1,7 @@
 package mongoose.activities.shared.book.event.shared;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -46,6 +47,7 @@ public abstract class BookingProcessViewActivity
         nextButton.setOnAction(this::onNextButtonPressed);
 
         pageContainer = new BorderPane(verticalScrollPane = LayoutUtil.createVerticalScrollPaneWithPadding(verticalStack = new VBox(10)));
+        verticalStack.setAlignment(Pos.TOP_CENTER);
     }
 
     protected Node assemblyViewNodes() {
