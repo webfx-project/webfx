@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
@@ -16,7 +15,6 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
 import naga.framework.ui.layouts.FlexBox;
-import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Arrays;
@@ -32,7 +30,6 @@ import static naga.framework.ui.layouts.LayoutUtil.setMaxWidthToInfinite;
  */
 public class OptionsViewActivity extends BookingProcessViewActivity {
 
-    private VBox verticalStack;
     private FlexBox topLevelOptionButtonsContainer;
     private Node bookingCalendarSection;
     protected Label priceText;
@@ -84,7 +81,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(verticalStack = new VBox(10)));
 
         topLevelOptionButtonsContainer = new FlexBox(4, 4);
         bookingCalendar = createBookingCalendar();
@@ -123,7 +119,7 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
 
     protected void addPriceText() {
         priceText.setAlignment(Pos.CENTER);
-        borderPane.setTop(setMaxWidthToInfinite(priceText));
+        pageContainer.setTop(setMaxWidthToInfinite(priceText));
     }
 
     protected List<Node> createOptionPanelHeaderNodes(Option option, Property<String> i18nTitle) {

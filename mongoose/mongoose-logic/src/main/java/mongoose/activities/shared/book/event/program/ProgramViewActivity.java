@@ -1,11 +1,12 @@
 package mongoose.activities.shared.book.event.program;
 
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.platform.services.log.spi.Logger;
 
 /**
@@ -23,16 +24,10 @@ public class ProgramViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        BorderPane calendarPanel = createSectionPanel("{url: 'images/calendar.svg', width: 16, height: 16}", "Timetable");
-        VBox panelsVBox = new VBox(calendarPanel);
-
-        borderPane.setCenter(panelsVBox);
-        borderPane.setBottom(backButton);
-
         bookingCalendar = new BookingCalendar(false, getI18n());
-
-        calendarPanel.centerProperty().bind(bookingCalendar.calendarNodeProperty());
-
+        BorderPane calendarSection = createSectionPanel(MongooseIcons.calendarMonoSvg16JsonUrl, "Timetable");
+        calendarSection.centerProperty().bind(bookingCalendar.calendarNodeProperty());
+        verticalStack.getChildren().setAll(calendarSection, LayoutUtil.setMaxWidthToInfinite(backButton));
         showBookingCalendarIfReady();
     }
 

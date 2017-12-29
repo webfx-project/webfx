@@ -40,14 +40,13 @@ public class PersonViewActivity extends BookingProcessViewActivity {
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
-        VBox verticalStack = new VBox();
         BorderPane accountTopNote = new BorderPane();
         Text accountTopText = newText("AccountTopNote");
         accountTopText.setFill(Color.web("#8a6d3b"));
         TextFlow textFlow = new TextFlow(accountTopText);
         textFlow.maxWidthProperty().bind(
                 // borderPane.widthProperty().subtract(100) // doesn't compile with GWT
-                Properties.compute(borderPane.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
+                Properties.compute(pageContainer.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
         );
         accountTopNote.setLeft(textFlow);
         Button closeButton = Action.create(null, MongooseIcons.removeIcon16JsonUrl, e -> verticalStack.getChildren().remove(accountTopNote)).toButton(getI18n());
@@ -63,11 +62,11 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         ObservableValue<Boolean> loggedInProperty = uiUser.loggedInProperty();
         ObservableValue<Boolean> notLoggedIn = Properties.not(loggedInProperty);
         LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
-        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane, uiUser);
-        Node[] nodes = {new VBox(20, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode()};
+        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiUser);
+        Node[] tabContents = {new VBox(10, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode() };
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            Node displayedNode = nodes[accountToggleGroup.getToggles().indexOf(newValue)];
+            Node displayedNode = tabContents[accountToggleGroup.getToggles().indexOf(newValue)];
             accountPane.setCenter(displayedNode);
             if (displayedNode == loginPanel.getNode())
                 loginPanel.prepareShowing();
@@ -79,9 +78,9 @@ public class PersonViewActivity extends BookingProcessViewActivity {
         }, loggedInProperty);
         verticalStack.getChildren().setAll(
                 LayoutUtil.setUnmanagedWhenInvisible(accountTopNote, notLoggedIn),
-                LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn),
-                accountPane);
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(verticalStack));
+                new VBox(LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn)
+                        , accountPane)
+                );
 
         syncUiFromModel();
     }

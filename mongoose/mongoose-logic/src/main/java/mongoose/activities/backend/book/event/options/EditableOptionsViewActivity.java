@@ -54,7 +54,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
         hbox.setPadding(new Insets(5, 10, 0, 10));
         HBox.setMargin(editModeCheckBox, new Insets(5, 0, 5, 0));
         hbox.setAlignment(Pos.CENTER);
-        borderPane.setTop(hbox);
+        pageContainer.setTop(hbox);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
 
     @Override
     protected BookingCalendar createBookingCalendar() {
-        return new EditableBookingCalendar(true, getI18n(), borderPane);
+        return new EditableBookingCalendar(true, getI18n(), pageContainer);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
                             startLogic();
                         }
                     });
-                }, borderPane);
+                }, pageContainer);
     }
 
     private BorderPane addOptionDialogPane;
@@ -136,7 +136,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
             dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 2) closeAddOptionDialog(); });
         }
         addOptionDialogFilter.setActive(true);
-        addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, borderPane, 0.9, 0.8);
+        addOptionDialogCallback = DialogUtil.showModalNodeInGoldLayout(addOptionDialogPane, pageContainer, 0.9, 0.8);
     }
 
     private void onOkAddOptionDialog() {
@@ -190,7 +190,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
             labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(
                     new MultiLanguageEditor(getI18n(), label, lang -> lang, null)
                             .showOkCancelButton(e -> closeLabelDialog(e, label))
-                            .getUiNode(), borderPane, 0.9, 0.8);
+                            .getUiNode(), pageContainer, 0.9, 0.8);
     }
 
     private void closeLabelDialog(Entity savedEntity, Label label) {

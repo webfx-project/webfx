@@ -12,14 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.VBox;
 import mongoose.activities.shared.book.event.shared.*;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
-import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.platform.json.Json;
 import naga.platform.services.log.spi.Logger;
@@ -51,7 +49,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         bookingOptionsPanel = new BookingOptionsPanel(getI18n());
         bookingCalendar = new BookingCalendar(false, getI18n());
         bookingCalendarSection = createBookingCalendarSection(bookingCalendar);
-        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, borderPane);
+        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer);
         personDetailsPanel.setEditable(false);
 
         BorderPane commentPanel = createSectionPanel("Comment");
@@ -64,14 +62,14 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
         agreeTCTranslationProperty = translationProperty("AgreeTC");
         Properties.runNowAndOnPropertiesChange(p -> setTermsCheckBoxText(Strings.toSafeString(p.getValue())), agreeTCTranslationProperty);
 
-        borderPane.setCenter(LayoutUtil.createVerticalScrollPaneWithPadding(new VBox(20,
+        verticalStack.getChildren().setAll(
                 bookingOptionsPanel.getOptionsPanel(),
                 bookingCalendarSection,
                 personDetailsPanel.getSectionPanel(),
                 commentPanel,
                 termsPanel,
                 nextButton
-        )));
+        );
 
         validationSupport.addControlValidation(termsCheckBox.selectedProperty(), termsCheckBox, "Please accept the terms and conditions");
     }
@@ -100,7 +98,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     }
 
     private void showTermsDialog() {
-        new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), borderPane).setOnClose(() -> termsCheckBox.setSelected(true)).show();
+        new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), pageContainer).setOnClose(() -> termsCheckBox.setSelected(true)).show();
     }
 
     private void syncUiFromModel() {

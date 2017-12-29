@@ -3,13 +3,13 @@ package mongoose.activities.shared.book.event.shared;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
 import mongoose.entities.Event;
 import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 
 /**
  * @author Bruno Salmon
@@ -23,7 +23,9 @@ public abstract class BookingProcessViewActivity
     protected Button backButton;
     protected Button nextButton;
 
-    protected BorderPane borderPane;
+    protected BorderPane pageContainer;
+    protected ScrollPane verticalScrollPane;
+    protected VBox verticalStack;
 
     public BookingProcessViewActivity(String nextPage) {
         this.nextPage = nextPage;
@@ -37,17 +39,17 @@ public abstract class BookingProcessViewActivity
 
     protected void createViewNodes() {
         if (backButton == null)
-            backButton = newButton("<<Back");
+            backButton = newTransparentButton("<<Back");
         if (nextButton == null)
             nextButton = newLargeGreenButton( "Next>>");
         backButton.setOnAction(this::onPreviousButtonPressed);
         nextButton.setOnAction(this::onNextButtonPressed);
 
-        borderPane = new BorderPane(null, null, null, null /*new HBox(backButton, LayoutUtil.createHGrowable(), nextButton)*/, null);
+        pageContainer = new BorderPane(verticalScrollPane = LayoutUtil.createVerticalScrollPaneWithPadding(verticalStack = new VBox(10)));
     }
 
     protected Node assemblyViewNodes() {
-        return borderPane;
+        return pageContainer;
     }
 
     protected Node styleUi(Node uiNode) {

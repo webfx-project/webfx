@@ -191,9 +191,7 @@ public class LayoutUtil {
         return setUnmanagedWhenInvisible(node);
     }
 
-    public static Region createPadding(Region content) {
-        if (content.getBorder() != null)
-            content = new VBox(content);
+    public static <N extends Region> N createPadding(N content) {
         content.setPadding(new Insets(10));
         return content;
     }
@@ -204,7 +202,7 @@ public class LayoutUtil {
 
     public static ScrollPane createVerticalScrollPane(Region content) {
         ScrollPane scrollPane = createScrollPane(content);
-        LayoutUtil.setMinMaxWidthToPref(content);
+        setMinMaxWidthToPref(content);
         double verticalScrollbarExtraWidth = Toolkit.get().getVerticalScrollbarExtraWidth();
         if (verticalScrollbarExtraWidth == 0)
             content.prefWidthProperty().bind(scrollPane.widthProperty());
