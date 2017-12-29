@@ -20,22 +20,22 @@ public abstract class BookingProcessPresentationViewActivity<PM extends BookingP
         extends PresentationViewActivityImpl<PM>
         implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
 
-    protected Button previousButton;
+    protected Button backButton;
     protected Button nextButton;
 
     @Override
     protected void createViewNodes(PM pm) {
-        if (previousButton == null)
-            previousButton = newButton("<<Back");
+        if (backButton == null)
+            backButton = newTransparentButton("<<Back");
         if (nextButton == null)
-            nextButton = newButton("Next>>");
-        previousButton.onActionProperty().bind(pm.onPreviousActionProperty());
+            nextButton = newLargeGreenButton("Next>>");
+        backButton.onActionProperty().bind(pm.onPreviousActionProperty());
         nextButton.onActionProperty().bind(pm.onNextActionProperty());
     }
 
     @Override
     protected Node assemblyViewNodes() {
-        return new BorderPane(null, null, null, new HBox(previousButton, nextButton), null);
+        return new BorderPane(null, null, null, new HBox(backButton, nextButton), null);
     }
 
     @Override

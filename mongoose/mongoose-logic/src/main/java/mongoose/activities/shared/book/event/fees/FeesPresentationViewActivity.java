@@ -31,7 +31,7 @@ public class FeesPresentationViewActivity extends BookingProcessPresentationView
             vBox.setPadding(new Insets(10));
             return vBox;
         });
-        buttonsBox = new HBox(previousButton, LayoutUtil.createHGrowable(), termsButton, programButton);
+        buttonsBox = new HBox(backButton, LayoutUtil.createHGrowable(), termsButton, programButton);
 
         termsButton.onActionProperty().bind(pm.onTermsActionProperty());
         programButton.onActionProperty().bind(pm.onProgramActionProperty());
