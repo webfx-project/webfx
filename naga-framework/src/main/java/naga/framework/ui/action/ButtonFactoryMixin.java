@@ -15,6 +15,9 @@ import naga.framework.ui.layouts.LayoutUtil;
  */
 public interface ButtonFactoryMixin extends ControlFactoryMixin {
 
+    int LARGE_BUTTON_HEIGHT = 45;
+    int COLOR_BUTTON_BORDER_WIDTH = 4;
+
     default Button newButton(Object i18nKey, Runnable handler) {
         return newButtonBuilder(i18nKey, handler).build();
     }
@@ -28,7 +31,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newLargeGreenButtonBuilder(Object i18nKey) {
-        return newGreenButtonBuilder(i18nKey).setHeight(50);
+        return newGreenButtonBuilder(i18nKey).setHeight(LARGE_BUTTON_HEIGHT);
     }
 
     default Button newGreenButton(Object i18nKey) {
@@ -64,8 +67,8 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder colorize(ButtonBuilder buttonBuilder, String topColor, String bottomColor) {
-        double buttonHeight = 50;
-        double borderWidth = 4;
+        double buttonHeight = LARGE_BUTTON_HEIGHT;
+        double borderWidth = COLOR_BUTTON_BORDER_WIDTH;
         Paint textFill = Color.WHITE, pressedTextFill = textFill;
         Background background, pressedBackground;
         if (topColor != null && bottomColor != null) {
