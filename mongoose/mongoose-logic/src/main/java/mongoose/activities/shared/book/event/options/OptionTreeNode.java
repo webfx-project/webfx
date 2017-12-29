@@ -165,8 +165,10 @@ class OptionTreeNode {
         topLevelOptionButton.setOnMouseClicked(e -> optionButtonSelectedProperty.setValue(!optionButtonSelectedProperty.getValue()));
         topLevelOptionButton.setCursor(Cursor.HAND);
         ImageView checkBoxView = new ImageView();
+        checkBoxView.setFitWidth(16d);
+        checkBoxView.setFitHeight(16d);
         checkBoxView.imageProperty().bind(Properties.compute(optionButtonSelectedProperty, selected ->
-                ImageStore.getOrCreateImage(selected ? MongooseIcons.checkedIcon16Url : MongooseIcons.uncheckedIcon16Url, 16, 16)));
+                ImageStore.getOrCreateImage(selected ? MongooseIcons.checkedIcon16Url : MongooseIcons.uncheckedIcon16Url)));
         ObservableList<Node> hBoxChildren = ((HBox) topLevelOptionButton.getTop()).getChildren();
         hBoxChildren.add(0, checkBoxView);
         hBoxChildren.add(0, LayoutUtil.createHGrowable()); // To shift the button content and make it centered

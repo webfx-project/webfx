@@ -2,7 +2,6 @@ package mongoose.actions;
 
 import javafx.scene.image.ImageView;
 import mongoose.entities.Option;
-import naga.framework.ui.controls.ImageViewUtil;
 import naga.fx.util.ImageStore;
 
 /**
@@ -38,10 +37,10 @@ public class MongooseIcons {
     }
 
     public static ImageView getLanguageIcon32(Object language) {
-        return ImageStore.createImageView("images/32/system/lang_" + language + ".png");
+        return ImageStore.createImageView("images/32/system/lang_" + language + ".png", 32, 32);
     }
 
     public static ImageView getItemFamilyIcon16(Option option) {
-        return ImageViewUtil.createImageView("images/16/itemFamilies/" + option.getItemFamilyCode() + ".png");
+        return ImageStore.createImageView("images/16/itemFamilies/" + option.getItemFamilyCode() + ".png", 16, 16);
     }
 }
