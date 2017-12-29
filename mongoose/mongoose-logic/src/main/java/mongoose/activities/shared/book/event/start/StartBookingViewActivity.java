@@ -1,5 +1,8 @@
 package mongoose.activities.shared.book.event.start;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,6 +14,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.util.Labels;
@@ -62,24 +66,38 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
 
     @Override
     protected Node styleUi(Node uiNode) {
-        verticalStack.setVisible(false);
+        fadeOut();
         onEvent().setHandler(ar -> {
             Toolkit.get().scheduler().runInUiThread(() -> {
+                String imageUrl = null;
                 if (ar.succeeded()) {
                     Labels.translateLabel(eventTitle, Labels.bestLabelOrName(ar.result()), getI18n());
-                    Object url = ar.result().evaluate("buddha.image.url");
-                    if (url instanceof String) {
-                        Image image = ImageStore.getOrCreateImage((String) url);
-                        eventImageView.setImage(image);
-                        eventImageView.setPreserveRatio(true);
-                        eventImageView.fitWidthProperty().bind(Properties.combine(eventImageViewContainer.widthProperty(), image.widthProperty(),
-                                (w1, w2) -> Math.min(w1.doubleValue(), w2.doubleValue())));
-                    }
+                    imageUrl = (String) ar.result().evaluate("buddha.image.url");
                 }
-                verticalStack.setVisible(true);
+                if (imageUrl == null)
+                    runFadeInAnimation();
+                else {
+                    Image image = ImageStore.getOrCreateImage(imageUrl);
+                    eventImageView.setImage(image);
+                    eventImageView.setPreserveRatio(true);
+                    eventImageView.fitWidthProperty().bind(Properties.combine(eventImageViewContainer.widthProperty(), image.widthProperty(),
+                            (w1, w2) -> Math.min(w1.doubleValue(), w2.doubleValue())));
+                    if (!image.isBackgroundLoading())
+                        runFadeInAnimation();
+                    else
+                        image.heightProperty().addListener(observable -> runFadeInAnimation());
+                }
             });
         });
         return super.styleUi(uiNode);
+    }
+
+    private void fadeOut() {
+        verticalStack.setOpacity(0d);
+    }
+
+    private void runFadeInAnimation() {
+        new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(verticalStack.opacityProperty(), 1d))).play();
     }
 
     private void onProgramButtonPressed() {
