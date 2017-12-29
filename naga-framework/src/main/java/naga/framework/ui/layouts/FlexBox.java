@@ -21,19 +21,23 @@ public class FlexBox extends Pane {
     private final DoubleProperty horizontalSpace = new SimpleDoubleProperty(0);
     private final DoubleProperty verticalSpace = new SimpleDoubleProperty(0);
     private double computedMinHeight;
-    private double lastComputationWidthInput;
     private boolean performingLayout;
 
     public FlexBox() {
         // This is necessary to clear the previous computed min/pref/max height cached value memorized in Region.min/pref/maxHeight()
-        widthProperty().addListener(observable -> requestLayout());
-        getChildren().addListener((InvalidationListener) observable -> requestLayout());
+        widthProperty().addListener(observable -> clearSizeCache());
+        getChildren().addListener((InvalidationListener) observable -> clearSizeCache());
     }
 
     public FlexBox(double horizontalSpace, double verticalSpace) {
         this();
         setHorizontalSpace(horizontalSpace);
         setVerticalSpace(verticalSpace);
+    }
+
+    private void clearSizeCache() {
+        // Parent.clearSizeCache() is not accessible (package visibility) but requestLayout() will call it
+        requestLayout();
     }
 
     public double getHorizontalSpace() {
@@ -117,8 +121,7 @@ public class FlexBox extends Pane {
     protected double computeMinHeight(double width) {
         if (width < 0)
             width = getWidth();
-        if (width != lastComputationWidthInput)
-            computeLayout(width, false);
+        computeLayout(width, false);
         return computedMinHeight;
     }
 
@@ -239,7 +242,7 @@ public class FlexBox extends Pane {
         y += getPadding().getBottom();
 
         computedMinHeight = y;
-        lastComputationWidthInput = width;
+        //lastComputationWidthInput = width;
     }
 
     private void addToGrid(int row, FlexBoxRow flexBoxRow) {
