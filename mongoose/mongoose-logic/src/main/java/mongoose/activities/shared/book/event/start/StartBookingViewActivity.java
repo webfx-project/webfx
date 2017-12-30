@@ -68,6 +68,7 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
     protected Node styleUi(Node uiNode) {
         fadeOut();
         onEvent().setHandler(ar -> {
+            onEventOptions(); // Anticipating event options loading now (required for options and fees pages)
             Toolkit.get().scheduler().runInUiThread(() -> {
                 String imageUrl = null;
                 if (ar.succeeded()) {
