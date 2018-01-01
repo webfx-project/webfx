@@ -9,9 +9,8 @@ import javafx.scene.paint.Paint;
  */
 public class BackgroundUtil {
 
-    public static Background transparentBackground() {
-        return newBackground(Color.TRANSPARENT);
-    }
+    public final static Background TRANSPARENT_BACKGROUND = newBackground(Color.TRANSPARENT);
+    public final static Background WHITE_BACKGROUND = newBackground(Color.WHITE);
 
     public static Background newWebColorBackground(String webColor) {
         return newBackground(Color.web(webColor));

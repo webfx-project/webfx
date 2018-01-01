@@ -119,14 +119,17 @@ public class GridCollator extends DataGrid {
 
         @Override
         public void updateBackground(Background background) {
+            container.setBackground(background);
         }
 
         @Override
         public void updateBorder(Border border) {
+            container.setBorder(border);
         }
 
         @Override
         public void updatePadding(Insets padding) {
+            container.setPadding(padding);
         }
 
         @Override

@@ -6,11 +6,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.ui.action.ButtonFactoryMixin;
+import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
-import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.i18n.I18n;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
 
 import static naga.framework.ui.layouts.LayoutUtil.createHGrowable;
@@ -46,6 +47,7 @@ public class TermsDialog implements ButtonFactoryMixin {
 
     public void show() {
         GridCollator termsLetterCollator = new GridCollator("first", "first");
+        termsLetterCollator.setBackground(BackgroundUtil.WHITE_BACKGROUND);
         BorderPane entityDialogPane = new BorderPane(LayoutUtil.setMaxPrefSizeToInfinite(LayoutUtil.createVerticalScrollPaneWithPadding(termsLetterCollator)));
         createReactiveExpressionFilter("{class: 'Letter', where: 'type.terms', limit: '1'}")
                 .combine("{where: 'event=" + eventId + "'}")
