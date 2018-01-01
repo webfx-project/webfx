@@ -171,7 +171,7 @@ public class HtmlUtil {
         return appendAttribute(e, "style", style, "; ");
     }
 
-    private static native void setJsAttribute(JavaScriptObject o, String name, String value) /*-{
+    public static native void setJsAttribute(JavaScriptObject o, String name, String value) /*-{
         o[name] = value;
     }-*/;
 

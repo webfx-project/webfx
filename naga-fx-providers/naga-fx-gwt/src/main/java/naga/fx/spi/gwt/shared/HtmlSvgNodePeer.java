@@ -1,5 +1,6 @@
 package naga.fx.spi.gwt.shared;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.Element;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
@@ -16,22 +17,19 @@ import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.input.KeyCode;
 import emul.javafx.scene.input.KeyEvent;
-import emul.javafx.scene.input.MouseButton;
-import emul.javafx.scene.input.MouseEvent;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.text.FontPosture;
 import emul.javafx.scene.transform.Transform;
 import naga.fx.scene.SceneRequester;
-import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.svg.peer.SvgNodePeer;
 import naga.fx.spi.gwt.util.DomType;
 import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.gwt.util.SvgTransforms;
+import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerImpl;
 import naga.fx.spi.peer.base.NodePeerMixin;
-import naga.uischeduler.AnimationFramePass;
 import naga.util.Booleans;
 import naga.util.Strings;
 import naga.util.collection.Collections;
@@ -65,6 +63,31 @@ public abstract class HtmlSvgNodePeer
     public void setContainer(Element container) {
         this.container = container;
         containerType = "SVG".equalsIgnoreCase(container.tagName) || this instanceof SvgNodePeer ? DomType.SVG : DomType.HTML;
+        storePeerInElement(container);
+    }
+
+    protected void storePeerInElement(Object element) {
+        HtmlUtil.setJsJavaObjectAttribute((JavaScriptObject) element, "nodePeer", this);
+    }
+
+    protected static NodePeer getPeerFromElement(Object element) {
+        return element == null ? null : (NodePeer) HtmlUtil.getJsJavaObjectAttribute((JavaScriptObject) element, "nodePeer");
+    }
+
+    public static NodePeer getPeerFromElementOrParents(Element element) {
+        NodePeer nodePeer = null;
+        for (elemental2.dom.Node n = element; nodePeer == null && n != null; n = n.parentNode)
+            nodePeer = getPeerFromElement(n);
+        if (nodePeer != null) {
+            Node node = nodePeer.getNode();
+            while (node != null) {
+                emul.javafx.scene.Parent parent = node.getParent();
+                if (parent == null && node.getScene().getRoot() != node)
+                    return getPeerFromElementOrParents((Element) ((HtmlSvgNodePeer) node.getNodePeer()).element.parentNode);
+                node = parent;
+            }
+        }
+        return nodePeer;
     }
 
     public Element getContainer() {
@@ -82,52 +105,8 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        installMouseListeners();
         installFocusListeners();
         installKeyboardListeners();
-    }
-
-    private void installMouseListeners() {
-        registerMouseListener("mousedown");
-        registerMouseListener("mouseup");
-        //registerMouseListener("click"); // Not necessary as the JavaFx Scene already generates them based on the mouse pressed and released events
-        registerMouseListener("mouseenter");
-        registerMouseListener("mouseleave");
-        registerMouseListener("mousemove");
-    }
-
-    private void registerMouseListener(String type) {
-        element.addEventListener(type, e -> {
-            boolean fxConsumed = passHtmlMouseEventOnToFx((elemental2.dom.MouseEvent) e, type);
-            if (fxConsumed) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-        });
-    }
-
-    private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
-
-    protected boolean passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
-        MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
-        if (fxMouseEvent != null) {
-            // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
-            Scene scene = getNode().getScene();
-            // Also fixing a problem: mouse released and mouse pressed are sent very closely on mobiles and might be
-            // treated in the same animation frame, which prevents the button pressed state (ex: a background bound to
-            // the button pressedProperty) to appear before the action (which might be time consuming) is fired, so the
-            // user doesn't know if the button has been successfully pressed or not during the action execution.
-            if (fxMouseEvent.getEventType() == MouseEvent.MOUSE_RELEASED && !atLeastOneAnimationFrameOccurredSinceLastMousePressed)
-                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> scene.impl_processMouseEvent(fxMouseEvent), AnimationFramePass.UI_UPDATE_PASS);
-            else {
-                scene.impl_processMouseEvent(fxMouseEvent);
-                if (fxMouseEvent.getEventType() == MouseEvent.MOUSE_PRESSED) {
-                    atLeastOneAnimationFrameOccurredSinceLastMousePressed = false;
-                    Toolkit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> atLeastOneAnimationFrameOccurredSinceLastMousePressed = true, AnimationFramePass.UI_UPDATE_PASS);
-                }
-            }
-        }
-        return isFxEventConsumed(fxMouseEvent);
     }
 
     private boolean passOnToFx(emul.javafx.event.Event fxEvent) {
@@ -135,7 +114,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     private boolean isFxEventConsumed(emul.javafx.event.Event fxEvent) {
-        return fxEvent == null || fxEvent.isConsumed();
+        return fxEvent != null && fxEvent.isConsumed();
     }
 
         private void installFocusListeners() {
@@ -275,36 +254,6 @@ public abstract class HtmlSvgNodePeer
             if (change.wasAdded())
                 element.classList.add(Collections.toArray(change.getAddedSubList(), String[]::new));
         }
-    }
-
-    private static boolean BUTTON_DOWN_STATES[] = {false, false, false, false};
-
-    private MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
-        MouseButton button;
-        switch ((int) me.button) {
-            case 0: button = MouseButton.PRIMARY; break;
-            case 1: button = MouseButton.MIDDLE; break;
-            case 2: button = MouseButton.SECONDARY; break;
-            default: button = MouseButton.NONE;
-        }
-        EventType<MouseEvent> eventType;
-        switch (type) {
-            case "mousedown": eventType = MouseEvent.MOUSE_PRESSED; BUTTON_DOWN_STATES[button.ordinal()] = true; break;
-            case "mouseup": eventType = MouseEvent.MOUSE_RELEASED; BUTTON_DOWN_STATES[button.ordinal()] = false; break;
-            case "mouseenter": eventType = MouseEvent.MOUSE_ENTERED; break;
-            case "mouseleave": eventType = MouseEvent.MOUSE_EXITED; break;
-            case "mousemove": eventType = BUTTON_DOWN_STATES[button.ordinal()] ? MouseEvent.MOUSE_DRAGGED : MouseEvent.MOUSE_MOVED; break;
-            default: return null;
-        }
-        return new MouseEvent(null, getNode(), eventType, me.pageX, me.pageY, me.screenX, me.screenY, button,
-                1, me.shiftKey, me.ctrlKey, me.altKey, me.metaKey,
-                 BUTTON_DOWN_STATES[MouseButton.PRIMARY.ordinal()],
-                 BUTTON_DOWN_STATES[MouseButton.MIDDLE.ordinal()],
-                 BUTTON_DOWN_STATES[MouseButton.SECONDARY.ordinal()],
-                false,
-                false,
-                false,
-                null);
     }
 
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {

@@ -1,5 +1,6 @@
 package naga.fx.spi.gwt.svg;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import emul.javafx.collections.ListChangeListener;
@@ -15,6 +16,8 @@ import naga.fx.spi.peer.base.ScenePeerBase;
 import naga.fx.spi.gwt.html.peer.HtmlNodePeer;
 import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.gwt.util.SvgUtil;
+
+import static elemental2.dom.DomGlobal.document;
 
 /**
  * @author Bruno Salmon
@@ -56,6 +59,12 @@ public class SvgScenePeer extends ScenePeerBase {
     public Element addDef(Element def) {
         defsElement.appendChild(def);
         return def;
+    }
+
+    @Override
+    public NodePeer pickPeer(double sceneX, double sceneY) {
+        Element element = document.elementFromPoint(sceneX, sceneY);
+        return (NodePeer) HtmlUtil.getJsJavaObjectAttribute((JavaScriptObject) (Object) element, "peer");
     }
 
     @Override

@@ -3,16 +3,15 @@ package naga.fx.spi.gwt.html.peer;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
 import elemental2.dom.HTMLTextAreaElement;
-import elemental2.dom.MouseEvent;
 import emul.javafx.scene.control.TextInputControl;
 import emul.javafx.scene.text.Font;
 import emul.javafx.scene.transform.Transform;
-import naga.util.Booleans;
-import naga.util.Objects;
-import naga.util.Strings;
 import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.peer.base.TextInputControlPeerBase;
 import naga.fx.spi.peer.base.TextInputControlPeerMixin;
+import naga.util.Booleans;
+import naga.util.Objects;
+import naga.util.Strings;
 
 import java.util.List;
 
@@ -38,11 +37,6 @@ public abstract class HtmlTextInputControlPeer
     specified width/height. On a text input, this will size the inner visual box (excluding the padding and border).
 */
         subtractCssPaddingBorderWhenUpdatingSize = true;
-    }
-
-    @Override
-    protected boolean passHtmlMouseEventOnToFx(MouseEvent e, String type) {
-        return false;
     }
 
     @Override
