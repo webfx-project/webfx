@@ -1684,7 +1684,7 @@ public class Scene implements EventTarget,
             }
 
 
-            pick(tmpTargetWrapper, e); // pick(tmpTargetWrapper, e.getSceneX(), e.getSceneY());
+            pick(tmpTargetWrapper, e.getSceneX(), e.getSceneY());
             PickResult res = tmpTargetWrapper.getResult();
             if (res != null) {
                 e = new MouseEvent(e.getEventType(), e.getSceneX(), e.getSceneY(),
@@ -1778,7 +1778,7 @@ public class Scene implements EventTarget,
                 exitFullPDR(e);
                 // we need to do new picking in case the originally picked node
                 // was moved or removed by the event handlers
-                pick(tmpTargetWrapper, e); // pick(tmpTargetWrapper, e.getSceneX(), e.getSceneY());
+                pick(tmpTargetWrapper, e.getSceneX(), e.getSceneY());
                 handleEnterExit(e, tmpTargetWrapper);
             }
 
@@ -1786,10 +1786,9 @@ public class Scene implements EventTarget,
             //Scene.inMousePick = false;
         }
 
-
         private void processFullPDR(MouseEvent e, boolean onPulse) {
 
-            pick(fullPDRTmpTargetWrapper, e); // pick(fullPDRTmpTargetWrapper, e.getSceneX(), e.getSceneY());
+            pick(fullPDRTmpTargetWrapper, e.getSceneX(), e.getSceneY());
             final PickResult result = fullPDRTmpTargetWrapper.getResult();
 
             final EventTarget eventTarget = fullPDRTmpTargetWrapper.getEventTarget();
@@ -1933,13 +1932,34 @@ public class Scene implements EventTarget,
         }
     }
 
-    private static void pick(TargetWrapper targetWrapper, Event e) {
-        if (e.getTarget() instanceof Node) {
-            Node node = (Node) e.getTarget();
-            targetWrapper.set(node, node.getScene());
-        } else
-            targetWrapper.clear();
+    private void pick(TargetWrapper target, final double x, final double y) {
+        NodePeer nodePeer = impl_getPeer().pickPeer(x, y);
+        PickResult pickResult = nodePeer == null ? null : new PickResult(nodePeer.getNode(), x, y);
+        target.setNodeResult(pickResult);
+/*
+        final PickRay pickRay = getEffectiveCamera().computePickRay(
+                x, y, null);
+
+        final double mag = pickRay.getDirectionNoClone().length();
+        pickRay.getDirectionNoClone().normalize();
+        final PickResult res = mouseHandler.pickNode(pickRay);
+        if (res != null) {
+            target.setNodeResult(res);
+        } else {
+            //TODO: is this the intersection with projection plane?
+            Vec3d o = pickRay.getOriginNoClone();
+            Vec3d d = pickRay.getDirectionNoClone();
+            target.setSceneResult(new PickResult(
+                            null, new Point3D(
+                            o.x + mag * d.x,
+                            o.y + mag * d.y,
+                            o.z + mag * d.z),
+                            mag),
+                    isInScene(x, y) ? this : null);
+        }
+*/
     }
+
 
     private static class SnapshotChange<E> extends SourceAdapterChange<E> {
 

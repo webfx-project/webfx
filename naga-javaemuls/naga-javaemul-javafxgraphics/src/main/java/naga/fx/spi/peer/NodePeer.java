@@ -15,6 +15,8 @@ public interface NodePeer<N extends Node> {
 
     void unbind();
 
+    N getNode();
+
     boolean updateProperty(ObservableValue changedProperty);
 
     boolean updateList(ObservableList list, ListChangeListener.Change change);

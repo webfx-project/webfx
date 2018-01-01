@@ -21,12 +21,4 @@ public abstract class NodePeerImpl
         return base;
     }
 
-    public N getNode() {
-        return base.getNode();
-    }
-
-    @Override
-    public void requestFocus() {
-        base.requestFocus();
-    }
 }

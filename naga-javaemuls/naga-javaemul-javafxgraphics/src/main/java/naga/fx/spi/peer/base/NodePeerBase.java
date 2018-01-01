@@ -60,6 +60,7 @@ public abstract class NodePeerBase
         node = null;
     }
 
+    @Override
     public N getNode() {
         return node;
     }

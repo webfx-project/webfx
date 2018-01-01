@@ -33,6 +33,21 @@ public interface NodePeerMixin
     }
 
     @Override
+    default D getNode() {
+        return getNodePeerBase().getNode();
+    }
+
+    @Override
+    default void requestFocus() {
+        getNodePeerBase().requestFocus();
+    }
+
+    @Override
+    default boolean isTreeVisible() {
+        return getNodePeerBase().isTreeVisible();
+    }
+
+    @Override
     default boolean updateProperty(ObservableValue changedProperty) {
         return getNodePeerBase().updateProperty(changedProperty);
     }
