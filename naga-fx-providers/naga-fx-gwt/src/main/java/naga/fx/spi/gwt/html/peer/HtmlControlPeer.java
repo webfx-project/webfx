@@ -1,5 +1,6 @@
 package naga.fx.spi.gwt.html.peer;
 
+import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.Insets;
 import emul.javafx.scene.control.Control;
@@ -21,12 +22,21 @@ abstract class HtmlControlPeer
     }
 
     protected void prepareDomForAdditionalSkinChildren() {
-        HTMLElement spanContainer = HtmlUtil.absolutePosition(HtmlUtil.createSpanElement());
+        HTMLElement spanContainer = createAbsolutePositionSpan();
         setContainer(spanContainer);
-        HTMLElement childrenContainer = HtmlUtil.createSpanElement();
+        HTMLElement childrenContainer = createAbsolutePositionSpan();
         HtmlUtil.setStyleAttribute(childrenContainer, "pointer-events", "none");
         setChildrenContainer(childrenContainer);
         HtmlUtil.setChildren(spanContainer, getElement(), childrenContainer);
+    }
+
+    private static HTMLElement createAbsolutePositionSpan() {
+        HTMLElement spanElement = HtmlUtil.absolutePosition(HtmlUtil.createSpanElement());
+        CSSStyleDeclaration style = spanElement.style;
+        // Positioned to left top corner by default
+        style.left = "0px";
+        style.top = "0px";
+        return spanElement;
     }
 
     @Override
