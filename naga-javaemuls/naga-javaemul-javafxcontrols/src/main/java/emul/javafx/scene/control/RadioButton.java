@@ -2,6 +2,7 @@ package emul.javafx.scene.control;
 
 import emul.com.sun.javafx.scene.control.skin.RadioButtonSkin;
 import emul.javafx.scene.Node;
+import javafx.scene.control.ToggleGroup;
 
 /**
  * @author Bruno Salmon
@@ -21,6 +22,17 @@ public class RadioButton extends ToggleButton {
 
     @Override
     protected void initialize() {
+    }
+
+    /**
+     * Toggles the state of the radio button if and only if the RadioButton
+     * has not already selected or is not part of a {@link ToggleGroup}.
+     */
+    @Override public void fire() {
+        // we don't toggle from selected to not selected if part of a group
+        if (getToggleGroup() == null || !isSelected()) {
+            super.fire();
+        }
     }
 
     @Override
