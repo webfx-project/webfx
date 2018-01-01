@@ -53,6 +53,8 @@ public class LayoutUtil {
         goldPane.add(setMaxSizeToPref(child), 0, 1);
         if (background != null)
             goldPane.setBackground(background);
+        // For any strange reason this additional code is required for the gwt version to work properly (unnecessary for the JavaFx version)
+        goldPane.widthProperty().addListener(observable -> goldPane.requestLayout());
         return goldPane;
     }
 
