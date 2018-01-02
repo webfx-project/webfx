@@ -71,7 +71,7 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
                 nextButton
         );
 
-        validationSupport.addControlValidation(termsCheckBox.selectedProperty(), termsCheckBox, "Please accept the terms and conditions");
+        validationSupport.addControlValidation(termsCheckBox.selectedProperty(), termsCheckBox, "Please read and accept the terms and conditions");
     }
 
     private void setTermsCheckBoxText(String text) {
