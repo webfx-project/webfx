@@ -9,6 +9,7 @@ import emul.javafx.geometry.VPos;
 import emul.javafx.scene.Cursor;
 import emul.javafx.scene.Node;
 import emul.javafx.scene.Scene;
+import emul.javafx.scene.control.SkinBase;
 import emul.javafx.scene.effect.BlendMode;
 import emul.javafx.scene.effect.Effect;
 import emul.javafx.scene.layout.Background;
@@ -48,6 +49,8 @@ public class GridCollator extends DataGrid {
         this.rowCollator = rowCollator;
         container = new BorderPane();
         setMaxWidth(Double.MAX_VALUE);
+        ObservableLists.setAllNonNulls(getChildren(), container);
+        setSkin(new SkinBase(this) {}); // So the peer displays (skin) children
     }
 
     @Override
@@ -56,7 +59,6 @@ public class GridCollator extends DataGrid {
         if (nodePeer == null) {
             Scene scene = getScene();
             container.setScene(scene);
-            ObservableLists.setAllNonNulls(getChildren(), container);
             NodePeer containerPeer = container.getOrCreateAndBindNodePeer();
             setNodePeer(nodePeer = containerPeer);
             gridCollatorPeer = new GridCollatorPeer();
