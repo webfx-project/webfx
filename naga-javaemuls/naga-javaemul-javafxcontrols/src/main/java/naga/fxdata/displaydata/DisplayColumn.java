@@ -46,6 +46,8 @@ public interface DisplayColumn {
      */
     ValueRenderer getValueRenderer();
 
+    ColumnWidthCumulator getCumulator();
+
     /**
      * Quick factory method for a simple DisplayColumn creation with just a label and type. Use the DisplayColumnBuilder
      * for more complex cases.
@@ -55,10 +57,10 @@ public interface DisplayColumn {
     }
 
     static DisplayColumn create(Object label, Type type, DisplayStyle style) {
-        return new DisplayColumnImpl(label, label, type, null, style, null);
+        return new DisplayColumnImpl(label, label, type, null, style, null, null);
     }
 
     static DisplayColumn create(ValueRenderer valueRenderer) {
-        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer);
+        return new DisplayColumnImpl(null, null, null, null, null, valueRenderer, null);
     }
 }
