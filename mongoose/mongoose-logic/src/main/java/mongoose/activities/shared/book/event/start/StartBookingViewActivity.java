@@ -1,8 +1,5 @@
 package mongoose.activities.shared.book.event.start;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,7 +11,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.util.Labels;
@@ -98,7 +94,7 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
     }
 
     private void runFadeInAnimation() {
-        new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(verticalStack.opacityProperty(), 1d))).play();
+        Properties.animateProperty(verticalStack.opacityProperty(), 1d);
     }
 
     private void onProgramButtonPressed() {
