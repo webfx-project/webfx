@@ -1329,8 +1329,8 @@ public class Scene implements EventTarget,
         }
 
         private void moved(double x, double y) {
-            if (Math.abs(x - pressedX) > 4 /*toolkit.getMultiClickMaxX()*/ ||
-                    Math.abs(y - pressedY) > 4 /*toolkit.getMultiClickMaxY()*/) {
+            if (Math.abs(x - pressedX) > 10 /*toolkit.getMultiClickMaxX()*/ ||
+                    Math.abs(y - pressedY) > 10 /*toolkit.getMultiClickMaxY()*/) {
                 out();
                 still = false;
             }
