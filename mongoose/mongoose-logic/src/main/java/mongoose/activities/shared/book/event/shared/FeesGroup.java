@@ -79,15 +79,15 @@ public class FeesGroup {
         return Labels.instantTranslateLabel(label, language);
     }
 
-    public DisplayResultSet generateDisplayResultSet(MongooseButtonFactoryMixin buttonFactory, EventService eventService, Handler<OptionsPreselection> bookHandler) {
+    public DisplayResultSet generateDisplayResultSet(MongooseButtonFactoryMixin buttonFactory, EventService eventService, Handler<OptionsPreselection> bookHandler, ColumnWidthCumulator[] cumulators) {
         boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
         I18n i18n = buttonFactory.getI18n();
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsCount, new DisplayColumn[]{
-                DisplayColumn.create(i18n.instantTranslate(singleOption ? "Course" : "Accommodation"), PrimType.STRING),
-                DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
-                DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE)
+                DisplayColumnBuilder.create(i18n.instantTranslate(singleOption ? (isFestival() ? "Festival" : "Course") : "Accommodation"), PrimType.STRING).setCumulator(cumulators[0]).build(),
+                DisplayColumnBuilder.create(i18n.instantTranslate("Fee"), PrimType.INTEGER).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[1]).build(),
+                DisplayColumnBuilder.create(i18n.instantTranslate("Availability")).setStyle(DisplayStyle.CENTER_STYLE).setCumulator(cumulators[2])
                         .setValueRenderer(p -> {
                             Pair<Object, OptionsPreselection> pair = (Pair<Object, OptionsPreselection>) p;
                             if (pair == null || !eventService.areEventAvailabilitiesLoaded())
@@ -101,8 +101,8 @@ public class FeesGroup {
                                     optionsPreselection.isForceSoldout() || // or if the option has been forced as sold out in the backend
                                     isForceSoldout(); // or if the whole FeesGroup has been forced as sold out
                             if (soldout)
-                                return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
-                            Button button = buttonFactory.newGreenButton("Book>>");
+                                return buttonFactory.newSoldoutButton();
+                            Button button = buttonFactory.newBookButton();
                             button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
@@ -120,10 +120,18 @@ public class FeesGroup {
     }
 
     public String getFeesBottomText(I18n i18n) {
-        if (Numbers.intValue(event.getOrganizationId().getPrimaryKey()) == 1) // NKT Festivals
+        if (isInternationalFestival())
             return null;
         Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), event.getFeesBottomLabel());
         return Labels.instantTranslateLabel(feesBottomLabel, i18n, "FeesExplanation");
+    }
+
+    private boolean isFestival() {
+        return event.getName().toLowerCase().contains("festival");
+    }
+
+    private boolean isInternationalFestival() {
+        return Numbers.intValue(event.getOrganizationId().getPrimaryKey()) == 1;
     }
 
     @Override

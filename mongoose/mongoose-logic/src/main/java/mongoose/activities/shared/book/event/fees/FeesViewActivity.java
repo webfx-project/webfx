@@ -27,10 +27,7 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.collator.GridCollator;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.SkinnedDataGrid;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayResultSetBuilder;
-import naga.fxdata.displaydata.SelectionMode;
+import naga.fxdata.displaydata.*;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
@@ -143,10 +140,11 @@ public class FeesViewActivity extends BookingProcessViewActivity {
                 DisplayColumn.create(null, SpecializedTextType.HTML)});
         I18n i18n = getI18n();
         WritableJsonObject jsonImage = Json.parseObject(MongooseIcons.priceTagColorSvg16JsonUrl);
+        ColumnWidthCumulator[] cumulators = {new ColumnWidthCumulator(), new ColumnWidthCumulator(), new ColumnWidthCumulator()};
         for (int i = 0; i < n; i++) {
             FeesGroup feesGroup = feesGroups[i];
             rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
-            rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(this, this, this::onBookButtonPressed));
+            rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(this, this, this::onBookButtonPressed, cumulators));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
                 rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n));
         }
