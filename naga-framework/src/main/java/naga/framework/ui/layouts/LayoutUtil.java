@@ -1,22 +1,14 @@
 package naga.framework.ui.layouts;
 
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import javafx.beans.value.WritableValue;
-import javafx.geometry.Bounds;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
+import javafx.geometry.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -237,12 +229,11 @@ public class LayoutUtil {
         }
     }
 
-/*
     public static double computeScrollPaneHoffset(ScrollPane scrollPane) {
         double hmin = scrollPane.getHmin();
         double hmax = scrollPane.getHmax();
         double hvalue = scrollPane.getHvalue();
-        double contentWidth = scrollPane.getLayoutBounds().getWidth();
+        double contentWidth = scrollPane.getContent().getLayoutBounds().getWidth();
         double viewportWidth = scrollPane.getViewportBounds().getWidth();
         double hoffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
         return hoffset;
@@ -252,12 +243,11 @@ public class LayoutUtil {
         double vmin = scrollPane.getVmin();
         double vmax = scrollPane.getVmax();
         double vvalue = scrollPane.getVvalue();
-        double contentHeight = scrollPane.getLayoutBounds().getHeight();
+        double contentHeight = scrollPane.getContent().getLayoutBounds().getHeight();
         double viewportHeight = scrollPane.getViewportBounds().getHeight();
         double voffset = Math.max(0, contentHeight - viewportHeight) * (vvalue - vmin) / (vmax - vmin);
         return voffset;
     }
-*/
 
     public static boolean isNodeVerticallyVisibleOnScene(Node node) {
         Bounds layoutBounds = node.getLayoutBounds();
@@ -274,21 +264,18 @@ public class LayoutUtil {
     public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node, boolean animate) {
         ScrollPane scrollPane = findScrollPaneAncestor(node);
         if (scrollPane != null) {
-            double vValue = 1.0; // TODO: compute value in dependence of the current node position
-            animateProperty(scrollPane.vvalueProperty(), vValue, animate);
+            double nodeTop = node.localToScene(0, 0).getY();
+            double sceneHeight = node.getScene().getHeight();
+            double delta = sceneHeight / 2 - nodeTop;
+            double contentHeight = scrollPane.getContent().getLayoutBounds().getHeight();
+            double viewportHeight = scrollPane.getViewportBounds().getHeight();
+            double voffset = computeScrollPaneVoffset(scrollPane) - delta;
+            double vValue = voffset / (contentHeight - viewportHeight);
+            vValue = Math.max(0, Math.min(1, vValue));
+            Properties.animateProperty(scrollPane.vvalueProperty(), vValue, animate ? Interpolator.EASE_OUT : null);
             return true;
         }
         return false;
-    }
-
-    private static <T> void animateProperty(WritableValue<T> target, T finalValue, boolean animate) {
-        if (!animate)
-            target.setValue(finalValue);
-        else {
-            Timeline timeline = new Timeline();
-            timeline.getKeyFrames().setAll(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, Interpolator.EASE_OUT)));
-            timeline.play();
-        }
     }
 
     public static void autoFocusIfEnabled(Node node) {
