@@ -18,6 +18,7 @@ import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.DataGrid;
+import naga.fxdata.control.SkinnedDataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.SelectionMode;
 import naga.type.PrimType;
@@ -39,7 +40,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
 
     public BookingOptionsPanel(I18n i18n) {
         this.i18n = i18n;
-        dataGrid = new DataGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
+        dataGrid = new SkinnedDataGrid(); // LayoutUtil.setMinMaxHeightToPref(new DataGrid());
         dataGrid.setHeaderVisible(false);
         dataGrid.setFullHeight(true);
         dataGrid.setSelectionMode(SelectionMode.DISABLED);
