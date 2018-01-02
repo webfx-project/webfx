@@ -119,8 +119,11 @@ public class FlexBox extends Pane {
 
     @Override
     protected double computeMinHeight(double width) {
-        if (width < 0)
+        if (width < 0) {
             width = getWidth();
+            if (width == 0) // This usually happens on first flex box layout when the box width is still unknown
+                width = Double.MAX_VALUE; // resetting width to avoid a wrong first min height
+        }
         computeLayout(width, false);
         return computedMinHeight;
     }
