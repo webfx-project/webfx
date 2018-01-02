@@ -62,8 +62,10 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                     // Ensuring the working document is a duplication of the preselection one to not alter the original one
                     setWorkingDocument(selectedOptionsPreselection.createNewWorkingDocument(null));
                 }
-                if (lastWorkingDocument != workingDocument)
+                if (lastWorkingDocument != workingDocument) {
+                    verticalScrollPane.setVvalue(0);
                     optionTree.reset();
+                }
                 createOrUpdateOptionPanelsIfReady(forceRefresh);
             }
         });
