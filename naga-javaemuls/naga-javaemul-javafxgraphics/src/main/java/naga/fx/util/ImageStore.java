@@ -41,7 +41,14 @@ public class ImageStore {
     }
 
     public static ImageView createImageView(String iconPath) {
-        return createImageView(iconPath, 0, 0);
+        double wh = 0;
+        if (iconPath != null) {
+            if (iconPath.contains("/16/"))
+                wh = 16;
+            else if (iconPath.contains("/32/"))
+                wh = 32;
+        }
+        return createImageView(iconPath, wh, wh);
     }
 
     public static ImageView createImageView(String iconPath, double w, double h) {
