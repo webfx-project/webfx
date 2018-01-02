@@ -1,8 +1,15 @@
 package naga.fx.properties;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WritableValue;
+import javafx.util.Duration;
+import naga.util.Objects;
 import naga.util.function.Consumer;
 import naga.util.function.Func2;
 import naga.util.function.Function;
@@ -56,5 +63,18 @@ public class Properties {
     public static <T> void setIfNotBound(Property<T> property, T value) {
         if (!property.isBound())
             property.setValue(value);
+    }
+
+    public static <T> void animateProperty(WritableValue<T> target, T finalValue) {
+        animateProperty(target, finalValue, Interpolator.EASE_OUT);
+    }
+
+    public static <T> void animateProperty(WritableValue<T> target, T finalValue, Interpolator interpolator) {
+        if (!Objects.areEquals(target.getValue(), finalValue)) {
+            if (interpolator == null)
+                target.setValue(finalValue);
+            else
+                new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, interpolator))).play();
+        }
     }
 }

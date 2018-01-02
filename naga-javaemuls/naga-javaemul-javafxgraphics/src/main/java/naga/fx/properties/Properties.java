@@ -1,13 +1,20 @@
 package naga.fx.properties;
 
+import emul.javafx.animation.Interpolator;
+import emul.javafx.animation.KeyFrame;
+import emul.javafx.animation.KeyValue;
+import emul.javafx.animation.Timeline;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.beans.value.ObservableValue;
+import emul.javafx.beans.value.WritableValue;
+import emul.javafx.util.Duration;
+import naga.fx.spi.Toolkit;
+import naga.util.Objects;
 import naga.util.function.Consumer;
 import naga.util.function.Func2;
 import naga.util.function.Function;
 import naga.util.function.Predicate;
-import naga.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -57,4 +64,19 @@ public class Properties {
         if (!property.isBound())
             property.setValue(value);
     }
+
+
+    public static <T> void animateProperty(WritableValue<T> target, T finalValue) {
+        animateProperty(target, finalValue, Interpolator.EASE_OUT);
+    }
+
+    public static <T> void animateProperty(WritableValue<T> target, T finalValue, Interpolator interpolator) {
+        if (!Objects.areEquals(target.getValue(), finalValue)) {
+            if (interpolator == null)
+                target.setValue(finalValue);
+            else
+                new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, interpolator))).play();
+        }
+    }
+
 }
