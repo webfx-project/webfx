@@ -27,6 +27,7 @@ import javafx.scene.transform.Rotate;
 import mongoose.actions.MongooseIcons;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fx.util.ImageStore;
@@ -61,6 +62,7 @@ public class MongooseValidationSupport {
         Validator firstInvalidValidator = firstInvalidValidator();
         if (firstInvalidValidator != null)
             Platform.runLater(() -> {
+                popUpOverAutoScroll = true;
                 showValidatorErrorPopOver(firstInvalidValidator);
             });
         return firstInvalidValidator == null;
@@ -174,7 +176,6 @@ public class MongooseValidationSupport {
         }
     }
 
-
     private void showPopOver(Node node) {
         popOverOwnerNode = node;
         showPopOverNow();
@@ -213,6 +214,7 @@ public class MongooseValidationSupport {
 
     private GraphicDecoration popOverDecoration;
     private Node popOverDecorationTarget;
+    private boolean popUpOverAutoScroll;
 
     private void showPopOverNow() {
         Platform.runLater(() -> {
@@ -221,6 +223,10 @@ public class MongooseValidationSupport {
                 popOverDecorationTarget = (Node) popOverOwnerNode.getProperties().get("control");
                 popOverDecoration = new GraphicDecoration(popOverContentNode, 0, -1, 0, -1);
                 popOverDecoration.applyDecoration(popOverDecorationTarget);
+                if (popUpOverAutoScroll) {
+                    LayoutUtil.scrollNodeToBeVerticallyVisibleOnScene(popOverDecorationTarget);
+                    popUpOverAutoScroll = false;
+                }
             }
         });
     }
