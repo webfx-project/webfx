@@ -9,16 +9,13 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import naga.fxdata.displaydata.*;
 import naga.uischeduler.AnimationFramePass;
 import naga.scheduler.Scheduled;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.fxdata.displaydata.DisplayColumn;
-import naga.fxdata.displaydata.DisplayResultSet;
-import naga.fxdata.displaydata.DisplayStyle;
-import naga.fxdata.displaydata.SelectionMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +36,10 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
     private final static double rowHeight = 38;
     private final static double headerHeight = rowHeight;
 
-    public DataGridSkin(DataGrid dataGrid) {
+    DataGridSkin(DataGrid dataGrid) {
         super(dataGrid, false);
         dataGrid.getStyleClass().add("grid");
-        clipChildren(gridBody, 0);
+        clipChildren(gridBody);
         gridBody.setBackground(new Background(new BackgroundFill(Color.grayRgb(245), null, null)));
         Properties.runNowAndOnPropertiesChange(p -> {
             if (dataGrid.isFullHeight()) {
@@ -55,14 +52,15 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
                         bodyScrollPane = new ScrollPane();
                         bodyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
                         bodyScrollPane.hvalueProperty().addListener((observable, oldValue, newValue) -> {
-                                    double hmin = bodyScrollPane.getHmin();
-                                    double hmax = bodyScrollPane.getHmax();
-                                    double hvalue = bodyScrollPane.getHvalue();
-                                    double contentWidth = gridBody.getLayoutBounds().getWidth();
-                                    double viewportWidth = bodyScrollPane.getViewportBounds().getWidth();
-                                    headOffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
-                                    gridHead.relocate(-headOffset, 0);
-                                }
+                                // Same code as LayoutUtil.computeScrollPaneHoffset() - but not accessible from here
+                                double hmin = bodyScrollPane.getHmin();
+                                double hmax = bodyScrollPane.getHmax();
+                                double hvalue = bodyScrollPane.getHvalue();
+                                double contentWidth = gridBody.getLayoutBounds().getWidth();
+                                double viewportWidth = bodyScrollPane.getViewportBounds().getWidth();
+                                headOffset = Math.max(0, contentWidth - viewportWidth) * (hvalue - hmin) / (hmax - hmin);
+                                gridHead.relocate(-headOffset, 0);
+                            }
                         );
                     }
                     bodyScrollPane.setContent(gridBody);
@@ -77,23 +75,9 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
         start();
     }
 
-    /**
-     * Clips the children of the specified {@link Region} to its current size.
-     * This requires attaching a change listener to the region’s layout bounds,
-     * as JavaFX does not currently provide any built-in way to clip children.
-     *
-     * @param region the {@link Region} whose children to clip
-     * @param arc the {@link Rectangle#arcWidth} and {@link Rectangle#arcHeight}
-     *            of the clipping {@link Rectangle}
-     * @throws NullPointerException if {@code region} is {@code null}
-     */
-    static void clipChildren(Region region, double arc) {
-
+    private static void clipChildren(Region region) {
         Rectangle outputClip = new Rectangle();
-        outputClip.setArcWidth(arc);
-        outputClip.setArcHeight(arc);
         region.setClip(outputClip);
-
         region.layoutBoundsProperty().addListener((ov, oldValue, newValue) -> {
             outputClip.setWidth(newValue.getWidth());
             outputClip.setHeight(newValue.getHeight());
@@ -143,8 +127,12 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
     @Override
     protected void setUpGridColumn(int gridColumnIndex, int rsColumnIndex, DisplayColumn displayColumn) {
-        gridHead.getOrCreateHeadColumn(gridColumnIndex).setDisplayColumn(displayColumn);
-        gridBody.getOrCreateBodyColumn(gridColumnIndex).setDisplayColumn(displayColumn);
+        GridColumn headColumn = gridHead.getOrCreateHeadColumn(gridColumnIndex);
+        headColumn.setDisplayColumn(displayColumn);
+        GridColumn bodyColumn = gridBody.getOrCreateBodyColumn(gridColumnIndex);
+        bodyColumn.setDisplayColumn(displayColumn);
+        if (bodyColumn.cumulator == null)
+            bodyColumn.setCumulator(headColumn.getUpToDateCumulator());
         super.setUpGridColumn(gridColumnIndex, rsColumnIndex, displayColumn);
     }
 
@@ -229,8 +217,8 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
             columnWidthsTotal = contentWidth;
             List<GridColumn> headColumns = gridHead.headColumns;
             int columnCount = headColumns.size();
-            int resizeableColumnCount = columnCount;
-            double resizableColumnWidthsTotal = columnWidthsTotal;
+            int remainingColumnCount = columnCount;
+            double currentColumnWidthsTotal = 0;
             for (GridColumn headColumn : headColumns) {
                 Double fixedWidth = headColumn.fixedWidth;
                 if (fixedWidth != null) {
@@ -238,23 +226,43 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
                         fixedWidth *= 1.3;
                     fixedWidth = snapSize(fixedWidth + 10); // because of the 5px left and right padding
                     headColumn.setColumnWidth(fixedWidth);
-                    resizableColumnWidthsTotal -= fixedWidth;
-                    resizeableColumnCount--;
+                    currentColumnWidthsTotal += fixedWidth;
+                    remainingColumnCount--;
                 }
             }
-            double resizableColumnWidth = snapSize(resizableColumnWidthsTotal / resizeableColumnCount);
-            if (resizeableColumnCount > 0) {
-                int resizeableColumnIndex = 0;
-                for (GridColumn headColumn : headColumns)
+            //double resizableColumnWidth = snapSize(remainingColumnWidthsTotal / remainingColumnCount);
+            List<GridColumn> bodyColumns = gridBody.bodyColumns;
+            if (remainingColumnCount > 0) {
+                double currentResizableColumnWidthsTotal = 0;
+                for (int i = 0; i < columnCount; i++) {
+                    GridColumn headColumn = headColumns.get(i);
                     if (headColumn.fixedWidth == null) {
-                        if (++resizeableColumnIndex < resizeableColumnCount)
-                            headColumn.setColumnWidth(resizableColumnWidth);
-                        else
-                            headColumn.setColumnWidth(resizableColumnWidthsTotal - (resizeableColumnCount - 1) * resizableColumnWidth);
+                        GridColumn bodyColumn = bodyColumns.get(i);
+                        ColumnWidthCumulator cumulator = bodyColumn.getUpToDateCumulator();
+                        double columnWidth = snapSize(cumulator.getMaxWidth() + 10); // because of the 5px left and right padding
+                        headColumn.setColumnWidth(columnWidth);
+                        currentResizableColumnWidthsTotal += columnWidth;
                     }
+                }
+                currentColumnWidthsTotal += currentResizableColumnWidthsTotal;
+                double remainingColumnWidthsTotal = columnWidthsTotal - currentColumnWidthsTotal;
+                if (remainingColumnWidthsTotal > 0) {
+                    for (GridColumn headColumn : headColumns)
+                        if (headColumn.fixedWidth == null) {
+                            double columnWidth = headColumn.getColumnWidth();
+                            columnWidth += columnWidth / currentResizableColumnWidthsTotal * remainingColumnWidthsTotal;
+                            headColumn.setColumnWidth(columnWidth);
+                        }
+                } else if (remainingColumnWidthsTotal < 0) {
+                    GridColumn largestColumn = null;
+                    for (GridColumn headColumn : headColumns)
+                        if (headColumn.fixedWidth == null && (largestColumn == null || largestColumn.getColumnWidth() < headColumn.getColumnWidth()))
+                            largestColumn = headColumn;
+                    largestColumn.setColumnWidth(Math.max(0, largestColumn.getColumnWidth() + remainingColumnWidthsTotal));
+                }
             }
             for (int i = 0; i < columnCount; i++)
-                gridBody.bodyColumns.get(i).setColumnWidth(headColumns.get(i).getColumnWidth());
+                bodyColumns.get(i).setColumnWidth(headColumns.get(i).getColumnWidth());
             gridBody.setPrefWidth(columnWidthsTotal);
             lastContentWidth = contentWidth;
         }
@@ -277,8 +285,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
         }
 
         Pane getOrAddHeadCell(int gridColumnIndex) {
-            fakeCellChildren = getOrCreateHeadColumn(gridColumnIndex).getChildren();
-            return fakeCell;
+            return getOrCreateHeadColumn(gridColumnIndex).getOrAddBodyRowCell(gridColumnIndex);
         }
 
         private GridColumn getOrCreateHeadColumn(int columnIndex) {
@@ -311,7 +318,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
         private final List<Pane> bodyRows = new ArrayList<>();
         private final List<GridColumn> bodyColumns = new ArrayList<>();
 
-        public GridBody() {
+        GridBody() {
             getStyleClass().add("grid-body");
         }
 
@@ -398,6 +405,7 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
 
     private class GridColumn extends Pane {
         private Double fixedWidth;
+        private ColumnWidthCumulator cumulator;
         private HPos hAlignment = HPos.LEFT;
         private VPos vAlignment = VPos.CENTER;
         private double columnWidth;
@@ -428,13 +436,27 @@ public class DataGridSkin extends SelectableDisplayResultSetControlSkinBase<Data
                         case "right":  hAlignment = HPos.RIGHT;  break;
                     }
             }
+            if (fixedWidth == null)
+                setCumulator(displayColumn.getCumulator());
+        }
+
+        public void setCumulator(ColumnWidthCumulator cumulator) {
+            this.cumulator = cumulator;
+            if (cumulator != null)
+                cumulator.registerColumnNodes(getChildren());
+        }
+
+        public ColumnWidthCumulator getUpToDateCumulator() {
+            if (cumulator == null)
+                setCumulator(new ColumnWidthCumulator());
+            cumulator.update();
+            return cumulator;
         }
 
         Pane getOrAddBodyRowCell(int gridColumnIndex) {
             fakeCellChildren = getChildren();
             return fakeCell;
         }
-
 
         @Override
         protected void layoutChildren() {
