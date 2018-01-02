@@ -138,18 +138,12 @@ public class HtmlScenePeer extends ScenePeerBase {
     }
 
     private void registerMouseListener(String type) {
-        document.addEventListener(type, e -> {
-            boolean fxConsumed = passHtmlMouseEventOnToFx((elemental2.dom.MouseEvent) e, type);
-            if (fxConsumed) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-        });
+        document.addEventListener(type, e -> passHtmlMouseEventOnToFx((MouseEvent) e, type));
     }
 
     private boolean atLeastOneAnimationFrameOccurredSinceLastMousePressed = true;
 
-    protected boolean passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
+    private void passHtmlMouseEventOnToFx(elemental2.dom.MouseEvent e, String type) {
         emul.javafx.scene.input.MouseEvent fxMouseEvent = toFxMouseEvent(e, type);
         if (fxMouseEvent != null) {
             // We now need to call Scene.impl_processMouseEvent() to pass the event to the JavaFx stack
@@ -168,19 +162,11 @@ public class HtmlScenePeer extends ScenePeerBase {
                 }
             }
         }
-        return false; //isFxEventConsumed(fxMouseEvent);
     }
 
     private static boolean BUTTON_DOWN_STATES[] = {false, false, false, false};
 
     private emul.javafx.scene.input.MouseEvent toFxMouseEvent(elemental2.dom.MouseEvent me, String type) {
-/*
-        if (me.target instanceof elemental2.dom.Node)
-            for (elemental2.dom.Node n = (elemental2.dom.Node) me.target; n != null; n = n.parentNode) {
-                if (n instanceof Element && ((Element) n).onmousedown != null)
-                    return null;
-            }
-*/
         MouseButton button;
         switch ((int) me.button) {
             case 0: button = MouseButton.PRIMARY; break;
