@@ -98,7 +98,8 @@ public class SummaryViewActivity extends BookingProcessViewActivity {
     }
 
     private void showTermsDialog() {
-        new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), pageContainer).setOnClose(() -> termsCheckBox.setSelected(true)).show();
+        //new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), pageContainer).setOnClose(() -> termsCheckBox.setSelected(true)).show();
+        goToNextBookingProcessPage("terms");
     }
 
     private void syncUiFromModel() {
