@@ -46,7 +46,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
                         .addNodeFillingRow(i18n.translatePromptText(usernameField = new TextField(), "EmailPlaceholder"))
                         .addNodeFillingRow(i18n.translatePromptText(passwordField = new PasswordField(), "PasswordPlaceholder"))
                         .addNewRow(i18n.translateText(hyperLink = new Hyperlink(), "ForgotPassword?"))
-                        .addNodeFillingRow(LayoutUtil.setMaxWidthToInfinite(button = newButton()))
+                        .addNodeFillingRow(button = newLargeGreenButton(null))
                 .build()
         );
         gridPane.setPadding(new Insets(20));
