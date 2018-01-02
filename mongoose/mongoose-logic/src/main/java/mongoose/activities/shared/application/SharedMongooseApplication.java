@@ -3,7 +3,7 @@ package mongoose.activities.shared.application;
 import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.cart.CartViewActivity;
 import mongoose.activities.shared.book.cart.payment.PaymentViewActivity;
-import mongoose.activities.shared.book.event.fees.FeesPresentationActivity;
+import mongoose.activities.shared.book.event.fees.FeesViewActivity;
 import mongoose.activities.shared.book.event.options.OptionsViewActivity;
 import mongoose.activities.shared.book.event.person.PersonViewActivity;
 import mongoose.activities.shared.book.event.program.ProgramViewActivity;
@@ -44,7 +44,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter
                 .route("/book/event/:eventId/start", StartBookingViewActivity::new, ViewDomainActivityContextFinal::new)
-                .route("/book/event/:eventId/fees", FeesPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                .route("/book/event/:eventId/fees", FeesViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/terms", TermsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/book/event/:eventId/program", ProgramViewActivity::new, ViewDomainActivityContextFinal::new)
                 .route("/book/event/:eventId/options", OptionsViewActivity::new, ViewDomainActivityContextFinal::new)

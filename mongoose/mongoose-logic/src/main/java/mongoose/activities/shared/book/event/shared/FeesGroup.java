@@ -1,30 +1,27 @@
 package mongoose.activities.shared.book.event.shared;
 
-import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import mongoose.actions.MongooseIcons;
+import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
 import mongoose.entities.Event;
 import mongoose.entities.Label;
 import mongoose.services.EventService;
 import mongoose.util.Labels;
+import naga.framework.ui.i18n.I18n;
+import naga.fx.util.ImageStore;
+import naga.fxdata.cell.collator.NodeCollatorRegistry;
+import naga.fxdata.cell.renderer.TextRenderer;
+import naga.fxdata.displaydata.*;
 import naga.type.PrimType;
 import naga.util.Numbers;
 import naga.util.Objects;
 import naga.util.async.Handler;
 import naga.util.tuples.Pair;
-import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.i18n.I18n;
-import naga.fx.spi.Toolkit;
-import naga.fx.util.ImageStore;
-import naga.fxdata.cell.collator.NodeCollatorRegistry;
-import naga.fxdata.cell.renderer.TextRenderer;
-import naga.fxdata.displaydata.*;
 
 /**
  * @author Bruno Salmon
@@ -82,10 +79,11 @@ public class FeesGroup {
         return Labels.instantTranslateLabel(label, language);
     }
 
-    public DisplayResultSet generateDisplayResultSet(I18n i18n, EventService eventService, Handler<OptionsPreselection> bookHandler) {
+    public DisplayResultSet generateDisplayResultSet(MongooseButtonFactoryMixin buttonFactory, EventService eventService, Handler<OptionsPreselection> bookHandler) {
         boolean showBadges = Objects.areEquals(eventService.getEvent().getOrganizationId().getPrimaryKey(), 2); // For now only showing badges on KMCF courses
         int optionsCount = optionsPreselections.length;
         boolean singleOption = optionsCount == 1;
+        I18n i18n = buttonFactory.getI18n();
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(optionsCount, new DisplayColumn[]{
                 DisplayColumn.create(i18n.instantTranslate(singleOption ? "Course" : "Accommodation"), PrimType.STRING),
                 DisplayColumn.create(i18n.instantTranslate("Fee"), PrimType.INTEGER, DisplayStyle.CENTER_STYLE),
@@ -104,21 +102,8 @@ public class FeesGroup {
                                     isForceSoldout(); // or if the whole FeesGroup has been forced as sold out
                             if (soldout)
                                 return i18n.instantTranslateText(HighLevelComponents.createSoldoutButton(), "Soldout");
-                            Button button = i18n.instantTranslateText(HighLevelComponents.createBookButton(), "Book>>");
-                            button.setOnAction(e -> {
-                                // Creating a press down effect (inverting the background gradient) especially for low-end mobiles
-                                // where several seconds can happen before next page is displayed (at least they know click is happening)
-                                Background background = button.getBackground();
-                                button.setBackground(BackgroundUtil.newVerticalLinearGradientBackground("#2a8236", "#7fd504", 5));
-                                Toolkit.get().scheduler().schedulePropertyChangeInNextAnimationFrame(() -> {
-                                    Toolkit.get().scheduler().schedulePropertyChangeInNextAnimationFrame(() -> {
-                                        Platform.runLater(() -> {
-                                            bookHandler.handle(optionsPreselection);
-                                            button.setBackground(background);
-                                        });
-                                    });
-                                });
-                            });
+                            Button button = buttonFactory.newGreenButton("Book>>");
+                            button.setOnAction(e -> bookHandler.handle(optionsPreselection));
                             if (availability == null || !showBadges)
                                 return button;
                             HBox hBox = (HBox) NodeCollatorRegistry.hBoxCollator().collateNodes(HighLevelComponents.createBadge(TextRenderer.SINGLETON.renderCellValue(availability)), button);
@@ -135,6 +120,8 @@ public class FeesGroup {
     }
 
     public String getFeesBottomText(I18n i18n) {
+        if (Numbers.intValue(event.getOrganizationId().getPrimaryKey()) == 1) // NKT Festivals
+            return null;
         Label feesBottomLabel = Objects.coalesce(getFeesBottomLabel(), event.getFeesBottomLabel());
         return Labels.instantTranslateLabel(feesBottomLabel, i18n, "FeesExplanation");
     }

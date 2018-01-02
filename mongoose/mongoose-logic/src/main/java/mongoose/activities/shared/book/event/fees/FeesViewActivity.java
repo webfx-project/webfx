@@ -1,29 +1,30 @@
 package mongoose.activities.shared.book.event.fees;
 
 import javafx.beans.property.Property;
-import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
-import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
+import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
+import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponents;
+import mongoose.activities.shared.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
 import mongoose.entities.Option;
 import mongoose.entities.Person;
-import naga.platform.services.log.spi.Logger;
-import naga.type.SpecializedTextType;
-import naga.util.Arrays;
-import naga.util.Booleans;
-import naga.util.tuples.Pair;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.ui.i18n.Dictionary;
 import naga.framework.ui.i18n.I18n;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
+import naga.fxdata.cell.collator.GridCollator;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.control.SkinnedDataGrid;
 import naga.fxdata.displaydata.DisplayColumn;
@@ -33,31 +34,44 @@ import naga.fxdata.displaydata.SelectionMode;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.services.log.spi.Logger;
+import naga.type.SpecializedTextType;
+import naga.util.Arrays;
+import naga.util.Booleans;
+import naga.util.tuples.Pair;
 
 import static naga.framework.ui.controls.ImageViewUtil.createImageView;
 
 /**
  * @author Bruno Salmon
  */
-public class FeesPresentationLogicActivity extends BookingProcessPresentationLogicActivity<FeesPresentationModel> {
+public class FeesViewActivity extends BookingProcessViewActivity {
 
-    public FeesPresentationLogicActivity() {
-        super(FeesPresentationModel::new, "options");
+    public FeesViewActivity() {
+        super("options");
     }
+
+    private GridCollator feesGroupsCollator;
 
     @Override
-    protected void initializePresentationModel(FeesPresentationModel pm) {
-        super.initializePresentationModel(pm);
-        pm.setOnProgramAction(this::onProgramButtonPressed);
-        pm.setOnTermsAction(this::onTermsButtonPressed);
+    protected void createViewNodes() {
+        super.createViewNodes();
+        feesGroupsCollator = new GridCollator(this::toFeesGroupPanel, nodes -> new VBox(20, nodes));
+        verticalStack.getChildren().setAll(feesGroupsCollator, LayoutUtil.setMaxWidthToInfinite(backButton));
+
+        feesGroupsCollator.displayResultSetProperty().bind(rsProperty);
     }
 
-    private void onProgramButtonPressed(ActionEvent e) {
-        goToNextBookingProcessPage("program");
+    private Node toFeesGroupPanel(Node... nodes) {
+        BorderPane borderPane = buildFeesSectionPanel(nodes[0]);
+        borderPane.setCenter(nodes[1]);
+        borderPane.setBottom(nodes[2]);
+        return borderPane;
     }
 
-    private void onTermsButtonPressed(ActionEvent e) {
-        goToNextBookingProcessPage("terms");
+    private BorderPane buildFeesSectionPanel(Node node) {
+        SectionPanelStyleOptions options = new SectionPanelStyleOptions(false);
+        return HighLevelComponents.createSectionPanel(options, node);
     }
 
     @Override
@@ -68,25 +82,23 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     @Override
-    protected void startLogic(FeesPresentationModel pm) {
-        rsProperty = pm.dateInfoDisplayResultSetProperty();
-
+    protected void startLogic() {
         // Load and display fees groups now but also on event change
-        Properties.runNowAndOnPropertiesChange(property -> loadAndDisplayFeesGroups(), pm.eventIdProperty());
+        Properties.runNowAndOnPropertiesChange(property -> loadAndDisplayFeesGroups(), eventIdProperty());
 
-        dictionary = getI18n().getDictionary();
-        Properties.consume(Properties.filter(Properties.combine(getI18n().dictionaryProperty(), activeProperty(),
+        lastDictionary = getDictionary();
+        Properties.consume(Properties.filter(Properties.combine(dictionaryProperty(), activeProperty(),
                 Pair::new), // combine function
                 pair -> pair.get2()), // filter function (GWT doesn't compile method reference in this case)
                 pair -> refreshOnDictionaryChanged());
     }
 
-    private Dictionary dictionary;
+    private Dictionary lastDictionary;
 
     private void refreshOnDictionaryChanged() {
-        Dictionary dictionary = getI18n().getDictionary();
-        if (this.dictionary != dictionary) {
-            this.dictionary = dictionary;
+        Dictionary newDictionary = getDictionary();
+        if (lastDictionary != newDictionary) {
+            lastDictionary = newDictionary;
             displayFeesGroups();
         }
     }
@@ -104,7 +116,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         });
     }
 
-    private Property<DisplayResultSet> rsProperty;
+    private final Property<DisplayResultSet> rsProperty = new SimpleObjectProperty<>();
     private FeesGroup[] feesGroups;
 
     private void displayFeesGroupsAndRefreshAvailabilities(FeesGroup[] feesGroups) {
@@ -134,7 +146,7 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
         for (int i = 0; i < n; i++) {
             FeesGroup feesGroup = feesGroups[i];
             rsb.setValue(i, 0, new Pair<>(jsonImage, feesGroup.getDisplayName(i18n)));
-            rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(i18n, this, this::onBookButtonPressed));
+            rsb.setValue(i, 1, feesGroup.generateDisplayResultSet(this, this, this::onBookButtonPressed));
             if (i == n - 1) // Showing the fees bottom text only on the last fees group
                 rsb.setValue(i, 2, feesGroup.getFeesBottomText(i18n));
         }
@@ -143,13 +155,12 @@ public class FeesPresentationLogicActivity extends BookingProcessPresentationLog
     }
 
     private Node renderFeesGroupHeader(Pair<JsonObject, String> pair) {
-        I18n i18n = getI18n();
         boolean hasUnemployedRate = hasUnemployedRate();
         boolean hasFacilityFeeRate = hasFacilityFeeRate();
         boolean hasDiscountRates = hasUnemployedRate || hasFacilityFeeRate;
-        RadioButton noDiscountRadio  = hasDiscountRates   ? i18n.instantTranslateText(new RadioButton(), "NoDiscount") : null;
-        RadioButton unemployedRadio  = hasUnemployedRate  ? i18n.instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
-        RadioButton facilityFeeRadio = hasFacilityFeeRate ? i18n.instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
+        RadioButton noDiscountRadio  = hasDiscountRates   ? instantTranslateText(new RadioButton(), "NoDiscount") : null;
+        RadioButton unemployedRadio  = hasUnemployedRate  ? instantTranslateText(new RadioButton(), "UnemployedDiscount") : null;
+        RadioButton facilityFeeRadio = hasFacilityFeeRate ? instantTranslateText(new RadioButton(), "FacilityFeeDiscount") : null;
         Person person = getPersonService().getPreselectionProfilePerson();
         if (unemployedRadio != null) {
             unemployedRadio.setSelected(Booleans.isTrue(person.isUnemployed()));
