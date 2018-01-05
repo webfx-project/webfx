@@ -24,28 +24,20 @@ public class Strings {
         return value == null ? null : value.toString();
     }
 
-    public static int length(String s) {
+    public static int length(CharSequence s) {
         return s == null ? 0 : s.length();
     }
 
-    public static boolean isEmpty(String s) {
+    public static boolean isEmpty(CharSequence s) {
         return length(s) == 0;
     }
 
-    public static boolean isNotEmpty(String s) {
+    public static boolean isNotEmpty(CharSequence s) {
         return !isEmpty(s);
     }
 
-    public static int length(StringBuilder sb) {
-        return sb == null ? 0 : sb.length();
-    }
-
-    public static boolean isEmpty(StringBuilder sb) {
-        return length(sb) == 0;
-    }
-
-    public static boolean isNotEmpty(StringBuilder sb) {
-        return !isEmpty(sb);
+    public static boolean contains(String s, String what) {
+        return s != null && s.contains(what);
     }
 
     public static boolean startsWith(String s, String prefix) {
