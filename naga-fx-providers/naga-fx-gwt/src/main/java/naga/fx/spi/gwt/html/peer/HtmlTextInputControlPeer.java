@@ -5,15 +5,11 @@ import elemental2.dom.HTMLInputElement;
 import elemental2.dom.HTMLTextAreaElement;
 import emul.javafx.scene.control.TextInputControl;
 import emul.javafx.scene.text.Font;
-import emul.javafx.scene.transform.Transform;
-import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.peer.base.TextInputControlPeerBase;
 import naga.fx.spi.peer.base.TextInputControlPeerMixin;
 import naga.util.Booleans;
 import naga.util.Objects;
 import naga.util.Strings;
-
-import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -37,11 +33,6 @@ public abstract class HtmlTextInputControlPeer
     specified width/height. On a text input, this will size the inner visual box (excluding the padding and border).
 */
         subtractCssPaddingBorderWhenUpdatingSize = true;
-    }
-
-    @Override
-    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
-        ((HTMLElement) getContainer()).style.transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
     }
 
     @Override

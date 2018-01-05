@@ -1,5 +1,8 @@
 package naga.fx.spi.gwt.html.peer;
 
+import elemental2.dom.CSSProperties;
+import elemental2.dom.CSSStyleDeclaration;
+import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import emul.javafx.geometry.HPos;
 import emul.javafx.geometry.Pos;
@@ -9,9 +12,14 @@ import emul.javafx.scene.effect.GaussianBlur;
 import emul.javafx.scene.shape.Circle;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.TextAlignment;
+import emul.javafx.scene.transform.Transform;
 import naga.fx.spi.gwt.shared.HtmlSvgNodePeer;
+import naga.fx.spi.gwt.util.HtmlTransforms;
 import naga.fx.spi.peer.base.NodePeerBase;
 import naga.fx.spi.peer.base.NodePeerMixin;
+import naga.util.Strings;
+
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -23,6 +31,20 @@ public abstract class HtmlNodePeer
 
     HtmlNodePeer(NB base, HTMLElement element) {
         super(base, element);
+    }
+
+    @Override
+    public void updateLocalToParentTransforms(List<Transform> localToParentTransforms) {
+        Element container = getContainer();
+        if (!(container instanceof HTMLElement))
+            super.updateLocalToParentTransforms(localToParentTransforms);
+        else {
+            String transform = HtmlTransforms.toHtmlTransforms(localToParentTransforms);
+            CSSStyleDeclaration style = ((HTMLElement) container).style;
+            style.transform = transform;
+            if (Strings.contains(transform, "matrix"))
+                style.transformOrigin = CSSProperties.TransformOriginUnionType.of("0px 0px 0px");
+        }
     }
 
     @Override
