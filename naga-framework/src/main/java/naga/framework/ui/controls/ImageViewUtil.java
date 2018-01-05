@@ -26,9 +26,6 @@ public class ImageViewUtil {
     }
 
     public static ImageView createImageView(JsonObject json) {
-        ImageView imageView = ImageStore.createImageView(json.getString("url"));
-        imageView.setFitWidth(json.getDouble("width"));
-        imageView.setFitHeight(json.getDouble("height"));
-        return imageView;
+        return ImageStore.createImageView(json.getString("url"), json.getDouble("width"), json.getDouble("height"));
     }
 }
