@@ -30,7 +30,7 @@ public class HtmlTransforms {
             return toHtmlRotate((Rotate) transform, sb);
         if (transform instanceof Scale)
             return toHtmlScale((Scale) transform, sb);
-        return sb;
+        return toHtmlAffine(transform.toAffine(), sb);
     }
 
     private static StringBuilder toHtmlTranslate(Translate translate, StringBuilder sb) {
@@ -46,7 +46,11 @@ public class HtmlTransforms {
     }
 
     private static StringBuilder toHtmlScale(Scale scale, StringBuilder sb) {
-        return sb.append("scale(").append(scale.getX()).append("px, ").append(scale.getY()).append("px)");
+        double px = scale.getPivotX();
+        double py = scale.getPivotY();
+        if (px == 0 && py == 0)
+            return sb.append("scale(").append(scale.getX()).append("px, ").append(scale.getY()).append("px)");
+        return toHtmlAffine(scale.toAffine(), sb);
     }
 
     private static StringBuilder toHtmlAffine(Affine a, StringBuilder sb) {
