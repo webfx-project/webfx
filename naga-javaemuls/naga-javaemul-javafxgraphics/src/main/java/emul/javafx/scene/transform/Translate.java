@@ -61,7 +61,7 @@ public class Translate extends Transform implements
     }
 
     @Override
-    protected Property[] propertiesInvalidatingCache() {
+    public Property[] propertiesInvalidatingCache() {
         return new Property[]{xProperty, yProperty};
     }
 

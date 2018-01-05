@@ -9,7 +9,7 @@ import naga.fx.properties.markers.HasYProperty;
 /**
  * @author Bruno Salmon
  */
-public class Scale extends Transform implements
+public class Scale extends PivotTransform implements
         HasXProperty,
         HasYProperty {
 
@@ -17,19 +17,17 @@ public class Scale extends Transform implements
     }
 
     public Scale(double x, double y) {
+        this(x, y, 0, 0);
+    }
+
+    public Scale(double x, double y, double pivotX, double pivotY) {
+        super(pivotX, pivotY);
         setX(x);
         setY(y);
     }
 
+
     private final Property<Double> xProperty = new SimpleObjectProperty<>(1d);
-
-    public static Scale create() {
-        return new Scale();
-    }
-
-    public static Scale create(double x, double y) {
-        return new Scale(x, y);
-    }
 
     @Override
     public Property<Double> xProperty() {
@@ -44,21 +42,23 @@ public class Scale extends Transform implements
 
     @Override
     public Point2D transform(double x, double y) {
-        return new Point2D((float) (x * getX()), (float) (y * getY()));
+        double pivotX = getPivotX();
+        double pivotY = getPivotY();
+        return new Point2D((float) (pivotX + (x - pivotX) * getX()), (float) (pivotY + (y - pivotY) * getY()));
     }
 
     @Override
     public Transform createInverse() {
-        return new Scale(1 / getX(), 1 / getY());
+        return new Scale(1 / getX(), 1 / getY(), getPivotX(), getPivotY());
     }
 
     @Override
-    protected Property[] propertiesInvalidatingCache() {
-        return new Property[]{xProperty, yProperty};
+    public Property[] propertiesInvalidatingCache() {
+        return new Property[]{xProperty, yProperty, pivotXProperty, pivotYProperty};
     }
 
     @Override
     public Affine toAffine() {
-        return new Affine(getX(), 0, 0, getY(), 0, 0);
+        return new Affine(getX(), 0, 0, getY(), (1 - getX()) * getPivotX(), (1 - getY()) * getPivotY());
     }
 }

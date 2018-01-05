@@ -60,7 +60,7 @@ public abstract class Transform {
         inverseCache = null;
     }
 
-    protected abstract Property[] propertiesInvalidatingCache();
+    public abstract Property[] propertiesInvalidatingCache();
 
     private void clearInverseCacheOnPropertyChange(ObservableValue... properties) {
         Properties.runOnPropertiesChange(property -> clearInverseCacheNow(), properties);

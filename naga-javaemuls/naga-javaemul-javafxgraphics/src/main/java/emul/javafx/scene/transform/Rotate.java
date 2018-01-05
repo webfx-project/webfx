@@ -1,46 +1,29 @@
 package emul.javafx.scene.transform;
 
+import emul.com.sun.javafx.geom.Point2D;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
 import emul.javafx.geometry.GeometryUtil;
-import emul.com.sun.javafx.geom.Point2D;
 import naga.fx.properties.markers.HasAngleProperty;
-import naga.fx.properties.markers.HasPivotXProperty;
-import naga.fx.properties.markers.HasPivotYProperty;
 
 /**
  * @author Bruno Salmon
  */
-public class Rotate extends Transform implements
-        HasAngleProperty,
-        HasPivotXProperty,
-        HasPivotYProperty {
+public class Rotate extends PivotTransform implements
+        HasAngleProperty {
 
     public Rotate() {
     }
 
     public Rotate(double angle, double pivotX, double pivotY) {
+        super(pivotX, pivotY);
         setAngle(angle);
-        setPivotX(pivotX);
-        setPivotY(pivotY);
     }
 
     private final Property<Double> angleProperty = new SimpleObjectProperty<>(0d);
     @Override
     public Property<Double> angleProperty() {
         return angleProperty;
-    }
-
-    private final Property<Double> pivotXProperty = new SimpleObjectProperty<>(0d);
-    @Override
-    public Property<Double> pivotXProperty() {
-        return pivotXProperty;
-    }
-
-    private final Property<Double> pivotYProperty = new SimpleObjectProperty<>(0d);
-    @Override
-    public Property<Double> pivotYProperty() {
-        return pivotYProperty;
     }
 
     @Override
@@ -54,7 +37,7 @@ public class Rotate extends Transform implements
     }
 
     @Override
-    protected Property[] propertiesInvalidatingCache() {
+    public Property[] propertiesInvalidatingCache() {
         return new Property[]{angleProperty, pivotXProperty, pivotYProperty};
     }
 
