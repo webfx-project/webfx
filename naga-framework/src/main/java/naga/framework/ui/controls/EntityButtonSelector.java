@@ -31,7 +31,6 @@ import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;
 import naga.framework.ui.filter.StringFilterBuilder;
-import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -177,12 +176,12 @@ public class EntityButtonSelector {
                 dataGrid.setHeaderVisible(false);
                 dataGrid.setFullHeight(true);
                 BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
-                I18n i18n = viewActivityContextMixin.getI18n();
+                ViewActivityContextMixin mixin = viewActivityContextMixin;
                 EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;
-                entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(i18n).setStore(filterStore);
+                entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(mixin).setStore(filterStore);
                 String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
                 if (searchCondition != null) {
-                    searchTextField = i18n.translatePromptText(new TextField(), "GenericSearchPlaceholder");
+                    searchTextField = mixin.newTextFieldWithPrompt("GenericSearchPlaceholder");
                     entityDialogFilter.combine(searchTextField.textProperty(), s -> {
                         if (Strings.isEmpty(s))
                             return null;
