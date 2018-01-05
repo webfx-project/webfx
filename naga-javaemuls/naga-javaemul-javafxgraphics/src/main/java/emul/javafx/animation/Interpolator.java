@@ -1,5 +1,7 @@
 package emul.javafx.animation;
 
+import emul.com.sun.scenario.animation.SplineInterpolator;
+
 /**
  * The abstract class defines several {@code interpolate} methods, which are
  * used to calculate interpolated values. Various built-in implementations of
@@ -145,6 +147,27 @@ public abstract class Interpolator {
             return "Interpolator.EASE_OUT";
         }
     };
+
+    /**
+     * Creates an {@code Interpolator}, which {@link #curve(double) curve()} is
+     * shaped using the spline control points defined by ({@code x1}, {@code y1}
+     * ) and ({@code x2}, {@code y2}). The anchor points of the spline are
+     * implicitly defined as ({@code 0.0}, {@code 0.0}) and ({@code 1.0},
+     * {@code 1.0}).
+     *
+     * @param x1
+     *            x coordinate of the first control point
+     * @param y1
+     *            y coordinate of the first control point
+     * @param x2
+     *            x coordinate of the second control point
+     * @param y2
+     *            y coordinate of the second control point
+     * @return A spline interpolator
+     */
+    public static Interpolator SPLINE(double x1, double y1, double x2, double y2) {
+        return new SplineInterpolator(x1, y1, x2, y2);
+    }
 
     /**
      * This method takes two {@code Objects} along with a {@code fraction}
