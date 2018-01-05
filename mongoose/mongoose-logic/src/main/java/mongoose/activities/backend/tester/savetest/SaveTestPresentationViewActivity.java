@@ -19,9 +19,9 @@ public class SaveTestPresentationViewActivity extends PresentationViewActivityIm
 
     @Override
     protected void createViewNodes(SaveTestPresentationModel pm) {
-        testName = new TextField();
-        testComment = new TextField();
-        saveTest = new Button();
+        testName = newTextField();
+        testComment = newTextField();
+        saveTest = newButton();
         testName.setPromptText("Test name");
         testComment.setPromptText("Comments");
         saveTest.setText("Save Test");

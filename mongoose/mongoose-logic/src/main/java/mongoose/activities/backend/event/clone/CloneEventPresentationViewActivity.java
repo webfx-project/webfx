@@ -28,8 +28,8 @@ public class CloneEventPresentationViewActivity extends PresentationViewActivity
     @Override
     protected void createViewNodes(CloneEventPresentationModel pm) {
         Label nameLabel = newLabel("Name"), dateLabel = newLabel("Date");
-        TextField nameTextField = new TextField();
-        dateTextField = new TextField();
+        TextField nameTextField = newTextField();
+        dateTextField = newTextField();
         Button submitButton = newButton("Clone");
         gp = new GridPane();
         gp.add(nameLabel, 0, 0);

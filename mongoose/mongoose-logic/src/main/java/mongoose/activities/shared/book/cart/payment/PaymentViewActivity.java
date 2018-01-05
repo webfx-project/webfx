@@ -141,7 +141,7 @@ public class PaymentViewActivity extends CartBasedViewActivity {
                 hBox.setAlignment(Pos.CENTER_LEFT);
                 hBox.setPadding(new Insets(10));
                 radioGroup = new ToggleGroup();
-                amountTextField = new TextField();
+                amountTextField = newTextField();
                 amountTextField.setAlignment(Pos.BASELINE_RIGHT);
                 amountTextField.textProperty().addListener((observable, oldValue, text) -> {
                     try {

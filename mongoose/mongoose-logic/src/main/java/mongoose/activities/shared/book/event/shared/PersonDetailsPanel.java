@@ -71,10 +71,10 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         i18n = viewActivityContextMixin.getI18n();
         sectionPanel = createSectionPanel("YourPersonalDetails");
 
-        firstNameTextField = new TextField();
-        lastNameTextField = new TextField();
+        firstNameTextField = newTextField();
+        lastNameTextField = newTextField();
         maleRadioButton = newRadioButton("Male");
-        femaleRadioButton = new RadioButton("Female");
+        femaleRadioButton = newRadioButton("Female");
         ToggleGroup genderGroup = new ToggleGroup();
         maleRadioButton.setToggleGroup(genderGroup);
         femaleRadioButton.setToggleGroup(genderGroup);
@@ -85,13 +85,13 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         adultRadioButton.setToggleGroup(ageGroup);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
         birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        carer1NameTextField = new TextField();
-        carer2NameTextField = new TextField();
-        emailTextField = new TextField();
-        phoneTextField = new TextField();
-        streetTextField = new TextField();
-        postCodeTextField = new TextField();
-        cityNameTextField = new TextField();
+        carer1NameTextField = newTextField();
+        carer2NameTextField = newTextField();
+        emailTextField = newTextField();
+        phoneTextField = newTextField();
+        streetTextField = newTextField();
+        postCodeTextField = newTextField();
+        cityNameTextField = newTextField();
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
