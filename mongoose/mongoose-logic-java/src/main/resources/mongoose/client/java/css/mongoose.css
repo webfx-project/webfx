@@ -36,6 +36,11 @@ DataGrid, LineChart, GridCollator, HtmlText, HtmlTextEditor {
    -fx-padding: 0;
 }
 
+.material {
+     -fx-background-color: white , white , white;
+     -fx-background-insets: 0, 0, 0;
+}
+
 .table-view {
     -fx-table-cell-border-color: #bbbbbb; /* same color as java 7 caspian, java 8 one is too light on colored rows */
     -fx-cursor: hand;
