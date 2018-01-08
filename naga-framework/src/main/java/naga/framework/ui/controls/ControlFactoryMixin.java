@@ -69,21 +69,35 @@ public interface ControlFactoryMixin extends I18nMixin {
     }
 
     default TextField newTextField() {
-        TextField textField = new TextField();
-        return makeMaterial(textField, new MaterialTextFieldSkin(textField));
+        return new TextField();
+    }
+
+    default TextField newMaterialTextField() {
+        return makeMaterial(newTextField());
     }
 
     default TextField newTextFieldWithPrompt(Object i18nKey) {
         return translatePromptText(newTextField(), i18nKey);
     }
 
+    default TextField newMaterialTextFieldWithPrompt(Object i18nKey) {
+        return makeMaterial(newTextFieldWithPrompt(i18nKey));
+    }
+
     default PasswordField newPasswordField() {
-        PasswordField passwordField = new PasswordField();
-        return makeMaterial(passwordField, new MaterialTextFieldSkin(passwordField));
+        return new PasswordField();
+    }
+
+    default PasswordField newMaterialPasswordField() {
+        return makeMaterial(newPasswordField());
     }
 
     default Hyperlink newHyperlink() {
         return new Hyperlink();
+    }
+
+    static <T extends TextField> T makeMaterial(T textField) {
+        return makeMaterial(textField, new MaterialTextFieldSkin(textField));
     }
 
     static <T extends Control> T makeMaterial(T control, Skin<?> materialSkin) {
