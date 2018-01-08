@@ -3,8 +3,12 @@ package emul.javafx.scene.control;
 import emul.com.sun.javafx.scene.control.skin.TextFieldSkin;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.geometry.Insets;
 import emul.javafx.geometry.Pos;
+import emul.javafx.scene.layout.Background;
+import emul.javafx.scene.layout.BackgroundFill;
 import emul.javafx.scene.text.TextAlignment;
+import emul.javafx.scene.paint.Color;
 import naga.fx.properties.markers.HasAlignmentProperty;
 import naga.fx.properties.markers.HasTextAlignmentProperty;
 
@@ -53,7 +57,12 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
     // We continue to use the target toolkit layout measurable even if there is a skin
     @Override
     public boolean shouldUseLayoutMeasurable() {
-        return true;
+        return false;
+    }
+
+    {
+        setPadding(new Insets(4, 7, 4, 7));
+        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
     }
 
 }
