@@ -38,18 +38,14 @@ public class HtmlTransforms {
     }
 
     private static StringBuilder toHtmlRotate(Rotate rotate, StringBuilder sb) {
-        double px = rotate.getPivotX();
-        double py = rotate.getPivotY();
-        if (px == 0 && py == 0)
+        if (rotate.getPivotX() == 0 && rotate.getPivotY() == 0)
             return sb.append("rotate(").append(rotate.getAngle()).append("deg)");
         return toHtmlAffine(rotate.toAffine(), sb);
     }
 
     private static StringBuilder toHtmlScale(Scale scale, StringBuilder sb) {
-        double px = scale.getPivotX();
-        double py = scale.getPivotY();
-        if (px == 0 && py == 0)
-            return sb.append("scale(").append(scale.getX()).append("px, ").append(scale.getY()).append("px)");
+        if (scale.getPivotX() == 0 && scale.getPivotY() == 0)
+            return sb.append("scale(").append(scale.getX()).append(", ").append(scale.getY()).append(")");
         return toHtmlAffine(scale.toAffine(), sb);
     }
 
