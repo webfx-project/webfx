@@ -1,7 +1,9 @@
 package naga.fx.spi.gwt.html.peer;
 
 import elemental2.dom.HTMLElement;
+import emul.com.sun.javafx.scene.control.skin.ToolkitTextBox;
 import emul.javafx.geometry.Pos;
+import emul.javafx.scene.Node;
 import emul.javafx.scene.control.PasswordField;
 import emul.javafx.scene.control.TextField;
 import naga.fx.scene.SceneRequester;
@@ -19,7 +21,11 @@ public class HtmlTextFieldPeer
         implements TextFieldPeerMixin<N, NB, NM>, HtmlLayoutMeasurable {
 
     public HtmlTextFieldPeer() {
-        this((NB) new TextFieldPeerBase(), HtmlUtil.createTextInput());
+        this(HtmlUtil.createSpanElement()/*HtmlUtil.createTextInput()*/);
+    }
+
+    public HtmlTextFieldPeer(HTMLElement element) {
+        this((NB) new TextFieldPeerBase(), element);
     }
 
     public HtmlTextFieldPeer(NB base, HTMLElement element) {
@@ -28,9 +34,12 @@ public class HtmlTextFieldPeer
 
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
-        if (node instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
-            HtmlUtil.setAttribute(getElement(), "type", "password");
         super.bind(node, sceneRequester);
+        Node n = node;
+        if (n instanceof ToolkitTextBox)
+            n = ((ToolkitTextBox) node).getEmbeddingTextField();
+        if (n instanceof PasswordField) // Done here as there is no specific HtmlPasswordFieldPeer
+            HtmlUtil.setAttribute(getElement(), "type", "password");
     }
 
     @Override

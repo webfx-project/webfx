@@ -5,6 +5,7 @@ import elemental2.dom.HTMLInputElement;
 import elemental2.dom.HTMLTextAreaElement;
 import emul.javafx.scene.control.TextInputControl;
 import emul.javafx.scene.text.Font;
+import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.base.TextInputControlPeerBase;
 import naga.fx.spi.peer.base.TextInputControlPeerMixin;
 import naga.util.Booleans;
@@ -23,6 +24,8 @@ public abstract class HtmlTextInputControlPeer
     public HtmlTextInputControlPeer(NB base, HTMLElement textInputElement) {
         super(base, textInputElement);
         prepareDomForAdditionalSkinChildren();
+        // Restoring pointer events (were disabled by prepareDomForAdditionalSkinChildren()) in case the graphic is clickable (ex: radio button)
+        HtmlUtil.setStyleAttribute(getChildrenContainer(), "pointer-events", "auto");
         textInputElement.oninput = e -> {
             getNode().setText(getValue());
             return null;
@@ -49,7 +52,8 @@ public abstract class HtmlTextInputControlPeer
 
     @Override
     public void updatePrompt(String prompt) {
-        setPlaceholder(Strings.toSafeString(prompt));
+        if (!getNode().getStyleClass().contains("material"))
+            setPlaceholder(Strings.toSafeString(prompt));
     }
 
     @Override
