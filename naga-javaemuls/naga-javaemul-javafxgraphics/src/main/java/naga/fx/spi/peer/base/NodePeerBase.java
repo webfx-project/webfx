@@ -5,10 +5,7 @@ import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.scene.Node;
-import emul.javafx.scene.transform.Rotate;
-import emul.javafx.scene.transform.Scale;
 import emul.javafx.scene.transform.Transform;
-import emul.javafx.scene.transform.Translate;
 import naga.fx.properties.ObservableLists;
 import naga.fx.properties.Properties;
 import naga.fx.scene.SceneRequester;
@@ -118,7 +115,8 @@ public abstract class NodePeerBase
     }
 
     private void bindTransform(Transform transform) {
-        Property[] properties = null;
+        Property[] properties = transform.propertiesInvalidatingCache();
+/*
         if (transform instanceof Translate) {
             Translate translate = (Translate) transform;
             properties = new Property[]{translate.xProperty(), translate.yProperty()};
@@ -127,8 +125,9 @@ public abstract class NodePeerBase
             properties = new Property[]{rotate.angleProperty(), rotate.pivotXProperty(), rotate.pivotYProperty()};
         } else if (transform instanceof Scale) {
             Scale scale = (Scale) transform;
-            properties = new Property[]{scale.xProperty(), scale.yProperty()};
+            properties = new Property[]{scale.xProperty(), scale.yProperty(), scale.pivotXProperty(), scale.pivotYProperty()};
         }
+*/
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
                 mixin.updateTransforms(node.getTransforms(), null);

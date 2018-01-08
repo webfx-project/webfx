@@ -124,7 +124,7 @@ public abstract class NodePeerBase
             properties = new Property[]{rotate.angleProperty(), rotate.pivotXProperty(), rotate.pivotYProperty()};
         } else if (transform instanceof Scale) {
             Scale scale = (Scale) transform;
-            properties = new Property[]{scale.xProperty(), scale.yProperty()};
+            properties = new Property[]{scale.xProperty(), scale.yProperty(), scale.pivotXProperty(), scale.pivotYProperty()};
         }
         if (properties != null)
             Properties.runOnPropertiesChange(arg -> {
