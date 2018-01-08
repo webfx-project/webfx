@@ -71,8 +71,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         i18n = viewActivityContextMixin.getI18n();
         sectionPanel = createSectionPanel("YourPersonalDetails");
 
-        firstNameTextField = newTextField();
-        lastNameTextField = newTextField();
+        firstNameTextField = newMaterialTextFieldWithPrompt("FirstName");
+        lastNameTextField = newMaterialTextFieldWithPrompt("LastName");
         maleRadioButton = newRadioButton("Male");
         femaleRadioButton = newRadioButton("Female");
         ToggleGroup genderGroup = new ToggleGroup();
@@ -85,13 +85,13 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         adultRadioButton.setToggleGroup(ageGroup);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
         birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        carer1NameTextField = newTextField();
-        carer2NameTextField = newTextField();
-        emailTextField = newTextField();
-        phoneTextField = newTextField();
-        streetTextField = newTextField();
-        postCodeTextField = newTextField();
-        cityNameTextField = newTextField();
+        carer1NameTextField = newMaterialTextFieldWithPrompt("Carer1");
+        carer2NameTextField = newMaterialTextFieldWithPrompt("Carer2");
+        emailTextField = newMaterialTextFieldWithPrompt("Email");
+        phoneTextField = newMaterialTextFieldWithPrompt("Phone");
+        streetTextField = newMaterialTextFieldWithPrompt("Street");
+        postCodeTextField = newMaterialTextFieldWithPrompt("Postcode");
+        cityNameTextField = newMaterialTextFieldWithPrompt("City");
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
