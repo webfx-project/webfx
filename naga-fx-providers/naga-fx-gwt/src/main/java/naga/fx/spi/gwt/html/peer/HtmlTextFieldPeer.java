@@ -46,4 +46,8 @@ public class HtmlTextFieldPeer
     public void updateAlignment(Pos alignment) {
         setElementStyleAttribute("text-align", toCssTextAlignment(alignment));
     }
+
+    public static HtmlTextFieldPeer createHtmlTextBoxPeer() {
+        return new HtmlTextFieldPeer(HtmlUtil.createTextInput());
+    }
 }

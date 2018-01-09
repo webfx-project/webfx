@@ -11,7 +11,6 @@ import emul.javafx.scene.shape.Line;
 import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.scene.text.Text;
 import naga.fx.spi.gwt.html.peer.*;
-import naga.fx.spi.gwt.util.HtmlUtil;
 import naga.fx.spi.peer.NodePeer;
 import naga.fx.spi.peer.base.NodePeerFactoryImpl;
 import naga.fxdata.chart.*;
@@ -43,7 +42,7 @@ class HtmlNodePeerFactory extends NodePeerFactoryImpl {
         registerNodePeerFactory(Slider.class, HtmlSliderPeer::new);
         registerNodePeerFactory(TextField.class, HtmlTextFieldPeer::new);
         registerNodePeerFactory(PasswordField.class, HtmlTextFieldPeer::new);
-        registerNodePeerFactory(ToolkitTextBox.class, () -> new HtmlTextFieldPeer(HtmlUtil.createTextInput()));
+        registerNodePeerFactory(ToolkitTextBox.class, HtmlTextFieldPeer::createHtmlTextBoxPeer);
         registerNodePeerFactory(TextArea.class, HtmlTextAreaPeer::new);
         registerNodePeerFactory(HtmlText.class, HtmlHtmlTextPeer::new);
         registerNodePeerFactory(HtmlTextEditor.class, HtmlHtmlTextEditorPeer::new);
