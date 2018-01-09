@@ -58,6 +58,18 @@ public abstract class Control extends Region implements Skinnable {
     @Override public final ObjectProperty<Skin<?>> skinProperty() {
         if (skin == null) {
             skin = new SimpleObjectProperty<Skin<?>>() {
+                private boolean created;
+                @Override
+                public Skin<?> get() {
+                    Skin<?> skin = super.get();
+                    if (!created) {
+                        created = true;
+                        if (skin == null)
+                            set(skin = createDefaultSkin());
+                    }
+                    return skin;
+                }
+
                 // We store a reference to the oldValue so that we can handle
                 // changes in the skin properly in the case of binding. This is
                 // only needed because invalidated() does not currently take
@@ -69,6 +81,7 @@ public abstract class Control extends Region implements Skinnable {
                 //Although it's not kosher from the property perspective (bindings won't pass through set), it should not do any harm.
                 //But it should be evaluated in the future.
                 public void set(Skin<?> v) {
+                    created = true;
                     if (v == null
                             ? oldValue == null
                             : oldValue != null && v.getClass().equals(oldValue.getClass()))
@@ -169,7 +182,6 @@ public abstract class Control extends Region implements Skinnable {
                     return "skin";
                 }
             };
-            setSkin(createDefaultSkin());
         }
         return skin;
     }
