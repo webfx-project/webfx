@@ -55,6 +55,7 @@ public class MaterialTextFieldSkin extends TextFieldSkin {
         //textBox.setBorder(BorderUtil.newBorder(Color.RED));
 
         promptText.setManaged(false);
+        promptText.setMouseTransparent(true);
         promptText.fontProperty().bind(textField.fontProperty());
         promptText.textProperty().bind(textField.promptTextProperty());
         promptText.getTransforms().add(promptTextScale);
