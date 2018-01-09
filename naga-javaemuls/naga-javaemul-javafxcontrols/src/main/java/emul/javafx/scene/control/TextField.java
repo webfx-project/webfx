@@ -48,21 +48,18 @@ public class TextField extends TextInputControl implements HasAlignmentProperty,
         return textAlignmentProperty;
     }
 
-    // Setting the default skin (empty as we rely on the target toolkit for now) but this allows to add decorators for validation
+    // Setting the default skin
     @Override
     protected Skin<?> createDefaultSkin() {
         return new TextFieldSkin(this);
     }
 
-    // We continue to use the target toolkit layout measurable even if there is a skin
-    @Override
-    public boolean shouldUseLayoutMeasurable() {
-        return false;
-    }
+    private final static Insets INITIAL_PADDING = new Insets(4, 7, 4, 7);
+    private final static Background INITIAL_BACKGROUND = new Background(new BackgroundFill(Color.WHITE, null, null));
 
     {
-        setPadding(new Insets(4, 7, 4, 7));
-        setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+        setPadding(INITIAL_PADDING);
+        setBackground(INITIAL_BACKGROUND);
     }
 
 }

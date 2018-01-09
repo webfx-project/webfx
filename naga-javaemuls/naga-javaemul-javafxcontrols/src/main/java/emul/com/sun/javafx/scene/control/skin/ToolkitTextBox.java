@@ -33,12 +33,6 @@ public class ToolkitTextBox extends TextField {
         return null;
     }
 
-    // We continue to use the target toolkit layout measurable even if there is a skin
-    @Override
-    public boolean shouldUseLayoutMeasurable() {
-        return true;
-    }
-
     {
         setPadding(Insets.EMPTY);
         setBackground(Background.EMPTY);
