@@ -19,6 +19,7 @@ import naga.framework.ui.controls.ButtonUtil;
 import naga.framework.ui.controls.GridPaneBuilder;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
+import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.platform.services.auth.UsernamePasswordToken;
 import naga.platform.services.auth.spi.AuthService;
@@ -85,6 +86,6 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     public void prepareShowing() {
         // Resetting the default button (required for JavaFx if displayed a second time)
         ButtonUtil.resetDefaultButton(button);
-        LayoutUtil.autoFocusIfEnabled(usernameField);
+        SceneUtil.autoFocusIfEnabled(usernameField);
     }
 }

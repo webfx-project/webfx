@@ -1,14 +1,10 @@
 package naga.framework.ui.layouts;
 
-import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -16,7 +12,6 @@ import naga.framework.ui.controls.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.util.Numbers;
-import naga.util.function.Consumer;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -251,76 +246,6 @@ public class LayoutUtil {
         double viewportHeight = scrollPane.getViewportBounds().getHeight();
         double voffset = Math.max(0, contentHeight - viewportHeight) * (vvalue - vmin) / (vmax - vmin);
         return voffset;
-    }
-
-    public static boolean isNodeVerticallyVisibleOnScene(Node node) {
-        Bounds layoutBounds = node.getLayoutBounds();
-        double minY = node.localToScene(0, layoutBounds.getMinY()).getY();
-        double maxY = node.localToScene(0, layoutBounds.getMaxY()).getY();
-        Scene scene = node.getScene();
-        return minY >= 0 && maxY <= scene.getHeight();
-    }
-
-    public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node) {
-        return scrollNodeToBeVerticallyVisibleOnScene(node, false, true);
-    }
-
-    public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node, boolean onlyIfNotVisible, boolean animate) {
-        if (node == null || onlyIfNotVisible && isNodeVerticallyVisibleOnScene(node))
-            return false;
-        ScrollPane scrollPane = findScrollPaneAncestor(node);
-        if (scrollPane != null) {
-            double nodeTop = node.localToScene(0, 0).getY();
-            double sceneHeight = node.getScene().getHeight();
-            double delta = sceneHeight / 2 - nodeTop;
-            double contentHeight = scrollPane.getContent().getLayoutBounds().getHeight();
-            double viewportHeight = scrollPane.getViewportBounds().getHeight();
-            double voffset = computeScrollPaneVoffset(scrollPane) - delta;
-            double vValue = voffset / (contentHeight - viewportHeight);
-            vValue = Math.max(0, Math.min(1, vValue));
-            Properties.animateProperty(scrollPane.vvalueProperty(), vValue, animate ? Interpolator.EASE_OUT : null);
-            return true;
-        }
-        return false;
-    }
-
-    public static void autoFocusIfEnabled(Node node) {
-        if (isAutoFocusEnabled())
-            node.requestFocus();
-    }
-
-    public static boolean isAutoFocusEnabled() {
-        // TODO: make it a user setting that can be stored in the device
-        // Default behaviour is to disable auto focus if this can cause a (probably unwanted) virtual keyboard to appear
-        return !willAVirtualKeyboardAppearOnFocus();
-    }
-
-    public static boolean willAVirtualKeyboardAppearOnFocus() {
-        // No API for this so temporary implementation based on screen width size
-        Rectangle2D visualBounds = Toolkit.get().getPrimaryScreen().getVisualBounds();
-        return Math.min(visualBounds.getWidth(), visualBounds.getHeight()) < 800;
-    }
-
-    public static void onSceneReady(Node node, Consumer<Scene> sceneConsumer) {
-        onSceneReady(node.sceneProperty(), sceneConsumer);
-    }
-
-    public static void onSceneReady(ObservableValue<Scene> sceneProperty, Consumer<Scene> sceneConsumer) {
-        Properties.onPropertySet(sceneProperty, sceneConsumer);
-    }
-
-    public static void installSceneAutoScrollToFocusOwner(Scene scene) {
-        scene.focusOwnerProperty().addListener((observable, oldValue, newFocusOwner) -> scrollNodeToBeVerticallyVisibleOnScene(newFocusOwner, true, true));
-    }
-
-    public static void installPrimarySceneAutoScrollToFocusOwner() {
-        Toolkit.get().scheduler().runInUiThread(() ->
-                onSceneReady(Toolkit.get().getPrimaryStage().sceneProperty(), LayoutUtil::installSceneAutoScrollToFocusOwner)
-        );
-    }
-
-    static {
-        installPrimarySceneAutoScrollToFocusOwner();
     }
 
 }

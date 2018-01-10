@@ -31,7 +31,7 @@ import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;
 import naga.framework.ui.filter.StringFilterBuilder;
-import naga.framework.ui.layouts.LayoutUtil;
+import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.cell.renderer.ValueRenderer;
@@ -259,14 +259,11 @@ public class EntityButtonSelector {
                 searchBox = new HBox(searchTextField, modalButton);
                 onDecidedShowMode(decidedShowMode);
                 entityDialogCallback = DialogUtil.showDropUpOrDownDialog(entityDialogPane, entityButton, parent, deferredDisplayResultSet, decidedShowMode == ShowMode.DROP_UP);
-                ChangeListener<Number> sceneHeightListener = (observable, oldValue, newValue) -> {
-                    Platform.runLater(() -> {
-                        if (!LayoutUtil.isNodeVerticallyVisibleOnScene(entityButton))
-                            LayoutUtil.scrollNodeToBeVerticallyVisibleOnScene(entityButton);
-                        onDecidedShowMode(computeDecidedShowMode()); // decided show mode may change in dependence of the height
-                        DialogUtil.updateDropUpOrDownDialogPosition(entityDialogPane);
-                    });
-                };
+                ChangeListener<Number> sceneHeightListener = (observable, oldValue, newValue) -> Platform.runLater(() -> {
+                    SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(entityButton, true, true);
+                    onDecidedShowMode(computeDecidedShowMode()); // decided show mode may change in dependence of the height
+                    DialogUtil.updateDropUpOrDownDialogPosition(entityDialogPane);
+                });
                 ObservableValue<? extends Number> sceneHeightProperty = entityDialogPane.getScene().heightProperty();
                 sceneHeightProperty.addListener(sceneHeightListener);
                 entityDialogCallback.addCloseHook(() -> sceneHeightProperty.removeListener(sceneHeightListener));
@@ -274,7 +271,7 @@ public class EntityButtonSelector {
         }
         if (searchTextField != null) {
             searchTextField.setText(null); // Resetting the search box
-            LayoutUtil.autoFocusIfEnabled(searchTextField);
+            SceneUtil.autoFocusIfEnabled(searchTextField);
         }
     }
 

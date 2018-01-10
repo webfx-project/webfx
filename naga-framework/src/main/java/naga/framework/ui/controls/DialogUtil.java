@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import naga.framework.ui.layouts.LayoutUtil;
+import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.util.Booleans;
@@ -77,7 +78,7 @@ public class DialogUtil {
     }
 
     private static void setUpModalNodeResizeRelocate(Region modalNode, Pane parent, DialogCallback dialogCallback) {
-        LayoutUtil.onSceneReady(parent, scene ->
+        SceneUtil.onSceneReady(parent, scene ->
             dialogCallback.addCloseHook(Properties.runNowAndOnPropertiesChange(p -> {
                     Point2D parentSceneXY = parent.localToScene(0, 0);
                     double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
@@ -140,7 +141,7 @@ public class DialogUtil {
     }
 
     private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, ObservableValue resizeProperty, boolean up) {
-        LayoutUtil.onSceneReady(buttonNode, scene -> {
+        SceneUtil.onSceneReady(buttonNode, scene -> {
             List<ObservableValue> reactingProperties = Collections.listOf(
                     buttonNode.widthProperty(),
                     buttonNode.heightProperty(),

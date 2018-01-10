@@ -27,7 +27,7 @@ import javafx.scene.transform.Rotate;
 import mongoose.actions.MongooseIcons;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.BorderUtil;
-import naga.framework.ui.layouts.LayoutUtil;
+import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fx.util.ImageStore;
@@ -224,7 +224,7 @@ public class MongooseValidationSupport {
                 popOverDecoration = new GraphicDecoration(popOverContentNode, 0, -1, 0, -1);
                 popOverDecoration.applyDecoration(popOverDecorationTarget);
                 if (popUpOverAutoScroll) {
-                    LayoutUtil.scrollNodeToBeVerticallyVisibleOnScene(popOverDecorationTarget);
+                    SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(popOverDecorationTarget);
                     popUpOverAutoScroll = false;
                 }
             }
