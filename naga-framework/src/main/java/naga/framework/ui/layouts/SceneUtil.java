@@ -1,6 +1,5 @@
 package naga.framework.ui.layouts;
 
-import javafx.animation.Interpolator;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -39,7 +38,7 @@ public class SceneUtil {
             double voffset = LayoutUtil.computeScrollPaneVoffset(scrollPane) - delta;
             double vValue = voffset / (contentHeight - viewportHeight);
             vValue = Math.max(0, Math.min(1, vValue));
-            Properties.animateProperty(scrollPane.vvalueProperty(), vValue, animate ? Interpolator.EASE_OUT : null);
+            Properties.animateProperty(scrollPane.vvalueProperty(), vValue, animate);
             return true;
         }
         return false;

@@ -66,9 +66,14 @@ public class Properties {
             property.setValue(value);
     }
 
+    public final static Interpolator EASE_OUT_INTERPOLATOR = Interpolator.SPLINE(0, .75, .25, 1);
 
     public static <T> void animateProperty(WritableValue<T> target, T finalValue) {
-        animateProperty(target, finalValue, Interpolator.EASE_OUT);
+        animateProperty(target, finalValue, true);
+    }
+
+    public static <T> void animateProperty(WritableValue<T> target, T finalValue, boolean animate) {
+        animateProperty(target, finalValue, animate ? EASE_OUT_INTERPOLATOR : null);
     }
 
     public static <T> void animateProperty(WritableValue<T> target, T finalValue, Interpolator interpolator) {
