@@ -6,6 +6,7 @@ import emul.javafx.animation.KeyValue;
 import emul.javafx.animation.Timeline;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.beans.value.WritableValue;
 import emul.javafx.util.Duration;
@@ -78,5 +79,22 @@ public class Properties {
                 new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, interpolator))).play();
         }
     }
+
+    public static <T> void onPropertySet(ObservableValue<T> property, Consumer<T> valueConsumer) {
+        T value = property.getValue();
+        if (value != null)
+            valueConsumer.accept(value);
+        else
+            property.addListener(new ChangeListener<T>() {
+                @Override
+                public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
+                    if (newValue != null) {
+                        observable.removeListener(this);
+                        valueConsumer.accept(newValue);
+                    }
+                }
+            });
+    }
+
 
 }

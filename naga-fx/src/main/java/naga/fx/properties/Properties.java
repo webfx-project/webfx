@@ -6,15 +6,16 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WritableValue;
 import javafx.util.Duration;
+import naga.fx.spi.Toolkit;
 import naga.util.Objects;
 import naga.util.function.Consumer;
 import naga.util.function.Func2;
 import naga.util.function.Function;
 import naga.util.function.Predicate;
-import naga.fx.spi.Toolkit;
 
 /**
  * @author Bruno Salmon
@@ -77,4 +78,21 @@ public class Properties {
                 new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, interpolator))).play();
         }
     }
+
+    public static <T> void onPropertySet(ObservableValue<T> property, Consumer<T> valueConsumer) {
+        T value = property.getValue();
+        if (value != null)
+            valueConsumer.accept(value);
+        else
+            property.addListener(new ChangeListener<T>() {
+                @Override
+                public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
+                    if (newValue != null) {
+                        observable.removeListener(this);
+                        valueConsumer.accept(newValue);
+                    }
+                }
+            });
+    }
+
 }
