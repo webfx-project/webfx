@@ -3,7 +3,10 @@ package naga.framework.ui.layouts;
 import javafx.animation.Interpolator;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.*;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
@@ -13,6 +16,7 @@ import naga.framework.ui.controls.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.util.Numbers;
+import naga.util.function.Consumer;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 
@@ -258,10 +262,12 @@ public class LayoutUtil {
     }
 
     public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node) {
-        return scrollNodeToBeVerticallyVisibleOnScene(node, true);
+        return scrollNodeToBeVerticallyVisibleOnScene(node, false, true);
     }
 
-    public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node, boolean animate) {
+    public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node, boolean onlyIfNotVisible, boolean animate) {
+        if (node == null || onlyIfNotVisible && isNodeVerticallyVisibleOnScene(node))
+            return false;
         ScrollPane scrollPane = findScrollPaneAncestor(node);
         if (scrollPane != null) {
             double nodeTop = node.localToScene(0, 0).getY();
@@ -293,5 +299,13 @@ public class LayoutUtil {
         // No API for this so temporary implementation based on screen width size
         Rectangle2D visualBounds = Toolkit.get().getPrimaryScreen().getVisualBounds();
         return Math.min(visualBounds.getWidth(), visualBounds.getHeight()) < 800;
+    }
+
+    public static void onSceneReady(Node node, Consumer<Scene> sceneConsumer) {
+        onSceneReady(node.sceneProperty(), sceneConsumer);
+    }
+
+    public static void onSceneReady(ObservableValue<Scene> sceneProperty, Consumer<Scene> sceneConsumer) {
+        Properties.onPropertySet(sceneProperty, sceneConsumer);
     }
 }
