@@ -11,17 +11,15 @@ import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import naga.framework.ui.layouts.LayoutUtil;
+import naga.fx.properties.Properties;
+import naga.fx.spi.Toolkit;
 import naga.util.Booleans;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
-import naga.fx.properties.Properties;
-import naga.fx.properties.Unregistrable;
-import naga.fx.spi.Toolkit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,24 +77,14 @@ public class DialogUtil {
     }
 
     private static void setUpModalNodeResizeRelocate(Region modalNode, Pane parent, DialogCallback dialogCallback) {
-        Scene scene = parent.getScene();
-        if (scene == null) {
-            parent.sceneProperty().addListener(new ChangeListener<Scene>() {
-                @Override
-                public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
-                    observable.removeListener(this);
-                    setUpModalNodeResizeRelocate(modalNode, parent, dialogCallback);
-                }
-            });
-            return;
-        }
-        Unregistrable unregistrable = Properties.runNowAndOnPropertiesChange(p -> {
-                Point2D parentSceneXY = parent.localToScene(0, 0);
-                double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
-                double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
-                modalNode.resizeRelocate(0, 0, width, height);
-            }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty());
-        dialogCallback.addCloseHook(unregistrable::unregister);
+        LayoutUtil.onSceneReady(parent, scene ->
+            dialogCallback.addCloseHook(Properties.runNowAndOnPropertiesChange(p -> {
+                    Point2D parentSceneXY = parent.localToScene(0, 0);
+                    double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
+                    double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
+                    modalNode.resizeRelocate(0, 0, width, height);
+                }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty()
+            )::unregister));
     }
 
     public static BorderPane decorate(Node content) {
@@ -152,54 +140,44 @@ public class DialogUtil {
     }
 
     private static void setUpDropDownDialogResizeRelocate(Region dialogNode, Region buttonNode, Pane parent, DialogCallback dialogCallback, ObservableValue resizeProperty, boolean up) {
-        Scene scene = buttonNode.getScene();
-        if (scene == null) {
-            buttonNode.sceneProperty().addListener(new ChangeListener<Scene>() {
+        LayoutUtil.onSceneReady(buttonNode, scene -> {
+            List<ObservableValue> reactingProperties = Collections.listOf(
+                    buttonNode.widthProperty(),
+                    buttonNode.heightProperty(),
+                    resizeProperty);
+            for (ScrollPane scrollPane = LayoutUtil.findScrollPaneAncestor(buttonNode); scrollPane != null; scrollPane = LayoutUtil.findScrollPaneAncestor(scrollPane)) {
+                reactingProperties.add(scrollPane.hvalueProperty());
+                reactingProperties.add(scrollPane.vvalueProperty());
+            }
+            setDropDialogUp(dialogNode, up);
+            Unit<Runnable> positionUpdaterHolder = new Unit<>();
+            Runnable positionUpdater = () -> {
+                Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
+                Point2D parentSceneXY = parent.localToScene(0, 0);
+                double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
+                double height = dialogNode.prefHeight(width);
+                double deltaY = isDropDialogUp(dialogNode) ? -height : buttonNode.getHeight();
+                Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
+                // Hack for the html version which may have an incorrect height computation on first iteration
+                if (height <= 32 && positionUpdaterHolder.get() != null) {
+                    javafx.application.Platform.runLater(positionUpdaterHolder.get());
+                    positionUpdaterHolder.set(null);
+                }
+            };
+            positionUpdater.run();
+            positionUpdaterHolder.set(positionUpdater);
+            dialogNode.getProperties().put("positionUpdater", positionUpdater);
+            dialogCallback.addCloseHook(Properties.runOnPropertiesChange(p -> positionUpdater.run(), Collections.toArray(reactingProperties, ObservableValue[]::new))::unregister);
+            dialogCallback.addCloseHook(() -> dialogNode.relocate(0, 0));
+            scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
                 @Override
-                public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
-                    observable.removeListener(this);
-                    setUpDropDownDialogResizeRelocate(dialogNode, buttonNode, parent, dialogCallback, resizeProperty, up);
+                public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
+                    if (!hasAncestor(newFocusOwner, dialogNode)) {
+                        dialogCallback.closeDialog();
+                        scene.focusOwnerProperty().removeListener(this);
+                    }
                 }
             });
-            return;
-        }
-        List<ObservableValue> reactingProperties = Collections.listOf(
-                buttonNode.widthProperty(),
-                buttonNode.heightProperty(),
-                resizeProperty);
-        for (ScrollPane scrollPane = LayoutUtil.findScrollPaneAncestor(buttonNode); scrollPane != null; scrollPane = LayoutUtil.findScrollPaneAncestor(scrollPane)) {
-            reactingProperties.add(scrollPane.hvalueProperty());
-            reactingProperties.add(scrollPane.vvalueProperty());
-        }
-        setDropDialogUp(dialogNode, up);
-        Unit<Runnable> positionUpdaterHolder = new Unit<>();
-        Runnable positionUpdater = () -> {
-            Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
-            Point2D parentSceneXY = parent.localToScene(0, 0);
-            double width = Math.min(buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
-            double height = dialogNode.prefHeight(width);
-            double deltaY = isDropDialogUp(dialogNode) ? -height : buttonNode.getHeight();
-            Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, false);
-            // Hack for the html version which may have an incorrect height computation on first iteration
-            if (height <= 32 && positionUpdaterHolder.get() != null) {
-                javafx.application.Platform.runLater(positionUpdaterHolder.get());
-                positionUpdaterHolder.set(null);
-            }
-        };
-        positionUpdater.run();
-        positionUpdaterHolder.set(positionUpdater);
-        dialogNode.getProperties().put("positionUpdater", positionUpdater);
-        Unregistrable unregistrable = Properties.runOnPropertiesChange(p -> positionUpdater.run(), Collections.toArray(reactingProperties, ObservableValue[]::new));
-        dialogCallback.addCloseHook(unregistrable::unregister);
-        dialogCallback.addCloseHook(() -> dialogNode.relocate(0, 0));
-        scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
-            @Override
-            public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
-                if (!hasAncestor(newFocusOwner, dialogNode)) {
-                    dialogCallback.closeDialog();
-                    scene.focusOwnerProperty().removeListener(this);
-                }
-            }
         });
     }
 
