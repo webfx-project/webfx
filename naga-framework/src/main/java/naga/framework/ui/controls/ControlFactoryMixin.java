@@ -6,7 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.controls.skins.MaterialTextFieldSkin;
+import naga.framework.ui.controls.material.skins.MaterialTextFieldSkin;
 import naga.framework.ui.i18n.I18nMixin;
 
 /**
