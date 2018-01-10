@@ -308,4 +308,19 @@ public class LayoutUtil {
     public static void onSceneReady(ObservableValue<Scene> sceneProperty, Consumer<Scene> sceneConsumer) {
         Properties.onPropertySet(sceneProperty, sceneConsumer);
     }
+
+    public static void installSceneAutoScrollToFocusOwner(Scene scene) {
+        scene.focusOwnerProperty().addListener((observable, oldValue, newFocusOwner) -> scrollNodeToBeVerticallyVisibleOnScene(newFocusOwner, true, true));
+    }
+
+    public static void installPrimarySceneAutoScrollToFocusOwner() {
+        Toolkit.get().scheduler().runInUiThread(() ->
+                onSceneReady(Toolkit.get().getPrimaryStage().sceneProperty(), LayoutUtil::installSceneAutoScrollToFocusOwner)
+        );
+    }
+
+    static {
+        installPrimarySceneAutoScrollToFocusOwner();
+    }
+
 }
