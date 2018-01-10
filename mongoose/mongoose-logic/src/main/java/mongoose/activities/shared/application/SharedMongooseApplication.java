@@ -17,6 +17,7 @@ import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.activity.combinations.viewdomainapplication.ViewDomainApplicationContext;
 import naga.framework.ui.i18n.I18n;
+import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.properties.Properties;
 import naga.platform.activity.Activity;
@@ -67,6 +68,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
                 DomainModelSnapshotLoader.getDataSourceModel(),
                 I18n.create("mongoose/dictionaries/{lang}.json"),
                 args));
+        SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
     }
 
     public static void setLoadingSpinnerVisibleConsumer(Consumer<Boolean> consumer) {
