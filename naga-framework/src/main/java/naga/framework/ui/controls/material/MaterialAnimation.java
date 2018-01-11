@@ -20,23 +20,18 @@ import java.util.Collection;
  */
 public class MaterialAnimation {
 
+    private final static Duration MATERIAL_ANIMATION_DURATION = Duration.millis(400);
+
     private Timeline animation;
     private Collection<KeyValue> animationKeyValues = new ArrayList<>();
     private Runnable pendingPlay;
 
     public Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        return Properties.runOnPropertiesChange(p -> {
+        return Properties.runNowAndOnPropertiesChange(p -> {
             runnable.accept(p);
             if (animationKeyValues != null && pendingPlay == null)
                 Platform.runLater(pendingPlay = this::play);
         }, properties);
-    }
-
-    private void stop() {
-        if (animation != null) {
-            animation.stop();
-            animation = null;
-        }
     }
 
     public <T> void playEaseOut(WritableValue<T> target, T endValue) {
@@ -53,8 +48,9 @@ public class MaterialAnimation {
 
     private void play() {
         if (animationKeyValues != null) {
-            stop();
-            animation = new Timeline(new KeyFrame(Duration.millis(400), Collections.toArray(animationKeyValues, KeyValue[]::new)));
+            if (animation != null)
+                animation.stop();
+            animation = new Timeline(new KeyFrame(MATERIAL_ANIMATION_DURATION, Collections.toArray(animationKeyValues, KeyValue[]::new)));
             animation.play();
             animationKeyValues = null;
             pendingPlay = null;
