@@ -156,20 +156,35 @@ abstract class GwtJsonElement extends JavaScriptObject implements WritableJsonEl
 
     @Override
     public final Object parseNativeObject(String text) {
-        try {
-            return callBrowserJsonParser(text); // Faster but strict parser (ex: {"key": value})
-        } catch (Exception e) { // Probably a json with non-strict keys (ex: {key: value}) -> rejected by the browser parser
-            return BuiltInJsonParser.parseJsonObject(text); // Re-trying with the built-in parser (slower but non-strict)
+        if (fastCheckStrictJson(text))
+            try {
+                return callBrowserJsonParser(text); // Faster but strict parser (ex: {"key": value})
+            } catch (Exception e) { // Probably a json with non-strict keys (ex: {key: value}) -> rejected by the browser parser
+            }
+        return BuiltInJsonParser.parseJsonObject(text); // Re-trying with the built-in parser (slower but non-strict)
+    }
+
+    private boolean fastCheckStrictJson(String text) {
+        // Checking if first json object looks strict or not
+        int p = text.indexOf('{') + 1;
+        if (p == 0)
+            return true;
+        for (int n = text.length(); p < n; p++) {
+            char c = text.charAt(p);
+            if (!Character.isWhitespace(c))
+                return c == '"';
         }
+        return false;
     }
 
     @Override
     public final Object parseNativeArray(String text) {
-        try {
-            return callBrowserJsonParser(text); // Faster but strict parser
-        } catch (Exception e) { // Probably a json with non-strict keys -> rejected by the browser parser
-            return BuiltInJsonParser.parseJsonArray(text); // Re-trying with the built-in parser (slower but non-strict)
-        }
+        if (fastCheckStrictJson(text))
+            try {
+                return callBrowserJsonParser(text); // Faster but strict parser
+            } catch (Exception e) { // Probably a json with non-strict keys -> rejected by the browser parser
+            }
+        return BuiltInJsonParser.parseJsonArray(text); // Re-trying with the built-in parser (slower but non-strict)
     }
 
     private static native JavaScriptObject callBrowserJsonParser(String text) /*-{
