@@ -21,4 +21,13 @@ public class MaterialUtil {
         return control;
     }
 
+    public static void shareMaterialAnimation(HasMaterialAnimation... hasMaterialAnimations) {
+        MaterialAnimation materialAnimation = null;
+        for (HasMaterialAnimation hasMaterialAnimation : hasMaterialAnimations) {
+            if (materialAnimation == null)
+                materialAnimation = hasMaterialAnimation.getMaterialAnimation();
+            else
+                hasMaterialAnimation.setMaterialAnimation(materialAnimation);
+        }
+    }
 }

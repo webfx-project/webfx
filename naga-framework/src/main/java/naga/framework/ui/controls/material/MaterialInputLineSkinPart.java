@@ -11,7 +11,9 @@ import naga.framework.ui.controls.BackgroundUtil;
 /**
  * @author Bruno Salmon
  */
-public class MaterialInputLine {
+public class MaterialInputLineSkinPart implements HasMaterialAnimation {
+
+    public final static double BOTTOM_PADDING_BELOW_INPUT = 8;
 
     private final static Color LINE_FOCUSED_COLOR = Color.valueOf("#4059A9");
     private final static Color LINE_UNFOCUSED_COLOR = Color.grayRgb(77);
@@ -20,35 +22,37 @@ public class MaterialInputLine {
     private final static Border DASHED_BORDER = new Border(new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.DASHED, null, new BorderWidths(1)));
 
     private final TextInputControl textField;
-    private final MaterialAnimation materialAnimation;
+    private MaterialAnimation materialAnimation;
 
     private final StackPane line = new StackPane();
     private final StackPane focusedLine = new StackPane();
     private final Scale focusedLineScale = new Scale();
 
-    public MaterialInputLine(TextInputControl textInputControl, ObservableList<Node> skinChildren) {
-        this(textInputControl, skinChildren, new MaterialAnimation());
-    }
-
-    public MaterialInputLine(TextInputControl textInputControl, ObservableList<Node> skinChildren, MaterialAnimation materialAnimation) {
+    public MaterialInputLineSkinPart(TextInputControl textInputControl, ObservableList<Node> skinChildren) {
         this.textField = textInputControl;
-        this.materialAnimation = materialAnimation;
-
         initLineProperties(line);
         initLineProperties(focusedLine);
+        skinChildren.addAll(line, focusedLine);
+    }
+
+    public MaterialAnimation getMaterialAnimation() {
+        if (materialAnimation == null)
+            setMaterialAnimation(new MaterialAnimation());
+        return materialAnimation;
+    }
+
+    public void setMaterialAnimation(MaterialAnimation materialAnimation) {
+        this.materialAnimation = materialAnimation;
         materialAnimation.runNowAndOnPropertiesChange(p -> {
             updateLineProperties(line);
             updateLineProperties(focusedLine);
             animateFocusedLine();
         }, textField.focusedProperty(), textField.editableProperty());
-
-        skinChildren.addAll(line, focusedLine);
     }
 
     private void initLineProperties(StackPane line) {
         boolean isFocusedLine = line == focusedLine;
         line.setPrefHeight(isFocusedLine ? 2d : 1d);
-        line.setLayoutY(isFocusedLine ? 0d : 1d); // translate = prefHeight + init_translation
         line.setManaged(false);
         if (isFocusedLine) {
             line.setBackground(FOCUSED_BACKGROUND);
@@ -67,12 +71,13 @@ public class MaterialInputLine {
 
     private void animateFocusedLine() {
         if (textField.isFocused() && textField.isEditable() && focusedLineScale.getX() < 1)
-            materialAnimation.playEaseOut(focusedLineScale.xProperty(), 1d);
+            getMaterialAnimation().addEaseOut(focusedLineScale.xProperty(), 1d);
     }
 
     public void layoutChildren(double x, double y, double w, double h) {
-        line.resizeRelocate(x, h, w, 1);
-        focusedLine.resizeRelocate(x, h - 1, w, 2);
+        double yLine = y + h -1;
+        line.resizeRelocate(x, yLine, w, 1);
+        focusedLine.resizeRelocate(x, yLine - 1, w, 2);
         focusedLineScale.setPivotX(w / 2);
     }
 

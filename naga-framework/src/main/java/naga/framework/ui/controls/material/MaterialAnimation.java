@@ -1,5 +1,6 @@
 package naga.framework.ui.controls.material;
 
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -29,32 +30,51 @@ public class MaterialAnimation {
     public Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
         return Properties.runNowAndOnPropertiesChange(p -> {
             runnable.accept(p);
-            if (animationKeyValues != null && pendingPlay == null)
-                Platform.runLater(pendingPlay = this::play);
+            play();
         }, properties);
     }
 
-    public <T> void playEaseOut(WritableValue<T> target, T endValue) {
-        play(new KeyValue(target, endValue, Properties.EASE_OUT_INTERPOLATOR));
+    public <T> MaterialAnimation addEaseOut(WritableValue<T> target, T endValue) {
+        return add(target, endValue, Properties.EASE_OUT_INTERPOLATOR);
     }
 
-    public void play(KeyValue... keyValues) {
+    public <T> MaterialAnimation add(WritableValue<T> target, T endValue, Interpolator interpolator) {
+        return add(new KeyValue(target, endValue, interpolator));
+    }
+
+    public MaterialAnimation add(KeyValue... keyValues) {
         if (keyValues.length > 0) {
             if (animationKeyValues == null)
                 animationKeyValues = new ArrayList<>();
             java.util.Collections.addAll(animationKeyValues, keyValues);
         }
+        return this;
     }
 
-    private void play() {
+    public void play() {
+        play(true);
+    }
+
+    public void play(boolean animate) {
+        if (!animate)
+            for (KeyValue keyValue : animationKeyValues) {
+                WritableValue target = keyValue.getTarget();
+                target.setValue(keyValue.getEndValue());
+            }
+        else if (pendingPlay == null)
+            Platform.runLater(pendingPlay = this::playNow);
+    }
+
+
+    private void playNow() {
         if (animationKeyValues != null) {
             if (animation != null)
                 animation.stop();
             animation = new Timeline(new KeyFrame(MATERIAL_ANIMATION_DURATION, Collections.toArray(animationKeyValues, KeyValue[]::new)));
             animation.play();
             animationKeyValues = null;
-            pendingPlay = null;
         }
+        pendingPlay = null;
     }
 
 }
