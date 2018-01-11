@@ -28,8 +28,8 @@ public class MaterialLabel {
     private final Region textBox;
     private final Text labelText = new Text();
     private final Scale labelTextScale = new Scale(1, 1);
-    private double labelTextUpLayoutY;
-    private double labelTextDownLayoutY;
+    private double floatingLabelTextLayoutY; // floating label = when up
+    private double restingLabelTextLayoutY; // resting label = when down
     private boolean inited;
 
     public MaterialLabel(TextInputControl textInputControl, Region textBox, ObservableList<Node> skinChildren, MaterialAnimation materialAnimation) {
@@ -59,41 +59,41 @@ public class MaterialLabel {
             materialAnimation.play(
                     new KeyValue(labelTextScale.xProperty(), focused ? PROMPT_FOCUSED_SCALE_FACTOR : 1, Properties.EASE_OUT_INTERPOLATOR),
                     new KeyValue(labelTextScale.yProperty(), focused ? PROMPT_FOCUSED_SCALE_FACTOR : 1, Properties.EASE_OUT_INTERPOLATOR),
-                    new KeyValue(labelText.layoutYProperty(), focused ? labelTextUpLayoutY : labelTextDownLayoutY, Properties.EASE_OUT_INTERPOLATOR),
+                    new KeyValue(labelText.layoutYProperty(), focused ? floatingLabelTextLayoutY : restingLabelTextLayoutY, Properties.EASE_OUT_INTERPOLATOR),
                     new KeyValue(labelText.fillProperty(), focused ? PROMPT_FOCUSED_COLOR : PROMPT_UNFOCUSED_COLOR, Properties.EASE_OUT_INTERPOLATOR)
             );
         else {
             labelTextScale.setX(empty ? 1 : PROMPT_FOCUSED_SCALE_FACTOR);
             labelTextScale.setY(empty ? 1 : PROMPT_FOCUSED_SCALE_FACTOR);
-            labelText.setLayoutY(empty ? labelTextDownLayoutY : labelTextUpLayoutY);
+            labelText.setLayoutY(empty ? restingLabelTextLayoutY : floatingLabelTextLayoutY);
             labelText.setFill(empty ? PROMPT_UNFOCUSED_COLOR : PROMPT_FOCUSED_COLOR);
         }
     }
 
-    public double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset, ComputeHeight textBoxComputeMinHeight) {
-        return TOP_OFFSET_HEIGHT + textBoxComputeMinHeight.computeHeight(width, topInset, rightInset, bottomInset, leftInset);
+    public double computeMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset, ComputeHeightFunction textBoxComputeMinHeightFunction) {
+        return TOP_OFFSET_HEIGHT + textBoxComputeMinHeightFunction.computeHeight(width, topInset, rightInset, bottomInset, leftInset);
     }
 
-    public double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset, ComputeHeight textBoxComputePrefHeight) {
-        return TOP_OFFSET_HEIGHT +  textBoxComputePrefHeight.computeHeight(width, topInset, rightInset, bottomInset, leftInset);
+    public double computePrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset, ComputeHeightFunction textBoxComputePrefHeightFunction) {
+        return TOP_OFFSET_HEIGHT + textBoxComputePrefHeightFunction.computeHeight(width, topInset, rightInset, bottomInset, leftInset);
     }
 
-    public double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset, ComputeHeight textBoxComputeMaxHeight) {
-        return TOP_OFFSET_HEIGHT +  textBoxComputeMaxHeight.computeHeight(width, topInset, rightInset, bottomInset, leftInset);
+    public double computeMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset, ComputeHeightFunction textBoxComputeMaxHeightFunction) {
+        return TOP_OFFSET_HEIGHT + textBoxComputeMaxHeightFunction.computeHeight(width, topInset, rightInset, bottomInset, leftInset);
     }
 
-    public double computeBaselineOffset(double topInset, double rightInset, double bottomInset, double leftInset, ComputeBaselineOffset textBoxComputeBaselineOffset) {
-        return TOP_OFFSET_HEIGHT + textBoxComputeBaselineOffset.computeBaselineOffset(topInset, rightInset, bottomInset, leftInset);
+    public double computeBaselineOffset(double topInset, double rightInset, double bottomInset, double leftInset, ComputeBaselineOffsetFunction textBoxComputeBaselineOffsetFunction) {
+        return TOP_OFFSET_HEIGHT + textBoxComputeBaselineOffsetFunction.computeBaselineOffset(topInset, rightInset, bottomInset, leftInset);
     }
 
-    public void layoutChildren(double x, double y, double w, double h, LayoutChildren textBoxLayoutChildren) {
+    public void layoutChildren(double x, double y, double w, double h, LayoutChildrenFunction textBoxLayoutChildrenFunction) {
         double yTextBox = y + TOP_OFFSET_HEIGHT - 1;
         double hTextBox = h - TOP_OFFSET_HEIGHT - 1;
-        textBoxLayoutChildren.layoutChildren(x, yTextBox, w, hTextBox);
+        textBoxLayoutChildrenFunction.layoutChildren(x, yTextBox, w, hTextBox);
         if (!inited) {
             labelText.setLayoutX(textBox.getLayoutX() + 1);
-            labelTextUpLayoutY = 0;
-            labelTextDownLayoutY = yTextBox + hTextBox / 2;
+            floatingLabelTextLayoutY = 0;
+            restingLabelTextLayoutY = yTextBox + hTextBox / 2;
             positionOrAnimatePromptText();
             inited = true;
             //getSkinnable().setBackground(BackgroundUtil.newBackground(Color.YELLOW));
