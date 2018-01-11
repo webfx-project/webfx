@@ -2,11 +2,10 @@ package naga.framework.ui.controls;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.controls.material.skins.MaterialTextFieldSkin;
+import naga.framework.ui.controls.material.MaterialUtil;
 import naga.framework.ui.i18n.I18nMixin;
 
 /**
@@ -73,7 +72,7 @@ public interface ControlFactoryMixin extends I18nMixin {
     }
 
     default TextField newMaterialTextField() {
-        return makeMaterial(newTextField());
+        return MaterialUtil.makeMaterial(newTextField());
     }
 
     default TextField newTextFieldWithPrompt(Object i18nKey) {
@@ -81,7 +80,7 @@ public interface ControlFactoryMixin extends I18nMixin {
     }
 
     default TextField newMaterialTextFieldWithPrompt(Object i18nKey) {
-        return makeMaterial(newTextFieldWithPrompt(i18nKey));
+        return MaterialUtil.makeMaterial(newTextFieldWithPrompt(i18nKey));
     }
 
     default PasswordField newPasswordField() {
@@ -89,26 +88,11 @@ public interface ControlFactoryMixin extends I18nMixin {
     }
 
     default PasswordField newMaterialPasswordField() {
-        return makeMaterial(newPasswordField());
+        return MaterialUtil.makeMaterial(newPasswordField());
     }
 
     default Hyperlink newHyperlink() {
         return new Hyperlink();
-    }
-
-    static <T extends TextField> T makeMaterial(T textField) {
-        return makeMaterial(textField, new MaterialTextFieldSkin(textField));
-    }
-
-    static <T extends Control> T makeMaterial(T control, Skin<?> materialSkin) {
-        if (materialSkin != null)
-            control.setSkin(materialSkin);
-        return addStyleClass(control, "material");
-    }
-
-    static <T extends Node> T addStyleClass(T node, String styleClass) {
-        node.getStyleClass().add(styleClass);
-        return node;
     }
 
     default TextArea newTextAreaWithPrompt(Object i18nKey) {
