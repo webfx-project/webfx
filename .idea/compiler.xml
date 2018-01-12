@@ -6,7 +6,7 @@
       <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-java/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongoose-vertx/src/main/java/module-info.java" />
-      <file url="file://$PROJECT_DIR$/naga-commons/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/naga-scheduler/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/naga-framework/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/naga-fx/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-javafx/src/main/java/module-info.java" />
@@ -25,6 +25,9 @@
       <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt/src/main/java/module-info.java" />
       <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-web/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/naga-util/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/naga-type/src/main/java/module-info.java" />
+      <file url="file://$PROJECT_DIR$/naga-noreflect/src/main/java/module-info.java" />
     </excludeFromCompile>
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -93,6 +96,7 @@
         <module name="naga-javaemul-gwt-cldc" />
         <module name="naga-javaemul-gwt-cn1" />
         <module name="naga-javaemul-javafxbase" />
+        <module name="naga-javaemul-javafxcontrols" />
         <module name="naga-javaemul-javafxgraphics" />
         <module name="naga-javaemul-javatime" />
         <module name="naga-javaemul-shared" />
@@ -101,6 +105,8 @@
         <module name="naga-javaemul-teavm-gwt-cn1" />
         <module name="naga-javaemul-tool" />
         <module name="naga-javalib-controlsfx-validation" />
+        <module name="naga-javalib-flexbox" />
+        <module name="naga-javalib-flexboxfx" />
         <module name="naga-javalib-javacupruntime" />
         <module name="naga-javalib-javafastpfor" />
         <module name="naga-javalib-javafxbindings" />
@@ -109,6 +115,7 @@
         <module name="naga-javalib-rxjava" />
         <module name="naga-javaplat" />
         <module name="naga-jre" />
+        <module name="naga-noreflect" />
         <module name="naga-plat-android" />
         <module name="naga-plat-gwt" />
         <module name="naga-plat-j2objc" />
@@ -121,6 +128,7 @@
         <module name="naga-platform-jre" />
         <module name="naga-platform-teavm" />
         <module name="naga-platform-vertx" />
+        <module name="naga-scheduler" />
         <module name="naga-teavm" />
         <module name="naga-toolkit" />
         <module name="naga-toolkit-gwt" />
@@ -130,6 +138,8 @@
         <module name="naga-toolkit-jfoenix" />
         <module name="naga-toolkit-pivot" />
         <module name="naga-toolkit-swing" />
+        <module name="naga-type" />
+        <module name="naga-util" />
         <module name="naga-vertx" />
         <module name="naga-webplat" />
       </profile>
@@ -178,7 +188,7 @@
       <module name="naga-abstractplatform-java" target="1.8" />
       <module name="naga-abstractplatform-web" target="1.8" />
       <module name="naga-application-examples" target="1.8" />
-      <module name="naga-commons" target="1.8" />
+      <module name="naga-commons" target="1.9" />
       <module name="naga-core" target="1.8" />
       <module name="naga-framework" target="1.8" />
       <module name="naga-fx" target="1.8" />
@@ -202,6 +212,7 @@
       <module name="naga-javaemul-gwt-cldc" target="1.8" />
       <module name="naga-javaemul-gwt-cn1" target="1.8" />
       <module name="naga-javaemul-javafxbase" target="1.8" />
+      <module name="naga-javaemul-javafxcontrols" target="1.8" />
       <module name="naga-javaemul-javafxgraphics" target="1.8" />
       <module name="naga-javaemul-javatime" target="1.8" />
       <module name="naga-javaemul-shared" target="1.8" />
@@ -213,6 +224,8 @@
       <module name="naga-javaemuls-teavm-gwt-cn1" target="1.8" />
       <module name="naga-javalib-controlsfx-validation" target="1.8" />
       <module name="naga-javalib-controlsfx-validation-decoration" target="1.8" />
+      <module name="naga-javalib-flexbox" target="1.8" />
+      <module name="naga-javalib-flexboxfx" target="1.8" />
       <module name="naga-javalib-javacupruntime" target="1.8" />
       <module name="naga-javalib-javafastpfor" target="1.8" />
       <module name="naga-javalib-javafxbindings" target="1.8" />
@@ -220,6 +233,7 @@
       <module name="naga-javalib-mvvmfx-validation" target="1.8" />
       <module name="naga-javalib-rxjava" target="1.8" />
       <module name="naga-javalibs" target="1.8" />
+      <module name="naga-noreflect" target="1.8" />
       <module name="naga-plat-android" target="1.8" />
       <module name="naga-plat-gwt" target="1.8" />
       <module name="naga-plat-j2objc" target="1.8" />
@@ -236,6 +250,7 @@
       <module name="naga-platform-teavm" target="1.8" />
       <module name="naga-platform-vertx" target="1.8" />
       <module name="naga-platforms" target="1.8" />
+      <module name="naga-scheduler" target="1.8" />
       <module name="naga-toolkit" target="1.8" />
       <module name="naga-toolkit-gwt" target="1.8" />
       <module name="naga-toolkit-gwtmaterial" target="1.8" />
@@ -245,6 +260,8 @@
       <module name="naga-toolkit-pivot" target="1.8" />
       <module name="naga-toolkit-swing" target="1.8" />
       <module name="naga-toolkits" target="1.8" />
+      <module name="naga-type" target="1.8" />
+      <module name="naga-util" target="1.8" />
       <module name="nagajavalibcontrolsfxvalidation" target="1.8" />
     </bytecodeTargetLevel>
   </component>

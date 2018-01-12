@@ -6,7 +6,6 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mongoose/mongoose-backend/mongoose-backend-swing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-frontend/mongoose-frontend-javafx" charset="UTF-8" />
@@ -14,17 +13,15 @@
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-logic-web" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mongoose/mongoose-vertx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-commons" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-framework" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-fx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-fx-providers" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-javafx" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-fx-providers/naga-fx-swing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-cldc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-gwt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxbase" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxcontrols" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javafxgraphics" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-javatime" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-teavm" charset="UTF-8" />
@@ -32,22 +29,23 @@
     <file url="file://$PROJECT_DIR$/naga-javaemuls/naga-javaemul-tool" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-controlsfx-validation-decoration" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-flexboxfx" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javacupruntime" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-javafastpfor" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-mvvmfx-validation" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-javalibs/naga-javalib-rxjava" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-noreflect" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platform" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-abstractplatform-web" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-android" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-cn1" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-gwt" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-j2objc" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-jre" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-teavm" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/naga-platforms/naga-platform-vertx" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-scheduler" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-type" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/naga-util" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

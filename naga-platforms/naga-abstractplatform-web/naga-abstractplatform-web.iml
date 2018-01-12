@@ -12,7 +12,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-platform" />
-    <orderEntry type="module" module-name="naga-commons" />
+    <orderEntry type="module" module-name="naga-scheduler" />
+    <orderEntry type="module" module-name="naga-util" />
+    <orderEntry type="module" module-name="naga-noreflect" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
   </component>

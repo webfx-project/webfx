@@ -13,23 +13,26 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-abstractplatform-web" />
     <orderEntry type="module" module-name="naga-platform" />
-    <orderEntry type="module" module-name="naga-commons" />
+    <orderEntry type="module" module-name="naga-scheduler" />
+    <orderEntry type="module" module-name="naga-util" />
+    <orderEntry type="module" module-name="naga-noreflect" />
     <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" />
     <orderEntry type="module" module-name="naga-javaemul-teavm" />
     <orderEntry type="module" module-name="naga-javaemul-javatime" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-classlib:0.4.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-platform:0.4.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-core:0.4.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-classlib:0.5.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-platform:0.5.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-core:0.5.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-interop:0.5.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-io:commons-io:2.4" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-debug-all:5.0.4" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.carrotsearch:hppc:0.6.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso-apis:0.4.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso-impl:0.4.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso-apis:0.5.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso-impl:0.5.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.mozilla:rhino:1.7.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.ow2.asm:asm-debug-all:5.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.6.2" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.jcraft:jzlib:1.1.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: joda-time:joda-time:2.7" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso:0.4.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.teavm:teavm-jso:0.5.1" level="project" />
   </component>
 </module>

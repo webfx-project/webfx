@@ -7,17 +7,10 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/../naga-javalib-flexbox/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="naga-platform" />
-    <orderEntry type="module" module-name="naga-scheduler" />
-    <orderEntry type="module" module-name="naga-util" />
-    <orderEntry type="module" module-name="naga-noreflect" />
-    <orderEntry type="module" module-name="naga-abstractplatform-java" />
-    <orderEntry type="module" module-name="naga-javalib-javacupruntime" />
-    <orderEntry type="module" module-name="naga-javalib-rxjava" />
-    <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.3.4" level="project" />
   </component>
 </module>

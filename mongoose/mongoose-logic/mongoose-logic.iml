@@ -13,8 +13,11 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-framework" />
     <orderEntry type="module" module-name="naga-platform" />
-    <orderEntry type="module" module-name="naga-commons" />
+    <orderEntry type="module" module-name="naga-scheduler" />
+    <orderEntry type="module" module-name="naga-util" />
+    <orderEntry type="module" module-name="naga-noreflect" />
     <orderEntry type="module" module-name="naga-fx" />
+    <orderEntry type="module" module-name="naga-type" />
     <orderEntry type="module" module-name="naga-javalib-controlsfx-validation" />
     <orderEntry type="module" module-name="naga-javalib-rxjava" scope="PROVIDED" />
     <orderEntry type="module" module-name="naga-javalib-mvvmfx-validation" />

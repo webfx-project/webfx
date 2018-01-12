@@ -12,6 +12,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="naga-platform" scope="PROVIDED" />
-    <orderEntry type="module" module-name="naga-commons" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-scheduler" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-util" scope="PROVIDED" />
+    <orderEntry type="module" module-name="naga-noreflect" scope="PROVIDED" />
   </component>
 </module>
