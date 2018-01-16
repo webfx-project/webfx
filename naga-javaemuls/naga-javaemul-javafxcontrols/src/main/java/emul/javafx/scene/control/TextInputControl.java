@@ -29,9 +29,9 @@ public abstract class TextInputControl extends Control implements
         return textProperty;
     }
 
-    private final Property<String> promptProperty = new SimpleObjectProperty<>();
+    private final StringProperty promptProperty = new SimpleStringProperty();
     @Override
-    public Property<String> promptTextProperty() {
+    public StringProperty promptTextProperty() {
         return promptProperty;
     }
 
