@@ -181,7 +181,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      *
      * @defaultValue false
      */
-    private Property<Boolean> disabled;
+    private BooleanProperty disabled;
 
     protected final void setDisabled(boolean value) {
         disabledPropertyImpl().setValue(value);
@@ -191,13 +191,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return disabled == null ? false : disabled.getValue();
     }
 
-    public final Property<Boolean> disabledProperty() {
+    public final ReadOnlyBooleanProperty disabledProperty() {
         return disabledPropertyImpl()/*.getReadOnlyProperty()*/;
     }
 
-    private Property<Boolean> disabledPropertyImpl() {
+    private BooleanProperty disabledPropertyImpl() {
         if (disabled == null) {
-            disabled = new SimpleObjectProperty<>(false)/* {
+            disabled = new SimpleBooleanProperty(false)/* {
 
                 @Override
                 protected void invalidated() {
@@ -768,7 +768,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * like an atomic operation - when the old node is notified to loose focus,
      * the new node is already focused.
      */
-    final class FocusedProperty extends ObjectPropertyBase {
+    final class FocusedProperty extends ReadOnlyBooleanPropertyBase {
         private boolean value;
         private boolean valid = true;
         private boolean needsChangeEvent = false;
@@ -806,7 +806,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         }
 
         @Override
-        public Boolean get() {
+        public boolean get() {
             valid = true;
             return value;
         }
@@ -844,7 +844,7 @@ public abstract class Node implements INode, EventTarget, Styleable {
         return focused == null ? false : focused.get();
     }
 
-    public final ReadOnlyProperty<Boolean> focusedProperty() {
+    public final ReadOnlyBooleanProperty focusedProperty() {
         return focusedPropertyImpl();
     }
 
