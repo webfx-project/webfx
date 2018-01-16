@@ -26,7 +26,8 @@ public class Unregistrable {
     public void register() {
         if (!registered) {
             for (ObservableValue observableValue : observableValues)
-                observableValue.addListener(changeListeners);
+                if (observableValue != null)
+                    observableValue.addListener(changeListeners);
             registered = true;
         }
     }
@@ -34,7 +35,8 @@ public class Unregistrable {
     public void unregister() {
         if (registered) {
             for (ObservableValue observableValue : observableValues)
-                observableValue.removeListener(changeListeners);
+                if (observableValue != null)
+                    observableValue.removeListener(changeListeners);
             registered = false;
         }
     }
