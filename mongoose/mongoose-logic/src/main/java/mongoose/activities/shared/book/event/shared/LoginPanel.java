@@ -44,8 +44,8 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         GridPane gridPane;
         loginWindow.setCenter(
                 gridPane = new GridPaneBuilder(i18n)
-                        .addNodeFillingRow(i18n.translatePromptText(usernameField = newMaterialTextField(), "EmailPlaceholder"))
-                        .addNodeFillingRow(i18n.translatePromptText(passwordField = newMaterialPasswordField(), "PasswordPlaceholder"))
+                        .addNodeFillingRow(usernameField = newMaterialTextField("Email", "EmailPlaceholder"))
+                        .addNodeFillingRow(passwordField = newMaterialPasswordField("Password", "PasswordPlaceholder"))
                         .addNewRow(i18n.translateText(hyperLink = newHyperlink(), "ForgotPassword?"))
                         .addNodeFillingRow(button = newLargeGreenButton(null))
                 .build()

@@ -25,7 +25,7 @@ import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
-import naga.framework.ui.controls.material.MaterialLabel;
+import naga.framework.ui.controls.material.textfield.MaterialTextFieldPane;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
@@ -51,7 +51,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private final RadioButton maleRadioButton, femaleRadioButton, childRadioButton, adultRadioButton;
     private final DatePicker birthDatePicker;
     private final EntityButtonSelector personSelector, countrySelector, organizationSelector;
-    private final MaterialLabel personButton, countryButton, organizationButton;
+    private final MaterialTextFieldPane personButton, countryButton, organizationButton;
     private final BorderPane sectionPanel;
     private HasPersonDetails model;
     private boolean editable = true;
@@ -68,8 +68,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         i18n = viewActivityContextMixin.getI18n();
         sectionPanel = createSectionPanel("YourPersonalDetails");
 
-        firstNameTextField = newMaterialTextFieldWithPrompt("FirstName");
-        lastNameTextField = newMaterialTextFieldWithPrompt("LastName");
+        firstNameTextField = newMaterialTextField("FirstName", "FirstNamePlaceholder");
+        lastNameTextField = newMaterialTextField("LastName", "LastNamePlaceholder");
         maleRadioButton = newRadioButton("Male");
         femaleRadioButton = newRadioButton("Female");
         ToggleGroup genderGroup = new ToggleGroup();
@@ -82,24 +82,24 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         adultRadioButton.setToggleGroup(ageGroup);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
         birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
-        carer1NameTextField = newMaterialTextFieldWithPrompt("Carer1");
-        carer2NameTextField = newMaterialTextFieldWithPrompt("Carer2");
-        emailTextField = newMaterialTextFieldWithPrompt("Email");
-        phoneTextField = newMaterialTextFieldWithPrompt("Phone");
-        streetTextField = newMaterialTextFieldWithPrompt("Street");
-        postCodeTextField = newMaterialTextFieldWithPrompt("Postcode");
-        cityNameTextField = newMaterialTextFieldWithPrompt("City");
+        carer1NameTextField = newMaterialTextField("Carer1", "Carer1Placeholder");
+        carer2NameTextField = newMaterialTextField("Carer2", "Carer2Placeholder");
+        emailTextField = newMaterialTextField("Email", "EmailPlaceholder");
+        phoneTextField = newMaterialTextField("Phone", "PhonePlaceholder");
+        streetTextField = newMaterialTextField("Street", "StreetPlaceholder");
+        postCodeTextField = newMaterialTextField("Postcode", "PostcodePlaceholder");
+        cityNameTextField = newMaterialTextField("City", "CityPlaceholder");
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
-        countryButton = newMaterialEntityButton(countrySelector, "Country");
+        countryButton = newMaterialEntityButton(countrySelector, "Country", "CountryPlaceholder");
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
-        organizationButton = newMaterialEntityButton(organizationSelector, "Centre");
+        organizationButton = newMaterialEntityButton(organizationSelector, "Centre", "CentreInfo");
         if (uiUser == null) {
             personSelector = null;
             personButton = null;
         } else {
             personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
-            personButton = newMaterialEntityButton(personSelector, "PersonToBook");
+            personButton = newMaterialEntityButton(personSelector, "PersonToBook", null);
             Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.entityProperty());
             Properties.runNowAndOnPropertiesChange(userProperty -> {
                 User user = (User) userProperty.getValue();
@@ -235,12 +235,18 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         return vBox;
     }
 
-    private MaterialLabel newMaterialEntityButton(EntityButtonSelector entityButtonSelector, Object i18nKey) {
-        return new MaterialLabel(LayoutUtil.setMaxWidthToInfinite(entityButtonSelector.getEntityButton()), entityButtonSelector.entityProperty());
+    private MaterialTextFieldPane newMaterialEntityButton(EntityButtonSelector entityButtonSelector, Object labelKey, Object placeholderKey) {
+        return translateMaterial(new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(entityButtonSelector.getEntityButton()), entityButtonSelector.entityProperty()), labelKey, placeholderKey);
     }
 
-    private MaterialLabel newMaterialRegion(Region region, Object i18nKey) {
-        return new MaterialLabel(region);
+    private MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey) {
+        return translateMaterial(new MaterialTextFieldPane(region), labelKey, null);
+    }
+
+    private MaterialTextFieldPane translateMaterial(MaterialTextFieldPane materialTextFieldPane, Object labelKey, Object placeholderKey) {
+        translateString(materialTextFieldPane.placeholderTextProperty(), placeholderKey);
+        translateString(materialTextFieldPane.labelTextProperty(), labelKey);
+        return materialTextFieldPane;
     }
 
     private Node createPersonDataGrid() {

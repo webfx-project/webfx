@@ -1,4 +1,4 @@
-package naga.framework.ui.controls.material;
+package naga.framework.ui.controls.material.util;
 
 /**
  * @author Bruno Salmon

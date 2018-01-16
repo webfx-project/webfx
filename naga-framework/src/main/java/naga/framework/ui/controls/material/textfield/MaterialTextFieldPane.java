@@ -1,54 +1,59 @@
-package naga.framework.ui.controls.material;
-
+package naga.framework.ui.controls.material.textfield;
 
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
 /**
  * @author Bruno Salmon
  */
-public class MaterialLabel extends Region {
+public class MaterialTextFieldPane extends Pane implements MaterialTextFieldMixin {
 
-    private MaterialLabelSkinPart materialLabelSkinPart;
+    private MaterialTextFieldImpl materialTextField;
 
-    public MaterialLabel() {
+    public MaterialTextFieldPane() {
     }
 
-    public MaterialLabel(Region content) {
+    public MaterialTextFieldPane(Region content) {
         this();
         setContent(content);
     }
 
-    public MaterialLabel(Region content, ObservableValue emptyContentProperty) {
+    public MaterialTextFieldPane(Region content, ObservableValue inputProperty) {
         this();
-        setContent(content, emptyContentProperty);
+        setContent(content, inputProperty);
+    }
+
+    @Override
+    public MaterialTextField getMaterialTextField() {
+        return materialTextField;
     }
 
     public void setContent(Region content) {
         setContent(content, null);
     }
 
-    public void setContent(Region content, ObservableValue emptyContentProperty) {
+    public void setContent(Region content, ObservableValue inputProperty) {
         Region oldContent = getContent();
         if (content != oldContent) {
             if (oldContent != null)
                 getChildren().remove(oldContent);
             if (content != null)
                 getChildren().add(content);
-            materialLabelSkinPart = new MaterialLabelSkinPart(getChildren());
-            materialLabelSkinPart.setContent(content, emptyContentProperty);
+            materialTextField = new MaterialTextFieldImpl(getChildren());
+            materialTextField.setContent(content, inputProperty);
         }
     }
 
     public Region getContent() {
-        return materialLabelSkinPart == null ? null : materialLabelSkinPart.getContent();
+        return materialTextField == null ? null : materialTextField.getContent();
     }
 
     @Override
     protected void layoutChildren() {
-        materialLabelSkinPart.layoutChildren(0, 0, getWidth(), getHeight(), this::layoutContent);
+        materialTextField.layoutChildren(0, 0, getWidth(), getHeight(), this::layoutContent);
     }
 
     private void layoutContent(double x, double y, double w, double h) {
@@ -57,7 +62,7 @@ public class MaterialLabel extends Region {
 
     @Override
     protected double computeMinHeight(double width) {
-        return materialLabelSkinPart.computeMinHeight(width, getInsets(), this::computeContentMinHeight);
+        return materialTextField.computeMinHeight(width, getInsets(), this::computeContentMinHeight);
     }
 
     private double computeContentMinHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -66,7 +71,7 @@ public class MaterialLabel extends Region {
 
     @Override
     protected double computePrefHeight(double width) {
-        return materialLabelSkinPart.computePrefHeight(width, getInsets(), this::computeContentPrefHeight);
+        return materialTextField.computePrefHeight(width, getInsets(), this::computeContentPrefHeight);
     }
 
     private double computeContentPrefHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
@@ -75,7 +80,7 @@ public class MaterialLabel extends Region {
 
     @Override
     protected double computeMaxHeight(double width) {
-        return materialLabelSkinPart.computeMaxHeight(width, getInsets(), this::computeContentMaxHeight);
+        return materialTextField.computeMaxHeight(width, getInsets(), this::computeContentMaxHeight);
     }
 
     private double computeContentMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {

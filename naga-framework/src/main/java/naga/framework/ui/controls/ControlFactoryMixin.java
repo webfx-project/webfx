@@ -5,7 +5,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.controls.material.MaterialUtil;
+import naga.framework.ui.controls.material.textfield.MaterialTextField;
+import naga.framework.ui.controls.material.util.MaterialUtil;
 import naga.framework.ui.i18n.I18nMixin;
 
 /**
@@ -79,16 +80,34 @@ public interface ControlFactoryMixin extends I18nMixin {
         return translatePromptText(newTextField(), i18nKey);
     }
 
-    default TextField newMaterialTextFieldWithPrompt(Object i18nKey) {
-        return MaterialUtil.makeMaterial(newTextFieldWithPrompt(i18nKey));
+    default TextField newMaterialTextField(Object labelKey) {
+        return newMaterialTextField(labelKey, null);
+    }
+
+    default TextField newMaterialTextField(Object labelKey, Object placeholderKey) {
+        return setMaterialLabelAndPlaceholder(newMaterialTextField(), labelKey, placeholderKey);
     }
 
     default PasswordField newPasswordField() {
         return new PasswordField();
     }
 
-    default PasswordField newMaterialPasswordField() {
+    default PasswordField newMaterialPassword() {
         return MaterialUtil.makeMaterial(newPasswordField());
+    }
+
+    default PasswordField newMaterialPasswordField(Object labelKey, Object placeholderKey) {
+        return setMaterialLabelAndPlaceholder(newMaterialPassword(), labelKey, placeholderKey);
+    }
+
+    default <T extends Control> T setMaterialLabelAndPlaceholder(T control, Object labelKey, Object placeholderKey) {
+        setMaterialLabelAndPlaceholder(MaterialUtil.getMaterialTextField(control), labelKey, placeholderKey);
+        return control;
+    }
+
+    default void setMaterialLabelAndPlaceholder(MaterialTextField materialTextField, Object labelKey, Object placeholderKey) {
+        translateString(materialTextField.labelTextProperty(), labelKey);
+        translateString(materialTextField.placeholderTextProperty(), placeholderKey);
     }
 
     default Hyperlink newHyperlink() {
