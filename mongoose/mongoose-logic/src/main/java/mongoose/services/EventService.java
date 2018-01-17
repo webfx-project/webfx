@@ -4,6 +4,7 @@ import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
+import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.util.async.Future;
 import naga.util.collection.Collections;
 import naga.util.function.Predicate;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public interface EventService {
+public interface EventService extends HasDataSourceModel {
 
     // Entity lists ids used to store event options
     Object EVENTS_LIST_ID = "events";
@@ -42,8 +43,6 @@ public interface EventService {
     static EventService getOrCreateFromDocument(Document document) {
         return getOrCreate(document.getEventId(), document.getStore());
     }
-
-    DataSourceModel getEventDataSourceModel();  // Note: simply calling it getDataSourceModel() would cause a mixin clash with DomainActivityContextMixin in BookingProcessActivity
 
     EntityStore getEventStore();
 

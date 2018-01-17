@@ -2,6 +2,7 @@ package naga.framework.orm.entity;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
+import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.framework.orm.entity.impl.DynamicEntity;
 import naga.framework.orm.entity.impl.EntityStoreImpl;
 import naga.framework.expression.Expression;
@@ -11,12 +12,10 @@ import naga.framework.expression.Expression;
  *
  * @author Bruno Salmon
  */
-public interface EntityStore {
-
-    DataSourceModel getDataSourceModel();
+public interface EntityStore extends HasDataSourceModel {
 
     default DomainClass getDomainClass(Object domainClassId) {
-        return domainClassId instanceof DomainClass ? (DomainClass) domainClassId : getDataSourceModel().getDomainModel().getClass(domainClassId);
+        return domainClassId instanceof DomainClass ? (DomainClass) domainClassId : getDomainModel().getClass(domainClassId);
     }
 
     default DomainClass getDomainClass(Class<? extends Entity> entityClass) {
@@ -128,7 +127,7 @@ public interface EntityStore {
     // Expression evaluation
 
     default Object evaluateEntityExpression(Entity entity, String expression) {
-        return evaluateEntityExpression(entity, getDataSourceModel().getDomainModel().parseExpression(expression, entity.getDomainClass().getId()));
+        return evaluateEntityExpression(entity, getDomainModel().parseExpression(expression, entity.getDomainClass().getId()));
     }
 
     Object evaluateEntityExpression(Entity entity, Expression expression);

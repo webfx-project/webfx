@@ -92,7 +92,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
                         getI18n()),
                 dialogCallback -> {
                     // Creating an update store
-                    UpdateStore store = UpdateStore.create(getEventDataSourceModel());
+                    UpdateStore store = UpdateStore.create(getDataSourceModel());
                     // Creating an instance of Option entity
                     store.deleteEntity(option);
                     // Asking the update record this change in the database

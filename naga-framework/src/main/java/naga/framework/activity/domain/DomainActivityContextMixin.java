@@ -1,6 +1,7 @@
 package naga.framework.activity.domain;
 
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.platform.activity.ActivityContextMixin;
 
 /**
@@ -10,7 +11,8 @@ public interface DomainActivityContextMixin
         <C extends DomainActivityContext<C>>
 
         extends ActivityContextMixin<C>,
-        DomainActivityContext<C> {
+        DomainActivityContext<C>,
+        HasDataSourceModel {
 
     @Override
     default C setDataSourceModel(DataSourceModel dataSourceModel) {

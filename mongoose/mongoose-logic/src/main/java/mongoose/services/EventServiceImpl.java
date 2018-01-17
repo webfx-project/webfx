@@ -79,7 +79,7 @@ class EventServiceImpl implements EventService {
     }
 
     @Override
-    public DataSourceModel getEventDataSourceModel() {
+    public DataSourceModel getDataSourceModel() {
         return store.getDataSourceModel();
     }
 
@@ -285,13 +285,13 @@ class EventServiceImpl implements EventService {
     }
 
     private Future<EntityList> executeEventQuery(EventQuery eventQuery) {
-        SqlCompiled sqlCompiled = getEventDataSourceModel().getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
+        SqlCompiled sqlCompiled = getDomainModel().compileSelect(eventQuery.queryString, eventQuery.parameters);
         return executeQuery(sqlCompiled.getSql(), eventQuery.parameters)
                 .map(rs ->  QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), store, eventQuery.listId));
     }
 
     private Future<QueryResultSet> executeQuery(String queryString, Object... parameters) {
-        return QueryService.executeQuery(new QueryArgument(queryString, parameters, getEventDataSourceModel().getId()));
+        return QueryService.executeQuery(new QueryArgument(queryString, parameters, getDataSourceModel().getId()));
     }
 
     private static class EventQuery {

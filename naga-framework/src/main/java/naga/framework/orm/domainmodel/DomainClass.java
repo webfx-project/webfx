@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public class DomainClass implements HasLabel {
+public class DomainClass implements HasLabel, HasDomainModel {
     private final DomainModel domainModel;
     private final Object id;
     private final Object modelId;
@@ -49,6 +49,7 @@ public class DomainClass implements HasLabel {
         this.fxmlForm = fxmlForm;
     }
 
+    @Override
     public DomainModel getDomainModel() {
         return domainModel;
     }

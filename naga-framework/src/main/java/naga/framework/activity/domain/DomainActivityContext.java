@@ -2,6 +2,7 @@ package naga.framework.activity.domain;
 
 import naga.framework.activity.domain.impl.DomainActivityContextFinal;
 import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.platform.activity.ActivityContext;
 
 /**
@@ -10,11 +11,10 @@ import naga.platform.activity.ActivityContext;
 public interface DomainActivityContext
         <THIS extends DomainActivityContext<THIS>>
 
-        extends ActivityContext<THIS> {
+        extends ActivityContext<THIS>,
+        HasDataSourceModel {
 
     THIS setDataSourceModel(DataSourceModel dataSourceModel);
-
-    DataSourceModel getDataSourceModel();
 
     static DomainActivityContextFinal createDomainActivityContext(ActivityContext parentContext) {
         return new DomainActivityContextFinal(parentContext, DomainActivityContext::createDomainActivityContext);

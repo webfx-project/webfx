@@ -39,7 +39,7 @@ public class EntityListToDisplayResultSetGenerator {
     }
 
     public static DisplayResultSet select(EntityList<? extends Entity> entityList, String select, String columnsDefinition, I18n i18n) {
-        return select(entityList, entityList.getStore().getDataSourceModel().getDomainModel().parseSelect(select), columnsDefinition, i18n);
+        return select(entityList, entityList.getStore().getDomainModel().parseSelect(select), columnsDefinition, i18n);
     }
 
     public static DisplayResultSet select(EntityList<? extends Entity> entityList, Select select, String columnsDefinition, I18n i18n) {
@@ -77,7 +77,7 @@ public class EntityListToDisplayResultSetGenerator {
     }
 
     public static DisplayResultSet createDisplayResultSet(EntityList<? extends Entity> entityList, String columnsDefinition, Object classId, I18n i18n) {
-        return createDisplayResultSet(entityList, columnsDefinition, entityList.getStore().getDataSourceModel().getDomainModel(), classId, i18n);
+        return createDisplayResultSet(entityList, columnsDefinition, entityList.getStore().getDomainModel(), classId, i18n);
     }
 
     public static DisplayResultSet createDisplayResultSet(List<? extends Entity> entityList, String columnsDefinition, DomainModel domainModel, Object classId, I18n i18n) {

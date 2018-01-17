@@ -4,13 +4,12 @@ import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.entities.*;
-import naga.util.async.Future;
-import naga.util.function.Predicate;
-import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.platform.services.query.QueryResultSet;
+import naga.util.async.Future;
+import naga.util.function.Predicate;
 
 import java.util.List;
 
@@ -21,10 +20,12 @@ public interface EventServiceMixin extends EventService {
 
     EventService getEventService();
 
+/* Commented to avoid clash with DomainActivityContextMixin
     @Override
-    default DataSourceModel getEventDataSourceModel() {
-        return getEventService().getEventDataSourceModel();
+    default DataSourceModel getDataSourceModel() {
+        return getEventService().getDataSourceModel();
     }
+*/
 
     @Override
     default EntityStore getEventStore() {

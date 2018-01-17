@@ -43,7 +43,7 @@ public class EditableBookingCalendar extends BookingCalendar {
                         calendarTimeline,
                         (newDayTimeRange, dialogCallback) -> {
                             // Creating an update store
-                            UpdateStore store = UpdateStore.create(workingDocument.getEventService().getEventDataSourceModel());
+                            UpdateStore store = UpdateStore.create(workingDocument.getEventService().getDataSourceModel());
                             // Creating an instance of Option entity
                             Option updatingOption = store.updateEntity(option);
                             // Updating the option time range

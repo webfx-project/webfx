@@ -36,7 +36,7 @@ public class WorkingDocumentLoader {
     }
 
     public static Future<WorkingDocument> load(EventService eventService, Object documentPk) {
-        DataSourceModel dataSourceModel = eventService.getEventDataSourceModel();
+        DataSourceModel dataSourceModel = eventService.getDataSourceModel();
         Object dataSourceId = dataSourceModel.getId();
         DomainModel domainModel = dataSourceModel.getDomainModel();
         SqlCompiled sqlCompiled1 = domainModel.compileSelect(DOCUMENT_LINE_LOAD_QUERY);
