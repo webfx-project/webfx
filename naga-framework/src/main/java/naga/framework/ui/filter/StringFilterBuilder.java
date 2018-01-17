@@ -1,7 +1,7 @@
 package naga.framework.ui.filter;
 
-import naga.platform.json.spi.JsonObject;
 import naga.platform.json.Json;
+import naga.platform.json.spi.JsonObject;
 import naga.util.Strings;
 
 /**
@@ -49,10 +49,7 @@ public class StringFilterBuilder {
     }
 
     private boolean isApplicable(Object domainClassId) {
-        boolean applicable = domainClassId == null || this.domainClassId != null && this.domainClassId.equals(domainClassId);
-        if (!applicable)
-            System.out.println("Not applicable!!!");
-        return applicable;
+        return domainClassId == null || this.domainClassId != null && this.domainClassId.equals(domainClassId);
     }
 
     public StringFilterBuilder applyStringFilter(StringFilter sf) {
@@ -77,13 +74,13 @@ public class StringFilterBuilder {
         if (!isApplicable(json.getString("class")))
             throw new IllegalArgumentException();
         setAlias(json.getString("alias"));
-        setFields(json.getString("fields"));
+        setFields(StringFilter.getPossibleArrayAsString(json, "fields"));
         setWhere(json.getString("where"));
         setGroupBy(json.getString("groupBy"));
         setHaving(json.getString("having"));
         setOrderBy(json.getString("orderBy"));
         setLimit(json.getString("limit"));
-        setColumns(json.getString("columns"));
+        setColumns(StringFilter.getPossibleArrayAsString(json, "columns"));
         return this;
     }
 
@@ -91,7 +88,7 @@ public class StringFilterBuilder {
         if (sf == null)
             return;
         if (!isApplicable(sf))
-            throw new IllegalArgumentException("Trying to merge filters of different classes (" + domainClassId + " / " + sf.getDomainClassId() + ")");
+            throw new IllegalArgumentException("Trying to merge filters with different classes (" + domainClassId + " / " + sf.getDomainClassId() + ")");
         mergeAlias(sf.getAlias());
         mergeFields(sf.getFields());
         mergeWhere(sf.getWhere());

@@ -1,7 +1,7 @@
 package naga.framework.ui.filter;
 
-import naga.platform.json.spi.JsonObject;
 import naga.platform.json.Json;
+import naga.platform.json.spi.JsonObject;
 
 /**
  * @author Bruno Salmon
@@ -33,13 +33,18 @@ public final class StringFilter {
     public StringFilter(JsonObject json) {
         domainClassId = json.get("class");
         alias = json.getString("alias");
-        fields = json.getString("fields");
+        fields = getPossibleArrayAsString(json, "fields");
         where = json.getString("where");
         groupBy = json.getString("groupBy");
         having = json.getString("having");
         orderBy = json.getString("orderBy");
         limit = json.getString("limit");
-        columns = json.getString("columns");
+        columns = getPossibleArrayAsString(json, "columns");
+    }
+
+    static String getPossibleArrayAsString(JsonObject json, String key) {
+        Object nativeElement = json.getNativeElement(key);
+        return nativeElement == null ? null : nativeElement instanceof String ? (String) nativeElement : Json.toJsonString(nativeElement);
     }
 
     public StringFilter(String json) {
