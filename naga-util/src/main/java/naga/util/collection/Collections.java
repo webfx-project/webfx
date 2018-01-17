@@ -10,8 +10,20 @@ import java.util.*;
  */
 public class Collections {
 
+    public static <T> List<T> newList() {
+        return new ArrayList<>();
+    }
+
+    public static <T> List<T> newList(int initialCapacity) {
+        return new ArrayList<>(initialCapacity);
+    }
+
+    public static <T> List<T> emptyList() {
+        return newList();
+    }
+
     public static <T> List<T> listOf(T... elements) {
-        List list = new ArrayList(elements.length);
+        List<T> list = newList(elements.length);
         java.util.Collections.addAll(list, elements);
         return list;
     }
@@ -25,14 +37,14 @@ public class Collections {
 
     public static <A, B> List<B> map(Collection<A> aCollection, Converter<A, B> aToBConverter) {
         // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
-        List<B> bList = new ArrayList<>(aCollection.size());
+        List<B> bList = newList(aCollection.size());
         forEach(aCollection, a -> bList.add(aToBConverter.convert(a)));
         return bList;
     }
 
     public static <T> List<T> filter(Iterable<T> iterable, Predicate<? super T> predicate) {
         // return collection.stream().filter(predicate).collect(Collectors.toList()); // Not GWT compilable for now
-        List<T> list = new ArrayList<>();
+        List<T> list = newList();
         forEach(iterable, element -> {
             if (predicate.test(element))
                 list.add(element);
@@ -41,7 +53,7 @@ public class Collections {
     }
 
     public static <A, B> List<B> filterMap(Collection<A> aCollection, Predicate<? super A> predicate, Converter<A, B> aToBConverter) {
-        List<B> bList = new ArrayList<>(aCollection.size());
+        List<B> bList = newList(aCollection.size());
         forEach(aCollection, a -> {
             if (predicate == null || predicate.test(a))
                 bList.add(aToBConverter.convert(a));
@@ -51,7 +63,7 @@ public class Collections {
 
     public static <A, B> List<B> mapFilter(Collection<A> aCollection, Converter<A, B> aToBConverter, Predicate<? super B> predicate) {
         // return aCollection.stream().map(aToBConverter::convert).collect(Collectors.toList()); // Not GWT compilable for now
-        List<B> bList = new ArrayList<>(aCollection.size());
+        List<B> bList = newList(aCollection.size());
         forEach(aCollection, a -> {
             B b = aToBConverter.convert(a);
             if (predicate == null || predicate.test(b))
@@ -177,7 +189,6 @@ public class Collections {
                     return i;
                 else
                     i++;
-
         }
         return -1;
     }
