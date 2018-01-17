@@ -48,7 +48,7 @@ import static naga.framework.ui.layouts.LayoutUtil.*;
 /**
  * @author Bruno Salmon
  */
-public class EntityButtonSelector {
+public class EntityButtonSelector<E extends Entity> {
 
     public enum ShowMode {
         MODAL_DIALOG,
@@ -66,7 +66,7 @@ public class EntityButtonSelector {
     private Button entityButton;
     private Expression renderingExpression;
     private ValueRenderer entityRenderer;
-    private final Property<Entity> entityProperty = new SimpleObjectProperty<>();
+    private final Property<E> entityProperty = new SimpleObjectProperty<>();
 
     private final Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
     private EntityStore loadingStore;
@@ -78,7 +78,7 @@ public class EntityButtonSelector {
     private Button okButton, cancelButton;
     private HBox buttonBar;
     private DialogCallback entityDialogCallback;
-    private ReactiveExpressionFilter entityDialogFilter;
+    private ReactiveExpressionFilter<E> entityDialogFilter;
     // Good to put a limit especially for low-end mobiles
     private int adaptiveLimit = 6; // starting with 6 entries (fit with drop down/up) but can be increased in modal in dependence of the available height
 
@@ -128,15 +128,15 @@ public class EntityButtonSelector {
         this.loadingStore = loadingStore;
     }
 
-    public Property<Entity> entityProperty() {
+    public Property<E> entityProperty() {
         return entityProperty;
     }
 
-    public Entity getEntity() {
+    public E getEntity() {
         return entityProperty.getValue();
     }
 
-    public void setEntity(Entity entity) {
+    public void setEntity(E entity) {
         entityProperty.setValue(entity);
     }
 
@@ -153,7 +153,7 @@ public class EntityButtonSelector {
 
     private void updateEntityButton() {
         Toolkit.get().scheduler().runInUiThread(() -> {
-            Entity entity = getEntity();
+            E entity = getEntity();
             Object renderedValue = entity == null ? null : entity.evaluate(renderingExpression);
             Node renderedNode = entityRenderer.renderCellValue(renderedValue);
             getEntityButton().setGraphic(renderedNode);
@@ -178,7 +178,7 @@ public class EntityButtonSelector {
                 BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
                 ViewActivityContextMixin mixin = viewActivityContextMixin;
                 EntityStore filterStore = loadingStore != null ? loadingStore : getEntity() != null ? getEntity().getStore() : null;
-                entityDialogFilter = new ReactiveExpressionFilter(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(mixin).setStore(filterStore);
+                entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(mixin).setStore(filterStore);
                 String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
                 if (searchCondition != null) {
                     searchTextField = mixin.newTextFieldWithPrompt("GenericSearchPlaceholder");
