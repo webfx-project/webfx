@@ -18,7 +18,7 @@ import mongoose.activities.shared.logic.work.merge.WorkingDocumentMerger;
 import mongoose.domainmodel.format.PriceFormatter;
 import mongoose.services.EventService;
 import mongoose.util.PerformanceLogger;
-import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.Entities;
 import naga.framework.ui.i18n.I18n;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.log.spi.Logger;
@@ -132,7 +132,7 @@ public class BookingCalendar {
     }
 
     private static boolean sameLine(WorkingDocumentLine wdl1, WorkingDocumentLine wdl2) {
-        return wdl1 == wdl2 || wdl1 != null && wdl2 != null && Entity.sameId(wdl1.getSite(), wdl2.getSite()) && Entity.sameId(wdl1.getItem(), wdl2.getItem());
+        return wdl1 == wdl2 || wdl1 != null && wdl2 != null && Entities.sameId(wdl1.getSite(), wdl2.getSite()) && Entities.sameId(wdl1.getItem(), wdl2.getItem());
     }
 
     protected void onCalendarClick(CalendarClickEvent event) {

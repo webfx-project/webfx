@@ -9,7 +9,7 @@ import mongoose.activities.shared.logic.work.business.logic.OptionLogic;
 import mongoose.entities.*;
 import mongoose.entities.markers.HasItemFamilyType;
 import mongoose.services.EventService;
-import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.Entities;
 import naga.util.collection.Collections;
 
 import java.time.LocalDate;
@@ -117,7 +117,7 @@ public class WorkingDocumentLine implements HasItemFamilyType {
         Item item = documentLine.getItem();
         if (site != null && item != null)
             for (Option o : eventService.getEventOptions())
-                if (Entity.sameId(o.getSite(), site) && Entity.sameId(o.getItem(), item))
+                if (Entities.sameId(o.getSite(), site) && Entities.sameId(o.getItem(), item))
                     return o;
         return null;
     }

@@ -14,6 +14,7 @@ import mongoose.entities.Person;
 import mongoose.entities.markers.EntityHasPersonDetails;
 import mongoose.entities.markers.HasPersonDetails;
 import mongoose.services.EventService;
+import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
@@ -324,8 +325,8 @@ public class WorkingDocument {
     private static boolean sameLine(WorkingDocumentLine wdl1, WorkingDocumentLine wdl2) {
         return wdl1 == wdl2 || wdl1 != null && (
                 wdl1.getOption() != null && wdl2.getOption() != null ? wdl1.getOption() == wdl2.getOption() :
-                Entity.sameId(wdl1.getSite(), wdl2.getSite()) &&
-                Entity.sameId(wdl1.getItem(), wdl2.getItem())
+                Entities.sameId(wdl1.getSite(), wdl2.getSite()) &&
+                Entities.sameId(wdl1.getItem(), wdl2.getItem())
         );
     }
 

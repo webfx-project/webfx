@@ -6,9 +6,9 @@ import mongoose.entities.Document;
 import mongoose.entities.Item;
 import mongoose.entities.Rate;
 import mongoose.entities.Site;
+import naga.framework.orm.entity.Entities;
 import naga.util.Booleans;
 import naga.util.Objects;
-import naga.framework.orm.entity.Entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ class SiteRateItemBlock {
         LocalDate firstDay = attendanceBlocks.get(0).getDate();
         LocalDate lastDay = attendanceBlocks.get(blockLength - 1).getDate();
         List<Rate> rates = workingDocument.getEventService().selectRates(
-                r -> Entity.sameId(r.getSite(), site) && Entity.sameId(r.getItem(), rateItem) && rateMatchesDocument(r) &&
+                r -> Entities.sameId(r.getSite(), site) && Entities.sameId(r.getItem(), rateItem) && rateMatchesDocument(r) &&
                         dateNullOrBefore(r.getStartDate(), lastDay) && dateNullOrAfter(r.getEndDate(), firstDay));
         if (!rates.isEmpty()) {
             //rates.sort(function (r1, r2) { return (r1.perDay ? 1 : r1.maxDay ) - (r2.perDay ? 1 : r2.maxDay);});

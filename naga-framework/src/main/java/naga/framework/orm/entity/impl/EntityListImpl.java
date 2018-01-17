@@ -1,5 +1,6 @@
 package naga.framework.orm.entity.impl;
 
+import naga.framework.orm.entity.Entities;
 import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.orm.entity.Entity;
@@ -33,7 +34,7 @@ public class EntityListImpl<E extends Entity> extends ArrayList<E> implements En
 
     @Override
     public void orderBy(Expression<E>... orderExpressions) {
-        EntityList.orderBy(this, orderExpressions);
+        Entities.orderBy(this, orderExpressions);
     }
 
     @Override

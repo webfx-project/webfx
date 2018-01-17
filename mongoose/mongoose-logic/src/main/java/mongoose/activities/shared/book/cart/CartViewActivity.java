@@ -22,6 +22,7 @@ import mongoose.entities.History;
 import mongoose.entities.Mail;
 import mongoose.services.CartService;
 import mongoose.services.EventService;
+import naga.framework.orm.entity.Entities;
 import naga.platform.services.log.spi.Logger;
 import naga.type.PrimType;
 import naga.util.Strings;
@@ -184,7 +185,7 @@ public class CartViewActivity extends CartBasedViewActivity {
     private int indexOfWorkingDocument(WorkingDocument workingDocument) {
         if (workingDocument == null)
             return -1;
-        return Collections.indexOf(cartService().getCartWorkingDocuments(), wd -> Entity.sameId(wd.getDocument(), workingDocument.getDocument()));
+        return Collections.indexOf(cartService().getCartWorkingDocuments(), wd -> Entities.sameId(wd.getDocument(), workingDocument.getDocument()));
     }
 
     private void displayEntities(List<? extends Entity> entities, String columnsDefinition, Object classId, Property<DisplayResultSet> displayResultSetProperty) {

@@ -120,10 +120,4 @@ public interface Entity {
     default Object evaluate(Expression expression) {
         return getStore().evaluateEntityExpression(this, expression);
     }
-
-    // Static methods
-
-    static boolean sameId(Entity e1, Entity e2) {
-        return e1 == e2 || e1 != null && e2 != null && e1.getId().equals(e2.getId());
-    }
 }
