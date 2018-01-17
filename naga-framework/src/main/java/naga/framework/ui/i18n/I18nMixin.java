@@ -8,9 +8,7 @@ import javafx.scene.text.Text;
 /**
  * @author Bruno Salmon
  */
-public interface I18nMixin extends I18n {
-
-    I18n getI18n();
+public interface I18nMixin extends HasI18n, I18n {
 
     default Property<Object> languageProperty() {
         return getI18n().languageProperty();
