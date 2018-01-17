@@ -1,9 +1,8 @@
 package naga.framework.ui.filter;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
+import naga.framework.activity.activeproperty.HasActiveProperty;
 import naga.framework.expression.Expression;
 import naga.framework.expression.builder.ReferenceResolver;
 import naga.framework.expression.builder.ThreadLocalReferenceResolver;
@@ -47,7 +46,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Bruno Salmon
  */
-public class ReactiveExpressionFilter {
+public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProperty {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;
@@ -64,11 +63,11 @@ public class ReactiveExpressionFilter {
     private boolean startsWithEmptyResult = true;
     private Object domainClassId;
     private StringFilter baseFilter;
-    private Handler<EntityList<Entity>> entitiesHandler;
+    private Handler<EntityList<E>> entitiesHandler;
     private FilterDisplay filterDisplay;
     private List<FilterDisplay> filterDisplays = new ArrayList<>();
     private ReferenceResolver rootAliasReferenceResolver;
-    private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(true);
+    private final BooleanProperty activeProperty = new SimpleBooleanProperty(true);
     private ObservableValue<Boolean> boundActiveProperty;
     private boolean started;
 
@@ -87,18 +86,18 @@ public class ReactiveExpressionFilter {
         combine(new StringFilterBuilder(jsonOrClass));
     }
 
-    public ReactiveExpressionFilter setDataSourceModel(DataSourceModel dataSourceModel) {
+    public ReactiveExpressionFilter<E> setDataSourceModel(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
         dataSourceModel.getDomainModel(); // Ensuring the data model is loaded with formats registered before expression columns are set
         return this;
     }
 
-    public ReactiveExpressionFilter setI18n(I18n i18n) {
+    public ReactiveExpressionFilter<E> setI18n(I18n i18n) {
         this.i18n = i18n;
         return this;
     }
 
-    public ReactiveExpressionFilter setStore(EntityStore store) {
+    public ReactiveExpressionFilter<E> setStore(EntityStore store) {
         this.store = store;
         return this;
     }
@@ -110,57 +109,54 @@ public class ReactiveExpressionFilter {
         return store;
     }
 
-    public ReactiveExpressionFilter setListId(Object listId) {
+    public ReactiveExpressionFilter<E> setListId(Object listId) {
         this.listId = listId;
         return this;
     }
 
-    public ReactiveExpressionFilter setAutoRefresh(boolean autoRefresh) {
+    public ReactiveExpressionFilter<E> setAutoRefresh(boolean autoRefresh) {
         this.autoRefresh = autoRefresh;
         return this;
     }
 
-    public ReactiveExpressionFilter setStartsWithEmptyResult(boolean startsWithEmptyResult) {
+    public ReactiveExpressionFilter<E> setStartsWithEmptyResult(boolean startsWithEmptyResult) {
         this.startsWithEmptyResult = startsWithEmptyResult;
         return this;
     }
 
-    public ReactiveExpressionFilter setEntitiesHandler(Handler<EntityList<Entity>> entitiesHandler) {
+    public ReactiveExpressionFilter<E> setEntitiesHandler(Handler<EntityList<E>> entitiesHandler) {
         this.entitiesHandler = entitiesHandler;
         return this;
     }
 
-    public ReadOnlyProperty<Boolean> activeProperty() {
+    public ObservableValue<Boolean> activeProperty() {
         return activeProperty;
     }
 
-    public boolean isActive() {
-        return activeProperty.getValue();
-    }
-
-    public ReactiveExpressionFilter setActive(boolean active) {
+    public ReactiveExpressionFilter<E> setActive(boolean active) {
         activeProperty.setValue(active);
         return this;
     }
 
-    public ReactiveExpressionFilter bindActivePropertyTo(ObservableValue<Boolean> activeProperty) {
-        this.activeProperty.bind(boundActiveProperty = activeProperty);
+    public ReactiveExpressionFilter<E> bindActivePropertyTo(ObservableValue<Boolean> activeProperty) {
+        if (activeProperty != null)
+            this.activeProperty.bind(boundActiveProperty = activeProperty);
         return this;
     }
 
-    public ReactiveExpressionFilter combine(String json) {
+    public ReactiveExpressionFilter<E> combine(String json) {
         return combine(new StringFilter(json));
     }
 
-    public ReactiveExpressionFilter combine(JsonObject json) {
+    public ReactiveExpressionFilter<E> combine(JsonObject json) {
         return combine(new StringFilter(json));
     }
 
-    public ReactiveExpressionFilter combine(StringFilterBuilder stringFilterBuilder) {
+    public ReactiveExpressionFilter<E> combine(StringFilterBuilder stringFilterBuilder) {
         return combine(stringFilterBuilder.build());
     }
 
-    public ReactiveExpressionFilter combine(StringFilter stringFilter) {
+    public ReactiveExpressionFilter<E> combine(StringFilter stringFilter) {
         if (domainClassId == null) {
             domainClassId = stringFilter.getDomainClassId();
             baseFilter = stringFilter;
@@ -168,12 +164,12 @@ public class ReactiveExpressionFilter {
         return combine(Observable.just(stringFilter));
     }
 
-    public ReactiveExpressionFilter combine(Observable<StringFilter> stringFilterObservable) {
+    public ReactiveExpressionFilter<E> combine(Observable<StringFilter> stringFilterObservable) {
         stringFilterObservables.add(stringFilterObservable);
         return this;
     }
 
-    public <T> ReactiveExpressionFilter combine(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
+    public <T> ReactiveExpressionFilter<E> combine(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
         return combine(RxUi.observe(property)
                 .map(t -> {
                     String json = toJsonFilterConverter.convert(t);
@@ -181,19 +177,19 @@ public class ReactiveExpressionFilter {
                 }));
     }
 
-    public ReactiveExpressionFilter combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
+    public ReactiveExpressionFilter<E> combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
         return combine(ifProperty, stringFilterBuilder.build());
     }
 
-    public ReactiveExpressionFilter combine(Property<Boolean> ifProperty, String json) {
+    public ReactiveExpressionFilter<E> combine(Property<Boolean> ifProperty, String json) {
         return combine(ifProperty, new StringFilter(json));
     }
 
-    public ReactiveExpressionFilter combine(Property<Boolean> ifProperty, StringFilter stringFilter) {
+    public ReactiveExpressionFilter<E> combine(Property<Boolean> ifProperty, StringFilter stringFilter) {
         return combine(RxUi.observeIf(Observable.just(stringFilter), ifProperty));
     }
 
-    public ReactiveExpressionFilter nextDisplay() {
+    public ReactiveExpressionFilter<E> nextDisplay() {
         goToNextFilterDisplayIfDisplayResultSetPropertyIsSet();
         return this;
     }
@@ -213,57 +209,57 @@ public class ReactiveExpressionFilter {
         return filterDisplay;
     }
 
-    public ReactiveExpressionFilter setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
+    public ReactiveExpressionFilter<E> setDisplaySelectionProperty(Property<DisplaySelection> displaySelectionProperty) {
         getFilterDisplay().setDisplaySelectionProperty(displaySelectionProperty);
         return this;
     }
 
-    public ReactiveExpressionFilter setSelectedEntityHandler(Handler<Entity> entityHandler) {
+    public ReactiveExpressionFilter<E> setSelectedEntityHandler(Handler<E> entityHandler) {
         getFilterDisplay().setSelectedEntityHandler(entityHandler);
         return this;
     }
 
-    public ReactiveExpressionFilter setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
+    public ReactiveExpressionFilter<E> setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<E> entityHandler) {
         getFilterDisplay().setSelectedEntityHandler(displaySelectionProperty, entityHandler);
         return this;
     }
 
-    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay() {
+    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay() {
         getFilterDisplay().selectFirstRowOnFirstDisplay();
         return this;
     }
 
-    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
+    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
         getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty, onEachChangeProperty);
         return this;
     }
 
-    public ReactiveExpressionFilter selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
+    public ReactiveExpressionFilter<E> selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty) {
         getFilterDisplay().selectFirstRowOnFirstDisplay(displaySelectionProperty);
         return this;
     }
 
-    public ReactiveExpressionFilter setExpressionColumns(String jsonArrayDisplayColumns) {
+    public ReactiveExpressionFilter<E> setExpressionColumns(String jsonArrayDisplayColumns) {
         getFilterDisplay().setExpressionColumns(jsonArrayDisplayColumns);
         return this;
     }
 
-    public ReactiveExpressionFilter setExpressionColumns(JsonArray array) {
+    public ReactiveExpressionFilter<E> setExpressionColumns(JsonArray array) {
         getFilterDisplay().setExpressionColumns(array);
         return this;
     }
 
-    public ReactiveExpressionFilter setExpressionColumns(ExpressionColumn... expressionColumns) {
+    public ReactiveExpressionFilter<E> setExpressionColumns(ExpressionColumn... expressionColumns) {
         getFilterDisplay().setExpressionColumns(expressionColumns);
         return this;
     }
 
-    public ReactiveExpressionFilter applyDomainModelRowStyle() {
+    public ReactiveExpressionFilter<E> applyDomainModelRowStyle() {
         getFilterDisplay().applyDomainModelRowStyle();
         return this;
     }
 
-    public ReactiveExpressionFilter displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
+    public ReactiveExpressionFilter<E> displayResultSetInto(Property<DisplayResultSet> displayResultSetProperty) {
         getFilterDisplay().setDisplayResultSetProperty(displayResultSetProperty);
         return this;
     }
@@ -277,31 +273,31 @@ public class ReactiveExpressionFilter {
         return filterDisplays.get(displayIndex).getDisplaySelectionProperty();
     }
 
-    public Entity getSelectedEntity() {
+    public E getSelectedEntity() {
         return getSelectedEntity(0);
     }
 
-    public Entity getSelectedEntity(int displayIndex) {
+    public E getSelectedEntity(int displayIndex) {
         return filterDisplays.get(displayIndex).getSelectedEntity();
     }
 
-    public Entity getSelectedEntity(DisplaySelection selection) {
+    public E getSelectedEntity(DisplaySelection selection) {
         return getSelectedEntity(0, selection);
     }
 
-    public Entity getSelectedEntity(int displayIndex, DisplaySelection selection) {
+    public E getSelectedEntity(int displayIndex, DisplaySelection selection) {
         return filterDisplays.get(displayIndex).getSelectedEntity(selection);
     }
 
-    public EntityList getCurrentEntityList() {
+    public EntityList<E> getCurrentEntityList() {
         return getCurrentEntityList(0);
     }
 
-    public EntityList getCurrentEntityList(int displayIndex) {
+    public EntityList<E> getCurrentEntityList(int displayIndex) {
         return filterDisplays.get(displayIndex).getCurrentEntityList();
     }
 
-    public ReactiveExpressionFilter start() {
+    public ReactiveExpressionFilter<E> start() {
         combine(activeProperty, "{}");
         // if autoRefresh is set, we combine the filter with a 5s tic tac property
         if (autoRefresh) {
@@ -378,7 +374,7 @@ public class ReactiveExpressionFilter {
         lastParameterValues = parameterValues;
     }
 
-    private EntityList<Entity> emptyCurrentList() {
+    private EntityList<E> emptyCurrentList() {
         return EntityList.create(listId, getStore());
     }
 
@@ -536,11 +532,11 @@ public class ReactiveExpressionFilter {
             return displayResultSetProperty;
         }
 
-        void setSelectedEntityHandler(Handler<Entity> entityHandler) {
+        void setSelectedEntityHandler(Handler<E> entityHandler) {
             displaySelectionProperty.addListener((observable, oldValue, newValue) -> entityHandler.handle(getSelectedEntity()));
         }
 
-        void setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<Entity> entityHandler) {
+        void setSelectedEntityHandler(Property<DisplaySelection> displaySelectionProperty, Handler<E> entityHandler) {
             setDisplaySelectionProperty(displaySelectionProperty);
             setSelectedEntityHandler(entityHandler);
         }
@@ -565,19 +561,19 @@ public class ReactiveExpressionFilter {
             selectFirstRowOnFirstDisplay();
         }
 
-        Entity getSelectedEntity() {
+        E getSelectedEntity() {
             return getSelectedEntity(displaySelectionProperty.getValue());
         }
 
-        Entity getSelectedEntity(DisplaySelection selection) {
-            Entity selectedEntity = null;
+        E getSelectedEntity(DisplaySelection selection) {
+            E selectedEntity = null;
             int selectedRow = selection == null ? -1 : selection.getSelectedRow();
             if (selectedRow >= 0)
                 selectedEntity = getCurrentEntityList().get(selectedRow);
             return selectedEntity;
         }
 
-        <E extends Entity> EntityList<E> getCurrentEntityList() {
+        EntityList<E> getCurrentEntityList() {
             return getStore().getEntityList(listId);
         }
 
@@ -642,7 +638,7 @@ public class ReactiveExpressionFilter {
             displayResultSetProperty.setValue(emptyDisplayResultSet());
         }
 
-        DisplayResultSet entitiesListToDisplayResultSet(List<? extends Entity> entities) {
+        DisplayResultSet entitiesListToDisplayResultSet(List<E> entities) {
             collectColumnsPersistentTerms();
             return EntityListToDisplayResultSetGenerator.createDisplayResultSet(entities, expressionColumns, i18n);
         }

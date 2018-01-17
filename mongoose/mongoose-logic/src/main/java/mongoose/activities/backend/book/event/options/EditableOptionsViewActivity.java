@@ -113,13 +113,13 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
 
     private BorderPane addOptionDialogPane;
     private DialogCallback addOptionDialogCallback;
-    private ReactiveExpressionFilter addOptionDialogFilter;
+    private ReactiveExpressionFilter<Option> addOptionDialogFilter;
 
     private void showAddOptionDialog() {
         if (addOptionDialogPane == null) {
             DataGrid dataGrid = new DataGrid();
             addOptionDialogPane = new BorderPane(setMaxPrefSizeToInfinite(dataGrid));
-            addOptionDialogFilter = new ReactiveExpressionFilter("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel()).setI18n(getI18n())
+            addOptionDialogFilter = new ReactiveExpressionFilter<Option>("{class: 'Option', alias: 'o', where: 'parent=null and template', orderBy: 'event.id desc,ord'}").setDataSourceModel(getDataSourceModel()).setI18n(getI18n())
                     .combine(eventIdProperty(), e -> "{where: 'event.organization=" + getEvent().getOrganization().getPrimaryKey() + "'}")
                     .setExpressionColumns("[" +
                             "{label: 'Option', expression: 'coalesce(itemFamily.icon,item.family.icon),coalesce(name, item.name)'}," +
