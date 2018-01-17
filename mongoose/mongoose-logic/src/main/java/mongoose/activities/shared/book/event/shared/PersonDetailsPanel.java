@@ -22,6 +22,7 @@ import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
+import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.controls.EntityButtonSelector;
 import naga.framework.ui.controls.GridPaneBuilder;
@@ -102,7 +103,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         } else {
             personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
             personButton = newMaterialEntityButton(personSelector, "PersonToBook", null);
-            Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.entityProperty());
+            Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.selectedItemProperty());
             Properties.runNowAndOnPropertiesChange(userProperty -> {
                 User user = (User) userProperty.getValue();
                 boolean loggedIn = user instanceof MongooseUser;
@@ -120,15 +121,15 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
 
     private void initValidation() {
         validationSupport.addRequiredInputs(firstNameTextField, lastNameTextField, emailTextField, phoneTextField, carer1NameTextField, carer2NameTextField);
-        validationSupport.addNotEmptyControlValidation(countrySelector.entityProperty(), countrySelector.getEntityButton());
+        validationSupport.addNotEmptyControlValidation(countrySelector.selectedItemProperty(), countrySelector.getButton());
     }
 
     public boolean isValid() {
         return validationSupport.isValid();
     }
 
-    private static <T extends Entity> EntityButtonSelector<T> createEntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
-        return new EntityButtonSelector<T>(jsonOrClass, viewActivityContextMixin, parent, dataSourceModel) {
+    private static <T extends Entity> EntityButtonSelector<T> createEntityButtonSelector(Object jsonOrClass, ButtonFactoryMixin buttonFactory, Pane parent, DataSourceModel dataSourceModel) {
+        return new EntityButtonSelector<T>(jsonOrClass, buttonFactory, parent, dataSourceModel) {
             @Override
             protected void setSearchParameters(String search, EntityStore store) {
                 super.setSearchParameters(search, store);
@@ -153,7 +154,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     }
 
     private void updateUiEditable() {
-        boolean profileEditable = editable && personSelector.getEntity() == null;
+        boolean profileEditable = editable && personSelector.getSelectedItem() == null;
         boolean profileDisable = !profileEditable;
         firstNameTextField.setEditable(profileEditable);
         lastNameTextField.setEditable(profileEditable);
@@ -238,7 +239,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     }
 
     private MaterialTextFieldPane newMaterialEntityButton(EntityButtonSelector entityButtonSelector, Object labelKey, Object placeholderKey) {
-        return translateMaterial(new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(entityButtonSelector.getEntityButton()), entityButtonSelector.entityProperty()), labelKey, placeholderKey);
+        return translateMaterial(new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(entityButtonSelector.getButton()), entityButtonSelector.selectedItemProperty()), labelKey, placeholderKey);
     }
 
     private MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey) {
@@ -312,8 +313,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         streetTextField.setText(p.getStreet());
         postCodeTextField.setText(p.getPostCode());
         cityNameTextField.setText(p.getCityName());
-        organizationSelector.setEntity(p.getOrganization());
-        countrySelector.setEntity(p.getCountry());
+        organizationSelector.setSelectedItem(p.getOrganization());
+        countrySelector.setSelectedItem(p.getCountry());
         updateUiEditable();
         if (sectionPanel.getCenter() == null)
             Properties.runNowAndOnPropertiesChange(pty -> updatePanelBody(), childRadioButton.selectedProperty(), i18n.dictionaryProperty());
@@ -333,8 +334,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         p.setStreet(streetTextField.getText());
         p.setPostCode(postCodeTextField.getText());
         p.setCityName(cityNameTextField.getText());
-        p.setOrganization(organizationSelector.getEntity());
-        p.setCountry(countrySelector.getEntity());
+        p.setOrganization(organizationSelector.getSelectedItem());
+        p.setCountry(countrySelector.getSelectedItem());
         Country country = p.getCountry();
         p.setCountryName(country == null ? null : country.getName());
     }
