@@ -1,6 +1,5 @@
 package naga.framework.activity.activeproperty;
 
-import javafx.beans.property.ReadOnlyProperty;
 import naga.platform.activity.ActivityContext;
 
 /**
@@ -9,8 +8,7 @@ import naga.platform.activity.ActivityContext;
 public interface ActivePropertyActivityContext
         <THIS extends ActivePropertyActivityContext<THIS>>
 
-        extends ActivityContext<THIS> {
-
-    ReadOnlyProperty<Boolean> activeProperty();
+        extends ActivityContext<THIS>,
+        HasActiveProperty {
 
 }

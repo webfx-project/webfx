@@ -1,6 +1,6 @@
 package naga.framework.activity.activeproperty;
 
-import javafx.beans.property.ReadOnlyProperty;
+import javafx.beans.value.ObservableValue;
 import naga.platform.activity.ActivityContextMixin;
 
 /**
@@ -13,7 +13,7 @@ public interface ActivePropertyActivityContextMixin
         ActivePropertyActivityContext<C> {
 
     @Override
-    default ReadOnlyProperty<Boolean> activeProperty() {
+    default ObservableValue<Boolean> activeProperty() {
         return getActivityContext().activeProperty();
     }
 
