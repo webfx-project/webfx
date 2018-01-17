@@ -1,10 +1,7 @@
 package naga.platform.json;
 
 import naga.platform.json.listmap.MapJsonObject;
-import naga.platform.json.spi.JsonArray;
-import naga.platform.json.spi.JsonProvider;
-import naga.platform.json.spi.WritableJsonArray;
-import naga.platform.json.spi.WritableJsonObject;
+import naga.platform.json.spi.*;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
@@ -83,6 +80,10 @@ public class Json {
         for (int i = 0; i < length; i++)
             javaArray[i] = jsonArray.getElement(i);
         return javaArray;
+    }
+
+    public static String toJsonString(Object nativeElement) {
+        return JsonFormatter.appendNativeElement(nativeElement, Json.getFactory(), new StringBuilder()).toString();
     }
 
 }
