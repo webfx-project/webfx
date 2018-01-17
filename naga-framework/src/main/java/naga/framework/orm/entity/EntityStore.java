@@ -23,7 +23,7 @@ public interface EntityStore extends HasDataSourceModel {
     }
 
     default Object getDomainClassId(Class<? extends Entity> entityClass) {
-        return EntityFactoryRegistry.getEntityDomainClassId(entityClass);
+        return EntityDomainClassIdRegistry.getEntityDomainClassId(entityClass);
     }
 
 

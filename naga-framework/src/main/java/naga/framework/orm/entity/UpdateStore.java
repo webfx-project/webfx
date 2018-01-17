@@ -15,7 +15,7 @@ import naga.platform.services.update.UpdateResult;
 public interface UpdateStore extends EntityStore {
 
     default <E extends Entity> E insertEntity(Class<E> entityClass) {
-        return insertEntity(EntityFactoryRegistry.getEntityDomainClassId(entityClass));
+        return insertEntity(EntityDomainClassIdRegistry.getEntityDomainClassId(entityClass));
     }
 
     default <E extends Entity> E insertEntity(Object domainClassId) {
