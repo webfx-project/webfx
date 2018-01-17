@@ -1,11 +1,14 @@
 package mongoose.activities.backend.event.letters;
 
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class LettersPresentationLogicActivity extends EventDependentPresentationLogicActivity<LettersPresentationModel> {
+public class LettersPresentationLogicActivity
+        extends EventDependentPresentationLogicActivity<LettersPresentationModel>
+        implements ReactiveExpressionFilterFactoryMixin {
 
     public LettersPresentationLogicActivity() {
         super(LettersPresentationModel::new);

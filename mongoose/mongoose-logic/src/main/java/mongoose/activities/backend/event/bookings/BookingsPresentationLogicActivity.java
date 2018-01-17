@@ -2,26 +2,30 @@ package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
+import mongoose.domainmodel.functions.AbcNames;
+import mongoose.entities.Document;
 import mongoose.services.EventService;
+import naga.framework.ui.filter.ReactiveExpressionFilter;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
-import mongoose.domainmodel.functions.AbcNames;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsPresentationLogicActivity extends EventDependentPresentationLogicActivity<BookingsPresentationModel> {
+public class BookingsPresentationLogicActivity
+        extends EventDependentPresentationLogicActivity<BookingsPresentationModel>
+        implements ReactiveExpressionFilterFactoryMixin {
 
     public BookingsPresentationLogicActivity() {
         super(BookingsPresentationModel::new);
     }
 
-    private ReactiveExpressionFilter filter;
+    private ReactiveExpressionFilter<Document> filter;
     @Override
     protected void startLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        filter = createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
                 .combine("{columns: `[" +
                         "'ref'," +
                         "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
@@ -63,9 +67,8 @@ public class BookingsPresentationLogicActivity extends EventDependentPresentatio
                             }
                         });
 
-                        /*
-                        Expression cartUuidExpression = getDataSourceModel().getDomainModel().parseExpression("cart.uuid", "Document");
-                        Object cartUuid = document.evaluate(cartUuidExpression);
+/*
+                        Object cartUuid = document.evaluate("cart.uuid");
                         if (cartUuid != null)
                             getHistory().push("/book/cart/" + cartUuid);
 */

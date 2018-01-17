@@ -1,12 +1,15 @@
 package mongoose.activities.backend.events;
 
-import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
-public class EventsPresentationLogicActivity extends DomainPresentationLogicActivityImpl<EventsPresentationModel> {
+public class EventsPresentationLogicActivity
+        extends DomainPresentationLogicActivityImpl<EventsPresentationModel>
+        implements ReactiveExpressionFilterFactoryMixin {
 
     public EventsPresentationLogicActivity() {
         this(EventsPresentationModel::new);

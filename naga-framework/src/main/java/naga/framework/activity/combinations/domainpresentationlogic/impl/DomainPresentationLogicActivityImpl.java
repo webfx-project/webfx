@@ -1,9 +1,8 @@
 package naga.framework.activity.combinations.domainpresentationlogic.impl;
 
-import naga.util.function.Factory;
 import naga.framework.activity.domain.DomainActivityContextMixin;
 import naga.framework.activity.presentation.logic.impl.PresentationLogicActivityBase;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -18,23 +17,4 @@ public abstract class DomainPresentationLogicActivityImpl<PM>
     public DomainPresentationLogicActivityImpl(Factory<PM> presentationModelFactory) {
         super(presentationModelFactory);
     }
-
-    /** Helpers **/
-
-    protected ReactiveExpressionFilter createReactiveExpressionFilter() {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter());
-    }
-
-    protected ReactiveExpressionFilter createReactiveExpressionFilter(Object jsonOrClass) {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter(jsonOrClass));
-    }
-
-    private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        return reactiveExpressionFilter
-                .setDataSourceModel(getDataSourceModel())
-                .setI18n(getI18n())
-                .bindActivePropertyTo(activeProperty())
-                ;
-    }
-
 }

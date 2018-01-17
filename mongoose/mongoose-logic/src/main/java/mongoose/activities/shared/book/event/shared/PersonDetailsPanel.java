@@ -50,7 +50,9 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private final TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;
     private final RadioButton maleRadioButton, femaleRadioButton, childRadioButton, adultRadioButton;
     private final DatePicker birthDatePicker;
-    private final EntityButtonSelector personSelector, countrySelector, organizationSelector;
+    private final EntityButtonSelector<Person> personSelector;
+    private final EntityButtonSelector<Country> countrySelector;
+    private final EntityButtonSelector<Organization> organizationSelector;
     private final MaterialTextFieldPane personButton, countryButton, organizationButton;
     private final BorderPane sectionPanel;
     private HasPersonDetails model;
@@ -125,8 +127,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         return validationSupport.isValid();
     }
 
-    private static EntityButtonSelector createEntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
-        return new EntityButtonSelector(jsonOrClass, viewActivityContextMixin, parent, dataSourceModel) {
+    private static <T extends Entity> EntityButtonSelector<T> createEntityButtonSelector(Object jsonOrClass, ViewActivityContextMixin viewActivityContextMixin, Pane parent, DataSourceModel dataSourceModel) {
+        return new EntityButtonSelector<T>(jsonOrClass, viewActivityContextMixin, parent, dataSourceModel) {
             @Override
             protected void setSearchParameters(String search, EntityStore store) {
                 super.setSearchParameters(search, store);

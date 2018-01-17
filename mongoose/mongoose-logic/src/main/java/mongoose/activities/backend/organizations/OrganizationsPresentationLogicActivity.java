@@ -1,12 +1,15 @@
 package mongoose.activities.backend.organizations;
 
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsPresentationLogicActivity extends DomainPresentationLogicActivityImpl<OrganizationsPresentationModel> {
+public class OrganizationsPresentationLogicActivity
+        extends DomainPresentationLogicActivityImpl<OrganizationsPresentationModel>
+        implements ReactiveExpressionFilterFactoryMixin {
 
     public OrganizationsPresentationLogicActivity() {
         this(OrganizationsPresentationModel::new);

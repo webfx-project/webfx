@@ -1,5 +1,6 @@
 package mongoose.activities.shared.book.event.shared;
 
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -9,7 +10,7 @@ import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.framework.ui.controls.DialogCallback;
 import naga.framework.ui.controls.DialogUtil;
-import naga.framework.ui.filter.ReactiveExpressionFilter;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fxdata.cell.collator.GridCollator;
@@ -19,7 +20,7 @@ import static naga.framework.ui.layouts.LayoutUtil.createHGrowable;
 /**
  * @author Bruno Salmon
  */
-public class TermsDialog implements ButtonFactoryMixin {
+public class TermsDialog implements ButtonFactoryMixin, ReactiveExpressionFilterFactoryMixin {
 
     private final Object eventId;
     private final DataSourceModel dataSourceModel;
@@ -45,6 +46,16 @@ public class TermsDialog implements ButtonFactoryMixin {
         return i18n;
     }
 
+    @Override
+    public DataSourceModel getDataSourceModel() {
+        return dataSourceModel;
+    }
+
+    @Override
+    public ObservableValue<Boolean> activeProperty() {
+        return null;
+    }
+
     public void show() {
         GridCollator termsLetterCollator = new GridCollator("first", "first");
         termsLetterCollator.setBackground(BackgroundUtil.WHITE_BACKGROUND);
@@ -64,18 +75,6 @@ public class TermsDialog implements ButtonFactoryMixin {
         termsDialogCallback.closeDialog();
         if (onClose != null)
             onClose.run();
-    }
-
-    private ReactiveExpressionFilter createReactiveExpressionFilter(Object jsonOrClass) {
-        return initializeReactiveExpressionFilter(new ReactiveExpressionFilter(jsonOrClass));
-    }
-
-    private ReactiveExpressionFilter initializeReactiveExpressionFilter(ReactiveExpressionFilter reactiveExpressionFilter) {
-        return reactiveExpressionFilter
-                .setDataSourceModel(dataSourceModel)
-                .setI18n(i18n)
-                //.bindActivePropertyTo(activeProperty())
-                ;
     }
 
 }

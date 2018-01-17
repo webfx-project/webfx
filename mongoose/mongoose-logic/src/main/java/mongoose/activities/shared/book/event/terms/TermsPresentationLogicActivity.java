@@ -1,11 +1,14 @@
 package mongoose.activities.shared.book.event.terms;
 
 import mongoose.activities.shared.book.event.shared.BookingProcessPresentationLogicActivity;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class TermsPresentationLogicActivity extends BookingProcessPresentationLogicActivity<TermsPresentationModel> {
+public class TermsPresentationLogicActivity
+        extends BookingProcessPresentationLogicActivity<TermsPresentationModel>
+        implements ReactiveExpressionFilterFactoryMixin {
 
     public TermsPresentationLogicActivity() {
         super(TermsPresentationModel::new, null);

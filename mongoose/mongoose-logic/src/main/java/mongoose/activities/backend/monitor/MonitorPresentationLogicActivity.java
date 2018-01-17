@@ -1,11 +1,14 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class MonitorPresentationLogicActivity extends DomainPresentationLogicActivityImpl<MonitorPresentationModel> {
+public class MonitorPresentationLogicActivity
+        extends DomainPresentationLogicActivityImpl<MonitorPresentationModel>
+        implements ReactiveExpressionFilterFactoryMixin {
 
     public MonitorPresentationLogicActivity() {
         super(MonitorPresentationModel::new);
