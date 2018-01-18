@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -22,11 +23,14 @@ import naga.framework.ui.filter.StringFilterBuilder;
 import naga.fxdata.cell.renderer.ValueRenderer;
 import naga.fxdata.cell.renderer.ValueRendererFactory;
 import naga.fxdata.control.DataGrid;
+import naga.fxdata.control.SkinnedDataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.util.Arrays;
 import naga.util.Strings;
 import naga.util.collection.Collections;
 import naga.util.function.Callable;
+
+import java.util.List;
 
 /**
  * @author Bruno Salmon
@@ -41,7 +45,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
 
     private EntityStore loadingStore;
     private ReactiveExpressionFilter<E> entityDialogFilter;
-    private DataGrid dataGrid;
+    private DataGrid dialogDataGrid;
 
     // Good to put a limit especially for low-end mobiles
     private int adaptiveLimit = 6; // starting with 6 entries (fit with drop down/up) but can be increased in modal in dependence of the available height
@@ -92,11 +96,12 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
 
     @Override
     protected Region getOrCreateDialogContent() {
-        if (dataGrid == null && entityRenderer != null) {
-            dataGrid = new DataGrid();
-            dataGrid.setHeaderVisible(false);
-            dataGrid.setFullHeight(true);
-            BorderPane.setAlignment(dataGrid, Pos.TOP_LEFT);
+        if (dialogDataGrid == null && entityRenderer != null) {
+            dialogDataGrid = new SkinnedDataGrid(); // Better rendering in desktop JavaFx (but might be slower in web version)
+            dialogDataGrid.setHeaderVisible(false);
+            dialogDataGrid.setFullHeight(true);
+            dialogDataGrid.setCursor(Cursor.HAND);
+            BorderPane.setAlignment(dialogDataGrid, Pos.TOP_LEFT);
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(getButtonFactory()).setStore(filterStore);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
@@ -111,14 +116,14 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             entityDialogFilter
                     .combine(dialogHeightProperty(), height -> "{limit: " + updateAdaptiveLimit(height) + "}")
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))
-                    .displayResultSetInto(dataGrid.displayResultSetProperty())
-                    .setDisplaySelectionProperty(dataGrid.displaySelectionProperty())
-                    //.setSelectedEntityHandler(dataGrid.displaySelectionProperty(), o -> onOkEntityDialog())
+                    .displayResultSetInto(dialogDataGrid.displayResultSetProperty())
+                    .setDisplaySelectionProperty(dialogDataGrid.displaySelectionProperty())
+                    .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null) onDialogOk();})
                     .start();
-            dataGrid.setOnMouseClicked(e -> {if (e.getClickCount() == 1) onDialogOk(); });
-            dataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
+            //dialogDataGrid.setOnMouseClicked(e -> {if (e.isPrimaryButtonDown() && e.getClickCount() == 1) onDialogOk(); });
+            dialogDataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
         }
-        return dataGrid;
+        return dialogDataGrid;
     }
 
     private int updateAdaptiveLimit(Number height) {
