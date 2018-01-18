@@ -45,6 +45,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
 
     private EntityStore loadingStore;
     private ReactiveExpressionFilter<E> entityDialogFilter;
+    private List<E> restrictedFilterList;
     private DataGrid dialogDataGrid;
 
     // Good to put a limit especially for low-end mobiles
@@ -63,6 +64,14 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
         setResizeProperty(deferredDisplayResultSet);
+    }
+
+    public List<E> getRestrictedFilterList() {
+        return restrictedFilterList;
+    }
+
+    public void setRestrictedFilterList(List<E> restrictedFilterList) {
+        this.restrictedFilterList = restrictedFilterList;
     }
 
     public void setJsonOrClass(Object jsonOrClass) {
@@ -103,7 +112,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             dialogDataGrid.setCursor(Cursor.HAND);
             BorderPane.setAlignment(dialogDataGrid, Pos.TOP_LEFT);
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
-            entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(getButtonFactory()).setStore(filterStore);
+            entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(getButtonFactory()).setStore(filterStore).setRestrictedFilterList(restrictedFilterList);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
             if (searchCondition != null) {
                 entityDialogFilter.combine(searchTextProperty(), s -> {
