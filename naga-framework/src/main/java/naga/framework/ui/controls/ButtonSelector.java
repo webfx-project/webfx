@@ -17,6 +17,7 @@ import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
+import naga.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 import static naga.framework.ui.layouts.LayoutUtil.*;
@@ -33,6 +34,7 @@ public abstract class ButtonSelector<T> {
         AUTO
     }
 
+    private final Callable<Pane> parentGetter;
     private final Pane parent;
     private final ButtonFactoryMixin buttonFactory;
     private ObservableValue resizeProperty;
@@ -45,10 +47,20 @@ public abstract class ButtonSelector<T> {
     private Button cancelButton;
     private HBox buttonBar;
 
+    private final Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
     private final Property<T> selectedItemProperty = new SimpleObjectProperty<>();
     private final DoubleProperty dialogHeightProperty = new SimpleDoubleProperty();
 
-    public ButtonSelector(Pane parent, ButtonFactoryMixin buttonFactory) {
+    public ButtonSelector(ButtonFactoryMixin buttonFactory, Callable<Pane> parentGetter) {
+        this(buttonFactory, parentGetter, null);
+    }
+
+    public ButtonSelector(ButtonFactoryMixin buttonFactory, Pane parent) {
+        this(buttonFactory, null, parent);
+    }
+
+    protected ButtonSelector(ButtonFactoryMixin buttonFactory, Callable<Pane> parentGetter, Pane parent) {
+        this.parentGetter = parentGetter;
         this.parent = parent;
         this.buttonFactory = buttonFactory;
         Properties.runOnPropertiesChange(p -> updateButtonContentOnNewSelectedItem(), selectedItemProperty());
@@ -101,7 +113,7 @@ public abstract class ButtonSelector<T> {
         button.setOnAction(e -> showDialog());
     }
 
-    protected void updateButtonContentOnNewSelectedItem() {
+    public void updateButtonContentOnNewSelectedItem() {
         Toolkit.get().scheduler().runInUiThread(() -> getButton().setGraphic(getOrCreateButtonContentFromSelectedItem()));
     }
 
@@ -136,7 +148,6 @@ public abstract class ButtonSelector<T> {
         return searchTextField.textProperty();
     }
 
-    private final Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
 
     public Property<ShowMode> showModeProperty() {
         return showModeProperty;
@@ -163,6 +174,7 @@ public abstract class ButtonSelector<T> {
         if (dialogCallback != null)
             dialogCallback.closeDialog();
         Region dialogContent = getOrCreateDialogContent();
+        Pane parentNow = parentGetter != null ? parentGetter.call() : parent;
         switch (decidedShowMode) {
             case MODAL_DIALOG:
                 setMaxPrefSizeToInfinite(dialogContent);
@@ -174,7 +186,7 @@ public abstract class ButtonSelector<T> {
                 }
                 dialogPane.setTop(searchTextField);
                 dialogPane.setBottom(buttonBar);
-                dialogCallback = DialogUtil.showModalNodeInGoldLayout(dialogPane, parent, 0.9, 0.8);
+                dialogCallback = DialogUtil.showModalNodeInGoldLayout(dialogPane, parentNow, 0.9, 0.8);
                 // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
                 ButtonUtil.resetDefaultButton(okButton);
                 ButtonUtil.resetCancelButton(cancelButton);
@@ -192,7 +204,7 @@ public abstract class ButtonSelector<T> {
                     show(ShowMode.MODAL_DIALOG);
                 });
                 onDecidedShowMode(decidedShowMode);
-                dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parent, resizeProperty, decidedShowMode == ShowMode.DROP_UP);
+                dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, resizeProperty, decidedShowMode == ShowMode.DROP_UP);
                 ChangeListener<Number> sceneHeightListener = (observable, oldValue, newValue) -> Platform.runLater(() -> {
                     SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
                     onDecidedShowMode(computeDecidedShowMode()); // decided show mode may change in dependence of the height

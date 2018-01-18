@@ -26,6 +26,7 @@ import naga.fxdata.displaydata.DisplayResultSet;
 import naga.util.Arrays;
 import naga.util.Strings;
 import naga.util.collection.Collections;
+import naga.util.function.Callable;
 
 /**
  * @author Bruno Salmon
@@ -45,8 +46,16 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     // Good to put a limit especially for low-end mobiles
     private int adaptiveLimit = 6; // starting with 6 entries (fit with drop down/up) but can be increased in modal in dependence of the available height
 
+    public EntityButtonSelector(Object jsonOrClass, ButtonFactoryMixin buttonFactory, Callable<Pane> parentGetter, DataSourceModel dataSourceModel) {
+        this(jsonOrClass, buttonFactory, parentGetter, null, dataSourceModel);
+    }
+
     public EntityButtonSelector(Object jsonOrClass, ButtonFactoryMixin buttonFactory, Pane parent, DataSourceModel dataSourceModel) {
-        super(parent, buttonFactory);
+        this(jsonOrClass, buttonFactory, null, parent, dataSourceModel);
+    }
+
+    protected EntityButtonSelector(Object jsonOrClass, ButtonFactoryMixin buttonFactory, Callable<Pane> parentGetter, Pane parent, DataSourceModel dataSourceModel) {
+        super(buttonFactory, parentGetter, parent);
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
         setResizeProperty(deferredDisplayResultSet);
