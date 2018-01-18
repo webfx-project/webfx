@@ -1,8 +1,8 @@
 package emul.javafx.scene.control;
 
 import emul.com.sun.javafx.scene.control.skin.CheckBoxSkin;
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.BooleanProperty;
+import emul.javafx.beans.property.SimpleBooleanProperty;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.scene.Cursor;
 import naga.fx.properties.markers.HasSelectedProperty;
@@ -13,9 +13,9 @@ import naga.fx.properties.markers.HasSelectedProperty;
 public class CheckBox extends ButtonBase implements
         HasSelectedProperty {
 
-    private final Property<Boolean> selectedProperty = new SimpleObjectProperty<>(false);
+    private final BooleanProperty selectedProperty = new SimpleBooleanProperty(false);
     @Override
-    public Property<Boolean> selectedProperty() {
+    public BooleanProperty selectedProperty() {
         return selectedProperty;
     }
 

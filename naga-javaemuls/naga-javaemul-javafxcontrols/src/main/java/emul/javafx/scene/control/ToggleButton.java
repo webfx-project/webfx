@@ -1,9 +1,7 @@
 package emul.javafx.scene.control;
 
 import emul.com.sun.javafx.scene.control.skin.ToggleButtonSkin;
-import emul.javafx.beans.property.ObjectProperty;
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.*;
 import emul.javafx.event.ActionEvent;
 import emul.javafx.geometry.Pos;
 import emul.javafx.scene.Node;
@@ -73,18 +71,18 @@ public class ToggleButton extends ButtonBase
      * Indicates whether this toggle button is selected. This can be manipulated
      * programmatically.
      */
-    private Property<Boolean> selected;
+    private BooleanProperty selected;
     public final void setSelected(boolean value) {
-        selectedProperty().setValue(value);
+        selectedProperty().set(value);
     }
 
     public final boolean isSelected() {
         return selected == null ? false : selected.getValue();
     }
 
-    public final Property<Boolean> selectedProperty() {
+    public final BooleanProperty selectedProperty() {
         if (selected == null) {
-            selected = new SimpleObjectProperty<Boolean>(false) {
+            selected = new SimpleBooleanProperty(false) {
                 @Override protected void invalidated() {
                     final boolean selected = get();
                     final ToggleGroup tg = getToggleGroup();
