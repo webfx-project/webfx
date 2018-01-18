@@ -9,24 +9,31 @@ import naga.framework.ui.i18n.I18n;
 /**
  * @author Bruno Salmon
  */
-public class TranslateFunction extends Function {
+public class TranslateFunction<T> extends Function<T> {
 
-    private I18n i18n;
+    private final I18n i18n;
 
     public TranslateFunction(I18n i18n) {
-        this("translate");
+        this("translate", i18n);
+    }
+
+    public TranslateFunction(String name, I18n i18n) {
+        super(name, null, null, PrimType.STRING, true);
         this.i18n = i18n;
     }
 
-    public TranslateFunction(String name) {
-        super(name, null, null, PrimType.STRING, true);
-    }
-
     @Override
-    public Object evaluate(Object argument, DataReader dataReader) {
+    public Object evaluate(T argument, DataReader<T> dataReader) {
         if (argument instanceof String)
             return i18n.instantTranslate(argument);
-        return Labels.instantTranslateLabel(Labels.bestLabelOrName(dataReader.getDomainObjectFromId(argument, null)), i18n);
+        return translate(dataReader.getDomainObjectFromId(argument, null));
     }
 
+    protected String translate(T t) {
+        return bestTranslationOrName(t);
+    }
+
+    protected String bestTranslationOrName(Object o) {
+        return Labels.instantTranslateLabel(Labels.bestLabelOrName(o), i18n);
+    }
 }
