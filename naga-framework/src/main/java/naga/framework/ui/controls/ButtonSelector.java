@@ -37,7 +37,7 @@ public abstract class ButtonSelector<T> {
     private final ButtonFactoryMixin buttonFactory;
     private ObservableValue resizeProperty;
     private BorderPane dialogPane;
-    private TextField searchTextField;
+    private final TextField searchTextField;
     protected DialogCallback dialogCallback;
     private Button button;
     private HBox searchBox;
@@ -52,6 +52,14 @@ public abstract class ButtonSelector<T> {
         this.parent = parent;
         this.buttonFactory = buttonFactory;
         Properties.runOnPropertiesChange(p -> updateButtonContentOnNewSelectedItem(), selectedItemProperty());
+        searchTextField = buttonFactory.newTextFieldWithPrompt("GenericSearchPlaceholder");
+        searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
+                dialogCallback.closeDialog();
+                e.consume();
+            }
+        });
+        HBox.setHgrow(searchTextField, Priority.ALWAYS);
     }
 
     protected ButtonFactoryMixin getButtonFactory() {
@@ -105,14 +113,6 @@ public abstract class ButtonSelector<T> {
 
     protected void setUpDialog(boolean show) {
         if (dialogPane == null) {
-            searchTextField = buttonFactory.newTextFieldWithPrompt("GenericSearchPlaceholder");
-            searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
-                    dialogCallback.closeDialog();
-                    e.consume();
-                }
-            });
-            HBox.setHgrow(searchTextField, Priority.ALWAYS);
             Node dialogContent = getOrCreateDialogContent();
             if (dialogContent == null)
                 return;
