@@ -85,19 +85,20 @@ public class Collections {
 
     public static <T> T findFirst(Iterable<T> iterable, Predicate<? super T> predicate) {
         //return collection.stream().filter(predicate::test).findFirst().get(); // Not GWT compilable for now
-        for (T element : iterable) {
-            if (predicate.test(element))
-                return element;
-        }
+        if (iterable != null)
+            for (T element : iterable) {
+                if (predicate.test(element))
+                    return element;
+            }
         return null;
     }
 
     public static <T> boolean hasNoOneMatching(Iterable<T> iterable, Predicate<? super T> predicate) {
-        return findFirst(iterable, predicate) == null;
+        return !hasAtLeastOneMatching(iterable, predicate);
     }
 
     public static <T> boolean hasAtLeastOneMatching(Iterable<T> iterable, Predicate<? super T> predicate) {
-        return !hasNoOneMatching(iterable, predicate);
+        return findFirst(iterable, predicate) != null;
     }
 
     public static <T> int indexOf(Iterable<T> iterable, Predicate<? super T> predicate) {
