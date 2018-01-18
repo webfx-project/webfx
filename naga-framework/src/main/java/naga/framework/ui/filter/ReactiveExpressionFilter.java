@@ -13,10 +13,7 @@ import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.DomainModel;
-import naga.framework.orm.entity.Entity;
-import naga.framework.orm.entity.EntityList;
-import naga.framework.orm.entity.EntityListWrapper;
-import naga.framework.orm.entity.EntityStore;
+import naga.framework.orm.entity.*;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.mapping.EntityListToDisplayResultSetGenerator;
@@ -46,13 +43,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Bruno Salmon
  */
-public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProperty {
+public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProperty, HasEntityStore {
 
     private final List<Observable<StringFilter>> stringFilterObservables = new ArrayList<>();
     private StringFilter lastStringFilter;
     private Object[] lastParameterValues;
-    private Observable<EntityList> lastEntityListObservable;
+    private Observable<EntityList<E>> lastEntityListObservable;
     private final BehaviorSubject<StringFilter> lastStringFilterReEmitter = BehaviorSubject.create();
+    private List<E> restrictedFilterList;
     private DataSourceModel dataSourceModel;
     private I18n i18n;
     private EntityStore store;
@@ -79,7 +77,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     }
 
     public DomainClass getDomainClass() {
-        return dataSourceModel.getDomainModel().getClass(domainClassId);
+        return getDomainModel().getClass(domainClassId);
     }
 
     public ReactiveExpressionFilter(Object jsonOrClass) {
@@ -102,10 +100,16 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return this;
     }
 
+    @Override
+    public DataSourceModel getDataSourceModel() {
+        return dataSourceModel;
+    }
+
+    @Override
     public EntityStore getStore() {
         // If not set, we create a new store
         if (store == null)
-            setStore(EntityStore.create(dataSourceModel));
+            setStore(EntityStore.create(getDataSourceModel()));
         return store;
     }
 
@@ -113,6 +117,12 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         this.listId = listId;
         return this;
     }
+
+    public ReactiveExpressionFilter<E> setRestrictedFilterList(List<E> restrictedFilterList) {
+        this.restrictedFilterList = restrictedFilterList;
+        return this;
+    }
+
 
     public ReactiveExpressionFilter<E> setAutoRefresh(boolean autoRefresh) {
         this.autoRefresh = autoRefresh;
@@ -331,21 +341,25 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         Observable<StringFilter> resultingStringFilterObservable = Observable
                 .combineLatest(stringFilterObservables, this::mergeStringFilters);
         resultingStringFilterObservable = resultingStringFilterObservable.mergeWith(lastStringFilterReEmitter);
-        Observable<EntityList> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
+        Observable<EntityList<E>> entityListObservable = resultingStringFilterObservable.switchMap(stringFilter -> {
             Object[] parameterValues = null;
             // Shortcut: when the string filter is "false", we return an empty entity list immediately (no server call)
             if ("false".equals(stringFilter.getWhere()) || "0".equals(stringFilter.getLimit()))
-                lastEntityListObservable = Observable.just(emptyCurrentList());
-            else {
+                lastEntityListObservable = Observable.just(emptyFutureList());
+            else if (restrictedFilterList != null) {
+                EntityList<E> filteredList = emptyCurrentList();
+                filteredList.addAll(Entities.select(restrictedFilterList, stringFilter.toStringSelect()));
+                lastEntityListObservable = Observable.just(filteredList);
+            } else {
                 // Otherwise we compile the final string filter into sql
-                SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect(stringFilter.toStringSelect());
+                SqlCompiled sqlCompiled = getDomainModel().compileSelect(stringFilter.toStringSelect());
                 ArrayList<String> parameterNames = sqlCompiled.getParameterNames();
                 parameterValues = Collections.isEmpty(parameterNames) ? null : Collections.map(parameterNames, name -> getStore().getParameterValue(name)).toArray(); // Doesn't work on Android: parameterNames.stream().map(name -> getStore().getParameterValue(name)).toArray();
                 if (autoRefresh || isDifferentFromLastQuery(stringFilter, parameterValues)) {
                     // We increment and capture the sequence to check if the request is still the latest one when receiving the result
                     int sequence = querySequence.incrementAndGet();
                     // Then we ask the query service to execute the sql query
-                    lastEntityListObservable = RxFuture.from(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, dataSourceModel.getId())))
+                    lastEntityListObservable = RxFuture.from(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameterValues, getDataSourceModel().getId())))
                             // Aborting the process (returning null) if the sequence differs (meaning a new request has been sent)
                             // Otherwise transforming the QueryResultSet into an EntityList
                             .map(queryResultSet -> (sequence != querySequence.get()) ? null : queryResultSetToEntities(queryResultSet, sqlCompiled));
@@ -374,8 +388,14 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         lastParameterValues = parameterValues;
     }
 
-    private EntityList<E> emptyCurrentList() {
+    private EntityList<E> emptyFutureList() {
         return EntityList.create(listId, getStore());
+    }
+
+    private EntityList<E> emptyCurrentList() {
+        EntityList<E> list = getStore().getOrCreateEntityList(listId);
+        list.clear();
+        return list;
     }
 
     private void refreshNowIfActiveAndFilterChanged() {
@@ -441,11 +461,11 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         if (rs == lastRsInput)
             return lastEntitiesOutput;
         // Otherwise really generates the entity list (the content will changed but not the instance of the returned list)
-        EntityList entities = QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
+        EntityList<E> entities = QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), getStore(), listId);
         // Caching and returning the result
         lastRsInput = rs;
         if (entities == lastEntitiesOutput) // It's also important to make sure the output instance is not the same
-            entities = new EntityListWrapper(entities); // by wrapping the list (for entitiesToDisplayResultSets() cache system)
+            entities = new EntityListWrapper<>(entities); // by wrapping the list (for entitiesToDisplayResultSets() cache system)
         return lastEntitiesOutput = entities;
     }
 
@@ -453,7 +473,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
     private EntityList lastEntitiesInput;
     private DisplayResultSet[] lastDisplayResultSetsOutput;
 
-    private DisplayResultSet[] entitiesToDisplayResultSets(EntityList entities) {
+    private DisplayResultSet[] entitiesToDisplayResultSets(EntityList<E> entities) {
         // Returning the cached output if input didn't change (ex: the same entity list instance is emitted again on active property change)
         if (entities == lastEntitiesInput)
             return lastDisplayResultSetsOutput; // Returning the same instance will avoid triggering the resultSets changeListeners (high cpu consuming in UI)
@@ -477,7 +497,6 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
     private ReferenceResolver getRootAliasReferenceResolver() {
         if (rootAliasReferenceResolver == null) {
-            DomainModel domainModel = dataSourceModel.getDomainModel();
             // Before parsing, we prepare a ReferenceResolver to resolve possible references to root aliases
             Map<String, Alias> rootAliases = new HashMap<>();
             rootAliasReferenceResolver = rootAliases::get;
@@ -487,7 +506,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 // expressions such as sub queries may refer to it (ex: select count(1) from Booking where event=e)
                 String alias = baseFilter.getAlias();
                 if (alias != null) // when defined, we add an Alias expression that can be returned when resolving this alias
-                    rootAliases.put(alias, new Alias(alias, domainModel.getClass(domainClassId)));
+                    rootAliases.put(alias, new Alias(alias, getDomainClass()));
                 // Other possible root aliases can be As expressions defined in the base filter fields, such as sub queries
                 // If fields contains for example (select ...) as xxx -> then xxx can be referenced in expression columns
                 String fields = baseFilter.getFields();
@@ -495,7 +514,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                     try {
                         ThreadLocalReferenceResolver.pushReferenceResolver(rootAliasReferenceResolver);
                         // Now that the ReferenceResolver is ready, we can parse the expression columns
-                        for (Expression field : domainModel.parseExpressionArray(fields, domainClassId).getExpressions()) {
+                        for (Expression field : getDomainModel().parseExpressionArray(fields, domainClassId).getExpressions()) {
                             if (field instanceof As) { // If a field is a As expression,
                                 As as = (As) field;
                                 // we add an Alias expression that can be returned when resolving this alias
@@ -574,7 +593,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         }
 
         EntityList<E> getCurrentEntityList() {
-            return getStore().getEntityList(listId);
+            return getStore().getOrCreateEntityList(listId);
         }
 
         void setExpressionColumns(String jsonArrayDisplayColumns) {
@@ -604,7 +623,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         }
 
         void applyDomainModelRowStyle() {
-            DomainClass domainClass = dataSourceModel.getDomainModel().getClass(domainClassId);
+            DomainClass domainClass = getDomainClass();
             ExpressionArray rowStylesExpressionArray = domainClass.getStyleClassesExpressionArray();
             if (rowStylesExpressionArray != null && expressionColumns != null) {
                 ExpressionColumn[] includingRowStyleColumns = new ExpressionColumn[expressionColumns.length + 1];
@@ -644,7 +663,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         }
 
         DisplayResultSet emptyDisplayResultSet() {
-            return entitiesListToDisplayResultSet(emptyCurrentList());
+            return entitiesListToDisplayResultSet(emptyFutureList());
         }
 
         @SuppressWarnings("unchecked")
@@ -653,7 +672,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 columnsPersistentTerms = new ArrayList<>();
                 if (expressionColumns != null)
                     try {
-                        DomainModel domainModel = dataSourceModel.getDomainModel();
+                        DomainModel domainModel = getDomainModel();
                         ThreadLocalReferenceResolver.pushReferenceResolver(getRootAliasReferenceResolver());
                         // Now that the ReferenceResolver is ready, we can parse the expression columns
                         for (ExpressionColumn expressionColumn : expressionColumns) {
