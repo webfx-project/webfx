@@ -1,6 +1,7 @@
 package mongoose.activities.shared.book.event.options;
 
 import javafx.scene.Node;
+import mongoose.activities.shared.book.event.shared.TranslateFunction;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransaction;
@@ -27,6 +28,16 @@ public class OptionTree {
 
     OptionTree(OptionsViewActivity activity) {
         this.activity = activity;
+        new TranslateFunction<Option>("translateOption", activity) {
+            @Override
+            protected String translate(Option option) {
+                String optionTranslation = bestTranslationOrName(option);
+                boolean multiSite = option.getParent() != null && option.getParent().getSite() == null;
+                if (multiSite)
+                    optionTranslation = bestTranslationOrName(option.getSite()) + " - " + optionTranslation;
+                return optionTranslation;
+            }
+        }.register();
     }
 
     OptionsViewActivity getActivity() {
@@ -103,7 +114,7 @@ public class OptionTree {
 
     public boolean isOptionSelected(Option option) {
         OptionTreeNode optionTreeNode = optionTreeNodes.get(option);
-        return optionTreeNode != null && (optionTreeNode.isModelOptionSelected() || optionTreeNode.isUiOptionSelected(true));
+        return optionTreeNode != null && (optionTreeNode.isOptionSelectedInModel() || optionTreeNode.isUiOptionSelected(true));
     }
 
     private boolean pendingTransactionCommitAndUiSync;
