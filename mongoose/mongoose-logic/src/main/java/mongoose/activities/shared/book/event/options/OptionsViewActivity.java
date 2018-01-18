@@ -63,7 +63,8 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
                     setWorkingDocument(selectedOptionsPreselection.createNewWorkingDocument(null));
                 }
                 if (lastWorkingDocument != workingDocument) {
-                    verticalScrollPane.setVvalue(0);
+                    if (verticalScrollPane != null)
+                        verticalScrollPane.setVvalue(0);
                     optionTree.reset();
                 }
                 createOrUpdateOptionPanelsIfReady(forceRefresh);
