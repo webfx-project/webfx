@@ -159,7 +159,7 @@ public class FxDataGridPeer
         newColumns.add(gridColumn);
         naga.fxdata.displaydata.Label label = displayColumn.getLabel();
         gridColumn.setText(label.getText());
-        gridColumn.setGraphic(ImageStore.createLabelIconImageView(label));
+        gridColumn.setGraphic(ImageStore.createImageView(label.getIconPath()));
         Double prefWidth = displayColumn.getStyle().getPrefWidth();
         if (prefWidth != null) {
             if (prefWidth > 24)
@@ -246,6 +246,7 @@ public class FxDataGridPeer
                 double h = 2; // border
                 for (javafx.scene.Node node : new ArrayList<>(children)) {
                     double nodePrefHeight = 0;
+                    // Note: not compatible with Java 9 (VirtualFlow made inaccessible)
                     if (node instanceof VirtualFlow) { // the problem with Virtual Flow is that it limits the computation to the first 10 rows
                         VirtualFlow flow = (VirtualFlow) node;
                         if (control instanceof TableView) {
