@@ -48,12 +48,9 @@ public class ButtonUtil {
 
     public static Button decorateButtonWithDropDownArrow(Button button) {
         GraphicDecoration dropDownArrowDecoration = new GraphicDecoration(ImageStore.createImageView("images/16/dropDownArrow.png"), Pos.CENTER_RIGHT, 0, 0, -1, 0);
-        Properties.runNowAndOnPropertiesChange(p -> Platform.runLater(() -> {
-            if (button.getSkin() != null)
-                dropDownArrowDecoration.applyDecoration(button);
-            else
-                button.skinProperty().addListener((observable, oldValue, newValue) -> dropDownArrowDecoration.applyDecoration(button));
-        }), button.graphicProperty());
+        Properties.runNowAndOnPropertiesChange(p -> Platform.runLater(() ->
+            Controls.onSkinReady(button, () -> dropDownArrowDecoration.applyDecoration(button))
+        ), button.graphicProperty());
         button.setMinWidth(0d);
         // Adding padding for the extra right icon decoration (adding the icon width 16px + repeating the 6px standard padding)
         button.setPadding(new Insets(6, 6 + 16 + 6, 6, 6));
