@@ -53,7 +53,8 @@ public class MaterialTextFieldPane extends Pane implements MaterialTextFieldMixi
 
     @Override
     protected void layoutChildren() {
-        materialTextField.layoutChildren(0, 0, getWidth(), getHeight(), this::layoutContent);
+        if (isManaged())
+            materialTextField.layoutChildren(0, 0, getWidth(), getHeight(), this::layoutContent);
     }
 
     private void layoutContent(double x, double y, double w, double h) {
