@@ -45,7 +45,7 @@ class OptionTreeNode {
     private final OptionTreeNode parent;
     private BorderPane topLevelOptionButton;
     private BorderPane topLevelOptionSection;
-    private Pane optionBodyPane;
+    private VBox optionBodyPane;
     private ButtonBase optionButton;
     private BooleanProperty optionButtonSelectedProperty;
     private EntityButtonSelector<Option> childrenOptionSelector;
@@ -215,6 +215,7 @@ class OptionTreeNode {
         if (optionButton == null && parent != null && parent.childrenOptionSelector != null)
             return optionBodyPane = null;
         optionBodyPane = new VBox();
+        optionBodyPane.setFillWidth(false);
         if (parent != null && parent.optionButton != null) // Adding a left padding when under a parent button
             optionBodyPane.setPadding(new Insets(0, 0, 0, 20));
         Label topLabel = option.getTopLabel();
@@ -234,13 +235,11 @@ class OptionTreeNode {
                         () -> (Pane) activity.getNode(), // passing the parent getter for a future access because it is not immediately available (since we haven't yet finished building the activity UI)
                         activity.getDataSourceModel());
                 childrenOptionSelector.setRestrictedFilterList(new ArrayList<>());
-                Label childrenPromptLabel = option.getChildrenPromptLabel();
-                Node selectNode = childrenOptionSelector.getButton();
-                if (childrenPromptLabel != null)
-                    selectNode = new FlowPane(10, 0, createLabelNode(childrenPromptLabel), selectNode);
+                Node selectNode = childrenOptionSelector.toMaterialButton(null, Labels.translateLabel(option.getChildrenPromptLabel(), activity));
                 optionBodyChildren.add(selectNode);
                 bindToVisibleProperty(selectNode);
                 Properties.runOnPropertiesChange(p -> childrenOptionSelector.updateButtonContentOnNewSelectedItem(), getI18n().languageProperty());
+                tree.getValidationSupport().addRequiredInput(childrenOptionSelector.selectedItemProperty(), childrenOptionSelector.getButton());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
             childrenOptionTreeNodes = Collections.map(childrenOptions, o -> new OptionTreeNode(o, this));
@@ -274,7 +273,7 @@ class OptionTreeNode {
                 optionButtonSelectedProperty = radioButton.selectedProperty();
                 optionButton = radioButton;
                 if (!parent.childrenToggleGroupValidationInitialized) {
-                    tree.getValidationSupport().addNotEmptyControlValidation(toggleGroup.selectedToggleProperty(), radioButton);
+                    tree.getValidationSupport().addRequiredInput(toggleGroup.selectedToggleProperty(), radioButton);
                     parent.childrenToggleGroupValidationInitialized = true;
                 }
             } else if (optionSelector != null) {
@@ -289,7 +288,6 @@ class OptionTreeNode {
                 };
                 Properties.runOnPropertiesChange(p -> setOptionButtonSelected(p.getValue() == option), optionSelector.selectedItemProperty());
                 optionButton = null;
-                tree.getValidationSupport().addNotEmptyControlValidation(optionSelector.selectedItemProperty(), optionSelector.getButton());
             } else {
                 CheckBox checkBox = new CheckBox();
                 optionButtonSelectedProperty = checkBox.selectedProperty();
