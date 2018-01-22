@@ -3,9 +3,11 @@ package naga.framework.ui.controls;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
+import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.controls.material.textfield.MaterialTextField;
+import naga.framework.ui.controls.material.textfield.MaterialTextFieldPane;
 import naga.framework.ui.controls.material.util.MaterialUtil;
 import naga.framework.ui.i18n.I18nMixin;
 
@@ -105,9 +107,22 @@ public interface ControlFactoryMixin extends I18nMixin {
         return control;
     }
 
-    default void setMaterialLabelAndPlaceholder(MaterialTextField materialTextField, Object labelKey, Object placeholderKey) {
+    default <T extends MaterialTextField> T setMaterialLabelAndPlaceholder(T materialTextField, Object labelKey, Object placeholderKey) {
         translateString(materialTextField.labelTextProperty(), labelKey);
         translateString(materialTextField.placeholderTextProperty(), placeholderKey);
+        return materialTextField;
+    }
+
+    default MaterialTextFieldPane newMaterialRegion(Region region) {
+        return new MaterialTextFieldPane(region);
+    }
+
+    default MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey) {
+        return newMaterialRegion(region, labelKey, null);
+    }
+
+    default MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey, Object placeholderKey) {
+        return setMaterialLabelAndPlaceholder(newMaterialRegion(region), labelKey, placeholderKey);
     }
 
     default Hyperlink newHyperlink() {

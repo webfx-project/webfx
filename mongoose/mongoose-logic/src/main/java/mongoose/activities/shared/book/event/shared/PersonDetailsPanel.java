@@ -98,15 +98,15 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         cityNameTextField = newMaterialTextField("City", "CityPlaceholder");
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
-        countryButton = newMaterialEntityButton(countrySelector, "Country", "CountryPlaceholder");
+        countryButton = countrySelector.toMaterialButton("Country", "CountryPlaceholder");
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
-        organizationButton = newMaterialEntityButton(organizationSelector, "Centre", "CentreInfo");
+        organizationButton = organizationSelector.toMaterialButton("Centre", "CentreInfo");
         if (uiUser == null) {
             personSelector = null;
             personButton = null;
         } else {
             personSelector = createEntityButtonSelector(null, viewActivityContextMixin, parent, dataSourceModel);
-            personButton = newMaterialEntityButton(personSelector, "PersonToBook", null);
+            personButton = personSelector.toMaterialButton("PersonToBook", null);
             Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.selectedItemProperty());
             Properties.runNowAndOnPropertiesChange(userProperty -> {
                 User user = (User) userProperty.getValue();
@@ -242,20 +242,6 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         );
         vBox.setPadding(new Insets(10));
         return vBox;
-    }
-
-    private MaterialTextFieldPane newMaterialEntityButton(EntityButtonSelector entityButtonSelector, Object labelKey, Object placeholderKey) {
-        return translateMaterial(new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(entityButtonSelector.getButton()), entityButtonSelector.selectedItemProperty()), labelKey, placeholderKey);
-    }
-
-    private MaterialTextFieldPane newMaterialRegion(Region region, Object labelKey) {
-        return translateMaterial(new MaterialTextFieldPane(region), labelKey, null);
-    }
-
-    private MaterialTextFieldPane translateMaterial(MaterialTextFieldPane materialTextFieldPane, Object labelKey, Object placeholderKey) {
-        translateString(materialTextFieldPane.placeholderTextProperty(), placeholderKey);
-        translateString(materialTextFieldPane.labelTextProperty(), labelKey);
-        return materialTextFieldPane;
     }
 
     private Node createPersonDataGrid() {

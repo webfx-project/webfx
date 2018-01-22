@@ -14,6 +14,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import naga.framework.ui.action.ButtonFactoryMixin;
+import naga.framework.ui.controls.material.textfield.MaterialTextFieldPane;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -40,7 +42,7 @@ public abstract class ButtonSelector<T> {
     private ObservableValue resizeProperty;
     private BorderPane dialogPane;
     private final TextField searchTextField;
-    protected DialogCallback dialogCallback;
+    private DialogCallback dialogCallback;
     private Button button;
     private HBox searchBox;
     private Button okButton;
@@ -111,6 +113,10 @@ public abstract class ButtonSelector<T> {
     public void setButton(Button button) {
         this.button = button;
         button.setOnAction(e -> showDialog());
+    }
+
+    public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
+        return buttonFactory.setMaterialLabelAndPlaceholder(new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(getButton()), selectedItemProperty()), labelKey, placeholderKey);
     }
 
     public void updateButtonContentOnNewSelectedItem() {
