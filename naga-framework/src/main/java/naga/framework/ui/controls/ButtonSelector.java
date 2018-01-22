@@ -116,7 +116,20 @@ public abstract class ButtonSelector<T> {
     }
 
     public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
-        return buttonFactory.setMaterialLabelAndPlaceholder(new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(getButton()), selectedItemProperty()), labelKey, placeholderKey);
+        return buttonFactory.setMaterialLabelAndPlaceholder(newMaterialButton(), labelKey, placeholderKey);
+    }
+
+    public MaterialTextFieldPane toMaterialButton(ObservableValue<String> labelProperty, ObservableValue<String> placeholderProperty) {
+        MaterialTextFieldPane materialButton = newMaterialButton();
+        if (labelProperty != null)
+            materialButton.labelTextProperty().bind(labelProperty);
+        if (placeholderProperty != null)
+            materialButton.placeholderTextProperty().bind(placeholderProperty);
+        return materialButton;
+    }
+
+    private MaterialTextFieldPane newMaterialButton() {
+        return new MaterialTextFieldPane(LayoutUtil.setMaxWidthToInfinite(getButton()), selectedItemProperty());
     }
 
     public void updateButtonContentOnNewSelectedItem() {
