@@ -258,8 +258,8 @@ public class MaterialTextFieldImpl implements MaterialTextField {
             labelString = label;
             materialAnimation.setOnFinished(() -> labelText.setText(placeholder));
         }
-        labelText.setTextOrigin(floating ? VPos.TOP : VPos.CENTER);
         labelText.setText(labelString);
+        labelText.setTextOrigin(floating ? VPos.TOP : VPos.CENTER);
         labelText.setFill(labelFill);
         if (line != null) {
             line.setBorder(disabled ? new Border(new BorderStroke(lineFill, BorderStrokeStyle.DOTTED, null, new BorderWidths(1))) : null);
@@ -356,5 +356,19 @@ public class MaterialTextFieldImpl implements MaterialTextField {
 
     public double computeBaselineOffset(double topInset, double rightInset, double bottomInset, double leftInset, ComputeBaselineOffsetWithInsetsFunction contentBaselineOffsetFunction) {
         return computeHeightWithoutContent(topInset, bottomInset) + contentBaselineOffsetFunction.computeBaselineOffset(0, 0, 0, 0);
+    }
+
+    public double computePrefWidth(double height) {
+        Insets insets = content.getInsets();
+        double prefWidth = insets.getLeft() + insets.getRight();
+        boolean resting = !isFocused() && isInputEmpty();
+        if (resting) {
+            String labelString = getPlaceholderText();
+            if (labelString == null)
+                labelString = getLabelText();
+            labelText.setText(labelString);
+            prefWidth += labelText.prefWidth(height);
+        }
+        return prefWidth;
     }
 }

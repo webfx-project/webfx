@@ -87,4 +87,9 @@ public class MaterialTextFieldPane extends Pane implements MaterialTextFieldMixi
     private double computeContentMaxHeight(double width, double topInset, double rightInset, double bottomInset, double leftInset) {
         return topInset + getContent().maxHeight(width) + bottomInset;
     }
+
+    @Override
+    protected double computePrefWidth(double height) {
+        return Math.max(super.computePrefWidth(height), materialTextField.computePrefWidth(height));
+    }
 }
