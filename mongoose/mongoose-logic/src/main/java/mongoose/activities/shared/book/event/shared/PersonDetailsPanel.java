@@ -46,10 +46,14 @@ import java.time.LocalDate;
  * @author Bruno Salmon
  */
 public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseSectionFactoryMixin {
+
+    private static final int CHILD_MAX_AGE = 17;
+
     private final Event event;
     private final I18n i18n;
     private final TextField firstNameTextField, lastNameTextField, carer1NameTextField, carer2NameTextField, emailTextField, phoneTextField, streetTextField, postCodeTextField, cityNameTextField;
     private final RadioButton maleRadioButton, femaleRadioButton, childRadioButton, adultRadioButton;
+    private final HBox genderBox, ageBox;
     private final DatePicker birthDatePicker;
     private final EntityButtonSelector<Person> personSelector;
     private final EntityButtonSelector<Country> countrySelector;
@@ -59,8 +63,6 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     private HasPersonDetails model;
     private boolean editable = true;
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
-
-    private static final int CHILD_MAX_AGE = 17;
 
     public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent) {
         this(event, viewActivityContextMixin, parent, null);
@@ -78,11 +80,13 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         ToggleGroup genderGroup = new ToggleGroup();
         maleRadioButton.setToggleGroup(genderGroup);
         femaleRadioButton.setToggleGroup(genderGroup);
+        genderBox = new HBox(20, maleRadioButton, femaleRadioButton);
         adultRadioButton = newRadioButton("Adult");
         childRadioButton = newRadioButton("Child");
         ToggleGroup ageGroup = new ToggleGroup();
         childRadioButton.setToggleGroup(ageGroup);
         adultRadioButton.setToggleGroup(ageGroup);
+        ageBox = new HBox(20, adultRadioButton, childRadioButton);
         birthDatePicker = LayoutUtil.setMaxWidthToInfinite(new DatePicker());
         birthDatePicker.setConverter(DateFormatter.LOCAL_DATE_STRING_CONVERTER);
         carer1NameTextField = newMaterialTextField("Carer1", "Carer1Placeholder");
@@ -120,8 +124,10 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     }
 
     private void initValidation() {
-        validationSupport.addRequiredInputs(firstNameTextField, lastNameTextField, emailTextField, phoneTextField, carer1NameTextField, carer2NameTextField);
-        validationSupport.addNotEmptyControlValidation(countrySelector.selectedItemProperty(), countrySelector.getButton());
+        validationSupport.addRequiredInputs(firstNameTextField, lastNameTextField);
+        validationSupport.addRequiredInput(maleRadioButton.getToggleGroup().selectedToggleProperty(), genderBox);
+        validationSupport.addRequiredInputs(emailTextField, phoneTextField, carer1NameTextField, carer2NameTextField);
+        validationSupport.addRequiredInput(countrySelector.selectedItemProperty(), countrySelector.getButton());
     }
 
     public boolean isValid() {
@@ -191,8 +197,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
                 .addLabelNodeRow("PersonToBook:", personButton)
                 .addLabelTextInputRow("FirstName:", firstNameTextField)
                 .addLabelTextInputRow("LastName:", lastNameTextField)
-                .addLabelNodeRow("Gender:", new HBox(20, maleRadioButton, femaleRadioButton))
-                .addLabelNodeRow("Age:", new HBox(20, adultRadioButton, childRadioButton));
+                .addLabelNodeRow("Gender:", genderBox)
+                .addLabelNodeRow("Age:", ageBox);
         if (childRadioButton.isSelected())
             gridPaneBuilder
                     .addLabelNodeRow("BirthDate:", birthDatePicker)
@@ -216,8 +222,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
                 LayoutUtil.setUnmanagedWhenInvisible(personButton),
                 firstNameTextField,
                 lastNameTextField,
-                newMaterialRegion(new HBox(20, maleRadioButton, femaleRadioButton), "Gender"),
-                newMaterialRegion(new HBox(20, adultRadioButton, childRadioButton), "Age")
+                newMaterialRegion(genderBox, "Gender"),
+                newMaterialRegion(ageBox, "Age")
         );
         if (childRadioButton.isSelected())
             vBox.getChildren().addAll(
@@ -345,7 +351,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         if (birthDate != null) {
             // Integer age = (int) birthDate.until(event.getStartDate(), ChronoUnit.YEARS); // Doesn't compile with GWT
             age = (int) (event.getStartDate().toEpochDay() - birthDate.toEpochDay()) / 365;
-            if (age >= 18) // TODO: move this later in a applyBusinessRules() method
+            if (age > CHILD_MAX_AGE) // TODO: move this later in a applyBusinessRules() method
                 age = null;
         }
         return age;
