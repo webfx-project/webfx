@@ -114,7 +114,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
             entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(getButtonFactory()).setStore(filterStore).setRestrictedFilterList(restrictedFilterList);
             String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
-            if (searchCondition != null) {
+            if (searchCondition != null && isSearchEnabled()) {
                 entityDialogFilter.combine(searchTextProperty(), s -> {
                     if (Strings.isEmpty(s))
                         return null;

@@ -39,9 +39,10 @@ public abstract class ButtonSelector<T> {
     private final Callable<Pane> parentGetter;
     private final Pane parent;
     private final ButtonFactoryMixin buttonFactory;
+    private boolean searchEnabled = false;
     private ObservableValue resizeProperty;
     private BorderPane dialogPane;
-    private final TextField searchTextField;
+    private TextField searchTextField;
     private DialogCallback dialogCallback;
     private Button button;
     private HBox searchBox;
@@ -66,14 +67,32 @@ public abstract class ButtonSelector<T> {
         this.parent = parent;
         this.buttonFactory = buttonFactory;
         Properties.runOnPropertiesChange(p -> updateButtonContentOnNewSelectedItem(), selectedItemProperty());
-        searchTextField = buttonFactory.newTextFieldWithPrompt("GenericSearchPlaceholder");
-        searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
-                dialogCallback.closeDialog();
-                e.consume();
-            }
-        });
-        HBox.setHgrow(searchTextField, Priority.ALWAYS);
+    }
+
+    public boolean isSearchEnabled() {
+        return searchEnabled;
+    }
+
+    public void setSearchEnabled(boolean searchEnabled) {
+        this.searchEnabled = searchEnabled;
+    }
+
+    private TextField getSearchTextField() {
+        return isSearchEnabled() ? getOrCreateSearchTextField() : null;
+    }
+
+    private TextField getOrCreateSearchTextField() {
+        if (searchTextField == null) {
+            searchTextField = buttonFactory.newTextFieldWithPrompt("GenericSearchPlaceholder");
+            searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
+                    dialogCallback.closeDialog();
+                    e.consume();
+                }
+            });
+            HBox.setHgrow(searchTextField, Priority.ALWAYS);
+        }
+        return searchTextField;
     }
 
     protected ButtonFactoryMixin getButtonFactory() {
@@ -164,7 +183,7 @@ public abstract class ButtonSelector<T> {
     protected abstract Region getOrCreateDialogContent();
 
     protected StringProperty searchTextProperty() {
-        return searchTextField.textProperty();
+        return getOrCreateSearchTextField().textProperty();
     }
 
 
@@ -184,7 +203,8 @@ public abstract class ButtonSelector<T> {
         ShowMode decidedShowMode = getShowMode();
         if (decidedShowMode == ShowMode.AUTO) {
             Point2D buttonBottom = button.localToScene(0, button.getHeight());
-            decidedShowMode = button.getScene().getHeight() - buttonBottom.getY() < 200d + searchTextField.getHeight() ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
+            double searchTextFieldHeight = searchTextField == null ? 0 : searchTextField.getHeight();
+            decidedShowMode = button.getScene().getHeight() - buttonBottom.getY() < 200d + searchTextFieldHeight ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
         }
         return decidedShowMode;
     }
@@ -194,6 +214,7 @@ public abstract class ButtonSelector<T> {
             dialogCallback.closeDialog();
         Region dialogContent = getOrCreateDialogContent();
         Pane parentNow = parentGetter != null ? parentGetter.call() : parent;
+        TextField searchTextField = getSearchTextField(); // may return null in case search is not enabled
         switch (decidedShowMode) {
             case MODAL_DIALOG:
                 setMaxPrefSizeToInfinite(dialogContent);
@@ -215,13 +236,11 @@ public abstract class ButtonSelector<T> {
             case DROP_UP:
                 setMaxPrefSize(dialogContent, USE_COMPUTED_SIZE);
                 dialogContent.setMaxHeight(200d);
-                Button modalButton = new Button("...");
-                searchBox = new HBox(searchTextField, modalButton);
-                modalButton.setOnAction(e -> {
+                searchBox = !isSearchEnabled() ? null : new HBox(searchTextField, buttonFactory.newButton("...", () -> {
                     dialogCallback.closeDialog();
                     forceDialogRebuiltOnNextShow(); setUpDialog(false); // This line could be removed but
                     show(ShowMode.MODAL_DIALOG);
-                });
+                }));
                 onDecidedShowMode(decidedShowMode);
                 dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, resizeProperty, decidedShowMode == ShowMode.DROP_UP);
                 ChangeListener<Number> sceneHeightListener = (observable, oldValue, newValue) -> Platform.runLater(() -> {
@@ -241,7 +260,8 @@ public abstract class ButtonSelector<T> {
     }
 
     private void onDecidedShowMode(ShowMode decidedShowMode) {
-        boolean focused = searchTextField.isFocused();
+        TextField searchTextField = getSearchTextField();
+        boolean focused = searchTextField != null && searchTextField.isFocused();
         if (decidedShowMode == ShowMode.DROP_DOWN) {
             dialogPane.setBottom(null);
             dialogPane.setTop(searchBox);
