@@ -46,7 +46,7 @@ public class SceneUtil {
 
     public static void autoFocusIfEnabled(Node node) {
         if (isAutoFocusEnabled())
-            node.requestFocus();
+            onSceneReady(node, scene -> node.requestFocus());
     }
 
     public static boolean isAutoFocusEnabled() {
@@ -70,7 +70,9 @@ public class SceneUtil {
     }
 
     public static void installSceneFocusOwnerAutoScroll(Scene scene) {
-        scene.focusOwnerProperty().addListener((observable, oldValue, newFocusOwner) -> scrollNodeToBeVerticallyVisibleOnScene(newFocusOwner, true, true));
+        scene.focusOwnerProperty().addListener((observable, oldValue, newFocusOwner) ->
+                scrollNodeToBeVerticallyVisibleOnScene(newFocusOwner, true, true)
+        );
     }
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
