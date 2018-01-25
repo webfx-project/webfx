@@ -3,6 +3,7 @@ package naga.fxdata.displaydata;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,31 +16,33 @@ public class ColumnWidthCumulator {
     private double maxWidth;
     private boolean hasChanged;
     private List<ObservableList<Node>> severalColumnNodes;
-
-    public void reset() {
-        maxWidth = 0;
-    }
+    private final ListChangeListener<Node> columnNodesListener = c -> hasChanged = true;
 
     public void registerColumnNodes(ObservableList<Node> columnNodes) {
         if (severalColumnNodes == null)
             severalColumnNodes = new ArrayList<>();
-        severalColumnNodes.add(columnNodes);
-        columnNodes.addListener((ListChangeListener<Node>) c -> hasChanged = true);
-        if (!columnNodes.isEmpty())
-            hasChanged = true;
+        if (Collections.hasNoOneMatching(severalColumnNodes, cn -> cn == columnNodes)) {
+            severalColumnNodes.add(columnNodes);
+            columnNodes.addListener(columnNodesListener);
+        }
+        hasChanged = true;
+        maxWidth = 0;
     }
 
     public void update() {
         if (hasChanged) {
             for (ObservableList<Node> columnNodes : severalColumnNodes)
                 for (Node node : columnNodes)
-                    cumulate(node);
+                    if (node.getScene() == null)
+                        break;
+                    else
+                        cumulate(node);
             hasChanged = false;
         }
     }
 
     public void cumulate(Node cellContent) {
-        cumulate(cellContent.minWidth(-1));
+        cumulate(cellContent.prefWidth(-1));
     }
 
     public void cumulate(double columnWidth) {
