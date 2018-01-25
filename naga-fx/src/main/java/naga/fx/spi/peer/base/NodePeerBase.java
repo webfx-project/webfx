@@ -127,7 +127,7 @@ public abstract class NodePeerBase
             properties = new Property[]{scale.xProperty(), scale.yProperty(), scale.pivotXProperty(), scale.pivotYProperty()};
         }
         if (properties != null)
-            Properties.runOnPropertiesChange(arg -> {
+            Properties.runOnPropertiesChange(() -> {
                 mixin.updateTransforms(node.getTransforms(), null);
 /*
                 ScenePeer scenePeer = node.getScene().impl_getPeer();

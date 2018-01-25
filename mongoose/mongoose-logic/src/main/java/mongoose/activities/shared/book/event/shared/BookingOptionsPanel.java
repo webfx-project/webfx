@@ -56,7 +56,7 @@ public class BookingOptionsPanel implements MongooseSectionFactoryMixin {
             }
         }.register();
         new TranslateFunction(i18n).register();
-        Properties.runOnPropertiesChange(p -> updateGrid(), i18n.dictionaryProperty());
+        Properties.runOnPropertiesChange(this::updateGrid, i18n.dictionaryProperty());
     }
 
     @Override

@@ -39,7 +39,7 @@ public abstract class GenericTablePresentationViewActivity<PM extends GenericTab
         // User inputs: the UI state changes are transferred in the presentation model
         pm.searchTextProperty().bind(searchBox.textProperty());
         //pm.limitProperty().bind(Bindings.when(limitCheckBox.selectedProperty()).then(table.heightProperty().divide(36)).otherwise(-1)); // not implemented in naga-javaemul-javafxbase
-        Properties.runNowAndOnPropertiesChange((p) -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? table.getHeight() / 36 : -1), limitCheckBox.selectedProperty(), table.heightProperty());
+        Properties.runNowAndOnPropertiesChange(() -> pm.limitProperty().setValue(limitCheckBox.isSelected() ? table.getHeight() / 36 : -1), limitCheckBox.selectedProperty(), table.heightProperty());
         table.fullHeightProperty().bind(limitCheckBox.selectedProperty());
         //pm.limitProperty().bind(limitCheckBox.selectedProperty());
         pm.genericDisplaySelectionProperty().bind(table.displaySelectionProperty());

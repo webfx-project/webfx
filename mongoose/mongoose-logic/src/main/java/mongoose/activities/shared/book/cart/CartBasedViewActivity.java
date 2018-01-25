@@ -34,8 +34,8 @@ public abstract class CartBasedViewActivity
     }
 
     protected void startLogic() {
-        Properties.runOnPropertiesChange(p -> onCartUuidChange(), cartUuidProperty);
-        Properties.runOnPropertiesChange(p -> onDictionaryChange(), dictionaryProperty());
+        Properties.runOnPropertiesChange(this::onCartUuidChange, cartUuidProperty);
+        Properties.runOnPropertiesChange(this::onDictionaryChange, dictionaryProperty());
     }
 
     protected void onCartUuidChange() {

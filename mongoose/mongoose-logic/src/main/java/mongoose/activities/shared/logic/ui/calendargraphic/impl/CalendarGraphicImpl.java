@@ -107,7 +107,7 @@ public class CalendarGraphicImpl implements CalendarGraphic {
             Rotate rotate = null; // Rotate.create();
             if (rotate != null) {
                 calendarGroup.getTransforms().setAll(rotate);
-                Properties.runOnPropertiesChange(arg -> {
+                Properties.runOnPropertiesChange(() -> {
                     rotate.setPivotX(rootNode.getWidth() / 2);
                     rotate.setPivotY(rootNode.getHeight() / 2);
                 }, rootNode.widthProperty(), rootNode.heightProperty());

@@ -11,7 +11,6 @@ import javafx.util.Duration;
 import naga.fx.properties.Properties;
 import naga.fx.properties.Unregistrable;
 import naga.util.collection.Collections;
-import naga.util.function.Consumer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,9 +28,9 @@ public class MaterialAnimation {
     private Runnable onFinished;
     private Runnable pendingPlay;
 
-    public Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        return Properties.runNowAndOnPropertiesChange(p -> {
-            runnable.accept(p);
+    public Unregistrable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
+        return Properties.runNowAndOnPropertiesChange(() -> {
+            runnable.run();
             play();
         }, properties);
     }

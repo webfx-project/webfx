@@ -12,24 +12,56 @@ import javafx.beans.value.WritableValue;
 import javafx.util.Duration;
 import naga.fx.spi.Toolkit;
 import naga.util.Objects;
+import naga.util.collection.Collections;
 import naga.util.function.Consumer;
 import naga.util.function.Func2;
 import naga.util.function.Function;
 import naga.util.function.Predicate;
+
+import java.util.Collection;
 
 /**
  * @author Bruno Salmon
  */
 public class Properties {
 
-    public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        runnable.accept(properties.length == 1 ? properties[0] : null);
-        return runOnPropertiesChange(runnable, properties);
+    public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
+        return new Unregistrable(consumer, properties);
     }
 
-    public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> runnable, ObservableValue... properties) {
-        return new Unregistrable(runnable, properties);
+    public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
+        consumer.accept(properties.length == 1 ? properties[0] : null);
+        return runOnPropertiesChange(consumer, properties);
     }
+
+    // Same API but with Collection instead of varargs
+
+    public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, Collection<ObservableValue> properties) {
+        return runNowAndOnPropertiesChange(consumer, Collections.toArray(properties, ObservableValue[]::new));
+    }
+
+    public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> consumer, Collection<ObservableValue> properties) {
+        return runOnPropertiesChange(consumer, Collections.toArray(properties, ObservableValue[]::new));
+    }
+
+    // Same API but with Runnable instead of Consumer
+
+    public static Unregistrable runOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
+        return runOnPropertiesChange(p -> runnable.run(), properties);
+    }
+
+    public static Unregistrable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
+        return runNowAndOnPropertiesChange(p -> runnable.run(), properties);
+    }
+
+    public static Unregistrable runNowAndOnPropertiesChange(Runnable runnable, Collection<ObservableValue> properties) {
+        return runNowAndOnPropertiesChange(p -> runnable.run(), properties);
+    }
+
+    public static Unregistrable runOnPropertiesChange(Runnable runnable, Collection<ObservableValue> properties) {
+        return runOnPropertiesChange(p -> runnable.run(), properties);
+    }
+
 
     public static <T, R> ObservableValue<R> compute(ObservableValue<? extends T> p, Function<? super T, ? extends R> function) {
         Property<R> combinedProperty = new SimpleObjectProperty<>();
@@ -86,19 +118,27 @@ public class Properties {
     }
 
     public static <T> void onPropertySet(ObservableValue<T> property, Consumer<T> valueConsumer) {
-        T value = property.getValue();
-        if (value != null)
-            valueConsumer.accept(value);
-        else
-            property.addListener(new ChangeListener<T>() {
-                @Override
-                public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
-                    if (newValue != null) {
-                        observable.removeListener(this);
-                        valueConsumer.accept(newValue);
-                    }
-                }
-            });
+        onPropertySet(property, valueConsumer, false);
     }
 
+    public static <T> void onPropertySet(ObservableValue<T> property, Consumer<T> valueConsumer, boolean callIfNullProperty) {
+        if (property == null) {
+            if (callIfNullProperty)
+                valueConsumer.accept(null);
+        } else {
+            T value = property.getValue();
+            if (value != null)
+                valueConsumer.accept(value);
+            else
+                property.addListener(new ChangeListener<T>() {
+                    @Override
+                    public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
+                        if (newValue != null) {
+                            observable.removeListener(this);
+                            valueConsumer.accept(newValue);
+                        }
+                    }
+                });
+        }
+    }
 }

@@ -17,7 +17,7 @@ public class EditLetterViewActivity extends ViewActivityImpl {
     @Override
     public void onStart() {
         super.onStart();
-        Properties.runOnPropertiesChange(p -> {
+        Properties.runOnPropertiesChange(() -> {
             if (isActive())
                 onLetterChanged();
         }, routeLetterIdProperty, activeProperty());

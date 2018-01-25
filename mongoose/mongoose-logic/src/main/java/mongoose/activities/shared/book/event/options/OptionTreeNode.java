@@ -238,7 +238,7 @@ class OptionTreeNode {
                 Node selectNode = childrenOptionSelector.toMaterialButton(null, Labels.translateLabel(option.getChildrenPromptLabel(), activity));
                 optionBodyChildren.add(selectNode);
                 bindToVisibleProperty(selectNode);
-                Properties.runOnPropertiesChange(p -> childrenOptionSelector.updateButtonContentOnNewSelectedItem(), getI18n().languageProperty());
+                Properties.runOnPropertiesChange(childrenOptionSelector::updateButtonContentOnNewSelectedItem, getI18n().languageProperty());
                 tree.getValidationSupport().addRequiredInput(childrenOptionSelector.selectedItemProperty(), childrenOptionSelector.getButton());
             } else if (option.isChildrenRadio())
                 childrenToggleGroup = new ToggleGroup();
@@ -301,7 +301,7 @@ class OptionTreeNode {
                 Labels.translateLabel(optionButton, buttonLabel, getI18n());
             }
         }
-        Properties.runOnPropertiesChange(p -> onUiOptionButtonChanged(), optionButtonSelectedProperty);
+        Properties.runOnPropertiesChange(this::onUiOptionButtonChanged, optionButtonSelectedProperty);
     }
 
 

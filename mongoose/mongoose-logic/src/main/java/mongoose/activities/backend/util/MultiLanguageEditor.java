@@ -95,7 +95,7 @@ public class MultiLanguageEditor {
 
     public BorderPane getUiNode() {
         if (toggleGroup.getSelectedToggle() == null) {
-            Properties.runOnPropertiesChange(p -> onEntityChanged(), toggleGroup.selectedToggleProperty());
+            Properties.runOnPropertiesChange(this::onEntityChanged, toggleGroup.selectedToggleProperty());
             toggleGroup.selectToggle(languageButtons.get(i18n.getLanguage()));
         }
         return borderPane;
@@ -165,7 +165,7 @@ public class MultiLanguageEditor {
         MonoLanguageEditor(Object lang) {
             subjectField = subjectFieldGetter == null ? null : subjectFieldGetter.apply(lang);
             bodyField = bodyFieldGetter.apply(lang);
-            Properties.runOnPropertiesChange(p -> syncEntityFromUi(), subjectTextField.textProperty(), editor.textProperty());
+            Properties.runOnPropertiesChange(this::syncEntityFromUi, subjectTextField.textProperty(), editor.textProperty());
         }
 
         void syncEntityFromUi() {

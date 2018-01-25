@@ -72,7 +72,7 @@ public class PersonViewActivity extends BookingProcessViewActivity {
                 loginPanel.prepareShowing();
         } );
         accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0));
-        Properties.runNowAndOnPropertiesChange(p -> {
+        Properties.runNowAndOnPropertiesChange(() -> {
             if (loggedInProperty.getValue())
                 Platform.runLater(() -> accountToggleGroup.selectToggle(accountToggleGroup.getToggles().get(0)));
         }, loggedInProperty);

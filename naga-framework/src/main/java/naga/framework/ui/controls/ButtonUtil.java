@@ -48,7 +48,7 @@ public class ButtonUtil {
 
     public static Button decorateButtonWithDropDownArrow(Button button) {
         GraphicDecoration dropDownArrowDecoration = new GraphicDecoration(ImageStore.createImageView("images/16/dropDownArrow.png"), Pos.CENTER_RIGHT, 0, 0, -1, 0);
-        Properties.runNowAndOnPropertiesChange(p -> Platform.runLater(() ->
+        Properties.runNowAndOnPropertiesChange(() -> Platform.runLater(() ->
             Controls.onSkinReady(button, () -> dropDownArrowDecoration.applyDecoration(button))
         ), button.graphicProperty());
         button.setMinWidth(0d);

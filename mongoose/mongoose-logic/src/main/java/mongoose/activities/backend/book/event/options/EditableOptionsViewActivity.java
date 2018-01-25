@@ -46,7 +46,7 @@ public class EditableOptionsViewActivity extends OptionsViewActivity {
     protected void createViewNodes() {
         CheckBox editModeCheckBox = newCheckBox( "EditMode");
         editModeProperty = editModeCheckBox.selectedProperty();
-        Properties.runOnPropertiesChange(p -> ((EditableBookingCalendar) bookingCalendar).setEditMode(editModeProperty.getValue()), editModeProperty);
+        Properties.runOnPropertiesChange(() -> ((EditableBookingCalendar) bookingCalendar).setEditMode(editModeProperty.getValue()), editModeProperty);
         Button addOptionButton = newButton(MongooseActions.newAddOptionAction(this::showAddOptionDialog));
         addOptionButton.visibleProperty().bind(editModeProperty);
         super.createViewNodes();

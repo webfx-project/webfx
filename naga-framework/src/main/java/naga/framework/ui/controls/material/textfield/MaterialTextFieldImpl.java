@@ -202,7 +202,7 @@ public class MaterialTextFieldImpl implements MaterialTextField {
     private void setUpMaterialAnimation() {
         if (animationTriggers != null)
             animationTriggers.unregister();
-        animationTriggers = materialAnimation.runNowAndOnPropertiesChange(p -> updateMaterialUiIfReady(),
+        animationTriggers = materialAnimation.runNowAndOnPropertiesChange(this::updateMaterialUiIfReady,
                 disabledProperty(),
                 focusedProperty(),
                 inputProperty(),

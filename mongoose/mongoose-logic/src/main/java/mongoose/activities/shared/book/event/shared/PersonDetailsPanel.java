@@ -309,7 +309,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         countrySelector.setSelectedItem(p.getCountry());
         updateUiEditable();
         if (sectionPanel.getCenter() == null)
-            Properties.runNowAndOnPropertiesChange(pty -> updatePanelBody(), childRadioButton.selectedProperty(), i18n.dictionaryProperty());
+            Properties.runNowAndOnPropertiesChange(this::updatePanelBody, childRadioButton.selectedProperty(), i18n.dictionaryProperty());
         if (!editable)
             Toolkit.get().scheduler().runInUiThread(this::updatePanelBody);
     }

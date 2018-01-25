@@ -31,7 +31,7 @@ public abstract class DisplayResultSetControlSkinBase<C extends DisplayResultSet
     private int rowBackgroundColumnIndex;
 
     protected void start() {
-        Properties.runNowAndOnPropertiesChange(p -> updateResultSet(getSkinnable().getDisplayResultSet()), getSkinnable().displayResultSetProperty());
+        Properties.runNowAndOnPropertiesChange(() -> updateResultSet(getSkinnable().getDisplayResultSet()), getSkinnable().displayResultSetProperty());
     }
 
     protected void updateResultSet(DisplayResultSet rs) {

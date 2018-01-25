@@ -81,7 +81,7 @@ public class FeesViewActivity extends BookingProcessViewActivity {
     @Override
     protected void startLogic() {
         // Load and display fees groups now but also on event change
-        Properties.runNowAndOnPropertiesChange(property -> loadAndDisplayFeesGroups(), eventIdProperty());
+        Properties.runNowAndOnPropertiesChange(this::loadAndDisplayFeesGroups, eventIdProperty());
 
         lastDictionary = getDictionary();
         Properties.consume(Properties.filter(Properties.combine(dictionaryProperty(), activeProperty(),
