@@ -2,10 +2,8 @@ package naga.framework.ui.controls;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -19,6 +17,7 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
+import naga.scheduler.Scheduled;
 import naga.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -40,7 +39,7 @@ public abstract class ButtonSelector<T> {
     private final Pane parent;
     private final ButtonFactoryMixin buttonFactory;
     private boolean searchEnabled = false;
-    private ObservableValue resizeProperty;
+    private ObservableValue loadedContentProperty;
     private BorderPane dialogPane;
     private TextField searchTextField;
     private DialogCallback dialogCallback;
@@ -49,6 +48,7 @@ public abstract class ButtonSelector<T> {
     private Button okButton;
     private Button cancelButton;
     private HBox buttonBar;
+    private ShowMode decidedShowMode;
 
     private final Property<ShowMode> showModeProperty = new SimpleObjectProperty<>(ShowMode.AUTO);
     private final Property<T> selectedItemProperty = new SimpleObjectProperty<>();
@@ -66,7 +66,7 @@ public abstract class ButtonSelector<T> {
         this.parentGetter = parentGetter;
         this.parent = parent;
         this.buttonFactory = buttonFactory;
-        Properties.runOnPropertiesChange(p -> updateButtonContentOnNewSelectedItem(), selectedItemProperty());
+        Properties.runOnPropertiesChange(this::updateButtonContentOnNewSelectedItem, selectedItemProperty());
     }
 
     public boolean isSearchEnabled() {
@@ -95,12 +95,16 @@ public abstract class ButtonSelector<T> {
         return searchTextField;
     }
 
-    protected ButtonFactoryMixin getButtonFactory() {
+    ButtonFactoryMixin getButtonFactory() {
         return buttonFactory;
     }
 
-    protected void setResizeProperty(ObservableValue resizeProperty) {
-        this.resizeProperty = resizeProperty;
+    protected void setLoadedContentProperty(ObservableValue loadedContentProperty) {
+        this.loadedContentProperty = loadedContentProperty;
+    }
+
+    private boolean isContentLoaded() {
+        return loadedContentProperty == null || loadedContentProperty.getValue() != null;
     }
 
     public Property<T> selectedItemProperty() {
@@ -131,7 +135,7 @@ public abstract class ButtonSelector<T> {
 
     public void setButton(Button button) {
         this.button = button;
-        button.setOnAction(e -> showDialog());
+        button.setOnAction(e -> toggleDialog());
     }
 
     public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
@@ -157,24 +161,45 @@ public abstract class ButtonSelector<T> {
 
     protected abstract Node getOrCreateButtonContentFromSelectedItem();
 
+    private void toggleDialog() {
+        if (dialogCallback != null && !dialogCallback.isDialogClosed())
+            closeDialog();
+        else
+            showDialog();
+    }
+
     public void showDialog() {
         setUpDialog(true);
     }
 
     protected void setUpDialog(boolean show) {
+        // Instantiating the dialog pane if not yet done
         if (dialogPane == null) {
             Node dialogContent = getOrCreateDialogContent();
             if (dialogContent == null)
                 return;
             dialogPane = new BorderPane(dialogContent);
             dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
-            dialogHeightProperty.bind(dialogPane.heightProperty());
         }
         if (show) {
-            dialogPane.setPadding(Insets.EMPTY);
-            show(computeDecidedShowMode());
+            setInitialDialogHeightProperty();
+            startLoading();
+            Properties.onPropertySet(loadedContentProperty, x -> {
+                dialogPane.setVisible(false);
+                dialogPane.setPadding(Insets.EMPTY);
+                show(computeDecidedShowMode());
+            }, true);
         }
     }
+
+    private void setInitialDialogHeightProperty() {
+        dialogHeightProperty.unbind();
+        dialogHeightProperty.setValue(400d);
+        // Also resetting the highest dialog height used for computeDecidedShowMode()
+        dialogHighestHeight = 0;
+    }
+
+    protected abstract void startLoading();
 
     protected void forceDialogRebuiltOnNextShow() {
         dialogPane = null;
@@ -199,19 +224,48 @@ public abstract class ButtonSelector<T> {
         this.showModeProperty().setValue(showModeProperty);
     }
 
+    private double dialogHighestHeight;
+
     private ShowMode computeDecidedShowMode() {
-        ShowMode decidedShowMode = getShowMode();
-        if (decidedShowMode == ShowMode.AUTO) {
-            Point2D buttonBottom = button.localToScene(0, button.getHeight());
-            double searchTextFieldHeight = searchTextField == null ? 0 : searchTextField.getHeight();
-            decidedShowMode = button.getScene().getHeight() - buttonBottom.getY() < 200d + searchTextFieldHeight ? ShowMode.DROP_UP : ShowMode.DROP_DOWN;
+        ShowMode showMode = getShowMode();
+        if (showMode != ShowMode.AUTO)
+            decidedShowMode = showMode;
+        else if (dialogPane.getScene() == null)
+            decidedShowMode = ShowMode.DROP_DOWN;
+        else {
+            double spaceAboveButton = computeMaxAvailableHeightAboveButton();
+            double spaceBelowButton = computeMaxAvailableHeightBelowButton(spaceAboveButton);
+            double dialogHeight = dialogPane.prefHeight(-1);
+            // Making the decision from the highest dialog height (we don't change decision when it shrinks, only when it grows)
+            dialogHighestHeight = Math.max(dialogHighestHeight, dialogHeight);
+            decidedShowMode = dialogHighestHeight < spaceBelowButton ? ShowMode.DROP_DOWN
+                    : dialogHighestHeight < spaceAboveButton ? ShowMode.DROP_UP
+                    : isSearchEnabled() ? (spaceBelowButton > spaceAboveButton ? ShowMode.DROP_DOWN : ShowMode.DROP_UP)
+                    : ShowMode.MODAL_DIALOG;
         }
         return decidedShowMode;
     }
 
-    protected void show(ShowMode decidedShowMode) {
-        if (dialogCallback != null)
-            dialogCallback.closeDialog();
+    public ShowMode getDecidedShowMode() {
+        return decidedShowMode;
+    }
+
+    private double computeMaxAvailableHeightForDropDialog() {
+        double spaceAboveButton = computeMaxAvailableHeightAboveButton();
+        double spaceBelowButton = computeMaxAvailableHeightBelowButton(spaceAboveButton);
+        return Math.max(spaceAboveButton, spaceBelowButton);
+    }
+
+    private double computeMaxAvailableHeightAboveButton() {
+        return button.localToScene(0, 0).getY();
+    }
+
+    private double computeMaxAvailableHeightBelowButton(double spaceAboveButton) {
+        return button.getScene().getHeight() - spaceAboveButton - button.getHeight();
+    }
+
+    private void show(ShowMode decidedShowMode) {
+        closeDialog();
         Region dialogContent = getOrCreateDialogContent();
         Pane parentNow = parentGetter != null ? parentGetter.call() : parent;
         TextField searchTextField = getSearchTextField(); // may return null in case search is not enabled
@@ -222,40 +276,59 @@ public abstract class ButtonSelector<T> {
                     okButton = buttonFactory.newOkButton(this::onDialogOk);
                     cancelButton = buttonFactory.newCancelButton(this::onDialogCancel);
                     buttonBar = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
-                    buttonBar.setPadding(new Insets(20, 0, 0, 0));
+                    buttonBar.setPadding(new Insets(10, 0, 0, 0));
                 }
                 dialogPane.setTop(searchTextField);
                 dialogPane.setBottom(buttonBar);
-                dialogCallback = DialogUtil.showModalNodeInGoldLayout(dialogPane, parentNow, 0.9, 0.8);
+                dialogCallback = DialogUtil.showModalNodeInGoldLayout(dialogPane, parentNow, 0.95, 0.95);
+                dialogHeightProperty.bind(dialogPane.heightProperty());
                 // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
                 ButtonUtil.resetDefaultButton(okButton);
                 ButtonUtil.resetCancelButton(cancelButton);
+                dialogPane.setVisible(true);
                 break;
 
             case DROP_DOWN:
             case DROP_UP:
                 setMaxPrefSize(dialogContent, USE_COMPUTED_SIZE);
-                dialogContent.setMaxHeight(200d);
-                searchBox = !isSearchEnabled() ? null : new HBox(searchTextField, buttonFactory.newButton("...", () -> {
-                    dialogCallback.closeDialog();
-                    forceDialogRebuiltOnNextShow(); setUpDialog(false); // This line could be removed but
-                    show(ShowMode.MODAL_DIALOG);
-                }));
+                dialogContent.setMaxHeight(computeMaxAvailableHeightForDropDialog());
+                searchBox = !isSearchEnabled() ? null :
+                        new HBox(searchTextField, buttonFactory.newButton("...", this::switchToModalDialog));
                 onDecidedShowMode(decidedShowMode);
-                dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, resizeProperty, decidedShowMode == ShowMode.DROP_UP);
-                ChangeListener<Number> sceneHeightListener = (observable, oldValue, newValue) -> Platform.runLater(() -> {
-                    SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
-                    onDecidedShowMode(computeDecidedShowMode()); // decided show mode may change in dependence of the height
-                    DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
-                });
-                ObservableValue<? extends Number> sceneHeightProperty = dialogPane.getScene().heightProperty();
-                sceneHeightProperty.addListener(sceneHeightListener);
-                dialogCallback.addCloseHook(() -> sceneHeightProperty.removeListener(sceneHeightListener));
+                dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, loadedContentProperty, decidedShowMode == ShowMode.DROP_UP);
+                dialogCallback.addCloseHook(Properties.runNowAndOnPropertiesChange(this::applyNewDecidedShowMode, dialogPane.getScene().heightProperty(), dialogPane.heightProperty(), loadedContentProperty)::unregister);
                 break;
         }
         if (searchTextField != null) {
             searchTextField.setText(null); // Resetting the search box
             SceneUtil.autoFocusIfEnabled(searchTextField);
+        }
+    }
+
+    private Scheduled scheduled;
+
+    private void applyNewDecidedShowMode() {
+        if (isDialogPaneReady())
+            applyNewDecidedShowModeNow();
+        else if (scheduled == null)
+            scheduled = Toolkit.get().scheduler().scheduleDelay(100, this::applyNewDecidedShowModeNow);
+    }
+
+    private boolean isDialogPaneReady() {
+        return dialogPane.isVisible() || dialogPane.prefHeight(-1) > 30;
+    }
+
+    private void applyNewDecidedShowModeNow() {
+        scheduled = null;
+        ShowMode decidedShowMode2 = computeDecidedShowMode(); // decided show mode may change in dependence of the height
+        onDecidedShowMode(decidedShowMode2);
+        if (decidedShowMode2 == ShowMode.MODAL_DIALOG)
+            switchToModalDialog();
+        else {
+            DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
+            SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
+            if (!dialogPane.isVisible())
+                Platform.runLater(() -> dialogPane.setVisible(true));
         }
     }
 
@@ -274,6 +347,12 @@ public abstract class ButtonSelector<T> {
         DialogUtil.setDropDialogUp(dialogPane, decidedShowMode == ShowMode.DROP_UP);
     }
 
+    private void switchToModalDialog() {
+        dialogCallback.closeDialog();
+        forceDialogRebuiltOnNextShow(); setUpDialog(false); // This line could be removed but
+        show(ShowMode.MODAL_DIALOG);
+    }
+
     protected void onDialogOk() {
         closeDialog();
     }
@@ -283,7 +362,8 @@ public abstract class ButtonSelector<T> {
     }
 
     protected void closeDialog() {
-        dialogCallback.closeDialog();
+        if (dialogCallback != null && !dialogCallback.isDialogClosed())
+            dialogCallback.closeDialog();
         dialogCallback = null;
     }
 }

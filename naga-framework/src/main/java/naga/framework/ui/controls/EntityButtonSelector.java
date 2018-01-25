@@ -40,7 +40,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private final ObjectProperty<DisplayResultSet> deferredDisplayResultSet = new SimpleObjectProperty<>();
     private Object jsonOrClass;
     private final DataSourceModel dataSourceModel;
-    private Expression renderingExpression;
+    private Expression<?> renderingExpression;
     private ValueRenderer entityRenderer;
 
     private EntityStore loadingStore;
@@ -63,7 +63,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         super(buttonFactory, parentGetter, parent);
         this.dataSourceModel = dataSourceModel;
         setJsonOrClass(jsonOrClass);
-        setResizeProperty(deferredDisplayResultSet);
+        setLoadedContentProperty(deferredDisplayResultSet);
     }
 
     public List<E> getRestrictedFilterList() {
@@ -108,29 +108,31 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
         if (dialogDataGrid == null && entityRenderer != null) {
             dialogDataGrid = new SkinnedDataGrid(); // Better rendering in desktop JavaFx (but might be slower in web version)
             dialogDataGrid.setHeaderVisible(false);
-            dialogDataGrid.setFullHeight(true);
             dialogDataGrid.setCursor(Cursor.HAND);
             BorderPane.setAlignment(dialogDataGrid, Pos.TOP_LEFT);
+            dialogDataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
             EntityStore filterStore = loadingStore != null ? loadingStore : getSelectedItem() != null ? getSelectedItem().getStore() : null;
-            entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass).setDataSourceModel(dataSourceModel).setI18n(getButtonFactory()).setStore(filterStore).setRestrictedFilterList(restrictedFilterList);
-            String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
-            if (searchCondition != null && isSearchEnabled()) {
-                entityDialogFilter.combine(searchTextProperty(), s -> {
-                    if (Strings.isEmpty(s))
-                        return null;
-                    setSearchParameters(s, entityDialogFilter.getStore());
-                    return "{where: `" + searchCondition + "`}";
-                });
-            }
-            entityDialogFilter
-                    .combine(dialogHeightProperty(), height -> "{limit: " + updateAdaptiveLimit(height) + "}")
+            entityDialogFilter = new ReactiveExpressionFilter<E>(jsonOrClass)
+                    .setDataSourceModel(dataSourceModel)
+                    .setI18n(getButtonFactory().getI18n())
+                    .setStore(filterStore)
+                    .setRestrictedFilterList(restrictedFilterList)
                     .setExpressionColumns(ExpressionColumn.create(renderingExpression))
                     .displayResultSetInto(dialogDataGrid.displayResultSetProperty())
                     .setDisplaySelectionProperty(dialogDataGrid.displaySelectionProperty())
                     .setSelectedEntityHandler(dialogDataGrid.displaySelectionProperty(), e -> {if (e != null) onDialogOk();})
-                    .start();
+            ;
+            String searchCondition = entityDialogFilter.getDomainClass().getSearchCondition();
+            if (searchCondition != null && isSearchEnabled())
+                entityDialogFilter
+                    .combine(searchTextProperty(), s -> {
+                        if (Strings.isEmpty(s))
+                            return null;
+                        setSearchParameters(s, entityDialogFilter.getStore());
+                        return "{where: `" + searchCondition + "`}";
+                    })
+                    .combine(dialogHeightProperty(), height -> "{limit: " + updateAdaptiveLimit(height) + "}");
             //dialogDataGrid.setOnMouseClicked(e -> {if (e.isPrimaryButtonDown() && e.getClickCount() == 1) onDialogOk(); });
-            dialogDataGrid.displayResultSetProperty().addListener((observable, oldValue, newValue) -> Platform.runLater(() -> deferredDisplayResultSet.setValue(newValue)));
         }
         return dialogDataGrid;
     }
@@ -138,7 +140,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private int updateAdaptiveLimit(Number height) {
         int maxNumberOfVisibleEntries = height.intValue() / 36;
         if (maxNumberOfVisibleEntries > adaptiveLimit)
-            adaptiveLimit = maxNumberOfVisibleEntries + 6; // extra 6 to avoid repetitive requests when resizing window
+            adaptiveLimit = maxNumberOfVisibleEntries + (getDecidedShowMode() == ShowMode.MODAL_DIALOG ? 6 : 0); // extra 6 to avoid repetitive requests when resizing window
         return adaptiveLimit;
     }
 
@@ -162,14 +164,20 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     }
 
     @Override
+    protected void startLoading() {
+        if (!entityDialogFilter.isStarted())
+            entityDialogFilter.start();
+    }
+
+    @Override
     protected void onDialogOk() {
-        super.onDialogOk();
         setSelectedItem(entityDialogFilter.getSelectedEntity());
+        super.onDialogOk();
     }
 
     @Override
     protected void closeDialog() {
-        super.closeDialog();
         entityDialogFilter.setActive(false);
+        super.closeDialog();
     }
 }

@@ -98,8 +98,10 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         cityNameTextField = newMaterialTextField("City", "CityPlaceholder");
         DataSourceModel dataSourceModel = event.getStore().getDataSourceModel();
         countrySelector = createEntityButtonSelector("{class: 'Country', orderBy: 'name'}", viewActivityContextMixin, parent, dataSourceModel);
+        countrySelector.setSearchEnabled(true);
         countryButton = countrySelector.toMaterialButton("Country", "CountryPlaceholder");
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
+        organizationSelector.setSearchEnabled(true);
         organizationButton = organizationSelector.toMaterialButton("Centre", "CentreInfo");
         if (uiUser == null) {
             personSelector = null;
