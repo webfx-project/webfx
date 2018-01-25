@@ -1,5 +1,6 @@
 package naga.framework.ui.layouts;
 
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -77,5 +78,29 @@ public class SceneUtil {
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
         Toolkit.get().onReady(() -> onSceneReady(Toolkit.get().getPrimaryStage().sceneProperty(), SceneUtil::installSceneFocusOwnerAutoScroll));
+    }
+
+    public static void runOnceFocusIsOutside(Node node, Runnable runnable) {
+        onSceneReady(node, scene -> {
+            scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
+                @Override
+                public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
+                    if (!hasAncestor(newFocusOwner, node)) {
+                        scene.focusOwnerProperty().removeListener(this);
+                        runnable.run();
+                    }
+                }
+            });
+        });
+    }
+
+    private static boolean hasAncestor(Node node, Node parent) {
+        while (true) {
+            if (node == parent)
+                return true;
+            if (node == null)
+                return false;
+            node = node.getParent();
+        }
     }
 }
