@@ -328,13 +328,14 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                 @Override
                 public void accept(ObservableValue p) {
                     dictionaryChanged |= p == i18n.dictionaryProperty();
-                    if (isActive()) {
-                        if (dictionaryChanged) {
+                    if (dictionaryChanged) {
+                        lastEntitiesInput = null; // Clearing the cache to have a fresh display result set next time it is active
+                        if (isActive()) {
                             resetAllDisplayResultSets(false);
                             dictionaryChanged = false;
-                        } else if (requestRefreshOnActive)
-                            refreshNow();
-                    }
+                        }
+                    } else if (requestRefreshOnActive && isActive())
+                        refreshNow();
                 }
             }, i18n.dictionaryProperty(), activeProperty);
         AtomicInteger querySequence = new AtomicInteger(); // Used for skipping possible too old query results
@@ -566,7 +567,7 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
         void selectFirstRowOnFirstDisplay(Property<DisplaySelection> displaySelectionProperty, Property onEachChangeProperty) {
             // Each time the property change, we clear the selection and reset the selectFirstRowOnFirstDisplay to true to arm the mechanism again
-            Properties.runOnPropertiesChange(p -> {
+            Properties.runOnPropertiesChange(() -> {
                 if (isActive()) {
                     displaySelectionProperty.setValue(null);
                     selectFirstRowOnFirstDisplay();
