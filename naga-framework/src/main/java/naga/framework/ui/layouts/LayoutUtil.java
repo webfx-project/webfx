@@ -78,7 +78,7 @@ public class LayoutUtil {
     }
 
     public static <N extends Region> N setMaxPrefSizeToInfinite(N region) {
-        return setPrefSize(setMaxSize(region, Double.MAX_VALUE), Double.MAX_VALUE);
+        return setMaxPrefSize(region, Double.MAX_VALUE);
     }
 
     public static <N extends Region> N setMaxPrefSize(N region, double value) {
@@ -290,5 +290,13 @@ public class LayoutUtil {
      */
     public static double snapPosition(double value) {
         return snapPosition(value, true);
+    }
+
+    // used for layout to adjust widths to honor the min/max policies consistently
+    public static double boundedSize(double value, double min, double max) {
+        // if max < value, return max
+        // if min > value, return min
+        // if min > max, return min
+        return Math.min(Math.max(value, min), Math.max(min,max));
     }
 }
