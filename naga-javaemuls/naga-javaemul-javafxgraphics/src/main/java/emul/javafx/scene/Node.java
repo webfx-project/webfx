@@ -1146,8 +1146,13 @@ public abstract class Node implements INode, EventTarget, Styleable {
     private LayoutMeasurable layoutMeasurable;
 
     public LayoutMeasurable getLayoutMeasurable() {
-        if (layoutMeasurable == null) // Happens when the node view is not yet created
-            createLayoutMeasurable(null); // Temporary using the implementation based on the model
+        if (layoutMeasurable == null) { // Happens when the node peer is not yet created
+            Scene scene = getScene();
+            if (scene != null && scene.getRoot() != this) // Not doing it on root because this cause an infinite recursion
+                scene.createAndBindNodePeerAndChildren(this);
+            if (layoutMeasurable == null)
+                createLayoutMeasurable(null); // Temporary using the implementation based on the model
+        }
         return layoutMeasurable;
     }
 
