@@ -12,7 +12,6 @@ import emul.javafx.beans.property.ObjectProperty;
 import emul.javafx.beans.property.Property;
 import emul.javafx.beans.property.ReadOnlyProperty;
 import emul.javafx.beans.property.SimpleObjectProperty;
-import emul.javafx.beans.value.ChangeListener;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
@@ -28,6 +27,7 @@ import emul.javafx.scene.shape.Rectangle;
 import emul.javafx.stage.Window;
 import emul.javafx.util.Duration;
 import naga.fx.properties.ObservableLists;
+import naga.fx.properties.Properties;
 import naga.fx.properties.markers.HasHeightProperty;
 import naga.fx.properties.markers.HasRootProperty;
 import naga.fx.properties.markers.HasWidthProperty;
@@ -527,7 +527,7 @@ public class Scene implements EventTarget,
         impl_getPeer().onRootBound();
     }
 
-    private void createAndBindNodePeerAndChildren(Node node) {
+    void createAndBindNodePeerAndChildren(Node node) {
         NodePeer nodePeer = getOrCreateAndBindNodePeer(node);
         if (nodePeer instanceof Parent)
             updateChildrenPeers(((Parent) nodePeer).getChildren());
@@ -543,17 +543,9 @@ public class Scene implements EventTarget,
                 node.setNodePeer(nodePeer = createUnimplementedNodePeer(node)); // Displaying a "Unimplemented..." button instead
             else { // Standard case (the node view was successfully created)
                 nodePeer.bind(node, sceneRequester);
-                ObservableValue skinProperty = (ObservableValue) node.getProperties().get("skinProperty");
-                if (skinProperty != null && skinProperty.getValue() == null)
-                    skinProperty.addListener(new ChangeListener() {
-                        @Override
-                        public void changed(ObservableValue observable, Object oldValue, Object newValue) {
-                            observable.removeListener(this);
-                            keepParentAndChildrenPeersUpdated((Parent) node);
-                        }
-                    });
-                else if (node instanceof Parent)
-                    keepParentAndChildrenPeersUpdated((Parent) node);
+                if (node instanceof Parent)
+                    Properties.onPropertySet((ObservableValue) node.getProperties().get("skinProperty"),
+                            skin -> keepParentAndChildrenPeersUpdated((Parent) node), true);
             }
         }
         return nodePeer;
