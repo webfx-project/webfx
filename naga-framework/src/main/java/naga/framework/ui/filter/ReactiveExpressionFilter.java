@@ -380,6 +380,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
         return this;
     }
 
+    public boolean isStarted() {
+        return started;
+    }
+
     private boolean isDifferentFromLastQuery(StringFilter stringFilter, Object[] parameterValues) {
         return !Objects.equals(stringFilter, lastStringFilter) || !Arrays.equals(parameterValues, lastParameterValues);
     }
