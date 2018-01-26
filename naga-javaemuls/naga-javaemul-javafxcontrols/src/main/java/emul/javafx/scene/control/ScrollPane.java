@@ -1,21 +1,25 @@
 package emul.javafx.scene.control;
 
+import emul.com.sun.javafx.scene.control.behaviour.ScrollPaneBehavior;
+import emul.com.sun.javafx.scene.control.skin.BehaviorSkinBase;
 import emul.javafx.beans.property.*;
 import emul.javafx.geometry.*;
 import emul.javafx.scene.Node;
-import emul.javafx.scene.layout.Pane;
 
 /**
  * @author Bruno Salmon
  */
-public class ScrollPane extends Pane {
+public class ScrollPane extends Control {
 
     private Runnable onChildrenLayout;
 
     public ScrollPane() {
+        // The purpose of this code is to register the mouse handler so it captures focus on mouse click
+        new BehaviorSkinBase<ScrollPane, ScrollPaneBehavior>(this, new ScrollPaneBehavior(this)) {};
     }
 
     public ScrollPane(Node content) {
+        this();
         setContent(content);
     }
 
@@ -244,10 +248,6 @@ public class ScrollPane extends Pane {
             viewportBounds = new SimpleObjectProperty<Bounds>(this, "viewportBounds", new BoundingBox(0,0,0,0));
         }
         return viewportBounds;
-    }
-
-    public Skin getSkin() {
-        return null;
     }
 
     @Override

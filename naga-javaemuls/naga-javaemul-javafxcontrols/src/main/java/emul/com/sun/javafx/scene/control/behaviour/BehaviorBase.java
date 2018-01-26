@@ -126,7 +126,7 @@ public class BehaviorBase<C extends Control> {
         this.keyBindings = keyBindings == null ? Collections.emptyList()
                 : Collections.unmodifiableList(new ArrayList<>(keyBindings));
         control.addEventHandler(KeyEvent.ANY, keyEventListener);
-        //control.focusedProperty().addListener(focusListener);
+        control.focusedProperty().addListener(focusListener);
     }
 
     /**
@@ -138,7 +138,7 @@ public class BehaviorBase<C extends Control> {
      */
     public void dispose() {
         control.removeEventHandler(KeyEvent.ANY, keyEventListener);
-        //control.focusedProperty().removeListener(focusListener);
+        control.focusedProperty().removeListener(focusListener);
     }
 
     /***************************************************************************
