@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WritableValue;
 import javafx.util.Duration;
+import naga.framework.ui.anim.Animations;
 import naga.fx.properties.Properties;
 import naga.fx.properties.Unregistrable;
 import naga.util.collection.Collections;
@@ -36,7 +37,7 @@ public class MaterialAnimation {
     }
 
     public <T> MaterialAnimation addEaseOut(WritableValue<T> target, T endValue) {
-        return add(target, endValue, Properties.EASE_OUT_INTERPOLATOR);
+        return add(target, endValue, Animations.EASE_OUT_INTERPOLATOR);
     }
 
     public <T> MaterialAnimation add(WritableValue<T> target, T endValue, Interpolator interpolator) {

@@ -7,6 +7,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import naga.framework.ui.anim.Animations;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.util.function.Consumer;
@@ -39,7 +40,7 @@ public class SceneUtil {
             double voffset = LayoutUtil.computeScrollPaneVoffset(scrollPane) - delta;
             double vValue = voffset / (contentHeight - viewportHeight);
             vValue = Math.max(0, Math.min(1, vValue));
-            Properties.animateProperty(scrollPane.vvalueProperty(), vValue, animate);
+            Animations.animateProperty(scrollPane.vvalueProperty(), vValue, animate);
             return true;
         }
         return false;

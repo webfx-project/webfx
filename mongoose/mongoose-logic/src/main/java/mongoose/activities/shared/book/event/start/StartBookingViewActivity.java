@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import mongoose.actions.MongooseActions;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.util.Labels;
+import naga.framework.ui.anim.Animations;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
@@ -94,7 +95,7 @@ public class StartBookingViewActivity extends BookingProcessViewActivity {
     }
 
     private void runFadeInAnimation() {
-        Properties.animateProperty(verticalStack.opacityProperty(), 1d);
+        Animations.animateProperty(verticalStack.opacityProperty(), 1d);
     }
 
     private void onProgramButtonPressed() {
