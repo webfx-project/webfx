@@ -39,7 +39,7 @@ public abstract class ButtonSelector<T> {
     private final Pane parent;
     private final ButtonFactoryMixin buttonFactory;
     private boolean searchEnabled = false;
-    private ObservableValue loadedContentProperty;
+    private ObservableValue<?> loadedContentProperty;
     private BorderPane dialogPane;
     private TextField searchTextField;
     private DialogCallback dialogCallback;
@@ -161,8 +161,13 @@ public abstract class ButtonSelector<T> {
 
     protected abstract Node getOrCreateButtonContentFromSelectedItem();
 
+
+    private boolean isDialogOpen() {
+        return dialogCallback != null && !dialogCallback.isDialogClosed();
+    }
+
     private void toggleDialog() {
-        if (dialogCallback != null && !dialogCallback.isDialogClosed())
+        if (isDialogOpen())
             closeDialog();
         else
             showDialog();
@@ -181,15 +186,16 @@ public abstract class ButtonSelector<T> {
             dialogPane = new BorderPane(dialogContent);
             dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
         }
-        if (show) {
+        if (!isDialogOpen()) {
             setInitialDialogHeightProperty();
             startLoading();
+        }
+        if (show)
             Properties.onPropertySet(loadedContentProperty, x -> {
                 dialogPane.setVisible(false);
                 dialogPane.setPadding(Insets.EMPTY);
                 show(computeDecidedShowMode());
             }, true);
-        }
     }
 
     private void setInitialDialogHeightProperty() {
@@ -362,7 +368,7 @@ public abstract class ButtonSelector<T> {
     }
 
     protected void closeDialog() {
-        if (dialogCallback != null && !dialogCallback.isDialogClosed())
+        if (isDialogOpen())
             dialogCallback.closeDialog();
         dialogCallback = null;
     }
