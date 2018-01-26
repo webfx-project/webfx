@@ -4,7 +4,9 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.WritableValue;
+import javafx.scene.Node;
 import javafx.util.Duration;
 import naga.util.Objects;
 
@@ -31,5 +33,26 @@ public class Animations {
             else
                 new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(target, finalValue, interpolator))).play();
         }
+    }
+
+    public static void shake(Node node) {
+        DoubleProperty x = node.layoutXProperty(); // translateX would be better but not yet emulated so using layoutX instead
+        double xIni = x.getValue(), xMin = xIni - 10, xMax = xIni + 10;
+        new Timeline(
+                // Turning node to unmanaged (absolute positioning) to be sure layoutX will be considered
+                new KeyFrame(Duration.millis(0),    new KeyValue(node.managedProperty(), false)),
+                new KeyFrame(Duration.millis(100),  new KeyValue(x, xMin)),
+                new KeyFrame(Duration.millis(200),  new KeyValue(x, xMax)),
+                new KeyFrame(Duration.millis(300),  new KeyValue(x, xMin)),
+                new KeyFrame(Duration.millis(400),  new KeyValue(x, xMax)),
+                new KeyFrame(Duration.millis(500),  new KeyValue(x, xMin)),
+                new KeyFrame(Duration.millis(600),  new KeyValue(x, xMax)),
+                new KeyFrame(Duration.millis(700),  new KeyValue(x, xMin)),
+                new KeyFrame(Duration.millis(800),  new KeyValue(x, xMax)),
+                new KeyFrame(Duration.millis(900),  new KeyValue(x, xMin)),
+                new KeyFrame(Duration.millis(1000), new KeyValue(x, xIni)),
+                // Restoring the managed value
+                new KeyFrame(Duration.millis(1000), new KeyValue(node.managedProperty(), node.isManaged()))
+        ).play();
     }
 }
