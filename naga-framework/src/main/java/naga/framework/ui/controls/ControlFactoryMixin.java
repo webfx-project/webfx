@@ -129,6 +129,16 @@ public interface ControlFactoryMixin extends I18nMixin {
         return new Hyperlink();
     }
 
+    default Hyperlink newHyperlink(Object i18nKey) {
+        return translateText(newHyperlink(), i18nKey);
+    }
+
+    default Hyperlink newHyperlink(Object i18nKey, EventHandler<ActionEvent> onAction) {
+        Hyperlink hyperlink = translateText(newHyperlink(), i18nKey);
+        hyperlink.setOnAction(onAction);
+        return hyperlink;
+    }
+
     default TextArea newTextAreaWithPrompt(Object i18nKey) {
         return translatePromptText(new TextArea(), i18nKey);
     }
