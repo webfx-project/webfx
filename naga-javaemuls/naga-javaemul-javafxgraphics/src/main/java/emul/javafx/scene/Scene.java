@@ -322,10 +322,14 @@ public class Scene implements EventTarget,
      * window is inactive (window.focused == false).
      * @since JavaFX 2.2
      */
-    private Property<Node> focusOwner = new SimpleObjectProperty<>(this, "focusOwner")/* {
+    private Property<Node> focusOwner = new SimpleObjectProperty<Node>(this, "focusOwner") {
 
         @Override
         protected void invalidated() {
+            Node node = get();
+            if (node != null)
+                node.requestPeerFocus();
+/* JavaFx original code (which was replaced with the above)
             if (oldFocusOwner != null) {
                 ((Node.FocusedProperty) oldFocusOwner.focusedProperty()).store(false);
             }
@@ -363,8 +367,9 @@ public class Scene implements EventTarget,
             if (accessible != null) {
                 accessible.sendNotification(AccessibleAttribute.FOCUS_NODE);
             }
+*/
         }
-    }*/;
+    };
 
     public final Node getFocusOwner() {
         return focusOwner.getValue();
@@ -372,6 +377,15 @@ public class Scene implements EventTarget,
 
     public final Property<Node> focusOwnerProperty() {
         return focusOwner/*.getReadOnlyProperty()*/;
+    }
+
+    void requestFocus(Node node) {
+        //getKeyHandler().requestFocus(node); // No KeyHandler emulated, so was inlined below:
+        if (getFocusOwner() == node || (node != null && !node.isCanReceiveFocus())) {
+            return;
+        }
+        //setFocusOwner(node); // From KeyHandler, so was replaced with:
+        focusOwner.setValue(node);
     }
 
     /**

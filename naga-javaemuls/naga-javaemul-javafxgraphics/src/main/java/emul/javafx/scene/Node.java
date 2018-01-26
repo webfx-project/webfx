@@ -664,16 +664,26 @@ public abstract class Node implements INode, EventTarget, Styleable {
      * and active.
      */
     public void requestFocus() {
-/*
         if (getScene() != null) {
             getScene().requestFocus(this);
         }
-*/
-        NodePeer nodePeer = getNodePeer();
-        if (nodePeer != null)
-            nodePeer.requestFocus();
-        else
-            peerFocusRequested = true;
+    }
+
+    private boolean canReceiveFocus = false;
+
+    private void setCanReceiveFocus(boolean value) {
+        canReceiveFocus = value;
+    }
+
+    final boolean isCanReceiveFocus() {
+        updateCanReceiveFocus(); // Computed here as opposed to JavaFx original code (because impl_isTreeVisible() is delegated to the target peer)
+        return canReceiveFocus;
+    }
+
+    private void updateCanReceiveFocus() {
+        setCanReceiveFocus(getScene() != null
+                && !isDisabled()
+                && impl_isTreeVisible());
     }
 
     /**
@@ -1122,6 +1132,15 @@ public abstract class Node implements INode, EventTarget, Styleable {
             nodePeer.requestFocus();
             peerFocusRequested = false;
         }
+    }
+
+    // Called by emulated Scene on focus owner change
+    public void requestPeerFocus() {
+        NodePeer nodePeer = getNodePeer();
+        if (nodePeer != null)
+            nodePeer.requestFocus();
+        else
+            peerFocusRequested = true;
     }
 
     private Property<Scene> scene = new SimpleObjectProperty<>();
