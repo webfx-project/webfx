@@ -138,7 +138,7 @@ public class MaterialTextFieldImpl implements MaterialTextField {
     private TextInputControl textInputControl;
     private boolean recomputeLabelPositionOnNextLayoutPass;
 
-    private final Text labelText = new Text("X"); // not empty for first layout pass
+    private final Text labelText = new Text("W"); // not empty for first layout pass
     private final Scale labelScale = new Scale();
     private double labelTextHeight;
     private double floatingLabelLayoutY; // floating label = when up
@@ -298,7 +298,8 @@ public class MaterialTextFieldImpl implements MaterialTextField {
             floatingLabelLayoutY = LayoutUtil.snapPosition(y);
             restingLabelLayoutY = LayoutUtil.snapPosition(yContent + hContent / 2);
             updateMaterialUi();
-            recomputeLabelPositionOnNextLayoutPass = false;
+            if (Strings.isNotEmpty(labelText.getText()))
+                recomputeLabelPositionOnNextLayoutPass = false;
         }
     }
 
