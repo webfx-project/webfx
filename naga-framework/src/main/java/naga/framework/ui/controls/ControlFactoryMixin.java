@@ -10,6 +10,7 @@ import naga.framework.ui.controls.material.textfield.MaterialTextField;
 import naga.framework.ui.controls.material.textfield.MaterialTextFieldPane;
 import naga.framework.ui.controls.material.util.MaterialUtil;
 import naga.framework.ui.i18n.I18nMixin;
+import naga.framework.ui.layouts.LayoutUtil;
 
 /**
  * @author Bruno Salmon
@@ -74,12 +75,12 @@ public interface ControlFactoryMixin extends I18nMixin {
         return new TextField();
     }
 
-    default TextField newMaterialTextField() {
-        return MaterialUtil.makeMaterial(newTextField());
-    }
-
     default TextField newTextFieldWithPrompt(Object i18nKey) {
         return translatePromptText(newTextField(), i18nKey);
+    }
+
+    default TextField newMaterialTextField() {
+        return MaterialUtil.makeMaterial(LayoutUtil.removePadding(newTextField()));
     }
 
     default TextField newMaterialTextField(Object labelKey) {

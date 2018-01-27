@@ -220,7 +220,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
     }
 
     private VBox createPersonVBox() {
-        VBox vBox = new VBox(8,
+        VBox vBox = new VBox(15,
                 LayoutUtil.setUnmanagedWhenInvisible(personButton),
                 firstNameTextField,
                 lastNameTextField,
@@ -242,8 +242,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
                 countryButton,
                 organizationButton
         );
-        vBox.setPadding(new Insets(10));
-        return vBox;
+        return LayoutUtil.setPadding(vBox, 10, 18);
     }
 
     private Node createPersonDataGrid() {

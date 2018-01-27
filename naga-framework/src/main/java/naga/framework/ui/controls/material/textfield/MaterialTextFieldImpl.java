@@ -294,7 +294,7 @@ public class MaterialTextFieldImpl implements MaterialTextField {
         }
         contentLayoutChildrenFunction.layoutChildren(x, yContent, w, hContent);
         if (recomputeLabelPositionOnNextLayoutPass) {
-            labelText.setLayoutX(LayoutUtil.snapPosition(content.getLayoutX() + (textInputControl != null ? 1 : 8)));
+            labelText.setLayoutX(LayoutUtil.snapPosition(content.getLayoutX() + 1));
             floatingLabelLayoutY = LayoutUtil.snapPosition(y);
             restingLabelLayoutY = LayoutUtil.snapPosition(yContent + hContent / 2);
             updateMaterialUi();
