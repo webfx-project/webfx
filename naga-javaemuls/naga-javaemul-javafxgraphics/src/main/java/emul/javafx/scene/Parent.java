@@ -27,21 +27,32 @@ public class Parent extends Node {
     {
         children.addListener((ListChangeListener<Node>) c -> {
             Scene scene = getScene();
-            for (Node child : children) {
-                child.setScene(scene);
-                child.setParent(this);
-            }
-            // Setting parent and scene to null for removed children
             while (c.next()) {
-                if (c.wasRemoved()) {
+                if (c.wasAdded())
+                    for (Node child : c.getAddedSubList()) {
+                        setAndPropagateScene(child, scene);
+                        child.setParent(this);
+                    }
+                else if (c.wasRemoved())// Setting parent and scene to null for removed children
                     for (Node child : c.getRemoved()) {
                         child.setParent(null);
-                        child.setScene(null);
+                        setAndPropagateScene(child, null);
                     }
-                }
             }
             managedChildChanged();
         });
+    }
+
+    private static void setAndPropagateScene(Node node, Scene scene) {
+        node.setScene(scene);
+        if (node instanceof Parent) {
+            for (Node child : ((Parent) node).getChildren()) {
+                if (child.getScene() != scene)
+                    setAndPropagateScene(child, scene);
+                else // If already done for this child, assuming it's done for others
+                    break;
+            }
+        }
     }
 
     Parent() {
@@ -346,7 +357,7 @@ public class Parent extends Node {
      *
      * Calling this method while the Parent is doing layout is a no-op.
      */
-    public void layout() {
+    public /*final*/ void layout() {
         switch(layoutFlag) {
             case CLEAN:
                 break;
