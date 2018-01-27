@@ -86,13 +86,22 @@ public class SceneUtil {
             scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
                 @Override
                 public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
-                    if (!hasAncestor(newFocusOwner, node)) {
+                    if (!isFocusInside(node, newFocusOwner)) {
                         scene.focusOwnerProperty().removeListener(this);
                         runnable.run();
                     }
                 }
             });
         });
+    }
+
+    public static boolean isFocusInside(Node node) {
+        Scene scene = node.getScene();
+        return scene != null && isFocusInside(node, scene.getFocusOwner());
+    }
+
+    private static boolean isFocusInside(Node node, Node focusOwner) {
+        return hasAncestor(focusOwner, node);
     }
 
     private static boolean hasAncestor(Node node, Node parent) {
