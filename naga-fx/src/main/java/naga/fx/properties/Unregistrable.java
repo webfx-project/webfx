@@ -9,12 +9,12 @@ import naga.util.function.Consumer;
  */
 public class Unregistrable {
 
-    private final ChangeListener changeListeners;
+    private final ChangeListener changeListener;
     private final ObservableValue[] observableValues;
     private boolean registered;
 
-    public Unregistrable(ChangeListener changeListeners, ObservableValue... observableValues) {
-        this.changeListeners = changeListeners;
+    public Unregistrable(ChangeListener changeListener, ObservableValue... observableValues) {
+        this.changeListener = changeListener;
         this.observableValues = observableValues;
         register();
     }
@@ -27,7 +27,7 @@ public class Unregistrable {
         if (!registered) {
             for (ObservableValue observableValue : observableValues)
                 if (observableValue != null)
-                    observableValue.addListener(changeListeners);
+                    observableValue.addListener(changeListener);
             registered = true;
         }
     }
@@ -36,7 +36,7 @@ public class Unregistrable {
         if (registered) {
             for (ObservableValue observableValue : observableValues)
                 if (observableValue != null)
-                    observableValue.removeListener(changeListeners);
+                    observableValue.removeListener(changeListener);
             registered = false;
         }
     }
