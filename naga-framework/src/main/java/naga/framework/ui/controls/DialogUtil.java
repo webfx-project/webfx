@@ -14,7 +14,6 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.uischeduler.AnimationFramePass;
 import naga.util.Booleans;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
@@ -62,9 +61,8 @@ public class DialogUtil {
 
     public static DialogCallback showModalNodeInGoldLayout(Region modalNode, Pane parent, double percentageWidth, double percentageHeight) {
         Insets padding = modalNode.getPadding();
-        DialogCallback dialogCallback = showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode), percentageWidth, percentageHeight), parent);
-        dialogCallback.addCloseHook(() -> modalNode.setPadding(padding));
-        return dialogCallback;
+        return showModalNode(LayoutUtil.createGoldLayout(decorate(modalNode), percentageWidth, percentageHeight), parent)
+            .addCloseHook(() -> modalNode.setPadding(padding));
     }
 
     public static DialogCallback showModalNode(Region modalNode, Pane parent) {
@@ -75,13 +73,14 @@ public class DialogUtil {
 
     private static void setUpModalNodeResizeRelocate(Region modalNode, Pane parent, DialogCallback dialogCallback) {
         SceneUtil.onSceneReady(parent, scene ->
-            dialogCallback.addCloseHook(Properties.runNowAndOnPropertiesChange(() -> {
-                    Point2D parentSceneXY = parent.localToScene(0, 0);
-                    double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
-                    double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
-                    modalNode.resizeRelocate(0, 0, width, height);
-                }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty()
-            )::unregister));
+            dialogCallback.addCloseHook(
+                Properties.runNowAndOnPropertiesChange(() -> {
+                        Point2D parentSceneXY = parent.localToScene(0, 0);
+                        double width = Math.min(parent.getWidth(), scene.getWidth() - parentSceneXY.getX());
+                        double height = Math.min(parent.getHeight(), scene.getHeight() - parentSceneXY.getY());
+                        modalNode.resizeRelocate(0, 0, width, height);
+                    }, parent.widthProperty(), parent.heightProperty(), scene.widthProperty(), scene.heightProperty()
+                )::unregister));
     }
 
     public static BorderPane decorate(Node content) {
@@ -118,11 +117,12 @@ public class DialogUtil {
             private boolean closed;
             @Override
             public void closeDialog() {
-                Toolkit.get().scheduler().runInUiThread(() -> {
-                    parent.getChildren().remove(dialogNode);
-                    for (Runnable closeHook: closeHooks)
-                        closeHook.run();
-                });
+                if (!closed)
+                    Toolkit.get().scheduler().runInUiThread(() -> {
+                        parent.getChildren().remove(dialogNode);
+                        for (Runnable closeHook: closeHooks)
+                            closeHook.run();
+                    });
                 closed = true;
             }
 
@@ -137,8 +137,9 @@ public class DialogUtil {
             }
 
             @Override
-            public void addCloseHook(Runnable closeHook) {
+            public DialogCallback addCloseHook(Runnable closeHook) {
                 closeHooks.add(closeHook);
+                return this;
             }
         };
     }
@@ -154,7 +155,7 @@ public class DialogUtil {
                 reactingProperties.add(scrollPane.vvalueProperty());
             }
             setDropDialogUp(dialogNode, up);
-            Runnable positionUpdater = () -> Toolkit.get().scheduler().scheduleInNextAnimationFrame(() -> {
+            Runnable positionUpdater = () -> {
                 Point2D buttonSceneXY = buttonNode.localToScene(0, 0);
                 Point2D parentSceneXY = parent.localToScene(0, 0);
                 //Logger.log("Computing dialogPrefWidth...");
@@ -164,11 +165,12 @@ public class DialogUtil {
                 double height = dialogNode.prefHeight(width);
                 double deltaY = isDropDialogUp(dialogNode) ? -height : buttonNode.getHeight();
                 Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, true);
-            }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+            };
             dialogNode.getProperties().put("positionUpdater", positionUpdater); // used by updateDropUpOrDownDialogPosition()
-            dialogCallback.addCloseHook(Properties.runNowAndOnPropertiesChange(positionUpdater, reactingProperties)::unregister);
-            dialogCallback.addCloseHook(() -> dialogNode.relocate(0, 0));
-            SceneUtil.runOnceFocusIsOutside(dialogNode, dialogCallback::closeDialog);
+            dialogCallback
+                    .addCloseHook(Properties.runNowAndOnPropertiesChange(positionUpdater, reactingProperties)::unregister)
+                    .addCloseHook(() -> dialogNode.relocate(0, 0))
+                    .addCloseHook(SceneUtil.runOnceFocusIsOutside(dialogNode, dialogCallback::closeDialog)::unregister);
         });
     }
 
