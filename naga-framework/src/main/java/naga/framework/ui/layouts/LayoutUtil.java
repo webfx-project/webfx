@@ -184,9 +184,30 @@ public class LayoutUtil {
         return setUnmanagedWhenInvisible(node);
     }
 
-    public static <N extends Region> N createPadding(N content) {
-        content.setPadding(new Insets(10));
+    public static <N extends Region> N setPadding(N content, double top, double right, double bottom, double left) {
+        content.setPadding(new Insets(top, right, bottom, left));
         return content;
+    }
+
+    public static <N extends Region> N setPadding(N content, double topBottom, double rightLeft) {
+        return setPadding(content, topBottom, rightLeft, topBottom, rightLeft);
+    }
+
+    public static <N extends Region> N setPadding(N content, double topRightBottomLeft) {
+        return setPadding(content, new Insets(topRightBottomLeft));
+    }
+
+    public static <N extends Region> N setPadding(N content, Insets padding) {
+        content.setPadding(padding);
+        return content;
+    }
+
+    public static <N extends Region> N createPadding(N content) {
+        return setPadding(content, new Insets(10));
+    }
+
+    public static <N extends Region> N removePadding(N content) {
+        return setPadding(content, Insets.EMPTY);
     }
 
     public static ScrollPane createVerticalScrollPaneWithPadding(Region content) {
