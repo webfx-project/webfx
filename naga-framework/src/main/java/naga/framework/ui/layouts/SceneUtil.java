@@ -1,6 +1,7 @@
 package naga.framework.ui.layouts;
 
-import javafx.beans.value.ChangeListener;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -9,8 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import naga.framework.ui.anim.Animations;
 import naga.fx.properties.Properties;
+import naga.fx.properties.Unregistrable;
 import naga.fx.spi.Toolkit;
 import naga.util.function.Consumer;
+import naga.util.tuples.Unit;
 
 /**
  * @author Bruno Salmon
@@ -81,18 +84,33 @@ public class SceneUtil {
         Toolkit.get().onReady(() -> onSceneReady(Toolkit.get().getPrimaryStage().sceneProperty(), SceneUtil::installSceneFocusOwnerAutoScroll));
     }
 
-    public static void runOnceFocusIsOutside(Node node, Runnable runnable) {
-        onSceneReady(node, scene -> {
-            scene.focusOwnerProperty().addListener(new ChangeListener<Node>() {
-                @Override
-                public void changed(ObservableValue<? extends Node> observable, Node oldValue, Node newFocusOwner) {
-                    if (!isFocusInside(node, newFocusOwner)) {
-                        scene.focusOwnerProperty().removeListener(this);
-                        runnable.run();
-                    }
-                }
-            });
+    public static Unregistrable runOnceFocusIsOutside(Node node, Runnable runnable) {
+        Property<Node> localFocusOwnerProperty;
+        ObservableValue<Node> focusOwnerProperty;
+        Unit<Unregistrable> unregistrableUnit = new Unit<>();
+        if (node.getScene() != null) {
+            focusOwnerProperty = node.getScene().focusOwnerProperty();
+            localFocusOwnerProperty = null;
+        } else {
+            focusOwnerProperty = localFocusOwnerProperty = new SimpleObjectProperty<>();
+            onSceneReady(node, scene ->
+                    localFocusOwnerProperty.bind(scene.focusOwnerProperty())
+            );
+        }
+        unregistrableUnit.set(new Unregistrable(newFocusOwnerObservableValue -> {
+            if (!isFocusInside(node, (Node) newFocusOwnerObservableValue.getValue())) {
+                runnable.run();
+                unregistrableUnit.get().unregister();
+            }
+        }, focusOwnerProperty) {
+            @Override
+            public void unregister() {
+                if (localFocusOwnerProperty != null)
+                    localFocusOwnerProperty.unbind();
+                super.unregister();
+            }
         });
+        return unregistrableUnit.get();
     }
 
     public static boolean isFocusInside(Node node) {
