@@ -1,6 +1,5 @@
 package naga.framework.ui.controls;
 
-import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -18,6 +17,7 @@ import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.scheduler.Scheduled;
+import naga.uischeduler.AnimationFramePass;
 import naga.util.function.Callable;
 
 import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
@@ -86,7 +86,7 @@ public abstract class ButtonSelector<T> {
             searchTextField = buttonFactory.newTextFieldWithPrompt("GenericSearchPlaceholder");
             searchTextField.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                 if (KeyCode.ESCAPE.equals(e.getCode()) || e.getCharacter().charAt(0) == 27) {
-                    dialogCallback.closeDialog();
+                    closeDialog();
                     e.consume();
                 }
             });
@@ -186,19 +186,19 @@ public abstract class ButtonSelector<T> {
             dialogPane = new BorderPane(dialogContent);
             dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
         }
-        if (!isDialogOpen()) {
-            setInitialDialogHeightProperty();
+        if (!isContentLoaded()) {
+            setInitialHiddenDialogHeightPropertyForContentLoading();
             startLoading();
         }
-        if (show)
+        if (show && !isDialogOpen())
             Properties.onPropertySet(loadedContentProperty, x -> {
-                dialogPane.setVisible(false);
                 dialogPane.setPadding(Insets.EMPTY);
                 show(computeDecidedShowMode());
             }, true);
     }
 
-    private void setInitialDialogHeightProperty() {
+    private void setInitialHiddenDialogHeightPropertyForContentLoading() {
+        dialogPane.setVisible(false);
         dialogHeightProperty.unbind();
         dialogHeightProperty.setValue(400d);
         // Also resetting the highest dialog height used for computeDecidedShowMode()
@@ -302,30 +302,39 @@ public abstract class ButtonSelector<T> {
                         new HBox(searchTextField, buttonFactory.newButton("...", this::switchToModalDialog));
                 onDecidedShowMode(decidedShowMode);
                 dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, loadedContentProperty, decidedShowMode == ShowMode.DROP_UP);
-                dialogCallback.addCloseHook(Properties.runNowAndOnPropertiesChange(this::applyNewDecidedShowMode, dialogPane.getScene().heightProperty(), dialogPane.heightProperty(), loadedContentProperty)::unregister);
+                dialogCallback.addCloseHook(
+                            Properties.runNowAndOnPropertiesChange(this::applyNewDecidedShowMode,
+                                dialogPane.getScene().heightProperty(),
+                                dialogPane.heightProperty(),
+                                loadedContentProperty
+                            )::unregister);
                 break;
         }
-        if (searchTextField != null) {
+        dialogCallback.addCloseHook(() -> {
+            if (button != null)
+                button.requestFocus();
+        });
+        if (searchTextField != null)
             searchTextField.setText(null); // Resetting the search box
-            SceneUtil.autoFocusIfEnabled(searchTextField);
-        }
     }
 
     private Scheduled scheduled;
 
     private void applyNewDecidedShowMode() {
-        if (isDialogPaneReady())
+        if (isLoadedContentLayoutInDialog())
             applyNewDecidedShowModeNow();
         else if (scheduled == null)
-            scheduled = Toolkit.get().scheduler().scheduleDelay(100, this::applyNewDecidedShowModeNow);
+            scheduled = Toolkit.get().scheduler().scheduleInFutureAnimationFrame(1, () -> {
+                scheduled = null;
+                applyNewDecidedShowMode();
+            }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
     }
 
-    private boolean isDialogPaneReady() {
-        return dialogPane.isVisible() || dialogPane.prefHeight(-1) > 30;
+    private boolean isLoadedContentLayoutInDialog() {
+        return dialogPane.isVisible() || dialogPane.getCenter().prefHeight(-1) > 5;
     }
 
     private void applyNewDecidedShowModeNow() {
-        scheduled = null;
         ShowMode decidedShowMode2 = computeDecidedShowMode(); // decided show mode may change in dependence of the height
         onDecidedShowMode(decidedShowMode2);
         if (decidedShowMode2 == ShowMode.MODAL_DIALOG)
@@ -334,7 +343,9 @@ public abstract class ButtonSelector<T> {
             DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
             SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
             if (!dialogPane.isVisible())
-                Platform.runLater(() -> dialogPane.setVisible(true));
+                dialogPane.setVisible(true);
+            if (searchTextField != null)
+                SceneUtil.autoFocusIfEnabled(searchTextField);
         }
     }
 
@@ -354,7 +365,7 @@ public abstract class ButtonSelector<T> {
     }
 
     private void switchToModalDialog() {
-        dialogCallback.closeDialog();
+        closeDialog();
         forceDialogRebuiltOnNextShow(); setUpDialog(false); // This line could be removed but
         show(ShowMode.MODAL_DIALOG);
     }
@@ -370,6 +381,5 @@ public abstract class ButtonSelector<T> {
     protected void closeDialog() {
         if (isDialogOpen())
             dialogCallback.closeDialog();
-        dialogCallback = null;
     }
 }
