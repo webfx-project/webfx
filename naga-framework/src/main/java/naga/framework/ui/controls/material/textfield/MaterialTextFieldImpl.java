@@ -18,6 +18,7 @@ import naga.framework.ui.controls.material.util.ComputeHeightWithInsetsFunction;
 import naga.framework.ui.controls.material.util.LayoutChildrenFunction;
 import naga.framework.ui.controls.material.util.MaterialAnimation;
 import naga.framework.ui.layouts.LayoutUtil;
+import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Unregistrable;
 import naga.util.Strings;
 
@@ -202,21 +203,37 @@ public class MaterialTextFieldImpl implements MaterialTextField {
     private void setUpMaterialAnimation() {
         if (animationTriggers != null)
             animationTriggers.unregister();
-        animationTriggers = materialAnimation.runNowAndOnPropertiesChange(this::updateMaterialUiIfReady,
-                disabledProperty(),
-                focusedProperty(),
-                inputProperty(),
-                disabledFillProperty(),
-                inputTextFillProperty(),
-                invalidTextFillProperty(),
-                invalidLineFillProperty(),
-                focusLabelFillProperty(),
-                focusLineFillProperty(),
-                idleTextFillProperty(),
-                labelTextProperty(),
-                placeholderTextProperty(),
-                errorMessageProperty()
-        );
+        SceneUtil.onSceneReady(content, scene -> {
+            animationTriggers = materialAnimation.runNowAndOnPropertiesChange(this::updateMaterialUiIfReady,
+                    // Listing all properties used by updateMaterialUi()
+                    disabledProperty(),
+                    focusedProperty(),
+                    inputProperty(),
+                    disabledFillProperty(),
+                    inputTextFillProperty(),
+                    invalidTextFillProperty(),
+                    invalidLineFillProperty(),
+                    focusLabelFillProperty(),
+                    focusLineFillProperty(),
+                    idleTextFillProperty(),
+                    labelTextProperty(),
+                    placeholderTextProperty(),
+                    errorMessageProperty(),
+                    // also focus owner property used in SceneUtil.isFocusInside() (not necessary for text input control)
+                    textInputControl == null ? scene.focusOwnerProperty() : null
+            );
+            // Releasing focus owner listener on scene change to prevent overload
+            if (textInputControl == null)
+                content.sceneProperty().addListener((observable, oldValue, newScene) -> {
+                    if (newScene != scene) // including null (most probable change when node is removed)
+                        animationTriggers.unregister();
+                    else {
+                        animationTriggers.register();
+                        updateMaterialUiIfReady(); // since we stopped listening, some properties may have changed so updating ui
+                    }
+                }
+            );
+        });
     }
 
     private void updateMaterialUiIfReady() {
@@ -225,11 +242,11 @@ public class MaterialTextFieldImpl implements MaterialTextField {
     }
 
     private void updateMaterialUi() {
-        boolean focused = isFocused();
+        boolean focused = isFocused() || textInputControl == null && SceneUtil.isFocusInside(content);
         boolean disabled = isDisabled(); // TODO: isDisabled() || isEditable() (requires new editable property)
         boolean empty = isInputEmpty();
         boolean invalid = Strings.isNotEmpty(getErrorMessage());
-        boolean floating = focused || !empty;
+        boolean floating = !empty || focused && textInputControl != null;
         double labelScaleFactor = floating ? FLOATING_LABEL_SCALE_FACTOR : 1;
         boolean animate = labelScale.getX() != labelScaleFactor;
         Paint labelFill = focused ? getFocusLabelFill() : getIdleTextFill(),

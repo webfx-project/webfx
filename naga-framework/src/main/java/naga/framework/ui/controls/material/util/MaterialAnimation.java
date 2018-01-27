@@ -31,6 +31,7 @@ public class MaterialAnimation {
 
     public Unregistrable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
         return Properties.runNowAndOnPropertiesChange(() -> {
+            keyValues = null;
             runnable.run();
             play();
         }, properties);
