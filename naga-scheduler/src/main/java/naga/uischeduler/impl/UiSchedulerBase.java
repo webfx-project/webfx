@@ -128,7 +128,7 @@ public abstract class UiSchedulerBase implements UiScheduler {
                     + (propertiesPassStart - uiPassStart) / MILLIS_IN_NANO + "ms ui + " +
                     + (pulsePassStart - propertiesPassStart) / MILLIS_IN_NANO + "ms properties + "
                     + (nanoEnd - pulsePassStart) / MILLIS_IN_NANO  + "ms layout/pulse");
-        boolean noMoreAnimationScheduled = propertiesAnimations.isEmpty() && uiAnimations.isEmpty();
+        boolean noMoreAnimationScheduled = propertiesAnimations.isEmpty() && uiAnimations.isEmpty() && pulseAnimations.isEmpty();
         onExecuteAnimationPipeFinished(noMoreAnimationScheduled);
         if (!noMoreAnimationScheduled)
             checkExecuteAnimationPipeIsScheduledForNextAnimationFrame();
