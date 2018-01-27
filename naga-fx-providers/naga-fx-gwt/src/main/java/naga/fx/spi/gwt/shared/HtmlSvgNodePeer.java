@@ -6,7 +6,6 @@ import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.KeyboardEvent;
 import emul.com.sun.javafx.event.EventUtil;
-import emul.javafx.application.Platform;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.event.EventType;
 import emul.javafx.scene.Cursor;
@@ -105,7 +104,7 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void bind(N node, SceneRequester sceneRequester) {
         super.bind(node, sceneRequester);
-        installFocusListeners();
+        installFocusListener();
         installKeyboardListeners();
     }
 
@@ -117,25 +116,20 @@ public abstract class HtmlSvgNodePeer
         return fxEvent != null && fxEvent.isConsumed();
     }
 
-        private void installFocusListeners() {
+    private void installFocusListener() {
         element.onfocus = e -> {
             passHtmlFocusEventOnToFx(e);
-            return null;
-        };
-        element.onblur = e -> {
-            passHtmlBlurEventOnToFx(e);
             return null;
         };
     }
 
     protected void passHtmlFocusEventOnToFx(Event e) {
-        N node = getNode();
-        node.setFocused(true);
-        node.getScene().focusOwnerProperty().setValue(node);
-    }
-
-    protected void passHtmlBlurEventOnToFx(Event e) {
-        getNode().setFocused(false);
+        for (Node node = getNode(); node != null; node = node.getParent()) {
+            if (node.isFocusTraversable()) {
+                node.getScene().focusOwnerProperty().setValue(node);
+                break;
+            }
+        }
     }
 
     private void installKeyboardListeners() {
@@ -160,8 +154,11 @@ public abstract class HtmlSvgNodePeer
 
     @Override
     public void requestFocus() {
-        // Postponing the request because as opposed to JavaFx it doesn't work if the element is not yet visible (ex: when the building ui)
-        Platform.runLater(() -> getElement().focus());
+        getFocusElement().focus();
+    }
+
+    protected Element getFocusElement() {
+        return getElement();
     }
 
     @Override

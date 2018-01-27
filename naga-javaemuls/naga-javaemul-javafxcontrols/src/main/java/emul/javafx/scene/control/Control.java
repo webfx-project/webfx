@@ -13,6 +13,32 @@ import naga.fx.spi.peer.NodePeer;
  */
 public abstract class Control extends Region implements Skinnable {
 
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     *  Create a new Control.
+     */
+    protected Control() {
+        // focusTraversable is styleable through css. Calling setFocusTraversable
+        // makes it look to css like the user set the value and css will not
+        // override. Initializing focusTraversable by calling applyStyle
+        // with null for StyleOrigin ensures that css will be able to override
+        // the value.
+/*
+        final StyleableProperty<Boolean> prop = (StyleableProperty<Boolean>)(WritableValue<Boolean>)focusTraversableProperty();
+        prop.applyStyle(null, Boolean.TRUE);
+*/
+        setFocusTraversable(this instanceof TextInputControl || this instanceof ButtonBase);
+
+        // we add a listener for menu request events to show the context menu
+        // that may be set on the Control
+        //this.addEventHandler(ContextMenuEvent.CONTEXT_MENU_REQUESTED, contextMenuHandler);
+    }
+
     /**
      * A private reference directly to the SkinBase instance that is used as the
      * Skin for this Control. A Control's Skin doesn't have to be of type

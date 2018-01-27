@@ -8,10 +8,7 @@ import emul.com.sun.javafx.tk.TKSceneListener;
 import emul.javafx.animation.KeyFrame;
 import emul.javafx.animation.Timeline;
 import emul.javafx.application.Platform;
-import emul.javafx.beans.property.ObjectProperty;
-import emul.javafx.beans.property.Property;
-import emul.javafx.beans.property.ReadOnlyProperty;
-import emul.javafx.beans.property.SimpleObjectProperty;
+import emul.javafx.beans.property.*;
 import emul.javafx.beans.value.ObservableValue;
 import emul.javafx.collections.ListChangeListener;
 import emul.javafx.collections.ObservableList;
@@ -314,7 +311,7 @@ public class Scene implements EventTarget,
         preferredSize();
     }
 
-    //private Node oldFocusOwner;
+    private Node oldFocusOwner;
 
     /**
      * The scene's current focus owner node. This node's "focused"
@@ -322,24 +319,23 @@ public class Scene implements EventTarget,
      * window is inactive (window.focused == false).
      * @since JavaFX 2.2
      */
-    private Property<Node> focusOwner = new SimpleObjectProperty<Node>(this, "focusOwner") {
+    private ReadOnlyObjectWrapper<Node> focusOwner = new ReadOnlyObjectWrapper<Node>(this, "focusOwner") {
 
         @Override
         protected void invalidated() {
-            Node node = get();
-            if (node != null)
-                node.requestPeerFocus();
-/* JavaFx original code (which was replaced with the above)
             if (oldFocusOwner != null) {
                 ((Node.FocusedProperty) oldFocusOwner.focusedProperty()).store(false);
             }
             Node value = get();
             if (value != null) {
-                ((Node.FocusedProperty) value.focusedProperty()).store(keyHandler.windowFocused);
+                ((Node.FocusedProperty) value.focusedProperty()).store(true/*keyHandler.windowFocused*/);
                 if (value != oldFocusOwner) {
+                    value.requestPeerFocus();
+/*
                     value.getScene().impl_enableInputMethodEvents(
                             value.getInputMethodRequests() != null
                                     && value.getOnInputMethodTextChanged() != null);
+*/
                 }
             }
             // for the rest of the method we need to update the oldFocusOwner
@@ -353,6 +349,7 @@ public class Scene implements EventTarget,
             if (value != null) {
                 ((Node.FocusedProperty) value.focusedProperty()).notifyListeners();
             }
+/*
             PlatformLogger logger = Logging.getFocusLogger();
             if (logger.isLoggable(Level.FINE)) {
                 if (value == get()) {
@@ -379,9 +376,15 @@ public class Scene implements EventTarget,
         return focusOwner/*.getReadOnlyProperty()*/;
     }
 
+    private Node retryingRequestFocusNode;
     void requestFocus(Node node) {
         //getKeyHandler().requestFocus(node); // No KeyHandler emulated, so was inlined below:
         if (getFocusOwner() == node || (node != null && !node.isCanReceiveFocus())) {
+            // Retrying a second time later in case the reason the focus is refused is because it is not tree visible whereas it is but the peer is not yet added to the dom
+            if (retryingRequestFocusNode != node) {
+                retryingRequestFocusNode = node;
+                Platform.runLater(() -> requestFocus(node));
+            }
             return;
         }
         //setFocusOwner(node); // From KeyHandler, so was replaced with:
