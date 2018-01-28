@@ -21,6 +21,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -116,16 +119,37 @@ public class MongooseValidationSupport {
 
                 @Override
                 protected Collection<Decoration> createValidationDecorations(org.controlsfx.validation.ValidationMessage message) {
-                    boolean isButton = node instanceof Button; // Probably an entity button with already a drop down arrow icon on right
-                    boolean isTextInput = !isButton && node instanceof TextInputControl;
-                    double xRelativeOffset = isButton || isTextInput ? -1 : 1; // positioning the decoration inside the control for button and text input
-                    double xOffset = isButton ?  -20 : 0; // moving the decoration before the drop down arrow
-                    return java.util.Collections.singletonList(new GraphicDecoration(createDecorationNode(message), Pos.CENTER_RIGHT, xOffset, 0, xRelativeOffset, 0));
+                    boolean isTextInput = node instanceof TextInputControl;
+                    boolean isButton = node instanceof Button;
+                    // isInside flag will determine if we position the decoration inside the node or not (ie outside)
+                    boolean isInside;
+                    if (isTextInput) // inside for text inputs
+                        isInside = true;
+                    else { // for others, will be generally outside unless it is stretched to full width by its container
+                        Parent parent = node.getParent();
+                        while (parent instanceof Pane && !(parent instanceof VBox) && !(parent instanceof HBox))
+                            parent = parent.getParent();
+                        isInside = parent instanceof VBox && ((VBox) parent).isFillWidth();
+                    }
+                    double xRelativeOffset = isInside ? -1 : 1; // positioning the decoration inside the control for button and text input
+                    double xOffset = isInside && isButton ?  -20 : 0; // moving the decoration before the drop down arrow
+                    return java.util.Collections.singletonList(
+                            new GraphicDecoration(createDecorationNode(message),
+                                    Pos.CENTER_RIGHT,
+                                    xOffset,
+                                    0,
+                                    xRelativeOffset,
+                                    0)
+                    );
                 }
 
                 @Override
                 protected Collection<Decoration> createRequiredDecorations(Control target) {
-                    return java.util.Collections.singletonList(new GraphicDecoration(ImageStore.createImageView(MongooseIcons.validationRequiredIcon16Url), Pos.CENTER_LEFT, -5, 0));
+                    return java.util.Collections.singletonList(
+                            new GraphicDecoration(ImageStore.createImageView(MongooseIcons.validationRequiredIcon16Url),
+                                    Pos.CENTER_LEFT,
+                                    -10,
+                                    0));
                 }
             });
             validationVisualizer.initVisualization(validator.getValidationStatus(), control, true);
