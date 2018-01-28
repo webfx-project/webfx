@@ -196,10 +196,12 @@ public abstract class ButtonSelector<T> {
             }, true);
     }
 
+    private static final double INITIAL_HIDDEN_DIALOG_HEIGHT = 400;
+
     private void setInitialHiddenDialogHeightPropertyForContentLoading() {
         dialogPane.setVisible(false);
         dialogHeightProperty.unbind();
-        dialogHeightProperty.setValue(400d);
+        dialogHeightProperty.setValue(INITIAL_HIDDEN_DIALOG_HEIGHT);
         // Also resetting the highest dialog height used for computeDecidedShowMode()
         dialogHighestHeight = 0;
     }
@@ -299,7 +301,10 @@ public abstract class ButtonSelector<T> {
             case DROP_UP:
                 dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
                 setMaxPrefSize(dialogContent, USE_COMPUTED_SIZE);
-                dialogContent.setMaxHeight(computeMaxAvailableHeightForDropDialog());
+                double maxHeight = computeMaxAvailableHeightForDropDialog();
+                if (isSearchEnabled())
+                    maxHeight = Math.min(maxHeight, INITIAL_HIDDEN_DIALOG_HEIGHT);
+                dialogContent.setMaxHeight(maxHeight);
                 searchBox = !isSearchEnabled() ? null :
                         new HBox(searchTextField, buttonFactory.newButton("...", this::switchToModalDialog));
                 onDecidedShowMode(decidedShowMode);
@@ -315,6 +320,7 @@ public abstract class ButtonSelector<T> {
         dialogCallback.addCloseHook(() -> {
             if (button != null)
                 button.requestFocus();
+            dialogPane = null; // Could be reused but for any reason has width resizing issue after being shown in modal dialog, so we force re-creation to a brand new instance
         });
         if (searchTextField != null)
             searchTextField.setText(null); // Resetting the search box
