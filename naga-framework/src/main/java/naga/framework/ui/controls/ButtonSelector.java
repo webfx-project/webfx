@@ -184,7 +184,6 @@ public abstract class ButtonSelector<T> {
             if (dialogContent == null)
                 return;
             dialogPane = new BorderPane(dialogContent);
-            dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
         }
         if (!isContentLoaded()) {
             setInitialHiddenDialogHeightPropertyForContentLoading();
@@ -277,6 +276,8 @@ public abstract class ButtonSelector<T> {
         TextField searchTextField = getSearchTextField(); // may return null in case search is not enabled
         switch (decidedShowMode) {
             case MODAL_DIALOG:
+                // Removing the (square) border as it will be displayed in a modal gold layout which already has a (rounded) border
+                dialogPane.setBorder(null);
                 setMaxPrefSizeToInfinite(dialogContent);
                 if (buttonBar == null) {
                     okButton = buttonFactory.newOkButton(this::onDialogOk);
@@ -296,6 +297,7 @@ public abstract class ButtonSelector<T> {
 
             case DROP_DOWN:
             case DROP_UP:
+                dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
                 setMaxPrefSize(dialogContent, USE_COMPUTED_SIZE);
                 dialogContent.setMaxHeight(computeMaxAvailableHeightForDropDialog());
                 searchBox = !isSearchEnabled() ? null :
