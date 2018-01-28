@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import naga.framework.ui.controls.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
+import naga.uischeduler.AnimationFramePass;
 import naga.util.Numbers;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
@@ -32,6 +33,9 @@ public class LayoutUtil {
         GridPane goldPane = new GridPane();
         goldPane.setAlignment(Pos.TOP_CENTER); // Horizontal alignment
         RowConstraints headerRowConstraints = new RowConstraints();
+        // Making the gold pane invisible during a few animation frames because its height may not be stable on start
+        goldPane.setVisible(false);
+        Toolkit.get().scheduler().scheduleInFutureAnimationFrame(5, () -> goldPane.setVisible(true), AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
         headerRowConstraints.prefHeightProperty().bind(Properties.combine(goldPane.heightProperty(), child.heightProperty(),
                 (gpHeight, cHeight) -> {
                     if (percentageHeight != 0)
@@ -85,7 +89,7 @@ public class LayoutUtil {
         return setPrefSize(setMaxSize(region, value), value);
     }
 
-    private static <N extends Region> N setPrefSize(N region, double value) {
+    public static <N extends Region> N setPrefSize(N region, double value) {
         region.setPrefWidth(value);
         region.setPrefHeight(value);
         return region;
@@ -215,8 +219,7 @@ public class LayoutUtil {
     }
 
     public static ScrollPane createVerticalScrollPane(Region content) {
-        ScrollPane scrollPane = createScrollPane(content);
-        setMinMaxWidthToPref(content);
+        ScrollPane scrollPane = createScrollPane(setMinMaxWidthToPref(content));
         double verticalScrollbarExtraWidth = Toolkit.get().getVerticalScrollbarExtraWidth();
         if (verticalScrollbarExtraWidth == 0)
             content.prefWidthProperty().bind(scrollPane.widthProperty());
