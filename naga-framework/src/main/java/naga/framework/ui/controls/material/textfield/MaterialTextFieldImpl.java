@@ -29,6 +29,7 @@ public class MaterialTextFieldImpl implements MaterialTextField {
 
     private final static double BOTTOM_PADDING_BELOW_FLOATING_LABEL = 8;
     private final static double BOTTOM_PADDING_BELOW_INPUT = 8;
+    private final static double PLACEHOLDER_LEFT_PADDING_FOR_NON_INPUT_TEXT = 8;
     private final static double FLOATING_LABEL_SCALE_FACTOR = 0.85;
 
     private ObservableValue inputProperty;
@@ -142,8 +143,12 @@ public class MaterialTextFieldImpl implements MaterialTextField {
     private final Text labelText = new Text("W"); // not empty for first layout pass
     private final Scale labelScale = new Scale();
     private double labelTextHeight;
-    private double floatingLabelLayoutY; // floating label = when up
-    private double restingLabelLayoutY; // resting label = when down
+    // floating label = when above the text input (or content)
+    private double floatingLabelLayoutX;
+    private double floatingLabelLayoutY;
+    // resting label = when inside the text input (or content)
+    private double restingLabelLayoutX;
+    private double restingLabelLayoutY;
 
     private StackPane line;
     private StackPane focusedLine;
@@ -293,7 +298,8 @@ public class MaterialTextFieldImpl implements MaterialTextField {
         materialAnimation
                 .addEaseOut(labelScale.xProperty(), labelScaleFactor)
                 .addEaseOut(labelScale.yProperty(), labelScaleFactor)
-                .addEaseOut(this.labelText.layoutYProperty(), floating ? floatingLabelLayoutY : restingLabelLayoutY)
+                .addEaseOut(labelText.layoutXProperty(), floating ? floatingLabelLayoutX : restingLabelLayoutX)
+                .addEaseOut(labelText.layoutYProperty(), floating ? floatingLabelLayoutY : restingLabelLayoutY)
                 .play(animate && !recomputeLabelPositionOnNextLayoutPass);
     }
 
@@ -311,8 +317,9 @@ public class MaterialTextFieldImpl implements MaterialTextField {
         }
         contentLayoutChildrenFunction.layoutChildren(x, yContent, w, hContent);
         if (recomputeLabelPositionOnNextLayoutPass) {
-            labelText.setLayoutX(LayoutUtil.snapPosition(content.getLayoutX() + 1));
+            floatingLabelLayoutX = LayoutUtil.snapPosition(content.getLayoutX() + 1);
             floatingLabelLayoutY = LayoutUtil.snapPosition(y);
+            restingLabelLayoutX = floatingLabelLayoutX + (textInputControl != null ? 0 : PLACEHOLDER_LEFT_PADDING_FOR_NON_INPUT_TEXT);
             restingLabelLayoutY = LayoutUtil.snapPosition(yContent + hContent / 2);
             updateMaterialUi();
             if (Strings.isNotEmpty(labelText.getText()))
@@ -386,6 +393,8 @@ public class MaterialTextFieldImpl implements MaterialTextField {
                 labelString = getLabelText();
             labelText.setText(labelString);
             prefWidth += labelText.prefWidth(height);
+            if (textInputControl == null)
+                prefWidth += PLACEHOLDER_LEFT_PADDING_FOR_NON_INPUT_TEXT;
         }
         return prefWidth;
     }
