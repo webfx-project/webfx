@@ -19,7 +19,7 @@ import java.util.Collection;
 public class Properties {
 
     public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
-        return new Unregistrable(consumer, properties);
+        return new UnregistrableListener(consumer, properties);
     }
 
     public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {

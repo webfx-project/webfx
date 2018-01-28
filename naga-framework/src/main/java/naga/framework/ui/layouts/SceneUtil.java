@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import naga.framework.ui.anim.Animations;
 import naga.fx.properties.Properties;
 import naga.fx.properties.Unregistrable;
+import naga.fx.properties.UnregistrableListener;
 import naga.fx.spi.Toolkit;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
@@ -93,12 +94,10 @@ public class SceneUtil {
             localFocusOwnerProperty = null;
         } else {
             focusOwnerProperty = localFocusOwnerProperty = new SimpleObjectProperty<>();
-            onSceneReady(node, scene ->
-                    localFocusOwnerProperty.bind(scene.focusOwnerProperty())
-            );
+            onSceneReady(node, scene -> localFocusOwnerProperty.bind(scene.focusOwnerProperty()));
         }
-        unregistrableUnit.set(new Unregistrable(newFocusOwnerObservableValue -> {
-            if (!isFocusInside(node, (Node) newFocusOwnerObservableValue.getValue())) {
+        unregistrableUnit.set(new UnregistrableListener(p -> {
+            if (!isFocusInside(node, (Node) p.getValue())) {
                 runnable.run();
                 unregistrableUnit.get().unregister();
             }
