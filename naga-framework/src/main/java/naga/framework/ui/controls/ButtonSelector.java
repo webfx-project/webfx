@@ -248,7 +248,7 @@ public abstract class ButtonSelector<T> {
             decidedShowMode = showMode;
         else if (dialogPane.getScene() == null)
             decidedShowMode = ShowMode.DROP_DOWN;
-        else {
+        else if (!SceneUtil.isVirtualKeyboardShowing(dialogPane.getScene())) { // we don't change the decided show mode while the virtual keyboard is showing
             double spaceAboveButton = computeMaxAvailableHeightAboveButton();
             double spaceBelowButton = computeMaxAvailableHeightBelowButton(spaceAboveButton);
             double dialogHeight = dialogPane.prefHeight(-1);
@@ -337,7 +337,8 @@ public abstract class ButtonSelector<T> {
             }
             // This dialog instance could be reused in theory but for any reason (?) it has width resizing issue after having
             // been shown in modal dialog, so we force re-creation to have a brand new instance next time with no width issue
-            forceDialogRebuiltOnNextShow();
+            if (decidedShowMode == ShowMode.MODAL_DIALOG)
+                forceDialogRebuiltOnNextShow();
         });
         if (searchTextField != null)
             searchTextField.setText(null); // Resetting the search box
