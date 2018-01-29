@@ -19,7 +19,7 @@ import naga.framework.ui.controls.material.util.LayoutChildrenFunction;
 import naga.framework.ui.controls.material.util.MaterialAnimation;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
-import naga.fx.properties.Unregistrable;
+import naga.fx.properties.Unregisterable;
 import naga.util.Strings;
 
 /**
@@ -157,7 +157,7 @@ public class MaterialTextFieldImpl implements MaterialTextField {
     private final Text bottomText = new Text();
 
     private final MaterialAnimation materialAnimation = new MaterialAnimation();
-    private Unregistrable animationTriggers;
+    private Unregisterable animationTriggers;
 
     MaterialTextFieldImpl(ObservableList<Node> skinChildren) {
         this.skinChildren = skinChildren;

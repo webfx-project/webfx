@@ -10,7 +10,7 @@ import javafx.beans.value.WritableValue;
 import javafx.util.Duration;
 import naga.framework.ui.anim.Animations;
 import naga.fx.properties.Properties;
-import naga.fx.properties.Unregistrable;
+import naga.fx.properties.Unregisterable;
 import naga.util.collection.Collections;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class MaterialAnimation {
     private Runnable onFinished;
     private Runnable pendingPlay;
 
-    public Unregistrable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
+    public Unregisterable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
         return Properties.runNowAndOnPropertiesChange(() -> {
             keyValues = null;
             runnable.run();

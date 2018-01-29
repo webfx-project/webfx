@@ -18,40 +18,40 @@ import java.util.Collection;
  */
 public class Properties {
 
-    public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
-        return new UnregistrableListener(consumer, properties);
+    public static Unregisterable runOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
+        return new UnregisterableListener(consumer, properties);
     }
 
-    public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
+    public static Unregisterable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, ObservableValue... properties) {
         consumer.accept(properties.length == 1 ? properties[0] : null);
         return runOnPropertiesChange(consumer, properties);
     }
 
     // Same API but with Collection instead of varargs
 
-    public static Unregistrable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, Collection<ObservableValue> properties) {
+    public static Unregisterable runNowAndOnPropertiesChange(Consumer<ObservableValue> consumer, Collection<ObservableValue> properties) {
         return runNowAndOnPropertiesChange(consumer, Collections.toArray(properties, ObservableValue[]::new));
     }
 
-    public static Unregistrable runOnPropertiesChange(Consumer<ObservableValue> consumer, Collection<ObservableValue> properties) {
+    public static Unregisterable runOnPropertiesChange(Consumer<ObservableValue> consumer, Collection<ObservableValue> properties) {
         return runOnPropertiesChange(consumer, Collections.toArray(properties, ObservableValue[]::new));
     }
 
     // Same API but with Runnable instead of Consumer
 
-    public static Unregistrable runOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
+    public static Unregisterable runOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
         return runOnPropertiesChange(p -> runnable.run(), properties);
     }
 
-    public static Unregistrable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
+    public static Unregisterable runNowAndOnPropertiesChange(Runnable runnable, ObservableValue... properties) {
         return runNowAndOnPropertiesChange(p -> runnable.run(), properties);
     }
 
-    public static Unregistrable runNowAndOnPropertiesChange(Runnable runnable, Collection<ObservableValue> properties) {
+    public static Unregisterable runNowAndOnPropertiesChange(Runnable runnable, Collection<ObservableValue> properties) {
         return runNowAndOnPropertiesChange(p -> runnable.run(), properties);
     }
 
-    public static Unregistrable runOnPropertiesChange(Runnable runnable, Collection<ObservableValue> properties) {
+    public static Unregisterable runOnPropertiesChange(Runnable runnable, Collection<ObservableValue> properties) {
         return runOnPropertiesChange(p -> runnable.run(), properties);
     }
 

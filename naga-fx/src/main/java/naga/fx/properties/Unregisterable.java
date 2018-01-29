@@ -3,7 +3,7 @@ package naga.fx.properties;
 /**
  * @author Bruno Salmon
  */
-public interface Unregistrable {
+public interface Unregisterable {
 
     void register();
 

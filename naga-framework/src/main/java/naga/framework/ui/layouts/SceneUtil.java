@@ -14,8 +14,8 @@ import javafx.scene.control.TextInputControl;
 import javafx.stage.Window;
 import naga.framework.ui.anim.Animations;
 import naga.fx.properties.Properties;
-import naga.fx.properties.Unregistrable;
-import naga.fx.properties.UnregistrableListener;
+import naga.fx.properties.Unregisterable;
+import naga.fx.properties.UnregisterableListener;
 import naga.fx.spi.Toolkit;
 import naga.scheduler.Scheduled;
 import naga.util.Booleans;
@@ -103,17 +103,17 @@ public class SceneUtil {
         Toolkit.get().onReady(() -> onSceneReady(Toolkit.get().getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
     }
 
-    public static Unregistrable onVirtualKeyboardShowing(Scene scene, Runnable runnable) {
+    public static Unregisterable onVirtualKeyboardShowing(Scene scene, Runnable runnable) {
         return Properties.runOnPropertiesChange(p -> {
             if (Booleans.isTrue(p.getValue()))
                 runnable.run();
         }, getSceneInfo(scene).virtualKeyboardShowingProperty);
     }
 
-    public static Unregistrable runOnceFocusIsOutside(Node node, Runnable runnable) {
+    public static Unregisterable runOnceFocusIsOutside(Node node, Runnable runnable) {
         Property<Node> localFocusOwnerProperty;
         ObservableValue<Node> focusOwnerProperty;
-        Unit<Unregistrable> unregistrableUnit = new Unit<>();
+        Unit<Unregisterable> unregisterableUnit = new Unit<>();
         if (node.getScene() != null) {
             focusOwnerProperty = node.getScene().focusOwnerProperty();
             localFocusOwnerProperty = null;
@@ -121,10 +121,10 @@ public class SceneUtil {
             focusOwnerProperty = localFocusOwnerProperty = new SimpleObjectProperty<>();
             onSceneReady(node, scene -> localFocusOwnerProperty.bind(scene.focusOwnerProperty()));
         }
-        unregistrableUnit.set(new UnregistrableListener(p -> {
+        unregisterableUnit.set(new UnregisterableListener(p -> {
             if (!isFocusInside(node, (Node) p.getValue())) {
                 runnable.run();
-                unregistrableUnit.get().unregister();
+                unregisterableUnit.get().unregister();
             }
         }, focusOwnerProperty) {
             @Override
@@ -134,7 +134,7 @@ public class SceneUtil {
                 super.unregister();
             }
         });
-        return unregistrableUnit.get();
+        return unregisterableUnit.get();
     }
 
     public static boolean isFocusInside(Node node) {
