@@ -18,6 +18,7 @@ import naga.fx.properties.Unregisterable;
 import naga.fx.properties.UnregisterableListener;
 import naga.fx.spi.Toolkit;
 import naga.scheduler.Scheduled;
+import naga.uischeduler.AnimationFramePass;
 import naga.util.Booleans;
 import naga.util.function.Consumer;
 import naga.util.tuples.Unit;
@@ -66,7 +67,7 @@ public class SceneUtil {
     public static boolean isAutoFocusEnabled(Scene scene) {
         // TODO: make it a user setting that can be stored in the device
         // Default behaviour is to disable auto focus if this can cause a (probably unwanted) virtual keyboard to appear
-        return !willAVirtualKeyboardAppearOnFocus(scene);
+        return isVirtualKeyboardShowing(scene) || !willAVirtualKeyboardAppearOnFocus(scene);
     }
 
     public static boolean willAVirtualKeyboardAppearOnFocus(Scene scene) {
@@ -96,11 +97,19 @@ public class SceneUtil {
             if (newFocusOwner instanceof TextInputControl)
                 getSceneInfo(scene).touchTextInputFocusTime();
         });
-        onVirtualKeyboardShowing(scene, () -> scrollNodeToBeVerticallyVisibleOnScene(scene.getFocusOwner(), true, true));
+        onVirtualKeyboardShowing(scene, () -> Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2, () -> {
+            Node focusOwner = scene.getFocusOwner();
+            if (focusOwner instanceof TextInputControl)
+                scrollNodeToBeVerticallyVisibleOnScene(focusOwner, true, true);
+        }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS));
     }
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
         Toolkit.get().onReady(() -> onSceneReady(Toolkit.get().getPrimaryStage(), SceneUtil::installSceneFocusOwnerAutoScroll));
+    }
+
+    public static boolean isVirtualKeyboardShowing(Scene scene) {
+        return getSceneInfo(scene).isVirtualKeyboardShowing();
     }
 
     public static Unregisterable onVirtualKeyboardShowing(Scene scene, Runnable runnable) {
@@ -175,18 +184,23 @@ public class SceneUtil {
         SceneInfo(Scene scene) {
             scene.heightProperty().addListener((observable, oldValue, newHeight) -> {
                 boolean showing = lastTextInputFocusTime > 0 && System.currentTimeMillis() < lastTextInputFocusTime + MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD;
-                virtualKeyboardShowingProperty.setValue(showing);
                 if (showing) {
                     cancelLastNoVirtualKeyboardDetection();
                     virtualKeyboardDetected = true;
                 }
+                virtualKeyboardShowingProperty.setValue(showing);
             });
         }
 
         void touchTextInputFocusTime() {
             lastTextInputFocusTime = System.currentTimeMillis();
             cancelLastNoVirtualKeyboardDetection();
-            noVirtualKeyboardDetectionScheduled = Toolkit.get().scheduler().scheduleDelay(MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD, () -> virtualKeyboardDetected = false);
+            if (!isVirtualKeyboardShowing())
+                noVirtualKeyboardDetectionScheduled = Toolkit.get().scheduler().scheduleDelay(MAX_DELAY_MILLIS_BETWEEN_FOCUS_AND_VIRTUAL_KEYBOARD, () -> virtualKeyboardDetected = false);
+        }
+
+        public boolean isVirtualKeyboardShowing() {
+            return virtualKeyboardShowingProperty.get();
         }
 
         void cancelLastNoVirtualKeyboardDetection() {
