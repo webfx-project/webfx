@@ -21,6 +21,7 @@ import naga.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static naga.framework.ui.layouts.LayoutUtil.createPadding;
 import static naga.framework.ui.layouts.LayoutUtil.setMaxSizeToInfinite;
 import static naga.framework.ui.layouts.LayoutUtil.setMaxSizeToPref;
 
@@ -84,12 +85,9 @@ public class DialogUtil {
     }
 
     public static BorderPane decorate(Node content) {
-        if (content instanceof Region) {
-            Region region = (Region) content;
-            // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
-            setMaxSizeToPref(region);
-            region.setPadding(new Insets(10));
-        }
+        // Setting max width/height to pref width/height (otherwise the grid pane takes all space with cells in top left corner)
+        if (content instanceof Region)
+            setMaxSizeToPref(createPadding((Region) content));
         BorderPane decorator = new BorderPane(content);
         decorator.backgroundProperty().bind(dialogBackgroundProperty());
         decorator.borderProperty().bind(dialogBorderProperty());
@@ -119,9 +117,13 @@ public class DialogUtil {
             public void closeDialog() {
                 if (!closed)
                     Toolkit.get().scheduler().runInUiThread(() -> {
-                        parent.getChildren().remove(dialogNode);
+                        // Sequence note: we call the hooks before removing the dialog from the UI because some hooks
+                        // may be interested in the UI state before closing, like in ButtonSelector where it decides to
+                        // restore the focus to the button if the last focus is inside the dialog
                         for (Runnable closeHook: closeHooks)
                             closeHook.run();
+                        // Now we can remove the dialog from the UI
+                        parent.getChildren().remove(dialogNode); // May clean the scene focus owner if it was inside
                     });
                 closed = true;
             }

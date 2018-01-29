@@ -113,7 +113,7 @@ public class SceneUtil {
     }
 
     public static boolean isFocusInside(Node node) {
-        Scene scene = node.getScene();
+        Scene scene = node == null ? null : node.getScene();
         return scene != null && isFocusInside(node, scene.getFocusOwner());
     }
 

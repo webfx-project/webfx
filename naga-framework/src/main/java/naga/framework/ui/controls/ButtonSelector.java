@@ -135,7 +135,7 @@ public abstract class ButtonSelector<T> {
 
     public void setButton(Button button) {
         this.button = button;
-        button.setOnAction(e -> toggleDialog());
+        button.setOnAction(e -> onButtonClicked());
     }
 
     public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
@@ -164,6 +164,15 @@ public abstract class ButtonSelector<T> {
 
     private boolean isDialogOpen() {
         return dialogCallback != null && !dialogCallback.isDialogClosed();
+    }
+
+    private boolean userJustPressedButtonInOrderToCloseDialog;
+
+    private void onButtonClicked() {
+        if (userJustPressedButtonInOrderToCloseDialog)
+            userJustPressedButtonInOrderToCloseDialog = false;
+        else
+            toggleDialog();
     }
 
     private void toggleDialog() {
@@ -318,9 +327,17 @@ public abstract class ButtonSelector<T> {
                 break;
         }
         dialogCallback.addCloseHook(() -> {
-            if (button != null)
-                button.requestFocus();
-            dialogPane = null; // Could be reused but for any reason has width resizing issue after being shown in modal dialog, so we force re-creation to a brand new instance
+            // Button focus management: 2 questions: 1) Should we restore the focus to the button? 2) Should the next button click reopen the dialog?
+            if (button != null) {
+                // Reply to 1): yes if the last focus was inside the dialog, no otherwise (ex: the dialog closed because the user clicked outside)
+                if (SceneUtil.isFocusInside(dialogPane))
+                    button.requestFocus();
+                // Reply to 2): no if the dialog was closed because the user just pressed the button (his intention is to close the dialog, not to reopen it!)
+                userJustPressedButtonInOrderToCloseDialog = button.isPressed(); // See onButtonClicked() which is using this flag
+            }
+            // This dialog instance could be reused in theory but for any reason (?) it has width resizing issue after having
+            // been shown in modal dialog, so we force re-creation to have a brand new instance next time with no width issue
+            forceDialogRebuiltOnNextShow();
         });
         if (searchTextField != null)
             searchTextField.setText(null); // Resetting the search box
