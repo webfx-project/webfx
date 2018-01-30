@@ -1,5 +1,6 @@
 package naga.framework.ui.layouts;
 
+import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -42,16 +43,23 @@ public class SceneUtil {
 
     public static boolean scrollNodeToBeVerticallyVisibleOnScene(Node node, boolean onlyIfNotVisible, boolean animate) {
         ScrollPane scrollPane = LayoutUtil.findScrollPaneAncestor(node);
-        if (scrollPane != null && !(onlyIfNotVisible && isNodeVerticallyVisibleOnScene(node))) {
-            double nodeTop = node.localToScene(0, 0).getY();
-            double sceneHeight = node.getScene().getHeight();
-            double delta = sceneHeight / 2 - nodeTop;
+        if (scrollPane != null && (!onlyIfNotVisible || !isNodeVerticallyVisibleOnScene(node))) {
             double contentHeight = scrollPane.getContent().getLayoutBounds().getHeight();
             double viewportHeight = scrollPane.getViewportBounds().getHeight();
-            double voffset = LayoutUtil.computeScrollPaneVoffset(scrollPane) - delta;
-            double vValue = voffset / (contentHeight - viewportHeight);
-            vValue = Math.max(0, Math.min(1, vValue));
-            Animations.animateProperty(scrollPane.vvalueProperty(), vValue, animate);
+            double nodeHeight = node.getLayoutBounds().getHeight();
+            double sceneHeight = node.getScene().getHeight();
+            double wishedSceneNodeTop = sceneHeight / 2 - nodeHeight / 2;
+            double currentScrollPaneSceneTop = scrollPane.localToScene(0, 0).getY();
+            wishedSceneNodeTop = LayoutUtil.boundedSize(wishedSceneNodeTop, currentScrollPaneSceneTop, currentScrollPaneSceneTop + viewportHeight);
+            double currentNodeSceneTop = node.localToScene(0, 0).getY();
+            double currentViewportSceneTop = LayoutUtil.computeScrollPaneVoffset(scrollPane);
+            double wishedViewportSceneTop = currentViewportSceneTop +  currentNodeSceneTop - wishedSceneNodeTop;
+            double vValue = wishedViewportSceneTop / (contentHeight - viewportHeight);
+            vValue = LayoutUtil.boundedSize(vValue, 0, 1);
+            Object timeline = scrollPane.getProperties().get("timeline");
+            if (timeline instanceof Timeline)
+                ((Timeline) timeline).stop();
+            scrollPane.getProperties().put("timeline", Animations.animateProperty(scrollPane.vvalueProperty(), vValue, animate));
             return true;
         }
         return false;
@@ -97,11 +105,6 @@ public class SceneUtil {
             if (newFocusOwner instanceof TextInputControl)
                 getSceneInfo(scene).touchTextInputFocusTime();
         });
-        onVirtualKeyboardShowing(scene, () -> Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2, () -> {
-            Node focusOwner = scene.getFocusOwner();
-            if (focusOwner instanceof TextInputControl)
-                scrollNodeToBeVerticallyVisibleOnScene(focusOwner, true, true);
-        }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS));
     }
 
     public static void installPrimarySceneFocusOwnerAutoScroll() {
@@ -189,6 +192,12 @@ public class SceneUtil {
                     virtualKeyboardDetected = true;
                 }
                 virtualKeyboardShowingProperty.setValue(showing);
+                // Also keeping focused text input control visible on screen when changing height
+                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2, () -> {
+                    Node focusOwner = scene.getFocusOwner();
+                    if (focusOwner instanceof TextInputControl)
+                        scrollNodeToBeVerticallyVisibleOnScene(focusOwner, true, true);
+                }, AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
             });
         }
 
