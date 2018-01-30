@@ -163,10 +163,19 @@ public class DialogUtil {
                 //Logger.log("Computing dialogPrefWidth...");
                 double dialogPrefWidth = dialogNode.prefWidth(-1);
                 //Logger.log("dialogPrefWidth = " + dialogPrefWidth);
-                double width = LayoutUtil.boundedSize(dialogPrefWidth, buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
-                double height = dialogNode.prefHeight(width);
-                double deltaY = isDropDialogUp(dialogNode) ? -height : buttonNode.getHeight();
-                Region.layoutInArea(dialogNode, buttonSceneXY.getX() - parentSceneXY.getX(), buttonSceneXY.getY() - parentSceneXY.getY() + deltaY, width, height, -1, null, true, false, HPos.LEFT, VPos.TOP, true);
+                double dialogWidth = LayoutUtil.boundedSize(dialogPrefWidth, buttonNode.getWidth(), scene.getWidth() - buttonSceneXY.getX());
+                double dialogHeight = dialogNode.prefHeight(dialogWidth);
+                boolean dropDialogUp = isDropDialogUp(dialogNode);
+                double deltaY = dropDialogUp ? -dialogHeight : buttonNode.getHeight();
+                double dialogX = buttonSceneXY.getX() - parentSceneXY.getX();
+                double dialogY = buttonSceneXY.getY() - parentSceneXY.getY() + deltaY;
+                if (isDropDialogBounded(dialogNode)) {
+                    if (dropDialogUp)
+                        dialogY = Math.min(dialogY, parent.getHeight() - dialogHeight);
+                    else
+                        dialogY = Math.max(dialogY, 0);
+                }
+                Region.layoutInArea(dialogNode, dialogX, dialogY, dialogWidth, dialogHeight, -1, null, true, false, HPos.LEFT, VPos.TOP, true);
             };
             dialogNode.getProperties().put("positionUpdater", positionUpdater); // used by updateDropUpOrDownDialogPosition()
             dialogCallback
@@ -182,6 +191,14 @@ public class DialogUtil {
 
     public static boolean isDropDialogUp(Region dialogNode) {
         return Booleans.isTrue(dialogNode.getProperties().get("up"));
+    }
+
+    public static void setDropDialogBounded(Region dialogNode, boolean bounded) {
+        dialogNode.getProperties().put("dropDialogBounded", bounded);
+    }
+
+    public static boolean isDropDialogBounded(Region dialogNode) {
+        return Booleans.isTrue(dialogNode.getProperties().get("dropDialogBounded"));
     }
 
     public static void updateDropUpOrDownDialogPosition(Region dialogNode) {
