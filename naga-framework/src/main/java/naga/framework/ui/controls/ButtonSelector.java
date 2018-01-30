@@ -2,7 +2,6 @@ package naga.framework.ui.controls;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -200,8 +199,8 @@ public abstract class ButtonSelector<T> {
         }
         if (show && !isDialogOpen())
             Properties.onPropertySet(loadedContentProperty, x -> {
-                dialogPane.setPadding(Insets.EMPTY);
-                show(computeDecidedShowMode());
+                updateDecidedShowMode();
+                show();
             }, true);
     }
 
@@ -242,7 +241,7 @@ public abstract class ButtonSelector<T> {
 
     private double dialogHighestHeight;
 
-    private ShowMode computeDecidedShowMode() {
+    private ShowMode updateDecidedShowMode() {
         ShowMode showMode = getShowMode();
         if (showMode != ShowMode.AUTO)
             decidedShowMode = showMode;
@@ -280,8 +279,7 @@ public abstract class ButtonSelector<T> {
         return button.getScene().getHeight() - spaceAboveButton - button.getHeight();
     }
 
-    private void show(ShowMode decidedShowMode) {
-        closeDialog();
+    private void show() {
         Region dialogContent = getOrCreateDialogContent();
         Pane parentNow = parentGetter != null ? parentGetter.call() : parent;
         TextField searchTextField = getSearchTextField(); // may return null in case search is not enabled
@@ -290,25 +288,23 @@ public abstract class ButtonSelector<T> {
                 // Removing the (square) border as it will be displayed in a modal gold layout which already has a (rounded) border
                 dialogPane.setBorder(null);
                 setMaxPrefSizeToInfinite(dialogContent);
-                if (buttonBar == null) {
-                    okButton = buttonFactory.newOkButton(this::onDialogOk);
-                    cancelButton = buttonFactory.newCancelButton(this::onDialogCancel);
-                    buttonBar = new HBox(20, createHGrowable(), okButton, cancelButton, createHGrowable());
-                    buttonBar.setPadding(new Insets(10, 0, 0, 0));
-                }
+                if (buttonBar == null)
+                    buttonBar = LayoutUtil.setPadding(new HBox(20, createHGrowable(),
+                            okButton = buttonFactory.newOkButton(this::onDialogOk),
+                            cancelButton = buttonFactory.newCancelButton(this::onDialogCancel),
+                            createHGrowable()), 10, 0, 0, 0);
                 dialogPane.setTop(searchTextField);
                 dialogPane.setBottom(buttonBar);
                 dialogCallback = DialogUtil.showModalNodeInGoldLayout(dialogPane, parentNow, 0.95, 0.95);
                 dialogHeightProperty.bind(dialogPane.heightProperty());
                 // Resetting default and cancel buttons (required for JavaFx if displayed a second time)
-                ButtonUtil.resetDefaultButton(okButton);
-                ButtonUtil.resetCancelButton(cancelButton);
+                ButtonUtil.resetDefaultAndCancelButtons(okButton, cancelButton);
                 dialogPane.setVisible(true);
                 break;
 
             case DROP_DOWN:
             case DROP_UP:
-                dialogPane.setBorder(BorderUtil.newBorder(Color.DARKGRAY));
+                LayoutUtil.removePadding(dialogPane).setBorder(BorderUtil.newBorder(Color.DARKGRAY));
                 setMaxPrefSize(dialogContent, USE_COMPUTED_SIZE);
                 double maxHeight = computeMaxAvailableHeightForDropDialog();
                 if (isSearchEnabled())
@@ -316,7 +312,7 @@ public abstract class ButtonSelector<T> {
                 dialogContent.setMaxHeight(maxHeight);
                 searchBox = !isSearchEnabled() ? null :
                         new HBox(searchTextField, buttonFactory.newButton("...", this::switchToModalDialog));
-                onDecidedShowMode(decidedShowMode);
+                applyDialogSettingsForDecidedShowMode();
                 dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, loadedContentProperty, decidedShowMode == ShowMode.DROP_UP);
                 dialogCallback.addCloseHook(
                             Properties.runNowAndOnPropertiesChange(this::applyNewDecidedShowMode,
@@ -339,6 +335,7 @@ public abstract class ButtonSelector<T> {
             // been shown in modal dialog, so we force re-creation to have a brand new instance next time with no width issue
             if (decidedShowMode == ShowMode.MODAL_DIALOG)
                 forceDialogRebuiltOnNextShow();
+            decidedShowMode = null;
         });
         if (searchTextField != null)
             searchTextField.setText(null); // Resetting the search box
@@ -361,21 +358,30 @@ public abstract class ButtonSelector<T> {
     }
 
     private void applyNewDecidedShowModeNow() {
-        ShowMode decidedShowMode2 = computeDecidedShowMode(); // decided show mode may change in dependence of the height
-        onDecidedShowMode(decidedShowMode2);
-        if (decidedShowMode2 == ShowMode.MODAL_DIALOG)
+        ShowMode previousDecidedShowMode = decidedShowMode;
+        if (updateDecidedShowMode() == ShowMode.MODAL_DIALOG)
             switchToModalDialog();
         else {
-            DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
-            SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
+            if (decidedShowMode != previousDecidedShowMode) {
+                applyDialogSettingsForDecidedShowMode();
+                DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
+                SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
+                if (searchTextField != null)
+                    SceneUtil.autoFocusIfEnabled(searchTextField);
+            } else {
+                DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
+                // This code is in case a virtual keyboard just appeared, at this stage, the layout is not finished so we
+                // update the dialog position again later (2 animation frames later seems necessary)
+                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2, () ->
+                    DialogUtil.updateDropUpOrDownDialogPosition(dialogPane)
+                , AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
+            }
             if (!dialogPane.isVisible())
                 dialogPane.setVisible(true);
-            if (searchTextField != null)
-                SceneUtil.autoFocusIfEnabled(searchTextField);
         }
     }
 
-    private void onDecidedShowMode(ShowMode decidedShowMode) {
+    private void applyDialogSettingsForDecidedShowMode() {
         TextField searchTextField = getSearchTextField();
         boolean focused = searchTextField != null && searchTextField.isFocused();
         if (decidedShowMode == ShowMode.DROP_DOWN) {
@@ -393,7 +399,8 @@ public abstract class ButtonSelector<T> {
     private void switchToModalDialog() {
         closeDialog();
         forceDialogRebuiltOnNextShow(); setUpDialog(false); // This line could be removed but
-        show(ShowMode.MODAL_DIALOG);
+        decidedShowMode = ShowMode.MODAL_DIALOG;
+        show();
     }
 
     protected void onDialogOk() {
