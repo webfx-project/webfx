@@ -210,15 +210,9 @@ public abstract class ButtonSelector<T> {
         dialogPane.setVisible(false);
         dialogHeightProperty.unbind();
         dialogHeightProperty.setValue(INITIAL_HIDDEN_DIALOG_HEIGHT);
-        // Also resetting the highest dialog height used for computeDecidedShowMode()
-        dialogHighestHeight = 0;
     }
 
     protected abstract void startLoading();
-
-    protected void forceDialogRebuiltOnNextShow() {
-        dialogPane = null;
-    }
 
     protected abstract Region getOrCreateDialogContent();
 
@@ -312,7 +306,7 @@ public abstract class ButtonSelector<T> {
                 dialogContent.setMaxHeight(maxHeight);
                 searchBox = !isSearchEnabled() ? null :
                         new HBox(searchTextField, buttonFactory.newButton("...", this::switchToModalDialog));
-                applyDialogSettingsForDecidedShowMode();
+                installSearchBoxForDecidedShowModeIfEnabled();
                 dialogCallback = DialogUtil.showDropUpOrDownDialog(dialogPane, button, parentNow, loadedContentProperty, decidedShowMode == ShowMode.DROP_UP);
                 dialogCallback.addCloseHook(
                             Properties.runNowAndOnPropertiesChange(this::applyNewDecidedShowMode,
@@ -331,14 +325,23 @@ public abstract class ButtonSelector<T> {
                 // Reply to 2): no if the dialog was closed because the user just pressed the button (his intention is to close the dialog, not to reopen it!)
                 userJustPressedButtonInOrderToCloseDialog = button.isPressed(); // See onButtonClicked() which is using this flag
             }
-            // This dialog instance could be reused in theory but for any reason (?) it has width resizing issue after having
-            // been shown in modal dialog, so we force re-creation to have a brand new instance next time with no width issue
-            if (decidedShowMode == ShowMode.MODAL_DIALOG)
-                forceDialogRebuiltOnNextShow();
-            decidedShowMode = null;
+            reset();
         });
         if (searchTextField != null)
             searchTextField.setText(null); // Resetting the search box
+    }
+
+    private void reset() {
+        // This dialog instance could be reused in theory but for any reason (?) it has width resizing issue after having
+        // been shown in modal dialog, so we force re-creation to have a brand new instance next time with no width issue
+        if (decidedShowMode == ShowMode.MODAL_DIALOG)
+            forceDialogRebuiltOnNextShow();
+        decidedShowMode = null;
+        dialogHighestHeight = 0;
+    }
+
+    protected void forceDialogRebuiltOnNextShow() {
+        dialogPane = null;
     }
 
     private Scheduled scheduled;
@@ -363,25 +366,31 @@ public abstract class ButtonSelector<T> {
             switchToModalDialog();
         else {
             if (decidedShowMode != previousDecidedShowMode) {
-                applyDialogSettingsForDecidedShowMode();
-                DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
-                SceneUtil.scrollNodeToBeVerticallyVisibleOnScene(button, true, true);
-                if (searchTextField != null)
+                installSearchBoxForDecidedShowModeIfEnabled();
+                TextField searchTextField = getSearchTextField();
+                if (searchTextField != null && !searchTextField.isFocused())
                     SceneUtil.autoFocusIfEnabled(searchTextField);
             } else {
-                DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
                 // This code is in case a virtual keyboard just appeared, at this stage, the layout is not finished so we
                 // update the dialog position again later (2 animation frames later seems necessary)
-                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2, () ->
-                    DialogUtil.updateDropUpOrDownDialogPosition(dialogPane)
+                Toolkit.get().scheduler().scheduleInFutureAnimationFrame(2,
+                    this::updateDropUpOrDownDialogPosition
                 , AnimationFramePass.SCENE_PULSE_LAYOUT_PASS);
             }
+            updateDropUpOrDownDialogPosition();
             if (!dialogPane.isVisible())
                 dialogPane.setVisible(true);
         }
     }
 
-    private void applyDialogSettingsForDecidedShowMode() {
+    private void updateDropUpOrDownDialogPosition() {
+        TextField searchTextField = getSearchTextField();
+        DialogUtil.setDropDialogBounded (dialogPane, searchTextField != null && searchTextField.isFocused());
+        DialogUtil.setDropDialogUp(dialogPane, decidedShowMode == ShowMode.DROP_UP);
+        DialogUtil.updateDropUpOrDownDialogPosition(dialogPane);
+    }
+
+    private void installSearchBoxForDecidedShowModeIfEnabled() {
         TextField searchTextField = getSearchTextField();
         boolean focused = searchTextField != null && searchTextField.isFocused();
         if (decidedShowMode == ShowMode.DROP_DOWN) {
@@ -393,7 +402,6 @@ public abstract class ButtonSelector<T> {
         }
         if (focused)
             searchTextField.requestFocus();
-        DialogUtil.setDropDialogUp(dialogPane, decidedShowMode == ShowMode.DROP_UP);
     }
 
     private void switchToModalDialog() {
