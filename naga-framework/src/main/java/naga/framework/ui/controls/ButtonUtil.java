@@ -69,4 +69,9 @@ public class ButtonUtil {
         button.setCancelButton(false);
         button.setCancelButton(true);
     }
+
+    public static void resetDefaultAndCancelButtons(Button defaultButton, Button cancelButton) {
+        resetDefaultButton(defaultButton);
+        resetCancelButton(cancelButton);
+    }
 }
