@@ -13,6 +13,7 @@ import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
+import naga.framework.ui.graphic.design.material.MaterialFactoryMixin;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
@@ -141,7 +142,8 @@ public abstract class ButtonSelector<T> {
     }
 
     public MaterialTextFieldPane toMaterialButton(Object labelKey, Object placeholderKey) {
-        return buttonFactory.setMaterialLabelAndPlaceholder(newMaterialButton(), labelKey, placeholderKey);
+        // Assuming the passed buttonFactory is actually instance of MaterialFactoryMixin when we call this method
+        return ((MaterialFactoryMixin) buttonFactory).setMaterialLabelAndPlaceholder(newMaterialButton(), labelKey, placeholderKey);
     }
 
     public MaterialTextFieldPane toMaterialButton(ObservableValue<String> labelProperty, ObservableValue<String> placeholderProperty) {

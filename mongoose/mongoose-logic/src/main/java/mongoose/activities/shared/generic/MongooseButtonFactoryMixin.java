@@ -4,11 +4,12 @@ import javafx.scene.control.Button;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.graphic.controls.button.ButtonBuilder;
+import naga.framework.ui.graphic.design.material.MaterialFactoryMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface MongooseButtonFactoryMixin extends ButtonFactoryMixin {
+public interface MongooseButtonFactoryMixin extends ButtonFactoryMixin, MaterialFactoryMixin {
 
     @Override
     default Button styleButton(Button button) {
