@@ -7,8 +7,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.HighLevelComponentsFactory;
 import mongoose.activities.shared.logic.ui.highlevelcomponents.SectionPanelStyleOptions;
-import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.controls.BorderUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
+import naga.framework.ui.graphic.border.BorderUtil;
 
 /**
  * @author Bruno Salmon
@@ -27,18 +27,22 @@ public class HighLevelComponentsFactoryImpl implements HighLevelComponentsFactor
 
     @Override
     public Button createBookButton() {
-        return createButton("#7fd504", "#2a8236");
+        return createToBottomGradientButton("#7fd504", "#2a8236");
     }
 
     @Override
     public Button createSoldoutButton() {
-        return createButton("#e92c04", "#853416");
+        return createToBottomGradientButton("#e92c04", "#853416");
     }
 
-    private static Button createButton(String topWebColor, String bottomWebColor) {
+    private static Button createToBottomGradientButton(String topWebColor, String bottomWebColor) {
+        return createButton(topWebColor + " 0%, " + bottomWebColor + " 100%", bottomWebColor);
+    }
+
+    private static Button createButton(String linearGradient, String borderWebColor) {
         Button button = new Button();
-        button.setBackground(BackgroundUtil.newVerticalLinearGradientBackground(topWebColor, bottomWebColor, 5));
-        button.setBorder(BorderUtil.newBorder(Color.web(bottomWebColor), 5));
+        button.setBackground(BackgroundUtil.newLinearGradientBackground(linearGradient, 5));
+        button.setBorder(BorderUtil.newBorder(Color.web(borderWebColor), 5));
         button.setTextFill(Color.WHITE);
         button.setStyle("-fx-text-fill: white;");
         return button;
