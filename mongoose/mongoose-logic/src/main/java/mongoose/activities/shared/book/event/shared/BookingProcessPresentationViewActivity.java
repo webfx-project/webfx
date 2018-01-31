@@ -12,7 +12,7 @@ import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import mongoose.entities.Event;
 import mongoose.services.EventService;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
-import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
 
 /**
  * @author Bruno Salmon

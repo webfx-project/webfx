@@ -28,7 +28,7 @@ import naga.framework.orm.entity.EntityList;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
-import naga.framework.ui.controls.DialogUtil;
+import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.HtmlText;

@@ -58,7 +58,7 @@ module naga.framework {
     exports naga.framework.session;
     exports naga.framework.ui.action;
     exports naga.framework.ui.auth;
-    exports naga.framework.ui.controls;
+    exports naga.framework.ui.graphic.border;
     exports naga.framework.ui.filter;
     exports naga.framework.ui.format;
     exports naga.framework.ui.i18n;

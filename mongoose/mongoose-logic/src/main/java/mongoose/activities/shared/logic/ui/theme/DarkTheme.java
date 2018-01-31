@@ -1,8 +1,8 @@
 package mongoose.activities.shared.logic.ui.theme;
 
 import javafx.scene.paint.Color;
-import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.controls.BorderUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
+import naga.framework.ui.graphic.border.BorderUtil;
 
 /**
  * @author Bruno Salmon

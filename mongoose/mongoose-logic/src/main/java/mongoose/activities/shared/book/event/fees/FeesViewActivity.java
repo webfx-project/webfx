@@ -37,7 +37,7 @@ import naga.util.Arrays;
 import naga.util.Booleans;
 import naga.util.tuples.Pair;
 
-import static naga.framework.ui.controls.ImageViewUtil.createImageView;
+import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import mongoose.domainmodel.format.DateFormatter;
 import naga.framework.activity.presentation.view.impl.PresentationViewActivityImpl;
-import naga.framework.ui.controls.DialogUtil;
+import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 
 import static javafx.scene.layout.Region.USE_PREF_SIZE;
 

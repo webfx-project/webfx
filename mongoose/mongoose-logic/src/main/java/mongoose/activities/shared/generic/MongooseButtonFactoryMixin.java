@@ -3,7 +3,7 @@ package mongoose.activities.shared.generic;
 import javafx.scene.control.Button;
 import mongoose.activities.shared.logic.ui.theme.Theme;
 import naga.framework.ui.action.ButtonFactoryMixin;
-import naga.framework.ui.controls.ButtonBuilder;
+import naga.framework.ui.graphic.controls.button.ButtonBuilder;
 
 /**
  * @author Bruno Salmon

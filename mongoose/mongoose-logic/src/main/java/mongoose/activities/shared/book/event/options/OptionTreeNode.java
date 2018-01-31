@@ -22,7 +22,7 @@ import mongoose.activities.shared.logic.work.transaction.WorkingDocumentTransact
 import mongoose.entities.Label;
 import mongoose.entities.Option;
 import mongoose.util.Labels;
-import naga.framework.ui.controls.EntityButtonSelector;
+import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;

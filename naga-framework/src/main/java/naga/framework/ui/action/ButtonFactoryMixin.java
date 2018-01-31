@@ -4,10 +4,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.controls.BorderUtil;
-import naga.framework.ui.controls.ButtonBuilder;
-import naga.framework.ui.controls.ControlFactoryMixin;
+import naga.framework.ui.graphic.background.BackgroundUtil;
+import naga.framework.ui.graphic.border.BorderUtil;
+import naga.framework.ui.graphic.controls.button.ButtonBuilder;
+import naga.framework.ui.graphic.controls.ControlFactoryMixin;
 import naga.framework.ui.layouts.LayoutUtil;
 
 /**

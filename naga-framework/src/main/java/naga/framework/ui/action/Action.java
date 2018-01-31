@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import naga.framework.ui.action.impl.ActionImpl;
-import naga.framework.ui.controls.ButtonUtil;
+import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.i18n.I18n;
 
 /**

@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
-import naga.framework.ui.controls.DialogUtil;
+import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 
 /**
  * @author Bruno Salmon

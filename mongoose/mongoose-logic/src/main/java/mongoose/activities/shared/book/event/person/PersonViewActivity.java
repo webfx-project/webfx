@@ -21,8 +21,8 @@ import mongoose.activities.shared.logic.work.WorkingDocument;
 import naga.util.Numbers;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.auth.UiUser;
-import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.controls.BorderUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
+import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
 

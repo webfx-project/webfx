@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
-import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.i18n.I18n;
 
 import java.time.LocalDate;

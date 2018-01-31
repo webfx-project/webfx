@@ -5,12 +5,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.generic.eventdependent.EventDependentViewDomainActivity;
-import mongoose.entities.Event;
-import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.layouts.LayoutUtil;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -58,12 +60,9 @@ public abstract class BookingProcessViewActivity
         if (uiNode instanceof Region)
             onEvent().setHandler(ar -> {
                 if (ar.succeeded()) {
-                    Event event = ar.result();
-                    String css = event.getStringFieldValue("cssClass");
-                    if (css != null && css.startsWith("linear-gradient")) {
-                        Background eventBackground = BackgroundUtil.newLinearGradientBackground(css);
-                        ((Region) uiNode).setBackground(eventBackground);
-                    }
+                    String css = ar.result().getStringFieldValue("cssClass");
+                    if (Strings.startsWith(css,"linear-gradient"))
+                        ((Region) uiNode).setBackground(BackgroundUtil.newLinearGradientBackground(css));
                 }
             });
         return uiNode;

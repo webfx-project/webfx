@@ -6,12 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import naga.framework.ui.controls.BackgroundUtil;
-import naga.framework.ui.controls.BorderUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
+import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.fxdata.cell.collator.NodeCollatorRegistry;
 
-import static naga.framework.ui.controls.ImageViewUtil.createImageView;
+import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
 
 /**
  * @author Bruno Salmon

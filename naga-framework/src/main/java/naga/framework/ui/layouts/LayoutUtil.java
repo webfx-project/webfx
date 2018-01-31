@@ -8,7 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.uischeduler.AnimationFramePass;

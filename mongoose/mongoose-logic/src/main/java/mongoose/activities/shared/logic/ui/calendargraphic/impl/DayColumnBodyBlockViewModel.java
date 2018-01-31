@@ -16,7 +16,7 @@ import mongoose.activities.shared.logic.time.TimeInterval;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarCell;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarClickEvent;
 import mongoose.activities.shared.logic.ui.calendargraphic.CalendarGraphic;
-import naga.framework.ui.controls.BackgroundUtil;
+import naga.framework.ui.graphic.background.BackgroundUtil;
 
 import java.util.concurrent.TimeUnit;
 
