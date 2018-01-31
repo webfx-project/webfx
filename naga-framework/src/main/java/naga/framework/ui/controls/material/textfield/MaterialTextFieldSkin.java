@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Region;
+import naga.framework.ui.layouts.LayoutUtil;
 import naga.util.collection.Collections;
 
 
@@ -17,7 +18,7 @@ public class MaterialTextFieldSkin extends TextFieldSkin implements MaterialText
     private final MaterialTextFieldImpl materialTextField;
 
     public MaterialTextFieldSkin(TextField textField) {
-        super(textField);
+        super(LayoutUtil.removePadding(textField));
         ObservableList<Node> children = getChildren();
         Region textBox = (Region) Collections.first(children);
         materialTextField = new MaterialTextFieldImpl(children);
