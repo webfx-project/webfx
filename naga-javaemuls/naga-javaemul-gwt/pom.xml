@@ -20,6 +20,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- This dependency is for regex emulation (based on gwt RegExp provided in gwt-user) -->
+        <dependency>
+            <groupId>com.google.gwt</groupId>
+            <artifactId>gwt-user</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <properties>
