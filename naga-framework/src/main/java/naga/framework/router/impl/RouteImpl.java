@@ -6,6 +6,11 @@ import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
 import naga.util.async.Handler;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * @author Bruno Salmon
  */
@@ -18,9 +23,9 @@ class RouteImpl implements Route {
     private Handler<RoutingContext> contextHandler;
     private Handler<RoutingContext> failureHandler;
     private boolean added;
-    private boolean parametrized;
-    //private Pattern pattern;
-    //private Set<String> groups;
+    private boolean parametrized; // used to flag non regex paths with parameters
+    private Pattern pattern;
+    private List<String> groups;
 
     RouteImpl(RouterImpl router) {
         this.router = router;
@@ -37,6 +42,11 @@ class RouteImpl implements Route {
         return this;
     }
 
+    private void checkPath(String path) {
+        if (!Strings.startsWith(path, "/"))
+            throw new IllegalArgumentException("Path must start with /");
+    }
+
     private void setPath(String path) {
         // See if the path contains ":" - if so then it contains parameter capture groups and we have to generate
         // a regex for that
@@ -48,6 +58,27 @@ class RouteImpl implements Route {
                 path = path.substring(0, lastCharPos);
         }
         this.path = path;
+    }
+
+    @Override
+    public synchronized Route pathRegex(String regex) {
+        setRegex(regex);
+        return this;
+    }
+
+    private void setRegex(String regex) {
+        pattern = Pattern.compile(regex);
+        // Check if there are any groups with names
+        for (int i = regex.indexOf('('); i >= 0 ; i = regex.indexOf('(', i + 1)) {
+            if (i == 0 || regex.charAt(i - 1) != '\\') {
+                if (groups == null)
+                    groups = new ArrayList<>();
+                if (i >= regex.length() - 2 || regex.charAt(i + 1) != '?' || regex.charAt(i + 2) != '<')
+                    groups.add(null);
+                else
+                    groups.add(regex.substring(i + 3, regex.indexOf('>', i + 3)));
+            }
+        }
     }
 
     @Override
@@ -68,14 +99,12 @@ class RouteImpl implements Route {
         /*if (!enabled) {
             return false;
         }*/
-        if (path != null && !parametrized && !pathMatches(mountPoint, context))
+        if (path != null && !parametrized && pattern == null && !pathMatches(mountPoint, context))
             return false;
+        String requestedPath = context.path(); //useNormalisedPath ? Utils.normalizePath(context.request().path()) : context.request().path();
+        if (Strings.isNotEmpty(mountPoint))
+            requestedPath = requestedPath.substring(mountPoint.length());
         if (parametrized) {
-            String requestedPath = context.path();
-            /*if (useNormalisedPath)
-                requestedPath = Utils.normalisePath(useNormalisedPath, false);*/
-            if (Strings.isNotEmpty(mountPoint))
-                requestedPath = requestedPath.substring(mountPoint.length());
             int pathPos = 0, reqPos = 0, pathLength = path.length(), reqLength = requestedPath.length();
             while (true) {
                 if (pathPos == pathLength && reqPos == reqLength) // Means that the loop is successfully finished
@@ -103,6 +132,25 @@ class RouteImpl implements Route {
                         return false;
                 pathPos = nextPathPos;
                 reqPos = nextReqPos;
+            }
+        } else if (pattern != null) {
+            Matcher m = pattern.matcher(requestedPath);
+            if (!m.matches())
+                return false;
+            // capturing groups
+            int n = m.groupCount();
+            if (n > 0 && groups != null) {
+                int gn = groups.size();
+                for (int i = 0; i < n; i++) {
+                    String group = m.group(i + 1);
+                    if (group != null) {
+                        String k = i < gn ? groups.get(i) : null;
+                        if (k != null) {
+                            String value = group; // Utils.urlDecode(group, false);
+                            context.getParams().set(k, value);
+                        }
+                    }
+                }
             }
         }
         return true;
@@ -151,11 +199,6 @@ class RouteImpl implements Route {
         this.failureHandler = exceptionHandler;
         checkAdded();
         return this;
-    }
-
-    private void checkPath(String path) {
-        if (!Strings.startsWith(path, "/"))
-            throw new IllegalArgumentException("Path must start with /");
     }
 
     synchronized void handleFailure(RoutingContext context) {

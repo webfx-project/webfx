@@ -9,6 +9,8 @@ public interface Route {
 
     Route path(String path);
 
+    Route pathRegex(String path);
+
     String getPath();
 
     Route handler(Handler<RoutingContext> handler);
@@ -23,8 +25,6 @@ public interface Route {
     Route parent(Route parent);
 
     Route parent();
-
-    Route pathRegex(String path);
 
     Route useNormalisedPath(boolean useNormalisedPath);
 

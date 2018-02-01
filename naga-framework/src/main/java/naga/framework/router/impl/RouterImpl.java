@@ -35,6 +35,17 @@ public class RouterImpl implements Router {
         return this;
     }
 
+    @Override
+    public Route routeWithRegex(String path) {
+        return route().pathRegex(path);
+    }
+
+    @Override
+    public Router routeWithRegex(String path, Handler<RoutingContext> handler) {
+        routeWithRegex(path).handler(handler);
+        return this;
+    }
+
     void addRoute(RouteImpl route) {
         routes.add(route);
     }

@@ -17,6 +17,10 @@ public interface Router {
 
     Router route(String path, Handler<RoutingContext> handler);
 
+    Route routeWithRegex(String path);
+
+    Router routeWithRegex(String path, Handler<RoutingContext> handler);
+
     void accept(String path, JsonObject state);
 
     Router mountSubRouter(String mountPoint, Router subRouter);
