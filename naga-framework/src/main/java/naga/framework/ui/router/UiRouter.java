@@ -142,10 +142,20 @@ public class UiRouter extends HistoryRouter {
     }
 
     public UiRouter authRoute(String path) {
-        if (redirectAuthHandler == null)
-            throw new IllegalStateException("setRedirectAuthHandler() must be called on this router before calling authRoute()");
+        checkRedirectAuthHandler();
         router.route(path).handler(redirectAuthHandler);
         return this;
+    }
+
+    public UiRouter authRouteWithRegex(String path) {
+        checkRedirectAuthHandler();
+        router.routeWithRegex(path).handler(redirectAuthHandler);
+        return this;
+    }
+
+    private void checkRedirectAuthHandler() {
+        if (redirectAuthHandler == null)
+            throw new IllegalStateException("setRedirectAuthHandler() must be called on this router before calling authRoute()");
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory) {
@@ -153,11 +163,11 @@ public class UiRouter extends HistoryRouter {
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
-        return route(true, path, activityFactory, activityContextFactory);
+        return route(true, false, path, activityFactory, activityContextFactory);
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter routeAuth(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
-        return route(true, path, activityFactory, activityContextFactory, contextConverter);
+        return route(true, false, path, activityFactory, activityContextFactory, contextConverter);
     }
 
     /* GWT public <CT> UiRouter route(String path, Class<? extends Activity<CT>> activityClass) {
@@ -173,25 +183,41 @@ public class UiRouter extends HistoryRouter {
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
-        return route(false, path, activityFactory, activityContextFactory);
+        return route(false, false, path, activityFactory, activityContextFactory);
+    }
+
+    public <C extends UiRouteActivityContext<C>> UiRouter routeWithRegex(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
+        return route(false, true, path, activityFactory, activityContextFactory);
+    }
+
+    public <C extends UiRouteActivityContext<C>> UiRouter routeAuthWithRegex(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
+        return route(true, true, path, activityFactory, activityContextFactory);
     }
 
     public <C extends UiRouteActivityContext<C>> UiRouter route(String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
-        return route(false, path, activityFactory, activityContextFactory, contextConverter);
+        return route(false, false, path, activityFactory, activityContextFactory, contextConverter);
     }
 
     private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, String path, Factory<Activity<C>> activityFactory) {
-        return route(auth, path, activityFactory, activityContextFactory);
+        return route(auth, false, path, activityFactory, activityContextFactory);
     }
 
-    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
-        return route(auth, path, activityFactory, activityContextFactory, null);
+    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, boolean regex, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory) {
+        return route(auth, regex, path, activityFactory, activityContextFactory, null);
     }
 
-    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
-        if (auth)
-            authRoute(path);
-        router.route(path, new ActivityRoutingHandler<>(ActivityManager.factory(activityFactory, activityContextFactory), contextConverter));
+    private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, boolean regex, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
+        if (auth) {
+            if (regex)
+                authRouteWithRegex(path);
+            else
+                authRoute(path);
+        }
+        ActivityRoutingHandler<C> handler = new ActivityRoutingHandler<>(ActivityManager.factory(activityFactory, activityContextFactory), contextConverter);
+        if (regex)
+            router.routeWithRegex(path, handler);
+        else
+            router.route(path, handler);
         return this;
     }
 
