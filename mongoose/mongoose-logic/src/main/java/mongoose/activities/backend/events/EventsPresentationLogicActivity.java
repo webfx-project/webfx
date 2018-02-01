@@ -45,7 +45,7 @@ public class EventsPresentationLogicActivity
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
                 .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> {
                     if (event != null)
-                        getHistory().push("/event/" + event.getPrimaryKey() + "/bookings");
+                        getHistory().push("/bookings/event/" + event.getPrimaryKey());
                 }).start();
     }
 }

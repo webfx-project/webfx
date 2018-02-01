@@ -15,6 +15,7 @@ import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginViewActivity;
 import mongoose.activities.shared.auth.UnauthorizedViewActivity;
 import mongoose.auth.MongooseAuth;
+import naga.framework.router.util.PathBuilder;
 import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
@@ -41,7 +42,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
                 .route("/organizations", OrganizationsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/organization/:organizationId/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .routeAuth("/event/:eventId/bookings", BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                .routeAuthWithRegex(PathBuilder.toRegexPath("/bookings(/organization/:organizationId)?(/event/:eventId)?"), BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/event/:eventId/letters", LettersPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/event/:eventId/clone", CloneEventPresentationActivity::new, DomainPresentationActivityContextFinal::new)
                 .route("/letter/:letterId/edit", EditLetterViewActivity::new, ViewDomainActivityContextFinal::new)
