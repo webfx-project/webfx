@@ -1,6 +1,9 @@
 package naga.framework.ui.filter;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import naga.framework.activity.activeproperty.HasActiveProperty;
 import naga.framework.expression.Expression;
@@ -30,6 +33,8 @@ import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.spi.QueryService;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
+import naga.util.Numbers;
+import naga.util.Strings;
 import naga.util.async.Handler;
 import naga.util.collection.Collections;
 import naga.util.function.Consumer;
@@ -185,6 +190,22 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
                     String json = toJsonFilterConverter.convert(t);
                     return json == null ? null : new StringFilter(json);
                 }));
+    }
+
+    public <T> ReactiveExpressionFilter<E> combineIfNotNull(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
+        return combine(property, value -> value == null ? null : toJsonFilterConverter.convert(value));
+    }
+
+    public ReactiveExpressionFilter<E> combineIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
+        return combine(property, s -> Strings.isEmpty(s) ? null : toJsonFilterConverter.convert(s));
+    }
+
+    public ReactiveExpressionFilter<E> combineTrimIfNotEmpty(ObservableValue<String> property, Converter<String, String> toJsonFilterConverter) {
+        return combineIfNotEmpty(property, s -> toJsonFilterConverter.convert(Strings.trim(s)));
+    }
+
+    public <T extends Number> ReactiveExpressionFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
+        return combine(property, value -> Numbers.isPositive(value) ? toJsonFilterConverter.convert(value) : null);
     }
 
     public ReactiveExpressionFilter<E> combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
