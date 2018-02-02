@@ -79,6 +79,7 @@ class RouteImpl implements Route {
                     groups.add(regex.substring(i + 3, regex.indexOf('>', i + 3)));
             }
         }
+        this.path = regex; // Not used intenally but might be used externally through getPath()
     }
 
     @Override
