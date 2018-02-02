@@ -52,6 +52,10 @@ public class Numbers {
         return !isZero(value);
     }
 
+    public static boolean isPositive(Number number) {
+        return number != null && number.intValue() >= 0;
+    }
+
     public static Object negate(Object value) {
         if (value == null)
             return null;
