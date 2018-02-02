@@ -1,26 +1,24 @@
 package mongoose.activities.backend.application;
 
-import mongoose.activities.backend.book.event.options.EditableOptionsViewActivity;
+import mongoose.activities.backend.book.event.options.EditableOptionsRouting;
 import mongoose.activities.backend.container.BackendContainerViewActivity;
-import mongoose.activities.backend.event.bookings.BookingsPresentationActivity;
-import mongoose.activities.backend.event.clone.CloneEventPresentationActivity;
-import mongoose.activities.backend.event.letters.LettersPresentationActivity;
-import mongoose.activities.backend.events.EventsPresentationActivity;
-import mongoose.activities.backend.letter.edit.EditLetterViewActivity;
-import mongoose.activities.backend.monitor.MonitorPresentationActivity;
-import mongoose.activities.backend.organizations.OrganizationsPresentationActivity;
-import mongoose.activities.backend.tester.TesterPresentationActivity;
-import mongoose.activities.backend.tester.savetest.SaveTestPresentationActivity;
+import mongoose.activities.backend.event.bookings.BookingsRouting;
+import mongoose.activities.backend.event.clone.CloneEventRouting;
+import mongoose.activities.backend.event.letters.LettersRouting;
+import mongoose.activities.backend.events.EventsRouting;
+import mongoose.activities.backend.letter.edit.EditLetterRouting;
+import mongoose.activities.backend.monitor.MonitorRooting;
+import mongoose.activities.backend.organizations.OrganizationsRouting;
+import mongoose.activities.backend.tester.TesterRooting;
+import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
-import mongoose.activities.shared.auth.LoginViewActivity;
-import mongoose.activities.shared.auth.UnauthorizedViewActivity;
+import mongoose.activities.shared.auth.LoginRouting;
+import mongoose.activities.shared.auth.UnauthorizedRouting;
 import mongoose.auth.MongooseAuth;
-import naga.framework.router.util.PathBuilder;
-import naga.util.function.Factory;
-import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -35,20 +33,19 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter
-                .setRedirectAuthHandler(new MongooseAuth(context.getDataSourceModel()), "/login", "/unauthorized")
-                .route("/login", LoginViewActivity::new, ViewDomainActivityContextFinal::new)
-                .route("/unauthorized", UnauthorizedViewActivity::new, ViewDomainActivityContextFinal::new)
-                .route("/book/event/:eventId/options", EditableOptionsViewActivity::new, ViewDomainActivityContextFinal::new)
-                .route("/organizations", OrganizationsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/organization/:organizationId/events", EventsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .routeAuthWithRegex(PathBuilder.toRegexPath("/bookings(/organization/:organizationId)?(/event/:eventId)?"), BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/event/:eventId/letters", LettersPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/event/:eventId/clone", CloneEventPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/letter/:letterId/edit", EditLetterViewActivity::new, ViewDomainActivityContextFinal::new)
-                .route("/monitor", MonitorPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/tester", TesterPresentationActivity::new, DomainPresentationActivityContextFinal::new)
-                .route("/saveTest", SaveTestPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                .setRedirectAuthHandler(new MongooseAuth(context.getDataSourceModel()), LoginRouting.getPath(), UnauthorizedRouting.getPath())
+                .route(LoginRouting.uiRoute())
+                .route(UnauthorizedRouting.uiRoute())
+                .route(EditableOptionsRouting.uiRoute())
+                .route(OrganizationsRouting.uiRoute())
+                .route(EventsRouting.uiRoute())
+                .route(BookingsRouting.uiRoute())
+                .route(LettersRouting.uiRoute())
+                .route(CloneEventRouting.uiRoute())
+                .route(EditLetterRouting.uiRoute())
+                .route(MonitorRooting.uiRoute())
+                .route(TesterRooting.uiRoute())
+                .route(SaveTestRooting.uiRoute())
         );
     }
 

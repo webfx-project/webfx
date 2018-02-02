@@ -6,7 +6,7 @@ import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainP
 /**
  * @author Bruno Salmon
  */
-public class SaveTestPresentationLogicActivity extends DomainPresentationLogicActivityImpl<SaveTestPresentationModel> {
+class SaveTestPresentationLogicActivity extends DomainPresentationLogicActivityImpl<SaveTestPresentationModel> {
 
     public SaveTestPresentationLogicActivity() {
         super(SaveTestPresentationModel::new);

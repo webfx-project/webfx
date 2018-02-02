@@ -5,9 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import mongoose.activities.backend.application.BackendMongooseApplication;
-import mongoose.activities.backend.javafx.event.clone.FxCloneEventPresentationActivity;
+import mongoose.activities.backend.javafx.event.clone.FxCloneEventRouting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
-import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.javafx.JavaFxToolkit;
@@ -37,7 +36,7 @@ public class JavaFxBackendMongooseApplication extends BackendMongooseApplication
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter.
-                route("/event/:eventId/clone", FxCloneEventPresentationActivity::new, DomainPresentationActivityContextFinal::new)
+                route(FxCloneEventRouting.uiRoute())
         );
     }
 

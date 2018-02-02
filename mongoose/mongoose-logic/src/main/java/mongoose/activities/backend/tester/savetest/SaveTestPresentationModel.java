@@ -9,7 +9,7 @@ import javafx.event.EventHandler;
 /**
  * @author Jean-Pierre Alonso.
  */
-public class SaveTestPresentationModel {
+class SaveTestPresentationModel {
 
     private final Property<String> testNameProperty = new SimpleObjectProperty<>();
     Property<String> testNameProperty() { return testNameProperty; }

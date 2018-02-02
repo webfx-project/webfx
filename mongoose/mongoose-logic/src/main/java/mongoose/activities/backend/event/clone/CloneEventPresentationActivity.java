@@ -5,7 +5,7 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 /**
  * @author Bruno Salmon
  */
-public class CloneEventPresentationActivity extends DomainPresentationActivityImpl<CloneEventPresentationModel> {
+class CloneEventPresentationActivity extends DomainPresentationActivityImpl<CloneEventPresentationModel> {
 
     public CloneEventPresentationActivity() {
         super(CloneEventPresentationViewActivity::new, CloneEventPresentationLogicActivity::new);

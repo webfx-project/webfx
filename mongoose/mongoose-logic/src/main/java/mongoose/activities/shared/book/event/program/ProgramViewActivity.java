@@ -12,7 +12,7 @@ import naga.platform.services.log.spi.Logger;
 /**
  * @author Bruno Salmon
  */
-public class ProgramViewActivity extends BookingProcessViewActivity {
+class ProgramViewActivity extends BookingProcessViewActivity {
 
     private BookingCalendar bookingCalendar;
     private OptionsPreselection noAccommodationOptionsPreselection;

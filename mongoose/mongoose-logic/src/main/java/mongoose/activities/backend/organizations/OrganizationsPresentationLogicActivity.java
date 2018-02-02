@@ -1,5 +1,6 @@
 package mongoose.activities.backend.organizations;
 
+import mongoose.activities.backend.events.EventsRouting;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
@@ -7,15 +8,15 @@ import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainP
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsPresentationLogicActivity
+class OrganizationsPresentationLogicActivity
         extends DomainPresentationLogicActivityImpl<OrganizationsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
-    public OrganizationsPresentationLogicActivity() {
+    OrganizationsPresentationLogicActivity() {
         this(OrganizationsPresentationModel::new);
     }
 
-    public OrganizationsPresentationLogicActivity(Factory<OrganizationsPresentationModel> presentationModelFactory) {
+    private OrganizationsPresentationLogicActivity(Factory<OrganizationsPresentationModel> presentationModelFactory) {
         super(presentationModelFactory);
     }
 
@@ -24,9 +25,9 @@ public class OrganizationsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
                 // Search box condition
-                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
-                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
+                .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
                 .combine(pm.withEventsProperty(), "{where: 'exists(select Event where organization=o)', orderBy: 'id'}")
                 .setExpressionColumns("[" +
                         "{label: 'Centre', expression: '[icon, name + ` (` + type.code + `)`]'}," +
@@ -34,9 +35,7 @@ public class OrganizationsPresentationLogicActivity
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> {
-                    if (organization != null)
-                        getHistory().push("/organization/" + organization.getPrimaryKey() + "/events");
-                }).start();
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> EventsRouting.routeUsingOrganization(organization, getHistory()))
+                .start();
     }
 }

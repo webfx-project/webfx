@@ -11,7 +11,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setVGrowable;
 /**
  * @author Bruno Salmon
  */
-public class MonitorPresentationViewActivity extends PresentationViewActivityImpl<MonitorPresentationModel> {
+class MonitorPresentationViewActivity extends PresentationViewActivityImpl<MonitorPresentationModel> {
 
     private Chart memoryChart;
     private Chart cpuChart;

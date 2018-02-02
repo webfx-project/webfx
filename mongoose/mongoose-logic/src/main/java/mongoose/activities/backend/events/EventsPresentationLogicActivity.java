@@ -1,5 +1,6 @@
 package mongoose.activities.backend.events;
 
+import mongoose.activities.backend.event.bookings.BookingsRouting;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
@@ -7,7 +8,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class EventsPresentationLogicActivity
+class EventsPresentationLogicActivity
         extends DomainPresentationLogicActivityImpl<EventsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
@@ -15,7 +16,7 @@ public class EventsPresentationLogicActivity
         this(EventsPresentationModel::new);
     }
 
-    public EventsPresentationLogicActivity(Factory<EventsPresentationModel> presentationModelFactory) {
+    private EventsPresentationLogicActivity(Factory<EventsPresentationModel> presentationModelFactory) {
         super(presentationModelFactory);
     }
 
@@ -29,10 +30,10 @@ public class EventsPresentationLogicActivity
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
-                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
-                .combine(pm.organizationIdProperty(), o -> o == null ? null : "{where: 'organization=" + o + "'}")
+                .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+                .combineIfNotNull(pm.organizationIdProperty(), o -> "{where: 'organization=" + o + "'}")
                 // Limit condition
-                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
+                .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
                 // With bookings condition
                 //.combine(pm.withBookingsProperty(), "{where: '(select count(1) from Document where !cancelled and event=e) > 0'}")
                 .setExpressionColumns("[" +
@@ -43,9 +44,7 @@ public class EventsPresentationLogicActivity
                         "{role: 'background', expression: 'type.background'}" +
                         "]")
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> {
-                    if (event != null)
-                        getHistory().push("/bookings/event/" + event.getPrimaryKey());
-                }).start();
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> BookingsRouting.routeUsingEvent(event, getHistory()))
+                .start();
     }
 }

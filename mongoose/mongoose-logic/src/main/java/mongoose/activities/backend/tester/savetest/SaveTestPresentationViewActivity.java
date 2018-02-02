@@ -11,7 +11,7 @@ import naga.framework.ui.layouts.SceneUtil;
 /**
  * @author Bruno Salmon
  */
-public class SaveTestPresentationViewActivity extends PresentationViewActivityImpl<SaveTestPresentationModel> {
+class SaveTestPresentationViewActivity extends PresentationViewActivityImpl<SaveTestPresentationModel> {
 
     private TextField testName;
     private TextField testComment;

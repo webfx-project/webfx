@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class PaymentViewActivity extends CartBasedViewActivity {
+class PaymentViewActivity extends CartBasedViewActivity {
 
     private VBox paymentsVBox;
     private List<DocumentPayment> documentPayments;

@@ -28,7 +28,7 @@ import java.time.Instant;
 /**
  * @author Bruno Salmon
  */
-public class SummaryViewActivity extends BookingProcessViewActivity {
+class SummaryViewActivity extends BookingProcessViewActivity {
 
     private BookingOptionsPanel bookingOptionsPanel;
     private Node bookingCalendarSection;

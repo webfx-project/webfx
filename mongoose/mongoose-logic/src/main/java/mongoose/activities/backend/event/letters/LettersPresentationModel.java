@@ -5,6 +5,6 @@ import mongoose.activities.shared.generic.eventdependent.EventDependentGenericTa
 /**
  * @author Bruno Salmon
  */
-public class LettersPresentationModel extends EventDependentGenericTablePresentationModel {
+class LettersPresentationModel extends EventDependentGenericTablePresentationModel {
 
 }

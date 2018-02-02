@@ -11,7 +11,7 @@ import static naga.framework.ui.layouts.LayoutUtil.setHGrowable;
 /**
  * @author Bruno Salmon
  */
-public class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> {
+class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> {
 
     private HBox hBox;
 

@@ -7,7 +7,7 @@ import naga.framework.activity.view.impl.ViewActivityImpl;
 /**
  * @author Bruno Salmon
  */
-public class UnauthorizedViewActivity extends ViewActivityImpl {
+class UnauthorizedViewActivity extends ViewActivityImpl {
 
     @Override
     public Node buildUi() {

@@ -11,7 +11,7 @@ import naga.fxdata.cell.collator.GridCollator;
 /**
  * @author Bruno Salmon
  */
-public class TermsPresentationViewActivity extends BookingProcessPresentationViewActivity<TermsPresentationModel> {
+class TermsPresentationViewActivity extends BookingProcessPresentationViewActivity<TermsPresentationModel> {
 
     private BorderPane termsPanel;
 

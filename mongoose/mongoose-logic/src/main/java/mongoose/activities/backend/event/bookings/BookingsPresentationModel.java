@@ -9,7 +9,7 @@ import mongoose.activities.shared.generic.eventdependent.EventDependentGenericTa
 /**
  * @author Bruno Salmon
  */
-public class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
+class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
 
     private final ObjectProperty<EventHandler<ActionEvent>> onNewBooking = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onNewBookingProperty() { return onNewBooking; }

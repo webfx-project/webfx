@@ -29,7 +29,7 @@ import naga.fx.properties.Properties;
 /**
  * @author Bruno Salmon
  */
-public class PersonViewActivity extends BookingProcessViewActivity {
+class PersonViewActivity extends BookingProcessViewActivity {
 
     public PersonViewActivity() {
         super("summary");

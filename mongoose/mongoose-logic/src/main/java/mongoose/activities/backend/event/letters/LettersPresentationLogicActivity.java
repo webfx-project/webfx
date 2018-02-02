@@ -1,12 +1,13 @@
 package mongoose.activities.backend.event.letters;
 
+import mongoose.activities.backend.letter.edit.EditLetterRouting;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
 /**
  * @author Bruno Salmon
  */
-public class LettersPresentationLogicActivity
+class LettersPresentationLogicActivity
         extends EventDependentPresentationLogicActivity<LettersPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
@@ -18,23 +19,20 @@ public class LettersPresentationLogicActivity
     protected void startLogic(LettersPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
         createReactiveExpressionFilter("{class: 'Letter', where: 'active', orderBy: 'id'}")
-                // Condition
-                .combine(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
-                // Search box condition
-                .combine(pm.searchTextProperty(), s -> s == null ? null : "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
-                // Limit condition
-                .combine(pm.limitProperty(), l -> l.intValue() < 0 ? null : "{limit: '" + l + "'}")
-                .setExpressionColumns("[" +
-                        "'name'," +
-                        "'type'" +
-                        "]")
-                .applyDomainModelRowStyle()
-                .displayResultSetInto(pm.genericDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> {
-                    if (letter != null)
-                        getHistory().push("/letter/" + letter.getId().getPrimaryKey() + "/edit");
-                })
-                .start()
+            // Condition
+            .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
+            // Search box condition
+            .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
+            // Limit condition
+            .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
+            .setExpressionColumns("[" +
+                    "'name'," +
+                    "'type'" +
+                    "]")
+            .applyDomainModelRowStyle()
+            .displayResultSetInto(pm.genericDisplayResultSetProperty())
+            .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> EditLetterRouting.routeUsingLetter(letter, getHistory()))
+            .start()
         ;
     }
 }

@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import mongoose.activities.shared.book.event.fees.FeesRooting;
+import mongoose.activities.shared.book.event.options.OptionsRooting;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.TermsDialog;
 import mongoose.activities.shared.book.event.shared.TranslateFunction;
@@ -48,7 +50,7 @@ import static naga.framework.ui.format.FormatterRegistry.registerFormatter;
 /**
  * @author Bruno Salmon
  */
-public class CartViewActivity extends CartBasedViewActivity {
+class CartViewActivity extends CartBasedViewActivity {
 
     private final Property<DisplayResultSet> documentDisplayResultSetProperty = new SimpleObjectProperty<>();
     private final Property<DisplayResultSet> paymentDisplayResultSetProperty = new SimpleObjectProperty<>();
@@ -251,7 +253,7 @@ public class CartViewActivity extends CartBasedViewActivity {
         eventService.setSelectedOptionsPreselection(null);
         eventService.setWorkingDocument(selectedWorkingDocument);
         setSelectedWorkingDocument(null);
-        getHistory().push("/book/event/" + getEventId() + "/options");
+        OptionsRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void cancelBooking() {
@@ -324,7 +326,7 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void addBooking() {
-        getHistory().push("/book/event/" + getEventId() + "/fees");
+        FeesRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void showPayments() {
@@ -333,7 +335,7 @@ public class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void makePayment() {
-        getHistory().push("/book/cart/" + getCartUuid() + "/payment");
+        FeesRooting.routeUsingEventId(getCartUuid(), getHistory());
     }
 
 }

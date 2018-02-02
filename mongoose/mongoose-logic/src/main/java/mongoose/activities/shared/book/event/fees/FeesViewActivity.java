@@ -42,7 +42,7 @@ import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
 /**
  * @author Bruno Salmon
  */
-public class FeesViewActivity extends BookingProcessViewActivity {
+class FeesViewActivity extends BookingProcessViewActivity {
 
     public FeesViewActivity() {
         super("options");

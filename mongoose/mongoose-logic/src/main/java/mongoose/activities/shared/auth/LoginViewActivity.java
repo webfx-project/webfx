@@ -7,7 +7,7 @@ import naga.framework.activity.view.impl.ViewActivityImpl;
 /**
  * @author Bruno Salmon
  */
-public class LoginViewActivity extends ViewActivityImpl {
+class LoginViewActivity extends ViewActivityImpl {
 
     private LoginPanel loginPanel;
 

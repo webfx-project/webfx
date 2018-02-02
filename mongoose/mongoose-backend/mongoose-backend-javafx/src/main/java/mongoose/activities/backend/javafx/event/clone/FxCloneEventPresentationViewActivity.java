@@ -8,7 +8,7 @@ import mongoose.domainmodel.format.DateFormatter;
 /**
  * @author Bruno Salmon
  */
-public class FxCloneEventPresentationViewActivity extends CloneEventPresentationViewActivity {
+class FxCloneEventPresentationViewActivity extends CloneEventPresentationViewActivity {
 
     @Override
     protected void createViewNodes(CloneEventPresentationModel pm) {

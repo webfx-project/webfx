@@ -9,7 +9,7 @@ import mongoose.activities.shared.generic.table.GenericTablePresentationViewActi
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsPresentationViewActivity extends GenericTablePresentationViewActivity<OrganizationsPresentationModel> {
+class OrganizationsPresentationViewActivity extends GenericTablePresentationViewActivity<OrganizationsPresentationModel> {
 
     private CheckBox withEventsCheckBox;
 

@@ -6,7 +6,7 @@ import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 /**
  * @author Bruno Salmon
  */
-public class MonitorPresentationLogicActivity
+class MonitorPresentationLogicActivity
         extends DomainPresentationLogicActivityImpl<MonitorPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 

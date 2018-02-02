@@ -5,6 +5,6 @@ import mongoose.activities.shared.generic.table.GenericTablePresentationViewActi
 /**
  * @author Bruno Salmon
  */
-public class LettersPresentationViewActivity extends GenericTablePresentationViewActivity<LettersPresentationModel> {
+class LettersPresentationViewActivity extends GenericTablePresentationViewActivity<LettersPresentationModel> {
 
 }

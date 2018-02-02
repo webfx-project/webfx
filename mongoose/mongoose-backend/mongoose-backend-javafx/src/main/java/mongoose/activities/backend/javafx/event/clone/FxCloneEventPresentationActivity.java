@@ -7,7 +7,7 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 /**
  * @author Bruno Salmon
  */
-public class FxCloneEventPresentationActivity extends DomainPresentationActivityImpl<CloneEventPresentationModel> {
+class FxCloneEventPresentationActivity extends DomainPresentationActivityImpl<CloneEventPresentationModel> {
 
     public FxCloneEventPresentationActivity() {
         super(FxCloneEventPresentationViewActivity::new, CloneEventPresentationLogicActivity::new);

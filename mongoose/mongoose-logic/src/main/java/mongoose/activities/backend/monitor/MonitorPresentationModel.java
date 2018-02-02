@@ -7,7 +7,7 @@ import naga.fxdata.displaydata.DisplayResultSet;
 /**
  * @author Bruno Salmon
  */
-public class MonitorPresentationModel {
+class MonitorPresentationModel {
 
     private final Property<DisplayResultSet> memoryDisplayResultSetProperty = new SimpleObjectProperty<>();
     Property<DisplayResultSet> memoryDisplayResultSetProperty() { return memoryDisplayResultSetProperty; }
