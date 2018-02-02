@@ -36,6 +36,10 @@ public class Strings {
         return !isEmpty(s);
     }
 
+    public static String trim(String s) {
+        return s == null ? null : s.trim();
+    }
+
     public static boolean contains(String s, String what) {
         return s != null && s.contains(what);
     }
@@ -56,11 +60,11 @@ public class Strings {
         return endsWith(s, suffix) ? s.substring(0, s.length() - suffix.length()) : s;
     }
 
-    public static String replaceAllSafe(String s, String match, String replacement) {
+    public static String replaceAllSafe(String s, String match, Object replacement) {
         return replaceAll(s, match, toSafeString(replacement));
     }
 
-    public static String replaceAll(String s, String match, String replacement) {
+    public static String replaceAll(String s, String match, Object replacement) {
         if (s == null)
             return null;
         int pos = s.indexOf(match);
