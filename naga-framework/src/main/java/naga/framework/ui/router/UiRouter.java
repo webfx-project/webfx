@@ -206,6 +206,10 @@ public class UiRouter extends HistoryRouter {
         return route(auth, regex, path, activityFactory, activityContextFactory, null);
     }
 
+    public <C extends UiRouteActivityContext<C>> UiRouter route(UiRoute<C> uiRoute) {
+        return route(uiRoute.requiresAuthentication(), uiRoute.isRegex(), uiRoute.getPath(), uiRoute.activityFactory(), uiRoute.activityContextFactory(), uiRoute.contextConverter());
+    }
+
     private <C extends UiRouteActivityContext<C>> UiRouter route(boolean auth, boolean regex, String path, Factory<Activity<C>> activityFactory, ActivityContextFactory<C> activityContextFactory, Converter<RoutingContext, C> contextConverter) {
         if (auth) {
             if (regex)
