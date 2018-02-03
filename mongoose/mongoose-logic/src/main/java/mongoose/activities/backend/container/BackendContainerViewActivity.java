@@ -23,8 +23,8 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity {
         borderPane.setTop(new FlowPane(backButton, forwardButton
                 , newButton( "Organizations", () -> OrganizationsRouting.route(getHistory()))
                 , newButton("Events", () -> EventsRouting.route(getHistory()))
-                , newButton("Bookings", () -> BookingsRouting.routeUsingEvent(getParameter("eventId"), getHistory()))
-                , newButton("Letters", () -> LettersRouting.routeUsingEvent(getParameter("eventId"), getHistory()))
+                , newButton("Bookings", () -> BookingsRouting.routeUsingEventId(getParameter("eventId"), getHistory()))
+                , newButton("Letters", () -> LettersRouting.routeUsingEventId(getParameter("eventId"), getHistory()))
                 , newButton("Monitor", () -> MonitorRooting.route(getHistory()))
                 , newButton("Tester", () -> TesterRooting.route(getHistory()))
                 , englishButton
