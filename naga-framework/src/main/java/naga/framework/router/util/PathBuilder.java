@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  */
 public class PathBuilder {
 
-    private final static Pattern PATH_WITH_SEMI_COLON_PARAMETER_PATTERN = Pattern.compile(".*(:([^/)]+)).*");
+    private final static Pattern PATH_WITH_SEMI_COLON_PARAMETER_PATTERN = Pattern.compile(".*(:([^/|)]+)).*");
 
     public static String toRegexPath(String path) {
         while (true) {
