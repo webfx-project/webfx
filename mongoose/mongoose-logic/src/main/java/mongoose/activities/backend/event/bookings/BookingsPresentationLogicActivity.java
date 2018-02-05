@@ -12,6 +12,7 @@ import naga.framework.expression.sqlcompiler.terms.ConstantSqlCompiler;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.services.log.spi.Logger;
+import naga.util.Strings;
 
 import java.time.LocalDate;
 
@@ -49,6 +50,8 @@ class BookingsPresentationLogicActivity
             }
         }
         pm.setDay(day);
+        pm.setArrivals(Strings.contains(getRoutingPath(), "/arrivals"));
+        pm.setDepartures(Strings.contains(getRoutingPath(), "/departures"));
         super.updatePresentationModelFromRouteParameters(pm);
     }
 
@@ -71,7 +74,9 @@ class BookingsPresentationLogicActivity
             // Condition
             .combineIfNotNull(pm.organizationIdProperty(), organisationId -> "{where: 'event.organization=" + organisationId + "'}")
             .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
-            .combineIfNotNull(pm.dayProperty(), day -> "{where: `exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(day) + ")`}")
+            .combineIfNotNull(pm.dayProperty(), day ->    "{where:     `exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(day) + ")`}")
+            .combineIfTrue(pm.arrivalsProperty(), () ->   "{where: `not exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(pm.getDay().minusDays(1)) + ")`}")
+            .combineIfTrue(pm.departuresProperty(), () -> "{where: `not exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(pm.getDay().plusDays(1)) + ")`}")
             // Search box condition
             .combineTrimIfNotEmpty(pm.searchTextProperty(), s ->
                 Character.isDigit(s.charAt(0)) ? "{where: 'ref = " + s + "'}"

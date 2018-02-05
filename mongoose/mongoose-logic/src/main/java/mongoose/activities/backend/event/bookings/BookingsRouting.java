@@ -13,7 +13,8 @@ import naga.platform.client.url.history.History;
  */
 public class BookingsRouting {
 
-    private final static String ANY_PATH = "/bookings(/organization/:organizationId|/event/:eventId|/day/:day)*";
+    // Would be better but pb retrieving named groups doesn't work with JavaScript RegExp (can't retrieve groups): private final static String ANY_PATH = "/bookings(/organization/:organizationId|/event/:eventId|/day/:day|/arrivals|/departures)*";
+    private final static String ANY_PATH = "/bookings(/organization/:organizationId)?(/event/:eventId)?(/day/:day)?(/arrivals)?(/departures)?";
     private final static String EVENT_PATH = "/bookings/event/:eventId";
 
     public static UiRoute<?> uiRoute() {
