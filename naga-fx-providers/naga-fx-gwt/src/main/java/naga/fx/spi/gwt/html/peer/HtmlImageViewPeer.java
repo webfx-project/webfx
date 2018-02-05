@@ -69,8 +69,8 @@ public class HtmlImageViewPeer
             HTMLElement element = getElement();
             if (element instanceof HTMLImageElement) {
                 HTMLImageElement imageElement = (HTMLImageElement) element;
-                image.setWidth(imageElement.naturalWidth);
-                image.setHeight(imageElement.naturalHeight);
+                image.setWidth((double) imageElement.naturalWidth);
+                image.setHeight((double) imageElement.naturalHeight);
             }
         }
         if (sizeChangedCallback != null) // && loadedWidth == null && loadedHeight == null && Numbers.doubleValue(node.getFitWidth()) == 0 && Numbers.doubleValue(node.getFitHeight()) == 0)

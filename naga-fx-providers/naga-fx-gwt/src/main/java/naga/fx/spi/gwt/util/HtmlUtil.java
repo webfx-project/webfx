@@ -271,7 +271,7 @@ public class HtmlUtil {
 
     public static Future<Void> loadScript(String src) {
         NodeList<Element> scriptElements = document.head.getElementsByTagName("script");
-        for (double i = 0, n = scriptElements.getLength(); i < n; i++) {
+        for (int i = 0, n = scriptElements.getLength(); i < n; i++) {
             HTMLScriptElement headElement = (HTMLScriptElement) scriptElements.item(i);
             if (src.equals(headElement.src))
                 return Future.succeededFuture();
