@@ -15,5 +15,11 @@ public class EventDependentGenericTablePresentationModel extends GenericTablePre
     public Property<Object> eventIdProperty() {
         return this.eventIdProperty;
     }
+
+    private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Object> organizationIdProperty() {
+        return organizationIdProperty;
+    }
 }
 

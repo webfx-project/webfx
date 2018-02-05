@@ -9,11 +9,11 @@ public interface HasEventIdProperty {
 
     Property<Object> eventIdProperty();
 
-    default void setEventId(Object selected) {
-        this.eventIdProperty().setValue(selected);
+    default void setEventId(Object eventId) {
+        eventIdProperty().setValue(eventId);
     }
 
     default Object getEventId() {
-        return this.eventIdProperty().getValue();
+        return eventIdProperty().getValue();
     }
 }

@@ -9,8 +9,8 @@ public interface HasOrganizationIdProperty {
 
     Property<Object> organizationIdProperty();
 
-    default void setOrganizationId(Object selected) {
-        this.organizationIdProperty().setValue(selected);
+    default void setOrganizationId(Object organizationId) {
+        this.organizationIdProperty().setValue(organizationId);
     }
 
     default Object getOrganizationId() {

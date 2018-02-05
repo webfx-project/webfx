@@ -11,4 +11,9 @@ public class EventDependentPresentationModelImpl implements EventDependentPresen
     private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
     public Property<Object> eventIdProperty() { return eventIdProperty; }
 
+    private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>();
+    @Override
+    public Property<Object> organizationIdProperty() {
+        return organizationIdProperty;
+    }
 }

@@ -1,11 +1,8 @@
 package mongoose.activities.shared.generic.eventdependent;
 
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableValue;
-import naga.util.function.Factory;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -14,27 +11,19 @@ public abstract class EventDependentPresentationLogicActivity
         <PM extends EventDependentPresentationModel>
 
         extends DomainPresentationLogicActivityImpl<PM>
-        implements EventDependentMixin<DomainPresentationLogicActivityContextFinal<PM>> {
+        implements EventDependentActivityMixin<DomainPresentationLogicActivityContextFinal<PM>> {
 
     public EventDependentPresentationLogicActivity(Factory<PM> presentationModelFactory) {
         super(presentationModelFactory);
     }
 
-    private final Property<Object> eventIdProperty = new SimpleObjectProperty<>();
-
     @Override
-    public ObservableValue<Object> eventIdProperty() {
-        return eventIdProperty;
-    }
-
-    protected void initializePresentationModel(PM pm) {
-        pm.eventIdProperty().bind(eventIdProperty());
+    public PM getPresentationModel() {
+        return getActivityContext().getPresentationModel();
     }
 
     @Override
-    protected void fetchRouteParameters() {
-        eventIdProperty.setValue(getParameter("eventId"));
-        super.fetchRouteParameters();
+    protected void updatePresentationModelFromRouteParameters(PM pm) {
+        updateEventDependentPresentationModelFromRouteParameters();
     }
-
 }

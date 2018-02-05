@@ -7,13 +7,14 @@ import mongoose.activities.shared.generic.table.GenericTablePresentationModel;
 /**
  * @author Bruno Salmon
  */
-public class OrganizationDependentGenericTablePresentationModel extends GenericTablePresentationModel
+public class OrganizationDependentGenericTablePresentationModel
+        extends GenericTablePresentationModel
         implements HasOrganizationIdProperty {
 
     private final Property<Object> organizationIdProperty = new SimpleObjectProperty<>();
 
     public Property<Object> organizationIdProperty() {
-        return this.organizationIdProperty;
+        return organizationIdProperty;
     }
 
 }
