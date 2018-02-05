@@ -36,6 +36,7 @@ public class Function<T> {
 
         new Sum().register();
         new StringAgg().register();
+        new CurrentDate().register();
 
         new InlineFunction("readOnly", "e", null, "e").register();
         new InlineFunction("image", "src", new Type[]{SpecializedTextType.IMAGE_URL}, "src").register();
