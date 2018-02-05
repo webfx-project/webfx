@@ -30,6 +30,10 @@ public abstract class PresentationLogicActivityBase
         this.presentationModelFactory = presentationModelFactory;
     }
 
+    protected PM createPresentationModel() { return presentationModelFactory.create();}
+
+    protected void initializePresentationModel(PM pm) {}
+
     private void setPresentationModel(PM presentationModel) {
         PresentationLogicActivityContextBase.of(getActivityContext()).setPresentationModel(presentationModel);
     }
@@ -37,20 +41,22 @@ public abstract class PresentationLogicActivityBase
     @Override
     public void onCreate(C context) {
         super.onCreate(context);
-        setPresentationModel(presentationModelFactory != null ? presentationModelFactory.create() : buildPresentationModel());
+        PM presentationModel = createPresentationModel();
+        setPresentationModel(presentationModel);
+        initializePresentationModel(presentationModel);
     }
 
     @Override
     public void onStart() {
-        PM presentationModel = getPresentationModel();
-        initializePresentationModel(presentationModel);
         fetchRouteParameters();
         if (!presentationModelBoundWithLogic) {
-            startLogic(presentationModel);
+            startLogic(getPresentationModel());
             presentationModelBoundWithLogic = true;
         }
         super.onStart(); // setting active to true
     }
+
+    protected abstract void startLogic(PM pm);
 
     @Override
     public void onResume() {
@@ -72,11 +78,5 @@ public abstract class PresentationLogicActivityBase
         setPresentationModel(null);
         presentationModelBoundWithLogic = false;
     }
-
-    protected PM buildPresentationModel() { return null;}
-
-    protected void initializePresentationModel(PM pm) {}
-
-    protected abstract void startLogic(PM pm);
 
 }
