@@ -14,10 +14,11 @@ import java.util.Map;
  */
 public class Function<T> {
     protected final String name;
-    protected final String[] argNames; // argument names
-    protected final Type[] argTypes; // argument types
-    protected final Type returnType;
-    protected final boolean evaluable;
+    private final String[] argNames; // argument names
+    private final Type[] argTypes; // argument types
+    private final Type returnType;
+    private final boolean evaluable;
+    private final boolean keyword; // indicates if we should omit () when calling this function with no args (ex: current_date)
 
     private static Map<String, Function> functions = new HashMap<>();
     static {
@@ -57,10 +58,19 @@ public class Function<T> {
     }
 
     public Function(String name) {
-        this(name, null);
+        this(name, false);
     }
+
+    public Function(String name, boolean keyword) {
+        this(name, null, null, keyword);
+    }
+
     public Function(String name, Type returnType) {
-        this(name, null, null, returnType);
+        this(name, returnType, null, false);
+    }
+
+    public Function(String name, Type returnType, Boolean evaluable, boolean keyword) {
+        this(name, null, null, returnType, evaluable, keyword);
     }
 
     public Function(String name, String[] argNames, Type[] argTypes, Type returnType) {
@@ -68,11 +78,16 @@ public class Function<T> {
     }
 
     public Function(String name, String[] argNames, Type[] argTypes, Type returnType, Boolean evaluable) {
+        this(name, argNames, argTypes, returnType, evaluable, false);
+    }
+
+    public Function(String name, String[] argNames, Type[] argTypes, Type returnType, Boolean evaluable, boolean keyword) {
         this.name = name;
         this.argNames = argNames;
         this.argTypes = argTypes;
         this.returnType = returnType;
         this.evaluable = evaluable != null ? evaluable : this instanceof AggregateFunction;
+        this.keyword = keyword;
     }
 
     public String getName() {
@@ -89,6 +104,10 @@ public class Function<T> {
 
     public boolean isEvaluable() {
         return evaluable;
+    }
+
+    public boolean isKeyword() {
+        return keyword;
     }
 
     public boolean isSqlExpressible() {

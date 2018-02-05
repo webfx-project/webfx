@@ -41,16 +41,19 @@ public class CallSqlCompiler extends AbstractTermSqlCompiler<Call> {
                 String name = ExpressionSqlCompiler.toSqlString(f.getName()); // Ex: AbcNames transformed to abc_names
                 if (o.generateQueryMapping) {
                     o.build.addColumnInClause(null, name, name, null, o.clause, o.separator, false, false, true);
-                    sb = o.build.prepareAppend(o.clause, "").append('(');
+                    sb = o.build.prepareAppend(o.clause, "");
                 } else
-                    sb = o.build.prepareAppend(o).append(name).append('(');
-                if (arg != null)
-                    compileChildExpressionToSql(arg, o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
-                if (call.getOrderBy() != null) {
-                    sb.append(" order by ");
-                    compileChildExpressionToSql(call.getOrderBy(), o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
+                    sb = o.build.prepareAppend(o).append(name);
+                if (!f.isKeyword()) {
+                    sb.append('(');
+                    if (arg != null)
+                        compileChildExpressionToSql(arg, o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
+                    if (call.getOrderBy() != null) {
+                        sb.append(" order by ");
+                        compileChildExpressionToSql(call.getOrderBy(), o.changeSeparatorGroupedGenerateQueryMapping(",", false, false));
+                    }
+                    sb.append(')');
                 }
-                sb.append(')');
             }
         }
     }

@@ -87,12 +87,16 @@ public class Call<T> extends UnaryExpression<T> {
 
     @Override
     public StringBuilder toString(StringBuilder sb) {
-        sb.append(functionName).append('(');
-        if (operand != null)
-            operand.toString(sb);
-        if (orderBy != null)
-            orderBy.toString(sb.append(" order by "));
-        return sb.append(')');
+        sb.append(functionName);
+        if (!function.isKeyword()) {
+            sb.append('(');
+            if (operand != null)
+                operand.toString(sb);
+            if (orderBy != null)
+                orderBy.toString(sb.append(" order by "));
+            sb.append(')');
+        }
+        return sb;
     }
 
     public void collectPersistentTerms(Collection<Expression<T>> persistentTerms) {
