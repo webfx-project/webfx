@@ -13,7 +13,7 @@ import naga.platform.client.url.history.History;
  */
 public class BookingsRouting {
 
-    private final static String ANY_PATH = "/bookings(/organization/:organizationId)?(/event/:eventId)?";
+    private final static String ANY_PATH = "/bookings(/organization/:organizationId|/event/:eventId|/day/:day)*";
     private final static String EVENT_PATH = "/bookings/event/:eventId";
 
     public static UiRoute<?> uiRoute() {

@@ -6,10 +6,17 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import mongoose.activities.shared.generic.eventdependent.EventDependentGenericTablePresentationModel;
 
+import java.time.LocalDate;
+
 /**
  * @author Bruno Salmon
  */
 class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
+
+    private final ObjectProperty<LocalDate> dayProperty = new SimpleObjectProperty<>();
+    public final ObjectProperty<LocalDate> dayProperty() { return dayProperty; }
+    public final void setDay(LocalDate value) { dayProperty().set(value); }
+    public final LocalDate getDay() { return dayProperty().get(); }
 
     private final ObjectProperty<EventHandler<ActionEvent>> onNewBooking = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onNewBookingProperty() { return onNewBooking; }

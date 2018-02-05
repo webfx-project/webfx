@@ -8,9 +8,12 @@ import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Document;
 import mongoose.services.EventService;
+import naga.framework.expression.sqlcompiler.terms.ConstantSqlCompiler;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.services.log.spi.Logger;
+
+import java.time.LocalDate;
 
 /**
  * @author Bruno Salmon
@@ -23,11 +26,37 @@ class BookingsPresentationLogicActivity
         super(BookingsPresentationModel::new);
     }
 
+    @Override
+    protected void initializePresentationModel(BookingsPresentationModel pm) {
+        pm.setOnNewBooking(event -> {
+            getEventService().setCurrentCart(null);
+            FeesRooting.routeUsingEventId(getEventId(), getHistory());
+        });
+        pm.setOnCloneEvent(event -> CloneEventRouting.routeUsingEventId(getEventId(), getHistory()));
+    }
+
+    @Override
+    protected void updatePresentationModelFromRouteParameters(BookingsPresentationModel pm) {
+        LocalDate day = null;
+        Object dayParameter = getParameter("day");
+        if (dayParameter instanceof String) {
+            String dayString = (String) dayParameter;
+            switch (dayString) {
+                case "yesterday" : day = LocalDate.now().minusDays(1); break;
+                case "today": day = LocalDate.now(); break;
+                case "tomorrow" : day = LocalDate.now().plusDays(1); break;
+                default: day = LocalDate.parse(dayString); // Expecting an iso date (yyyy-MM-dd)
+            }
+        }
+        pm.setDay(day);
+        super.updatePresentationModelFromRouteParameters(pm);
+    }
+
     private ReactiveExpressionFilter<Document> filter;
     @Override
     protected void startLogic(BookingsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
             .combine("{columns: `[" +
                     "'ref'," +
                     "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
@@ -40,7 +69,9 @@ class BookingsPresentationLogicActivity
                     "{expression: 'price_balance', format: 'price'}" +
                     "]`}")
             // Condition
-            .combineIfNotNull(pm.eventIdProperty(), s -> "{where: 'event=" + s + "'}")
+            .combineIfNotNull(pm.organizationIdProperty(), organisationId -> "{where: 'event.organization=" + organisationId + "'}")
+            .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
+            .combineIfNotNull(pm.dayProperty(), day -> "{where: `exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(day) + ")`}")
             // Search box condition
             .combineTrimIfNotEmpty(pm.searchTextProperty(), s ->
                 Character.isDigit(s.charAt(0)) ? "{where: 'ref = " + s + "'}"
@@ -63,15 +94,9 @@ class BookingsPresentationLogicActivity
                         }
                     });
                     //CartRooting.route(document, getHistory());
-
                 }
-            }).start();
-
-        pm.setOnNewBooking(event -> {
-            getEventService().setCurrentCart(null);
-            FeesRooting.routeUsingEventId(pm.getEventId(), getHistory());
-        });
-        pm.setOnCloneEvent(event -> CloneEventRouting.routeUsingEventId(pm.getEventId(), getHistory()));
+            })
+            .start();
     }
 
     @Override
