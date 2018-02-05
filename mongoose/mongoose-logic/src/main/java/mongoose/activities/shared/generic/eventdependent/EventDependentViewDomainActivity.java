@@ -12,6 +12,14 @@ public abstract class EventDependentViewDomainActivity
     implements EventDependentActivityMixin<ViewDomainActivityContextFinal>,
         MongooseButtonFactoryMixin {
 
+    // Should the presentation model be stored in the context instead (like for logic presentation activity?)
+    private final EventDependentPresentationModel presentationModel = new EventDependentPresentationModelImpl();
+
+    @Override
+    public EventDependentPresentationModel getPresentationModel() {
+        return presentationModel;
+    }
+
     @Override
     protected void fetchRouteParameters() {
         updateEventDependentPresentationModelFromRouteParameters();
