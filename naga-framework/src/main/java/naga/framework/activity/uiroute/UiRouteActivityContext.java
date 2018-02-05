@@ -28,4 +28,5 @@ public interface UiRouteActivityContext
 
     Session getSession();
 
+    String getRoutingPath();
 }

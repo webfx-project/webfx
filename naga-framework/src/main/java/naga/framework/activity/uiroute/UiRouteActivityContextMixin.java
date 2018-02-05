@@ -36,4 +36,8 @@ public interface UiRouteActivityContextMixin
         return getActivityContext().getParameter(key);
     }
 
+    @Override
+    default String getRoutingPath() {
+        return getActivityContext().getRoutingPath();
+    }
 }

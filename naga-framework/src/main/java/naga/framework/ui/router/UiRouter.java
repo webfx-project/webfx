@@ -255,9 +255,9 @@ public class UiRouter extends HistoryRouter {
         }
 
         @Override
-        public void handle(RoutingContext context) {
+        public void handle(RoutingContext routingContext) {
             // Creating or retrieving the activity context associated with the requested routing context
-            C activityContext = contextConverter.convert(context);
+            C activityContext = contextConverter.convert(routingContext);
             // Since we will switch the activity, the current activity and its manager will now become the previous ones
             ActivityManager<C> previousActivityManager = activityManager; // let's memorize the reference to it
             // Now we switch the current activity and its manager to the current one
@@ -283,7 +283,7 @@ public class UiRouter extends HistoryRouter {
             if (mountParentRouter != null) { // Indicates it is a child sub router
                 mountParentRouter.mountChildSubRouter = UiRouter.this; // Setting the parent router child pointer
                 // Calling the parent router on the mount point will cause the parent activity to be displayed (if not already done)
-                mountParentRouter.router.accept(context.mountPoint() + "/", context.getParams());
+                mountParentRouter.router.accept(routingContext.mountPoint() + "/", routingContext.getParams());
             }
             // When the activity is a mount parent activity, we makes the trick so the child activity is displayed within the parent activity
             if (mountChildSubRouter != null) // Indicates it is a mount parent activity
@@ -301,7 +301,9 @@ public class UiRouter extends HistoryRouter {
             if (activityContext == null)
                 activityContextHistory.put(contextKey, activityContext = activityManagerFactory.create().getContextFactory().createContext(hostingContext));
             applyRoutingContextParamsToActivityContext(routingContext.getParams(), activityContext);
-            UiRouteActivityContextBase.toUiRouterActivityContextBase(activityContext).setSession(routingContext.session());
+            UiRouteActivityContextBase contextBase = UiRouteActivityContextBase.toUiRouterActivityContextBase(activityContext);
+            contextBase.setRoutingPath(routingContext.path());
+            contextBase.setSession(routingContext.session());
             return activityContext;
         }
 

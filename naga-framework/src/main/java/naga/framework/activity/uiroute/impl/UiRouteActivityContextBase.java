@@ -1,8 +1,8 @@
 package naga.framework.activity.uiroute.impl;
 
-import javafx.beans.property.Property;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import naga.framework.activity.i18n.impl.I18nActivityContextBase;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.session.Session;
@@ -24,6 +24,7 @@ public class UiRouteActivityContextBase
     private UiRouter uiRouter;
     private JsonObject params;
     private Session session;
+    private String routingPath;
 
     protected UiRouteActivityContextBase(ActivityContext parentContext, ActivityContextFactory<THIS> contextFactory) {
         super(parentContext, contextFactory);
@@ -73,11 +74,26 @@ public class UiRouteActivityContextBase
         this.session = session;
     }
 
+    @Override
+    public String getRoutingPath() {
+        String routingPath = this.routingPath;
+        if (routingPath == null) {
+            ActivityContext parentContext = getParentContext();
+            if (parentContext instanceof UiRouteActivityContext)
+                return ((UiRouteActivityContext<?>) parentContext).getRoutingPath();
+        }
+        return routingPath;
+    }
+
+    public void setRoutingPath(String routingPath) {
+        this.routingPath = routingPath;
+    }
+
     public static <IC extends ActivityContext<IC>, OC extends UiRouteActivityContextBase<OC>> OC toUiRouterActivityContextBase(IC activityContext) {
         return from(activityContext, ac -> ac instanceof UiRouteActivityContextBase);
     }
 
-    private final Property<Boolean> activeProperty = new SimpleObjectProperty<>(false);
+    private final BooleanProperty activeProperty = new SimpleBooleanProperty(false);
     @Override
     public ReadOnlyProperty<Boolean> activeProperty() {
         return activeProperty;
