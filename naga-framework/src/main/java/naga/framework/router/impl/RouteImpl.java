@@ -141,6 +141,12 @@ class RouteImpl implements Route {
             // capturing groups
             int n = m.groupCount();
             if (n > 0 && groups != null) {
+/* This (better) code has been commented because m.group(name) is not emulated (JavaScript RegExp doesn't support it)
+                for (String groupName : groups) {
+                    if (groupName != null)
+                        context.getParams().set(groupName, m.group(groupName));
+                }
+So using the following code instead (which assumes groups are in the same order as in declaration - which may not be true when repeating optional parameter pattern) */
                 int gn = groups.size();
                 for (int i = 0; i < n; i++) {
                     String group = m.group(i + 1);
