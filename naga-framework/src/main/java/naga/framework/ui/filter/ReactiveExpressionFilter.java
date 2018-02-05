@@ -33,10 +33,12 @@ import naga.platform.services.query.QueryResultSet;
 import naga.platform.services.query.spi.QueryService;
 import naga.scheduler.Scheduler;
 import naga.type.PrimType;
+import naga.util.Booleans;
 import naga.util.Numbers;
 import naga.util.Strings;
 import naga.util.async.Handler;
 import naga.util.collection.Collections;
+import naga.util.function.Callable;
 import naga.util.function.Consumer;
 import naga.util.function.Converter;
 import rx.Observable;
@@ -206,6 +208,10 @@ public class ReactiveExpressionFilter<E extends Entity> implements HasActiveProp
 
     public <T extends Number> ReactiveExpressionFilter<E> combineIfPositive(ObservableValue<T> property, Converter<T, String> toJsonFilterConverter) {
         return combine(property, value -> Numbers.isPositive(value) ? toJsonFilterConverter.convert(value) : null);
+    }
+
+    public ReactiveExpressionFilter<E> combineIfTrue(ObservableValue<Boolean> property, Callable<String> toJsonFilterConverter) {
+        return combine(property, value -> Booleans.isTrue(value) ? toJsonFilterConverter.call() : null);
     }
 
     public ReactiveExpressionFilter<E> combine(Property<Boolean> ifProperty, StringFilterBuilder stringFilterBuilder) {
