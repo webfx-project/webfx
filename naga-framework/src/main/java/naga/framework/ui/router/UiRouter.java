@@ -318,7 +318,7 @@ public class UiRouter extends HistoryRouter {
             for (int i = 0, size = keys.size(); i < size; i++) {
                 String key = keys.getString(i);
                 Object value = routingContextParams.getNativeElement(key);
-                boolean localParameter = "refresh".equals(key);
+                boolean localParameter = true; //"refresh".equals(key);
                 if (!localParameter)
                     appParams.setNativeElement(key, value);
                 else {
