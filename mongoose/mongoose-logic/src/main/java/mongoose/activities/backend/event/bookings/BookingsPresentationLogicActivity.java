@@ -8,13 +8,15 @@ import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Document;
 import mongoose.services.EventService;
-import naga.framework.expression.sqlcompiler.terms.ConstantSqlCompiler;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
 
 import java.time.LocalDate;
+
+import static mongoose.activities.backend.event.bookings.BookingsRouting.parseDayParam;
+import static naga.framework.expression.sqlcompiler.terms.ConstantSqlCompiler.toSqlDate;
 
 /**
  * @author Bruno Salmon
@@ -38,20 +40,12 @@ class BookingsPresentationLogicActivity
 
     @Override
     protected void updatePresentationModelFromRouteParameters(BookingsPresentationModel pm) {
-        LocalDate day = null;
-        Object dayParameter = getParameter("day");
-        if (dayParameter instanceof String) {
-            String dayString = (String) dayParameter;
-            switch (dayString) {
-                case "yesterday" : day = LocalDate.now().minusDays(1); break;
-                case "today": day = LocalDate.now(); break;
-                case "tomorrow" : day = LocalDate.now().plusDays(1); break;
-                default: day = LocalDate.parse(dayString); // Expecting an iso date (yyyy-MM-dd)
-            }
-        }
-        pm.setDay(day);
-        pm.setArrivals(Strings.contains(getRoutingPath(), "/arrivals"));
-        pm.setDepartures(Strings.contains(getRoutingPath(), "/departures"));
+        LocalDate day;
+        pm.setDay(day = parseDayParam(getParameter("day")));
+        pm.setArrivals(day != null && Strings.contains(getRoutingPath(), "/arrivals"));
+        pm.setDepartures(day != null && Strings.contains(getRoutingPath(), "/departures"));
+        pm.setMinDay(parseDayParam(getParameter("minday")));
+        pm.setMaxDay(parseDayParam(getParameter("maxday")));
         super.updatePresentationModelFromRouteParameters(pm);
     }
 
@@ -74,9 +68,11 @@ class BookingsPresentationLogicActivity
             // Condition
             .combineIfNotNull(pm.organizationIdProperty(), organisationId -> "{where: 'event.organization=" + organisationId + "'}")
             .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
-            .combineIfNotNull(pm.dayProperty(), day ->    "{where:     `exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(day) + ")`}")
-            .combineIfTrue(pm.arrivalsProperty(), () ->   "{where: `not exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(pm.getDay().minusDays(1)) + ")`}")
-            .combineIfTrue(pm.departuresProperty(), () -> "{where: `not exists(select Attendance where documentLine.document=d and date= " + ConstantSqlCompiler.toSqlDate(pm.getDay().plusDays(1)) + ")`}")
+            .combineIfNotNull(pm.dayProperty(),       day -> "{where:  `exists(select Attendance where documentLine.document=d and date= "  + toSqlDate(day) + ")`}")
+            .combineIfTrue(   pm.arrivalsProperty(),   () -> "{where: `!exists(select Attendance where documentLine.document=d and date= "  + toSqlDate(pm.getDay().minusDays(1)) + ")`}")
+            .combineIfTrue(   pm.departuresProperty(), () -> "{where: `!exists(select Attendance where documentLine.document=d and date= "  + toSqlDate(pm.getDay().plusDays(1)) + ")`}")
+            .combineIfNotNull(pm.minDayProperty(), minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>= " + toSqlDate(minDay) + ")`}")
+            .combineIfNotNull(pm.maxDayProperty(), maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<= " + toSqlDate(maxDay) + ")`}")
             // Search box condition
             .combineTrimIfNotEmpty(pm.searchTextProperty(), s ->
                 Character.isDigit(s.charAt(0)) ? "{where: 'ref = " + s + "'}"

@@ -30,6 +30,16 @@ class BookingsPresentationModel extends EventDependentGenericTablePresentationMo
     public final void setDay(LocalDate value) { dayProperty().set(value); }
     public final LocalDate getDay() { return dayProperty().get(); }
 
+    private final ObjectProperty<LocalDate> minDayProperty = new SimpleObjectProperty<>();
+    public final ObjectProperty<LocalDate> minDayProperty() { return minDayProperty; }
+    public final void setMinDay(LocalDate value) { minDayProperty().set(value); }
+    public final LocalDate getMinDay() { return minDayProperty().get(); }
+
+    private final ObjectProperty<LocalDate> maxDayProperty = new SimpleObjectProperty<>();
+    public final ObjectProperty<LocalDate> maxDayProperty() { return maxDayProperty; }
+    public final void setMaxDay(LocalDate value) { maxDayProperty().set(value); }
+    public final LocalDate getMaxDay() { return maxDayProperty().get(); }
+
     private final ObjectProperty<EventHandler<ActionEvent>> onNewBooking = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onNewBookingProperty() { return onNewBooking; }
     public final void setOnNewBooking(EventHandler<ActionEvent> value) { onNewBookingProperty().set(value); }
