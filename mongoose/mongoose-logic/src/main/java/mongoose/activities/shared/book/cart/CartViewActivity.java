@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import mongoose.activities.shared.book.cart.payment.PaymentRooting;
 import mongoose.activities.shared.book.event.fees.FeesRooting;
 import mongoose.activities.shared.book.event.options.OptionsRooting;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
@@ -23,14 +24,9 @@ import mongoose.entities.Document;
 import mongoose.entities.History;
 import mongoose.entities.Mail;
 import mongoose.services.CartService;
-import mongoose.services.EventService;
-import naga.framework.orm.entity.Entities;
-import naga.platform.services.log.spi.Logger;
-import naga.type.PrimType;
-import naga.util.Strings;
-import naga.util.collection.Collections;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.function.Function;
+import naga.framework.orm.entity.Entities;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
@@ -42,6 +38,10 @@ import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplaySelection;
+import naga.platform.services.log.spi.Logger;
+import naga.type.PrimType;
+import naga.util.Strings;
+import naga.util.collection.Collections;
 
 import java.util.List;
 
@@ -82,7 +82,8 @@ class CartViewActivity extends CartBasedViewActivity {
         paymentTable.setFullHeight(true);
         paymentsPanel.setCenter(paymentTable);
 
-        HBox bookingButtonBar = new HBox(20, LayoutUtil.createHGrowable()
+        HBox bookingButtonBar = new HBox(20,
+                LayoutUtil.createHGrowable()
                 , cancelBookingButton = newCancelButton(this::cancelBooking)
                 , modifyBookingButton = newButton("Modify", this::modifyBooking)
                 , contactUsButton = newButton("ContactUs", this::contactUs)
@@ -249,11 +250,8 @@ class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void modifyBooking() {
-        EventService eventService = cartService().getEventService();
-        eventService.setSelectedOptionsPreselection(null);
-        eventService.setWorkingDocument(selectedWorkingDocument);
+        OptionsRooting.routeUsingWorkingDocument(selectedWorkingDocument, getHistory());
         setSelectedWorkingDocument(null);
-        OptionsRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void cancelBooking() {
@@ -335,7 +333,6 @@ class CartViewActivity extends CartBasedViewActivity {
     }
 
     private void makePayment() {
-        FeesRooting.routeUsingEventId(getCartUuid(), getHistory());
+        PaymentRooting.routeUsingCartUuid(getCartUuid(), getHistory());
     }
-
 }

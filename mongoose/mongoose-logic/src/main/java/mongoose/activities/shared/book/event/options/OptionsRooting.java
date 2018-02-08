@@ -1,6 +1,8 @@
 package mongoose.activities.shared.book.event.options;
 
 import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
+import mongoose.activities.shared.logic.work.WorkingDocument;
+import mongoose.services.EventService;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.orm.entity.Entity;
 import naga.framework.ui.router.UiRoute;
@@ -28,4 +30,10 @@ public class OptionsRooting {
         history.push(MongooseRoutingUtil.interpolateEventIdInPath(eventId, PATH));
     }
 
+    public static void routeUsingWorkingDocument(WorkingDocument workingDocument, History history) {
+        EventService eventService = workingDocument.getEventService();
+        eventService.setSelectedOptionsPreselection(null);
+        eventService.setWorkingDocument(workingDocument);
+        routeUsingEventId(workingDocument.getDocument().getEventId(), history);
+    }
 }

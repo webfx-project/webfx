@@ -7,7 +7,6 @@ import mongoose.activities.shared.generic.eventdependent.EventDependentPresentat
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Document;
-import mongoose.services.EventService;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.services.log.spi.Logger;
@@ -68,11 +67,11 @@ class BookingsPresentationLogicActivity
             // Condition
             .combineIfNotNull(pm.organizationIdProperty(), organisationId -> "{where: 'event.organization=" + organisationId + "'}")
             .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
-            .combineIfNotNull(pm.dayProperty(),       day -> "{where:  `exists(select Attendance where documentLine.document=d and date= "  + toSqlDate(day) + ")`}")
-            .combineIfTrue(   pm.arrivalsProperty(),   () -> "{where: `!exists(select Attendance where documentLine.document=d and date= "  + toSqlDate(pm.getDay().minusDays(1)) + ")`}")
-            .combineIfTrue(   pm.departuresProperty(), () -> "{where: `!exists(select Attendance where documentLine.document=d and date= "  + toSqlDate(pm.getDay().plusDays(1)) + ")`}")
-            .combineIfNotNull(pm.minDayProperty(), minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>= " + toSqlDate(minDay) + ")`}")
-            .combineIfNotNull(pm.maxDayProperty(), maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<= " + toSqlDate(maxDay) + ")`}")
+            .combineIfNotNull(pm.dayProperty(),       day -> "{where:  `exists(select Attendance where documentLine.document=d and date="  + toSqlDate(day) + ")`}")
+            .combineIfTrue(   pm.arrivalsProperty(),   () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().minusDays(1)) + ")`}")
+            .combineIfTrue(   pm.departuresProperty(), () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().plusDays(1)) + ")`}")
+            .combineIfNotNull(pm.minDayProperty(), minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>=" + toSqlDate(minDay) + ")`}")
+            .combineIfNotNull(pm.maxDayProperty(), maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<=" + toSqlDate(maxDay) + ")`}")
             // Search box condition
             .combineTrimIfNotEmpty(pm.searchTextProperty(), s ->
                 Character.isDigit(s.charAt(0)) ? "{where: 'ref = " + s + "'}"
@@ -83,19 +82,13 @@ class BookingsPresentationLogicActivity
             .applyDomainModelRowStyle()
             .displayResultSetInto(pm.genericDisplayResultSetProperty())
             .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
-                if (document != null) {
-                    EventService eventService = getEventService();
-                    WorkingDocumentLoader.load(eventService, document.getPrimaryKey()).setHandler(ar -> {
+                if (document != null)
+                    WorkingDocumentLoader.load(getEventService(), document.getPrimaryKey()).setHandler(ar -> {
                         if (ar.failed())
                             Logger.log("Error loading document", ar.cause());
-                        else {
-                            eventService.setSelectedOptionsPreselection(null);
-                            eventService.setWorkingDocument(ar.result());
-                            OptionsRooting.routeUsingEventId(pm.getEventId(), getHistory());
-                        }
+                        else
+                            OptionsRooting.routeUsingWorkingDocument(ar.result(), getHistory());
                     });
-                    //CartRooting.route(document, getHistory());
-                }
             })
             .start();
     }
