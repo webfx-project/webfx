@@ -1,8 +1,5 @@
 package naga.framework.ui.mapping;
 
-import naga.util.Arrays;
-import naga.util.Booleans;
-import naga.util.collection.Collections;
 import naga.framework.expression.Expression;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Select;
@@ -21,6 +18,7 @@ import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSet;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.Label;
+import naga.util.Arrays;
 
 import java.util.HashMap;
 import java.util.List;
@@ -42,25 +40,25 @@ public class EntityListToDisplayResultSetGenerator {
         return select(entityList, entityList.getDomainModel().parseSelect(select), columnsDefinition, i18n);
     }
 
-    public static DisplayResultSet select(EntityList<? extends Entity> entityList, Select select, String columnsDefinition, I18n i18n) {
+    public static <E extends Entity> DisplayResultSet select(EntityList<E> entityList, Select<E> select, String columnsDefinition, I18n i18n) {
         EntityStore store = entityList.getStore();
-        Expression where = select.getWhere();
+        Expression<E> where = select.getWhere();
         if (where != null)
-            entityList = EntityList.create(entityList.getListId() + "-filtered", store, Collections.filter(entityList, e -> Booleans.isTrue(e.evaluate(where))));
+            entityList = EntityList.create(entityList.getListId() + "-filtered", store, entityList.filter(where));
         ExpressionArray groupBy = select.getGroupBy();
         if (groupBy != null) {
             DomainClass domainClass = (DomainClass) select.getDomainClass();
-            Map<GroupValue, DynamicEntity> groupEntities = new HashMap<>();
-            for (Entity e : entityList) {
+            Map<GroupValue, E> groupEntities = new HashMap<>();
+            for (E e : entityList) {
                 GroupValue groupValue = new GroupValue(e.evaluate(groupBy));
-                DynamicEntity groupEntity = groupEntities.get(groupValue);
-                AggregateKey aggregateKey;
+                E groupEntity = groupEntities.get(groupValue);
+                AggregateKey<E> aggregateKey;
                 if (groupEntity == null) {
-                    aggregateKey = new AggregateKey(groupEntities.size());
+                    aggregateKey = new AggregateKey<>(groupEntities.size());
                     groupEntity = store.getOrCreateEntity(EntityId.create(domainClass, aggregateKey));
-                    groupEntity.copyAllFieldsFrom(e);
+                    ((DynamicEntity) groupEntity).copyAllFieldsFrom(e);
                     groupEntities.put(groupValue, groupEntity);
-                    aggregateKey = (AggregateKey) groupEntity.getId().getPrimaryKey();
+                    aggregateKey = (AggregateKey) groupEntity.getPrimaryKey();
                     aggregateKey.getAggregates().clear();
                 } else {
                     aggregateKey = (AggregateKey) groupEntity.getPrimaryKey();
@@ -70,7 +68,7 @@ public class EntityListToDisplayResultSetGenerator {
             }
             entityList = EntityList.create(entityList.getListId() + "-grouped", store, groupEntities.values());
         }
-        ExpressionArray orderBy = select.getOrderBy();
+        ExpressionArray<E> orderBy = select.getOrderBy();
         if (orderBy != null)
             entityList.orderBy(orderBy);
         return createDisplayResultSet(entityList, columnsDefinition, select.getDomainClass(), i18n);
@@ -85,7 +83,7 @@ public class EntityListToDisplayResultSetGenerator {
         return createDisplayResultSet(entityList, columns, i18n);
     }
 
-    public static DisplayResultSet createDisplayResultSet(List<? extends Entity> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
+    public static <E extends Entity> DisplayResultSet createDisplayResultSet(List<E> entityList, ExpressionColumn[] expressionColumns, I18n i18n) {
         int rowCount = entityList == null ? 0 : entityList.size();
         int columnCount = Arrays.length(expressionColumns);
         DisplayResultSetBuilder rsb = DisplayResultSetBuilder.create(rowCount, columnCount);
@@ -103,7 +101,7 @@ public class EntityListToDisplayResultSetGenerator {
                 }
                 rsb.setDisplayColumn(columnIndex++, displayColumn);
                 // Then setting the column values (including possible formatting)
-                Expression expression = expressionColumn.getExpression();
+                Expression<E> expression = expressionColumn.getExpression();
                 Formatter formatter = expressionColumn.getExpressionFormatter();
                 if (entityList != null)
                     for (Entity entity : entityList) {
@@ -120,7 +118,7 @@ public class EntityListToDisplayResultSetGenerator {
     private static class GroupValue {
         private final Object[] values;
 
-        public GroupValue(Object value) {
+        GroupValue(Object value) {
             this.values = (Object[]) value;
         }
 

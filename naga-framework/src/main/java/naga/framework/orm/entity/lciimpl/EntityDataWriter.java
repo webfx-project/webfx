@@ -8,14 +8,14 @@ import naga.framework.expression.lci.DataWriter;
 /**
  * @author Bruno Salmon
  */
-public class EntityDataWriter extends EntityDataReader implements DataWriter<Entity> {
+public class EntityDataWriter<E extends Entity> extends EntityDataReader<E> implements DataWriter<E> {
 
     public EntityDataWriter(EntityStore entityStore) {
         super(entityStore);
     }
 
     @Override
-    public void setDomainFieldValue(Entity entity, Object fieldId, Object fieldValue) {
+    public void setDomainFieldValue(E entity, Object fieldId, Object fieldValue) {
         if (fieldId instanceof DomainField)
             fieldId = ((DomainField) fieldId).getId();
         entity.setFieldValue(fieldId, fieldValue);

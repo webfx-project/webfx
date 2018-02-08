@@ -10,7 +10,7 @@ import naga.type.PrimType;
 /**
  * @author Bruno Salmon
  */
-public class EntityDataReader implements DataReader<Entity> {
+public class EntityDataReader<E extends Entity> implements DataReader<E> {
 
     private final EntityStore entityStore;
 
@@ -19,10 +19,10 @@ public class EntityDataReader implements DataReader<Entity> {
     }
 
     @Override
-    public Entity getDomainObjectFromId(Object id, Object src) {
+    public E getDomainObjectFromId(Object id, Object src) {
         if (id instanceof Entity)
-            return (Entity) id;
-        Entity entity = entityStore.getEntity((EntityId) id);
+            return (E) id;
+        E entity = entityStore.getEntity((EntityId) id);
         if (entity == null && src instanceof Entity)
             entity = ((Entity) src).getStore().getEntity((EntityId) id);
         return entity;

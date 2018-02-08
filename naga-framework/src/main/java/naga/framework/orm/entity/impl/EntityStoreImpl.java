@@ -73,13 +73,13 @@ public class EntityStoreImpl implements EntityStore {
     // EntityList management
 
     @Override
-    public EntityList getEntityList(Object listId) {
+    public <E extends Entity> EntityList<E> getEntityList(Object listId) {
         return entityLists.get(listId);
     }
 
     @Override
-    public EntityList getOrCreateEntityList(Object listId) {
-        EntityList entityList = getEntityList(listId);
+    public <E extends Entity> EntityList<E> getOrCreateEntityList(Object listId) {
+        EntityList<E> entityList = getEntityList(listId);
         if (entityList == null)
             entityLists.put(listId, entityList = EntityList.create(listId, this));
         return entityList;
@@ -93,7 +93,7 @@ public class EntityStoreImpl implements EntityStore {
     // Expression
 
     @Override
-    public Object evaluateEntityExpression(Entity entity, Expression expression) {
+    public <E extends Entity> Object evaluateEntityExpression(E entity, Expression<E> expression) {
         return expression.evaluate(entity, entityDataWriter);
     }
 

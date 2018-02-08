@@ -78,13 +78,13 @@ public class DomainClass implements HasLabel, HasDomainModel {
         return label;
     }
 
-    public Expression getForeignFields() {
+    public <E> Expression<E> getForeignFields() {
         if (foreignFields == null && foreignFieldsDefinition != null)
             foreignFields = parseExpression(foreignFieldsDefinition);
         return foreignFields;
     }
 
-    public ExpressionArray getStyleClassesExpressionArray() {
+    public <E> ExpressionArray<E> getStyleClassesExpressionArray() {
         if (styleClassesExpressionArray == null && styleClassesExpressionArrayDefinition != null)
             styleClassesExpressionArray = parseExpressionArray(styleClassesExpressionArrayDefinition);
         return styleClassesExpressionArray;
@@ -131,11 +131,11 @@ public class DomainClass implements HasLabel, HasDomainModel {
         return name;
     }
 
-    public Expression parseExpression(String definition) {
+    public <E> Expression<E> parseExpression(String definition) {
         return definition == null ? null : ExpressionParser.parseExpression(definition, this, domainModel.getParserDomainModelReader(), false);
     }
 
-    public ExpressionArray parseExpressionArray(String definition) {
+    public <E> ExpressionArray<E> parseExpressionArray(String definition) {
         return definition == null ? null : (ExpressionArray) ExpressionParser.parseExpression(definition, this, domainModel.getParserDomainModelReader(), true);
     }
 }

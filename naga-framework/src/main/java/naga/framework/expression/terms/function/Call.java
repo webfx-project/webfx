@@ -1,12 +1,12 @@
 package naga.framework.expression.terms.function;
 
-import naga.util.Arrays;
 import naga.framework.expression.Expression;
 import naga.framework.expression.lci.DataReader;
 import naga.framework.expression.terms.ExpressionArray;
 import naga.framework.expression.terms.Ordered;
 import naga.framework.expression.terms.UnaryExpression;
 import naga.type.Type;
+import naga.util.Arrays;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,13 +18,13 @@ public class Call<T> extends UnaryExpression<T> {
 
     private final String functionName;
     private final Function function;
-    private final ExpressionArray orderBy; // used only for aggregate functions
+    private final ExpressionArray<T> orderBy; // used only for aggregate functions
 
-    public Call(String functionName, Expression argument) {
+    public Call(String functionName, Expression<T> argument) {
         this(functionName, argument, null);
     }
 
-    public Call(String functionName, Expression argument, ExpressionArray orderBy) {
+    public Call(String functionName, Expression<T> argument, ExpressionArray<T> orderBy) {
         super(argument);
         this.functionName = functionName;
         function = Function.getFunction(functionName);
@@ -70,10 +70,10 @@ public class Call<T> extends UnaryExpression<T> {
                 return function.evaluate(operand == null ? null : operand.evaluate(domainObject, dataReader), dataReader);
             Object primaryKey = dataReader.prepareValueBeforeTypeConversion(domainObject, null);
             if (primaryKey instanceof AggregateKey) {
-                AggregateKey aggregateKey = (AggregateKey) primaryKey;
+                AggregateKey<T> aggregateKey = (AggregateKey) primaryKey;
                 if (orderBy != null)
                     orderBy(aggregateKey.getAggregates(), dataReader, orderBy);
-                return ((AggregateFunction) function).evaluateOnAggregates(domainObject, aggregateKey.getAggregates().toArray(), operand, dataReader);
+                return ((AggregateFunction<T>) function).evaluateOnAggregates(domainObject, aggregateKey.getAggregates().toArray(), operand, dataReader);
             }
         }
         // When the function is not evaluable, it might have been already evaluated during the query and the result stored in a field
@@ -108,8 +108,8 @@ public class Call<T> extends UnaryExpression<T> {
 
     public static <T> List<T> orderBy(List<T> list, DataReader<T> dataReader, Expression<T>... orderExpressions) {
         if (orderExpressions.length == 1 && orderExpressions[0] instanceof ExpressionArray)
-            orderBy(list, dataReader, ((ExpressionArray) orderExpressions[0]).getExpressions());
-        else java.util.Collections.sort(list, (e1, e2) -> {
+            orderBy(list, dataReader, ((ExpressionArray<T>) orderExpressions[0]).getExpressions());
+        else list.sort((e1, e2) -> {
             if (e1 == e2)
                 return 0;
             if (e1 == null)

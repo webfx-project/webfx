@@ -6,15 +6,15 @@ import java.util.List;
 /**
  * @author Bruno Salmon
  */
-public class AggregateKey {
+public class AggregateKey<T> {
     private final int rowNumber;
-    private final List aggregates = new ArrayList<>();
+    private final List<T> aggregates = new ArrayList<>();
 
     public AggregateKey(int rowNumber) {
         this.rowNumber = rowNumber;
     }
 
-    public List getAggregates() {
+    public List<T> getAggregates() {
         return aggregates;
     }
 

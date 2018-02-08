@@ -40,7 +40,7 @@ public class EntityButtonSelector<E extends Entity> extends ButtonSelector<E> {
     private final ObjectProperty<DisplayResultSet> deferredDisplayResultSet = new SimpleObjectProperty<>();
     private Object jsonOrClass;
     private final DataSourceModel dataSourceModel;
-    private Expression<?> renderingExpression;
+    private Expression<E> renderingExpression;
     private ValueRenderer entityRenderer;
 
     private EntityStore loadingStore;

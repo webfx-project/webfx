@@ -130,7 +130,7 @@ public interface EntityStore extends HasDataSourceModel {
         return evaluateEntityExpression(entity, getDomainModel().parseExpression(expression, entity.getDomainClass().getId()));
     }
 
-    Object evaluateEntityExpression(Entity entity, Expression expression);
+    <E extends Entity> Object evaluateEntityExpression(E entity, Expression<E> expression);
 
     void setParameterValue(String parameterName, Object parameterValue);
 
