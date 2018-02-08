@@ -17,10 +17,6 @@ class ProgramViewActivity extends BookingProcessViewActivity {
     private BookingCalendar bookingCalendar;
     private OptionsPreselection noAccommodationOptionsPreselection;
 
-    public ProgramViewActivity() {
-        super(null);
-    }
-
     @Override
     protected void createViewNodes() {
         super.createViewNodes();
@@ -56,5 +52,4 @@ class ProgramViewActivity extends BookingProcessViewActivity {
         }
         return null;
     }
-
 }

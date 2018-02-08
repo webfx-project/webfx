@@ -10,11 +10,8 @@ import naga.util.function.Factory;
 public abstract class BookingProcessPresentationLogicActivity<PM extends BookingProcessPresentationModel>
     extends EventDependentPresentationLogicActivity<PM> {
 
-    private final String nextPage;
-
-    public BookingProcessPresentationLogicActivity(Factory<PM> presentationModelFactory, String nextPage) {
+    public BookingProcessPresentationLogicActivity(Factory<PM> presentationModelFactory) {
         super(presentationModelFactory);
-        this.nextPage = nextPage;
     }
 
     @Override
@@ -29,10 +26,5 @@ public abstract class BookingProcessPresentationLogicActivity<PM extends Booking
     }
 
     protected void onNextButtonPressed(ActionEvent event) {
-        goToNextBookingProcessPage(nextPage);
-    }
-
-    protected void goToNextBookingProcessPage(String page) {
-        getHistory().push("/book/event/" + getEventId() + "/" + page);
     }
 }

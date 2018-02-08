@@ -13,6 +13,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import mongoose.activities.shared.book.event.shared.*;
+import mongoose.activities.shared.book.event.terms.TermsRooting;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
@@ -38,10 +39,6 @@ class SummaryViewActivity extends BookingProcessViewActivity {
     private CheckBox termsCheckBox;
     private Property<String> agreeTCTranslationProperty; // to avoid GC
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
-
-    public SummaryViewActivity() {
-        super(null);
-    }
 
     @Override
     protected void createViewNodes() {
@@ -99,7 +96,7 @@ class SummaryViewActivity extends BookingProcessViewActivity {
 
     private void showTermsDialog() {
         //new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), pageContainer).setOnClose(() -> termsCheckBox.setSelected(true)).show();
-        goToNextBookingProcessPage("terms");
+        TermsRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void syncUiFromModel() {

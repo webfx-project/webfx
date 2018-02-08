@@ -12,7 +12,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import mongoose.actions.MongooseActions;
+import mongoose.activities.shared.book.event.fees.FeesRooting;
+import mongoose.activities.shared.book.event.options.OptionsRooting;
+import mongoose.activities.shared.book.event.program.ProgramRooting;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.terms.TermsRooting;
 import mongoose.util.Labels;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.layouts.LayoutUtil;
@@ -28,10 +32,6 @@ class StartBookingViewActivity extends BookingProcessViewActivity {
     private ImageView eventImageView;
     private BorderPane eventImageViewContainer;
     private Label eventTitle;
-
-    public StartBookingViewActivity() {
-        super(null);
-    }
 
     @Override
     protected void createViewNodes() {
@@ -99,18 +99,18 @@ class StartBookingViewActivity extends BookingProcessViewActivity {
     }
 
     private void onProgramButtonPressed() {
-        goToNextBookingProcessPage("program");
+        ProgramRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void onTermsButtonPressed() {
-        goToNextBookingProcessPage("terms");
+        TermsRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void onFeesButtonPressed() {
-        goToNextBookingProcessPage("fees");
+        FeesRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     private void onBookButtonPressed() {
-        goToNextBookingProcessPage("options");
+        OptionsRooting.routeUsingEventId(getEventId(), getHistory());
     }
 }

@@ -17,6 +17,7 @@ import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
+import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import naga.util.Numbers;
 import naga.framework.ui.action.Action;
@@ -30,10 +31,6 @@ import naga.fx.properties.Properties;
  * @author Bruno Salmon
  */
 class PersonViewActivity extends BookingProcessViewActivity {
-
-    public PersonViewActivity() {
-        super("summary");
-    }
 
     private PersonDetailsPanel personDetailsPanel;
 
@@ -101,7 +98,7 @@ class PersonViewActivity extends BookingProcessViewActivity {
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
         if (personDetailsPanel.isValid())
-            super.onNextButtonPressed(event);
+            SummaryRooting.routeUsingEventId(getEventId(), getHistory());
     }
 
     @Override

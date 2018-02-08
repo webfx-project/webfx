@@ -11,7 +11,7 @@ class TermsPresentationLogicActivity
         implements ReactiveExpressionFilterFactoryMixin {
 
     public TermsPresentationLogicActivity() {
-        super(TermsPresentationModel::new, null);
+        super(TermsPresentationModel::new);
     }
 
     @Override

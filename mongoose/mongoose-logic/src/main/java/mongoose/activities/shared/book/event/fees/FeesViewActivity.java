@@ -45,10 +45,6 @@ import static naga.framework.ui.graphic.image.JsonImageViews.createImageView;
  */
 class FeesViewActivity extends BookingProcessViewActivity {
 
-    public FeesViewActivity() {
-        super("options");
-    }
-
     private GridCollator feesGroupsCollator;
 
     @Override

@@ -21,18 +21,12 @@ public abstract class BookingProcessViewActivity
         extends EventDependentViewDomainActivity
         implements MongooseSectionFactoryMixin {
 
-    private final String nextPage;
-
     protected Button backButton;
     protected Button nextButton;
 
     protected BorderPane pageContainer;
     protected ScrollPane verticalScrollPane;
     protected VBox verticalStack;
-
-    public BookingProcessViewActivity(String nextPage) {
-        this.nextPage = nextPage;
-    }
 
     @Override
     public Node buildUi() {
@@ -72,11 +66,6 @@ public abstract class BookingProcessViewActivity
         getHistory().goBack();
     }
 
-    protected void onNextButtonPressed(ActionEvent event) {
-        goToNextBookingProcessPage(nextPage);
-    }
-
-    protected void goToNextBookingProcessPage(String page) {
-        getHistory().push("/book/event/" + getEventId() + "/" + page);
+    protected void onNextButtonPressed(ActionEvent event) { // Should be overridden
     }
 }
