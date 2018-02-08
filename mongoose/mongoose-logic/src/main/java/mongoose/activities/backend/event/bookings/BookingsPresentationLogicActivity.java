@@ -44,10 +44,10 @@ class BookingsPresentationLogicActivity
         pm.setDay(day = parseDayParam(getParameter("day")));
         pm.setArrivals(day != null && Strings.contains(getRoutingPath(), "/arrivals"));
         pm.setDepartures(day != null && Strings.contains(getRoutingPath(), "/departures"));
-        pm.setMinDay(parseDayParam(getParameter("minday")));
-        pm.setMaxDay(parseDayParam(getParameter("maxday")));
+        pm.setMinDay(parseDayParam(getParameter("minDay")));
+        pm.setMaxDay(parseDayParam(getParameter("maxDay")));
         pm.setFilter(getParameter("filter"));
-        pm.setOrderBy(getParameter("orderby"));
+        pm.setOrderBy(getParameter("orderBy"));
         super.updatePresentationModelFromRouteParameters(pm);
     }
 
