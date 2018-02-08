@@ -76,8 +76,8 @@ public class Call<T> extends UnaryExpression<T> {
                 return ((AggregateFunction) function).evaluateOnAggregates(domainObject, aggregateKey.getAggregates().toArray(), operand, dataReader);
             }
         }
-        return dataReader.getDomainFieldValue(domainObject, this);
-        //return ThreadContext.getContext().getWorkingData().getValue(id, this /* RawData will return stored value where fieldId = this.getId() = functionName */);
+        // When the function is not evaluable, it might have been already evaluated during the query and the result stored in a field
+        return dataReader.getDomainFieldValue(domainObject, functionName); // using function name as field (ex: count(1) -> field = count)
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Call<T> extends UnaryExpression<T> {
             operand.collectPersistentTerms(persistentTerms);
     }
 
-    static <T> List<T> orderBy(List<T> list, DataReader<T> dataReader, Expression<T>... orderExpressions) {
+    public static <T> List<T> orderBy(List<T> list, DataReader<T> dataReader, Expression<T>... orderExpressions) {
         if (orderExpressions.length == 1 && orderExpressions[0] instanceof ExpressionArray)
             orderBy(list, dataReader, ((ExpressionArray) orderExpressions[0]).getExpressions());
         else java.util.Collections.sort(list, (e1, e2) -> {
