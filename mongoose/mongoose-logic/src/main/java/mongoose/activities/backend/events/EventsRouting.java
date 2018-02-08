@@ -28,7 +28,7 @@ public class EventsRouting {
     }
 
     public static void routeUsingOrganization(Entity organization, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(organization, history, EventsRouting::routeUsingOrganizationId);
+        MongooseRoutingUtil.routeUsingEntityId(organization, history, EventsRouting::routeUsingOrganizationId);
     }
 
     public static void routeUsingOrganizationId(Object organizationId, History history) {

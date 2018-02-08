@@ -21,7 +21,7 @@ public class PersonRooting {
     }
 
     public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(event, history, PersonRooting::routeUsingEventId);
+        MongooseRoutingUtil.routeUsingEntityId(event, history, PersonRooting::routeUsingEventId);
     }
 
     public static void routeUsingEventId(Object eventId, History history) {

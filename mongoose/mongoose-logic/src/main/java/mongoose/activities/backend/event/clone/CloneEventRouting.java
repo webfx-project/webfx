@@ -21,7 +21,7 @@ public class CloneEventRouting {
     }
 
     public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(event, history, CloneEventRouting::routeUsingEventId);
+        MongooseRoutingUtil.routeUsingEntityId(event, history, CloneEventRouting::routeUsingEventId);
     }
 
     public static void routeUsingEventId(Object eventId, History history) {

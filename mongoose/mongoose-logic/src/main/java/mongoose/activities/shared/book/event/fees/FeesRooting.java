@@ -21,7 +21,7 @@ public class FeesRooting {
     }
 
     public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(event, history, FeesRooting::routeUsingEventId);
+        MongooseRoutingUtil.routeUsingEntityId(event, history, FeesRooting::routeUsingEventId);
     }
 
     public static void routeUsingEventId(Object eventId, History history) {

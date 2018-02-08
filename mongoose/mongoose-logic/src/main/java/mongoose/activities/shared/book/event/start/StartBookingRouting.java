@@ -21,7 +21,7 @@ public class StartBookingRouting {
     }
 
     public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(event, history, StartBookingRouting::routeUsingEventId);
+        MongooseRoutingUtil.routeUsingEntityId(event, history, StartBookingRouting::routeUsingEventId);
     }
 
     public static void routeUsingEventId(Object eventId, History history) {

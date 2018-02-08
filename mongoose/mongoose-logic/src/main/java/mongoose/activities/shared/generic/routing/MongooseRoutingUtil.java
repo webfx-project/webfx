@@ -1,6 +1,7 @@
 package mongoose.activities.shared.generic.routing;
 
 import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityId;
 import naga.platform.client.url.history.History;
 import naga.util.Strings;
 import naga.util.function.BiConsumer;
@@ -10,7 +11,7 @@ import naga.util.function.BiConsumer;
  */
 public class MongooseRoutingUtil {
 
-    public static void routeUsingEntityPrimaryKey(Entity entity, History history, BiConsumer<Object, History> entityIdRouter) {
+    public static void routeUsingEntityId(Entity entity, History history, BiConsumer<Object, History> entityIdRouter) {
         if (entity != null)
             entityIdRouter.accept(entity.getPrimaryKey(), history);
     }
@@ -18,19 +19,24 @@ public class MongooseRoutingUtil {
     public static String interpolateParamInPath(String paramToken, Object paramValue, String path) {
         return Strings.replaceAll(path, paramToken, paramValue);
     }
+
     public static String interpolateEventIdInPath(Object eventId, String path) {
-        return interpolateParamInPath(":eventId", eventId, path);
+        return interpolateParamInPath(":eventId", toPk(eventId), path);
     }
 
     public static String interpolateOrganizationIdInPath(Object eventId, String path) {
-        return interpolateParamInPath(":organizationId", eventId, path);
+        return interpolateParamInPath(":organizationId", toPk(eventId), path);
     }
 
     public static String interpolateLetterIdInPath(Object letterId, String path) {
-        return interpolateParamInPath(":letterId", letterId, path);
+        return interpolateParamInPath(":letterId", toPk(letterId), path);
     }
 
     public static String interpolateCartUuidInPath(Object cartUuid, String path) {
         return interpolateParamInPath(":cartUuid", cartUuid, path);
+    }
+
+    private static Object toPk(Object id) {
+        return (id instanceof EntityId) ? ((EntityId) id).getPrimaryKey() : id;
     }
 }

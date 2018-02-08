@@ -1,6 +1,5 @@
 package mongoose.activities.backend.event.letters;
 
-import mongoose.activities.backend.event.clone.CloneEventRouting;
 import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.orm.entity.Entity;
@@ -24,7 +23,7 @@ public class LettersRouting {
     }
 
     public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(event, history, LettersRouting::routeUsingEventId);
+        MongooseRoutingUtil.routeUsingEntityId(event, history, LettersRouting::routeUsingEventId);
     }
 
     public static void routeUsingEventId(Object eventId, History history) {

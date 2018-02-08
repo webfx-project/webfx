@@ -1,6 +1,5 @@
 package mongoose.activities.backend.letter.edit;
 
-import mongoose.activities.backend.events.EventsRouting;
 import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.orm.entity.Entity;
@@ -22,7 +21,7 @@ public class EditLetterRouting {
     }
 
     public static void routeUsingLetter(Entity letter, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(letter, history, EditLetterRouting::routeUsingLetterId);
+        MongooseRoutingUtil.routeUsingEntityId(letter, history, EditLetterRouting::routeUsingLetterId);
     }
 
     public static void routeUsingLetterId(Object letterId, History history) {

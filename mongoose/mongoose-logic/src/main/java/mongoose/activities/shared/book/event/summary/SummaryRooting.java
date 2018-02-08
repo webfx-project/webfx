@@ -21,7 +21,7 @@ public class SummaryRooting {
     }
 
     public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityPrimaryKey(event, history, SummaryRooting::routeUsingEventId);
+        MongooseRoutingUtil.routeUsingEntityId(event, history, SummaryRooting::routeUsingEventId);
     }
 
     public static void routeUsingEventId(Object eventId, History history) {
