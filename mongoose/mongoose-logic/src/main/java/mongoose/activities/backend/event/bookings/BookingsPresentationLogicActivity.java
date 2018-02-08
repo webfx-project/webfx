@@ -48,6 +48,7 @@ class BookingsPresentationLogicActivity
         pm.setMinDay(parseDayParam(getParameter("minDay")));
         pm.setMaxDay(parseDayParam(getParameter("maxDay")));
         pm.setFilter(getParameter("filter"));
+        pm.setGroupBy(getParameter("groupBy"));
         pm.setOrderBy(getParameter("orderBy"));
         super.updatePresentationModelFromRouteParameters(pm);
     }
@@ -86,6 +87,8 @@ class BookingsPresentationLogicActivity
                 Character.isDigit(s.charAt(0)) ? "{where: `ref = " + s + "`}"
                 : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
                 : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
+            // Group by clause
+            .combineIfNotNull(pm.groupByProperty(), groupBy -> "{groupBy: `" + groupBy + "`}")
             // Order by clause
             .combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, DEFAULT_ORDER_BY) + "`}")
             // Limit clause
