@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import mongoose.actions.MongooseIcons;
+import mongoose.activities.shared.book.event.options.OptionsRooting;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
 import mongoose.activities.shared.logic.preselection.OptionsPreselection;
@@ -205,8 +206,6 @@ class FeesViewActivity extends BookingProcessViewActivity {
     }
 
     private void onBookButtonPressed(OptionsPreselection optionsPreselection) {
-        setSelectedOptionsPreselection(optionsPreselection);
-        setWorkingDocument(null);
-        onNextButtonPressed(null);
+        OptionsRooting.routeUsingOptionsPreselection(optionsPreselection, getHistory());
     }
 }
