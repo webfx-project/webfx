@@ -174,7 +174,7 @@ public class DomainModelLoader {
             DomainFieldsGroupBuilder groupBuilder = classBuilder.newFieldsGroupBuilder(rs.getValue(row, 0 /*"name"*/), true);
             groupBuilder.fieldsDefinition = rs.getValue(row, 2 /*"fields"*/);
         }
-        Logger.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[3].getRowCount() + " fields, " + resultSets[4].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
+        Logger.log("Domain model loaded: " + resultSets[2].getRowCount() + " classes, " + resultSets[4].getRowCount() + " fields, " + resultSets[5].getRowCount() + " fields groups and " + resultSets[0].getRowCount() + " labels in " + (System.currentTimeMillis() - t0) + " ms");
         // Building and returning final domain model
         return dmb.build();
     }
