@@ -476,6 +476,6 @@ public abstract class HtmlSvgNodePeer
     }
 
     public static Element toContainerElement(Node node, Scene scene) {
-        return toNodePeer(node, scene).getContainer();
+        return node == null ? null : toNodePeer(node, scene).getContainer();
     }
 }
