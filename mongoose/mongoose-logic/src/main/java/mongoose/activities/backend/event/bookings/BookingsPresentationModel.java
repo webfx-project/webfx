@@ -12,6 +12,11 @@ import java.time.LocalDate;
  */
 class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
 
+    private final StringProperty columnsProperty = new SimpleStringProperty();
+    public final StringProperty columnsProperty() { return columnsProperty; }
+    public final void setColumns(String value) { columnsProperty().set(value); }
+    public final String getColumns() { return columnsProperty().get(); }
+
     private final ObjectProperty<LocalDate> dayProperty = new SimpleObjectProperty<>();
     public final ObjectProperty<LocalDate> dayProperty() { return dayProperty; }
     public final void setDay(LocalDate value) { dayProperty().set(value); }

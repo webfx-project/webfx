@@ -41,6 +41,7 @@ class BookingsPresentationLogicActivity
     @Override
     protected void updatePresentationModelFromRouteParameters(BookingsPresentationModel pm) {
         LocalDate day;
+        pm.setColumns(getParameter("columns"));
         pm.setDay(day = parseDayParam(getParameter("day")));
         pm.setArrivals(day != null && Strings.contains(getRoutingPath(), "/arrivals"));
         pm.setDepartures(day != null && Strings.contains(getRoutingPath(), "/departures"));
@@ -51,23 +52,27 @@ class BookingsPresentationLogicActivity
         super.updatePresentationModelFromRouteParameters(pm);
     }
 
+    private static final String DEFAULT_COLUMNS = "[" +
+            "'ref'," +
+            "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
+            "'person_firstName'," +
+            "'person_lastName'," +
+            "'person_age','noteIcon'," +
+            "{expression: 'price_net', format: 'price'}," +
+            "{expression: 'price_minDeposit', format: 'price'}," +
+            "{expression: 'price_deposit', format: 'price'}," +
+            "{expression: 'price_balance', format: 'price'}" +
+            "]";
+    private static final String DEFAULT_FILTER = "!cancelled";
+    private static final String DEFAULT_ORDER_BY = "ref desc";
     private ReactiveExpressionFilter<Document> filter;
     @Override
     protected void startLogic(BookingsPresentationModel pm) {
         filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid'}")
-            .combine("{columns: `[" +
-                    "'ref'," +
-                    "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
-                    "'person_firstName'," +
-                    "'person_lastName'," +
-                    "'person_age','noteIcon'," +
-                    "{expression: 'price_net', format: 'price'}," +
-                    "{expression: 'price_minDeposit', format: 'price'}," +
-                    "{expression: 'price_deposit', format: 'price'}," +
-                    "{expression: 'price_balance', format: 'price'}" +
-                    "]`}")
+            // Columns to display
+            .combine(pm.columnsProperty(), columns -> "{columns: `" + Objects.coalesce(columns, DEFAULT_COLUMNS) + "`}")
             // Condition clause
-            .combine(         pm.filterProperty(),   filter -> "{where: `" + Objects.coalesce(filter, "!cancelled") + "`}")
+            .combine(         pm.filterProperty(),   filter -> "{where: `" + Objects.coalesce(filter, DEFAULT_FILTER) + "`}")
             .combineIfNotNull(pm.organizationIdProperty(),
                                              organisationId -> "{where:  `event.organization=" + organisationId + "`}")
             .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
@@ -82,7 +87,7 @@ class BookingsPresentationLogicActivity
                 : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
                 : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
             // Order by clause
-            .combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, "ref desc") + "`}")
+            .combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, DEFAULT_ORDER_BY) + "`}")
             // Limit clause
             .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
             .applyDomainModelRowStyle()
