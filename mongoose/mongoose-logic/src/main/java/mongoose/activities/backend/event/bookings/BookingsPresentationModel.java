@@ -1,9 +1,6 @@
 package mongoose.activities.backend.event.bookings;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import mongoose.activities.shared.generic.eventdependent.EventDependentGenericTablePresentationModel;
@@ -14,16 +11,6 @@ import java.time.LocalDate;
  * @author Bruno Salmon
  */
 class BookingsPresentationModel extends EventDependentGenericTablePresentationModel {
-
-    private final BooleanProperty departuresProperty = new SimpleBooleanProperty();
-    public final BooleanProperty departuresProperty() { return departuresProperty; }
-    public final void setDepartures(boolean value) { departuresProperty().set(value); }
-    public final boolean isDepartures() { return departuresProperty().get(); }
-
-    private final BooleanProperty arrivalsProperty = new SimpleBooleanProperty();
-    public final BooleanProperty arrivalsProperty() { return arrivalsProperty; }
-    public final void setArrivals(boolean value) { arrivalsProperty().set(value); }
-    public final boolean isArrivals() { return arrivalsProperty().get(); }
 
     private final ObjectProperty<LocalDate> dayProperty = new SimpleObjectProperty<>();
     public final ObjectProperty<LocalDate> dayProperty() { return dayProperty; }
@@ -39,6 +26,21 @@ class BookingsPresentationModel extends EventDependentGenericTablePresentationMo
     public final ObjectProperty<LocalDate> maxDayProperty() { return maxDayProperty; }
     public final void setMaxDay(LocalDate value) { maxDayProperty().set(value); }
     public final LocalDate getMaxDay() { return maxDayProperty().get(); }
+
+    private final BooleanProperty arrivalsProperty = new SimpleBooleanProperty();
+    public final BooleanProperty arrivalsProperty() { return arrivalsProperty; }
+    public final void setArrivals(boolean value) { arrivalsProperty().set(value); }
+    public final boolean isArrivals() { return arrivalsProperty().get(); }
+
+    private final BooleanProperty departuresProperty = new SimpleBooleanProperty();
+    public final BooleanProperty departuresProperty() { return departuresProperty; }
+    public final void setDepartures(boolean value) { departuresProperty().set(value); }
+    public final boolean isDepartures() { return departuresProperty().get(); }
+
+    private final StringProperty filterProperty = new SimpleStringProperty();
+    public final StringProperty filterProperty() { return filterProperty; }
+    public final void setFilter(String value) { filterProperty().set(value); }
+    public final String getFilter() { return filterProperty().get(); }
 
     private final ObjectProperty<EventHandler<ActionEvent>> onNewBooking = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onNewBookingProperty() { return onNewBooking; }

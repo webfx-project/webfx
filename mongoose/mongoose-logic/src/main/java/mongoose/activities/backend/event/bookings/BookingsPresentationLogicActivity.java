@@ -45,14 +45,14 @@ class BookingsPresentationLogicActivity
         pm.setDepartures(day != null && Strings.contains(getRoutingPath(), "/departures"));
         pm.setMinDay(parseDayParam(getParameter("minday")));
         pm.setMaxDay(parseDayParam(getParameter("maxday")));
+        pm.setFilter(getParameter("filter"));
         super.updatePresentationModelFromRouteParameters(pm);
     }
 
     private ReactiveExpressionFilter<Document> filter;
     @Override
     protected void startLogic(BookingsPresentationModel pm) {
-        // Loading the domain model and setting up the reactive filter
-        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid', where: '!cancelled', orderBy: 'ref desc'}")
+        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid', orderBy: 'ref desc'}")
             .combine("{columns: `[" +
                     "'ref'," +
                     "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
@@ -65,6 +65,7 @@ class BookingsPresentationLogicActivity
                     "{expression: 'price_balance', format: 'price'}" +
                     "]`}")
             // Condition
+            .combineIfNotNull(pm.filterProperty(), filter -> "{where: `" + filter + "`}")
             .combineIfNotNull(pm.organizationIdProperty(), organisationId -> "{where: 'event.organization=" + organisationId + "'}")
             .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
             .combineIfNotNull(pm.dayProperty(),       day -> "{where:  `exists(select Attendance where documentLine.document=d and date="  + toSqlDate(day) + ")`}")
