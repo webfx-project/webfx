@@ -42,6 +42,11 @@ class BookingsPresentationModel extends EventDependentGenericTablePresentationMo
     public final void setFilter(String value) { filterProperty().set(value); }
     public final String getFilter() { return filterProperty().get(); }
 
+    private final StringProperty orderByProperty = new SimpleStringProperty();
+    public final StringProperty orderByProperty() { return orderByProperty; }
+    public final void setOrderBy(String value) { orderByProperty().set(value); }
+    public final String getOrderBy() { return orderByProperty().get(); }
+
     private final ObjectProperty<EventHandler<ActionEvent>> onNewBooking = new SimpleObjectProperty<>();
     public final ObjectProperty<EventHandler<ActionEvent>> onNewBookingProperty() { return onNewBooking; }
     public final void setOnNewBooking(EventHandler<ActionEvent> value) { onNewBookingProperty().set(value); }

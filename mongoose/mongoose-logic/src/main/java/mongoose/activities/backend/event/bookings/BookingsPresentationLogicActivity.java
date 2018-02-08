@@ -10,6 +10,7 @@ import mongoose.entities.Document;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.platform.services.log.spi.Logger;
+import naga.util.Objects;
 import naga.util.Strings;
 
 import java.time.LocalDate;
@@ -46,13 +47,14 @@ class BookingsPresentationLogicActivity
         pm.setMinDay(parseDayParam(getParameter("minday")));
         pm.setMaxDay(parseDayParam(getParameter("maxday")));
         pm.setFilter(getParameter("filter"));
+        pm.setOrderBy(getParameter("orderby"));
         super.updatePresentationModelFromRouteParameters(pm);
     }
 
     private ReactiveExpressionFilter<Document> filter;
     @Override
     protected void startLogic(BookingsPresentationModel pm) {
-        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid', orderBy: 'ref desc'}")
+        filter = this.<Document>createReactiveExpressionFilter("{class: 'Document', alias: 'd', fields: 'cart.uuid'}")
             .combine("{columns: `[" +
                     "'ref'," +
                     "'multipleBookingIcon','countryOrLangIcon','genderIcon'," +
@@ -64,22 +66,25 @@ class BookingsPresentationLogicActivity
                     "{expression: 'price_deposit', format: 'price'}," +
                     "{expression: 'price_balance', format: 'price'}" +
                     "]`}")
-            // Condition
-            .combineIfNotNull(pm.filterProperty(), filter -> "{where: `" + filter + "`}")
-            .combineIfNotNull(pm.organizationIdProperty(), organisationId -> "{where: 'event.organization=" + organisationId + "'}")
-            .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where: 'event=" + eventId + "'}")
-            .combineIfNotNull(pm.dayProperty(),       day -> "{where:  `exists(select Attendance where documentLine.document=d and date="  + toSqlDate(day) + ")`}")
-            .combineIfTrue(   pm.arrivalsProperty(),   () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().minusDays(1)) + ")`}")
-            .combineIfTrue(   pm.departuresProperty(), () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().plusDays(1)) + ")`}")
-            .combineIfNotNull(pm.minDayProperty(), minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>=" + toSqlDate(minDay) + ")`}")
-            .combineIfNotNull(pm.maxDayProperty(), maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<=" + toSqlDate(maxDay) + ")`}")
+            // Condition clause
+            .combine(         pm.filterProperty(),   filter -> "{where: `" + Objects.coalesce(filter, "!cancelled") + "`}")
+            .combineIfNotNull(pm.organizationIdProperty(),
+                                             organisationId -> "{where:  `event.organization=" + organisationId + "`}")
+            .combineIfNotNull(pm.eventIdProperty(), eventId -> "{where:  `event=" + eventId + "`}")
+            .combineIfNotNull(pm.dayProperty(),         day -> "{where:  `exists(select Attendance where documentLine.document=d and date="  + toSqlDate(day) + ")`}")
+            .combineIfTrue(   pm.arrivalsProperty(),     () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().minusDays(1)) + ")`}")
+            .combineIfTrue(   pm.departuresProperty(),   () -> "{where: `!exists(select Attendance where documentLine.document=d and date="  + toSqlDate(pm.getDay().plusDays(1)) + ")`}")
+            .combineIfNotNull(pm.minDayProperty(),   minDay -> "{where:  `exists(select Attendance where documentLine.document=d and date>=" + toSqlDate(minDay) + ")`}")
+            .combineIfNotNull(pm.maxDayProperty(),   maxDay -> "{where:  `exists(select Attendance where documentLine.document=d and date<=" + toSqlDate(maxDay) + ")`}")
             // Search box condition
             .combineTrimIfNotEmpty(pm.searchTextProperty(), s ->
-                Character.isDigit(s.charAt(0)) ? "{where: 'ref = " + s + "'}"
-                : s.contains("@") ? "{where: 'lower(person_email) like `%" + s.toLowerCase() + "%`'}"
-                : "{where: 'person_abcNames like `" + AbcNames.evaluate(s, true) + "`'}")
-            // Limit condition
-            .combineIfPositive(pm.limitProperty(), l -> "{limit: '" + l + "'}")
+                Character.isDigit(s.charAt(0)) ? "{where: `ref = " + s + "`}"
+                : s.contains("@") ? "{where: `lower(person_email) like '%" + s.toLowerCase() + "%'`}"
+                : "{where: `person_abcNames like '" + AbcNames.evaluate(s, true) + "'`}")
+            // Order by clause
+            .combine(pm.orderByProperty(), orderBy -> "{orderBy: `" + Objects.coalesce(orderBy, "ref desc") + "`}")
+            // Limit clause
+            .combineIfPositive(pm.limitProperty(), l -> "{limit: `" + l + "`}")
             .applyDomainModelRowStyle()
             .displayResultSetInto(pm.genericDisplayResultSetProperty())
             .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), document -> {
