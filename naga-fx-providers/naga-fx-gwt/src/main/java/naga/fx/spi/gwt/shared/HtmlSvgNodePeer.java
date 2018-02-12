@@ -254,7 +254,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
-        KeyCode keyCode = toFxKeyCode(e.code);
+        KeyCode keyCode = toFxKeyCode(e.key);
         EventType<KeyEvent> eventType;
         if (keyCode == KeyCode.ESCAPE)
             eventType = KeyEvent.KEY_PRESSED;
