@@ -278,6 +278,8 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static KeyCode toFxKeyCode(String htmlKey) {
+        if (htmlKey == null)
+            return null;
         // See https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/code
         switch (htmlKey) {
             case "Escape": return KeyCode.ESCAPE; // 0x0001
