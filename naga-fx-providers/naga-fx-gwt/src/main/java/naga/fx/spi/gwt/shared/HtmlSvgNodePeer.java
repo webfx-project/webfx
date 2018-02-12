@@ -244,13 +244,23 @@ public abstract class HtmlSvgNodePeer
     @Override
     public void updateStyleClass(List<String> styleClass, ListChangeListener.Change<String> change) {
         if (change == null)
-            element.classList.add(Collections.toArray(styleClass, String[]::new));
+            addToElementClassList(styleClass);
         else while (change.next()) {
             if (change.wasRemoved())
-                element.classList.remove(Collections.toArray(change.getRemoved(), String[]::new));
+                removeFromElementClassList(change.getRemoved());
             if (change.wasAdded())
-                element.classList.add(Collections.toArray(change.getAddedSubList(), String[]::new));
+                addToElementClassList(change.getAddedSubList());
         }
+    }
+
+    private void addToElementClassList(List<String> styleClass) {
+        if (!Collections.isEmpty(styleClass))
+            element.classList.add(Collections.toArray(styleClass, String[]::new));
+    }
+
+    private void removeFromElementClassList(List<String> styleClass) {
+        if (!Collections.isEmpty(styleClass))
+            element.classList.remove(Collections.toArray(styleClass, String[]::new));
     }
 
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
