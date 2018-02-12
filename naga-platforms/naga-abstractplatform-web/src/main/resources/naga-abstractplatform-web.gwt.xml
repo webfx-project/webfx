@@ -4,5 +4,5 @@
     <!-- Specify the paths for translatable code                    -->
     <source path="naga/providers/platform/abstr/web"/>                 <!-- source path to rxjava library (naga-javalib-rxjava) -->
 
-    <public path="webroot/naga-abstractplatform-web/js" />
+    <public path="public" />
 </module>
