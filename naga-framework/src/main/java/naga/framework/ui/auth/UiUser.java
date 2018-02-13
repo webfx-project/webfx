@@ -1,6 +1,7 @@
 package naga.framework.ui.auth;
 
 import javafx.beans.property.Property;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import naga.util.async.Future;
 import naga.framework.ui.auth.impl.UiUserImpl;
@@ -27,18 +28,16 @@ public interface UiUser extends UserMixin {
         userProperty().setValue(user);
     }
 
-    ObservableValue<Boolean> loggedInProperty();
+    ObservableBooleanValue loggedInProperty();
 
     default boolean isLoggedIn() {
         return loggedInProperty().getValue();
     }
 
-    Property<Boolean> authorizedProperty(Object authority);
+    ObservableBooleanValue authorizedProperty(Object authority);
+
+    ObservableBooleanValue authorizedProperty(ObservableValue authorityProperty);
 
     @Override
-    default Future<Boolean> isAuthorized(Object authority) {
-        return getUser().isAuthorized(authority).compose(
-                authorized -> authorizedProperty(authority).setValue(authorized),
-                Future.future());
-    }
+    Future<Boolean> isAuthorized(Object authority);
 }
