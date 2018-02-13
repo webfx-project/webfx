@@ -1,7 +1,8 @@
 package mongoose.activities.shared.book.event.person;
 
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
+import javafx.beans.binding.BooleanExpression;
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -56,8 +57,8 @@ class PersonViewActivity extends BookingProcessViewActivity {
         ToggleGroup accountToggleGroup = new ToggleGroup();
         FlowPane accountTabs = new FlowPane(new Button(null, newRadioButton("IDontHaveAnAccount", accountToggleGroup)), new Button(null, newRadioButton("IAlreadyHaveAnAccount", accountToggleGroup)));
         UiUser uiUser = getUiRouter().getUiUser();
-        ObservableValue<Boolean> loggedInProperty = loggedInProperty();
-        ObservableValue<Boolean> notLoggedIn = Properties.not(loggedInProperty);
+        ObservableBooleanValue loggedInProperty = loggedInProperty();
+        ObservableBooleanValue notLoggedIn = BooleanExpression.booleanExpression(loggedInProperty).not();
         LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiUser);
         Node[] tabContents = {new VBox(10, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode() };
