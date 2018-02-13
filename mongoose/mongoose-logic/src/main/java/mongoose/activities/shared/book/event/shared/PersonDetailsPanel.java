@@ -22,7 +22,7 @@ import naga.framework.activity.view.ViewActivityContextMixin;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.ui.action.ButtonFactoryMixin;
+import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;

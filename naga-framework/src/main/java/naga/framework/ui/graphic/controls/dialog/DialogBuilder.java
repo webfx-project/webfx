@@ -3,7 +3,7 @@ package naga.framework.ui.graphic.controls.dialog;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Region;
 import naga.util.function.Consumer;
-import naga.framework.ui.action.ButtonFactoryMixin;
+import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 
 /**
  * @author Bruno Salmon

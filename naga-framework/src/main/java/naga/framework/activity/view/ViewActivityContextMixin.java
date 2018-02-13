@@ -3,7 +3,7 @@ package naga.framework.activity.view;
 import javafx.beans.property.Property;
 import javafx.scene.Node;
 import naga.framework.activity.uiroute.UiRouteActivityContextMixin;
-import naga.framework.ui.action.ButtonFactoryMixin;
+import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.i18n.I18n;
 
 /**

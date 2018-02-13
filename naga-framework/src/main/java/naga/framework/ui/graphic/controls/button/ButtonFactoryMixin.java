@@ -1,12 +1,13 @@
-package naga.framework.ui.action;
+package naga.framework.ui.graphic.controls.button;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import naga.framework.ui.action.Action;
+import naga.framework.ui.action.ActionRegistry;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
-import naga.framework.ui.graphic.controls.button.ButtonBuilder;
 import naga.framework.ui.graphic.controls.ControlFactoryMixin;
 import naga.framework.ui.layouts.LayoutUtil;
 

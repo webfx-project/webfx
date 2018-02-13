@@ -6,7 +6,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.ui.action.ButtonFactoryMixin;
+import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;

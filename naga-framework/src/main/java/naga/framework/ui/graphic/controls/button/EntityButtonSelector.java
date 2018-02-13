@@ -15,7 +15,6 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.filter.ExpressionColumn;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.StringFilter;

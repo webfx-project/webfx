@@ -9,7 +9,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import naga.framework.ui.action.ButtonFactoryMixin;
 import naga.framework.ui.graphic.controls.dialog.DialogCallback;
 import naga.framework.ui.graphic.controls.dialog.DialogUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
