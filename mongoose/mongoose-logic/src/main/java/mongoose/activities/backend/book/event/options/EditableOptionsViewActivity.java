@@ -140,7 +140,7 @@ class EditableOptionsViewActivity extends OptionsViewActivity {
     }
 
     private void onOkAddOptionDialog() {
-        Option selectedOption = (Option) addOptionDialogFilter.getSelectedEntity();
+        Option selectedOption = addOptionDialogFilter.getSelectedEntity();
         if (selectedOption != null) {
             UpdateService.executeUpdate(new UpdateArgument("select copy_option(null,?::int,?::int,null)", new Object[]{selectedOption.getPrimaryKey(), getEventId()}, true, getDataSourceModel().getId())).setHandler(ar -> {
                 if (ar.failed())
@@ -188,7 +188,7 @@ class EditableOptionsViewActivity extends OptionsViewActivity {
     void showLabelDialog(Label label) {
         if (labelDialogCallback == null)
             labelDialogCallback = DialogUtil.showModalNodeInGoldLayout(
-                    new MultiLanguageEditor(getI18n(), label, lang -> lang, null)
+                    new MultiLanguageEditor(this, label, lang -> lang, null)
                             .showOkCancelButton(e -> closeLabelDialog(e, label))
                             .getUiNode(), pageContainer, 0.9, 0.8);
     }

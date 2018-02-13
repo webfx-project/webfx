@@ -31,7 +31,7 @@ class EditLetterViewActivity extends ViewActivityImpl {
     private MultiLanguageEditor multiLanguageEditor;
     @Override
     public Node buildUi() {
-        multiLanguageEditor = new MultiLanguageEditor(getI18n(), routeLetterIdProperty::getValue, getDataSourceModel(), lang -> lang, lang -> "subject_" + lang, "Letter");
+        multiLanguageEditor = new MultiLanguageEditor(this, routeLetterIdProperty::getValue, getDataSourceModel(), lang -> lang, lang -> "subject_" + lang, "Letter");
         return multiLanguageEditor.getUiNode();
     }
 

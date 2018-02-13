@@ -9,8 +9,8 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.orm.entity.UpdateStore;
 import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
 import naga.framework.ui.layouts.LayoutUtil;
-import naga.framework.ui.i18n.I18n;
 import naga.fx.properties.Properties;
 import naga.fxdata.control.HtmlTextEditor;
 import naga.platform.services.query.QueryArgument;
@@ -37,7 +37,7 @@ public class MultiLanguageEditor {
     private final static String[] languages = {"en", "de", "es", "fr", "pt"};
     private final static String entityListId = "loadedEntity";
 
-    private final I18n i18n;
+    private final ButtonFactoryMixin buttonFactory; // Also acts as i18n
     private final Callable entityIdGetter;
     private final DataSourceModel dataSourceModel;
     private final EntityStore loadingStore;
@@ -53,18 +53,17 @@ public class MultiLanguageEditor {
     private final Map<Object /*entityId*/, EditedEntity> entityUpdates = new HashMap<>();
     private final Map<Pair<Object /*entityId**/, Object /*language*/>, MonoLanguageEditor> monoLanguageEditors = new HashMap<>();
 
-    public MultiLanguageEditor(I18n i18n, Entity entity, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter) {
-        this(i18n, entity::getId, entity.getStore(), bodyFieldGetter, subjectFieldGetter, null);
+    public MultiLanguageEditor(ButtonFactoryMixin buttonFactory, Entity entity, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter) {
+        this(buttonFactory, entity::getId, entity.getStore(), bodyFieldGetter, subjectFieldGetter, null);
         entityUpdates.put(entity.getId(), new EditedEntity(entity));
-
     }
 
-    public MultiLanguageEditor(I18n i18n, Callable entityIdGetter, DataSourceModel dataSourceModel, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
-        this(i18n, entityIdGetter, EntityStore.create(dataSourceModel), bodyFieldGetter, subjectFieldGetter, domainClassIdOrLoadingSelect);
+    public MultiLanguageEditor(ButtonFactoryMixin buttonFactory, Callable entityIdGetter, DataSourceModel dataSourceModel, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
+        this(buttonFactory, entityIdGetter, EntityStore.create(dataSourceModel), bodyFieldGetter, subjectFieldGetter, domainClassIdOrLoadingSelect);
     }
 
-    public MultiLanguageEditor(I18n i18n, Callable entityIdGetter, EntityStore loadingStore, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
-        this.i18n = i18n;
+    public MultiLanguageEditor(ButtonFactoryMixin buttonFactory, Callable entityIdGetter, EntityStore loadingStore, Function<Object, Object> bodyFieldGetter, Function<Object, Object> subjectFieldGetter, String domainClassIdOrLoadingSelect) {
+        this.buttonFactory = buttonFactory;
         this.entityIdGetter = entityIdGetter;
         this.loadingStore = loadingStore;
         this.dataSourceModel = loadingStore.getDataSourceModel();
@@ -96,7 +95,7 @@ public class MultiLanguageEditor {
     public BorderPane getUiNode() {
         if (toggleGroup.getSelectedToggle() == null) {
             Properties.runOnPropertiesChange(this::onEntityChanged, toggleGroup.selectedToggleProperty());
-            toggleGroup.selectToggle(languageButtons.get(i18n.getLanguage()));
+            toggleGroup.selectToggle(languageButtons.get(buttonFactory.getLanguage()));
         }
         return borderPane;
     }
@@ -128,7 +127,7 @@ public class MultiLanguageEditor {
         if (entityId == null)
             return null;
         Toggle selectedLanguageButton = toggleGroup.getSelectedToggle();
-        Object language = selectedLanguageButton != null ? selectedLanguageButton.getUserData() : i18n.getLanguage();
+        Object language = selectedLanguageButton != null ? selectedLanguageButton.getUserData() : buttonFactory.getLanguage();
         Pair<Object, Object> pair = new Pair<>(entityId, language);
         MonoLanguageEditor monoLanguageEditor = monoLanguageEditors.get(pair);
         if (monoLanguageEditor == null)
@@ -156,8 +155,8 @@ public class MultiLanguageEditor {
     private class MonoLanguageEditor {
         private final TextField subjectTextField = new TextField();
         private final HtmlTextEditor editor = new HtmlTextEditor();
-        private final Button saveButton =   newAction(closeCallback != null ? OK_ACTION_KEY     : SAVE_ACTION_KEY ,  this::save)  .toButton(i18n);
-        private final Button revertButton = newAction(closeCallback != null ? CANCEL_ACTION_KEY : REVERT_ACTION_KEY, this::revert).toButton(i18n);
+        private final Button saveButton =   buttonFactory.newButton(closeCallback != null ? OK_ACTION_KEY     : SAVE_ACTION_KEY ,  this::save);
+        private final Button revertButton = buttonFactory.newButton(closeCallback != null ? CANCEL_ACTION_KEY : REVERT_ACTION_KEY, this::revert);
         private final Object subjectField;
         private final Object bodyField;
         private EditedEntity editedEntity;
