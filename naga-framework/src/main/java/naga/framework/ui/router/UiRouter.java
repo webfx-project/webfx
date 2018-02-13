@@ -1,5 +1,6 @@
 package naga.framework.ui.router;
 
+import naga.platform.services.log.spi.Logger;
 import naga.util.async.Handler;
 import naga.util.function.Converter;
 import naga.util.function.Factory;
@@ -298,8 +299,10 @@ public class UiRouter extends HistoryRouter {
         private C convertRoutingContextToActivityContext(RoutingContext routingContext) {
             String contextKey = routingContext.currentRoute().getPath();
             C activityContext = (C) activityContextHistory.get(contextKey);
-            if (activityContext == null)
+            if (activityContext == null) {
+                Logger.log("Creating activity context for " + contextKey);
                 activityContextHistory.put(contextKey, activityContext = activityManagerFactory.create().getContextFactory().createContext(hostingContext));
+            }
             applyRoutingContextParamsToActivityContext(routingContext.getParams(), activityContext);
             UiRouteActivityContextBase contextBase = UiRouteActivityContextBase.toUiRouterActivityContextBase(activityContext);
             contextBase.setRoutingPath(routingContext.path());
