@@ -1,7 +1,9 @@
 package naga.framework.ui.action;
 
+import javafx.beans.value.ObservableBooleanValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import naga.framework.ui.i18n.I18n;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,26 +20,43 @@ public class ActionRegistry {
     public final static String ADD_ACTION_KEY = "Add";
     public final static String REMOVE_ACTION_KEY = "Remove";
 
-    private final static Map<Object, Action> actions = new HashMap<>();
+    private static final Map<Object, ActionBuilder> actionBuilders = new HashMap<>();
+    private static I18n i18n;
 
-    public static void registerAction(Object actionKey, Action action) {
-        actions.put(actionKey, action);
+    public static void registerAction(ActionBuilder actionBuilder) {
+        actionBuilders.put(actionBuilder.getActionKey(), actionBuilder);
     }
 
-    public static Action getAction(Object actionKey) {
-        return actions.get(actionKey);
+    public static void setI18n(I18n i18n) {
+        ActionRegistry.i18n = i18n;
     }
 
-    public static Action getAction(Object actionKey, EventHandler<ActionEvent> handler) {
-        Action action = getAction(actionKey);
-        if (action != null)
-            return Action.create(action.getI18nKey(), action.getIconUrlOrJson(), handler);
-        return Action.create(actionKey, null, handler);
+    public static Action newAction(Object actionKey, EventHandler<ActionEvent> actionHandler) {
+        return newAuthAction(actionKey, actionHandler, null);
     }
 
-    public static Action newAction(Object actionKey, Runnable handler) {
-        return getAction(actionKey, e -> handler.run());
+    public static ActionBuilder actionBuilder(Object actionKey) {
+        ActionBuilder actionBuilder = actionBuilders.get(actionKey);
+        if (actionBuilder == null)
+            actionBuilder = new ActionBuilder(actionKey).setI18nKey(actionKey).register();
+        return actionBuilder;
     }
+
+    public static Action newAuthAction(Object actionKey, EventHandler<ActionEvent> actionHandler, ObservableBooleanValue authorizedProperty) {
+        return actionBuilder(actionKey).build(actionHandler, authorizedProperty, i18n);
+    }
+
+    // Same API but with Runnable
+
+    public static Action newAction(Object actionKey, Runnable actionHandler) {
+        return newAction(actionKey, e -> actionHandler.run());
+    }
+
+    public static Action newAuthAction(Object actionKey, Runnable actionHandler, ObservableBooleanValue authorizedProperty) {
+        return newAuthAction(actionKey, e -> actionHandler.run(), authorizedProperty);
+    }
+
+    //
 
     public static Action newOkAction(Runnable handler) {
         return newAction(OK_ACTION_KEY, handler);
@@ -62,4 +81,5 @@ public class ActionRegistry {
     public static Action newRemoveAction(Runnable handler) {
         return newAction(REMOVE_ACTION_KEY, handler);
     }
+
 }

@@ -62,10 +62,11 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
 
     public static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
-        MongooseActions.registerActions();
+        I18n i18n = I18n.create("mongoose/dictionaries/{lang}.json");
+        MongooseActions.registerActions(i18n);
         ActivityManager.launchApplication(mongooseApplication, ViewDomainApplicationContext.createViewDomainApplicationContext(
                 DomainModelSnapshotLoader.getDataSourceModel(),
-                I18n.create("mongoose/dictionaries/{lang}.json"),
+                i18n,
                 args));
         SceneUtil.installPrimarySceneFocusOwnerAutoScroll();
     }

@@ -1,7 +1,7 @@
 package mongoose.actions;
 
-import naga.framework.ui.action.Action;
-import naga.framework.ui.action.ActionRegistry;
+import naga.framework.ui.action.*;
+import naga.framework.ui.i18n.I18n;
 
 /**
  * @author Bruno Salmon
@@ -14,13 +14,19 @@ public class MongooseActions {
     public final static Object VISIT_PROGRAM_ACTION_KEY = "Program>>";
     public final static Object ADD_OPTION_ACTION_KEY = "AddOption";
 
-    public static void registerActions() {
-        ActionRegistry.registerAction(ActionRegistry.ADD_ACTION_KEY, Action.create("Add", MongooseIcons.addIcon16JsonUrl, null));
-        ActionRegistry.registerAction(ActionRegistry.REMOVE_ACTION_KEY, Action.create("Remove", MongooseIcons.removeIcon16JsonUrl, null));
-        ActionRegistry.registerAction(VISIT_FEES_ACTION_KEY, Action.create(VISIT_FEES_ACTION_KEY, MongooseIcons.priceTagMonoSvg16JsonUrl, null));
-        ActionRegistry.registerAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, Action.create(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, MongooseIcons.certificateMonoSvg16JsonUrl, null));
-        ActionRegistry.registerAction(VISIT_PROGRAM_ACTION_KEY, Action.create(VISIT_PROGRAM_ACTION_KEY, MongooseIcons.calendarMonoSvg16JsonUrl, null));
-        ActionRegistry.registerAction(ADD_OPTION_ACTION_KEY, Action.create(ADD_OPTION_ACTION_KEY, MongooseIcons.addIcon16JsonUrl, null));
+    public static void registerActions(I18n i18n) {
+        ActionRegistry.setI18n(i18n);
+        registerAction(ActionRegistry.ADD_ACTION_KEY, "Add", MongooseIcons.addIcon16JsonUrl);
+        registerAction(ActionRegistry.REMOVE_ACTION_KEY, "Remove", MongooseIcons.removeIcon16JsonUrl);
+        registerAction(VISIT_BOOK_ACTION_KEY, VISIT_BOOK_ACTION_KEY, null);
+        registerAction(VISIT_FEES_ACTION_KEY, VISIT_FEES_ACTION_KEY, MongooseIcons.priceTagMonoSvg16JsonUrl);
+        registerAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, MongooseIcons.certificateMonoSvg16JsonUrl);
+        registerAction(VISIT_PROGRAM_ACTION_KEY, VISIT_PROGRAM_ACTION_KEY, MongooseIcons.calendarMonoSvg16JsonUrl);
+        registerAction(ADD_OPTION_ACTION_KEY, ADD_OPTION_ACTION_KEY, MongooseIcons.addIcon16JsonUrl);
+    }
+
+    private static void registerAction(Object key, Object i18nKey, String iconJsonUrl) {
+        new ActionBuilder(key).setI18nKey(i18nKey).setGraphicUrlOrJson(iconJsonUrl).register();
     }
 
     public static Action newVisitTermsAndConditionsAction(Runnable handler) {

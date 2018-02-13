@@ -1,29 +1,39 @@
 package naga.framework.ui.action;
 
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
+import javafx.scene.Node;
 import naga.framework.ui.action.impl.ActionImpl;
-import naga.framework.ui.graphic.controls.button.ButtonUtil;
-import naga.framework.ui.i18n.I18n;
 
 /**
  * @author Bruno Salmon
  */
-public interface Action {
+public interface Action extends EventHandler<ActionEvent> {
 
-    Object getI18nKey();
-
-    Object getIconUrlOrJson();
-
-    EventHandler<ActionEvent> getHandler();
-
-    static Action create(Object i18nKey, Object iconUrlOrJson, EventHandler<ActionEvent> handler) {
-        return new ActionImpl(i18nKey, iconUrlOrJson, handler);
+    ObservableStringValue textProperty();
+    default String getText() {
+        return textProperty().get();
     }
 
-    default Button toButton(I18n i18n) {
-        return ButtonUtil.newButton(this, i18n);
+    ObservableObjectValue<Node> graphicProperty();
+    default Node getGraphic() {
+        return graphicProperty().get();
     }
 
+    ObservableBooleanValue disabledProperty();
+    default boolean isDisabled() {
+        return disabledProperty().get();
+    }
+
+    ObservableBooleanValue visibleProperty();
+    default boolean isVisible() {
+        return visibleProperty().get();
+    }
+
+    static Action create(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
+        return new ActionImpl(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
+    }
 }

@@ -8,10 +8,10 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.paint.Paint;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.graphic.image.JsonImageViews;
-import naga.framework.ui.graphic.paint.PaintBuilder;
 import naga.framework.ui.graphic.background.BackgroundBuilder;
 import naga.framework.ui.graphic.border.BorderBuilder;
+import naga.framework.ui.graphic.image.JsonImageViews;
+import naga.framework.ui.graphic.paint.PaintBuilder;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
@@ -156,22 +156,21 @@ public class ButtonBuilder {
     public Button build() {
         if (button == null) {
             button = new Button();
-            if (icon == null) {
-                if (iconUrlOrJson == null && action != null)
-                    iconUrlOrJson = action.getIconUrlOrJson();
-                if (iconUrlOrJson != null)
-                    icon = JsonImageViews.createImageView(iconUrlOrJson);
-            }
-            if (icon != null)
-                button.setGraphic(icon);
-            if (i18n != null) {
-                if (i18nKey == null && action != null)
-                    i18nKey = action.getI18nKey();
-                if (i18nKey != null)
+            if (action != null) {
+                button.textProperty().bind(action.textProperty());
+                button.graphicProperty().bind(action.graphicProperty());
+                button.disableProperty().bind(action.disabledProperty());
+                button.visibleProperty().bind(action.visibleProperty());
+            } else {
+                if (i18n != null && i18nKey != null)
                     i18n.translateText(button, i18nKey);
+                if (icon == null && iconUrlOrJson != null)
+                    icon = JsonImageViews.createImageView(iconUrlOrJson);
+                if (icon != null)
+                    button.setGraphic(icon);
             }
             if (onAction == null && action != null)
-                onAction = action.getHandler();
+                onAction = action;
             if (onAction != null)
                 button.setOnAction(onAction);
             if (height > 0) {

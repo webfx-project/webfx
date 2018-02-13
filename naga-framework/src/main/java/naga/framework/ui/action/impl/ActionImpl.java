@@ -1,7 +1,11 @@
 package naga.framework.ui.action.impl;
 
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import naga.framework.ui.action.Action;
 
 /**
@@ -9,28 +13,42 @@ import naga.framework.ui.action.Action;
  */
 public class ActionImpl implements Action {
 
-    private final Object i18nKey;
-    private final Object iconUrlOrJson;
-    private final EventHandler<ActionEvent> handler;
-
-    public ActionImpl(Object i18nKey, Object iconUrlOrJson, EventHandler<ActionEvent> handler) {
-        this.i18nKey = i18nKey;
-        this.iconUrlOrJson = iconUrlOrJson;
-        this.handler = handler;
+    public ActionImpl(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {
+        this.textProperty = textProperty;
+        this.graphicProperty = graphicProperty;
+        this.disabledProperty = disabledProperty;
+        this.visibleProperty = visibleProperty;
+        this.actionHandler = actionHandler;
     }
 
+    private final ObservableStringValue textProperty;
     @Override
-    public Object getI18nKey() {
-        return i18nKey;
+    public ObservableStringValue textProperty() {
+        return textProperty;
     }
 
+    private final ObservableObjectValue<Node> graphicProperty;
     @Override
-    public Object getIconUrlOrJson() {
-        return iconUrlOrJson;
+    public ObservableObjectValue<Node> graphicProperty() {
+        return graphicProperty;
     }
 
+    private final ObservableBooleanValue disabledProperty;
     @Override
-    public EventHandler<ActionEvent> getHandler() {
-        return handler;
+    public ObservableBooleanValue disabledProperty() {
+        return disabledProperty;
+    }
+
+    private final ObservableBooleanValue visibleProperty;
+    @Override
+    public ObservableBooleanValue visibleProperty() {
+        return visibleProperty;
+    }
+
+    private final EventHandler<ActionEvent> actionHandler;
+    @Override
+    public void handle(ActionEvent event) {
+        if (actionHandler != null)
+            actionHandler.handle(event);
     }
 }

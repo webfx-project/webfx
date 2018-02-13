@@ -19,13 +19,13 @@ import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import naga.util.Numbers;
-import naga.framework.ui.action.Action;
+import naga.framework.ui.action.ActionBuilder;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.fx.properties.Properties;
+import naga.util.Numbers;
 
 /**
  * @author Bruno Salmon
@@ -46,7 +46,7 @@ class PersonViewActivity extends BookingProcessViewActivity {
                 Properties.compute(pageContainer.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
         );
         accountTopNote.setLeft(textFlow);
-        Button closeButton = Action.create(null, MongooseIcons.removeIcon16JsonUrl, e -> verticalStack.getChildren().remove(accountTopNote)).toButton(getI18n());
+        Button closeButton = newButton(new ActionBuilder().setGraphicUrlOrJson(MongooseIcons.removeIcon16JsonUrl).build(e -> verticalStack.getChildren().remove(accountTopNote), null, getI18n()));
         closeButton.setBorder(BorderUtil.transparentBorder());
         closeButton.setBackground(BackgroundUtil.TRANSPARENT_BACKGROUND);
         accountTopNote.setRight(closeButton);
@@ -56,7 +56,7 @@ class PersonViewActivity extends BookingProcessViewActivity {
         ToggleGroup accountToggleGroup = new ToggleGroup();
         FlowPane accountTabs = new FlowPane(new Button(null, newRadioButton("IDontHaveAnAccount", accountToggleGroup)), new Button(null, newRadioButton("IAlreadyHaveAnAccount", accountToggleGroup)));
         UiUser uiUser = getUiRouter().getUiUser();
-        ObservableValue<Boolean> loggedInProperty = uiUser.loggedInProperty();
+        ObservableValue<Boolean> loggedInProperty = loggedInProperty();
         ObservableValue<Boolean> notLoggedIn = Properties.not(loggedInProperty);
         LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiUser);
