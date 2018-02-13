@@ -1,7 +1,7 @@
 package mongoose.activities.shared.book.event.summary;
 
 import javafx.application.Platform;
-import javafx.beans.property.Property;
+import javafx.beans.value.ObservableStringValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import mongoose.activities.shared.book.event.shared.*;
+import mongoose.activities.shared.book.event.shared.BookingCalendar;
+import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
+import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
+import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.terms.TermsRooting;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
@@ -37,7 +40,7 @@ class SummaryViewActivity extends BookingProcessViewActivity {
     private PersonDetailsPanel personDetailsPanel;
     private TextArea commentTextArea;
     private CheckBox termsCheckBox;
-    private Property<String> agreeTCTranslationProperty; // to avoid GC
+    private ObservableStringValue agreeTCTranslationProperty; // to avoid GC
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     @Override

@@ -1,12 +1,13 @@
 package naga.framework.ui.i18n;
 
 import javafx.beans.property.Property;
+import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
-import naga.util.Strings;
 import naga.framework.ui.i18n.impl.I18nImpl;
 import naga.framework.ui.i18n.impl.ResourceDictionaryLoader;
+import naga.util.Strings;
 
 /**
  * @author Bruno Salmon
@@ -17,7 +18,7 @@ public interface I18n {
     default Object getLanguage() { return languageProperty().getValue(); }
     default void setLanguage(Object language) { languageProperty().setValue(language); }
 
-    Property<String> translationProperty(Object key);
+    ObservableStringValue translationProperty(Object key);
 
     Property<Dictionary> dictionaryProperty();
 

@@ -1,6 +1,7 @@
 package naga.framework.ui.i18n;
 
 import javafx.beans.property.Property;
+import javafx.beans.value.ObservableStringValue;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.text.Text;
@@ -17,7 +18,7 @@ public interface I18nMixin extends HasI18n, I18n {
     default Object getLanguage() { return getI18n().getLanguage(); }
     default void setLanguage(Object language) { getI18n().setLanguage(language); }
 
-    default Property<String> translationProperty(Object key) {
+    default ObservableStringValue translationProperty(Object key) {
         return getI18n().translationProperty(key);
     }
 
