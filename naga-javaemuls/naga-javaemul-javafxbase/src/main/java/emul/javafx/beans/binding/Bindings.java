@@ -29,6 +29,7 @@ import emul.com.sun.javafx.binding.BidirectionalBinding;
 import emul.com.sun.javafx.collections.ImmutableObservableList;
 import emul.javafx.beans.Observable;
 import emul.javafx.beans.property.Property;
+import emul.javafx.beans.value.ObservableBooleanValue;
 import emul.javafx.collections.FXCollections;
 import emul.javafx.collections.ObservableList;
 import emul.javafx.util.StringConverter;
@@ -117,6 +118,44 @@ public final class Bindings {
                         : (dependencies.length == 1)?
                         FXCollections.singletonObservableList(dependencies[0])
                         : new ImmutableObservableList<Observable>(dependencies);
+            }
+        };
+    }
+
+    /**
+     * Creates a {@link javafx.beans.binding.BooleanBinding} that calculates the inverse of the value
+     * of a {@link javafx.beans.value.ObservableBooleanValue}.
+     *
+     * @param op
+     *            the {@code ObservableBooleanValue}
+     * @return the new {@code BooleanBinding}
+     * @throws NullPointerException
+     *             if the operand is {@code null}
+     */
+    public static BooleanBinding not(final ObservableBooleanValue op) {
+        if (op == null) {
+            throw new NullPointerException("Operand cannot be null.");
+        }
+
+        return new BooleanBinding() {
+            {
+                super.bind(op);
+            }
+
+            @Override
+            public void dispose() {
+                super.unbind(op);
+            }
+
+            @Override
+            protected boolean computeValue() {
+                return !op.get();
+            }
+
+            @Override
+            //@ReturnsUnmodifiableCollection
+            public ObservableList<?> getDependencies() {
+                return FXCollections.singletonObservableList(op);
             }
         };
     }

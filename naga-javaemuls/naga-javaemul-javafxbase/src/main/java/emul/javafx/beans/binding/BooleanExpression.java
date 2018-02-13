@@ -159,11 +159,9 @@ public abstract class BooleanExpression implements ObservableBooleanValue {
      *
      * @return the new {@code BooleanExpression}
      */
-/*
     public BooleanBinding not() {
         return Bindings.not(this);
     }
-*/
 
     /**
      * Creates a new {@code BooleanExpression} that holds {@code true} if this and
