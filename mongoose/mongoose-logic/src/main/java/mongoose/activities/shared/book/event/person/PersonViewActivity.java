@@ -14,13 +14,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import mongoose.actions.MongooseIcons;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import naga.framework.ui.action.ActionBuilder;
+import naga.framework.ui.action.ActionRegistry;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
@@ -43,11 +42,11 @@ class PersonViewActivity extends BookingProcessViewActivity {
         accountTopText.setFill(Color.web("#8a6d3b"));
         TextFlow textFlow = new TextFlow(accountTopText);
         textFlow.maxWidthProperty().bind(
-                // borderPane.widthProperty().subtract(100) // doesn't compile with GWT
+                // borderPane.widthProperty().subtract(100) // not yet emulated for GWT
                 Properties.compute(pageContainer.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
         );
         accountTopNote.setLeft(textFlow);
-        Button closeButton = newButton(new ActionBuilder().setGraphicUrlOrJson(MongooseIcons.removeIcon16JsonUrl).build(e -> verticalStack.getChildren().remove(accountTopNote), null, getI18n()));
+        Button closeButton = newButton(ActionRegistry.get().newActionBuilder(ActionRegistry.REMOVE_ACTION_KEY).removeText().setActionHandler(() -> verticalStack.getChildren().remove(accountTopNote)));
         closeButton.setBorder(BorderUtil.transparentBorder());
         closeButton.setBackground(BackgroundUtil.TRANSPARENT_BACKGROUND);
         accountTopNote.setRight(closeButton);
@@ -79,10 +78,8 @@ class PersonViewActivity extends BookingProcessViewActivity {
                 new VBox(LayoutUtil.setUnmanagedWhenInvisible(accountTabs, notLoggedIn)
                         , accountPane)
                 );
-
         syncUiFromModel();
     }
-
 
     private void syncUiFromModel() {
         WorkingDocument workingDocument = getWorkingDocument();

@@ -23,6 +23,7 @@ public class ActionBuilder {
     private ObservableStringValue textProperty;
     private String text;
     private Object i18nKey;
+    private I18n i18n;
 
     private ObservableObjectValue<Node> graphicProperty;
     private Node graphic;
@@ -34,6 +35,10 @@ public class ActionBuilder {
     private boolean hiddenWhenDisabled;
 
     private boolean authRequired;
+
+    private ObservableBooleanValue authorizedProperty;
+
+    private EventHandler<ActionEvent> actionHandler;
 
     public ActionBuilder() {
     }
@@ -75,6 +80,15 @@ public class ActionBuilder {
 
     public ActionBuilder setI18nKey(Object i18nKey) {
         this.i18nKey = i18nKey;
+        return this;
+    }
+
+    public I18n getI18n() {
+        return i18n;
+    }
+
+    public ActionBuilder setI18n(I18n i18n) {
+        this.i18n = i18n;
         return this;
     }
 
@@ -141,42 +155,84 @@ public class ActionBuilder {
         return this;
     }
 
-    public ActionBuilder register() {
-        ActionRegistry.registerAction(this);
+    public ObservableBooleanValue getAuthorizedProperty() {
+        return authorizedProperty;
+    }
+
+    public ActionBuilder setAuthorizedProperty(ObservableBooleanValue authorizedProperty) {
+        this.authorizedProperty = authorizedProperty;
         return this;
     }
 
-    public Action build(EventHandler<ActionEvent> actionHandler, ObservableBooleanValue authorizedProperty, I18n i18n) {
-        ObservableStringValue textProperty;
-        if (getTextProperty() != null)
-            textProperty = getTextProperty();
-        else if (getI18nKey() != null && i18n != null)
-            textProperty = i18n.translationProperty(getI18nKey());
-        else
-            textProperty = new SimpleStringProperty(getText());
-        ObservableObjectValue<Node> graphicProperty;
-        if (getGraphicProperty() != null)
-            graphicProperty = getGraphicProperty();
-        else {
-            Node graphic = getGraphic();
-            if (graphic == null && getGraphicUrlOrJson() != null)
-                graphic = JsonImageViews.createImageView(getGraphicUrlOrJson());
+    public EventHandler<ActionEvent> getActionHandler() {
+        return actionHandler;
+    }
+
+    public ActionBuilder setActionHandler(EventHandler<ActionEvent> actionHandler) {
+        this.actionHandler = actionHandler;
+        return this;
+    }
+
+    public ActionBuilder setActionHandler(Runnable actionHandler) {
+        return setActionHandler(e -> actionHandler.run());
+    }
+
+    public ActionBuilder register() {
+        ActionRegistry.get().registerAction(this);
+        return this;
+    }
+
+    public ActionBuilder duplicate() {
+        return new ActionBuilder(actionKey)
+                .setTextProperty(textProperty)
+                .setText(text)
+                .setI18nKey(i18nKey)
+                .setI18n(i18n)
+                .setGraphicProperty(graphicProperty)
+                .setGraphic(graphic)
+                .setGraphicUrlOrJson(graphicUrlOrJson)
+                .setDisabledProperty(disabledProperty)
+                .setVisibleProperty(visibleProperty)
+                .setHiddenWhenDisabled(hiddenWhenDisabled)
+                .setAuthRequired(authRequired)
+                .setAuthorizedProperty(authorizedProperty)
+                .setActionHandler(actionHandler)
+                ;
+    }
+
+    public ActionBuilder removeText() {
+        textProperty = null;
+        text = null;
+        i18nKey = null;
+        return this;
+    }
+
+    public Action build() {
+        if (textProperty == null) {
+            if (i18nKey != null && i18n != null)
+                textProperty = i18n.translationProperty(i18nKey);
+            else
+                textProperty = new SimpleStringProperty(text);
+        }
+        if (graphicProperty == null) {
+            if (graphic == null && graphicUrlOrJson != null)
+                graphic = JsonImageViews.createImageView(graphicUrlOrJson);
             graphicProperty = new SimpleObjectProperty<>(graphic);
         }
-        ObservableBooleanValue disabledProperty;
-        if (getDisabledProperty() != null)
-            disabledProperty = getDisabledProperty();
-        else if (authorizedProperty != null)
-            disabledProperty = BooleanExpression.booleanExpression(authorizedProperty).not();
-        else
-            disabledProperty = new SimpleBooleanProperty(isAuthRequired());
-        ObservableBooleanValue visibleProperty;
-        if (getVisibleProperty() != null)
-            visibleProperty = getVisibleProperty();
-        else if (isHiddenWhenDisabled())
-            visibleProperty = getDisabledProperty() == null && authorizedProperty != null ? authorizedProperty : BooleanExpression.booleanExpression(disabledProperty).not();
-        else
-            visibleProperty = new SimpleBooleanProperty(true);
+        if (disabledProperty == null) {
+            if (authorizedProperty != null) {
+                disabledProperty = BooleanExpression.booleanExpression(authorizedProperty).not();
+                if (hiddenWhenDisabled && visibleProperty == null)
+                    visibleProperty = authorizedProperty;
+            } else
+                disabledProperty = new SimpleBooleanProperty(authRequired);
+        }
+        if (visibleProperty == null) {
+            if (hiddenWhenDisabled)
+                visibleProperty = BooleanExpression.booleanExpression(disabledProperty).not();
+            else
+                visibleProperty = new SimpleBooleanProperty(true);
+        }
         return Action.create(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
     }
 }

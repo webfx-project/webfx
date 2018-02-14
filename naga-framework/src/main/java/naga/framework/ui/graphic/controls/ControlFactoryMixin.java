@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import naga.framework.ui.action.Action;
+import naga.framework.ui.action.ActionBuilder;
 import naga.framework.ui.graphic.controls.button.ButtonBuilder;
 import naga.framework.ui.i18n.I18nMixin;
 
@@ -17,24 +18,28 @@ public interface ControlFactoryMixin extends I18nMixin {
         return newButtonBuilder().build();
     }
 
-    default naga.framework.ui.graphic.controls.button.ButtonBuilder newButtonBuilder() {
-        return new naga.framework.ui.graphic.controls.button.ButtonBuilder().setI18n(getI18n()).setStyleFunction(this::styleButton);
+    default ButtonBuilder newButtonBuilder() {
+        return new ButtonBuilder().setI18n(getI18n()).setStyleFunction(this::styleButton);
     }
 
     default Button newButton(Object i18nKey) {
         return newButtonBuilder(i18nKey).build();
     }
 
-    default naga.framework.ui.graphic.controls.button.ButtonBuilder newButtonBuilder(Object i18nKey) {
+    default ButtonBuilder newButtonBuilder(Object i18nKey) {
         return newButtonBuilder().setI18nKey(i18nKey);
     }
 
-    default Button newButton(Object i18nKey, EventHandler<ActionEvent> onAction) {
-        return newButtonBuilder(i18nKey, onAction).build();
+    default Button newButton(Object i18nKey, EventHandler<ActionEvent> actionHandler) {
+        return newButtonBuilder(i18nKey, actionHandler).build();
     }
 
-    default naga.framework.ui.graphic.controls.button.ButtonBuilder newButtonBuilder(Object i18nKey, EventHandler<ActionEvent> onAction) {
-        return newButtonBuilder(i18nKey).setOnAction(onAction);
+    default ButtonBuilder newButtonBuilder(Object i18nKey, EventHandler<ActionEvent> actionHandler) {
+        return newButtonBuilder(i18nKey).setOnAction(actionHandler);
+    }
+
+    default Button newButton(ActionBuilder actionBuilder) {
+        return newButtonBuilder(actionBuilder.build()).build();
     }
 
     default Button newButton(Action action) {
@@ -43,6 +48,10 @@ public interface ControlFactoryMixin extends I18nMixin {
 
     default ButtonBuilder newButtonBuilder(Action action) {
         return newButtonBuilder().setAction(action);
+    }
+
+    default Action newAction(Object i18nKey, Runnable actionHandler) {
+        return new ActionBuilder().setI18nKey(i18nKey).setI18n(getI18n()).setActionHandler(actionHandler).build();
     }
 
     default Button styleButton(Button button) {

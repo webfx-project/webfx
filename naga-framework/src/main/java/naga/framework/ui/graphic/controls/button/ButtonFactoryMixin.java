@@ -24,7 +24,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newButtonBuilder(Object i18nKey, Runnable handler) {
-        return newButtonBuilder(ActionRegistry.newAction(i18nKey, handler));
+        return newButtonBuilder(ActionRegistry.get().newAction(i18nKey, handler));
     }
 
     default Button newLargeGreenButton(Object i18nKey) {
@@ -95,7 +95,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newOkButtonBuilder(Runnable handler) {
-        return newButtonBuilder(ActionRegistry.newOkAction(handler));
+        return newButtonBuilder(ActionRegistry.get().newOkAction(handler));
     }
 
     default Button newCancelButton(Runnable handler) {
@@ -103,7 +103,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newCancelButtonBuilder(Runnable handler) {
-        return newButtonBuilder(ActionRegistry.newCancelAction(handler));
+        return newButtonBuilder(ActionRegistry.get().newCancelAction(handler));
     }
 
     default Button newRemoveButton(Runnable handler) {
@@ -111,7 +111,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newRemoveButtonBuilder(Runnable handler) {
-        return newButtonBuilder(ActionRegistry.newRemoveAction(handler));
+        return newButtonBuilder(ActionRegistry.get().newRemoveAction(handler));
     }
 
 }
