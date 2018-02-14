@@ -46,7 +46,7 @@
         <lib.elemental2.version>1.0.0-RC1</lib.elemental2.version>
         <lib.gwt-charts.version>0.9.10</lib.gwt-charts.version>
         <lib.vertx.version>3.5.1</lib.vertx.version>
-        <lib.javawebsocket.version>1.3.4</lib.javawebsocket.version>
+        <lib.javawebsocket.version>1.3.7</lib.javawebsocket.version>
 
          <!--
         <lib.javacuprutime.version>11b</lib.javacuprutime.version>

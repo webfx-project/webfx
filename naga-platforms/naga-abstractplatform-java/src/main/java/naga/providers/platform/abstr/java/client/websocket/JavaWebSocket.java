@@ -17,14 +17,14 @@
  */
 package naga.providers.platform.abstr.java.client.websocket;
 
+import naga.platform.client.websocket.spi.WebSocket;
 import naga.platform.client.websocket.spi.WebSocketListener;
 import naga.platform.json.Json;
-import naga.platform.client.websocket.spi.WebSocket;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.log.spi.Logger;
 import org.java_websocket.WebSocket.READYSTATE;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft_17;
+import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -63,7 +63,7 @@ public final class JavaWebSocket implements WebSocket {
             throw new RuntimeException(e);
         }
 
-        socket = new WebSocketClient(serverUri, new Draft_17()) {
+        socket = new WebSocketClient(serverUri, new Draft_6455()) {
             @Override
             public void onOpen(ServerHandshake handshake) {
                 if (listener != null)
