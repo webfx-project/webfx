@@ -183,7 +183,7 @@ public class ActionBuilder {
     }
 
     public ActionBuilder duplicate() {
-        return new ActionBuilder(actionKey)
+        return newActionBuilder(actionKey)
                 .setTextProperty(textProperty)
                 .setText(text)
                 .setI18nKey(i18nKey)
@@ -200,6 +200,10 @@ public class ActionBuilder {
                 ;
     }
 
+    ActionBuilder newActionBuilder(Object actionKey) {
+        return new ActionBuilder(actionKey);
+    }
+
     public ActionBuilder removeText() {
         textProperty = null;
         text = null;
@@ -208,6 +212,11 @@ public class ActionBuilder {
     }
 
     public Action build() {
+        completePropertiesForBuild();
+        return Action.create(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
+    }
+
+    void completePropertiesForBuild() {
         if (textProperty == null) {
             if (i18nKey != null && i18n != null)
                 textProperty = i18n.translationProperty(i18nKey);
@@ -233,6 +242,5 @@ public class ActionBuilder {
             else
                 visibleProperty = new SimpleBooleanProperty(true);
         }
-        return Action.create(textProperty, graphicProperty, disabledProperty, visibleProperty, actionHandler);
     }
 }
