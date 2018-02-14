@@ -8,16 +8,16 @@ import naga.framework.ui.i18n.I18n;
  */
 public class MongooseActions {
 
-    public final static Object VISIT_BOOK_ACTION_KEY = "Book>>";
-    public final static Object VISIT_FEES_ACTION_KEY = "Fees>>";
-    public final static Object VISIT_TERMS_AND_CONDITIONS_ACTION_KEY = "TermsAndConditions>>";
-    public final static Object VISIT_PROGRAM_ACTION_KEY = "Program>>";
-    public final static Object ADD_OPTION_ACTION_KEY = "AddOption";
+    private final static Object VISIT_BOOK_ACTION_KEY = "Book>>";
+    private final static Object VISIT_FEES_ACTION_KEY = "Fees>>";
+    private final static Object VISIT_TERMS_AND_CONDITIONS_ACTION_KEY = "TermsAndConditions>>";
+    private final static Object VISIT_PROGRAM_ACTION_KEY = "Program>>";
+    private final static Object ADD_OPTION_ACTION_KEY = "AddOption";
 
     public static void registerActions(I18n i18n) {
         ActionRegistry.get().setI18n(i18n);
-        registerAction(ActionRegistry.ADD_ACTION_KEY, "Add", MongooseIcons.addIcon16JsonUrl);
-        registerAction(ActionRegistry.REMOVE_ACTION_KEY, "Remove", MongooseIcons.removeIcon16JsonUrl);
+        registerAction(StandardActionKeys.ADD_ACTION_KEY, "Add", MongooseIcons.addIcon16JsonUrl);
+        registerAction(StandardActionKeys.REMOVE_ACTION_KEY, "Remove", MongooseIcons.removeIcon16JsonUrl);
         registerAction(VISIT_BOOK_ACTION_KEY, VISIT_BOOK_ACTION_KEY, null);
         registerAction(VISIT_FEES_ACTION_KEY, VISIT_FEES_ACTION_KEY, MongooseIcons.priceTagMonoSvg16JsonUrl);
         registerAction(VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, VISIT_TERMS_AND_CONDITIONS_ACTION_KEY, MongooseIcons.certificateMonoSvg16JsonUrl);

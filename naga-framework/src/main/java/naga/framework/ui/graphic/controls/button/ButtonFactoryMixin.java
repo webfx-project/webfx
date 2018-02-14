@@ -5,7 +5,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import naga.framework.ui.action.Action;
-import naga.framework.ui.action.ActionRegistry;
+import naga.framework.ui.action.ActionFactoryMixin;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.graphic.controls.ControlFactoryMixin;
@@ -24,7 +24,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newButtonBuilder(Object i18nKey, Runnable handler) {
-        return newButtonBuilder(ActionRegistry.get().newAction(i18nKey, handler));
+        return newButtonBuilder(newAction(i18nKey, handler));
     }
 
     default Button newLargeGreenButton(Object i18nKey) {
@@ -95,7 +95,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newOkButtonBuilder(Runnable handler) {
-        return newButtonBuilder(ActionRegistry.get().newOkAction(handler));
+        return newButtonBuilder(newOkAction(handler));
     }
 
     default Button newCancelButton(Runnable handler) {
@@ -103,7 +103,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newCancelButtonBuilder(Runnable handler) {
-        return newButtonBuilder(ActionRegistry.get().newCancelAction(handler));
+        return newButtonBuilder(newCancelAction(handler));
     }
 
     default Button newRemoveButton(Runnable handler) {
@@ -111,7 +111,7 @@ public interface ButtonFactoryMixin extends ControlFactoryMixin {
     }
 
     default ButtonBuilder newRemoveButtonBuilder(Runnable handler) {
-        return newButtonBuilder(ActionRegistry.get().newRemoveAction(handler));
+        return newButtonBuilder(newRemoveAction(handler));
     }
 
 }

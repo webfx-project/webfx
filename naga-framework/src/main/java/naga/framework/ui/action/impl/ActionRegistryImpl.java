@@ -14,10 +14,15 @@ public class ActionRegistryImpl implements ActionRegistry {
 
     private I18n i18n;
     private final Map<Object, ActionBuilder> actionBuilders = new HashMap<>();
-    private static ActionRegistryImpl INSTANCE = new ActionRegistryImpl();
+    private final static ActionRegistryImpl INSTANCE = new ActionRegistryImpl();
 
     public static ActionRegistryImpl get() {
         return INSTANCE;
+    }
+
+    @Override
+    public void registerActionBuilder(ActionBuilder actionBuilder) {
+        actionBuilders.put(actionBuilder.getActionKey(), actionBuilder.setActionRegistry(this));
     }
 
     @Override
@@ -26,21 +31,14 @@ public class ActionRegistryImpl implements ActionRegistry {
     }
 
     @Override
-    public I18n getI8n() {
-        return i18n;
-    }
-
-    @Override
-    public void registerAction(ActionBuilder actionBuilder) {
-        actionBuilders.put(actionBuilder.getActionKey(), actionBuilder);
-    }
-
-    @Override
     public ActionBuilder newActionBuilder(Object actionKey) {
         ActionBuilder actionBuilder = actionBuilders.get(actionKey);
         if (actionBuilder == null)
-            actionBuilder = new ActionBuilder(actionKey).setI18nKey(actionKey).register();
-        return actionBuilder.duplicate();
+            registerActionBuilder(actionBuilder = new ActionBuilder(actionKey).setI18nKey(actionKey));
+        actionBuilder = actionBuilder.duplicate();
+        if (actionBuilder.getI18n() == null)
+            actionBuilder.setI18n(i18n);
+        return actionBuilder;
     }
 
 }

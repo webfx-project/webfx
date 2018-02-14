@@ -6,13 +6,14 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionBuilder;
+import naga.framework.ui.action.ActionFactoryMixin;
 import naga.framework.ui.graphic.controls.button.ButtonBuilder;
 import naga.framework.ui.i18n.I18nMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface ControlFactoryMixin extends I18nMixin {
+public interface ControlFactoryMixin extends ActionFactoryMixin, I18nMixin {
 
     default Button newButton() {
         return newButtonBuilder().build();
@@ -48,10 +49,6 @@ public interface ControlFactoryMixin extends I18nMixin {
 
     default ButtonBuilder newButtonBuilder(Action action) {
         return newButtonBuilder().setAction(action);
-    }
-
-    default Action newAction(Object i18nKey, Runnable actionHandler) {
-        return new ActionBuilder().setI18nKey(i18nKey).setI18n(getI18n()).setActionHandler(actionHandler).build();
     }
 
     default Button styleButton(Button button) {

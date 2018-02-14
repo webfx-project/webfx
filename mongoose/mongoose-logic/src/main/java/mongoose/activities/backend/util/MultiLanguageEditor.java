@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static mongoose.actions.MongooseIcons.getLanguageIcon32;
-import static naga.framework.ui.action.ActionRegistry.*;
+import static naga.framework.ui.action.StandardActionKeys.*;
 import static naga.framework.ui.layouts.LayoutUtil.setMaxPrefSizeToInfinite;
 
 /**

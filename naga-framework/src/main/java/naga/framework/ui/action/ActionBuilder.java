@@ -40,6 +40,8 @@ public class ActionBuilder {
 
     private EventHandler<ActionEvent> actionHandler;
 
+    private ActionRegistry actionRegistry;
+
     public ActionBuilder() {
     }
 
@@ -177,8 +179,13 @@ public class ActionBuilder {
         return setActionHandler(e -> actionHandler.run());
     }
 
+    public ActionBuilder setActionRegistry(ActionRegistry actionRegistry) {
+        this.actionRegistry = actionRegistry;
+        return this;
+    }
+
     public ActionBuilder register() {
-        ActionRegistry.get().registerAction(this);
+        (actionRegistry != null ? actionRegistry : ActionRegistry.get()).registerActionBuilder(this);
         return this;
     }
 

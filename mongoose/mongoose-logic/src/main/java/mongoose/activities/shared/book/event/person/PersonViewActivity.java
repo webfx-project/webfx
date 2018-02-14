@@ -19,7 +19,6 @@ import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import naga.framework.ui.action.ActionRegistry;
 import naga.framework.ui.auth.UiUser;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
@@ -46,7 +45,7 @@ class PersonViewActivity extends BookingProcessViewActivity {
                 Properties.compute(pageContainer.widthProperty(), width -> Numbers.toDouble(width.doubleValue() - 100))
         );
         accountTopNote.setLeft(textFlow);
-        Button closeButton = newButton(ActionRegistry.get().newActionBuilder(ActionRegistry.REMOVE_ACTION_KEY).removeText().setActionHandler(() -> verticalStack.getChildren().remove(accountTopNote)));
+        Button closeButton = newButton(newActionBuilder(REMOVE_ACTION_KEY).removeText().setActionHandler(() -> verticalStack.getChildren().remove(accountTopNote)));
         closeButton.setBorder(BorderUtil.transparentBorder());
         closeButton.setBackground(BackgroundUtil.TRANSPARENT_BACKGROUND);
         accountTopNote.setRight(closeButton);
