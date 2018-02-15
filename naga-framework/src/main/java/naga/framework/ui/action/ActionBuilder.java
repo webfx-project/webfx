@@ -32,7 +32,7 @@ public class ActionBuilder {
     private ObservableBooleanValue disabledProperty;
     private ObservableBooleanValue visibleProperty;
 
-    private boolean hiddenWhenDisabled;
+    private boolean hiddenWhenDisabled = true;
 
     private boolean authRequired;
 
