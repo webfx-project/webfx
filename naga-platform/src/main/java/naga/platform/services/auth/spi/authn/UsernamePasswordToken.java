@@ -1,4 +1,4 @@
-package naga.platform.services.auth;
+package naga.platform.services.auth.spi.authn;
 
 /**
  * @author Bruno Salmon

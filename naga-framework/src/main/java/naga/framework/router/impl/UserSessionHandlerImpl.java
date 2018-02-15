@@ -1,9 +1,9 @@
 package naga.framework.router.impl;
 
 import naga.framework.router.RoutingContext;
-import naga.framework.router.handler.UserSessionHandler;
+import naga.framework.router.session.UserSessionHandler;
 import naga.framework.session.Session;
-import naga.platform.services.auth.spi.User;
+import naga.platform.services.auth.spi.authz.User;
 
 /**
  * @author Bruno Salmon

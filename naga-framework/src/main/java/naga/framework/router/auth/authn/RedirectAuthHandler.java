@@ -1,7 +1,7 @@
-package naga.framework.router.handler;
+package naga.framework.router.auth.authn;
 
 import naga.framework.router.impl.RedirectAuthHandlerImpl;
-import naga.platform.services.auth.spi.AuthService;
+import naga.platform.services.auth.spi.authn.AuthService;
 
 /**
  * @author Bruno Salmon

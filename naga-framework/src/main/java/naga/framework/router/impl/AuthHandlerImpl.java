@@ -1,7 +1,7 @@
 package naga.framework.router.impl;
 
 import naga.framework.router.RoutingContext;
-import naga.framework.router.handler.AuthHandler;
+import naga.framework.router.auth.authn.AuthHandler;
 
 /**
  * @author Bruno Salmon

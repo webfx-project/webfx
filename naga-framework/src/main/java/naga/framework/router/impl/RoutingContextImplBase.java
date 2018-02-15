@@ -6,7 +6,7 @@ import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.framework.router.Route;
 import naga.framework.router.RoutingContext;
-import naga.platform.services.auth.spi.User;
+import naga.platform.services.auth.spi.authz.User;
 import naga.platform.services.log.spi.Logger;
 
 import java.util.Collection;
