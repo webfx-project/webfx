@@ -5,7 +5,6 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 import naga.framework.orm.entity.Entity;
 import naga.framework.router.util.PathBuilder;
 import naga.framework.ui.router.UiRoute;
-import naga.framework.ui.router.UiRouteImpl;
 import naga.platform.client.url.history.History;
 
 import java.time.LocalDate;
@@ -20,8 +19,10 @@ public class BookingsRouting {
     private final static String EVENT_PATH = "/bookings/event/:eventId";
 
     public static UiRoute<?> uiRoute() {
-        return new UiRouteImpl<>(PathBuilder.toRegexPath(ANY_PATH),true,
-                true, BookingsPresentationActivity::new, DomainPresentationActivityContextFinal::new, null
+        return UiRoute.createRegex(PathBuilder.toRegexPath(ANY_PATH)
+                ,true
+                , BookingsPresentationActivity::new
+                , DomainPresentationActivityContextFinal::new
         );
     }
 

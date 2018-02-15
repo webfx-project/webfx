@@ -1,6 +1,6 @@
 package mongoose.auth;
 
-import naga.platform.services.auth.SuperUser;
+import naga.platform.services.auth.impl.SuperUser;
 import naga.platform.services.auth.spi.User;
 
 /**

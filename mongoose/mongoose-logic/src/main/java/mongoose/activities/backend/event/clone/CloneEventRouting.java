@@ -4,7 +4,6 @@ import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.orm.entity.Entity;
 import naga.framework.ui.router.UiRoute;
-import naga.framework.ui.router.UiRouteImpl;
 import naga.platform.client.url.history.History;
 
 /**
@@ -15,8 +14,10 @@ public class CloneEventRouting {
     public static final String PATH = "/event/:eventId/clone";
 
     public static UiRoute<?> uiRoute() {
-        return new UiRouteImpl<>(PATH, false,
-                false, CloneEventPresentationActivity::new, DomainPresentationActivityContextFinal::new, null
+        return UiRoute.create(PATH
+                , false
+                , CloneEventPresentationActivity::new
+                , DomainPresentationActivityContextFinal::new
         );
     }
 

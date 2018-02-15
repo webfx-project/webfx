@@ -2,7 +2,7 @@ package mongoose.auth;
 
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.services.auth.UsernamePasswordToken;
+import naga.platform.services.auth.impl.UsernamePasswordToken;
 import naga.platform.services.auth.spi.AuthService;
 import naga.platform.services.auth.spi.User;
 import naga.platform.services.query.QueryArgument;
