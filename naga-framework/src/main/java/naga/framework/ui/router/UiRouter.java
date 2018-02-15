@@ -1,23 +1,19 @@
 package naga.framework.ui.router;
 
-import naga.platform.services.log.spi.Logger;
-import naga.util.async.Handler;
-import naga.util.function.Converter;
-import naga.util.function.Factory;
 import naga.framework.activity.uiroute.UiRouteActivityContext;
 import naga.framework.activity.uiroute.impl.UiRouteActivityContextBase;
 import naga.framework.activity.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
-import naga.framework.router.handler.RedirectAuthHandler;
-import naga.framework.router.handler.UserSessionHandler;
+import naga.framework.router.auth.authn.RedirectAuthHandler;
+import naga.framework.router.session.UserSessionHandler;
 import naga.framework.router.impl.RedirectAuthHandlerImpl;
 import naga.framework.router.impl.SessionHandlerImplBase;
 import naga.framework.router.impl.UserHolder;
 import naga.framework.router.impl.UserSessionHandlerImpl;
 import naga.framework.session.SessionStore;
 import naga.framework.session.impl.MemorySessionStore;
-import naga.framework.ui.auth.UiUser;
+import naga.framework.ui.authz.UiUser;
 import naga.fx.properties.markers.HasNodeProperty;
 import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
@@ -31,7 +27,11 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.auth.spi.AuthService;
+import naga.platform.services.auth.spi.authn.AuthService;
+import naga.platform.services.log.spi.Logger;
+import naga.util.async.Handler;
+import naga.util.function.Converter;
+import naga.util.function.Factory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class UiRouter extends HistoryRouter {
     private static String sessionId;
     private RedirectAuthHandler redirectAuthHandler;
     private AuthService authService;
-    private UiUser uiUser = UiUser.create();
+    private UiUser uiUser;
 
     public static UiRouter create(UiRouteActivityContext hostingContext) {
         return create(hostingContext, hostingContext.getActivityContextFactory());
@@ -94,12 +94,6 @@ public class UiRouter extends HistoryRouter {
         UiRouteActivityContextBase hostingUiRouterActivityContext = UiRouteActivityContextBase.toUiRouterActivityContextBase(hostingContext);
         if (hostingUiRouterActivityContext != null) // can be null if the hosting context is the application context
             hostingUiRouterActivityContext.setUiRouter(this);
-        uiUser.userProperty().addListener((observable, oldUser, newUser) -> getSessionStore().get(sessionId).setHandler(ar -> {
-            if (ar.succeeded()) {
-                UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(newUser));
-                refresh();
-            }
-        }));
     }
 
     @Override
@@ -135,6 +129,17 @@ public class UiRouter extends HistoryRouter {
     }
 
     public UiUser getUiUser() {
+        if (uiUser == null) {
+            if (mountParentRouter != null)
+                return mountParentRouter.getUiUser();
+            uiUser = UiUser.create();
+            uiUser.userProperty().addListener((observable, oldUser, newUser) -> getSessionStore().get(sessionId).setHandler(ar -> {
+                if (ar.succeeded()) {
+                    UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(newUser));
+                    refresh();
+                }
+            }));
+        }
         return uiUser;
     }
 
