@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
-import mongoose.auth.MongooseUser;
+import mongoose.auth.authz.MongooseUser;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Country;
@@ -23,7 +23,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.ui.auth.UiUser;
+import naga.framework.ui.authz.UiUser;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
@@ -36,7 +36,7 @@ import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
 import naga.fxdata.displaydata.SelectionMode;
-import naga.platform.services.auth.spi.User;
+import naga.platform.services.auth.spi.authz.User;
 import naga.type.PrimType;
 import naga.util.Booleans;
 
@@ -114,8 +114,8 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
                 User user = (User) userProperty.getValue();
                 boolean loggedIn = user instanceof MongooseUser;
                 if (loggedIn) {
-                    Object userAccountPrimaryKey = ((MongooseUser) user).getUserAccountPrimaryKey();
-                    personSelector.setJsonOrClass("{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,birthdate,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + userAccountPrimaryKey + "', orderBy: 'id'}");
+                    Object userAccountId = ((MongooseUser) user).getUserAccountId();
+                    personSelector.setJsonOrClass("{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,birthdate,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + userAccountId + "', orderBy: 'id'}");
                     personSelector.autoSelectFirstEntity();
                 } else
                     personSelector.setJsonOrClass(null);

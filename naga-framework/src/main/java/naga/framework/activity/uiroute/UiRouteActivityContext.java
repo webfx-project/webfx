@@ -3,7 +3,7 @@ package naga.framework.activity.uiroute;
 import naga.framework.activity.activeproperty.ActivePropertyActivityContext;
 import naga.framework.activity.i18n.I18nActivityContext;
 import naga.framework.session.Session;
-import naga.framework.ui.auth.UiUser;
+import naga.framework.ui.authz.UiUser;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;

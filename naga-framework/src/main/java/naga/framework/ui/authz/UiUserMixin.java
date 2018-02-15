@@ -1,9 +1,9 @@
-package naga.framework.ui.auth;
+package naga.framework.ui.authz;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import naga.platform.services.auth.spi.User;
+import naga.platform.services.auth.spi.authz.User;
 import naga.util.async.Future;
 
 /**
