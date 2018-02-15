@@ -1,6 +1,7 @@
 package mongoose.activities.backend.monitor;
 
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
+import naga.framework.router.auth.authz.RouteAuthority;
 import naga.framework.ui.router.UiRoute;
 import naga.platform.client.url.history.History;
 
@@ -13,10 +14,14 @@ public class MonitorRooting {
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
-                , false
+                , true
                 , MonitorPresentationActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
+    }
+
+    public static RouteAuthority routeAuthority() {
+        return new RouteAuthority(PATH);
     }
 
     public static void route(History history) {
