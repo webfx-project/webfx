@@ -1,10 +1,11 @@
-package mongoose.auth;
+package mongoose.auth.authn;
 
+import mongoose.auth.authz.MongooseUser;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.services.auth.impl.UsernamePasswordToken;
-import naga.platform.services.auth.spi.AuthService;
-import naga.platform.services.auth.spi.User;
+import naga.platform.services.auth.spi.authn.UsernamePasswordToken;
+import naga.platform.services.auth.spi.authn.AuthService;
+import naga.platform.services.auth.spi.authz.User;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.spi.QueryService;
 import naga.util.async.Future;
@@ -21,10 +22,10 @@ public class MongooseAuth implements AuthService {
     }
 
     @Override
-    public Future<User> authenticate(Object authInfo) {
-        if (!(authInfo instanceof UsernamePasswordToken))
+    public Future<User> authenticate(Object authnInfo) {
+        if (!(authnInfo instanceof UsernamePasswordToken))
             return Future.failedFuture(new IllegalArgumentException("MongooseAuth requires a UsernamePasswordToken argument"));
-        UsernamePasswordToken token = (UsernamePasswordToken) authInfo;
+        UsernamePasswordToken token = (UsernamePasswordToken) authnInfo;
         Object[] parameters = {1, token.getUsername(), token.getPassword()};
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select FrontendAccount where corporation=? and username=? and password=? limit 1", parameters);
         return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())).compose(result -> {
