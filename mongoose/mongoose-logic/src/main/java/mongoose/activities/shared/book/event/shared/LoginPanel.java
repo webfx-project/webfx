@@ -15,15 +15,15 @@ import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import naga.framework.ui.anim.Animations;
-import naga.framework.ui.auth.UiUser;
+import naga.framework.ui.authz.UiUser;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
-import naga.platform.services.auth.UsernamePasswordToken;
-import naga.platform.services.auth.spi.AuthService;
+import naga.platform.services.auth.spi.authn.UsernamePasswordToken;
+import naga.platform.services.auth.spi.authn.AuthService;
 
 
 /**
