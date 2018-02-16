@@ -14,7 +14,7 @@ import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
 import mongoose.activities.shared.auth.UnauthorizedRouting;
-import mongoose.auth.MongooseAuth;
+import mongoose.auth.authn.MongooseAuth;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
