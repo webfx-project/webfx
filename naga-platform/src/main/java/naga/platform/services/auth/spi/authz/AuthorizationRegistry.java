@@ -13,25 +13,25 @@ import java.util.Map;
 public class AuthorizationRegistry implements Authorization {
 
     private final Map<Class, Collection<Authorization>> registeredAuthorizations = new HashMap<>();
-    private AuthorizationParser authorizationParser;
+    private AuthorizationRuleParser authorizationRuleParser;
     private OperationAuthorizationRequestParser operationAuthorizationRequestParser;
 
-    public void setAuthorizationParser(AuthorizationParser authorizationParser) {
-        this.authorizationParser = authorizationParser;
+    public void setAuthorizationRuleParser(AuthorizationRuleParser authorizationRuleParser) {
+        this.authorizationRuleParser = authorizationRuleParser;
     }
 
-    public void addAuthorizationParser(AuthorizationParser authorizationParser) {
-        if (this.authorizationParser == null)
-            this.authorizationParser = authorizationParser;
+    public void addAuthorizationRuleParser(AuthorizationRuleParser authorizationRuleParser) {
+        if (this.authorizationRuleParser == null)
+            this.authorizationRuleParser = authorizationRuleParser;
         else {
-            AuthorizationParserRegistry registry;
-            if (this.authorizationParser instanceof AuthorizationParserRegistry)
-                registry = (AuthorizationParserRegistry) this.authorizationParser;
+            AuthorizationRuleParserRegistry registry;
+            if (this.authorizationRuleParser instanceof AuthorizationRuleParserRegistry)
+                registry = (AuthorizationRuleParserRegistry) this.authorizationRuleParser;
             else {
-                registry = new AuthorizationParserRegistry();
-                registry.registerParser(this.authorizationParser);
+                registry = new AuthorizationRuleParserRegistry();
+                registry.registerParser(this.authorizationRuleParser);
             }
-            registry.registerParser(authorizationParser);
+            registry.registerParser(authorizationRuleParser);
         }
     }
 
@@ -44,7 +44,7 @@ public class AuthorizationRegistry implements Authorization {
             this.operationAuthorizationRequestParser = operationAuthorizationRequestParser;
         else {
             OperationAuthorizationRequestParserRegistry registry;
-            if (this.operationAuthorizationRequestParser instanceof AuthorizationParserRegistry)
+            if (this.operationAuthorizationRequestParser instanceof AuthorizationRuleParserRegistry)
                 registry = (OperationAuthorizationRequestParserRegistry) this.operationAuthorizationRequestParser;
             else {
                 registry = new OperationAuthorizationRequestParserRegistry();
@@ -66,7 +66,7 @@ public class AuthorizationRegistry implements Authorization {
     }
 
     public void registerAuthorization(String authorization) {
-        registerAuthorization(authorizationParser.parseAuthorization(authorization));
+        registerAuthorization(authorizationRuleParser.parseAuthorization(authorization));
     }
 
     @Override

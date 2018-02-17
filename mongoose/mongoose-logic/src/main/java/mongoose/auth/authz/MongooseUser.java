@@ -1,7 +1,7 @@
 package mongoose.auth.authz;
 
 import naga.framework.router.auth.authz.RouteOperationAuthorizationRequestParser;
-import naga.framework.router.auth.authz.RouteAuthorizationParser;
+import naga.framework.router.auth.authz.RouteAuthorizationRuleParser;
 import naga.platform.services.auth.spi.authz.AuthorizationRegistry;
 import naga.platform.services.auth.spi.authz.LoadedAuthorizationsUser;
 
@@ -24,7 +24,7 @@ public class MongooseUser extends LoadedAuthorizationsUser {
     private static AuthorizationRegistry DEFAULT_AUTHORIZATION = new AuthorizationRegistry();
     static {
         DEFAULT_AUTHORIZATION.addOperationAuthorizationRequestParser(new RouteOperationAuthorizationRequestParser());
-        DEFAULT_AUTHORIZATION.addAuthorizationParser(new RouteAuthorizationParser());
+        DEFAULT_AUTHORIZATION.addAuthorizationRuleParser(new RouteAuthorizationRuleParser());
         DEFAULT_AUTHORIZATION.registerAuthorization("route: /monitor");
         DEFAULT_AUTHORIZATION.registerAuthorization("route: /tester");
         DEFAULT_AUTHORIZATION.registerAuthorization("route: /bookings/*");
