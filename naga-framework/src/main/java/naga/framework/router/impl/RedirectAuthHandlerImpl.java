@@ -6,26 +6,26 @@ import naga.util.Booleans;
 import naga.framework.router.RoutingContext;
 import naga.framework.session.Session;
 import naga.platform.services.auth.spi.authz.User;
-import naga.platform.services.auth.spi.authn.AuthService;
+import naga.platform.services.authn.AuthenticationService;
 
 /**
  * @author Bruno Salmon
  */
 public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements RedirectAuthHandler {
 
-    private final AuthService authService;
+    private final AuthenticationService authenticationService;
     private final String loginPath;
     private final String unauthorizedPath;
     private boolean redirecting;
 
-    public RedirectAuthHandlerImpl(AuthService authService, String loginPath, String unauthorizedPath) {
-        this.authService = authService;
+    public RedirectAuthHandlerImpl(AuthenticationService authenticationService, String loginPath, String unauthorizedPath) {
+        this.authenticationService = authenticationService;
         this.loginPath = loginPath;
         this.unauthorizedPath = unauthorizedPath;
     }
 
-    public AuthService getAuthService() {
-        return authService;
+    public AuthenticationService getAuthenticationService() {
+        return authenticationService;
     }
 
     @Override

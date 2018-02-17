@@ -57,7 +57,7 @@ class PersonViewActivity extends BookingProcessViewActivity {
         UiSession uiSession = getUiSession();
         ObservableBooleanValue loggedInProperty = loggedInProperty();
         ObservableBooleanValue notLoggedIn = BooleanExpression.booleanExpression(loggedInProperty).not();
-        LoginPanel loginPanel = new LoginPanel(uiSession, getI18n(), getUiRouter().getAuthService());
+        LoginPanel loginPanel = new LoginPanel(uiSession, getI18n(), getUiRouter().getAuthenticationService());
         personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiSession);
         Node[] tabContents = {new VBox(10, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode() };
         BorderPane accountPane = new BorderPane();

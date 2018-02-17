@@ -27,7 +27,7 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.auth.spi.authn.AuthService;
+import naga.platform.services.authn.AuthenticationService;
 import naga.platform.services.log.spi.Logger;
 import naga.util.async.Handler;
 import naga.util.function.Converter;
@@ -51,7 +51,7 @@ public class UiRouter extends HistoryRouter {
     private SessionStore sessionStore;
     private static String sessionId;
     private RedirectAuthHandler redirectAuthHandler;
-    private AuthService authService;
+    private AuthenticationService authenticationService;
     private UiSession uiSession;
 
     public static UiRouter create(UiRouteActivityContext hostingContext) {
@@ -104,8 +104,8 @@ public class UiRouter extends HistoryRouter {
             mountParentRouter.refresh();
     }
 
-    public UiRouter setRedirectAuthHandler(AuthService authService, String loginPath, String unauthorizedPath) {
-        return setRedirectAuthHandler(RedirectAuthHandler.create(authService, loginPath, unauthorizedPath));
+    public UiRouter setRedirectAuthHandler(AuthenticationService authenticationService, String loginPath, String unauthorizedPath) {
+        return setRedirectAuthHandler(RedirectAuthHandler.create(authenticationService, loginPath, unauthorizedPath));
     }
 
     public UiRouter setRedirectAuthHandler(RedirectAuthHandler redirectAuthHandler) {
@@ -114,7 +114,7 @@ public class UiRouter extends HistoryRouter {
         router.route().handler(UserSessionHandler.create());
         this.redirectAuthHandler = redirectAuthHandler;
         if (redirectAuthHandler instanceof RedirectAuthHandlerImpl)
-            authService = ((RedirectAuthHandlerImpl) redirectAuthHandler).getAuthService();
+            authenticationService = ((RedirectAuthHandlerImpl) redirectAuthHandler).getAuthenticationService();
         return this;
     }
 
@@ -143,8 +143,8 @@ public class UiRouter extends HistoryRouter {
         return uiSession;
     }
 
-    public AuthService getAuthService() {
-        return authService;
+    public AuthenticationService getAuthenticationService() {
+        return authenticationService;
     }
 
     public UiRouter authRoute(String path) {

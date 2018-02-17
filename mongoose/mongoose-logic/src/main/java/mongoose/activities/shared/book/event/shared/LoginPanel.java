@@ -22,8 +22,8 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
-import naga.platform.services.auth.spi.authn.UsernamePasswordCredentials;
-import naga.platform.services.auth.spi.authn.AuthService;
+import naga.platform.services.authn.AuthenticationService;
+import naga.platform.services.authn.UsernamePasswordCredentials;
 
 
 /**
@@ -38,7 +38,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    public LoginPanel(UiSession uiSession, I18n i18n, AuthService authService) {
+    public LoginPanel(UiSession uiSession, I18n i18n, AuthenticationService authenticationService) {
         this.i18n = i18n;
         BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
@@ -62,7 +62,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         initValidation();
         button.setOnAction(event -> {
             if (validationSupport.isValid())
-                authService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
+                authenticationService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
                     if (ar.succeeded())
                         uiSession.setUser(ar.result());
                     else
