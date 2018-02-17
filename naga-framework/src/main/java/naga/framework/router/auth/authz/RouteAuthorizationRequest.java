@@ -3,11 +3,11 @@ package naga.framework.router.auth.authz;
 /**
  * @author Bruno Salmon
  */
-public class RouteAuthority {
+public class RouteAuthorizationRequest {
 
     private final String requestedRoute;
 
-    public RouteAuthority(String requestedRoute) {
+    public RouteAuthorizationRequest(String requestedRoute) {
         this.requestedRoute = requestedRoute;
     }
 

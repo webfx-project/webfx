@@ -34,13 +34,13 @@ public interface UiUser extends UserMixin {
         return loggedInProperty().getValue();
     }
 
-    ObservableBooleanValue authorizedProperty(Object authority);
+    ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest);
 
-    ObservableBooleanValue authorizedProperty(ObservableValue authorityProperty);
+    ObservableBooleanValue authorizedProperty(ObservableValue operationAuthorizationRequestProperty);
 
     @Override
-    default Future<Boolean> isAuthorized(Object authority) {
+    default Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
         User user = getUser();
-        return user != null ? user.isAuthorized(authority) : Future.succeededFuture(false);
+        return user != null ? user.isAuthorized(operationAuthorizationRequest) : Future.succeededFuture(false);
     }
 }

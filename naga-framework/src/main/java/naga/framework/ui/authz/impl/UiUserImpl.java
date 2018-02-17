@@ -32,7 +32,7 @@ public class UiUserImpl implements UiUser {
     }
 
     @Override
-    public ObservableBooleanValue authorizedProperty(Object authority) {
+    public ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest) {
         return new BooleanBinding() {
             User user;
             boolean value;
@@ -43,7 +43,7 @@ public class UiUserImpl implements UiUser {
                 if (user != getUser()) {
                     value = false;
                     user = getUser();
-                    user.isAuthorized(authority).setHandler(ar -> {
+                    user.isAuthorized(operationAuthorizationRequest).setHandler(ar -> {
                         if (ar.succeeded() && ar.result())
                             Toolkit.get().scheduler().runInUiThread(() -> {
                                 value = true;
@@ -61,7 +61,7 @@ public class UiUserImpl implements UiUser {
     }
 
     @Override
-    public ObservableBooleanValue authorizedProperty(ObservableValue authorityProperty) {
+    public ObservableBooleanValue authorizedProperty(ObservableValue operationAuthorizationRequestProperty) {
         return null; // Not yet implemented
     }
 }

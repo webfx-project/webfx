@@ -9,7 +9,7 @@ public interface UserMixin extends User {
 
     User getUser();
 
-    default Future<Boolean> isAuthorized(Object authority) {
-        return getUser().isAuthorized(authority);
+    default Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
+        return getUser().isAuthorized(operationAuthorizationRequest);
     }
 }

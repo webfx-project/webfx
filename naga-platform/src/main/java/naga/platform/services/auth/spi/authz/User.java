@@ -7,6 +7,6 @@ import naga.util.async.Future;
  */
 public interface User {
 
-    Future<Boolean> isAuthorized(Object authority);
+    Future<Boolean> isAuthorized(Object operationAuthorizationRequest);
 
 }

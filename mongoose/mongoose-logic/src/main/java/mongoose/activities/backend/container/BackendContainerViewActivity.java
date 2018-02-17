@@ -27,8 +27,8 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity {
                 , newAction("Events",         () -> EventsRouting.route(getHistory()))
                 , newAction("Bookings",       () -> BookingsRouting.routeUsingEventId(getParameter("eventId"), getHistory()))
                 , newAction("Letters",        () -> LettersRouting.routeUsingEventId(getParameter("eventId"), getHistory()))
-                , newAuthAction("Monitor",    () -> MonitorRooting.route(getHistory()), authorizedProperty(MonitorRooting.routeAuthority()))
-                , newAuthAction("Tester",     () -> TesterRooting.route(getHistory()), authorizedProperty(TesterRooting.routeAuthority()))
+                , newAuthAction("Monitor",    () -> MonitorRooting.route(getHistory()), authorizedProperty(MonitorRooting.authorizationRequest()))
+                , newAuthAction("Tester",     () -> TesterRooting.route(getHistory()), authorizedProperty(TesterRooting.authorizationRequest()))
                 , englishAction
                 , frenchAction
         );

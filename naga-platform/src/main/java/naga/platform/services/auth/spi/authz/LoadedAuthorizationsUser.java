@@ -14,7 +14,7 @@ public class LoadedAuthorizationsUser implements User {
     }
 
     @Override
-    public Future<Boolean> isAuthorized(Object authority) {
-        return Future.succeededFuture(userLoadedAuthorizations.authorizes(authority));
+    public Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
+        return Future.succeededFuture(userLoadedAuthorizations.authorizes(operationAuthorizationRequest));
     }
 }

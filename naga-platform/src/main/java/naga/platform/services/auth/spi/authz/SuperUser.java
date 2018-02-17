@@ -8,7 +8,7 @@ import naga.util.async.Future;
 public class SuperUser implements User {
 
     @Override
-    public Future<Boolean> isAuthorized(Object authority) {
+    public Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
         return Future.succeededFuture(true);
     }
 }

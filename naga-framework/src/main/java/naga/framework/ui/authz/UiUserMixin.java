@@ -34,17 +34,17 @@ public interface UiUserMixin extends UiUser {
         return getUiUser().isLoggedIn();
     }
 
-    default ObservableBooleanValue authorizedProperty(Object authority) {
-        return getUiUser().authorizedProperty(authority);
+    default ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest) {
+        return getUiUser().authorizedProperty(operationAuthorizationRequest);
     }
 
     @Override
-    default ObservableBooleanValue authorizedProperty(ObservableValue authorityProperty) {
-        return getUiUser().authorizedProperty(authorityProperty);
+    default ObservableBooleanValue authorizedProperty(ObservableValue operationAuthorizationRequestProperty) {
+        return getUiUser().authorizedProperty(operationAuthorizationRequestProperty);
     }
 
     @Override
-    default Future<Boolean> isAuthorized(Object authority) {
-        return getUiUser().isAuthorized(authority);
+    default Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
+        return getUiUser().isAuthorized(operationAuthorizationRequest);
     }
 }

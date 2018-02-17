@@ -1,7 +1,7 @@
 package naga.framework.router.impl;
 
 import naga.framework.router.auth.authn.RedirectAuthHandler;
-import naga.framework.router.auth.authz.RouteAuthority;
+import naga.framework.router.auth.authz.RouteAuthorizationRequest;
 import naga.util.Booleans;
 import naga.framework.router.RoutingContext;
 import naga.framework.session.Session;
@@ -42,7 +42,7 @@ public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements Redirect
                     redirect(context, loginPath);
                 else
                     // Already logged in, just checking the user is authorised to access this route
-                    user.isAuthorized(new RouteAuthority(context.path())).setHandler(ar -> {
+                    user.isAuthorized(new RouteAuthorizationRequest(context.path())).setHandler(ar -> {
                         if (ar.succeeded() && Booleans.isTrue(ar.result()))
                             context.next();
                         else

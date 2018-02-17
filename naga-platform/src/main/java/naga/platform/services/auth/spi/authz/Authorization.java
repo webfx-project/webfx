@@ -3,10 +3,10 @@ package naga.platform.services.auth.spi.authz;
 /**
  * @author Bruno Salmon
  */
-public interface Authorization<A> {
+public interface Authorization<R> {
 
-    boolean authorizes(A authority);
+    boolean authorizes(R operationAuthorizationRequest);
 
-    Class<A> authorityClass(); // used for registration when coming from parsing
+    Class<R> operationAuthorizationRequestClass(); // used for registration when coming from parsing
 
 }

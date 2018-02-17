@@ -5,7 +5,7 @@ import naga.platform.services.auth.spi.authz.Authorization;
 /**
  * @author Bruno Salmon
  */
-public class RouteAuthorization implements Authorization<RouteAuthority> {
+public class RouteAuthorization implements Authorization<RouteAuthorizationRequest> {
 
     private final String authorizedRoute;
     private final boolean allowSubRoutes;
@@ -16,8 +16,8 @@ public class RouteAuthorization implements Authorization<RouteAuthority> {
     }
 
     @Override
-    public boolean authorizes(RouteAuthority authority) {
-        String requestedRoute = authority.getRequestedRoute();
+    public boolean authorizes(RouteAuthorizationRequest operationAuthorizationRequest) {
+        String requestedRoute = operationAuthorizationRequest.getRequestedRoute();
         if (requestedRoute.equals(authorizedRoute))
             return true;
         if (allowSubRoutes && requestedRoute.startsWith(authorizedRoute))
@@ -26,7 +26,7 @@ public class RouteAuthorization implements Authorization<RouteAuthority> {
     }
 
     @Override
-    public Class<RouteAuthority> authorityClass() {
-        return RouteAuthority.class;
+    public Class<RouteAuthorizationRequest> operationAuthorizationRequestClass() {
+        return RouteAuthorizationRequest.class;
     }
 }

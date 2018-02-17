@@ -14,7 +14,7 @@ public class AuthorizationRegistry implements Authorization {
 
     private final Map<Class, Collection<Authorization>> registeredAuthorizations = new HashMap<>();
     private AuthorizationParser authorizationParser;
-    private AuthorityParser authorityParser;
+    private OperationAuthorizationRequestParser operationAuthorizationRequestParser;
 
     public void setAuthorizationParser(AuthorizationParser authorizationParser) {
         this.authorizationParser = authorizationParser;
@@ -35,34 +35,34 @@ public class AuthorizationRegistry implements Authorization {
         }
     }
 
-    public void setAuthorityParser(AuthorityParser authorityParser) {
-        this.authorityParser = authorityParser;
+    public void setOperationAuthorizationRequestParser(OperationAuthorizationRequestParser operationAuthorizationRequestParser) {
+        this.operationAuthorizationRequestParser = operationAuthorizationRequestParser;
     }
 
-    public void addAuthorityParser(AuthorityParser authorityParser) {
-        if (this.authorityParser == null)
-            this.authorityParser = authorityParser;
+    public void addOperationAuthorizationRequestParser(OperationAuthorizationRequestParser operationAuthorizationRequestParser) {
+        if (this.operationAuthorizationRequestParser == null)
+            this.operationAuthorizationRequestParser = operationAuthorizationRequestParser;
         else {
-            AuthorityParserRegistry registry;
-            if (this.authorityParser instanceof AuthorizationParserRegistry)
-                registry = (AuthorityParserRegistry) this.authorityParser;
+            OperationAuthorizationRequestParserRegistry registry;
+            if (this.operationAuthorizationRequestParser instanceof AuthorizationParserRegistry)
+                registry = (OperationAuthorizationRequestParserRegistry) this.operationAuthorizationRequestParser;
             else {
-                registry = new AuthorityParserRegistry();
-                registry.registerParser(this.authorityParser);
+                registry = new OperationAuthorizationRequestParserRegistry();
+                registry.registerParser(this.operationAuthorizationRequestParser);
             }
-            registry.registerParser(authorityParser);
+            registry.registerParser(operationAuthorizationRequestParser);
         }
     }
 
-    public <A> void registerAuthorization(Class<A> authorityClass, Authorization<A> authorization) {
-        Collection<Authorization> authorizations = registeredAuthorizations.get(authorityClass);
+    public <A> void registerAuthorization(Class<A> requiredAuthorizationClass, Authorization<A> authorization) {
+        Collection<Authorization> authorizations = registeredAuthorizations.get(requiredAuthorizationClass);
         if (authorizations == null)
-            registeredAuthorizations.put(authorityClass, authorizations = new ArrayList<>());
+            registeredAuthorizations.put(requiredAuthorizationClass, authorizations = new ArrayList<>());
         authorizations.add(authorization);
     }
 
     public <A> void registerAuthorization(Authorization authorization) {
-        registerAuthorization(authorization.authorityClass(), authorization);
+        registerAuthorization(authorization.operationAuthorizationRequestClass(), authorization);
     }
 
     public void registerAuthorization(String authorization) {
@@ -70,15 +70,15 @@ public class AuthorizationRegistry implements Authorization {
     }
 
     @Override
-    public Class authorityClass() {
+    public Class operationAuthorizationRequestClass() {
         return Object.class;
     }
 
     @Override
-    public boolean authorizes(Object authority) {
-        Object parsedAuthority = authority instanceof String && authorityParser != null ? authorityParser.parseAuthority((String) authority) : authority;
+    public boolean authorizes(Object operationAuthorizationRequest) {
+        Object parsedAuthority = operationAuthorizationRequest instanceof String && operationAuthorizationRequestParser != null ? operationAuthorizationRequestParser.parseOperationAuthorizationRequest((String) operationAuthorizationRequest) : operationAuthorizationRequest;
         return Collections.hasAtLeastOneMatching(
-                registeredAuthorizations.get(authority.getClass()),
+                registeredAuthorizations.get(operationAuthorizationRequest.getClass()),
                 authorization -> authorization.authorizes(parsedAuthority)
         );
     }
