@@ -8,6 +8,6 @@ import naga.util.async.Future;
  */
 public interface AuthService {
 
-    Future<User> authenticate(Object authnInfo);
+    Future<User> authenticate(Object userCredentials);
 
 }

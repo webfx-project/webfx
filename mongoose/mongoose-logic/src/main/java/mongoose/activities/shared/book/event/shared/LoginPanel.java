@@ -22,7 +22,7 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.fx.properties.Properties;
-import naga.platform.services.auth.spi.authn.UsernamePasswordToken;
+import naga.platform.services.auth.spi.authn.UsernamePasswordCredentials;
 import naga.platform.services.auth.spi.authn.AuthService;
 
 
@@ -62,7 +62,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         initValidation();
         button.setOnAction(event -> {
             if (validationSupport.isValid())
-                authService.authenticate(new UsernamePasswordToken(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
+                authService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
                     if (ar.succeeded())
                         uiUser.setUser(ar.result());
                     else
