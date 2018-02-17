@@ -36,7 +36,7 @@ import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
 import naga.fxdata.displaydata.SelectionMode;
-import naga.platform.services.auth.spi.authz.User;
+import naga.platform.services.authz.User;
 import naga.type.PrimType;
 import naga.util.Booleans;
 

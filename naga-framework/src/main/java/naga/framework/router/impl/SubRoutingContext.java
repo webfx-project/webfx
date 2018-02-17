@@ -3,7 +3,7 @@ package naga.framework.router.impl;
 import naga.framework.session.Session;
 import naga.platform.json.spi.WritableJsonObject;
 import naga.framework.router.RoutingContext;
-import naga.platform.services.auth.spi.authz.User;
+import naga.platform.services.authz.User;
 
 import java.util.Collection;
 

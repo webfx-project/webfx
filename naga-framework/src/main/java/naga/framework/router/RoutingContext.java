@@ -2,7 +2,7 @@ package naga.framework.router;
 
 import naga.framework.session.Session;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.auth.spi.authz.User;
+import naga.platform.services.authz.User;
 
 /**
  * @author Bruno Salmon

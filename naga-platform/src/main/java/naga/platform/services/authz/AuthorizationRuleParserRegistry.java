@@ -1,4 +1,4 @@
-package naga.platform.services.auth.spi.authz;
+package naga.platform.services.authz;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -5,8 +5,8 @@ import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import naga.util.async.Future;
 import naga.framework.ui.session.impl.UiSessionImpl;
-import naga.platform.services.auth.spi.authz.User;
-import naga.platform.services.auth.spi.authz.UserMixin;
+import naga.platform.services.authz.User;
+import naga.platform.services.authz.UserMixin;
 
 /**
  * @author Bruno Salmon

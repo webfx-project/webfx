@@ -3,7 +3,7 @@ package naga.framework.ui.session;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import naga.platform.services.auth.spi.authz.User;
+import naga.platform.services.authz.User;
 import naga.util.async.Future;
 
 /**

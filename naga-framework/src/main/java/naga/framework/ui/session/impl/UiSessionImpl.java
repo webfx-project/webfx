@@ -9,7 +9,7 @@ import javafx.beans.value.ObservableValue;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.platform.services.auth.spi.authz.User;
+import naga.platform.services.authz.User;
 import naga.util.Objects;
 
 

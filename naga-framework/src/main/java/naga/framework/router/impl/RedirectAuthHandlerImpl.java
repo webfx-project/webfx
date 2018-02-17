@@ -5,7 +5,7 @@ import naga.framework.router.auth.authz.RouteAuthorizationRequest;
 import naga.util.Booleans;
 import naga.framework.router.RoutingContext;
 import naga.framework.session.Session;
-import naga.platform.services.auth.spi.authz.User;
+import naga.platform.services.authz.User;
 import naga.platform.services.authn.AuthenticationService;
 
 /**

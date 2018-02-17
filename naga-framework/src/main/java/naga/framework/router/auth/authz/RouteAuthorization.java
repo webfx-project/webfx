@@ -1,6 +1,6 @@
 package naga.framework.router.auth.authz;
 
-import naga.platform.services.auth.spi.authz.Authorization;
+import naga.platform.services.authz.Authorization;
 
 /**
  * @author Bruno Salmon
