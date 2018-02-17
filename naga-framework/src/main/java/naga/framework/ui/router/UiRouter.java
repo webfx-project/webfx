@@ -13,7 +13,7 @@ import naga.framework.router.impl.UserHolder;
 import naga.framework.router.impl.UserSessionHandlerImpl;
 import naga.framework.session.SessionStore;
 import naga.framework.session.impl.MemorySessionStore;
-import naga.framework.ui.authz.UiUser;
+import naga.framework.ui.session.UiSession;
 import naga.fx.properties.markers.HasNodeProperty;
 import naga.fx.spi.Toolkit;
 import naga.platform.activity.Activity;
@@ -52,7 +52,7 @@ public class UiRouter extends HistoryRouter {
     private static String sessionId;
     private RedirectAuthHandler redirectAuthHandler;
     private AuthService authService;
-    private UiUser uiUser;
+    private UiSession uiSession;
 
     public static UiRouter create(UiRouteActivityContext hostingContext) {
         return create(hostingContext, hostingContext.getActivityContextFactory());
@@ -128,19 +128,19 @@ public class UiRouter extends HistoryRouter {
         return sessionStore;
     }
 
-    public UiUser getUiUser() {
-        if (uiUser == null) {
+    public UiSession getUiSession() {
+        if (uiSession == null) {
             if (mountParentRouter != null)
-                return mountParentRouter.getUiUser();
-            uiUser = UiUser.create();
-            uiUser.userProperty().addListener((observable, oldUser, newUser) -> getSessionStore().get(sessionId).setHandler(ar -> {
+                return mountParentRouter.getUiSession();
+            uiSession = UiSession.create();
+            uiSession.userProperty().addListener((observable, oldUser, newUser) -> getSessionStore().get(sessionId).setHandler(ar -> {
                 if (ar.succeeded()) {
                     UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(newUser));
                     refresh();
                 }
             }));
         }
-        return uiUser;
+        return uiSession;
     }
 
     public AuthService getAuthService() {

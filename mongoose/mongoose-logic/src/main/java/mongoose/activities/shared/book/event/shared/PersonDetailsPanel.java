@@ -23,7 +23,7 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.ui.authz.UiUser;
+import naga.framework.ui.session.UiSession;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
@@ -68,7 +68,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         this(event, viewActivityContextMixin, parent, null);
     }
 
-    public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent, UiUser uiUser) {
+    public PersonDetailsPanel(Event event, ViewActivityContextMixin viewActivityContextMixin, Pane parent, UiSession uiSession) {
         this.event = event;
         i18n = viewActivityContextMixin.getI18n();
         sectionPanel = createSectionPanel("YourPersonalDetails");
@@ -103,7 +103,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
         organizationSelector = createEntityButtonSelector("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'country.name,name'}", viewActivityContextMixin, parent, dataSourceModel);
         organizationSelector.setSearchEnabled(true);
         organizationButton = organizationSelector.toMaterialButton("Centre", "CentreInfo");
-        if (uiUser == null) {
+        if (uiSession == null) {
             personSelector = null;
             personButton = null;
         } else {
@@ -120,7 +120,7 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
                 } else
                     personSelector.setJsonOrClass(null);
                 personButton.setVisible(loggedIn);
-            }, uiUser.userProperty());
+            }, uiSession.userProperty());
         }
         initValidation();
     }

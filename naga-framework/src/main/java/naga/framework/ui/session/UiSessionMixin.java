@@ -1,4 +1,4 @@
-package naga.framework.ui.authz;
+package naga.framework.ui.session;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
@@ -9,42 +9,42 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public interface UiUserMixin extends UiUser {
+public interface UiSessionMixin extends UiSession {
 
-    UiUser getUiUser();
+    UiSession getUiSession();
 
     default Property<User> userProperty() {
-        return getUiUser().userProperty();
+        return getUiSession().userProperty();
     }
 
     @Override
     default User getUser() {
-        return getUiUser().getUser();
+        return getUiSession().getUser();
     }
 
     default void setUser(User user) {
-        getUiUser().setUser(user);
+        getUiSession().setUser(user);
     }
 
     default ObservableBooleanValue loggedInProperty() {
-        return getUiUser().loggedInProperty();
+        return getUiSession().loggedInProperty();
     }
 
     default boolean isLoggedIn() {
-        return getUiUser().isLoggedIn();
+        return getUiSession().isLoggedIn();
     }
 
     default ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest) {
-        return getUiUser().authorizedProperty(operationAuthorizationRequest);
+        return getUiSession().authorizedProperty(operationAuthorizationRequest);
     }
 
     @Override
     default ObservableBooleanValue authorizedProperty(ObservableValue operationAuthorizationRequestProperty) {
-        return getUiUser().authorizedProperty(operationAuthorizationRequestProperty);
+        return getUiSession().authorizedProperty(operationAuthorizationRequestProperty);
     }
 
     @Override
     default Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
-        return getUiUser().isAuthorized(operationAuthorizationRequest);
+        return getUiSession().isAuthorized(operationAuthorizationRequest);
     }
 }

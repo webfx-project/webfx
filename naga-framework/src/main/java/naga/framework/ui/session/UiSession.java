@@ -1,20 +1,20 @@
-package naga.framework.ui.authz;
+package naga.framework.ui.session;
 
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import naga.util.async.Future;
-import naga.framework.ui.authz.impl.UiUserImpl;
+import naga.framework.ui.session.impl.UiSessionImpl;
 import naga.platform.services.auth.spi.authz.User;
 import naga.platform.services.auth.spi.authz.UserMixin;
 
 /**
  * @author Bruno Salmon
  */
-public interface UiUser extends UserMixin {
+public interface UiSession extends UserMixin {
 
-    static UiUser create() {
-        return new UiUserImpl();
+    static UiSession create() {
+        return new UiSessionImpl();
     }
 
     Property<User> userProperty();

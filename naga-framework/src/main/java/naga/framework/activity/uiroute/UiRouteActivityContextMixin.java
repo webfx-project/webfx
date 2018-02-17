@@ -3,8 +3,8 @@ package naga.framework.activity.uiroute;
 import naga.framework.activity.activeproperty.ActivePropertyActivityContextMixin;
 import naga.framework.activity.i18n.I18nActivityContextMixin;
 import naga.framework.session.Session;
-import naga.framework.ui.authz.UiUser;
-import naga.framework.ui.authz.UiUserMixin;
+import naga.framework.ui.session.UiSession;
+import naga.framework.ui.session.UiSessionMixin;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.client.url.history.History;
 import naga.platform.json.spi.JsonObject;
@@ -18,7 +18,7 @@ public interface UiRouteActivityContextMixin
         extends ActivePropertyActivityContextMixin<C>,
         I18nActivityContextMixin<C>,
         UiRouteActivityContext<C>,
-        UiUserMixin {
+        UiSessionMixin {
 
     @Override
     default UiRouter getUiRouter() { return getActivityContext().getUiRouter(); }
@@ -45,7 +45,7 @@ public interface UiRouteActivityContextMixin
     }
 
     @Override
-    default UiUser getUiUser() {
-        return getActivityContext().getUiUser();
+    default UiSession getUiSession() {
+        return getActivityContext().getUiSession();
     }
 }

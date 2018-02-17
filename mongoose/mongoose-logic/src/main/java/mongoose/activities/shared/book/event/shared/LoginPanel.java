@@ -15,7 +15,7 @@ import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import naga.framework.ui.anim.Animations;
-import naga.framework.ui.authz.UiUser;
+import naga.framework.ui.session.UiSession;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.layouts.LayoutUtil;
@@ -38,7 +38,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     private final Property<Boolean> signInMode = new SimpleObjectProperty<>(true);
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
-    public LoginPanel(UiUser uiUser, I18n i18n, AuthService authService) {
+    public LoginPanel(UiSession uiSession, I18n i18n, AuthService authService) {
         this.i18n = i18n;
         BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
@@ -64,7 +64,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
             if (validationSupport.isValid())
                 authService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
                     if (ar.succeeded())
-                        uiUser.setUser(ar.result());
+                        uiSession.setUser(ar.result());
                     else
                         Animations.shake(loginWindow);
                 });

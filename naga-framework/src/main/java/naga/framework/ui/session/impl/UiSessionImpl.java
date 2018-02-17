@@ -1,4 +1,4 @@
-package naga.framework.ui.authz.impl;
+package naga.framework.ui.session.impl;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.BooleanExpression;
@@ -6,7 +6,7 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import naga.framework.ui.authz.UiUser;
+import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.platform.services.auth.spi.authz.User;
@@ -16,7 +16,7 @@ import naga.util.Objects;
 /**
  * @author Bruno Salmon
  */
-public class UiUserImpl implements UiUser {
+public class UiSessionImpl implements UiSession {
 
     private final Property<User> userProperty = new SimpleObjectProperty<>();
     private final ObservableBooleanValue loggedInProperty = BooleanExpression.booleanExpression(Properties.compute(userProperty, Objects::nonNull));

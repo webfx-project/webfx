@@ -19,7 +19,7 @@ import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
 import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import naga.framework.ui.authz.UiUser;
+import naga.framework.ui.session.UiSession;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.layouts.LayoutUtil;
@@ -54,11 +54,11 @@ class PersonViewActivity extends BookingProcessViewActivity {
         accountTopNote.setBorder(BorderUtil.newWebColorBorder("#ebc078", 5));
         ToggleGroup accountToggleGroup = new ToggleGroup();
         FlowPane accountTabs = new FlowPane(new Button(null, newRadioButton("IDontHaveAnAccount", accountToggleGroup)), new Button(null, newRadioButton("IAlreadyHaveAnAccount", accountToggleGroup)));
-        UiUser uiUser = getUiUser();
+        UiSession uiSession = getUiSession();
         ObservableBooleanValue loggedInProperty = loggedInProperty();
         ObservableBooleanValue notLoggedIn = BooleanExpression.booleanExpression(loggedInProperty).not();
-        LoginPanel loginPanel = new LoginPanel(uiUser, getI18n(), getUiRouter().getAuthService());
-        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiUser);
+        LoginPanel loginPanel = new LoginPanel(uiSession, getI18n(), getUiRouter().getAuthService());
+        personDetailsPanel = new PersonDetailsPanel(getEvent(), this, pageContainer, uiSession);
         Node[] tabContents = {new VBox(10, personDetailsPanel.getSectionPanel(), nextButton), loginPanel.getNode() };
         BorderPane accountPane = new BorderPane();
         accountToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
