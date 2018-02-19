@@ -6,12 +6,13 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public interface AuthenticationService {
+public class AuthenticationService {
 
-    Future<?> authenticate(Object userCredentials);
-
-    static AuthenticationService get() {
-        return ServiceLoaderHelper.loadService(AuthenticationService.class);
+    public static Future<?> authenticate(Object userCredentials) {
+        return getProvider().authenticate(userCredentials);
     }
 
+    public static AuthenticationServiceProvider getProvider() {
+        return ServiceLoaderHelper.loadService(AuthenticationServiceProvider.class);
+    }
 }

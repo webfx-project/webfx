@@ -3,7 +3,7 @@ package mongoose.authn;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.framework.spi.authn.AuthenticationService;
+import naga.framework.spi.authn.AuthenticationServiceProvider;
 import naga.framework.spi.authn.UsernamePasswordCredentials;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.spi.QueryService;
@@ -12,22 +12,22 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public class MongooseAuthenticationService implements AuthenticationService {
+public class MongooseAuthenticationServiceProvider implements AuthenticationServiceProvider {
 
     private final DataSourceModel dataSourceModel;
 
-    public MongooseAuthenticationService() {
+    public MongooseAuthenticationServiceProvider() {
         this(DomainModelSnapshotLoader.getDataSourceModel());
     }
 
-    public MongooseAuthenticationService(DataSourceModel dataSourceModel) {
+    public MongooseAuthenticationServiceProvider(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
     }
 
     @Override
     public Future<MongooseUserPrincipal> authenticate(Object userCredentials) {
         if (!(userCredentials instanceof UsernamePasswordCredentials))
-            return Future.failedFuture(new IllegalArgumentException("MongooseAuthenticationService requires a UsernamePasswordCredentials argument"));
+            return Future.failedFuture(new IllegalArgumentException("MongooseAuthenticationServiceProvider requires a UsernamePasswordCredentials argument"));
         UsernamePasswordCredentials usernamePasswordCredentials = (UsernamePasswordCredentials) userCredentials;
         Object[] parameters = {1, usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword()};
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select FrontendAccount where corporation=? and username=? and password=? limit 1", parameters);

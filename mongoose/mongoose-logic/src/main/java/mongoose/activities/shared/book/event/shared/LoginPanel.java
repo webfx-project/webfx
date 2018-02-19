@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
+import naga.framework.spi.authn.AuthenticationService;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
@@ -22,7 +23,6 @@ import naga.framework.ui.layouts.LayoutUtil;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
-import naga.framework.spi.authn.AuthenticationService;
 import naga.framework.spi.authn.UsernamePasswordCredentials;
 
 
@@ -39,10 +39,6 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
     private final MongooseValidationSupport validationSupport = new MongooseValidationSupport();
 
     public LoginPanel(UiSession uiSession, I18n i18n) {
-        this(uiSession, i18n, AuthenticationService.get());
-    }
-
-    public LoginPanel(UiSession uiSession, I18n i18n, AuthenticationService authenticationService) {
         this.i18n = i18n;
         BorderPane loginWindow = createSectionPanel("SignInWindowTitle");
         Hyperlink hyperLink = newHyperlink("ForgotPassword?", e -> signInMode.setValue(!signInMode.getValue()));
@@ -66,7 +62,7 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         initValidation();
         button.setOnAction(event -> {
             if (validationSupport.isValid())
-                authenticationService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
+                AuthenticationService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
                     if (ar.succeeded())
                         uiSession.setUserPrincipal(ar.result());
                     else
