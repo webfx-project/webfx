@@ -1,9 +1,8 @@
 package naga.framework.router.impl;
 
+import naga.framework.router.RoutingContext;
 import naga.framework.session.Session;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.framework.router.RoutingContext;
-import naga.platform.services.authz.User;
 
 import java.util.Collection;
 
@@ -74,18 +73,18 @@ class SubRoutingContext extends RoutingContextImplBase {
     }
 
     @Override
-    public User user() {
-        return inner.user();
-    }
-
-    @Override
     public void setSession(Session session) {
         inner.setSession(session);
     }
 
     @Override
-    public void setUser(User user) {
-        inner.setUser(user);
+    public Object userPrincipal() {
+        return inner.userPrincipal();
+    }
+
+    @Override
+    public void setUserPrincipal(Object userPrincipal) {
+        inner.setUserPrincipal(userPrincipal);
     }
 
     @Override

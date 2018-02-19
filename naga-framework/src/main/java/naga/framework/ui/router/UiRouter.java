@@ -6,11 +6,10 @@ import naga.framework.activity.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.authn.RedirectAuthHandler;
-import naga.framework.router.session.UserSessionHandler;
-import naga.framework.router.impl.RedirectAuthHandlerImpl;
 import naga.framework.router.impl.SessionHandlerImplBase;
 import naga.framework.router.impl.UserHolder;
 import naga.framework.router.impl.UserSessionHandlerImpl;
+import naga.framework.router.session.UserSessionHandler;
 import naga.framework.session.SessionStore;
 import naga.framework.session.impl.MemorySessionStore;
 import naga.framework.ui.session.UiSession;
@@ -27,7 +26,6 @@ import naga.platform.json.Json;
 import naga.platform.json.spi.JsonArray;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.authn.AuthenticationService;
 import naga.platform.services.log.spi.Logger;
 import naga.util.async.Handler;
 import naga.util.function.Converter;
@@ -51,7 +49,6 @@ public class UiRouter extends HistoryRouter {
     private SessionStore sessionStore;
     private static String sessionId;
     private RedirectAuthHandler redirectAuthHandler;
-    private AuthenticationService authenticationService;
     private UiSession uiSession;
 
     public static UiRouter create(UiRouteActivityContext hostingContext) {
@@ -104,8 +101,8 @@ public class UiRouter extends HistoryRouter {
             mountParentRouter.refresh();
     }
 
-    public UiRouter setRedirectAuthHandler(AuthenticationService authenticationService, String loginPath, String unauthorizedPath) {
-        return setRedirectAuthHandler(RedirectAuthHandler.create(authenticationService, loginPath, unauthorizedPath));
+    public UiRouter setRedirectAuthHandler(String loginPath, String unauthorizedPath) {
+        return setRedirectAuthHandler(RedirectAuthHandler.create(loginPath, unauthorizedPath));
     }
 
     public UiRouter setRedirectAuthHandler(RedirectAuthHandler redirectAuthHandler) {
@@ -113,8 +110,6 @@ public class UiRouter extends HistoryRouter {
         router.route().handler(context -> sessionId = SessionHandlerImplBase.handle(context, sessionId, getSessionStore()));
         router.route().handler(UserSessionHandler.create());
         this.redirectAuthHandler = redirectAuthHandler;
-        if (redirectAuthHandler instanceof RedirectAuthHandlerImpl)
-            authenticationService = ((RedirectAuthHandlerImpl) redirectAuthHandler).getAuthenticationService();
         return this;
     }
 
@@ -133,18 +128,14 @@ public class UiRouter extends HistoryRouter {
             if (mountParentRouter != null)
                 return mountParentRouter.getUiSession();
             uiSession = UiSession.create();
-            uiSession.userProperty().addListener((observable, oldUser, newUser) -> getSessionStore().get(sessionId).setHandler(ar -> {
+            uiSession.userPrincipalProperty().addListener((observable, oldUser, userPrincipal) -> getSessionStore().get(sessionId).setHandler(ar -> {
                 if (ar.succeeded()) {
-                    UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(newUser));
+                    UserSessionHandlerImpl.setSessionUserHolder(ar.result(), new UserHolder(userPrincipal));
                     refresh();
                 }
             }));
         }
         return uiSession;
-    }
-
-    public AuthenticationService getAuthenticationService() {
-        return authenticationService;
     }
 
     public UiRouter authRoute(String path) {

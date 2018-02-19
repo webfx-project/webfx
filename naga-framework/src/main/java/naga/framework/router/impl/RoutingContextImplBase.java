@@ -1,12 +1,11 @@
 package naga.framework.router.impl;
 
+import naga.framework.router.Route;
+import naga.framework.router.RoutingContext;
 import naga.framework.session.Session;
 import naga.platform.json.Json;
 import naga.platform.json.spi.JsonObject;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.framework.router.Route;
-import naga.framework.router.RoutingContext;
-import naga.platform.services.authz.User;
 import naga.platform.services.log.spi.Logger;
 
 import java.util.Collection;
@@ -24,7 +23,7 @@ abstract class RoutingContextImplBase implements RoutingContext {
     protected Route currentRoute;
     private WritableJsonObject params;
     private Session session;
-    private User user;
+    private Object userPrincipal;
 
     RoutingContextImplBase(String mountPoint, String path, Collection<RouteImpl> routes, JsonObject state) {
         this.mountPoint = mountPoint;
@@ -120,22 +119,22 @@ abstract class RoutingContextImplBase implements RoutingContext {
     }
 
     @Override
-    public User user() {
-        return user;
-    }
-
-    @Override
     public void setSession(Session session) {
         this.session = session;
     }
 
     @Override
-    public void setUser(User user) {
-        this.user = user;
+    public Object userPrincipal() {
+        return userPrincipal;
+    }
+
+    @Override
+    public void setUserPrincipal(Object userPrincipal) {
+        this.userPrincipal = userPrincipal;
     }
 
     @Override
     public void clearUser() {
-        setUser(null);
+        setUserPrincipal(null);
     }
 }

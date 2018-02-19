@@ -9,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
-import naga.platform.services.authz.User;
 import naga.util.Objects;
 
 
@@ -18,12 +17,12 @@ import naga.util.Objects;
  */
 public class UiSessionImpl implements UiSession {
 
-    private final Property<User> userProperty = new SimpleObjectProperty<>();
-    private final ObservableBooleanValue loggedInProperty = BooleanExpression.booleanExpression(Properties.compute(userProperty, Objects::nonNull));
+    private final Property<Object> userPrincipalProperty = new SimpleObjectProperty<>();
+    private final ObservableBooleanValue loggedInProperty = BooleanExpression.booleanExpression(Properties.compute(userPrincipalProperty, Objects::nonNull));
 
     @Override
-    public Property<User> userProperty() {
-        return userProperty;
+    public Property<Object> userPrincipalProperty() {
+        return userPrincipalProperty;
     }
 
     @Override
@@ -34,19 +33,19 @@ public class UiSessionImpl implements UiSession {
     @Override
     public ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest) {
         return new BooleanBinding() {
-            User user;
+            Object userPrincipal;
             boolean value;
-            { bind(userProperty); }
+            { bind(userPrincipalProperty()); }
 
             @Override
             protected void onInvalidating() {
-                if (user != getUser()) {
+                if (userPrincipal != getUserPrincipal()) {
                     value = false;
-                    user = getUser();
-                    user.isAuthorized(operationAuthorizationRequest).setHandler(ar -> {
-                        if (ar.succeeded() && ar.result())
+                    isAuthorized(operationAuthorizationRequest).setHandler(ar -> {
+                        userPrincipal = getUserPrincipal();
+                        if (ar.succeeded())
                             Toolkit.get().scheduler().runInUiThread(() -> {
-                                value = true;
+                                value = ar.result();
                                 invalidate();
                             });
                     });

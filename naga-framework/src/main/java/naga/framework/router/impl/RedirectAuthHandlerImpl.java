@@ -1,31 +1,25 @@
 package naga.framework.router.impl;
 
+import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.authn.RedirectAuthHandler;
 import naga.framework.router.auth.authz.RouteAuthorizationRequest;
-import naga.util.Booleans;
-import naga.framework.router.RoutingContext;
 import naga.framework.session.Session;
-import naga.platform.services.authz.User;
-import naga.platform.services.authn.AuthenticationService;
+import naga.platform.services.authz.spi.AuthorizationService;
+import naga.util.Booleans;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon
  */
 public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements RedirectAuthHandler {
 
-    private final AuthenticationService authenticationService;
     private final String loginPath;
     private final String unauthorizedPath;
     private boolean redirecting;
 
-    public RedirectAuthHandlerImpl(AuthenticationService authenticationService, String loginPath, String unauthorizedPath) {
-        this.authenticationService = authenticationService;
+    public RedirectAuthHandlerImpl(String loginPath, String unauthorizedPath) {
         this.loginPath = loginPath;
         this.unauthorizedPath = unauthorizedPath;
-    }
-
-    public AuthenticationService getAuthenticationService() {
-        return authenticationService;
     }
 
     @Override
@@ -35,19 +29,26 @@ public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements Redirect
         else {
             Session session = context.session();
             if (session == null)
-                context.fail(new NullPointerException("No session - did you forget to include a SessionHandler?"));
+                context.fail(new IllegalStateException("No session - did you forget to include a SessionHandler?"));
             else {
-                User user = context.user();
-                if (user == null)
+                // Checking that the user has been authenticated
+                Object userPrincipal = context.userPrincipal();
+                if (userPrincipal == null) // If not, redirecting to the login path
                     redirect(context, loginPath);
-                else
-                    // Already logged in, just checking the user is authorised to access this route
-                    user.isAuthorized(new RouteAuthorizationRequest(context.path())).setHandler(ar -> {
-                        if (ar.succeeded() && Booleans.isTrue(ar.result()))
-                            context.next();
-                        else
-                            redirect(context, unauthorizedPath);
-                    });
+                else { // If authenticated, we need to check the user is authorized to access this route
+                    AuthorizationService authorizationService = ServiceLoaderHelper.loadService(AuthorizationService.class, ServiceLoaderHelper.NotFoundPolicy.TRACE_AND_RETURN_NULL);
+                    if (authorizationService == null)
+                        context.fail(new IllegalStateException("No AuthorizationService found"));
+                    else
+                        authorizationService.isAuthorized(new RouteAuthorizationRequest(context.path()), userPrincipal).setHandler(ar -> {
+                            if (ar.failed())
+                                context.fail(ar.cause());
+                            else if (Booleans.isTrue(ar.result()))
+                                context.next();
+                            else
+                                redirect(context, unauthorizedPath);
+                        });
+                }
             }
         }
     }

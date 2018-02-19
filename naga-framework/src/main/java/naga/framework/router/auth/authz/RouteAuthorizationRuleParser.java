@@ -1,7 +1,7 @@
 package naga.framework.router.auth.authz;
 
-import naga.platform.services.authz.Authorization;
-import naga.platform.services.authz.AuthorizationRuleParser;
+import naga.platform.services.authz.impl.Authorization;
+import naga.platform.services.authz.impl.AuthorizationRuleParser;
 
 /**
  * @author Bruno Salmon

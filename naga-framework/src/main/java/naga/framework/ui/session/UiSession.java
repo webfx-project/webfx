@@ -3,29 +3,25 @@ package naga.framework.ui.session;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import naga.util.async.Future;
 import naga.framework.ui.session.impl.UiSessionImpl;
-import naga.platform.services.authz.User;
-import naga.platform.services.authz.UserMixin;
+import naga.platform.services.authz.spi.AuthorizationService;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public interface UiSession extends UserMixin {
+public interface UiSession {
 
-    static UiSession create() {
-        return new UiSessionImpl();
+    // Authentication aspect
+
+    Property<Object> userPrincipalProperty();
+
+    default Object getUserPrincipal() {
+        return userPrincipalProperty().getValue();
     }
 
-    Property<User> userProperty();
-
-    @Override
-    default User getUser() {
-        return userProperty().getValue();
-    }
-
-    default void setUser(User user) {
-        userProperty().setValue(user);
+    default void setUserPrincipal(Object authenticatedUser) {
+        userPrincipalProperty().setValue(authenticatedUser);
     }
 
     ObservableBooleanValue loggedInProperty();
@@ -34,13 +30,19 @@ public interface UiSession extends UserMixin {
         return loggedInProperty().getValue();
     }
 
+    // Authorization aspect
+
     ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest);
 
     ObservableBooleanValue authorizedProperty(ObservableValue operationAuthorizationRequestProperty);
 
-    @Override
+    //@Override
     default Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
-        User user = getUser();
-        return user != null ? user.isAuthorized(operationAuthorizationRequest) : Future.succeededFuture(false);
+        AuthorizationService authorizationService = AuthorizationService.get();
+        return authorizationService != null ? authorizationService.isAuthorized(operationAuthorizationRequest, getUserPrincipal()) : Future.succeededFuture(false);
+    }
+
+    static UiSession create() {
+        return new UiSessionImpl();
     }
 }

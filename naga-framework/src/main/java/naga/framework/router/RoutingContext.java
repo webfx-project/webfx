@@ -2,7 +2,6 @@ package naga.framework.router;
 
 import naga.framework.session.Session;
 import naga.platform.json.spi.WritableJsonObject;
-import naga.platform.services.authz.User;
 
 /**
  * @author Bruno Salmon
@@ -31,11 +30,11 @@ public interface RoutingContext {
 
     Session session();
 
-    User user();
-
     void setSession(Session session);
 
-    void setUser(User user);
+    Object userPrincipal();
+
+    void setUserPrincipal(Object userPrincipal);
 
     void clearUser();
 

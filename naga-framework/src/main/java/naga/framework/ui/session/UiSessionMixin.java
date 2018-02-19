@@ -3,7 +3,6 @@ package naga.framework.ui.session;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import naga.platform.services.authz.User;
 import naga.util.async.Future;
 
 /**
@@ -13,17 +12,17 @@ public interface UiSessionMixin extends UiSession {
 
     UiSession getUiSession();
 
-    default Property<User> userProperty() {
-        return getUiSession().userProperty();
+    default Property<Object> userPrincipalProperty() {
+        return getUiSession().userPrincipalProperty();
     }
 
     @Override
-    default User getUser() {
-        return getUiSession().getUser();
+    default Object getUserPrincipal() {
+        return getUiSession().getUserPrincipal();
     }
 
-    default void setUser(User user) {
-        getUiSession().setUser(user);
+    default void setUserPrincipal(Object user) {
+        getUiSession().setUserPrincipal(user);
     }
 
     default ObservableBooleanValue loggedInProperty() {

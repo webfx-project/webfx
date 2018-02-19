@@ -3,7 +3,6 @@ package naga.framework.router.impl;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.session.UserSessionHandler;
 import naga.framework.session.Session;
-import naga.platform.services.authz.User;
 
 /**
  * @author Bruno Salmon
@@ -16,27 +15,27 @@ public class UserSessionHandlerImpl implements UserSessionHandler {
     public void handle(RoutingContext context) {
         Session session = context.session();
         if (session != null) {
-            User user = null;
-            UserHolder holder = session.get(SESSION_USER_HOLDER_KEY);
-            if (holder != null) {
-                RoutingContext previousContext = holder.context;
+            Object userPrincipal = null;
+            UserHolder userHolder = session.get(SESSION_USER_HOLDER_KEY);
+            if (userHolder != null) {
+                RoutingContext previousContext = userHolder.context;
                 if (previousContext != null)
-                    user = previousContext.user();
-                 else if (holder.user != null) {
-                    user = holder.user;
+                    userPrincipal = previousContext.userPrincipal();
+                else if (userHolder.userPrincipal != null) {
+                    userPrincipal = userHolder.userPrincipal;
                     //user.setAuthProvider(authProvider);
-                    holder.user = null;
+                    userHolder.userPrincipal = null;
                 }
-                holder.context = context;
+                userHolder.context = context;
             } else
                 // only at the time we are writing the header we should store the user to the session
                 //context.addHeadersEndHandler(v -> {
                     // during the request the user might have been removed
-                    if (context.user() != null)
+                    if (context.userPrincipal() != null)
                         setSessionUserHolder(session, new UserHolder(context));
                 //});
-            if (user != null)
-                context.setUser(user);
+            if (userPrincipal != null)
+                context.setUserPrincipal(userPrincipal);
         }
         context.next();
     }
