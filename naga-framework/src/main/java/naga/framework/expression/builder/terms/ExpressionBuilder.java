@@ -20,6 +20,7 @@ public abstract class ExpressionBuilder {
     }
 
     protected static ParserDomainModelReader getModelReader() {
-        return BuilderThreadContext.getInstance().getModelReader();
+        BuilderThreadContext context = BuilderThreadContext.getInstance();
+        return context == null ? null : context.getModelReader();
     }
 }
