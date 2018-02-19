@@ -1,7 +1,7 @@
 package mongoose.authz;
 
-import naga.platform.services.authz.impl.AuthorizationServiceBase;
-import naga.platform.services.authz.impl.UserPrincipalAuthorizationService;
+import naga.framework.spi.authz.impl.AuthorizationServiceBase;
+import naga.framework.spi.authz.impl.UserPrincipalAuthorizationService;
 
 /**
  * @author Bruno Salmon

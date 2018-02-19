@@ -4,7 +4,7 @@ import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
 import naga.framework.ui.session.impl.UiSessionImpl;
-import naga.platform.services.authz.spi.AuthorizationService;
+import naga.framework.spi.authz.AuthorizationService;
 import naga.util.async.Future;
 
 /**

@@ -1,6 +1,6 @@
-package naga.platform.services.authz.impl;
+package naga.framework.spi.authz.impl;
 
-import naga.platform.services.authz.spi.AuthorizationService;
+import naga.framework.spi.authz.AuthorizationService;
 import naga.util.async.Future;
 
 import java.util.HashMap;

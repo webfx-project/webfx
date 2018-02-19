@@ -2,8 +2,8 @@ package mongoose.authz;
 
 import naga.framework.router.auth.authz.RouteAuthorizationRuleParser;
 import naga.framework.router.auth.authz.RouteOperationAuthorizationRequestParser;
-import naga.platform.services.authz.impl.AuthorizationRegistry;
-import naga.platform.services.authz.impl.LoadedAuthorizationsUser;
+import naga.framework.spi.authz.impl.AuthorizationRegistry;
+import naga.framework.spi.authz.impl.LoadedAuthorizationsUser;
 
 /**
  * @author Bruno Salmon

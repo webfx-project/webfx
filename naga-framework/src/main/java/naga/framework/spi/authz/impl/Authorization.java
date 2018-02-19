@@ -1,4 +1,4 @@
-package naga.platform.services.authz.impl;
+package naga.framework.spi.authz.impl;
 
 /**
  * @author Bruno Salmon

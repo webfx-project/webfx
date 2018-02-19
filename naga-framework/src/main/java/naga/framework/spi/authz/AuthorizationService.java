@@ -1,4 +1,4 @@
-package naga.platform.services.authz.spi;
+package naga.framework.spi.authz;
 
 import naga.util.async.Future;
 import naga.util.serviceloader.ServiceLoaderHelper;

@@ -4,7 +4,7 @@ import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.authn.RedirectAuthHandler;
 import naga.framework.router.auth.authz.RouteAuthorizationRequest;
 import naga.framework.session.Session;
-import naga.platform.services.authz.spi.AuthorizationService;
+import naga.framework.spi.authz.AuthorizationService;
 import naga.util.Booleans;
 import naga.util.serviceloader.ServiceLoaderHelper;
 
