@@ -11,7 +11,7 @@ import mongoose.activities.shared.book.event.start.StartBookingRouting;
 import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.book.event.terms.TermsRooting;
 import mongoose.authn.MongooseAuthenticationServiceProvider;
-import mongoose.authz.MongooseAuthorizationService;
+import mongoose.authz.MongooseAuthorizationServiceProvider;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
@@ -25,7 +25,7 @@ import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.framework.spi.authn.AuthenticationServiceProvider;
-import naga.framework.spi.authz.AuthorizationService;
+import naga.framework.spi.authz.AuthorizationServiceProvider;
 import naga.platform.spi.Platform;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
@@ -68,7 +68,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
     protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
         // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationServiceProvider.class, MongooseAuthenticationServiceProvider::new);
-        ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationService.class, MongooseAuthorizationService::new);
+        ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationServiceProvider.class, MongooseAuthorizationServiceProvider::new);
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
         I18n i18n = I18n.create("mongoose/dictionaries/{lang}.json");
         MongooseActions.registerActions(i18n);

@@ -6,11 +6,13 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public interface AuthorizationService {
+public class AuthorizationService {
 
-    Future<Boolean> isAuthorized(Object operationAuthorizationRequest, Object userPrincipal);
+    public static Future<Boolean> isAuthorized(Object operationAuthorizationRequest, Object userPrincipal) {
+        return getProvider().isAuthorized(operationAuthorizationRequest, userPrincipal);
+    }
 
-    static AuthorizationService get() {
-        return ServiceLoaderHelper.loadService(AuthorizationService.class);
+    public static AuthorizationServiceProvider getProvider() {
+        return ServiceLoaderHelper.loadService(AuthorizationServiceProvider.class);
     }
 }

@@ -3,8 +3,8 @@ package naga.framework.ui.session;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableValue;
-import naga.framework.ui.session.impl.UiSessionImpl;
 import naga.framework.spi.authz.AuthorizationService;
+import naga.framework.ui.session.impl.UiSessionImpl;
 import naga.util.async.Future;
 
 /**
@@ -38,8 +38,7 @@ public interface UiSession {
 
     //@Override
     default Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
-        AuthorizationService authorizationService = AuthorizationService.get();
-        return authorizationService != null ? authorizationService.isAuthorized(operationAuthorizationRequest, getUserPrincipal()) : Future.succeededFuture(false);
+        return AuthorizationService.isAuthorized(operationAuthorizationRequest, getUserPrincipal());
     }
 
     static UiSession create() {

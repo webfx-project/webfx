@@ -1,12 +1,12 @@
 package mongoose.authz;
 
-import naga.framework.spi.authz.impl.AuthorizationServiceBase;
+import naga.framework.spi.authz.impl.AuthorizationServiceProviderBase;
 import naga.framework.spi.authz.impl.UserPrincipalAuthorizationService;
 
 /**
  * @author Bruno Salmon
  */
-public class MongooseAuthorizationService extends AuthorizationServiceBase {
+public class MongooseAuthorizationServiceProvider extends AuthorizationServiceProviderBase {
 
     @Override
     protected UserPrincipalAuthorizationService createUserPrincipalAuthorizationService(Object userPrincipal) {

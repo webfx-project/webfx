@@ -1,6 +1,6 @@
 package naga.framework.spi.authz.impl;
 
-import naga.framework.spi.authz.AuthorizationService;
+import naga.framework.spi.authz.AuthorizationServiceProvider;
 import naga.util.async.Future;
 
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author Bruno Salmon
  */
-public abstract class AuthorizationServiceBase implements AuthorizationService {
+public abstract class AuthorizationServiceProviderBase implements AuthorizationServiceProvider {
 
     private final Map<Object, UserPrincipalAuthorizationService> cache = new HashMap<>();
 

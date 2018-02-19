@@ -6,7 +6,6 @@ import naga.framework.router.auth.authz.RouteAuthorizationRequest;
 import naga.framework.session.Session;
 import naga.framework.spi.authz.AuthorizationService;
 import naga.util.Booleans;
-import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon
@@ -35,20 +34,15 @@ public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements Redirect
                 Object userPrincipal = context.userPrincipal();
                 if (userPrincipal == null) // If not, redirecting to the login path
                     redirect(context, loginPath);
-                else { // If authenticated, we need to check the user is authorized to access this route
-                    AuthorizationService authorizationService = ServiceLoaderHelper.loadService(AuthorizationService.class, ServiceLoaderHelper.NotFoundPolicy.TRACE_AND_RETURN_NULL);
-                    if (authorizationService == null)
-                        context.fail(new IllegalStateException("No AuthorizationService found"));
-                    else
-                        authorizationService.isAuthorized(new RouteAuthorizationRequest(context.path()), userPrincipal).setHandler(ar -> {
-                            if (ar.failed())
-                                context.fail(ar.cause());
-                            else if (Booleans.isTrue(ar.result()))
-                                context.next();
-                            else
-                                redirect(context, unauthorizedPath);
-                        });
-                }
+                else // If authenticated, we need to check the user is authorized to access this route
+                    AuthorizationService.isAuthorized(new RouteAuthorizationRequest(context.path()), userPrincipal).setHandler(ar -> {
+                        if (ar.failed())
+                            context.fail(ar.cause());
+                        else if (Booleans.isTrue(ar.result()))
+                            context.next();
+                        else
+                            redirect(context, unauthorizedPath);
+                    });
             }
         }
     }
