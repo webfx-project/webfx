@@ -10,6 +10,8 @@ import mongoose.activities.shared.book.event.program.ProgramRooting;
 import mongoose.activities.shared.book.event.start.StartBookingRouting;
 import mongoose.activities.shared.book.event.summary.SummaryRooting;
 import mongoose.activities.shared.book.event.terms.TermsRooting;
+import mongoose.authn.MongooseAuthenticationService;
+import mongoose.authz.MongooseAuthorizationService;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
@@ -22,9 +24,12 @@ import naga.fx.properties.Properties;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
+import naga.platform.services.authn.spi.AuthenticationService;
+import naga.platform.services.authz.spi.AuthorizationService;
 import naga.platform.spi.Platform;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 /**
  * @author Bruno Salmon
@@ -61,6 +66,9 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
     }
 
     protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
+        // Registering Mongoose authn/authz services as default services (if not provided - which is the case with GWT)
+        ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationService.class, MongooseAuthenticationService::new);
+        ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationService.class, MongooseAuthorizationService::new);
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
         I18n i18n = I18n.create("mongoose/dictionaries/{lang}.json");
         MongooseActions.registerActions(i18n);
