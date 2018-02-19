@@ -1,11 +1,10 @@
-package mongoose.auth.authn;
+package mongoose.authn;
 
-import mongoose.auth.authz.MongooseUser;
+import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
-import naga.platform.services.authn.AuthenticationService;
-import naga.platform.services.authn.UsernamePasswordCredentials;
-import naga.platform.services.authz.User;
+import naga.platform.services.authn.spi.AuthenticationService;
+import naga.platform.services.authn.spi.UsernamePasswordCredentials;
 import naga.platform.services.query.QueryArgument;
 import naga.platform.services.query.spi.QueryService;
 import naga.util.async.Future;
@@ -17,12 +16,16 @@ public class MongooseAuthenticationService implements AuthenticationService {
 
     private final DataSourceModel dataSourceModel;
 
+    public MongooseAuthenticationService() {
+        this(DomainModelSnapshotLoader.getDataSourceModel());
+    }
+
     public MongooseAuthenticationService(DataSourceModel dataSourceModel) {
         this.dataSourceModel = dataSourceModel;
     }
 
     @Override
-    public Future<User> authenticate(Object userCredentials) {
+    public Future<MongooseUserPrincipal> authenticate(Object userCredentials) {
         if (!(userCredentials instanceof UsernamePasswordCredentials))
             return Future.failedFuture(new IllegalArgumentException("MongooseAuthenticationService requires a UsernamePasswordCredentials argument"));
         UsernamePasswordCredentials usernamePasswordCredentials = (UsernamePasswordCredentials) userCredentials;
@@ -31,7 +34,7 @@ public class MongooseAuthenticationService implements AuthenticationService {
         return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())).compose(result -> {
             if (result.getRowCount() != 1)
                 return Future.failedFuture("Wrong user or password");
-            return Future.succeededFuture(new MongooseUser(result.getValue(0, 0)));
+            return Future.succeededFuture(new MongooseUserPrincipal(result.getValue(0, 0)));
         });
     }
 }

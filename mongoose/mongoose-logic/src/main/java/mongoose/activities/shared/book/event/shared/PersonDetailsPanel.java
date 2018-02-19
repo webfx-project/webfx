@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
-import mongoose.auth.authz.MongooseUser;
+import mongoose.authn.MongooseUserPrincipal;
 import mongoose.domainmodel.format.DateFormatter;
 import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Country;
@@ -23,12 +23,12 @@ import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
 import naga.framework.ui.graphic.controls.button.ButtonFactoryMixin;
-import naga.framework.ui.session.UiSession;
 import naga.framework.ui.graphic.controls.button.EntityButtonSelector;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
 import naga.framework.ui.graphic.design.material.textfield.MaterialTextFieldPane;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.LayoutUtil;
+import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
 import naga.fx.spi.Toolkit;
 import naga.fxdata.control.DataGrid;
@@ -36,7 +36,6 @@ import naga.fxdata.displaydata.DisplayColumn;
 import naga.fxdata.displaydata.DisplayResultSetBuilder;
 import naga.fxdata.displaydata.DisplayStyle;
 import naga.fxdata.displaydata.SelectionMode;
-import naga.platform.services.authz.User;
 import naga.type.PrimType;
 import naga.util.Booleans;
 
@@ -111,16 +110,16 @@ public class PersonDetailsPanel implements MongooseButtonFactoryMixin, MongooseS
             personButton = personSelector.toMaterialButton("PersonToBook", null);
             Properties.runOnPropertiesChange(p -> syncUiFromModel((Person) p.getValue()), personSelector.selectedItemProperty());
             Properties.runNowAndOnPropertiesChange(userProperty -> {
-                User user = (User) userProperty.getValue();
-                boolean loggedIn = user instanceof MongooseUser;
+                Object user = userProperty.getValue();
+                boolean loggedIn = user instanceof MongooseUserPrincipal;
                 if (loggedIn) {
-                    Object userAccountId = ((MongooseUser) user).getUserAccountId();
+                    Object userAccountId = ((MongooseUserPrincipal) user).getUserAccountId();
                     personSelector.setJsonOrClass("{class: 'Person', alias: 'p', fields: 'genderIcon,firstName,lastName,birthdate,email,phone,street,postCode,cityName,organization,country', columns: `[{expression: 'genderIcon,firstName,lastName'}]`, where: '!removed and frontendAccount=" + userAccountId + "', orderBy: 'id'}");
                     personSelector.autoSelectFirstEntity();
                 } else
                     personSelector.setJsonOrClass(null);
                 personButton.setVisible(loggedIn);
-            }, uiSession.userProperty());
+            }, uiSession.userPrincipalProperty());
         }
         initValidation();
     }

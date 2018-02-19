@@ -14,7 +14,6 @@ import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
 import mongoose.activities.shared.auth.UnauthorizedRouting;
-import mongoose.auth.authn.MongooseAuthenticationService;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
@@ -33,7 +32,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
     @Override
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return super.setupContainedRouter(containedRouter
-                .setRedirectAuthHandler(new MongooseAuthenticationService(context.getDataSourceModel()), LoginRouting.getPath(), UnauthorizedRouting.getPath())
+                .setRedirectAuthHandler(LoginRouting.getPath(), UnauthorizedRouting.getPath())
                 .route(LoginRouting.uiRoute())
                 .route(UnauthorizedRouting.uiRoute())
                 .route(EditableOptionsRouting.uiRoute())
