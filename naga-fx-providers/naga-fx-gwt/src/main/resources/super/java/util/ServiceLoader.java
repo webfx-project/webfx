@@ -26,31 +26,32 @@ import naga.platform.spi.Platform;
 import naga.providers.platform.client.gwt.GwtPlatform;
 import naga.fx.spi.Toolkit;
 import naga.fx.spi.gwt.GwtToolkit;
+import naga.util.serviceloader.ServiceLoaderHelper;
 
 public class ServiceLoader<S> {
 
-    public static <S> ServiceLoader<S> load(Class<S> service) {
-        if (service.equals(Platform.class))
+    public static <S> ServiceLoader<S> load(Class<S> serviceClass) {
+        if (serviceClass.equals(Platform.class))
             return new ServiceLoader<>(new GwtPlatform());
-        if (service.equals(SchedulerProvider.class))
+        if (serviceClass.equals(SchedulerProvider.class))
             return new ServiceLoader<>(new GwtSchedulerProvider());
-        if (service.equals(JsonProvider.class))
+        if (serviceClass.equals(JsonProvider.class))
             return new ServiceLoader<>(GwtJsonObject.create());
-        if (service.equals(ResourceServiceProvider.class))
+        if (serviceClass.equals(ResourceServiceProvider.class))
             return new ServiceLoader<>(new GwtResourceServiceProvider());
-        if (service.equals(QueryServiceProvider.class))
+        if (serviceClass.equals(QueryServiceProvider.class))
             return new ServiceLoader<>(new RemoteQueryServiceProvider());
-        if (service.equals(UpdateServiceProvider.class))
+        if (serviceClass.equals(UpdateServiceProvider.class))
             return new ServiceLoader<>(new RemoteUpdateServiceProvider());
-        if (service.equals(LoggerProvider.class))
+        if (serviceClass.equals(LoggerProvider.class))
             return new ServiceLoader<>(new GwtLoggerProvider());
-        if (service.equals(WebSocketFactoryProvider.class))
+        if (serviceClass.equals(WebSocketFactoryProvider.class))
             return new ServiceLoader<>(new GwtWebSocketFactoryProvider());
-        if (service.equals(Toolkit.class))
+        if (serviceClass.equals(Toolkit.class))
             return new ServiceLoader<>(new GwtToolkit());
-        if (service.equals(NumbersProvider.class))
+        if (serviceClass.equals(NumbersProvider.class))
             return new ServiceLoader<>(new StandardPlatformNumbers());
-        return null;
+        return new ServiceLoader<>(ServiceLoaderHelper.instantiateDefaultService(serviceClass));
     }
 
     private final Object service;
@@ -61,7 +62,8 @@ public class ServiceLoader<S> {
 
     public Iterator<S> iterator() {
         ArrayList list = new ArrayList();
-        list.add(service);
+        if (service != null)
+            list.add(service);
         return (Iterator<S>) list.iterator();
     }
 }
