@@ -66,7 +66,7 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
     }
 
     protected static void launchApplication(SharedMongooseApplication mongooseApplication, String[] args) {
-        // Registering Mongoose authn/authz services as default services (if not provided - which is the case with GWT)
+        // Registering Mongoose authn/authz services as default services (if not found by the ServiceLoader - which is the case with GWT)
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthenticationService.class, MongooseAuthenticationService::new);
         ServiceLoaderHelper.registerDefaultServiceFactory(AuthorizationService.class, MongooseAuthorizationService::new);
         Platform.bus(); // instantiating the platform bus here to open the connection as soon as possible (ex: before loading the model which is time consuming)
