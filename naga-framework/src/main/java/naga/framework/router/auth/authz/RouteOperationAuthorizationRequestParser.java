@@ -1,6 +1,6 @@
 package naga.framework.router.auth.authz;
 
-import naga.framework.spi.authz.impl.OperationAuthorizationRequestParser;
+import naga.framework.spi.authz.impl.inmemory.parser.OperationAuthorizationRequestParser;
 
 /**
  * @author Bruno Salmon

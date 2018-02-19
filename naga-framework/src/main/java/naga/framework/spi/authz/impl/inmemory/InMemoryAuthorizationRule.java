@@ -1,9 +1,9 @@
-package naga.framework.spi.authz.impl;
+package naga.framework.spi.authz.impl.inmemory;
 
 /**
  * @author Bruno Salmon
  */
-public interface Authorization<R> {
+public interface InMemoryAuthorizationRule<R> {
 
     boolean authorizes(R operationAuthorizationRequest);
 

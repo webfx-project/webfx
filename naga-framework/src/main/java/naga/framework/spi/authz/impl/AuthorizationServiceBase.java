@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public abstract class AuthorizationServiceBase implements AuthorizationService {
 
-    private final Map<Object, UserPrincipalAuthorizationService> userPrincipalAuthorizationServices = new HashMap<>();
+    private final Map<Object, UserPrincipalAuthorizationService> cache = new HashMap<>();
 
     @Override
     public Future<Boolean> isAuthorized(Object operationAuthorizationRequest, Object userPrincipal) {
@@ -19,9 +19,9 @@ public abstract class AuthorizationServiceBase implements AuthorizationService {
     }
 
     protected UserPrincipalAuthorizationService getOrCreateUserPrincipalAuthorizationService(Object userPrincipal) {
-        UserPrincipalAuthorizationService userPrincipalAuthorizationService = userPrincipalAuthorizationServices.get(userPrincipal);
+        UserPrincipalAuthorizationService userPrincipalAuthorizationService = cache.get(userPrincipal);
         if (userPrincipalAuthorizationService == null)
-            userPrincipalAuthorizationServices.put(userPrincipal, userPrincipalAuthorizationService = createUserPrincipalAuthorizationService(userPrincipal));
+            cache.put(userPrincipal, userPrincipalAuthorizationService = createUserPrincipalAuthorizationService(userPrincipal));
         return userPrincipalAuthorizationService;
     }
 

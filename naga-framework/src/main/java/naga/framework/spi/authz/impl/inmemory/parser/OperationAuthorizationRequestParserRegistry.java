@@ -1,4 +1,4 @@
-package naga.framework.spi.authz.impl;
+package naga.framework.spi.authz.impl.inmemory.parser;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,9 +17,9 @@ public class OperationAuthorizationRequestParserRegistry implements OperationAut
     @Override
     public Object parseOperationAuthorizationRequest(String operationAuthorizationRequest) {
         for (OperationAuthorizationRequestParser parser : parsers) {
-            Object requiredAccessObject = parser.parseOperationAuthorizationRequest(operationAuthorizationRequest);
-            if (requiredAccessObject != null && requiredAccessObject != operationAuthorizationRequest)
-                return requiredAccessObject;
+            Object parsedOperationAuthorizationRequest = parser.parseOperationAuthorizationRequest(operationAuthorizationRequest);
+            if (parsedOperationAuthorizationRequest != null && parsedOperationAuthorizationRequest != operationAuthorizationRequest)
+                return parsedOperationAuthorizationRequest;
         }
         return null;
     }

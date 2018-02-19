@@ -10,6 +10,6 @@ public class MongooseAuthorizationService extends AuthorizationServiceBase {
 
     @Override
     protected UserPrincipalAuthorizationService createUserPrincipalAuthorizationService(Object userPrincipal) {
-        return new MongooseUserAuthorizationService(userPrincipal);
+        return new InMemoryMongooseUserPrincipalAuthorizationService(userPrincipal);
     }
 }

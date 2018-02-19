@@ -1,16 +1,16 @@
 package naga.framework.router.auth.authz;
 
-import naga.framework.spi.authz.impl.Authorization;
+import naga.framework.spi.authz.impl.inmemory.InMemoryAuthorizationRule;
 
 /**
  * @author Bruno Salmon
  */
-public class RouteAuthorization implements Authorization<RouteAuthorizationRequest> {
+public class RouteAuthorizationRule implements InMemoryAuthorizationRule<RouteAuthorizationRequest> {
 
     private final String authorizedRoute;
     private final boolean allowSubRoutes;
 
-    public RouteAuthorization(String authorizedRoute, boolean allowSubRoutes) {
+    public RouteAuthorizationRule(String authorizedRoute, boolean allowSubRoutes) {
         this.authorizedRoute = authorizedRoute;
         this.allowSubRoutes = allowSubRoutes;
     }
