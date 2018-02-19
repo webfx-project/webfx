@@ -1,26 +1,42 @@
 package mongoose.authz;
 
+import mongoose.authn.MongooseUserPrincipal;
+import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityList;
+import naga.framework.orm.entity.EntityStore;
+import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.router.auth.authz.RouteAuthorizationRuleParser;
 import naga.framework.router.auth.authz.RouteOperationAuthorizationRequestParser;
 import naga.framework.spi.authz.impl.inmemory.InMemoryAuthorizationRuleRegistry;
 import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
+import naga.platform.services.log.spi.Logger;
+import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.spi.QueryService;
 
 /**
  * @author Bruno Salmon
  */
 class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrincipalAuthorizationChecker {
 
-    public MongooseInMemoryUserPrincipalAuthorizationChecker(Object userPrincipal) {
-        super(userPrincipal, DEFAULT_AUTHORIZATION);
+    MongooseInMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, DataSourceModel dataSourceModel) {
+        super(userPrincipal, new InMemoryAuthorizationRuleRegistry());
+        InMemoryAuthorizationRuleRegistry registry = (InMemoryAuthorizationRuleRegistry) inMemoryAuthorizationRules;
+        registry.addOperationAuthorizationRequestParser(new RouteOperationAuthorizationRequestParser());
+        registry.addInMemoryAuthorizationRuleParser(new RouteAuthorizationRuleParser());
+        MongooseUserPrincipal principal = (MongooseUserPrincipal) userPrincipal;
+        Object[] parameters = {principal.getUserPersonId()};
+        SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select rule.rule from AuthorizationAssignment where active and management.user=?", parameters);
+        setUpInMemoryAsyncLoading(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())), ar -> {
+            if (ar.failed())
+                Logger.log(ar.cause());
+            else {
+                EntityStore store = EntityStore.create(dataSourceModel);
+                EntityList<Entity> assignments = QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), store, "assignments");
+                for (Entity assignment: assignments)
+                    registry.registerInMemoryAuthorizationRule(assignment.getForeignEntity("rule").getStringFieldValue("rule"));
+            }
+        });
     }
-
-    private static InMemoryAuthorizationRuleRegistry DEFAULT_AUTHORIZATION = new InMemoryAuthorizationRuleRegistry();
-    static {
-        DEFAULT_AUTHORIZATION.addOperationAuthorizationRequestParser(new RouteOperationAuthorizationRequestParser());
-        DEFAULT_AUTHORIZATION.addInMemoryAuthorizationRuleParser(new RouteAuthorizationRuleParser());
-        DEFAULT_AUTHORIZATION.registerInMemoryAuthorizationRule("route: /monitor");
-        DEFAULT_AUTHORIZATION.registerInMemoryAuthorizationRule("route: /tester");
-        DEFAULT_AUTHORIZATION.registerInMemoryAuthorizationRule("route: /bookings/*");
-    }
-
 }
