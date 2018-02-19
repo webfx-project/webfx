@@ -3,14 +3,14 @@ package mongoose.authz;
 import naga.framework.router.auth.authz.RouteAuthorizationRuleParser;
 import naga.framework.router.auth.authz.RouteOperationAuthorizationRequestParser;
 import naga.framework.spi.authz.impl.inmemory.InMemoryAuthorizationRuleRegistry;
-import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationService;
+import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
 
 /**
  * @author Bruno Salmon
  */
-class InMemoryMongooseUserPrincipalAuthorizationService extends InMemoryUserPrincipalAuthorizationService {
+class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrincipalAuthorizationChecker {
 
-    public InMemoryMongooseUserPrincipalAuthorizationService(Object userPrincipal) {
+    public MongooseInMemoryUserPrincipalAuthorizationChecker(Object userPrincipal) {
         super(userPrincipal, DEFAULT_AUTHORIZATION);
     }
 

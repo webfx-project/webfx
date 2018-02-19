@@ -5,7 +5,7 @@ import naga.util.async.Future;
 /**
  * @author Bruno Salmon
  */
-public interface UserPrincipalAuthorizationService {
+public interface UserPrincipalAuthorizationChecker {
 
     Object getUserPrincipal();
 

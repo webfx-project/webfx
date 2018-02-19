@@ -1,7 +1,7 @@
 package mongoose.authz;
 
 import naga.framework.spi.authz.impl.AuthorizationServiceProviderBase;
-import naga.framework.spi.authz.impl.UserPrincipalAuthorizationService;
+import naga.framework.spi.authz.impl.UserPrincipalAuthorizationChecker;
 
 /**
  * @author Bruno Salmon
@@ -9,7 +9,7 @@ import naga.framework.spi.authz.impl.UserPrincipalAuthorizationService;
 public class MongooseAuthorizationServiceProvider extends AuthorizationServiceProviderBase {
 
     @Override
-    protected UserPrincipalAuthorizationService createUserPrincipalAuthorizationService(Object userPrincipal) {
-        return new InMemoryMongooseUserPrincipalAuthorizationService(userPrincipal);
+    protected UserPrincipalAuthorizationChecker createUserPrincipalAuthorizationChecker(Object userPrincipal) {
+        return new MongooseInMemoryUserPrincipalAuthorizationChecker(userPrincipal);
     }
 }

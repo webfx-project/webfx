@@ -1,17 +1,17 @@
 package naga.framework.spi.authz.impl.inmemory;
 
-import naga.framework.spi.authz.impl.UserPrincipalAuthorizationService;
+import naga.framework.spi.authz.impl.UserPrincipalAuthorizationChecker;
 import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public class InMemoryUserPrincipalAuthorizationService implements UserPrincipalAuthorizationService {
+public class InMemoryUserPrincipalAuthorizationChecker implements UserPrincipalAuthorizationChecker {
 
     private final Object userPrincipal;
     private final InMemoryAuthorizationRule inMemoryAuthorizationRules;
 
-    public InMemoryUserPrincipalAuthorizationService(Object userPrincipal, InMemoryAuthorizationRule inMemoryAuthorizationRules) {
+    public InMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, InMemoryAuthorizationRule inMemoryAuthorizationRules) {
         this.userPrincipal = userPrincipal;
         this.inMemoryAuthorizationRules = inMemoryAuthorizationRules;
     }

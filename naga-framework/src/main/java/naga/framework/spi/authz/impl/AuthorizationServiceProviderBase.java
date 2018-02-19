@@ -11,19 +11,19 @@ import java.util.Map;
  */
 public abstract class AuthorizationServiceProviderBase implements AuthorizationServiceProvider {
 
-    private final Map<Object, UserPrincipalAuthorizationService> cache = new HashMap<>();
+    private final Map<Object, UserPrincipalAuthorizationChecker> cache = new HashMap<>();
 
     @Override
     public Future<Boolean> isAuthorized(Object operationAuthorizationRequest, Object userPrincipal) {
-        return getOrCreateUserPrincipalAuthorizationService(userPrincipal).isAuthorized(operationAuthorizationRequest);
+        return getOrCreateUserPrincipalAuthorizationChecker(userPrincipal).isAuthorized(operationAuthorizationRequest);
     }
 
-    protected UserPrincipalAuthorizationService getOrCreateUserPrincipalAuthorizationService(Object userPrincipal) {
-        UserPrincipalAuthorizationService userPrincipalAuthorizationService = cache.get(userPrincipal);
-        if (userPrincipalAuthorizationService == null)
-            cache.put(userPrincipal, userPrincipalAuthorizationService = createUserPrincipalAuthorizationService(userPrincipal));
-        return userPrincipalAuthorizationService;
+    protected UserPrincipalAuthorizationChecker getOrCreateUserPrincipalAuthorizationChecker(Object userPrincipal) {
+        UserPrincipalAuthorizationChecker userPrincipalAuthorizationChecker = cache.get(userPrincipal);
+        if (userPrincipalAuthorizationChecker == null)
+            cache.put(userPrincipal, userPrincipalAuthorizationChecker = createUserPrincipalAuthorizationChecker(userPrincipal));
+        return userPrincipalAuthorizationChecker;
     }
 
-    protected abstract UserPrincipalAuthorizationService createUserPrincipalAuthorizationService(Object userPrincipal);
+    protected abstract UserPrincipalAuthorizationChecker createUserPrincipalAuthorizationChecker(Object userPrincipal);
 }
