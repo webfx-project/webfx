@@ -30,11 +30,10 @@ public class MongooseAuthenticationServiceProvider implements AuthenticationServ
             return Future.failedFuture(new IllegalArgumentException("MongooseAuthenticationServiceProvider requires a UsernamePasswordCredentials argument"));
         UsernamePasswordCredentials usernamePasswordCredentials = (UsernamePasswordCredentials) userCredentials;
         Object[] parameters = {1, usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword()};
-        SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select FrontendAccount where corporation=? and username=? and password=? limit 1", parameters);
-        return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())).compose(result -> {
-            if (result.getRowCount() != 1)
-                return Future.failedFuture("Wrong user or password");
-            return Future.succeededFuture(new MongooseUserPrincipal(result.getValue(0, 0)));
-        });
+        SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select id,frontendAccount.id from Person where frontendAccount.(corporation=? and username=? and password=?) order by id limit 1", parameters);
+        return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId()))
+                .compose(result -> result.getRowCount() != 1 ? Future.failedFuture("Wrong user or password")
+                      : Future.succeededFuture(new MongooseUserPrincipal(result.getValue(0, 0), result.getValue(0, 1)))
+                );
     }
 }
