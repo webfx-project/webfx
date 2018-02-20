@@ -65,7 +65,8 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
     }
 
     public <A> void registerInMemoryAuthorizationRule(InMemoryAuthorizationRule inMemoryAuthorizationRule) {
-        registerInMemoryAuthorizationRule(inMemoryAuthorizationRule.operationAuthorizationRequestClass(), inMemoryAuthorizationRule);
+        if (inMemoryAuthorizationRule != null)
+            registerInMemoryAuthorizationRule(inMemoryAuthorizationRule.operationAuthorizationRequestClass(), inMemoryAuthorizationRule);
     }
 
     public void registerInMemoryAuthorizationRule(String authorization) {
@@ -85,12 +86,14 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
     public AuthorizationRuleResult computeRuleResult(Object operationAuthorizationRequest) {
         Object parsedOperationAuthorizationRequest = operationAuthorizationRequest instanceof String && operationAuthorizationRequestParser != null ? operationAuthorizationRequestParser.parseOperationAuthorizationRequest((String) operationAuthorizationRequest) : operationAuthorizationRequest;
         AuthorizationRuleResult result = AuthorizationRuleResult.OUT_OF_RULE_CONTEXT;
-        for (InMemoryAuthorizationRule rule : registeredInMemoryAuthorizationRules.get(parsedOperationAuthorizationRequest.getClass()))
-            switch (rule.computeRuleResult(parsedOperationAuthorizationRequest)) {
-                case DENIED:  result = AuthorizationRuleResult.DENIED; break; // Breaking as it's a final decision
-                case GRANTED: result = AuthorizationRuleResult.GRANTED; // Not breaking, as we need to check there is not another denying rule (which is priority)
-                case OUT_OF_RULE_CONTEXT: // just ignoring it and looping to the next
-            }
+        Collection<InMemoryAuthorizationRule> rules = registeredInMemoryAuthorizationRules.get(parsedOperationAuthorizationRequest.getClass());
+        if (rules != null)
+            for (InMemoryAuthorizationRule rule : rules)
+                switch (rule.computeRuleResult(parsedOperationAuthorizationRequest)) {
+                    case DENIED:  result = AuthorizationRuleResult.DENIED; break; // Breaking as it's a final decision
+                    case GRANTED: result = AuthorizationRuleResult.GRANTED; // Not breaking, as we need to check there is not another denying rule (which is priority)
+                    case OUT_OF_RULE_CONTEXT: // just ignoring it and looping to the next
+                }
         return result;
     }
 }

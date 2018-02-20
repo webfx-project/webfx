@@ -13,10 +13,10 @@ public class RouteAuthorizationRuleParser extends SimpleInMemoryAuthorizationRul
     protected InMemoryAuthorizationRule parseAuthorization(AuthorizationRuleType type, String argument) {
         if (argument.startsWith("route:")) {
             String route = argument.substring(6).trim();
-            boolean allowSubRoutes = route.endsWith("*");
-            if (allowSubRoutes)
+            boolean includeSubRoutes = route.endsWith("*");
+            if (includeSubRoutes)
                 route = route.substring(0, route.length() - 1);
-            return new RouteAuthorizationRule(type, route, allowSubRoutes);
+            return new RouteAuthorizationRule(type, route, includeSubRoutes);
         }
         return null;
     }
