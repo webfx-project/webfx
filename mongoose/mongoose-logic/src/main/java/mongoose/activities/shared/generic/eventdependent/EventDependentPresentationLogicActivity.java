@@ -23,7 +23,7 @@ public abstract class EventDependentPresentationLogicActivity
     }
 
     @Override
-    protected void updatePresentationModelFromRouteParameters(PM pm) {
-        updateEventDependentPresentationModelFromRouteParameters();
+    protected void updatePresentationModelFromContextParameters(PM pm) {
+        updateEventDependentPresentationModelFromContextParameters();
     }
 }

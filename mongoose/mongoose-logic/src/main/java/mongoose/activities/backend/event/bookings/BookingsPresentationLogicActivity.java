@@ -9,7 +9,9 @@ import mongoose.domainmodel.functions.AbcNames;
 import mongoose.entities.Document;
 import naga.framework.ui.filter.ReactiveExpressionFilter;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
+import naga.platform.json.spi.WritableJsonObject;
 import naga.platform.services.log.spi.Logger;
+import naga.util.Booleans;
 import naga.util.Objects;
 import naga.util.Strings;
 
@@ -39,18 +41,27 @@ class BookingsPresentationLogicActivity
     }
 
     @Override
-    protected void updatePresentationModelFromRouteParameters(BookingsPresentationModel pm) {
+    protected void updateContextParametersFromRoute() {
+        super.updateContextParametersFromRoute();
+        String routingPath = getRoutingPath();
+        WritableJsonObject params = (WritableJsonObject) getParams(); // not beautiful...
+        params.set("arrivals", Strings.contains(routingPath, "/arrivals"));
+        params.set("departures", Strings.contains(routingPath, "/departures"));
+    }
+
+    @Override
+    protected void updatePresentationModelFromContextParameters(BookingsPresentationModel pm) {
         LocalDate day;
         pm.setColumns(getParameter("columns"));
         pm.setDay(day = parseDayParam(getParameter("day")));
-        pm.setArrivals(day != null && Strings.contains(getRoutingPath(), "/arrivals"));
-        pm.setDepartures(day != null && Strings.contains(getRoutingPath(), "/departures"));
+        pm.setArrivals(day != null && Booleans.isTrue(getParameter("arrivals")));
+        pm.setDepartures(day != null && Booleans.isTrue(getParameter("departures")));
         pm.setMinDay(parseDayParam(getParameter("minDay")));
         pm.setMaxDay(parseDayParam(getParameter("maxDay")));
         pm.setFilter(getParameter("filter"));
         pm.setGroupBy(getParameter("groupBy"));
         pm.setOrderBy(getParameter("orderBy"));
-        super.updatePresentationModelFromRouteParameters(pm);
+        super.updatePresentationModelFromContextParameters(pm); // for eventId and organizationId
     }
 
     private static final String DEFAULT_COLUMNS = "[" +

@@ -34,7 +34,7 @@ public abstract class ViewActivityBase
 
     @Override
     public void onResume() {
-        super.onResume(); // will fetch route parameters and make the active property to true
+        super.onResume(); // will update context parameters from route and make the active property to true
         startLogic(); // The good place to start the logic (before building ui but after the above update)
         if (uiNode == null)
             uiNode = buildUi();

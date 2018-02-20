@@ -21,7 +21,7 @@ class EventsPresentationLogicActivity
     }
 
     @Override
-    protected void updatePresentationModelFromRouteParameters(EventsPresentationModel pm) {
+    protected void updatePresentationModelFromContextParameters(EventsPresentationModel pm) {
         pm.setOrganizationId(getParameter("organizationId"));
     }
 

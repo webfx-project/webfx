@@ -24,7 +24,7 @@ class EditLetterViewActivity extends ViewActivityImpl {
     }
 
     @Override
-    protected void fetchRouteParameters() {
+    protected void updateModelFromContextParameters() {
         routeLetterIdProperty.setValue(getParameter("letterId"));
     }
 

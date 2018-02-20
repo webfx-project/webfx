@@ -21,8 +21,8 @@ public abstract class EventDependentViewDomainActivity
     }
 
     @Override
-    protected void fetchRouteParameters() {
-        updateEventDependentPresentationModelFromRouteParameters();
-        super.fetchRouteParameters();
+    protected void updateModelFromContextParameters() {
+        updateEventDependentPresentationModelFromContextParameters();
+        super.updateModelFromContextParameters();
     }
 }

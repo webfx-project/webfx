@@ -23,7 +23,7 @@ public interface EventDependentActivityMixin
         return EventService.getOrCreate(getEventId(), getDataSourceModel());
     }
 
-    default void updateEventDependentPresentationModelFromRouteParameters() {
+    default void updateEventDependentPresentationModelFromContextParameters() {
         setEventId(getParameter("eventId"));
         setOrganizationId(getParameter("organizationId"));
     }

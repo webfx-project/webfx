@@ -23,7 +23,7 @@ public abstract class CartBasedViewActivity
     }
 
     @Override
-    protected void fetchRouteParameters() {
+    protected void updateModelFromContextParameters() {
         cartUuidProperty.setValue(getParameter("cartUuid"));
     }
 

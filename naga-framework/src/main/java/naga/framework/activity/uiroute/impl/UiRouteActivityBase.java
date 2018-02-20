@@ -18,16 +18,21 @@ public class UiRouteActivityBase
 
     @Override
     public void onResume() {
-        fetchRouteParameters();
+        // Doing it each time, in case the params have changed on a later resume
+        updateContextParametersFromRoute();
+        updateModelFromContextParameters();
+        super.onResume(); // Making active
+    }
+
+    protected void updateContextParametersFromRoute() {
+    }
+
+    protected void updateModelFromContextParameters() {
         Object refreshValue = getParameter("refresh");
         if (!Objects.areEquals(refreshValue, lastRefreshValue)) {
             refreshDataOnActive();
             lastRefreshValue = refreshValue;
         }
-        super.onResume(); // Making active
-    }
-
-    protected void fetchRouteParameters() {
     }
 
     protected void refreshDataOnActive() {

@@ -1,10 +1,10 @@
 package naga.framework.activity.presentation.logic.impl;
 
-import naga.util.function.Factory;
 import naga.framework.activity.presentation.logic.PresentationLogicActivity;
 import naga.framework.activity.presentation.logic.PresentationLogicActivityContext;
 import naga.framework.activity.presentation.logic.PresentationLogicActivityContextMixin;
 import naga.framework.activity.uiroute.impl.UiRouteActivityBase;
+import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
@@ -48,7 +48,7 @@ public abstract class PresentationLogicActivityBase
 
     @Override
     public void onStart() {
-        fetchRouteParameters();
+        updateContextParametersFromRoute();
         if (!presentationModelBoundWithLogic) {
             startLogic(getPresentationModel());
             presentationModelBoundWithLogic = true;
@@ -59,18 +59,12 @@ public abstract class PresentationLogicActivityBase
     protected abstract void startLogic(PM pm);
 
     @Override
-    public void onResume() {
-        fetchRouteParameters(); // Doing it again, in case the params have changed on a later resume
-        super.onResume();
+    protected void updateModelFromContextParameters() {
+        super.updateModelFromContextParameters();
+        updatePresentationModelFromContextParameters(getPresentationModel());
     }
 
-    @Override
-    protected void fetchRouteParameters() {
-        super.fetchRouteParameters();
-        updatePresentationModelFromRouteParameters(getPresentationModel());
-    }
-
-    protected void updatePresentationModelFromRouteParameters(PM pm) {
+    protected void updatePresentationModelFromContextParameters(PM pm) {
     }
 
     @Override
