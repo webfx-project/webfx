@@ -1,5 +1,6 @@
 package naga.framework.router.auth.authz;
 
+import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleType;
 import naga.framework.spi.authz.impl.inmemory.InMemoryAuthorizationRule;
 import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRuleParser;
 
@@ -15,7 +16,7 @@ public class RouteAuthorizationRuleParser implements InMemoryAuthorizationRulePa
             boolean allowSubRoutes = route.endsWith("*");
             if (allowSubRoutes)
                 route = route.substring(0, route.length() - 1);
-            return new RouteAuthorizationRule(route, allowSubRoutes);
+            return new RouteAuthorizationRule(AuthorizationRuleType.GRANT, route, allowSubRoutes);
         }
         return null;
     }
