@@ -1,5 +1,7 @@
 package naga.platform.json;
 
+import naga.noreflect.IndexedArray;
+import naga.noreflect.KeyObject;
 import naga.platform.json.listmap.MapJsonObject;
 import naga.platform.json.spi.*;
 import naga.util.serviceloader.ServiceLoaderHelper;
@@ -86,4 +88,16 @@ public class Json {
         return JsonFormatter.appendNativeElement(nativeElement, Json.getFactory(), new StringBuilder()).toString();
     }
 
+    public static WritableJsonObject mergeInto(JsonObject src, WritableJsonObject dst) {
+        return mergeInto(src, dst, src.keys());
+    }
+
+    public static WritableJsonObject mergeInto(KeyObject src, WritableJsonObject dst, IndexedArray keys) {
+        for (int i = 0, size = keys.size(); i < size; i++) {
+            String key = keys.getString(i);
+            Object value = src.get(key);
+            dst.setNativeElement(key, value);
+        }
+        return dst;
+    }
 }
