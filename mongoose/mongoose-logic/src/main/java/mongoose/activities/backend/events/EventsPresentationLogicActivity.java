@@ -1,7 +1,7 @@
 package mongoose.activities.backend.events;
 
 import mongoose.activities.backend.event.bookings.BookingsRouting;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
 
@@ -9,7 +9,7 @@ import naga.util.function.Factory;
  * @author Bruno Salmon
  */
 class EventsPresentationLogicActivity
-        extends DomainPresentationLogicActivityImpl<EventsPresentationModel>
+        extends MongooseDomainPresentationLogicActivityBase<EventsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
     public EventsPresentationLogicActivity() {

@@ -1,7 +1,7 @@
 package mongoose.activities.shared.generic.eventdependent;
 
+import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityContextFinal;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 import naga.util.function.Factory;
 
 /**
@@ -10,7 +10,7 @@ import naga.util.function.Factory;
 public abstract class EventDependentPresentationLogicActivity
         <PM extends EventDependentPresentationModel>
 
-        extends DomainPresentationLogicActivityImpl<PM>
+        extends MongooseDomainPresentationLogicActivityBase<PM>
         implements EventDependentActivityMixin<DomainPresentationLogicActivityContextFinal<PM>> {
 
     public EventDependentPresentationLogicActivity(Factory<PM> presentationModelFactory) {

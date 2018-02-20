@@ -2,12 +2,12 @@ package mongoose.activities.backend.tester;
 
 import mongoose.activities.backend.tester.drive.Drive;
 import mongoose.activities.backend.tester.drive.model.ConnectionChartGenerator;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 
 /**
  * @author Bruno Salmon
  */
-class TesterPresentationLogicActivity extends DomainPresentationLogicActivityImpl<TesterPresentationModel> {
+class TesterPresentationLogicActivity extends MongooseDomainPresentationLogicActivityBase<TesterPresentationModel> {
 
     public TesterPresentationLogicActivity() {
         super(TesterPresentationModel::new);

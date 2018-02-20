@@ -1,12 +1,12 @@
 package mongoose.activities.backend.tester.savetest;
 
 import mongoose.activities.backend.tester.drive.Drive;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
+import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 
 /**
  * @author Bruno Salmon
  */
-class SaveTestPresentationLogicActivity extends DomainPresentationLogicActivityImpl<SaveTestPresentationModel> {
+class SaveTestPresentationLogicActivity extends MongooseDomainPresentationLogicActivityBase<SaveTestPresentationModel> {
 
     public SaveTestPresentationLogicActivity() {
         super(SaveTestPresentationModel::new);

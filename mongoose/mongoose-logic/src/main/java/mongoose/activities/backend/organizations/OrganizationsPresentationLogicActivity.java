@@ -1,15 +1,15 @@
 package mongoose.activities.backend.organizations;
 
 import mongoose.activities.backend.events.EventsRouting;
+import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
-import naga.framework.activity.combinations.domainpresentationlogic.impl.DomainPresentationLogicActivityImpl;
 
 /**
  * @author Bruno Salmon
  */
 class OrganizationsPresentationLogicActivity
-        extends DomainPresentationLogicActivityImpl<OrganizationsPresentationModel>
+        extends MongooseDomainPresentationLogicActivityBase<OrganizationsPresentationModel>
         implements ReactiveExpressionFilterFactoryMixin {
 
     OrganizationsPresentationLogicActivity() {
