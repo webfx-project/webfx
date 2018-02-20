@@ -22,9 +22,8 @@ class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrin
 
     MongooseInMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, DataSourceModel dataSourceModel) {
         super(userPrincipal, new InMemoryAuthorizationRuleRegistry());
-        InMemoryAuthorizationRuleRegistry registry = (InMemoryAuthorizationRuleRegistry) inMemoryAuthorizationRules;
-        registry.addOperationAuthorizationRequestParser(new RouteOperationAuthorizationRequestParser());
-        registry.addInMemoryAuthorizationRuleParser(new RouteAuthorizationRuleParser());
+        ruleRegistry.addOperationAuthorizationRequestParser(new RouteOperationAuthorizationRequestParser());
+        ruleRegistry.addInMemoryAuthorizationRuleParser(new RouteAuthorizationRuleParser());
         MongooseUserPrincipal principal = (MongooseUserPrincipal) userPrincipal;
         Object[] parameters = {principal.getUserPersonId()};
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select rule.rule from AuthorizationAssignment where active and management.user=?", parameters);
@@ -35,7 +34,7 @@ class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrin
                 EntityStore store = EntityStore.create(dataSourceModel);
                 EntityList<Entity> assignments = QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), store, "assignments");
                 for (Entity assignment: assignments)
-                    registry.registerInMemoryAuthorizationRule(assignment.getForeignEntity("rule").getStringFieldValue("rule"));
+                    ruleRegistry.registerInMemoryAuthorizationRule(assignment.getForeignEntity("rule").getStringFieldValue("rule"));
             }
         });
     }

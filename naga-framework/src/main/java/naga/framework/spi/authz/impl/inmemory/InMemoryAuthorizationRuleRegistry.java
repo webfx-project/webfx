@@ -4,7 +4,6 @@ import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRulePa
 import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRuleParserRegistry;
 import naga.framework.spi.authz.impl.inmemory.parser.OperationAuthorizationRequestParser;
 import naga.framework.spi.authz.impl.inmemory.parser.OperationAuthorizationRequestParserRegistry;
-import naga.util.collection.Collections;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,12 +77,20 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
         return Object.class;
     }
 
+    public boolean doesRulesAuthorize(Object operationAuthorizationRequest) {
+        return computeRuleResult(operationAuthorizationRequest) == AuthorizationRuleResult.GRANTED;
+    }
+
     @Override
-    public boolean authorizes(Object operationAuthorizationRequest) {
+    public AuthorizationRuleResult computeRuleResult(Object operationAuthorizationRequest) {
         Object parsedOperationAuthorizationRequest = operationAuthorizationRequest instanceof String && operationAuthorizationRequestParser != null ? operationAuthorizationRequestParser.parseOperationAuthorizationRequest((String) operationAuthorizationRequest) : operationAuthorizationRequest;
-        return Collections.hasAtLeastOneMatching(
-                registeredInMemoryAuthorizationRules.get(operationAuthorizationRequest.getClass()),
-                authorization -> authorization.authorizes(parsedOperationAuthorizationRequest)
-        );
+        AuthorizationRuleResult result = AuthorizationRuleResult.OUT_OF_RULE_CONTEXT;
+        for (InMemoryAuthorizationRule rule : registeredInMemoryAuthorizationRules.get(parsedOperationAuthorizationRequest.getClass()))
+            switch (rule.computeRuleResult(parsedOperationAuthorizationRequest)) {
+                case DENIED:  result = AuthorizationRuleResult.DENIED; break; // Breaking as it's a final decision
+                case GRANTED: result = AuthorizationRuleResult.GRANTED; // Not breaking, as we need to check there is not another denying rule (which is priority)
+                case OUT_OF_RULE_CONTEXT: // just ignoring it and looping to the next
+            }
+        return result;
     }
 }

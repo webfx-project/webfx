@@ -12,12 +12,12 @@ import naga.util.async.Handler;
 public class InMemoryUserPrincipalAuthorizationChecker implements UserPrincipalAuthorizationChecker {
 
     private final Object userPrincipal;
-    protected final InMemoryAuthorizationRule inMemoryAuthorizationRules;
+    protected final InMemoryAuthorizationRuleRegistry ruleRegistry;
     private FutureBroadcaster<?> loadingFutureBroadcaster;
 
-    public InMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, InMemoryAuthorizationRule inMemoryAuthorizationRules) {
+    public InMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, InMemoryAuthorizationRuleRegistry ruleRegistry) {
         this.userPrincipal = userPrincipal;
-        this.inMemoryAuthorizationRules = inMemoryAuthorizationRules;
+        this.ruleRegistry = ruleRegistry;
     }
 
     @Override
@@ -28,13 +28,15 @@ public class InMemoryUserPrincipalAuthorizationChecker implements UserPrincipalA
     @Override
     public Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
         Future<Boolean> future = Future.future();
-        FutureBroadcaster<?> broadcaster = loadingFutureBroadcaster;
-        return broadcaster == null ? complete(operationAuthorizationRequest, future)
-                : broadcaster.newClient().compose(result -> complete(operationAuthorizationRequest, future), future);
+        FutureBroadcaster<?> loader = loadingFutureBroadcaster;
+        return loader == null ? // means the rules are already loaded, so we can evaluate them and return the result immediately
+                evaluateRulesAndComplete(operationAuthorizationRequest, future)
+                // Otherwise, we first need to wait the rules to be loaded and only then we can evaluate them and return the result
+                : loader.newClient().compose(result -> evaluateRulesAndComplete(operationAuthorizationRequest, future), future);
     }
 
-    private Future<Boolean> complete(Object operationAuthorizationRequest, Future<Boolean> future) {
-        future.complete(inMemoryAuthorizationRules.authorizes(operationAuthorizationRequest));
+    private Future<Boolean> evaluateRulesAndComplete(Object operationAuthorizationRequest, Future<Boolean> future) {
+        future.complete(ruleRegistry.doesRulesAuthorize(operationAuthorizationRequest));
         return future;
     }
 

@@ -1,5 +1,6 @@
 package naga.framework.router.auth.authz;
 
+import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleResult;
 import naga.framework.spi.authz.impl.inmemory.InMemoryAuthorizationRule;
 
 /**
@@ -16,13 +17,11 @@ public class RouteAuthorizationRule implements InMemoryAuthorizationRule<RouteAu
     }
 
     @Override
-    public boolean authorizes(RouteAuthorizationRequest operationAuthorizationRequest) {
+    public AuthorizationRuleResult computeRuleResult(RouteAuthorizationRequest operationAuthorizationRequest) {
         String requestedRoute = operationAuthorizationRequest.getRequestedRoute();
-        if (requestedRoute.equals(authorizedRoute))
-            return true;
-        if (allowSubRoutes && requestedRoute.startsWith(authorizedRoute))
-            return true;
-        return false;
+        if (requestedRoute.equals(authorizedRoute) || (allowSubRoutes && requestedRoute.startsWith(authorizedRoute)))
+            return AuthorizationRuleResult.GRANTED;
+        return AuthorizationRuleResult.OUT_OF_RULE_CONTEXT;
     }
 
     @Override

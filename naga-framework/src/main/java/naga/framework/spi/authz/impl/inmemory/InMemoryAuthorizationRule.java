@@ -5,7 +5,7 @@ package naga.framework.spi.authz.impl.inmemory;
  */
 public interface InMemoryAuthorizationRule<R> {
 
-    boolean authorizes(R operationAuthorizationRequest);
+    AuthorizationRuleResult computeRuleResult(R operationAuthorizationRequest);
 
     Class<R> operationAuthorizationRequestClass(); // used for registration when coming from parsing
 
