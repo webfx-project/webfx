@@ -13,7 +13,11 @@ public class InMemoryUserPrincipalAuthorizationChecker implements UserPrincipalA
 
     private final Object userPrincipal;
     protected final InMemoryAuthorizationRuleRegistry ruleRegistry;
-    private FutureBroadcaster<?> loadingFutureBroadcaster;
+    private FutureBroadcaster<?> rulesLoadingBroadcaster;
+
+    public InMemoryUserPrincipalAuthorizationChecker(Object userPrincipal) {
+        this(userPrincipal, new InMemoryAuthorizationRuleRegistry());
+    }
 
     public InMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, InMemoryAuthorizationRuleRegistry ruleRegistry) {
         this.userPrincipal = userPrincipal;
@@ -27,23 +31,17 @@ public class InMemoryUserPrincipalAuthorizationChecker implements UserPrincipalA
 
     @Override
     public Future<Boolean> isAuthorized(Object operationAuthorizationRequest) {
-        Future<Boolean> future = Future.future();
-        FutureBroadcaster<?> loader = loadingFutureBroadcaster;
+        FutureBroadcaster<?> loader = rulesLoadingBroadcaster;
         return loader == null ? // means the rules are already loaded, so we can evaluate them and return the result immediately
-                evaluateRulesAndComplete(operationAuthorizationRequest, future)
+                Future.succeededFuture(ruleRegistry.doesRulesAuthorize(operationAuthorizationRequest))
                 // Otherwise, we first need to wait the rules to be loaded and only then we can evaluate them and return the result
-                : loader.newClient().compose(result -> evaluateRulesAndComplete(operationAuthorizationRequest, future), future);
+                : loader.newClient().compose((result, finalFuture) -> finalFuture.complete(ruleRegistry.doesRulesAuthorize(operationAuthorizationRequest)));
     }
 
-    private Future<Boolean> evaluateRulesAndComplete(Object operationAuthorizationRequest, Future<Boolean> future) {
-        future.complete(ruleRegistry.doesRulesAuthorize(operationAuthorizationRequest));
-        return future;
-    }
-
-    protected <T> void setUpInMemoryAsyncLoading(Future<T> loadingFuture, Handler<AsyncResult<T>> loadedHandler) {
+    protected <T> void setUpInMemoryAsyncRulesLoading(Future<T> loadingFuture, Handler<AsyncResult<T>> loadedHandler) {
         FutureBroadcaster<T> broadcaster = new FutureBroadcaster<>(loadingFuture);
-        loadingFutureBroadcaster = broadcaster;
+        rulesLoadingBroadcaster = broadcaster;
         broadcaster.newClient().setHandler(loadedHandler);
-        broadcaster.newClient().setHandler(ar -> loadingFutureBroadcaster = null);
+        broadcaster.newClient().setHandler(ar -> rulesLoadingBroadcaster = null);
     }
 }

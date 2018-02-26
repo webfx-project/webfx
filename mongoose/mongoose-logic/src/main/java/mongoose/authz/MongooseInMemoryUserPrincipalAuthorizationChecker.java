@@ -10,7 +10,6 @@ import naga.framework.router.auth.authz.RouteAuthorizationRule;
 import naga.framework.router.auth.authz.RouteAuthorizationRuleParser;
 import naga.framework.router.auth.authz.RouteOperationAuthorizationRequestParser;
 import naga.framework.spi.authz.impl.inmemory.AuthorizationRuleType;
-import naga.framework.spi.authz.impl.inmemory.InMemoryAuthorizationRuleRegistry;
 import naga.framework.spi.authz.impl.inmemory.InMemoryUserPrincipalAuthorizationChecker;
 import naga.platform.services.log.spi.Logger;
 import naga.platform.services.query.QueryArgument;
@@ -23,15 +22,16 @@ import naga.util.Strings;
 class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrincipalAuthorizationChecker {
 
     MongooseInMemoryUserPrincipalAuthorizationChecker(Object userPrincipal, DataSourceModel dataSourceModel) {
-        super(userPrincipal, new InMemoryAuthorizationRuleRegistry());
+        super(userPrincipal);
+        // userPrincipal must be a MongooseUserPrincipal
+        MongooseUserPrincipal principal = (MongooseUserPrincipal) userPrincipal;
         // Registering the authorization (requests and rules) parsers
         ruleRegistry.addOperationAuthorizationRequestParser(new RouteOperationAuthorizationRequestParser());
         ruleRegistry.addInMemoryAuthorizationRuleParser(new RouteAuthorizationRuleParser());
         // Loading the authorizations assigned to the user
-        MongooseUserPrincipal principal = (MongooseUserPrincipal) userPrincipal;
         Object[] parameters = {principal.getUserPersonId()};
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select rule.rule,activityState.route from AuthorizationAssignment where active and management.user=?", parameters);
-        setUpInMemoryAsyncLoading(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())), ar -> {
+        setUpInMemoryAsyncRulesLoading(QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, dataSourceModel.getId())), ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else // When successfully loaded, iterating over the assignments
