@@ -11,6 +11,14 @@ public interface ActionProducer extends StandardActionKeys {
 
     ActionBuilder newActionBuilder(Object actionKey);
 
+    default Action newAction(Object actionKey) {
+        return newAction(actionKey, (EventHandler<ActionEvent>) null);
+    }
+
+    default Action newAuthAction(Object actionKey, ObservableBooleanValue authorizedProperty) {
+        return newAuthAction(actionKey, (EventHandler<ActionEvent>) null, authorizedProperty);
+    }
+
     default Action newAction(Object actionKey, EventHandler<ActionEvent> actionHandler) {
         return newAuthAction(actionKey, actionHandler, null);
     }
