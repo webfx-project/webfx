@@ -3,18 +3,15 @@ package naga.framework.router.impl;
 import naga.framework.router.RoutingContext;
 import naga.framework.router.auth.authn.RedirectAuthHandler;
 import naga.framework.router.auth.authz.RouteAuthorizationRequest;
-import naga.framework.session.Session;
-import naga.framework.spi.authz.AuthorizationService;
-import naga.util.Booleans;
+import naga.framework.spi.authz.AuthorizationRequest;
 
 /**
  * @author Bruno Salmon
  */
-public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements RedirectAuthHandler {
+public class RedirectAuthHandlerImpl implements RedirectAuthHandler {
 
     private final String loginPath;
     private final String unauthorizedPath;
-    private boolean redirecting;
 
     public RedirectAuthHandlerImpl(String loginPath, String unauthorizedPath) {
         this.loginPath = loginPath;
@@ -23,40 +20,23 @@ public class RedirectAuthHandlerImpl extends AuthHandlerImpl implements Redirect
 
     @Override
     public void handle(RoutingContext context) {
-        if (redirecting)
-            context.next();
-        else {
-            Session session = context.session();
-            if (session == null)
-                context.fail(new IllegalStateException("No session - did you forget to include a SessionHandler?"));
-            else {
-                // Checking that the user has been authenticated
-                Object userPrincipal = context.userPrincipal();
-                if (userPrincipal == null) // If not, redirecting to the login path
-                    redirect(context, loginPath);
-                else // If authenticated, we need to check the user is authorized to access this route
-                    AuthorizationService.isAuthorized(new RouteAuthorizationRequest(context.path()), userPrincipal).setHandler(ar -> {
-                        if (ar.failed())
-                            context.fail(ar.cause());
-                        else if (Booleans.isTrue(ar.result()))
-                            context.next();
-                        else
-                            redirect(context, unauthorizedPath);
-                    });
-            }
-        }
+        String requestedPath = context.path();
+        if (requestedPath.equals(loginPath) || requestedPath.equals(unauthorizedPath))
+            context.next(); // Always accepting login and unauthorized paths
+        else // Otherwise continuing the route only if the user is authorized, otherwise redirecting to auth page (login or unauthorized)
+            new AuthorizationRequest<>()
+                    .setUserPrincipal(context.userPrincipal())
+                    .setOperationAuthorizationRequest(new RouteAuthorizationRequest(requestedPath))
+                    .onAuthorizedExecute(context::next)
+                    .onUnauthorizedExecute(() -> redirectToAuth(context))
+                    .executeAsync();
     }
 
-    private void redirect(RoutingContext context, String redirectPath) {
-        try {
-            redirecting = true;
-            redirectContext(context, redirectPath).next();
-        } finally {
-            redirecting = false;
-        }
+    private void redirectToAuth(RoutingContext context) {
+        newRedirectedContext(context, context.userPrincipal() == null ? loginPath : unauthorizedPath).next();
     }
 
-    private static RoutingContext redirectContext(RoutingContext context, String redirectPath) {
+    private static RoutingContext newRedirectedContext(RoutingContext context, String redirectPath) {
         if (context instanceof RoutingContextImpl) {
             RoutingContextImpl ctx = (RoutingContextImpl) context;
             return new RoutingContextImpl(ctx.mountPoint(), ctx.router(), redirectPath, ctx.routes, ctx.getParams());
