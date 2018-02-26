@@ -1,5 +1,6 @@
 package naga.util.async;
 
+import naga.util.function.BiConsumer;
 import naga.util.function.Callable;
 import naga.util.function.Consumer;
 import naga.util.function.Function;
@@ -68,7 +69,7 @@ public interface Future<T> extends AsyncResult<T> {
      * @param runnable  the runnable
      * @return  the future
      */
-    static Future<Void> runAsync(Runnable runnable) {
+    static  <T,R> Future<R> runAsync(Runnable runnable) {
         try {
             runnable.run();
             return succeededFuture();
@@ -88,7 +89,7 @@ public interface Future<T> extends AsyncResult<T> {
      * @param <T>  the argument type
      * @return  the future
      */
-    static <T> Future<Void> consumeAsync(Consumer<T> consumer, T arg) {
+    static <T,R> Future<R> consumeAsync(Consumer<T> consumer, T arg) {
         try {
             consumer.accept(arg);
             return succeededFuture();
@@ -184,6 +185,11 @@ public interface Future<T> extends AsyncResult<T> {
                 next.fail(ar.cause());
         });
         return next;
+    }
+
+    default <U> Future<U> compose(BiConsumer<T, Future<U>> handler) {
+        Future<U> finalFuture = future();
+        return compose(t -> handler.accept(t, finalFuture), finalFuture);
     }
 
     /**

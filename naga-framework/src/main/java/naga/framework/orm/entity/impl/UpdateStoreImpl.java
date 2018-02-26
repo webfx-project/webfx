@@ -88,12 +88,11 @@ public class UpdateStoreImpl extends EntityStoreImpl implements UpdateStore {
             EntityChangesToUpdateBatchGenerator.BatchGenerator updateBatchGenerator = EntityChangesToUpdateBatchGenerator.createUpdateBatchGenerator(getEntityChanges(), dataSourceModel, initialUpdates);
             Batch<UpdateArgument> batch = updateBatchGenerator.generate();
             Logger.log("Executing update batch " + Arrays.toStringWithLineFeeds(batch.getArray()));
-            Future<Batch<UpdateResult>> next = Future.future();
-            return UpdateService.executeUpdateBatch(batch).compose(ar -> {
+            return UpdateService.executeUpdateBatch(batch).compose((ar, finalFuture) -> {
                 markChangesAsCommitted();
                 updateBatchGenerator.applyGeneratedKeys(ar, this);
-                next.complete(ar);
-            }, next);
+                finalFuture.complete(ar);
+            });
         } catch (Exception e) {
             return Future.failedFuture(e);
         }
