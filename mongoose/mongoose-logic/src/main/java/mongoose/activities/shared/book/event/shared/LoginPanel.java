@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
 import mongoose.activities.shared.generic.MongooseSectionFactoryMixin;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
-import naga.framework.spi.authn.AuthenticationService;
+import naga.framework.spi.authn.AuthenticationRequest;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.graphic.controls.button.ButtonUtil;
 import naga.framework.ui.graphic.controls.dialog.GridPaneBuilder;
@@ -62,12 +62,14 @@ public class LoginPanel implements MongooseButtonFactoryMixin, MongooseSectionFa
         initValidation();
         button.setOnAction(event -> {
             if (validationSupport.isValid())
-                AuthenticationService.authenticate(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText())).setHandler(ar -> {
-                    if (ar.succeeded())
-                        uiSession.setUserPrincipal(ar.result());
-                    else
-                        Animations.shake(loginWindow);
-                });
+                new AuthenticationRequest()
+                    .setUserCredentials(new UsernamePasswordCredentials(usernameField.getText(), passwordField.getText()))
+                    .executeAsync().setHandler(ar -> {
+                        if (ar.succeeded())
+                            uiSession.setUserPrincipal(ar.result());
+                        else
+                            Animations.shake(loginWindow);
+                    });
         });
         prepareShowing();
     }
