@@ -19,7 +19,7 @@ public class RouteAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase<
 
     @Override
     protected boolean matchRule(RouteAuthorizationRequest operationAuthorizationRequest) {
-        String requestedRoute = operationAuthorizationRequest.getRequestedRoute();
+        String requestedRoute = operationAuthorizationRequest.getRoutePath();
         return requestedRoute.equals(route) || includeSubRoutes && requestedRoute.startsWith(route);
     }
 }

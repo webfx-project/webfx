@@ -5,13 +5,13 @@ package naga.framework.router.auth.authz;
  */
 public class RouteAuthorizationRequest {
 
-    private final String requestedRoute;
+    private final String routePath;
 
-    public RouteAuthorizationRequest(String requestedRoute) {
-        this.requestedRoute = requestedRoute;
+    public RouteAuthorizationRequest(String routePath) {
+        this.routePath = routePath;
     }
 
-    public String getRequestedRoute() {
-        return requestedRoute;
+    public String getRoutePath() {
+        return routePath;
     }
 }
