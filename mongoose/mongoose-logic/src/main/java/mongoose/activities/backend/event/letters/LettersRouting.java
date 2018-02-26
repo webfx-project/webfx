@@ -6,6 +6,8 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.router.util.PathBuilder;
 import naga.framework.ui.router.UiRoute;
 import naga.platform.client.url.history.History;
+import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
@@ -22,6 +24,10 @@ public class LettersRouting {
                 , LettersPresentationActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
+    }
+
+    public static AsyncFunction<LettersRoutingRequest, Void> executor() {
+        return request -> Future.runAsync(() -> routeUsingEventId(request.getEventId(), request.getHistory()));
     }
 
     public static void routeUsingEvent(Entity event, History history) {

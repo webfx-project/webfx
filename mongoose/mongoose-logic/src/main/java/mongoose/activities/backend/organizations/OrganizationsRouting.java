@@ -3,6 +3,8 @@ package mongoose.activities.backend.organizations;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 import naga.platform.client.url.history.History;
+import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
@@ -23,4 +25,7 @@ public class OrganizationsRouting {
         history.push(PATH);
     }
 
+    public static AsyncFunction<OrganizationsRoutingRequest, Void> executor() {
+        return request -> Future.runAsync(() -> route(request.getHistory()));
+    }
 }

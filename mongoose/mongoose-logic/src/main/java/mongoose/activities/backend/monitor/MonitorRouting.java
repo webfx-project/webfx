@@ -4,11 +4,13 @@ import naga.framework.activity.combinations.domainpresentation.impl.DomainPresen
 import naga.framework.router.auth.authz.RouteAuthorizationRequest;
 import naga.framework.ui.router.UiRoute;
 import naga.platform.client.url.history.History;
+import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
  */
-public class MonitorRooting {
+public class MonitorRouting {
 
     private final static String PATH = "/monitor";
 
@@ -18,6 +20,10 @@ public class MonitorRooting {
                 , MonitorPresentationActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
+    }
+
+    public static AsyncFunction<MonitorRoutingRequest, Void> executor() {
+        return request -> Future.runAsync(() -> route(request.getHistory()));
     }
 
     public static RouteAuthorizationRequest authorizationRequest() {

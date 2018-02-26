@@ -6,6 +6,8 @@ import naga.framework.orm.entity.Entity;
 import naga.framework.router.util.PathBuilder;
 import naga.framework.ui.router.UiRoute;
 import naga.platform.client.url.history.History;
+import naga.util.async.AsyncFunction;
+import naga.util.async.Future;
 
 /**
  * @author Bruno Salmon
@@ -27,6 +29,10 @@ public class EventsRouting {
 
     public static void route(History history) {
         history.push(ALL_EVENTS_PATH);
+    }
+
+    public static AsyncFunction<EventsRoutingRequest, Void> executor() {
+        return request -> Future.runAsync(() -> route(request.getHistory()));
     }
 
     public static void routeUsingOrganization(Entity organization, History history) {
