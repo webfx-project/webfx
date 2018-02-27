@@ -1,4 +1,4 @@
-package naga.framework.ui.session;
+package naga.framework.spi.authz.mixin;
 
 /**
  * @author Bruno Salmon

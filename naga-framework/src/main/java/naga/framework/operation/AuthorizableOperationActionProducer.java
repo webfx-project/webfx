@@ -1,7 +1,7 @@
 package naga.framework.operation;
 
 import naga.framework.spi.authz.AuthorizationRequest;
-import naga.framework.ui.session.HasUserPrincipal;
+import naga.framework.spi.authz.mixin.HasUserPrincipal;
 import naga.util.async.AsyncFunction;
 
 import java.util.HashMap;

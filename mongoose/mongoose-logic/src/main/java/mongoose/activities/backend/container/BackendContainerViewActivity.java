@@ -27,9 +27,9 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity im
                 .registerOperationAction(OrganizationsRoutingRequest.class, newAction("Organizations"))
                 .registerOperationAction(EventsRoutingRequest.class, newAction("Events"))
                 .registerOperationAction(BookingsRoutingRequest.class, newAction("Bookings"))
-                .registerOperationAction(LettersRoutingRequest.class, newAction("Bookings"))
-                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedProperty(MonitorRouting.authorizationRequest())))
-                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedProperty(TesterRouting.authorizationRequest())))
+                .registerOperationAction(LettersRoutingRequest.class, newAction("Letters"))
+                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.authorizationRequest())))
+                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.authorizationRequest())))
         ;
         return Collections.listOf(
                   backAction

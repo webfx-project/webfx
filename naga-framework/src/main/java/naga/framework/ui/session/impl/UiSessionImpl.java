@@ -30,37 +30,4 @@ public class UiSessionImpl implements UiSession {
         return loggedInProperty;
     }
 
-    @Override
-    public ObservableBooleanValue authorizedProperty(Object operationAuthorizationRequest) {
-        return new BooleanBinding() {
-            Object userPrincipal;
-            boolean value;
-            { bind(userPrincipalProperty()); }
-
-            @Override
-            protected void onInvalidating() {
-                if (userPrincipal != getUserPrincipal()) {
-                    value = false;
-                    isAuthorized(operationAuthorizationRequest).setHandler(ar -> {
-                        userPrincipal = getUserPrincipal();
-                        if (ar.succeeded())
-                            Toolkit.get().scheduler().runInUiThread(() -> {
-                                value = ar.result();
-                                invalidate();
-                            });
-                    });
-                }
-            }
-
-            @Override
-            protected boolean computeValue() {
-                return value;
-            }
-        };
-    }
-
-    @Override
-    public ObservableBooleanValue authorizedProperty(ObservableValue operationAuthorizationRequestProperty) {
-        return null; // Not yet implemented
-    }
 }
