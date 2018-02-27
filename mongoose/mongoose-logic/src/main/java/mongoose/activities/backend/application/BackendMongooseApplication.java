@@ -7,9 +7,9 @@ import mongoose.activities.backend.event.clone.CloneEventRouting;
 import mongoose.activities.backend.event.letters.LettersRouting;
 import mongoose.activities.backend.events.EventsRouting;
 import mongoose.activities.backend.letter.edit.EditLetterRouting;
-import mongoose.activities.backend.monitor.MonitorRooting;
+import mongoose.activities.backend.monitor.MonitorRouting;
 import mongoose.activities.backend.organizations.OrganizationsRouting;
-import mongoose.activities.backend.tester.TesterRooting;
+import mongoose.activities.backend.tester.TesterRouting;
 import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
@@ -42,8 +42,8 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
                 .route(LettersRouting.uiRoute())
                 .route(CloneEventRouting.uiRoute())
                 .route(EditLetterRouting.uiRoute())
-                .route(MonitorRooting.uiRoute())
-                .route(TesterRooting.uiRoute())
+                .route(MonitorRouting.uiRoute())
+                .route(TesterRouting.uiRoute())
                 .route(SaveTestRooting.uiRoute())
         );
     }
