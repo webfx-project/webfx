@@ -264,7 +264,7 @@ public abstract class HtmlSvgNodePeer
     }
 
     private static KeyEvent toFxKeyEvent(KeyboardEvent e, String type) {
-        KeyCode keyCode = toFxKeyCode(e.key);
+        KeyCode keyCode = toFxKeyCode(e.key); // e.key = physical key, e.code = logical key (ie taking into account selected system keyboard)
         EventType<KeyEvent> eventType;
         if (keyCode == KeyCode.ESCAPE)
             eventType = KeyEvent.KEY_PRESSED;
@@ -279,7 +279,7 @@ public abstract class HtmlSvgNodePeer
 
     private static KeyCode toFxKeyCode(String htmlKey) {
         if (htmlKey == null)
-            return null;
+            return KeyCode.UNDEFINED;
         // See https://developer.mozilla.org/fr/docs/Web/API/KeyboardEvent/code
         switch (htmlKey) {
             case "Escape": return KeyCode.ESCAPE; // 0x0001
@@ -371,7 +371,12 @@ public abstract class HtmlSvgNodePeer
                     fxKeyName = String.valueOf(htmlKey.charAt(3)); // -> Q, etc...
                 else if (htmlKey.startsWith("Numpad"))
                     fxKeyName = Strings.replaceAll(htmlKey,"Numpad", "Numpad ");
-                return KeyCode.getKeyCode(fxKeyName);
+                KeyCode keyCode = KeyCode.getKeyCode(fxKeyName);
+                if (keyCode == null)
+                    keyCode = KeyCode.getKeyCode(fxKeyName.toUpperCase());
+                if (keyCode == null)
+                    keyCode = KeyCode.UNDEFINED;
+                return keyCode;
             }
         }
     }
