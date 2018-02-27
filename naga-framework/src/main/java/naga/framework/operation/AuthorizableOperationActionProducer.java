@@ -22,14 +22,12 @@ public interface AuthorizableOperationActionProducer extends OperationActionProd
     default AsyncFunction getTopOperationExecutor() {
         AsyncFunction executor = topOperationExecutors.get(this);
         if (executor == null)
-            topOperationExecutors.put(this, executor = createTopOperationExecutor());
+            topOperationExecutors.put(this, executor = createAuthorizableOperationActionExecutor());
         return executor;
     }
 
-    default AsyncFunction createTopOperationExecutor() {
-        return new ChainedActionOperationExecutor(getOperationActionRegistry(),
-               new AuthorizableOperationExecutor(this::newAuthorizationRequest,
-               new OperationDispatcher(getOperationExecutorRegistry())));
+    default AsyncFunction createAuthorizableOperationActionExecutor() {
+        return OperationExecutorUtil.createAuthorizableOperationActionExecutor(getOperationActionRegistry(), this::newAuthorizationRequest, getOperationExecutorRegistry());
     }
 
     default AuthorizationRequest newAuthorizationRequest() {
