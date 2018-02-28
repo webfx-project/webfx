@@ -4,14 +4,16 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import mongoose.activities.backend.event.clone.CloneEventRoutingRequest;
 import mongoose.activities.shared.generic.table.GenericTablePresentationViewActivity;
+import naga.framework.operation.OperationActionProducer;
 
 import static naga.framework.ui.layouts.LayoutUtil.setHGrowable;
 
 /**
  * @author Bruno Salmon
  */
-class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> {
+class BookingsPresentationViewActivity extends GenericTablePresentationViewActivity<BookingsPresentationModel> implements OperationActionProducer {
 
     private HBox hBox;
 
@@ -19,14 +21,11 @@ class BookingsPresentationViewActivity extends GenericTablePresentationViewActiv
     protected void createViewNodes(BookingsPresentationModel pm) {
         super.createViewNodes(pm);
 
-        Button newBookingButton = newButton("NewBooking");
-        Button cloneEventButton = newButton("CloneEvent");
+        Button newBookingButton = newButton(newAction(() -> new NewBackendBookingRoutingRequest(pm.getEventId(), getHistory())));
+        Button cloneEventButton = newButton(newAction(() -> new CloneEventRoutingRequest(pm.getEventId(), getHistory())));
 
         hBox = new HBox(newBookingButton, setHGrowable(searchBox), cloneEventButton);
-
-        newBookingButton.onActionProperty().bind(pm.onNewBookingProperty());
-        cloneEventButton.onActionProperty().bind(pm.onCloneEventProperty());
-    }
+        }
 
     @Override
     protected Node assemblyViewNodes() {

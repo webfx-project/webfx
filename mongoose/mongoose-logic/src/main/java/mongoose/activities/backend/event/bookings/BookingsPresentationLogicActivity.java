@@ -32,21 +32,12 @@ class BookingsPresentationLogicActivity
     }
 
     @Override
-    protected void initializePresentationModel(BookingsPresentationModel pm) {
-        pm.setOnNewBooking(event -> {
-            getEventService().setCurrentCart(null);
-            FeesRooting.routeUsingEventId(getEventId(), getHistory());
-        });
-        pm.setOnCloneEvent(event -> CloneEventRouting.routeUsingEventId(getEventId(), getHistory()));
-    }
-
-    @Override
     protected void updateContextParametersFromRoute() {
         super.updateContextParametersFromRoute();
         String routingPath = getRoutingPath();
-        WritableJsonObject params = (WritableJsonObject) getParams(); // not beautiful...
-        params.set("arrivals", Strings.contains(routingPath, "/arrivals"));
-        params.set("departures", Strings.contains(routingPath, "/departures"));
+        WritableJsonObject contextParams = (WritableJsonObject) getParams(); // not beautiful...
+        contextParams.set("arrivals", Strings.contains(routingPath, "/arrivals"));
+        contextParams.set("departures", Strings.contains(routingPath, "/departures"));
     }
 
     @Override
