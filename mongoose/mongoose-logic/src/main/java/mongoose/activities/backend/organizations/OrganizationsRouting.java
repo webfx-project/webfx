@@ -11,7 +11,7 @@ import naga.util.async.Future;
  */
 public class OrganizationsRouting {
 
-    private final static String PATH = "/organizations";
+    public final static String PATH = "/organizations";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH

@@ -3,18 +3,26 @@ package mongoose.activities.backend.application;
 import mongoose.activities.backend.book.event.options.EditableOptionsRouting;
 import mongoose.activities.backend.container.BackendContainerViewActivity;
 import mongoose.activities.backend.event.bookings.BookingsRouting;
+import mongoose.activities.backend.event.bookings.BookingsRoutingRequest;
 import mongoose.activities.backend.event.clone.CloneEventRouting;
 import mongoose.activities.backend.event.letters.LettersRouting;
+import mongoose.activities.backend.event.letters.LettersRoutingRequest;
 import mongoose.activities.backend.events.EventsRouting;
+import mongoose.activities.backend.events.EventsRoutingRequest;
 import mongoose.activities.backend.letter.edit.EditLetterRouting;
 import mongoose.activities.backend.monitor.MonitorRouting;
+import mongoose.activities.backend.monitor.MonitorRoutingRequest;
 import mongoose.activities.backend.organizations.OrganizationsRouting;
+import mongoose.activities.backend.organizations.OrganizationsRoutingRequest;
 import mongoose.activities.backend.tester.TesterRouting;
+import mongoose.activities.backend.tester.TesterRoutingRequest;
 import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
 import mongoose.activities.shared.auth.UnauthorizedRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
+import naga.framework.operation.OperationActionProducer;
+import naga.framework.ui.action.ActionProducer;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 import naga.util.function.Factory;
@@ -22,7 +30,11 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class BackendMongooseApplication extends SharedMongooseApplication {
+public class BackendMongooseApplication extends SharedMongooseApplication implements OperationActionProducer, ActionProducer {
+
+    public BackendMongooseApplication() {
+        super(OrganizationsRouting.PATH);
+    }
 
     @Override
     protected Factory<Activity<ViewDomainActivityContextFinal>> getContainerActivityFactory() {
@@ -49,9 +61,16 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
     }
 
     @Override
-    public void onStart() {
-        context.getUiRouter().setDefaultInitialHistoryPath("/organizations");
-        super.onStart();
+    protected void registerActions() {
+        super.registerActions();
+        getOperationActionRegistry()
+                .registerOperationAction(OrganizationsRoutingRequest.class, newAction("Organizations"))
+                .registerOperationAction(EventsRoutingRequest.class, newAction("Events"))
+                .registerOperationAction(BookingsRoutingRequest.class, newAction("Bookings"))
+                .registerOperationAction(LettersRoutingRequest.class, newAction("Letters"))
+                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.authorizationRequest())))
+                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.authorizationRequest())))
+        ;
     }
 
     public static void main(String[] args) {

@@ -3,10 +3,8 @@ package mongoose.activities.backend.container;
 import mongoose.activities.backend.event.bookings.BookingsRoutingRequest;
 import mongoose.activities.backend.event.letters.LettersRoutingRequest;
 import mongoose.activities.backend.events.EventsRoutingRequest;
-import mongoose.activities.backend.monitor.MonitorRouting;
 import mongoose.activities.backend.monitor.MonitorRoutingRequest;
 import mongoose.activities.backend.organizations.OrganizationsRoutingRequest;
-import mongoose.activities.backend.tester.TesterRouting;
 import mongoose.activities.backend.tester.TesterRoutingRequest;
 import mongoose.activities.shared.container.SharedContainerViewActivity;
 import naga.framework.operation.OperationActionProducer;
@@ -23,14 +21,6 @@ public class BackendContainerViewActivity extends SharedContainerViewActivity im
     @Override
     protected Collection<Action> navigationActions() {
         super.navigationActions();
-        getOperationActionRegistry()
-                .registerOperationAction(OrganizationsRoutingRequest.class, newAction("Organizations"))
-                .registerOperationAction(EventsRoutingRequest.class, newAction("Events"))
-                .registerOperationAction(BookingsRoutingRequest.class, newAction("Bookings"))
-                .registerOperationAction(LettersRoutingRequest.class, newAction("Letters"))
-                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.authorizationRequest())))
-                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.authorizationRequest())))
-        ;
         return Collections.listOf(
                   backAction
                 , forwardAction
