@@ -5,6 +5,7 @@ import mongoose.activities.backend.container.BackendContainerViewActivity;
 import mongoose.activities.backend.event.bookings.BookingsRouting;
 import mongoose.activities.backend.event.bookings.BookingsRoutingRequest;
 import mongoose.activities.backend.event.clone.CloneEventRouting;
+import mongoose.activities.backend.event.clone.CloneEventRoutingRequest;
 import mongoose.activities.backend.event.letters.LettersRouting;
 import mongoose.activities.backend.event.letters.LettersRoutingRequest;
 import mongoose.activities.backend.events.EventsRouting;
@@ -70,6 +71,7 @@ public class BackendMongooseApplication extends SharedMongooseApplication implem
                 .registerOperationAction(LettersRoutingRequest.class, newAction("Letters"))
                 .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.authorizationRequest())))
                 .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.authorizationRequest())))
+                .registerOperationAction(CloneEventRoutingRequest.class, newAction("CloneEvent"))
         ;
     }
 
