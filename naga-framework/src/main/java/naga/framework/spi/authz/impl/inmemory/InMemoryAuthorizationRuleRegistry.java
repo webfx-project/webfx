@@ -2,8 +2,8 @@ package naga.framework.spi.authz.impl.inmemory;
 
 import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRuleParser;
 import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRuleParserRegistry;
-import naga.framework.spi.authz.impl.inmemory.parser.OperationAuthorizationRequestParser;
-import naga.framework.spi.authz.impl.inmemory.parser.OperationAuthorizationRequestParserRegistry;
+import naga.framework.spi.authz.impl.inmemory.parser.AuthorizationRequestParser;
+import naga.framework.spi.authz.impl.inmemory.parser.AuthorizationRequestParserRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,15 +17,15 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
 
     private final Map<Class, Collection<InMemoryAuthorizationRule>> registeredInMemoryAuthorizationRules = new HashMap<>();
     private InMemoryAuthorizationRuleParser inMemoryAuthorizationRuleParser;
-    private OperationAuthorizationRequestParser operationAuthorizationRequestParser;
+    private AuthorizationRequestParser authorizationRequestParser;
 
-    public void setInMemoryAuthorizationRuleParser(InMemoryAuthorizationRuleParser ruleParser) {
+    public void setAuthorizationRuleParser(InMemoryAuthorizationRuleParser ruleParser) {
         this.inMemoryAuthorizationRuleParser = ruleParser;
     }
 
-    public void addInMemoryAuthorizationRuleParser(InMemoryAuthorizationRuleParser ruleParser) {
+    public void addAuthorizationRuleParser(InMemoryAuthorizationRuleParser ruleParser) {
         if (inMemoryAuthorizationRuleParser == null)
-            setInMemoryAuthorizationRuleParser(ruleParser);
+            setAuthorizationRuleParser(ruleParser);
         else {
             InMemoryAuthorizationRuleParserRegistry registry;
             if (inMemoryAuthorizationRuleParser instanceof InMemoryAuthorizationRuleParserRegistry)
@@ -38,43 +38,43 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
         }
     }
 
-    public void setOperationAuthorizationRequestParser(OperationAuthorizationRequestParser requestParser) {
-        this.operationAuthorizationRequestParser = requestParser;
+    public void setAuthorizationRequestParser(AuthorizationRequestParser requestParser) {
+        this.authorizationRequestParser = requestParser;
     }
 
-    public void addOperationAuthorizationRequestParser(OperationAuthorizationRequestParser requestParser) {
-        if (operationAuthorizationRequestParser == null)
-            setOperationAuthorizationRequestParser(requestParser);
+    public void addAuthorizationRequestParser(AuthorizationRequestParser requestParser) {
+        if (authorizationRequestParser == null)
+            setAuthorizationRequestParser(requestParser);
         else {
-            OperationAuthorizationRequestParserRegistry registry;
-            if (operationAuthorizationRequestParser instanceof InMemoryAuthorizationRuleParserRegistry)
-                registry = (OperationAuthorizationRequestParserRegistry) operationAuthorizationRequestParser;
+            AuthorizationRequestParserRegistry registry;
+            if (authorizationRequestParser instanceof InMemoryAuthorizationRuleParserRegistry)
+                registry = (AuthorizationRequestParserRegistry) authorizationRequestParser;
             else {
-                registry = new OperationAuthorizationRequestParserRegistry();
-                registry.registerParser(operationAuthorizationRequestParser);
+                registry = new AuthorizationRequestParserRegistry();
+                registry.registerParser(authorizationRequestParser);
             }
             registry.registerParser(requestParser);
         }
     }
 
-    public <A> void registerInMemoryAuthorizationRule(Class<A> requiredAuthorizationClass, InMemoryAuthorizationRule<A> authorizationRule) {
-        Collection<InMemoryAuthorizationRule> inMemoryAuthorizationRules = registeredInMemoryAuthorizationRules.get(requiredAuthorizationClass);
+    public <A> void registerAuthorizationRule(Class<A> operationRequestClass, InMemoryAuthorizationRule<A> authorizationRule) {
+        Collection<InMemoryAuthorizationRule> inMemoryAuthorizationRules = registeredInMemoryAuthorizationRules.get(operationRequestClass);
         if (inMemoryAuthorizationRules == null)
-            registeredInMemoryAuthorizationRules.put(requiredAuthorizationClass, inMemoryAuthorizationRules = new ArrayList<>());
+            registeredInMemoryAuthorizationRules.put(operationRequestClass, inMemoryAuthorizationRules = new ArrayList<>());
         inMemoryAuthorizationRules.add(authorizationRule);
     }
 
-    public <A> void registerInMemoryAuthorizationRule(InMemoryAuthorizationRule inMemoryAuthorizationRule) {
-        if (inMemoryAuthorizationRule != null)
-            registerInMemoryAuthorizationRule(inMemoryAuthorizationRule.operationAuthorizationRequestClass(), inMemoryAuthorizationRule);
+    public <A> void registerAuthorizationRule(InMemoryAuthorizationRule authorizationRule) {
+        if (authorizationRule != null)
+            registerAuthorizationRule(authorizationRule.operationRequestClass(), authorizationRule);
     }
 
-    public void registerInMemoryAuthorizationRule(String authorization) {
-        registerInMemoryAuthorizationRule(inMemoryAuthorizationRuleParser.parseAuthorization(authorization));
+    public void registerAuthorizationRule(String authorization) {
+        registerAuthorizationRule(inMemoryAuthorizationRuleParser.parseAuthorization(authorization));
     }
 
     @Override
-    public Class operationAuthorizationRequestClass() {
+    public Class operationRequestClass() {
         return Object.class;
     }
 
@@ -83,13 +83,13 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
     }
 
     @Override
-    public AuthorizationRuleResult computeRuleResult(Object operationAuthorizationRequest) {
-        Object parsedOperationAuthorizationRequest = operationAuthorizationRequest instanceof String && operationAuthorizationRequestParser != null ? operationAuthorizationRequestParser.parseOperationAuthorizationRequest((String) operationAuthorizationRequest) : operationAuthorizationRequest;
+    public AuthorizationRuleResult computeRuleResult(Object authorizationRequest) {
+        Object parsedAuthorizationRequest = authorizationRequest instanceof String && authorizationRequestParser != null ? authorizationRequestParser.parseAuthorizationRequest((String) authorizationRequest) : authorizationRequest;
         AuthorizationRuleResult result = AuthorizationRuleResult.OUT_OF_RULE_CONTEXT;
-        Collection<InMemoryAuthorizationRule> rules = registeredInMemoryAuthorizationRules.get(parsedOperationAuthorizationRequest.getClass());
+        Collection<InMemoryAuthorizationRule> rules = registeredInMemoryAuthorizationRules.get(parsedAuthorizationRequest.getClass());
         if (rules != null)
             for (InMemoryAuthorizationRule rule : rules)
-                switch (rule.computeRuleResult(parsedOperationAuthorizationRequest)) {
+                switch (rule.computeRuleResult(parsedAuthorizationRequest)) {
                     case DENIED:  result = AuthorizationRuleResult.DENIED; break; // Breaking as it's a final decision
                     case GRANTED: result = AuthorizationRuleResult.GRANTED; // Not breaking, as we need to check there is not another denying rule (which is priority)
                     case OUT_OF_RULE_CONTEXT: // just ignoring it and looping to the next

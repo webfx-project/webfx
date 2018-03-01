@@ -6,24 +6,24 @@ package naga.framework.spi.authz.impl.inmemory;
 public abstract class SimpleInMemoryAuthorizationRuleBase<R> implements InMemoryAuthorizationRule<R> {
 
     private final AuthorizationRuleType type;
-    private final Class operationAuthorizationRequestClass;
+    private final Class operationRequestClass;
 
-    public SimpleInMemoryAuthorizationRuleBase(AuthorizationRuleType type, Class<R> operationAuthorizationRequestClass) {
+    public SimpleInMemoryAuthorizationRuleBase(AuthorizationRuleType type, Class<R> operationRequestClass) {
         this.type = type;
-        this.operationAuthorizationRequestClass = operationAuthorizationRequestClass;
+        this.operationRequestClass = operationRequestClass;
     }
 
     @Override
-    public AuthorizationRuleResult computeRuleResult(R operationAuthorizationRequest) {
-        return !matchRule(operationAuthorizationRequest) ? AuthorizationRuleResult.OUT_OF_RULE_CONTEXT
+    public AuthorizationRuleResult computeRuleResult(R authorizationRequest) {
+        return !matchRule(authorizationRequest) ? AuthorizationRuleResult.OUT_OF_RULE_CONTEXT
                 : type == AuthorizationRuleType.GRANT    ? AuthorizationRuleResult.GRANTED
                                                          : AuthorizationRuleResult.DENIED;
     }
 
-    protected abstract boolean matchRule(R operationAuthorizationRequest);
+    protected abstract boolean matchRule(R operationRequest);
 
     @Override
-    public Class operationAuthorizationRequestClass() {
-        return operationAuthorizationRequestClass;
+    public Class operationRequestClass() {
+        return operationRequestClass;
     }
 }
