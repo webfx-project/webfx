@@ -1,5 +1,8 @@
 package naga.framework.operation;
 
+import naga.framework.operation.action.ChainedActionOperationExecutor;
+import naga.framework.operation.action.OperationActionRegistry;
+import naga.framework.operation.authz.AuthorizableOperationExecutor;
 import naga.framework.spi.authz.AuthorizationRequest;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
@@ -8,7 +11,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-class OperationExecutorUtil {
+public class OperationExecutorUtil {
 
     public static Future executeOperation(Object operationRequest, AsyncFunction operationExecutor) {
         if (operationExecutor == null && operationRequest instanceof HasOperationExecutor)
