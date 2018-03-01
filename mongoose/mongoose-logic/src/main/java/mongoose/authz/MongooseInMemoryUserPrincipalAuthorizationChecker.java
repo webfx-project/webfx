@@ -2,6 +2,7 @@ package mongoose.authz;
 
 import mongoose.authn.MongooseUserPrincipal;
 import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
+import naga.framework.operation.authz.OperationAuthorizationRuleParser;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
@@ -28,6 +29,7 @@ class MongooseInMemoryUserPrincipalAuthorizationChecker extends InMemoryUserPrin
         // Registering the authorization (requests and rules) parsers
         ruleRegistry.addAuthorizationRequestParser(new RouteAuthorizationRequestParser());
         ruleRegistry.addAuthorizationRuleParser(new RouteAuthorizationRuleParser());
+        ruleRegistry.addAuthorizationRuleParser(new OperationAuthorizationRuleParser());
         // Loading the authorizations assigned to the user
         Object[] parameters = {principal.getUserPersonId()};
         SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select rule.rule,activityState.route from AuthorizationAssignment where active and management.user=?", parameters);
