@@ -1,5 +1,6 @@
-package naga.framework.operation;
+package naga.framework.operation.action;
 
+import naga.framework.operation.ChainedOperationExecutor;
 import naga.util.async.AsyncFunction;
 
 /**

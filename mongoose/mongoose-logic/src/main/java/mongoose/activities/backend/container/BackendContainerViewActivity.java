@@ -7,7 +7,7 @@ import mongoose.activities.backend.monitor.MonitorRoutingRequest;
 import mongoose.activities.backend.organizations.OrganizationsRoutingRequest;
 import mongoose.activities.backend.tester.TesterRoutingRequest;
 import mongoose.activities.shared.container.SharedContainerViewActivity;
-import naga.framework.operation.OperationActionProducer;
+import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
 import naga.util.collection.Collections;
 

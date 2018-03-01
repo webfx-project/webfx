@@ -1,6 +1,7 @@
-package naga.framework.operation;
+package naga.framework.operation.action;
 
 import javafx.event.ActionEvent;
+import naga.framework.operation.HasOperationCode;
 import naga.framework.ui.action.Action;
 
 import java.util.HashMap;

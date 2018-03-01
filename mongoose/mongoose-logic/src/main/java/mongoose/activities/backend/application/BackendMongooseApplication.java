@@ -23,7 +23,7 @@ import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
 import mongoose.activities.shared.auth.UnauthorizedRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.operation.OperationActionProducer;
+import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.ActionProducer;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
