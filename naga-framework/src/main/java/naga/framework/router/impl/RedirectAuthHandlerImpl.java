@@ -1,7 +1,7 @@
 package naga.framework.router.impl;
 
 import naga.framework.router.RoutingContext;
-import naga.framework.router.auth.authn.RedirectAuthHandler;
+import naga.framework.router.auth.RedirectAuthHandler;
 import naga.framework.router.auth.authz.RouteAuthorizationRequest;
 import naga.framework.spi.authz.AuthorizationRequest;
 

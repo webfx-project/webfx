@@ -5,7 +5,7 @@ import naga.framework.activity.uiroute.impl.UiRouteActivityContextBase;
 import naga.framework.activity.view.HasMountNodeProperty;
 import naga.framework.router.Router;
 import naga.framework.router.RoutingContext;
-import naga.framework.router.auth.authn.RedirectAuthHandler;
+import naga.framework.router.auth.RedirectAuthHandler;
 import naga.framework.router.impl.SessionHandlerImplBase;
 import naga.framework.router.impl.UserHolder;
 import naga.framework.router.impl.UserSessionHandlerImpl;
