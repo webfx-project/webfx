@@ -6,19 +6,19 @@ import naga.framework.spi.authz.impl.inmemory.SimpleInMemoryAuthorizationRuleBas
 /**
  * @author Bruno Salmon
  */
-public class RouteAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase<RouteAuthorizationRequest> {
+public class RoutingAuthorizationRule extends SimpleInMemoryAuthorizationRuleBase<RoutingRequest> {
 
     private final String route;
     private final boolean includeSubRoutes;
 
-    public RouteAuthorizationRule(AuthorizationRuleType type, String route, boolean includeSubRoutes) {
-        super(type, RouteAuthorizationRequest.class);
+    public RoutingAuthorizationRule(AuthorizationRuleType type, String route, boolean includeSubRoutes) {
+        super(type, RoutingRequest.class);
         this.route = route;
         this.includeSubRoutes = includeSubRoutes;
     }
 
     @Override
-    protected boolean matchRule(RouteAuthorizationRequest operationRequest) {
+    protected boolean matchRule(RoutingRequest operationRequest) {
         String requestedRoute = operationRequest.getRoutePath();
         return requestedRoute.equals(route) || includeSubRoutes && requestedRoute.startsWith(route);
     }

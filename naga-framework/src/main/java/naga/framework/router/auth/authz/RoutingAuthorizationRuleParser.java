@@ -7,7 +7,7 @@ import naga.framework.spi.authz.impl.inmemory.parser.SimpleInMemoryAuthorization
 /**
  * @author Bruno Salmon
  */
-public class RouteAuthorizationRuleParser extends SimpleInMemoryAuthorizationRuleParserBase {
+public class RoutingAuthorizationRuleParser extends SimpleInMemoryAuthorizationRuleParserBase {
 
     @Override
     protected InMemoryAuthorizationRule parseAuthorization(AuthorizationRuleType type, String argument) {
@@ -16,7 +16,7 @@ public class RouteAuthorizationRuleParser extends SimpleInMemoryAuthorizationRul
             boolean includeSubRoutes = route.endsWith("*");
             if (includeSubRoutes)
                 route = route.substring(0, route.length() - 1);
-            return new RouteAuthorizationRule(type, route, includeSubRoutes);
+            return new RoutingAuthorizationRule(type, route, includeSubRoutes);
         }
         return null;
     }
