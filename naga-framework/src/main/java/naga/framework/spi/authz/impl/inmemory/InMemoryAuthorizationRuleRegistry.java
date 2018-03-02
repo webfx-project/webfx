@@ -2,8 +2,6 @@ package naga.framework.spi.authz.impl.inmemory;
 
 import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRuleParser;
 import naga.framework.spi.authz.impl.inmemory.parser.InMemoryAuthorizationRuleParserRegistry;
-import naga.framework.spi.authz.impl.inmemory.parser.AuthorizationRequestParser;
-import naga.framework.spi.authz.impl.inmemory.parser.AuthorizationRequestParserRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,7 +15,6 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
 
     private final Map<Class, Collection<InMemoryAuthorizationRule>> registeredInMemoryAuthorizationRules = new HashMap<>();
     private InMemoryAuthorizationRuleParser inMemoryAuthorizationRuleParser;
-    private AuthorizationRequestParser authorizationRequestParser;
 
     public void setAuthorizationRuleParser(InMemoryAuthorizationRuleParser ruleParser) {
         this.inMemoryAuthorizationRuleParser = ruleParser;
@@ -35,25 +32,6 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
                 registry.registerParser(inMemoryAuthorizationRuleParser);
             }
             registry.registerParser(ruleParser);
-        }
-    }
-
-    public void setAuthorizationRequestParser(AuthorizationRequestParser requestParser) {
-        this.authorizationRequestParser = requestParser;
-    }
-
-    public void addAuthorizationRequestParser(AuthorizationRequestParser requestParser) {
-        if (authorizationRequestParser == null)
-            setAuthorizationRequestParser(requestParser);
-        else {
-            AuthorizationRequestParserRegistry registry;
-            if (authorizationRequestParser instanceof InMemoryAuthorizationRuleParserRegistry)
-                registry = (AuthorizationRequestParserRegistry) authorizationRequestParser;
-            else {
-                registry = new AuthorizationRequestParserRegistry();
-                registry.registerParser(authorizationRequestParser);
-            }
-            registry.registerParser(requestParser);
         }
     }
 
@@ -83,17 +61,22 @@ public class InMemoryAuthorizationRuleRegistry implements InMemoryAuthorizationR
     }
 
     @Override
-    public AuthorizationRuleResult computeRuleResult(Object authorizationRequest) {
-        Object parsedAuthorizationRequest = authorizationRequest instanceof String && authorizationRequestParser != null ? authorizationRequestParser.parseAuthorizationRequest((String) authorizationRequest) : authorizationRequest;
+    public AuthorizationRuleResult computeRuleResult(Object operationRequest) {
         AuthorizationRuleResult result = AuthorizationRuleResult.OUT_OF_RULE_CONTEXT;
-        Collection<InMemoryAuthorizationRule> rules = registeredInMemoryAuthorizationRules.get(parsedAuthorizationRequest.getClass());
-        if (rules != null)
-            for (InMemoryAuthorizationRule rule : rules)
-                switch (rule.computeRuleResult(parsedAuthorizationRequest)) {
-                    case DENIED:  result = AuthorizationRuleResult.DENIED; break; // Breaking as it's a final decision
-                    case GRANTED: result = AuthorizationRuleResult.GRANTED; // Not breaking, as we need to check there is not another denying rule (which is priority)
-                    case OUT_OF_RULE_CONTEXT: // just ignoring it and looping to the next
-                }
+        Class<?> operationRequestClass = operationRequest.getClass();
+        while (operationRequestClass != null) {
+            Collection<InMemoryAuthorizationRule> rules = registeredInMemoryAuthorizationRules.get(operationRequestClass);
+            if (rules != null)
+                for (InMemoryAuthorizationRule rule : rules)
+                    switch (rule.computeRuleResult(operationRequest)) {
+                        case DENIED:  result = AuthorizationRuleResult.DENIED; break; // Breaking as it's a final decision
+                        case GRANTED: result = AuthorizationRuleResult.GRANTED; // Not breaking, as we need to check there is not another denying rule (which is priority)
+                        case OUT_OF_RULE_CONTEXT: // just ignoring it and looping to the next
+                    }
+            if (result != AuthorizationRuleResult.OUT_OF_RULE_CONTEXT)
+                break;
+            operationRequestClass = operationRequestClass.getSuperclass();
+        }
         return result;
     }
 }

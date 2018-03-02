@@ -13,7 +13,6 @@ public final class AuthorizationRequest<O, R> {
 
     private Object userPrincipal;
     private O operationRequest;
-    private Object operationAuthorizationRequest;
     private AsyncFunction<O, R> authorizedOperationAsyncExecutor;
     private AsyncFunction<Throwable, ?> unauthorizedOperationAsyncExecutor;
     private AuthorizationServiceProvider provider;
@@ -33,15 +32,6 @@ public final class AuthorizationRequest<O, R> {
 
     public AuthorizationRequest<O, R> setOperationRequest(O operationRequest) {
         this.operationRequest = operationRequest;
-        return this;
-    }
-
-    public Object getOperationAuthorizationRequest() {
-        return operationAuthorizationRequest;
-    }
-
-    public AuthorizationRequest<O, R> setOperationAuthorizationRequest(Object operationAuthorizationRequest) {
-        this.operationAuthorizationRequest = operationAuthorizationRequest;
         return this;
     }
 
@@ -93,8 +83,6 @@ public final class AuthorizationRequest<O, R> {
     }
 
     public AuthorizationRequest<O, R> complete() {
-        if (operationAuthorizationRequest == null)
-            operationAuthorizationRequest = operationRequest;
         if (unauthorizedOperationAsyncExecutor == null)
             unauthorizedOperationAsyncExecutor = o -> Future.failedFuture(new UnauthorizedOperationException());
         if (provider == null)
@@ -103,7 +91,7 @@ public final class AuthorizationRequest<O, R> {
     }
 
     public Future<Boolean> isAuthorizedAsync() {
-        return complete().getProvider().isAuthorized(getOperationAuthorizationRequest(), getUserPrincipal());
+        return complete().getProvider().isAuthorized(getOperationRequest(), getUserPrincipal());
     }
 
     public Future<R> executeAsync() {
