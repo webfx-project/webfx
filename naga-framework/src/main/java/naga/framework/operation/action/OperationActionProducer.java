@@ -1,6 +1,7 @@
 package naga.framework.operation.action;
 
 import javafx.event.ActionEvent;
+import naga.framework.operation.HasOperationExecutor;
 import naga.util.async.AsyncFunction;
 import naga.util.function.Factory;
 import naga.util.function.Function;
@@ -8,9 +9,9 @@ import naga.util.function.Function;
 /**
  * @author Bruno Salmon
  */
-public interface OperationActionProducer {
+public interface OperationActionProducer extends HasOperationExecutor {
 
-    default AsyncFunction getTopOperationExecutor() {
+    default AsyncFunction getOperationExecutor() {
         return null;
     }
 
@@ -19,7 +20,7 @@ public interface OperationActionProducer {
     }
 
     default <O, R> OperationAction newAction(Factory<O> operationRequestFactory) {
-        return newAction(operationRequestFactory, getTopOperationExecutor());
+        return newAction(operationRequestFactory, getOperationExecutor());
     }
 
     default <O, R> OperationAction newAction(Factory<O> operationRequestFactory, AsyncFunction<O, R> topOperationExecutor) {
@@ -27,7 +28,7 @@ public interface OperationActionProducer {
     }
 
     default <O, R> OperationAction newAction(Function<ActionEvent, O> operationRequestFactory) {
-        return newAction(operationRequestFactory, getTopOperationExecutor());
+        return newAction(operationRequestFactory, getOperationExecutor());
     }
 
     default <O, R> OperationAction newAction(Function<ActionEvent, O> operationRequestFactory, AsyncFunction<O, R> topOperationExecutor) {

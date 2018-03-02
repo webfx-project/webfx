@@ -3,17 +3,16 @@ package naga.framework.operation;
 import naga.framework.operation.action.ChainedActionOperationExecutor;
 import naga.framework.operation.action.OperationActionRegistry;
 import naga.framework.operation.authz.AuthorizableOperationExecutor;
-import naga.framework.spi.authz.AuthorizationRequest;
+import naga.framework.spi.authz.mixin.HasUserPrincipal;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
-import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
 public class OperationExecutorUtil {
 
-    public static Future executeOperation(Object operationRequest, AsyncFunction operationExecutor) {
+    public static <O, R> Future<R> executeOperation(O operationRequest, AsyncFunction<O, R> operationExecutor) {
         if (operationExecutor == null && operationRequest instanceof HasOperationExecutor)
             operationExecutor = ((HasOperationExecutor) operationRequest).getOperationExecutor();
         if (operationExecutor != null)
@@ -21,9 +20,9 @@ public class OperationExecutorUtil {
         return Future.failedFuture(new IllegalArgumentException("No executor found for operation request " + operationRequest));
     }
 
-    public static ChainedActionOperationExecutor createAuthorizableOperationActionExecutor(OperationActionRegistry operationActionRegistry, Factory<AuthorizationRequest> authorizationRequestFactory, OperationExecutorRegistry operationExecutorRegistry) {
+    public static ChainedActionOperationExecutor createAuthorizableOperationActionExecutor(OperationActionRegistry operationActionRegistry, HasUserPrincipal userPrincipalFetcher, OperationExecutorRegistry operationExecutorRegistry) {
         return new ChainedActionOperationExecutor(operationActionRegistry,
-               new AuthorizableOperationExecutor(authorizationRequestFactory,
+               new AuthorizableOperationExecutor(userPrincipalFetcher,
                new OperationDispatcher(operationExecutorRegistry)));
     }
 

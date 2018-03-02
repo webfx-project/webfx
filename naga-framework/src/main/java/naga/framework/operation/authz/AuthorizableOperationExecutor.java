@@ -2,33 +2,32 @@ package naga.framework.operation.authz;
 
 import naga.framework.operation.ChainedOperationExecutor;
 import naga.framework.spi.authz.AuthorizationRequest;
+import naga.framework.spi.authz.mixin.HasUserPrincipal;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
-import naga.util.function.Factory;
 
 /**
  * @author Bruno Salmon
  */
 public class AuthorizableOperationExecutor extends ChainedOperationExecutor {
 
-    private final Factory<AuthorizationRequest> authorizationRequestFactory;
+    private final HasUserPrincipal userPrincipalFetcher;
 
-    public AuthorizableOperationExecutor(Factory<AuthorizationRequest> authorizationRequestFactory, AsyncFunction nextOperationExecutor) {
+    public AuthorizableOperationExecutor(HasUserPrincipal userPrincipalFetcher, AsyncFunction nextOperationExecutor) {
         super(nextOperationExecutor);
-        this.authorizationRequestFactory = authorizationRequestFactory;
+        this.userPrincipalFetcher = userPrincipalFetcher;
     }
 
     @Override
     public Future apply(Object operationRequest) {
-        return authorizationRequestFactory.create()
+        if (operationRequest instanceof AuthorizationRequest)
+            return ((AuthorizationRequest) operationRequest)
+                    .setUserPrincipal(userPrincipalFetcher.getUserPrincipal())
+                    .isAuthorizedAsync();
+        return new AuthorizationRequest<>()
                 .setOperationRequest(operationRequest)
+                .setUserPrincipal(userPrincipalFetcher.getUserPrincipal())
                 .onAuthorizedExecute(() -> super.apply(operationRequest))
                 .executeAsync();
-    }
-
-    public Future<Boolean> isOperationAuthorized(Object operationRequest) {
-        return authorizationRequestFactory.create()
-                .setOperationRequest(operationRequest)
-                .isAuthorizedAsync();
     }
 }
