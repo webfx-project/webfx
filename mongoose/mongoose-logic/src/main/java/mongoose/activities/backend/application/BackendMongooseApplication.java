@@ -70,8 +70,8 @@ public class BackendMongooseApplication extends SharedMongooseApplication implem
                 .registerOperationAction(EventsRoutingRequest.class, newAction("Events"))
                 .registerOperationAction(BookingsRoutingRequest.class, newAction("Bookings"))
                 .registerOperationAction(LettersRoutingRequest.class, newAction("Letters"))
-                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.authorizationRequest())))
-                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.authorizationRequest())))
+                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.routingRequest())))
+                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.routingRequest())))
                 .registerOperationAction(CloneEventRoutingRequest.class, newAction("CloneEvent"))
                 .registerOperationAction(NewBackendBookingRoutingRequest.class, newAction("NewBooking"))
         ;

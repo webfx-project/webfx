@@ -1,7 +1,8 @@
 package mongoose.activities.backend.events;
 
-import mongoose.activities.backend.event.bookings.BookingsRouting;
+import mongoose.activities.backend.event.bookings.BookingsRoutingRequest;
 import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
+import mongoose.entities.Event;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
 
@@ -28,7 +29,7 @@ class EventsPresentationLogicActivity
     @Override
     protected void startLogic(EventsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
+        this.<Event>createReactiveExpressionFilter("{class: 'Event', alias: 'e', fields2: '(select count(1) from Document where !cancelled and event=e) as bookingsCount', where2: 'active', orderBy: 'startDate desc,id desc'}")
                 // Search box condition
                 .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 .combineIfNotNull(pm.organizationIdProperty(), o -> "{where: 'organization=" + o + "'}")
@@ -44,7 +45,7 @@ class EventsPresentationLogicActivity
                         "{role: 'background', expression: 'type.background'}" +
                         "]")
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> BookingsRouting.routeUsingEvent(event, getHistory()))
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), event -> new BookingsRoutingRequest(event, getHistory()).execute())
                 .start();
     }
 }

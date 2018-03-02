@@ -2,12 +2,8 @@ package mongoose.activities.backend.event.bookings;
 
 import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
-import naga.framework.orm.entity.Entity;
 import naga.framework.router.util.PathBuilder;
 import naga.framework.ui.router.UiRoute;
-import naga.platform.client.url.history.History;
-import naga.util.async.AsyncFunction;
-import naga.util.async.Future;
 
 import java.time.LocalDate;
 
@@ -28,16 +24,8 @@ public class BookingsRouting {
         );
     }
 
-    public static AsyncFunction<BookingsRoutingRequest, Void> executor() {
-        return request -> Future.runAsync(() -> routeUsingEventId(request.getEventId(), request.getHistory()));
-    }
-
-    public static void routeUsingEvent(Entity event, History history) {
-        MongooseRoutingUtil.routeUsingEntityId(event, history, BookingsRouting::routeUsingEventId);
-    }
-
-    public static void routeUsingEventId(Object eventId, History history) {
-        history.push(MongooseRoutingUtil.interpolateEventIdInPath(eventId, EVENT_PATH));
+    public static String getEventIdRoutePath(Object eventId) {
+        return MongooseRoutingUtil.interpolateEventIdInPath(eventId, EVENT_PATH);
     }
 
     public static LocalDate parseDayParam(String parameterValue) {

@@ -17,7 +17,7 @@ public class MongooseRoutingUtil {
     }
 
     public static String interpolateParamInPath(String paramToken, Object paramValue, String path) {
-        return Strings.replaceAll(path, paramToken, paramValue);
+        return paramValue == null ? null : Strings.replaceAll(path, paramToken, paramValue);
     }
 
     public static String interpolateEventIdInPath(Object eventId, String path) {
@@ -36,7 +36,11 @@ public class MongooseRoutingUtil {
         return interpolateParamInPath(":cartUuid", cartUuid, path);
     }
 
-    private static Object toPk(Object id) {
-        return (id instanceof EntityId) ? ((EntityId) id).getPrimaryKey() : id;
+    public static Object toPk(Object id) {
+        if (id instanceof Entity)
+            return ((Entity) id).getId().getPrimaryKey();
+        if (id instanceof EntityId)
+            return ((EntityId) id).getPrimaryKey();
+        return id;
     }
 }
