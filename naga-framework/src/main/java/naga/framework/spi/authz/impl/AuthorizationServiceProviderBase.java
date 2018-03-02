@@ -15,8 +15,6 @@ public abstract class AuthorizationServiceProviderBase implements AuthorizationS
 
     @Override
     public Future<Boolean> isAuthorized(Object operationAuthorizationRequest, Object userPrincipal) {
-        if (userPrincipal == null)
-            return Future.failedFuture(new IllegalArgumentException("userPrincipal must be not null"));
         return getOrCreateUserPrincipalAuthorizationChecker(userPrincipal).isAuthorized(operationAuthorizationRequest);
     }
 
