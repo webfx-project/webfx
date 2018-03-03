@@ -93,6 +93,8 @@ public abstract class SharedMongooseApplication
         getOperationActionRegistry()
                 .registerOperationAction(BackwardRoutingRequest.class,  newAction("<<"))
                 .registerOperationAction(ForwardRoutingRequest.class,   newAction(">>"))
+                .registerOperationAction(EnglishLanguageRequest.class,  newAction("English"))
+                .registerOperationAction(FrenchLanguageRequest.class,   newAction("Français"))
         ;
     }
 
