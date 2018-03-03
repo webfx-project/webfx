@@ -13,15 +13,20 @@ import mongoose.activities.shared.book.event.terms.TermsRouting;
 import mongoose.authn.MongooseAuthenticationServiceProvider;
 import mongoose.authz.MongooseAuthorizationServiceProvider;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
+import mongoose.i18n.EnglishLanguageRequest;
+import mongoose.i18n.FrenchLanguageRequest;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContextMixin;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.activity.combinations.viewdomainapplication.ViewDomainApplicationContext;
+import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.spi.authn.AuthenticationServiceProvider;
 import naga.framework.spi.authz.AuthorizationServiceProvider;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
+import naga.framework.ui.router.BackwardRoutingRequest;
+import naga.framework.ui.router.ForwardRoutingRequest;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.properties.Properties;
 import naga.platform.activity.Activity;
@@ -36,7 +41,10 @@ import naga.util.serviceloader.ServiceLoaderHelper;
 /**
  * @author Bruno Salmon
  */
-public abstract class SharedMongooseApplication implements Activity<ViewDomainActivityContext>, ViewDomainActivityContextMixin {
+public abstract class SharedMongooseApplication
+        implements Activity<ViewDomainActivityContext>
+        , ViewDomainActivityContextMixin
+        , OperationActionProducer {
 
     private final String defaultInitialHistoryPath;
     private ViewDomainActivityContext context;
@@ -82,6 +90,10 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
 
     protected void registerActions() {
         MongooseActions.registerActions(getI18n());
+        getOperationActionRegistry()
+                .registerOperationAction(BackwardRoutingRequest.class,  newAction("<<"))
+                .registerOperationAction(ForwardRoutingRequest.class,   newAction(">>"))
+        ;
     }
 
     static {

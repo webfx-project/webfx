@@ -23,8 +23,6 @@ import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
 import mongoose.activities.shared.auth.UnauthorizedRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
-import naga.framework.operation.action.OperationActionProducer;
-import naga.framework.ui.action.ActionProducer;
 import naga.framework.ui.router.UiRouter;
 import naga.platform.activity.Activity;
 import naga.util.function.Factory;
@@ -32,7 +30,7 @@ import naga.util.function.Factory;
 /**
  * @author Bruno Salmon
  */
-public class BackendMongooseApplication extends SharedMongooseApplication implements OperationActionProducer, ActionProducer {
+public class BackendMongooseApplication extends SharedMongooseApplication {
 
     public BackendMongooseApplication() {
         super(OrganizationsRouting.PATH);
@@ -66,13 +64,13 @@ public class BackendMongooseApplication extends SharedMongooseApplication implem
     protected void registerActions() {
         super.registerActions();
         getOperationActionRegistry()
-                .registerOperationAction(OrganizationsRoutingRequest.class, newAction("Organizations"))
-                .registerOperationAction(EventsRoutingRequest.class, newAction("Events"))
-                .registerOperationAction(BookingsRoutingRequest.class, newAction("Bookings"))
-                .registerOperationAction(LettersRoutingRequest.class, newAction("Letters"))
-                .registerOperationAction(MonitorRoutingRequest.class, newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.routingRequest())))
-                .registerOperationAction(TesterRoutingRequest.class, newAuthAction("Tester", authorizedOperationProperty(TesterRouting.routingRequest())))
-                .registerOperationAction(CloneEventRoutingRequest.class, newAction("CloneEvent"))
+                .registerOperationAction(OrganizationsRoutingRequest.class,     newAction("Organizations"))
+                .registerOperationAction(EventsRoutingRequest.class,            newAction("Events"))
+                .registerOperationAction(BookingsRoutingRequest.class,          newAction("Bookings"))
+                .registerOperationAction(LettersRoutingRequest.class,           newAction("Letters"))
+                .registerOperationAction(MonitorRoutingRequest.class,           newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.routingRequest())))
+                .registerOperationAction(TesterRoutingRequest.class,            newAuthAction("Tester", authorizedOperationProperty(TesterRouting.routingRequest())))
+                .registerOperationAction(CloneEventRoutingRequest.class,        newAction("CloneEvent"))
                 .registerOperationAction(NewBackendBookingRoutingRequest.class, newAction("NewBooking"))
         ;
     }

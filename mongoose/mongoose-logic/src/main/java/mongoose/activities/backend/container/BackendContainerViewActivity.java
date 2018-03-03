@@ -7,7 +7,6 @@ import mongoose.activities.backend.monitor.MonitorRoutingRequest;
 import mongoose.activities.backend.organizations.OrganizationsRoutingRequest;
 import mongoose.activities.backend.tester.TesterRoutingRequest;
 import mongoose.activities.shared.container.SharedContainerViewActivity;
-import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
 import naga.util.collection.Collections;
 
@@ -16,7 +15,7 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class BackendContainerViewActivity extends SharedContainerViewActivity implements OperationActionProducer {
+public class BackendContainerViewActivity extends SharedContainerViewActivity {
 
     @Override
     protected Collection<Action> navigationActions() {

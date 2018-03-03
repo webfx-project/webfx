@@ -1,12 +1,12 @@
 package mongoose.activities.backend.event.bookings;
 
-import naga.framework.ui.router.UiRoutingRequest;
+import naga.framework.ui.router.PushRoutingRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsRoutingRequest extends UiRoutingRequest {
+public class BookingsRoutingRequest extends PushRoutingRequest {
 
     private Object eventId;
 

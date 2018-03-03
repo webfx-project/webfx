@@ -4,10 +4,15 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import mongoose.activities.shared.generic.MongooseButtonFactoryMixin;
+import mongoose.i18n.EnglishLanguageRequest;
+import mongoose.i18n.FrenchLanguageRequest;
 import naga.framework.activity.view.impl.ViewActivityImpl;
+import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.ui.action.Action;
 import naga.framework.ui.action.ActionGroup;
 import naga.framework.ui.action.ActionGroupBuilder;
+import naga.framework.ui.router.BackwardRoutingRequest;
+import naga.framework.ui.router.ForwardRoutingRequest;
 import naga.fx.properties.ObservableLists;
 import naga.util.collection.Collections;
 
@@ -16,7 +21,9 @@ import java.util.Collection;
 /**
  * @author Bruno Salmon
  */
-public class SharedContainerViewActivity extends ViewActivityImpl implements MongooseButtonFactoryMixin {
+public class SharedContainerViewActivity extends ViewActivityImpl
+        implements MongooseButtonFactoryMixin
+        , OperationActionProducer {
 
     protected Action backAction;
     protected Action forwardAction;
@@ -36,8 +43,8 @@ public class SharedContainerViewActivity extends ViewActivityImpl implements Mon
 
     protected Collection<Action> navigationActions() {
         return Collections.listOf(
-                   backAction    = newAction("<<",       () -> getHistory().goBack())
-                ,  forwardAction = newAction(">>",       () -> getHistory().goForward())
+                   backAction    = newAction(() -> new BackwardRoutingRequest(getHistory()))
+                ,  forwardAction = newAction(() -> new ForwardRoutingRequest(getHistory()))
                 ,  englishAction = newAction("English",  () -> setLanguage("en"))
                 ,  frenchAction  = newAction("Français", () -> setLanguage("fr"))
         );
