@@ -1,31 +1,20 @@
 package mongoose.activities.backend.events;
 
-import naga.framework.operation.HasOperationExecutor;
+import mongoose.activities.shared.generic.routing.MongooseRoutingUtil;
+import naga.framework.ui.router.UiRoutingRequest;
 import naga.platform.client.url.history.History;
-import naga.util.async.AsyncFunction;
 
 /**
  * @author Bruno Salmon
  */
-public class EventsRoutingRequest implements HasOperationExecutor<EventsRoutingRequest, Void> {
-
-    private History history;
+public class EventsRoutingRequest extends UiRoutingRequest {
 
     public EventsRoutingRequest(History history) {
-        this.history = history;
+        super(EventsRouting.ALL_EVENTS_PATH, history);
     }
 
-    public History getHistory() {
-        return history;
+    public EventsRoutingRequest(Object organizationId, History history) {
+        super(MongooseRoutingUtil.interpolateOrganizationIdInPath(organizationId, EventsRouting.ORGANIZATION_PATH), history);
     }
 
-    public EventsRoutingRequest setHistory(History history) {
-        this.history = history;
-        return this;
-    }
-
-    @Override
-    public AsyncFunction<EventsRoutingRequest, Void> getOperationExecutor() {
-        return EventsRouting.executor();
-    }
 }

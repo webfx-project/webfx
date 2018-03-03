@@ -1,8 +1,6 @@
 package mongoose.activities.backend.event.bookings;
 
-import mongoose.activities.backend.event.clone.CloneEventRouting;
-import mongoose.activities.shared.book.event.fees.FeesRooting;
-import mongoose.activities.shared.book.event.options.OptionsRooting;
+import mongoose.activities.shared.book.event.options.OptionsRoutingRequest;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentLoader;
 import mongoose.domainmodel.functions.AbcNames;
@@ -103,7 +101,7 @@ class BookingsPresentationLogicActivity
                         if (ar.failed())
                             Logger.log("Error loading document", ar.cause());
                         else
-                            OptionsRooting.routeUsingWorkingDocument(ar.result(), getHistory());
+                            new OptionsRoutingRequest(ar.result(), getHistory()).execute();
                     });
             })
             .start();

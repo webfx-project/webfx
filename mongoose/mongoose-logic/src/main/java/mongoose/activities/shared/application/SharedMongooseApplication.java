@@ -1,15 +1,15 @@
 package mongoose.activities.shared.application;
 
 import mongoose.actions.MongooseActions;
-import mongoose.activities.shared.book.cart.CartRooting;
-import mongoose.activities.shared.book.cart.payment.PaymentRooting;
-import mongoose.activities.shared.book.event.fees.FeesRooting;
-import mongoose.activities.shared.book.event.options.OptionsRooting;
-import mongoose.activities.shared.book.event.person.PersonRooting;
-import mongoose.activities.shared.book.event.program.ProgramRooting;
+import mongoose.activities.shared.book.cart.CartRouting;
+import mongoose.activities.shared.book.cart.payment.PaymentRouting;
+import mongoose.activities.shared.book.event.fees.FeesRouting;
+import mongoose.activities.shared.book.event.options.OptionsRouting;
+import mongoose.activities.shared.book.event.person.PersonRouting;
+import mongoose.activities.shared.book.event.program.ProgramRouting;
 import mongoose.activities.shared.book.event.start.StartBookingRouting;
-import mongoose.activities.shared.book.event.summary.SummaryRooting;
-import mongoose.activities.shared.book.event.terms.TermsRooting;
+import mongoose.activities.shared.book.event.summary.SummaryRouting;
+import mongoose.activities.shared.book.event.terms.TermsRouting;
 import mongoose.authn.MongooseAuthenticationServiceProvider;
 import mongoose.authz.MongooseAuthorizationServiceProvider;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
@@ -61,14 +61,14 @@ public abstract class SharedMongooseApplication implements Activity<ViewDomainAc
     protected UiRouter setupContainedRouter(UiRouter containedRouter) {
         return containedRouter
                 .route(StartBookingRouting.uiRoute())
-                .route(FeesRooting.uiRoute())
-                .route(TermsRooting.uiRoute())
-                .route(ProgramRooting.uiRoute())
-                .route(OptionsRooting.uiRoute())
-                .route(PersonRooting.uiRoute())
-                .route(SummaryRooting.uiRoute())
-                .route(CartRooting.uiRoute())
-                .route(PaymentRooting.uiRoute())
+                .route(FeesRouting.uiRoute())
+                .route(TermsRouting.uiRoute())
+                .route(ProgramRouting.uiRoute())
+                .route(OptionsRouting.uiRoute())
+                .route(PersonRouting.uiRoute())
+                .route(SummaryRouting.uiRoute())
+                .route(CartRouting.uiRoute())
+                .route(PaymentRouting.uiRoute())
                 ;
     }
 

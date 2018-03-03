@@ -3,6 +3,7 @@ package naga.framework.ui.router;
 import naga.framework.operation.HasOperationExecutor;
 import naga.framework.router.auth.authz.RoutingRequest;
 import naga.platform.client.url.history.History;
+import naga.platform.json.spi.JsonObject;
 import naga.util.async.AsyncFunction;
 import naga.util.async.Future;
 
@@ -12,13 +13,19 @@ import naga.util.async.Future;
 public class UiRoutingRequest extends RoutingRequest implements HasOperationExecutor<UiRoutingRequest, Void> {
 
     private History history;
+    private JsonObject state;
 
     public UiRoutingRequest() {
     }
 
     public UiRoutingRequest(String routePath, History history) {
+        this(routePath, history, null);
+    }
+
+    public UiRoutingRequest(String routePath, History history, JsonObject state) {
         super(routePath);
         this.history = history;
+        this.state = state;
     }
 
     public History getHistory() {
@@ -30,12 +37,21 @@ public class UiRoutingRequest extends RoutingRequest implements HasOperationExec
         return this;
     }
 
+    public JsonObject getState() {
+        return state;
+    }
+
+    public UiRoutingRequest setState(JsonObject state) {
+        this.state = state;
+        return this;
+    }
+
     @Override
     public AsyncFunction<UiRoutingRequest, Void> getOperationExecutor() {
         return request -> {
             String routePath = request.getRoutePath();
             if (routePath != null)
-                history.push(routePath);
+                history.push(routePath, state);
             return null;
         };
     }

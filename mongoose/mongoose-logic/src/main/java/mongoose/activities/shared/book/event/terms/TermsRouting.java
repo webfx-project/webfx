@@ -1,4 +1,4 @@
-package mongoose.activities.backend.organizations;
+package mongoose.activities.shared.book.event.terms;
 
 import naga.framework.activity.combinations.domainpresentation.impl.DomainPresentationActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
@@ -6,14 +6,14 @@ import naga.framework.ui.router.UiRoute;
 /**
  * @author Bruno Salmon
  */
-public class OrganizationsRouting {
+public class TermsRouting {
 
-    public final static String PATH = "/organizations";
+    final static String PATH = "/book/event/:eventId/terms";
 
     public static UiRoute<?> uiRoute() {
         return UiRoute.create(PATH
                 , false
-                , OrganizationsPresentationActivity::new
+                , TermsPresentationActivity::new
                 , DomainPresentationActivityContextFinal::new
         );
     }

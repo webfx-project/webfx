@@ -12,22 +12,20 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import mongoose.activities.shared.book.cart.CartRoutingRequest;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingOptionsPanel;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
-import mongoose.activities.shared.book.event.terms.TermsRooting;
+import mongoose.activities.shared.book.event.terms.TermsRoutingRequest;
 import mongoose.activities.shared.logic.ui.validation.MongooseValidationSupport;
 import mongoose.activities.shared.logic.work.WorkingDocument;
 import mongoose.activities.shared.logic.work.sync.WorkingDocumentSubmitter;
 import mongoose.entities.Cart;
 import mongoose.entities.Document;
 import naga.fx.properties.Properties;
-import naga.platform.json.Json;
 import naga.platform.services.log.spi.Logger;
 import naga.util.Strings;
-
-import java.time.Instant;
 
 /**
  * @author Bruno Salmon
@@ -99,7 +97,7 @@ class SummaryViewActivity extends BookingProcessViewActivity {
 
     private void showTermsDialog() {
         //new TermsDialog(getEventId(), getDataSourceModel(), getI18n(), pageContainer).setOnClose(() -> termsCheckBox.setSelected(true)).show();
-        TermsRooting.routeUsingEventId(getEventId(), getHistory());
+        new TermsRoutingRequest(getEventId(), getHistory()).execute();
     }
 
     private void syncUiFromModel() {
@@ -145,8 +143,7 @@ class SummaryViewActivity extends BookingProcessViewActivity {
                         document = workingDocument.getDocument();
                         cart = document.getCart();
                     }
-                    String path = cart != null ? "/book/cart/" + cart.getUuid() : "/event/" + getEvent().getPrimaryKey() + "/bookings";
-                    getHistory().push(path, Json.createObject().set("refresh", Instant.now()));
+                    new CartRoutingRequest(cart.getUuid(), getHistory()).execute();
                 }
             });
     }

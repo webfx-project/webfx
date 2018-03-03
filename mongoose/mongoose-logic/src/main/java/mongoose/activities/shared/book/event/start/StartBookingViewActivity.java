@@ -12,11 +12,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import mongoose.actions.MongooseActions;
-import mongoose.activities.shared.book.event.fees.FeesRooting;
-import mongoose.activities.shared.book.event.options.OptionsRooting;
-import mongoose.activities.shared.book.event.program.ProgramRooting;
+import mongoose.activities.shared.book.event.fees.FeesRoutingRequest;
+import mongoose.activities.shared.book.event.options.OptionsRoutingRequest;
+import mongoose.activities.shared.book.event.program.ProgramRoutingRequest;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
-import mongoose.activities.shared.book.event.terms.TermsRooting;
+import mongoose.activities.shared.book.event.terms.TermsRoutingRequest;
 import mongoose.util.Labels;
 import naga.framework.ui.anim.Animations;
 import naga.framework.ui.layouts.LayoutUtil;
@@ -99,18 +99,18 @@ class StartBookingViewActivity extends BookingProcessViewActivity {
     }
 
     private void onProgramButtonPressed() {
-        ProgramRooting.routeUsingEventId(getEventId(), getHistory());
+        new ProgramRoutingRequest(getEventId(), getHistory()).execute();
     }
 
     private void onTermsButtonPressed() {
-        TermsRooting.routeUsingEventId(getEventId(), getHistory());
+        new TermsRoutingRequest(getEventId(), getHistory()).execute();
     }
 
     private void onFeesButtonPressed() {
-        FeesRooting.routeUsingEventId(getEventId(), getHistory());
+        new FeesRoutingRequest(getEventId(), getHistory()).execute();
     }
 
     private void onBookButtonPressed() {
-        OptionsRooting.routeUsingEventId(getEventId(), getHistory());
+        new OptionsRoutingRequest(getEventId(), getHistory()).execute();
     }
 }

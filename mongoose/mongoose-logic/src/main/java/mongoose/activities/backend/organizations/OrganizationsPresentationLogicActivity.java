@@ -1,7 +1,8 @@
 package mongoose.activities.backend.organizations;
 
-import mongoose.activities.backend.events.EventsRouting;
+import mongoose.activities.backend.events.EventsRoutingRequest;
 import mongoose.activities.shared.generic.MongooseDomainPresentationLogicActivityBase;
+import mongoose.entities.Organization;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 import naga.util.function.Factory;
 
@@ -23,7 +24,7 @@ class OrganizationsPresentationLogicActivity
     @Override
     protected void startLogic(OrganizationsPresentationModel pm) {
         // Loading the domain model and setting up the reactive filter
-        createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
+        this.<Organization>createReactiveExpressionFilter("{class: 'Organization', alias: 'o', where: '!closed and name!=`ISC`', orderBy: 'name'}")
                 // Search box condition
                 .combineTrimIfNotEmpty(pm.searchTextProperty(), s -> "{where: 'lower(name) like `%" + s.toLowerCase() + "%`'}")
                 // Limit condition
@@ -35,7 +36,7 @@ class OrganizationsPresentationLogicActivity
                         "]")
                 .applyDomainModelRowStyle()
                 .displayResultSetInto(pm.genericDisplayResultSetProperty())
-                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> EventsRouting.routeUsingOrganization(organization, getHistory()))
+                .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), organization -> new EventsRoutingRequest(organization, getHistory()).execute() )
                 .start();
     }
 }

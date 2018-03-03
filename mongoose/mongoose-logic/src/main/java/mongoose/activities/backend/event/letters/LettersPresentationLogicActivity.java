@@ -1,6 +1,6 @@
 package mongoose.activities.backend.event.letters;
 
-import mongoose.activities.backend.letter.edit.EditLetterRouting;
+import mongoose.activities.backend.letter.edit.EditLetterRoutingRequest;
 import mongoose.activities.shared.generic.eventdependent.EventDependentPresentationLogicActivity;
 import naga.framework.ui.filter.ReactiveExpressionFilterFactoryMixin;
 
@@ -31,7 +31,7 @@ class LettersPresentationLogicActivity
                     "]")
             .applyDomainModelRowStyle()
             .displayResultSetInto(pm.genericDisplayResultSetProperty())
-            .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> EditLetterRouting.routeUsingLetter(letter, getHistory()))
+            .setSelectedEntityHandler(pm.genericDisplaySelectionProperty(), letter -> new EditLetterRoutingRequest(letter, getHistory()).execute() )
             .start()
         ;
     }

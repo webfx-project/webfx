@@ -7,7 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import mongoose.actions.MongooseIcons;
-import mongoose.activities.shared.book.event.person.PersonRooting;
+import mongoose.activities.shared.book.event.person.PersonRoutingRequest;
 import mongoose.activities.shared.book.event.shared.BookingCalendar;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.FeesGroup;
@@ -151,6 +151,6 @@ public class OptionsViewActivity extends BookingProcessViewActivity {
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
         if (optionTree.getValidationSupport().isValid())
-            PersonRooting.routeUsingEventId(getEventId(), getHistory());
+            new PersonRoutingRequest(getEventId(), getHistory()).execute();
     }
 }

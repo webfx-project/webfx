@@ -1,18 +1,20 @@
-package mongoose.activities.backend.book.event.options;
+package mongoose.activities.shared.book.cart.payment;
 
-import mongoose.activities.shared.book.event.options.OptionsRouting;
+import mongoose.activities.shared.book.cart.CartRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
 /**
  * @author Bruno Salmon
  */
-public class EditableOptionsRouting {
+public class PaymentRouting {
+
+    final static String PATH = CartRouting.PATH + "/payment";
 
     public static UiRoute<?> uiRoute() {
-        return UiRoute.create(OptionsRouting.PATH
+        return UiRoute.create(PATH
                 , false
-                , EditableOptionsViewActivity::new
+                , PaymentViewActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }

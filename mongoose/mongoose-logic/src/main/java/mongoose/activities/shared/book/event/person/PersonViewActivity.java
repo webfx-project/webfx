@@ -17,12 +17,12 @@ import javafx.scene.text.TextFlow;
 import mongoose.activities.shared.book.event.shared.BookingProcessViewActivity;
 import mongoose.activities.shared.book.event.shared.LoginPanel;
 import mongoose.activities.shared.book.event.shared.PersonDetailsPanel;
-import mongoose.activities.shared.book.event.summary.SummaryRooting;
+import mongoose.activities.shared.book.event.summary.SummaryRoutingRequest;
 import mongoose.activities.shared.logic.work.WorkingDocument;
-import naga.framework.ui.session.UiSession;
 import naga.framework.ui.graphic.background.BackgroundUtil;
 import naga.framework.ui.graphic.border.BorderUtil;
 import naga.framework.ui.layouts.LayoutUtil;
+import naga.framework.ui.session.UiSession;
 import naga.fx.properties.Properties;
 import naga.util.Numbers;
 
@@ -95,7 +95,7 @@ class PersonViewActivity extends BookingProcessViewActivity {
     @Override
     protected void onNextButtonPressed(ActionEvent event) {
         if (personDetailsPanel.isValid())
-            SummaryRooting.routeUsingEventId(getEventId(), getHistory());
+            new SummaryRoutingRequest(getEventId(), getHistory()).execute();
     }
 
     @Override

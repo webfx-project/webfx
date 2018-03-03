@@ -1,20 +1,20 @@
-package mongoose.activities.backend.book.event.options;
+package mongoose.activities.shared.book.event.options;
 
-import mongoose.activities.shared.book.event.options.OptionsRouting;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.ui.router.UiRoute;
 
 /**
  * @author Bruno Salmon
  */
-public class EditableOptionsRouting {
+public class OptionsRouting {
+
+    public static final String PATH = "/book/event/:eventId/options";
 
     public static UiRoute<?> uiRoute() {
-        return UiRoute.create(OptionsRouting.PATH
+        return UiRoute.create(PATH
                 , false
-                , EditableOptionsViewActivity::new
+                , OptionsViewActivity::new
                 , ViewDomainActivityContextFinal::new
         );
     }
-
 }
