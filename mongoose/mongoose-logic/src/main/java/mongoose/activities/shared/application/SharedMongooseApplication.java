@@ -13,26 +13,31 @@ import mongoose.activities.shared.book.event.terms.TermsRouting;
 import mongoose.authn.MongooseAuthenticationServiceProvider;
 import mongoose.authz.MongooseAuthorizationServiceProvider;
 import mongoose.domainmodel.loader.DomainModelSnapshotLoader;
-import mongoose.i18n.EnglishLanguageRequest;
-import mongoose.i18n.FrenchLanguageRequest;
 import naga.framework.activity.combinations.viewapplication.ViewApplicationContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext;
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContextMixin;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.activity.combinations.viewdomainapplication.ViewDomainApplicationContext;
+import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.operation.action.OperationActionProducer;
+import naga.framework.operation.action.OperationActionRegistry;
+import naga.framework.orm.domainmodel.DataSourceModel;
+import naga.framework.orm.entity.Entity;
+import naga.framework.orm.entity.EntityStore;
+import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.spi.authn.AuthenticationServiceProvider;
 import naga.framework.spi.authz.AuthorizationServiceProvider;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
-import naga.framework.ui.router.BackwardRoutingRequest;
-import naga.framework.ui.router.ForwardRoutingRequest;
 import naga.framework.ui.router.UiRouter;
 import naga.fx.properties.Properties;
 import naga.platform.activity.Activity;
 import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
+import naga.platform.services.log.spi.Logger;
+import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.spi.QueryService;
 import naga.platform.spi.Platform;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
@@ -90,12 +95,27 @@ public abstract class SharedMongooseApplication
 
     protected void registerActions() {
         MongooseActions.registerActions(getI18n());
+/*
         getOperationActionRegistry()
                 .registerOperationAction(BackwardRoutingRequest.class,  newAction("<<"))
                 .registerOperationAction(ForwardRoutingRequest.class,   newAction(">>"))
                 .registerOperationAction(EnglishLanguageRequest.class,  newAction("English"))
                 .registerOperationAction(FrenchLanguageRequest.class,   newAction("Français"))
         ;
+*/
+        DataSourceModel dataSourceModel = getDataSourceModel();
+        SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select operationCode,i18nCode,public from Operation");
+        QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())).setHandler(ar -> {
+            if (ar.failed())
+                Logger.log(ar.cause());
+            else {
+                OperationActionRegistry registry = getOperationActionRegistry();
+                for (Entity operation : QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), EntityStore.create(dataSourceModel), "operations"))
+                    registry.registerOperationAction(
+                            operation.getStringFieldValue("operationCode")
+                            , newAction(operation.getStringFieldValue("i18nCode")));
+            }
+        });
     }
 
     static {

@@ -1,33 +1,22 @@
 package mongoose.activities.backend.event.bookings;
 
+import naga.framework.operation.HasOperationCode;
 import naga.framework.ui.router.PushRoutingRequest;
 import naga.platform.client.url.history.History;
 
 /**
  * @author Bruno Salmon
  */
-public class BookingsRoutingRequest extends PushRoutingRequest {
+public class BookingsRoutingRequest extends PushRoutingRequest implements HasOperationCode {
 
-    private Object eventId;
+    private final static String OPERATION_CODE = "BOOKINGS_ROUTING";
 
     public BookingsRoutingRequest(Object eventId, History history) {
-        setEventId(eventId);
-        setHistory(history);
-    }
-
-    public Object getEventId() {
-        return eventId;
-    }
-
-    public BookingsRoutingRequest setEventId(Object eventId) {
-        this.eventId = eventId;
-        return this;
+        super(BookingsRouting.getEventIdRoutePath(eventId), history);
     }
 
     @Override
-    public String getRoutePath() {
-        setRoutePath(BookingsRouting.getEventIdRoutePath(eventId));
-        return super.getRoutePath();
+    public Object getOperationCode() {
+        return OPERATION_CODE;
     }
-
 }
