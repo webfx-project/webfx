@@ -9,6 +9,7 @@ import mongoose.activities.shared.generic.table.GenericTablePresentationViewActi
 import naga.framework.operation.action.OperationActionProducer;
 
 import static naga.framework.ui.layouts.LayoutUtil.setHGrowable;
+import static naga.framework.ui.layouts.LayoutUtil.setUnmanagedWhenInvisible;
 
 /**
  * @author Bruno Salmon
@@ -24,7 +25,7 @@ class BookingsPresentationViewActivity extends GenericTablePresentationViewActiv
         Button newBookingButton = newButton(newAction(() -> new NewBackendBookingRoutingRequest(pm.getEventId(), getHistory())));
         Button cloneEventButton = newButton(newAction(() -> new CloneEventRoutingRequest(pm.getEventId(), getHistory())));
 
-        hBox = new HBox(newBookingButton, setHGrowable(searchBox), cloneEventButton);
+        hBox = new HBox(setUnmanagedWhenInvisible(newBookingButton), setHGrowable(searchBox), setUnmanagedWhenInvisible(cloneEventButton));
         }
 
     @Override
