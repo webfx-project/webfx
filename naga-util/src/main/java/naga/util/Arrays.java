@@ -8,6 +8,7 @@ import naga.util.function.Predicate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * @author Bruno Salmon
@@ -49,6 +50,15 @@ public class Arrays {
         B[] bArray = generator.apply(n);
         for (int i = 0; i < n; i++)
             bArray[i] = aToBConverter.convert(aArray[i]);
+        return bArray;
+    }
+
+    public static <A, B> B[] map(A[] aArray, BiFunction<Integer, A, B> aToBConverter, IntFunction<B[]> generator) {
+        //return java.util.Arrays.stream(aArray).map(a -> aToBConverter.convert(a)).toArray(generator);
+        int n = aArray.length;
+        B[] bArray = generator.apply(n);
+        for (int i = 0; i < n; i++)
+            bArray[i] = aToBConverter.apply(i, aArray[i]);
         return bArray;
     }
 
