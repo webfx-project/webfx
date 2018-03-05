@@ -20,6 +20,10 @@ public class OptionsRoutingRequest extends PushRoutingRequest {
         this(workingDocument, null, history);
     }
 
+    public OptionsRoutingRequest(OptionsPreselection optionsPreselection, History history) {
+        this(optionsPreselection.getWorkingDocument(), optionsPreselection, history);
+    }
+
     public OptionsRoutingRequest(WorkingDocument workingDocument, OptionsPreselection optionsPreselection, History history) {
         this(prepareEventServiceAndReturnEventId(workingDocument, optionsPreselection), history);
     }
