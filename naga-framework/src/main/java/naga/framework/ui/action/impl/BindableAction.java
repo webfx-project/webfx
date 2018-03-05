@@ -14,7 +14,7 @@ import javafx.scene.Node;
 public class BindableAction extends ActionImpl {
 
     public BindableAction(EventHandler<ActionEvent> actionHandler) {
-        this(new SimpleStringProperty(), new SimpleObjectProperty<>(), new SimpleBooleanProperty(false), new SimpleBooleanProperty(true), actionHandler);
+        this(new SimpleStringProperty(), new SimpleObjectProperty<>(), new SimpleBooleanProperty(true /* disabled until it is bound */), new SimpleBooleanProperty(false /* invisible until it is bound */), actionHandler);
     }
 
     public BindableAction(ObservableStringValue textProperty, ObservableObjectValue<Node> graphicProperty, ObservableBooleanValue disabledProperty, ObservableBooleanValue visibleProperty, EventHandler<ActionEvent> actionHandler) {

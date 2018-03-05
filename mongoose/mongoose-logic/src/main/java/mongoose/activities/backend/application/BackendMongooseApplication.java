@@ -8,10 +8,8 @@ import mongoose.activities.backend.event.letters.LettersRouting;
 import mongoose.activities.backend.events.EventsRouting;
 import mongoose.activities.backend.letter.edit.EditLetterRouting;
 import mongoose.activities.backend.monitor.MonitorRouting;
-import mongoose.activities.backend.monitor.MonitorRoutingRequest;
 import mongoose.activities.backend.organizations.OrganizationsRouting;
 import mongoose.activities.backend.tester.TesterRouting;
-import mongoose.activities.backend.tester.TesterRoutingRequest;
 import mongoose.activities.backend.tester.savetest.SaveTestRooting;
 import mongoose.activities.shared.application.SharedMongooseApplication;
 import mongoose.activities.shared.auth.LoginRouting;
@@ -52,21 +50,6 @@ public class BackendMongooseApplication extends SharedMongooseApplication {
                 .route(TesterRouting.uiRoute())
                 .route(SaveTestRooting.uiRoute())
         );
-    }
-
-    @Override
-    protected void registerActions() {
-        super.registerActions();
-        getOperationActionRegistry()
-                //.registerOperationAction(OrganizationsRoutingRequest.class,     newAction("Organizations"))
-                //.registerOperationAction(EventsRoutingRequest.class,            newAction("Events"))
-                //.registerOperationAction(BookingsRoutingRequest.class,          newAction("Bookings"))
-                //.registerOperationAction(LettersRoutingRequest.class,           newAction("Letters"))
-                .registerOperationAction(MonitorRoutingRequest.class,           newAuthAction("Monitor", authorizedOperationProperty(MonitorRouting.routingRequest())))
-                .registerOperationAction(TesterRoutingRequest.class,            newAuthAction("Tester", authorizedOperationProperty(TesterRouting.routingRequest())))
-                //.registerOperationAction(CloneEventRoutingRequest.class,        newAction("CloneEvent"))
-                //.registerOperationAction(NewBackendBookingRoutingRequest.class, newAction("NewBooking"))
-        ;
     }
 
     public static void main(String[] args) {

@@ -34,7 +34,7 @@ public interface AuthorizationFactory extends HasUserPrincipal {
     }
 
     default <T> ObservableBooleanValue authorizedOperationProperty(ObservableValue<T> observableContext, Function<T, ?> operationRequestFactory ) {
-        return AuthorizationUtil.authorizedOperationProperty(observableContext, operationRequestFactory, this::isAuthorized);
+        return AuthorizationUtil.authorizedOperationProperty(operationRequestFactory, this::isAuthorized, observableContext, this instanceof HasUserPrincipalProperty ? ((HasUserPrincipalProperty) this).userPrincipalProperty() : null);
     }
 
 }

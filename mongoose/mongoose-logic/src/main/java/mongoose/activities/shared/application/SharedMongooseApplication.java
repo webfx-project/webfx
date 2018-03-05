@@ -18,15 +18,13 @@ import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContext
 import naga.framework.activity.combinations.viewdomain.ViewDomainActivityContextMixin;
 import naga.framework.activity.combinations.viewdomain.impl.ViewDomainActivityContextFinal;
 import naga.framework.activity.combinations.viewdomainapplication.ViewDomainApplicationContext;
-import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.operation.action.OperationActionProducer;
 import naga.framework.operation.action.OperationActionRegistry;
-import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.entity.Entity;
 import naga.framework.orm.entity.EntityStore;
-import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
 import naga.framework.spi.authn.AuthenticationServiceProvider;
 import naga.framework.spi.authz.AuthorizationServiceProvider;
+import naga.framework.ui.action.Action;
 import naga.framework.ui.i18n.I18n;
 import naga.framework.ui.layouts.SceneUtil;
 import naga.framework.ui.router.UiRouter;
@@ -36,8 +34,6 @@ import naga.platform.activity.ActivityContext;
 import naga.platform.activity.ActivityManager;
 import naga.platform.bus.call.PendingBusCall;
 import naga.platform.services.log.spi.Logger;
-import naga.platform.services.query.QueryArgument;
-import naga.platform.services.query.spi.QueryService;
 import naga.platform.spi.Platform;
 import naga.util.function.Consumer;
 import naga.util.function.Factory;
@@ -103,17 +99,18 @@ public abstract class SharedMongooseApplication
                 .registerOperationAction(FrenchLanguageRequest.class,   newAction("Français"))
         ;
 */
-        DataSourceModel dataSourceModel = getDataSourceModel();
-        SqlCompiled sqlCompiled = dataSourceModel.getDomainModel().compileSelect("select operationCode,i18nCode,public from Operation");
-        QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), dataSourceModel.getId())).setHandler(ar -> {
+        EntityStore.create(getDataSourceModel()).executeQuery("select operationCode,i18nCode,public from Operation").setHandler(ar -> {
             if (ar.failed())
                 Logger.log(ar.cause());
             else {
                 OperationActionRegistry registry = getOperationActionRegistry();
-                for (Entity operation : QueryResultSetToEntityListGenerator.createEntityList(ar.result(), sqlCompiled.getQueryMapping(), EntityStore.create(dataSourceModel), "operations"))
-                    registry.registerOperationAction(
-                            operation.getStringFieldValue("operationCode")
-                            , newAction(operation.getStringFieldValue("i18nCode")));
+                for (Entity operation : ar.result()) {
+                    String operationCode = operation.getStringFieldValue("operationCode");
+                    String i18nCode = operation.getStringFieldValue("i18nCode");
+                    boolean isPublic = operation.getBooleanFieldValue("public");
+                    Action action = isPublic ? newAction(i18nCode) : newAuthAction(i18nCode, registry.authorizedOperationActionProperty(operationCode, userPrincipalProperty(), this::isAuthorized));
+                    registry.registerOperationAction(operationCode, action);
+                }
             }
         });
     }

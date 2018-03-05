@@ -12,19 +12,22 @@ import naga.util.function.Function;
  */
 public class AuthorizationUtil {
 
-    public static <C, O> ObservableBooleanValue authorizedOperationProperty(ObservableValue<C> observableContext, Function<C, O> operationRequestFactory, AsyncFunction<O, Boolean> authorizationFunction) {
+    public static <C, O> ObservableBooleanValue authorizedOperationProperty(Function<C, O> operationRequestFactory, AsyncFunction<O, Boolean> authorizationFunction, ObservableValue<C> contextProperty, ObservableValue userPrincipalProperty) {
         return new BooleanBinding() {
             C context;
+            Object userPrincipal;
             Boolean value;
-            { bind(observableContext); }
+            { bind(contextProperty, userPrincipalProperty); }
 
             @Override
             protected void onInvalidating() {
-                C context = observableContext.getValue();
-                if (this.context != context || value == null) {
+                C context = contextProperty.getValue();
+                Object userPrincipal = userPrincipalProperty == null ? null : userPrincipalProperty.getValue();
+                if (this.context != context || this.userPrincipal != userPrincipal || value == null) {
                     value = false;
                     authorizationFunction.apply(operationRequestFactory.apply(context)).setHandler(ar -> {
                         this.context = context;
+                        this.userPrincipal = userPrincipal;
                         if (ar.succeeded())
                             Toolkit.get().scheduler().runInUiThread(() -> {
                                 value = ar.result();
