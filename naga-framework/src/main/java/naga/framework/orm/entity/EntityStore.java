@@ -1,11 +1,18 @@
 package naga.framework.orm.entity;
 
+import naga.framework.expression.Expression;
+import naga.framework.expression.sqlcompiler.sql.SqlCompiled;
 import naga.framework.orm.domainmodel.DataSourceModel;
 import naga.framework.orm.domainmodel.DomainClass;
 import naga.framework.orm.domainmodel.HasDataSourceModel;
 import naga.framework.orm.entity.impl.DynamicEntity;
 import naga.framework.orm.entity.impl.EntityStoreImpl;
-import naga.framework.expression.Expression;
+import naga.framework.orm.mapping.QueryResultSetToEntityListGenerator;
+import naga.platform.services.query.QueryArgument;
+import naga.platform.services.query.spi.QueryService;
+import naga.util.Arrays;
+import naga.util.async.Batch;
+import naga.util.async.Future;
 
 /**
  * A store for entities that are transactionally coherent.
@@ -136,6 +143,36 @@ public interface EntityStore extends HasDataSourceModel {
 
     Object getParameterValue(String parameterName);
 
+    // Query methods
+
+    default <E extends Entity> Future<EntityList<E>> executeQuery(String select) {
+        return executeQuery(select, select);
+    }
+
+    default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object listId) {
+        return executeQuery(select, null, listId);
+    }
+
+    default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object[] parameters) {
+        return executeQuery(select, parameters, select);
+    }
+
+    default <E extends Entity> Future<EntityList<E>> executeQuery(String select, Object[] parameters, Object listId) {
+        SqlCompiled sqlCompiled = getDomainModel().compileSelect(select);
+        return QueryService.executeQuery(new QueryArgument(sqlCompiled.getSql(), parameters, getDataSourceModel().getId()))
+                .map(rs -> QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompiled.getQueryMapping(), this, listId)
+        );
+    }
+
+    default <E extends Entity> Future<EntityList<E>> executeQuery(EntityStoreQuery query) {
+        return executeQuery(query.select, query.parameters, query.listId);
+    }
+
+    default Future<EntityList[]> executeQueryBatch(EntityStoreQuery... queries) {
+        SqlCompiled[] sqlCompileds = Arrays.map(queries, query -> getDomainModel().compileSelect(query.select), SqlCompiled[]::new);
+        return QueryService.executeQueryBatch(new Batch<>(Arrays.map(queries, (i, query) -> new QueryArgument(sqlCompileds[i].getSql(), query.parameters, getDataSourceModel().getId()), QueryArgument[]::new)))
+                .map(batchResult -> Arrays.map(batchResult.getArray(), (i, rs) -> QueryResultSetToEntityListGenerator.createEntityList(rs, sqlCompileds[i].getQueryMapping(), this, queries[i].listId), EntityList[]::new));
+    }
 
     // String report for debugging
 
